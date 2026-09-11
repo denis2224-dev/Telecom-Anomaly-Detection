@@ -26,7 +26,12 @@ contains a contract draft for team review, not a running application.
 Streaming & Simulator owner: **Zavtoni Ion**.
 
 - [Component scope and responsibilities](docs/streaming/simulator-scope.md)
-- [EventV1 envelope and conventions](docs/streaming/event-v1-contract.md)
+- [EventV1 contract and all field meanings](docs/streaming/event-v1-contract.md)
+- [Complete EventV1 JSON Schema](contracts/events/v1/event-v1.schema.json)
+- [Normal and abnormal event examples](contracts/events/v1/examples/README.md)
+- [Three MVP scenario specifications](docs/streaming/mvp-scenarios.md)
+- [Kafka topic, key and configuration requirements](docs/streaming/kafka-contract.md)
+- [Day 01 handoff for M2, M3 and M5](docs/streaming/day01-handoff.md)
 
 Future flow: simulator -> Kafka -> processing -> detection -> impact analysis
 -> dashboard. Backend and frontend remain separate components. Their frameworks
