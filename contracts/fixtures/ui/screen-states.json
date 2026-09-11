@@ -1,0 +1,411 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Day 01 UX fixtures only; proposed field names and invented sample data, pending producer approval. Never use as a live provider.",
+  "approvalStatus": "PENDING",
+  "timezone": "Europe/Chisinau",
+  "asOf": "2026-09-11T12:43:00Z",
+  "states": [
+    {
+      "id": "signed-out",
+      "screen": "signed-out",
+      "session": null,
+      "incidents": [],
+      "httpStatus": 401,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "Sign in to review network incidents.",
+        "action": "LOGIN_REDIRECT",
+        "showPrivateContent": false,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "loading",
+      "screen": "dashboard",
+      "session": null,
+      "incidents": [],
+      "httpStatus": null,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "Loading your workspace",
+        "action": "WAIT",
+        "showPrivateContent": false,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "empty",
+      "screen": "dashboard",
+      "session": {
+        "id": "analyst-demo-01",
+        "displayName": "David Nenita",
+        "roles": [
+          "ANALYST"
+        ]
+      },
+      "incidents": [],
+      "httpStatus": 200,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "No incidents match this view",
+        "action": "CLEAR_FILTERS",
+        "showPrivateContent": true,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "error",
+      "screen": "dashboard",
+      "session": {
+        "id": "analyst-demo-01",
+        "displayName": "David Nenita",
+        "roles": [
+          "ANALYST"
+        ]
+      },
+      "incidents": [],
+      "httpStatus": 503,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "Incidents could not be loaded",
+        "action": "RETRY_READ",
+        "showPrivateContent": true,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "live",
+      "screen": "dashboard",
+      "session": {
+        "id": "analyst-demo-01",
+        "displayName": "David Nenita",
+        "roles": [
+          "ANALYST"
+        ]
+      },
+      "incidents": [
+        {
+          "id": "INC-1042",
+          "version": 3,
+          "type": "PACKET_LOSS",
+          "entityId": "edge-chisinau-04",
+          "entityLabel": "Chișinău · Edge 04",
+          "severity": "HIGH",
+          "status": "OPEN",
+          "title": "Sustained packet loss on the eastern uplink",
+          "summary": "Packet loss exceeded the configured threshold across the completed observation window. Review the link evidence before changing incident status.",
+          "detectedAt": "2026-09-11T12:42:00Z",
+          "updatedAt": "2026-09-11T12:43:00Z",
+          "assignee": null,
+          "riskScore": 82,
+          "uncappedScore": 82,
+          "mlStatus": "UNAVAILABLE",
+          "reasons": [
+            {
+              "code": "PACKET_LOSS_THRESHOLD",
+              "label": "Packet loss above threshold",
+              "observedValue": 0.084,
+              "thresholdValue": 0.02,
+              "unit": "ratio",
+              "contribution": 82,
+              "baselineValue": null
+            }
+          ],
+          "audit": [
+            {
+              "id": "audit-demo-01",
+              "occurredAt": "2026-09-11T12:42:00Z",
+              "actor": {
+                "id": "system-rule",
+                "displayName": "Rule engine",
+                "kind": "SYSTEM"
+              },
+              "action": "INCIDENT_CREATED",
+              "note": "Threshold exceeded in the completed window."
+            }
+          ]
+        },
+        {
+          "id": "INC-1041",
+          "version": 1,
+          "type": "TRAFFIC_SPIKE",
+          "entityId": "core-balti-02",
+          "entityLabel": "Bălți · Core 02",
+          "severity": "MEDIUM",
+          "status": "INVESTIGATING",
+          "title": "Traffic above the recent baseline",
+          "summary": "Assigned analyst is reviewing the traffic window.",
+          "detectedAt": "2026-09-11T12:38:00Z",
+          "updatedAt": "2026-09-11T12:40:00Z",
+          "assignee": {
+            "id": "analyst-demo-02",
+            "displayName": "Demo analyst"
+          }
+        }
+      ],
+      "httpStatus": 200,
+      "streamStatus": "connected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "Know what needs attention. Start with the evidence.",
+        "action": "OPEN_INCIDENT",
+        "showPrivateContent": true,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "session-expired",
+      "screen": "signed-out",
+      "session": null,
+      "incidents": [],
+      "httpStatus": 401,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "Your session has expired.",
+        "action": "LOGIN_REDIRECT",
+        "showPrivateContent": false,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "forbidden",
+      "screen": "dashboard",
+      "session": {
+        "id": "analyst-demo-01",
+        "displayName": "David Nenita",
+        "roles": [
+          "ANALYST"
+        ]
+      },
+      "incidents": [],
+      "httpStatus": 403,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "You do not have permission to perform this action.",
+        "action": "RETURN_TO_OVERVIEW",
+        "showPrivateContent": true,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "conflict",
+      "screen": "dashboard",
+      "session": {
+        "id": "analyst-demo-01",
+        "displayName": "David Nenita",
+        "roles": [
+          "ANALYST"
+        ]
+      },
+      "incidents": [
+        {
+          "id": "INC-1042",
+          "version": 3,
+          "type": "PACKET_LOSS",
+          "entityId": "edge-chisinau-04",
+          "entityLabel": "Chișinău · Edge 04",
+          "severity": "HIGH",
+          "status": "OPEN",
+          "title": "Sustained packet loss on the eastern uplink",
+          "summary": "Packet loss exceeded the configured threshold across the completed observation window. Review the link evidence before changing incident status.",
+          "detectedAt": "2026-09-11T12:42:00Z",
+          "updatedAt": "2026-09-11T12:43:00Z",
+          "assignee": null,
+          "riskScore": 82,
+          "uncappedScore": 82,
+          "mlStatus": "UNAVAILABLE",
+          "reasons": [
+            {
+              "code": "PACKET_LOSS_THRESHOLD",
+              "label": "Packet loss above threshold",
+              "observedValue": 0.084,
+              "thresholdValue": 0.02,
+              "unit": "ratio",
+              "contribution": 82,
+              "baselineValue": null
+            }
+          ],
+          "audit": [
+            {
+              "id": "audit-demo-01",
+              "occurredAt": "2026-09-11T12:42:00Z",
+              "actor": {
+                "id": "system-rule",
+                "displayName": "Rule engine",
+                "kind": "SYSTEM"
+              },
+              "action": "INCIDENT_CREATED",
+              "note": "Threshold exceeded in the completed window."
+            }
+          ]
+        },
+        {
+          "id": "INC-1041",
+          "version": 1,
+          "type": "TRAFFIC_SPIKE",
+          "entityId": "core-balti-02",
+          "entityLabel": "Bălți · Core 02",
+          "severity": "MEDIUM",
+          "status": "INVESTIGATING",
+          "title": "Traffic above the recent baseline",
+          "summary": "Assigned analyst is reviewing the traffic window.",
+          "detectedAt": "2026-09-11T12:38:00Z",
+          "updatedAt": "2026-09-11T12:40:00Z",
+          "assignee": {
+            "id": "analyst-demo-02",
+            "displayName": "Demo analyst"
+          }
+        }
+      ],
+      "httpStatus": 409,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "This incident changed. Review the latest version before trying again.",
+        "action": "REFETCH_AND_REVIEW",
+        "showPrivateContent": true,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    },
+    {
+      "id": "disconnected",
+      "screen": "dashboard",
+      "session": {
+        "id": "analyst-demo-01",
+        "displayName": "David Nenita",
+        "roles": [
+          "ANALYST"
+        ]
+      },
+      "incidents": [
+        {
+          "id": "INC-1042",
+          "version": 3,
+          "type": "PACKET_LOSS",
+          "entityId": "edge-chisinau-04",
+          "entityLabel": "Chișinău · Edge 04",
+          "severity": "HIGH",
+          "status": "OPEN",
+          "title": "Sustained packet loss on the eastern uplink",
+          "summary": "Packet loss exceeded the configured threshold across the completed observation window. Review the link evidence before changing incident status.",
+          "detectedAt": "2026-09-11T12:42:00Z",
+          "updatedAt": "2026-09-11T12:43:00Z",
+          "assignee": null,
+          "riskScore": 82,
+          "uncappedScore": 82,
+          "mlStatus": "UNAVAILABLE",
+          "reasons": [
+            {
+              "code": "PACKET_LOSS_THRESHOLD",
+              "label": "Packet loss above threshold",
+              "observedValue": 0.084,
+              "thresholdValue": 0.02,
+              "unit": "ratio",
+              "contribution": 82,
+              "baselineValue": null
+            }
+          ],
+          "audit": [
+            {
+              "id": "audit-demo-01",
+              "occurredAt": "2026-09-11T12:42:00Z",
+              "actor": {
+                "id": "system-rule",
+                "displayName": "Rule engine",
+                "kind": "SYSTEM"
+              },
+              "action": "INCIDENT_CREATED",
+              "note": "Threshold exceeded in the completed window."
+            }
+          ]
+        },
+        {
+          "id": "INC-1041",
+          "version": 1,
+          "type": "TRAFFIC_SPIKE",
+          "entityId": "core-balti-02",
+          "entityLabel": "Bălți · Core 02",
+          "severity": "MEDIUM",
+          "status": "INVESTIGATING",
+          "title": "Traffic above the recent baseline",
+          "summary": "Assigned analyst is reviewing the traffic window.",
+          "detectedAt": "2026-09-11T12:38:00Z",
+          "updatedAt": "2026-09-11T12:40:00Z",
+          "assignee": {
+            "id": "analyst-demo-02",
+            "displayName": "Demo analyst"
+          }
+        }
+      ],
+      "httpStatus": 200,
+      "streamStatus": "disconnected",
+      "source": "DESIGN_FIXTURE_NOT_LIVE",
+      "expectedUi": {
+        "message": "Connection interrupted. Showing the last confirmed snapshot.",
+        "action": "VERIFY_SESSION_THEN_REFRESH",
+        "showPrivateContent": true,
+        "mutationsEnabled": false
+      },
+      "telemetry": {
+        "status": "UNAVAILABLE",
+        "windowStart": null,
+        "windowEnd": null,
+        "activeEntityCount": null
+      }
+    }
+  ]
+}
