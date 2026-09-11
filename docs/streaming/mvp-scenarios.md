@@ -13,8 +13,9 @@ random stream so changing its rate does not change the injected sequence.
 
 A repeated setup must reproduce relative event times, entities and measurements.
 A NEW run assigns fresh UUID v4 eventIds and a new optional scenarioRunId; compare
-reproducibility after excluding technical IDs. Business IDs are scoped to the new
-run, except for deliberate repeated transactionRef values within duplicate billing.
+reproducibility after excluding technical and run-scoped business IDs. Business IDs
+are scoped to the new run, except for deliberate repeated transactionRef values
+within duplicate billing.
 Re-delivering an existing event preserves both its eventId and contents.
 
 Normal controls exist before/during/after injection. If scenarioRunId is present,

@@ -53,8 +53,10 @@ JSON object (not an array, a double-encoded JSON string or a Java class wrapper)
 | NETWORK, node measurement | NETWORK_NODE | `NODE-` plus uppercase alphanumeric segments separated by hyphens | `NETWORK_NODE:NODE-CHI-001` |
 | NETWORK, link measurement | NETWORK_LINK | `LINK-` plus uppercase alphanumeric segments separated by hyphens | `NETWORK_LINK:LINK-CHI-001` |
 
-Node/link IDs have a maximum length of 64. IDs are opaque: do not infer region or
-topology by splitting an ID. Region is an explicit payload field. Do not replace
+Node/link IDs have a maximum length of 64. Identifiers cannot contain whitespace,
+including trailing newlines; schemas explicitly exclude it to protect keys/joins.
+IDs are opaque: do not infer region or topology by splitting an ID. Region is an
+explicit payload field. Do not replace
 the key with eventId or scenarioRunId, which would break per-entity grouping.
 
 Same-key records go to one partition when the partitioner and partition count

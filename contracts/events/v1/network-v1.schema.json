@@ -7,9 +7,9 @@
   "additionalProperties": false,
   "required": ["networkNodeId", "region", "sampleWindowSeconds", "status", "packetLossRatio", "latencyMs", "throughputMbps", "bytesTransferred", "activeSubscriberCount"],
   "properties": {
-    "networkNodeId": {"type": "string", "pattern": "^NODE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Measured node, or the synthetic reporting endpoint node for a measured link."},
-    "linkId": {"type": "string", "pattern": "^LINK-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Required for a NETWORK_LINK entity; absent for a NETWORK_NODE measurement."},
-    "region": {"type": "string", "pattern": "^REGION-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic operational area of the measured entity, not a location inferred from its ID."},
+    "networkNodeId": {"type": "string", "pattern": "^NODE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Measured node, or the synthetic reporting endpoint node for a measured link.", "not": {"pattern": "\\s"}},
+    "linkId": {"type": "string", "pattern": "^LINK-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Required for a NETWORK_LINK entity; absent for a NETWORK_NODE measurement.", "not": {"pattern": "\\s"}},
+    "region": {"type": "string", "pattern": "^REGION-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic operational area of the measured entity, not a location inferred from its ID.", "not": {"pattern": "\\s"}},
     "sampleWindowSeconds": {"type": "integer", "minimum": 1, "maximum": 9007199254740991, "description": "Length of the half-open measurement interval ending at occurredAt, in whole seconds."},
     "status": {"type": "string", "enum": ["UP", "DEGRADED", "DOWN"], "description": "Infrastructure operational state at window end, not a detection verdict."},
     "packetLossRatio": {"type": "number", "minimum": 0, "maximum": 1, "description": "Lost probes / attempted probes over this window; probes are always attempted in the MVP."},

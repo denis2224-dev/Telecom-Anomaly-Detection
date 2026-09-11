@@ -1,0 +1,3 @@
+# Lightweight Day 01 schema checks only; no application runtime dependencies.
+jsonschema==4.25.1
+referencing==0.37.0

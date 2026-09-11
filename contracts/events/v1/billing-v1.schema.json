@@ -7,7 +7,7 @@
   "additionalProperties": false,
   "required": ["transactionRef", "amountMinor", "currency"],
   "properties": {
-    "transactionRef": {"type": "string", "pattern": "^TXN-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Business transaction identity scoped to the subscriber; not the technical eventId."},
+    "transactionRef": {"type": "string", "pattern": "^TXN-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Business transaction identity scoped to the subscriber; not the technical eventId.", "not": {"pattern": "\\s"}},
     "amountMinor": {"type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "Nonnegative charge in integer minor units; 12345 means 123.45 MDL. Refunds are out of scope."},
     "currency": {"type": "string", "const": "MDL", "description": "ISO 4217 currency; the MVP supports MDL only, with 100 minor units per major unit."}
   }

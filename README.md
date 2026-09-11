@@ -32,6 +32,13 @@ Streaming & Simulator owner: **Zavtoni Ion**.
 - [Three MVP scenario specifications](docs/streaming/mvp-scenarios.md)
 - [Kafka topic, key and configuration requirements](docs/streaming/kafka-contract.md)
 - [Day 01 handoff for M2, M3 and M5](docs/streaming/day01-handoff.md)
+- [How to validate schemas and examples](docs/streaming/validation.md)
+
+With Python and the development dependencies installed, run:
+
+```text
+python -m unittest discover -s tests -v
+```
 
 Future flow: simulator -> Kafka -> processing -> detection -> impact analysis
 -> dashboard. Backend and frontend remain separate components. Their frameworks
