@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/telecom/events/v1/network-v1.schema.json",
+  "title": "NETWORK payload v1.0",
+  "description": "One fixed-window synthetic node or link measurement; occurredAt is the exclusive window end.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["networkNodeId", "region", "sampleWindowSeconds", "status", "packetLossRatio", "latencyMs", "throughputMbps", "bytesTransferred", "activeSubscriberCount"],
+  "properties": {
+    "networkNodeId": {"type": "string", "pattern": "^NODE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Measured node, or the synthetic reporting endpoint node for a measured link."},
+    "linkId": {"type": "string", "pattern": "^LINK-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Required for a NETWORK_LINK entity; absent for a NETWORK_NODE measurement."},
+    "region": {"type": "string", "pattern": "^REGION-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic operational area of the measured entity, not a location inferred from its ID."},
+    "sampleWindowSeconds": {"type": "integer", "minimum": 1, "maximum": 9007199254740991, "description": "Length of the half-open measurement interval ending at occurredAt, in whole seconds."},
+    "status": {"type": "string", "enum": ["UP", "DEGRADED", "DOWN"], "description": "Infrastructure operational state at window end, not a detection verdict."},
+    "packetLossRatio": {"type": "number", "minimum": 0, "maximum": 1, "description": "Lost probes / attempted probes over this window; probes are always attempted in the MVP."},
+    "latencyMs": {"type": ["number", "null"], "minimum": 0, "description": "Mean round-trip latency of successful probes in milliseconds; null if none succeeded."},
+    "throughputMbps": {"type": "number", "minimum": 0, "description": "Window-average successfully transferred user-data rate, both directions, in decimal megabits/second."},
+    "bytesTransferred": {"type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "Successful user-data bytes across this boundary, both directions, during this window; excludes retries and overhead."},
+    "activeSubscriberCount": {"type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "Distinct synthetic subscribers associated with this entity at window end, including associations retained during outage."}
+  }
+}

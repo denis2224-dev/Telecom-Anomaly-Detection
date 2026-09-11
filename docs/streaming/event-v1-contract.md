@@ -176,6 +176,73 @@ ID for all unknown accounts.
 Future features: failed_auth_count, authentication countries_seen and device
 changes per subscriber. Compare by occurredAt, allowing for late delivery.
 
+## BILLING payload
+
+Schema: [billing-v1.schema.json](../../contracts/events/v1/billing-v1.schema.json).
+One posted charge; authorization, cancellation, refund and balance events are
+outside v1.0. The MVP supports MDL only to keep the minor-unit convention explicit.
+
+| Field | Type | Required? | Unit / format | Meaning |
+| --- | --- | --- | --- | --- |
+| transactionRef | string | Yes | Synthetic `TXN-...`, max 64 | Business transaction identity scoped to the subscriber; may appear in distinct raw charge events. |
+| amountMinor | integer | Yes | MDL minor units, >= 0 | Posted amount, e.g. 12345 = 123.45 MDL; zero charges are allowed. |
+| currency | string | Yes | Exactly MDL | ISO 4217 code; 100 minor units per MDL. |
+
+Technical duplicate delivery means the SAME eventId appears again: deduplicate
+that event. Possible business duplicate billing means DIFFERENT eventIds with the
+same subscriber, transactionRef, amountMinor and currency. Preserve both raw
+records so later detection can compare them. Never make transactionRef an alias
+for eventId, and never reject a repeated transactionRef at schema validation.
+
+## NETWORK payload
+
+Schema: [network-v1.schema.json](../../contracts/events/v1/network-v1.schema.json).
+One measurement for a node OR a link over a window; state is sampled at window end.
+
+| Field | Type | Required? | Unit / format | Meaning |
+| --- | --- | --- | --- | --- |
+| networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Measured node for NETWORK_NODE, or reporting endpoint node for NETWORK_LINK. |
+| linkId | string | For NETWORK_LINK only | Synthetic `LINK-...`, max 64 | Measured link. Must be absent on node-level measurements. |
+| region | string | Yes | Synthetic `REGION-...`, max 64 | Invented operational area of the measured entity; not parsed from an ID. |
+| sampleWindowSeconds | integer | Yes | Seconds, > 0 | Length of `[occurredAt - sampleWindowSeconds, occurredAt)`. |
+| status | string | Yes | UP, DEGRADED, DOWN | Infrastructure state at window end; a raw observed state, not an anomaly verdict. |
+| packetLossRatio | number | Yes | Ratio 0..1 | Lost / attempted probes in the window. MVP always attempts probes, including while DOWN. |
+| latencyMs | number or null | Yes | Milliseconds, >= 0 when present | Mean round-trip time of successful probes; null when all probes fail. |
+| throughputMbps | number | Yes | Decimal Mbps, >= 0 | Window-average successful user-data transfer rate across this boundary, both directions. |
+| bytesTransferred | integer | Yes | Bytes, >= 0 | Successful user data crossing this boundary in this window, both directions, excluding retry duplicates/overhead. Not cumulative. |
+| activeSubscriberCount | integer | Yes | Count, >= 0 | Distinct subscribers associated with this entity at window end, including associations retained while DOWN. |
+
+NETWORK_NODE requires entityId == payload.networkNodeId. NETWORK_LINK requires
+entityId == payload.linkId. JSON Schema checks presence and identifier shapes;
+cross-field equality is a producer/integration responsibility. A link's reporting
+node is one topology endpoint, not the measured entity or a complete topology map.
+
+Use consistent counters: throughputMbps = bytesTransferred * 8 /
+(sampleWindowSeconds * 1,000,000), rounded to at most six fractional digits.
+packetLossRatio is probe loss, not a byte-loss counter. If packetLossRatio is 1,
+latencyMs must be null; if less than 1, latencyMs must be a measurement. These
+relationships are documented semantic checks, not schema arithmetic.
+
+DOWN at window end can coexist with some transferred bytes or successful probes
+earlier in that window. A full-window outage fixture has zero bytes, zero
+throughput, total probe loss and null latency. Do not force all DOWN measurements
+to zero when the failure happened partway through the window.
+
+activeSubscriberCount represents current association/exposure, not traffic-active
+users or a confirmed impacted-subscriber count. For the later deterministic link
+cut, associations are retained during the failure and released only by explicit
+profile changes. Counts across links, nodes and time can overlap; do not sum them
+to claim unique affected customers. Exact unique impact needs synthetic topology,
+subscriber/service associations, rerouting behavior and corroborating service
+events. Those profiles are future work, not hidden facts in this draft.
+
+bytesTransferred is observed traffic, not lost traffic. A future loss estimate
+needs an expected volume from comparable baseline windows, observed volume and
+a consistent accounting boundary, then a documented conversion to decimal GB.
+Node and link counters may observe the same data. Per-service loss is not directly
+available in this minimal aggregate payload. Never encode derived fields such as
+impactedSubscribers or lostGB as if they were raw measurements.
+
 ## Compatibility and enforcement
 
 The schema dialect is JSON Schema Draft 2020-12; schemaVersion `1.0` is our event
@@ -184,8 +251,15 @@ contract family. A future optional field is not automatically compatible with
 today's strict schema: agree a version/consumer rollout before emitting it.
 Breaking changes need a new major contract and coordinated topic migration.
 
-The final event-v1.schema.json will validate the complete record and dispatch to
-the six payload schemas. Per-type schema files describe payload objects only.
+The [event-v1.schema.json](../../contracts/events/v1/event-v1.schema.json) validates
+the complete record and dispatches to the six payload schemas using oneOf (exactly
+one event type must match). Per-type schema files describe payload objects only.
+The entity branches constrain the key identity; the NETWORK branch additionally
+requires linkId for links and forbids it for node totals.
+
+Schema $id URLs under `https://example.invalid/telecom/events/v1/` are stable
+logical identifiers, not published endpoints. Register all seven local schemas
+with the validator so relative references resolve offline. Do not fetch those URLs.
 Schema validation can check structure, ranges and formats; it cannot establish
 global eventId uniqueness, delivery ordering, real ISO code membership, equality
 between two fields, historical consistency or whether data is truly synthetic.
