@@ -1,17 +1,17 @@
 # Streaming & Simulator scope
 
 Owner: **Zavtoni Ion**. Milestone: Day 01, Friday, 11 September 2026.
-Status: proposed contract for M2/M3/M5 review; no team sign-off is implied.
+Status: contract draft waiting for M2/M3/M5 review.
 
 ## Boundaries
 
 | Component / role | Responsibility |
 | --- | --- |
-| Streaming & Simulator / Zavtoni Ion | Synthetic event contracts, later normal generators and scenario injection, configurable rates, Kafka publishing, simulator tests and documentation. |
-| M3 / detection and features | Later aggregation, contextual baselines and detection from measurements. |
-| M5 / Kafka and infrastructure | Topic provisioning and agreed infrastructure configuration; coordinate producer integration. |
-| M2 / backend and integration | Review entity and event identities for later backend/incident integration. |
-| Other platform components | Persistence, impact analysis and a separate frontend; individual owners require team confirmation. |
+| Streaming & Simulator / Zavtoni Ion | Event contracts; later: normal traffic, scenario injection, configurable rates, Kafka publishing, tests and docs. |
+| M3 / detection and features | Aggregation, baselines and detection from event measurements. |
+| M5 / Kafka and infrastructure | Topic setup, Kafka configuration and producer integration. |
+| M2 / backend and integration | Review event/entity IDs for backend and incident integration. |
+| Other platform components | Persistence, impact analysis and the separate frontend. Owners still need team confirmation. |
 
 Conceptual flow:
 
@@ -19,30 +19,26 @@ Conceptual flow:
 Synthetic simulator -> Kafka -> Processing -> Detection -> Impact -> Dashboard
 ```
 
-CALL, SMS, DATA and NETWORK are the core telecom domains. AUTH and BILLING
-support authentication and duplicate-charge demonstrations. All profiles,
-identifiers, activity and geographic associations are invented test data.
+CALL, SMS, DATA and NETWORK are the main telecom domains. AUTH and BILLING cover
+login activity and duplicate charges. All records and identifiers are synthetic.
 
 ## Day 01 deliverable
 
-Agree the EventV1 envelope, six payload shapes, entity keys, UTC conventions,
-measurement units, normal/abnormal examples and three deterministic scenario
-specifications. Record integration questions for M2/M3/M5. No generator,
-producer, consumer, database, detection, ML or frontend is implemented today.
+Day 01 defines EventV1, six payloads, entity keys, UTC timestamps, units, examples
+and three scenarios. It also records questions for M2/M3/M5. The generator, Kafka
+clients, database, detection, ML and frontend are planned for later work.
 
-## Domain assumptions for later work
+## Assumptions for later work
 
 - Normal traffic follows plausible subscriber profiles and time-dependent load.
 - Keep normal generation separate from controlled scenario injection.
-- A seeded random source, replaceable Clock and synthetic infrastructure profiles
-  will make later scenarios reproducible. New runs still need distinct event IDs.
-- Link outage analysis needs infrastructure identity, region, measurements and
-  subscriber association counts. Exposure is not the same as confirmed impact.
-- Observed traffic alone cannot prove how much traffic was lost. M3 will need a
-  comparable historical baseline and explicit accounting boundaries.
-- The event timestamp preserves context for hour/day/night and week-to-week
-  analysis. Thresholds are downstream policy, not fields in this contract.
-- Later NORMAL/PEAK/STRESS profiles will use configurable rates appropriate to
-  local hardware. Producer metrics and performance measurements are later work.
-- Use one raw topic for the MVP. Cloud deployment and extra services are not
-  prerequisites for a working student project.
+- Use a fixed seed, replaceable Clock and synthetic infrastructure profiles so
+  scenarios can be repeated. New runs still need new event IDs.
+- Link outage analysis needs the node/link, region, measurements and subscriber
+  association count. Association shows exposure, not confirmed impact.
+- Lost traffic requires a comparable historical baseline and a clear accounting
+  boundary; it cannot be calculated from one observation.
+- `occurredAt` supports hour, weekday and week-to-week comparisons. Thresholds
+  belong in downstream processing, not EventV1.
+- NORMAL, PEAK and STRESS profiles will use configurable rates that fit local hardware.
+- The MVP uses one raw topic. Cloud deployment is outside the current scope.

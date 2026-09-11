@@ -1,27 +1,22 @@
 # Three MVP simulator scenarios
 
-Day 01 specification only. No scenario generator, feature aggregation, detector,
-API endpoint or dynamic threshold is implemented in this milestone.
+Day 01 defines the scenarios only. Generator and detection code comes later.
 
 ## Reproducibility and separation
 
-Later implementations will accept a seeded random source (example seed 11092026),
-a replaceable Clock and fixed synthetic subscriber/infrastructure profiles. The
-timelines below are controlled inputs for repeatable demonstrations, not thresholds
-that a production detector must hard-code. Background traffic uses a separate
-random stream so changing its rate does not change the injected sequence.
+The generator will use a random seed (for example, 11092026), a replaceable Clock
+and fixed synthetic profiles. These inputs make scenario runs repeatable. Normal
+background traffic will use a separate random stream, so changing its rate does
+not change the injected sequence. The values below describe simulator input, not
+detection thresholds.
 
-A repeated setup must reproduce relative event times, entities and measurements.
-A NEW run assigns fresh UUID v4 eventIds and a new optional scenarioRunId; compare
-reproducibility after excluding technical and run-scoped business IDs. Business IDs
-are scoped to the new run, except for deliberate repeated transactionRef values
-within duplicate billing.
-Re-delivering an existing event preserves both its eventId and contents.
+The same setup must reproduce relative times, entities and measurements. Each new
+run gets new event, run and business IDs. The duplicate billing pair intentionally
+reuses its `transactionRef`. Re-delivery keeps the original event data and `eventId`.
 
-Normal controls exist before/during/after injection. If scenarioRunId is present,
-it covers normal controls and injected traffic in that run. The names in this
-document and fixture filenames are not Kafka fields. Scenario metadata MUST NOT
-influence feature extraction, detection rules or risk scoring.
+Normal controls run before, during and after injection. If `scenarioRunId` is used,
+both control and injected events receive it. Scenario names stay out of Kafka data,
+and scenario metadata is never used for features or detection.
 
 ## 1. Account compromise / high call activity
 
@@ -29,7 +24,7 @@ influence feature extraction, detection rules or risk scoring.
 
 **Control:** SUBSCRIBER:SUB-000002, same home country, independent normal activity.
 
-Input behavior for a future fixed demonstration:
+Planned input:
 
 | Period (UTC, 11 September 2026) | Target input | Normal control |
 | --- | --- | --- |
@@ -37,33 +32,29 @@ Input behavior for a future fixed demonstration:
 | [08:20:00, 08:21:00) | Exactly 60 OUTBOUND completed calls, one ending each second from :00 through :59; one second of connected talk each. | One OUTBOUND completed MD call ending 08:20:30, lasting 30 seconds. |
 | [08:21:00, 08:26:00) | Return to two completed MD calls ending 08:23:30 and 08:25:30; 120 seconds each. | Two completed MD calls ending 08:22:00 and 08:25:00; 30 seconds each. |
 
-For the 60-call burst, the destination sequence is 30 RO, 18 DE, 6 JP, then 6 MD.
-That is 54/60 international calls (90%) relative to home country MD. JP is unusual
-for this synthetic subscriber because it never occurs in the setup history;
-no country is inherently anomalous. Use unique callId and eventId values for all
-attempts, roaming=false and the same serving node. This deliberately compressed
-short-call pattern models scripted account activity, not typical human calling.
+The burst uses 30 RO, 18 DE, 6 JP and 6 MD destinations. Relative to home country
+MD, 54 of 60 calls are international. JP is unusual only because it is absent from
+this subscriber's setup history. Each call has a unique `callId` and `eventId`,
+uses the same node and sets `roaming` to false. The short calls model scripted use.
 
-**Expected raw events:** CALL records conforming to EventV1; the normal example is
-[normal-call.json](../../contracts/events/v1/examples/normal-call.json). Today we
-do not materialize 60 nearly identical files or generate the sequence.
+**Raw events:** EventV1 CALL records. A normal record is available in
+[normal-call.json](../../contracts/events/v1/examples/normal-call.json). The
+60-event sequence has not been generated yet.
 
-**Future feature expectations:** a sharp rise in calls_count, high outbound
-international_call_ratio, new outbound destinations and a shorter average call
-duration compared with this subscriber's history. M3 will choose context-sensitive
-decisions. Raw behavior supports investigation, not proof of account compromise.
+**Planned features:** higher `calls_count` and `international_call_ratio`, new
+destinations and shorter average duration than the subscriber's history. M3 will
+decide how these values affect detection; the events alone do not prove compromise.
 
 ## 2. Network link cut / network outage
 
 **Target:** NETWORK_LINK:LINK-CHI-001, reporting node NODE-CHI-001,
 REGION-CHI-CENTRAL, 500 associated synthetic subscribers.
 
-Assume a single reporting endpoint, no alternative routing, and stable subscriber
-associations during the demonstration. These are scenario setup assumptions;
-real topology and service mappings are not inferred from aggregate counts.
+The scenario uses one reporting endpoint, no alternative route and stable subscriber
+associations. These are simulator settings, not facts inferred from measurements.
 
-Each window lasts 60 seconds. Times below are occurredAt (exclusive UTC window
-ends on 11 September 2026); each value is a raw measurement target.
+Each window lasts 60 seconds. Times are UTC `occurredAt` values on 11 September
+2026 and mark the exclusive end of each window.
 
 | Window end | status | packetLossRatio | latencyMs | throughputMbps | bytesTransferred | activeSubscriberCount |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -73,33 +64,29 @@ ends on 11 September 2026); each value is a raw measurement target.
 | 08:19:00Z | DOWN | 1 | null | 0 | 0 | 500 |
 | 08:20:00Z | UP | 0.001 | 12.5 | 80 | 600000000 | 500 |
 
-**Normal control:** independent LINK-CHI-002 / NODE-CHI-002 in
-REGION-CHI-NORTH, 300 associated subscribers. Emit one UP measurement at every
-listed window end, each with 0.001 loss, 12.5 ms latency, 40 Mbps and 300000000
-bytes. No rerouting or shared failure dependency in this controlled setup.
+**Normal control:** LINK-CHI-002 / NODE-CHI-002 in REGION-CHI-NORTH, with 300
+subscribers. At each listed time it stays UP with 0.001 loss, 12.5 ms latency,
+40 Mbps and 300000000 bytes. It has no route or failure shared with the target.
 
-**Expected raw events:** five target and five control NETWORK measurements. The
-healthy and first full-outage snapshots are already provided as
+**Raw events:** five target and five control NETWORK measurements. Healthy and
+full-outage snapshots are available as
 [normal-network.json](../../contracts/events/v1/examples/normal-network.json) and
 [network-link-cut.json](../../contracts/events/v1/examples/network-link-cut.json).
-Fixtures are selected examples; the complete scenario is not implemented today.
+The full sequence has not been generated yet.
 
-**Future feature expectations:** increased probe loss and latency during
-degradation, reduced traffic, then no successful probes/traffic during full outage.
-CALL outcomes can later corroborate service degradation through the serving node,
-but a correlated dropped-call generator is not required by this initial scenario.
+**Planned features:** higher probe loss and latency, lower traffic, then no
+successful probes or traffic during the outage. CALL outcomes may later support
+the network measurements, but that generator is outside this scenario draft.
 
-**Future impact analysis:** identify the link, reporting node and region; use the
-association snapshot as potential subscriber exposure. Exact impacted subscribers
-and services need topology and subscriber/service mappings and observed outcomes.
-Estimate traffic lost using comparable expected traffic for the same boundary and
-window, then convert bytes to decimal GB. Do not sum overlapping node/link counters,
-or multiply packet-loss ratio by bytes to invent a lost-traffic measurement.
+**Planned impact analysis:** report the link, node, region and exposed subscriber
+count. Confirmed customer and service impact needs topology, service mappings and
+observed outcomes. Estimate traffic loss from a comparable baseline for the same
+link and window, then convert bytes to decimal GB. Node/link counters can overlap,
+and `packetLossRatio * bytesTransferred` is not a valid traffic-loss calculation.
 
-The preceding healthy snapshot is a demo reference, not a historical weekly
-baseline. Later time-aware normal generation/history must support hour/day/night
-and week-to-week comparisons. Raw observations show outage/degradation; proving a
-physical cable cut rather than another cause requires additional evidence.
+The healthy snapshot is only a demo reference. Historical generation still needs
+hour, day/night and week-to-week patterns. Measurements show an outage, but they
+cannot identify a physical cable cut without more evidence.
 
 ## 3. Duplicate billing
 
@@ -111,17 +98,16 @@ physical cable cut rather than another cause requires additional evidence.
 | 08:15:34Z | billing-charge-first.json | TXN-000002 | 12345 | MDL |
 | 08:15:36Z | billing-charge-repeat.json | TXN-000002 | 12345 | MDL |
 
-**Expected raw events:** three individually valid BILLING records with distinct
-eventIds. The last two share subscriber, transactionRef, amountMinor and currency.
-The normal control has the same amount/currency but a different transactionRef;
-matching amounts alone must not make it a business duplicate.
+**Raw events:** three valid BILLING records with distinct `eventId` values. The last
+two share subscriber, `transactionRef`, `amountMinor` and `currency`. The control
+uses another `transactionRef`, so a matching amount alone is not a duplicate.
 
-**Future feature expectations:** M3 may group distinct charge events by the
-business identity above after technical eventId deduplication. This document does
-not implement a detector, count window or incident. Re-delivery of the SAME first
-charge eventId is a technical duplicate, not a second business charge. Another
-subscriber reusing the reference is not the same business identity.
+**Planned detection input:** after deduplicating by `eventId`, M3 may group charges
+by subscriber, `transactionRef`, `amountMinor` and `currency`. Re-delivery of the
+same `eventId` is not another charge. A reference reused by another subscriber is
+also a different business identity. Detection windows and incidents are not part
+of Day 01.
 
-All three concrete examples are in the
-[fixture index](../../contracts/events/v1/examples/README.md). Metadata is shared
-across controls and repeated charges and cannot be used as a detection shortcut.
+All three examples are listed in the
+[fixture index](../../contracts/events/v1/examples/README.md). Scenario metadata
+is shared across control and injected events and cannot be a detection shortcut.

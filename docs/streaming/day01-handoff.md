@@ -1,16 +1,16 @@
 # Day 01 integration handoff
 
 **Date:** Friday, 11 September 2026. **Owner:** Zavtoni Ion, Streaming & Simulator.
-**Branch:** feature/event-v1-contract. **Status:** contract draft ready for review;
-M2/M3/M5 approval is still pending. These messages are prepared, not sent.
+**Branch:** feature/event-v1-contract. **Status:** ready for M2/M3/M5 review.
+The messages below are drafts and have not been sent.
 
 ## M3 - detection and features
 
-Read [every field and unit](event-v1-contract.md),
-[nine normal/abnormal fixtures](../../contracts/events/v1/examples/README.md), and
-[three MVP scenarios](mvp-scenarios.md).
+Review the [field definitions and units](event-v1-contract.md),
+[example events](../../contracts/events/v1/examples/README.md) and
+[MVP scenarios](mvp-scenarios.md).
 
-| Type | Event boundary | Relevant future inputs |
+| Type | Event boundary | Planned feature inputs |
 | --- | --- | --- |
 | CALL | Final call attempt result | Counts, durationSeconds, outcome, OUTBOUND destinationCountry against synthetic home country. |
 | SMS | Final logical message delivery result | Counts, deliveryStatus, OUTBOUND destinationCountry. |
@@ -19,58 +19,52 @@ Read [every field and unit](event-v1-contract.md),
 | BILLING | Posted charge | Distinct eventId with same subscriber + transactionRef + amountMinor + currency. |
 | NETWORK | Measurement window ending at occurredAt | status, packetLossRatio, nullable latencyMs, throughputMbps, bytesTransferred, association count, node/link and region. |
 
-Deduplicate technical eventId before feature aggregation. Use occurredAt for time
-context. Seconds, bytes, MDL minor units, milliseconds, decimal Mbps and ratios
-0..1 are explicit in the contract. Treat activeSubscriberCount as exposure, not
-confirmed unique impact. Traffic loss needs a comparable baseline and an accounting
-boundary. Topology/profile mappings are future integration dependencies.
+Deduplicate by `eventId` before aggregation and use `occurredAt` for time windows.
+The contract defines seconds, bytes, MDL minor units, milliseconds, decimal Mbps
+and ratios from 0 to 1. `activeSubscriberCount` is exposure, not confirmed unique
+impact. Traffic-loss estimates need a baseline and consistent network boundary.
 
 **Ready-to-send message:**
 
-> EventV1 draft is ready on feature/event-v1-contract. See docs/streaming/event-v1-contract.md and contracts/events/v1/examples/ for six types, field meanings and units. The three scenario specifications are in docs/streaming/mvp-scenarios.md. Use occurredAt for event time and exclude scenarioRunId and all scenario metadata from features, rules and risk scores. Please review the proposed feature inputs and baseline/topology dependencies.
+> EventV1 is ready for review on feature/event-v1-contract. Field definitions and units are in docs/streaming/event-v1-contract.md, examples are under contracts/events/v1/examples/, and scenarios are in docs/streaming/mvp-scenarios.md. Use occurredAt for event time. Keep scenarioRunId and scenario metadata out of features, rules and risk scores. Please check the planned feature inputs and baseline/topology needs.
 
 ## M5 - Kafka and infrastructure
 
-See [Kafka requirements](kafka-contract.md). Topic is `telecom.events.v1`; key is
-`entityType:entityId`; key encoding is UTF-8 string and value is UTF-8 JSON. The
-expected future producer is `event-generator`. Day 03 needs configurable Kafka
-bootstrap servers. Confirm local topic partition/replication settings, retention,
-broker advertised addresses and ownership of provisioning. No broker setup is
-included in Day 01.
+See the [Kafka contract](kafka-contract.md). It uses topic `telecom.events.v1`, key
+`entityType:entityId` and UTF-8 JSON values. The planned producer is
+`event-generator`. Before Day 03, confirm local partition/replication settings,
+retention, advertised broker addresses and who creates the topic.
 
 **Ready-to-send message:**
 
-> EventV1 draft uses topic telecom.events.v1, key entityType:entityId and UTF-8 JSON values. Expected producer: event-generator. See docs/streaming/kafka-contract.md. Day 03 needs configurable bootstrap servers via KAFKA_BOOTSTRAP_SERVERS mapped to spring.kafka.bootstrap-servers. Please confirm local topic settings and host/container broker addresses before producer integration.
+> EventV1 uses topic telecom.events.v1, key entityType:entityId and UTF-8 JSON values. The planned producer is event-generator. Day 03 will map KAFKA_BOOTSTRAP_SERVERS to spring.kafka.bootstrap-servers. Please confirm the local topic settings and host/container broker addresses in docs/streaming/kafka-contract.md.
 
 ## M2 - backend and integration
 
-Review technical eventId uniqueness/re-delivery, optional traceability-only
-scenarioRunId, subscriber IDs and the node/link entity patterns. Subscriber
-entityId replaces a redundant subscriberId field. NETWORK requires entityId to
-equal the measured payload nodeId (networkNodeId) or linkId, as appropriate.
-Those cross-field equalities need application validation later.
+Review `eventId`, optional `scenarioRunId`, subscriber IDs and node/link patterns.
+Subscriber records use `entityId` instead of repeating `subscriberId`. NETWORK
+requires `entityId` to match the payload's `networkNodeId` or `linkId`; application
+validation will check that equality.
 
-Deduplication by eventId and duplicate billing by business identity solve different
-problems. A repeated transactionRef is valid raw input and must survive ingestion
-when eventIds differ. A Kafka offset is not an eventId, entityId or incident ID.
-No incident schema or backend implementation is proposed in this milestone.
+`eventId` handles delivery deduplication. Billing duplicates use subscriber,
+`transactionRef`, `amountMinor` and `currency` across different event IDs. Ingestion
+must keep both charges. Kafka offsets are separate from event, entity and incident
+IDs. Day 01 does not define incidents or backend code.
 
 **Ready-to-send message:**
 
-> Please review EventV1 identifiers on feature/event-v1-contract: eventId is a unique technical UUID retained on re-delivery; scenarioRunId is optional traceability only; entityType/entityId identify the subscriber or measured node/link. Distinct eventIds with the same subscriber/transactionRef/amountMinor/currency must remain available for duplicate-charge detection. See docs/streaming/event-v1-contract.md and the billing fixture pair.
+> Please review the EventV1 IDs on feature/event-v1-contract. eventId is a technical UUID kept on re-delivery, scenarioRunId only traces simulator runs, and entityType/entityId select the subscriber or network element. Keep charges with different eventIds when subscriber, transactionRef, amountMinor and currency match. See docs/streaming/event-v1-contract.md and the billing example pair.
 
 ## Decisions requiring team review
 
-The existing repository had no architecture or naming constraints. This draft
-proposes terminal service-event boundaries, SUB- plus 6-12 digits, MDL-only charges,
-outbound international ratios using a later home-country profile, nullable probe
-latency and association counts retained during outage. Review these before runtime
-implementation; today's work does not claim these decisions are already approved.
+The repository had no existing naming rules. This draft proposes terminal service
+events, `SUB-` plus 6-12 digits, MDL-only charges, outbound international ratios
+based on a planned home-country profile, nullable probe latency and subscriber
+associations retained during an outage. The team still needs to approve these.
 
 ## Next scheduled task
 
 **Monday, 14 September 2026 - Day 02: Build the generator skeleton.**
 
-No Day 02 code is included. Seeded randomness, a replaceable Clock and synthetic
-profiles are design requirements for later work. Kafka producer integration is
-later work, with configurable bootstrap servers required on Day 03.
+Day 02 will add seeded randomness, a replaceable Clock and synthetic profiles.
+Kafka producer integration and configurable bootstrap servers are planned for Day 03.

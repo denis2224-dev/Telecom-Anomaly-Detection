@@ -1,4 +1,4 @@
-"""Offline contract/fixture checks; no simulator, broker or detection logic."""
+"""Checks for the EventV1 schemas and examples."""
 
 import copy
 from datetime import datetime
@@ -20,7 +20,7 @@ FORMAT_CHECKER = FormatChecker()
 
 @FORMAT_CHECKER.checks("date-time", raises=ValueError)
 def valid_calendar_time(value):
-    """The schema restricts UTC spelling; datetime checks the actual calendar."""
+    """Reject dates such as 30 February that match the timestamp pattern."""
     if isinstance(value, str):
         datetime.fromisoformat(value)
     return True
@@ -58,7 +58,7 @@ class EventContractTests(unittest.TestCase):
             path.name: read_json(path)
             for path in sorted((CONTRACTS / "examples").glob("*.json"))
         }
-        # Explicit local registry: no schema HTTP retrieval or running broker.
+        # Resolve schema references offline.
         registry = Registry().with_resources(
             (schema["$id"], Resource.from_contents(schema))
             for schema in cls.schemas.values()
@@ -111,7 +111,7 @@ class EventContractTests(unittest.TestCase):
         self.assertEqual(first["payload"], repeat["payload"])
         self.assertNotEqual(control["payload"]["transactionRef"], first["payload"]["transactionRef"])
         self.assertEqual(control["payload"]["amountMinor"], first["payload"]["amountMinor"])
-        self.assert_valid(copy.deepcopy(first))  # Re-delivery remains valid input.
+        self.assert_valid(copy.deepcopy(first))
 
     def test_required_fields_and_type_dispatch_reject_incomplete_records(self):
         for name, original in self.examples.items():
@@ -150,7 +150,7 @@ class EventContractTests(unittest.TestCase):
         event = self.example("normal-call.json")
         event["entityType"] = "NETWORK_NODE"
         event["entityId"] = "NODE-CHI-001"
-        self.assert_invalid(event)  # CALL still requires a subscriber key.
+        self.assert_invalid(event)
 
     def test_timestamp_requires_real_utc_date_and_supported_precision(self):
         invalid = [
@@ -228,7 +228,7 @@ class EventContractTests(unittest.TestCase):
                 self.assert_invalid(event)
         event = self.example("normal-call.json")
         event["payload"]["outcome"] = "FAILED"
-        self.assert_invalid(event)  # Failed connection cannot have talk time.
+        self.assert_invalid(event)
         event["payload"]["durationSeconds"] = 0
         self.assert_valid(event)
 

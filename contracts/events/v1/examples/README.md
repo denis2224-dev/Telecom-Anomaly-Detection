@@ -1,9 +1,8 @@
 # EventV1 fixtures
 
-Each JSON file is one complete Kafka value, validated with
-[event-v1.schema.json](../event-v1.schema.json), not just a payload. Every ID and
-record is synthetic. The readable UUIDs are fixed test constants, not a proposed
-runtime UUID generation algorithm. Live distinct events must use unique IDs.
+Each file is a complete Kafka value validated with
+[event-v1.schema.json](../event-v1.schema.json). All data is synthetic. The readable
+UUIDs are fixed test values; generated events still need unique UUIDs.
 
 | File | Purpose | Kafka key |
 | --- | --- | --- |
@@ -13,22 +12,19 @@ runtime UUID generation algorithm. Live distinct events must use unique IDs.
 | [normal-auth.json](normal-auth.json) | Successful network authentication with a synthetic device. | SUBSCRIBER:SUB-000001 |
 | [normal-billing.json](normal-billing.json) | Normal control charge, distinct transactionRef from the repeated pair. | SUBSCRIBER:SUB-000001 |
 | [billing-charge-first.json](billing-charge-first.json) | First charge for TXN-000002. | SUBSCRIBER:SUB-000001 |
-| [billing-charge-repeat.json](billing-charge-repeat.json) | Second charge: different eventId, same business identity and amount. Meaningful as a pair, not anomalous by itself. | SUBSCRIBER:SUB-000001 |
+| [billing-charge-repeat.json](billing-charge-repeat.json) | Second charge with a different eventId but the same business details. | SUBSCRIBER:SUB-000001 |
 | [normal-network.json](normal-network.json) | Healthy link window [08:15:00Z, 08:16:00Z), 600,000,000 bytes and 80 Mbps. | NETWORK_LINK:LINK-CHI-001 |
-| [network-link-cut.json](network-link-cut.json) | Abnormal full outage window [08:17:00Z, 08:18:00Z), no delivered traffic/probe responses. | NETWORK_LINK:LINK-CHI-001 |
+| [network-link-cut.json](network-link-cut.json) | Full outage window [08:17:00Z, 08:18:00Z), with no traffic or probe responses. | NETWORK_LINK:LINK-CHI-001 |
 
-The two network examples are selected snapshots, not a complete time series. The
-intermediate degradation, recovery and unaffected controls are specified in the
-scenario documentation. A single example does not demonstrate a working detector
-or a measured GB-loss estimate.
+The network files are snapshots. The full degradation, outage, recovery and
+control sequence is defined in the scenario document. No detector or GB-loss
+calculation has been implemented.
 
-Labels such as normal/abnormal belong in this README and filenames only. No JSON
-value contains a detection label. Normal controls and abnormal examples share
-scenarioRunId within their demonstration run. M3 must exclude that optional field
-from every feature, rule and risk calculation.
+Normal/abnormal labels appear only in filenames and this README. They are not part
+of the JSON events. `scenarioRunId` may be shared by control and injected events,
+but M3 must exclude it from features, rules and risk scores.
 
-Replaying the exact same fixture preserves eventId and represents technical
-re-delivery. To simulate a NEW run later, assign new event and business IDs (except
-intentional duplicate billing references within that run), while retaining the
-controlled measurement pattern. Files are not emitted in alphabetical order;
-a future replay tool must use the intended event-time sequence.
+Replaying a fixture with the same `eventId` represents re-delivery. A new run must
+use new event and business IDs, except for the repeated `transactionRef` in the
+billing scenario. A future replay tool must order the files by event time rather
+than filename.
