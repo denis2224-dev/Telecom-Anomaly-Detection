@@ -1,0 +1,53 @@
+{
+  "id": "inc-001",
+  "detectionId": "f669a4846457a82570dcc4e01b2d68e604192072b0de0b9d45fae5393b3a017b",
+  "anomalyType": "ACCOUNT_COMPROMISE",
+  "entityType": "SUBSCRIBER",
+  "entityId": "SUB-001",
+  "status": "OPEN",
+  "severity": "MEDIUM",
+  "riskScore": 60,
+  "uncappedScore": 60,
+  "assigneeId": null,
+  "resolutionNote": null,
+  "windowStart": "2026-09-11T09:00:00Z",
+  "windowEnd": "2026-09-11T09:01:00Z",
+  "detectedAt": "2026-09-11T09:01:06Z",
+  "createdAt": "2026-09-11T09:01:07Z",
+  "updatedAt": "2026-09-11T09:01:07Z",
+  "version": 0,
+  "rulesetVersion": "1",
+  "featureVersion": 1,
+  "modelVersion": null,
+  "mlStatus": "UNAVAILABLE",
+  "modelScore": null,
+  "scenarioRunId": "run-001",
+  "reasons": [
+    {
+      "code": "CALL_COUNT_THRESHOLD",
+      "observed": 65,
+      "threshold": 50,
+      "unit": "calls/min",
+      "contribution": 60,
+      "message": "65 calls occurred in one minute, exceeding the threshold of 50."
+    }
+  ],
+  "evidence": [
+    {
+      "schemaVersion": 1,
+      "eventId": "evt-001",
+      "entityType": "SUBSCRIBER",
+      "entityId": "SUB-001",
+      "type": "CALL",
+      "occurredAt": "2026-09-11T09:00:10Z",
+      "emittedAt": "2026-09-11T09:00:10Z",
+      "scenarioRunId": "run-001",
+      "payload": {
+        "sourceCountry": "MD",
+        "destinationCountry": "MD",
+        "durationSec": 10,
+        "towerId": "CHI-001"
+      }
+    }
+  ]
+}
