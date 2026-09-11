@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+./scripts/verify
+echo "Application demo scenarios are not wired yet. Add them here after M1/M2/M3/M4 provide runnable services and scenario APIs."
