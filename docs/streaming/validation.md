@@ -1,13 +1,16 @@
 # Validate the Day 01 contract
 
-Use Python 3.11 or newer and the packages in `requirements-dev.txt`. Day 01 was
-tested with Python 3.13.7, jsonschema 4.25.1 and referencing 0.37.0. The checks do
-not need Java or Kafka and run offline after the packages are installed.
+Use Python 3.11 or newer and the packages in `requirements-dev.txt` in a virtual
+environment. Shared contract validation uses jsonschema 4.26.0, referencing 0.37.0,
+PyYAML 6.0.3 and the OpenAPI validators 0.9.0. The checks do not need Java or Kafka
+and run offline after the packages are installed.
 
 From the repository root:
 
 ```text
 python -m unittest discover -s tests -v
+python -m openapi_spec_validator contracts/openapi/incident-api.yaml
+docker compose --env-file .env.example config --quiet
 git diff --check
 ```
 
@@ -17,14 +20,15 @@ For a fresh Windows checkout:
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m openapi_spec_validator contracts/openapi/incident-api.yaml
 ```
 
-On Linux/macOS, use `.venv/bin/python` for the last two commands.
+On Linux/macOS, use `.venv/bin/python` for the three virtual-environment commands.
 
 ## What is checked
 
 - All JSON files parse. The loader rejects duplicate fields, NaN and Infinity.
-- All six schemas pass `Draft202012Validator.check_schema`.
+- All six EventV1 schemas and the analyst directory schema pass `Draft202012Validator.check_schema`.
 - Six EventV1 examples validate and cover all five event types.
 - Required fields, type dispatch, supported versions and entity kinds are enforced.
 - Identifiers reject whitespace, including trailing newlines that would change
@@ -41,6 +45,15 @@ On Linux/macOS, use `.venv/bin/python` for the last two commands.
   latency when all probes fail. These checks run on fixtures, not runtime events.
 - Local documentation links resolve and every schema field has a description and
   an entry in the contract's field tables.
+- The OpenAPI specification and its examples validate; incident and analyst
+  fixtures satisfy their schemas with format checking.
+- Every EventV1 record in JSON fixtures, API examples and SSE evidence satisfies
+  the canonical producer schema. The API envelope fields agree with that schema.
+- Incident detail, list and SSE examples match the fixture, including the detection
+  hash, entity/run IDs, event-time window and synthetic call evidence.
+
+Compose validation checks configuration only. `scripts/verify` additionally needs
+the running local PostgreSQL/Kafka stack; it is not part of the offline unit suite.
 
 The test registers all schemas locally by `$id`, so `$ref` resolution does not use
 the network. `FormatChecker` uses `datetime.fromisoformat` to check calendar dates,

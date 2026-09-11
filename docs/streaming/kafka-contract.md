@@ -1,24 +1,26 @@
 # Kafka integration contract
 
-Day 01 records the Kafka choices for M5 and the simulator producer. Broker setup
-and producer/consumer code are planned for later work.
+Day 01 records the Kafka choices for M5 and the simulator producer. Shared
+[Compose infrastructure](../../compose.yaml) provides the local broker and topics;
+producer/consumer code is planned for later work.
 
 | Item | Agreement / requirement |
 | --- | --- |
 | Primary raw topic | `telecom.events.v1` |
 | Record key | `entityType:entityId`, required, case-sensitive UTF-8 string |
-| Record value | One UTF-8 JSON EventV1 object |
+| Record value | One UTF-8 JSON EventV1 object validated by [event.schema.json](../../contracts/events/v1/event.schema.json) |
 | Expected producer | `event-generator`, owned by Streaming & Simulator |
 | Event-time field | `occurredAt`, UTC ISO-8601 with Z |
 | Payload selection | `eventType`: CALL, SMS, DATA, AUTH, NETWORK |
-| Contract version | `schemaVersion`: `1.0` |
+| Contract version | `schemaVersion`: string `"1.0"` |
 | Day 03 connection | `KAFKA_BOOTSTRAP_SERVERS` configures `spring.kafka.bootstrap-servers` |
 
 ## Topic and key choice
 
-The MVP uses one topic because all five types share the EventV1 envelope. Consumers
-can route records by `eventType`. Add topics later only if retention, ownership or
-consumer needs differ. Day 01 uses JSON without Schema Registry.
+All five raw event types share `telecom.events.v1` and the EventV1 envelope.
+Consumers route records by `eventType`. The shared stack also provisions detection,
+telemetry, dead-letter and late-event topics; these do not define another EventV1
+format. Day 01 uses JSON without Schema Registry.
 
 | Records | Key example | Reason |
 | --- | --- | --- |
@@ -50,8 +52,11 @@ and offsets. Offsets are local to a partition, not a global sequence.
 
 ## Planned configuration
 
-- Start locally with one broker, one partition and replication factor one. M5 will
-  confirm this. It is enough for the first demo but has no broker redundancy.
+- The shared stack uses one broker, replication factor one and three partitions
+  by default (`KAFKA_TOPIC_PARTITIONS`). It has no broker redundancy. Raw event
+  retention is 24 hours; the other provisioned topics retain seven days.
+- Host clients connect to `localhost:9094` by default; container clients connect
+  to `kafka:9092`. See [.env.example](../../.env.example) for local overrides.
 - M5 owns topic creation, retention and partition changes. Retention must fit the
   available local disk space.
 - Day 03 will make the bootstrap address configurable. Host processes and containers

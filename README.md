@@ -14,6 +14,9 @@ cp .env.example .env
 
 The current stack starts shared infrastructure only: PostgreSQL and Kafka with the MVP topics and database schemas. Application services will be added to `compose.yaml` after each owner pushes runnable code, Dockerfiles, health endpoints, ports, and test commands.
 
+See the [local development runbook](docs/runbooks/local-dev.md) and
+[shared owner map](docs/architecture/owner-map.md).
+
 UTM internship project at Orange Systems Moldova. It uses synthetic telecom
 events to study unusual activity and network impact. No real customer data is used.
 
@@ -35,11 +38,15 @@ network metrics. EventV1 currently allows `CALL`, `SMS`, `DATA`, `AUTH` and
 - [Three MVP scenario specifications](docs/streaming/mvp-scenarios.md)
 - [Kafka topic, key and configuration requirements](docs/streaming/kafka-contract.md)
 - [How to validate schemas and examples](docs/streaming/validation.md)
+- [Shared EventV1 integration decisions](docs/streaming/shared-contract-integration.md)
+- [Incident API contract](contracts/openapi/incident-api.yaml)
 
-With Python and the development dependencies installed, run:
+With Python and the development dependencies installed in an activated virtual
+environment, run:
 
 ```text
 python -m unittest discover -s tests -v
+python -m openapi_spec_validator contracts/openapi/incident-api.yaml
 ```
 
 Planned flow: simulator -> Kafka -> processing -> detection -> impact analysis

@@ -183,10 +183,10 @@ paths:
               example:
                 items:
                 - id: 75d1c5ba-432d-59e5-a577-5d102249b632
-                  detectionId: e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7
+                  detectionId: 0d8492e12e5959888d9e1a5285494eb46ae83df13ba2dc8ac75bb226b4e814a2
                   anomalyType: ACCOUNT_COMPROMISE
                   entityType: SUBSCRIBER
-                  entityId: SUB-001
+                  entityId: SUB-000001
                   status: OPEN
                   severity: HIGH
                   riskScore: 80
@@ -203,7 +203,7 @@ paths:
                   featureVersion: 1
                   modelVersion: null
                   mlStatus: UNAVAILABLE
-                  scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                  scenarioRunId: ff73f281-9ca1-4448-ac4d-944a6862570f
                   reasons:
                   - code: HIGH_CALLS
                     observed: 60
@@ -230,18 +230,21 @@ paths:
                   anomalyRank: null
                   evidenceCount: 60
                   evidenceSamples:
-                  - schemaVersion: 1
-                    eventId: 359d0ddf-bd5f-55d8-ab1d-94d8174040ae
+                  - schemaVersion: '1.0'
+                    eventId: 359d0ddf-bd5f-45d8-ab1d-94d8174040ae
                     entityType: SUBSCRIBER
-                    entityId: SUB-001
-                    type: CALL
+                    entityId: SUB-000001
+                    eventType: CALL
                     occurredAt: '2026-09-11T09:00:10Z'
-                    emittedAt: '2026-09-11T09:00:10Z'
-                    scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                    scenarioRunId: ff73f281-9ca1-4448-ac4d-944a6862570f
                     payload:
-                      durationSec: 10
-                      international: true
-                      country: RO
+                      durationSeconds: 10
+                      destinationCountry: RO
+                      callId: CALL-000010
+                      direction: OUTBOUND
+                      outcome: COMPLETED
+                      roaming: false
+                      networkNodeId: NODE-CHI-001
                   assignee: null
                   audit:
                   - id: b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e
@@ -296,7 +299,7 @@ paths:
           enum:
           - ACCOUNT_COMPROMISE
           - NETWORK_OUTAGE
-          - BILLING_DUPLICATE
+          - DATA_TRAFFIC_DROP
           - ML_ANOMALY
       - name: entityType
         in: query
@@ -304,7 +307,8 @@ paths:
           type: string
           enum:
           - SUBSCRIBER
-          - NODE
+          - NETWORK_NODE
+          - NETWORK_LINK
       - name: entityId
         in: query
         schema:
@@ -336,10 +340,10 @@ paths:
                 $ref: '#/components/schemas/Incident'
               example:
                 id: 75d1c5ba-432d-59e5-a577-5d102249b632
-                detectionId: e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7
+                detectionId: 0d8492e12e5959888d9e1a5285494eb46ae83df13ba2dc8ac75bb226b4e814a2
                 anomalyType: ACCOUNT_COMPROMISE
                 entityType: SUBSCRIBER
-                entityId: SUB-001
+                entityId: SUB-000001
                 status: OPEN
                 severity: HIGH
                 riskScore: 80
@@ -356,7 +360,7 @@ paths:
                 featureVersion: 1
                 modelVersion: null
                 mlStatus: UNAVAILABLE
-                scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                scenarioRunId: ff73f281-9ca1-4448-ac4d-944a6862570f
                 reasons:
                 - code: HIGH_CALLS
                   observed: 60
@@ -383,18 +387,21 @@ paths:
                 anomalyRank: null
                 evidenceCount: 60
                 evidenceSamples:
-                - schemaVersion: 1
-                  eventId: 359d0ddf-bd5f-55d8-ab1d-94d8174040ae
+                - schemaVersion: '1.0'
+                  eventId: 359d0ddf-bd5f-45d8-ab1d-94d8174040ae
                   entityType: SUBSCRIBER
-                  entityId: SUB-001
-                  type: CALL
+                  entityId: SUB-000001
+                  eventType: CALL
                   occurredAt: '2026-09-11T09:00:10Z'
-                  emittedAt: '2026-09-11T09:00:10Z'
-                  scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                  scenarioRunId: ff73f281-9ca1-4448-ac4d-944a6862570f
                   payload:
-                    durationSec: 10
-                    international: true
-                    country: RO
+                    durationSeconds: 10
+                    destinationCountry: RO
+                    callId: CALL-000010
+                    direction: OUTBOUND
+                    outcome: COMPLETED
+                    roaming: false
+                    networkNodeId: NODE-CHI-001
                 assignee: null
                 audit:
                 - id: b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e
@@ -685,10 +692,10 @@ paths:
                 type: string
               example: 'event: incident-upsert
 
-                data: {"id":"75d1c5ba-432d-59e5-a577-5d102249b632","detectionId":"e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7","anomalyType":"ACCOUNT_COMPROMISE","entityType":"SUBSCRIBER","entityId":"SUB-001","status":"OPEN","severity":"HIGH","riskScore":80,"uncappedScore":80,"assigneeId":null,"resolutionNote":null,"windowStart":"2026-09-11T09:00:00Z","windowEnd":"2026-09-11T09:01:00Z","detectedAt":"2026-09-11T09:01:06Z","createdAt":"2026-09-11T09:01:07Z","updatedAt":"2026-09-11T09:01:07Z","version":0,"rulesetVersion":"rules-v1","featureVersion":1,"modelVersion":null,"mlStatus":"UNAVAILABLE","scenarioRunId":"ff73f281-9ca1-5448-ac4d-944a6862570f","reasons":[{"code":"HIGH_CALLS","observed":60,"operator":">","threshold":50,"unit":"calls/min","contribution":60,"message":"60
+                data: {"id":"75d1c5ba-432d-59e5-a577-5d102249b632","detectionId":"0d8492e12e5959888d9e1a5285494eb46ae83df13ba2dc8ac75bb226b4e814a2","anomalyType":"ACCOUNT_COMPROMISE","entityType":"SUBSCRIBER","entityId":"SUB-000001","status":"OPEN","severity":"HIGH","riskScore":80,"uncappedScore":80,"assigneeId":null,"resolutionNote":null,"windowStart":"2026-09-11T09:00:00Z","windowEnd":"2026-09-11T09:01:00Z","detectedAt":"2026-09-11T09:01:06Z","createdAt":"2026-09-11T09:01:07Z","updatedAt":"2026-09-11T09:01:07Z","version":0,"rulesetVersion":"rules-v1","featureVersion":1,"modelVersion":null,"mlStatus":"UNAVAILABLE","scenarioRunId":"ff73f281-9ca1-4448-ac4d-944a6862570f","reasons":[{"code":"HIGH_CALLS","observed":60,"operator":">","threshold":50,"unit":"calls/min","contribution":60,"message":"60
                 calls exceeded 50 in one minute."},{"code":"INTERNATIONAL_RATIO","observed":0.9,"operator":">","threshold":0.8,"unit":"ratio","contribution":10,"message":"54
                 of 60 calls were international (0.90 > 0.80)."},{"code":"UNUSUAL_COUNTRY","observed":"RO","operator":"not-in","baseline":["MD"],"unit":"country","contribution":10,"message":"RO
-                is outside this synthetic subscriber baseline of MD."}],"anomalyRank":null,"evidenceCount":60,"evidenceSamples":[{"schemaVersion":1,"eventId":"359d0ddf-bd5f-55d8-ab1d-94d8174040ae","entityType":"SUBSCRIBER","entityId":"SUB-001","type":"CALL","occurredAt":"2026-09-11T09:00:10Z","emittedAt":"2026-09-11T09:00:10Z","scenarioRunId":"ff73f281-9ca1-5448-ac4d-944a6862570f","payload":{"durationSec":10,"international":true,"country":"RO"}}],"assignee":null,"audit":[{"id":"b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e","incidentId":"75d1c5ba-432d-59e5-a577-5d102249b632","actorKind":"SYSTEM","actorId":null,"action":"CREATED","occurredAt":"2026-09-11T09:01:07Z","requestId":"bc129ab4-e597-50b6-acbd-856714454457","before":null,"after":{"status":"OPEN","version":0},"note":null}],"auditTotal":1}
+                is outside this synthetic subscriber baseline of MD."}],"anomalyRank":null,"evidenceCount":60,"evidenceSamples":[{"schemaVersion": "1.0","eventId":"359d0ddf-bd5f-45d8-ab1d-94d8174040ae","entityType":"SUBSCRIBER","entityId":"SUB-000001","eventType": "CALL","occurredAt":"2026-09-11T09:00:10Z","scenarioRunId":"ff73f281-9ca1-4448-ac4d-944a6862570f","payload":{"durationSeconds":10,"destinationCountry":"RO","callId":"CALL-000010","direction":"OUTBOUND","outcome":"COMPLETED","roaming":false,"networkNodeId":"NODE-CHI-001"}}],"assignee":null,"audit":[{"id":"b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e","incidentId":"75d1c5ba-432d-59e5-a577-5d102249b632","actorKind":"SYSTEM","actorId":null,"action":"CREATED","occurredAt":"2026-09-11T09:01:07Z","requestId":"bc129ab4-e597-50b6-acbd-856714454457","before":null,"after":{"status":"OPEN","version":0},"note":null}],"auditTotal":1}
 
 
                 : heartbeat
@@ -736,7 +743,7 @@ paths:
           enum:
           - account-compromise
           - network-outage
-          - billing-duplicate
+          - data-traffic-drop
       - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
@@ -1090,54 +1097,61 @@ components:
       type: object
       additionalProperties: false
       required:
-      - schemaVersion
       - eventId
+      - schemaVersion
+      - eventType
+      - occurredAt
       - entityType
       - entityId
-      - type
-      - occurredAt
-      - emittedAt
       - payload
       properties:
-        schemaVersion:
-          type: integer
-          minimum: 0
-          enum:
-          - 1
         eventId:
           type: string
           format: uuid
-        entityType:
+          minLength: 36
+          maxLength: 36
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+        schemaVersion:
           type: string
           enum:
-          - SUBSCRIBER
-          - NODE
-        entityId:
-          type: string
-          minLength: 1
-        type:
+          - '1.0'
+        eventType:
           type: string
           enum:
           - CALL
           - SMS
           - DATA
           - AUTH
-          - BILLING
           - NETWORK
         occurredAt:
           type: string
           format: date-time
-        emittedAt:
+          pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{1,3})?Z$'
+        entityType:
           type: string
-          format: date-time
+          enum:
+          - SUBSCRIBER
+          - NETWORK_NODE
+          - NETWORK_LINK
+        entityId:
+          type: string
+          maxLength: 64
+          not:
+            pattern: '\s'
         scenarioRunId:
           type: string
           format: uuid
+          minLength: 36
+          maxLength: 36
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
         payload:
           type: object
-          additionalProperties: true
-      description: Unmodified EventV1 sample. Type-specific payload validation belongs to the shared producer
-        contract and remains required at ingestion; this outline only specifies the envelope.
+      x-canonical-schema: ../events/v1/event.schema.json
+      description: Unmodified EventV1 sample governed by contracts/events/v1/event.schema.json and its
+        five payload schemas. This OpenAPI 3.0 envelope outline mirrors the canonical fields; it is
+        not a second event format. Validate every sample with the Draft 2020-12 producer schema and
+        format checking as well as this API schema. Payload dispatch and entity identity constraints
+        are enforced by the producer schema; the contract tests check examples and envelope agreement.
     AuditEvent:
       type: object
       additionalProperties: false
@@ -1236,16 +1250,17 @@ components:
           enum:
           - ACCOUNT_COMPROMISE
           - NETWORK_OUTAGE
-          - BILLING_DUPLICATE
+          - DATA_TRAFFIC_DROP
           - ML_ANOMALY
         entityType:
           type: string
           enum:
           - SUBSCRIBER
-          - NODE
+          - NETWORK_NODE
+          - NETWORK_LINK
         entityId:
           type: string
-          example: SUB-001
+          example: SUB-000001
         status:
           type: string
           enum:

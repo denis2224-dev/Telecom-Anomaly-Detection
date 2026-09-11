@@ -210,21 +210,25 @@ as `impactedSubscribers` or `lostGB` do not belong in raw measurements.
 
 ## Compatibility and enforcement
 
-The schemas use JSON Schema Draft 2020-12. `schemaVersion: 1.0` is the event contract
+The schemas use JSON Schema Draft 2020-12. `schemaVersion: "1.0"` is the event contract
 version, while the topic suffix `v1` is its major version. Because the schemas reject
 unknown fields, even a new optional field needs a coordinated contract update.
 Breaking changes require a new major version and topic migration.
 
 The [event.schema.json](../../contracts/events/v1/event.schema.json) validates
-the full record and selects one of the six payload schemas. Type-specific files
+the full record and selects one of the five payload schemas. Type-specific files
 validate payload objects only. NETWORK requires `linkId` for link records and
 rejects it for node records.
 
 The `https://example.invalid/telecom/events/v1/` IDs identify schemas but are not
-real endpoints. Register all seven local schemas so references resolve offline.
+real endpoints. Register all six local EventV1 schemas so references resolve offline.
 Schema validation covers structure, ranges and formats. The producer and integration
 tests must check global ID uniqueness, ordering, valid ISO code membership,
 cross-field equality, historical consistency and synthetic-data sources.
+
+Incident evidence uses the same unmodified EventV1 records. The OpenAPI envelope
+outline is checked against these canonical fields, and nested evidence is validated
+with this full schema. See the [shared integration decisions](shared-contract-integration.md).
 
 ## References
 

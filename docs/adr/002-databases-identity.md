@@ -181,9 +181,11 @@ under `contracts/fixtures/`; they are not API definitions.
 
 Day-one proposed details requiring review include the public assignee projection,
 bounded audit projection, exact field-error structure and request length limits.
-Typed reason codes/EventV1 payloads and all valid scenario values remain jointly
-reviewed with their producer owners. A permissive evidence payload schema in this
-API draft is not a substitute for EventV1 validation at ingestion.
+Typed reason codes and simulator request bounds remain jointly reviewed with their
+producer owners. EventV1 evidence follows the canonical
+[producer schema](../../contracts/events/v1/event.schema.json), including its five
+payload types. The OpenAPI 3.0 envelope outline is not a substitute for full
+producer-schema validation. See the [integration decisions](../streaming/shared-contract-integration.md).
 
 ## Implementation and handoff
 
