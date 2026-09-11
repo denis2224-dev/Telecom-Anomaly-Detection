@@ -136,6 +136,46 @@ Future features: sms_count, failed_sms_count, outbound international_sms_ratio.
 Use outbound messages and the synthetic subscriber's home country for that ratio,
 with the same country/direction interpretation as CALL.
 
+## DATA payload
+
+Schema: [data-v1.schema.json](../../contracts/events/v1/data-v1.schema.json).
+One completed session record; no periodic updates or cumulative lifetime counters.
+Sessions stay on one node in this MVP. Handovers require a later contract decision.
+
+| Field | Type | Required? | Unit / format | Meaning |
+| --- | --- | --- | --- | --- |
+| sessionId | string | Yes | Synthetic `SESSION-...`, max 64 | Business identity of the session. |
+| networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Node serving the session. |
+| bytesUploaded | integer | Yes | Bytes, >= 0 | Successfully transferred user data from subscriber to network. |
+| bytesDownloaded | integer | Yes | Bytes, >= 0 | Successfully transferred user data from network to subscriber. |
+| durationSeconds | integer | Yes | Seconds, >= 0 | Elapsed session duration rounded down; zero is allowed for subsecond sessions. |
+
+The byte counters exclude retransmission duplicates and protocol overhead. A
+zero-byte session is permitted. Future volume features can sum uploaded and
+downloaded bytes after eventId deduplication. Session totals do not reveal exactly
+when bytes flowed inside a long session: attributing the full total to the end-time
+window is a documented approximation, not precise per-minute network throughput.
+NETWORK window counters are the primary input for link traffic comparisons. Never
+sum DATA and NETWORK volumes together: they can observe the same traffic.
+
+## AUTH payload
+
+Schema: [auth-v1.schema.json](../../contracts/events/v1/auth-v1.schema.json).
+One authentication result for an identified synthetic subscriber. Unknown-account
+attempts are outside this initial boundary; never manufacture a shared subscriber
+ID for all unknown accounts.
+
+| Field | Type | Required? | Unit / format | Meaning |
+| --- | --- | --- | --- | --- |
+| authenticationId | string | Yes | Synthetic `AUTH-...`, max 64 | Business identity of one attempt; retries that are new attempts get new IDs. |
+| success | boolean | Yes | true / false | Authentication result. |
+| country | string | Yes | ISO 3166-1 alpha-2 | Country of the synthetic serving network at attempt time. |
+| deviceId | string | Yes | Synthetic `DEVICE-...`, max 64 | Stable synthetic device identity; no real IMEI or credentials. |
+| networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Node handling the attempt. |
+
+Future features: failed_auth_count, authentication countries_seen and device
+changes per subscriber. Compare by occurredAt, allowing for late delivery.
+
 ## Compatibility and enforcement
 
 The schema dialect is JSON Schema Draft 2020-12; schemaVersion `1.0` is our event

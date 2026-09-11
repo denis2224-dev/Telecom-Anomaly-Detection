@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/telecom/events/v1/data-v1.schema.json",
+  "title": "DATA payload v1.0",
+  "description": "One completed synthetic mobile data session; counters are session totals, not lifetime counters.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sessionId", "networkNodeId", "bytesUploaded", "bytesDownloaded", "durationSeconds"],
+  "properties": {
+    "sessionId": {"type": "string", "pattern": "^SESSION-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic session business identity; one final record per session."},
+    "networkNodeId": {"type": "string", "pattern": "^NODE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic node serving the whole session in the MVP; handovers are not modeled."},
+    "bytesUploaded": {"type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "Successfully transferred user-data bytes from subscriber to network over this session."},
+    "bytesDownloaded": {"type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "Successfully transferred user-data bytes from network to subscriber over this session."},
+    "durationSeconds": {"type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "Session elapsed time rounded down to whole seconds; zero-byte and subsecond sessions are allowed."}
+  }
+}
