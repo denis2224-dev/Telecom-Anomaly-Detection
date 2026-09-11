@@ -10,9 +10,6 @@ UUIDs are fixed test values; generated events still need unique UUIDs.
 | [normal-sms.json](normal-sms.json) | Delivered domestic message; demonstrates millisecond event time. | SUBSCRIBER:SUB-000001 |
 | [normal-data.json](normal-data.json) | Completed session with separate integer upload/download counters. | SUBSCRIBER:SUB-000001 |
 | [normal-auth.json](normal-auth.json) | Successful network authentication with a synthetic device. | SUBSCRIBER:SUB-000001 |
-| [normal-billing.json](normal-billing.json) | Normal control charge, distinct transactionRef from the repeated pair. | SUBSCRIBER:SUB-000001 |
-| [billing-charge-first.json](billing-charge-first.json) | First charge for TXN-000002. | SUBSCRIBER:SUB-000001 |
-| [billing-charge-repeat.json](billing-charge-repeat.json) | Second charge with a different eventId but the same business details. | SUBSCRIBER:SUB-000001 |
 | [normal-network.json](normal-network.json) | Healthy link window [08:15:00Z, 08:16:00Z), 600,000,000 bytes and 80 Mbps. | NETWORK_LINK:LINK-CHI-001 |
 | [network-link-cut.json](network-link-cut.json) | Full outage window [08:17:00Z, 08:18:00Z), with no traffic or probe responses. | NETWORK_LINK:LINK-CHI-001 |
 
@@ -25,6 +22,5 @@ of the JSON events. `scenarioRunId` may be shared by control and injected events
 but M3 must exclude it from features, rules and risk scores.
 
 Replaying a fixture with the same `eventId` represents re-delivery. A new run must
-use new event and business IDs, except for the repeated `transactionRef` in the
-billing scenario. A future replay tool must order the files by event time rather
-than filename.
+use new event and business IDs. A future replay tool must order the files by event
+time rather than filename.

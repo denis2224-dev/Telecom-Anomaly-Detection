@@ -19,12 +19,12 @@ Conceptual flow:
 Synthetic simulator -> Kafka -> Processing -> Detection -> Impact -> Dashboard
 ```
 
-CALL, SMS, DATA and NETWORK are the main telecom domains. AUTH and BILLING cover
-login activity and duplicate charges. All records and identifiers are synthetic.
+CALL, SMS, DATA and NETWORK are the main telecom domains. AUTH remains in the
+existing contract. All records and identifiers are synthetic.
 
 ## Day 01 deliverable
 
-Day 01 defines EventV1, six payloads, entity keys, UTC timestamps, units, examples
+Day 01 defines EventV1, five payloads, entity keys, UTC timestamps, units, examples
 and three scenarios. It also records questions for M2/M3/M5. The generator, Kafka
 clients, database, detection, ML and frontend are planned for later work.
 

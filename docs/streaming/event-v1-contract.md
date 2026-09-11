@@ -6,11 +6,11 @@ Status: **draft waiting for team review**.
 ## Event boundaries
 
 One record represents a completed CALL attempt, final SMS delivery result,
-completed DATA session, AUTH attempt, posted BILLING charge or NETWORK measurement
-window. Failed service attempts also produce records. Start events are not emitted,
-so the same operation is not counted twice.
+completed DATA session, AUTH attempt or NETWORK measurement window. Failed service
+attempts also produce records. Start events are not emitted, so the same operation
+is not counted twice.
 
-CALL, SMS, DATA, AUTH and BILLING use the synthetic subscriber as their key.
+CALL, SMS, DATA and AUTH use the synthetic subscriber as their key.
 NETWORK uses the measured node or link. One NETWORK record holds an aggregate
 measurement for one entity and window. Re-delivery keeps the same `eventId`.
 
@@ -23,7 +23,7 @@ fields to catch typos and accidental detection labels.
 | --- | --- | --- | --- | --- |
 | eventId | string | Yes | Lowercase UUID v4 | Technical ID used for deduplication. Keep it on retry; use a new ID for a new event. |
 | schemaVersion | string | Yes | `1.0` | Version of the envelope and payload contract. |
-| eventType | string | Yes | CALL, SMS, DATA, AUTH, BILLING, NETWORK | Selects the payload schema. |
+| eventType | string | Yes | CALL, SMS, DATA, AUTH, NETWORK | Selects the payload schema. |
 | occurredAt | string | Yes | ISO-8601 UTC, uppercase T and Z; seconds or 1-3 fractional digits | Event time, not Kafka ingestion/processing time. Example: `2026-09-11T08:15:30Z`. |
 | entityType | string | Yes | SUBSCRIBER, NETWORK_NODE, NETWORK_LINK | Type of entity used for the Kafka key. |
 | entityId | string | Yes | Synthetic ID, up to 64 ASCII characters | Stable ID within `entityType`. |
@@ -48,7 +48,7 @@ object, without arrays, double encoding or Java-specific wrappers.
 
 | Event types | entityType | entityId pattern | Example key |
 | --- | --- | --- | --- |
-| CALL, SMS, DATA, AUTH, BILLING | SUBSCRIBER | `SUB-` plus 6-12 digits | `SUBSCRIBER:SUB-000001` |
+| CALL, SMS, DATA, AUTH | SUBSCRIBER | `SUB-` plus 6-12 digits | `SUBSCRIBER:SUB-000001` |
 | NETWORK, node measurement | NETWORK_NODE | `NODE-` plus uppercase alphanumeric segments separated by hyphens | `NETWORK_NODE:NODE-CHI-001` |
 | NETWORK, link measurement | NETWORK_LINK | `LINK-` plus uppercase alphanumeric segments separated by hyphens | `NETWORK_LINK:LINK-CHI-001` |
 
@@ -66,7 +66,7 @@ order. M5 must coordinate partition-count changes because keys may move.
 up to three fractional digits. Validators must also check that the date is real.
 
 CALL: attempt end. SMS: final delivery/failure result. DATA: session end. AUTH:
-attempt result. BILLING: charge posting time. NETWORK: exclusive window end;
+attempt result. NETWORK: exclusive window end;
 its window is `[occurredAt - sampleWindowSeconds, occurredAt)`.
 
 Downstream windows use event time. Hour, day and week are first derived in UTC.
@@ -77,14 +77,12 @@ time of day. Thresholds and window calculations are not part of Day 01.
 | Measurement | Raw representation | Convention |
 | --- | --- | --- |
 | Durations | Nonnegative integer seconds | NETWORK sample windows must be positive. |
-| Money | Nonnegative integer minor units | Charges only; MDL 12345 = 123.45 MDL. No floating point money. |
 | Data volume | Nonnegative integer bytes | Decimal GB = bytes / 1,000,000,000; GiB is a different unit. |
 | Latency | Nonnegative number in milliseconds, or null | Null means no successful probe; zero is a real measurement. |
 | Throughput | Nonnegative number in Mbps | Decimal megabits/second: 1 Mbps = 1,000,000 bits/second. |
 | Packet loss | Number from 0 through 1 | 0.10 means 10%; not the number 10. |
 | Counts | Nonnegative integers | Subscriber association counts, not derived impacted-customer labels. |
 | Countries | Uppercase ISO 3166-1 alpha-2 | Schema checks two-letter shape; the producer must use assigned codes. |
-| Currency | MDL for this MVP | ISO 4217 code; two minor-unit digits. Other currencies require a reviewed extension. |
 
 Integer measurements stop at 9,007,199,254,740,991 (2^53 - 1), which JavaScript
 can represent exactly. Producers should write integer fields as integer JSON tokens.
@@ -164,23 +162,6 @@ are outside v1.0; do not group them under a fake shared subscriber ID.
 
 Planned features are `failed_auth_count`, `countries_seen` during authentication
 and device changes per subscriber. Use `occurredAt` and allow for late records.
-
-## BILLING payload
-
-Schema: [billing-v1.schema.json](../../contracts/events/v1/billing-v1.schema.json).
-Emit one posted charge. Authorization, cancellation, refunds and balances are
-outside v1.0. The MVP supports MDL only.
-
-| Field | Type | Required? | Unit / format | Meaning |
-| --- | --- | --- | --- | --- |
-| transactionRef | string | Yes | Synthetic `TXN-...`, max 64 | Business transaction identity scoped to the subscriber; may appear in distinct raw charge events. |
-| amountMinor | integer | Yes | MDL minor units, >= 0 | Posted amount, e.g. 12345 = 123.45 MDL; zero charges are allowed. |
-| currency | string | Yes | Exactly MDL | ISO 4217 code; 100 minor units per MDL. |
-
-The same `eventId` appearing twice is a delivery duplicate and can be deduplicated.
-A possible duplicate charge has different event IDs but the same subscriber,
-`transactionRef`, `amountMinor` and `currency`. Keep both raw records for detection.
-The schema therefore allows repeated `transactionRef` values.
 
 ## NETWORK payload
 

@@ -24,20 +24,19 @@ On Linux/macOS, use `.venv/bin/python` for the last two commands.
 ## What is checked
 
 - All JSON files parse. The loader rejects duplicate fields, NaN and Infinity.
-- All seven schemas pass `Draft202012Validator.check_schema`.
-- Nine EventV1 examples validate and cover all six event types.
+- All six schemas pass `Draft202012Validator.check_schema`.
+- Six EventV1 examples validate and cover all five event types.
 - Required fields, type dispatch, supported versions and entity kinds are enforced.
 - Identifiers reject whitespace, including trailing newlines that would change
   Kafka keys or joins.
 - Timestamps accept UTC `Z` with up to millisecond precision. Tests reject offsets,
   missing zones, invalid dates and extra precision.
-- Integer byte/money/duration/count fields reject fractions, negatives, strings,
+- Integer byte/duration/count fields reject fractions, negatives, strings,
   booleans and values outside the documented exact JSON integer range.
 - Network ranges, service enums and failed-call rules are checked.
 - Unknown fields and anomaly labels are rejected in both envelope and payload.
 - Node/link payload boundaries and optional trace metadata behave as documented.
-- Fixture event IDs are distinct. The billing pair shares a business identity and
-  the control uses another `transactionRef`.
+- Fixture event IDs are distinct.
 - Network fixtures have matching entity IDs, consistent byte/rate values and null
   latency when all probes fail. These checks run on fixtures, not runtime events.
 - Local documentation links resolve and every schema field has a description and

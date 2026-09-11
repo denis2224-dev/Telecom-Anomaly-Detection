@@ -16,11 +16,10 @@ Review the [field definitions and units](event-v1-contract.md),
 | SMS | Final logical message delivery result | Counts, deliveryStatus, OUTBOUND destinationCountry. |
 | DATA | Completed session | Integer bytesUploaded/bytesDownloaded, durationSeconds; session totals are not exact window throughput. |
 | AUTH | Authentication attempt result | success, country, deviceId per subscriber. |
-| BILLING | Posted charge | Distinct eventId with same subscriber + transactionRef + amountMinor + currency. |
 | NETWORK | Measurement window ending at occurredAt | status, packetLossRatio, nullable latencyMs, throughputMbps, bytesTransferred, association count, node/link and region. |
 
 Deduplicate by `eventId` before aggregation and use `occurredAt` for time windows.
-The contract defines seconds, bytes, MDL minor units, milliseconds, decimal Mbps
+The contract defines seconds, bytes, milliseconds, decimal Mbps
 and ratios from 0 to 1. `activeSubscriberCount` is exposure, not confirmed unique
 impact. Traffic-loss estimates need a baseline and consistent network boundary.
 
@@ -46,19 +45,17 @@ Subscriber records use `entityId` instead of repeating `subscriberId`. NETWORK
 requires `entityId` to match the payload's `networkNodeId` or `linkId`; application
 validation will check that equality.
 
-`eventId` handles delivery deduplication. Billing duplicates use subscriber,
-`transactionRef`, `amountMinor` and `currency` across different event IDs. Ingestion
-must keep both charges. Kafka offsets are separate from event, entity and incident
-IDs. Day 01 does not define incidents or backend code.
+`eventId` handles delivery deduplication. Kafka offsets are separate from event,
+entity and incident IDs. Day 01 does not define incidents or backend code.
 
 **Ready-to-send message:**
 
-> Please review the EventV1 IDs on feature/event-v1-contract. eventId is a technical UUID kept on re-delivery, scenarioRunId only traces simulator runs, and entityType/entityId select the subscriber or network element. Keep charges with different eventIds when subscriber, transactionRef, amountMinor and currency match. See docs/streaming/event-v1-contract.md and the billing example pair.
+> Please review the EventV1 IDs on feature/event-v1-contract. eventId is a technical UUID kept on re-delivery, scenarioRunId only traces simulator runs, and entityType/entityId select the subscriber or network element. See docs/streaming/event-v1-contract.md.
 
 ## Decisions requiring team review
 
 The repository had no existing naming rules. This draft proposes terminal service
-events, `SUB-` plus 6-12 digits, MDL-only charges, outbound international ratios
+events, `SUB-` plus 6-12 digits, outbound international ratios
 based on a planned home-country profile, nullable probe latency and subscriber
 associations retained during an outage. The team still needs to approve these.
 

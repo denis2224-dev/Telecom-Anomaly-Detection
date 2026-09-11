@@ -14,7 +14,7 @@ from referencing import Registry, Resource
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACTS = ROOT / "contracts" / "events" / "v1"
-EVENT_TYPES = {"CALL", "SMS", "DATA", "AUTH", "BILLING", "NETWORK"}
+EVENT_TYPES = {"CALL", "SMS", "DATA", "AUTH", "NETWORK"}
 FORMAT_CHECKER = FormatChecker()
 
 
@@ -87,7 +87,7 @@ class EventContractTests(unittest.TestCase):
                 read_json(path)
         expected = {f"{name.lower()}-v1.schema.json" for name in EVENT_TYPES}
         self.assertEqual(set(self.schemas), expected | {"event-v1.schema.json"})
-        self.assertEqual(len({s["$id"] for s in self.schemas.values()}), 7)
+        self.assertEqual(len({s["$id"] for s in self.schemas.values()}), 6)
         for name, schema in self.schemas.items():
             with self.subTest(schema=name):
                 Draft202012Validator.check_schema(schema)
@@ -100,18 +100,9 @@ class EventContractTests(unittest.TestCase):
             with self.subTest(example=name):
                 self.assert_valid(event)
 
-    def test_event_ids_are_distinct_and_billing_pair_keeps_business_identity(self):
+    def test_event_ids_are_distinct(self):
         ids = [event["eventId"] for event in self.examples.values()]
         self.assertEqual(len(ids), len(set(ids)))
-        first = self.examples["billing-charge-first.json"]
-        repeat = self.examples["billing-charge-repeat.json"]
-        control = self.examples["normal-billing.json"]
-        self.assertNotEqual(first["eventId"], repeat["eventId"])
-        self.assertEqual(first["entityId"], repeat["entityId"])
-        self.assertEqual(first["payload"], repeat["payload"])
-        self.assertNotEqual(control["payload"]["transactionRef"], first["payload"]["transactionRef"])
-        self.assertEqual(control["payload"]["amountMinor"], first["payload"]["amountMinor"])
-        self.assert_valid(copy.deepcopy(first))
 
     def test_required_fields_and_type_dispatch_reject_incomplete_records(self):
         for name, original in self.examples.items():
@@ -175,7 +166,7 @@ class EventContractTests(unittest.TestCase):
             fields = [(None, "entityId")]
             fields.extend(
                 ("payload", field) for field in original["payload"]
-                if field.endswith("Id") or field in {"transactionRef", "region"}
+                if field.endswith("Id") or field == "region"
             )
             for parent, field in fields:
                 for suffix in ["\n", "\r\n", " ", "\t"]:
@@ -189,7 +180,6 @@ class EventContractTests(unittest.TestCase):
         fields = {
             "normal-call.json": ["durationSeconds"],
             "normal-data.json": ["durationSeconds", "bytesUploaded", "bytesDownloaded"],
-            "normal-billing.json": ["amountMinor"],
             "normal-network.json": ["sampleWindowSeconds", "bytesTransferred", "activeSubscriberCount"],
         }
         for name, names in fields.items():
@@ -218,7 +208,6 @@ class EventContractTests(unittest.TestCase):
             ("normal-sms.json", "deliveryStatus", "PENDING"),
             ("normal-auth.json", "success", "true"),
             ("normal-auth.json", "country", "MDA"),
-            ("normal-billing.json", "currency", "USD"),
             ("normal-network.json", "status", "ANOMALOUS"),
         ]
         for name, field, value in cases:

@@ -13,5 +13,5 @@
 - Maintain schemas, examples, units, run/validation instructions and handoffs.
 - Keep scenario labels out of raw events. `scenarioRunId` is only for tracing a
   simulator run and must not affect features, rules or risk scores.
-- EventV1 uses JSON, UTC timestamps ending in `Z`, integer bytes, money in integer
-  minor units, topic `telecom.events.v1` and key `entityType:entityId`.
+- EventV1 uses JSON, UTC timestamps ending in `Z`, integer bytes, topic
+  `telecom.events.v1` and key `entityType:entityId`.

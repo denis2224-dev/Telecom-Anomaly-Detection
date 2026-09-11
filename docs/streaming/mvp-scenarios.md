@@ -11,8 +11,8 @@ not change the injected sequence. The values below describe simulator input, not
 detection thresholds.
 
 The same setup must reproduce relative times, entities and measurements. Each new
-run gets new event, run and business IDs. The duplicate billing pair intentionally
-reuses its `transactionRef`. Re-delivery keeps the original event data and `eventId`.
+run gets new event, run and business IDs. Re-delivery keeps the original event data
+and `eventId`.
 
 Normal controls run before, during and after injection. If `scenarioRunId` is used,
 both control and injected events receive it. Scenario names stay out of Kafka data,
@@ -88,26 +88,24 @@ The healthy snapshot is only a demo reference. Historical generation still needs
 hour, day/night and week-to-week patterns. Measurements show an outage, but they
 cannot identify a physical cable cut without more evidence.
 
-## 3. Duplicate billing
+## 3. Mobile data traffic drop / abnormal data usage
 
-**Target:** SUBSCRIBER:SUB-000001. One intentionally repeated business charge.
+**Target:** NETWORK_LINK:LINK-CHI-001 and the synthetic subscribers whose DATA
+sessions use NODE-CHI-001.
 
-| occurredAt (UTC, 11 September 2026) | Fixture | transactionRef | amountMinor | currency |
-| --- | --- | --- | --- | --- |
-| 08:15:33Z | normal-billing.json | TXN-000001 | 12345 | MDL |
-| 08:15:34Z | billing-charge-first.json | TXN-000002 | 12345 | MDL |
-| 08:15:36Z | billing-charge-repeat.json | TXN-000002 | 12345 | MDL |
+During the normal period, the link and its subscribers transfer a stable volume of
+mobile data in comparable time windows. During the abnormal period, raw DATA
+session bytes and/or NETWORK `bytesTransferred` fall sharply. Control entities keep
+their usual traffic pattern.
 
-**Raw events:** three valid BILLING records with distinct `eventId` values. The last
-two share subscriber, `transactionRef`, `amountMinor` and `currency`. The control
-uses another `transactionRef`, so a matching amount alone is not a duplicate.
+**Raw events:** EventV1 DATA session records and/or NETWORK measurement windows.
+They contain only observed byte counts, timing and network measurements. Derived
+loss estimates and detection results do not belong in raw events.
 
-**Planned detection input:** after deduplicating by `eventId`, M3 may group charges
-by subscriber, `transactionRef`, `amountMinor` and `currency`. Re-delivery of the
-same `eventId` is not another charge. A reference reused by another subscriber is
-also a different business identity. Detection windows and incidents are not part
-of Day 01.
+**Planned comparison:** later processing can compare current traffic volume with a
+historical baseline, the previous week and the same hour and weekday. It may then
+estimate the byte difference and convert it to decimal GB. The baseline and this
+calculation are not implemented in Day 01.
 
-All three examples are listed in the
-[fixture index](../../contracts/events/v1/examples/README.md). Scenario metadata
-is shared across control and injected events and cannot be a detection shortcut.
+Scenario metadata is shared across control and injected events and cannot be a
+detection shortcut.

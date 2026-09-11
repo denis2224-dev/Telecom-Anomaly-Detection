@@ -10,19 +10,19 @@ and producer/consumer code are planned for later work.
 | Record value | One UTF-8 JSON EventV1 object |
 | Expected producer | `event-generator`, owned by Streaming & Simulator |
 | Event-time field | `occurredAt`, UTC ISO-8601 with Z |
-| Payload selection | `eventType`: CALL, SMS, DATA, AUTH, BILLING, NETWORK |
+| Payload selection | `eventType`: CALL, SMS, DATA, AUTH, NETWORK |
 | Contract version | `schemaVersion`: `1.0` |
 | Day 03 connection | `KAFKA_BOOTSTRAP_SERVERS` configures `spring.kafka.bootstrap-servers` |
 
 ## Topic and key choice
 
-The MVP uses one topic because all six types share the EventV1 envelope. Consumers
+The MVP uses one topic because all five types share the EventV1 envelope. Consumers
 can route records by `eventType`. Add topics later only if retention, ownership or
 consumer needs differ. Day 01 uses JSON without Schema Registry.
 
 | Records | Key example | Reason |
 | --- | --- | --- |
-| Subscriber activity across all five service types | `SUBSCRIBER:SUB-000001` | Keeps one subscriber's records together. |
+| Subscriber activity across all four subscriber event types | `SUBSCRIBER:SUB-000001` | Keeps one subscriber's records together. |
 | A node measurement | `NETWORK_NODE:NODE-CHI-001` | Groups node observations over time. |
 | A link measurement | `NETWORK_LINK:LINK-CHI-001` | Groups that link's outage and recovery observations. |
 

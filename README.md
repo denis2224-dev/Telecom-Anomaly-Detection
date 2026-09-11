@@ -24,6 +24,10 @@ the first EventV1 contract draft. There is no running application yet.
 
 Streaming & Simulator owner: **Zavtoni Ion**.
 
+The main telecom domains are call records, SMS events, mobile data sessions and
+network metrics. EventV1 currently allows `CALL`, `SMS`, `DATA`, `AUTH` and
+`NETWORK` events.
+
 - [Component scope and responsibilities](docs/streaming/simulator-scope.md)
 - [EventV1 contract and all field meanings](docs/streaming/event-v1-contract.md)
 - [Complete EventV1 JSON Schema](contracts/events/v1/event-v1.schema.json)
