@@ -95,6 +95,47 @@ JSON interoperability with future JavaScript consumers. Emit integer tokens for
 integer fields. JSON Schema treats mathematically integral numbers as integers;
 it does not enforce the spelling of a numeric token.
 
+## CALL payload
+
+Schema: [call-v1.schema.json](../../contracts/events/v1/call-v1.schema.json).
+One record per call attempt, emitted at its end, including attempts that fail.
+
+| Field | Type | Required? | Unit / format | Meaning |
+| --- | --- | --- | --- | --- |
+| callId | string | Yes | `CALL-` plus uppercase alphanumeric/hyphen segments, max 64 | Synthetic business identity of the call, not eventId. |
+| direction | string | Yes | INBOUND or OUTBOUND | Relative to the subscriber in entityId. |
+| destinationCountry | string | Yes | ISO 3166-1 alpha-2 | Called endpoint's country for both directions; not necessarily the other party's country for INBOUND. |
+| durationSeconds | integer | Yes | Seconds, >= 0 | Connected talk duration rounded down; FAILED requires 0, short connected calls may also round to 0. |
+| outcome | string | Yes | COMPLETED, DROPPED, FAILED | Normal hang-up, unexpected disconnect after connection, or failure to connect. |
+| roaming | boolean | Yes | true / false | Subscriber is on a visited network; does not imply an international call. |
+| networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Serving node at attempt end. |
+| towerId | string | No | Synthetic `TOWER-...`, max 64 | Serving tower at attempt end; omit if unavailable. |
+
+Future features: calls_count (all deduplicated attempts), average_call_duration
+(COMPLETED/DROPPED only), dropped_call_ratio (DROPPED / all attempts), and outbound
+international_call_ratio (outbound destinations different from the subscriber's
+home country / outbound attempts). Home country comes from a later synthetic
+subscriber profile; the MVP fixtures assume MD. countries_seen uses outbound
+destinations, not an inbound caller location that this draft does not capture.
+Define empty-denominator behavior downstream; no feature calculations exist today.
+
+## SMS payload
+
+Schema: [sms-v1.schema.json](../../contracts/events/v1/sms-v1.schema.json).
+One record per logical message's final result, not per segment or delivery retry.
+
+| Field | Type | Required? | Unit / format | Meaning |
+| --- | --- | --- | --- | --- |
+| messageId | string | Yes | Synthetic `SMS-...`, max 64 | Identity of the logical message. |
+| direction | string | Yes | INBOUND or OUTBOUND | Relative to the subscriber in entityId. |
+| destinationCountry | string | Yes | ISO 3166-1 alpha-2 | Receiving endpoint's country. |
+| deliveryStatus | string | Yes | DELIVERED or FAILED | Terminal delivery result. |
+| networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Serving node at terminal result time. |
+
+Future features: sms_count, failed_sms_count, outbound international_sms_ratio.
+Use outbound messages and the synthetic subscriber's home country for that ratio,
+with the same country/direction interpretation as CALL.
+
 ## Compatibility and enforcement
 
 The schema dialect is JSON Schema Draft 2020-12; schemaVersion `1.0` is our event

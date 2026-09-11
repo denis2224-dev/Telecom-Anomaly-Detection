@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/telecom/events/v1/call-v1.schema.json",
+  "title": "CALL payload v1.0",
+  "description": "One synthetic call attempt reported at its end, including failed attempts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["callId", "direction", "destinationCountry", "durationSeconds", "outcome", "roaming", "networkNodeId"],
+  "properties": {
+    "callId": {"type": "string", "pattern": "^CALL-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic call business identity; distinct from the technical eventId."},
+    "direction": {"type": "string", "enum": ["INBOUND", "OUTBOUND"], "description": "Direction relative to the envelope subscriber."},
+    "destinationCountry": {"type": "string", "pattern": "^[A-Z]{2}$", "minLength": 2, "maxLength": 2, "description": "ISO 3166-1 alpha-2 country of the called endpoint; not inferred from a phone number."},
+    "durationSeconds": {"type": "integer", "minimum": 0, "maximum": 9007199254740991, "description": "Connected talk time in whole seconds; FAILED has zero talk time."},
+    "outcome": {"type": "string", "enum": ["COMPLETED", "DROPPED", "FAILED"], "description": "Normal completion, unexpected disconnect after connection, or failure to connect."},
+    "roaming": {"type": "boolean", "description": "Whether the subscriber uses a visited network; independent of destination country."},
+    "networkNodeId": {"type": "string", "pattern": "^NODE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic serving node at the end of the attempt."},
+    "towerId": {"type": "string", "pattern": "^TOWER-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Optional synthetic serving tower at the end of the attempt."}
+  },
+  "if": {"properties": {"outcome": {"const": "FAILED"}}},
+  "then": {"properties": {"durationSeconds": {"const": 0}}}
+}
