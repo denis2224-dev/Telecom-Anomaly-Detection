@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.invalid/telecom/events/v1/network-v1.schema.json",
+  "$id": "https://example.invalid/telecom/events/v1/network.schema.json",
   "title": "NETWORK payload v1.0",
   "description": "One node or link measurement. occurredAt is the window end.",
   "type": "object",

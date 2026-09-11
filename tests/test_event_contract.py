@@ -64,7 +64,7 @@ class EventContractTests(unittest.TestCase):
             for schema in cls.schemas.values()
         )
         cls.validator = Draft202012Validator(
-            cls.schemas["event-v1.schema.json"],
+            cls.schemas["event.schema.json"],
             registry=registry,
             format_checker=FORMAT_CHECKER,
         )
@@ -85,8 +85,8 @@ class EventContractTests(unittest.TestCase):
                 continue
             with self.subTest(path=path.relative_to(ROOT)):
                 read_json(path)
-        expected = {f"{name.lower()}-v1.schema.json" for name in EVENT_TYPES}
-        self.assertEqual(set(self.schemas), expected | {"event-v1.schema.json"})
+        expected = {f"{name.lower()}.schema.json" for name in EVENT_TYPES}
+        self.assertEqual(set(self.schemas), expected | {"event.schema.json"})
         self.assertEqual(len({s["$id"] for s in self.schemas.values()}), 6)
         for name, schema in self.schemas.items():
             with self.subTest(schema=name):
@@ -106,9 +106,9 @@ class EventContractTests(unittest.TestCase):
 
     def test_required_fields_and_type_dispatch_reject_incomplete_records(self):
         for name, original in self.examples.items():
-            payload_schema = self.schemas[f"{original['eventType'].lower()}-v1.schema.json"]
+            payload_schema = self.schemas[f"{original['eventType'].lower()}.schema.json"]
             groups = [
-                ((), self.schemas["event-v1.schema.json"]["required"]),
+                ((), self.schemas["event.schema.json"]["required"]),
                 (("payload",), payload_schema["required"]),
             ]
             for parent, fields in groups:

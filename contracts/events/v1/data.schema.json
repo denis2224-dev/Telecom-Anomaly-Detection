@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.invalid/telecom/events/v1/data-v1.schema.json",
+  "$id": "https://example.invalid/telecom/events/v1/data.schema.json",
   "title": "DATA payload v1.0",
   "description": "One completed synthetic mobile data session.",
   "type": "object",

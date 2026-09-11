@@ -30,11 +30,10 @@ network metrics. EventV1 currently allows `CALL`, `SMS`, `DATA`, `AUTH` and
 
 - [Component scope and responsibilities](docs/streaming/simulator-scope.md)
 - [EventV1 contract and all field meanings](docs/streaming/event-v1-contract.md)
-- [Complete EventV1 JSON Schema](contracts/events/v1/event-v1.schema.json)
+- [Complete EventV1 JSON Schema](contracts/events/v1/event.schema.json)
 - [Normal and abnormal event examples](contracts/events/v1/examples/README.md)
 - [Three MVP scenario specifications](docs/streaming/mvp-scenarios.md)
 - [Kafka topic, key and configuration requirements](docs/streaming/kafka-contract.md)
-- [Day 01 handoff for M2, M3 and M5](docs/streaming/day01-handoff.md)
 - [How to validate schemas and examples](docs/streaming/validation.md)
 
 With Python and the development dependencies installed, run:

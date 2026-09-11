@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.invalid/telecom/events/v1/auth-v1.schema.json",
+  "$id": "https://example.invalid/telecom/events/v1/auth.schema.json",
   "title": "AUTH payload v1.0",
   "description": "One synthetic network authentication attempt. Credentials are not included.",
   "type": "object",

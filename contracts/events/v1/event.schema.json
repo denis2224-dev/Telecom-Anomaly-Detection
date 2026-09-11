@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.invalid/telecom/events/v1/event-v1.schema.json",
+  "$id": "https://example.invalid/telecom/events/v1/event.schema.json",
   "title": "Synthetic telecom EventV1, version 1.0",
   "description": "Kafka value for telecom.events.v1. Key: entityType:entityId.",
   "type": "object",
@@ -29,12 +29,12 @@
     }
   ],
   "oneOf": [
-    {"properties": {"eventType": {"const": "CALL"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "call-v1.schema.json"}}},
-    {"properties": {"eventType": {"const": "SMS"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "sms-v1.schema.json"}}},
-    {"properties": {"eventType": {"const": "DATA"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "data-v1.schema.json"}}},
-    {"properties": {"eventType": {"const": "AUTH"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "auth-v1.schema.json"}}},
+    {"properties": {"eventType": {"const": "CALL"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "call.schema.json"}}},
+    {"properties": {"eventType": {"const": "SMS"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "sms.schema.json"}}},
+    {"properties": {"eventType": {"const": "DATA"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "data.schema.json"}}},
+    {"properties": {"eventType": {"const": "AUTH"}, "entityType": {"const": "SUBSCRIBER"}, "payload": {"$ref": "auth.schema.json"}}},
     {
-      "properties": {"eventType": {"const": "NETWORK"}, "entityType": {"enum": ["NETWORK_NODE", "NETWORK_LINK"]}, "payload": {"$ref": "network-v1.schema.json"}},
+      "properties": {"eventType": {"const": "NETWORK"}, "entityType": {"enum": ["NETWORK_NODE", "NETWORK_LINK"]}, "payload": {"$ref": "network.schema.json"}},
       "if": {"properties": {"entityType": {"const": "NETWORK_LINK"}}},
       "then": {"properties": {"payload": {"required": ["linkId"]}}},
       "else": {"properties": {"payload": {"not": {"required": ["linkId"]}}}}

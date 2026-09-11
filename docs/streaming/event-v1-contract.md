@@ -89,7 +89,7 @@ can represent exactly. Producers should write integer fields as integer JSON tok
 
 ## CALL payload
 
-Schema: [call-v1.schema.json](../../contracts/events/v1/call-v1.schema.json).
+Schema: [call.schema.json](../../contracts/events/v1/call.schema.json).
 Emit one record when each call attempt ends, including failed attempts.
 
 | Field | Type | Required? | Unit / format | Meaning |
@@ -111,7 +111,7 @@ M3 still needs to define how empty ratios are handled.
 
 ## SMS payload
 
-Schema: [sms-v1.schema.json](../../contracts/events/v1/sms-v1.schema.json).
+Schema: [sms.schema.json](../../contracts/events/v1/sms.schema.json).
 Emit one final result per logical message, not one record per segment or retry.
 
 | Field | Type | Required? | Unit / format | Meaning |
@@ -128,7 +128,7 @@ synthetic home country, like CALL.
 
 ## DATA payload
 
-Schema: [data-v1.schema.json](../../contracts/events/v1/data-v1.schema.json).
+Schema: [data.schema.json](../../contracts/events/v1/data.schema.json).
 Emit one completed session record. The counters cover that session only. The MVP
 keeps a session on one node; handovers need a later contract change.
 
@@ -148,7 +148,7 @@ comparisons. DATA and NETWORK may measure the same traffic and must not be summe
 
 ## AUTH payload
 
-Schema: [auth-v1.schema.json](../../contracts/events/v1/auth-v1.schema.json).
+Schema: [auth.schema.json](../../contracts/events/v1/auth.schema.json).
 Emit one result for an identified synthetic subscriber. Unknown-account attempts
 are outside v1.0; do not group them under a fake shared subscriber ID.
 
@@ -165,7 +165,7 @@ and device changes per subscriber. Use `occurredAt` and allow for late records.
 
 ## NETWORK payload
 
-Schema: [network-v1.schema.json](../../contracts/events/v1/network-v1.schema.json).
+Schema: [network.schema.json](../../contracts/events/v1/network.schema.json).
 One record measures either a node or a link. `status` is sampled at window end.
 
 | Field | Type | Required? | Unit / format | Meaning |
@@ -215,7 +215,7 @@ version, while the topic suffix `v1` is its major version. Because the schemas r
 unknown fields, even a new optional field needs a coordinated contract update.
 Breaking changes require a new major version and topic migration.
 
-The [event-v1.schema.json](../../contracts/events/v1/event-v1.schema.json) validates
+The [event.schema.json](../../contracts/events/v1/event.schema.json) validates
 the full record and selects one of the six payload schemas. Type-specific files
 validate payload objects only. NETWORK requires `linkId` for link records and
 rejects it for node records.

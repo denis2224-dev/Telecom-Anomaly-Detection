@@ -1,7 +1,7 @@
 # EventV1 fixtures
 
 Each file is a complete Kafka value validated with
-[event-v1.schema.json](../event-v1.schema.json). All data is synthetic. The readable
+[event.schema.json](../event.schema.json). All data is synthetic. The readable
 UUIDs are fixed test values; generated events still need unique UUIDs.
 
 | File | Purpose | Kafka key |
