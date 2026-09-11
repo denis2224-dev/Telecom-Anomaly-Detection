@@ -1,2 +1,6 @@
 .DS_Store
 .idea/
+.env
+*.log
+docs/evidence/*/
+!docs/evidence/.gitkeep
