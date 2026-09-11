@@ -1,0 +1,7 @@
+{
+  "id": "81205a34-116c-5d90-ae54-d80e0dee4fb1",
+  "issuer": "http://telecom.test:8080/auth/realms/telecom",
+  "subject": "synthetic-analyst-001",
+  "displayName": "Demo Analyst",
+  "enabled": true
+}

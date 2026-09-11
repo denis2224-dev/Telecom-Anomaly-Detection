@@ -1,0 +1,1622 @@
+openapi: 3.0.3
+info:
+  title: Telecom Incident API
+  version: 0.2.0
+  description: 'Day-one Revision 2 draft: Keycloak OIDC code + PKCE, server sessions, CSRF and incidents_db
+    ownership. Contracts only; endpoints are not implemented. OIDC tokens remain on the backend; the
+    browser receives an opaque session cookie. Nested detector payloads and marked DTO details await
+    producer/frontend review.'
+servers:
+- url: http://telecom.test:8080
+  description: Canonical browser origin through NGINX; incident-service uses internal port 8082.
+security:
+- sessionCookie: []
+tags:
+- name: Authentication
+- name: Incidents
+- name: Analysts
+- name: Dashboard
+- name: Simulator
+paths:
+  /oauth2/authorization/keycloak:
+    get:
+      operationId: startKeycloakLogin
+      summary: Start browser login
+      tags:
+      - Authentication
+      description: Browser navigation, not a JSON password request. Backend creates the authorization
+        request. Client telecom-web; issuer http://telecom.test:8080/auth/realms/telecom. Never accept
+        an arbitrary return URL.
+      responses:
+        '302':
+          description: Redirect to Keycloak authorization with state, nonce and PKCE S256.
+          headers:
+            Location:
+              description: Controlled redirect destination.
+              schema:
+                type: string
+                format: uri-reference
+              example: http://telecom.test:8080/auth/realms/telecom/protocol/openid-connect
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      security: []
+  /login/oauth2/code/keycloak:
+    get:
+      operationId: handleKeycloakCallback
+      summary: Complete OIDC login
+      tags:
+      - Authentication
+      description: Provider-to-backend callback; not an endpoint Angular calls manually. Validate stored
+        state and OIDC identity. Handle provider error callbacks without exposing credentials or tokens.
+        Missing code/state on a success callback is invalid.
+      responses:
+        '302':
+          description: After validated code/state/nonce/issuer and PKCE, rotate the session identifier
+            and navigate to /dashboard.
+          headers:
+            Location:
+              description: Controlled redirect destination.
+              schema:
+                type: string
+                format: uri-reference
+              example: http://telecom.test:8080/dashboard
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - name: code
+        in: query
+        schema:
+          type: string
+      - name: state
+        in: query
+        schema:
+          type: string
+      - name: error
+        in: query
+        schema:
+          type: string
+      security: []
+  /api/auth/me:
+    get:
+      operationId: getCurrentSession
+      summary: Get the current analyst session
+      tags:
+      - Authentication
+      description: Map the verified issuer/subject to the local analyst UUID; roles come from the verified
+        app_roles claim. Do not return OIDC tokens or session identifiers.
+      responses:
+        '200':
+          description: Validated analyst identity and absolute session expiry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentSession'
+              example:
+                analystId: 81205a34-116c-5d90-ae54-d80e0dee4fb1
+                displayName: Demo Analyst
+                roles:
+                - ANALYST
+                expiresAt: '2026-09-11T09:30:00Z'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/auth/csrf:
+    get:
+      operationId: getCsrfToken
+      summary: Get a CSRF token
+      tags:
+      - Authentication
+      description: Public bootstrap route that may establish a pre-login session. Send the token using
+        the returned headerName for JSON mutations or parameterName for form logout.
+      responses:
+        '200':
+          description: CSRF token for the browser session; fetch again after login/logout.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CsrfToken'
+              example:
+                token: synthetic-csrf-example-not-a-real-token
+                headerName: X-CSRF-TOKEN
+                parameterName: _csrf
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      security: []
+  /logout:
+    post:
+      operationId: logoutSession
+      summary: Log out through browser form navigation
+      tags:
+      - Authentication
+      description: Submit a browser form with the returned CSRF parameter; follow redirects as navigation.
+        Refresh CSRF after logout. Not a JSON /api/auth/logout endpoint.
+      responses:
+        '302':
+          description: Invalidate local session/cookie, close its SSE streams, and attempt provider RP-initiated
+            logout. Final destination is the registered /signed-out URL. Provider outage must not retain
+            the local session.
+          headers:
+            Location:
+              description: Controlled redirect destination.
+              schema:
+                type: string
+                format: uri-reference
+              example: http://telecom.test:8080/auth/realms/telecom/protocol/openid-connect/logout
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - _csrf
+              properties:
+                _csrf:
+                  type: string
+                  minLength: 1
+  /api/incidents:
+    get:
+      operationId: listIncidents
+      summary: List and filter incidents
+      tags:
+      - Incidents
+      description: All application roles. page=0, size=20, max=100. Order detectedAt DESC then id DESC.
+        from is inclusive and to exclusive; reject reversed ranges. Static offset pagination does not
+        guarantee a consistent snapshot while live rows arrive. Proposed filter names require David review.
+      responses:
+        '200':
+          description: Matching incidents with pagination metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentPage'
+              example:
+                items:
+                - id: 75d1c5ba-432d-59e5-a577-5d102249b632
+                  detectionId: e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7
+                  anomalyType: ACCOUNT_COMPROMISE
+                  entityType: SUBSCRIBER
+                  entityId: SUB-001
+                  status: OPEN
+                  severity: HIGH
+                  riskScore: 80
+                  uncappedScore: 80
+                  assigneeId: null
+                  resolutionNote: null
+                  windowStart: '2026-09-11T09:00:00Z'
+                  windowEnd: '2026-09-11T09:01:00Z'
+                  detectedAt: '2026-09-11T09:01:06Z'
+                  createdAt: '2026-09-11T09:01:07Z'
+                  updatedAt: '2026-09-11T09:01:07Z'
+                  version: 0
+                  rulesetVersion: rules-v1
+                  featureVersion: 1
+                  modelVersion: null
+                  mlStatus: UNAVAILABLE
+                  scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                  reasons:
+                  - code: HIGH_CALLS
+                    observed: 60
+                    operator: '>'
+                    threshold: 50
+                    unit: calls/min
+                    contribution: 60
+                    message: 60 calls exceeded 50 in one minute.
+                  - code: INTERNATIONAL_RATIO
+                    observed: 0.9
+                    operator: '>'
+                    threshold: 0.8
+                    unit: ratio
+                    contribution: 10
+                    message: 54 of 60 calls were international (0.90 > 0.80).
+                  - code: UNUSUAL_COUNTRY
+                    observed: RO
+                    operator: not-in
+                    baseline:
+                    - MD
+                    unit: country
+                    contribution: 10
+                    message: RO is outside this synthetic subscriber baseline of MD.
+                  anomalyRank: null
+                  evidenceCount: 60
+                  evidenceSamples:
+                  - schemaVersion: 1
+                    eventId: 359d0ddf-bd5f-55d8-ab1d-94d8174040ae
+                    entityType: SUBSCRIBER
+                    entityId: SUB-001
+                    type: CALL
+                    occurredAt: '2026-09-11T09:00:10Z'
+                    emittedAt: '2026-09-11T09:00:10Z'
+                    scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                    payload:
+                      durationSec: 10
+                      international: true
+                      country: RO
+                  assignee: null
+                  audit:
+                  - id: b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e
+                    incidentId: 75d1c5ba-432d-59e5-a577-5d102249b632
+                    actorKind: SYSTEM
+                    actorId: null
+                    action: CREATED
+                    occurredAt: '2026-09-11T09:01:07Z'
+                    requestId: bc129ab4-e597-50b6-acbd-856714454457
+                    before: null
+                    after:
+                      status: OPEN
+                      version: 0
+                    note: null
+                  auditTotal: 1
+                total: 1
+                page: 0
+                size: 20
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Size'
+      - $ref: '#/components/parameters/From'
+      - $ref: '#/components/parameters/To'
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - OPEN
+          - INVESTIGATING
+          - RESOLVED
+      - name: severity
+        in: query
+        schema:
+          type: string
+          enum:
+          - MEDIUM
+          - HIGH
+          - CRITICAL
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - ACCOUNT_COMPROMISE
+          - NETWORK_OUTAGE
+          - BILLING_DUPLICATE
+          - ML_ANOMALY
+      - name: entityType
+        in: query
+        schema:
+          type: string
+          enum:
+          - SUBSCRIBER
+          - NODE
+      - name: entityId
+        in: query
+        schema:
+          type: string
+          minLength: 1
+      - name: assigneeId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: scenarioRunId
+        in: query
+        schema:
+          type: string
+          format: uuid
+  /api/incidents/{id}:
+    get:
+      operationId: getIncidentById
+      summary: Get an incident by UUID
+      tags:
+      - Incidents
+      description: Get an incident by UUID
+      responses:
+        '200':
+          description: Persisted incident with explanations, assigned analyst and a bounded audit projection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+              example:
+                id: 75d1c5ba-432d-59e5-a577-5d102249b632
+                detectionId: e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7
+                anomalyType: ACCOUNT_COMPROMISE
+                entityType: SUBSCRIBER
+                entityId: SUB-001
+                status: OPEN
+                severity: HIGH
+                riskScore: 80
+                uncappedScore: 80
+                assigneeId: null
+                resolutionNote: null
+                windowStart: '2026-09-11T09:00:00Z'
+                windowEnd: '2026-09-11T09:01:00Z'
+                detectedAt: '2026-09-11T09:01:06Z'
+                createdAt: '2026-09-11T09:01:07Z'
+                updatedAt: '2026-09-11T09:01:07Z'
+                version: 0
+                rulesetVersion: rules-v1
+                featureVersion: 1
+                modelVersion: null
+                mlStatus: UNAVAILABLE
+                scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                reasons:
+                - code: HIGH_CALLS
+                  observed: 60
+                  operator: '>'
+                  threshold: 50
+                  unit: calls/min
+                  contribution: 60
+                  message: 60 calls exceeded 50 in one minute.
+                - code: INTERNATIONAL_RATIO
+                  observed: 0.9
+                  operator: '>'
+                  threshold: 0.8
+                  unit: ratio
+                  contribution: 10
+                  message: 54 of 60 calls were international (0.90 > 0.80).
+                - code: UNUSUAL_COUNTRY
+                  observed: RO
+                  operator: not-in
+                  baseline:
+                  - MD
+                  unit: country
+                  contribution: 10
+                  message: RO is outside this synthetic subscriber baseline of MD.
+                anomalyRank: null
+                evidenceCount: 60
+                evidenceSamples:
+                - schemaVersion: 1
+                  eventId: 359d0ddf-bd5f-55d8-ab1d-94d8174040ae
+                  entityType: SUBSCRIBER
+                  entityId: SUB-001
+                  type: CALL
+                  occurredAt: '2026-09-11T09:00:10Z'
+                  emittedAt: '2026-09-11T09:00:10Z'
+                  scenarioRunId: ff73f281-9ca1-5448-ac4d-944a6862570f
+                  payload:
+                    durationSec: 10
+                    international: true
+                    country: RO
+                assignee: null
+                audit:
+                - id: b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e
+                  incidentId: 75d1c5ba-432d-59e5-a577-5d102249b632
+                  actorKind: SYSTEM
+                  actorId: null
+                  action: CREATED
+                  occurredAt: '2026-09-11T09:01:07Z'
+                  requestId: bc129ab4-e597-50b6-acbd-856714454457
+                  before: null
+                  after:
+                    status: OPEN
+                    version: 0
+                  note: null
+                auditTotal: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - $ref: '#/components/parameters/IncidentId'
+  /api/incidents/{id}/status:
+    patch:
+      operationId: changeIncidentStatus
+      summary: Change incident status
+      tags:
+      - Incidents
+      description: Enabled assigned ANALYST or enabled SUPERVISOR/ADMIN. OPEN -> INVESTIGATING requires
+        assignment; INVESTIGATING -> RESOLVED requires a nonblank note and retains assignment. No reopening
+        or direct resolution. Update and audit are atomic; publish SSE after commit.
+      responses:
+        '200':
+          description: Updated incident with incremented version and committed audit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - $ref: '#/components/parameters/IncidentId'
+      - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeStatusRequest'
+      security:
+      - sessionCookie: []
+        csrfToken: []
+  /api/incidents/{id}/assignment:
+    patch:
+      operationId: assignIncident
+      summary: Assign or reassign an incident
+      tags:
+      - Incidents
+      description: Enabled ANALYST may self-claim only an unassigned incident. Enabled SUPERVISOR/ADMIN
+        may reassign to any enabled analyst. Resolve the actor from the session; reject stale versions
+        and disabled/unknown target analysts.
+      responses:
+        '200':
+          description: Incident with the enabled assignee, incremented version and committed audit.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - $ref: '#/components/parameters/IncidentId'
+      - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentRequest'
+      security:
+      - sessionCookie: []
+        csrfToken: []
+  /api/incidents/{id}/comments:
+    post:
+      operationId: addIncidentComment
+      summary: Add an audited comment
+      tags:
+      - Incidents
+      description: Enabled assigned ANALYST or enabled SUPERVISOR/ADMIN. Nonblank text, maximum 2000 characters.
+        Save comment/audit and version update atomically. requestId is correlation metadata, not guaranteed
+        HTTP deduplication.
+      responses:
+        '201':
+          description: Updated incident including the new comment audit entry and incremented version.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - $ref: '#/components/parameters/IncidentId'
+      - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentRequest'
+      security:
+      - sessionCookie: []
+        csrfToken: []
+  /api/incidents/{id}/timeline:
+    get:
+      operationId: getIncidentTimeline
+      summary: Read paginated incident history
+      tags:
+      - Incidents
+      description: All application roles. Proposed pagination complements the bounded audit projection
+        on incident details. SYSTEM entries have null actorId.
+      responses:
+        '200':
+          description: Audit history ordered occurredAt ASC then id ASC.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditPage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - $ref: '#/components/parameters/IncidentId'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Size'
+  /api/analysts:
+    get:
+      operationId: listAnalysts
+      summary: List local analysts
+      tags:
+      - Analysts
+      description: Read the local directory only; no direct Keycloak database queries. enabled=true is
+        the default selector for assignment controls. Target eligibility is rechecked at mutation time.
+      responses:
+        '200':
+          description: Public analyst projections; excludes issuer/subject, credentials and tokens.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AnalystSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - name: enabled
+        in: query
+        schema:
+          type: boolean
+          default: true
+  /api/dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      summary: Get incident and traffic summary
+      tags:
+      - Dashboard
+      description: All application roles. Traffic data is unavailable until a completed window exists.
+        DTO field names/freshness thresholds are a day-one proposal for David review.
+      responses:
+        '200':
+          description: Persisted incident aggregates and last completed-minute traffic.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/dashboard/traffic:
+    get:
+      operationId: getDashboardTraffic
+      summary: Get completed-minute traffic points
+      tags:
+      - Dashboard
+      description: Require from/to and reject reversed or longer-than-24-hour ranges (proposed MVP bound).
+        Include completed windows only. Missing windows are omitted, not replaced by synthetic zeroes.
+      responses:
+        '200':
+          description: UTC windows in ascending windowStart order.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrafficPoint'
+                maxItems: 1440
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - name: from
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: Inclusive start instant.
+        required: true
+      - name: to
+        in: query
+        schema:
+          type: string
+          format: date-time
+        description: Exclusive end instant. Must be later than from.
+        required: true
+  /api/incidents/stream:
+    get:
+      operationId: streamIncidents
+      summary: Subscribe to committed incident updates
+      tags:
+      - Incidents
+      description: 'All application roles. Each incident-upsert carries an Incident DTO with id/version
+        after transaction commit. Heartbeat comments every 15 seconds. Close on logout, idle/absolute
+        expiry, backend restart or slow-client overflow. No durable replay: refetch REST and apply only
+        newer versions on reconnect. NGINX must disable buffering.'
+      responses:
+        '200':
+          description: Session-bound SSE stream.
+          content:
+            text/event-stream:
+              schema:
+                type: string
+              example: 'event: incident-upsert
+
+                data: {"id":"75d1c5ba-432d-59e5-a577-5d102249b632","detectionId":"e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7","anomalyType":"ACCOUNT_COMPROMISE","entityType":"SUBSCRIBER","entityId":"SUB-001","status":"OPEN","severity":"HIGH","riskScore":80,"uncappedScore":80,"assigneeId":null,"resolutionNote":null,"windowStart":"2026-09-11T09:00:00Z","windowEnd":"2026-09-11T09:01:00Z","detectedAt":"2026-09-11T09:01:06Z","createdAt":"2026-09-11T09:01:07Z","updatedAt":"2026-09-11T09:01:07Z","version":0,"rulesetVersion":"rules-v1","featureVersion":1,"modelVersion":null,"mlStatus":"UNAVAILABLE","scenarioRunId":"ff73f281-9ca1-5448-ac4d-944a6862570f","reasons":[{"code":"HIGH_CALLS","observed":60,"operator":">","threshold":50,"unit":"calls/min","contribution":60,"message":"60
+                calls exceeded 50 in one minute."},{"code":"INTERNATIONAL_RATIO","observed":0.9,"operator":">","threshold":0.8,"unit":"ratio","contribution":10,"message":"54
+                of 60 calls were international (0.90 > 0.80)."},{"code":"UNUSUAL_COUNTRY","observed":"RO","operator":"not-in","baseline":["MD"],"unit":"country","contribution":10,"message":"RO
+                is outside this synthetic subscriber baseline of MD."}],"anomalyRank":null,"evidenceCount":60,"evidenceSamples":[{"schemaVersion":1,"eventId":"359d0ddf-bd5f-55d8-ab1d-94d8174040ae","entityType":"SUBSCRIBER","entityId":"SUB-001","type":"CALL","occurredAt":"2026-09-11T09:00:10Z","emittedAt":"2026-09-11T09:00:10Z","scenarioRunId":"ff73f281-9ca1-5448-ac4d-944a6862570f","payload":{"durationSec":10,"international":true,"country":"RO"}}],"assignee":null,"audit":[{"id":"b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e","incidentId":"75d1c5ba-432d-59e5-a577-5d102249b632","actorKind":"SYSTEM","actorId":null,"action":"CREATED","occurredAt":"2026-09-11T09:01:07Z","requestId":"bc129ab4-e597-50b6-acbd-856714454457","before":null,"after":{"status":"OPEN","version":0},"note":null}],"auditTotal":1}
+
+
+                : heartbeat
+
+
+                '
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /api/simulator/scenarios/{type}:
+    post:
+      operationId: startScenario
+      summary: Start a simulator scenario
+      tags:
+      - Simulator
+      description: Enabled SUPERVISOR/ADMIN only. Validate the generator request and forward whitelisted
+        fields over the private network, never browser cookies. Lowercase route type values and bounds
+        require Ion review.
+      responses:
+        '202':
+          description: Accepted scheduled run; retries of requestId reuse runId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioRun'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - account-compromise
+          - network-outage
+          - billing-duplicate
+      - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartScenarioRequest'
+      security:
+      - sessionCookie: []
+        csrfToken: []
+  /api/simulator/runs/{runId}:
+    get:
+      operationId: getScenarioRun
+      summary: Get scenario progress
+      tags:
+      - Simulator
+      description: SUPERVISOR/ADMIN only. Browser never calls the private generator directly.
+      responses:
+        '200':
+          description: Status reported by the private generator.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioRun'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - name: runId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /api/simulator/runs/{runId}/stop:
+    post:
+      operationId: stopScenarioRun
+      summary: Stop a scenario run
+      tags:
+      - Simulator
+      description: Enabled SUPERVISOR/ADMIN only. Forward the same requestId on downstream retries; do
+        not forward session cookies.
+      responses:
+        '200':
+          description: Run after accepting the stop request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenarioRun'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+      parameters:
+      - name: runId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - requestId
+              properties:
+                requestId:
+                  type: string
+                  format: uuid
+      security:
+      - sessionCookie: []
+        csrfToken: []
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: JSESSIONID
+      description: Opaque server-session identifier, not a JWT. HttpOnly, SameSite=Lax, Path=/; Secure
+        with HTTPS. 15-minute idle and 30-minute absolute expiry.
+    csrfToken:
+      type: apiKey
+      in: header
+      name: X-CSRF-TOKEN
+      description: Token returned by GET /api/auth/csrf. Required alongside the session cookie for JSON
+        mutations; never a replacement for authentication. POST /logout uses the _csrf form parameter
+        instead.
+  parameters:
+    IncidentId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Incident UUID, not a detectionId.
+      example: 75d1c5ba-432d-59e5-a577-5d102249b632
+    RequestId:
+      name: X-Request-ID
+      in: header
+      required: false
+      schema:
+        type: string
+        format: uuid
+      description: Optional correlation UUID; generated by the server when absent. Must match a body requestId
+        if both are provided.
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Size:
+      name: size
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    From:
+      name: from
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: Inclusive start instant.
+    To:
+      name: to
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: Exclusive end instant. Must be later than from.
+  responses:
+    BadRequest:
+      description: Malformed input, an invalid range or invalid request identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            code: INVALID_REQUEST
+            message: Malformed input, an invalid range or invalid request identifier.
+            requestId: bc129ab4-e597-50b6-acbd-856714454457
+            fieldErrors: []
+    Unauthenticated:
+      description: No valid server session, or the session has expired. API requests receive JSON, not
+        a login redirect.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            code: UNAUTHENTICATED
+            message: No valid server session, or the session has expired.
+            requestId: bc129ab4-e597-50b6-acbd-856714454457
+            fieldErrors: []
+    Forbidden:
+      description: Insufficient application role, disabled local analyst, wrong assignee or failed CSRF
+        validation. CSRF rejection uses code CSRF_INVALID.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            code: FORBIDDEN
+            message: Insufficient application role, disabled local analyst, wrong assignee or failed CSRF
+              validation.
+            requestId: bc129ab4-e597-50b6-acbd-856714454457
+            fieldErrors: []
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            code: NOT_FOUND
+            message: The requested resource does not exist.
+            requestId: bc129ab4-e597-50b6-acbd-856714454457
+            fieldErrors: []
+    Conflict:
+      description: Stale version or an incompatible workflow/assignment state. State failures use INVALID_TRANSITION
+        or ASSIGNMENT_CONFLICT; currentVersion may be returned.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            code: VERSION_CONFLICT
+            message: Stale version or an incompatible workflow/assignment state.
+            requestId: bc129ab4-e597-50b6-acbd-856714454457
+            fieldErrors: []
+    Unavailable:
+      description: A required dependency is unavailable; no secrets or internal exception text is returned.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            code: DEPENDENCY_UNAVAILABLE
+            message: A required dependency is unavailable; no secrets or internal exception text is returned.
+            requestId: bc129ab4-e597-50b6-acbd-856714454457
+            fieldErrors: []
+  schemas:
+    AnalystSummary:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - displayName
+      - enabled
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 120
+        enabled:
+          type: boolean
+    CurrentSession:
+      type: object
+      additionalProperties: false
+      required:
+      - analystId
+      - displayName
+      - roles
+      - expiresAt
+      properties:
+        analystId:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+            enum:
+            - ANALYST
+            - SUPERVISOR
+            - ADMIN
+          minItems: 1
+          uniqueItems: true
+        expiresAt:
+          type: string
+          format: date-time
+      description: The absolute server-session deadline, not the OIDC token expiry. No cookies, tokens,
+        issuer or subject are returned.
+    CsrfToken:
+      type: object
+      additionalProperties: false
+      required:
+      - token
+      - headerName
+      - parameterName
+      properties:
+        token:
+          type: string
+          minLength: 1
+        headerName:
+          type: string
+          enum:
+          - X-CSRF-TOKEN
+        parameterName:
+          type: string
+          enum:
+          - _csrf
+    ApiError:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      - requestId
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        requestId:
+          type: string
+          format: uuid
+        fieldErrors:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - field
+            - message
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        currentVersion:
+          type: integer
+          minimum: 0
+          format: int64
+    Reason:
+      type: object
+      additionalProperties: true
+      required:
+      - code
+      - observed
+      properties:
+        code:
+          type: string
+          minLength: 1
+        observed:
+          description: Detector-supplied value; may be a number, string, boolean, list or structured comparison.
+        operator:
+          type: string
+        threshold: {}
+        baseline: {}
+        unit:
+          type: string
+        contribution:
+          type: integer
+          minimum: 0
+        message:
+          type: string
+      description: Preserve DetectionV1 reason metadata. Codes and optional comparison fields require
+        Sergiu review; do not reconstruct detector output in the incident service.
+    EvidenceSample:
+      type: object
+      additionalProperties: false
+      required:
+      - schemaVersion
+      - eventId
+      - entityType
+      - entityId
+      - type
+      - occurredAt
+      - emittedAt
+      - payload
+      properties:
+        schemaVersion:
+          type: integer
+          minimum: 0
+          enum:
+          - 1
+        eventId:
+          type: string
+          format: uuid
+        entityType:
+          type: string
+          enum:
+          - SUBSCRIBER
+          - NODE
+        entityId:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          enum:
+          - CALL
+          - SMS
+          - DATA
+          - AUTH
+          - BILLING
+          - NETWORK
+        occurredAt:
+          type: string
+          format: date-time
+        emittedAt:
+          type: string
+          format: date-time
+        scenarioRunId:
+          type: string
+          format: uuid
+        payload:
+          type: object
+          additionalProperties: true
+      description: Unmodified EventV1 sample. Type-specific payload validation belongs to the shared producer
+        contract and remains required at ingestion; this outline only specifies the envelope.
+    AuditEvent:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - incidentId
+      - actorKind
+      - actorId
+      - action
+      - occurredAt
+      - requestId
+      - before
+      - after
+      - note
+      properties:
+        id:
+          type: string
+          format: uuid
+        incidentId:
+          type: string
+          format: uuid
+        actorKind:
+          type: string
+          enum:
+          - ANALYST
+          - SYSTEM
+        actorId:
+          type: string
+          format: uuid
+          nullable: true
+        action:
+          type: string
+          minLength: 1
+        occurredAt:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+          format: uuid
+        before:
+          type: object
+          nullable: true
+          additionalProperties: true
+        after:
+          type: object
+          nullable: true
+          additionalProperties: true
+        note:
+          type: string
+          nullable: true
+          maxLength: 2000
+      description: SYSTEM has null actorId; human actors resolve from the authenticated issuer/subject.
+        Field snapshots are bounded to changed business fields, never tokens or full session data.
+    Incident:
+      type: object
+      required:
+      - id
+      - detectionId
+      - anomalyType
+      - entityType
+      - entityId
+      - status
+      - severity
+      - riskScore
+      - uncappedScore
+      - assigneeId
+      - resolutionNote
+      - windowStart
+      - windowEnd
+      - detectedAt
+      - createdAt
+      - updatedAt
+      - version
+      - rulesetVersion
+      - modelVersion
+      - mlStatus
+      - reasons
+      - assignee
+      - anomalyRank
+      - evidenceCount
+      - evidenceSamples
+      - audit
+      - auditTotal
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 75d1c5ba-432d-59e5-a577-5d102249b632
+        detectionId:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+          description: SHA-256 UTF-8 entityType|entityId|anomalyType|windowStart|rulesetVersion. Canonical
+            UTC windowStart; no separators in identifiers. Saved immutable identity is reused on retry.
+        anomalyType:
+          type: string
+          enum:
+          - ACCOUNT_COMPROMISE
+          - NETWORK_OUTAGE
+          - BILLING_DUPLICATE
+          - ML_ANOMALY
+        entityType:
+          type: string
+          enum:
+          - SUBSCRIBER
+          - NODE
+        entityId:
+          type: string
+          example: SUB-001
+        status:
+          type: string
+          enum:
+          - OPEN
+          - INVESTIGATING
+          - RESOLVED
+        severity:
+          type: string
+          enum:
+          - MEDIUM
+          - HIGH
+          - CRITICAL
+        riskScore:
+          type: integer
+          minimum: 40
+          maximum: 100
+        uncappedScore:
+          type: integer
+          minimum: 40
+          description: Total score before applying the cap of 100.
+        assigneeId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Local analyst UUID; null until assigned.
+        resolutionNote:
+          type: string
+          nullable: true
+          description: Required and non-empty when status is RESOLVED.
+          maxLength: 2000
+        windowStart:
+          type: string
+          format: date-time
+        windowEnd:
+          type: string
+          format: date-time
+        detectedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+        rulesetVersion:
+          type: string
+          example: rules-v1
+        featureVersion:
+          type: integer
+          enum:
+          - 1
+        modelVersion:
+          type: string
+          nullable: true
+        mlStatus:
+          type: string
+          enum:
+          - OK
+          - TIMEOUT
+          - UNAVAILABLE
+          - NOT_APPLICABLE
+        scenarioRunId:
+          type: string
+          format: uuid
+          description: Optional simulator run UUID. Trace metadata only.
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reason'
+          minItems: 1
+        assignee:
+          type: object
+          additionalProperties: false
+          required:
+          - id
+          - displayName
+          - enabled
+          properties:
+            id:
+              type: string
+              format: uuid
+            displayName:
+              type: string
+              minLength: 1
+              maxLength: 120
+            enabled:
+              type: boolean
+          nullable: true
+          description: Same analyst as assigneeId; both fields are null when unassigned.
+        anomalyRank:
+          type: number
+          minimum: 0
+          maximum: 1
+          nullable: true
+          description: Calibration percentile, not probability. Null for TIMEOUT, UNAVAILABLE or NOT_APPLICABLE.
+        evidenceCount:
+          type: integer
+          minimum: 0
+          description: Total supporting events, including events omitted from the sample.
+        evidenceSamples:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvidenceSample'
+          maxItems: 20
+        audit:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+          maxItems: 100
+          description: At most the latest 100 history entries, presented chronologically. Use the paginated
+            timeline for older history. Proposed bound for review.
+        auditTotal:
+          type: integer
+          minimum: 0
+      additionalProperties: false
+      description: Draft detail DTO. Preserve the detector result. Enforce severity/score agreement, nullability
+        by mlStatus, assignee coherence and counts in service/contract checks; these relationships are
+        not fully expressible in this schema. createdAt is required in the DTO and must be backed by a
+        persisted timestamp when completing V001.
+    IncidentPage:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - total
+      - page
+      - size
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Incident'
+          maxItems: 100
+        total:
+          type: integer
+          minimum: 0
+          format: int64
+        page:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 1
+          maximum: 100
+    AuditPage:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - total
+      - page
+      - size
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditEvent'
+          maxItems: 100
+        total:
+          type: integer
+          minimum: 0
+          format: int64
+        page:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 1
+          maximum: 100
+    ChangeStatusRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - version
+      properties:
+        status:
+          type: string
+          enum:
+          - INVESTIGATING
+          - RESOLVED
+        version:
+          type: integer
+          minimum: 0
+          format: int64
+        resolutionNote:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          pattern: \S
+      description: Service requires a note for RESOLVED, rejects direct OPEN -> RESOLVED, and requires
+        assignment before INVESTIGATING. The acting analyst must be the assignee unless SUPERVISOR/ADMIN.
+    AssignmentRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - analystId
+      - version
+      properties:
+        analystId:
+          type: string
+          format: uuid
+        version:
+          type: integer
+          minimum: 0
+          format: int64
+      description: Assign to an enabled local analyst. ANALYST may only self-claim an unassigned incident;
+        SUPERVISOR/ADMIN may reassign. A concurrent claim is a 409.
+    CommentRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - text
+      - version
+      - requestId
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          pattern: \S
+        version:
+          type: integer
+          minimum: 0
+          format: int64
+        requestId:
+          type: string
+          format: uuid
+      description: requestId is correlation metadata, never actor identity. If X-Request-ID is also present,
+        it must match this value.
+    TrafficPoint:
+      type: object
+      additionalProperties: false
+      required:
+      - windowStart
+      - windowEnd
+      - totalEvents
+      - activeEntities
+      properties:
+        windowStart:
+          type: string
+          format: date-time
+        windowEnd:
+          type: string
+          format: date-time
+        totalEvents:
+          type: integer
+          minimum: 0
+          format: int64
+        activeEntities:
+          type: integer
+          minimum: 0
+      description: Completed UTC minute. Active entities are a union across partitions, not a sum of partition
+        distinct counts.
+    DashboardSummary:
+      type: object
+      additionalProperties: false
+      required:
+      - incidentCounts
+      - latestCompletedMinute
+      - observedAt
+      - freshness
+      properties:
+        incidentCounts:
+          type: object
+          additionalProperties: false
+          required:
+          - total
+          - open
+          - investigating
+          - resolved
+          - critical
+          properties:
+            total:
+              type: integer
+              minimum: 0
+            open:
+              type: integer
+              minimum: 0
+            investigating:
+              type: integer
+              minimum: 0
+            resolved:
+              type: integer
+              minimum: 0
+            critical:
+              type: integer
+              minimum: 0
+        latestCompletedMinute:
+          type: object
+          additionalProperties: false
+          required:
+          - windowStart
+          - windowEnd
+          - totalEvents
+          - activeEntities
+          properties:
+            windowStart:
+              type: string
+              format: date-time
+            windowEnd:
+              type: string
+              format: date-time
+            totalEvents:
+              type: integer
+              minimum: 0
+              format: int64
+            activeEntities:
+              type: integer
+              minimum: 0
+          description: Completed UTC minute. Active entities are a union across partitions, not a sum
+            of partition distinct counts.
+          nullable: true
+        observedAt:
+          type: string
+          format: date-time
+        freshness:
+          type: string
+          enum:
+          - CURRENT
+          - STALE
+          - UNAVAILABLE
+      description: Proposed dashboard shape for David review. No completed window means null/UNAVAILABLE,
+        not invented zero traffic. Define the stale-data threshold during telemetry integration.
+    StartScenarioRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - requestId
+      - seed
+      - entityId
+      - requestedStartAt
+      - rate
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        seed:
+          type: integer
+          minimum: 0
+        entityId:
+          type: string
+          minLength: 1
+        requestedStartAt:
+          type: string
+          format: date-time
+        rate:
+          type: integer
+          minimum: 1
+      description: Draft mapping to the private generator contract; Ion must approve seed/rate limits
+        before implementation. A repeated requestId reuses the same run.
+    ScenarioRun:
+      type: object
+      additionalProperties: true
+      required:
+      - runId
+      - status
+      - scheduledStartAt
+      properties:
+        runId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          minLength: 1
+        scheduledStartAt:
+          type: string
+          format: date-time
+      description: Generator status strings and optional progress fields require Ion review.

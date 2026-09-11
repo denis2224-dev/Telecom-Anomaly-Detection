@@ -1,13 +1,13 @@
 {
-  "id": "inc-001",
-  "detectionId": "f669a4846457a82570dcc4e01b2d68e604192072b0de0b9d45fae5393b3a017b",
+  "id": "75d1c5ba-432d-59e5-a577-5d102249b632",
+  "detectionId": "e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7",
   "anomalyType": "ACCOUNT_COMPROMISE",
   "entityType": "SUBSCRIBER",
   "entityId": "SUB-001",
   "status": "OPEN",
-  "severity": "MEDIUM",
-  "riskScore": 60,
-  "uncappedScore": 60,
+  "severity": "HIGH",
+  "riskScore": 80,
+  "uncappedScore": 80,
   "assigneeId": null,
   "resolutionNote": null,
   "windowStart": "2026-09-11T09:00:00Z",
@@ -16,38 +16,78 @@
   "createdAt": "2026-09-11T09:01:07Z",
   "updatedAt": "2026-09-11T09:01:07Z",
   "version": 0,
-  "rulesetVersion": "1",
+  "rulesetVersion": "rules-v1",
   "featureVersion": 1,
   "modelVersion": null,
   "mlStatus": "UNAVAILABLE",
-  "modelScore": null,
-  "scenarioRunId": "run-001",
+  "scenarioRunId": "ff73f281-9ca1-5448-ac4d-944a6862570f",
   "reasons": [
     {
-      "code": "CALL_COUNT_THRESHOLD",
-      "observed": 65,
+      "code": "HIGH_CALLS",
+      "observed": 60,
+      "operator": ">",
       "threshold": 50,
       "unit": "calls/min",
       "contribution": 60,
-      "message": "65 calls occurred in one minute, exceeding the threshold of 50."
+      "message": "60 calls exceeded 50 in one minute."
+    },
+    {
+      "code": "INTERNATIONAL_RATIO",
+      "observed": 0.9,
+      "operator": ">",
+      "threshold": 0.8,
+      "unit": "ratio",
+      "contribution": 10,
+      "message": "54 of 60 calls were international (0.90 > 0.80)."
+    },
+    {
+      "code": "UNUSUAL_COUNTRY",
+      "observed": "RO",
+      "operator": "not-in",
+      "baseline": [
+        "MD"
+      ],
+      "unit": "country",
+      "contribution": 10,
+      "message": "RO is outside this synthetic subscriber baseline of MD."
     }
   ],
-  "evidence": [
+  "anomalyRank": null,
+  "evidenceCount": 60,
+  "evidenceSamples": [
     {
       "schemaVersion": 1,
-      "eventId": "evt-001",
+      "eventId": "359d0ddf-bd5f-55d8-ab1d-94d8174040ae",
       "entityType": "SUBSCRIBER",
       "entityId": "SUB-001",
       "type": "CALL",
       "occurredAt": "2026-09-11T09:00:10Z",
       "emittedAt": "2026-09-11T09:00:10Z",
-      "scenarioRunId": "run-001",
+      "scenarioRunId": "ff73f281-9ca1-5448-ac4d-944a6862570f",
       "payload": {
-        "sourceCountry": "MD",
-        "destinationCountry": "MD",
         "durationSec": 10,
-        "towerId": "CHI-001"
+        "international": true,
+        "country": "RO"
       }
     }
-  ]
+  ],
+  "assignee": null,
+  "audit": [
+    {
+      "id": "b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e",
+      "incidentId": "75d1c5ba-432d-59e5-a577-5d102249b632",
+      "actorKind": "SYSTEM",
+      "actorId": null,
+      "action": "CREATED",
+      "occurredAt": "2026-09-11T09:01:07Z",
+      "requestId": "bc129ab4-e597-50b6-acbd-856714454457",
+      "before": null,
+      "after": {
+        "status": "OPEN",
+        "version": 0
+      },
+      "note": null
+    }
+  ],
+  "auditTotal": 1
 }

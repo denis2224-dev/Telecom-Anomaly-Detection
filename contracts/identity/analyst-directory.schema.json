@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Analyst directory record",
+  "description": "One trusted local analyst record, not a browser-submitted identity or role assignment. Enforce UNIQUE(issuer, subject) across records in PostgreSQL; JSON Schema cannot enforce database uniqueness. Example subjects are synthetic, not provisioned Keycloak accounts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "issuer",
+    "subject",
+    "displayName",
+    "enabled"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Local analyst UUID used by incident assignment and audit."
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "description": "Validated OIDC iss, matching the configured realm issuer."
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Validated OIDC sub. Opaque, case-sensitive string; not email or username and not necessarily a UUID."
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Local mutation eligibility; login synchronization must not automatically re-enable this record."
+    }
+  },
+  "x-database-unique-key": [
+    "issuer",
+    "subject"
+  ],
+  "examples": [
+    {
+      "id": "81205a34-116c-5d90-ae54-d80e0dee4fb1",
+      "issuer": "http://telecom.test:8080/auth/realms/telecom",
+      "subject": "synthetic-analyst-001",
+      "displayName": "Demo Analyst",
+      "enabled": true
+    }
+  ],
+  "$defs": {
+    "AppRoles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "ANALYST",
+          "SUPERVISOR",
+          "ADMIN"
+        ]
+      },
+      "description": "Allowed roles after backend allowlist mapping of verified ID-token app_roles. Roles are not accepted from request JSON or stored in the directory record."
+    }
+  }
+}
