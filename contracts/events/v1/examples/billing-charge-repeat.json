@@ -1,0 +1,14 @@
+{
+  "eventId": "a1000007-1111-4111-8111-000000000007",
+  "schemaVersion": "1.0",
+  "eventType": "BILLING",
+  "occurredAt": "2026-09-11T08:15:36Z",
+  "entityType": "SUBSCRIBER",
+  "entityId": "SUB-000001",
+  "scenarioRunId": "b1000001-2222-4222-8222-000000000001",
+  "payload": {
+    "transactionRef": "TXN-000002",
+    "amountMinor": 12345,
+    "currency": "MDL"
+  }
+}
