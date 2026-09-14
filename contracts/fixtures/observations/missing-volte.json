@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 2,
+  "eventId": "3af75382-5eba-54e4-ab87-a47fafb7f3b0",
+  "sourceId": "VOLTE-ADAPTER",
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "kind": "SERVICE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "emittedAt": "2026-09-15T08:01:00Z",
+  "quality": "MISSING",
+  "service": "VOLTE"
+}

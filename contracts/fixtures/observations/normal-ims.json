@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 2,
+  "eventId": "2e26efef-c876-5ed5-b758-c5ce76d13c30",
+  "sourceId": "IMS-A",
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "kind": "NODE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "emittedAt": "2026-09-15T08:01:00Z",
+  "quality": "COMPLETE",
+  "nodeId": "IMS-A",
+  "metrics": {
+    "cpuPct": 35
+  }
+}
