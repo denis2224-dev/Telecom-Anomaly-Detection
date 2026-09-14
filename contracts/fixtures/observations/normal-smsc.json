@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 2,
+  "eventId": "031c8c0e-7089-531b-9d66-4dde5b3c4e2f",
+  "sourceId": "SMSC-A",
+  "scopeId": "SMS-MD-ROUTE-A",
+  "kind": "NODE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "emittedAt": "2026-09-15T08:01:00Z",
+  "quality": "COMPLETE",
+  "nodeId": "SMSC-A",
+  "metrics": {
+    "queueDepth": 0,
+    "oldestPendingAgeSeconds": 0
+  }
+}
