@@ -41,7 +41,8 @@ cp .env.example .env
 
 The shared Compose stack starts PostgreSQL and Kafka and initializes database
 schemas and topics. The Java Streaming services run separately; they are not
-Compose services. See the [local development runbook](docs/runbooks/local-dev.md).
+Compose services. See the [local development runbook](docs/runbooks/local-dev.md) and
+[shared owner map](docs/architecture/owner-map.md).
 
 ## Streaming Components
 
