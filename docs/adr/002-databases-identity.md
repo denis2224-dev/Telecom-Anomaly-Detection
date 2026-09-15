@@ -185,7 +185,7 @@ Typed reason codes and simulator request bounds remain jointly reviewed with the
 producer owners. EventV1 evidence follows the canonical
 [producer schema](../../contracts/events/v1/event.schema.json), including its five
 payload types. The OpenAPI 3.0 envelope outline is not a substitute for full
-producer-schema validation. See the [integration decisions](../streaming/shared-contract-integration.md).
+producer-schema validation. See the [integration decisions](../streaming/event-v1-contract.md#incident-api-integration).
 
 ## Implementation and handoff
 

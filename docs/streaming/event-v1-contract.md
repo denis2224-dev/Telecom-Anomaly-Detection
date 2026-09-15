@@ -1,7 +1,8 @@
-# EventV1 contract draft
+# Legacy EventV1 Contract
 
-Day 01 - 11 September 2026. Owner: Zavtoni Ion, Streaming & Simulator.
-Status: **draft waiting for team review**.
+EventV1 schemas and fixtures support incident API examples and contract tests.
+The Streaming services generate and validate [TelecomObservationV2](../../contracts/README.md)
+instead. There is no EventV1 runtime producer or consumer.
 
 ## Event boundaries
 
@@ -31,8 +32,7 @@ fields to catch typos and accidental detection labels.
 | payload | object | Yes | Schema selected by `eventType` | Type-specific measurements. |
 
 Subscriber events use `entityId` as the subscriber ID, so they do not repeat it in
-`subscriberId`. The only planned producer is `event-generator`, so v1.0 does not
-need a `source` field.
+`subscriberId`. The v1.0 envelope has no `source` field.
 
 Fields such as `isAnomaly`, `expectedDetection`, `scenarioName` and `fraud` do not
 belong in events. Scenario labels stay in test filenames and documentation.
@@ -58,7 +58,7 @@ Using `eventId` or `scenarioRunId` as the key would break per-entity grouping.
 
 With the same partitioner and partition count, records with the same key stay in
 one partition. Kafka orders a partition, but this is not global or event-time
-order. M5 must coordinate partition-count changes because keys may move.
+order. Changing the partition count may move keys.
 
 ## Time and units
 
@@ -69,10 +69,7 @@ CALL: attempt end. SMS: final delivery/failure result. DATA: session end. AUTH:
 attempt result. NETWORK: exclusive window end;
 its window is `[occurredAt - sampleWindowSeconds, occurredAt)`.
 
-Downstream windows use event time. Hour, day and week are first derived in UTC.
-A later business-time baseline may use `Europe/Chisinau` if it also handles daylight
-saving. Week-to-week comparisons should use the same entity, window, weekday and
-time of day. Thresholds and window calculations are not part of Day 01.
+Window comparisons use event time in UTC and compatible entities and intervals.
 
 | Measurement | Raw representation | Convention |
 | --- | --- | --- |
@@ -103,11 +100,9 @@ Emit one record when each call attempt ends, including failed attempts.
 | networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Serving node at attempt end. |
 | towerId | string | No | Synthetic `TOWER-...`, max 64 | Serving tower at attempt end; omit if unavailable. |
 
-Planned features are `calls_count`, `average_call_duration`, `dropped_call_ratio`,
-`international_call_ratio` and `countries_seen`. Deduplicate by `eventId` first.
-Average duration uses COMPLETED and DROPPED calls. International ratios use OUTBOUND
-destinations against the subscriber's synthetic home country; fixtures assume MD.
-M3 still needs to define how empty ratios are handled.
+International activity compares OUTBOUND destinations with the subscriber's
+synthetic home country (MD in the fixtures). Average connected duration uses
+COMPLETED and DROPPED calls; FAILED calls have no connected duration.
 
 ## SMS payload
 
@@ -122,9 +117,8 @@ Emit one final result per logical message, not one record per segment or retry.
 | deliveryStatus | string | Yes | DELIVERED or FAILED | Terminal delivery result. |
 | networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Serving node at terminal result time. |
 
-Planned features are `sms_count`, `failed_sms_count` and
-`international_sms_ratio`. The ratio uses OUTBOUND messages and the subscriber's
-synthetic home country, like CALL.
+As with CALL, international SMS activity compares OUTBOUND destinations with the
+subscriber's synthetic home country.
 
 ## DATA payload
 
@@ -160,9 +154,6 @@ are outside v1.0; do not group them under a fake shared subscriber ID.
 | deviceId | string | Yes | Synthetic `DEVICE-...`, max 64 | Stable synthetic device identity; no real IMEI or credentials. |
 | networkNodeId | string | Yes | Synthetic `NODE-...`, max 64 | Node handling the attempt. |
 
-Planned features are `failed_auth_count`, `countries_seen` during authentication
-and device changes per subscriber. Use `occurredAt` and allow for late records.
-
 ## NETWORK payload
 
 Schema: [network.schema.json](../../contracts/events/v1/network.schema.json).
@@ -197,16 +188,18 @@ successful probes from earlier in that window. The full-window outage fixture us
 zero bytes, zero throughput, full probe loss and null latency.
 
 `activeSubscriberCount` measures association and possible exposure, not confirmed
-impact. The planned link-cut scenario keeps associations during the outage. Counts
+impact. The full-outage fixture retains subscriber associations. Counts
 can overlap across links, nodes and time, so summing them would overcount customers.
 Exact impact needs topology, subscriber/service mappings, rerouting information and
-service events. Those inputs are planned for later work.
+service events. The raw record does not supply all of those inputs.
 
 `bytesTransferred` is observed traffic, not lost traffic. A loss estimate
 needs an expected baseline for the same window and entity, minus the observed
 volume, followed by conversion to decimal GB. Node and link counters can cover the
 same traffic. The payload does not split loss by service. Derived values such
 as `impactedSubscribers` or `lostGB` do not belong in raw measurements.
+`packetLossRatio * bytesTransferred` is not a traffic-loss estimate. An outage
+sample alone cannot establish that a physical cable was cut.
 
 ## Compatibility and enforcement
 
@@ -226,12 +219,61 @@ Schema validation covers structure, ranges and formats. The producer and integra
 tests must check global ID uniqueness, ordering, valid ISO code membership,
 cross-field equality, historical consistency and synthetic-data sources.
 
-Incident evidence uses the same unmodified EventV1 records. The OpenAPI envelope
-outline is checked against these canonical fields, and nested evidence is validated
-with this full schema. See the [shared integration decisions](shared-contract-integration.md).
+## Incident API Integration
 
-## References
+The [incident API](../../contracts/openapi/incident-api.yaml) uses unmodified EventV1
+objects in `EvidenceSample`. Its OpenAPI 3.0 envelope outline links to the full
+producer schema through `x-canonical-schema`. Validate nested samples with the
+Draft 2020-12 producer schema: the API outline alone does not enforce all payload
+and entity constraints. Tests compare envelope fields and validate JSON fixtures,
+REST examples and SSE samples against the producer schema.
 
-- [JSON Schema object constraints](https://json-schema.org/understanding-json-schema/reference/object)
-- [JSON Schema string formats](https://json-schema.org/understanding-json-schema/reference/string)
-- [Kafka topics, keys and partitions](https://kafka.apache.org/41/getting-started/introduction/)
+The incident fixture contains one representative OUTBOUND call to RO from a
+subscriber with synthetic home country MD. It is a sample from a 60-call window,
+not a full replay. Contract route values `account-compromise`, `network-outage`
+and `data-traffic-drop` correspond to `ACCOUNT_COMPROMISE`, `NETWORK_OUTAGE` and
+`DATA_TRAFFIC_DROP`. These names do not imply implemented scenario execution or
+detection. `ML_ANOMALY` is a separate API category.
+
+## Local Kafka Topics
+
+[Compose](../../compose.yaml) provisions `telecom.events.v1` with 24-hour retention
+and `telecom.detections.v1`, `telecom.telemetry.v1`, `telecom.events.dlq.v1`,
+`telecom.events.late.v1`, and `telecom.detections.dlq.v1` with seven-day retention.
+Defaults are three partitions (`KAFKA_TOPIC_PARTITIONS`) and replication factor
+one on one broker. Topic provisioning does not implement message flow.
+
+Host clients use `localhost:9094`; container clients use `kafka:9092`. Local
+overrides are in [.env.example](../../.env.example). A record key groups an entity;
+it is not unique. Offsets identify positions within individual partitions and do
+not replace event IDs or timestamps. Kafka order can differ from event-time order.
+
+## Fixtures
+
+| File | Purpose | Kafka key |
+| --- | --- | --- |
+| [normal-call.json](../../contracts/events/v1/examples/normal-call.json) | Completed domestic call; baseline subscriber home country is MD. | SUBSCRIBER:SUB-000001 |
+| [normal-sms.json](../../contracts/events/v1/examples/normal-sms.json) | Delivered domestic message; demonstrates millisecond event time. | SUBSCRIBER:SUB-000001 |
+| [normal-data.json](../../contracts/events/v1/examples/normal-data.json) | Completed session with separate integer upload/download counters. | SUBSCRIBER:SUB-000001 |
+| [normal-auth.json](../../contracts/events/v1/examples/normal-auth.json) | Successful network authentication with a synthetic device. | SUBSCRIBER:SUB-000001 |
+| [normal-network.json](../../contracts/events/v1/examples/normal-network.json) | Healthy link window [08:15:00Z, 08:16:00Z), 600,000,000 bytes and 80 Mbps. | NETWORK_LINK:LINK-CHI-001 |
+| [network-link-cut.json](../../contracts/events/v1/examples/network-link-cut.json) | Full outage window [08:17:00Z, 08:18:00Z), with no traffic or probe responses. | NETWORK_LINK:LINK-CHI-001 |
+
+All data and IDs are synthetic. The network files are individual snapshots;
+there is no implemented degradation/recovery replay. Labels stay in filenames,
+and `scenarioRunId` must not be used for features, rules or risk scores.
+Reusing an `eventId` represents re-delivery; a new logical event needs a new ID.
+New logical calls, messages, sessions and authentication attempts also need new
+business IDs. Order samples by `occurredAt`, not filename, when interpreting a
+sequence. Each example file contains one complete EventV1 object.
+
+## Validation
+
+Run `python -m unittest discover -s tests -v` from the repository root with
+`requirements-dev.txt` installed. Tests check schemas, formats, examples, API
+consistency, local documentation links and field coverage. Network cross-field
+checks apply to fixtures, not a runtime EventV1 consumer. Schema references resolve
+from the local registry without network requests.
+
+See the [validation commands](../runbooks/streaming.md#validation-and-tests) for
+environment setup and the separate v2 and Java suites.

@@ -1,26 +1,13 @@
-# Revision 3: service observation input, version 2
+# TelecomObservationV2
 
-Day 01 baseline, 15 September 2026. Canonical wire contract:
-[TelecomObservationV2](observations/telecom-observation-v2.schema.json), JSON Schema
-2020-12. Read this before implementing an adapter or consuming an observation.
+The [JSON Schema](observations/telecom-observation-v2.schema.json) uses Draft
+2020-12. Observations describe synthetic VoLTE/SMS service measurements, node
+metrics and source activity for one completed minute.
 
-## Provenance and compatibility
-
-The supplied Revision 3 common guide (pages 8-10) and Ion plan (pages 3, 6, 18)
-define these semantics. The supplied package contained PDFs and a README, but no
-schemas, topology, policy, fixtures or executable scaffold. This baseline therefore
-introduces the missing field names and a **10,000 sample maximum**; that maximum is
-a demo design choice, not a number recovered from a supplied schema or a telecom
-standard. The source inventory is the minimum needed to prove authoritative input;
-the runtime inventory integration is Day 03. No detector policy is created here.
-
-[EventV1 contracts and examples](events/v1/event.schema.json), the existing
-incident API and `telecom.events.v1` topic remain legacy Revision 1/2 material in
-their existing paths. They are not service observations. No legacy artifact was
-deleted, moved or converted. BILLING was already removed by user commit `985e1d5`;
-its history is preserved. Existing Compose topics remain unchanged. The proposed
-v2 raw topic is `telecom.observations.v2`; provisioning and publication remain later
-work. Do not send this contract to the v1 topic or legacy incident evidence API.
+The separate [legacy EventV1 reference](../docs/streaming/event-v1-contract.md)
+covers subscriber events and incident API samples. These formats are not
+interchangeable; do not send v2 observations to `telecom.events.v1` or the legacy
+incident API.
 
 ## Envelope and time
 
@@ -38,6 +25,12 @@ work. Do not send this contract to the v1 topic or legacy incident evidence API.
 | nodeId | Required only on NODE, matched to source and scope inventory. |
 | metrics | Type-specific measured input; absent on HEARTBEAT and on MISSING. |
 
+All envelope fields through `quality` are required. Unknown fields are rejected.
+SERVICE and NODE require metrics unless quality is MISSING; a NODE metrics object
+must contain at least one measurement.
+Source, scope and node IDs are at most 64 characters, start with an uppercase
+letter, and contain uppercase letters/digits separated by single hyphens.
+
 Every document covers exactly **60 seconds, `[windowStart, windowEnd)`**. A result
 at the exact end belongs to the next minute. Counts are interval counts, never
 cumulative totals. COMPLETE zero traffic is measured zero; MISSING has no metrics
@@ -46,12 +39,10 @@ the same internally consistent counters, but coverage is insufficient for a
 complete KPI. They must not be silently upgraded to COMPLETE. NODE reports may
 contain a relevant subset of metrics; omitted metrics are unknown, not zero.
 
-HEARTBEAT is a consolidated completed-minute activity observation with no service
-measurements. It does not prove that SERVICE/NODE data was received. The guide's
-10-second source pulse schedule and 90-second stale timer require a separate
-activity boundary in a later task: emitting six different HEARTBEAT documents for
-the same natural minute would conflict. This baseline implements no pulse scheduler,
-source stale timer or finalizer. Planned KPI closure at end + 10 seconds is unchanged.
+HEARTBEAT records activity for a completed minute and has no service, nodeId or
+metrics fields. It does not prove that SERVICE/NODE data was received. Multiple
+different heartbeats from the same source and scope in one minute conflict.
+There is no pulse scheduler, source stale timer or KPI finalizer.
 
 ## Authoritative source and scope
 
@@ -75,7 +66,7 @@ All counters are nonnegative integers up to `2^53 - 1`.
 | Metric | Definition |
 | --- | --- |
 | attempts | All finalized call setup attempts, including user outcomes. |
-| technicalSuccesses | Call setup reached the successful established-session milestone. |
+| technicalSuccesses | Call setup successfully established a session. |
 | technicalFailures | Final technical setup failures; excludes busy/no-answer. |
 | userOutcomes | Final user busy/no-answer outcomes; excluded from technical eligibility. |
 | rrcAttempts / rrcSuccesses | RRC setup procedure counts with their own denominator. |
@@ -88,7 +79,9 @@ its own attempt count; RRC and bearer counts need not equal call counts. SIP bus
 is a user outcome; authentication challenges and every arbitrary 4xx response are
 not automatically technical failures.
 
-Formulas for Sergiu (definitions only, no KPI finalization here):
+### Derived KPI formulas
+
+These definitions do not imply runtime KPI calculation or finalization.
 
 - CSSR percent = `100 * technicalSuccesses / (attempts - userOutcomes)`.
 - RRC SR percent = `100 * rrcSuccesses / rrcAttempts`; bearer uses bearer counters.
@@ -117,8 +110,8 @@ of successful completion, not submission or ingestion. Failed attempts do not
 create successful-delivery delay samples. Adapters must deduplicate logical messages
 before aggregation; aggregate arrays cannot prove underlying message identity.
 Equal delay values for different messages are valid. Arrays are not truncated to
-pretend complete coverage: if the demo bound is exceeded, reject the input and
-redesign the adapter with a versioned histogram contract for a future extension.
+pretend complete coverage. Reject input exceeding the 10,000-sample demo bound;
+a different representation requires a versioned contract change.
 
 SMS attempt SR = `100 * deliverySuccesses / deliveryAttempts`, null at zero.
 Nearest-rank p95 = sorted samples at index `ceil(0.95 * n) - 1`, null for no samples.
@@ -141,7 +134,7 @@ No completed messages does not imply an empty queue.
 | oldestPendingAgeSeconds | Nonnegative seconds, reported with queueDepth. An empty queue has age 0; nonempty queues may have age 0 for newly pending work. |
 
 CPU/loss/throughput summarize the minute; queue values are end-of-window snapshots.
-Queue count and age must be present together. Missing queue evidence is unknown.
+Queue count and age must be present together. Missing queue data is unknown.
 Field names carry units: alternate keys such as `cpuRatio` or `delaySeconds` fail
 schema validation. Validators cannot detect a producer using the wrong unit while
 still supplying a numerically plausible value; adapters own unit conversion.
@@ -161,8 +154,8 @@ string concatenation). It permits one authoritative observation per interval.
 Comparison is parsed JSON value equality: object key order, whitespace and equivalent
 JSON number spellings are insignificant; array order is significant. Metadata such
 as seed, scenario name, labels and run ID lives outside observation/model input.
-No corrective overwrite protocol is defined; corrections require a later explicit
-versioning decision. A JSON Schema cannot detect conflicts across documents.
+No corrective overwrite protocol is defined. A JSON Schema cannot detect conflicts
+across documents.
 
 ## Checks and fixture usage
 
@@ -182,7 +175,3 @@ The [validation cases](fixtures/validation/observation-cases-v2.json) are execut
 mutations shared by reference and Java tests; sample-bound tests allocate arrays
 at runtime. Normal/degraded fixture files are **alternative scenarios for the same
 minute**. Validate them individually; do not concatenate alternatives as traffic.
-
-Remaining work: Day 03 runtime inventory/G0 agreement, later Kafka publishing and
-consumption, persistent receipts, finalization, detector/ML and episodes. DATA,
-roaming, billing fraud, account compromise and cross-service correlation remain backlog.
