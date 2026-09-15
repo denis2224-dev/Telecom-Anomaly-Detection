@@ -1,93 +1,104 @@
 {
-  "id": "75d1c5ba-432d-59e5-a577-5d102249b632",
-  "detectionId": "e0dd6aa8840f624bd8d70aaed5623b3d26e212c8dacb0455075635c8574824b7",
-  "anomalyType": "ACCOUNT_COMPROMISE",
-  "entityType": "SUBSCRIBER",
-  "entityId": "SUB-001",
+  "id": "81205a34-116c-5d90-ae54-d80e0dee4fb1",
+  "episodeId": "24cea43f29777605248c2a46617633dcb2089eda91c9a7817e9d205655377c34",
+  "service": "VOLTE",
+  "scopeId": "VOLTE-MD-CENTRAL",
   "status": "OPEN",
+  "technicalState": "ONGOING",
   "severity": "HIGH",
-  "riskScore": 80,
-  "uncappedScore": 80,
   "assigneeId": null,
   "resolutionNote": null,
-  "windowStart": "2026-09-11T09:00:00Z",
-  "windowEnd": "2026-09-11T09:01:00Z",
-  "detectedAt": "2026-09-11T09:01:06Z",
-  "createdAt": "2026-09-11T09:01:07Z",
-  "updatedAt": "2026-09-11T09:01:07Z",
+  "firstObservedAt": "2026-09-15T10:02:00Z",
+  "detectedAt": "2026-09-15T10:04:10Z",
+  "lastObservedAt": "2026-09-15T10:04:00Z",
+  "createdAt": "2026-09-15T10:04:10Z",
+  "updatedAt": "2026-09-15T10:04:10Z",
   "version": 0,
-  "rulesetVersion": "rules-v1",
-  "featureVersion": 1,
-  "modelVersion": null,
-  "mlStatus": "UNAVAILABLE",
-  "scenarioRunId": "ff73f281-9ca1-5448-ac4d-944a6862570f",
-  "reasons": [
-    {
-      "code": "HIGH_CALLS",
-      "observed": 60,
-      "operator": ">",
-      "threshold": 50,
-      "unit": "calls/min",
-      "contribution": 60,
-      "message": "60 calls exceeded 50 in one minute."
-    },
-    {
-      "code": "INTERNATIONAL_RATIO",
-      "observed": 0.9,
-      "operator": ">",
-      "threshold": 0.8,
-      "unit": "ratio",
-      "contribution": 10,
-      "message": "54 of 60 calls were international (0.90 > 0.80)."
-    },
-    {
-      "code": "UNUSUAL_COUNTRY",
-      "observed": "RO",
-      "operator": "not-in",
-      "baseline": [
-        "MD"
-      ],
-      "unit": "country",
-      "contribution": 10,
-      "message": "RO is outside this synthetic subscriber baseline of MD."
-    }
-  ],
-  "anomalyRank": null,
-  "evidenceCount": 60,
-  "evidenceSamples": [
-    {
-      "schemaVersion": 1,
-      "eventId": "359d0ddf-bd5f-55d8-ab1d-94d8174040ae",
-      "entityType": "SUBSCRIBER",
-      "entityId": "SUB-001",
-      "type": "CALL",
-      "occurredAt": "2026-09-11T09:00:10Z",
-      "emittedAt": "2026-09-11T09:00:10Z",
-      "scenarioRunId": "ff73f281-9ca1-5448-ac4d-944a6862570f",
-      "payload": {
-        "durationSec": 10,
-        "international": true,
-        "country": "RO"
-      }
-    }
-  ],
-  "assignee": null,
-  "audit": [
-    {
-      "id": "b15b1b7b-b1a1-5dd0-a8f5-b71a5b6bad3e",
-      "incidentId": "75d1c5ba-432d-59e5-a577-5d102249b632",
-      "actorKind": "SYSTEM",
-      "actorId": null,
-      "action": "CREATED",
-      "occurredAt": "2026-09-11T09:01:07Z",
-      "requestId": "bc129ab4-e597-50b6-acbd-856714454457",
-      "before": null,
-      "after": {
-        "status": "OPEN",
-        "version": 0
+  "latestSequence": 1,
+  "latestDetection": {
+    "schemaVersion": 2,
+    "episodeId": "24cea43f29777605248c2a46617633dcb2089eda91c9a7817e9d205655377c34",
+    "correlationKey": "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+    "anomalyType": "VOLTE_SETUP_DEGRADATION",
+    "detectionId": "1345ca08dc39743d5dc07783fcd8f18baccd508257429e5ac171ac8741283029",
+    "sequence": 1,
+    "phase": "OPEN",
+    "scopeId": "VOLTE-MD-CENTRAL",
+    "service": "VOLTE",
+    "windowStart": "2026-09-15T10:03:00Z",
+    "windowEnd": "2026-09-15T10:04:00Z",
+    "detectedAt": "2026-09-15T10:04:10Z",
+    "severity": "HIGH",
+    "technicalState": "ONGOING",
+    "rulesetVersion": "service-rules-v2",
+    "baselineVersion": "baseline-v2",
+    "topologyVersion": "topology-v2",
+    "kpis": [
+      {
+        "name": "cssrPct",
+        "observed": 94.0,
+        "baseline": 99.3,
+        "unit": "PERCENT",
+        "numerator": 940,
+        "denominator": 1000
       },
-      "note": null
-    }
-  ],
-  "auditTotal": 1
+      {
+        "name": "sip503Failures",
+        "observed": 55,
+        "baseline": null,
+        "unit": "COUNT",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "rrcSrPct",
+        "observed": 99.5,
+        "baseline": 99.5,
+        "unit": "PERCENT",
+        "numerator": 995,
+        "denominator": 1000
+      },
+      {
+        "name": "bearerSrPct",
+        "observed": 99.0,
+        "baseline": 99.0,
+        "unit": "PERCENT",
+        "numerator": 990,
+        "denominator": 1000
+      }
+    ],
+    "impact": {
+      "extraFailedAttempts": 53.0,
+      "affectedDeliveredMessages": 0,
+      "pendingMessages": 0,
+      "uniqueSubscribers": null
+    },
+    "probableCause": "Probable IMS capacity pressure; confirm traces and dependency health.",
+    "causeConfidence": "MEDIUM",
+    "evidence": [
+      {
+        "code": "SERVICE_KPI_EVIDENCE",
+        "summary": "Service interval quality: COMPLETE.",
+        "nodeId": null,
+        "sourceEventIds": [
+          "c2a43404-17e1-59d0-9999-03f9b0adf7a0"
+        ]
+      },
+      {
+        "code": "ALIGNED_NODE_EVIDENCE",
+        "summary": "Same-scope, same-minute dependency gauges: {\"cpuPct\": 97, \"oldestPendingAgeSec\": 0, \"packetLossRatio\": 0.001, \"queueDepth\": 0, \"throughputMbps\": 100}. Cause remains a hypothesis.",
+        "nodeId": "IMS-A",
+        "sourceEventIds": [
+          "40f346b1-aa73-5e13-8f95-9ebe2dc7f5f5"
+        ]
+      }
+    ],
+    "recommendedChecks": [
+      "Inspect source freshness and affected scope",
+      "Inspect dependency traces and recovery"
+    ],
+    "mlStatus": "NOT_APPLICABLE",
+    "modelVersion": null,
+    "anomalyRank": null
+  }
 }
