@@ -4,3 +4,7 @@
 *.log
 docs/evidence/*/
 !docs/evidence/.gitkeep
+__pycache__/
+*.py[cod]
+.venv/
+target/

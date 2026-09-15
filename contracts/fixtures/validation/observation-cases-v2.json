@@ -1,0 +1,323 @@
+[
+  {
+    "name": "counter-identity",
+    "base": "normal-volte.json",
+    "patch": {
+      "/metrics/attempts": 1021
+    },
+    "valid": false
+  },
+  {
+    "name": "technical-success-over-attempts",
+    "base": "normal-volte.json",
+    "patch": {
+      "/metrics/technicalSuccesses": 1021
+    },
+    "valid": false
+  },
+  {
+    "name": "rrc-own-denominator",
+    "base": "normal-volte.json",
+    "patch": {
+      "/metrics/rrcSuccesses": 1201
+    },
+    "valid": false
+  },
+  {
+    "name": "bearer-own-denominator",
+    "base": "normal-volte.json",
+    "patch": {
+      "/metrics/bearerSuccesses": 1101
+    },
+    "valid": false
+  },
+  {
+    "name": "sip503-subset",
+    "base": "normal-volte.json",
+    "patch": {
+      "/metrics/sip503Count": 6
+    },
+    "valid": false
+  },
+  {
+    "name": "sms-success-over-attempts",
+    "base": "normal-sms.json",
+    "patch": {
+      "/metrics/deliverySuccesses": 103
+    },
+    "valid": false
+  },
+  {
+    "name": "sms-sample-count",
+    "base": "normal-sms.json",
+    "patch": {
+      "/metrics/deliveredMessages": 99
+    },
+    "valid": false
+  },
+  {
+    "name": "sms-negative-delay",
+    "base": "normal-sms.json",
+    "patch": {
+      "/metrics/deliveryDelayMs": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "cpu-percent",
+    "base": "normal-ims.json",
+    "patch": {
+      "/metrics/cpuPct": 101
+    },
+    "valid": false
+  },
+  {
+    "name": "loss-ratio",
+    "base": "normal-transport.json",
+    "patch": {
+      "/metrics/packetLossRatio": 1.01
+    },
+    "valid": false
+  },
+  {
+    "name": "throughput-unit-range",
+    "base": "normal-transport.json",
+    "patch": {
+      "/metrics/throughputMbps": -1
+    },
+    "valid": false
+  },
+  {
+    "name": "age-unit-range",
+    "base": "normal-smsc.json",
+    "patch": {
+      "/metrics/oldestPendingAgeSeconds": -1
+    },
+    "valid": false
+  },
+  {
+    "name": "fractional-queue",
+    "base": "normal-smsc.json",
+    "patch": {
+      "/metrics/queueDepth": 0.5
+    },
+    "valid": false
+  },
+  {
+    "name": "empty-queue-with-age",
+    "base": "normal-smsc.json",
+    "patch": {
+      "/metrics/oldestPendingAgeSeconds": 1
+    },
+    "valid": false
+  },
+  {
+    "name": "minute-alignment",
+    "base": "normal-volte.json",
+    "patch": {
+      "/windowStart": "2026-09-15T08:00:01Z"
+    },
+    "valid": false
+  },
+  {
+    "name": "one-minute-only",
+    "base": "normal-volte.json",
+    "patch": {
+      "/windowEnd": "2026-09-15T08:02:00Z",
+      "/emittedAt": "2026-09-15T08:02:00Z"
+    },
+    "valid": false
+  },
+  {
+    "name": "emitted-before-end",
+    "base": "normal-volte.json",
+    "patch": {
+      "/emittedAt": "2026-09-15T08:00:59Z"
+    },
+    "valid": false
+  },
+  {
+    "name": "utc-only",
+    "base": "normal-volte.json",
+    "patch": {
+      "/emittedAt": "2026-09-15T08:01:00+00:00"
+    },
+    "valid": false
+  },
+  {
+    "name": "invalid-date",
+    "base": "normal-volte.json",
+    "patch": {
+      "/windowStart": "2026-02-30T08:00:00Z"
+    },
+    "valid": false
+  },
+  {
+    "name": "unknown-source",
+    "base": "normal-volte.json",
+    "patch": {
+      "/sourceId": "ROGUE"
+    },
+    "valid": false
+  },
+  {
+    "name": "wrong-service-scope",
+    "base": "normal-volte.json",
+    "patch": {
+      "/scopeId": "SMS-MD-ROUTE-A"
+    },
+    "valid": false
+  },
+  {
+    "name": "wrong-node",
+    "base": "normal-ims.json",
+    "patch": {
+      "/nodeId": "SMSC-A"
+    },
+    "valid": false
+  },
+  {
+    "name": "scenario-leak",
+    "base": "normal-volte.json",
+    "patch": {
+      "/scenarioName": "VOLTE_IMS_OVERLOAD"
+    },
+    "valid": false
+  },
+  {
+    "name": "missing-not-zero",
+    "base": "missing-volte.json",
+    "patch": {
+      "/metrics": {
+        "attempts": 1020,
+        "technicalSuccesses": 995,
+        "technicalFailures": 5,
+        "userOutcomes": 20,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "sip503Count": 2
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "incomplete-counts",
+    "base": "normal-volte.json",
+    "patch": {
+      "/quality": "INCOMPLETE"
+    },
+    "valid": true
+  },
+  {
+    "name": "different-procedure-counts-valid",
+    "base": "normal-volte.json",
+    "patch": {
+      "/metrics/rrcAttempts": 2000,
+      "/metrics/rrcSuccesses": 1900
+    },
+    "valid": true
+  }
+]
