@@ -20,10 +20,21 @@ See the [local development runbook](docs/runbooks/local-dev.md) and
 UTM internship project at Orange Systems Moldova. It uses synthetic telecom
 events to study unusual activity and network impact. No real customer data is used.
 
-## Current milestone
+## Current milestone: Revision 3, 15-16 September 2026
+
+The primary model is customer-facing VoLTE/SMS service assurance. Day 01 freezes
+[TelecomObservationV2 semantics](contracts/README.md); Day 02 supplies runnable
+Java 21 / Spring Boot generator and processor boundaries with deterministic input
+and independent liveness/Kafka readiness probes. No Kafka publishing, persistence,
+KPI finalization or detection pipeline is implemented yet.
+
+- [Build, preview, ports and health checks](docs/runbooks/streaming.md)
+- [Romanian implementation and handoff report](docs/evidence/2026-09-16-streaming-day01-day02.md)
+
+## Legacy Revision 1/2 milestone (preserved)
 
 **Day 01 - 11 September 2026: agree event boundaries.** The repository contains
-the first EventV1 contract draft. There is no running application yet.
+the first EventV1 contract draft. At that milestone there was no running application.
 
 Streaming & Simulator owner: **Zavtoni Ion**.
 
@@ -52,4 +63,5 @@ python -m openapi_spec_validator contracts/openapi/incident-api.yaml
 Planned flow: simulator -> Kafka -> processing -> detection -> impact analysis
 -> dashboard. The backend and frontend will be separate components.
 
-Day 02, scheduled for Monday, 14 September 2026, will add the generator skeleton.
+The old Day 02 generator task, scheduled for 14 September, is carried forward by
+the revised 16 September boundary above. Legacy schemas/examples and topics remain separate.

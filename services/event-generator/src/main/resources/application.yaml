@@ -1,0 +1,30 @@
+server:
+  port: ${SERVER_PORT:8081}
+spring:
+  application:
+    name: event-generator
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:}
+    admin:
+      auto-create: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState,kafka
+telecom:
+  kafka-readiness:
+    timeout: ${KAFKA_READINESS_TIMEOUT:2s}
+    poll-interval: ${KAFKA_READINESS_POLL_INTERVAL:1s}
+logging:
+  level:
+    org.apache.kafka: ERROR
