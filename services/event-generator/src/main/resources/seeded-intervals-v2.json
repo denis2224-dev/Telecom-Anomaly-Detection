@@ -1,0 +1,17 @@
+{
+  "profileVersion": "2-baseline",
+  "entries": [
+    {"minuteOffset": 0, "fixture": "normal-volte.json"},
+    {"minuteOffset": 0, "fixture": "normal-ims.json"},
+    {"minuteOffset": 0, "fixture": "normal-sms.json"},
+    {"minuteOffset": 0, "fixture": "normal-smsc.json"},
+    {"minuteOffset": 1, "fixture": "degraded-volte.json"},
+    {"minuteOffset": 1, "fixture": "degraded-ims.json"},
+    {"minuteOffset": 1, "fixture": "degraded-sms.json"},
+    {"minuteOffset": 1, "fixture": "degraded-smsc.json"},
+    {"minuteOffset": 2, "fixture": "sms-no-completions.json"},
+    {"minuteOffset": 2, "fixture": "degraded-smsc.json"},
+    {"minuteOffset": 2, "fixture": "missing-volte.json"},
+    {"minuteOffset": 2, "fixture": "heartbeat.json"}
+  ]
+}
