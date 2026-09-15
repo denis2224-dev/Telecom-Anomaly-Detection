@@ -4,9 +4,18 @@ services:
   postgres:
     image: postgres:16.4-alpine
     environment:
+      # The image bootstrap database remains the legacy database until Day 02
+      # provisions the three target databases without replacing this volume.
       POSTGRES_DB: ${POSTGRES_DB:-telecom}
       POSTGRES_USER: ${POSTGRES_USER:-telecom_admin}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-telecom_admin_password}
+
+      # Day 01 target reservation.  These names are consumed by the Day 02
+      # non-destructive provisioning script; the existing init script is not
+      # an upgrade mechanism for an already-initialised volume.
+      PROCESSING_DB_NAME: ${PROCESSING_DB_NAME:-processing_db}
+      INCIDENTS_DB_NAME: ${INCIDENTS_DB_NAME:-incidents_db}
+      KEYCLOAK_DB_NAME: ${KEYCLOAK_DB_NAME:-keycloak_db}
       PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
       PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:-processing_app_password}
       INCIDENT_DB_USER: ${INCIDENT_DB_USER:-incident_app}
@@ -65,12 +74,23 @@ services:
         set -euo pipefail
         kafka_topics=/opt/bitnami/kafka/bin/kafka-topics.sh
         common=(--bootstrap-server kafka:9092 --create --if-not-exists --replication-factor 1 --partitions ${KAFKA_TOPIC_PARTITIONS:-3})
+
+        # Revision 1/2 topics remain separate until their retirement is reviewed.
         "$${kafka_topics}" "$${common[@]}" --topic telecom.events.v1 --config retention.ms=86400000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.detections.v1 --config retention.ms=604800000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.telemetry.v1 --config retention.ms=604800000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.events.dlq.v1 --config retention.ms=604800000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.events.late.v1 --config retention.ms=604800000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.detections.dlq.v1 --config retention.ms=604800000
+
+        # Revision 3 service-assurance topics.  V2 observation input has a
+        # 24-hour raw retention; derived, invalid and late records have a
+        # seven-day retention for the local demo.
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2} --config retention.ms=${KAFKA_RAW_RETENTION_MS:-86400000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_KPIS_TOPIC:-telecom.kpis.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_DETECTIONS_TOPIC:-telecom.detections.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
     networks:
       - telecom-private
     restart: "no"
