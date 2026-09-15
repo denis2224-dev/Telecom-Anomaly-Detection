@@ -1,0 +1,35 @@
+{
+  "topologyVersion": "2-baseline",
+  "scopes": [
+    {
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-ADAPTER",
+      "nodes": [
+        {
+          "nodeId": "IMS-A",
+          "sourceId": "IMS-A"
+        },
+        {
+          "nodeId": "TRANSPORT-A",
+          "sourceId": "TRANSPORT-A"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-ROUTE-A",
+      "service": "SMS",
+      "serviceSourceId": "SMS-ADAPTER",
+      "nodes": [
+        {
+          "nodeId": "SMSC-A",
+          "sourceId": "SMSC-A"
+        },
+        {
+          "nodeId": "TRANSPORT-A",
+          "sourceId": "TRANSPORT-A"
+        }
+      ]
+    }
+  ]
+}

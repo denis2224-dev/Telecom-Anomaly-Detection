@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "eventId": "e5b367d4-8fc6-56fd-9c0a-69801e8b91d2",
+  "sourceId": "VOLTE-ADAPTER",
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "kind": "HEARTBEAT",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "emittedAt": "2026-09-15T08:01:00Z",
+  "quality": "COMPLETE"
+}

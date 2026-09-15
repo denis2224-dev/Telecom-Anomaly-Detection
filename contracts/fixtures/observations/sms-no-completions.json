@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 2,
+  "eventId": "88b6641f-e2dc-5fc1-947c-189af40d4424",
+  "sourceId": "SMS-ADAPTER",
+  "scopeId": "SMS-MD-ROUTE-A",
+  "kind": "SERVICE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "emittedAt": "2026-09-15T08:01:00Z",
+  "quality": "COMPLETE",
+  "service": "SMS",
+  "metrics": {
+    "deliveryAttempts": 20,
+    "deliverySuccesses": 0,
+    "deliveredMessages": 0,
+    "deliveryDelayMs": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "eventId": "65e3481b-8b00-5b14-a38a-86f2b8d6ab1e",
+  "sourceId": "VOLTE-ADAPTER",
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "kind": "SERVICE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "emittedAt": "2026-09-15T08:01:00Z",
+  "quality": "COMPLETE",
+  "service": "VOLTE",
+  "metrics": {
+    "attempts": 1020,
+    "technicalSuccesses": 900,
+    "technicalFailures": 100,
+    "userOutcomes": 20,
+    "rrcAttempts": 1200,
+    "rrcSuccesses": 1194,
+    "bearerAttempts": 1100,
+    "bearerSuccesses": 1095,
+    "sip503Count": 80
+  }
+}
