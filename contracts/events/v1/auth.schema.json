@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/telecom/events/v1/auth.schema.json",
+  "title": "AUTH payload v1.0",
+  "description": "One synthetic network authentication attempt. Credentials are not included.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["authenticationId", "success", "country", "deviceId", "networkNodeId"],
+  "properties": {
+    "authenticationId": {"type": "string", "pattern": "^AUTH-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic ID for this attempt.", "not": {"pattern": "\\s"}},
+    "success": {"type": "boolean", "description": "True when authentication succeeds."},
+    "country": {"type": "string", "pattern": "^[A-Z]{2}$", "minLength": 2, "maxLength": 2, "description": "ISO 3166-1 alpha-2 country of the serving network."},
+    "deviceId": {"type": "string", "pattern": "^DEVICE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic device ID, never a real IMEI.", "not": {"pattern": "\\s"}},
+    "networkNodeId": {"type": "string", "pattern": "^NODE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Node handling the attempt.", "not": {"pattern": "\\s"}}
+  }
+}

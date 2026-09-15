@@ -1,10 +1,37 @@
 # Telecom Anomaly Detection
 
-Monorepo for the Telecom Anomaly Detection & Monitoring Platform.
+A telecom anomaly detection and monitoring platform using synthetic telecom data.
+No real customer data is used. Developed as a UTM internship project at Orange
+Systems Moldova.
 
-## Current DevOps Startup
+## Architecture
 
-Start Docker Desktop first, then run from this folder:
+The intended platform flow is:
+
+```text
+Simulator -> Kafka -> Processing -> Detection -> Impact Analysis -> Dashboard
+```
+
+The implemented Streaming components generate and validate observations and expose
+health probes. Kafka publication and consumption, persistent storage, KPI
+finalization, anomaly detection, incident generation, impact analysis and dashboard
+integration are not implemented in these services.
+
+## Repository Structure
+
+| Directory | Contents |
+| --- | --- |
+| `services/event-generator` | Spring Boot service and deterministic observation preview. |
+| `services/processor` | Spring Boot service with an observation validation boundary. |
+| `services/streaming-support` | Shared validation and Kafka readiness library. |
+| `contracts` | JSON schemas, topology, fixtures and the incident API specification. |
+| `docs` | Technical references and runbooks. |
+| `infra` | Local infrastructure configuration and database initialization. |
+| `apps` | Dashboard placeholder. |
+
+## Local Infrastructure
+
+Start Docker Desktop, then run from the repository root in a Bash-compatible shell:
 
 ```bash
 cp .env.example .env
@@ -12,56 +39,42 @@ cp .env.example .env
 ./scripts/verify
 ```
 
-The current stack starts shared infrastructure only: PostgreSQL and Kafka with the MVP topics and database schemas. Application services will be added to `compose.yaml` after each owner pushes runnable code, Dockerfiles, health endpoints, ports, and test commands.
-
-See the [local development runbook](docs/runbooks/local-dev.md) and
+The shared Compose stack starts PostgreSQL and Kafka and initializes database
+schemas and topics. The Java Streaming services run separately; they are not
+Compose services. See the [local development runbook](docs/runbooks/local-dev.md) and
 [shared owner map](docs/architecture/owner-map.md).
 
-UTM internship project at Orange Systems Moldova. It uses synthetic telecom
-events to study unusual activity and network impact. No real customer data is used.
+## Streaming Components
 
-## Current milestone: Revision 3, 15-16 September 2026
+- `TelecomObservationV2` defines one-minute SERVICE, NODE and HEARTBEAT observations.
+- Schema and semantic validation enforce fields, windows, source/scope rules and
+  counter relationships. Finite batch checks detect duplicates and conflicts.
+- The event generator creates deterministic payloads from a seeded fixture profile
+  and supports a JSON preview that exits after generation.
+- The processor provides a Java input validator; it has no HTTP ingestion endpoint
+  or Kafka listener.
+- Both services expose health, liveness and Kafka-dependent readiness probes.
+- Python and Java tests cover contracts, generation and probe behavior.
 
-The primary model is customer-facing VoLTE/SMS service assurance. Day 01 freezes
-[TelecomObservationV2 semantics](contracts/README.md); Day 02 supplies runnable
-Java 21 / Spring Boot generator and processor boundaries with deterministic input
-and independent liveness/Kafka readiness probes. No Kafka publishing, persistence,
-KPI finalization or detection pipeline is implemented yet.
+## Validation
 
-- [Build, preview, ports and health checks](docs/runbooks/streaming.md)
-- [Romanian implementation and handoff report](docs/evidence/2026-09-16-streaming-day01-day02.md)
+Use Python 3.11+ and JDK 21. From the repository root, with a Python virtual
+environment active:
 
-## Legacy Revision 1/2 milestone (preserved)
-
-**Day 01 - 11 September 2026: agree event boundaries.** The repository contains
-the first EventV1 contract draft. At that milestone there was no running application.
-
-Streaming & Simulator owner: **Zavtoni Ion**.
-
-The main telecom domains are call records, SMS events, mobile data sessions and
-network metrics. EventV1 currently allows `CALL`, `SMS`, `DATA`, `AUTH` and
-`NETWORK` events.
-
-- [Component scope and responsibilities](docs/streaming/simulator-scope.md)
-- [EventV1 contract and all field meanings](docs/streaming/event-v1-contract.md)
-- [Complete EventV1 JSON Schema](contracts/events/v1/event.schema.json)
-- [Normal and abnormal event examples](contracts/events/v1/examples/README.md)
-- [Three MVP scenario specifications](docs/streaming/mvp-scenarios.md)
-- [Kafka topic, key and configuration requirements](docs/streaming/kafka-contract.md)
-- [How to validate schemas and examples](docs/streaming/validation.md)
-- [Shared EventV1 integration decisions](docs/streaming/shared-contract-integration.md)
-- [Incident API contract](contracts/openapi/incident-api.yaml)
-
-With Python and the development dependencies installed in an activated virtual
-environment, run:
-
-```text
+```bash
+python -m pip install -r requirements-dev.txt
+python scripts/check-contracts.py
 python -m unittest discover -s tests -v
-python -m openapi_spec_validator contracts/openapi/incident-api.yaml
+./mvnw -pl services/event-generator,services/processor -am test
 ```
 
-Planned flow: simulator -> Kafka -> processing -> detection -> impact analysis
--> dashboard. The backend and frontend will be separate components.
+On Windows, use `.\mvnw.cmd` in place of `./mvnw`.
+Packaging, service startup and smoke tests are in the Streaming runbook.
 
-The old Day 02 generator task, scheduled for 14 September, is carried forward by
-the revised 16 September boundary above. Legacy schemas/examples and topics remain separate.
+## Documentation
+
+- [Streaming and Simulator](docs/streaming/README.md)
+- [TelecomObservationV2 contract](contracts/README.md)
+- [Streaming services: build, run and test](docs/runbooks/streaming.md)
+- [Legacy EventV1 reference](docs/streaming/event-v1-contract.md)
+- [Incident API specification](contracts/openapi/incident-api.yaml)

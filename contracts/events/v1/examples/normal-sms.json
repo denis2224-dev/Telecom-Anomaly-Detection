@@ -1,0 +1,15 @@
+{
+  "eventId": "a1000002-1111-4111-8111-000000000002",
+  "schemaVersion": "1.0",
+  "eventType": "SMS",
+  "occurredAt": "2026-09-11T08:15:31.250Z",
+  "entityType": "SUBSCRIBER",
+  "entityId": "SUB-000001",
+  "payload": {
+    "messageId": "SMS-000001",
+    "direction": "OUTBOUND",
+    "destinationCountry": "MD",
+    "deliveryStatus": "DELIVERED",
+    "networkNodeId": "NODE-CHI-001"
+  }
+}

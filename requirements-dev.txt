@@ -1,0 +1,6 @@
+# Used only by the contract tests.
+jsonschema==4.26.0
+referencing==0.37.0
+PyYAML==6.0.3
+openapi-spec-validator==0.9.0
+openapi-schema-validator==0.9.0

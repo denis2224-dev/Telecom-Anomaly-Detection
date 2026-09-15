@@ -43,8 +43,9 @@ Passed checks:
    required fields, enums, nullability and numeric/array bounds.
 4. All 15 parameter/media examples satisfy their declared schemas.
 5. Detail, list and SSE examples contain the same incident.
-6. The deterministic detection hash matches both this fixture and the test vector
-   on common-guide page 20.
+6. The deterministic detection hash matched the original fixture and the test vector
+   on common-guide page 20. The integrated fixture now uses the canonical subscriber
+   ID and a recomputed hash; see the integration update below.
 7. The revised positive scenario is consistent: 60 calls, 54 international, unusual
    country, ML unavailable; contributions 60 + 10 + 10 = 80, severity HIGH. One
    evidence sample is included; evidenceCount is 60.
@@ -118,7 +119,20 @@ review EventV1 payloads/run IDs and simulator inputs. Stanislav and David must
 review issuer/redirect URLs, role claims, cookie/CSRF choices and the browser DTOs.
 Examples are synthetic; the analyst subject does not claim a provisioned account.
 
-The nested EventV1 payload remains permissive in this draft. Request limits and
+The OpenAPI 3.0 outline delegates full EventV1 payload validation to the canonical
+producer schema; the integrated checks now validate every evidence sample. Request limits and
 new dashboard/history projections are documented proposals, not team-approved
 contracts. The ADR records all remaining decisions. This evidence does not claim
 Day 01 handoff signoff or the Day 03 integration gate is complete.
+
+## Shared EventV1 integration update
+
+The [integration decisions](../streaming/event-v1-contract.md#incident-api-integration) align the
+API evidence and fixture with the producer contract. Event and run IDs now use
+UUID v4, and the subscriber is `SUB-000001`. The detection identity formula is
+unchanged; its new synthetic fixture hash is
+`0d8492e12e5959888d9e1a5285494eb46ae83df13ba2dc8ac75bb226b4e814a2`.
+Incident, audit and analyst identities and all security contracts are preserved.
+The original observed checks above describe the earlier revision. Run the shared
+[validation commands](../runbooks/streaming.md#validation-and-tests) for the current revision,
+including full producer-schema validation of nested evidence.

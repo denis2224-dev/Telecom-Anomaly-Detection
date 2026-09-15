@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/telecom/events/v1/sms.schema.json",
+  "title": "SMS payload v1.0",
+  "description": "Final delivery result for one synthetic message.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["messageId", "direction", "destinationCountry", "deliveryStatus", "networkNodeId"],
+  "properties": {
+    "messageId": {"type": "string", "pattern": "^SMS-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Synthetic logical message ID, shared by all segments.", "not": {"pattern": "\\s"}},
+    "direction": {"type": "string", "enum": ["INBOUND", "OUTBOUND"], "description": "Direction relative to the envelope subscriber."},
+    "destinationCountry": {"type": "string", "pattern": "^[A-Z]{2}$", "minLength": 2, "maxLength": 2, "description": "ISO 3166-1 alpha-2 country of the receiving endpoint."},
+    "deliveryStatus": {"type": "string", "enum": ["DELIVERED", "FAILED"], "description": "Final delivery result."},
+    "networkNodeId": {"type": "string", "pattern": "^NODE-[A-Z0-9]+(-[A-Z0-9]+)*$", "maxLength": 64, "description": "Serving node at the final result.", "not": {"pattern": "\\s"}}
+  }
+}
