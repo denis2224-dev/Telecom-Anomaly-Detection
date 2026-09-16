@@ -75,6 +75,14 @@ public class IncidentAudit {
         this.action = Objects.requireNonNull(action);
         this.requestId = Objects.requireNonNull(requestId);
 
+        if (action.isBlank() || action.length() > 160) {
+            throw new IllegalArgumentException("Action must contain 1 to 160 nonblank characters");
+        }
+
+        if (note != null && note.length() > 2000) {
+            throw new IllegalArgumentException("Note must not exceed 2000 characters");
+        }
+
         if (actorKind == ActorKind.SYSTEM && actor != null) {
             throw new IllegalArgumentException(
                     "SYSTEM audit entries cannot have an analyst actor");
@@ -84,6 +92,10 @@ public class IncidentAudit {
                 && (actor == null || detection != null)) {
             throw new IllegalArgumentException(
                     "ANALYST audit entries require an actor and no detection");
+        }
+
+        if (detection != null && !incident.getEpisodeId().equals(detection.getEpisodeId())) {
+            throw new IllegalArgumentException("Detection must belong to the incident episode");
         }
 
         this.actor = actor;
