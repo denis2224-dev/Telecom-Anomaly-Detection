@@ -1,0 +1,98 @@
+[
+  {
+    "scope": {
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "service": "VOLTE",
+      "region": "Moldova Central",
+      "rat": "LTE",
+      "partner": "Synthetic demo",
+      "route": "IMS-A",
+      "dependencyIds": ["IMS-A", "TRANSPORT-A"]
+    },
+    "freshness": "FRESH",
+    "observedAt": "2026-09-15T08:01:10Z",
+    "openIncidents": 1,
+    "latestWindow": {
+      "schemaVersion": 2,
+      "featureVersion": 2,
+      "windowId": "VOLTE-fixture-0800",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "service": "VOLTE",
+      "windowStart": "2026-09-15T08:00:00Z",
+      "windowEnd": "2026-09-15T08:01:00Z",
+      "quality": "COMPLETE",
+      "baselineVersion": "design-fixture-v2",
+      "topologyVersion": "2-baseline",
+      "kpis": [
+        {
+          "name": "Call setup success rate (CSSR)",
+          "observed": 90,
+          "baseline": 99.5,
+          "unit": "PERCENT",
+          "numerator": 900,
+          "denominator": 1000
+        }
+      ],
+      "featureNames": [],
+      "featureValues": [],
+      "mlEligible": false,
+      "sourceEventIds": []
+    }
+  },
+  {
+    "scope": {
+      "scopeId": "SMS-MD-ROUTE-A",
+      "service": "SMS",
+      "region": "Moldova Central",
+      "rat": "LTE",
+      "partner": "Synthetic demo",
+      "route": "SMSC-A",
+      "dependencyIds": ["SMSC-A", "TRANSPORT-A"]
+    },
+    "freshness": "FRESH",
+    "observedAt": "2026-09-15T08:01:10Z",
+    "openIncidents": 1,
+    "latestWindow": {
+      "schemaVersion": 2,
+      "featureVersion": 2,
+      "windowId": "SMS-fixture-0800",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "service": "SMS",
+      "windowStart": "2026-09-15T08:00:00Z",
+      "windowEnd": "2026-09-15T08:01:00Z",
+      "quality": "COMPLETE",
+      "baselineVersion": "design-fixture-v2",
+      "topologyVersion": "2-baseline",
+      "kpis": [
+        {
+          "name": "SMS delivery delay p95",
+          "observed": 45000,
+          "baseline": 2000,
+          "unit": "MILLISECONDS",
+          "numerator": null,
+          "denominator": 100
+        },
+        {
+          "name": "Pending messages",
+          "observed": 250,
+          "baseline": null,
+          "unit": "COUNT",
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "Oldest pending message",
+          "observed": 90,
+          "baseline": null,
+          "unit": "SECONDS",
+          "numerator": null,
+          "denominator": null
+        }
+      ],
+      "featureNames": [],
+      "featureValues": [],
+      "mlEligible": false,
+      "sourceEventIds": []
+    }
+  }
+]
