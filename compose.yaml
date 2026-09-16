@@ -65,11 +65,9 @@ services:
         set -euo pipefail
         kafka_topics=/opt/bitnami/kafka/bin/kafka-topics.sh
         common=(--bootstrap-server kafka:9092 --create --if-not-exists --replication-factor 1 --partitions ${KAFKA_TOPIC_PARTITIONS:-3})
-        "$${kafka_topics}" "$${common[@]}" --topic telecom.events.v1 --config retention.ms=86400000
+        "$${kafka_topics}" "$${common[@]}" --topic telecom.observations.v2 --config retention.ms=86400000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.detections.v1 --config retention.ms=604800000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.telemetry.v1 --config retention.ms=604800000
-        "$${kafka_topics}" "$${common[@]}" --topic telecom.events.dlq.v1 --config retention.ms=604800000
-        "$${kafka_topics}" "$${common[@]}" --topic telecom.events.late.v1 --config retention.ms=604800000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.detections.dlq.v1 --config retention.ms=604800000
     networks:
       - telecom-private

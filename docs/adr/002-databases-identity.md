@@ -182,10 +182,11 @@ under `contracts/fixtures/`; they are not API definitions.
 Day-one proposed details requiring review include the public assignee projection,
 bounded audit projection, exact field-error structure and request length limits.
 Typed reason codes and simulator request bounds remain jointly reviewed with their
-producer owners. EventV1 evidence follows the canonical
-[producer schema](../../contracts/events/v1/event.schema.json), including its five
-payload types. The OpenAPI 3.0 envelope outline is not a substitute for full
-producer-schema validation. See the [integration decisions](../streaming/event-v1-contract.md#incident-api-integration).
+producer owners.
+
+> **Status note (v2 migration):** The EventV1 streaming contract and subscriber-level
+> evidence model described in this historical ADR have been superseded for the active
+> streaming pipeline by TelecomObservationV2 and service-incident episode evidence (`sourceEventIds`).
 
 ## Implementation and handoff
 

@@ -4,10 +4,9 @@ The [JSON Schema](observations/telecom-observation-v2.schema.json) uses Draft
 2020-12. Observations describe synthetic VoLTE/SMS service measurements, node
 metrics and source activity for one completed minute.
 
-The separate [legacy EventV1 reference](../docs/streaming/event-v1-contract.md)
-covers subscriber events and incident API samples. These formats are not
-interchangeable; do not send v2 observations to `telecom.events.v1` or the legacy
-incident API.
+TelecomObservationV2 is the active streaming contract for service assurance and
+network anomaly detection. It represents one-minute aggregate telecom observations
+and targets the `telecom.observations.v2` Kafka topic.
 
 ## Envelope and time
 

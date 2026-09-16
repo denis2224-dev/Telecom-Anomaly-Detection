@@ -32,7 +32,7 @@ grep -q "processing" <<<"$schemas"
 echo "Checking Kafka topics..."
 topics="$(docker compose exec -T kafka /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
 echo "$topics"
-grep -q "telecom.events.v1" <<<"$topics"
+grep -q "telecom.observations.v2" <<<"$topics"
 grep -q "telecom.detections.v1" <<<"$topics"
 grep -q "telecom.telemetry.v1" <<<"$topics"
 

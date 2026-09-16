@@ -3,6 +3,8 @@
 import copy
 from datetime import datetime
 import json
+from pathlib import Path
+import sys
 import unittest
 
 from jsonschema import Draft202012Validator
@@ -10,7 +12,8 @@ from openapi_schema_validator import OAS30Validator
 from openapi_spec_validator import validate
 import yaml
 
-from test_event_contract import FORMAT_CHECKER, ROOT, read_json
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from test_utils import FORMAT_CHECKER, ROOT, read_json
 
 
 def walk(value):

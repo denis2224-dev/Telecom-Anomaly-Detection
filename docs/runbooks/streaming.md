@@ -136,8 +136,8 @@ python -m openapi_spec_validator contracts/openapi/incident-api.yaml
 ```
 
 The reference suite checks v2 semantics and finite batch conflicts. Full Python
-discovery also checks legacy EventV1 schemas, field documentation, local links,
-incident API examples and fixtures. Java tests exercise shared validation,
+discovery checks the v2 reference suite, service incident API contract, OpenAPI
+examples and shared fixtures. Java tests exercise shared validation,
 deterministic generation and the processor input method. Each service's health
 test starts an embedded KRaft broker, checks readiness UP, then stops the broker
 and checks readiness DOWN while liveness remains UP. Docker is not required for
