@@ -1,4 +1,4 @@
-package md.utm.telecom.incidents;
+package md.utm.telecom;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

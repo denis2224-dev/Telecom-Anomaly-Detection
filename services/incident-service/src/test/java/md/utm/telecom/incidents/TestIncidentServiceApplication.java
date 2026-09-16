@@ -1,5 +1,6 @@
 package md.utm.telecom.incidents;
 
+import md.utm.telecom.IncidentServiceApplication;
 import org.springframework.boot.SpringApplication;
 
 public class TestIncidentServiceApplication {

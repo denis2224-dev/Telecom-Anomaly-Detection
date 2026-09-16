@@ -1,4 +1,4 @@
-package md.utm.telecom.incidents.model;
+package md.utm.telecom.analysts.model;
 
 import jakarta.persistence.*;
 import java.time.Instant;

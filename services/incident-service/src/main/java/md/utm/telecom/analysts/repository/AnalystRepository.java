@@ -1,6 +1,6 @@
-package md.utm.telecom.incidents.repository;
+package md.utm.telecom.analysts.repository;
 
-import md.utm.telecom.incidents.model.Analyst;
+import md.utm.telecom.analysts.model.Analyst;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
