@@ -6,10 +6,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import md.utm.telecom.observation.ObservationValidator;
+import md.utm.telecom.observation.TopologyCatalog;
+import md.utm.telecom.processing.topology.ScopeRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.test.EmbeddedKafkaKraftBroker;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -25,6 +29,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class HealthProbeTest {
     private static final EmbeddedKafkaKraftBroker BROKER = new EmbeddedKafkaKraftBroker(1, 1);
     @LocalServerPort int port;
+    @Autowired ObservationInput input;
+    @Autowired ScopeRegistry scopes;
+    @Autowired TopologyCatalog topology;
     private final HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(2)).build();
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -40,6 +47,13 @@ class HealthProbeTest {
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(status, response.statusCode(), response.body());
         assertEquals(health, mapper.readTree(response.body()).get("status").asText());
+    }
+
+    @Test
+    void applicationWiresCanonicalCatalogIntoProcessorBoundary() throws Exception {
+        var observation = ObservationValidator.resource("fixtures/observations/normal-volte.json", mapper);
+        assertSame(topology.requireScope("VOLTE-MD-CENTRAL"), scopes.requireScope("VOLTE-MD-CENTRAL"));
+        assertSame(scopes.requireScope("VOLTE-MD-CENTRAL"), input.validate(observation));
     }
 
     @Test

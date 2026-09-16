@@ -58,6 +58,33 @@ no subscriber identities, and cannot contain whitespace. The common transport
 dependency is not authorization to join or merge service incidents. The registry
 must be expanded explicitly before adding independent load scopes.
 
+Java loads this inventory once per application context into an immutable
+`TopologyCatalog`. `ObservationValidator` and processor `ScopeRegistry` use that
+same catalog and its authority predicates. Startup rejects missing resources,
+blank versions, malformed fields, duplicate scope IDs, duplicate node IDs within
+a scope, and multiple nodes assigned to one reporter within a scope. IDs remain
+opaque: a node's `sourceId` is read from inventory, not inferred from `nodeId`.
+Unknown scopes fail closed; inventory values are not mutable JSON views.
+
+## Kafka observation partition key
+
+For `telecom.observations.v2`, the agreed record key is the exact, case-sensitive
+`scopeId`, serialized as UTF-8 text. SERVICE, NODE and HEARTBEAT records for the
+same scope use the same key so later minute-window processing can keep their
+evidence together in one partition. A shared node such as TRANSPORT-A reports
+separate scoped observations, each with its own event ID and the corresponding
+scope key; sharing a dependency does not merge scopes.
+
+This is distinct from both the observation `eventId` and the natural interval key.
+Do not key observations by event ID, source, seed, scenario or run ID. Partition
+order is broker append order, not guaranteed event-time order; later ingestion
+must still handle retries, conflicts and late arrivals. The key-to-partition
+mapping assumes a consistent partitioner and partition count; future partition
+expansion requires a coordinated state transition.
+
+This is a contract decision for later wiring. Day 03 implements neither a Kafka
+producer nor a consumer, and provisioning a topic does not prove message flow.
+
 ## VoLTE counters and denominators
 
 All counters are nonnegative integers up to `2^53 - 1`.

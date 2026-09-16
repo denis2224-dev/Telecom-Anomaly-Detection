@@ -9,21 +9,23 @@ import com.networknt.schema.SpecVersion;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 /** Stateless per-document boundary. Receipt conflict checks are a separate operation. */
 public final class ObservationValidator {
     private final JsonSchema schema;
-    private final Map<String, JsonNode> scopes = new HashMap<>();
+    private final TopologyCatalog topology;
 
     public ObservationValidator() throws IOException {
+        this(TopologyCatalog.load());
+    }
+
+    public ObservationValidator(TopologyCatalog topology) throws IOException {
+        this.topology = Objects.requireNonNull(topology, "topology");
         var mapper = new ObjectMapper();
         var config = SchemaValidatorsConfig.builder().formatAssertionsEnabled(true).build();
         schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
                 resource("observations/telecom-observation-v2.schema.json", mapper), config);
-        resource("topology/demo-scopes-v2.json", mapper).get("scopes")
-                .forEach(scope -> scopes.put(scope.get("scopeId").asText(), scope));
     }
 
     public static JsonNode resource(String path, ObjectMapper mapper) throws IOException {
@@ -40,23 +42,15 @@ public final class ObservationValidator {
         var end = Instant.parse(event.get("windowEnd").asText());
         require(Duration.between(start, end).equals(Duration.ofMinutes(1)), "Expected one minute");
         require(!Instant.parse(event.get("emittedAt").asText()).isBefore(end), "emittedAt before end");
-        var scope = scopes.get(event.get("scopeId").asText());
-        require(scope != null, "Unknown scope");
+        var scope = topology.requireScope(event.get("scopeId").asText());
         var kind = event.get("kind").asText();
         var source = event.get("sourceId").asText();
-        boolean serviceSource = scope.get("serviceSourceId").asText().equals(source);
-        boolean nodeSource = false;
-        for (var node : scope.get("nodes")) {
-            if (node.get("sourceId").asText().equals(source)) {
-                nodeSource = true;
-                if (kind.equals("NODE")) require(node.get("nodeId").equals(event.get("nodeId")), "Wrong node");
-            }
-        }
         switch (kind) {
-            case "SERVICE" -> require(serviceSource && scope.get("service").equals(event.get("service")),
+            case "SERVICE" -> require(scope.isAuthoritativeServiceSource(event.get("service").asText(), source),
                     "Non-authoritative service source/scope");
-            case "NODE" -> require(nodeSource, "Non-authoritative node source/scope");
-            case "HEARTBEAT" -> require(serviceSource || nodeSource, "Unknown heartbeat source");
+            case "NODE" -> require(scope.isAuthoritativeNodeSource(event.get("nodeId").asText(), source),
+                    "Non-authoritative node source/scope");
+            case "HEARTBEAT" -> require(scope.isKnownHeartbeatSource(source), "Unknown heartbeat source");
             default -> throw new IllegalArgumentException("Unknown kind");
         }
         var m = event.get("metrics");

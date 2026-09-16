@@ -19,13 +19,19 @@ it does not schedule continuous generation or publish messages.
 
 `services/processor` is a Spring Boot application with health probes.
 `ObservationInput.validate(JsonNode)` checks one observation through the shared
-validator. This is a Java method, with no HTTP ingestion endpoint or Kafka listener.
+validator and returns its canonical immutable scope from `ScopeRegistry` for
+later ingestion. Registry and validator receive the same versioned
+`TopologyCatalog` through constructor injection. The registry exposes service
+ownership, node dependencies and heartbeat authority without parsing a second
+inventory. This is a Java method, with no HTTP ingestion endpoint or Kafka listener.
 It does not store observations, track duplicates or compute features.
 
 ### Streaming Support
 
 `services/streaming-support` is a shared library. `ObservationValidator` checks
-schema and per-document semantics against packaged topology. `ObservationBatch`
+schema and per-document semantics against the immutable `TopologyCatalog` loaded
+from packaged topology. Scope authority predicates live only in that catalog.
+`ObservationBatch`
 adds in-memory duplicate/conflict checks for finite batches. `KafkaReadiness`
 polls broker metadata separately from HTTP probe requests.
 
@@ -50,7 +56,8 @@ Fixture profile -> Event Generator -> v2 validation and batch checks -> JSON pre
 Implemented processor input:
 
 ```text
-TelecomObservationV2 -> ObservationInput.validate -> schema and semantic checks
+TelecomObservationV2 -> schema + semantic/authority checks (shared TopologyCatalog)
+                    -> ScopeRegistry canonical scope -> processor validation boundary
 ```
 
 Intended platform:
@@ -103,8 +110,9 @@ The shared [Compose stack](../../compose.yaml) provisions a single broker and
 the `telecom.observations.v2` observation topic. The generator currently does
 not publish to Kafka yet, and the processor currently does not consume from
 Kafka yet. No runtime Kafka producer or consumer configuration is implemented in
-Java services yet. The observation natural key is a validation identity, not an
-implemented Kafka message key.
+Java services yet. The agreed future observation message key is the exact
+UTF-8 `scopeId`; see the [partition-key contract](../../contracts/README.md#kafka-observation-partition-key).
+The natural interval key remains a separate validation/deduplication identity.
 
 Use `KAFKA_BOOTSTRAP_SERVERS` for readiness connectivity. See the
 [runbook](../runbooks/streaming.md) for addresses, timeouts, probes and commands.
@@ -116,6 +124,8 @@ Use `KAFKA_BOOTSTRAP_SERVERS` for readiness connectivity. See the
 generation and live HTTP probes against an embedded Kafka broker.
 `scripts/check-streaming-smoke.py` checks packaged previews and unavailable-broker
 startup. The [runbook](../runbooks/streaming.md#validation-and-tests) lists commands.
+The [Day 03 G0 evidence](../evidence/2026-09-17-g0-streaming.md) records fixture
+ownership, negative tests, runtime checks and the remaining shared database gate.
 
 ## Limitations
 
