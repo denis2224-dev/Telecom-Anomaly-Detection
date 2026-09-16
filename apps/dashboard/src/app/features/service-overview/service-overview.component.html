@@ -19,7 +19,8 @@
   @if (selected(); as service) {
     <section class="detail-panel">
       <p class="eyebrow">
-        {{ service.scope.service }} · {{ service.freshness }}
+        {{ service.scope.service }} · {{ service.freshness }} · Current health:
+        {{ health(service) }}
       </p>
       <h2>{{ service.scope.scopeId }}</h2>
       <p>
@@ -30,6 +31,8 @@
         {{ service.openIncidents }} unresolved incident episodes. Technical
         recovery does not automatically close analyst work.
       </p>
+      <p class="health-summary"><strong>Current health: {{ health(service) }}</strong></p>
+      <p class="muted">{{ healthExplanation(service) }}</p>
       @if (service.latestWindow; as window) {
         <p class="muted">
           Observation: {{ time(window.windowStart) }} –
@@ -62,8 +65,7 @@
         </div>
       } @else {
         <div class="notice">
-          Monitoring data is missing. Service health is unknown; no healthy
-          value can be inferred.
+          {{ healthExplanation(service) }}
         </div>
       }
     </section>
@@ -139,7 +141,8 @@
           </p>
         </div>
         <div>
-          <strong>{{ service.freshness }}</strong>
+          <strong>Current health: {{ health(service) }}</strong>
+          <p><span class="status-label">Data status: {{ service.freshness }}</span></p>
           <p>
             {{
               service.latestWindow

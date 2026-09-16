@@ -219,6 +219,17 @@ p {
 .service-row strong {
   font-size: 12px;
 }
+.service-row a {
+  display: inline-block;
+}
+.status-label,
+.health-summary strong {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+.health-summary {
+  margin: 18px 0 0;
+}
 .state-panel,
 .detail-panel {
   padding: 34px;
