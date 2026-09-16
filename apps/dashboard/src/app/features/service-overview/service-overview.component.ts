@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, signal } from "@angular/core";
-import { ActivatedRoute, RouterLink } from "@angular/router";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { TelecomClient, ServiceSummary } from "../../core/api/telecom-client";
+import { ActivatedRoute, RouterLink } from "@angular/router";
+import { ServiceStore, ServiceHealth } from "./service.store";
 
 @Component({
   selector: "app-service-overview",
@@ -9,39 +9,34 @@ import { TelecomClient, ServiceSummary } from "../../core/api/telecom-client";
   templateUrl: "./service-overview.component.html",
 })
 export class ServiceOverviewComponent {
-  private readonly api = inject(TelecomClient);
+  readonly store = inject(ServiceStore);
   private readonly destroyRef = inject(DestroyRef);
-  readonly services = signal<ServiceSummary[]>([]);
-  readonly loading = signal(true);
-  readonly error = signal("");
+  readonly services = this.store.services;
+  readonly loading = this.store.loading;
+  readonly error = this.store.error;
   readonly scopeId = signal<string | null>(null);
+
   constructor() {
     inject(ActivatedRoute)
-      .paramMap.pipe(takeUntilDestroyed())
+      .paramMap.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => this.scopeId.set(params.get("scopeId")));
     void this.load();
   }
+
   async load(): Promise<void> {
-    this.loading.set(true);
-    this.error.set("");
-    try {
-      const services = await this.api.listServices();
-      if (!this.destroyRef.destroyed) this.services.set(services);
-    } catch (error) {
-      if (!this.destroyRef.destroyed)
-        this.error.set(
-          error instanceof Error
-            ? error.message
-            : "Services could not be loaded.",
-        );
-    } finally {
-      if (!this.destroyRef.destroyed) this.loading.set(false);
-    }
+    await this.store.load();
   }
-  selected(): ServiceSummary | undefined {
-    return this.services().find(
-      (service) => service.scope.scopeId === this.scopeId(),
-    );
+
+  selected() {
+    return this.store.selected(this.scopeId());
+  }
+
+  health(service: Parameters<ServiceStore["health"]>[0]): ServiceHealth {
+    return this.store.health(service);
+  }
+
+  healthExplanation(service: Parameters<ServiceStore["health"]>[0]): string {
+    return this.store.healthExplanation(this.health(service));
   }
   metric(value: number | null, unit: string): string {
     if (value === null) return "Unavailable";
