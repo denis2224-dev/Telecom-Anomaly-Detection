@@ -1,3 +1,21 @@
 spring:
   application:
     name: IncidentService
+  datasource:
+    url: ${INCIDENT_DB_URL:jdbc:postgresql://localhost:5432/incidents_db?currentSchema=app}
+    username: ${INCIDENT_DB_USER:incidents_app}
+    password: ${INCIDENT_DB_PASSWORD}
+  flyway:
+    url: ${INCIDENT_DB_URL:jdbc:postgresql://localhost:5432/incidents_db?currentSchema=app}
+    user: ${INCIDENT_MIGRATOR_USER:incidents_migrator}
+    password: ${INCIDENT_MIGRATOR_PASSWORD}
+    default-schema: app
+    schemas: app
+    create-schemas: false
+    clean-disabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: app
