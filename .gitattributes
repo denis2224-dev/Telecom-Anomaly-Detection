@@ -1,0 +1,3 @@
+# Ensure shell scripts retain LF line endings on Windows for Docker compatibility
+*.sh text eol=lf
+scripts/* text eol=lf

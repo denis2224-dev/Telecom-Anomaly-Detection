@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -eu
 
 psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
 DO \$\$
