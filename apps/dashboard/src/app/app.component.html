@@ -1,0 +1,82 @@
+<a class="skip-link" href="#workspace">Skip to workspace</a>
+<header class="app-header">
+  <a class="brand" routerLink="/dashboard"
+    ><span class="brand-mark">T</span
+    ><span>TELECOM<small>SERVICE ASSURANCE</small></span></a
+  >
+  @if (session.actor(); as actor) {
+    <div class="identity">
+      <span
+        >{{ actor.displayName }} · {{ actor.roles.join(", ")
+        }}<small
+          >Session ends {{ actor.expiresAt | date: "HH:mm" : "UTC" }} UTC</small
+        ></span
+      ><button (click)="session.logout()">Sign out</button>
+    </div>
+  }
+</header>
+<div class="workspace-layout">
+  <nav aria-label="Workspace">
+    <p class="eyebrow">Workspace</p>
+    <a routerLink="/dashboard" class="nav-link">Service overview</a>
+    <p class="nav-note">VoLTE setup<br />SMS delivery</p>
+  </nav>
+  <main id="workspace">
+    @if (fixture) {
+      <div class="preview-label">
+        SYNTHETIC FIXTURE PREVIEW · Sample data, no live telemetry or
+        authenticated session
+      </div>
+    }
+    @switch (session.phase()) {
+      @case ("loading") {
+        <section class="state-panel" role="status">
+          <h1>Loading your workspace</h1>
+          <p>Checking the backend session and session protection settings.</p>
+        </section>
+      }
+      @case ("authenticated") {
+        <router-outlet />
+      }
+      @case ("fixture") {
+        <router-outlet />
+      }
+      @case ("error") {
+        <section class="state-panel" role="alert">
+          <h1>Unable to verify your session</h1>
+          <p>{{ session.message() }}</p>
+          <button (click)="session.initialize()">Retry connection</button>
+        </section>
+      }
+      @case ("forbidden") {
+        <section class="state-panel" role="alert">
+          <h1>Access unavailable</h1>
+          <p>{{ session.message() }}</p>
+          <button (click)="session.login()">
+            Sign in with another account
+          </button>
+        </section>
+      }
+      @default {
+        <section class="state-panel">
+          <p class="eyebrow">Analyst workspace</p>
+          <h1>
+            {{
+              session.phase() === "expired"
+                ? "Your session has expired"
+                : "Sign in to investigate service issues"
+            }}
+          </h1>
+          <p>Review VoLTE and SMS evidence with your organization’s account.</p>
+          <button class="primary" (click)="session.login()">
+            Continue to sign in
+          </button>
+        </section>
+      }
+    }
+    <footer>
+      Telecom service assurance · Service health and analyst workflow are
+      separate states.
+    </footer>
+  </main>
+</div>

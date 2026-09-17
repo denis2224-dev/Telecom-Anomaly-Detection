@@ -12,7 +12,7 @@ if [[ -f .env ]]; then
   set +a
 fi
 
-POSTGRES_DB="${POSTGRES_DB:-telecom}"
+POSTGRES_DB="${POSTGRES_DB:-postgres}"
 POSTGRES_USER="${POSTGRES_USER:-telecom_admin}"
 
 echo "Checking Docker daemon..."
@@ -24,14 +24,58 @@ docker compose config --quiet
 echo "Checking PostgreSQL readiness..."
 docker compose exec -T postgres pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
-echo "Checking PostgreSQL schemas..."
-schemas="$(docker compose exec -T postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "select schema_name from information_schema.schemata where schema_name in ('incidents','processing') order by schema_name;")"
-echo "$schemas"
-grep -q "incidents" <<<"$schemas"
-grep -q "processing" <<<"$schemas"
+echo "Checking PostgreSQL database ownership and access isolation..."
+database_checks="$(docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 \
+  -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tA <<'SQL'
+WITH expected(database_name, owner_name, runtime_name) AS (
+  VALUES ('processing_db', 'processing_migrator', 'processing_app'),
+         ('incidents_db', 'incidents_migrator', 'incidents_app'),
+         ('keycloak_db', 'keycloak_app', 'keycloak_app')
+)
+SELECT bool_and(COALESCE(
+  pg_get_userbyid(d.datdba) = e.owner_name
+  AND r.rolcanlogin AND NOT r.rolsuper AND NOT r.rolcreatedb AND NOT r.rolcreaterole
+  AND has_database_privilege(r.oid, d.oid, 'CONNECT')
+  AND has_database_privilege(e.owner_name, d.oid, 'CONNECT')
+  AND NOT EXISTS (
+    SELECT 1 FROM expected other
+    WHERE other.database_name <> e.database_name
+      AND (has_database_privilege(r.oid, other.database_name, 'CONNECT')
+        OR has_database_privilege(e.owner_name, other.database_name, 'CONNECT'))
+  ), false))
+FROM expected e
+LEFT JOIN pg_database d ON d.datname = e.database_name
+LEFT JOIN pg_roles r ON r.rolname = e.runtime_name;
+SQL
+)"
+if [[ "$database_checks" != "t" ]]; then
+  echo "Database ownership, role permissions or database isolation is incorrect." >&2
+  exit 1
+fi
+
+for application in processing incidents; do
+  echo "Checking ${application}_db.app ownership and runtime permissions..."
+  schema_checks="$(docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 \
+    -U "$POSTGRES_USER" -d "${application}_db" -tA \
+    -v migrator="${application}_migrator" -v runtime="${application}_app" <<'SQL'
+SELECT COALESCE((
+  SELECT pg_get_userbyid(nspowner) = :'migrator'
+    AND has_schema_privilege(:'runtime', oid, 'USAGE')
+    AND NOT has_schema_privilege(:'runtime', oid, 'CREATE')
+    AND NOT has_schema_privilege(:'runtime', 'public', 'CREATE')
+    AND NOT has_database_privilege(:'runtime', current_database(), 'CREATE')
+  FROM pg_namespace WHERE nspname = 'app'
+), false);
+SQL
+)"
+  if [[ "$schema_checks" != "t" ]]; then
+    echo "${application}_db.app is missing or its ownership/runtime permissions are incorrect." >&2
+    exit 1
+  fi
+done
 
 echo "Checking Kafka topics..."
-topics="$(docker compose exec -T kafka /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
+topics="$(docker compose exec -T kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
 echo "$topics"
 grep -q "telecom.observations.v2" <<<"$topics"
 grep -q "telecom.detections.v1" <<<"$topics"

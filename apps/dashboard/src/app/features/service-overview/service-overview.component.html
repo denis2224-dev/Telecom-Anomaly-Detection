@@ -1,0 +1,161 @@
+<div class="page-heading">
+  <p class="eyebrow">Service investigation</p>
+  <h1>{{ scopeId() ? "Service scope" : "Network overview" }}</h1>
+  <p>
+    Understand what was observed, how much was measured, and where evidence is
+    missing.
+  </p>
+</div>
+@if (loading()) {
+  <section class="state-panel" role="status">Loading service scopes…</section>
+} @else if (error()) {
+  <section class="state-panel" role="alert">
+    <h2>Services could not be loaded</h2>
+    <p>{{ error() }}</p>
+    <button (click)="load()">Retry</button>
+  </section>
+} @else if (scopeId()) {
+  <a class="back-link" routerLink="/dashboard">← All service scopes</a>
+  @if (selected(); as service) {
+    <section class="detail-panel">
+      <p class="eyebrow">
+        {{ service.scope.service }} · {{ service.freshness }} · Current health:
+        {{ health(service) }}
+      </p>
+      <h2>{{ service.scope.scopeId }}</h2>
+      <p>
+        {{ service.scope.region }} · {{ service.scope.rat }} ·
+        {{ service.scope.route }}
+      </p>
+      <p>
+        {{ service.openIncidents }} unresolved incident episodes. Technical
+        recovery does not automatically close analyst work.
+      </p>
+      <p class="health-summary"><strong>Current health: {{ health(service) }}</strong></p>
+      <p class="muted">{{ healthExplanation(service) }}</p>
+      @if (service.latestWindow; as window) {
+        <p class="muted">
+          Observation: {{ time(window.windowStart) }} –
+          {{ time(window.windowEnd) }} · Europe/Chisinau · {{ window.quality }}
+        </p>
+        <div class="metric-list">
+          @for (kpi of window.kpis; track kpi.name) {
+            <section>
+              <h3>{{ kpi.name }}</h3>
+              <dl>
+                <div>
+                  <dt>Observed</dt>
+                  <dd>{{ metric(kpi.observed, kpi.unit) }}</dd>
+                </div>
+                <div>
+                  <dt>Expected baseline</dt>
+                  <dd>{{ metric(kpi.baseline, kpi.unit) }}</dd>
+                </div>
+                <div>
+                  <dt>Denominator / sample volume</dt>
+                  <dd>
+                    {{
+                      kpi.denominator === null ? "Unavailable" : kpi.denominator
+                    }}
+                  </dd>
+                </div>
+              </dl>
+            </section>
+          }
+        </div>
+      } @else {
+        <div class="notice">
+          {{ healthExplanation(service) }}
+        </div>
+      }
+    </section>
+  } @else {
+    <section class="state-panel">
+      <h2>Service scope not found</h2>
+      <p>This scope is not present in the current response.</p>
+    </section>
+  }
+} @else if (services().length === 0) {
+  <section class="state-panel">
+    <h2>No monitored service scopes</h2>
+    <p>The request succeeded, but no service scopes were returned.</p>
+  </section>
+} @else {
+  <div class="overview-grid">
+    <section class="priority-panel">
+      <p class="eyebrow">Investigation focus</p>
+      <h2>Start with service evidence</h2>
+      <p>
+        Compare VoLTE setup success and SMS delivery delay against their
+        expected values. Read the sample volume before interpreting a percentage
+        or a delay.
+      </p>
+      <p class="muted">
+        Missing telemetry means unknown service health. A completed observation
+        is evidence coverage, not a health verdict.
+      </p>
+      <a
+        class="button primary"
+        [routerLink]="['/services', services()[0].scope.scopeId]"
+        >Review {{ services()[0].scope.service }} scope →</a
+      >
+    </section>
+    <aside class="support">
+      <section>
+        <h3>Observed and expected</h3>
+        <p>
+          Read measured values alongside the baseline for the same service
+          scope.
+        </p>
+      </section>
+      <section>
+        <h3>Sample volume matters</h3>
+        <p>
+          Zero attempts give an unavailable rate. No completed SMS samples do
+          not prove an empty queue.
+        </p>
+      </section>
+      <section>
+        <h3>Recovery and workflow</h3>
+        <p>A recovered service can still have an open analyst investigation.</p>
+      </section>
+    </aside>
+  </div>
+  <div class="section-heading">
+    <h2>Monitored scopes</h2>
+    <span class="muted">Observation times: Europe/Chisinau</span>
+  </div>
+  <div class="service-list">
+    @for (service of services(); track service.scope.scopeId) {
+      <article class="service-row">
+        <div>
+          <span class="eyebrow">{{ service.scope.service }}</span>
+          <h3>
+            <a [routerLink]="['/services', service.scope.scopeId]">{{
+              service.scope.scopeId
+            }}</a>
+          </h3>
+          <p>
+            {{ service.scope.region }} · {{ service.scope.rat }} ·
+            {{ service.scope.route }}
+          </p>
+        </div>
+        <div>
+          <strong>Current health: {{ health(service) }}</strong>
+          <p><span class="status-label">Data status: {{ service.freshness }}</span></p>
+          <p>
+            {{
+              service.latestWindow
+                ? time(service.latestWindow.windowEnd)
+                : "No observation available"
+            }}
+          </p>
+        </div>
+        <div>
+          <strong>{{ service.openIncidents }} open episodes</strong>
+          <p>Analyst workflow</p>
+        </div>
+      </article>
+    }
+  </div>
+}

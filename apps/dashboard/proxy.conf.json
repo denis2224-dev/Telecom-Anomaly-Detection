@@ -1,0 +1,6 @@
+{
+  "/api/**": { "target": "http://telecom.test:8080", "changeOrigin": true },
+  "/oauth2/**": { "target": "http://telecom.test:8080", "changeOrigin": true },
+  "/login/**": { "target": "http://telecom.test:8080", "changeOrigin": true },
+  "/logout": { "target": "http://telecom.test:8080", "changeOrigin": true }
+}
