@@ -31,16 +31,18 @@ integration are not implemented in these services.
 
 ## Local Infrastructure
 
-Start Docker Desktop, then run from the repository root in a Bash-compatible shell:
+Start Docker Desktop and generate `.env` with the password-generation command in
+the [local development runbook](docs/runbooks/local-dev.md). Then run from the
+repository root in a Bash-compatible shell:
 
 ```bash
-cp .env.example .env
 ./scripts/up
 ./scripts/verify
 ```
 
-The shared Compose stack starts PostgreSQL and Kafka and initializes database
-schemas and topics. The Java Streaming services run separately; they are not
+The shared Compose stack starts PostgreSQL and Kafka and initializes three databases
+(`processing_db`, `incidents_db`, `keycloak_db`), application schemas and topics.
+The Java Streaming services run separately; they are not
 Compose services. See the [local development runbook](docs/runbooks/local-dev.md) and
 [shared owner map](docs/architecture/owner-map.md).
 
