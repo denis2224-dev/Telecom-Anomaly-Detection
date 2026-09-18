@@ -32,6 +32,24 @@ class DetectionContractTests(unittest.TestCase):
         shared.SharedContractTests.setUpClass()
         shared.SharedContractTests.detection_validator.validate(detection)
 
+    def test_illustrative_detection_matches_feature_evidence_and_public_api(self):
+        detection = read_json(ROOT / 'contracts/fixtures/detections/voice-open-illustrative-v2.json')
+        feature = read_json(ROOT / 'contracts/fixtures/features/voice-worked-v2.json')
+        schema = read_json(ROOT / 'contracts/detections/service-detection-v2.schema.json')
+        validator = Draft202012Validator(schema, format_checker=FORMAT_CHECKER)
+        validator.validate(detection)
+        shared.SharedContractTests.setUpClass()
+        shared.SharedContractTests.detection_validator.validate(detection)
+        self.assertEqual(detection['kpis'], feature['kpis'])
+        self.assertEqual(detection['evidence'][0]['sourceEventIds'], feature['sourceEventIds'])
+        self.assertEqual(detection['impact']['extraFailedAttempts'], 53)
+        self.assertEqual(detection['mlStatus'], 'UNAVAILABLE')
+        self.assertFalse(validator.is_valid(dict(detection, anomalyRank=0)))
+        self.assertFalse(validator.is_valid(dict(detection, mlStatus='OK')))
+        wrong = copy.deepcopy(detection)
+        wrong['impact']['uniqueSubscribers'] = 53
+        self.assertFalse(validator.is_valid(wrong))
+
     def test_feature_schema_rejects_wrong_order_and_fake_ineligible_vector(self):
         schema = read_json(ROOT / 'contracts/features/service-feature-window-v2.schema.json')
         names = read_json(ROOT / 'contracts/features/feature-order-v2.json')['models']['VOLTE']

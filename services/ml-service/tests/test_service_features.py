@@ -43,6 +43,8 @@ class FeatureTests(unittest.TestCase):
                 baseline = context(raw['service'])
                 result = build_features(raw, nodes, baseline)
                 validator.validate(result)
+                if case['id'] == 'voice-worked-53':
+                    self.assertEqual(result, read('contracts/fixtures/features/voice-worked-v2.json'))
                 expected = case['expected']
                 self.assertEqual(result['mlEligible'], expected['mlEligible'])
                 self.assertEqual(len(result['featureValues']), len(expected['featureValues']))
@@ -122,6 +124,14 @@ class FeatureTests(unittest.TestCase):
         conflict['metrics']['cpuPct'] = 70
         with self.assertRaises(ValueError):
             build_features(raw, [node, conflict], context())
+
+    def test_valid_large_measurement_keeps_kpis_but_skips_model_vector(self):
+        raw = observation('normal-sms')
+        raw['metrics']['deliveryDelayMs'] = [1000000001] * 100
+        result = build_features(raw, [observation('normal-smsc')], context('SMS'))
+        self.assertFalse(result['mlEligible'])
+        self.assertEqual(result['featureValues'], [])
+        self.assertEqual(next(k['observed'] for k in result['kpis'] if k['name'] == 'p95DeliveryMs'), 1000000001)
 
     def test_wrong_baseline_context_is_rejected(self):
         for field, value in [('scopeId', 'OTHER'), ('service', 'SMS'), ('hourOfWeek', 33)]:

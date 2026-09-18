@@ -66,7 +66,9 @@
         "technicalFailures": 60,
         "sip503Count": 55
       },
-      "envelopePatch": {},
+      "envelopePatch": {
+        "eventId": "275a8644-90df-5b04-a36d-e48adcaccd92"
+      },
       "expected": {
         "mlEligible": true,
         "featureValues": [

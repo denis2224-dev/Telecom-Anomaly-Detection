@@ -103,6 +103,7 @@ def build_features(observation, node_observations, baseline):
         kpi('sip503Count', m.get('sip503Count'), 'COUNT')
         rrc = rate('rrcSrPct', 'rrcSuccesses', 'rrcAttempts')
         bearer = rate('bearerSrPct', 'bearerSuccesses', 'bearerAttempts')
+        # ponytail: fixed demo node roles; add inventory role metadata before supporting other node layouts.
         loss = kpi('packetLossRatio', nodes.get('TRANSPORT-A', {}).get('packetLossRatio'), 'RATIO')
         cpu = kpi('imsCpuPct', nodes.get('IMS-A', {}).get('cpuPct'), 'PERCENT')
         vector = [_delta(cssr, values.get('cssrPct')), sip, _delta(rrc, values.get('rrcSrPct')),
@@ -119,7 +120,9 @@ def build_features(observation, node_observations, baseline):
         age = kpi('oldestPendingAgeSec', queue.get('oldestPendingAgeSeconds'), 'SECONDS')
         ratio = _ratio(p95, values.get('p95DeliveryMs')) if p95 is not None else None
         vector = [ratio, p95, depth, age, _delta(sr, values.get('deliverySrPct')), delivered]
-    eligible = observation['quality'] == 'COMPLETE' and all(v is not None for v in vector)
+    bounds = OUTPUT.schema['properties']['featureValues']['items']
+    eligible = observation['quality'] == 'COMPLETE' and all(
+        v is not None and bounds['minimum'] <= v <= bounds['maximum'] for v in vector)
     identity = [observation['scopeId'], observation['windowStart'], ORDER['featureVersion']]
     result = {key: observation[key] for key in ('scopeId', 'service', 'windowStart', 'windowEnd', 'quality')}
     result.update(schemaVersion=2, featureVersion=ORDER['featureVersion'],

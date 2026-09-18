@@ -325,6 +325,28 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "mlStatus": {
+            "const": "OK"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "modelVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "anomalyRank": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
     }
   ]
 }
