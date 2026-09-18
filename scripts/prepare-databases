@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Non-destructive database split for both fresh and existing postgres-data volumes.
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+if [[ ! -f .env ]]; then
+  echo "Missing .env. Copy .env.example first." >&2
+  exit 1
+fi
+
+docker compose up -d postgres
+until docker compose exec -T postgres pg_isready -U "${POSTGRES_USER:-telecom_admin}" -d "${POSTGRES_DB:-telecom}" >/dev/null; do
+  sleep 1
+done
+
+# This script is mounted read-only into the PostgreSQL container only on a fresh
+# volume, so stream the checked-in provisioner to the image's POSIX shell instead.
+docker compose exec -T postgres sh -s < infra/postgres/init/01-databases.sh
+
+echo "Target databases are provisioned. The legacy ${POSTGRES_DB:-telecom} database was retained."

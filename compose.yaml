@@ -18,8 +18,14 @@ services:
       KEYCLOAK_DB_NAME: ${KEYCLOAK_DB_NAME:-keycloak_db}
       PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
       PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:-processing_app_password}
+      PROCESSING_MIGRATOR_USER: ${PROCESSING_MIGRATOR_USER:-processing_migrator}
+      PROCESSING_MIGRATOR_PASSWORD: ${PROCESSING_MIGRATOR_PASSWORD:-processing_migrator_password}
       INCIDENT_DB_USER: ${INCIDENT_DB_USER:-incident_app}
       INCIDENT_DB_PASSWORD: ${INCIDENT_DB_PASSWORD:-incident_app_password}
+      INCIDENT_MIGRATOR_USER: ${INCIDENT_MIGRATOR_USER:-incident_migrator}
+      INCIDENT_MIGRATOR_PASSWORD: ${INCIDENT_MIGRATOR_PASSWORD:-incident_migrator_password}
+      KEYCLOAK_DB_USER: ${KEYCLOAK_DB_USER:-keycloak_app}
+      KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-keycloak_app_password}
     ports:
       - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -34,7 +40,9 @@ services:
       - telecom-private
 
   kafka:
-    image: bitnami/kafka:3.7.1
+    # Bitnami moved historical versioned images to its legacy namespace.
+    # Keep this compatible, pinned 3.7.1 image until a separately tested upgrade.
+    image: bitnamilegacy/kafka:3.7.1-debian-12-r4
     environment:
       ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_CFG_NODE_ID: "1"
@@ -63,7 +71,7 @@ services:
       - telecom-private
 
   kafka-init:
-    image: bitnami/kafka:3.7.1
+    image: bitnamilegacy/kafka:3.7.1-debian-12-r4
     depends_on:
       kafka:
         condition: service_healthy
