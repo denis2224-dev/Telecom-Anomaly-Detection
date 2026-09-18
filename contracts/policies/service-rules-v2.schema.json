@@ -1,0 +1,147 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "rulesetVersion": {
+      "const": "service-rules-v2"
+    },
+    "windowSec": {
+      "const": 60
+    },
+    "allowedLatenessSec": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "openAfterBreachedWindows": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "recoverAfterHealthyWindows": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "heartbeatIntervalSec": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "staleAfterSec": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minAttempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dropPpStrictlyGreaterThan": {
+          "type": "number",
+          "minimum": 0
+        },
+        "recoveryDropPpAtMost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "highExtraFailuresAtLeast": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "criticalExtraFailuresAtLeast": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "minAttempts",
+        "dropPpStrictlyGreaterThan",
+        "recoveryDropPpAtMost",
+        "highExtraFailuresAtLeast",
+        "criticalExtraFailuresAtLeast"
+      ]
+    },
+    "sms": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minDeliveredSamples": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "p95DelayMsStrictlyGreaterThan": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "baselineMultiplierStrictlyGreaterThan": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "queueDepthAtLeast": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "oldestPendingSecStrictlyGreaterThan": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recoveryP95DelayMsAtMost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recoveryBaselineMultiplierAtMost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recoveryOldestPendingSecAtMost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "highAffectedDeliveriesAtLeast": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "criticalQueueDepthAtLeast": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "criticalOldestPendingSecAtLeast": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "minDeliveredSamples",
+        "p95DelayMsStrictlyGreaterThan",
+        "baselineMultiplierStrictlyGreaterThan",
+        "queueDepthAtLeast",
+        "oldestPendingSecStrictlyGreaterThan",
+        "recoveryP95DelayMsAtMost",
+        "recoveryBaselineMultiplierAtMost",
+        "recoveryOldestPendingSecAtMost",
+        "highAffectedDeliveriesAtLeast",
+        "criticalQueueDepthAtLeast",
+        "criticalOldestPendingSecAtLeast"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    }
+  },
+  "required": [
+    "rulesetVersion",
+    "windowSec",
+    "allowedLatenessSec",
+    "openAfterBreachedWindows",
+    "recoverAfterHealthyWindows",
+    "heartbeatIntervalSec",
+    "staleAfterSec",
+    "voice",
+    "sms",
+    "source"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceRulesV2"
+}
