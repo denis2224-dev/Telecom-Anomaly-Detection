@@ -10,4 +10,5 @@ if [[ ! -f .env ]]; then
 fi
 
 docker compose up -d postgres kafka kafka-init
+./scripts/prepare-databases
 echo "Infrastructure is starting. Run ./scripts/verify to check readiness."
