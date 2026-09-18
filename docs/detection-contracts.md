@@ -69,3 +69,52 @@ baseline registry and voice rule. Preserve existing fixtures and teammate code.
 Ion: feature-order and raw/expected parity acceptance **pending**. Denis: rule and
 episode/evidence contract acceptance **pending**. David: explanation review
 **pending**. No teammate approval or G0 team sign-off is implied by passing tests.
+
+## Baseline lookup (day 3)
+
+The catalogue explicitly lists each covered UTC hour for each scope. Monday 00:00
+is 0; Sunday 23:00 is 167. Both demo scopes cover all 168 hours with fixed reference
+values; there is no claim of four-week estimation. Voice references are 99.3% CSSR,
+99.5% RRC and 99% bearer SR. SMS references are 2,000 ms p95 and 99% attempt SR.
+
+`BaselineRegistry.lookup(scopeId, windowStart)` returns DIRECT, PEER or
+BASELINE_MISSING, plus requested scope, source scope, service, UTC hour, catalogue
+version and immutable values. Direct coverage wins. Only explicitly listed peers
+of the same registered service may supply that same hour, and lookup follows one
+hop. Missing coverage is not zero. Unknown scopes, overlapping coverage, invalid
+values and cross-service peers are rejected. The current catalogue has no peers.
+
+Processor startup loads the policy and baseline catalogue from packaged resources
+and rejects malformed or unsupported configuration. Changes require an intentional
+version/configuration update and restart, not mutable runtime defaults. No new
+public API fields or endpoints are introduced. The Python builder takes the
+resolved lookup as input; its interface is documented in the ML module README.
+
+## Voice evaluation (day 4)
+
+`VoiceSetupRule.evaluate(featureWindow)` resolves the matching scope/hour baseline
+and returns an immutable evaluation with status, breach, optional severity, CSSR
+drop, impact, versions, evidence and ML availability. It checks the canonical
+feature schema, exact minute alignment, scope/version compatibility, unique KPI
+names, finite values and CSSR numerator/denominator consistency. Counts are bounded
+nonnegative integers. Node evidence is optional for this deterministic rule.
+
+A complete evaluable window returns EVALUATED; low volume or incomplete/absent
+voice metrics return INSUFFICIENT_DATA; absent coverage returns BASELINE_MISSING.
+Unavailable evaluations have no calculated impact or severity and are not healthy
+verdicts. Nonbreaching evaluated windows have no severity. Breach comparisons use
+exact products before division, and impact is computed before display rounding.
+The rule does not assign phase, IDs or sequence and does not publish any messages.
+
+For 940 successes / 1,000 eligible attempts, observed CSSR is 94%, expected is 99.3%,
+drop is 5.3 points and estimated extra failures are 53: HIGH. Available RRC/bearer,
+SIP 503, transport and IMS measurements are retained as supporting evidence. The
+cause remains undetermined with LOW confidence; richer diagnosis is day 6. ML is
+UNAVAILABLE for a usable vector, INSUFFICIENT_DATA otherwise; rank/model version
+and unique subscribers remain null.
+
+`voice-open-illustrative-v2.json` is an API/schema-valid illustration for Denis,
+using the worked feature values and a hypothetical first breach at 07:59 UTC.
+Its OPEN at the 08:00 window and sequence 1 illustrate day-5 episode semantics;
+no episode was actually opened or persisted by this implementation. The existing
+incident fixture is preserved as historical reference rather than silently rewritten.

@@ -175,3 +175,11 @@ The [validation cases](fixtures/validation/observation-cases-v2.json) are execut
 mutations shared by reference and Java tests; sample-bound tests allocate arrays
 at runtime. Normal/degraded fixture files are **alternative scenarios for the same
 minute**. Validate them individually; do not concatenate alternatives as traffic.
+
+## Feature and detection consumers
+
+[Sergiu detection contracts](../docs/detection-contracts.md) define the versioned
+policy, feature order, baseline lookup and voice-rule handoff using these unchanged
+observation names. `scripts/check-contracts.py` also validates the new policy,
+baseline and canonical feature/detection fixtures. The independent feature builder
+and stateless voice rule do not implement ingestion, finalization or episodes.
