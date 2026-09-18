@@ -74,12 +74,32 @@ SQL
   fi
 done
 
+echo "Checking processor ingestion tables and runtime DML grants..."
+processor_tables="$(docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 \
+  -U "$POSTGRES_USER" -d processing_db -tA <<'SQL'
+WITH expected(name) AS (
+  VALUES ('observation_receipt'), ('interval_bucket'), ('source_state'), ('rejection_outbox')
+)
+SELECT count(t.oid) = 4 AND bool_and(COALESCE(
+  pg_get_userbyid(t.relowner) = 'processing_migrator'
+  AND has_table_privilege('processing_app', t.oid, 'SELECT')
+  AND has_table_privilege('processing_app', t.oid, 'INSERT')
+  AND has_table_privilege('processing_app', t.oid, 'UPDATE')
+  AND has_table_privilege('processing_app', t.oid, 'DELETE'), false))
+FROM expected e
+LEFT JOIN pg_class t ON t.relname = e.name AND t.relnamespace = 'app'::regnamespace;
+SQL
+)"
+if [[ "$processor_tables" != "t" ]]; then
+  echo "Processor migration, table ownership or runtime DML permissions are incorrect." >&2
+  exit 1
+fi
+
 echo "Checking Kafka topics..."
 topics="$(docker compose exec -T kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
 echo "$topics"
 for topic in \
-  telecom.events.v1 telecom.detections.v1 telecom.telemetry.v1 \
-  telecom.events.dlq.v1 telecom.events.late.v1 telecom.detections.dlq.v1 \
+  telecom.detections.v1 telecom.telemetry.v1 telecom.detections.dlq.v1 \
   "${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2}" \
   "${KAFKA_V2_KPIS_TOPIC:-telecom.kpis.v2}" \
   "${KAFKA_V2_DETECTIONS_TOPIC:-telecom.detections.v2}" \
@@ -109,8 +129,8 @@ if ! grep -Eq '"issuer"[[:space:]]*:[[:space:]]*"http://telecom[.]test:8080/auth
 fi
 
 echo "Checking host access to the OIDC issuer..."
-if ! curl --noproxy '*' --fail --silent --show-error --max-time 5 --output /dev/null \
-  http://telecom.test:8080/auth/realms/telecom/.well-known/openid-configuration; then
+if ! curl --noproxy '*' --fail --silent --show-error --max-time 5 \
+  http://telecom.test:8080/auth/realms/telecom/.well-known/openid-configuration >/dev/null; then
   echo "Map telecom.test to 127.0.0.1 in your hosts file and ensure the proxy is running." >&2
   exit 1
 fi

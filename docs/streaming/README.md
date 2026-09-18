@@ -20,11 +20,13 @@ it does not schedule continuous generation or publish messages.
 `services/processor` is a Spring Boot application with health probes.
 `ObservationInput.validate(JsonNode)` checks one observation through the shared
 validator and returns its canonical immutable scope from `ScopeRegistry` for
-later ingestion. Registry and validator receive the same versioned
+durable ingestion. Registry and validator receive the same versioned
 `TopologyCatalog` through constructor injection. The registry exposes service
 ownership, node dependencies and heartbeat authority without parsing a second
-inventory. This is a Java method, with no HTTP ingestion endpoint or Kafka listener.
-It does not store observations, track duplicates or compute features.
+inventory. The Kafka listener passes raw deliveries to `IngestionService`, which
+transactionally persists unique receipts, interval buckets, source state and rejected
+input in `processing_db.app`, then acknowledges Kafka. There is no HTTP ingestion
+endpoint. See [durable ingestion](ingestion.md); feature finalization remains later work.
 
 ### Streaming Support
 
@@ -57,7 +59,7 @@ Implemented processor input:
 
 ```text
 TelecomObservationV2 -> schema + semantic/authority checks (shared TopologyCatalog)
-                    -> ScopeRegistry canonical scope -> processor validation boundary
+                    -> IngestionService -> processing_db.app commit -> Kafka ACK
 ```
 
 Intended platform:
@@ -66,8 +68,8 @@ Intended platform:
 Simulator -> Kafka -> Processor -> Detection -> Impact Analysis -> Dashboard
 ```
 
-The Kafka publication/consumption and downstream processing arrows are not
-implemented in the Streaming services. Kafka access currently checks readiness only.
+Processor Kafka consumption and durable ingestion are implemented. Generator
+publication and downstream finalization/detection integration remain later work.
 
 ## Deterministic Generation
 
@@ -108,9 +110,8 @@ natural intervals are rejected.
 
 The shared [Compose stack](../../compose.yaml) provisions a single broker and
 the `telecom.observations.v2` observation topic. The generator currently does
-not publish to Kafka yet, and the processor currently does not consume from
-Kafka yet. No runtime Kafka producer or consumer configuration is implemented in
-Java services yet. The agreed future observation message key is the exact
+not publish to Kafka yet. The processor consumes raw byte arrays with manual
+acknowledgment in group `telecom-processor-v2`. The observation message key is the exact
 UTF-8 `scopeId`; see the [partition-key contract](../../contracts/README.md#kafka-observation-partition-key).
 The natural interval key remains a separate validation/deduplication identity.
 
@@ -131,6 +132,6 @@ ownership, negative tests, runtime checks and the remaining shared database gate
 
 There is no continuous scenario scheduler, public simulator API, source pulse
 scheduler, stale-source timer or runtime topology reload. The services do not
-implement Kafka message flow, persistence, live-stream deduplication, KPI
-finalization, anomaly detection, incident generation, impact analysis or frontend
-integration. They have no application containers in Compose.
+implement generator Kafka publishing, KPI finalization or detection pipeline
+integration. Teammate baseline/detection code remains available but is not invoked
+by ingestion. Both Java services have runnable application containers in Compose.

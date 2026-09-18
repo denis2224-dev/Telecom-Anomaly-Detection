@@ -50,9 +50,8 @@ initial database migration and development-mode startup.
 
 Application ports (`8081` for the generator, `8083` for the processor) are private
 to the Compose network. Inspect health with `docker compose ps` and diagnose
-startup failures with `docker compose logs --tail=100 <service>`. No database
-credentials are passed to these applications while their persistence integration
-remains unimplemented. Keycloak receives only its own database and bootstrap admin
+startup failures with `docker compose logs --tail=100 <service>`. The processor receives separate runtime and Flyway credentials for `processing_db.app`;
+the generator has no database credentials. Keycloak receives only its own database and bootstrap admin
 credentials. The incident service is not started by Compose.
 
 Public local ports:

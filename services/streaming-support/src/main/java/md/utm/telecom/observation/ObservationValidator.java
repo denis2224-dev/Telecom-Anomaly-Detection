@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
+import static md.utm.telecom.observation.ObservationValidationException.Category.*;
 
 /** Stateless per-document boundary. Receipt conflict checks are a separate operation. */
 public final class ObservationValidator {
@@ -37,20 +38,24 @@ public final class ObservationValidator {
 
     public void validate(JsonNode event) {
         var errors = schema.validate(event);
-        require(errors.isEmpty(), "Schema: " + errors);
+        if (!errors.isEmpty()) throw new ObservationValidationException(SCHEMA_INVALID, "Schema: " + errors);
         var start = Instant.parse(event.get("windowStart").asText());
         var end = Instant.parse(event.get("windowEnd").asText());
         require(Duration.between(start, end).equals(Duration.ofMinutes(1)), "Expected one minute");
         require(!Instant.parse(event.get("emittedAt").asText()).isBefore(end), "emittedAt before end");
-        var scope = topology.requireScope(event.get("scopeId").asText());
+        TopologyCatalog.Scope scope;
+        try { scope = topology.requireScope(event.get("scopeId").asText()); }
+        catch (IllegalArgumentException invalid) {
+            throw new ObservationValidationException(SEMANTIC_INVALID, invalid.getMessage());
+        }
         var kind = event.get("kind").asText();
         var source = event.get("sourceId").asText();
         switch (kind) {
-            case "SERVICE" -> require(scope.isAuthoritativeServiceSource(event.get("service").asText(), source),
+            case "SERVICE" -> authority(scope.isAuthoritativeServiceSource(event.get("service").asText(), source),
                     "Non-authoritative service source/scope");
-            case "NODE" -> require(scope.isAuthoritativeNodeSource(event.get("nodeId").asText(), source),
+            case "NODE" -> authority(scope.isAuthoritativeNodeSource(event.get("nodeId").asText(), source),
                     "Non-authoritative node source/scope");
-            case "HEARTBEAT" -> require(scope.isKnownHeartbeatSource(source), "Unknown heartbeat source");
+            case "HEARTBEAT" -> authority(scope.isKnownHeartbeatSource(source), "Unknown heartbeat source");
             default -> throw new IllegalArgumentException("Unknown kind");
         }
         var m = event.get("metrics");
@@ -73,11 +78,15 @@ public final class ObservationValidator {
         }
     }
 
+    private static void authority(boolean valid, String reason) {
+        if (!valid) throw new ObservationValidationException(SOURCE_UNAUTHORIZED, reason);
+    }
+
     private static long n(JsonNode m, String key) { return m.get(key).longValue(); }
     private static void ownAttempts(JsonNode m, String success, String attempts) {
         require(n(m, success) <= n(m, attempts), success + " exceeds own attempts");
     }
     private static void require(boolean valid, String reason) {
-        if (!valid) throw new IllegalArgumentException(reason);
+        if (!valid) throw new ObservationValidationException(SEMANTIC_INVALID, reason);
     }
 }

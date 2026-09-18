@@ -6,7 +6,7 @@ import md.utm.telecom.observation.TopologyCatalog.Scope;
 import md.utm.telecom.processing.topology.ScopeRegistry;
 import org.springframework.stereotype.Component;
 
-/** Pure validation boundary for a future listener; no receipts, state updates or acknowledgment. */
+/** Shared pure validation boundary; persistence and acknowledgment belong to ingestion. */
 @Component
 public class ObservationInput {
     private final ObservationValidator validator;
