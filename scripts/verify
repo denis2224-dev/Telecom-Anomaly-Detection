@@ -23,11 +23,13 @@ docker compose config --quiet
 echo "Checking PostgreSQL readiness..."
 docker compose exec -T postgres pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
-echo "Checking PostgreSQL schemas..."
-schemas="$(docker compose exec -T postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "select schema_name from information_schema.schemata where schema_name in ('incidents','processing') order by schema_name;")"
-echo "$schemas"
-grep -q "incidents" <<<"$schemas"
-grep -q "processing" <<<"$schemas"
+echo "Checking PostgreSQL databases and isolation..."
+for database in "${PROCESSING_DB_NAME:-processing_db}" "${INCIDENTS_DB_NAME:-incidents_db}" "${KEYCLOAK_DB_NAME:-keycloak_db}"; do
+  docker compose exec -T postgres psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "select 1 from pg_database where datname = '$database';" | grep -qx 1
+done
+for database in "${PROCESSING_DB_NAME:-processing_db}" "${INCIDENTS_DB_NAME:-incidents_db}"; do
+  docker compose exec -T postgres psql -U "$POSTGRES_USER" -d "$database" -tAc "select schema_name from information_schema.schemata where schema_name = 'app';" | grep -qx app
+done
 
 echo "Checking Kafka topics..."
 topics="$(docker compose exec -T kafka /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
