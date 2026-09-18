@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: "optional:file:../../.env[.properties]"
   application:
     name: IncidentService
   datasource:
@@ -19,3 +21,34 @@ spring:
     properties:
       hibernate:
         default_schema: app
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: telecom-web
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: "${APP_PUBLIC_ORIGIN:http://telecom.test:8080}/login/oauth2/code/keycloak"
+            scope: openid,profile
+        provider:
+          keycloak:
+            issuer-uri: ${KEYCLOAK_ISSUER:http://telecom.test:8080/auth/realms/telecom}
+
+server:
+  port: 8082
+  servlet:
+    session:
+      timeout: 15m
+      cookie:
+        name: JSESSIONID
+        http-only: true
+        same-site: lax
+        path: /
+        secure: ${SESSION_COOKIE_SECURE:false}
+
+app:
+  public-origin: ${APP_PUBLIC_ORIGIN:http://telecom.test:8080}
