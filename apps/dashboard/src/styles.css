@@ -4,6 +4,20 @@
   background: #f3f5f2;
   font-synthesis: none;
 }
+.workspace-layout.access-layout { grid-template-columns: minmax(0, 1fr); }
+.login-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; align-items: center; max-width: 1100px; margin: 65px auto; }
+.login-intro h1 { font-size: clamp(30px, 3.5vw, 46px); line-height: 1.14; max-width: 560px; }
+.login-intro > p { max-width: 480px; color: #58695e; }
+.login-capabilities { border-top: 1px solid #d1d9d2; margin-top: 28px; padding-top: 8px; }
+.login-capabilities p { font-size: 14px; color: #58695e; }
+.login-capabilities strong { color: #23352d; }
+.login-card { background: white; border: 1px solid #d1d9d2; border-top: 4px solid #195f55; padding: 36px; box-shadow: 0 12px 32px #23352d08; }
+.login-card .primary { width: 100%; text-align: center; margin: 12px 0; }
+.login-help { border-top: 1px solid #d1d9d2; padding-top: 22px; margin-top: 26px; font-size: 12px; color: #58695e; }
+@media (max-width: 800px) {
+  .login-layout { grid-template-columns: 1fr; gap: 24px; margin: 24px auto; }
+  .login-card { padding: 24px; }
+}
 * {
   box-sizing: border-box;
 }

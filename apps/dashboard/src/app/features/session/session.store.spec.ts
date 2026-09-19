@@ -60,6 +60,25 @@ describe("SessionStore", () => {
     expect(store.actor()).toBeNull();
   });
 
+  it("rejects accidental HTML instead of opening the workspace", async () => {
+    const pending = store.initialize();
+    http.expectOne("/api/auth/me").flush("<html>Sign in</html>");
+    await pending;
+    expect(store.phase()).toBe("error");
+    expect(store.actor()).toBeNull();
+    http.expectNone("/api/auth/csrf");
+  });
+
+  it("stops waiting when session discovery never responds", async () => {
+    vi.useFakeTimers();
+    const pending = store.initialize();
+    const request = http.expectOne("/api/auth/me");
+    await vi.advanceTimersByTimeAsync(10001);
+    await pending;
+    expect(request.cancelled).toBe(true);
+    expect(store.phase()).toBe("error");
+  });
+
   it("does not authenticate when the CSRF response fails", async () => {
     const pending = store.initialize();
     http
