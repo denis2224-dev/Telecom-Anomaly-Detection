@@ -9,6 +9,16 @@ if [[ ! -f .env ]]; then
   echo "Created .env from .env.example"
 fi
 
-docker compose up -d postgres kafka kafka-init
+echo "Starting PostgreSQL and Kafka and waiting for dependency health..."
+docker compose up -d --wait postgres kafka
+
+echo "Provisioning target databases before application startup..."
 ./scripts/prepare-databases
-echo "Infrastructure is starting. Run ./scripts/verify to check readiness."
+
+echo "Creating Kafka topics..."
+docker compose up --wait kafka-init
+
+echo "Starting runnable application services and waiting for readiness..."
+docker compose up -d --wait event-generator processor
+
+echo "Compose stack is ready. Run ./scripts/verify for contract checks."
