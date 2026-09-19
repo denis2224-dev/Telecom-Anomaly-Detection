@@ -76,8 +76,41 @@ done
 echo "Checking Kafka topics..."
 topics="$(docker compose exec -T kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
 echo "$topics"
-grep -q "telecom.events.v1" <<<"$topics"
-grep -q "telecom.detections.v1" <<<"$topics"
-grep -q "telecom.telemetry.v1" <<<"$topics"
+for topic in \
+  telecom.events.v1 telecom.detections.v1 telecom.telemetry.v1 \
+  telecom.events.dlq.v1 telecom.events.late.v1 telecom.detections.dlq.v1 \
+  "${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2}" \
+  "${KAFKA_V2_KPIS_TOPIC:-telecom.kpis.v2}" \
+  "${KAFKA_V2_DETECTIONS_TOPIC:-telecom.detections.v2}" \
+  "${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2}" \
+  "${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2}"; do
+  if ! grep -Fxq -- "$topic" <<<"$topics"; then
+    echo "Missing Kafka topic: $topic" >&2
+    exit 1
+  fi
+done
 
-echo "Infrastructure verification passed."
+echo "Checking application readiness..."
+docker compose exec -T event-generator curl --fail --silent --show-error --max-time 5 \
+  http://localhost:8081/actuator/health/readiness
+docker compose exec -T processor curl --fail --silent --show-error --max-time 5 \
+  http://localhost:8083/actuator/health/readiness
+
+echo "Checking Keycloak readiness and OIDC discovery..."
+docker compose exec -T event-generator curl --fail --silent --show-error --max-time 5 \
+  http://keycloak:9000/health/ready
+discovery="$(docker compose exec -T event-generator curl --fail --silent --show-error --max-time 5 \
+  http://telecom.test:8080/auth/realms/telecom/.well-known/openid-configuration)"
+if ! grep -Eq '"issuer"[[:space:]]*:[[:space:]]*"http://telecom[.]test:8080/auth/realms/telecom"' <<<"$discovery"; then
+  echo "Keycloak discovery must advertise http://telecom.test:8080/auth/realms/telecom." >&2
+  exit 1
+fi
+
+echo "Checking host access to the OIDC issuer..."
+if ! curl --noproxy '*' --fail --silent --show-error --max-time 5 --output /dev/null \
+  http://telecom.test:8080/auth/realms/telecom/.well-known/openid-configuration; then
+  echo "Map telecom.test to 127.0.0.1 in your hosts file and ensure the proxy is running." >&2
+  exit 1
+fi
+
+echo "Infrastructure, application and Keycloak readiness verification passed."

@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+"""Copy the local telecom-web client secret from Keycloak into the backend .env."""
+
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def admin_get(resource, *arguments):
+    # Credentials and the temporary admin token stay inside the Keycloak container.
+    shell = '''
+set -eu
+config=$(mktemp)
+trap 'rm -f "$config"' EXIT
+/opt/keycloak/bin/kcadm.sh config credentials --config "$config" \
+  --server http://localhost:8080/auth --realm master \
+  --user "$KC_BOOTSTRAP_ADMIN_USERNAME" --password "$KC_BOOTSTRAP_ADMIN_PASSWORD" >/dev/null
+/opt/keycloak/bin/kcadm.sh get "$@" --config "$config"
+'''
+    result = subprocess.run(
+        ["docker", "compose", "exec", "-T", "keycloak", "bash", "-ec", shell,
+         "--", resource, *arguments],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+    if result.returncode:
+        sys.exit("Keycloak admin lookup failed. Check Keycloak readiness, admin credentials "
+                 "and the telecom realm/client; no local secret was changed.")
+    return json.loads(result.stdout)
+
+
+def main():
+    env_file = ROOT / ".env"
+    if not env_file.is_file():
+        sys.exit("Missing .env. Follow docs/runbooks/local-dev.md first.")
+    clients = admin_get("clients", "-r", "telecom", "-q", "clientId=telecom-web", "--fields", "id")
+    if len(clients) != 1:
+        sys.exit("Expected one telecom-web client in realm telecom; existing realms are not overwritten.")
+    secret = admin_get(f"clients/{clients[0]['id']}/client-secret", "-r", "telecom").get("value")
+    # Keycloak generates an alphanumeric secret. Require a value safe for both
+    # Spring's properties import and the Bash scripts that source the same file.
+    if not isinstance(secret, str) or not re.fullmatch(r"[A-Za-z0-9_-]+", secret):
+        sys.exit("Keycloak returned an unsupported client secret; .env was not changed.")
+    original = env_file.read_text()
+    line = "KEYCLOAK_CLIENT_SECRET=" + secret
+    if re.search(r"(?m)^KEYCLOAK_CLIENT_SECRET=.*$", original):
+        updated = re.sub(r"(?m)^KEYCLOAK_CLIENT_SECRET=.*$", lambda _: line, original)
+    else:
+        updated = original.rstrip("\n") + "\n" + line + "\n"
+    if updated != original:
+        # Replace atomically so concurrent readers cannot see a partial .env.
+        import tempfile
+        fd, temporary = tempfile.mkstemp(prefix=".env-", dir=ROOT)
+        try:
+            with os.fdopen(fd, "w") as output:
+                output.write(updated)
+            os.replace(temporary, env_file)
+        finally:
+            Path(temporary).unlink(missing_ok=True)
+    print("Backend client secret synchronized to local .env; database passwords preserved.")
+
+
+if __name__ == "__main__":
+    main()

@@ -34,6 +34,75 @@ services:
     networks:
       - telecom-private
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.4
+    command: ["start-dev", "--import-realm"]
+
+    volumes:
+      - ./infra/keycloak/telecom-realm.json:/opt/keycloak/data/import/telecom-realm.json:ro
+
+    environment:
+      # Existing PostgreSQL database and role.
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
+      KC_DB_USERNAME: keycloak_app
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:?Set KEYCLOAK_DB_PASSWORD}
+
+      # Initial Keycloak administrator; separate from database credentials.
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USERNAME:-admin}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Set KEYCLOAK_ADMIN_PASSWORD}
+
+      # Public address used by browsers and the backend through the local proxy.
+      KC_HOSTNAME: http://telecom.test:8080/auth
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_PROXY_HEADERS: xforwarded
+
+      # Private readiness endpoint; the official image has Bash but no curl.
+      KC_HEALTH_ENABLED: "true"
+      KC_HTTP_MANAGEMENT_RELATIVE_PATH: /
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    expose:
+      - "8080"
+
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - -ec
+        - "{ printf 'HEAD /health/ready HTTP/1.0\\r\\n\\r\\n' >&0; grep -q 'HTTP/1.0 200'; } 0<>/dev/tcp/localhost/9000"
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+
+    networks:
+      - telecom-private
+
+  proxy:
+    image: nginx:1.28.3-alpine
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/auth/realms/telecom/.well-known/openid-configuration"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      telecom-private:
+        aliases:
+          - telecom.test
+
   kafka:
     image: apache/kafka:3.9.1
     environment:
@@ -98,10 +167,67 @@ services:
         "$${kafka_topics}" "$${common[@]}" --topic telecom.events.late.v1 --config retention.ms=604800000
         "$${kafka_topics}" "$${common[@]}" --topic telecom.detections.dlq.v1 --config retention.ms=604800000
 
+        # Revision 3 service-assurance topics.  V2 observation input has a
+        # 24-hour raw retention; derived, invalid and late records have a
+        # seven-day retention for the local demo.
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2} --config retention.ms=${KAFKA_RAW_RETENTION_MS:-86400000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_KPIS_TOPIC:-telecom.kpis.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_DETECTIONS_TOPIC:-telecom.detections.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+
     networks:
       - telecom-private
 
     restart: "no"
+
+  event-generator:
+    build:
+      context: .
+      dockerfile: services/event-generator/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8081
+      KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
+      KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+    expose:
+      - "8081"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8081/actuator/health/readiness"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - telecom-private
+
+  processor:
+    build:
+      context: .
+      dockerfile: services/processor/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8083
+      KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
+      KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    expose:
+      - "8083"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8083/actuator/health/readiness"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - telecom-private
 
 networks:
   telecom-private:

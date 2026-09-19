@@ -31,7 +31,7 @@ baseline/policy loading, and a stateless Java voice rule with impact evidence.
 | `infra` | Local infrastructure configuration and database initialization. |
 | `apps` | Dashboard placeholder. |
 
-## Local Infrastructure
+## Local Development
 
 Start Docker Desktop and generate `.env` with the password-generation command in
 the [local development runbook](docs/runbooks/local-dev.md). Then run from the
@@ -42,10 +42,17 @@ repository root in a Bash-compatible shell:
 ./scripts/verify
 ```
 
-The shared Compose stack starts PostgreSQL and Kafka and initializes three databases
-(`processing_db`, `incidents_db`, `keycloak_db`), application schemas and topics.
-The Java Streaming services run separately; they are not
-Compose services. See the [local development runbook](docs/runbooks/local-dev.md) and
+The shared Compose stack starts PostgreSQL and Apache Kafka 3.9.1, provisions three
+databases (`processing_db`, `incidents_db`, `keycloak_db`), application schemas and
+V1/V2 topics, starts Keycloak 26.7.4, then builds and starts the event-generator and
+processor containers. Startup waits for infrastructure and Keycloak health,
+successful topic initialization and both application readiness endpoints.
+Keycloak and Java container ports remain private to Compose. The loopback-bound
+NGINX proxy exposes `http://telecom.test:8080`; add the hosts entry in the runbook.
+Startup imports the `telecom` realm and `telecom-web` client, then synchronizes the
+backend client secret to local `.env`. The proxy sends backend requests to the
+incident service running on the host at port 8082.
+Host/IntelliJ startup is also supported. See the [local development runbook](docs/runbooks/local-dev.md) and
 [shared owner map](docs/architecture/owner-map.md).
 
 ## Streaming Components
