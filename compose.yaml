@@ -103,6 +103,54 @@ services:
       - telecom-private
     restart: "no"
 
+  event-generator:
+    build:
+      context: .
+      dockerfile: services/event-generator/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      SERVER_PORT: 8081
+      KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
+      KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+    expose:
+      - "8081"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8081/actuator/health/readiness"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - telecom-private
+
+  processor:
+    build:
+      context: .
+      dockerfile: services/processor/Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      SERVER_PORT: 8083
+      KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
+      KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    expose:
+      - "8083"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8083/actuator/health/readiness"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - telecom-private
+
 networks:
   telecom-private:
     driver: bridge
