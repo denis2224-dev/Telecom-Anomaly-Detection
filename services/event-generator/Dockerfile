@@ -8,6 +8,7 @@ COPY services/event-generator/pom.xml services/event-generator/pom.xml
 COPY services/processor/pom.xml services/processor/pom.xml
 COPY services/streaming-support/src services/streaming-support/src
 COPY services/event-generator/src services/event-generator/src
+COPY contracts contracts
 RUN ./mvnw -pl services/event-generator -am package -DskipTests
 
 FROM eclipse-temurin:21-jre-jammy
