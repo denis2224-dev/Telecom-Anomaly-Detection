@@ -8,6 +8,7 @@ COPY services/processor/pom.xml services/processor/pom.xml
 COPY services/event-generator/pom.xml services/event-generator/pom.xml
 COPY services/streaming-support/src services/streaming-support/src
 COPY services/processor/src services/processor/src
+COPY contracts contracts
 RUN ./mvnw -pl services/processor -am package -DskipTests
 
 FROM eclipse-temurin:21-jre-jammy
