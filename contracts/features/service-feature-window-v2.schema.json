@@ -1,0 +1,263 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        2
+      ]
+    },
+    "windowId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "scopeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,96}$"
+    },
+    "service": {
+      "type": "string",
+      "enum": [
+        "VOLTE",
+        "SMS"
+      ]
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "quality": {
+      "type": "string",
+      "enum": [
+        "COMPLETE",
+        "INCOMPLETE",
+        "MISSING"
+      ]
+    },
+    "baselineVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "kpis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "observed": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "baseline": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "PERCENT",
+              "PERCENTAGE_POINTS",
+              "RATIO",
+              "COUNT",
+              "MILLISECONDS",
+              "SECONDS",
+              "MBPS"
+            ]
+          },
+          "numerator": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "denominator": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "observed",
+          "baseline",
+          "unit",
+          "numerator",
+          "denominator"
+        ]
+      },
+      "maxItems": 30
+    },
+    "featureNames": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 160
+      },
+      "maxItems": 20
+    },
+    "featureValues": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -1000000000.0,
+        "maximum": 1000000000.0
+      },
+      "maxItems": 20
+    },
+    "mlEligible": {
+      "type": "boolean"
+    },
+    "sourceEventIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "maxItems": 20
+    },
+    "featureVersion": {
+      "type": "integer",
+      "enum": [
+        2
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "featureVersion",
+    "windowId",
+    "scopeId",
+    "service",
+    "windowStart",
+    "windowEnd",
+    "quality",
+    "baselineVersion",
+    "topologyVersion",
+    "kpis",
+    "featureNames",
+    "featureValues",
+    "mlEligible",
+    "sourceEventIds"
+  ],
+  "description": "Feature version 2. ML-eligible windows require COMPLETE quality and exactly six finite values in the service-specific order from feature-order-v2.json. Ineligible windows use empty featureNames and featureValues. Validate conditional rules with the canonical JSON Schema; OpenAPI 3.0 cannot express its if/then clauses.",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceFeatureWindowV2",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mlEligible": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "featureNames": {
+            "maxItems": 0
+          },
+          "featureValues": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mlEligible": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "quality": {
+            "const": "COMPLETE"
+          },
+          "featureValues": {
+            "minItems": 6,
+            "maxItems": 6
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mlEligible": {
+            "const": true
+          },
+          "service": {
+            "const": "VOLTE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "featureNames": {
+            "const": [
+              "cssrDeltaPp",
+              "sip503Ratio",
+              "rrcDeltaPp",
+              "bearerDeltaPp",
+              "packetLossRatio",
+              "imsCpuPct"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mlEligible": {
+            "const": true
+          },
+          "service": {
+            "const": "SMS"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "featureNames": {
+            "const": [
+              "p95DelayRatio",
+              "p95DeliveryMs",
+              "queueDepth",
+              "oldestPendingAgeSec",
+              "deliverySrDeltaPp",
+              "deliveredMessages"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

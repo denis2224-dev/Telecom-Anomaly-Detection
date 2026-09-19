@@ -14,15 +14,17 @@ Simulator -> Kafka -> Processing -> Detection -> Impact Analysis -> Dashboard
 
 The implemented Streaming components generate and validate observations and expose
 health probes. Kafka publication and consumption, persistent storage, KPI
-finalization, anomaly detection, incident generation, impact analysis and dashboard
-integration are not implemented in these services.
+finalization, live incident generation and dashboard integration are not implemented
+in these services. Sergiu's days 1-4 add offline Python service features, startup
+baseline/policy loading, and a stateless Java voice rule with impact evidence.
 
 ## Repository Structure
 
 | Directory | Contents |
 | --- | --- |
 | `services/event-generator` | Spring Boot service and deterministic observation preview. |
-| `services/processor` | Spring Boot service with an observation validation boundary. |
+| `services/processor` | Observation validation, baseline lookup and stateless voice-rule evaluation. |
+| `services/ml-service` | Independent Python VOLTE/SMS feature calculations and tests. |
 | `services/streaming-support` | Shared validation and Kafka readiness library. |
 | `contracts` | JSON schemas, topology, fixtures and the incident API specification. |
 | `docs` | Technical references and runbooks. |
@@ -67,6 +69,7 @@ environment active:
 python -m pip install -r requirements-dev.txt
 python scripts/check-contracts.py
 python -m unittest discover -s tests -v
+python -m unittest discover -s services/ml-service/tests -v
 ./mvnw -pl services/event-generator,services/processor -am test
 ```
 
@@ -80,3 +83,7 @@ Packaging, service startup and smoke tests are in the Streaming runbook.
 - [Streaming services: build, run and test](docs/runbooks/streaming.md)
 - [Legacy EventV1 reference](docs/streaming/event-v1-contract.md)
 - [Incident API specification](contracts/openapi/incident-api.yaml)
+
+- [Detection definitions and day 1-4 interfaces](docs/detection-contracts.md)
+- [Python feature builder and shared cases](services/ml-service/README.md)
+- [Sergiu day 1-4 verification evidence](docs/evidence/2026-09-18-sergiu-days-1-4.md)

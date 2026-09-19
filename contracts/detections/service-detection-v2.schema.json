@@ -1,0 +1,352 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "enum": [
+        2
+      ]
+    },
+    "detectionId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Lowercase SHA-256 hexadecimal identity derived from the canonical episode contract."
+    },
+    "episodeId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Lowercase SHA-256 hexadecimal identity derived from the canonical episode contract."
+    },
+    "correlationKey": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Lowercase SHA-256 hexadecimal identity derived from the canonical episode contract."
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "UPDATE",
+        "RECOVERY",
+        "UNKNOWN"
+      ]
+    },
+    "anomalyType": {
+      "type": "string",
+      "enum": [
+        "VOLTE_SETUP_DEGRADATION",
+        "SMS_DELIVERY_DELAY"
+      ]
+    },
+    "scopeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,96}$"
+    },
+    "service": {
+      "type": "string",
+      "enum": [
+        "VOLTE",
+        "SMS"
+      ]
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "detectedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "technicalState": {
+      "type": "string",
+      "enum": [
+        "ONGOING",
+        "RECOVERED",
+        "UNKNOWN"
+      ]
+    },
+    "rulesetVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "baselineVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "kpis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "observed": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "baseline": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "PERCENT",
+              "PERCENTAGE_POINTS",
+              "RATIO",
+              "COUNT",
+              "MILLISECONDS",
+              "SECONDS",
+              "MBPS"
+            ]
+          },
+          "numerator": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "denominator": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "observed",
+          "baseline",
+          "unit",
+          "numerator",
+          "denominator"
+        ]
+      },
+      "maxItems": 30
+    },
+    "impact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "extraFailedAttempts": {
+          "type": "number",
+          "minimum": 0
+        },
+        "affectedDeliveredMessages": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pendingMessages": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "uniqueSubscribers": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "extraFailedAttempts",
+        "affectedDeliveredMessages",
+        "pendingMessages",
+        "uniqueSubscribers"
+      ]
+    },
+    "probableCause": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "causeConfidence": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "nodeId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sourceEventIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "maxItems": 20
+          }
+        },
+        "required": [
+          "code",
+          "summary",
+          "nodeId",
+          "sourceEventIds"
+        ]
+      },
+      "maxItems": 20
+    },
+    "recommendedChecks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 160
+      },
+      "maxItems": 10
+    },
+    "mlStatus": {
+      "type": "string",
+      "enum": [
+        "OK",
+        "TIMEOUT",
+        "UNAVAILABLE",
+        "INSUFFICIENT_DATA",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "modelVersion": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "anomalyRank": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "detectionId",
+    "episodeId",
+    "correlationKey",
+    "sequence",
+    "phase",
+    "anomalyType",
+    "scopeId",
+    "service",
+    "windowStart",
+    "windowEnd",
+    "detectedAt",
+    "severity",
+    "technicalState",
+    "rulesetVersion",
+    "baselineVersion",
+    "topologyVersion",
+    "kpis",
+    "impact",
+    "probableCause",
+    "causeConfidence",
+    "evidence",
+    "recommendedChecks",
+    "mlStatus",
+    "modelVersion",
+    "anomalyRank"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ServiceDetectionV2",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mlStatus": {
+            "enum": [
+              "TIMEOUT",
+              "UNAVAILABLE",
+              "INSUFFICIENT_DATA",
+              "NOT_APPLICABLE"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "modelVersion": {
+            "type": "null"
+          },
+          "anomalyRank": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mlStatus": {
+            "const": "OK"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "modelVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "anomalyRank": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    }
+  ]
+}

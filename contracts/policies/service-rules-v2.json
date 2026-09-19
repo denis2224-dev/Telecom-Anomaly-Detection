@@ -1,0 +1,30 @@
+{
+  "rulesetVersion": "service-rules-v2",
+  "windowSec": 60,
+  "allowedLatenessSec": 10,
+  "openAfterBreachedWindows": 2,
+  "recoverAfterHealthyWindows": 3,
+  "heartbeatIntervalSec": 10,
+  "staleAfterSec": 90,
+  "voice": {
+    "minAttempts": 100,
+    "dropPpStrictlyGreaterThan": 1.0,
+    "recoveryDropPpAtMost": 0.5,
+    "highExtraFailuresAtLeast": 50,
+    "criticalExtraFailuresAtLeast": 200
+  },
+  "sms": {
+    "minDeliveredSamples": 30,
+    "p95DelayMsStrictlyGreaterThan": 20000,
+    "baselineMultiplierStrictlyGreaterThan": 3,
+    "queueDepthAtLeast": 100,
+    "oldestPendingSecStrictlyGreaterThan": 60,
+    "recoveryP95DelayMsAtMost": 10000,
+    "recoveryBaselineMultiplierAtMost": 2,
+    "recoveryOldestPendingSecAtMost": 30,
+    "highAffectedDeliveriesAtLeast": 100,
+    "criticalQueueDepthAtLeast": 1000,
+    "criticalOldestPendingSecAtLeast": 300
+  },
+  "source": "Fixed synthetic teaching policy; not production operator thresholds. Heartbeat scheduling is a future task, not the current observation contract."
+}
