@@ -6,6 +6,7 @@ import json
 import math
 from pathlib import Path
 import re
+import subprocess
 import unittest
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -16,6 +17,13 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTRACTS = ROOT / "contracts" / "events" / "v1"
 EVENT_TYPES = {"CALL", "SMS", "DATA", "AUTH", "NETWORK"}
 FORMAT_CHECKER = FormatChecker()
+
+
+def tracked_files(extension):
+    names = subprocess.check_output(
+        ["git", "ls-files", "-z", "--", f"*.{extension}"], cwd=ROOT
+    ).decode("utf-8").split("\0")
+    return (ROOT / name for name in names if name)
 
 
 @FORMAT_CHECKER.checks("date-time", raises=ValueError)
@@ -80,9 +88,7 @@ class EventContractTests(unittest.TestCase):
         self.assertTrue(list(self.validator.iter_errors(event)), event)
 
     def test_all_json_parses_and_all_schemas_are_valid(self):
-        for path in ROOT.rglob("*.json"):
-            if ".git" in path.parts or ".venv" in path.parts:
-                continue
+        for path in tracked_files("json"):
             with self.subTest(path=path.relative_to(ROOT)):
                 read_json(path)
         expected = {f"{name.lower()}.schema.json" for name in EVENT_TYPES}
@@ -273,9 +279,7 @@ class EventContractTests(unittest.TestCase):
         )
 
     def test_documentation_links_resolve_and_every_field_is_documented(self):
-        for path in ROOT.rglob("*.md"):
-            if ".git" in path.parts or ".venv" in path.parts:
-                continue
+        for path in tracked_files("md"):
             for target in re.findall(r"\]\(([^)]+)\)", path.read_text(encoding="utf-8")):
                 if "://" not in target and not target.startswith("#"):
                     with self.subTest(document=path.relative_to(ROOT), target=target):
