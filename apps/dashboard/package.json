@@ -10,6 +10,7 @@
     "generate:api": "openapi-typescript api/incident-api.yaml -o src/app/core/api/schema.ts",
     "test": "ng test --watch=false",
     "test:e2e": "playwright test",
+    "test:theme": "playwright test --config playwright.theme.config.ts",
     "check:fixtures": "node scripts/check-fixtures.mjs"
   },
   "dependencies": {
