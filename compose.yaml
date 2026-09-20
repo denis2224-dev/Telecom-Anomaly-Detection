@@ -40,6 +40,7 @@ services:
 
     volumes:
       - ./infra/keycloak/telecom-realm.json:/opt/keycloak/data/import/telecom-realm.json:ro
+      - ./infra/keycloak/themes/telecom:/opt/keycloak/themes/telecom:ro
 
     environment:
       # Existing PostgreSQL database and role.
