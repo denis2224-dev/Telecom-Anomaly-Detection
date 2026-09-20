@@ -1,7 +1,8 @@
 {
   "realm": "telecom",
   "enabled": true,
-  "displayName": "Telecom local development",
+  "displayName": "Telecom · Service assurance",
+  "loginTheme": "telecom",
   "sslRequired": "none",
   "registrationAllowed": false,
   "roles": {

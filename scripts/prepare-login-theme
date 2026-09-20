@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Apply branding to existing realms without reimporting users or credentials.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+docker compose exec -T keycloak bash -ec '
+set -eu
+test -f /opt/keycloak/themes/telecom/login/theme.properties
+config=$(mktemp)
+trap '\''rm -f "$config"'\'' EXIT
+/opt/keycloak/bin/kcadm.sh config credentials --config "$config" \
+  --server http://localhost:8080/auth --realm master \
+  --user "$KC_BOOTSTRAP_ADMIN_USERNAME" --password "$KC_BOOTSTRAP_ADMIN_PASSWORD" >/dev/null
+/opt/keycloak/bin/kcadm.sh update realms/telecom --config "$config" \
+  -s loginTheme=telecom -s '\''displayName="Telecom · Service assurance"'\''
+'
+printf '%s\n' 'Telecom login theme enabled.'

@@ -20,6 +20,7 @@ echo "Provisioning target databases before application startup..."
 echo "Starting Keycloak after database provisioning and waiting for readiness..."
 docker compose up -d --wait --wait-timeout 180 keycloak
 ./scripts/prepare-keycloak
+bash ./scripts/prepare-login-theme
 
 echo "Starting the local proxy and waiting for telecom realm discovery..."
 docker compose up -d --wait --wait-timeout 120 proxy
