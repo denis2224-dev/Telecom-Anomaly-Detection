@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""Provision one local analyst from an existing user in the telecom realm."""
+
+import argparse
+import json
+from pathlib import Path
+import subprocess
+import sys
+import uuid
+
+ROOT = Path(__file__).resolve().parent.parent
+ISSUER = "http://telecom.test:8080/auth/realms/telecom"
+
+SQL = """
+      BEGIN;
+      INSERT INTO app.analysts (id, issuer, subject, display_name, enabled)
+      VALUES (:'analyst_id'::uuid, :'issuer', :'subject', :'display_name', true)
+      ON CONFLICT (issuer, subject) DO NOTHING;
+
+      SELECT json_build_object('id', id, 'enabled', enabled)
+      FROM app.analysts
+      WHERE issuer = :'issuer' AND subject = :'subject';
+      COMMIT; \
+      """
+
+
+def run(command, *, input_text=None):
+    try:
+        result = subprocess.run(command, cwd=ROOT, input=input_text,
+                                capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.TimeoutExpired):
+        sys.exit("Could not complete the provisioning command. Check Docker and service readiness.")
+    if result.returncode:
+        # Do not echo admin tokens, passwords, or command output into logs.
+        sys.exit("Provisioning command failed. Check admin credentials, service readiness, "
+                 "and incident database migrations. No credentials are printed.")
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError:
+        sys.exit("Provisioning returned an unexpected response. Inspect service health locally.")
+
+
+def find_user(username):
+    shell = '''
+set -eu
+config=$(mktemp)
+trap 'rm -f "$config"' EXIT
+/opt/keycloak/bin/kcadm.sh config credentials --config "$config" \\
+  --server http://localhost:8080/auth --realm master \\
+  --user "$KC_BOOTSTRAP_ADMIN_USERNAME" --password "$KC_BOOTSTRAP_ADMIN_PASSWORD" >/dev/null
+/opt/keycloak/bin/kcadm.sh get users --config "$config" -r telecom \\
+  -q "username=$1" -q exact=true --fields id,username,enabled
+'''
+    users = run(["docker", "compose", "exec", "-T", "keycloak", "bash", "-ec",
+                 shell, "--", username])
+    if not isinstance(users, list) or len(users) != 1:
+        sys.exit("Expected exactly one existing Keycloak user. Check the username and telecom realm.")
+    user = users[0]
+    if not isinstance(user, dict) or user.get("enabled") is not True:
+        sys.exit("The Keycloak user is disabled or invalid; no analyst was provisioned.")
+    if not isinstance(user.get("id"), str) or not user["id"].strip():
+        sys.exit("Keycloak returned no usable user subject.")
+    return user
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--username", required=True)
+    parser.add_argument("--display-name", required=True)
+    args = parser.parse_args()
+    display_name = args.display_name.strip()
+    if not args.username.strip() or not 1 <= len(display_name) <= 120:
+        parser.error("Use a nonempty username and a display name of 1–120 characters.")
+    if any(ord(character) < 32 for character in args.username + display_name):
+        parser.error("Username and display name must not contain control characters.")
+    if not (ROOT / ".env").is_file():
+        sys.exit("Missing repository-root .env. Follow the local development runbook first.")
+
+    user = find_user(args.username)
+    # The shipped realm uses Keycloak's standard user id as the OIDC subject.
+    # Values are psql variables quoted as SQL literals, not interpolated SQL.
+    shell = 'exec psql -X -q -tA -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d incidents_db "$@"'
+    row = run([
+        "docker", "compose", "exec", "-T", "postgres", "bash", "-ec", shell, "--",
+        "-v", "analyst_id=" + str(uuid.uuid4()),
+        "-v", "issuer=" + ISSUER,
+        "-v", "subject=" + user["id"],
+        "-v", "display_name=" + display_name,
+              ], input_text=SQL)
+    if not isinstance(row, dict) or not row.get("id"):
+        sys.exit("No analyst profile was returned. Check provisioning before trying again.")
+    if row.get("enabled") is not True:
+        sys.exit("The existing local analyst is disabled. It was preserved and not re-enabled.")
+    print("Enabled local analyst is ready; analystId=" + row["id"])
+    print("Existing profile fields were preserved. Application roles are managed in Keycloak.")
+
+
+if __name__ == "__main__":
+    main()

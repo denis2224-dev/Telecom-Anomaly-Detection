@@ -209,3 +209,23 @@ does not change existing PostgreSQL role passwords. Keep working credentials and
 the `postgres-data` volume; no volume reset is required.
 
 Use `./scripts/stop` to stop containers while preserving named volumes. Do not delete volumes as the first fix for connection problems.
+
+## Provisioning an application analyst
+
+After creating an enabled user in the `telecom` realm and assigning their intended
+application role, start incident-service once so Flyway creates `app.analysts`.
+Then run from the repository root, replacing the example username and display name:
+
+```bash
+./scripts/provision-analyst --username denis --display-name "Denis Moroz"
+```
+
+The script looks up the exact Keycloak username and inserts the local analyst with
+the canonical issuer and the Keycloak user ID as its subject. It preserves existing
+UUIDs, names and disabled states. A disabled profile must be reviewed explicitly;
+provisioning does not reactivate it. The script uses the same local administrator
+credentials as `scripts/prepare-keycloak` and prints no passwords or tokens.
+
+Sign in through `http://telecom.test:8080/dashboard` and verify that
+`/api/auth/me` returns 200 with the provisioned local analyst UUID. Creating a
+Keycloak user alone is insufficient: an absent or disabled local analyst returns 403.
