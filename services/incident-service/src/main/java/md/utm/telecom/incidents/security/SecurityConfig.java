@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,
                                             ClientRegistrationRepository clients, ApiSecurityErrors errors,
-                                            Clock sessionClock, @Value("${app.public-origin}") String publicOrigin)
+                                            Clock sessionClock, OidcLoginFailureHandler loginFailureHandler, @Value("${app.public-origin}") String publicOrigin)
             throws Exception {
         var resolver = new DefaultOAuth2AuthorizationRequestResolver(
                 clients, "/oauth2/authorization");
@@ -86,8 +86,7 @@ public class SecurityConfig {
                                     sessionClock.instant().plus(Duration.ofMinutes(30)));
                             response.sendRedirect(publicOrigin + "/dashboard");
                         })
-                        .failureHandler((request, response, exception) ->
-                                errors.write(response, 400, "LOGIN_FAILED", "Login could not be completed.")))
+                        .failureHandler(loginFailureHandler))
                 .logout(config -> config
                         .logoutUrl("/logout")
                         .invalidateHttpSession(true)

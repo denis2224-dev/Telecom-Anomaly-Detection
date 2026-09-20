@@ -27,7 +27,8 @@ import tools.jackson.databind.ObjectMapper;
 @WebMvcTest(controllers = AuthController.class, properties = {
         "app.public-origin=http://telecom.test:8080"
 })
-@Import({SecurityConfig.class, ApiSecurityErrors.class, OidcTestConfiguration.class})
+@Import({SecurityConfig.class, ApiSecurityErrors.class, OidcTestConfiguration.class,
+        OidcLoginFailureHandler.class})
 class AuthSecurityTest {
     private static final String ISSUER = "http://telecom.test:8080/auth/realms/telecom";
     @Autowired MockMvc mvc;
