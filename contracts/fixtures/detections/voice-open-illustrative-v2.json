@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 2,
+  "detectionId": "3a97504f331aed0de5b67aa02d64a35f0b300d3c59140b07f1e86d13aa98c0fe",
+  "episodeId": "10d4257443e9d97179187b6e0c719283e161a6bfc53a31b0f6502b231386e325",
+  "correlationKey": "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "sequence": 1,
+  "phase": "OPEN",
+  "anomalyType": "VOLTE_SETUP_DEGRADATION",
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "service": "VOLTE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "detectedAt": "2026-09-15T08:01:10Z",
+  "severity": "HIGH",
+  "technicalState": "ONGOING",
+  "rulesetVersion": "service-rules-v2",
+  "baselineVersion": "baseline-v2",
+  "topologyVersion": "2-baseline",
+  "kpis": [
+    {
+      "name": "cssrPct",
+      "observed": 94.0,
+      "baseline": 99.3,
+      "unit": "PERCENT",
+      "numerator": 940,
+      "denominator": 1000
+    },
+    {
+      "name": "eligibleAttempts",
+      "observed": 1000,
+      "baseline": null,
+      "unit": "COUNT",
+      "numerator": null,
+      "denominator": null
+    },
+    {
+      "name": "sip503Ratio",
+      "observed": 0.055,
+      "baseline": null,
+      "unit": "RATIO",
+      "numerator": 55,
+      "denominator": 1000
+    },
+    {
+      "name": "sip503Count",
+      "observed": 55,
+      "baseline": null,
+      "unit": "COUNT",
+      "numerator": null,
+      "denominator": null
+    },
+    {
+      "name": "rrcSrPct",
+      "observed": 99.5,
+      "baseline": 99.5,
+      "unit": "PERCENT",
+      "numerator": 1194,
+      "denominator": 1200
+    },
+    {
+      "name": "bearerSrPct",
+      "observed": 99.54545454545455,
+      "baseline": 99.0,
+      "unit": "PERCENT",
+      "numerator": 1095,
+      "denominator": 1100
+    },
+    {
+      "name": "packetLossRatio",
+      "observed": 0.001,
+      "baseline": null,
+      "unit": "RATIO",
+      "numerator": null,
+      "denominator": null
+    },
+    {
+      "name": "imsCpuPct",
+      "observed": 95,
+      "baseline": null,
+      "unit": "PERCENT",
+      "numerator": null,
+      "denominator": null
+    }
+  ],
+  "impact": {
+    "extraFailedAttempts": 53,
+    "affectedDeliveredMessages": 0,
+    "pendingMessages": 0,
+    "uniqueSubscribers": null
+  },
+  "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "causeConfidence": "LOW",
+  "evidence": [
+    {
+      "code": "FINALIZED_KPI_EVIDENCE",
+      "summary": "940 / 1000 eligible attempts = 94% CSSR versus 99.3% expected; 53 estimated extra failed attempts. IMS CPU 95% is supporting context, not a proven diagnosis.",
+      "nodeId": null,
+      "sourceEventIds": [
+        "1a25c9e7-769b-5289-9bd1-f2b371ace9ee",
+        "275a8644-90df-5b04-a36d-e48adcaccd92",
+        "c727637d-3729-566a-b338-41927338771e"
+      ]
+    }
+  ],
+  "recommendedChecks": [
+    "Verify source freshness and baseline coverage",
+    "Inspect SIP 503 traces and IMS/transport health"
+  ],
+  "mlStatus": "UNAVAILABLE",
+  "modelVersion": null,
+  "anomalyRank": null
+}

@@ -1,0 +1,100 @@
+{
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "service": "VOLTE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "quality": "COMPLETE",
+  "schemaVersion": 2,
+  "featureVersion": 2,
+  "windowId": "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+  "baselineVersion": "baseline-v2",
+  "topologyVersion": "2-baseline",
+  "kpis": [
+    {
+      "name": "cssrPct",
+      "observed": 94.0,
+      "baseline": 99.3,
+      "unit": "PERCENT",
+      "numerator": 940,
+      "denominator": 1000
+    },
+    {
+      "name": "eligibleAttempts",
+      "observed": 1000,
+      "baseline": null,
+      "unit": "COUNT",
+      "numerator": null,
+      "denominator": null
+    },
+    {
+      "name": "sip503Ratio",
+      "observed": 0.055,
+      "baseline": null,
+      "unit": "RATIO",
+      "numerator": 55,
+      "denominator": 1000
+    },
+    {
+      "name": "sip503Count",
+      "observed": 55,
+      "baseline": null,
+      "unit": "COUNT",
+      "numerator": null,
+      "denominator": null
+    },
+    {
+      "name": "rrcSrPct",
+      "observed": 99.5,
+      "baseline": 99.5,
+      "unit": "PERCENT",
+      "numerator": 1194,
+      "denominator": 1200
+    },
+    {
+      "name": "bearerSrPct",
+      "observed": 99.54545454545455,
+      "baseline": 99.0,
+      "unit": "PERCENT",
+      "numerator": 1095,
+      "denominator": 1100
+    },
+    {
+      "name": "packetLossRatio",
+      "observed": 0.001,
+      "baseline": null,
+      "unit": "RATIO",
+      "numerator": null,
+      "denominator": null
+    },
+    {
+      "name": "imsCpuPct",
+      "observed": 95,
+      "baseline": null,
+      "unit": "PERCENT",
+      "numerator": null,
+      "denominator": null
+    }
+  ],
+  "featureNames": [
+    "cssrDeltaPp",
+    "sip503Ratio",
+    "rrcDeltaPp",
+    "bearerDeltaPp",
+    "packetLossRatio",
+    "imsCpuPct"
+  ],
+  "featureValues": [
+    -5.299999999999997,
+    0.055,
+    0.0,
+    0.5454545454545467,
+    0.001,
+    95
+  ],
+  "mlEligible": true,
+  "sourceEventIds": [
+    "1a25c9e7-769b-5289-9bd1-f2b371ace9ee",
+    "275a8644-90df-5b04-a36d-e48adcaccd92",
+    "c727637d-3729-566a-b338-41927338771e"
+  ]
+}

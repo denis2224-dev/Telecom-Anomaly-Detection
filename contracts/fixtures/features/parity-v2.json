@@ -1,0 +1,268 @@
+{
+  "featureVersion": 2,
+  "description": "Independent cases. Load observation/nodes from fixtures/observations/<name>.json, shallow-merge envelopePatch and metricsPatch. Do not concatenate alternative intervals. Baseline reference values are documented in detection-contracts.md.",
+  "cases": [
+    {
+      "id": "voice-normal",
+      "observation": "normal-volte",
+      "nodes": [
+        "normal-ims",
+        "normal-transport"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          0.2,
+          0.002,
+          0,
+          0.5454545454545454,
+          0.001,
+          35
+        ],
+        "kpis": {
+          "cssrPct": 99.5,
+          "eligibleAttempts": 1000,
+          "rrcSrPct": 99.5,
+          "bearerSrPct": 99.54545454545455
+        }
+      }
+    },
+    {
+      "id": "voice-fault",
+      "observation": "degraded-volte",
+      "nodes": [
+        "degraded-ims",
+        "normal-transport"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          -9.3,
+          0.08,
+          0,
+          0.5454545454545454,
+          0.001,
+          95
+        ],
+        "kpis": {
+          "cssrPct": 90,
+          "eligibleAttempts": 1000
+        }
+      }
+    },
+    {
+      "id": "voice-worked-53",
+      "observation": "normal-volte",
+      "nodes": [
+        "degraded-ims",
+        "normal-transport"
+      ],
+      "metricsPatch": {
+        "technicalSuccesses": 940,
+        "technicalFailures": 60,
+        "sip503Count": 55
+      },
+      "envelopePatch": {
+        "eventId": "275a8644-90df-5b04-a36d-e48adcaccd92"
+      },
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          -5.3,
+          0.055,
+          0,
+          0.5454545454545454,
+          0.001,
+          95
+        ],
+        "kpis": {
+          "cssrPct": 94,
+          "eligibleAttempts": 1000
+        }
+      }
+    },
+    {
+      "id": "voice-no-nodes",
+      "observation": "normal-volte",
+      "nodes": [],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "cssrPct": 99.5,
+          "imsCpuPct": null,
+          "packetLossRatio": null
+        }
+      }
+    },
+    {
+      "id": "voice-zero",
+      "observation": "normal-volte",
+      "nodes": [],
+      "metricsPatch": {
+        "attempts": 0,
+        "technicalSuccesses": 0,
+        "technicalFailures": 0,
+        "userOutcomes": 0,
+        "rrcAttempts": 0,
+        "rrcSuccesses": 0,
+        "bearerAttempts": 0,
+        "bearerSuccesses": 0,
+        "sip503Count": 0
+      },
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "cssrPct": null,
+          "eligibleAttempts": 0,
+          "rrcSrPct": null,
+          "bearerSrPct": null
+        }
+      }
+    },
+    {
+      "id": "voice-incomplete",
+      "observation": "normal-volte",
+      "nodes": [
+        "normal-ims",
+        "normal-transport"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {
+        "quality": "INCOMPLETE"
+      },
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "cssrPct": null,
+          "eligibleAttempts": null
+        }
+      }
+    },
+    {
+      "id": "voice-missing",
+      "observation": "missing-volte",
+      "nodes": [],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "cssrPct": null,
+          "eligibleAttempts": null
+        }
+      }
+    },
+    {
+      "id": "sms-normal",
+      "observation": "normal-sms",
+      "nodes": [
+        "normal-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          1,
+          2000,
+          0,
+          0,
+          -0.9607843137254902,
+          100
+        ],
+        "kpis": {
+          "p95DeliveryMs": 2000,
+          "deliverySrPct": 98.03921568627452
+        }
+      }
+    },
+    {
+      "id": "sms-fault",
+      "observation": "degraded-sms",
+      "nodes": [
+        "degraded-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          22.5,
+          45000,
+          250,
+          90,
+          -15.666666666666666,
+          100
+        ],
+        "kpis": {
+          "p95DeliveryMs": 45000,
+          "queueDepth": 250
+        }
+      }
+    },
+    {
+      "id": "sms-zero-completions",
+      "observation": "sms-no-completions",
+      "nodes": [
+        "degraded-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "p95DeliveryMs": null,
+          "deliveredMessages": 0,
+          "queueDepth": 250,
+          "oldestPendingAgeSec": 90
+        }
+      }
+    },
+    {
+      "id": "sms-incomplete",
+      "observation": "normal-sms",
+      "nodes": [
+        "normal-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {
+        "quality": "INCOMPLETE"
+      },
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "p95DeliveryMs": null,
+          "deliverySrPct": null
+        }
+      }
+    },
+    {
+      "id": "sms-no-node",
+      "observation": "normal-sms",
+      "nodes": [],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "p95DeliveryMs": 2000,
+          "queueDepth": null
+        }
+      }
+    }
+  ]
+}

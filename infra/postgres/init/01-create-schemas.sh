@@ -71,6 +71,7 @@ for application in processing incidents; do
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
 CREATE SCHEMA IF NOT EXISTS app AUTHORIZATION :"migrator";
+REVOKE ALL ON SCHEMA app FROM PUBLIC;
 
 GRANT USAGE ON SCHEMA app TO :"runtime";
 REVOKE CREATE ON SCHEMA app FROM :"runtime";

@@ -15,14 +15,19 @@
     </div>
   }
 </header>
-<div class="workspace-layout">
+<div
+  class="workspace-layout"
+  [class.access-layout]="isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')"
+>
+  @if (!isAccessPage() && (session.phase() === 'authenticated' || session.phase() === 'fixture')) {
   <nav aria-label="Workspace">
     <p class="eyebrow">Workspace</p>
     <a routerLink="/dashboard" class="nav-link">Service overview</a>
     <p class="nav-note">VoLTE setup<br />SMS delivery</p>
   </nav>
+  }
   <main id="workspace">
-    @if (fixture) {
+    @if (fixture && !isAccessPage()) {
       <div class="preview-label">
         SYNTHETIC FIXTURE PREVIEW · Sample data, no live telemetry or
         authenticated session
@@ -42,36 +47,13 @@
         <router-outlet />
       }
       @case ("error") {
-        <section class="state-panel" role="alert">
-          <h1>Unable to verify your session</h1>
-          <p>{{ session.message() }}</p>
-          <button (click)="session.initialize()">Retry connection</button>
-        </section>
+        <app-login />
       }
       @case ("forbidden") {
-        <section class="state-panel" role="alert">
-          <h1>Access unavailable</h1>
-          <p>{{ session.message() }}</p>
-          <button (click)="session.login()">
-            Sign in with another account
-          </button>
-        </section>
+        <app-login />
       }
       @default {
-        <section class="state-panel">
-          <p class="eyebrow">Analyst workspace</p>
-          <h1>
-            {{
-              session.phase() === "expired"
-                ? "Your session has expired"
-                : "Sign in to investigate service issues"
-            }}
-          </h1>
-          <p>Review VoLTE and SMS evidence with your organization’s account.</p>
-          <button class="primary" (click)="session.login()">
-            Continue to sign in
-          </button>
-        </section>
+        <app-login />
       }
     }
     <footer>

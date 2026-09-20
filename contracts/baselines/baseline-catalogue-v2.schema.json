@@ -1,0 +1,155 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "baselineVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^baseline-v2(?:[.:-][A-Za-z0-9_-]+)*$"
+    },
+    "timezone": {
+      "const": "UTC"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baselines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scopeId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "service": {
+            "enum": [
+              "VOLTE",
+              "SMS"
+            ]
+          },
+          "hours": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 168,
+            "uniqueItems": true,
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 167
+            }
+          },
+          "values": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "scopeId",
+          "service",
+          "hours",
+          "values"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "service": {
+                  "const": "VOLTE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "values": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "cssrPct": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "rrcSrPct": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "bearerSrPct": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "cssrPct",
+                    "rrcSrPct",
+                    "bearerSrPct"
+                  ]
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "values": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "p95DeliveryMs": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "deliverySrPct": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "p95DeliveryMs",
+                    "deliverySrPct"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "peerFallbacks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scopeId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "peerScopeId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "scopeId",
+          "peerScopeId"
+        ]
+      }
+    }
+  },
+  "required": [
+    "baselineVersion",
+    "timezone",
+    "description",
+    "baselines",
+    "peerFallbacks"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BaselineCatalogueV2"
+}

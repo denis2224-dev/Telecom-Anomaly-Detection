@@ -14,22 +14,24 @@ Simulator -> Kafka -> Processing -> Detection -> Impact Analysis -> Dashboard
 
 The implemented Streaming components generate and validate observations and expose
 health probes. Kafka publication and consumption, persistent storage, KPI
-finalization, anomaly detection, incident generation, impact analysis and dashboard
-integration are not implemented in these services.
+finalization, live incident generation and dashboard integration are not implemented
+in these services. Sergiu's days 1-4 add offline Python service features, startup
+baseline/policy loading, and a stateless Java voice rule with impact evidence.
 
 ## Repository Structure
 
 | Directory | Contents |
 | --- | --- |
 | `services/event-generator` | Spring Boot service and deterministic observation preview. |
-| `services/processor` | Spring Boot service with an observation validation boundary. |
+| `services/processor` | Observation validation, baseline lookup and stateless voice-rule evaluation. |
+| `services/ml-service` | Independent Python VOLTE/SMS feature calculations and tests. |
 | `services/streaming-support` | Shared validation and Kafka readiness library. |
 | `contracts` | JSON schemas, topology, fixtures and the incident API specification. |
 | `docs` | Technical references and runbooks. |
 | `infra` | Local infrastructure configuration and database initialization. |
 | `apps` | Dashboard placeholder. |
 
-## Local Infrastructure
+## Local Development
 
 Start Docker Desktop and generate `.env` with the password-generation command in
 the [local development runbook](docs/runbooks/local-dev.md). Then run from the
@@ -40,10 +42,17 @@ repository root in a Bash-compatible shell:
 ./scripts/verify
 ```
 
-The shared Compose stack starts PostgreSQL and Kafka and initializes three databases
-(`processing_db`, `incidents_db`, `keycloak_db`), application schemas and topics.
-The Java Streaming services run separately; they are not
-Compose services. See the [local development runbook](docs/runbooks/local-dev.md) and
+The shared Compose stack starts PostgreSQL and Apache Kafka 3.9.1, provisions three
+databases (`processing_db`, `incidents_db`, `keycloak_db`), application schemas and
+V1/V2 topics, starts Keycloak 26.7.4, then builds and starts the event-generator and
+processor containers. Startup waits for infrastructure and Keycloak health,
+successful topic initialization and both application readiness endpoints.
+Keycloak and Java container ports remain private to Compose. The loopback-bound
+NGINX proxy exposes `http://telecom.test:8080`; add the hosts entry in the runbook.
+Startup imports the `telecom` realm and `telecom-web` client, then synchronizes the
+backend client secret to local `.env`. The proxy sends backend requests to the
+incident service running on the host at port 8082.
+Host/IntelliJ startup is also supported. See the [local development runbook](docs/runbooks/local-dev.md) and
 [shared owner map](docs/architecture/owner-map.md).
 
 ## Streaming Components
@@ -67,6 +76,7 @@ environment active:
 python -m pip install -r requirements-dev.txt
 python scripts/check-contracts.py
 python -m unittest discover -s tests -v
+python -m unittest discover -s services/ml-service/tests -v
 ./mvnw -pl services/event-generator,services/processor -am test
 ```
 
@@ -79,3 +89,7 @@ Packaging, service startup and smoke tests are in the Streaming runbook.
 - [TelecomObservationV2 contract](contracts/README.md)
 - [Streaming services: build, run and test](docs/runbooks/streaming.md)
 - [Incident API specification](contracts/openapi/incident-api.yaml)
+
+- [Detection definitions and day 1-4 interfaces](docs/detection-contracts.md)
+- [Python feature builder and shared cases](services/ml-service/README.md)
+- [Sergiu day 1-4 verification evidence](docs/evidence/2026-09-18-sergiu-days-1-4.md)

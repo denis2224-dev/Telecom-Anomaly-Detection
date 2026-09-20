@@ -1,0 +1,36 @@
+{
+  "featureVersion": 2,
+  "models": {
+    "VOLTE": [
+      "cssrDeltaPp",
+      "sip503Ratio",
+      "rrcDeltaPp",
+      "bearerDeltaPp",
+      "packetLossRatio",
+      "imsCpuPct"
+    ],
+    "SMS": [
+      "p95DelayRatio",
+      "p95DeliveryMs",
+      "queueDepth",
+      "oldestPendingAgeSec",
+      "deliverySrDeltaPp",
+      "deliveredMessages"
+    ]
+  },
+  "missingPolicy": "Empty arrays when any required input is unavailable. Never zero-fill. Independent rules may still evaluate.",
+  "parity": {
+    "integer": "exact",
+    "absoluteFloatTolerance": 1e-09
+  },
+  "excluded": [
+    "eventId",
+    "scopeId",
+    "sourceId",
+    "runId",
+    "seed",
+    "scenarioType",
+    "groundTruth",
+    "episodeId"
+  ]
+}

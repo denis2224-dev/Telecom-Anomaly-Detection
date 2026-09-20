@@ -5,9 +5,29 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 if [[ ! -f .env ]]; then
-  cp .env.example .env
-  echo "Created .env from .env.example"
+  echo "Missing .env. Follow docs/runbooks/local-dev.md to generate local passwords." >&2
+  exit 1
 fi
 
-docker compose up -d postgres kafka kafka-init
-echo "Infrastructure is starting. Run ./scripts/verify to check readiness."
+docker compose config --quiet
+
+echo "Starting PostgreSQL and Kafka and waiting for dependency health..."
+docker compose up -d --wait --wait-timeout 120 postgres kafka
+
+echo "Provisioning target databases before application startup..."
+./scripts/prepare-databases
+
+echo "Starting Keycloak after database provisioning and waiting for readiness..."
+docker compose up -d --wait --wait-timeout 180 keycloak
+./scripts/prepare-keycloak
+
+echo "Starting the local proxy and waiting for telecom realm discovery..."
+docker compose up -d --wait --wait-timeout 120 proxy
+
+echo "Creating Kafka topics..."
+docker compose up --no-deps --force-recreate --abort-on-container-exit --exit-code-from kafka-init kafka-init
+
+echo "Starting runnable application services and waiting for readiness..."
+docker compose up -d --build --wait --wait-timeout 120 event-generator processor
+
+echo "Compose stack is ready. Run ./scripts/verify for contract checks."
