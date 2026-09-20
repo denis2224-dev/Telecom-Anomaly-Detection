@@ -1,7 +1,7 @@
 import { DOCUMENT } from "@angular/common";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, OnDestroy, inject, signal } from "@angular/core";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, timeout } from "rxjs";
 import type { components } from "../../core/api/schema";
 import { dataSource } from "../../core/api/data-source";
 
@@ -47,7 +47,7 @@ export class SessionStore implements OnDestroy {
     }
     try {
       const actor = await firstValueFrom(
-        this.http.get<Session>("/api/auth/me"),
+        this.http.get<Session>("/api/auth/me").pipe(timeout(10000)),
       );
       if (generation !== this.generation) return;
       const deadline = Date.parse(actor.expiresAt);
@@ -67,7 +67,7 @@ export class SessionStore implements OnDestroy {
         this.expire();
         return;
       }
-      const csrf = await firstValueFrom(this.http.get<Csrf>("/api/auth/csrf"));
+      const csrf = await firstValueFrom(this.http.get<Csrf>("/api/auth/csrf").pipe(timeout(10000)));
       if (generation !== this.generation) return;
       if (
         !csrf.token ||
