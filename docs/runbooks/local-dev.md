@@ -34,6 +34,8 @@ printf '\n127.0.0.1 telecom.test\n' | sudo tee -a /etc/hosts
 Start and verify the infrastructure and runnable Java services:
 
 ```bash
+npm --prefix apps/dashboard ci
+npm --prefix apps/dashboard run build
 ./scripts/up
 ./scripts/verify
 ```
