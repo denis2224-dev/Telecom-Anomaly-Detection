@@ -1,0 +1,6 @@
+package md.utm.telecom.processing.ingestion;
+
+public enum RejectionReason {
+    MALFORMED_JSON, SCHEMA_INVALID, SEMANTIC_INVALID, SOURCE_UNAUTHORIZED,
+    KAFKA_KEY_MISMATCH, EVENT_ID_CONFLICT, NATURAL_KEY_CONFLICT
+}

@@ -88,7 +88,6 @@ Packaging, service startup and smoke tests are in the Streaming runbook.
 - [Streaming and Simulator](docs/streaming/README.md)
 - [TelecomObservationV2 contract](contracts/README.md)
 - [Streaming services: build, run and test](docs/runbooks/streaming.md)
-- [Legacy EventV1 reference](docs/streaming/event-v1-contract.md)
 - [Incident API specification](contracts/openapi/incident-api.yaml)
 
 - [Detection definitions and day 1-4 interfaces](docs/detection-contracts.md)

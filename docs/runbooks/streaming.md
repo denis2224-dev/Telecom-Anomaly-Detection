@@ -37,6 +37,9 @@ separate schema copies. Other service directories are outside this reactor.
 | KAFKA_BOOTSTRAP_SERVERS | Empty by default: process starts, readiness stays DOWN. Use the broker's advertised address; host example `localhost:9094`, Compose example `kafka:9092`. |
 | KAFKA_READINESS_TIMEOUT | `2s`; bounded `100ms..10s` for metadata, API, request and socket setup. |
 | KAFKA_READINESS_POLL_INTERVAL | `1s`; bounded `100ms..10s`. |
+| PROCESSING_DB_URL | Required processor JDBC URL; host uses `localhost:5432/processing_db?currentSchema=app`, Compose uses `postgres:5432`. |
+| PROCESSING_DB_USER / PROCESSING_DB_PASSWORD | Required runtime identity `processing_app` and its password. |
+| PROCESSING_MIGRATOR_USER / PROCESSING_MIGRATOR_PASSWORD | Required Flyway identity `processing_migrator` and its password. |
 | SERVER_PORT | Override each service port separately. |
 | GENERATOR_SEED | `15092026`; signed Java long. |
 | GENERATOR_COUNT | `10`; preview count, `1..10000`. |
@@ -51,7 +54,8 @@ Compose reads `.env`; standalone Java processes do not read it automatically.
 ## Running the Services
 
 The generator uses port 8081 and the processor uses port 8083 by default.
-Neither requires a database. In separate terminals:
+The processor requires provisioned PostgreSQL and separate runtime/migrator credentials.
+The generator requires no database. In separate terminals:
 
 ```powershell
 $env:KAFKA_BOOTSTRAP_SERVERS='localhost:9094'
@@ -59,12 +63,14 @@ java -jar services/event-generator/target/event-generator-0.3.0-SNAPSHOT.jar
 ```
 
 ```powershell
+# Export PROCESSING_DB_URL/USER/PASSWORD and PROCESSING_MIGRATOR_USER/PASSWORD first.
 $env:KAFKA_BOOTSTRAP_SERVERS='localhost:9094'
 java -jar services/processor/target/processor-0.3.0-SNAPSHOT.jar
 ```
 
 Use the host port configured in Compose if it differs from 9094. Both applications
-can start without Kafka. They are not included in the shared Compose stack.
+can start with an unreachable configured Kafka endpoint. Both are runnable in the
+shared Compose stack. Processor Flyway migrations must succeed at startup.
 
 ## Health Checks
 
@@ -83,13 +89,14 @@ Expected probe behavior:
 | State | Liveness | Readiness |
 | --- | --- | --- |
 | Java running, Kafka absent/unreachable | HTTP 200, UP | HTTP 503, DOWN |
-| Java running, successful Kafka metadata response | HTTP 200, UP | HTTP 200, UP |
+| Java running, Kafka reachable and processor DB healthy | HTTP 200, UP | HTTP 200, UP |
+| Processor running, database unavailable | HTTP 200, UP | HTTP 503, DOWN |
 | Java terminated | No HTTP response | No HTTP response |
 
 Liveness includes only Spring's `livenessState`. Readiness includes `readinessState`
-and the `kafka` indicator. A single background poller performs bounded Admin metadata
-requests and closes its client. HTTP reads a cached snapshot and never waits for
-DNS, TCP or Kafka. Initial status is DOWN. Status changes are asynchronous; stale
+and the `kafka` indicator; processor readiness additionally checks `db`. A single background poller performs bounded Admin metadata
+requests and closes its client. The Kafka indicator reads a cached snapshot and never waits for
+DNS, TCP or Kafka; the processor database check uses its bounded connection pool. Initial status is DOWN. Status changes are asynchronous; stale
 success expires after `timeout + 2 * pollInterval` (4 seconds by default), including
 when DNS/client construction stalls. No poll queue accumulates. The operational
 Clock remains system UTC even when the generator uses a fixed logical Clock.
@@ -136,12 +143,15 @@ python -m openapi_spec_validator contracts/openapi/incident-api.yaml
 ```
 
 The reference suite checks v2 semantics and finite batch conflicts. Full Python
-discovery also checks legacy EventV1 schemas, field documentation, local links,
-incident API examples and fixtures. Java tests exercise shared validation,
+discovery checks the v2 reference suite, service incident API contract, OpenAPI
+examples and shared fixtures. Java tests exercise shared validation,
 deterministic generation and the processor input method. Each service's health
 test starts an embedded KRaft broker, checks readiness UP, then stops the broker
-and checks readiness DOWN while liveness remains UP. Docker is not required for
-these tests; loopback sockets must be available.
+and checks readiness DOWN while liveness remains UP. Processor tests also use real
+PostgreSQL 16 Testcontainers, the repository provisioner, Flyway and runtime roles.
+Docker and loopback sockets are required. `IngestionIntegrationTest` exercises
+race-safe receipts, rollback (including commit-time failure), permissions and real
+Kafka retry/offset behavior; it runs in the normal Maven `test` phase.
 
 To validate the shared infrastructure configuration without starting containers:
 
@@ -159,6 +169,8 @@ python scripts/check-streaming-smoke.py
 python scripts/check-contracts.py --batch target/streaming-smoke/preview.json
 ```
 
+Export the five processor database environment variables before running smoke tests;
+standalone Java does not read `.env`. The database must be provisioned and reachable.
 The smoke script accepts `--java C:\path\to\jdk21\bin\java.exe`. It requires
 free ports 8081 and 8083, starts and terminates its own service processes, and
 checks liveness UP/readiness DOWN with Kafka unavailable. It compares two preview
@@ -167,7 +179,16 @@ and logs are written to ignored `target/streaming-smoke/`.
 
 ## Current Limitations
 
-The generator does not publish observations to Kafka, and the processor has no
-Kafka consumer or HTTP ingestion endpoint. Batch duplicate checks are in memory;
-there is no persistent receipt store or live-stream deduplication. See the
+The generator does not publish observations to Kafka. The processor consumes raw
+observations and commits accepted or rejected state before ACK. It has no HTTP
+ingestion endpoint. Finalization and publication are not implemented. See the
 [Streaming overview](../streaming/README.md#limitations) for the remaining boundaries.
+
+## Durable ingestion (Day 04)
+
+See [ingestion design and verification](../streaming/ingestion.md). Consume
+`telecom.observations.v2` in group `telecom-processor-v2`, with exact case-sensitive
+UTF-8 `scopeId` keys. Producer generation remains a later task. Flyway V001 uses
+`processing_migrator`; ordinary JDBC work uses `processing_app`, exclusively in
+`processing_db.app`. Run `./scripts/prepare-databases` before `./scripts/up` to
+upgrade existing volumes without deleting data.

@@ -13,7 +13,7 @@ def validate_detection_contracts():
         ('baselines/baseline-catalogue-v2.schema.json', ['baselines/demo-baseline-v2.json']),
         ('features/service-feature-window-v2.schema.json',
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/features').glob('*.json')
-          if p.name != 'parity-v2.json']),
+          if p.name not in ('parity-v2.json', 'voice-parity-v2.json')]),
         ('detections/service-detection-v2.schema.json',
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/detections').glob('*.json')]),
     ]
@@ -28,6 +28,13 @@ def validate_detection_contracts():
             validator.validate(read_json(ROOT / 'contracts' / path))
             count += 1
     print(f'PASS: detection schemas, policy, baseline and {count} payloads')
+    # A parity suite references observations; it is not itself a feature payload.
+    # Execute its cases against the canonical reference instead of skipping validation.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('voice_parity', ROOT / 'scripts/check-voice-parity.py')
+    parity = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(parity)
+    print(f'PASS: {len(parity.reference_cases())} voice parity cases with unchanged shared expectations')
 
 
 def main():
