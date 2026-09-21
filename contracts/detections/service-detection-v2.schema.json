@@ -54,6 +54,12 @@
         "SMS"
       ]
     },
+    "firstObservedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$",
+      "description": "Episode anchor: the first eligible breached window start used to derive episodeId."
+    },
     "windowStart": {
       "type": "string",
       "format": "date-time",
@@ -281,6 +287,7 @@
     "anomalyType",
     "scopeId",
     "service",
+    "firstObservedAt",
     "windowStart",
     "windowEnd",
     "detectedAt",

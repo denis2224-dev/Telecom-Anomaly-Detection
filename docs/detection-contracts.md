@@ -56,6 +56,8 @@ is internal context, not a new public API field.
 Correlation key is SHA-256 of compact UTF-8 JSON `[service,scopeId,anomalyType,rulesetVersion]`.
 Episode ID hashes `[correlationKey,firstBreachedWindowStart]`; detection ID hashes
 `[episodeId,windowStart,phase,rulesetVersion]`, with ASCII escapes and no spaces.
+`firstObservedAt` carries that first-breach episode anchor on every detection so a
+consumer can verify the episode hash and preserve the real incident start time.
 Day 5 owns persistence, monotonically increasing sequence, retry safety and OPEN
 emission. Illustrative payloads are fixtures, not evidence of a live incident.
 

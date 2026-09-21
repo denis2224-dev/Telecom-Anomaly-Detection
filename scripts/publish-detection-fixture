@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+FIXTURE="${1:-$ROOT_DIR/contracts/fixtures/detections/voice-open-illustrative-v2.json}"
+TOPIC="${2:-telecom.detections.v2}"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+
+if [[ ! -f "$FIXTURE" ]]; then
+  echo "Detection fixture not found: $FIXTURE" >&2
+  exit 1
+fi
+
+if ! "$PYTHON_BIN" -c 'import jsonschema' >/dev/null 2>&1; then
+  echo "The selected Python lacks jsonschema. Activate the development environment or set PYTHON_BIN." >&2
+  exit 1
+fi
+
+record="$("$PYTHON_BIN" - "$ROOT_DIR" "$FIXTURE" <<'PY'
+import json
+import pathlib
+import sys
+
+from jsonschema import Draft202012Validator, FormatChecker
+
+root = pathlib.Path(sys.argv[1])
+fixture = pathlib.Path(sys.argv[2])
+schema = json.loads((root / "contracts/detections/service-detection-v2.schema.json").read_text())
+payload = json.loads(fixture.read_text())
+Draft202012Validator(schema, format_checker=FormatChecker()).validate(payload)
+print(payload["episodeId"] + ":" + json.dumps(payload, separators=(",", ":")))
+PY
+)"
+
+if [[ "${VALIDATE_ONLY:-false}" == "true" ]]; then
+  echo "Validated $(basename "$FIXTURE"); episodeId will be used as the Kafka key."
+  exit 0
+fi
+
+printf '%s\n' "$record" | docker compose --project-directory "$ROOT_DIR" exec -T kafka \
+  /opt/kafka/bin/kafka-console-producer.sh \
+  --bootstrap-server kafka:9092 \
+  --topic "$TOPIC" \
+  --property parse.key=true \
+  --property key.separator=:
+
+echo "Published $(basename "$FIXTURE") to $TOPIC with episodeId as the Kafka key."

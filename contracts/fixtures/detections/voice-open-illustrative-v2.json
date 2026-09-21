@@ -8,6 +8,7 @@
   "anomalyType": "VOLTE_SETUP_DEGRADATION",
   "scopeId": "VOLTE-MD-CENTRAL",
   "service": "VOLTE",
+  "firstObservedAt": "2026-09-15T07:59:00Z",
   "windowStart": "2026-09-15T08:00:00Z",
   "windowEnd": "2026-09-15T08:01:00Z",
   "detectedAt": "2026-09-15T08:01:10Z",

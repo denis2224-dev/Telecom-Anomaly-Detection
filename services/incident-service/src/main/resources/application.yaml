@@ -38,6 +38,19 @@ spring:
           keycloak:
             issuer-uri: ${KEYCLOAK_ISSUER:http://telecom.test:8080/auth/realms/telecom}
 
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    consumer:
+      group-id: incident-service-v2
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        isolation.level: read_committed
+    listener:
+      ack-mode: manual_immediate
+
 server:
   port: 8082
   servlet:
@@ -52,3 +65,6 @@ server:
 
 app:
   public-origin: ${APP_PUBLIC_ORIGIN:http://telecom.test:8080}
+  kafka:
+    topics:
+      detections: ${KAFKA_V2_DETECTIONS_TOPIC:telecom.detections.v2}
