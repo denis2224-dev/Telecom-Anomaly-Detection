@@ -135,4 +135,7 @@ if ! curl --noproxy '*' --fail --silent --show-error --max-time 5 \
   exit 1
 fi
 
+echo "Checking Angular, Spring and Keycloak authentication routing..."
+node scripts/check-auth-routing.mjs
+
 echo "Infrastructure, application and Keycloak readiness verification passed."

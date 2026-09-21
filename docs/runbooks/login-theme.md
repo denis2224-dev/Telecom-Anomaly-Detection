@@ -1,21 +1,87 @@
 # Branded organization sign-in
 
-The `telecom` Keycloak login theme matches the dashboard's green, white and soft
-grey palette. It inherits Keycloak's forms, error messages, password visibility
-control, recovery and required-action pages. Credentials continue to go directly
-to Keycloak. No Angular password form or new authentication API is introduced.
+The authentication experience has two deliberately separate pages:
 
-The theme follows Keycloak's supported inheritance mechanism:
-https://www.keycloak.org/ui-customization/themes
+1. Angular owns the `/login` handoff page and explains where the user is going.
+2. Keycloak owns the credential form, validation, recovery and required actions.
 
-## Enable it
+The Angular button opens `/oauth2/authorization/keycloak`. Spring creates the
+authorization request and PKCE values, Keycloak collects the credentials, and
+the callback returns through `/login/oauth2/code/keycloak`. A successful login
+returns to `/dashboard`.
 
-`scripts/up` mounts the theme and selects it after Keycloak becomes ready.
-New realm imports also select `telecom` automatically. Existing realms are
-updated with `scripts/prepare-login-theme`; importing a realm alone does not
-update an existing realm.
+Credentials must never be collected by Angular or sent to a custom application
+authentication endpoint.
 
-For an already running stack, from the repository root:
+## Theme structure
+
+The `telecom` login theme extends the Keycloak theme rather than replacing its
+forms:
+
+```properties
+parent=keycloak
+import=common/keycloak
+styles=css/login.css css/telecom.css
+darkMode=false
+```
+
+Loading `telecom.css` after Keycloak's `login.css` preserves the provider's
+form markup, accessibility, messages, password visibility control and other
+authentication states. The custom theme currently adds CSS, generated branding
+assets, message-bundle entries and a supported `footer.ftl`; it does not override
+the login form or shared page templates.
+
+Keycloak is pinned to `26.7.4`. If a future structural change requires a
+FreeMarker override, copy only the smallest relevant template from that exact
+Keycloak version. Compare every overridden template with upstream before each
+Keycloak upgrade.
+
+## Shared branding
+
+`design/branding.json` is the source of truth for the shared colors, typography,
+radius and card shadow. The generator writes tracked Angular and Keycloak files:
+
+- `apps/dashboard/src/branding/tokens.css`
+- `apps/dashboard/src/branding/mark.svg`
+- `infra/keycloak/themes/telecom/login/resources/css/tokens.css`
+- `infra/keycloak/themes/telecom/login/resources/img/mark.svg`
+
+After changing the source values, regenerate the outputs from the repository
+root:
+
+```bash
+node scripts/sync-branding.mjs
+```
+
+Check without modifying files:
+
+```bash
+node scripts/sync-branding.mjs --check
+```
+
+Dashboard start, build and unit-test commands reject stale generated branding.
+
+## Routing ownership
+
+NGINX uses these boundaries:
+
+| Route | Owner |
+| --- | --- |
+| `/login` | Angular handoff page |
+| `/oauth2/**` | Spring Security |
+| `/login/oauth2/**` | Spring Security callback |
+| `/api/**`, `/logout`, `/actuator/**` | Spring application |
+| `/auth/**` | Keycloak |
+| Other frontend routes | Angular |
+
+Refreshing or directly opening `/login` must return the Angular shell. The OIDC
+callback must never fall through to the Angular shell.
+
+## Enable the theme
+
+`scripts/up` mounts the theme and selects it after Keycloak becomes ready. New
+realm imports also select `telecom`. Importing the realm does not update an
+existing realm, so use the helper for an already running installation:
 
 ```bash
 docker compose up -d keycloak
@@ -23,45 +89,71 @@ bash scripts/prepare-login-theme
 docker compose restart proxy
 ```
 
-Wait for Keycloak to be healthy before running the helper. It uses the existing
-local admin credentials and changes only the login theme and realm display name.
-It preserves accounts, passwords, roles, client secrets and analyst records.
+The helper changes only the realm login theme and display name. It preserves
+accounts, passwords, roles, client secrets and analyst records.
 
-Visit `http://telecom.test:8080/login`. The proxy redirects this exact route to
-`/oauth2/authorization/keycloak`, where Spring creates the OIDC request and sends
-the browser to the branded credential form. `/login/oauth2/code/keycloak` still
-goes to Spring. Existing sign-in buttons already use the same authorization
-endpoint. After authentication the backend returns to `/dashboard`.
+The fixture build on port 4200 remains a labelled sample preview and cannot
+perform a real login.
 
-The fixture build on port 4200 remains a labelled sample preview; it cannot
-authenticate. The real stack must be running to access the new credential page.
+## Theme development
 
-## Verify the theme
+The production configuration should keep theme caching enabled. For local theme
+editing only, Keycloak supports these development flags:
 
-`npm run test:theme` from `apps/dashboard` targets a separate Keycloak on port
-8180 with the tracked realm imported and theme mounted. The tests check desktop
-and mobile layouts, the loaded branding, password visibility, and rejected
-credentials. Set `E2E_THEME_URL` to change its origin; this isolated test instance
-uses the default root context rather than the main stack's `/auth` context.
-The dashboard's normal `test:e2e` command continues to test its own routing.
-Theme tests do not prove successful real backend login or callback handling.
-
-To create the isolated test instance, run from the repository root:
-
-```bash
-docker run -d --name telecom-login-theme-check -p 127.0.0.1:8180:8080 \
-  -v "$PWD/infra/keycloak/themes/telecom:/opt/keycloak/themes/telecom:ro" \
-  -v "$PWD/infra/keycloak/telecom-realm.json:/opt/keycloak/data/import/telecom-realm.json:ro" \
-  quay.io/keycloak/keycloak:26.7.4 start-dev --import-realm
+```text
+--spi-theme--static-max-age=-1
+--spi-theme--cache-themes=false
+--spi-theme--cache-templates=false
 ```
 
-Wait for startup, then run the theme tests. This uses disposable container-local
-storage, with no application users or project database. Stop the test container
-when finished. If the dashboard preview already uses port 4200, run its tests
-with `E2E_PORT=4212 npm run test:e2e` to use another port.
+`npm run test:theme` applies those flags to a disposable Keycloak container. Do
+not add them to the production Compose service.
 
-Verified on 2026-09-20: 22 unit tests, 4 dashboard browser tests, 2 real-Keycloak
-theme tests, production Angular build, NGINX configuration validation and the
-`/login` 302 redirect. Desktop/mobile screenshots and the invalid-credentials
-state were reviewed. The full successful backend login test was skipped because
-the isolated theme instance has no provisioned application test account.
+## Verification
+
+From `apps/dashboard`, run:
+
+```bash
+npm test
+npm run build
+npm run test:e2e
+npm run test:branding
+npm run test:theme
+```
+
+The theme test starts a disposable Keycloak `26.7.4` container and checks the
+default login, invalid credentials, password visibility, keyboard focus, mobile
+layout, password-recovery page and provider-error page. It does not use real
+accounts.
+
+With the complete NGINX, Spring and Keycloak stack running, verify route
+ownership without credentials:
+
+```bash
+npm run test:auth-routing
+npm run test:auth
+```
+
+The repository-level `./scripts/verify` command also runs the authentication
+routing check after infrastructure readiness checks.
+
+For a full credential login and logout test, provide a dedicated non-production
+test account through the documented `E2E_*` environment variables and run the
+normal Playwright suite with `E2E_REAL_LOGIN` enabled. Do not record traces,
+videos, screenshots, cookies, passwords, callback URLs or tokens from this run.
+
+If a real test account is unavailable, report successful anonymous routing and
+theme verification separately; do not claim that the authenticated callback and
+logout flow were exercised.
+
+## Upgrade checklist
+
+When changing Keycloak versions:
+
+1. Update the pinned image used by Compose and the disposable theme-test runner.
+2. Run the branding, unit, production-build, frontend and theme test suites.
+3. Exercise recovery, required actions, MFA and identity-provider pages enabled
+   by the realm.
+4. Run the full-stack routing and credential smoke tests.
+5. Review selectors in `telecom.css` against the new default theme markup.
+6. Compare any future FreeMarker overrides with the new upstream templates.

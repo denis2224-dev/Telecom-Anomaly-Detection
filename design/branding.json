@@ -1,0 +1,16 @@
+{
+  "primary": "#195f55",
+  "primary-hover": "#124b43",
+  "page-background": "#f3f5f2",
+  "surface": "#ffffff",
+  "text": "#23352d",
+  "muted-text": "#58695e",
+  "border": "#d1d9d2",
+  "field-border": "#a8b9af",
+  "secondary-background": "#eaf0eb",
+  "focus": "#187568",
+  "danger": "#b42318",
+  "border-radius": "3px",
+  "card-shadow": "0 12px 32px #23352d08",
+  "font-family": "Arial, sans-serif"
+}
