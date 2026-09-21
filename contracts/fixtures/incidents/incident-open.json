@@ -25,6 +25,7 @@
     "phase": "OPEN",
     "scopeId": "VOLTE-MD-CENTRAL",
     "service": "VOLTE",
+    "firstObservedAt": "2026-09-15T10:02:00Z",
     "windowStart": "2026-09-15T10:03:00Z",
     "windowEnd": "2026-09-15T10:04:00Z",
     "detectedAt": "2026-09-15T10:04:10Z",

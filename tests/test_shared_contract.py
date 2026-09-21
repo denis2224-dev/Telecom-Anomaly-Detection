@@ -164,6 +164,7 @@ class SharedContractTests(unittest.TestCase):
                 self.assertEqual(incident["latestSequence"], detection["sequence"])
                 self.assertEqual(incident["detectedAt"], detection["detectedAt"])
                 self.assertEqual(incident["lastObservedAt"], detection["windowEnd"])
+                self.assertEqual(incident["firstObservedAt"], detection["firstObservedAt"])
 
                 first = datetime.fromisoformat(incident["firstObservedAt"])
                 start = datetime.fromisoformat(detection["windowStart"])

@@ -1,6 +1,8 @@
 """Canonical detection contracts must remain compatible with the existing API."""
 
 import copy
+import hashlib
+import json
 import unittest
 
 from jsonschema import Draft202012Validator
@@ -44,6 +46,15 @@ class DetectionContractTests(unittest.TestCase):
         self.assertEqual(detection['evidence'][0]['sourceEventIds'], feature['sourceEventIds'])
         self.assertEqual(detection['impact']['extraFailedAttempts'], 53)
         self.assertEqual(detection['mlStatus'], 'UNAVAILABLE')
+        canonical = lambda values: json.dumps(values, ensure_ascii=True, separators=(',', ':')).encode()
+        self.assertEqual(detection['correlationKey'], hashlib.sha256(canonical([
+            detection['service'], detection['scopeId'], detection['anomalyType'],
+            detection['rulesetVersion']])).hexdigest())
+        self.assertEqual(detection['episodeId'], hashlib.sha256(canonical([
+            detection['correlationKey'], detection['firstObservedAt']])).hexdigest())
+        self.assertEqual(detection['detectionId'], hashlib.sha256(canonical([
+            detection['episodeId'], detection['windowStart'], detection['phase'],
+            detection['rulesetVersion']])).hexdigest())
         self.assertFalse(validator.is_valid(dict(detection, anomalyRank=0)))
         self.assertFalse(validator.is_valid(dict(detection, mlStatus='OK')))
         wrong = copy.deepcopy(detection)
