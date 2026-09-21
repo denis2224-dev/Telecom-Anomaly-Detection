@@ -1,4 +1,4 @@
-package md.utm.telecom.incidents.services;
+package md.utm.telecom.services.controller;
 
 import md.utm.telecom.services.model.ServiceKpiWindow;
 import md.utm.telecom.services.repository.ServiceKpiWindowRepository;
