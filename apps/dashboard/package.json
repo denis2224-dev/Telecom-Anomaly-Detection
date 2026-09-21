@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync:branding": "node ../../scripts/sync-branding.mjs",
+    "check:branding": "node ../../scripts/sync-branding.mjs --check",
+    "prestart": "npm run check:branding",
+    "prestart:fixtures": "npm run check:branding",
+    "prebuild": "npm run check:branding",
+    "prebuild:fixtures": "npm run check:branding",
+    "pretest": "npm run check:branding",
+    "pretest:theme": "npm run check:branding",
     "start": "ng serve --host 127.0.0.1 --port 4200",
     "start:fixtures": "ng serve --configuration fixtures --host 127.0.0.1 --port 4200",
     "build": "ng build",
@@ -10,7 +18,10 @@
     "generate:api": "openapi-typescript api/incident-api.yaml -o src/app/core/api/schema.ts",
     "test": "ng test --watch=false",
     "test:e2e": "playwright test",
-    "test:theme": "playwright test --config playwright.theme.config.ts",
+    "test:theme": "node ../../scripts/run-theme-tests.mjs",
+    "test:auth": "playwright test --config playwright.auth.config.ts",
+    "test:auth-routing": "node ../../scripts/check-auth-routing.mjs",
+    "test:branding": "node --test ../../scripts/sync-branding.test.mjs",
     "check:fixtures": "node scripts/check-fixtures.mjs"
   },
   "dependencies": {

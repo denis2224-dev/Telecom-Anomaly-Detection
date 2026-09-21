@@ -1,17 +1,20 @@
-/* Keep Keycloak's forms, validation and password controls; share the app palette. */
+@import url("./tokens.css");
+
+/* Loaded after Keycloak's login.css. Keep its form structure and state logic. */
 :root { color-scheme: light; }
 html.login-pf, .login-pf body {
-  background: #f3f5f2;
-  color: #23352d;
-  font-family: Arial, sans-serif;
+  background: var(--telecom-page-background);
+  color: var(--telecom-text);
+  font-family: var(--telecom-font-family);
   min-height: 100vh;
 }
 .login-pf body { margin: 0; }
-.login-pf-page { padding: 0 20px 40px; }
-#kc-header { color: #195f55; margin: 0 -20px 64px; background: #fff; border-bottom: 1px solid #d1d9d2; }
+.login-pf-page { padding: 0 20px 40px; font-family: var(--telecom-font-family); }
+#kc-header { color: var(--telecom-primary); margin: 0 -20px 64px; background: var(--telecom-surface); border-bottom: 1px solid var(--telecom-border); }
 #kc-header-wrapper {
-  color: #195f55;
-  padding: 22px 34px;
+  color: var(--telecom-primary);
+  padding: 22px 34px 22px 82px;
+  background: url("../img/mark.svg") 34px center / 36px 36px no-repeat;
   min-height: 78px;
   text-align: left;
   font-size: 17px;
@@ -19,73 +22,82 @@ html.login-pf, .login-pf body {
   letter-spacing: 1.4px;
   line-height: 1.6;
   white-space: normal;
-}
-#kc-header-wrapper::before {
-  content: "T";
-  display: inline-block;
-  background: #195f55;
-  color: white;
-  padding: 4px 11px;
-  margin-right: 14px;
+  overflow-wrap: anywhere;
 }
 .login-pf-page .card-pf {
-  background: #fff;
-  color: #23352d;
+  background: var(--telecom-surface);
+  color: var(--telecom-text);
   width: 100%;
   max-width: 460px;
   margin: 0 auto;
   padding: 36px;
-  border: 1px solid #d1d9d2;
-  border-top: 4px solid #195f55;
-  border-radius: 3px;
-  box-shadow: 0 12px 32px #23352d08;
+  border: 1px solid var(--telecom-border);
+  border-top: 4px solid var(--telecom-primary);
+  border-radius: var(--telecom-border-radius);
+  box-shadow: var(--telecom-card-shadow);
 }
 .login-pf-page .login-pf-header { margin-bottom: 28px; }
-#kc-page-title { color: #23352d; font-size: 27px; font-weight: 700; line-height: 1.25; text-align: left; letter-spacing: -.5px; margin: 0; }
+#kc-page-title { color: var(--telecom-text); font-size: 27px; font-weight: 700; line-height: 1.25; text-align: left; letter-spacing: -.5px; margin: 0; }
 #kc-content-wrapper { margin-top: 0; }
 .login-pf-page .form-group { margin-bottom: 22px; }
-.login-pf-page label { color: #23352d; font-size: 14px; font-weight: 600; }
-.login-pf-page input:not([type=checkbox]):not([type=hidden]):not([type=submit]) {
-  background: #fff;
-  color: #23352d;
-  height: 46px;
-  border: 1px solid #a8b9af;
-  border-radius: 3px;
+.login-pf-page label { color: var(--telecom-text); font-size: 14px; font-weight: 600; }
+.login-pf-page input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=submit]),
+.login-pf-page select, .login-pf-page textarea {
+  background: var(--telecom-surface);
+  color: var(--telecom-text);
+  min-height: 46px;
+  border: 1px solid var(--telecom-field-border);
+  border-radius: var(--telecom-border-radius);
   box-shadow: none;
   padding: 10px 12px;
   font-size: 16px;
 }
 .login-pf-page .pf-c-input-group { background: transparent; }
 .login-pf-page .pf-c-input-group button {
-  background: #f3f5f2;
-  color: #195f55;
-  border: 1px solid #a8b9af;
+  background: var(--telecom-page-background);
+  color: var(--telecom-primary);
+  border: 1px solid var(--telecom-field-border);
   min-width: 46px;
 }
 .login-pf-page .pf-c-input-group button::after { border: 0; }
-#kc-login, .login-pf-page .btn-primary {
-  background: #195f55;
-  color: #fff;
-  border: 1px solid #195f55;
-  border-radius: 3px;
+#kc-login, .login-pf-page .btn,
+.login-pf-page .pf-c-button.pf-m-primary, .login-pf-page .pf-c-button.pf-m-secondary {
+  border-radius: var(--telecom-border-radius);
   min-height: 46px;
-  font: 600 16px Arial, sans-serif;
+  font: 600 16px var(--telecom-font-family);
   box-shadow: none;
   text-shadow: none;
   padding: 11px 17px;
+  white-space: normal;
 }
-#kc-login:hover, .login-pf-page .btn-primary:hover { background: #124b43; }
-.login-pf-page a { color: #195f55; text-underline-offset: 3px; }
-.login-pf-page :focus-visible { outline: 3px solid #187568; outline-offset: 3px; }
-.login-pf-page input[aria-invalid=true] { border-color: #b42318 !important; }
-.login-pf-page .pf-c-form__helper-text.pf-m-error { color: #a51e16; }
-.login-pf-page .alert { border-radius: 3px; font-size: 14px; }
-.telecom-help { border-top: 1px solid #d1d9d2; margin-top: 28px; padding-top: 18px; color: #58695e; font-size: 13px; line-height: 1.6; }
+.login-pf-page .btn-default, .login-pf-page .pf-c-button.pf-m-secondary {
+  background: var(--telecom-surface);
+  color: var(--telecom-text);
+  border: 1px solid var(--telecom-field-border);
+}
+.login-pf-page .btn-default:hover, .login-pf-page .pf-c-button.pf-m-secondary:hover { background: var(--telecom-secondary-background); }
+#kc-login, .login-pf-page .btn-primary, .login-pf-page .pf-c-button.pf-m-primary {
+  background: var(--telecom-primary);
+  color: var(--telecom-surface);
+  border: 1px solid var(--telecom-primary);
+}
+#kc-login:hover, .login-pf-page .btn-primary:hover, .login-pf-page .pf-c-button.pf-m-primary:hover {
+  background: var(--telecom-primary-hover);
+  border-color: var(--telecom-primary-hover);
+}
+.login-pf-page a { color: var(--telecom-primary); text-underline-offset: 4px; }
+.login-pf-page :focus-visible { outline: 3px solid var(--telecom-focus); outline-offset: 4px; }
+.login-pf-page input[aria-invalid=true] { border-color: var(--telecom-danger) !important; }
+.login-pf-page .pf-c-form__helper-text.pf-m-error { color: var(--telecom-danger); }
+/* Retain Keycloak's state-specific icons, roles and warning/success colors. */
+.login-pf-page .alert { border-radius: var(--telecom-border-radius); font-size: 14px; }
+.login-pf-page .alert-error { border-color: var(--telecom-danger); }
+.telecom-help { border-top: 1px solid var(--telecom-border); margin-top: 28px; padding-top: 18px; color: var(--telecom-muted-text); font-size: 13px; line-height: 1.6; }
 .telecom-help p { margin: 0 0 10px; }
-#kc-info-wrapper { background: #f3f5f2; color: #58695e; }
+#kc-info-wrapper { background: var(--telecom-page-background); color: var(--telecom-muted-text); }
 @media (max-width: 600px) {
   #kc-header { margin-bottom: 28px; }
-  #kc-header-wrapper { padding: 18px 20px; font-size: 14px; }
+  #kc-header-wrapper { padding: 18px 20px 18px 68px; background-position-x: 20px; font-size: 14px; }
   .login-pf-page .card-pf { padding: 26px 22px; }
   #kc-page-title { font-size: 25px; }
 }

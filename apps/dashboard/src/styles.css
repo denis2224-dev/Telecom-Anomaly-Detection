@@ -1,19 +1,21 @@
+@import "./branding/tokens.css";
+
 :root {
-  font-family: Arial, sans-serif;
-  color: #23352d;
-  background: #f3f5f2;
+  font-family: var(--telecom-font-family);
+  color: var(--telecom-text);
+  background: var(--telecom-page-background);
   font-synthesis: none;
 }
 .workspace-layout.access-layout { grid-template-columns: minmax(0, 1fr); }
 .login-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; align-items: center; max-width: 1100px; margin: 65px auto; }
 .login-intro h1 { font-size: clamp(30px, 3.5vw, 46px); line-height: 1.14; max-width: 560px; }
-.login-intro > p { max-width: 480px; color: #58695e; }
-.login-capabilities { border-top: 1px solid #d1d9d2; margin-top: 28px; padding-top: 8px; }
-.login-capabilities p { font-size: 14px; color: #58695e; }
-.login-capabilities strong { color: #23352d; }
-.login-card { background: white; border: 1px solid #d1d9d2; border-top: 4px solid #195f55; padding: 36px; box-shadow: 0 12px 32px #23352d08; }
+.login-intro > p { max-width: 480px; color: var(--telecom-muted-text); }
+.login-capabilities { border-top: 1px solid var(--telecom-border); margin-top: 28px; padding-top: 8px; }
+.login-capabilities p { font-size: 14px; color: var(--telecom-muted-text); }
+.login-capabilities strong { color: var(--telecom-text); }
+.login-card { background: var(--telecom-surface); border: 1px solid var(--telecom-border); border-top: 4px solid var(--telecom-primary); padding: 36px; box-shadow: var(--telecom-card-shadow); }
 .login-card .primary { width: 100%; text-align: center; margin: 12px 0; }
-.login-help { border-top: 1px solid #d1d9d2; padding-top: 22px; margin-top: 26px; font-size: 12px; color: #58695e; }
+.login-help { border-top: 1px solid var(--telecom-border); padding-top: 22px; margin-top: 26px; font-size: 12px; color: var(--telecom-muted-text); }
 @media (max-width: 800px) {
   .login-layout { grid-template-columns: 1fr; gap: 24px; margin: 24px auto; }
   .login-card { padding: 24px; }
@@ -25,7 +27,7 @@ body {
   margin: 0;
 }
 a {
-  color: #195f55;
+  color: var(--telecom-primary);
   text-underline-offset: 4px;
 }
 button,
@@ -33,27 +35,30 @@ button,
   font: inherit;
   display: inline-block;
   padding: 11px 17px;
-  border: 1px solid #b8c6bd;
-  background: white;
-  color: #23352d;
-  border-radius: 3px;
+  border: 1px solid var(--telecom-field-border);
+  background: var(--telecom-surface);
+  color: var(--telecom-text);
+  border-radius: var(--telecom-border-radius);
   cursor: pointer;
   text-decoration: none;
 }
 .primary {
-  background: #195f55;
-  color: white;
-  border-color: #195f55;
+  background: var(--telecom-primary);
+  color: var(--telecom-surface);
+  border-color: var(--telecom-primary);
 }
+.primary:hover { background: var(--telecom-primary-hover); border-color: var(--telecom-primary-hover); }
+.login-card { border-radius: var(--telecom-border-radius); }
+.login-card [role="alert"] { color: var(--telecom-danger); }
 :focus-visible {
-  outline: 3px solid #187568;
+  outline: 3px solid var(--telecom-focus);
   outline-offset: 4px;
 }
 .skip-link {
   position: absolute;
   top: -80px;
   padding: 14px;
-  background: white;
+  background: var(--telecom-surface);
 }
 .skip-link:focus {
   top: 0;
@@ -65,8 +70,8 @@ button,
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  border-bottom: 1px solid #d1d9d2;
-  background: white;
+  border-bottom: 1px solid var(--telecom-border);
+  background: var(--telecom-surface);
 }
 .brand {
   display: flex;
@@ -77,9 +82,11 @@ button,
   text-decoration: none;
 }
 .brand-mark {
-  background: #195f55;
-  color: white;
-  padding: 8px 11px;
+  display: inline-block;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  background: url("./branding/mark.svg") center / contain no-repeat;
 }
 .brand small {
   display: block;
@@ -103,13 +110,13 @@ button,
 }
 nav {
   padding: 30px 20px;
-  background: white;
-  border-right: 1px solid #d1d9d2;
+  background: var(--telecom-surface);
+  border-right: 1px solid var(--telecom-border);
 }
 .nav-link {
   display: block;
   padding: 14px 10px;
-  background: #eaf0eb;
+  background: var(--telecom-secondary-background);
   text-decoration: none;
   font-weight: bold;
   font-size: 14px;
@@ -117,7 +124,7 @@ nav {
 .nav-note {
   padding: 10px;
   font-size: 13px;
-  color: #617067;
+  color: var(--telecom-muted-text);
   line-height: 1.8;
 }
 main {
@@ -128,7 +135,7 @@ main {
 }
 .preview-label {
   padding-bottom: 18px;
-  border-bottom: 1px solid #d1d9d2;
+  border-bottom: 1px solid var(--telecom-border);
   font-size: 11px;
   letter-spacing: 0.5px;
   line-height: 1.7;
@@ -137,7 +144,7 @@ main {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1.3px;
-  color: #58695e;
+  color: var(--telecom-muted-text);
   font-weight: bold;
 }
 h1 {
@@ -157,7 +164,7 @@ p {
 }
 .muted,
 .page-heading > p:last-child {
-  color: #5d6c62;
+  color: var(--telecom-muted-text);
   font-size: 14px;
 }
 .page-heading {
@@ -166,8 +173,8 @@ p {
 .overview-grid {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(250px, 1fr);
-  background: white;
-  border: 1px solid #d1d9d2;
+  background: var(--telecom-surface);
+  border: 1px solid var(--telecom-border);
 }
 .priority-panel {
   padding: 30px 36px;
@@ -180,13 +187,13 @@ p {
   margin-top: 18px;
 }
 .support {
-  border-left: 1px solid #d1d9d2;
+  border-left: 1px solid var(--telecom-border);
   background: #fafbf9;
   display: grid;
 }
 .support section {
   padding: 18px 24px;
-  border-bottom: 1px solid #d1d9d2;
+  border-bottom: 1px solid var(--telecom-border);
 }
 .support section:last-child {
   border: 0;
@@ -197,7 +204,7 @@ p {
 .support p {
   margin: 0;
   font-size: 13px;
-  color: #58695e;
+  color: var(--telecom-muted-text);
 }
 .section-heading {
   display: flex;
@@ -210,15 +217,15 @@ p {
   font-size: 19px;
 }
 .service-list {
-  border-top: 1px solid #d1d9d2;
-  background: white;
+  border-top: 1px solid var(--telecom-border);
+  background: var(--telecom-surface);
 }
 .service-row {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) 145px;
   gap: 22px;
   padding: 22px;
-  border-bottom: 1px solid #d1d9d2;
+  border-bottom: 1px solid var(--telecom-border);
   align-items: center;
 }
 .service-row h3 {
@@ -228,7 +235,7 @@ p {
 .service-row p {
   font-size: 12px;
   margin: 6px 0 0;
-  color: #5d6c62;
+  color: var(--telecom-muted-text);
 }
 .service-row strong {
   font-size: 12px;
@@ -247,8 +254,8 @@ p {
 .state-panel,
 .detail-panel {
   padding: 34px;
-  background: white;
-  border: 1px solid #d1d9d2;
+  background: var(--telecom-surface);
+  border: 1px solid var(--telecom-border);
   margin: 24px 0;
 }
 .state-panel p {
@@ -262,7 +269,7 @@ p {
   overflow-wrap: anywhere;
 }
 .metric-list section {
-  border-top: 1px solid #d1d9d2;
+  border-top: 1px solid var(--telecom-border);
   padding: 16px 0;
 }
 dl {
@@ -272,19 +279,19 @@ dl {
 }
 dt {
   font-size: 12px;
-  color: #5d6c62;
+  color: var(--telecom-muted-text);
 }
 dd {
   margin: 8px 0 0;
   font-size: 18px;
 }
 .notice {
-  background: #eaf0eb;
+  background: var(--telecom-secondary-background);
   padding: 20px;
 }
 footer {
   margin-top: 28px;
-  color: #5d6c62;
+  color: var(--telecom-muted-text);
   font-size: 11px;
   line-height: 1.6;
 }
@@ -300,12 +307,12 @@ footer {
   }
   .support {
     border-left: 0;
-    border-top: 1px solid #d1d9d2;
+    border-top: 1px solid var(--telecom-border);
     grid-template-columns: repeat(3, 1fr);
   }
   .support section {
     border-bottom: 0;
-    border-right: 1px solid #d1d9d2;
+    border-right: 1px solid var(--telecom-border);
     padding: 18px;
   }
   .service-row {
@@ -323,7 +330,7 @@ footer {
   nav {
     padding: 12px 20px;
     border-right: 0;
-    border-bottom: 1px solid #d1d9d2;
+    border-bottom: 1px solid var(--telecom-border);
   }
   nav .eyebrow,
   .nav-note {
@@ -337,7 +344,7 @@ footer {
   }
   .support section {
     border-right: 0;
-    border-bottom: 1px solid #d1d9d2;
+    border-bottom: 1px solid var(--telecom-border);
   }
   .priority-panel,
   .detail-panel,
