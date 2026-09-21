@@ -95,6 +95,23 @@ if [[ "$processor_tables" != "t" ]]; then
   exit 1
 fi
 
+echo "Checking immutable processor feature outbox permissions..."
+feature_outbox="$(docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 \
+  -U "$POSTGRES_USER" -d processing_db -tA <<'SQL'
+SELECT COALESCE((SELECT pg_get_userbyid(relowner) = 'processing_migrator'
+    AND has_table_privilege('processing_app', oid, 'SELECT')
+    AND has_table_privilege('processing_app', oid, 'INSERT')
+    AND NOT has_table_privilege('processing_app', oid, 'UPDATE')
+    AND NOT has_table_privilege('processing_app', oid, 'DELETE')
+    AND NOT has_table_privilege('processing_app', oid, 'TRUNCATE')
+  FROM pg_class WHERE relname='feature_outbox' AND relnamespace='app'::regnamespace), false);
+SQL
+)"
+if [[ "$feature_outbox" != "t" ]]; then
+  echo "Feature outbox migration, ownership or insert-only permissions are incorrect." >&2
+  exit 1
+fi
+
 echo "Checking Kafka topics..."
 topics="$(docker compose exec -T kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
 echo "$topics"

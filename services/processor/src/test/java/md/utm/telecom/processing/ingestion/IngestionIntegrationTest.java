@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = ProcessorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE,
-        properties = {"debug=false", "logging.level.root=WARN", "logging.level.kafka=ERROR",
+        properties = {"telecom.finalization.enabled=false", "debug=false", "logging.level.root=WARN", "logging.level.kafka=ERROR",
                 "spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer",
                 "spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.ByteArraySerializer"})
 @EmbeddedKafka(kraft = true, partitions = 1, topics = "telecom.observations.v2", bootstrapServersProperty = "spring.kafka.bootstrap-servers")
@@ -100,7 +100,7 @@ class IngestionIntegrationTest {
     @Test void migrationOwnershipRuntimeDmlAndIsolation() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(4, jdbc.queryForObject("""
+        assertEquals(5, jdbc.queryForObject("""
                 SELECT count(*) FROM pg_tables WHERE schemaname='app' AND tableowner='processing_migrator'
                 AND tablename <> 'flyway_schema_history'
                 """, Integer.class));

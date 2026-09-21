@@ -44,6 +44,10 @@ management:
         readiness:
           include: readinessState,kafka,db
 telecom:
+  finalization:
+    enabled: ${VOICE_FINALIZATION_ENABLED:true}
+    poll-interval: ${VOICE_FINALIZATION_POLL_INTERVAL:1000}
+    batch-size: ${VOICE_FINALIZATION_BATCH_SIZE:100}
   kafka-readiness:
     timeout: ${KAFKA_READINESS_TIMEOUT:2s}
     poll-interval: ${KAFKA_READINESS_POLL_INTERVAL:1s}
