@@ -18,6 +18,18 @@ processor images. `scripts/up` waits for dependency health, topic
 initialisation, and each application's readiness endpoint; it does not treat a
 running container as proof of service readiness.
 
+Run the fast local contract checks without starting Docker:
+
+```bash
+./scripts/verify --contracts
+python -m unittest discover -s tests -v
+./mvnw -B -ntp test
+```
+
+GitHub Actions runs these contract/reference/owner checks first, followed by a
+bounded Compose first-slice job. Failed Compose evidence is uploaded only after
+common credential, token, cookie, and database-URL patterns are redacted.
+
 See the [local development runbook](docs/runbooks/local-dev.md) and
 [shared owner map](docs/architecture/owner-map.md).
 
