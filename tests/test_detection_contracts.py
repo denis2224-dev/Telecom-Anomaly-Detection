@@ -7,7 +7,7 @@ import unittest
 
 from jsonschema import Draft202012Validator
 import test_shared_contract as shared
-from test_event_contract import FORMAT_CHECKER, ROOT, read_json
+from test_utils import FORMAT_CHECKER, ROOT, read_json
 
 
 class DetectionContractTests(unittest.TestCase):

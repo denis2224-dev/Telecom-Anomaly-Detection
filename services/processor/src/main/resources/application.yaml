@@ -3,8 +3,30 @@ server:
 spring:
   application:
     name: processor
+  datasource:
+    url: ${PROCESSING_DB_URL}
+    username: ${PROCESSING_DB_USER}
+    password: ${PROCESSING_DB_PASSWORD}
+    hikari:
+      connection-timeout: 2000
+  flyway:
+    url: ${PROCESSING_DB_URL}
+    user: ${PROCESSING_MIGRATOR_USER}
+    password: ${PROCESSING_MIGRATOR_PASSWORD}
+    default-schema: app
+    schemas: app
+    create-schemas: false
+    clean-disabled: true
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:}
+    consumer:
+      group-id: telecom-processor-v2
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+    listener:
+      ack-mode: manual_immediate
     admin:
       auto-create: false
 management:
@@ -20,8 +42,12 @@ management:
         liveness:
           include: livenessState
         readiness:
-          include: readinessState,kafka
+          include: readinessState,kafka,db
 telecom:
+  finalization:
+    enabled: ${VOICE_FINALIZATION_ENABLED:true}
+    poll-interval: ${VOICE_FINALIZATION_POLL_INTERVAL:1000}
+    batch-size: ${VOICE_FINALIZATION_BATCH_SIZE:100}
   kafka-readiness:
     timeout: ${KAFKA_READINESS_TIMEOUT:2s}
     poll-interval: ${KAFKA_READINESS_POLL_INTERVAL:1s}
