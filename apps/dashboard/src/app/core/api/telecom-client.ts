@@ -44,7 +44,16 @@ export class TelecomClient {
     return this.request<ServiceSummary[]>("GET", "/api/services");
   }
 
-  listIncidents(query: IncidentQuery = {}) {
+  async listIncidents(query: IncidentQuery = {}) {
+    if (dataSource.fixture) {
+      const { voiceIncidents } = await dataSource.loadVoice();
+      const items = voiceIncidents.filter(item => (!query.scopeId || item.scopeId === query.scopeId)
+        && (!query.service || item.service === query.service)
+        && (!query.status || item.status === query.status)
+        && (!query.technicalState || item.technicalState === query.technicalState));
+      const page = query.page ?? 0, size = query.size ?? 100;
+      return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size };
+    }
     return this.request<components["schemas"]["IncidentPage"]>(
       "GET",
       "/api/incidents",
@@ -60,7 +69,14 @@ export class TelecomClient {
     );
   }
 
-  getServiceKpis(scopeId: string, query: KpiQuery) {
+  async getServiceKpis(scopeId: string, query: KpiQuery) {
+    if (dataSource.fixture) {
+      const { voiceWindows, voiceRange } = await dataSource.loadVoice();
+      const items = voiceWindows.filter(item => item.scopeId === scopeId
+        && Date.parse(item.windowStart) >= Date.parse(query.from) && Date.parse(item.windowStart) < Date.parse(query.to));
+      const page = query.page ?? 0, size = query.size ?? 100;
+      return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size, observedAt: voiceRange.to };
+    }
     return this.request<components["schemas"]["ServiceKpiPage"]>(
       "GET",
       `/api/services/${encodeURIComponent(scopeId)}/kpis`,
