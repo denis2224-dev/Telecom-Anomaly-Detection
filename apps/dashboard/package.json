@@ -20,6 +20,7 @@
     "test:e2e": "playwright test",
     "test:theme": "node ../../scripts/run-theme-tests.mjs",
     "test:auth": "playwright test --config playwright.auth.config.ts",
+    "test:auth-routing": "node ../../scripts/check-auth-routing.mjs",
     "test:branding": "node --test ../../scripts/sync-branding.test.mjs",
     "check:fixtures": "node scripts/check-fixtures.mjs"
   },
