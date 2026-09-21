@@ -149,6 +149,7 @@
 				<targetPath>contracts</targetPath>
 				<includes>
 					<include>detections/service-detection-v2.schema.json</include>
+					<include>features/service-feature-window-v2.schema.json</include>
 				</includes>
 			</resource>
 		</resources>

@@ -68,3 +68,4 @@ app:
   kafka:
     topics:
       detections: ${KAFKA_V2_DETECTIONS_TOPIC:telecom.detections.v2}
+      kpis: ${KAFKA_V2_KPIS_TOPIC:telecom.kpis.v2}
