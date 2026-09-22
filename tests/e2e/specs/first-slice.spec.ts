@@ -36,6 +36,11 @@ test.describe("G1 protected first slice", () => {
     });
     expect(start.status()).toBe(202);
     const firstRun = await start.json();
+    expect(firstRun).toMatchObject({
+      status: expect.stringMatching(/^(SCHEDULED|RUNNING|COMPLETED)$/),
+      scopeId,
+      scenarioType: "VOLTE_IMS_OVERLOAD",
+    });
     expect(firstRun.runId).toMatch(
       /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
     );
