@@ -1,0 +1,230 @@
+{
+  "featureVersion": 2,
+  "description": "Independent SMS cases. Load observation/nodes from fixtures/observations/<name>.json, shallow-merge envelopePatch and metricsPatch. Baseline reference values are documented in detection-contracts.md.",
+  "cases": [
+    {
+      "id": "sms-normal",
+      "observation": "normal-sms",
+      "nodes": [
+        "normal-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          1,
+          2000,
+          0,
+          0,
+          -0.9607843137254902,
+          100
+        ],
+        "kpis": {
+          "p95DeliveryMs": 2000,
+          "deliverySrPct": 98.03921568627452
+        }
+      }
+    },
+    {
+      "id": "sms-fault",
+      "observation": "degraded-sms",
+      "nodes": [
+        "degraded-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          22.5,
+          45000,
+          250,
+          90,
+          -15.666666666666666,
+          100
+        ],
+        "kpis": {
+          "p95DeliveryMs": 45000,
+          "queueDepth": 250
+        }
+      }
+    },
+    {
+      "id": "sms-zero-completions",
+      "observation": "sms-no-completions",
+      "nodes": [
+        "degraded-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "p95DeliveryMs": null,
+          "deliveredMessages": 0,
+          "queueDepth": 250,
+          "oldestPendingAgeSec": 90
+        }
+      }
+    },
+    {
+      "id": "sms-incomplete",
+      "observation": "normal-sms",
+      "nodes": [
+        "normal-smsc"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {
+        "quality": "INCOMPLETE"
+      },
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "p95DeliveryMs": null,
+          "deliverySrPct": null
+        }
+      }
+    },
+    {
+      "id": "sms-no-node",
+      "observation": "normal-sms",
+      "nodes": [],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "p95DeliveryMs": 2000,
+          "queueDepth": null
+        }
+      }
+    },
+    {
+      "id": "sms-canonical-normal",
+      "observation": "normal-sms",
+      "nodes": [
+        "normal-smsc"
+      ],
+      "metricsPatch": {
+        "deliveryAttempts": 200,
+        "deliverySuccesses": 198
+      },
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          1,
+          2000,
+          0,
+          0,
+          0,
+          100
+        ],
+        "kpis": {
+          "p95DeliveryMs": 2000,
+          "deliverySrPct": 99.0,
+          "queueDepth": 0,
+          "oldestPendingAgeSec": 0,
+          "deliveredMessages": 100
+        }
+      }
+    },
+    {
+      "id": "sms-canonical-slow-delivery",
+      "observation": "degraded-sms",
+      "nodes": [
+        "degraded-smsc"
+      ],
+      "metricsPatch": {
+        "deliveryAttempts": 200,
+        "deliverySuccesses": 198
+      },
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          22.5,
+          45000,
+          250,
+          90,
+          0,
+          100
+        ],
+        "kpis": {
+          "p95DeliveryMs": 45000,
+          "deliverySrPct": 99.0,
+          "queueDepth": 250,
+          "oldestPendingAgeSec": 90,
+          "deliveredMessages": 100
+        }
+      }
+    },
+    {
+      "id": "sms-nearest-rank-30",
+      "observation": "normal-sms",
+      "nodes": [
+        "normal-smsc"
+      ],
+      "metricsPatch": {
+        "deliveryAttempts": 30,
+        "deliverySuccesses": 30,
+        "deliveredMessages": 30,
+        "deliveryDelayMs": [
+          30000,
+          29000,
+          28000,
+          27000,
+          26000,
+          25000,
+          24000,
+          23000,
+          22000,
+          21000,
+          20000,
+          19000,
+          18000,
+          17000,
+          16000,
+          15000,
+          14000,
+          13000,
+          12000,
+          11000,
+          10000,
+          9000,
+          8000,
+          7000,
+          6000,
+          5000,
+          4000,
+          3000,
+          2000,
+          1000
+        ]
+      },
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          14.5,
+          29000,
+          0,
+          0,
+          1,
+          30
+        ],
+        "kpis": {
+          "p95DeliveryMs": 29000,
+          "deliverySrPct": 100.0,
+          "queueDepth": 0,
+          "oldestPendingAgeSec": 0,
+          "deliveredMessages": 30
+        }
+      }
+    }
+  ]
+}
