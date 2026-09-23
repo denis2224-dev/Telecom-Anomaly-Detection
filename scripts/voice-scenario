@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ $# -ne 1 ]]; then
+  echo "Usage: bash scripts/voice-scenario YYYY-MM-DDTHH:MM:00Z" >&2
+  echo "Choose eight completed UTC minutes. Repeat the exact command to verify replay." >&2
+  exit 1
+fi
+docker compose --project-directory "$ROOT_DIR" run --rm --no-deps event-generator \
+  --spring.main.web-application-type=none --generator.voice-start="$1"
