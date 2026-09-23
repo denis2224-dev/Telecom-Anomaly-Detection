@@ -143,8 +143,10 @@ cd services/incident-service
 The incident service imports the root `.env` when launched from its own directory.
 Start login at `http://telecom.test:8080/oauth2/authorization/keycloak`. The proxy
 starts independently of the backend to avoid an issuer-discovery startup cycle.
-Frontend serving remains separate; this proxy setup does not serve the Angular
-application at `/dashboard` or `/signed-out` yet.
+The proxy serves the Angular production build at `/dashboard`, `/login` and
+`/signed-out`. Build it with `npm --prefix apps/dashboard run build` before
+opening the site. See the [Day 06 guide](../tasks/day-06-protected-voice-investigation/README.md)
+for the full login and voice investigation sequence.
 
 If startup reports `UnknownHostException: telecom.test`, check the hosts entry.
 Connection refused indicates a missing proxy; discovery HTTP 404 indicates a

@@ -117,6 +117,8 @@ test('G1 real login, generated voice episode, backend parity and exact replay', 
     }, { timeout: 60000 }).toBe(true);
     expect(sql('processing_db', countQuery)).toBe('16');
     expect(await incidents()).toEqual([incident]);
+    const replayHistory = await (await context.request.get(`/api/services/VOLTE-MD-CENTRAL/kpis?from=${from}&to=${to}&size=100`)).json();
+    expect(replayHistory.items).toEqual(history.items);
     expect(await (await context.request.get(`/api/incidents/${incident.id}/detections?size=100`)).json()).toEqual(updates);
     await page.reload();
     await expect(page.locator('[data-detection-id]')).toHaveCount(6);
