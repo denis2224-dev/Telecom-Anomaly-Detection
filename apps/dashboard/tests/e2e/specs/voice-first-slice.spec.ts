@@ -40,7 +40,8 @@ test('G1 real login, generated voice episode, backend parity and exact replay', 
     })).replaceAll('"', '');
     if (!/^[0-9a-f-]{36}$/.test(userId)) throw new Error('Temporary user creation returned an unexpected ID.');
     admin(['add-roles', '-r', 'telecom', '--uid', userId, '--rolename', 'ANALYST']);
-    command('./scripts/provision-analyst', ['--username', username, '--display-name', 'G1 verification']);
+    command(process.platform === 'win32' ? 'python' : 'python3',
+      ['scripts/provision-analyst', '--username', username, '--display-name', 'G1 verification']);
     try {
       await page.goto('/login');
       await page.getByRole('button', { name: 'Continue to sign in', exact: true }).click();
