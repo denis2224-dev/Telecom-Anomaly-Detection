@@ -78,3 +78,73 @@ class DetectionContractTests(unittest.TestCase):
         self.assertFalse(validator.is_valid(dict(payload, quality='INCOMPLETE')))
         self.assertFalse(validator.is_valid(dict(payload, mlEligible=False)))
         validator.validate(dict(payload, mlEligible=False, featureNames=[], featureValues=[]))
+
+    def test_volte_first_slice_scenario_matches_contracts_and_parity(self):
+        scenario = read_json(ROOT / 'tests/e2e/scenarios/volte-first-slice.json')
+        self.assertEqual(scenario['scopeId'], 'VOLTE-MD-CENTRAL')
+        self.assertEqual(scenario['service'], 'VOLTE')
+        self.assertEqual(scenario['topologyVersion'], '2-baseline')
+        self.assertEqual(scenario['baselineVersion'], 'baseline-v2')
+        self.assertEqual(scenario['rulesetVersion'], 'service-rules-v2')
+        self.assertEqual(scenario['expectedIncidentCount'], 1)
+        self.assertEqual(scenario['expectedTotalWindows'], 8)
+
+        # Validate that referenced fixtures exist and conform to observations schema
+        obs_schema = read_json(ROOT / 'contracts/observations/telecom-observation-v2.schema.json')
+        obs_validator = Draft202012Validator(obs_schema, format_checker=FORMAT_CHECKER)
+        for w in scenario['windows']:
+            fixtures = w.get('fixtures')
+            if fixtures:
+                for key in ('service', 'node'):
+                    if key in fixtures:
+                        path = ROOT / 'contracts/fixtures/observations' / fixtures[key]
+                        self.assertTrue(path.exists(), f"Fixture missing: {path}")
+                        obs_validator.validate(read_json(path))
+
+            m = w.get('measurements')
+            if m:
+                # Enforce: attempts = technicalSuccesses + technicalFailures + userOutcomes
+                self.assertEqual(m['attempts'], m['technicalSuccesses'] + m['technicalFailures'] + m['userOutcomes'])
+                # Enforce: eligibleAttempts = attempts - userOutcomes
+                eligible = m['attempts'] - m['userOutcomes']
+                self.assertEqual(w['kpis']['eligibleAttempts'], eligible)
+                # Enforce: CSSR = 100 * technicalSuccesses / eligibleAttempts
+                expected_cssr = 100.0 * m['technicalSuccesses'] / eligible
+                self.assertAlmostEqual(w['kpis']['cssrPct'], expected_cssr, places=3)
+
+        # Enforce two-consecutive breach rule for episode opening
+        self.assertIsNone(scenario['windows'][0]['episodePhase'])
+        self.assertIsNone(scenario['windows'][1]['episodePhase'])
+        self.assertTrue(scenario['windows'][1].get('candidateStart'))
+        self.assertEqual(scenario['windows'][2]['episodePhase'], 'OPEN')
+        self.assertEqual(scenario['windows'][2]['sequence'], 1)
+        self.assertEqual(scenario['windows'][2]['severity'], 'HIGH')
+        self.assertEqual(scenario['windows'][2]['mlStatus'], 'UNAVAILABLE')
+        self.assertEqual(scenario['windows'][3]['episodePhase'], 'UPDATE')
+        self.assertEqual(scenario['windows'][4]['episodePhase'], 'UNKNOWN')
+        self.assertEqual(scenario['windows'][7]['episodePhase'], 'RECOVERY')
+        self.assertEqual(scenario['windows'][7]['technicalState'], 'RECOVERED')
+
+        # Validate deterministic identity hashing
+        canonical = lambda values: json.dumps(values, ensure_ascii=True, separators=(',', ':')).encode()
+        correlation_key = hashlib.sha256(canonical([
+            scenario['service'], scenario['scopeId'], 'VOLTE_SETUP_DEGRADATION', scenario['rulesetVersion']
+        ])).hexdigest()
+        first_observed_at = '2026-09-15T07:59:00Z'
+        episode_id = hashlib.sha256(canonical([correlation_key, first_observed_at])).hexdigest()
+        open_detection_id = hashlib.sha256(canonical([
+            episode_id, '2026-09-15T08:00:00Z', 'OPEN', scenario['rulesetVersion']
+        ])).hexdigest()
+
+        # Matches illustrative fixture
+        illustrative = read_json(ROOT / 'contracts/fixtures/detections/voice-open-illustrative-v2.json')
+        self.assertEqual(correlation_key, illustrative['correlationKey'])
+        self.assertEqual(episode_id, illustrative['episodeId'])
+        self.assertEqual(open_detection_id, illustrative['detectionId'])
+
+        # Replay expectations
+        replay = scenario['replay']
+        self.assertEqual(replay['expectedIncidentCount'], 1)
+        self.assertEqual(replay['expectedNewIncidents'], 0)
+        self.assertEqual(replay['expectedIngestionResult'], 'DUPLICATE')
+        self.assertEqual(replay['expectedLatestSequence'], 6)
