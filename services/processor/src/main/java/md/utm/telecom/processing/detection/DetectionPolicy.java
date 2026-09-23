@@ -40,5 +40,6 @@ public final class DetectionPolicy {
     }
 
     public String version() { return policy.get("rulesetVersion").asText(); }
+    public int windows(String name) { return policy.required(name).intValue(); }
     public BigDecimal voice(String name) { return policy.get("voice").required(name).decimalValue(); }
 }
