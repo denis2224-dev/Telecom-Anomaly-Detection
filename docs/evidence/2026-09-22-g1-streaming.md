@@ -1,142 +1,78 @@
-# Revision 3 Day 06: G1 streaming and VoLTE incident slice
+# Revision 3 Day 06: G1 Streaming and VoLTE Incident Slice Evidence
 
-Planned gate: 22 September 2026.
-Verification executed: 2026-09-23T18:00:00+03:00 (Europe/Chisinau).
-Author: Zavtoni Ion (itsjohnyoff), Streaming / Simulator / service KPI processing owner.
-Branch: `feature/g1-streaming-slice`.
-Base commit: `d08f6e528b67de6d8f7c53e977b948d8ffede348` (origin/main).
+- **Planned gate:** 22 September 2026
+- **Verification date:** Verification performed on 23 September 2026.
+- **Author:** Zavtoni Ion (itsjohnyoff), Streaming / Simulator / Service KPI processing owner
+- **Branch:** `feature/g1-streaming-slice`
+- **Base commit:** `d08f6e528b67de6d8f7c53e977b948d8ffede348` (`origin/main`)
+- **Previous commit:** `6a0ddc242f643ab221943099d5d085f07122dd1a`
+- **Files touched:**
+  - `docs/evidence/2026-09-22-g1-streaming.md`
+  - `tests/e2e/scenarios/volte-first-slice.json`
+  - `tests/test_detection_contracts.py`
 
-Result: **G1 streaming contract and scenario validation: PASS; full end-to-end integration: PARTIAL (blocked by open PR #11)**.
+---
 
-## Audit of current pipeline state
+## 1. Scenario Context and Corrections
 
-Main head `d08f6e528b67de6d8f7c53e977b948d8ffede348` already contains:
-- Day 04 durable observation ingestion transaction (`IngestionService`, `ObservationListener`, `app.observation_receipt`, `app.interval_bucket`, `app.source_state`, `app.rejection_outbox`).
-- Day 05 voice KPI window finalization (`VoiceFeatureBuilder`, `WindowFinalizer`, `WindowFinalizationScheduler`, `app.feature_outbox`).
-- Incident service protected read APIs and Kafka listeners (`IncidentController`, `ServiceController`, `DetectionConsumer`, `ServiceKpiWindowConsumer`).
-- Keycloak / OIDC authentication infrastructure and analyst role mappings.
+`tests/e2e/scenarios/volte-first-slice.json` serves as the G1 scenario specification and acceptance fixture (not consumed directly by live runner scripts).
 
-Pipeline audit across component boundaries:
+- **Profile:** Follows the PR #11 local G1 CLI extension (1 healthy, 3 degraded, 1 telemetry gap, 3 healthy) to exercise UNKNOWN transition logic. Distinct from canonical public Scenario API profile (2 normal, 3 degraded, 3 recovery).
+- **Emitted sources:** Emits `VOLTE-ADAPTER` (SERVICE) and `IMS-A` (NODE). `TRANSPORT-A` is allowed in topology `demo-scopes-v2.json`, but is not emitted by `VoiceScenario`.
+- **ML semantics:** Since `TRANSPORT-A` is omitted, `packetLossRatio` is null. The feature vector is incomplete (`mlEligible = false`, `featureNames = []`, `featureValues = []`). In `VoiceSetupRule`, `mlStatus` evaluates to `INSUFFICIENT_DATA` (not `UNAVAILABLE`). Deterministic evaluation evaluates COMPLETE service windows and triggers HIGH breaches.
+- **Telemetry gap (Minute 4):** Service telemetry is `MISSING`, but `IMS-A` node report remains `COMPLETE` (IMS CPU 35%). The gap transitions technicalState to `UNKNOWN`.
 
-| Pipeline Step | Status on `main` | Status in PR #11 (`feature/voice-kpi-incident-investigation`) |
-| --- | --- | --- |
-| `event-generator -> telecom.observations.v2` | MISSING (generator has no production Kafka publisher) | TEAMMATE PR (`VoiceScenarioPublisher.java`, `scripts/voice-scenario`) |
-| `telecom.observations.v2 -> processor ObservationListener` | WORKING (`ObservationListener`, `IngestionService`) | WORKING |
-| `ObservationListener -> interval state` | WORKING (`app.interval_bucket`) | WORKING |
-| `interval state -> WindowFinalizer` | WORKING (`WindowFinalizer`, `WindowFinalizationScheduler`) | WORKING |
-| `WindowFinalizer -> feature_outbox` | WORKING (`app.feature_outbox`) | WORKING |
-| `feature_outbox -> detector / episode runtime` | MISSING (no reader of `app.feature_outbox`; `VoiceSetupRule` is stateless) | TEAMMATE PR (`VoiceEpisode.java`, `VoiceDeliveryService.java`, `V003__voice_delivery.sql`) |
-| `detector / episode runtime -> telecom.detections.v2` | MISSING | TEAMMATE PR (`VoiceDeliveryScheduler.java`) |
-| `telecom.detections.v2 -> incident-service` | WORKING (`DetectionConsumer.java`, `EvidenceService.java`) | WORKING |
-| `incident-service -> protected API` | WORKING (`IncidentController.java`, `ServiceController.java`) | WORKING |
-| `protected API -> dashboard` | INCOMPLETE (route and chart integration in progress) | TEAMMATE PR (David's frontend investigation components) |
+---
 
-PR #11 head `4d59f6cb38af0f7946b101316ab0c17854c30494` remains an open draft PR authored by David.
-In accordance with repository ownership rules:
-- David's and Sergiu's commits were NOT squashed, cherry-picked, or recreated under my authorship.
-- No parallel competing implementation of `VoiceEpisode` or `VoiceDeliveryScheduler` was built.
-- Compatibility was verified against the contract baseline without permanent merge of PR #11 into this branch.
+## 2. Java Generator Cross-Check (Docker-Free)
 
-## Scenario definition and semantics
+Cross-check performed against current PR #11 head `4d59f6cb38af0f7946b101316ab0c17854c30494` (`VoiceScenario.java`) with seed `15092026` and reference start `2026-09-15T08:00:00Z`:
 
-Artifact created: `tests/e2e/scenarios/volte-first-slice.json`.
+- Minute 0: attempts 1108, eligible 1088, successes 1083, failures 5, CSSR 99.540%, IMS CPU 35%
+- Minute 1: attempts 1064, eligible 1044, successes 950, failures 94, CSSR 90.996%, IMS CPU 94% (candidate start)
+- Minute 2: attempts 1035, eligible 1015, successes 909, failures 106, CSSR 89.557%, IMS CPU 94% (OPEN breach 2)
+- Minute 3: attempts 1090, eligible 1070, successes 977, failures 93, CSSR 91.308%, IMS CPU 94% (UPDATE breach 3)
+- Minute 4: service MISSING, node COMPLETE, IMS CPU 35% (UNKNOWN)
+- Minute 5: attempts 1070, eligible 1050, successes 1045, failures 5, CSSR 99.524%, IMS CPU 35% (UPDATE recovery 1)
+- Minute 6: attempts 1099, eligible 1079, successes 1074, failures 5, CSSR 99.537%, IMS CPU 35% (UPDATE recovery 2)
+- Minute 7: attempts 1041, eligible 1021, successes 1016, failures 5, CSSR 99.510%, IMS CPU 35% (RECOVERY recovery 3)
 
-- Monitored scope: `VOLTE-MD-CENTRAL`, service: `VOLTE`.
-- Authoritative service publisher: `VOLTE-ADAPTER`.
-- Authoritative node publishers: `IMS-A` (IMS call control), `TRANSPORT-A` (IP transport).
-- Topology version: `2-baseline` (`contracts/topology/demo-scopes-v2.json`).
-- Baseline version: `baseline-v2` (`contracts/baselines/demo-baseline-v2.json`). Expected CSSR: 99.3%, RRC SR: 99.5%, Bearer SR: 99.0%.
-- Policy version: `service-rules-v2` (`contracts/policies/service-rules-v2.json`).
-- Feature version: 2 (`contracts/features/feature-order-v2.json`).
-- Window interval: 60-second UTC aligned `[windowStart, windowEnd)`.
-- Finalization watermark: `windowEnd + 10s`.
+---
 
-Deterministic sequence (8 minutes):
-1. **Minute 0 (NORMAL_CONTROL)**: `[07:58:00Z, 07:59:00Z)`. 1020 attempts, 20 user outcomes, 995 technical successes, 5 technical failures, 2 SIP 503s, IMS CPU 35%. CSSR = 99.5% (+0.2 pp delta vs baseline). No breach; no episode.
-2. **Minute 1 (DEGRADED_BREACH_1)**: `[07:59:00Z, 08:00:00Z)`. 1020 attempts, 20 user outcomes, 900 technical successes, 100 technical failures, 80 SIP 503s, IMS CPU 95%. CSSR = 90.0% (-9.3 pp drop vs baseline > 1.0 pp threshold). First breach; candidate anchor recorded (`candidate = 2026-09-15T07:59:00Z`). Episode does NOT open (`bad = 1 < openAfterBreachedWindows = 2`).
-3. **Minute 2 (DEGRADED_BREACH_2)**: `[08:00:00Z, 08:01:00Z)`. Same degraded metrics. Second consecutive breach (`bad = 2 == openAfterBreachedWindows`). Triggers **OPEN** phase, sequence 1, severity `HIGH`, `technicalState = ONGOING`, anchored at `firstObservedAt = 2026-09-15T07:59:00Z`. `mlStatus = UNAVAILABLE`.
-4. **Minute 3 (DEGRADED_BREACH_3)**: `[08:01:00Z, 08:02:00Z)`. Continued breach. Phase `UPDATE`, sequence 2.
-5. **Minute 4 (TELEMETRY_GAP)**: `[08:02:00Z, 08:03:00Z)`. Service telemetry `quality = MISSING`. Missing data must never be treated as healthy. Episode transitions to phase `UNKNOWN`, sequence 3, `technicalState = UNKNOWN`.
-6. **Minute 5 (RECOVERY_CONTROL_1)**: `[08:03:00Z, 08:04:00Z)`. Normal control metrics (CSSR 99.5%). Phase `UPDATE`, sequence 4, consecutive healthy = 1.
-7. **Minute 6 (RECOVERY_CONTROL_2)**: `[08:04:00Z, 08:05:00Z)`. Normal control metrics. Phase `UPDATE`, sequence 5, consecutive healthy = 2.
-8. **Minute 7 (RECOVERY_CONTROL_3)**: `[08:05:00Z, 08:06:00Z)`. Normal control metrics. Third consecutive healthy window (`consecutiveHealthy = 3 == recoverAfterHealthyWindows`). Episode transitions to phase `RECOVERY`, sequence 6, `technicalState = RECOVERED`.
+## 3. Verification Log by Category
 
-## Deterministic identities
+### [VERIFIED] Local Executions
+- `.\.venv\Scripts\python.exe -B scripts/check-contracts.py`: **PASS** (v2 observation schema, detection schemas, policies, baselines, 7 voice parity cases).
+- `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v`: **17 passed, 0 failures, 0 errors** (including rewritten `test_volte_first_slice_spec_matches_canonical_contracts`).
+- `.\mvnw.cmd test -pl services/streaming-support`: **58 passed, 0 failures**.
+- `.\mvnw.cmd test -pl services/event-generator`: **4 passed, 0 failures**.
+- `.\mvnw.cmd test -pl services/processor "-Dtest=BaselineRegistryTest,DetectionConfigurationTest,ObservationInputTest,VoiceRuleTest,PayloadCodecTest,ScopeRegistryTest"`: **72 passed, 0 failures**.
+- `git diff --check d08f6e528b67de6d8f7c53e977b948d8ffede348`: Clean (no whitespace issues).
 
-Canonical reference interval starting at `2026-09-15T07:58:00Z`:
+### [CALCULATED FROM CONTRACT] Identity Formulas and Anchors
+Derived from reference start `2026-09-15T08:00:00Z` + minuteOffset using compact JSON-array canonicalization:
+- `correlationKey`: `d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103` (matches illustrative fixture).
+- Candidate anchor (first breached windowStart): `2026-09-15T08:01:00Z` (minuteOffset 1).
+- `episodeId`: `21d8bfb89fb21bc9dfc01d0c8d0d17a3526c4d38d93d5744e7f63e9312f55898`.
+- Opening detection windowStart: `2026-09-15T08:02:00Z` (minuteOffset 2, sequence 1, severity HIGH).
+- `open detectionId`: `1f6e2c3abb42140558420919786dc3b35ad43480dce42ed88e7252fa677fb0f8`.
+- Window 0 `windowId` (`08:00:00Z`): `513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc` (matches `voice-worked-v2.json`).
 
-| Parameter | Exact Value |
-| --- | --- |
-| `correlationKey` | `d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103` |
-| `firstObservedAt` | `2026-09-15T07:59:00Z` |
-| `episodeId` | `10d4257443e9d97179187b6e0c719283e161a6bfc53a31b0f6502b231386e325` |
-| Window 0 `windowId` (`07:58:00Z`) | `8fffed5f7a37b11d107c4c0582f7768bd1313b9a486aaa19a63fac71dc690702` |
-| Window 1 `windowId` (`07:59:00Z`) | `7f8c42c8bf47ed2b8d00f42b5766064ebb749a01bc144a2357dd6a8469790154` |
-| Window 2 `windowId` (`08:00:00Z`) | `513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc` |
-| Opening `detectionId` (`sequence 1`) | `3a97504f331aed0de5b67aa02d64a35f0b300d3c59140b07f1e86d13aa98c0fe` |
+### [EXPECTED / ACCEPTANCE CONDITION] Replay Semantics
+- Replay of identical 16 observations must return `DUPLICATE` ingestion results.
+- `app.observation_receipt` has no `status` column; existing 16 receipt rows are preserved.
+- Interval buckets are not double-counted.
+- Zero new rows in `app.feature_outbox` or incident tables; incident count remains exactly 1.
 
-All hashes match canonical contracts and existing fixture `contracts/fixtures/detections/voice-open-illustrative-v2.json`.
+### [NOT EXECUTED] Live Multi-Container Pipeline
+Full live end-to-end execution (`telecom.observations.v2 -> processor -> feature delivery -> episode -> incident service -> authenticated API/UI -> replay`) was not executed because the local Docker daemon was stopped/unavailable.
 
-## Replay and idempotency requirements
+### [BLOCKED] Integration Dependencies
+- PR #11 (`feature/voice-kpi-incident-investigation`) contains the runtime bridge (`VoiceScenarioPublisher`, `VoiceEpisode`, `VoiceDeliveryScheduler`, delivery schema migrations) required for live G1 verification.
+- Local Docker daemon availability for live container networking.
 
-Replaying all 16 observations with identical event IDs and content must satisfy:
-1. `app.observation_receipt` rejects duplicate arrivals (`status = DUPLICATE`).
-2. Buckets are not incremented; no counters double-counted.
-3. Zero new rows inserted into `app.feature_outbox`.
-4. Zero new detections published; no second incident created.
-5. Ingestion returns 16 `DUPLICATE` results, incident count stays exactly 1, sequence stays at 6.
+---
 
-## Verification executed
+## 4. Next Acceptance Step
 
-Executed locally from repository root:
-
-```powershell
-# Contract, schema and fixture validation
-.\.venv\Scripts\python.exe scripts/check-contracts.py
-.\.venv\Scripts\python.exe scripts/check-contracts.py --batch target/streaming-smoke/preview.json
-
-# Python test suite including volte-first-slice scenario verification
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-
-# Python ML service test suite
-.\.venv\Scripts\python.exe -m unittest discover -s services/ml-service/tests -v
-
-# Java streaming-support unit tests
-$env:JAVA_HOME='C:\OrangeSystems\Program\.tools\jdk21\jdk-21.0.12.1+1'
-$env:MAVEN_USER_HOME='C:\OrangeSystems\Program\.maven-wrapper-home'
-$env:MAVEN_OPTS='-Dmaven.repo.local=C:\OrangeSystems\Program\.tools\m2'
-.\mvnw.cmd test -pl services/streaming-support
-
-# Java event-generator unit tests
-.\mvnw.cmd test -pl services/event-generator
-
-# Java processor unit tests (non-container)
-.\mvnw.cmd test -pl services/processor "-Dtest=BaselineRegistryTest,DetectionConfigurationTest,ObservationInputTest,VoiceRuleTest,PayloadCodecTest,ScopeRegistryTest"
-
-# Dashboard unit tests
-npm --prefix apps/dashboard test
-
-# Git diff sanity check
-git diff --check
-```
-
-Results:
-- `check-contracts.py`: **PASS** (12 observation fixtures, 4 detection/feature payloads, 7 voice parity cases, 10 accepted / 0 duplicate preview batch).
-- Python test suite: **17 passed, 0 failures, 0 errors** (including `test_volte_first_slice_scenario_matches_contracts_and_parity`).
-- ML test suite: **9 passed, 0 failures, 0 errors**.
-- Java streaming-support: **58 passed, 0 failures, 0 errors**.
-- Java event-generator: **4 passed, 0 failures, 0 errors**.
-- Java processor unit tests: **72 passed, 0 failures, 0 errors**.
-- Angular dashboard unit tests: **22 passed, 0 failures in 5 files**.
-- `git diff --check`: Clean, 0 whitespace warnings.
-
-## Remaining dependencies and gate status
-
-- **G1 Streaming / Scenario Contract**: **PASS**.
-- **Full G1 End-to-End Gate**: **PARTIAL / BLOCKED ON PR #11 MERGE**.
-  The streaming contract and deterministic scenario definitions are verified.
-  Full end-to-end execution of the live incident pipeline requires PR #11 (`feature/voice-kpi-incident-investigation`), which introduces:
-  - `VoiceScenarioPublisher.java` (in event-generator).
-  - `VoiceEpisode.java`, `VoiceDeliveryService.java`, `VoiceDeliveryScheduler.java`, `V003__voice_delivery.sql` (in processor).
-  - UI incident investigation views and Playwright E2E spec (`voice-first-slice.spec.ts`).
-  Upon merge of PR #11, the pipeline is fully connected without requiring alterations to the scenario or streaming contracts.
+PR #11 currently contains the runtime bridge required for live G1 verification. After integration and when Docker is available, the full stack still needs to be executed and replay checked before G1 can be marked complete.
