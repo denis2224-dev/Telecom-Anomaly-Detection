@@ -1,0 +1,338 @@
+{
+  "scenarioId": "volte-first-slice",
+  "scenarioType": "VOLTE_IMS_OVERLOAD",
+  "artifactRole": "SPECIFICATION_AND_ACCEPTANCE_FIXTURE",
+  "note": "Specification fixture for Revision 3 Day 06 G1 streaming acceptance. Represents the local PR #11 CLI extension (1 healthy, 3 degraded, 1 telemetry gap, 3 healthy). This CLI extension exercises UNKNOWN phase transitions and is distinct from the canonical public Scenario API profile (2 normal, 3 degraded, 3 recovery). Not consumed directly by live runtime scripts.",
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "service": "VOLTE",
+  "topologyVersion": "2-baseline",
+  "baselineVersion": "baseline-v2",
+  "rulesetVersion": "service-rules-v2",
+  "featureVersion": 2,
+  "topic": "telecom.observations.v2",
+  "partitionKey": "VOLTE-MD-CENTRAL",
+  "seed": 15092026,
+  "referenceStart": "2026-09-15T08:00:00Z",
+  "windowDurationSec": 60,
+  "allowedLatenessSec": 10,
+  "expectedTotalWindows": 8,
+  "expectedIncidentCount": 1,
+  "generator": {
+    "source": "services/event-generator/src/main/java/md/utm/telecom/generator/VoiceScenario.java",
+    "revisionHead": "4d59f6cb38af0f7946b101316ab0c17854c30494",
+    "seed": 15092026,
+    "emittedSources": [
+      {
+        "sourceId": "VOLTE-ADAPTER",
+        "kind": "SERVICE",
+        "service": "VOLTE"
+      },
+      {
+        "sourceId": "IMS-A",
+        "kind": "NODE",
+        "nodeId": "IMS-A"
+      }
+    ],
+    "allowedTopologySourcesNotEmitted": [
+      {
+        "sourceId": "TRANSPORT-A",
+        "kind": "NODE",
+        "nodeId": "TRANSPORT-A"
+      }
+    ]
+  },
+  "mlSemantics": {
+    "transportEmitted": false,
+    "packetLossRatio": null,
+    "mlEligible": false,
+    "featureNames": [],
+    "featureValues": [],
+    "mlStatus": "INSUFFICIENT_DATA",
+    "note": "Because TRANSPORT-A is omitted by VoiceScenario, packetLossRatio is null, rendering the vector incomplete. VoiceSetupRule returns mlStatus=INSUFFICIENT_DATA (not UNAVAILABLE). Deterministic rule evaluation remains functional."
+  },
+  "policy": {
+    "minAttempts": 100,
+    "dropPpStrictlyGreaterThan": 1.0,
+    "recoveryDropPpAtMost": 0.5,
+    "openAfterBreachedWindows": 2,
+    "recoverAfterHealthyWindows": 3,
+    "highExtraFailuresAtLeast": 50,
+    "criticalExtraFailuresAtLeast": 200
+  },
+  "windows": [
+    {
+      "minuteOffset": 0,
+      "role": "NORMAL_CONTROL",
+      "serviceQuality": "COMPLETE",
+      "nodeQuality": "COMPLETE",
+      "measurements": {
+        "attempts": 1108,
+        "eligibleAttempts": 1088,
+        "userOutcomes": 20,
+        "technicalSuccesses": 1083,
+        "technicalFailures": 5,
+        "sip503Count": 2,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "imsCpuPct": 35
+      },
+      "kpis": {
+        "eligibleAttempts": 1088,
+        "cssrPct": 99.540441,
+        "rrcSrPct": 99.5,
+        "bearerSrPct": 99.545455,
+        "sip503Ratio": 0.001838,
+        "imsCpuPct": 35.0,
+        "packetLossRatio": null
+      },
+      "breached": false,
+      "candidateStart": false,
+      "episodePhase": null
+    },
+    {
+      "minuteOffset": 1,
+      "role": "DEGRADED_BREACH_1",
+      "serviceQuality": "COMPLETE",
+      "nodeQuality": "COMPLETE",
+      "measurements": {
+        "attempts": 1064,
+        "eligibleAttempts": 1044,
+        "userOutcomes": 20,
+        "technicalSuccesses": 950,
+        "technicalFailures": 94,
+        "sip503Count": 80,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "imsCpuPct": 94
+      },
+      "kpis": {
+        "eligibleAttempts": 1044,
+        "cssrPct": 90.996169,
+        "rrcSrPct": 99.5,
+        "bearerSrPct": 99.545455,
+        "sip503Ratio": 0.076628,
+        "imsCpuPct": 94.0,
+        "packetLossRatio": null
+      },
+      "breached": true,
+      "consecutiveBreaches": 1,
+      "candidateStart": true,
+      "episodePhase": null,
+      "note": "First degraded window (CSSR ~91.0% vs baseline 99.3%, drop ~8.3 pp > 1.0 pp threshold). Marks candidate anchor; OPEN deferred until 2 consecutive breaches."
+    },
+    {
+      "minuteOffset": 2,
+      "role": "DEGRADED_BREACH_2",
+      "serviceQuality": "COMPLETE",
+      "nodeQuality": "COMPLETE",
+      "measurements": {
+        "attempts": 1035,
+        "eligibleAttempts": 1015,
+        "userOutcomes": 20,
+        "technicalSuccesses": 909,
+        "technicalFailures": 106,
+        "sip503Count": 80,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "imsCpuPct": 94
+      },
+      "kpis": {
+        "eligibleAttempts": 1015,
+        "cssrPct": 89.556650,
+        "rrcSrPct": 99.5,
+        "bearerSrPct": 99.545455,
+        "sip503Ratio": 0.078818,
+        "imsCpuPct": 94.0,
+        "packetLossRatio": null
+      },
+      "breached": true,
+      "consecutiveBreaches": 2,
+      "candidateStart": false,
+      "episodePhase": "OPEN",
+      "sequence": 1,
+      "severity": "HIGH",
+      "technicalState": "ONGOING",
+      "firstObservedAtOffset": 1,
+      "mlStatus": "INSUFFICIENT_DATA",
+      "note": "Second consecutive breached window satisfies openAfterBreachedWindows (2). Episode opens anchored at minuteOffset 1."
+    },
+    {
+      "minuteOffset": 3,
+      "role": "DEGRADED_BREACH_3",
+      "serviceQuality": "COMPLETE",
+      "nodeQuality": "COMPLETE",
+      "measurements": {
+        "attempts": 1090,
+        "eligibleAttempts": 1070,
+        "userOutcomes": 20,
+        "technicalSuccesses": 977,
+        "technicalFailures": 93,
+        "sip503Count": 80,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "imsCpuPct": 94
+      },
+      "kpis": {
+        "eligibleAttempts": 1070,
+        "cssrPct": 91.308411,
+        "rrcSrPct": 99.5,
+        "bearerSrPct": 99.545455,
+        "sip503Ratio": 0.074766,
+        "imsCpuPct": 94.0,
+        "packetLossRatio": null
+      },
+      "breached": true,
+      "consecutiveBreaches": 3,
+      "episodePhase": "UPDATE",
+      "sequence": 2,
+      "severity": "HIGH",
+      "technicalState": "ONGOING",
+      "mlStatus": "INSUFFICIENT_DATA"
+    },
+    {
+      "minuteOffset": 4,
+      "role": "TELEMETRY_GAP",
+      "serviceQuality": "MISSING",
+      "nodeQuality": "COMPLETE",
+      "measurements": null,
+      "kpis": {
+        "eligibleAttempts": null,
+        "cssrPct": null,
+        "rrcSrPct": null,
+        "bearerSrPct": null,
+        "sip503Ratio": null,
+        "imsCpuPct": 35.0,
+        "packetLossRatio": null
+      },
+      "breached": false,
+      "consecutiveBreaches": 0,
+      "episodePhase": "UNKNOWN",
+      "sequence": 3,
+      "technicalState": "UNKNOWN",
+      "mlStatus": "INSUFFICIENT_DATA",
+      "note": "SERVICE telemetry quality is MISSING, while IMS-A node report is COMPLETE (imsCpuPct 35). Missing service data must never be treated as healthy; transitions episode to UNKNOWN."
+    },
+    {
+      "minuteOffset": 5,
+      "role": "RECOVERY_CONTROL_1",
+      "serviceQuality": "COMPLETE",
+      "nodeQuality": "COMPLETE",
+      "measurements": {
+        "attempts": 1070,
+        "eligibleAttempts": 1050,
+        "userOutcomes": 20,
+        "technicalSuccesses": 1045,
+        "technicalFailures": 5,
+        "sip503Count": 2,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "imsCpuPct": 35
+      },
+      "kpis": {
+        "eligibleAttempts": 1050,
+        "cssrPct": 99.523810,
+        "rrcSrPct": 99.5,
+        "bearerSrPct": 99.545455,
+        "sip503Ratio": 0.001905,
+        "imsCpuPct": 35.0,
+        "packetLossRatio": null
+      },
+      "breached": false,
+      "consecutiveHealthy": 1,
+      "episodePhase": "UPDATE",
+      "sequence": 4,
+      "technicalState": "ONGOING",
+      "mlStatus": "INSUFFICIENT_DATA"
+    },
+    {
+      "minuteOffset": 6,
+      "role": "RECOVERY_CONTROL_2",
+      "serviceQuality": "COMPLETE",
+      "nodeQuality": "COMPLETE",
+      "measurements": {
+        "attempts": 1099,
+        "eligibleAttempts": 1079,
+        "userOutcomes": 20,
+        "technicalSuccesses": 1074,
+        "technicalFailures": 5,
+        "sip503Count": 2,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "imsCpuPct": 35
+      },
+      "kpis": {
+        "eligibleAttempts": 1079,
+        "cssrPct": 99.536608,
+        "rrcSrPct": 99.5,
+        "bearerSrPct": 99.545455,
+        "sip503Ratio": 0.001854,
+        "imsCpuPct": 35.0,
+        "packetLossRatio": null
+      },
+      "breached": false,
+      "consecutiveHealthy": 2,
+      "episodePhase": "UPDATE",
+      "sequence": 5,
+      "technicalState": "ONGOING",
+      "mlStatus": "INSUFFICIENT_DATA"
+    },
+    {
+      "minuteOffset": 7,
+      "role": "RECOVERY_CONTROL_3",
+      "serviceQuality": "COMPLETE",
+      "nodeQuality": "COMPLETE",
+      "measurements": {
+        "attempts": 1041,
+        "eligibleAttempts": 1021,
+        "userOutcomes": 20,
+        "technicalSuccesses": 1016,
+        "technicalFailures": 5,
+        "sip503Count": 2,
+        "rrcAttempts": 1200,
+        "rrcSuccesses": 1194,
+        "bearerAttempts": 1100,
+        "bearerSuccesses": 1095,
+        "imsCpuPct": 35
+      },
+      "kpis": {
+        "eligibleAttempts": 1021,
+        "cssrPct": 99.510284,
+        "rrcSrPct": 99.5,
+        "bearerSrPct": 99.545455,
+        "sip503Ratio": 0.001959,
+        "imsCpuPct": 35.0,
+        "packetLossRatio": null
+      },
+      "breached": false,
+      "consecutiveHealthy": 3,
+      "episodePhase": "RECOVERY",
+      "sequence": 6,
+      "technicalState": "RECOVERED",
+      "mlStatus": "INSUFFICIENT_DATA",
+      "note": "Third consecutive healthy window satisfies recoverAfterHealthyWindows (3). Episode transitions to RECOVERY."
+    }
+  ],
+  "replay": {
+    "mode": "IDENTICAL_REPLAY",
+    "replayedObservations": 16,
+    "expectedIngestionResult": "DUPLICATE",
+    "receiptStorageRule": "Existing observation receipt rows are preserved; duplicate re-ingestion returns DUPLICATE disposition without modifying interval buckets or inserting extra receipts",
+    "expectedNewIncidents": 0,
+    "expectedIncidentCount": 1,
+    "expectedLatestSequence": 6,
+    "expectedTechnicalState": "RECOVERED",
+    "expectedWorkflowStatus": "OPEN"
+  }
+}
