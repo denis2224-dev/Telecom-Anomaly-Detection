@@ -3,6 +3,7 @@ import { ServiceOverviewComponent } from "./features/service-overview/service-ov
 import { LoginComponent } from "./features/session/login.component";
 import { sessionGuard } from "./features/session/session.guard";
 import { ServiceDetailComponent } from './features/service-detail/service-detail.component';
+import { IncidentDetailComponent } from './features/incidents/incident-detail.component';
 
 
 // Dashboard routes and shared components for service assurance application.
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "dashboard", component: ServiceOverviewComponent, canActivate: [sessionGuard] },
   { path: "services/:scopeId", component: ServiceDetailComponent, canActivate: [sessionGuard] },
+  { path: "incidents/:id", component: IncidentDetailComponent, canActivate: [sessionGuard] },
   { path: "signed-out", component: LoginComponent },
   { path: "**", redirectTo: "dashboard" },
 ];

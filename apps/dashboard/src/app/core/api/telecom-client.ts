@@ -62,11 +62,25 @@ export class TelecomClient {
     );
   }
 
-  getIncident(id: string) {
+  async getIncident(id: string) {
+    if (dataSource.fixture) {
+      const incident = (await dataSource.loadVoice()).voiceIncidents.find(item => item.id === id);
+      if (!incident) throw new ApiFailure(404);
+      return structuredClone(incident);
+    }
     return this.request<Incident>(
       "GET",
       `/api/incidents/${encodeURIComponent(id)}`,
     );
+  }
+
+  async getDetections(id: string, page = 0) {
+    if (dataSource.fixture) {
+      const incident = await this.getIncident(id);
+      return { items: page === 0 ? [incident.latestDetection] : [], total: 1, page, size: 100 };
+    }
+    return this.request<components['schemas']['DetectionPage']>('GET',
+      `/api/incidents/${encodeURIComponent(id)}/detections`, undefined, { page, size: 100 });
   }
 
   async getServiceKpis(scopeId: string, query: KpiQuery) {
