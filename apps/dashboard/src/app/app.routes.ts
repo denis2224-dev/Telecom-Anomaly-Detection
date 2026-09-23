@@ -1,9 +1,9 @@
 import { Routes } from "@angular/router";
 import { ServiceOverviewComponent } from "./features/service-overview/service-overview.component";
-import { LoginComponent } from "./features/session/login.component";
-import { sessionGuard } from "./features/session/session.guard";
-import { ServiceDetailComponent } from './features/service-detail/service-detail.component';
-import { IncidentDetailComponent } from './features/incidents/incident-detail.component';
+import { LoginComponent } from "./features/login-and-session/login.component";
+import { sessionGuard } from "./features/login-and-session/session.guard";
+import { ServiceDetailComponent } from './features/service-kpi-history/service-detail.component';
+import { IncidentDetailComponent } from './features/incident-investigation/incident-detail.component';
 
 
 // Dashboard routes and shared components for service assurance application.

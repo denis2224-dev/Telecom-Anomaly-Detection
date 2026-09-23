@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 import type { components, operations } from "./schema";
-import { SessionStore } from "../../features/session/session.store";
+import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
 
 export type ServiceSummary = components["schemas"]["ServiceSummary"];

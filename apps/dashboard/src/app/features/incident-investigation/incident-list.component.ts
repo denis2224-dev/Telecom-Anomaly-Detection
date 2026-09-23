@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { episodes, type Incident } from '../service-detail/voice-model';
+import { episodes, type Incident } from '../service-kpi-history/voice-model';
 @Component({
   selector: 'app-incident-list', imports: [DatePipe, RouterLink],
   template: `<section class="detail-panel" aria-labelledby="incidents-title">

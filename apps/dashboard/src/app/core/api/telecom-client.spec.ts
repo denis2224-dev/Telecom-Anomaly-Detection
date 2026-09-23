@@ -4,7 +4,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from "@angular/common/http/testing";
-import { SessionStore } from "../../features/session/session.store";
+import { SessionStore } from "../../features/login-and-session/session.store";
 import { TelecomClient } from "./telecom-client";
 
 describe("TelecomClient", () => {

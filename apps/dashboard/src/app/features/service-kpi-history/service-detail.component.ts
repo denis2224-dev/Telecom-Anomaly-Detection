@@ -5,7 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient, type ServiceSummary } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
 import { KpiChartComponent } from './kpi-chart.component';
-import { IncidentListComponent } from '../incidents/incident-list.component';
+import { IncidentListComponent } from '../incident-investigation/incident-list.component';
 import { episodes, type Incident, type KpiWindow } from './voice-model';
 
 @Component({
