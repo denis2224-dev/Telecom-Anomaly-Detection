@@ -43,7 +43,7 @@ Cross-check performed against current PR #11 head `4d59f6cb38af0f7946b101316ab0c
 
 ### [VERIFIED] Local Executions
 - `.\.venv\Scripts\python.exe -B scripts/check-contracts.py`: **PASS** (v2 observation schema, detection schemas, policies, baselines, 7 voice parity cases).
-- `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v`: **17 passed, 0 failures, 0 errors** (including rewritten `test_volte_first_slice_spec_matches_canonical_contracts`).
+- `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v`: **19 passed, 0 failures, 0 errors** (including rewritten `test_volte_first_slice_spec_matches_canonical_contracts`).
 - `.\mvnw.cmd test -pl services/streaming-support`: **58 passed, 0 failures**.
 - `.\mvnw.cmd test -pl services/event-generator`: **4 passed, 0 failures**.
 - `.\mvnw.cmd test -pl services/processor "-Dtest=BaselineRegistryTest,DetectionConfigurationTest,ObservationInputTest,VoiceRuleTest,PayloadCodecTest,ScopeRegistryTest"`: **72 passed, 0 failures**.
@@ -64,15 +64,39 @@ Derived from reference start `2026-09-15T08:00:00Z` + minuteOffset using compact
 - Interval buckets are not double-counted.
 - Zero new rows in `app.feature_outbox` or incident tables; incident count remains exactly 1.
 
-### [NOT EXECUTED] Live Multi-Container Pipeline
-Full live end-to-end execution (`telecom.observations.v2 -> processor -> feature delivery -> episode -> incident service -> authenticated API/UI -> replay`) was not executed because the local Docker daemon was stopped/unavailable.
+### [VERIFIED] Live Multi-Container Pipeline (G1)
 
-### [BLOCKED] Integration Dependencies
-- PR #11 (`feature/voice-kpi-incident-investigation`) contains the runtime bridge (`VoiceScenarioPublisher`, `VoiceEpisode`, `VoiceDeliveryScheduler`, delivery schema migrations) required for live G1 verification.
-- Local Docker daemon availability for live container networking.
+Full end-to-end execution performed on 23 September 2026 using a disposable worktree (`g1-ion-acceptance`) with PR #11 merged locally (no-commit, no-ff) for verification only.
+
+**Stack:** Docker Compose (postgres, kafka, keycloak, proxy, event-generator, processor) + incident-service running locally on port 8082.
+
+**Test window:** `2026-09-23T17:00:00Z` through `2026-09-23T17:08:00Z`.
+
+**Flow verified by `voice-first-slice.spec.ts` (Playwright, `playwright.g1.config.ts`):**
+
+1. **Anonymous 401:** GET `/api/incidents` without credentials returns `401` with `application/json` content type.
+2. **Real Keycloak login:** Temporary user `g1-check-*` created with `ANALYST` role; provisioned via `scripts/provision-analyst`; Keycloak OpenID login succeeded; redirected to `/dashboard`; identity banner shows `G1 verification`.
+3. **Storage isolation:** `localStorage` and `sessionStorage` both empty after login (no credentials in browser storage).
+4. **Scenario publication:** `scripts/voice-scenario` published 16 observations (8 windows × 2 sources) to `telecom.observations.v2`.
+5. **Incident lifecycle:** Single incident reached `RECOVERED` state:
+   - Incident ID: `1e8f3c52-12ac-4a19-a8cd-68e11fa341ed`
+   - Episode ID: `bc89be78c82516b88c0d36097164d4939e64a35885911da4634287d10131b225`
+   - Technical state: `RECOVERED`; Workflow state: `OPEN`.
+6. **KPI parity:** 8 KPI windows returned from `/api/services/VOLTE-MD-CENTRAL/kpis`; window 4 quality = `MISSING`.
+7. **Detection phases:** 6 evidence updates with phases `[OPEN, UPDATE, UNKNOWN, UPDATE, UPDATE, RECOVERY]`.
+   - Each detection's `kpis` matches the corresponding KPI window exactly.
+   - Each `detectedAt` ≥ `windowEnd`.
+8. **Observation receipts:** `SELECT count(*) FROM app.observation_receipt` = **16** (8 windows × 2 sources).
+9. **Dashboard screenshots:** Voice trend chart and incident detail page captured (see `test-results/g1/`).
+10. **Mobile viewport:** No horizontal overflow at 390×844.
+11. **Exact replay:** Second `voice-scenario` publication; Kafka consumer lag drained to 0; observation receipt count remains **16**; incident unchanged; KPI history unchanged; detection evidence unchanged.
+12. **Sign out:** Session terminated; `/api/auth/me` returns 401 after logout.
+13. **Cleanup:** Temporary Keycloak user and analyst row deleted in `finally` block.
+
+**Result:** Playwright `.last-run.json` → `{ "status": "passed", "failedTests": [] }`.
 
 ---
 
-## 4. Next Acceptance Step
+## 4. G1 Acceptance Status
 
-PR #11 currently contains the runtime bridge required for live G1 verification. After integration and when Docker is available, the full stack still needs to be executed and replay checked before G1 can be marked complete.
+G1 live integration verification is **COMPLETE**. All acceptance conditions (real login, scenario→pipeline→incident lifecycle, KPI/detection parity, UI rendering, replay idempotency, session teardown) have been verified on the full Docker Compose stack with PR #11 runtime merged locally.
