@@ -18,6 +18,7 @@
     "generate:api": "openapi-typescript api/incident-api.yaml -o src/app/core/api/schema.ts",
     "test": "ng test --watch=false",
     "test:e2e": "playwright test",
+    "test:g1": "playwright test --config playwright.g1.config.ts",
     "test:theme": "node ../../scripts/run-theme-tests.mjs",
     "test:auth": "playwright test --config playwright.auth.config.ts",
     "test:auth-routing": "node ../../scripts/check-auth-routing.mjs",
