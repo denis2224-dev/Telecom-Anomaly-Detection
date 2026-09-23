@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.SplittableRandom;
 import java.util.UUID;
 import md.utm.telecom.observation.ObservationValidator;
 import org.springframework.stereotype.Component;
@@ -41,8 +42,20 @@ public class SmsQueueScenario {
     }
 
     /**
-     * Generates the canonical 8-minute profile (2 normal, 3 slow delivery, 3 recovery).
-     * Bounded to 60-second aligned UTC minute windows.
+     * Generates the canonical 8-minute profile (2 normal, 3 slow delivery, 3 recovery)
+     * with deterministic seeded measurement variation.
+     *
+     * <p>Same start + same seed reproduces byte-identical payloads.
+     * Same start + different seed changes measurements while preserving logical event IDs
+     * (identity is source/scope/kind/windowStart only — seed is NOT part of identity).
+     *
+     * <p>Phase semantics are preserved regardless of seed:
+     * <ul>
+     *   <li>NORMAL/RECOVERY: healthy delays, zero queue depth/age</li>
+     *   <li>SLOW_DELIVERY: degraded delays well above p95DelayMsStrictlyGreaterThan (20 000 ms),
+     *       queue depth above queueDepthAtLeast (100), oldest pending age above
+     *       oldestPendingSecStrictlyGreaterThan (60 s) — per service-rules-v2</li>
+     * </ul>
      */
     public List<String> generate(Instant start, long seed) {
         validateMinuteAlignment(start);
@@ -50,9 +63,58 @@ public class SmsQueueScenario {
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             Phase phase = (minute < 2) ? Phase.NORMAL : (minute < 5) ? Phase.SLOW_DELIVERY : Phase.RECOVERY;
-            result.addAll(generateWindow(from, phase, true));
+            result.addAll(generateSeededWindow(from, phase, seed));
         }
         return List.copyOf(result);
+    }
+
+    /**
+     * Generates a seeded 1-minute window with deterministic measurement variation.
+     * The per-window RNG is derived from the supplied seed XOR'd with the stable event
+     * identity bits (following the ObservationGenerator precedent), ensuring that
+     * the same seed + same logical window always reproduces identical measurements.
+     */
+    private List<String> generateSeededWindow(Instant start, Phase phase, long seed) {
+        // Derive a stable per-window seed from the SERVICE event identity (which covers
+        // the logical interval). NODE uses the same derived seed for consistency.
+        String serviceIdentity = String.join("|", "telecom-observation-v2",
+                SERVICE_SOURCE_ID, SCOPE_ID, "SERVICE", start.toString());
+        UUID serviceUuid = UUID.nameUUIDFromBytes(serviceIdentity.getBytes(StandardCharsets.UTF_8));
+        long windowSeed = seed ^ serviceUuid.getMostSignificantBits() ^ serviceUuid.getLeastSignificantBits();
+        var rng = new SplittableRandom(windowSeed);
+
+        return switch (phase) {
+            case NORMAL, RECOVERY -> {
+                // Healthy: delays in 1000–5000 ms range (well below p95 threshold of 20 000 ms,
+                // and recovery threshold of 10 000 ms). Queue depth/age both zero.
+                int attempts = 180 + rng.nextInt(41);          // 180..220
+                int successes = attempts - rng.nextInt(5);     // attempts..(attempts-4)
+                int delivered = 80 + rng.nextInt(41);          // 80..120
+                successes = Math.max(successes, delivered);    // ensure deliveredMessages <= deliverySuccesses
+                var delays = new ArrayList<Long>(delivered);
+                for (int i = 0; i < delivered; i++) {
+                    delays.add(1000L + rng.nextLong(4001));    // 1000..5000 ms
+                }
+                yield generateCustomWindow(start, attempts, successes, delays, 0, 0);
+            }
+            case SLOW_DELIVERY -> {
+                // Degraded: delays in 30 000–60 000 ms (well above 20 000 ms threshold).
+                // Queue depth 150–350 (well above 100 threshold).
+                // Oldest pending 70–120 s (well above 60 s threshold).
+                int attempts = 180 + rng.nextInt(41);          // 180..220
+                int successes = attempts - rng.nextInt(5);     // attempts..(attempts-4)
+                int delivered = 80 + rng.nextInt(41);          // 80..120
+                successes = Math.max(successes, delivered);    // ensure deliveredMessages <= deliverySuccesses
+                var delays = new ArrayList<Long>(delivered);
+                for (int i = 0; i < delivered; i++) {
+                    delays.add(30000L + rng.nextLong(30001));  // 30 000..60 000 ms
+                }
+                int queueDepth = 150 + rng.nextInt(201);      // 150..350
+                int age = 70 + rng.nextInt(51);                // 70..120
+                yield generateCustomWindow(start, attempts, successes, delays, queueDepth, age);
+            }
+            default -> throw new IllegalArgumentException("generate() does not use " + phase);
+        };
     }
 
     /**

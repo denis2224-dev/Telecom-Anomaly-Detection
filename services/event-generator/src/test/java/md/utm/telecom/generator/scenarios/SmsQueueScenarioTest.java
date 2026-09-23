@@ -60,23 +60,125 @@ class SmsQueueScenarioTest {
             assertEquals(expectedEnd.toString(), service.get("windowEnd").asText());
             assertEquals(expectedEnd.toString(), service.get("emittedAt").asText());
 
+            JsonNode nodeMetrics = node.get("metrics");
+            JsonNode serviceMetrics = service.get("metrics");
+            int deliveryAttempts = serviceMetrics.get("deliveryAttempts").asInt();
+            int deliverySuccesses = serviceMetrics.get("deliverySuccesses").asInt();
+            int deliveredMessages = serviceMetrics.get("deliveredMessages").asInt();
+            JsonNode delays = serviceMetrics.get("deliveryDelayMs");
+
+            // SMS validation invariants (always hold regardless of phase)
+            assertTrue(deliverySuccesses <= deliveryAttempts, "deliverySuccesses <= deliveryAttempts");
+            assertEquals(deliveredMessages, delays.size(), "deliveredMessages == deliveryDelayMs.size()");
+            assertTrue(deliveredMessages <= deliverySuccesses, "deliveredMessages <= deliverySuccesses");
+
+            // Compute nearest-rank p95 from generated delay array
+            var sorted = new ArrayList<Long>();
+            for (JsonNode d : delays) sorted.add(d.asLong());
+            Collections.sort(sorted);
+            long p95 = sorted.isEmpty() ? 0 : sorted.get((int) Math.ceil(0.95 * sorted.size()) - 1);
+
             if (minute < 2) {
-                // Normal phase
-                assertEquals(0, node.get("metrics").get("queueDepth").asInt());
-                assertEquals(0, node.get("metrics").get("oldestPendingAgeSeconds").asInt());
-                assertEquals(2000, service.get("metrics").get("deliveryDelayMs").get(0).asInt());
+                // NORMAL phase: healthy delays, zero queue
+                assertEquals(0, nodeMetrics.get("queueDepth").asInt());
+                assertEquals(0, nodeMetrics.get("oldestPendingAgeSeconds").asInt());
+                assertTrue(p95 < 10000, "NORMAL p95 must be well below 10 000 ms, was " + p95);
+                // minDeliveredSamples threshold from service-rules-v2 is 30
+                assertTrue(deliveredMessages >= 30, "Must have enough samples for meaningful p95");
             } else if (minute < 5) {
-                // Slow delivery + backlog phase
-                assertEquals(250, node.get("metrics").get("queueDepth").asInt());
-                assertEquals(90, node.get("metrics").get("oldestPendingAgeSeconds").asInt());
-                assertEquals(45000, service.get("metrics").get("deliveryDelayMs").get(0).asInt());
+                // SLOW_DELIVERY phase: degraded delays and queue
+                // service-rules-v2: p95DelayMsStrictlyGreaterThan=20000, queueDepthAtLeast=100,
+                //                   oldestPendingSecStrictlyGreaterThan=60
+                assertTrue(p95 > 20000, "SLOW p95 must exceed 20 000 ms, was " + p95);
+                assertTrue(nodeMetrics.get("queueDepth").asInt() >= 100,
+                        "SLOW queueDepth must be >= 100");
+                assertTrue(nodeMetrics.get("oldestPendingAgeSeconds").asInt() > 60,
+                        "SLOW oldestPendingAgeSeconds must be > 60");
+                assertTrue(deliveredMessages >= 30, "Must have enough samples for meaningful p95");
             } else {
-                // Recovery phase
-                assertEquals(0, node.get("metrics").get("queueDepth").asInt());
-                assertEquals(0, node.get("metrics").get("oldestPendingAgeSeconds").asInt());
-                assertEquals(2000, service.get("metrics").get("deliveryDelayMs").get(0).asInt());
+                // RECOVERY phase: healthy delays, zero queue
+                assertEquals(0, nodeMetrics.get("queueDepth").asInt());
+                assertEquals(0, nodeMetrics.get("oldestPendingAgeSeconds").asInt());
+                // service-rules-v2: recoveryP95DelayMsAtMost=10000
+                assertTrue(p95 <= 10000, "RECOVERY p95 must be at most 10 000 ms, was " + p95);
+                assertTrue(deliveredMessages >= 30, "Must have enough samples for meaningful p95");
             }
         }
+    }
+
+    @Test
+    void sameSeedReproducesExactBytesAcrossInvocations() throws Exception {
+        long seed = 99L;
+        List<String> first = scenario.generate(baseStart, seed);
+        List<String> second = scenario.generate(baseStart, seed);
+
+        assertEquals(16, first.size());
+        assertEquals(16, second.size());
+        // Byte-for-byte equality: exact String comparison (not parsed JSON)
+        for (int i = 0; i < 16; i++) {
+            assertEquals(first.get(i), second.get(i),
+                    "Observation " + i + " must be byte-for-byte identical across invocations");
+        }
+        assertEquals(first, second);
+
+        // All observations pass validation
+        for (String obs : first) {
+            validator.validate(json.readTree(obs));
+        }
+    }
+
+    @Test
+    void differentSeedsChangeMeasurementsButPreserveIdentity() throws Exception {
+        long seedA = 42L;
+        long seedB = 43L;
+        List<String> runA = scenario.generate(baseStart, seedA);
+        List<String> runB = scenario.generate(baseStart, seedB);
+
+        assertEquals(16, runA.size());
+        assertEquals(16, runB.size());
+
+        // The complete payload lists MUST differ (measurements change)
+        assertNotEquals(runA, runB, "Different seeds must produce different payloads");
+
+        // Verify at least one actual measurement differs (not just metadata)
+        boolean anyMeasurementDiffers = false;
+        for (int i = 0; i < 16; i++) {
+            JsonNode a = json.readTree(runA.get(i));
+            JsonNode b = json.readTree(runB.get(i));
+
+            // Identity fields must be IDENTICAL across seeds
+            assertEquals(a.get("eventId").asText(), b.get("eventId").asText(),
+                    "eventId must be identical at position " + i);
+            assertEquals(a.get("sourceId").asText(), b.get("sourceId").asText(),
+                    "sourceId must be identical at position " + i);
+            assertEquals(a.get("scopeId").asText(), b.get("scopeId").asText(),
+                    "scopeId must be identical at position " + i);
+            assertEquals(a.get("kind").asText(), b.get("kind").asText(),
+                    "kind must be identical at position " + i);
+            assertEquals(a.get("windowStart").asText(), b.get("windowStart").asText(),
+                    "windowStart must be identical at position " + i);
+            assertEquals(a.get("windowEnd").asText(), b.get("windowEnd").asText(),
+                    "windowEnd must be identical at position " + i);
+            assertEquals(a.get("emittedAt").asText(), b.get("emittedAt").asText(),
+                    "emittedAt must be identical at position " + i);
+            assertEquals(a.get("quality").asText(), b.get("quality").asText(),
+                    "quality must be identical at position " + i);
+
+            // No seed field should exist in the observation payload
+            assertFalse(a.has("seed"), "seed must not appear in observation payload");
+            assertFalse(b.has("seed"), "seed must not appear in observation payload");
+
+            // Both must pass validation
+            validator.validate(a);
+            validator.validate(b);
+
+            // Check if metrics differ
+            if (a.has("metrics") && b.has("metrics") && !a.get("metrics").equals(b.get("metrics"))) {
+                anyMeasurementDiffers = true;
+            }
+        }
+        assertTrue(anyMeasurementDiffers,
+                "Different seeds must produce at least one measurement difference");
     }
 
     @Test
