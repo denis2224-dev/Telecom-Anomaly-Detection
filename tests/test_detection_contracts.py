@@ -21,6 +21,8 @@ class DetectionContractTests(unittest.TestCase):
             'minAttempts': 100, 'dropPpStrictlyGreaterThan': 1.0,
             'recoveryDropPpAtMost': 0.5, 'highExtraFailuresAtLeast': 50,
             'criticalExtraFailuresAtLeast': 200,
+            'imsCapacityCpuPctAtLeast': 90, 'imsCapacitySip503CountAtLeast': 50,
+            'imsCapacityAccessSrDropPpAtMost': 0.5,
         })
         self.assertEqual(policy['openAfterBreachedWindows'], 2)
         self.assertEqual(policy['recoverAfterHealthyWindows'], 3)

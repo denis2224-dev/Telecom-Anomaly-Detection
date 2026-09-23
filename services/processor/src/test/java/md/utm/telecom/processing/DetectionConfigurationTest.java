@@ -32,4 +32,19 @@ class DetectionConfigurationTest {
             catch (IOException failure) { throw new UncheckedIOException(failure); }
         }).run(context -> assertNotNull(context.getStartupFailure()));
     }
+
+    @Test
+    void imsCauseThresholdsAreRequiredByThePolicySchema() throws Exception {
+        var canonical = ObservationValidator.resource("policies/service-rules-v2.json", new ObjectMapper());
+        var policy = new DetectionPolicy(canonical);
+        assertEquals(0, policy.voice("imsCapacityCpuPctAtLeast").compareTo(new java.math.BigDecimal("90")));
+        assertEquals(0, policy.voice("imsCapacitySip503CountAtLeast").compareTo(new java.math.BigDecimal("50")));
+        assertEquals(0, policy.voice("imsCapacityAccessSrDropPpAtMost").compareTo(new java.math.BigDecimal("0.5")));
+        for (String field : new String[]{"imsCapacityCpuPctAtLeast", "imsCapacitySip503CountAtLeast",
+                "imsCapacityAccessSrDropPpAtMost"}) {
+            var missing = (ObjectNode) canonical.deepCopy();
+            ((ObjectNode) missing.get("voice")).remove(field);
+            assertThrows(IllegalArgumentException.class, () -> new DetectionPolicy(missing), field);
+        }
+    }
 }

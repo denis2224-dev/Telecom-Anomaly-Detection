@@ -14,10 +14,10 @@ public class VoiceEpisode {
     private final VoiceSetupRule rule;
     private final DetectionPolicy policy;
     private final PayloadCodec codec;
-    private final CauseEvidence causes = new CauseEvidence();
+    private final CauseEvidence causes;
     private final ObjectMapper json = new ObjectMapper();
     public VoiceEpisode(VoiceSetupRule rule, DetectionPolicy policy, PayloadCodec codec) {
-        this.rule = rule; this.policy = policy; this.codec = codec;
+        this.rule = rule; this.policy = policy; this.codec = codec; this.causes = new CauseEvidence(policy);
     }
     public ObjectNode advance(ObjectNode state, JsonNode window, Instant detectedAt) {
         return advance(state, window, detectedAt, List.of());
