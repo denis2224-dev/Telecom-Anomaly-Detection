@@ -78,29 +78,44 @@ class SmsQueueScenarioTest {
             Collections.sort(sorted);
             long p95 = sorted.isEmpty() ? 0 : sorted.get((int) Math.ceil(0.95 * sorted.size()) - 1);
 
+            // Baseline p95DeliveryMs = 2000 (demo-baseline-v2.json, SMS-MD-ROUTE-A scope)
+            long baselineP95 = 2000L;
+
             if (minute < 2) {
-                // NORMAL phase: healthy delays, zero queue
+                // NORMAL phase: healthy delays, zero queue, must NOT trigger degradation.
+                // service-rules-v2: p95DelayMsStrictlyGreaterThan=20000, baselineMultiplierStrictlyGreaterThan=3
                 assertEquals(0, nodeMetrics.get("queueDepth").asInt());
                 assertEquals(0, nodeMetrics.get("oldestPendingAgeSeconds").asInt());
-                assertTrue(p95 < 10000, "NORMAL p95 must be well below 10 000 ms, was " + p95);
-                // minDeliveredSamples threshold from service-rules-v2 is 30
+                assertTrue(p95 <= 20000,
+                        "NORMAL p95 must not exceed degradation threshold 20 000 ms, was " + p95);
+                assertTrue(p95 <= baselineP95 * 3,
+                        "NORMAL p95/baseline must not exceed degradation multiplier 3, was "
+                                + p95 + "/" + baselineP95 + " = " + (p95 / (double) baselineP95));
                 assertTrue(deliveredMessages >= 30, "Must have enough samples for meaningful p95");
             } else if (minute < 5) {
                 // SLOW_DELIVERY phase: degraded delays and queue
-                // service-rules-v2: p95DelayMsStrictlyGreaterThan=20000, queueDepthAtLeast=100,
-                //                   oldestPendingSecStrictlyGreaterThan=60
+                // service-rules-v2: p95DelayMsStrictlyGreaterThan=20000,
+                //                   baselineMultiplierStrictlyGreaterThan=3,
+                //                   queueDepthAtLeast=100, oldestPendingSecStrictlyGreaterThan=60
                 assertTrue(p95 > 20000, "SLOW p95 must exceed 20 000 ms, was " + p95);
+                assertTrue(p95 > baselineP95 * 3,
+                        "SLOW p95/baseline must exceed degradation multiplier 3, was "
+                                + p95 + "/" + baselineP95 + " = " + (p95 / (double) baselineP95));
                 assertTrue(nodeMetrics.get("queueDepth").asInt() >= 100,
                         "SLOW queueDepth must be >= 100");
                 assertTrue(nodeMetrics.get("oldestPendingAgeSeconds").asInt() > 60,
                         "SLOW oldestPendingAgeSeconds must be > 60");
                 assertTrue(deliveredMessages >= 30, "Must have enough samples for meaningful p95");
             } else {
-                // RECOVERY phase: healthy delays, zero queue
+                // RECOVERY phase: healthy delays, zero queue.
+                // service-rules-v2: recoveryP95DelayMsAtMost=10000, recoveryBaselineMultiplierAtMost=2
+                // With baseline p95DeliveryMs=2000, the effective ceiling is min(10000, 2000*2) = 4000.
                 assertEquals(0, nodeMetrics.get("queueDepth").asInt());
                 assertEquals(0, nodeMetrics.get("oldestPendingAgeSeconds").asInt());
-                // service-rules-v2: recoveryP95DelayMsAtMost=10000
                 assertTrue(p95 <= 10000, "RECOVERY p95 must be at most 10 000 ms, was " + p95);
+                assertTrue(p95 <= baselineP95 * 2,
+                        "RECOVERY p95/baseline must satisfy multiplier <= 2, was "
+                                + p95 + "/" + baselineP95 + " = " + (p95 / (double) baselineP95));
                 assertTrue(deliveredMessages >= 30, "Must have enough samples for meaningful p95");
             }
         }

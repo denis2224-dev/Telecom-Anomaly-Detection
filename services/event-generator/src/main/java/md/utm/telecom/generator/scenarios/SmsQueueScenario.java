@@ -85,15 +85,18 @@ public class SmsQueueScenario {
 
         return switch (phase) {
             case NORMAL, RECOVERY -> {
-                // Healthy: delays in 1000–5000 ms range (well below p95 threshold of 20 000 ms,
-                // and recovery threshold of 10 000 ms). Queue depth/age both zero.
+                // Healthy: delays in 1000–3500 ms range. Must satisfy BOTH recovery conditions:
+                //   p95 <= recoveryP95DelayMsAtMost (10 000 ms)  AND
+                //   p95 / baselineP95 <= recoveryBaselineMultiplierAtMost (2)
+                // With baseline p95DeliveryMs=2000 the effective ceiling is 4000 ms.
+                // Upper bound 3500 ms gives 500 ms of comfortable margin.
                 int attempts = 180 + rng.nextInt(41);          // 180..220
                 int successes = attempts - rng.nextInt(5);     // attempts..(attempts-4)
                 int delivered = 80 + rng.nextInt(41);          // 80..120
                 successes = Math.max(successes, delivered);    // ensure deliveredMessages <= deliverySuccesses
                 var delays = new ArrayList<Long>(delivered);
                 for (int i = 0; i < delivered; i++) {
-                    delays.add(1000L + rng.nextLong(4001));    // 1000..5000 ms
+                    delays.add(1000L + rng.nextLong(2501));    // 1000..3500 ms
                 }
                 yield generateCustomWindow(start, attempts, successes, delays, 0, 0);
             }
