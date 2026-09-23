@@ -93,11 +93,14 @@ public class SmsQueueScenario {
         validateMinuteAlignment(start);
         var result = new ArrayList<String>();
 
+        if ((queueDepth == null) != (oldestPendingAgeSeconds == null)) {
+            throw new IllegalArgumentException(
+                    "queueDepth and oldestPendingAgeSeconds must be provided together"
+            );
+        }
+
         // 1. Independent NODE observation from SMSC-A (if queue evidence is present)
         if (queueDepth != null) {
-            if (oldestPendingAgeSeconds == null) {
-                throw new IllegalArgumentException("oldestPendingAgeSeconds is required when queueDepth is present");
-            }
             ObjectNode node = createEnvelope(start, NODE_SOURCE_ID, "NODE", "COMPLETE");
             node.put("nodeId", NODE_SOURCE_ID);
             ObjectNode nodeMetrics = node.putObject("metrics");

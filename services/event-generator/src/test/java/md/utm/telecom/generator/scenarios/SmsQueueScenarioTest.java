@@ -217,4 +217,24 @@ class SmsQueueScenarioTest {
         assertFalse(scope.isAuthoritativeServiceSource("SMS", "UNKNOWN-ADAPTER"));
         assertFalse(scope.isAuthoritativeNodeSource("SMSC-A", "UNKNOWN-NODE"));
     }
+
+    @Test
+    void queueEvidenceRequiresBothDepthAndAgeOrBothAbsent() throws Exception {
+        // Both malformed combinations fail
+        assertThrows(IllegalArgumentException.class, () ->
+                scenario.generateCustomWindow(baseStart, 20, 0, List.of(), null, 90));
+        assertThrows(IllegalArgumentException.class, () ->
+                scenario.generateCustomWindow(baseStart, 20, 0, List.of(), 250, null));
+
+        // Both absent: accepted, produces exactly one SERVICE observation
+        List<String> absentWindow = scenario.generateCustomWindow(baseStart, 20, 0, List.of(), null, null);
+        assertEquals(1, absentWindow.size());
+        assertEquals("SERVICE", json.readTree(absentWindow.getFirst()).get("kind").asText());
+
+        // Both present: accepted, produces both NODE and SERVICE observations
+        List<String> presentWindow = scenario.generateCustomWindow(baseStart, 20, 0, List.of(), 250, 90);
+        assertEquals(2, presentWindow.size());
+        assertEquals("NODE", json.readTree(presentWindow.get(0)).get("kind").asText());
+        assertEquals("SERVICE", json.readTree(presentWindow.get(1)).get("kind").asText());
+    }
 }
