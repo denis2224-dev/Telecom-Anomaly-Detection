@@ -80,8 +80,7 @@ class DetectionContractTests(unittest.TestCase):
         self.assertFalse(validator.is_valid(dict(payload, mlEligible=False)))
         validator.validate(dict(payload, mlEligible=False, featureNames=[], featureValues=[]))
 
-    def test_volte_first_slice_spec_matches_canonical_contracts(self):
-        scenario = read_json(ROOT / 'tests/e2e/scenarios/volte-first-slice.json')
+    def _validate_volte_scenario(self, scenario):
         policy_contract = read_json(ROOT / 'contracts/policies/service-rules-v2.json')
         baseline_contract = read_json(ROOT / 'contracts/baselines/demo-baseline-v2.json')
         topology_contract = read_json(ROOT / 'contracts/topology/demo-scopes-v2.json')
@@ -170,6 +169,7 @@ class DetectionContractTests(unittest.TestCase):
         illustrative = read_json(ROOT / 'contracts/fixtures/detections/voice-open-illustrative-v2.json')
         self.assertEqual(correlation_key, illustrative['correlationKey'])
 
+        active = False
         consecutive_breaches = 0
         consecutive_healthy = 0
         first_breached_window_start = None
@@ -188,62 +188,86 @@ class DetectionContractTests(unittest.TestCase):
                 self.assertEqual(derived_window_id, worked_fixture['windowId'])
 
             m = w.get('measurements')
-            if m:
+            # Determine eligibility per VoiceSetupRule semantics: COMPLETE service quality, measurements present, attempts >= minAttempts
+            eligible = (
+                w.get('serviceQuality') == 'COMPLETE'
+                and m is not None
+                and m.get('eligibleAttempts', 0) >= sp['minAttempts']
+            )
+
+            if eligible:
                 # Minimum attempts enforcement from policy
                 self.assertGreaterEqual(m['eligibleAttempts'], sp['minAttempts'])
                 # Arithmetic enforcement: attempts = technicalSuccesses + technicalFailures + userOutcomes
                 self.assertEqual(m['attempts'], m['technicalSuccesses'] + m['technicalFailures'] + m['userOutcomes'])
-                eligible = m['attempts'] - m['userOutcomes']
-                self.assertEqual(m['eligibleAttempts'], eligible)
-                self.assertEqual(w['kpis']['eligibleAttempts'], eligible)
+                eligible_attempts = m['attempts'] - m['userOutcomes']
+                self.assertEqual(m['eligibleAttempts'], eligible_attempts)
+                if 'kpis' in w and w['kpis'] and w['kpis'].get('eligibleAttempts') is not None:
+                    self.assertEqual(w['kpis']['eligibleAttempts'], eligible_attempts)
 
-                # Calculated CSSR and breach check against baseline and policy
-                calculated_cssr = 100.0 * m['technicalSuccesses'] / eligible
-                self.assertAlmostEqual(w['kpis']['cssrPct'], calculated_cssr, places=5)
+                # Calculated CSSR and breach / recovery check against baseline and policy
+                calculated_cssr = 100.0 * m['technicalSuccesses'] / eligible_attempts
+                if 'kpis' in w and w['kpis'] and w['kpis'].get('cssrPct') is not None:
+                    self.assertAlmostEqual(w['kpis']['cssrPct'], calculated_cssr, places=5)
 
                 cssr_drop_pp = baseline_cssr - calculated_cssr
-                is_breached = cssr_drop_pp > sp['dropPpStrictlyGreaterThan']
-                self.assertEqual(w['breached'], is_breached)
-
-                if is_breached:
-                    consecutive_breaches += 1
-                    consecutive_healthy = 0
-                    if consecutive_breaches == 1:
-                        first_breached_window_start = window_start_str
-                        self.assertTrue(w.get('candidateStart', False))
-                    else:
-                        self.assertFalse(w.get('candidateStart', False))
-                else:
-                    consecutive_healthy += 1
-                    consecutive_breaches = 0
-                    self.assertFalse(w.get('candidateStart', False))
+                breached = cssr_drop_pp > sp['dropPpStrictlyGreaterThan']
+                healthy = cssr_drop_pp <= sp['recoveryDropPpAtMost']
             else:
-                self.assertEqual(w['serviceQuality'], 'MISSING')
-                self.assertFalse(w['breached'])
+                breached = False
+                healthy = False
+
+            self.assertEqual(w.get('breached', False), breached)
+
+            if breached:
+                if consecutive_breaches == 0:
+                    first_breached_window_start = window_start_str
+                    self.assertTrue(w.get('candidateStart', False))
+                else:
+                    self.assertFalse(w.get('candidateStart', False))
+                consecutive_breaches += 1
+            else:
                 consecutive_breaches = 0
+                self.assertFalse(w.get('candidateStart', False))
+
+            if healthy:
+                consecutive_healthy += 1
+            else:
                 consecutive_healthy = 0
 
-            # Verify consecutive breach and open / recovery logic
-            if consecutive_breaches == sp['openAfterBreachedWindows']:
-                self.assertEqual(w['episodePhase'], 'OPEN')
-                self.assertEqual(w['severity'], 'HIGH')
-                self.assertEqual(w['sequence'], 1)
-                self.assertEqual(w['firstObservedAtOffset'], 1)
-                self.assertEqual(w['mlStatus'], 'INSUFFICIENT_DATA')
-                open_detection_window_start = window_start_str
-            elif consecutive_healthy == sp['recoverAfterHealthyWindows']:
-                self.assertEqual(w['episodePhase'], 'RECOVERY')
-                self.assertEqual(w['technicalState'], 'RECOVERED')
-                self.assertEqual(w['mlStatus'], 'INSUFFICIENT_DATA')
-            elif w['serviceQuality'] == 'MISSING':
-                self.assertEqual(w['episodePhase'], 'UNKNOWN')
-                self.assertEqual(w['technicalState'], 'UNKNOWN')
-                self.assertEqual(w['mlStatus'], 'INSUFFICIENT_DATA')
-            elif consecutive_breaches < sp['openAfterBreachedWindows'] and open_detection_window_start is None:
-                self.assertIsNone(w['episodePhase'])
-            elif open_detection_window_start is not None:
-                self.assertEqual(w['episodePhase'], 'UPDATE')
-                self.assertEqual(w['mlStatus'], 'INSUFFICIENT_DATA')
+            # Phase state machine per VoiceEpisode semantics
+            if not active:
+                if consecutive_breaches >= sp['openAfterBreachedWindows']:
+                    expected_phase = 'OPEN'
+                    active = True
+                    open_detection_window_start = window_start_str
+                else:
+                    expected_phase = None
+            else:
+                if not eligible:
+                    expected_phase = 'UNKNOWN'
+                elif consecutive_healthy >= sp['recoverAfterHealthyWindows']:
+                    expected_phase = 'RECOVERY'
+                    active = False
+                else:
+                    expected_phase = 'UPDATE'
+
+            self.assertEqual(w.get('episodePhase'), expected_phase)
+
+            # Metadata assertions for specific phases
+            if expected_phase == 'OPEN':
+                self.assertEqual(w.get('severity'), 'HIGH')
+                self.assertEqual(w.get('sequence'), 1)
+                self.assertEqual(w.get('firstObservedAtOffset'), 1)
+                self.assertEqual(w.get('mlStatus'), 'INSUFFICIENT_DATA')
+            elif expected_phase == 'RECOVERY':
+                self.assertEqual(w.get('technicalState'), 'RECOVERED')
+                self.assertEqual(w.get('mlStatus'), 'INSUFFICIENT_DATA')
+            elif expected_phase == 'UNKNOWN':
+                self.assertEqual(w.get('technicalState'), 'UNKNOWN')
+                self.assertEqual(w.get('mlStatus'), 'INSUFFICIENT_DATA')
+            elif expected_phase == 'UPDATE':
+                self.assertEqual(w.get('mlStatus'), 'INSUFFICIENT_DATA')
 
         # 6. Opening must occur after configured consecutive breaches
         self.assertIsNotNone(first_breached_window_start)
@@ -269,3 +293,36 @@ class DetectionContractTests(unittest.TestCase):
         self.assertEqual(replay['expectedIngestionResult'], 'DUPLICATE')
         self.assertEqual(replay['expectedLatestSequence'], 6)
         self.assertEqual(replay['expectedTechnicalState'], 'RECOVERED')
+
+    def test_volte_first_slice_spec_matches_canonical_contracts(self):
+        scenario = read_json(ROOT / 'tests/e2e/scenarios/volte-first-slice.json')
+        self._validate_volte_scenario(scenario)
+
+    def test_volte_scenario_rejects_eligible_non_healthy_recovery_mutation(self):
+        """Case 1: CSSR drop = 0.7 pp (between 0.5 pp recovery and 1.0 pp breach) is non-healthy and resets recovery."""
+        scenario = read_json(ROOT / 'tests/e2e/scenarios/volte-first-slice.json')
+        mutated = copy.deepcopy(scenario)
+        w5 = mutated['windows'][5]
+        # Set consistent counters: attempts=1020, userOutcomes=20 -> eligible=1000
+        # technicalSuccesses=986 -> CSSR=98.6%, baseline=99.3% -> drop=0.7 pp
+        w5['measurements']['attempts'] = 1020
+        w5['measurements']['eligibleAttempts'] = 1000
+        w5['measurements']['userOutcomes'] = 20
+        w5['measurements']['technicalSuccesses'] = 986
+        w5['measurements']['technicalFailures'] = 14
+        w5['kpis']['eligibleAttempts'] = 1000
+        w5['kpis']['cssrPct'] = 98.6
+        w5['breached'] = False
+        with self.assertRaises(AssertionError) as ctx:
+            self._validate_volte_scenario(mutated)
+        self.assertIn("RECOVERY", str(ctx.exception))
+
+    def test_volte_scenario_rejects_incomplete_recovery_window_mutation(self):
+        """Case 2: An INCOMPLETE service window during an active episode transitions to UNKNOWN and resets streaks."""
+        scenario = read_json(ROOT / 'tests/e2e/scenarios/volte-first-slice.json')
+        mutated = copy.deepcopy(scenario)
+        mutated['windows'][5]['serviceQuality'] = 'INCOMPLETE'
+        mutated['windows'][5]['breached'] = False
+        with self.assertRaises(AssertionError) as ctx:
+            self._validate_volte_scenario(mutated)
+        self.assertIn("UNKNOWN", str(ctx.exception))
