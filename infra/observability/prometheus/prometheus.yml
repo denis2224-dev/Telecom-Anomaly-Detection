@@ -1,0 +1,61 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+
+  # Keep alert and recording rules independent from service health. A healthy
+  # Prometheus process does not imply that a source or pipeline is healthy.
+  external_labels:
+    monitor: telecom-service-assurance
+
+rule_files: []
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - ${PROMETHEUS_HOST:-localhost}:${PROMETHEUS_PORT:-9090}
+
+  - job_name: incident-service
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - ${INCIDENT_SERVICE_METRICS_TARGET:-incident-service:8082}
+        labels:
+          boundary: incident-api
+
+  - job_name: processor
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - ${PROCESSOR_METRICS_TARGET:-processor:8083}
+        labels:
+          boundary: detector
+
+  - job_name: event-generator
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - ${GENERATOR_METRICS_TARGET:-event-generator:8081}
+        labels:
+          boundary: source
+
+  - job_name: ml-service
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - ${ML_METRICS_TARGET:-ml-service:8000}
+        labels:
+          boundary: inference
+
+  # These application-owned metrics are intentionally separate from process
+  # readiness. If a source stops emitting, its heartbeat age/missing interval
+  # panels become UNKNOWN even while its container remains running.
+  #
+  # Required metric contract:
+  # - telecom_source_heartbeat_timestamp_seconds{source_id,scope_id}
+  # - telecom_source_missing_intervals{source_id,scope_id}
+  # - telecom_kafka_consumer_lag{consumer,topic}
+  # - telecom_finalizer_delay_seconds{scope_id}
+  # - telecom_detector_backlog
+  # - telecom_outbox_oldest_age_seconds
