@@ -5,4 +5,9 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 ./scripts/verify
-echo "Application demo scenarios are not wired yet. Add them here after M1/M2/M3/M4 provide runnable services and scenario APIs."
+if [[ $# -eq 1 ]]; then
+  bash "$ROOT_DIR/scripts/voice-scenario" "$1"
+else
+  echo "Voice demo ready. Run: bash scripts/demo YYYY-MM-DDTHH:MM:00Z"
+  echo "Choose eight completed UTC minutes; repeat the same start for replay."
+fi

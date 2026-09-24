@@ -4,6 +4,10 @@ A telecom anomaly detection and monitoring platform using synthetic telecom data
 No real customer data is used. Developed as a UTM internship project at Orange
 Systems Moldova.
 
+**Start here:** [Find each task, its code, and how to open it](docs/tasks/README.md).
+For the working Day 05–06 flow, use the
+[login and investigation instructions](docs/tasks/day-06-protected-voice-investigation/README.md).
+
 ## Architecture
 
 The intended platform flow is:
@@ -12,24 +16,26 @@ The intended platform flow is:
 Simulator -> Kafka -> Processing -> Detection -> Impact Analysis -> Dashboard
 ```
 
-The implemented Streaming components generate and validate observations and expose
-health probes. Kafka publication and consumption, persistent storage, KPI
-finalization, live incident generation and dashboard integration are not implemented
-in these services. Sergiu's days 1-4 add offline Python service features, startup
-baseline/policy loading, and a stateless Java voice rule with impact evidence.
+The implemented voice flow generates synthetic observations, consumes them through
+Kafka, finalizes KPI windows, persists incident episodes and publishes evidence to
+the protected dashboard. Keycloak provides real login. A local command generates
+the demonstration; public scenario scheduling and SMS episode processing remain
+separate work. Python service features and Java baseline/policy rules are shared
+foundations for the pipeline.
 
 ## Repository Structure
 
 | Directory | Contents |
 | --- | --- |
-| `services/event-generator` | Spring Boot service and deterministic observation preview. |
-| `services/processor` | Observation validation, baseline lookup and stateless voice-rule evaluation. |
+| `services/event-generator` | Observation preview and replayable voice scenario publication. |
+| `services/processor` | Observation ingestion, KPI calculation and durable voice episode publication. |
+| `services/incident-service` | Login session, protected APIs, incident/evidence storage. |
 | `services/ml-service` | Independent Python VOLTE/SMS feature calculations and tests. |
 | `services/streaming-support` | Shared validation and Kafka readiness library. |
 | `contracts` | JSON schemas, topology, fixtures and the incident API specification. |
 | `docs` | Technical references and runbooks. |
 | `infra` | Local infrastructure configuration and database initialization. |
-| `apps` | Dashboard placeholder. |
+| `apps/dashboard` | Login, service overview, KPI history and incident investigation screens. |
 
 ## Local Development
 
@@ -68,8 +74,9 @@ Host/IntelliJ startup is also supported. See the [local development runbook](doc
   counter relationships. Finite batch checks detect duplicates and conflicts.
 - The event generator creates deterministic payloads from a seeded fixture profile
   and supports a JSON preview that exits after generation.
-- The processor provides a Java input validator; it has no HTTP ingestion endpoint
-  or Kafka listener.
+- `bash scripts/voice-scenario <UTC-start>` publishes an eight-minute voice scenario.
+- The processor consumes Kafka observations, finalizes windows, and publishes
+  KPIs and ordered episode evidence through a durable delivery table.
 - Both services expose health, liveness and Kafka-dependent readiness probes.
 - Python and Java tests cover contracts, generation and probe behavior.
 

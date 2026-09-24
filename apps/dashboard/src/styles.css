@@ -1,5 +1,25 @@
 @import "./branding/tokens.css";
 
+.time-filter { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; }
+.time-filter label { display: grid; gap: 8px; font-size: 14px; }
+.time-filter input { font: inherit; padding: 10px; background: var(--telecom-surface); color: var(--telecom-text); border: 1px solid var(--telecom-field-border); border-radius: var(--telecom-border-radius); max-width: 100%; }
+.chart-scroll { overflow-x: auto; max-width: 100%; }
+.chart-scroll svg { display: block; width: 100%; min-width: 640px; }
+.chart-scroll svg text { font: 14px Arial, sans-serif; fill: var(--telecom-muted-text); }
+.chart-grid { stroke: var(--telecom-border); }
+.actual-line { stroke: var(--telecom-primary); stroke-width: 3; fill: none; }
+.actual-dot { fill: var(--telecom-primary); }
+.expected-line { stroke: #6652a0; stroke-width: 2; stroke-dasharray: 7 5; fill: none; }
+.incident-band { fill: #bf8832; opacity: .13; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 24px; color: var(--telecom-primary); font-size: 14px; }
+.expected-key { color: #6652a0; }
+.kpi-table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 14px; margin-top: 16px; }
+.kpi-table th, .kpi-table td { text-align: left; padding: 12px; border-bottom: 1px solid var(--telecom-border); }
+.kpi-table caption { text-align: left; padding: 12px; color: var(--telecom-muted-text); }
+summary { cursor: pointer; padding: 12px 0; color: var(--telecom-primary); font-weight: bold; }
+.episode-card { border-top: 1px solid var(--telecom-border); padding: 18px 0; }
+.episode-card dd { font-size: 16px; }
+
 :root {
   font-family: var(--telecom-font-family);
   color: var(--telecom-text);

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 import type { components, operations } from "./schema";
-import { SessionStore } from "../../features/session/session.store";
+import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
 
 export type ServiceSummary = components["schemas"]["ServiceSummary"];
@@ -44,7 +44,16 @@ export class TelecomClient {
     return this.request<ServiceSummary[]>("GET", "/api/services");
   }
 
-  listIncidents(query: IncidentQuery = {}) {
+  async listIncidents(query: IncidentQuery = {}) {
+    if (dataSource.fixture) {
+      const { voiceIncidents } = await dataSource.loadVoice();
+      const items = voiceIncidents.filter(item => (!query.scopeId || item.scopeId === query.scopeId)
+        && (!query.service || item.service === query.service)
+        && (!query.status || item.status === query.status)
+        && (!query.technicalState || item.technicalState === query.technicalState));
+      const page = query.page ?? 0, size = query.size ?? 100;
+      return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size };
+    }
     return this.request<components["schemas"]["IncidentPage"]>(
       "GET",
       "/api/incidents",
@@ -53,14 +62,35 @@ export class TelecomClient {
     );
   }
 
-  getIncident(id: string) {
+  async getIncident(id: string) {
+    if (dataSource.fixture) {
+      const incident = (await dataSource.loadVoice()).voiceIncidents.find(item => item.id === id);
+      if (!incident) throw new ApiFailure(404);
+      return structuredClone(incident);
+    }
     return this.request<Incident>(
       "GET",
       `/api/incidents/${encodeURIComponent(id)}`,
     );
   }
 
-  getServiceKpis(scopeId: string, query: KpiQuery) {
+  async getDetections(id: string, page = 0) {
+    if (dataSource.fixture) {
+      const incident = await this.getIncident(id);
+      return { items: page === 0 ? [incident.latestDetection] : [], total: 1, page, size: 100 };
+    }
+    return this.request<components['schemas']['DetectionPage']>('GET',
+      `/api/incidents/${encodeURIComponent(id)}/detections`, undefined, { page, size: 100 });
+  }
+
+  async getServiceKpis(scopeId: string, query: KpiQuery) {
+    if (dataSource.fixture) {
+      const { voiceWindows, voiceRange } = await dataSource.loadVoice();
+      const items = voiceWindows.filter(item => item.scopeId === scopeId
+        && Date.parse(item.windowStart) >= Date.parse(query.from) && Date.parse(item.windowStart) < Date.parse(query.to));
+      const page = query.page ?? 0, size = query.size ?? 100;
+      return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size, observedAt: voiceRange.to };
+    }
     return this.request<components["schemas"]["ServiceKpiPage"]>(
       "GET",
       `/api/services/${encodeURIComponent(scopeId)}/kpis`,

@@ -54,9 +54,9 @@ export class ServiceStore {
 
   healthExplanation(health: ServiceHealth): string {
     return {
-      NORMAL: "The latest fixture observation is within its expected baseline.",
+      NORMAL: "The latest observation is within its expected baseline.",
       DEGRADED:
-        "The latest fixture observation is outside its expected baseline. Review the evidence.",
+        "The latest observation is outside its expected baseline. Review the evidence.",
       STALE:
         "The last observation is stale. Current service health cannot be confirmed.",
       UNKNOWN:

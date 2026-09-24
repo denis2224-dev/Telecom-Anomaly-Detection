@@ -5,6 +5,10 @@ spring:
     name: event-generator
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
     admin:
       auto-create: false
 management:

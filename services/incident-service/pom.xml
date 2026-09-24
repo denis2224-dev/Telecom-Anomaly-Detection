@@ -150,6 +150,7 @@
 				<includes>
 					<include>detections/service-detection-v2.schema.json</include>
 					<include>features/service-feature-window-v2.schema.json</include>
+					<include>topology/demo-scopes-v2.json</include>
 				</includes>
 			</resource>
 		</resources>

@@ -22,6 +22,20 @@ class ServiceControllerTest extends IncidentServiceIntegrationTestSupport {
     MockMvc mvc;
 
     @Test
+    void overviewIsProtectedAndUsesConfiguredScopesWithoutInventingMeasurements() throws Exception {
+        mvc.perform(get("/api/services")).andExpect(status().isUnauthorized());
+        mvc.perform(authenticatedGet("/api/services"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].scope.scopeId").value("VOLTE-MD-CENTRAL"))
+                .andExpect(jsonPath("$[0].scope.partner").value("Synthetic demo"))
+                .andExpect(jsonPath("$[0].freshness").value("MISSING"))
+                .andExpect(jsonPath("$[0].latestWindow").value((Object)null))
+                .andExpect(jsonPath("$[0].openIncidents").value(0))
+                .andExpect(jsonPath("$[0].observedAt").isNotEmpty());
+    }
+
+    @Test
     void validHalfOpenUtcRangeReturnsAscendingWindows() throws Exception {
         insertWindow("minute-2", START.plusSeconds(120), "baseline-v2",
                 "COMPLETE", "2", Instant.parse("2026-09-15T11:02:00Z"));
