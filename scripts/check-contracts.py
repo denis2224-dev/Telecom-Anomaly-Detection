@@ -13,7 +13,7 @@ def validate_detection_contracts():
         ('baselines/baseline-catalogue-v2.schema.json', ['baselines/demo-baseline-v2.json']),
         ('features/service-feature-window-v2.schema.json',
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/features').glob('*.json')
-          if p.name not in ('parity-v2.json', 'voice-parity-v2.json')]),
+          if p.name not in ('parity-v2.json', 'voice-parity-v2.json', 'sms-parity-v2.json')]),
         ('detections/service-detection-v2.schema.json',
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/detections').glob('*.json')]),
     ]
@@ -35,6 +35,10 @@ def validate_detection_contracts():
     parity = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(parity)
     print(f'PASS: {len(parity.reference_cases())} voice parity cases with unchanged shared expectations')
+    spec_sms = importlib.util.spec_from_file_location('sms_parity', ROOT / 'scripts/check-sms-parity.py')
+    sms_parity = importlib.util.module_from_spec(spec_sms)
+    spec_sms.loader.exec_module(sms_parity)
+    print(f'PASS: {len(sms_parity.reference_cases())} SMS parity cases with unchanged shared expectations')
 
 
 def main():
