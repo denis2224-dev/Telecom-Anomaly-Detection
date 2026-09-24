@@ -3,12 +3,13 @@ package md.utm.telecom.processing.topology;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class EvidenceJoiner {
+    private static final Logger LOG = LoggerFactory.getLogger(EvidenceJoiner.class);
 
     public enum IgnoreReason {
         NOT_NODE,
@@ -39,18 +41,15 @@ public class EvidenceJoiner {
             String nodeId,
             String sourceId,
             String eventId,
-            JsonNode metrics,
-            Map<String, Number> measurements
+            JsonNode metrics
     ) implements Comparable<JoinedNode> {
-        public JoinedNode {
-            measurements = Collections.unmodifiableMap(new LinkedHashMap<>(measurements));
-        }
-
         @Override
         public int compareTo(JoinedNode o) {
             int c = nodeId.compareTo(o.nodeId);
             if (c != 0) return c;
-            return sourceId.compareTo(o.sourceId);
+            c = sourceId.compareTo(o.sourceId);
+            if (c != 0) return c;
+            return Comparator.nullsFirst(String::compareTo).compare(eventId, o.eventId);
         }
     }
 
@@ -71,10 +70,6 @@ public class EvidenceJoiner {
             return accepted.stream().filter(n -> n.nodeId().equals(nodeId)).findFirst().orElse(null);
         }
 
-        public Number getMeasurement(String nodeId, String metricName) {
-            var node = getNode(nodeId);
-            return node == null ? null : node.measurements().get(metricName);
-        }
     }
 
     private final ScopeRegistry scopes;
@@ -86,7 +81,8 @@ public class EvidenceJoiner {
     /**
      * Joins candidate node observations for the given service interval and scope.
      * Only approved topology dependencies with matching scope, exact window bounds,
-     * COMPLETE quality, and usable measurements are accepted.
+     * COMPLETE quality, and a numeric measurement are accepted. Feature builders
+     * decide which canonical observation measurements their service needs.
      */
     public JoinResult join(String scopeId, Instant windowStart, Instant windowEnd, List<JsonNode> candidates) {
         Objects.requireNonNull(scopeId, "scopeId");
@@ -147,51 +143,38 @@ public class EvidenceJoiner {
             }
 
             JsonNode metrics = node.path("metrics");
-            Map<String, Number> extracted = extractRoleMetrics(nodeId, metrics);
-            if (extracted == null || extracted.isEmpty()) {
+            if (!hasNumericMeasurement(metrics)) {
                 ignored.add(new IgnoredEvidence(eventId, nodeId, sourceId, IgnoreReason.MEASUREMENT_MISSING,
-                        "Required measurement missing for node role " + nodeId));
+                        "NODE has no numeric measurement"));
                 continue;
             }
 
-            accepted.add(new JoinedNode(nodeId, sourceId, eventId, metrics, extracted));
+            accepted.add(new JoinedNode(nodeId, sourceId, eventId, metrics));
         }
 
         accepted.sort(Comparator.naturalOrder());
+        ignored.sort(Comparator.comparing((IgnoredEvidence e) -> e.reason().name())
+                .thenComparing(e -> e.nodeId(), Comparator.nullsFirst(String::compareTo))
+                .thenComparing(e -> e.sourceId(), Comparator.nullsFirst(String::compareTo))
+                .thenComparing(e -> e.eventId(), Comparator.nullsFirst(String::compareTo)));
+        reportIgnored(scopeId, windowStart, ignored);
         return new JoinResult(accepted, ignored);
     }
 
-    private static Map<String, Number> extractRoleMetrics(String nodeId, JsonNode metrics) {
-        if (metrics == null || !metrics.isObject()) return null;
-        var map = new LinkedHashMap<String, Number>();
-        switch (nodeId) {
-            case "IMS-A" -> {
-                Number cpu = metric(metrics, "cpuPct");
-                if (cpu != null) map.put("cpuPct", cpu);
-            }
-            case "TRANSPORT-A" -> {
-                Number loss = metric(metrics, "packetLossRatio");
-                if (loss != null) map.put("packetLossRatio", loss);
-            }
-            case "SMSC-A" -> {
-                Number queue = metric(metrics, "queueDepth");
-                Number age = metric(metrics, "oldestPendingAgeSec");
-                if (queue != null) map.put("queueDepth", queue);
-                if (age != null) map.put("oldestPendingAgeSec", age);
-            }
-            default -> {
-                // For any other approved topology nodes, capture all present numeric metrics
-                metrics.fieldNames().forEachRemaining(f -> {
-                    Number val = metric(metrics, f);
-                    if (val != null) map.put(f, val);
-                });
-            }
+    private static boolean hasNumericMeasurement(JsonNode metrics) {
+        if (metrics == null || !metrics.isObject()) return false;
+        var values = metrics.elements();
+        while (values.hasNext()) {
+            if (values.next().isNumber()) return true;
         }
-        return map.isEmpty() ? null : map;
+        return false;
     }
 
-    private static Number metric(JsonNode metrics, String name) {
-        var value = metrics.get(name);
-        return (value == null || value.isNull() || !value.isNumber()) ? null : value.numberValue();
+    /** Safe, bounded production observability: never log event IDs or payload contents. */
+    private static void reportIgnored(String scopeId, Instant windowStart, List<IgnoredEvidence> ignored) {
+        if (ignored.isEmpty()) return;
+        Map<IgnoreReason, Integer> counts = new EnumMap<>(IgnoreReason.class);
+        ignored.forEach(e -> counts.merge(e.reason(), 1, Integer::sum));
+        LOG.info("Ignored NODE evidence: scopeId={} windowStart={} reasons={}", scopeId, windowStart, counts);
     }
 }

@@ -22,12 +22,15 @@ public class IngestionService {
     private final PayloadCodec codec;
     private final JdbcTemplate jdbc;
     private final Clock clock;
+    private final WindowDecisionLock decisionLock;
 
-    public IngestionService(ObservationInput input, PayloadCodec codec, JdbcTemplate jdbc, Clock clock) {
+    public IngestionService(ObservationInput input, PayloadCodec codec, JdbcTemplate jdbc, Clock clock,
+                            WindowDecisionLock decisionLock) {
         this.input = input;
         this.codec = codec;
         this.jdbc = jdbc;
         this.clock = clock;
+        this.decisionLock = decisionLock;
     }
 
     // READ_COMMITTED gives the conflict lookup a new snapshot after ON CONFLICT waits
@@ -61,6 +64,7 @@ public class IngestionService {
         Timestamp end = timestamp(event, "windowEnd");
         Timestamp emitted = timestamp(event, "emittedAt");
         Timestamp now = Timestamp.from(clock.instant());
+        decisionLock.acquire(scope, start.toInstant());
         int inserted = jdbc.update("""
                 INSERT INTO app.observation_receipt
                     (event_id, source_id, scope_id, kind, window_start, window_end, emitted_at,

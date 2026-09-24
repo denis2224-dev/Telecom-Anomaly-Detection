@@ -68,13 +68,12 @@ public final class VoiceFeatureBuilder {
         sources.add(service.required("eventId").asText());
 
         var joinResult = joiner.join(scope, start, end, nodes);
-        Number cpu = joinResult.getMeasurement("IMS-A", "cpuPct");
-        Number loss = joinResult.getMeasurement("TRANSPORT-A", "packetLossRatio");
-        for (var joined : joinResult.accepted()) {
-            if (joined.eventId() != null) {
-                sources.add(joined.eventId());
-            }
-        }
+        var ims = joinResult.getNode("IMS-A");
+        var transport = joinResult.getNode("TRANSPORT-A");
+        Number cpu = ims == null ? null : metric(ims.metrics(), "cpuPct");
+        Number loss = transport == null ? null : metric(transport.metrics(), "packetLossRatio");
+        if (cpu != null && ims.eventId() != null) sources.add(ims.eventId());
+        if (loss != null && transport.eventId() != null) sources.add(transport.eventId());
         JsonNode m = service.path("quality").asText().equals("COMPLETE") ? service.path("metrics") : mapper.createObjectNode();
         Long eligible = m.has("attempts") ? m.get("attempts").longValue() - m.required("userOutcomes").longValue() : null;
         var kpis = mapper.createArrayNode();

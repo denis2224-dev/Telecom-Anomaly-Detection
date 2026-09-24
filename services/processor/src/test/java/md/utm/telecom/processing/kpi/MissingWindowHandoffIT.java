@@ -24,6 +24,7 @@ import md.utm.telecom.processing.ingestion.IngestionService;
 import md.utm.telecom.processing.ingestion.ObservationDelivery;
 import md.utm.telecom.processing.ingestion.PayloadCodec;
 import md.utm.telecom.processing.ingestion.SourceFreshness;
+import md.utm.telecom.processing.ingestion.WindowDecisionLock;
 import md.utm.telecom.processing.topology.EvidenceJoiner;
 import md.utm.telecom.processing.topology.ScopeRegistry;
 import org.flywaydb.core.Flyway;
@@ -38,10 +39,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(MissingWindowHandoffIT.Config.class)
+@TestPropertySource(properties = "telecom.finalization.poll-interval=3600000")
 class MissingWindowHandoffIT {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -61,7 +64,7 @@ class MissingWindowHandoffIT {
     @EnableTransactionManagement
     @Import({WindowFinalizer.class, WindowFinalizationScheduler.class, VoiceFeatureBuilder.class,
             BaselineRegistry.class, ScopeRegistry.class, PayloadCodec.class, IngestionService.class,
-            ObservationInput.class, EvidenceJoiner.class, SourceFreshness.class,
+            ObservationInput.class, EvidenceJoiner.class, SourceFreshness.class, WindowDecisionLock.class,
             DetectionPolicy.class, VoiceEpisode.class, VoiceSetupRule.class, VoiceDeliveryService.class})
     static class Config {
         @Bean DataSource dataSource() {
@@ -142,13 +145,13 @@ class MissingWindowHandoffIT {
                 .put("windowStart", gapStart.toString())
                 .put("windowEnd", gapEnd.toString())
                 .put("emittedAt", gapEnd.toString());
+        clock.now = gapEnd.plusSeconds(15);
         ingest(heartbeat);
 
         // Prove activity freshness is FRESH, but interval coverage is MISSING once lateness passes
         assertEquals(SourceFreshness.ActivityFreshness.FRESH, freshness.activityFreshness(SCOPE, "VOLTE-ADAPTER"));
 
-        // Advance clock beyond windowEnd + allowedLatenessSec (gapEnd + 15s)
-        clock.now = gapEnd.plusSeconds(15);
+        // The clock is after emittedAt and beyond the lateness deadline.
         assertEquals(SourceFreshness.IntervalCoverage.MISSING, freshness.intervalCoverage(SCOPE, "VOLTE-ADAPTER", gapStart, gapEnd));
 
         // Step 3: Run the real missing-window finalization via scheduler
@@ -205,5 +208,22 @@ class MissingWindowHandoffIT {
                 "SELECT count(DISTINCT kafka_key) FROM app.voice_delivery WHERE topic='telecom.detections.v2'",
                 Integer.class);
         assertEquals(1, distinctEpisodes, "Exactly one episode must exist");
+
+        // A repeated poll/evaluation must reuse the persisted feature and episode identity.
+        String windowId = missingFeature.get("windowId").asText();
+        scheduler.poll();
+        delivery.evaluate(SCOPE);
+        assertEquals(1L, jdbc.queryForObject("SELECT count(*) FROM app.feature_outbox WHERE scope_id=? AND window_start=?",
+                Long.class, SCOPE, java.sql.Timestamp.from(gapStart)));
+        assertEquals(windowId, jdbc.queryForObject("SELECT window_id FROM app.feature_outbox WHERE scope_id=? AND window_start=?",
+                String.class, SCOPE, java.sql.Timestamp.from(gapStart)));
+        assertEquals(1L, jdbc.queryForObject("""
+                SELECT count(*) FROM app.voice_delivery
+                WHERE topic='telecom.detections.v2' AND payload->>'windowStart'=?
+                """, Long.class, gapStart.toString()));
+        assertEquals(episodeId, jdbc.queryForObject("""
+                SELECT payload->>'episodeId' FROM app.voice_delivery
+                WHERE topic='telecom.detections.v2' AND payload->>'windowStart'=?
+                """, String.class, gapStart.toString()));
     }
 }

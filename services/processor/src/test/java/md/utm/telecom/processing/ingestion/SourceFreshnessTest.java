@@ -55,7 +55,7 @@ class SourceFreshnessTest {
     @Configuration(proxyBeanMethods = false)
     @EnableTransactionManagement
     @Import({IngestionService.class, SourceFreshness.class, ScopeRegistry.class,
-            PayloadCodec.class, ObservationInput.class, DetectionPolicy.class})
+            PayloadCodec.class, ObservationInput.class, DetectionPolicy.class, WindowDecisionLock.class})
     static class Config {
         @Bean DataSource dataSource() {
             Flyway.configure().dataSource(PostgresFixture.url("processing_db"), "processing_migrator", "test-migrator")
@@ -129,6 +129,7 @@ class SourceFreshnessTest {
     @Test
     void heartbeatAloneDoesNotMakeExpectedIntervalCoverageComplete() throws Exception {
         var heartbeat = fixture("heartbeat");
+        clock.now = END.plusSeconds(5);
         ingest(heartbeat);
 
         // Even though heartbeat proves recent source activity:
@@ -136,7 +137,7 @@ class SourceFreshnessTest {
 
         // It does NOT satisfy SERVICE/NODE interval coverage for that minute:
         clock.now = END.plusSeconds(5); // Before allowed lateness
-        assertEquals(SourceFreshness.IntervalCoverage.INCOMPLETE, freshness.intervalCoverage(SCOPE, SOURCE, START, END));
+        assertEquals(SourceFreshness.IntervalCoverage.PENDING, freshness.intervalCoverage(SCOPE, SOURCE, START, END));
 
         clock.now = END.plusSeconds(15); // After allowed lateness (10s)
         assertEquals(SourceFreshness.IntervalCoverage.MISSING, freshness.intervalCoverage(SCOPE, SOURCE, START, END));
@@ -160,8 +161,35 @@ class SourceFreshnessTest {
         ingest(event);
 
         // 91 seconds after emittedAt is beyond threshold (age > 90s)
-        clock.now = emitted.plusSeconds(91);
+        clock.now = emitted.plusMillis(90_001);
         assertEquals(SourceFreshness.ActivityFreshness.STALE, freshness.activityFreshness(SCOPE, SOURCE));
+    }
+
+    @Test
+    void futureEmissionCannotProveCurrentActivity() throws Exception {
+        var event = fixture("heartbeat");
+        clock.now = Instant.parse(event.get("emittedAt").asText()).minusMillis(1);
+        ingest(event);
+        assertEquals(SourceFreshness.ActivityFreshness.STALE, freshness.activityFreshness(SCOPE, SOURCE));
+    }
+
+    @Test
+    void observedIncompleteDiffersFromPendingAbsence() throws Exception {
+        var event = fixture("normal-volte").put("quality", "INCOMPLETE");
+        clock.now = END.plusSeconds(5);
+        ingest(event);
+        assertEquals(SourceFreshness.IntervalCoverage.INCOMPLETE,
+                freshness.intervalCoverage(SCOPE, SOURCE, START, END));
+    }
+
+    @Test
+    void explicitlyReportedMissingDiffersFromAbsentReceipt() throws Exception {
+        var event = fixture("normal-volte").put("quality", "MISSING");
+        event.remove("metrics");
+        clock.now = END.plusSeconds(15);
+        ingest(event);
+        assertEquals(SourceFreshness.IntervalCoverage.REPORTED_MISSING,
+                freshness.intervalCoverage(SCOPE, SOURCE, START, END));
     }
 
     @Test
@@ -193,6 +221,6 @@ class SourceFreshnessTest {
     void beforeEndPlusAllowedLatenessMustNotPrematurelyMarkMissing() {
         // Before 08:01:10Z, absence is not yet declared MISSING
         clock.now = END.plusSeconds(9);
-        assertEquals(SourceFreshness.IntervalCoverage.INCOMPLETE, freshness.intervalCoverage(SCOPE, SOURCE, START, END));
+        assertEquals(SourceFreshness.IntervalCoverage.PENDING, freshness.intervalCoverage(SCOPE, SOURCE, START, END));
     }
 }

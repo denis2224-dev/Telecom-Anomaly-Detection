@@ -1,9 +1,11 @@
 # Day 08 Evidence — Streaming, Source Freshness & Evidence Joining
 
-- **Date:** Thursday, 24 September 2026
+- **Initial implementation:** Thursday, 24 September 2026
+- **Corrective verification:** Friday, 25 September 2026
 - **Owner:** Ion Zavtoni (Streaming, simulator and service KPI processing)
 - **Branch:** `feature/source-freshness-evidence`
-- **Base `origin/main` SHA:** `45e209d72ec8e98ed2d983eaac3f9f223fd757e8` (Day 07 PR #13 merged)
+- **Original Day 08 parent SHA:** `45e209d72ec8e98ed2d983eaac3f9f223fd757e8` (Day 07 PR #13 merged)
+- **`origin/main` at corrective fetch:** `116035d6020fb383bc59905f034154fdbf5f3daa`
 - **Topology Version:** `contracts/topology/demo-scopes-v2.json`
 - **Ruleset Version:** `contracts/policies/service-rules-v2.json`
 
@@ -16,7 +18,7 @@
 | `windowSec` | `service-rules-v2.json` | 60 s | Observation window duration `[start, end)` |
 | `heartbeatIntervalSec` | `service-rules-v2.json` | 10 s | Expected heartbeat emission cadence |
 | `staleAfterSec` | `service-rules-v2.json` | 90 s | Threshold after which source activity is `STALE` |
-| `allowedLatenessSec` | `service-rules-v2.json` | 10 s | Ingestion & finalization buffer (`end + 10s`) |
+| `allowedLatenessSec` | `DetectionPolicy` loading `service-rules-v2.json` | 10 s | Finalization deadline (`end + allowedLatenessSec`); ingestion can accept later observations |
 
 ---
 
@@ -25,12 +27,12 @@
 ### A. EvidenceJoiner (`md.utm.telecom.processing.topology.EvidenceJoiner`)
 - Boundary for selecting `NODE` telemetry that may contribute to a service window.
 - **Criteria for Acceptance:**
-  1. `kind == Kind.NODE`
+  1. `kind == NODE`
   2. `scopeId` matches service scope exactly
   3. `windowStart` and `windowEnd` match service window exactly
   4. Node/source is an approved dependency in `ScopeRegistry` / `TopologyCatalog`
-  5. Telemetry quality is eligible (`OK` or `DEGRADED`; `INCOMPLETE` / `MISSING` rejected)
-  6. Requested measurement actually exists and is non-null
+  5. Telemetry quality is `COMPLETE`; `INCOMPLETE` and `MISSING` are ineligible
+  6. At least one numeric NODE measurement exists; the VoLTE builder chooses `cpuPct` and `packetLossRatio`
 - **Typed Ignore/Rejection Reasons:**
   - `NOT_NODE`
   - `WRONG_SCOPE`
@@ -39,33 +41,36 @@
   - `QUALITY_INELIGIBLE`
   - `MEASUREMENT_MISSING`
 - **Provenance & Determinism:**
-  - Valid node `sourceEventId`s preserved for provenance.
-  - Nodes deterministically sorted by `sourceId`, then `sourceEventId`.
+  - Observations contain `eventId`; contributing real IDs appear in feature `sourceEventIds`.
+  - Accepted nodes sort by `nodeId`, `sourceId`, then `eventId`; ignored results also sort deterministically.
 - **Production Integration:**
-  - Directly called by `VoiceFeatureBuilder.java`.
+  - Called by `VoiceFeatureBuilder.java`. The joiner logs bounded counts by scope, window and `IgnoreReason`, without event IDs or payloads.
+  - VoLTE measurement extraction stays in `VoiceFeatureBuilder`; `EvidenceJoiner` does not construct SMS features. A canonical SMSC-A `oldestPendingAgeSeconds` remains in accepted NODE metrics.
 
 ### B. SourceFreshness (`md.utm.telecom.processing.ingestion.SourceFreshness`)
 - Decouples **activity freshness** from **interval evidence coverage**:
   - `ActivityFreshness`: `FRESH`, `STALE`, `NEVER_SEEN`. Derived from durable `source_state.latest_emitted_at` against injected `Clock`.
-  - `IntervalCoverage`: `COMPLETE`, `INCOMPLETE`, `MISSING`. Heartbeat proves source liveness, but does **not** satisfy service/node interval coverage.
+  - `IntervalCoverage`: observed `COMPLETE`, `INCOMPLETE`, `REPORTED_MISSING`; absent `PENDING` before deadline or `MISSING` after deadline. Heartbeat does **not** satisfy SERVICE/NODE coverage.
 - **Clock & Monotonicity:**
-  - Prevents replay of historical events from moving freshness forward.
-  - Stale boundary: age `<= staleAfterSec (90s)` is `FRESH`, `> 90s` is `STALE`.
+  - `IngestionService` owns durable `source_state` monotonic updates; `SourceFreshness` reads that state.
+  - Precise age `<= staleAfterSec (90s)` is `FRESH`; 90.001s is `STALE`. A future `latest_emitted_at` is classified `STALE` rather than accepted as fresh activity.
 - **Expected Gap Derivation:**
-  - Bounded lookup in `findExpectedGaps`: anchors on existing activity in `source_state` to prevent unbounded historical backfill from the beginning of time.
+  - Read-only indexed adjacency query finds missing minutes after known buckets, including T0/T1/T2 internal holes and forward gaps. At most the requested number of anchors and intervals are returned; no timeline begins at epoch or before a known bucket.
 - **Production Integration:**
-  - Injected into `WindowFinalizer.java` and polled by `WindowFinalizationScheduler.java`.
+  - `WindowFinalizer` calls gap discovery, interval coverage for its missing decision, and activity freshness for bounded source-activity logging. Activity and coverage do not gate each other.
 
 ### C. Missing Window Closure & Voice UNKNOWN Handoff
 - When an expected `SERVICE` window is due (`clock.instant() >= windowEnd + allowedLatenessSec`) with no observation:
+  - `WindowDecisionLock` serializes ingestion and both finalizers by scope/window through a PostgreSQL transaction advisory lock. Ingestion locks before inserting a receipt. Missing finalization locks, checks for real SERVICE, and returns `SERVICE_PRESENT` for normal finalization when one exists.
+  - Gap discovery creates no rows. Missing finalization creates a bucket with `accepted_input_count = 0` in the same transaction as feature insertion and finalization; failures roll all three back. V004 permits truthful zero counts without changing V001.
   - `WindowFinalizer.finalizeMissingWindow()` builds a `quality = MISSING` window via `VoiceFeatureBuilder.buildMissing()`.
   - No synthetic/healthy measurements (`cpuPct`, `packetLossRatio`, etc.) are manufactured (all observed KPIs `null`).
   - No fake source event ID is fabricated (`sourceEventIds = []`).
   - `mlEligible = false`, `featureNames = []`, `featureValues = []`.
   - Validates against `ServiceFeatureWindowV2`.
   - Stored to `feature_outbox` and delivered via `VoiceDeliveryService` to `VoiceEpisode`.
-  - Ineligible `MISSING` window transitions active episode to `UNKNOWN` phase.
-  - Resets healthy recovery counter; cannot trigger `RECOVERY`; maintains single episode.
+  - An existing active voice episode transitions to `UNKNOWN`; without an active episode, no UNKNOWN detection is emitted.
+  - The gap resets the healthy recovery counter, cannot trigger `RECOVERY`, and does not create a second episode. Repeated polling/evaluation preserves IDs and produces no duplicate output.
 
 ---
 
@@ -73,24 +78,23 @@
 
 | Verification Step | Command | Status | Result / Counts |
 |---|---|---|---|
-| EvidenceJoiner Unit Tests | `mvn test -Dtest=EvidenceJoinerTest` | **PASS** | 9 tests run, 0 failures, 0 errors (0.35s) |
-| SourceFreshness Unit Tests | `mvn test -Dtest=SourceFreshnessTest` | **PASS** | 10 tests run, 0 failures, 0 errors (2.07s) |
-| WindowFinalizer Unit Tests | `mvn test -Dtest=WindowFinalizerTest` | **PASS** | 15 tests run, 0 failures, 0 errors (1.85s) |
-| Integration Acceptance Test | `mvn test -Dtest=MissingWindowHandoffIT` | **PASS** | 1 test run, 0 failures, 0 errors (7.25s) |
-| Processor Full Test Suite | `.\mvnw.cmd test -pl services/processor` | **PASS** | 139 tests run, 0 failures, 0 errors (51.6s) |
+| Focused Day 08 set | Installed Maven 3.9.16: `test -pl services/processor -Dtest=EvidenceJoinerTest,SourceFreshnessTest,WindowFinalizerTest,MissingWindowHandoffIT,MissingWindowDecisionIT` | **PASS** | 11 joiner, 13 freshness, 16 finalizer, 1 handoff, 8 decision tests; 0 failures/errors |
+| Processor reactor | Installed Maven 3.9.16: `test -pl services/processor -am` | **PASS** | 152 processor + 58 streaming-support tests; 0 failures/errors |
+| Day 07 event-generator reactor | Installed Maven 3.9.16: `test -pl services/event-generator -am` | **PASS** | 16 event-generator + 58 streaming-support tests; 0 failures/errors |
+| Repository Windows wrapper | `.\mvnw.cmd test -pl services/processor -am` | **ENVIRONMENT FAILURE** | Wrapper PowerShell `icm`: `Cannot index into a null array`; installed Maven binary completed the equivalent build |
 | Contract & Parity Check | `.\.venv\Scripts\python.exe -B scripts/check-contracts.py` | **PASS** | All schemas valid, 7 voice parity cases PASS, 8 SMS parity cases PASS |
-| Python Contract Tests | `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v` | **PASS** | 16 tests run, 0 failures, 0 errors (0.72s) |
+| Python Contract Tests | `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v` | **PASS** | 16 tests run, 0 failures, 0 errors |
 | Whitespace & Git Diff Check | `git diff --check` | **PASS** | 0 errors |
 
 ---
 
 ## 4. Graphify Intelligence Audit
 
-- **Graph Rebuilt:** Yes (`2373 nodes, 5659 edges`).
+- **Graph rebuilt:** `graphify update . --no-cluster` with `PYTHONHASHSEED=0`; 2,757 stored nodes and 6,310 edges. The optional SQL parser was unavailable, so six SQL files contributed no graph nodes; migration behavior is covered by PostgreSQL integration tests.
 - **Production Caller Validation:**
   - `VoiceFeatureBuilder` imports and references `EvidenceJoiner`.
-  - `WindowFinalizer` imports, references, and injects `SourceFreshness`.
-  - Neither symbol is dead code.
+  - `WindowFinalizer` calls `SourceFreshness` and `WindowDecisionLock`; `IngestionService` also calls the lock. Graph reverse traversal locates lock calls in ingestion, normal finalization, and missing finalization.
+  - No new production component is dead code.
 - **Architectural Boundary Invariants:**
   - Single topology authority preserved: `ScopeRegistry` / `TopologyCatalog`.
   - Single policy authority preserved: `DetectionPolicy` reading `service-rules-v2.json`.
@@ -103,7 +107,7 @@
 
 ### For Denis (Backend / Incident Service):
 - When a source gap occurs, `feature_outbox` emits `quality = MISSING` windows with empty feature vectors and null observed metrics.
-- Downstream incident handling will observe episode transitions to `UNKNOWN` instead of false recovery or synthetic metrics.
+- An already-active episode can emit `UNKNOWN` on the gap; a gap alone does not open an episode.
 
 ### For David (Frontend / Dashboard UI):
 - The service overview and episode timeline should handle `MISSING` quality and `UNKNOWN` phase appropriately.

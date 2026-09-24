@@ -29,6 +29,8 @@ public class SourceFreshness {
     public enum IntervalCoverage {
         COMPLETE,
         INCOMPLETE,
+        REPORTED_MISSING,
+        PENDING,
         MISSING
     }
 
@@ -72,10 +74,11 @@ public class SourceFreshness {
 
         Instant latestEmittedAt = rows.getFirst();
         Instant now = clock.instant();
+        // A future event time cannot prove activity at the current clock instant.
+        if (latestEmittedAt.isAfter(now)) return ActivityFreshness.STALE;
         Duration age = Duration.between(latestEmittedAt, now);
 
-        int staleThresholdSec = policy.staleAfterSec();
-        if (age.getSeconds() <= staleThresholdSec) {
+        if (age.compareTo(Duration.ofSeconds(policy.staleAfterSec())) <= 0) {
             return ActivityFreshness.FRESH;
         } else {
             return ActivityFreshness.STALE;
@@ -87,9 +90,9 @@ public class SourceFreshness {
      * Heartbeat observations do NOT count toward interval coverage.
      *
      * Semantics:
-     * - Receipt exists: returns its quality (COMPLETE, INCOMPLETE, MISSING)
+     * - Receipt exists: returns COMPLETE, INCOMPLETE or REPORTED_MISSING
      * - No receipt exists and now >= windowEnd + allowedLatenessSec: MISSING
-     * - No receipt exists and now < windowEnd + allowedLatenessSec: INCOMPLETE (not prematurely MISSING)
+     * - No receipt exists before the deadline: PENDING, not an observed INCOMPLETE
      */
     public IntervalCoverage intervalCoverage(String scopeId, String sourceId, Instant windowStart, Instant windowEnd) {
         var rows = jdbc.query("""
@@ -104,8 +107,8 @@ public class SourceFreshness {
             return switch (quality) {
                 case "COMPLETE" -> IntervalCoverage.COMPLETE;
                 case "INCOMPLETE" -> IntervalCoverage.INCOMPLETE;
-                case "MISSING" -> IntervalCoverage.MISSING;
-                default -> IntervalCoverage.INCOMPLETE;
+                case "MISSING" -> IntervalCoverage.REPORTED_MISSING;
+                default -> throw new IllegalStateException("Invalid stored observation quality: " + quality);
             };
         }
 
@@ -115,64 +118,49 @@ public class SourceFreshness {
         if (!now.isBefore(latenessDeadline)) {
             return IntervalCoverage.MISSING;
         } else {
-            return IntervalCoverage.INCOMPLETE;
+            return IntervalCoverage.PENDING;
         }
     }
 
     /**
-     * Bounded gap discovery: finds expected 60-second intervals for which no observation
-     * bucket has been finalized or created, anchored by known processing history.
-     * Does NOT create unbounded backfill from epoch startup.
+     * Read-only discovery of holes after known buckets, including holes before later
+     * arrivals. An indexed adjacency query locates at most {@code limit} broken links;
+     * expansion returns at most {@code limit} due intervals, without an epoch scan.
      */
     public List<ExpectedGap> findExpectedGaps(String scopeId, int limit) {
         if (limit < 1 || limit > 1000) throw new IllegalArgumentException("limit must be 1..1000");
 
-        var maxBucket = jdbc.query("""
-                SELECT MAX(window_end) AS max_end FROM app.interval_bucket
-                WHERE scope_id = ?
-                """, (rs, rowNum) -> {
-            Timestamp ts = rs.getTimestamp("max_end");
-            return ts == null ? null : ts.toInstant();
-        }, scopeId);
-
-        Instant anchor = (maxBucket.isEmpty() || maxBucket.getFirst() == null) ? null : maxBucket.getFirst();
-
-        if (anchor == null) {
-            // Check source_state as secondary anchor if interval_bucket has no rows
-            var minState = jdbc.query("""
-                    SELECT MIN(latest_window_start) AS min_start FROM app.source_state
-                    WHERE scope_id = ?
-                    """, (rs, rowNum) -> {
-                Timestamp ts = rs.getTimestamp("min_start");
-                return ts == null ? null : ts.toInstant();
-            }, scopeId);
-            anchor = (minState.isEmpty() || minState.getFirst() == null) ? null : minState.getFirst();
-        }
-
-        // If no processing timeline exists for this scope, return empty to prevent startup backfill
-        if (anchor == null) {
-            return List.of();
-        }
-
+        scopes.requireScope(scopeId);
+        int windowSec = policy.windowSec();
         Instant dueLimit = clock.instant().minusSeconds(policy.allowedLatenessSec());
+        var anchors = jdbc.query("""
+                SELECT b.window_end AS gap_start,
+                    (SELECT MIN(later.window_start) FROM app.interval_bucket later
+                     WHERE later.scope_id=b.scope_id AND later.window_start>b.window_end) AS next_start
+                FROM app.interval_bucket b
+                WHERE b.scope_id=? AND b.window_end<=?
+                  AND NOT EXISTS (SELECT 1 FROM app.interval_bucket adjacent
+                      WHERE adjacent.scope_id=b.scope_id AND adjacent.window_start=b.window_end)
+                ORDER BY b.window_end LIMIT ?
+                """, (rs, row) -> new GapAnchor(
+                        rs.getTimestamp("gap_start").toInstant(),
+                        rs.getTimestamp("next_start") == null ? null : rs.getTimestamp("next_start").toInstant()),
+                scopeId, Timestamp.from(dueLimit.minusSeconds(windowSec)), limit);
         var gaps = new ArrayList<ExpectedGap>();
-        Instant current = anchor;
-
-        while (current.plusSeconds(60).compareTo(dueLimit) <= 0 && gaps.size() < limit) {
-            Instant next = current.plusSeconds(60);
-            Integer count = jdbc.queryForObject("""
-                    SELECT COUNT(*) FROM app.interval_bucket
-                    WHERE scope_id = ? AND window_start = ?
-                    """, Integer.class, scopeId, Timestamp.from(current));
-
-            if (count == null || count == 0) {
+        for (var anchor : anchors) {
+            Instant current = anchor.start();
+            while (gaps.size() < limit && !current.plusSeconds(windowSec).isAfter(dueLimit)
+                    && (anchor.nextKnownStart() == null || current.isBefore(anchor.nextKnownStart()))) {
+                Instant next = current.plusSeconds(windowSec);
                 gaps.add(new ExpectedGap(scopeId, current, next));
+                current = next;
             }
-            current = next;
+            if (gaps.size() == limit) break;
         }
-
         return gaps;
     }
+
+    private record GapAnchor(Instant start, Instant nextKnownStart) {}
 
     public int staleAfterSec() {
         return policy.staleAfterSec();

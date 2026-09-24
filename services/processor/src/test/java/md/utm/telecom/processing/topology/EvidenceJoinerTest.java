@@ -5,7 +5,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.observation.TopologyCatalog;
+import org.slf4j.LoggerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +58,7 @@ class EvidenceJoinerTest {
         assertEquals("IMS-A", joined.nodeId());
         assertEquals("IMS-A", joined.sourceId());
         assertEquals(ims.get("eventId").asText(), joined.eventId());
-        assertEquals(42.5, joined.measurements().get("cpuPct").doubleValue(), 0.0001);
+        assertEquals(42.5, joined.metrics().get("cpuPct").doubleValue(), 0.0001);
     }
 
     @Test
@@ -105,15 +109,43 @@ class EvidenceJoinerTest {
     }
 
     @Test
-    void missingRelevantMetricIsIgnoredAndNeverManufacturedAsZero() {
-        // IMS-A without cpuPct
+    void missingRelevantMetricRemainsAbsentForTheFeatureBuilder() {
         var noCpu = node(SCOPE, "IMS-A", "IMS-A", start, "COMPLETE", "otherMetric", 99.0);
         var result = joiner.join(SCOPE, start, end, List.of(noCpu));
 
-        assertTrue(result.accepted().isEmpty());
-        assertEquals(1, result.ignored().size());
-        assertEquals(EvidenceJoiner.IgnoreReason.MEASUREMENT_MISSING, result.ignored().getFirst().reason());
-        assertNull(result.getMeasurement("IMS-A", "cpuPct"));
+        assertEquals(1, result.accepted().size());
+        assertTrue(result.ignored().isEmpty());
+        assertNull(result.getNode("IMS-A").metrics().get("cpuPct"));
+    }
+
+    @Test
+    void noNumericMeasurementIsIgnoredWithAnObservableBoundedReason() {
+        var noMetric = node(SCOPE, "IMS-A", "IMS-A", start, "COMPLETE", null, null);
+        var logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(EvidenceJoiner.class);
+        var previousLevel = logger.getLevel();
+        logger.setLevel(ch.qos.logback.classic.Level.INFO);
+        var messages = new ListAppender<ILoggingEvent>();
+        messages.start();
+        logger.addAppender(messages);
+        try {
+            var result = joiner.join(SCOPE, start, end, List.of(noMetric));
+            assertEquals(EvidenceJoiner.IgnoreReason.MEASUREMENT_MISSING, result.ignored().getFirst().reason());
+            assertTrue(messages.list.stream().anyMatch(e -> e.getFormattedMessage().contains("MEASUREMENT_MISSING")));
+            assertTrue(messages.list.stream().noneMatch(e -> e.getFormattedMessage().contains(noMetric.get("eventId").asText())));
+        } finally {
+            logger.detachAppender(messages);
+            messages.stop();
+            logger.setLevel(previousLevel);
+        }
+    }
+
+    @Test
+    void canonicalSmsNodeKeepsObservationAgeWithoutFeatureExtraction() throws Exception {
+        var sms = ObservationValidator.resource("fixtures/observations/degraded-smsc.json", mapper);
+        var result = joiner.join("SMS-MD-ROUTE-A", start, end, List.of(sms));
+        assertEquals(1, result.accepted().size());
+        assertTrue(result.getNode("SMSC-A").metrics().get("oldestPendingAgeSeconds").isNumber());
+        assertNull(result.getNode("SMSC-A").metrics().get("oldestPendingAgeSec"));
     }
 
     @Test
