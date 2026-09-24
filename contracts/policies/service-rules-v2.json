@@ -11,7 +11,10 @@
     "dropPpStrictlyGreaterThan": 1.0,
     "recoveryDropPpAtMost": 0.5,
     "highExtraFailuresAtLeast": 50,
-    "criticalExtraFailuresAtLeast": 200
+    "criticalExtraFailuresAtLeast": 200,
+    "imsCapacityCpuPctAtLeast": 90,
+    "imsCapacitySip503CountAtLeast": 50,
+    "imsCapacityAccessSrDropPpAtMost": 0.5
   },
   "sms": {
     "minDeliveredSamples": 30,

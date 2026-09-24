@@ -40,7 +40,8 @@ test('G1 real login, generated voice episode, backend parity and exact replay', 
     })).replaceAll('"', '');
     if (!/^[0-9a-f-]{36}$/.test(userId)) throw new Error('Temporary user creation returned an unexpected ID.');
     admin(['add-roles', '-r', 'telecom', '--uid', userId, '--rolename', 'ANALYST']);
-    command('./scripts/provision-analyst', ['--username', username, '--display-name', 'G1 verification']);
+    command(process.platform === 'win32' ? 'python' : 'python3',
+      ['scripts/provision-analyst', '--username', username, '--display-name', 'G1 verification']);
     try {
       await page.goto('/login');
       await page.getByRole('button', { name: 'Continue to sign in', exact: true }).click();
@@ -70,6 +71,19 @@ test('G1 real login, generated voice episode, backend parity and exact replay', 
     expect(history.items[4].quality).toBe('MISSING');
     const updates = await (await context.request.get(`/api/incidents/${incident.id}/detections?size=100`)).json();
     expect(updates.items.map((item: any) => item.phase)).toEqual(['OPEN', 'UPDATE', 'UNKNOWN', 'UPDATE', 'UPDATE', 'RECOVERY']);
+    const opening = updates.items[0];
+    expect(opening.severity).toBe('HIGH');
+    expect(opening.mlStatus).toBe('INSUFFICIENT_DATA');
+    expect(opening.causeConfidence).toBe('MEDIUM');
+    expect(opening.probableCause).toContain('IMS capacity pressure');
+    const imsEvidence = opening.evidence.find((item: any) => item.code === 'IMS_CAPACITY_CORRELATION');
+    expect(imsEvidence).toBeDefined();
+    const sourceIds = sql('processing_db', `SELECT event_id FROM app.observation_receipt
+      WHERE scope_id='VOLTE-MD-CENTRAL' AND window_start='${opening.windowStart}'
+      AND (kind='SERVICE' OR (kind='NODE' AND payload->>'nodeId'='IMS-A')) ORDER BY event_id;`)
+      .split('\n').filter(Boolean);
+    expect(sourceIds).toHaveLength(2);
+    expect([...imsEvidence.sourceEventIds].sort()).toEqual(sourceIds);
     for (const detection of updates.items) {
       const window = history.items.find((item: any) => item.windowStart === detection.windowStart);
       expect(detection.kpis).toEqual(window.kpis);
