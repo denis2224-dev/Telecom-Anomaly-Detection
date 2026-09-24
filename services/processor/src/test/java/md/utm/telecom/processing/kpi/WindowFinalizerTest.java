@@ -24,8 +24,11 @@ import md.utm.telecom.processing.ObservationInput;
 import md.utm.telecom.processing.PostgresFixture;
 import md.utm.telecom.processing.baseline.BaselineRegistry;
 import md.utm.telecom.processing.ingestion.IngestionService;
+import md.utm.telecom.processing.detection.DetectionPolicy;
 import md.utm.telecom.processing.ingestion.ObservationDelivery;
 import md.utm.telecom.processing.ingestion.PayloadCodec;
+import md.utm.telecom.processing.ingestion.SourceFreshness;
+import md.utm.telecom.processing.topology.EvidenceJoiner;
 import md.utm.telecom.processing.topology.ScopeRegistry;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;
@@ -74,7 +77,8 @@ class WindowFinalizerTest {
     @Configuration(proxyBeanMethods = false)
     @EnableTransactionManagement
     @Import({WindowFinalizer.class, VoiceFeatureBuilder.class, BaselineRegistry.class, ScopeRegistry.class,
-            PayloadCodec.class, IngestionService.class, ObservationInput.class})
+            PayloadCodec.class, IngestionService.class, ObservationInput.class,
+            EvidenceJoiner.class, SourceFreshness.class, md.utm.telecom.processing.detection.DetectionPolicy.class})
     static class Config {
         @Bean DataSource dataSource() {
             Flyway.configure().dataSource(PostgresFixture.url("processing_db"), "processing_migrator", "test-migrator")
