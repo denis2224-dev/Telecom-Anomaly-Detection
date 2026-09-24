@@ -1,9 +1,11 @@
 .DS_Store
 .idea/
+.vscode/
 .env
 *.log
 docs/evidence/*/
 !docs/evidence/.gitkeep
+docs/runbooks/login-theme 2.md
 __pycache__/
 *.py[cod]
 .venv/
