@@ -118,6 +118,9 @@ class DetectionContractTests(unittest.TestCase):
         self.assertEqual(sp['recoveryDropPpAtMost'], vp['recoveryDropPpAtMost'])
         self.assertEqual(sp['highExtraFailuresAtLeast'], vp['highExtraFailuresAtLeast'])
         self.assertEqual(sp['criticalExtraFailuresAtLeast'], vp['criticalExtraFailuresAtLeast'])
+        self.assertEqual(sp['imsCapacityCpuPctAtLeast'], vp['imsCapacityCpuPctAtLeast'])
+        self.assertEqual(sp['imsCapacitySip503CountAtLeast'], vp['imsCapacitySip503CountAtLeast'])
+        self.assertEqual(sp['imsCapacityAccessSrDropPpAtMost'], vp['imsCapacityAccessSrDropPpAtMost'])
         self.assertEqual(sp['openAfterBreachedWindows'], policy_contract['openAfterBreachedWindows'])
         self.assertEqual(sp['recoverAfterHealthyWindows'], policy_contract['recoverAfterHealthyWindows'])
 

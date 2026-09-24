@@ -57,7 +57,10 @@
     "openAfterBreachedWindows": 2,
     "recoverAfterHealthyWindows": 3,
     "highExtraFailuresAtLeast": 50,
-    "criticalExtraFailuresAtLeast": 200
+    "criticalExtraFailuresAtLeast": 200,
+    "imsCapacityCpuPctAtLeast": 90,
+    "imsCapacitySip503CountAtLeast": 50,
+    "imsCapacityAccessSrDropPpAtMost": 0.5
   },
   "windows": [
     {
