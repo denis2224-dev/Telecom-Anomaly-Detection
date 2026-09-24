@@ -1,0 +1,10 @@
+package md.utm.telecom.incidents.controller;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import java.util.UUID;
+
+public record AssignmentRequest(
+        @NotNull UUID analystId,
+        @NotNull @PositiveOrZero Long version
+) {}
