@@ -1,8 +1,10 @@
 package md.utm.telecom.incidents.controller;
 
 import jakarta.persistence.criteria.Predicate;
+import jakarta.validation.Valid;
 import md.utm.telecom.evidence.model.DetectionEvidence;
 import md.utm.telecom.evidence.repository.DetectionEvidenceRepository;
+import md.utm.telecom.incidents.IncidentWorkflow;
 import md.utm.telecom.incidents.model.Incident;
 import md.utm.telecom.incidents.model.IncidentStatus;
 import md.utm.telecom.incidents.model.TechnicalState;
@@ -13,9 +15,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +34,6 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/incidents")
-@Transactional(readOnly = true)
 public class IncidentController {
     private static final Pattern SCOPE =
             Pattern.compile("^[A-Za-z0-9_.:-]{1,96}$");
@@ -38,18 +42,22 @@ public class IncidentController {
     private final IncidentRepository incidents;
     private final DetectionEvidenceRepository evidence;
     private final ObjectMapper json;
+    private final IncidentWorkflow workflow;
 
     public IncidentController(
             IncidentRepository incidents,
             DetectionEvidenceRepository evidence,
-            ObjectMapper json
+            ObjectMapper json,
+            IncidentWorkflow workflow
     ) {
         this.incidents = incidents;
         this.evidence = evidence;
         this.json = json;
+        this.workflow = workflow;
     }
 
     @GetMapping
+    @Transactional(readOnly = true)
     public IncidentPage list(
             @RequestParam(required = false) ServiceType service,
             @RequestParam(required = false) String scopeId,
@@ -88,11 +96,13 @@ public class IncidentController {
     }
 
     @GetMapping("/{id}")
+    @Transactional(readOnly = true)
     public IncidentResponse detail(@PathVariable UUID id) {
         return toResponse(findIncident(id));
     }
 
     @GetMapping("/{id}/detections")
+    @Transactional(readOnly = true)
     public DetectionPage detections(
             @PathVariable UUID id,
             @RequestParam(defaultValue = "0") int page,
@@ -107,6 +117,25 @@ public class IncidentController {
                         .map(item -> json.readTree(item.getPayload()))
                         .toList(),
                 result.getTotalElements(), page, size);
+    }
+
+    @PostMapping("/{id}/assignment")
+    @Transactional
+    public IncidentResponse assign(@PathVariable UUID id,
+                                   @Valid @RequestBody AssignmentRequest request,
+                                   Authentication authentication) {
+        return toResponse(workflow.assign(
+                id, request.analystId(), request.version(), authentication));
+    }
+
+    @PostMapping("/{id}/status")
+    @Transactional
+    public IncidentResponse changeStatus(@PathVariable UUID id,
+                                         @Valid @RequestBody ChangeStatusRequest request,
+                                         Authentication authentication) {
+        return toResponse(workflow.changeStatus(
+                id, request.status(), request.version(),
+                request.resolutionNote(), authentication));
     }
 
     private Incident findIncident(UUID id) {
