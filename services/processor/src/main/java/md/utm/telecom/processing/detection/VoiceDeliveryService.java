@@ -1,13 +1,8 @@
 package md.utm.telecom.processing.detection;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.sql.Timestamp;
 import java.time.Clock;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +29,7 @@ public class VoiceDeliveryService {
         for (var row : windows) {
             var window = json.readTree((String) row.get("payload"));
             enqueue((String) row.get("window_id"), "telecom.kpis.v2", scope, window.toString());
-            var detection = episodes.advance(state, window, clock.instant(), observations(scope, window));
+            var detection = episodes.advance(state, window, clock.instant());
             if (detection != null) enqueue(detection.get("detectionId").asText(), "telecom.detections.v2",
                     detection.get("episodeId").asText(), detection.toString());
             jdbc.update("INSERT INTO app.voice_evaluated_window(window_id) VALUES (?)", row.get("window_id"));
@@ -43,18 +38,5 @@ public class VoiceDeliveryService {
     }
     private void enqueue(String id, String topic, String key, String payload) {
         jdbc.update("INSERT INTO app.voice_delivery(id,topic,kafka_key,payload) VALUES (?,?,?,?::jsonb)", id, topic, key, payload);
-    }
-
-    private List<JsonNode> observations(String scope, JsonNode window) throws Exception {
-        var receipts = new ArrayList<JsonNode>();
-        for (String payload : jdbc.queryForList("""
-                SELECT payload::text FROM app.observation_receipt
-                WHERE scope_id=? AND window_start=? AND window_end=? AND kind IN ('SERVICE', 'NODE')
-                ORDER BY event_id
-                """, String.class, scope, Timestamp.from(Instant.parse(window.required("windowStart").asText())),
-                Timestamp.from(Instant.parse(window.required("windowEnd").asText())))) {
-            receipts.add(json.readTree(payload));
-        }
-        return receipts;
     }
 }

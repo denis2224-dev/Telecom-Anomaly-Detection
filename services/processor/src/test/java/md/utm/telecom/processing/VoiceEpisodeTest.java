@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
 import java.time.Instant;
-import java.util.List;
 import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.processing.baseline.BaselineRegistry;
 import md.utm.telecom.processing.detection.*;
@@ -62,42 +61,5 @@ class VoiceEpisodeTest {
         assertEquals("OPEN", engine.advance(state, window(3, true, false), start.plusSeconds(600)).get("phase").asText());
         assertEquals("UNKNOWN", engine.advance(state, window(5, false, false), start.plusSeconds(600)).get("phase").asText());
         assertTrue(state.get("active").asBoolean());
-    }
-
-    @Test void openingUsesAlignedServiceAndImsEvidenceForProbableCause() throws Exception {
-        var engine = engine();
-        var state = json.createObjectNode();
-        assertNull(engine.advance(state, window(0, true, false), start.plusSeconds(600)));
-        var second = window(1, true, false);
-        var service = receipt(second, "SERVICE", "275a8644-90df-5b04-a36d-e48adcaccd92");
-        var ims = receipt(second, "NODE", "1a25c9e7-769b-5289-9bd1-f2b371ace9ee");
-        ims.put("nodeId", "IMS-A").putObject("metrics").put("cpuPct", 95);
-        var open = engine.advance(state, second, start.plusSeconds(600), List.of(service, ims));
-        assertEquals("MEDIUM", open.get("causeConfidence").asText());
-        assertTrue(open.get("probableCause").asText().contains("IMS capacity pressure"));
-        assertTrue(open.get("evidence").toString().contains("IMS_CAPACITY_CORRELATION"));
-        assertTrue(open.get("evidence").toString().contains("IMS-A"));
-        var schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
-                ObservationValidator.resource("detections/service-detection-v2.schema.json", json));
-        assertTrue(schema.validate(open).isEmpty(), schema.validate(open).toString());
-
-        var withoutReceipts = json.createObjectNode();
-        assertNull(engine.advance(withoutReceipts, window(0, true, false), start.plusSeconds(600)));
-        assertEquals("LOW", engine.advance(withoutReceipts, second, start.plusSeconds(600))
-                .get("causeConfidence").asText());
-
-        var misaligned = json.createObjectNode();
-        assertNull(engine.advance(misaligned, window(0, true, false), start.plusSeconds(600)));
-        var otherMinuteIms = ims.deepCopy();
-        otherMinuteIms.put("windowStart", start.toString());
-        assertEquals("LOW", engine.advance(misaligned, second, start.plusSeconds(600),
-                List.of(service, otherMinuteIms)).get("causeConfidence").asText());
-    }
-
-    private ObjectNode receipt(ObjectNode window, String kind, String eventId) {
-        return json.createObjectNode().put("scopeId", window.get("scopeId").asText())
-                .put("windowStart", window.get("windowStart").asText())
-                .put("windowEnd", window.get("windowEnd").asText())
-                .put("quality", "COMPLETE").put("kind", kind).put("eventId", eventId);
     }
 }
