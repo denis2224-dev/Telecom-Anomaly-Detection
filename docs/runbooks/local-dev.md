@@ -37,8 +37,18 @@ Start and verify the infrastructure and runnable Java services:
 npm --prefix apps/dashboard ci
 npm --prefix apps/dashboard run build
 ./scripts/up
-./scripts/verify
 ```
+
+In a second terminal, start the host incident service and leave it running:
+
+```bash
+cd services/incident-service
+./mvnw spring-boot:run
+```
+
+Then, from the repository root in the first terminal, run `./scripts/verify`.
+The proxy forwards authentication and API requests to the incident service on
+host port 8082; `./scripts/up` does not start that host process.
 
 `scripts/up` validates configuration, waits for PostgreSQL and Kafka health, runs
 the database provisioner, starts Keycloak and imports the local realm, synchronizes
@@ -177,10 +187,11 @@ currently has no datasource configuration; its database settings are reserved fo
 Authentication uses the documented Keycloak/server-session design; no custom
 `JWT_SIGNING_SECRET` is required.
 
-`./scripts/verify` checks all three databases, database ownership and connection
-isolation, each application schema's ownership and runtime permissions, all six V1
-and five V2 Kafka topics, both Java application readiness endpoints, Keycloak
-readiness and the telecom realm's discovery through the proxy, including host DNS. V2 topic
+`./scripts/verify` requires the host incident service on port 8082. It checks all
+three databases, database ownership and connection isolation, each application
+schema's ownership and runtime permissions, all six V1 and five V2 Kafka topics,
+both Java application readiness endpoints, Keycloak readiness, the telecom realm's
+discovery through the proxy, host DNS, and authentication routing. V2 topic
 names and retention settings are configured in `.env`; V1 topics remain separate.
 Topic creation adds missing topics; changing retention or partition settings does
 not update an existing topic. Application table migrations run separately through Flyway.
