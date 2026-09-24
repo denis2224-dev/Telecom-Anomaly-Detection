@@ -151,6 +151,40 @@ services:
     networks:
       - telecom-private
 
+  ml-service:
+    build:
+      context: .
+      dockerfile: services/ml-service/Dockerfile
+    environment:
+      ML_MANIFEST_PATH: /app/model-manifest.json
+      ML_PORT: 8000
+      FEATURE_VERSION: ${FEATURE_VERSION:-1}
+      ML_CONCURRENCY: ${ML_CONCURRENCY:-1}
+    volumes:
+      - ./services/ml-service/models:/models:ro
+    expose:
+      - "8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - >-
+          import urllib.request;
+          response = urllib.request.urlopen('http://localhost:8000/health/readiness', timeout=2);
+          raise SystemExit(0 if response.status == 200 else 1)
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "${ML_CPU_LIMIT:-1.0}"
+          memory: "${ML_MEMORY_LIMIT:-512M}"
+    networks:
+      - telecom-private
+
 networks:
   telecom-private:
     driver: bridge

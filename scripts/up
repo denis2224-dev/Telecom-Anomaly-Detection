@@ -21,4 +21,7 @@ docker compose up --wait kafka-init
 echo "Starting runnable application services and waiting for readiness..."
 docker compose up -d --wait event-generator processor
 
+echo "Starting ML service; missing or invalid local models remain visibly unhealthy..."
+docker compose up -d ml-service
+
 echo "Compose stack is ready. Run ./scripts/verify for contract checks."
