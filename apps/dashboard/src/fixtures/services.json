@@ -13,7 +13,12 @@
     "freshness": "FRESH", "observedAt": "2026-09-15T08:01:10Z", "openIncidents": 1,
     "latestWindow": {
       "schemaVersion": 2, "featureVersion": 2, "windowId": "SMS-degraded-0800", "scopeId": "SMS-MD-ROUTE-A", "service": "SMS", "windowStart": "2026-09-15T08:00:00Z", "windowEnd": "2026-09-15T08:01:00Z", "quality": "COMPLETE", "baselineVersion": "design-fixture-v2", "topologyVersion": "2-baseline",
-      "kpis": [{ "name": "SMS delivery delay p95", "observed": 45000, "baseline": 2000, "unit": "MILLISECONDS", "numerator": null, "denominator": 100 }],
+      "kpis": [
+        { "name": "p95DeliveryMs", "observed": 45000, "baseline": 2000, "unit": "MILLISECONDS", "numerator": null, "denominator": null },
+        { "name": "deliveredMessages", "observed": 100, "baseline": null, "unit": "COUNT", "numerator": null, "denominator": null },
+        { "name": "queueDepth", "observed": 250, "baseline": null, "unit": "COUNT", "numerator": null, "denominator": null },
+        { "name": "oldestPendingAgeSec", "observed": 90, "baseline": null, "unit": "SECONDS", "numerator": null, "denominator": null }
+      ],
       "featureNames": [], "featureValues": [], "mlEligible": false, "sourceEventIds": []
     }
   },

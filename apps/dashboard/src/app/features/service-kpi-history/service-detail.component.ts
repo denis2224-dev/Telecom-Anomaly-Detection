@@ -5,11 +5,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient, type ServiceSummary } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
 import { KpiChartComponent } from './kpi-chart.component';
+import { SmsQualityComponent } from './sms-quality.component';
 import { IncidentListComponent } from '../incident-investigation/incident-list.component';
 import { episodes, type Incident, type KpiWindow } from './voice-model';
 
 @Component({
-  selector: 'app-service-detail', imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent],
+  selector: 'app-service-detail',
+  imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent, SmsQualityComponent],
   styles: [`.page-heading { margin: 14px 0; } .page-heading h1, .page-heading p { margin: 6px 0; } :host > .muted { margin: 8px 0; }`],
   template: `
     <a class="back-link" routerLink="/dashboard">← Service overview</a>
@@ -30,12 +32,14 @@ import { episodes, type Incident, type KpiWindow } from './voice-model';
         <app-kpi-chart [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
         <app-incident-list [incidents]="incidents()" />
       } @else {
-        <section class="detail-panel"><h2>Latest SMS observation</h2>
-          @if (service.latestWindow; as window) {
-            <p>{{ window.windowStart | date:'dd MMM yyyy HH:mm':'UTC' }} UTC · {{ window.quality }}</p>
-            @for (kpi of window.kpis; track kpi.name) { <p>{{ kpi.name }}: {{ kpi.observed ?? 'Unavailable' }} {{ kpi.unit }} · Expected {{ kpi.baseline ?? 'Unavailable' }}</p> }
-          } @else { <p>No observation available.</p> }
-        </section>
+        @if (service.latestWindow; as window) {
+          <app-sms-quality [window]="window" />
+        } @else {
+          <section class="detail-panel">
+            <h2>SMS delivery and queue</h2>
+            <p>No observation available. Queue health is unknown.</p>
+          </section>
+        }
       }
     }
   `,
