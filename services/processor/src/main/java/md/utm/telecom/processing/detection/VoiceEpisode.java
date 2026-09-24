@@ -14,11 +14,15 @@ public class VoiceEpisode {
     private final VoiceSetupRule rule;
     private final DetectionPolicy policy;
     private final PayloadCodec codec;
+    private final CauseEvidence causes = new CauseEvidence();
     private final ObjectMapper json = new ObjectMapper();
     public VoiceEpisode(VoiceSetupRule rule, DetectionPolicy policy, PayloadCodec codec) {
         this.rule = rule; this.policy = policy; this.codec = codec;
     }
     public ObjectNode advance(ObjectNode state, JsonNode window, Instant detectedAt) {
+        return advance(state, window, detectedAt, List.of());
+    }
+    public ObjectNode advance(ObjectNode state, JsonNode window, Instant detectedAt, List<JsonNode> receipts) {
         String start = window.required("windowStart").asText();
         String end = window.required("windowEnd").asText();
         if (state.has("end") && !Instant.parse(start).isAfter(Instant.parse(state.get("end").asText()).minusSeconds(60)))
@@ -48,6 +52,7 @@ public class VoiceEpisode {
         if (evaluation.impact() != null) state.set("impact", json.valueToTree(evaluation.impact()));
         long sequence = state.path("sequence").asLong() + 1;
         state.put("sequence", sequence);
+        var explanation = causes.explain(window, evaluation, receipts);
         String correlation = hash("VOLTE", window.required("scopeId").asText(), "VOLTE_SETUP_DEGRADATION", policy.version());
         String episode = hash(correlation, state.required("first").asText());
         ObjectNode result = json.createObjectNode();
@@ -59,12 +64,12 @@ public class VoiceEpisode {
                 .put("severity", state.required("severity").asText())
                 .put("technicalState", phase.equals("RECOVERY") ? "RECOVERED" : phase.equals("UNKNOWN") ? "UNKNOWN" : "ONGOING")
                 .put("rulesetVersion", policy.version()).put("baselineVersion", evaluation.baselineVersion())
-                .put("topologyVersion", evaluation.topologyVersion()).put("probableCause", evaluation.probableCause())
-                .put("causeConfidence", evaluation.causeConfidence()).put("mlStatus", evaluation.mlStatus());
+                .put("topologyVersion", evaluation.topologyVersion()).put("probableCause", explanation.probableCause())
+                .put("causeConfidence", explanation.confidence()).put("mlStatus", evaluation.mlStatus());
         result.set("kpis", window.required("kpis").deepCopy());
         result.set("impact", state.required("impact").deepCopy());
-        result.set("evidence", json.valueToTree(evaluation.evidence()));
-        result.set("recommendedChecks", json.valueToTree(evaluation.recommendedChecks()));
+        result.set("evidence", json.valueToTree(explanation.evidence()));
+        result.set("recommendedChecks", json.valueToTree(explanation.recommendedChecks()));
         result.putNull("modelVersion"); result.putNull("anomalyRank");
         return result;
     }
