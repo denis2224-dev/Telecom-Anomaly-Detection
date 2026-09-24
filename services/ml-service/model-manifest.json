@@ -1,0 +1,9 @@
+{
+  "manifestVersion": "1",
+  "modelVersion": "pending-owner-artifact",
+  "featureVersion": "1",
+  "artifact": {
+    "path": "/models/approved-model.bin",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
