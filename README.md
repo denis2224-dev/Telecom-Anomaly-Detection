@@ -38,9 +38,15 @@ the [local development runbook](docs/runbooks/local-dev.md). Then run from the
 repository root in a Bash-compatible shell:
 
 ```bash
+npm --prefix apps/dashboard ci
+npm --prefix apps/dashboard run build
 ./scripts/up
-./scripts/verify
 ```
+
+Start `incident-service` in a second terminal with
+`cd services/incident-service && ./mvnw spring-boot:run`, then run
+`./scripts/verify` from the repository root. The proxy needs this host service
+for authentication and API routes.
 
 The shared Compose stack starts PostgreSQL and Apache Kafka 3.9.1, provisions three
 databases (`processing_db`, `incidents_db`, `keycloak_db`), application schemas and
