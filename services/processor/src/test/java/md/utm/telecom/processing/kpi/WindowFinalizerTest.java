@@ -24,8 +24,12 @@ import md.utm.telecom.processing.ObservationInput;
 import md.utm.telecom.processing.PostgresFixture;
 import md.utm.telecom.processing.baseline.BaselineRegistry;
 import md.utm.telecom.processing.ingestion.IngestionService;
+import md.utm.telecom.processing.detection.DetectionPolicy;
 import md.utm.telecom.processing.ingestion.ObservationDelivery;
 import md.utm.telecom.processing.ingestion.PayloadCodec;
+import md.utm.telecom.processing.ingestion.SourceFreshness;
+import md.utm.telecom.processing.ingestion.WindowDecisionLock;
+import md.utm.telecom.processing.topology.EvidenceJoiner;
 import md.utm.telecom.processing.topology.ScopeRegistry;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;
@@ -59,6 +63,9 @@ class WindowFinalizerTest {
     @Autowired VoiceFeatureBuilder builder;
     @Autowired IngestionService ingestion;
     @Autowired JdbcTemplate jdbc;
+    @Autowired DetectionPolicy policy;
+    @Autowired SourceFreshness freshness;
+    @Autowired WindowDecisionLock decisionLock;
     @Autowired TestClock clock;
     @Autowired PayloadCodec codec;
     @Autowired ScopeRegistry scopes;
@@ -74,7 +81,8 @@ class WindowFinalizerTest {
     @Configuration(proxyBeanMethods = false)
     @EnableTransactionManagement
     @Import({WindowFinalizer.class, VoiceFeatureBuilder.class, BaselineRegistry.class, ScopeRegistry.class,
-            PayloadCodec.class, IngestionService.class, ObservationInput.class})
+            PayloadCodec.class, IngestionService.class, ObservationInput.class,
+            EvidenceJoiner.class, SourceFreshness.class, WindowDecisionLock.class, DetectionPolicy.class})
     static class Config {
         @Bean DataSource dataSource() {
             Flyway.configure().dataSource(PostgresFixture.url("processing_db"), "processing_migrator", "test-migrator")
@@ -136,6 +144,34 @@ class WindowFinalizerTest {
         assertEquals(START.plusSeconds(60).toString(), payload().get("windowEnd").asText());
         assertEquals(DUE, jdbc.queryForObject("SELECT finalized_at FROM app.interval_bucket", Timestamp.class).toInstant());
         assertEquals(DUE, jdbc.queryForObject("SELECT created_at FROM app.feature_outbox", Timestamp.class).toInstant());
+    }
+
+    @Test void versionedLatenessControlsNormalAndMissingDecisions() throws Exception {
+        var raw = (ObjectNode) ObservationValidator.resource("policies/service-rules-v2.json", MAPPER);
+        raw.put("allowedLatenessSec", 20);
+        var changed = new DetectionPolicy(raw);
+        var changedFreshness = new SourceFreshness(jdbc, clock, scopes, changed);
+        var changedFinalizer = new WindowFinalizer(jdbc, clock, scopes, builder, codec,
+                changedFreshness, changed, decisionLock);
+        var transaction = new org.springframework.transaction.support.TransactionTemplate(
+                new DataSourceTransactionManager(jdbc.getDataSource()));
+
+        normal();
+        clock.now = START.plusSeconds(70);
+        assertTrue(changedFinalizer.dueWindows(10).isEmpty());
+        assertEquals(NOT_DUE, transaction.execute(status -> changedFinalizer.finalizeWindow(SCOPE, START)));
+        clock.now = START.plusSeconds(80);
+        assertEquals(List.of(new WindowFinalizer.Window(SCOPE, START)), changedFinalizer.dueWindows(10));
+        assertEquals(FINALIZED, transaction.execute(status -> changedFinalizer.finalizeWindow(SCOPE, START)));
+
+        clear();
+        ingest(fixture("normal-ims"));
+        clock.now = START.plusSeconds(70);
+        assertTrue(changedFinalizer.dueMissingWindows(10).isEmpty());
+        assertEquals(NOT_DUE, transaction.execute(status -> changedFinalizer.finalizeMissingWindow(SCOPE, START)));
+        clock.now = START.plusSeconds(80);
+        assertEquals(List.of(new WindowFinalizer.Window(SCOPE, START)), changedFinalizer.dueMissingWindows(10));
+        assertEquals(FINALIZED, transaction.execute(status -> changedFinalizer.finalizeMissingWindow(SCOPE, START)));
     }
 
     @Test void allSevenSharedVoiceCasesPersistAndExportForIndependentPythonComparison() throws Exception {
@@ -232,7 +268,7 @@ class WindowFinalizerTest {
         assertEquals(1, outputs());
         // Existing output must not even reach calculation on a later retry.
         var poisoned = mock(VoiceFeatureBuilder.class);
-        var retry = new WindowFinalizer(jdbc, clock, scopes, poisoned, codec);
+        var retry = new WindowFinalizer(jdbc, clock, scopes, poisoned, codec, freshness, policy, decisionLock);
         new org.springframework.transaction.support.TransactionTemplate(new DataSourceTransactionManager(jdbc.getDataSource()))
                 .execute(status -> { assertEquals(ALREADY_FINALIZED, retry.finalizeWindow(SCOPE, START)); return null; });
         verifyNoInteractions(poisoned);

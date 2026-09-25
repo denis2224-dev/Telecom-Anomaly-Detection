@@ -32,5 +32,11 @@ public class WindowFinalizationScheduler {
                 LOG.error("Voice finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
             }
         }
+        for (var window : finalizer.dueMissingWindows(batchSize)) {
+            try { finalizer.finalizeMissingWindow(window.scopeId(), window.windowStart()); }
+            catch (RuntimeException failure) {
+                LOG.error("Voice missing window finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
+            }
+        }
     }
 }

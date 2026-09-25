@@ -42,4 +42,8 @@ public final class DetectionPolicy {
     public String version() { return policy.get("rulesetVersion").asText(); }
     public int windows(String name) { return policy.required(name).intValue(); }
     public BigDecimal voice(String name) { return policy.get("voice").required(name).decimalValue(); }
+    public int staleAfterSec() { return windows("staleAfterSec"); }
+    public int heartbeatIntervalSec() { return windows("heartbeatIntervalSec"); }
+    public int allowedLatenessSec() { return windows("allowedLatenessSec"); }
+    public int windowSec() { return windows("windowSec"); }
 }
