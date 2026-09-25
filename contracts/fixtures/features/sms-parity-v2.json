@@ -225,6 +225,72 @@
           "deliveredMessages": 30
         }
       }
+    },
+    {
+      "id": "sms-fractional-delay",
+      "observation": "normal-sms",
+      "nodes": ["normal-smsc"],
+      "metricsPatch": {
+        "deliveryAttempts": 1,
+        "deliverySuccesses": 1,
+        "deliveredMessages": 1,
+        "deliveryDelayMs": [1.5]
+      },
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [0.00075, 1.5, 0, 0, 1, 1],
+        "kpis": {
+          "p95DeliveryMs": 1.5,
+          "deliverySrPct": 100,
+          "queueDepth": 0,
+          "oldestPendingAgeSec": 0,
+          "deliveredMessages": 1
+        }
+      }
+    },
+    {
+      "id": "sms-fractional-sort",
+      "observation": "normal-sms",
+      "nodes": ["normal-smsc"],
+      "metricsPatch": {
+        "deliveryAttempts": 3,
+        "deliverySuccesses": 3,
+        "deliveredMessages": 3,
+        "deliveryDelayMs": [2.5, 3.5, 1.5]
+      },
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [0.00175, 3.5, 0, 0, 1, 3],
+        "kpis": {
+          "p95DeliveryMs": 3.5,
+          "deliverySrPct": 100
+        }
+      }
+    },
+    {
+      "id": "sms-fractional-over-feature-bound",
+      "observation": "normal-sms",
+      "nodes": ["normal-smsc"],
+      "metricsPatch": {
+        "deliveryAttempts": 1,
+        "deliverySuccesses": 1,
+        "deliveredMessages": 1,
+        "deliveryDelayMs": [1000000000.5]
+      },
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": false,
+        "featureValues": [],
+        "kpis": {
+          "p95DeliveryMs": 1000000000.5,
+          "deliverySrPct": 100,
+          "queueDepth": 0,
+          "oldestPendingAgeSec": 0,
+          "deliveredMessages": 1
+        }
+      }
     }
   ]
 }
