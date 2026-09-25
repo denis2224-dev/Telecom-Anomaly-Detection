@@ -79,7 +79,7 @@
 | Verification Step | Command | Status | Result / Counts |
 |---|---|---|---|
 | Focused Day 08 set | Installed Maven 3.9.16: `test -pl services/processor -Dtest=EvidenceJoinerTest,SourceFreshnessTest,WindowFinalizerTest,MissingWindowHandoffIT,MissingWindowDecisionIT` | **PASS** | 11 joiner, 13 freshness, 16 finalizer, 1 handoff, 8 decision tests; 0 failures/errors |
-| Processor reactor | Installed Maven 3.9.16: `test -pl services/processor -am` | **PASS** | 152 processor + 58 streaming-support tests; 0 failures/errors |
+| Processor reactor | Installed Maven 3.9.16: `test -pl services/processor -am` | **PASS** | 154 processor + 58 streaming-support tests; 0 failures/errors |
 | Day 07 event-generator reactor | Installed Maven 3.9.16: `test -pl services/event-generator -am` | **PASS** | 16 event-generator + 58 streaming-support tests; 0 failures/errors |
 | Repository Windows wrapper | `.\mvnw.cmd test -pl services/processor -am` | **ENVIRONMENT FAILURE** | Wrapper PowerShell `icm`: `Cannot index into a null array`; installed Maven binary completed the equivalent build |
 | Contract & Parity Check | `.\.venv\Scripts\python.exe -B scripts/check-contracts.py` | **PASS** | All schemas valid, 7 voice parity cases PASS, 8 SMS parity cases PASS |
