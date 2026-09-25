@@ -62,7 +62,7 @@ class MissingWindowHandoffIT {
 
     @Configuration(proxyBeanMethods = false)
     @EnableTransactionManagement
-    @Import({WindowFinalizer.class, WindowFinalizationScheduler.class, VoiceFeatureBuilder.class,
+    @Import({WindowFinalizer.class, WindowFinalizationScheduler.class, ServiceFeatureBuilder.class,
             BaselineRegistry.class, ScopeRegistry.class, PayloadCodec.class, IngestionService.class,
             ObservationInput.class, EvidenceJoiner.class, SourceFreshness.class, WindowDecisionLock.class,
             DetectionPolicy.class, VoiceEpisode.class, VoiceSetupRule.class, VoiceDeliveryService.class})
