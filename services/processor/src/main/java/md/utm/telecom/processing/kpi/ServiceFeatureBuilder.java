@@ -115,7 +115,7 @@ public final class ServiceFeatureBuilder {
                     delta(rrc, values.get("rrcSrPct")), delta(bearer, values.get("bearerSrPct")), loss, cpu);
         }
 
-        Long p95 = p95Delivery(metrics.path("deliveryDelayMs"));
+        BigDecimal p95 = p95Delivery(metrics.path("deliveryDelayMs"));
         Double deliverySr = ratio(metric(metrics, "deliverySuccesses"), metric(metrics, "deliveryAttempts"), 100);
         Number delivered = metric(metrics, "deliveredMessages");
         Number queueDepth = nodeMetric(joined, "SMSC-A", "queueDepth", sources);
@@ -162,10 +162,10 @@ public final class ServiceFeatureBuilder {
         return result;
     }
 
-    private static Long p95Delivery(JsonNode samples) {
+    private static BigDecimal p95Delivery(JsonNode samples) {
         if (!samples.isArray() || samples.isEmpty()) return null;
-        long[] sorted = new long[samples.size()];
-        for (int i = 0; i < sorted.length; i++) sorted[i] = samples.get(i).longValue();
+        BigDecimal[] sorted = new BigDecimal[samples.size()];
+        for (int i = 0; i < sorted.length; i++) sorted[i] = samples.get(i).decimalValue();
         Arrays.sort(sorted);
         return sorted[(95 * sorted.length + 99) / 100 - 1];
     }

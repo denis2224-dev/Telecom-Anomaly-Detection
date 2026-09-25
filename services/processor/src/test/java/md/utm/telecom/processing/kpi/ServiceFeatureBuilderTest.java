@@ -7,7 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.observation.TopologyCatalog;
 import md.utm.telecom.processing.baseline.BaselineRegistry;
@@ -50,13 +52,14 @@ class ServiceFeatureBuilderTest {
         } else assertEquals(expected, actual);
     }
 
-    @Test void allEightSmsCasesExportCompletePayloadsForPythonComparison() throws Exception {
+    @Test void allSmsCasesExportCompletePayloadsForPythonComparison() throws Exception {
         var suite = ObservationValidator.resource("fixtures/features/sms-parity-v2.json", MAPPER);
         var order = ObservationValidator.resource("features/feature-order-v2.json", MAPPER);
         var processor = builder(new BaselineRegistry(), scopes());
         var export = MAPPER.createObjectNode();
-        assertEquals(8, suite.get("cases").size());
+        var caseIds = new HashSet<String>();
         for (var c : suite.get("cases")) {
+            assertTrue(caseIds.add(c.get("id").asText()), "Duplicate SMS parity case");
             var service = fixture(c.get("observation").asText());
             service.setAll((ObjectNode) c.get("envelopePatch"));
             if (service.has("metrics")) ((ObjectNode) service.get("metrics")).setAll((ObjectNode) c.get("metricsPatch"));
@@ -73,8 +76,19 @@ class ServiceFeatureBuilderTest {
             var ids = new ArrayList<String>();
             actual.get("sourceEventIds").forEach(id -> ids.add(id.asText()));
             assertEquals(ids.stream().sorted().toList(), ids);
+            if (c.get("id").asText().equals("sms-fractional-over-feature-bound")) {
+                assertEquals(0, new java.math.BigDecimal("1000000000.5").compareTo(
+                        kpi(actual, "p95DeliveryMs").get("observed").decimalValue()));
+                assertFalse(actual.get("mlEligible").asBoolean());
+                assertTrue(actual.get("featureNames").isEmpty());
+                assertTrue(actual.get("featureValues").isEmpty());
+            }
             export.set(c.get("id").asText(), actual);
         }
+        assertTrue(caseIds.containsAll(Set.of("sms-normal", "sms-fault", "sms-zero-completions",
+                "sms-incomplete", "sms-no-node", "sms-canonical-normal", "sms-canonical-slow-delivery",
+                "sms-nearest-rank-30", "sms-fractional-delay", "sms-fractional-sort",
+                "sms-fractional-over-feature-bound")));
         Files.createDirectories(Path.of("target"));
         MAPPER.writerWithDefaultPrettyPrinter().writeValue(Path.of("target/sms-parity-java.json").toFile(), export);
     }
