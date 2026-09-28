@@ -25,6 +25,7 @@ class GeneratorInternalContractTests(unittest.TestCase):
         self.assertNotIn('requestId', command['properties'])
         self.assertNotIn('bodyHash', command['properties'])
         self.assertNotIn('requestedBy', command['properties'])
+        self.assertIn('SCOPE_WINDOW_CONFLICT', spec['components']['schemas']['Error']['properties']['code']['enum'])
 
 
 if __name__ == '__main__':

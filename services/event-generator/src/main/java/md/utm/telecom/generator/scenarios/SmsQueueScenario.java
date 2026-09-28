@@ -58,41 +58,51 @@ public class SmsQueueScenario {
      * </ul>
      */
     public List<String> generate(Instant start, long seed) {
+        return generateWindows(start, seed).stream().flatMap(List::stream).toList();
+    }
+
+    /** Eight explicit minute windows for scheduled publication. */
+    public List<List<String>> generateWindows(Instant start, long seed) {
         validateMinuteAlignment(start);
-        var result = new ArrayList<String>();
+        var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             Phase phase = (minute < 2) ? Phase.NORMAL : (minute < 5) ? Phase.SLOW_DELIVERY : Phase.RECOVERY;
-            result.addAll(generateSeededWindow(from, phase, seed));
+            result.add(generateSeededWindow(from, phase, seed));
         }
         return List.copyOf(result);
     }
 
     /** Healthy control uses the same seeded observation path as the SMS fault profile. */
     public List<String> generateHealthy(Instant start, long seed) {
+        return generateHealthyWindows(start, seed).stream().flatMap(List::stream).toList();
+    }
+
+    public List<List<String>> generateHealthyWindows(Instant start, long seed) {
         validateMinuteAlignment(start);
-        var result = new ArrayList<String>();
+        var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
-            result.addAll(generateSeededWindow(start.plusSeconds(minute * 60L), Phase.NORMAL, seed));
+            result.add(generateSeededWindow(start.plusSeconds(minute * 60L), Phase.NORMAL, seed));
         }
         return List.copyOf(result);
     }
 
-    /** An explicit missing SERVICE report retains healthy node evidence without invented service counters. */
+    /** Flat compatibility view of the telemetry gap profile. */
     public List<String> generateTelemetryGap(Instant start, long seed) {
+        return generateTelemetryGapWindows(start, seed).stream().flatMap(List::stream).toList();
+    }
+
+    /** Withhold the authoritative SERVICE source for minutes 2-4; NODE evidence continues. */
+    public List<List<String>> generateTelemetryGapWindows(Instant start, long seed) {
         validateMinuteAlignment(start);
-        var result = new ArrayList<String>();
+        var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             var healthy = generateSeededWindow(from, Phase.NORMAL, seed);
-            result.add(healthy.get(0));
             if (minute >= 2 && minute < 5) {
-                ObjectNode missing = createEnvelope(from, SERVICE_SOURCE_ID, "SERVICE", "MISSING");
-                missing.put("service", SERVICE);
-                validator.validate(missing);
-                result.add(missing.toString());
+                result.add(List.of(healthy.get(0)));
             } else {
-                result.add(healthy.get(1));
+                result.add(healthy);
             }
         }
         return List.copyOf(result);

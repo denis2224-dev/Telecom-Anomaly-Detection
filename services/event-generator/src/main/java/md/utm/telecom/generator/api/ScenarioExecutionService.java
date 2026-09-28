@@ -73,15 +73,27 @@ public class ScenarioExecutionService {
             return existing.snapshot();
         }
         validate(command);
+        // Every accepted run reserves its authoritative scope and half-open
+        // schedule, including after STOP/FAILED/COMPLETED. This check shares
+        // start()'s lock with insertion, so concurrent different IDs cannot win.
+        for (Run reserved : runs.values()) {
+            Command other = reserved.command;
+            if (other.scopeId().equals(command.scopeId())
+                    && command.scheduledStartAt().isBefore(other.scheduledEndAt())
+                    && other.scheduledStartAt().isBefore(command.scheduledEndAt())) {
+                throw new ApiFailure(HttpStatus.CONFLICT, "SCOPE_WINDOW_CONFLICT",
+                        "Another run reserves an overlapping interval for this scope");
+            }
+        }
         // A new delivery after the scheduled start could be a restart of a run
         // that already published. Never replay it from minute zero.
         if (!clock.instant().isBefore(command.scheduledStartAt())) {
             throw new ApiFailure(HttpStatus.CONFLICT, "SCHEDULE_ALREADY_STARTED",
                     "Unknown run cannot start at or after its scheduled start; reconcile as interrupted");
         }
-        List<String> events = generate(command);
-        if (events.size() != 16) throw new IllegalStateException("Expected two observations per minute");
-        Run run = new Run(runId, command, events);
+        List<List<String>> windows = generate(command);
+        if (windows.size() != 8) throw new IllegalStateException("Expected eight scenario windows");
+        Run run = new Run(runId, command, windows);
         synchronized (run) {
             try {
                 run.futures.add(requireSchedule(scheduler.schedule(() -> begin(run), command.scheduledStartAt())));
@@ -168,18 +180,18 @@ public class ScenarioExecutionService {
         }
     }
 
-    private List<String> generate(Command command) {
+    private List<List<String>> generate(Command command) {
         var start = command.scheduledStartAt();
         var seed = command.seed();
         return switch (command.scenarioType()) {
-            case "VOLTE_IMS_OVERLOAD" -> voice.generate(start, seed, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
-            case "SMS_QUEUE_DELAY" -> sms.generate(start, seed);
+            case "VOLTE_IMS_OVERLOAD" -> voice.generateWindows(start, seed, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
+            case "SMS_QUEUE_DELAY" -> sms.generateWindows(start, seed);
             case "NORMAL_CONTROL" -> topology.requireScope(command.scopeId()).service().equals("VOLTE")
-                    ? voice.generate(start, seed, VoiceScenario.Profile.NORMAL_CONTROL)
-                    : sms.generateHealthy(start, seed);
+                    ? voice.generateWindows(start, seed, VoiceScenario.Profile.NORMAL_CONTROL)
+                    : sms.generateHealthyWindows(start, seed);
             case "TELEMETRY_GAP" -> topology.requireScope(command.scopeId()).service().equals("VOLTE")
-                    ? voice.generate(start, seed, VoiceScenario.Profile.TELEMETRY_GAP)
-                    : sms.generateTelemetryGap(start, seed);
+                    ? voice.generateWindows(start, seed, VoiceScenario.Profile.TELEMETRY_GAP)
+                    : sms.generateTelemetryGapWindows(start, seed);
             default -> throw new IllegalStateException("Validated scenario missing implementation");
         };
     }
@@ -200,8 +212,8 @@ public class ScenarioExecutionService {
             if (run.status.equals("STOPPED") || run.status.equals("FAILED")) return;
             if (run.status.equals("SCHEDULED")) run.status = "RUNNING";
             try {
-                for (int i = minute * 2; i < minute * 2 + 2; i++) {
-                    kafka.send(TOPIC, run.command.scopeId(), run.events.get(i)).get(15, TimeUnit.SECONDS);
+                for (String observation : run.windows.get(minute)) {
+                    kafka.send(TOPIC, run.command.scopeId(), observation).get(15, TimeUnit.SECONDS);
                 }
                 run.publishedWindows++;
                 if (run.publishedWindows == 8) run.status = "COMPLETED";
@@ -218,15 +230,15 @@ public class ScenarioExecutionService {
     private static final class Run {
         final UUID id;
         final Command command;
-        final List<String> events;
+        final List<List<String>> windows;
         final List<ScheduledFuture<?>> futures = new ArrayList<>();
         String status = "SCHEDULED";
         int publishedWindows;
         String failureCode;
-        Run(UUID id, Command command, List<String> events) {
+        Run(UUID id, Command command, List<List<String>> windows) {
             this.id = id;
             this.command = command;
-            this.events = events;
+            this.windows = windows;
         }
         synchronized Snapshot snapshot() {
             return new Snapshot(id, command.scenarioType(), command.scopeId(), command.seed(),

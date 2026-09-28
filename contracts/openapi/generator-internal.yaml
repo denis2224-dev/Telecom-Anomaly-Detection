@@ -17,9 +17,13 @@ paths:
       description: >-
         Create one process-local execution for a persisted runId. Exact retries in
         this process return the same state without rescheduling. A different body
-        for the same runId returns RUN_CONFLICT. A new delivery at or after its
-        scheduled start returns SCHEDULE_ALREADY_STARTED, preventing replay after
-        generator restart. A future run may be redelivered safely after restart.
+        for the same runId returns RUN_CONFLICT. A different runId whose schedule
+        overlaps an accepted run's half-open [start, end) interval on the same
+        authoritative scope returns SCOPE_WINDOW_CONFLICT, even if the accepted
+        run later stops or fails. Exact retries are checked first. A new delivery
+        at or after its scheduled start returns SCHEDULE_ALREADY_STARTED,
+        preventing replay after generator restart. A future run may be
+        redelivered safely after restart.
       requestBody:
         required: true
         content:
@@ -92,7 +96,7 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
     Conflict:
-      description: Conflicting retry, stale schedule or immutable terminal state.
+      description: Conflicting run body, scope/window reservation, stale schedule or immutable terminal state.
       content:
         application/json:
           schema:
@@ -162,7 +166,7 @@ components:
           type: integer
           minimum: 0
           maximum: 8
-          description: Fully acknowledged one-minute windows; a failed window may have partial publication.
+          description: Fully processed scheduled one-minute windows, including gap windows with no SERVICE event. A failed window may have partial publication.
         failureCode:
           type: string
           nullable: true
@@ -176,6 +180,7 @@ components:
         code:
           type: string
           enum: [INVALID_COMMAND, INVALID_SEED, INVALID_SCHEDULE, UNSUPPORTED_SCENARIO, INVALID_SCOPE,
-                 RUN_CONFLICT, SCHEDULE_ALREADY_STARTED, RUN_TERMINAL, RUN_NOT_FOUND, SCHEDULING_FAILED]
+                 RUN_CONFLICT, SCOPE_WINDOW_CONFLICT, SCHEDULE_ALREADY_STARTED, RUN_TERMINAL,
+                 RUN_NOT_FOUND, SCHEDULING_FAILED]
         message:
           type: string

@@ -17,25 +17,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SmsQueueScenarioTest {
     @Test
-    void controlStaysHealthyAndGapReportsMissingWithoutZeroSamples() throws Exception {
-        var control = scenario.generateHealthy(baseStart, 42);
-        var gap = scenario.generateTelemetryGap(baseStart, 42);
-        assertEquals(16, control.size());
-        assertEquals(16, gap.size());
+    void controlStaysHealthyAndGapOmitsServiceWithoutFakeZeroSamples() throws Exception {
+        var control = scenario.generateHealthyWindows(baseStart, 42);
+        var gap = scenario.generateTelemetryGapWindows(baseStart, 42);
+        assertEquals(8, control.size());
+        assertEquals(8, gap.size());
         for (int minute = 0; minute < 8; minute++) {
-            var controlNode = json.readTree(control.get(minute * 2));
-            var controlService = json.readTree(control.get(minute * 2 + 1));
+            var controlNode = json.readTree(control.get(minute).get(0));
+            var controlService = json.readTree(control.get(minute).get(1));
             assertEquals(0, controlNode.get("metrics").get("queueDepth").asInt());
             assertEquals("COMPLETE", controlService.get("quality").asText());
-            assertEquals(controlService.get("eventId"), json.readTree(gap.get(minute * 2 + 1)).get("eventId"));
-            var gapService = json.readTree(gap.get(minute * 2 + 1));
             if (minute >= 2 && minute < 5) {
-                assertEquals("MISSING", gapService.get("quality").asText());
-                assertFalse(gapService.has("metrics"));
+                assertEquals(1, gap.get(minute).size());
+                assertEquals("NODE", json.readTree(gap.get(minute).get(0)).get("kind").asText());
             } else {
+                assertEquals(2, gap.get(minute).size());
+                var gapService = json.readTree(gap.get(minute).get(1));
                 assertEquals("COMPLETE", gapService.get("quality").asText());
+                assertEquals(controlService.get("eventId"), gapService.get("eventId"));
             }
         }
+        assertTrue(gap.stream().flatMap(List::stream)
+                .noneMatch(raw -> raw.contains("\"quality\":\"MISSING\"")));
     }
     private ObjectMapper json;
     private ObservationValidator validator;

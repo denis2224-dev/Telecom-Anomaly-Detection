@@ -12,48 +12,65 @@ class VoiceScenarioTest {
         var json = new ObjectMapper();
         var generator = new VoiceScenario(json, new ObservationValidator(TopologyCatalog.load()));
         var start = Instant.parse("2026-09-28T10:00:00Z");
-        var first = generator.generate(start, 42, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
-        var second = generator.generate(start, 43, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
-        assertEquals(16, first.size());
+        var first = generator.generateWindows(start, 42, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
+        var second = generator.generateWindows(start, 43, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
+        assertEquals(8, first.size());
+        assertEquals(first, second, "Canonical voice measurements do not vary with seed");
         for (int minute = 0; minute < 8; minute++) {
-            var ims = json.readTree(first.get(minute * 2));
-            var service = json.readTree(first.get(minute * 2 + 1));
-            var otherSeed = json.readTree(second.get(minute * 2 + 1));
-            assertEquals(service.get("eventId"), otherSeed.get("eventId"));
+            assertEquals(2, first.get(minute).size());
+            var ims = json.readTree(first.get(minute).get(0));
+            var service = json.readTree(first.get(minute).get(1));
             assertFalse(service.has("runId"));
             assertFalse(service.has("seed"));
             assertEquals("COMPLETE", service.get("quality").asText());
             int eligible = service.get("metrics").get("technicalSuccesses").asInt()
                     + service.get("metrics").get("technicalFailures").asInt();
-            assertTrue(eligible >= 1000 && eligible <= 1009);
+            assertEquals(1000, eligible);
+            assertEquals(1020, service.get("metrics").get("attempts").asInt());
+            assertEquals(20, service.get("metrics").get("userOutcomes").asInt());
+            assertEquals(1194, service.get("metrics").get("rrcSuccesses").asInt());
+            assertEquals(1095, service.get("metrics").get("bearerSuccesses").asInt());
             if (minute >= 2 && minute < 5) {
-                assertEquals(95, ims.get("metrics").get("cpuPct").asInt());
+                assertEquals(97, ims.get("metrics").get("cpuPct").asInt());
+                assertEquals(940, service.get("metrics").get("technicalSuccesses").asInt());
                 assertEquals(60, service.get("metrics").get("technicalFailures").asInt());
                 assertEquals(55, service.get("metrics").get("sip503Count").asInt());
             } else {
                 assertEquals(35, ims.get("metrics").get("cpuPct").asInt());
-                assertEquals(5, service.get("metrics").get("technicalFailures").asInt());
+                assertEquals(993, service.get("metrics").get("technicalSuccesses").asInt());
+                assertEquals(7, service.get("metrics").get("technicalFailures").asInt());
             }
         }
     }
 
-    @Test void controlIsHealthyAndTelemetryGapHasNoFakeServiceMetrics() throws Exception {
+    @Test void controlIsHealthyAndTelemetryGapOmitsServiceSource() throws Exception {
         var json = new ObjectMapper();
         var generator = new VoiceScenario(json, new ObservationValidator(TopologyCatalog.load()));
         var start = Instant.parse("2026-09-28T10:00:00Z");
-        var control = generator.generate(start, 42, VoiceScenario.Profile.NORMAL_CONTROL);
-        var gap = generator.generate(start, 42, VoiceScenario.Profile.TELEMETRY_GAP);
+        var control = generator.generateWindows(start, 42, VoiceScenario.Profile.NORMAL_CONTROL);
+        var gap = generator.generateWindows(start, 42, VoiceScenario.Profile.TELEMETRY_GAP);
+        assertEquals(8, control.size());
+        assertEquals(8, gap.size());
         for (int minute = 0; minute < 8; minute++) {
-            assertEquals(5, json.readTree(control.get(minute * 2 + 1)).get("metrics")
-                    .get("technicalFailures").asInt());
-            var service = json.readTree(gap.get(minute * 2 + 1));
+            var controlService = json.readTree(control.get(minute).get(1));
+            var metrics = controlService.get("metrics");
+            assertEquals(993, metrics.get("technicalSuccesses").asInt());
+            assertEquals(7, metrics.get("technicalFailures").asInt());
+            assertEquals(1000, metrics.get("technicalSuccesses").asInt()
+                    + metrics.get("technicalFailures").asInt());
+            assertEquals(35, json.readTree(control.get(minute).get(0)).get("metrics").get("cpuPct").asInt());
             if (minute >= 2 && minute < 5) {
-                assertEquals("MISSING", service.get("quality").asText());
-                assertFalse(service.has("metrics"));
+                assertEquals(1, gap.get(minute).size());
+                assertEquals("NODE", json.readTree(gap.get(minute).get(0)).get("kind").asText());
             } else {
-                assertEquals("COMPLETE", service.get("quality").asText());
+                assertEquals(2, gap.get(minute).size());
+                var resumed = json.readTree(gap.get(minute).get(1));
+                assertEquals("SERVICE", resumed.get("kind").asText());
+                assertEquals(controlService.get("eventId"), resumed.get("eventId"));
             }
         }
+        assertTrue(gap.stream().flatMap(java.util.List::stream)
+                .noneMatch(raw -> raw.contains("\"quality\":\"MISSING\"")));
     }
     @Test void deterministicValidatedMeasurementsIncludeDegradationGapAndRecovery() throws Exception {
         var json = new ObjectMapper();

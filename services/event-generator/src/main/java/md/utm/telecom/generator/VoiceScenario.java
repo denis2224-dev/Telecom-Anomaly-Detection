@@ -45,38 +45,43 @@ public class VoiceScenario {
         }
         return List.copyOf(result);
     }
-    /** Day 10 profiles; the legacy G1 generate method retains its original fixture. */
+    /** Flat compatibility view of the Day 10 windows. */
     public List<String> generate(Instant start, long seed, Profile profile) {
+        return generateWindows(start, seed, profile).stream().flatMap(List::stream).toList();
+    }
+
+    /** Eight explicit minute windows; the legacy G1 generate method is unchanged. */
+    public List<List<String>> generateWindows(Instant start, long seed, Profile profile) {
         if (start.getNano() != 0 || Math.floorMod(start.getEpochSecond(), 60) != 0)
             throw new IllegalArgumentException("Start must be an aligned UTC minute");
-        var result = new ArrayList<String>();
+        var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             boolean fault = minute >= 2 && minute < 5;
-            boolean missing = profile == Profile.TELEMETRY_GAP && fault;
+            boolean omitService = profile == Profile.TELEMETRY_GAP && fault;
             boolean overload = profile == Profile.VOLTE_IMS_OVERLOAD && fault;
             ObjectNode node = event(from, "IMS-A", "NODE", "COMPLETE");
             node.put("nodeId", "IMS-A");
-            node.putObject("metrics").put("cpuPct", overload ? 95 : 35);
+            node.putObject("metrics").put("cpuPct", overload ? 97 : 35);
             validator.validate(node);
-            result.add(node.toString());
+            var window = new ArrayList<String>();
+            window.add(node.toString());
 
-            ObjectNode service = event(from, "VOLTE-ADAPTER", "SERVICE", missing ? "MISSING" : "COMPLETE");
-            service.put("service", "VOLTE");
-            if (!missing) {
-                // The tracked voice-worked parity case uses 1,000 eligible attempts,
-                // 60 technical failures and 55 SIP 503 responses during overload.
-                // Seed affects only the healthy measurement variation.
-                int eligible = overload ? 1000 : 1000 + new Random(seed ^ from.getEpochSecond()).nextInt(10);
-                int failed = overload ? 60 : 5;
-                service.putObject("metrics").put("attempts", eligible + 20).put("userOutcomes", 20)
-                        .put("technicalSuccesses", eligible - failed).put("technicalFailures", failed)
+            if (!omitService) {
+                ObjectNode service = event(from, "VOLTE-ADAPTER", "SERVICE", "COMPLETE");
+                service.put("service", "VOLTE");
+                // Day 10 values are fixed by the Common Guide. Seed is command
+                // metadata here; it never changes observation identity.
+                service.putObject("metrics").put("attempts", 1020).put("userOutcomes", 20)
+                        .put("technicalSuccesses", overload ? 940 : 993)
+                        .put("technicalFailures", overload ? 60 : 7)
                         .put("rrcAttempts", 1200).put("rrcSuccesses", 1194)
                         .put("bearerAttempts", 1100).put("bearerSuccesses", 1095)
                         .put("sip503Count", overload ? 55 : 2);
+                validator.validate(service);
+                window.add(service.toString());
             }
-            validator.validate(service);
-            result.add(service.toString());
+            result.add(List.copyOf(window));
         }
         return List.copyOf(result);
     }
