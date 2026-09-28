@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.Valid;
 import md.utm.telecom.evidence.model.DetectionEvidence;
 import md.utm.telecom.evidence.repository.DetectionEvidenceRepository;
+import md.utm.telecom.incidents.AuditService;
 import md.utm.telecom.incidents.IncidentWorkflow;
 import md.utm.telecom.incidents.model.Incident;
 import md.utm.telecom.incidents.model.IncidentStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,17 +45,20 @@ public class IncidentController {
     private final DetectionEvidenceRepository evidence;
     private final ObjectMapper json;
     private final IncidentWorkflow workflow;
+    private final AuditService auditService;
 
     public IncidentController(
             IncidentRepository incidents,
             DetectionEvidenceRepository evidence,
             ObjectMapper json,
-            IncidentWorkflow workflow
+            IncidentWorkflow workflow,
+            AuditService auditService
     ) {
         this.incidents = incidents;
         this.evidence = evidence;
         this.json = json;
         this.workflow = workflow;
+        this.auditService = auditService;
     }
 
     @GetMapping
@@ -101,24 +106,6 @@ public class IncidentController {
         return toResponse(findIncident(id));
     }
 
-    @GetMapping("/{id}/detections")
-    @Transactional(readOnly = true)
-    public DetectionPage detections(
-            @PathVariable UUID id,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
-    ) {
-        validatePage(page, size);
-        Incident incident = findIncident(id);
-        Page<DetectionEvidence> result = evidence.findByEpisodeIdOrderBySequenceAsc(
-                incident.getEpisodeId(), PageRequest.of(page, size));
-        return new DetectionPage(
-                result.getContent().stream()
-                        .map(item -> json.readTree(item.getPayload()))
-                        .toList(),
-                result.getTotalElements(), page, size);
-    }
-
     @PostMapping("/{id}/assignment")
     @Transactional
     public IncidentResponse assign(@PathVariable UUID id,
@@ -136,6 +123,21 @@ public class IncidentController {
         return toResponse(workflow.changeStatus(
                 id, request.status(), request.version(),
                 request.resolutionNote(), authentication));
+    }
+
+    @PostMapping("/{id}/comments")
+    @Transactional
+    public IncidentResponse comment(@PathVariable UUID id,
+                                    @Valid @RequestBody CommentRequest request,
+                                    @RequestHeader(value = "X-Request-ID", required = false)
+                                    UUID headerRequestId,
+                                    Authentication authentication) {
+        if (headerRequestId != null && !headerRequestId.equals(request.requestId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "X-Request-ID must match requestId");
+        }
+        return toResponse(auditService.comment(id, request.text(), request.version(),
+                request.requestId(), authentication));
     }
 
     private Incident findIncident(UUID id) {
