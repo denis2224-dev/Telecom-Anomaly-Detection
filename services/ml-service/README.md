@@ -3,17 +3,17 @@
 This module calculates independent Python VOLTE/SMS features and packages
 synthetic Isolation Forest models. It does not yet serve HTTP inference.
 
-From the repository root, using Python 3.11+:
+From the repository root, using Python 3.13:
 
 ```text
 python -m venv .venv
 # Activate .venv, then:
 python -m pip install -r requirements-dev.txt
 python -m pip install -r services/ml-service/requirements-ml.txt
-python scripts/check-contracts.py
-python -m unittest discover -s services/ml-service/tests -v
 python services/ml-service/training/generate_history.py
 python services/ml-service/training/train.py
+python scripts/check-contracts.py
+python -m unittest discover -s services/ml-service/tests -v
 ```
 
 ## Builder interface
@@ -103,9 +103,10 @@ With `services/ml-service` on the Python path, call `load("VOLTE")` or
 The loader checks the artifact checksum and exact library/feature versions
 before deserializing the bundled local model. Do not load model files from
 untrusted sources. The scorer rejects incomplete, reordered and nonfinite input.
-The committed artifacts were built on Python 3.13; rebuild them on a different
-target Python minor version before packaging that runtime.
-Live detector wiring, private HTTP serving and independent test evaluation are
-later assignments.
+The committed artifacts were built on Python 3.13 and the manifest records the
+exact NumPy, scikit-learn and joblib versions used to package them. Rebuild the
+artifacts on a different target Python minor version before packaging that
+runtime. Generate and package artifacts before running tests that load them.
+Live detector wiring and private HTTP serving are separate integration concerns.
 For this frozen candidate, one representative synthetic SMS fault scored 0.9891,
 below the 0.99 cutoff; the deterministic SMS rule remains the fault trigger.
