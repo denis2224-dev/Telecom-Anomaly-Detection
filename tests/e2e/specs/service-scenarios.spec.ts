@@ -22,6 +22,7 @@ function docker(args: string[], input?: string): string {
 
 test.describe('public service scenario commands', () => {
   test('real supervisor login, idempotent retry, schedule and episode phases', async ({ page, context }) => {
+    test.setTimeout(12 * 60_000); // next-minute start, eight windows and processor finalization
     const username = `scenario-${randomBytes(6).toString('hex')}`;
     const password = `${randomBytes(24).toString('base64url')}!Aa1`;
     const id = docker(['create', 'users', '-r', 'telecom', '-i', '-f', '/dev/stdin'], JSON.stringify({
@@ -44,7 +45,7 @@ test.describe('public service scenario commands', () => {
     expect((await me.json()).roles).toContain('SUPERVISOR');
     const csrf = await (await context.request.get(api('/api/auth/csrf'))).json();
     const requestId = randomUUID();
-    const body = { requestId, seed: 29092026, scopeId: `E2E-${randomBytes(4).toString('hex')}` };
+    const body = { requestId, seed: 29092026, scopeId: 'VOLTE-MD-CENTRAL' };
     const start = await context.request.post(api('/api/simulator/scenarios/VOLTE_IMS_OVERLOAD'), {
       data: body, headers: { [csrf.headerName]: csrf.token },
     });
@@ -57,7 +58,7 @@ test.describe('public service scenario commands', () => {
     expect(await retry.json()).toEqual(first);
 
     await expect.poll(async () => (await (await context.request.get(api(`/api/simulator/runs/${first.runId}`))).json()).status,
-      { timeout: 180000, intervals: [250, 500, 1000, 2000] }).toBe('COMPLETED');
+      { timeout: 660000, intervals: [250, 500, 1000, 2000] }).toBe('COMPLETED');
     const run = await (await context.request.get(api(`/api/simulator/runs/${first.runId}`))).json();
     expect(new Date(run.scheduledEndAt).getTime() - new Date(run.scheduledStartAt).getTime()).toBe(8 * 60_000);
 

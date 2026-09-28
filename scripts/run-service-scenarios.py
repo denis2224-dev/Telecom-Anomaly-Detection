@@ -23,7 +23,7 @@ def main() -> None:
     parser.add_argument("--base-url", default=os.getenv("SERVICE_BASE_URL", "http://telecom.test:8080"))
     parser.add_argument("--cookie", default=os.getenv("SERVICE_SCENARIOS_SESSION_COOKIE"))
     parser.add_argument("--scope-id", default=os.getenv("SERVICE_SCENARIOS_SCOPE", "VOLTE-MD-CENTRAL"))
-    parser.add_argument("--timeout", type=float, default=180.0)
+    parser.add_argument("--timeout", type=float, default=660.0)
     parser.add_argument("--output", type=Path, default=Path("target/service-scenarios.json"))
     args = parser.parse_args()
     if not args.cookie:
