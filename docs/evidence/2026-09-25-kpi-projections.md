@@ -1,6 +1,6 @@
 # Service KPI projection verification
 
-Prepared 28 September 2026 on `feat/service-kpi-projections`.
+Prepared 28 September 2026 on `feat/service-kpi-projections`. Review: [PR #22](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/22).
 
 ## Implemented
 
@@ -17,7 +17,7 @@ Prepared 28 September 2026 on `feat/service-kpi-projections`.
 | `./.venv/bin/python scripts/check-contracts.py` | Passed: observation and detection schemas; 7 voice and 8 SMS parity cases |
 | `git diff main...HEAD --check` | Passed |
 
-The focused test covers the version tie in both read APIs. Existing tests cover exact Kafka replay, null versus zero, immutable storage, half-open time ranges, 24-hour bounds, and pagination limits. The local Compose stack had no running services during this check, so a live Ion-produced KPI window and David's dashboard acceptance remain to be recorded. The local branch has not been pushed or merged.
+The focused test covers the version tie in both read APIs. Existing tests cover exact Kafka replay, null versus zero, immutable storage, half-open time ranges, 24-hour bounds, and pagination limits. The local Compose stack had no running services during this check, so a live Ion-produced KPI window and David's dashboard acceptance remain to be recorded. The branch is pushed and PR #22 is open; GitHub reported no PR checks at the first inspection. It has not been merged.
 
 ## Handoff to finish before merge
 
