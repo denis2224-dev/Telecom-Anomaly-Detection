@@ -1,0 +1,50 @@
+{
+  "modelVersion": "isoforest-v2-synthetic-1",
+  "observationSchemaVersion": 2,
+  "featureSchemaVersion": 2,
+  "featureVersion": 2,
+  "baselineVersion": "baseline-v2",
+  "datasetVersion": "synthetic-v2-1",
+  "datasetManifestSha256": "c14a5d219f1b80aecd68c47f7cede8f1860f349a69c53ff38661fd535ff0a4fc",
+  "pythonVersion": "3.13.9",
+  "numpyVersion": "2.4.6",
+  "sklearnVersion": "1.9.1",
+  "joblibVersion": "1.5.3",
+  "randomState": 15092026,
+  "nEstimators": 200,
+  "thresholdRank": 0.99,
+  "services": {
+    "VOLTE": {
+      "featureNames": [
+        "cssrDeltaPp",
+        "sip503Ratio",
+        "rrcDeltaPp",
+        "bearerDeltaPp",
+        "packetLossRatio",
+        "imsCpuPct"
+      ],
+      "trainingRows": 8064,
+      "calibrationRows": 2016,
+      "modelFile": "VOLTE.joblib",
+      "modelSha256": "ee4dc113e8f0cb1f47f6f644c6786882f2ee348a5b3e947cf5976cc06bf8d8a2",
+      "calibrationFile": "VOLTE-calibration.json",
+      "calibrationSha256": "af69ff545257a065acc72bdb70532ad8b38d99e83b99e243ed20d701345e88f2"
+    },
+    "SMS": {
+      "featureNames": [
+        "p95DelayRatio",
+        "p95DeliveryMs",
+        "queueDepth",
+        "oldestPendingAgeSec",
+        "deliverySrDeltaPp",
+        "deliveredMessages"
+      ],
+      "trainingRows": 8064,
+      "calibrationRows": 2016,
+      "modelFile": "SMS.joblib",
+      "modelSha256": "0068a99f3afc4cec895da19a417756dc4f50ea4d093de79ba874523b83d8be96",
+      "calibrationFile": "SMS-calibration.json",
+      "calibrationSha256": "c3bfea66f86c678578dd56f769e37815404991176e46f297b9110927d0b3f2a7"
+    }
+  }
+}
