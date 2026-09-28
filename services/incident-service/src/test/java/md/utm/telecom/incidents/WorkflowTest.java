@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -237,6 +238,18 @@ class WorkflowTest extends IncidentServiceIntegrationTestSupport {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.version").value(version));
         assertEquals(1L, auditCount());
+        mvc.perform(get("/api/incidents/{id}/timeline", incident.getId())
+                        .session(authenticatedSession())
+                        .with(oidcLogin().idToken(token -> token.issuer(ISSUER)
+                                .subject("alice"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.items[0].actorId")
+                        .value(alice.getId().toString()))
+                .andExpect(jsonPath("$.items[0].requestId")
+                        .value(requestId.toString()))
+                .andExpect(jsonPath("$.items[0].note")
+                        .value("Checking IMS source evidence"));
 
         incident.setTechnicalState(TechnicalState.RECOVERED);
         entityManager.flush();
