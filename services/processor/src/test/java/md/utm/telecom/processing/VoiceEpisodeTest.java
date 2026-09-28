@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
 import java.time.Instant;
+import java.util.List;
 import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.processing.baseline.BaselineRegistry;
 import md.utm.telecom.processing.detection.*;
@@ -44,6 +45,10 @@ class VoiceEpisodeTest {
         var unknown = engine.advance(state, window(2, false, true), start.plusSeconds(600));
         assertEquals("UNKNOWN", unknown.get("phase").asText());
         assertEquals(open.get("impact"), unknown.get("impact"));
+        assertEquals(open.get("severity"), unknown.get("severity"));
+        assertTrue(unknown.get("evidence").toString().contains("HISTORICAL_IMPACT"));
+        assertTrue(unknown.get("evidence").toString().contains(window(1, true, false).get("windowStart").asText()));
+        assertTrue(schema.validate(unknown).isEmpty(), schema.validate(unknown).toString());
         assertEquals("UPDATE", engine.advance(state, window(3, false, false), start.plusSeconds(600)).get("phase").asText());
         assertEquals("UPDATE", engine.advance(state, window(4, false, false), start.plusSeconds(600)).get("phase").asText());
         var recovered = engine.advance(state, window(5, false, false), start.plusSeconds(600));
@@ -53,6 +58,10 @@ class VoiceEpisodeTest {
         var before = state.deepCopy();
         assertNull(engine.advance(state, window(1, true, false), start.plusSeconds(700)));
         assertEquals(before, state);
+        assertNull(engine.advance(state, window(6, true, false), start.plusSeconds(700)));
+        var recurrence = engine.advance(state, window(7, true, false), start.plusSeconds(700));
+        assertEquals("OPEN", recurrence.get("phase").asText());
+        assertNotEquals(open.get("episodeId"), recurrence.get("episodeId"));
     }
     @Test void nonAdjacentBreachesCannotOpenAndGapCannotRecover() throws Exception {
         var engine = engine(); var state = json.createObjectNode();
@@ -61,5 +70,19 @@ class VoiceEpisodeTest {
         assertEquals("OPEN", engine.advance(state, window(3, true, false), start.plusSeconds(600)).get("phase").asText());
         assertEquals("UNKNOWN", engine.advance(state, window(5, false, false), start.plusSeconds(600)).get("phase").asText());
         assertTrue(state.get("active").asBoolean());
+    }
+
+    @Test void legacyActiveEpisodeCanBecomeUnknownWithoutInventedProvenance() throws Exception {
+        var engine = engine(); var state = json.createObjectNode();
+        engine.advance(state, window(0, true, false), start.plusSeconds(600));
+        engine.advance(state, window(1, true, false), start.plusSeconds(600));
+        for (String field : List.of("severityWindow", "severitySources", "impactWindow", "impactSources"))
+            state.remove(field);
+        var unknown = engine.advance(state, window(2, false, true), start.plusSeconds(600));
+        assertEquals("UNKNOWN", unknown.get("phase").asText());
+        assertTrue(unknown.get("evidence").toString().contains("source window unavailable"));
+        var schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
+                ObservationValidator.resource("detections/service-detection-v2.schema.json", json));
+        assertTrue(schema.validate(unknown).isEmpty());
     }
 }
