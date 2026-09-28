@@ -101,24 +101,6 @@ public class IncidentController {
         return toResponse(findIncident(id));
     }
 
-    @GetMapping("/{id}/detections")
-    @Transactional(readOnly = true)
-    public DetectionPage detections(
-            @PathVariable UUID id,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
-    ) {
-        validatePage(page, size);
-        Incident incident = findIncident(id);
-        Page<DetectionEvidence> result = evidence.findByEpisodeIdOrderBySequenceAsc(
-                incident.getEpisodeId(), PageRequest.of(page, size));
-        return new DetectionPage(
-                result.getContent().stream()
-                        .map(item -> json.readTree(item.getPayload()))
-                        .toList(),
-                result.getTotalElements(), page, size);
-    }
-
     @PostMapping("/{id}/assignment")
     @Transactional
     public IncidentResponse assign(@PathVariable UUID id,

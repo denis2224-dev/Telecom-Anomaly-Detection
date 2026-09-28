@@ -1,6 +1,7 @@
 package md.utm.telecom.incidents.exception;
 
 import jakarta.persistence.OptimisticLockException;
+import md.utm.telecom.evidence.controller.EvidenceController;
 import md.utm.telecom.incidents.controller.IncidentController;
 import md.utm.telecom.incidents.security.ApiSecurityErrors;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(assignableTypes = IncidentController.class)
+@RestControllerAdvice(assignableTypes = {
+        IncidentController.class, EvidenceController.class
+})
 public class WorkflowErrors {
     @ExceptionHandler(WorkflowProblem.class)
     ResponseEntity<ApiSecurityErrors.ApiError> workflow(WorkflowProblem error) {
