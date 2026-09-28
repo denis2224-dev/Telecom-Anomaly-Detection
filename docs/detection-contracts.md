@@ -28,6 +28,12 @@ pending streaks and cannot prove recovery; active episodes become UNKNOWN. The g
 zone between trigger and recovery resets recovery streaks and keeps the episode.
 The policy's future heartbeat interval does not change current heartbeat payloads.
 
+For an active UNKNOWN event, the required severity and impact are the last evaluated
+episode values, not measurements of the current window. Evidence names each value's
+source window and source event IDs as historical. Existing persisted episodes without
+that provenance identify it as unavailable instead of inventing it. UNKNOWN does not
+recover an episode or change the analyst's separate workflow status.
+
 Each success rate uses its own denominator. Voice eligible attempts exclude user
 outcomes. Deltas are observed minus baseline in percentage points; extra failures
 are `max(0, baseline - observed) * eligibleAttempts / 100`. These are attempts,
