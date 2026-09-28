@@ -73,6 +73,24 @@ class SmsRuleTest {
                 result.evidence().getFirst().sourceEventIds().getFirst());
     }
 
+    @Test void incompleteServiceStillEvaluatesFreshSMSCBacklogButNotDelayOrRecovery() throws Exception {
+        var detector = rule();
+        var backlog = detector.evaluate(window(0, null, 250, 90).put("quality", "INCOMPLETE"), queue(250, 90));
+        assertEquals("EVALUATED", backlog.status());
+        assertTrue(backlog.breached());
+        assertFalse(backlog.healthy());
+        assertEquals("HIGH", backlog.severity());
+        assertEquals(250, backlog.impact().pendingMessages());
+        assertEquals(0, backlog.impact().affectedDeliveredMessages());
+        assertEquals("SMSC_QUEUE", backlog.evidence().getFirst().code());
+        assertEquals(queue(250, 90).get("eventId").asText(),
+                backlog.evidence().getFirst().sourceEventIds().getFirst());
+
+        var delay = detector.evaluate(window(100, 20001, 0, 0).put("quality", "INCOMPLETE"), queue(0, 0));
+        assertFalse(delay.breached());
+        assertFalse(delay.healthy());
+    }
+
     @Test void delayNeedsSamplesAndBothStrictLimits() throws Exception {
         var detector = rule();
         assertFalse(detector.evaluate(window(29, 20001, null, null), null).breached());

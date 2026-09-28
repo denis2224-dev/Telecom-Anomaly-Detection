@@ -57,7 +57,7 @@ public final class SmsDeliveryRule {
         Map<String, JsonNode> kpis = new HashMap<>();
         for (var kpi : window.required("kpis"))
             require(kpis.putIfAbsent(kpi.required("name").asText(), kpi) == null, "Duplicate KPI name");
-        if (!window.required("quality").asText().equals("COMPLETE")) return unavailable("INSUFFICIENT_DATA", window);
+        boolean serviceComplete = window.required("quality").asText().equals("COMPLETE");
 
         BigDecimal delivered = value(kpis, "deliveredMessages", "COUNT");
         if (delivered != null) count(delivered);
@@ -98,7 +98,7 @@ public final class SmsDeliveryRule {
             }
         }
 
-        boolean delayReady = delivered != null && p95 != null && expected != null && expected.signum() > 0
+        boolean delayReady = serviceComplete && delivered != null && p95 != null && expected != null && expected.signum() > 0
                 && delivered.compareTo(policy.sms("minDeliveredSamples")) >= 0;
         boolean delayBreach = delayReady && p95.compareTo(policy.sms("p95DelayMsStrictlyGreaterThan")) > 0
                 && p95.compareTo(expected.multiply(policy.sms("baselineMultiplierStrictlyGreaterThan"))) > 0;
@@ -107,7 +107,7 @@ public final class SmsDeliveryRule {
         if (!delayReady && !freshQueue)
             return unavailable(baseline.status().equals("BASELINE_MISSING") ? "BASELINE_MISSING" : "INSUFFICIENT_DATA", window);
         boolean breached = delayBreach || backlogBreach;
-        boolean healthy = freshQueue && age.compareTo(policy.sms("recoveryOldestPendingSecAtMost")) <= 0
+        boolean healthy = serviceComplete && freshQueue && age.compareTo(policy.sms("recoveryOldestPendingSecAtMost")) <= 0
                 && ((delayReady && p95.compareTo(policy.sms("recoveryP95DelayMsAtMost")) <= 0
                     && p95.compareTo(expected.multiply(policy.sms("recoveryBaselineMultiplierAtMost"))) <= 0)
                     || (depth.signum() == 0 && delivered != null && delivered.signum() == 0));
