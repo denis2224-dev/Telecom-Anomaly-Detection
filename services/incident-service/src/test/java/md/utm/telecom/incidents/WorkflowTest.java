@@ -221,6 +221,118 @@ class WorkflowTest extends IncidentServiceIntegrationTestSupport {
         assertEquals(0L, auditCount());
     }
 
+    @Test
+    void commentRetryIsIdempotentEvenAfterIncidentVersionChanges() throws Exception {
+        incident.setAssignee(alice);
+        entityManager.flush();
+        long version = incident.getVersion();
+        UUID requestId = UUID.randomUUID();
+        String body = """
+                {"text":"Checking IMS source evidence","version":%d,
+                 "requestId":"%s"}
+                """.formatted(version, requestId);
+
+        mvc.perform(as("alice", "ANALYST", "comments")
+                        .header("X-Request-ID", requestId).content(body))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.version").value(version));
+        assertEquals(1L, auditCount());
+
+        incident.setTechnicalState(TechnicalState.RECOVERED);
+        entityManager.flush();
+        mvc.perform(as("alice", "ANALYST", "comments")
+                        .header("X-Request-ID", requestId).content(body))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.technicalState").value("RECOVERED"));
+        assertEquals(1L, auditCount());
+    }
+
+    @Test
+    void reusedRequestIdWithDifferentTextOrActorReturns409() throws Exception {
+        incident.setAssignee(alice);
+        entityManager.flush();
+        long version = incident.getVersion();
+        UUID requestId = UUID.randomUUID();
+        mvc.perform(as("alice", "ANALYST", "comments").content("""
+                {"text":"Checking IMS","version":%d,"requestId":"%s"}
+                """.formatted(version, requestId)))
+                .andExpect(status().isOk());
+
+        mvc.perform(as("alice", "ANALYST", "comments").content("""
+                {"text":"Changed explanation","version":%d,"requestId":"%s"}
+                """.formatted(version, requestId)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("REQUEST_ID_CONFLICT"));
+        mvc.perform(as("bob", "SUPERVISOR", "comments").content("""
+                {"text":"Checking IMS","version":%d,"requestId":"%s"}
+                """.formatted(version, requestId)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("REQUEST_ID_CONFLICT"));
+        assertEquals(1L, auditCount());
+    }
+
+    @Test
+    void commentsEnforceAssigneeRoleVersionAndEnabledActor() throws Exception {
+        long originalVersion = incident.getVersion();
+        mvc.perform(as("alice", "ANALYST", "comments").content(commentBody(
+                "Not assigned", originalVersion, UUID.randomUUID())))
+                .andExpect(status().isForbidden());
+
+        incident.setAssignee(alice);
+        entityManager.flush();
+        long version = incident.getVersion();
+        mvc.perform(as("bob", "ANALYST", "comments").content(commentBody(
+                "Not assigned", version, UUID.randomUUID())))
+                .andExpect(status().isForbidden());
+        mvc.perform(as("alice", "ANALYST", "comments").content(commentBody(
+                "Stale", originalVersion, UUID.randomUUID())))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("STALE_VERSION"));
+        mvc.perform(as("bob", "SUPERVISOR", "comments").content(commentBody(
+                "Supervisor review", version, UUID.randomUUID())))
+                .andExpect(status().isOk());
+        assertEquals(1L, auditCount());
+
+        alice.setEnabled(false);
+        entityManager.flush();
+        mvc.perform(as("alice", "ANALYST", "comments").content(commentBody(
+                "Disabled", version, UUID.randomUUID())))
+                .andExpect(status().isForbidden());
+        assertEquals(1L, auditCount());
+    }
+
+    @Test
+    void commentsValidateBodyCsrfAndMatchingHeader() throws Exception {
+        incident.setAssignee(alice);
+        entityManager.flush();
+        long version = incident.getVersion();
+        UUID requestId = UUID.randomUUID();
+
+        mvc.perform(as("alice", "ANALYST", "comments").content(commentBody(
+                "   ", version, requestId)))
+                .andExpect(status().isBadRequest());
+        mvc.perform(as("alice", "ANALYST", "comments")
+                        .header("X-Request-ID", UUID.randomUUID())
+                        .content(commentBody("Check", version, requestId)))
+                .andExpect(status().isBadRequest());
+        mvc.perform(post("/api/incidents/{id}/comments", incident.getId())
+                        .session(authenticatedSession())
+                        .with(oidcLogin().idToken(token -> token.issuer(ISSUER)
+                                .subject("alice"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST")))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(commentBody("Check", version, requestId)))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("CSRF_INVALID"));
+        assertEquals(0L, auditCount());
+    }
+
+    private static String commentBody(String text, long version, UUID requestId) {
+        return """
+                {"text":"%s","version":%d,"requestId":"%s"}
+                """.formatted(text, version, requestId);
+    }
+
     private MockHttpServletRequestBuilder as(String subject, String role,
                                              String action) {
         MockHttpSession session = authenticatedSession();

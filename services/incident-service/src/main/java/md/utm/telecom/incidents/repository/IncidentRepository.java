@@ -1,11 +1,15 @@
 package md.utm.telecom.incidents.repository;
 
+import jakarta.persistence.LockModeType;
 import md.utm.telecom.incidents.model.Incident;
 import md.utm.telecom.shared.ServiceType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +19,10 @@ public interface IncidentRepository
         JpaSpecificationExecutor<Incident> {
 
     Optional<Incident> findByEpisodeId(String episodeId);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select i from Incident i where i.id = :id")
+    Optional<Incident> findByIdForUpdate(@Param("id") UUID id);
 
     Page<Incident> findAllByOrderByDetectedAtDescIdDesc(
             Pageable pageable
