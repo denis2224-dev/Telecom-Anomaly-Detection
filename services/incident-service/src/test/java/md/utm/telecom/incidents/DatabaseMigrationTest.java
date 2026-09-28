@@ -55,7 +55,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(1, flyway.migrate().migrationsExecuted);
+        assertEquals(2, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -79,6 +79,12 @@ class DatabaseMigrationTest {
         assertEquals("6", scalar("""
                 SELECT count(*) FROM pg_tables WHERE schemaname = 'app'
                 AND tablename <> 'flyway_schema_history' AND tableowner = 'incidents_migrator'
+                """));
+        assertEquals("1", scalar("""
+                SELECT count(*) FROM pg_indexes
+                WHERE schemaname = 'app'
+                  AND tablename = 'service_kpi_windows'
+                  AND indexname = 'service_kpi_scope_history_idx'
                 """));
         rejects("42501", "CREATE TABLE app.forbidden (id INTEGER)");
         rejects("42501", "CREATE TABLE public.forbidden (id INTEGER)");
