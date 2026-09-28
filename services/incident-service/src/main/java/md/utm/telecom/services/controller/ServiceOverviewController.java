@@ -44,7 +44,9 @@ public class ServiceOverviewController {
     public List<Summary> overview() {
         var now = clock.instant();
         return scopes.stream().map(scope -> {
-            var latest = windows.findFirstByScopeIdOrderByWindowStartDescWindowIdDesc(scope.scopeId());
+            var latest = windows
+                    .findFirstByScopeIdOrderByWindowStartDescReceivedAtDescWindowIdDesc(
+                            scope.scopeId());
             String freshness = latest.isEmpty() || latest.get().getQuality().name().equals("MISSING") ? "MISSING"
                     : latest.get().getWindowEnd().isBefore(now.minusSeconds(90)) ? "STALE" : "FRESH";
             long open = jdbc.queryForObject("SELECT count(*) FROM app.incidents WHERE scope_id=? AND status <> 'RESOLVED'", Long.class, scope.scopeId());

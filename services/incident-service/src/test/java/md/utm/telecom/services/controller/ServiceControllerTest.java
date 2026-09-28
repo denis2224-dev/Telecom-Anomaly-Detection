@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.time.Instant;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -105,6 +106,28 @@ class ServiceControllerTest extends IncidentServiceIntegrationTestSupport {
                 .andExpect(jsonPath("$.items[0].baselineVersion").value("baseline-v3"));
     }
 
+    @Test
+    void overviewAndHistoryChooseTheSameLatestReceivedVersion() throws Exception {
+        String scopeId = "SMS-MD-ROUTE-A";
+        insertWindow(scopeId, "z-older", START, "baseline-v2", "COMPLETE", "1",
+                Instant.parse("2026-09-15T11:00:00Z"));
+        insertWindow(scopeId, "a-newer", START, "baseline-v3", "COMPLETE", "2",
+                Instant.parse("2026-09-15T11:01:00Z"));
+
+        mvc.perform(authenticatedGet(
+                        "/api/services/{scopeId}/kpis?from={from}&to={to}&size=20",
+                        scopeId, START, START.plusSeconds(60)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.total").value(1))
+                .andExpect(jsonPath("$.items[0].windowId").value("a-newer"))
+                .andExpect(jsonPath("$.items[0].kpis[0].baseline").value(99));
+
+        mvc.perform(authenticatedGet("/api/services"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.scope.scopeId=='SMS-MD-ROUTE-A')].latestWindow.windowId")
+                        .value(hasItem("a-newer")));
+    }
+
     private MockHttpServletRequestBuilder history(
             Instant from,
             Instant to,
@@ -126,6 +149,19 @@ class ServiceControllerTest extends IncidentServiceIntegrationTestSupport {
     }
 
     private void insertWindow(
+            String windowId,
+            Instant windowStart,
+            String baselineVersion,
+            String quality,
+            String observed,
+            Instant receivedAt
+    ) {
+        insertWindow(SCOPE, windowId, windowStart, baselineVersion, quality,
+                observed, receivedAt);
+    }
+
+    private void insertWindow(
+            String scopeId,
             String windowId,
             Instant windowStart,
             String baselineVersion,
@@ -157,7 +193,7 @@ class ServiceControllerTest extends IncidentServiceIntegrationTestSupport {
                   "sourceEventIds": []
                 }
                 """.formatted(
-                windowId, SCOPE, windowStart, windowStart.plusSeconds(60),
+                windowId, scopeId, windowStart, windowStart.plusSeconds(60),
                 quality, baselineVersion, observed);
         entityManager.createNativeQuery("""
                         INSERT INTO app.service_kpi_windows (
@@ -171,7 +207,7 @@ class ServiceControllerTest extends IncidentServiceIntegrationTestSupport {
                         )
                         """)
                 .setParameter("windowId", windowId)
-                .setParameter("scopeId", SCOPE)
+                .setParameter("scopeId", scopeId)
                 .setParameter("windowStart", windowStart)
                 .setParameter("windowEnd", windowStart.plusSeconds(60))
                 .setParameter("baselineVersion", baselineVersion)
