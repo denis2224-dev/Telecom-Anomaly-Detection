@@ -71,6 +71,8 @@ class ServiceFeatureBuilderTest {
             assertNumbers(expected.get("featureValues"), actual.get("featureValues"));
             expected.get("kpis").fields().forEachRemaining(e ->
                     assertNumbers(e.getValue(), kpi(actual, e.getKey()).get("observed")));
+            if (expected.has("sourceEventIds"))
+                assertEquals(expected.get("sourceEventIds"), actual.get("sourceEventIds"), c.get("id").asText());
             assertEquals(actual.get("mlEligible").asBoolean() ? order.get("models").get("SMS") : MAPPER.createArrayNode(),
                     actual.get("featureNames"));
             var ids = new ArrayList<String>();
@@ -85,7 +87,8 @@ class ServiceFeatureBuilderTest {
             }
             export.set(c.get("id").asText(), actual);
         }
-        assertTrue(caseIds.containsAll(Set.of("sms-normal", "sms-fault", "sms-zero-completions",
+        assertTrue(caseIds.containsAll(Set.of("sms-normal", "sms-unused-transport-provenance",
+                "sms-fault", "sms-zero-completions",
                 "sms-incomplete", "sms-no-node", "sms-canonical-normal", "sms-canonical-slow-delivery",
                 "sms-nearest-rank-30", "sms-fractional-delay", "sms-fractional-sort",
                 "sms-fractional-over-feature-bound")));

@@ -70,6 +70,8 @@ def reference_cases():
         observed = {k["name"]: k["observed"] for k in result["kpis"]}
         for name, value in expected["kpis"].items():
             compare(value, observed[name], name)
+        if "sourceEventIds" in expected:
+            compare(expected["sourceEventIds"], result["sourceEventIds"], case["id"] + "/sourceEventIds")
         results[case["id"]] = result
     return results
 

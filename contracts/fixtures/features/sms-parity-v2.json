@@ -27,6 +27,37 @@
       }
     },
     {
+      "id": "sms-unused-transport-provenance",
+      "observation": "normal-sms",
+      "nodes": [
+        "normal-smsc",
+        "normal-sms-transport"
+      ],
+      "metricsPatch": {},
+      "envelopePatch": {},
+      "expected": {
+        "mlEligible": true,
+        "featureValues": [
+          1,
+          2000,
+          0,
+          0,
+          -0.9607843137254902,
+          100
+        ],
+        "kpis": {
+          "p95DeliveryMs": 2000,
+          "deliverySrPct": 98.03921568627452,
+          "queueDepth": 0,
+          "oldestPendingAgeSec": 0
+        },
+        "sourceEventIds": [
+          "031c8c0e-7089-531b-9d66-4dde5b3c4e2f",
+          "88b487c9-3231-5050-b58c-cc78984506eb"
+        ]
+      }
+    },
+    {
       "id": "sms-fault",
       "observation": "degraded-sms",
       "nodes": [
