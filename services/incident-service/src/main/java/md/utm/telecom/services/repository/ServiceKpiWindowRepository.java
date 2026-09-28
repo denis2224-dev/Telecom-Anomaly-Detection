@@ -18,7 +18,7 @@ public interface ServiceKpiWindowRepository
 
     Optional<ServiceKpiWindow> findById(String windowId);
 
-    Optional<ServiceKpiWindow> findFirstByScopeIdOrderByWindowStartDescWindowIdDesc(
+    Optional<ServiceKpiWindow> findFirstByScopeIdOrderByWindowStartDescReceivedAtDescWindowIdDesc(
             String scopeId);
 
     Optional<ServiceKpiWindow> findByServiceAndScopeIdAndWindowStartAndFeatureVersionAndBaselineVersionAndTopologyVersion(

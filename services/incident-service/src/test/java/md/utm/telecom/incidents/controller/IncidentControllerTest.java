@@ -5,11 +5,14 @@ import md.utm.telecom.analysts.model.Analyst;
 import md.utm.telecom.analysts.repository.AnalystRepository;
 import md.utm.telecom.evidence.model.DetectionEvidence;
 import md.utm.telecom.evidence.repository.DetectionEvidenceRepository;
+import md.utm.telecom.incidents.model.ActorKind;
 import md.utm.telecom.incidents.model.Incident;
+import md.utm.telecom.incidents.model.IncidentAudit;
 import md.utm.telecom.incidents.model.IncidentStatus;
 import md.utm.telecom.incidents.model.Severity;
 import md.utm.telecom.incidents.model.TechnicalState;
 import md.utm.telecom.incidents.repository.IncidentRepository;
+import md.utm.telecom.incidents.repository.IncidentAuditRepository;
 import md.utm.telecom.shared.ServiceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +23,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -38,6 +43,9 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
 
     @Autowired
     AnalystRepository analysts;
+
+    @Autowired
+    IncidentAuditRepository audits;
 
     private Analyst analyst;
 
@@ -155,6 +163,98 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
                 .andExpect(jsonPath("$.items[2].sequence").value(3));
     }
 
+    @Test
+    void recoveredEpisodeKeepsUnknownAndRecoveryEvidenceWithOriginalValues() throws Exception {
+        Instant start = Instant.parse("2026-09-15T10:00:00Z");
+        String episode = "episode-recovered-history";
+        DetectionEvidence opening = detection(episode, 1, DetectionEvidence.Phase.OPEN,
+                ServiceType.VOLTE, "VOLTE-CENTRAL", start, start.plusSeconds(70));
+        evidence.insert(opening);
+        entityManager.flush();
+        Incident incident = new Incident(opening, Severity.HIGH, start);
+        for (int sequence = 2; sequence <= 3; sequence++) {
+            Instant window = start.plusSeconds((sequence - 1L) * 60L);
+            DetectionEvidence item = detection(episode, sequence,
+                    sequence == 2 ? DetectionEvidence.Phase.UNKNOWN
+                            : DetectionEvidence.Phase.RECOVERY,
+                    ServiceType.VOLTE, "VOLTE-CENTRAL", window, window.plusSeconds(70));
+            evidence.insert(item);
+            entityManager.flush();
+            incident.setLatestEvidence(item);
+        }
+        incident.setTechnicalState(TechnicalState.RECOVERED);
+        incident.setAssignee(analyst);
+        incident.setStatus(IncidentStatus.RESOLVED);
+        incident.setResolutionNote("Verified recovery");
+        incidents.save(incident);
+        entityManager.flush();
+
+        String[] phases = {"OPEN", "UNKNOWN", "RECOVERY"};
+        for (int page = 0; page < phases.length; page++) {
+            mvc.perform(authenticatedGet(
+                            "/api/incidents/{id}/detections?page=" + page + "&size=1",
+                            incident.getId()))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.total").value(3))
+                    .andExpect(jsonPath("$.items[0].sequence").value(page + 1))
+                    .andExpect(jsonPath("$.items[0].phase").value(phases[page]))
+                    .andExpect(jsonPath("$.items[0].probableCause")
+                            .value("Check IMS dependency"))
+                    .andExpect(jsonPath("$.items[0].evidence[0].sourceEventIds[0]")
+                            .value("00000000-0000-0000-0000-000000000001"))
+                    .andExpect(jsonPath("$.items[0].kpis[0].numerator").value(940))
+                    .andExpect(jsonPath("$.items[0].kpis[0].denominator").value(1000))
+                    .andExpect(jsonPath("$.items[0].impact.uniqueSubscribers")
+                            .value(nullValue()));
+        }
+    }
+
+    @Test
+    void timelinePagesSystemAndHumanActionsWithoutOtherIncidentRows() throws Exception {
+        Incident incident = saveIncident("episode-timeline", ServiceType.VOLTE,
+                "VOLTE-CENTRAL", Instant.parse("2026-09-15T10:01:10Z"),
+                IncidentStatus.OPEN, TechnicalState.ONGOING, 1);
+        DetectionEvidence opening = evidence.findByEpisodeIdAndSequence(
+                incident.getEpisodeId(), 1).orElseThrow();
+        audits.insert(new IncidentAudit(incident, ActorKind.SYSTEM, null, "OPEN",
+                UUID.randomUUID(), opening, null, null, null));
+        entityManager.flush();
+        audits.insert(new IncidentAudit(incident, ActorKind.ANALYST, analyst, "COMMENT",
+                UUID.randomUUID(), null, null, null, "Checking IMS"));
+        entityManager.flush();
+
+        Incident other = saveIncident("episode-other-timeline", ServiceType.SMS,
+                "SMS-CENTRAL", Instant.parse("2026-09-15T10:02:10Z"),
+                IncidentStatus.OPEN, TechnicalState.ONGOING, 1);
+        audits.insert(new IncidentAudit(other, ActorKind.ANALYST, analyst, "COMMENT",
+                UUID.randomUUID(), null, null, null, "Other incident"));
+        entityManager.flush();
+
+        mvc.perform(authenticatedGet(
+                        "/api/incidents/{id}/timeline?page=0&size=1", incident.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.total").value(2))
+                .andExpect(jsonPath("$.items[0].action").value("OPEN"))
+                .andExpect(jsonPath("$.items[0].actorId").value(nullValue()));
+        mvc.perform(authenticatedGet(
+                        "/api/incidents/{id}/timeline?page=1&size=1", incident.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.items[0].action").value("COMMENT"))
+                .andExpect(jsonPath("$.items[0].actorId")
+                        .value(analyst.getId().toString()));
+    }
+
+    @Test
+    void evidencePagesRejectBadBoundsAndUnknownIncident() throws Exception {
+        UUID missing = UUID.randomUUID();
+        mvc.perform(authenticatedGet("/api/incidents/{id}/timeline?size=101", missing))
+                .andExpect(status().isBadRequest());
+        mvc.perform(authenticatedGet("/api/incidents/{id}/detections?page=-1", missing))
+                .andExpect(status().isBadRequest());
+        mvc.perform(authenticatedGet("/api/incidents/{id}/timeline", missing))
+                .andExpect(status().isNotFound());
+    }
+
     private void assertEpisodes(String query, String... expected) throws Exception {
         var result = mvc.perform(authenticatedGet("/api/incidents?size=10&" + query))
                 .andExpect(status().isOk())
@@ -214,7 +314,16 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
         String detectionId = episodeId + "-detection-" + sequence;
         String payload = """
                 {"schemaVersion":2,"detectionId":"%s","episodeId":"%s",
-                 "sequence":%d,"phase":"%s","service":"%s","scopeId":"%s"}
+                 "sequence":%d,"phase":"%s","service":"%s","scopeId":"%s",
+                 "probableCause":"Check IMS dependency",
+                 "evidence":[{"code":"IMS_CPU_HIGH","summary":"CPU high",
+                              "nodeId":"IMS-A",
+                              "sourceEventIds":["00000000-0000-0000-0000-000000000001"]}],
+                 "kpis":[{"name":"CSSR","observed":94,"baseline":99.3,
+                          "unit":"PERCENT","numerator":940,"denominator":1000}],
+                 "impact":{"extraFailedAttempts":53,
+                           "affectedDeliveredMessages":0,"pendingMessages":0,
+                           "uniqueSubscribers":null}}
                 """.formatted(
                 detectionId, episodeId, sequence, phase, service, scopeId);
         return new DetectionEvidence(

@@ -64,7 +64,7 @@ public class ServiceController {
         }
 
         ServiceKpiWindow latest = windows
-                .findFirstByScopeIdOrderByWindowStartDescWindowIdDesc(scopeId)
+                .findFirstByScopeIdOrderByWindowStartDescReceivedAtDescWindowIdDesc(scopeId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Service scope not found"));
 
