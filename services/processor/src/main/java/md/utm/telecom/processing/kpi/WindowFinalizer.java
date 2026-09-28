@@ -31,14 +31,14 @@ public class WindowFinalizer {
     private final JdbcTemplate jdbc;
     private final Clock clock;
     private final ScopeRegistry scopes;
-    private final VoiceFeatureBuilder features;
+    private final ServiceFeatureBuilder features;
     private final PayloadCodec codec;
     private final SourceFreshness sourceFreshness;
     private final DetectionPolicy policy;
     private final WindowDecisionLock decisionLock;
     private static final Logger LOG = LoggerFactory.getLogger(WindowFinalizer.class);
 
-    public WindowFinalizer(JdbcTemplate jdbc, Clock clock, ScopeRegistry scopes, VoiceFeatureBuilder features,
+    public WindowFinalizer(JdbcTemplate jdbc, Clock clock, ScopeRegistry scopes, ServiceFeatureBuilder features,
                            PayloadCodec codec, SourceFreshness sourceFreshness, DetectionPolicy policy,
                            WindowDecisionLock decisionLock) {
         this.jdbc = jdbc;
