@@ -68,6 +68,36 @@ public class SmsQueueScenario {
         return List.copyOf(result);
     }
 
+    /** Healthy control uses the same seeded observation path as the SMS fault profile. */
+    public List<String> generateHealthy(Instant start, long seed) {
+        validateMinuteAlignment(start);
+        var result = new ArrayList<String>();
+        for (int minute = 0; minute < 8; minute++) {
+            result.addAll(generateSeededWindow(start.plusSeconds(minute * 60L), Phase.NORMAL, seed));
+        }
+        return List.copyOf(result);
+    }
+
+    /** An explicit missing SERVICE report retains healthy node evidence without invented service counters. */
+    public List<String> generateTelemetryGap(Instant start, long seed) {
+        validateMinuteAlignment(start);
+        var result = new ArrayList<String>();
+        for (int minute = 0; minute < 8; minute++) {
+            Instant from = start.plusSeconds(minute * 60L);
+            var healthy = generateSeededWindow(from, Phase.NORMAL, seed);
+            result.add(healthy.get(0));
+            if (minute >= 2 && minute < 5) {
+                ObjectNode missing = createEnvelope(from, SERVICE_SOURCE_ID, "SERVICE", "MISSING");
+                missing.put("service", SERVICE);
+                validator.validate(missing);
+                result.add(missing.toString());
+            } else {
+                result.add(healthy.get(1));
+            }
+        }
+        return List.copyOf(result);
+    }
+
     /**
      * Generates a seeded 1-minute window with deterministic measurement variation.
      * The per-window RNG is derived from the supplied seed XOR'd with the stable event

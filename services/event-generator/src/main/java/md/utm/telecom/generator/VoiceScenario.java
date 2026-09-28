@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  * The regular processor calculates all KPIs and detections from these observations. */
 @Component
 public class VoiceScenario {
+    public enum Profile { VOLTE_IMS_OVERLOAD, NORMAL_CONTROL, TELEMETRY_GAP }
     private final ObjectMapper json;
     private final ObservationValidator validator;
     public VoiceScenario(ObjectMapper json, ObservationValidator validator) { this.json = json; this.validator = validator; }
@@ -41,6 +42,41 @@ public class VoiceScenario {
                         .put("sip503Count", degraded ? 80 : 2);
             }
             validator.validate(service); result.add(service.toString());
+        }
+        return List.copyOf(result);
+    }
+    /** Day 10 profiles; the legacy G1 generate method retains its original fixture. */
+    public List<String> generate(Instant start, long seed, Profile profile) {
+        if (start.getNano() != 0 || Math.floorMod(start.getEpochSecond(), 60) != 0)
+            throw new IllegalArgumentException("Start must be an aligned UTC minute");
+        var result = new ArrayList<String>();
+        for (int minute = 0; minute < 8; minute++) {
+            Instant from = start.plusSeconds(minute * 60L);
+            boolean fault = minute >= 2 && minute < 5;
+            boolean missing = profile == Profile.TELEMETRY_GAP && fault;
+            boolean overload = profile == Profile.VOLTE_IMS_OVERLOAD && fault;
+            ObjectNode node = event(from, "IMS-A", "NODE", "COMPLETE");
+            node.put("nodeId", "IMS-A");
+            node.putObject("metrics").put("cpuPct", overload ? 95 : 35);
+            validator.validate(node);
+            result.add(node.toString());
+
+            ObjectNode service = event(from, "VOLTE-ADAPTER", "SERVICE", missing ? "MISSING" : "COMPLETE");
+            service.put("service", "VOLTE");
+            if (!missing) {
+                // The tracked voice-worked parity case uses 1,000 eligible attempts,
+                // 60 technical failures and 55 SIP 503 responses during overload.
+                // Seed affects only the healthy measurement variation.
+                int eligible = overload ? 1000 : 1000 + new Random(seed ^ from.getEpochSecond()).nextInt(10);
+                int failed = overload ? 60 : 5;
+                service.putObject("metrics").put("attempts", eligible + 20).put("userOutcomes", 20)
+                        .put("technicalSuccesses", eligible - failed).put("technicalFailures", failed)
+                        .put("rrcAttempts", 1200).put("rrcSuccesses", 1194)
+                        .put("bearerAttempts", 1100).put("bearerSuccesses", 1095)
+                        .put("sip503Count", overload ? 55 : 2);
+            }
+            validator.validate(service);
+            result.add(service.toString());
         }
         return List.copyOf(result);
     }

@@ -1,0 +1,181 @@
+openapi: 3.0.3
+info:
+  title: Private Event Generator Scenario API
+  version: 0.1.0
+  description: >-
+    Private service-to-service execution boundary. The incident service persists the
+    public command before delivery. This API has no browser authentication surface.
+    Keep port 8081 on the internal Compose network, never on NGINX.
+servers:
+  - url: http://event-generator:8081
+paths:
+  /internal/scenario-runs/{runId}:
+    parameters:
+      - $ref: '#/components/parameters/RunId'
+    put:
+      operationId: startScenarioExecution
+      description: >-
+        Create one process-local execution for a persisted runId. Exact retries in
+        this process return the same state without rescheduling. A different body
+        for the same runId returns RUN_CONFLICT. A new delivery at or after its
+        scheduled start returns SCHEDULE_ALREADY_STARTED, preventing replay after
+        generator restart. A future run may be redelivered safely after restart.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecutionCommand'
+      responses:
+        '202':
+          description: Accepted or exact retry; schedule is unchanged.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionStatus'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+    get:
+      operationId: getScenarioExecution
+      description: >-
+        RUN_NOT_FOUND means this generator process has no execution. For a run
+        already dispatched by the durable incident-service ledger, reconcile it as
+        FAILED/interrupted if its scheduled start has passed. Before the start,
+        the incident service may retry the identical START command.
+      responses:
+        '200':
+          description: Current process-local execution state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /internal/scenario-runs/{runId}/stop:
+    parameters:
+      - $ref: '#/components/parameters/RunId'
+    post:
+      operationId: stopScenarioExecution
+      description: >-
+        Prevent unsent windows. An in-flight Kafka send finishes before STOP takes
+        effect; acknowledged observations remain immutable. Repeated STOP returns
+        STOPPED. COMPLETED and FAILED return RUN_TERMINAL without relabeling.
+      responses:
+        '200':
+          description: Stopped or already stopped.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+components:
+  parameters:
+    RunId:
+      name: runId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    BadRequest:
+      description: Invalid execution command, schedule, scenario or scope.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Conflicting retry, stale schedule or immutable terminal state.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Unknown process-local run; reconcile against the durable ledger.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unavailable:
+      description: Scheduler could not accept the execution.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ExecutionCommand:
+      type: object
+      additionalProperties: false
+      required: [scenarioType, scopeId, seed, scheduledStartAt, scheduledEndAt]
+      properties:
+        scenarioType:
+          type: string
+          enum: [VOLTE_IMS_OVERLOAD, SMS_QUEUE_DELAY, NORMAL_CONTROL, TELEMETRY_GAP]
+        scopeId:
+          type: string
+          pattern: '^[A-Za-z0-9_.:-]{1,96}$'
+        seed:
+          type: integer
+          format: int64
+          minimum: 0
+        scheduledStartAt:
+          type: string
+          format: date-time
+          description: Aligned UTC minute, strictly in the future for a new run.
+        scheduledEndAt:
+          type: string
+          format: date-time
+          description: Exactly eight minutes after scheduledStartAt.
+    ExecutionStatus:
+      type: object
+      additionalProperties: false
+      required: [runId, scenarioType, scopeId, seed, scheduledStartAt, scheduledEndAt, status, publishedWindows]
+      properties:
+        runId:
+          type: string
+          format: uuid
+        scenarioType:
+          $ref: '#/components/schemas/ExecutionCommand/properties/scenarioType'
+        scopeId:
+          type: string
+        seed:
+          type: integer
+          format: int64
+          minimum: 0
+        scheduledStartAt:
+          type: string
+          format: date-time
+        scheduledEndAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [SCHEDULED, RUNNING, COMPLETED, STOPPED, FAILED]
+        publishedWindows:
+          type: integer
+          minimum: 0
+          maximum: 8
+          description: Fully acknowledged one-minute windows; a failed window may have partial publication.
+        failureCode:
+          type: string
+          nullable: true
+          enum: [PUBLISH_FAILED]
+          description: Fixed safe code; never a broker exception or stack trace.
+    Error:
+      type: object
+      additionalProperties: false
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          enum: [INVALID_COMMAND, INVALID_SEED, INVALID_SCHEDULE, UNSUPPORTED_SCENARIO, INVALID_SCOPE,
+                 RUN_CONFLICT, SCHEDULE_ALREADY_STARTED, RUN_TERMINAL, RUN_NOT_FOUND, SCHEDULING_FAILED]
+        message:
+          type: string

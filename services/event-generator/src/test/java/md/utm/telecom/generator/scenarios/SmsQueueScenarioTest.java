@@ -16,6 +16,27 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SmsQueueScenarioTest {
+    @Test
+    void controlStaysHealthyAndGapReportsMissingWithoutZeroSamples() throws Exception {
+        var control = scenario.generateHealthy(baseStart, 42);
+        var gap = scenario.generateTelemetryGap(baseStart, 42);
+        assertEquals(16, control.size());
+        assertEquals(16, gap.size());
+        for (int minute = 0; minute < 8; minute++) {
+            var controlNode = json.readTree(control.get(minute * 2));
+            var controlService = json.readTree(control.get(minute * 2 + 1));
+            assertEquals(0, controlNode.get("metrics").get("queueDepth").asInt());
+            assertEquals("COMPLETE", controlService.get("quality").asText());
+            assertEquals(controlService.get("eventId"), json.readTree(gap.get(minute * 2 + 1)).get("eventId"));
+            var gapService = json.readTree(gap.get(minute * 2 + 1));
+            if (minute >= 2 && minute < 5) {
+                assertEquals("MISSING", gapService.get("quality").asText());
+                assertFalse(gapService.has("metrics"));
+            } else {
+                assertEquals("COMPLETE", gapService.get("quality").asText());
+            }
+        }
+    }
     private ObjectMapper json;
     private ObservationValidator validator;
     private TopologyCatalog topology;

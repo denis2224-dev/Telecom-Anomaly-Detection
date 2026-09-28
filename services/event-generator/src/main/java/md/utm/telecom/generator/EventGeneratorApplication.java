@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -22,5 +23,15 @@ public class EventGeneratorApplication {
     Clock generationClock(GeneratorProperties properties) {
         return properties.logicalTime() == null ? Clock.systemUTC()
                 : Clock.fixed(properties.logicalTime(), ZoneOffset.UTC);
+    }
+
+    @Bean
+    ThreadPoolTaskScheduler scenarioTaskScheduler() {
+        var scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setPoolSize(1);
+        scheduler.setThreadNamePrefix("scenario-run-");
+        scheduler.setRemoveOnCancelPolicy(true);
+        scheduler.setWaitForTasksToCompleteOnShutdown(false);
+        return scheduler;
     }
 }
