@@ -10,6 +10,7 @@ import { EvidenceTimelineComponent } from './evidence-timeline.component';
 @Component({
   selector: 'app-incident-detail',
   imports: [DatePipe, RouterLink, EvidenceTimelineComponent],
+  styles: ['code { overflow-wrap: anywhere; }'],
   template: `
     <h1>Incident investigation</h1>
 
