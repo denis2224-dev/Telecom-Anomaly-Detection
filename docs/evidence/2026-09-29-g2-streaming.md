@@ -373,7 +373,8 @@ One private generator run per service was scheduled in parallel for
 `COMPLETED` with eight published windows. The merged Compose generator,
 processor and ML service, host incident consumer, Kafka and PostgreSQL were
 running. Counts below were read from processing and incident databases, not
-from generator expectations.
+from generator expectations. VoLTE used scope `VOLTE-MD-CENTRAL`; SMS used
+scope `SMS-MD-ROUTE-A`.
 
 | Service / run ID | Accepted / feature / incident KPI | Episode ID | OPEN detection ID / rank | RECOVERY detection ID / rank | Incident ID |
 | --- | --- | --- | --- | --- | --- |
