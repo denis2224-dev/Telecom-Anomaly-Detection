@@ -221,8 +221,8 @@ The tested Ion branch's `services/ml-service` contains a Python feature builder
 and nine feature tests, but no model artifacts, manifest, HTTP inference
 service, processor ML client, model version persistence, or rank producer.
 After the live run, PR #27 merged into `origin/main` at `a6da77c`, adding
-packaged VoLTE/SMS models and a local scorer. Those files have not been merged
-into this branch, and current main still has no HTTP inference service or
+packaged VoLTE/SMS models and a local scorer. At the original handoff review,
+those files had not yet been merged into this branch, and main had no HTTP inference service or
 processor ML client. Sergiu's separate `feat/sergiu-days-11-12` branch contains
 candidate runtime wiring; it is not merged or live-verified here. The threshold
 remains frozen at 0.99 and was not changed. VoLTE live detections truthfully
@@ -287,3 +287,45 @@ The gate remains **PARTIAL** until live SMS episodes, real model ranks,
 public durable dispatch, and authenticated API/dashboard visibility are
 exercised. Local component tests and the private live run do not substitute
 for those missing boundaries.
+
+## Post-merge compatibility check
+
+This check is separate from the original 11:04–11:44 UTC live run. The feature
+branch was `8aeee4c721598079ee54a935b59fc6e722eb32e1` before the merge;
+fetched `origin/main` was `a6da77cdab401e9468cae1988127e7f364d67a06`;
+the conflict-free merge commit was `ed0fc38dd77bf60e9842375502d60b5cd20f1fdf`.
+Main changed ML packaging and a dashboard sample-volume component, with no
+overlap in Ion's generator or processor implementation. Processor migration
+V005 remains unique; main ends at V004.
+
+PR #27 packages both VoLTE and SMS Isolation Forest artifacts, calibration
+files, a manifest with `isoforest-v2-synthetic-1` and SHA-256 checksums, and a
+local Python scorer. The 13 ML tests passed, including artifact integrity and
+finite ranks for eligible VoLTE and SMS vectors. This proves local model load
+and score only. There is still no HTTP inference service, processor ML client,
+runtime invocation for either service, anomaly-rank propagation into
+`ServiceDetectionV2`, or timeout/unavailable inference handoff. The VoLTE
+episode assembler still writes null model version and rank. Main did not add an
+SMS episode worker, SMS detection outbox, or SMS detection publication.
+
+Post-merge commands and results (Java 21, Maven 3.9.16, bounded Surefire heap):
+
+| Command | Result |
+| --- | --- |
+| `.\.venv\Scripts\python.exe -B scripts/check-contracts.py` | PASS: 13 observation fixtures, four detection payloads, seven voice and 12 SMS parity cases |
+| `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v` | PASS: 17 tests |
+| `.\.venv\Scripts\python.exe -B -m unittest discover -s services/ml-service/tests -v` | PASS: 13 tests, including four new packaging/scoring tests |
+| `.\.venv\Scripts\python.exe -B scripts/check-voice-parity.py` | PASS: seven comparisons |
+| `.\.venv\Scripts\python.exe -B scripts/check-sms-parity.py --java-output services/processor/target/sms-parity-java.json` | PASS: 12 comparisons |
+| `mvn -q -pl services/event-generator -am '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' test` | PASS: 58 streaming-support and 44 generator tests |
+| `mvn -q -pl services/processor -am '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' test` | PASS: 58 streaming-support and 169 processor tests, including SMS KPI delivery, finalization, feature builder, rules, and episode tests |
+| `mvn -q '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' test` in incident-service | INCOMPLETE: 93 tests ran, 71 context errors and zero assertion failures; Testcontainers could not find a Docker engine |
+| `git diff --check` | PASS |
+
+The local Docker pipe was absent during the incident-service run, so its
+database-backed regression suite needs a repeat when Docker is available.
+This environment limitation does not alter the prior live run's measured
+events, windows, detections, or incidents. No 40-minute scenario replay was
+needed: the merge made no generator or processor runtime changes. G2 remains
+**PARTIAL** pending the existing SMS, inference, public dispatch, and
+authenticated visibility boundaries.
