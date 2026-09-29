@@ -53,12 +53,13 @@ host port 8082; `./scripts/up` does not start that host process.
 `scripts/up` validates configuration, waits for PostgreSQL and Kafka health, runs
 the database provisioner, starts Keycloak and imports the local realm, synchronizes
 the backend client secret into `.env`, then starts the proxy. After successful
-topic initialization, it builds and starts the event-generator and processor. Both Java applications must pass
-`/actuator/health/readiness`; a running container alone is insufficient. Startup
+topic initialization, it builds and starts the event-generator, processor and private ML service.
+Both Java applications must pass `/actuator/health/readiness` and the ML service must pass
+`/health/ready`; a running container alone is insufficient. Startup
 health waits are bounded to 120 seconds per phase, or 180 seconds for Keycloak's
 initial database migration and development-mode startup.
 
-Application ports (`8081` for the generator, `8083` for the processor) are private
+Application ports (`8081` for the generator, `8083` for the processor, `8090` for ML) are private
 to the Compose network. Inspect health with `docker compose ps` and diagnose
 startup failures with `docker compose logs --tail=100 <service>`. The processor receives separate runtime and Flyway credentials for `processing_db.app`;
 the generator has no database credentials. Keycloak receives only its own database and bootstrap admin
@@ -184,7 +185,7 @@ a JAR from Bash with `set -a; source .env; set +a`. If host ports change, update
 these URLs and the Kafka bootstrap address too. The generator and processor
 containers explicitly use `kafka:9092`, regardless of the host bootstrap setting.
 Application containers requiring a database must use `postgres:5432`. The processor
-currently has no datasource configuration; its database settings are reserved for persistence.
+owns `processing_db`; the ML service has no database and is reached at `http://ml-service:8090`.
 
 Authentication uses the documented Keycloak/server-session design; no custom
 `JWT_SIGNING_SECRET` is required.
@@ -192,7 +193,7 @@ Authentication uses the documented Keycloak/server-session design; no custom
 `./scripts/verify` requires the host incident service on port 8082. It checks all
 three databases, database ownership and connection isolation, each application
 schema's ownership and runtime permissions, all six V1 and five V2 Kafka topics,
-both Java application readiness endpoints, Keycloak readiness, the telecom realm's
+both Java application readiness endpoints, ML readiness, Keycloak readiness, the telecom realm's
 discovery through the proxy, host DNS, and authentication routing. V2 topic
 names and retention settings are configured in `.env`; V1 topics remain separate.
 Topic creation adds missing topics; changing retention or partition settings does

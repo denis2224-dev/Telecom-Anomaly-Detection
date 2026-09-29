@@ -16,6 +16,8 @@ import md.utm.telecom.processing.ObservationInput;
 import md.utm.telecom.processing.PostgresFixture;
 import md.utm.telecom.processing.baseline.BaselineRegistry;
 import md.utm.telecom.processing.detection.DetectionPolicy;
+import md.utm.telecom.processing.detection.MlClient;
+import md.utm.telecom.processing.detection.SmsDeliveryRule;
 import md.utm.telecom.processing.detection.VoiceDeliveryService;
 import md.utm.telecom.processing.detection.VoiceEpisode;
 import md.utm.telecom.processing.detection.VoiceSetupRule;
@@ -65,7 +67,8 @@ class MissingWindowHandoffIT {
     @Import({WindowFinalizer.class, WindowFinalizationScheduler.class, ServiceFeatureBuilder.class,
             BaselineRegistry.class, ScopeRegistry.class, PayloadCodec.class, IngestionService.class,
             ObservationInput.class, EvidenceJoiner.class, SourceFreshness.class, WindowDecisionLock.class,
-            DetectionPolicy.class, VoiceEpisode.class, VoiceSetupRule.class, VoiceDeliveryService.class})
+            DetectionPolicy.class, VoiceEpisode.class, VoiceSetupRule.class, SmsDeliveryRule.class,
+            MlClient.class, VoiceDeliveryService.class})
     static class Config {
         @Bean DataSource dataSource() {
             Flyway.configure().dataSource(PostgresFixture.url("processing_db"), "processing_migrator", "test-migrator")

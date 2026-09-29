@@ -195,7 +195,13 @@ public class WindowFinalizer {
         LOG.info("Finalizing absent service interval: service={} scopeId={} windowStart={} sourceActivity={}",
                 serviceName, scopeId, windowStart, sourceFreshness.activityFreshness(scopeId, serviceSource));
 
-        var feature = features.buildMissing(scopeId, windowStart, bucket.end());
+        var nodes = jdbc.query("""
+                SELECT payload::text FROM app.observation_receipt
+                WHERE scope_id=? AND window_start=? AND window_end=? AND kind='NODE'
+                ORDER BY event_id
+                """, (rs, row) -> parse(rs.getString(1)), scopeId, Timestamp.from(windowStart),
+                Timestamp.from(bucket.end()));
+        var feature = features.buildMissing(scopeId, windowStart, bucket.end(), nodes);
         String payload = codec.canonical(feature);
         jdbc.update("""
                 INSERT INTO app.feature_outbox
