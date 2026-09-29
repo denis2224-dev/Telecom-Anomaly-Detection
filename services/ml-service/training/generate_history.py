@@ -117,7 +117,7 @@ def generate(output=DATA, cadence_minutes=5):
                              path=path.name, sha256=digest.hexdigest()))
     manifest = dict(datasetVersion="synthetic-v2-1", featureVersion=2,
                     baselineVersion=BASELINES["baselineVersion"], runs=runs)
-    (output.parent / "split_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    (output.parent / "split_manifest.json").write_bytes((json.dumps(manifest, indent=2) + "\n").encode("utf-8"))
     return manifest
 
 

@@ -4,3 +4,8 @@ scripts/* text eol=lf
 
 # Linux image builds execute the Maven wrapper directly.
 /mvnw text eol=lf
+
+services/ml-service/training/split_manifest.json text eol=lf
+services/ml-service/models/*-calibration.json text eol=lf
+services/ml-service/models/manifest.json text eol=lf
+services/ml-service/models/*.joblib binary

@@ -10,10 +10,16 @@ python -m venv .venv
 # Activate .venv, then:
 python -m pip install -r requirements-dev.txt
 python -m pip install -r services/ml-service/requirements-ml.txt
-python services/ml-service/training/generate_history.py
-python services/ml-service/training/train.py
 python scripts/check-contracts.py
 python -m unittest discover -s services/ml-service/tests -v
+```
+
+These checks validate the committed models before rebuilding them. To reproduce
+the training history and package new artifacts, run:
+
+```text
+python services/ml-service/training/generate_history.py
+python services/ml-service/training/train.py
 ```
 
 ## Builder interface
@@ -106,7 +112,9 @@ untrusted sources. The scorer rejects incomplete, reordered and nonfinite input.
 The committed artifacts were built on Python 3.13 and the manifest records the
 exact NumPy, scikit-learn and joblib versions used to package them. Rebuild the
 artifacts on a different target Python minor version before packaging that
-runtime. Generate and package artifacts before running tests that load them.
+runtime. Calibration and manifest JSON use UTF-8 with LF line endings so hashes
+remain valid across Windows and Linux checkouts. The packaged-file regression
+checks the committed dataset manifest, calibration files and model hashes.
 Live detector wiring and private HTTP serving are separate integration concerns.
 For this frozen candidate, one representative synthetic SMS fault scored 0.9891,
 below the 0.99 cutoff; the deterministic SMS rule remains the fault trigger.

@@ -59,14 +59,14 @@ def train(data=HERE / "data", models=MODELS):
         model_file = models / (service + ".joblib")
         calibration_file = models / (service + "-calibration.json")
         joblib.dump(model, model_file)
-        calibration_file.write_text(json.dumps(strengths, separators=(",", ":")) + "\n", encoding="utf-8")
+        calibration_file.write_bytes((json.dumps(strengths, separators=(",", ":")) + "\n").encode("utf-8"))
         manifest["services"][service] = dict(featureNames=names, trainingRows=len(training),
                                               calibrationRows=len(calibration),
                                               modelFile=model_file.name,
                                               modelSha256=sha256(model_file.read_bytes()).hexdigest(),
                                               calibrationFile=calibration_file.name,
                                               calibrationSha256=sha256(calibration_file.read_bytes()).hexdigest())
-    (models / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    (models / "manifest.json").write_bytes((json.dumps(manifest, indent=2) + "\n").encode("utf-8"))
     return manifest
 
 

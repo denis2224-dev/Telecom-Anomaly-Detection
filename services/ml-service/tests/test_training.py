@@ -1,6 +1,7 @@
 """Focused checks for the synthetic training handoff and packaged scorer."""
 
 import json
+from hashlib import sha256
 import math
 from pathlib import Path
 import shutil
@@ -18,6 +19,18 @@ SPLIT = ROOT / "services/ml-service/training/split_manifest.json"
 
 
 class TrainingTests(unittest.TestCase):
+    def test_packaged_repository_bytes_match_manifest(self):
+        manifest = json.loads((MODELS / "manifest.json").read_bytes())
+        split_bytes = SPLIT.read_bytes()
+        self.assertNotIn(b"\r\n", split_bytes)
+        self.assertEqual(sha256(split_bytes).hexdigest(), manifest["datasetManifestSha256"])
+        for entry in manifest["services"].values():
+            calibration = (MODELS / entry["calibrationFile"]).read_bytes()
+            model = (MODELS / entry["modelFile"]).read_bytes()
+            self.assertNotIn(b"\r\n", calibration)
+            self.assertEqual(sha256(calibration).hexdigest(), entry["calibrationSha256"])
+            self.assertEqual(sha256(model).hexdigest(), entry["modelSha256"])
+
     def test_generation_is_deterministic_valid_and_faults_are_distinct(self):
         for service in ("VOLTE", "SMS"):
             normal = make_window(service, START, 100)
