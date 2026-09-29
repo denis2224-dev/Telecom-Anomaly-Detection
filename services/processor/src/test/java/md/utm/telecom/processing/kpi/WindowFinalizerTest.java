@@ -60,7 +60,7 @@ class WindowFinalizerTest {
     static final String SCOPE = "VOLTE-MD-CENTRAL";
     static final ObjectMapper MAPPER = new ObjectMapper();
     @Autowired WindowFinalizer finalizer;
-    @Autowired VoiceFeatureBuilder builder;
+    @Autowired ServiceFeatureBuilder builder;
     @Autowired IngestionService ingestion;
     @Autowired JdbcTemplate jdbc;
     @Autowired DetectionPolicy policy;
@@ -80,7 +80,7 @@ class WindowFinalizerTest {
 
     @Configuration(proxyBeanMethods = false)
     @EnableTransactionManagement
-    @Import({WindowFinalizer.class, VoiceFeatureBuilder.class, BaselineRegistry.class, ScopeRegistry.class,
+    @Import({WindowFinalizer.class, ServiceFeatureBuilder.class, BaselineRegistry.class, ScopeRegistry.class,
             PayloadCodec.class, IngestionService.class, ObservationInput.class,
             EvidenceJoiner.class, SourceFreshness.class, WindowDecisionLock.class, DetectionPolicy.class})
     static class Config {
@@ -247,7 +247,7 @@ class WindowFinalizerTest {
         var catalog = ObservationValidator.resource("baselines/demo-baseline-v2.json", MAPPER);
         ((ObjectNode) catalog.get("baselines").get(0)).putArray("hours").add(0);
         var registry = new BaselineRegistry(catalog, ObservationValidator.resource("topology/demo-scopes-v2.json", MAPPER));
-        var p = new VoiceFeatureBuilder(registry, scopes, codec).build(fixture("normal-volte"),
+        var p = new ServiceFeatureBuilder(registry, scopes, codec, new EvidenceJoiner(scopes)).build(fixture("normal-volte"),
                 List.of(fixture("normal-ims"), fixture("normal-transport")));
         assertEquals("BASELINE_MISSING", registry.lookup(SCOPE, START).status());
         assertTrue(kpi(p, "cssrPct").get("baseline").isNull());
@@ -267,7 +267,7 @@ class WindowFinalizerTest {
         assertTrue(finalizer.dueWindows(10).isEmpty());
         assertEquals(1, outputs());
         // Existing output must not even reach calculation on a later retry.
-        var poisoned = mock(VoiceFeatureBuilder.class);
+        var poisoned = mock(ServiceFeatureBuilder.class);
         var retry = new WindowFinalizer(jdbc, clock, scopes, poisoned, codec, freshness, policy, decisionLock);
         new org.springframework.transaction.support.TransactionTemplate(new DataSourceTransactionManager(jdbc.getDataSource()))
                 .execute(status -> { assertEquals(ALREADY_FINALIZED, retry.finalizeWindow(SCOPE, START)); return null; });
