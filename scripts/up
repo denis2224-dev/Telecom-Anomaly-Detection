@@ -29,6 +29,6 @@ echo "Creating Kafka topics..."
 docker compose up --no-deps --force-recreate --abort-on-container-exit --exit-code-from kafka-init kafka-init
 
 echo "Starting runnable application services and waiting for readiness..."
-docker compose up -d --build --wait --wait-timeout 120 event-generator processor
+docker compose up -d --build --wait --wait-timeout 120 event-generator processor ml-service
 
 echo "Compose stack is ready. Start host incident-service from services/incident-service with ./mvnw spring-boot:run, then run ./scripts/verify."

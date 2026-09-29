@@ -221,6 +221,7 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SERVER_PORT: 8083
       KAFKA_V2_OBSERVATIONS_TOPIC: ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2}
+      ML_SERVICE_URL: http://ml-service:8090
       PROCESSING_DB_URL: jdbc:postgresql://postgres:5432/processing_db?currentSchema=app
       PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
       PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:?Set PROCESSING_DB_PASSWORD}
@@ -241,6 +242,20 @@ services:
       timeout: 3s
       retries: 20
       start_period: 10s
+    networks:
+      - telecom-private
+
+  ml-service:
+    build:
+      context: .
+      dockerfile: services/ml-service/Dockerfile
+    expose:
+      - "8090"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8090/health/ready', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     networks:
       - telecom-private
 
