@@ -8,7 +8,9 @@ import java.time.Instant;
 import java.util.UUID;
 import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.processing.PostgresFixture;
+import md.utm.telecom.processing.detection.MlClient;
 import md.utm.telecom.processing.detection.VoiceDeliveryService;
+import md.utm.telecom.processing.detection.VoiceEpisode;
 import md.utm.telecom.processing.ingestion.IngestionResult;
 import md.utm.telecom.processing.ingestion.IngestionService;
 import md.utm.telecom.processing.ingestion.ObservationDelivery;
@@ -19,11 +21,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.PlatformTransactionManager;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(VoiceDeliveryTest.Config.class)
 class SmsDeliveryTest {
     @Autowired VoiceDeliveryService delivery;
+    @Autowired VoiceEpisode episodes;
+    @Autowired PlatformTransactionManager transactionManager;
     @Autowired IngestionService ingestion;
     @Autowired WindowFinalizer finalizer;
     @Autowired WindowFinalizerTest.TestClock clock;
@@ -40,6 +48,9 @@ class SmsDeliveryTest {
     }
 
     @Test void completeSmsWindowsProduceOneRecoveredEpisodeWithoutMlService() throws Exception {
+        var unavailableMl = mock(MlClient.class);
+        when(unavailableMl.score(any())).thenReturn(MlClient.Result.unavailable());
+        var unavailableDelivery = new VoiceDeliveryService(jdbc, episodes, unavailableMl, clock, transactionManager);
         Instant start = Instant.parse("2026-09-15T08:00:00Z");
         clock.now = start.plusSeconds(900);
         for (int minute = 0; minute < 8; minute++) {
@@ -48,7 +59,7 @@ class SmsDeliveryTest {
             ingest(bad ? "degraded-smsc" : "normal-smsc", start, minute, minute * 2 + 1, 0);
             assertEquals(WindowFinalizer.Result.FINALIZED,
                     finalizer.finalizeWindow(scope, start.plusSeconds(60L * minute)));
-            delivery.evaluate(scope);
+            unavailableDelivery.evaluate(scope);
         }
         assertEquals(8, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE topic='telecom.kpis.v2'",
                 Integer.class));

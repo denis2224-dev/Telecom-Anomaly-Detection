@@ -348,8 +348,12 @@ service, and enqueues KPI and any detection in one database transaction.
 `voice_evaluated_window` prevents reevaluation; `voice_delivery` retries failed
 Kafka sends with stable IDs. Processor tests cover one publication per service,
 failed SMS send and retry, and deterministic SMS detection when ML is unavailable.
-V005 and its table remain unchanged because that migration applied to the
-original Day 11 database; the table is no longer written by this runtime path.
+An intermediate SMS-specific delivery marker was used during G2 debugging.
+After merging the generalized shared delivery path, V005 and its table were
+removed from the branch before PR because neither had a runtime reader or
+writer. Final SMS and VoLTE delivery both use `app.voice_delivery` and
+`app.voice_evaluated_window`. The original Day 11 database had applied V005;
+its historical measurements above are retained unchanged.
 
 ### Private ML and episode verification
 

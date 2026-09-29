@@ -48,7 +48,7 @@ class SmsKpiDeliveryTest {
     @BeforeEach @AfterEach void clear() {
         var owner = new JdbcTemplate(new DriverManagerDataSource(
                 PostgresFixture.url("processing_db"), "processing_migrator", "test-migrator"));
-        for (String table : new String[]{"sms_kpi_delivery", "voice_delivery", "voice_evaluated_window",
+        for (String table : new String[]{"voice_delivery", "voice_evaluated_window",
                 "voice_episode_state", "feature_outbox", "source_state", "observation_receipt",
                 "interval_bucket", "rejection_outbox"}) owner.update("DELETE FROM app." + table);
         reset(kafka);
@@ -82,7 +82,6 @@ class SmsKpiDeliveryTest {
         assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM app.voice_evaluated_window", Integer.class));
         assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE topic='telecom.kpis.v2'", Integer.class));
         assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE published_at IS NOT NULL", Integer.class));
-        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.sms_kpi_delivery", Integer.class));
         verify(kafka, times(1)).send(eq("telecom.kpis.v2"), eq("SMS-MD-ROUTE-A"), anyString());
         verify(kafka, times(1)).send(eq("telecom.kpis.v2"), eq("VOLTE-MD-CENTRAL"), anyString());
         verifyNoMoreInteractions(kafka);
@@ -103,7 +102,6 @@ class SmsKpiDeliveryTest {
         assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM app.voice_evaluated_window", Integer.class));
         assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE topic='telecom.kpis.v2'", Integer.class));
         assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE published_at IS NOT NULL", Integer.class));
-        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.sms_kpi_delivery", Integer.class));
         verify(kafka, times(2)).send(eq("telecom.kpis.v2"), eq("SMS-MD-ROUTE-A"), anyString());
     }
 }
