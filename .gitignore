@@ -7,6 +7,7 @@ docs/evidence/*/
 __pycache__/
 *.py[cod]
 .venv/
+services/ml-service/training/data/
 target/
 **/test-results/
 **/playwright-report/
