@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
-  selector: 'sample-volume',
-  imports: [],
+  selector: 'app-sample-volume',
   template: `
-    <p>
-      sample-volume works!
-    </p>
+    <p>Completed-message samples: {{ count() ?? 'Unavailable' }}</p>
+    @if (count() === 0) {
+      <p role="status">No completed messages in this window.</p>
+    } @else if (count() !== null && count()! < 30) {
+      <p role="status">Low sample volume; interpret delivery p95 with caution.</p>
+    }
   `,
-  styles: ``,
 })
 export class SampleVolumeComponent {
-
+  readonly count = input<number | null>(null);
 }
