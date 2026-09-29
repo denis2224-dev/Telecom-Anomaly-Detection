@@ -23,6 +23,7 @@ public class VoiceDeliveryService {
                 "SELECT state::text FROM app.voice_episode_state WHERE scope_id=? FOR UPDATE", String.class, scope));
         var windows = jdbc.queryForList("""
                 SELECT window_id, payload::text FROM app.feature_outbox f WHERE scope_id=?
+                AND f.payload->>'service'='VOLTE'
                 AND NOT EXISTS (SELECT 1 FROM app.voice_evaluated_window e WHERE e.window_id=f.window_id)
                 ORDER BY window_start LIMIT 100
                 """, scope);

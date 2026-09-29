@@ -59,4 +59,22 @@ class VoiceDeliveryTest {
         delivery.evaluate("VOLTE-MD-CENTRAL");
         assertEquals(snapshot, jdbc.queryForList("SELECT * FROM app.voice_delivery ORDER BY id"));
     }
+
+    @Test void smsFeatureDoesNotEnterVoiceEpisodeDelivery() throws Exception {
+        Instant start = Instant.parse("2026-09-15T08:00:00Z");
+        clock.now = start.plusSeconds(70);
+        String[] names = {"normal-sms", "normal-smsc"};
+        for (int offset = 0; offset < names.length; offset++) {
+            String name = names[offset];
+            var event = ObservationValidator.resource("fixtures/observations/" + name + ".json", json);
+            assertEquals(IngestionResult.Status.ACCEPTED, ingestion.ingest(new ObservationDelivery(
+                    event.toString().getBytes(StandardCharsets.UTF_8), "SMS-MD-ROUTE-A",
+                    "telecom.observations.v2", 0, offset)).status());
+        }
+        assertEquals(WindowFinalizer.Result.FINALIZED, finalizer.finalizeWindow("SMS-MD-ROUTE-A", start));
+        delivery.evaluate("SMS-MD-ROUTE-A");
+        assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM app.feature_outbox", Integer.class));
+        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.voice_evaluated_window", Integer.class));
+        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery", Integer.class));
+    }
 }

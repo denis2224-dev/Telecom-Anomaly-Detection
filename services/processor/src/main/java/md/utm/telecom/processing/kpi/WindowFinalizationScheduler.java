@@ -29,13 +29,13 @@ public class WindowFinalizationScheduler {
         for (var window : finalizer.dueWindows(batchSize)) {
             try { finalizer.finalizeWindow(window.scopeId(), window.windowStart()); }
             catch (RuntimeException failure) {
-                LOG.error("Voice finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
+                LOG.error("Service finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
             }
         }
         for (var window : finalizer.dueMissingWindows(batchSize)) {
             try { finalizer.finalizeMissingWindow(window.scopeId(), window.windowStart()); }
             catch (RuntimeException failure) {
-                LOG.error("Voice missing window finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
+                LOG.error("Service missing window finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
             }
         }
     }

@@ -33,6 +33,32 @@ class VoiceEpisodeTest {
         }
         return node;
     }
+    @Test void canonicalEightMinuteFaultOpensOnceAndRecoversOnThirdHealthyWindow() throws Exception {
+        var engine = engine();
+        var state = json.createObjectNode();
+        assertNull(engine.advance(state, window(0, false, false), start.plusSeconds(60)));
+        assertNull(engine.advance(state, window(1, false, false), start.plusSeconds(120)));
+        assertNull(engine.advance(state, window(2, true, false), start.plusSeconds(180)));
+        var open = engine.advance(state, window(3, true, false), start.plusSeconds(240));
+        assertEquals("OPEN", open.get("phase").asText());
+        assertEquals("b545edec56a0545dbd568bcc29e5d2da4f8b570c1be8e1176fa2b53dc9505d06",
+                open.get("episodeId").asText());
+        assertEquals(start.plusSeconds(120).toString(), open.get("firstObservedAt").asText());
+        var ongoing = engine.advance(state, window(4, true, false), start.plusSeconds(300));
+        assertEquals("UPDATE", ongoing.get("phase").asText());
+        for (int minute = 5; minute <= 6; minute++) {
+            var healthy = engine.advance(state, window(minute, false, false), start.plusSeconds((minute + 1L) * 60));
+            assertEquals("UPDATE", healthy.get("phase").asText());
+            assertEquals(minute - 4, state.get("healthy").asInt());
+            assertEquals(open.get("episodeId"), healthy.get("episodeId"));
+        }
+        var recovery = engine.advance(state, window(7, false, false), start.plusSeconds(480));
+        assertEquals("RECOVERY", recovery.get("phase").asText());
+        assertEquals(3, state.get("healthy").asInt());
+        assertEquals(open.get("episodeId"), recovery.get("episodeId"));
+        assertFalse(state.get("active").asBoolean());
+        assertNull(engine.advance(state, window(7, false, false), start.plusSeconds(540)));
+    }
     @Test void oneEpisodeWithGapRecoveryAndReplay() throws Exception {
         var engine = engine(); var state = json.createObjectNode();
         assertNull(engine.advance(state, window(0, true, false), start.plusSeconds(600)));

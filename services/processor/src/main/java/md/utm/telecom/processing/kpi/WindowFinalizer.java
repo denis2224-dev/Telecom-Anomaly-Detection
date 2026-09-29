@@ -8,7 +8,6 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import md.utm.telecom.processing.detection.DetectionPolicy;
 import md.utm.telecom.processing.ingestion.PayloadCodec;
 import md.utm.telecom.processing.ingestion.SourceFreshness;
@@ -25,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 /** One locked UTC minute -> one immutable, validated feature/outbox record. */
 @Service
 public class WindowFinalizer {
-    public enum Result { FINALIZED, ALREADY_FINALIZED, NOT_DUE, NO_SERVICE, SERVICE_PRESENT, NOT_VOICE, NOT_FOUND }
+    public enum Result { FINALIZED, ALREADY_FINALIZED, NOT_DUE, NO_SERVICE, SERVICE_PRESENT, UNSUPPORTED_SERVICE, NOT_FOUND }
     public record Window(String scopeId, Instant windowStart) { }
     private record Bucket(Instant end, boolean finalized) { }
     private final JdbcTemplate jdbc;
@@ -58,7 +57,7 @@ public class WindowFinalizer {
                 WHERE NOT b.finalized AND b.window_end <= ?
                 AND EXISTS (SELECT 1 FROM app.observation_receipt r
                     WHERE r.scope_id=b.scope_id AND r.window_start=b.window_start AND r.window_end=b.window_end
-                    AND r.kind='SERVICE' AND r.payload->>'service'='VOLTE')
+                    AND r.kind='SERVICE' AND r.payload->>'service' IN ('VOLTE', 'SMS'))
                 ORDER BY b.window_end, b.scope_id LIMIT ?
                 """, (rs, row) -> new Window(rs.getString("scope_id"), rs.getTimestamp("window_start").toInstant()),
                 Timestamp.from(clock.instant().minusSeconds(policy.allowedLatenessSec())), limit);
@@ -66,7 +65,8 @@ public class WindowFinalizer {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public Result finalizeWindow(String scopeId, Instant windowStart) {
-        if (!scopes.serviceFor(scopeId).equals("VOLTE")) return Result.NOT_VOICE;
+        String serviceName = scopes.serviceFor(scopeId);
+        if (!serviceName.equals("VOLTE") && !serviceName.equals("SMS")) return Result.UNSUPPORTED_SERVICE;
         decisionLock.acquire(scopeId, windowStart);
         var buckets = jdbc.query("""
                 SELECT window_end, finalized FROM app.interval_bucket
@@ -84,7 +84,8 @@ public class WindowFinalizer {
                 WHERE scope_id=? AND window_start=? AND window_end=? AND kind IN ('SERVICE', 'NODE')
                 ORDER BY event_id
                 """, (rs, row) -> parse(rs.getString(1)), scopeId, Timestamp.from(windowStart), Timestamp.from(bucket.end()));
-        var service = receipts.stream().filter(r -> r.path("kind").asText().equals("SERVICE")).findFirst();
+        var service = receipts.stream().filter(r -> r.path("kind").asText().equals("SERVICE")
+                && r.path("service").asText().equals(serviceName)).findFirst();
         // Node-only buckets do not authorize fabricating a missing service observation.
         if (service.isEmpty()) return Result.NO_SERVICE;
         var nodes = receipts.stream().filter(r -> r.path("kind").asText().equals("NODE")).toList();
@@ -106,31 +107,38 @@ public class WindowFinalizer {
 
     public List<Window> dueMissingWindows(int limit) {
         if (limit < 1 || limit > 1000) throw new IllegalArgumentException("Batch size must be 1..1000");
-        var voiceScopes = scopes.scopes().keySet().stream()
-                .filter(scope -> scopes.serviceFor(scope).equals("VOLTE")).sorted().toList();
-        if (voiceScopes.isEmpty()) return List.of();
+        var serviceScopes = scopes.scopes().keySet().stream()
+                .filter(scope -> List.of("VOLTE", "SMS").contains(scopes.serviceFor(scope))).sorted().toList();
+        if (serviceScopes.isEmpty()) return List.of();
         var missing = new ArrayList<Window>();
-
-        // Filter to authoritative voice scopes before LIMIT so SMS cannot starve this batch.
-        String placeholders = String.join(",", Collections.nCopies(voiceScopes.size(), "?"));
-        var arguments = new ArrayList<Object>();
-        arguments.add(Timestamp.from(clock.instant().minusSeconds(policy.allowedLatenessSec())));
-        arguments.addAll(voiceScopes);
-        arguments.add(limit);
-        var existingBucketsWithoutService = jdbc.query("""
-                SELECT b.scope_id, b.window_start FROM app.interval_bucket b
-                WHERE NOT b.finalized AND b.window_end <= ? AND b.scope_id IN (%s)
-                AND NOT EXISTS (SELECT 1 FROM app.observation_receipt r
-                    WHERE r.scope_id=b.scope_id AND r.window_start=b.window_start AND r.window_end=b.window_end
-                    AND r.kind='SERVICE' AND r.payload->>'service'='VOLTE')
-                ORDER BY b.window_end, b.scope_id LIMIT ?
-                """.formatted(placeholders),
-                (rs, row) -> new Window(rs.getString("scope_id"), rs.getTimestamp("window_start").toInstant()),
-                arguments.toArray());
-        missing.addAll(existingBucketsWithoutService);
+        var dueLimit = Timestamp.from(clock.instant().minusSeconds(policy.allowedLatenessSec()));
+        var perScope = new ArrayList<List<Window>>();
+        for (var scopeId : serviceScopes) {
+            perScope.add(jdbc.query("""
+                    SELECT b.scope_id, b.window_start FROM app.interval_bucket b
+                    WHERE NOT b.finalized AND b.window_end <= ? AND b.scope_id = ?
+                    AND NOT EXISTS (SELECT 1 FROM app.observation_receipt r
+                        WHERE r.scope_id=b.scope_id AND r.window_start=b.window_start AND r.window_end=b.window_end
+                        AND r.kind='SERVICE' AND r.payload->>'service' = ?)
+                    ORDER BY b.window_end LIMIT ?
+                    """, (rs, row) -> new Window(rs.getString("scope_id"), rs.getTimestamp("window_start").toInstant()),
+                    dueLimit, scopeId, scopes.serviceFor(scopeId), limit));
+        }
+        // Round-robin discovery keeps an older backlog in one service from hiding another.
+        for (int index = 0; missing.size() < limit; index++) {
+            boolean found = false;
+            for (var windows : perScope) {
+                if (index < windows.size()) {
+                    missing.add(windows.get(index));
+                    found = true;
+                    if (missing.size() == limit) break;
+                }
+            }
+            if (!found) break;
+        }
 
         // Read-only discovery of unrepresented intervals, including internal holes.
-        for (var scopeId : voiceScopes) {
+        for (var scopeId : serviceScopes) {
             if (missing.size() >= limit) break;
             var gaps = sourceFreshness.findExpectedGaps(scopeId, limit - missing.size());
             for (var gap : gaps) {
@@ -142,7 +150,8 @@ public class WindowFinalizer {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public Result finalizeMissingWindow(String scopeId, Instant windowStart) {
-        if (!scopes.serviceFor(scopeId).equals("VOLTE")) return Result.NOT_VOICE;
+        String serviceName = scopes.serviceFor(scopeId);
+        if (!serviceName.equals("VOLTE") && !serviceName.equals("SMS")) return Result.UNSUPPORTED_SERVICE;
         decisionLock.acquire(scopeId, windowStart);
         Instant windowEnd = windowStart.plusSeconds(policy.windowSec());
         Instant now = clock.instant();
@@ -159,8 +168,8 @@ public class WindowFinalizer {
         Integer realServices = jdbc.queryForObject("""
                 SELECT count(*) FROM app.observation_receipt
                 WHERE scope_id=? AND source_id=? AND window_start=? AND window_end=?
-                  AND kind='SERVICE' AND payload->>'service'='VOLTE'
-                """, Integer.class, scopeId, serviceSource, Timestamp.from(windowStart), Timestamp.from(windowEnd));
+                  AND kind='SERVICE' AND payload->>'service'=?
+                """, Integer.class, scopeId, serviceSource, Timestamp.from(windowStart), Timestamp.from(windowEnd), serviceName);
         if (realServices != null && realServices > 0) return Result.SERVICE_PRESENT;
         if (sourceFreshness.intervalCoverage(scopeId, serviceSource, windowStart, windowEnd)
                 != SourceFreshness.IntervalCoverage.MISSING) return Result.NOT_DUE;
@@ -183,8 +192,8 @@ public class WindowFinalizer {
         if (bucket.finalized()) return Result.ALREADY_FINALIZED;
         if (now.isBefore(bucket.end().plusSeconds(policy.allowedLatenessSec()))) return Result.NOT_DUE;
 
-        LOG.info("Finalizing absent voice interval: scopeId={} windowStart={} sourceActivity={}",
-                scopeId, windowStart, sourceFreshness.activityFreshness(scopeId, serviceSource));
+        LOG.info("Finalizing absent service interval: service={} scopeId={} windowStart={} sourceActivity={}",
+                serviceName, scopeId, windowStart, sourceFreshness.activityFreshness(scopeId, serviceSource));
 
         var feature = features.buildMissing(scopeId, windowStart, bucket.end());
         String payload = codec.canonical(feature);

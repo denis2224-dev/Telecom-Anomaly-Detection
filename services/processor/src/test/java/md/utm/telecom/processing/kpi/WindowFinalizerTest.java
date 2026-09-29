@@ -363,10 +363,17 @@ class WindowFinalizerTest {
         assertEquals(SCOPE, jdbc.queryForObject("SELECT kafka_key FROM app.feature_outbox", String.class));
     }
 
-    @Test void nodeOnlyAndSmsBucketsAreNotFinalizedAndPollingIsBounded() throws Exception {
-        ingest(fixture("normal-ims")); ingest(fixture("normal-sms"));
+    @Test void nodeOnlyAndSmsBucketsAreFinalizedAndPollingIsBounded() throws Exception {
+        ingest(fixture("normal-ims")); ingest(fixture("normal-sms")); ingest(fixture("normal-smsc"));
         assertEquals(NO_SERVICE, finalizer.finalizeWindow(SCOPE, START));
-        assertEquals(NOT_VOICE, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
+        assertEquals(List.of(new WindowFinalizer.Window("SMS-MD-ROUTE-A", START)), finalizer.dueWindows(100));
+        assertEquals(FINALIZED, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
+        var sms = MAPPER.readTree(jdbc.queryForObject("SELECT payload::text FROM app.feature_outbox WHERE scope_id=?",
+                String.class, "SMS-MD-ROUTE-A"));
+        assertEquals("SMS", sms.get("service").asText());
+        assertEquals(0, kpi(sms, "queueDepth").get("observed").asInt());
+        assertTrue(sms.get("mlEligible").asBoolean());
+        assertEquals(6, sms.get("featureValues").size());
         assertTrue(finalizer.dueWindows(100).isEmpty());
         ingest(fixture("normal-volte"));
         var second = fixture("normal-volte").put("eventId", UUID.randomUUID().toString())
@@ -375,11 +382,30 @@ class WindowFinalizerTest {
         ingest(second); clock.now = DUE.plusSeconds(60);
         assertEquals(1, finalizer.dueWindows(1).size());
         new WindowFinalizationScheduler(finalizer, 1).poll();
-        assertEquals(1, outputs()); assertTrue(finalized());
+        assertEquals(3, outputs()); assertTrue(finalized());
         new WindowFinalizationScheduler(finalizer, 1).poll();
-        assertEquals(2, outputs());
+        assertEquals(4, outputs());
         assertThrows(IllegalArgumentException.class, () -> finalizer.dueWindows(0));
         assertThrows(IllegalArgumentException.class, () -> new WindowFinalizationScheduler(finalizer, 1001));
+    }
+
+    @Test void absentSmsIntervalPersistsMissingFeatureWithoutInventedMeasurements() throws Exception {
+        ingest(fixture("normal-sms")); ingest(fixture("normal-smsc"));
+        assertEquals(FINALIZED, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
+        var gap = START.plusSeconds(60);
+        clock.now = gap.plusSeconds(70);
+        assertTrue(finalizer.dueMissingWindows(10).contains(new WindowFinalizer.Window("SMS-MD-ROUTE-A", gap)));
+        assertEquals(FINALIZED, finalizer.finalizeMissingWindow("SMS-MD-ROUTE-A", gap));
+        var missing = MAPPER.readTree(jdbc.queryForObject("""
+                SELECT payload::text FROM app.feature_outbox WHERE scope_id=? AND window_start=?
+                """, String.class, "SMS-MD-ROUTE-A", Timestamp.from(gap)));
+        assertEquals("SMS", missing.get("service").asText());
+        assertEquals("MISSING", missing.get("quality").asText());
+        assertFalse(missing.get("mlEligible").asBoolean());
+        assertTrue(missing.get("featureValues").isEmpty());
+        assertTrue(missing.get("sourceEventIds").isEmpty());
+        assertTrue(kpi(missing, "queueDepth").get("observed").isNull());
+        assertEquals(ALREADY_FINALIZED, finalizer.finalizeMissingWindow("SMS-MD-ROUTE-A", gap));
     }
 
     @Test void schedulerContinuesAfterOneWindowFails() {

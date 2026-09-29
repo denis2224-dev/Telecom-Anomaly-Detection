@@ -17,9 +17,12 @@ class VoiceScenarioTest {
         assertEquals(8, first.size());
         assertEquals(first, second, "Canonical voice measurements do not vary with seed");
         for (int minute = 0; minute < 8; minute++) {
-            assertEquals(2, first.get(minute).size());
+            assertEquals(3, first.get(minute).size());
             var ims = json.readTree(first.get(minute).get(0));
-            var service = json.readTree(first.get(minute).get(1));
+            var transport = json.readTree(first.get(minute).get(1));
+            var service = json.readTree(first.get(minute).get(2));
+            assertEquals("TRANSPORT-A", transport.get("sourceId").asText());
+            assertEquals(0.001, transport.get("metrics").get("packetLossRatio").asDouble());
             assertFalse(service.has("runId"));
             assertFalse(service.has("seed"));
             assertEquals("COMPLETE", service.get("quality").asText());
@@ -43,7 +46,7 @@ class VoiceScenarioTest {
         }
     }
 
-    @Test void controlIsHealthyAndTelemetryGapOmitsServiceSource() throws Exception {
+    @Test void controlIsHealthyAndTelemetryGapOmitsAllUnmeasuredSources() throws Exception {
         var json = new ObjectMapper();
         var generator = new VoiceScenario(json, new ObservationValidator(TopologyCatalog.load()));
         var start = Instant.parse("2026-09-28T10:00:00Z");
@@ -52,7 +55,7 @@ class VoiceScenarioTest {
         assertEquals(8, control.size());
         assertEquals(8, gap.size());
         for (int minute = 0; minute < 8; minute++) {
-            var controlService = json.readTree(control.get(minute).get(1));
+            var controlService = json.readTree(control.get(minute).get(2));
             var metrics = controlService.get("metrics");
             assertEquals(993, metrics.get("technicalSuccesses").asInt());
             assertEquals(7, metrics.get("technicalFailures").asInt());
@@ -60,11 +63,10 @@ class VoiceScenarioTest {
                     + metrics.get("technicalFailures").asInt());
             assertEquals(35, json.readTree(control.get(minute).get(0)).get("metrics").get("cpuPct").asInt());
             if (minute >= 2 && minute < 5) {
-                assertEquals(1, gap.get(minute).size());
-                assertEquals("NODE", json.readTree(gap.get(minute).get(0)).get("kind").asText());
+                assertTrue(gap.get(minute).isEmpty());
             } else {
-                assertEquals(2, gap.get(minute).size());
-                var resumed = json.readTree(gap.get(minute).get(1));
+                assertEquals(3, gap.get(minute).size());
+                var resumed = json.readTree(gap.get(minute).get(2));
                 assertEquals("SERVICE", resumed.get("kind").asText());
                 assertEquals(controlService.get("eventId"), resumed.get("eventId"));
             }

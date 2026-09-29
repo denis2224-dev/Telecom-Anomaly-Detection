@@ -25,7 +25,7 @@ public class VoiceDeliveryScheduler {
     public void poll() {
         try {
             for (String scope : jdbc.queryForList("""
-                    SELECT DISTINCT scope_id FROM app.feature_outbox f WHERE NOT EXISTS
+                    SELECT DISTINCT scope_id FROM app.feature_outbox f WHERE f.payload->>'service'='VOLTE' AND NOT EXISTS
                     (SELECT 1 FROM app.voice_evaluated_window e WHERE e.window_id=f.window_id)
                     """, String.class)) service.evaluate(scope);
             for (var row : jdbc.queryForList("""
