@@ -100,7 +100,7 @@ class IngestionIntegrationTest {
     @Test void migrationOwnershipRuntimeDmlAndIsolation() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(8, jdbc.queryForObject("""
+        assertEquals(9, jdbc.queryForObject("""
                 SELECT count(*) FROM pg_tables WHERE schemaname='app' AND tableowner='processing_migrator'
                 AND tablename <> 'flyway_schema_history'
                 """, Integer.class));
@@ -370,14 +370,18 @@ class IngestionIntegrationTest {
             await().atMost(Duration.ofSeconds(25)).untilAsserted(() -> {
                 assertEquals(1, count("observation_receipt"));
                 var committed = admin.listConsumerGroupOffsets("telecom-processor-v2").partitionsToOffsetAndMetadata().get(5, TimeUnit.SECONDS);
-                assertTrue(committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, metadata.partition())).offset() > metadata.offset());
+                var position = committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, metadata.partition()));
+                assertNotNull(position);
+                assertTrue(position.offset() > metadata.offset());
             });
             assertEquals(1, inputs());
             var rejected = producer.send(TOPIC, "bad", new byte[]{'{'}).get(10, TimeUnit.SECONDS).getRecordMetadata();
             await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> {
                 assertEquals(1, count("rejection_outbox"));
                 var committed = admin.listConsumerGroupOffsets("telecom-processor-v2").partitionsToOffsetAndMetadata().get(5, TimeUnit.SECONDS);
-                assertTrue(committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, rejected.partition())).offset() > rejected.offset());
+                var position = committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, rejected.partition()));
+                assertNotNull(position);
+                assertTrue(position.offset() > rejected.offset());
             });
         }
     }
