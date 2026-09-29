@@ -18,11 +18,14 @@ not from local generator expectations.
 - Branch: `feature/durable-scenario-handoff`.
 - Starting Day 11 commit: `a508584a2373f14647ba05d5a66ed74a656645e1`.
 - SMS KPI delivery code/test commit: `72f6c95e6e904c0e13cee1a2e4dfff271862c03e`.
-- Fetched `origin/main`: `908f4319e24772a9091eeaa7bdec543af35ef8be`
-  (unchanged on the final fetch); branch was one commit ahead, zero behind
-  before the live-evidence commit. The Day 11 commit was pushed normally.
-- No merge conflicts. The pre-sync stash remains untouched. Pre-existing
-  untracked `.agents/`, `.codex/`, `AGENTS.md`, and `graphify-out/` were excluded.
+- The live run used `origin/main` at
+  `908f4319e24772a9091eeaa7bdec543af35ef8be`. At final handoff review,
+  `origin/main` had advanced to `a6da77cdab401e9468cae1988127e7f364d67a06`
+  (PR #27 merged). Ion's three implementation/evidence commits were then three
+  ahead and seven behind; no mainline merge or rerun against the new base was done.
+- No mainline merge was attempted in final review. The pre-sync stash remains
+  untouched. Pre-existing untracked `.agents/`, `.codex/`, `AGENTS.md`, and
+  `graphify-out/` were excluded.
 - Graphify's code graph was refreshed after the processor changes (3,153 nodes,
   7,801 edges; SQL extraction is unavailable without `tree_sitter_sql`).
 
@@ -37,7 +40,7 @@ not from local generator expectations.
 | Processor | Healthy after the SMS KPI publication rebuild; container port 8083. |
 | Incident service | Host Java process on `localhost:8082`; actuator health returned 200. A process-local Java hosts file under ignored `target/` resolved the documented Keycloak issuer. |
 | Proxy / Keycloak | Proxy `127.0.0.1:8080`, Keycloak healthy behind `/auth`; dashboard HTML returned 200. Anonymous incident/auth API requests returned 401. No authenticated analyst session was exercised. |
-| ML | Current branch contains the Python feature builder but no packaged runtime model or inference endpoint. PR #27 is open and unmerged; its model artifacts are not in this checkout. |
+| ML | The tested Ion checkout has the Python feature builder but no model artifacts or inference endpoint. The later `origin/main` includes PR #27's packaged models and local scorer, but still lacks live HTTP/processor inference integration. |
 
 The documented `scripts/up` reached the initial services but Git Bash resolved
 `python` to a Windows Store alias. The existing venv Keycloak helper, login
@@ -214,13 +217,17 @@ retry, and exclusion of VoLTE features.
 
 ## ML
 
-The current branch's `services/ml-service` contains a Python feature builder
-and nine tests, but no model artifact, manifest, HTTP inference service,
-processor ML client, model version persistence, or rank producer. A separate
-open PR #27 contains proposed model packaging; it was not merged into
-`origin/main` on the final fetch. The threshold remains frozen at 0.99 and was
-not changed. VoLTE live detections truthfully report `UNAVAILABLE` and null
-rank/version. SMS has no runtime detections from which to report an ML status.
+The tested Ion branch's `services/ml-service` contains a Python feature builder
+and nine feature tests, but no model artifacts, manifest, HTTP inference
+service, processor ML client, model version persistence, or rank producer.
+After the live run, PR #27 merged into `origin/main` at `a6da77c`, adding
+packaged VoLTE/SMS models and a local scorer. Those files have not been merged
+into this branch, and current main still has no HTTP inference service or
+processor ML client. Sergiu's separate `feat/sergiu-days-11-12` branch contains
+candidate runtime wiring; it is not merged or live-verified here. The threshold
+remains frozen at 0.99 and was not changed. VoLTE live detections truthfully
+report `UNAVAILABLE` and null rank/version. SMS has no runtime detections from
+which to report an ML status.
 
 ## Public/private scenario path
 
@@ -272,9 +279,9 @@ that the committed offset exceed the produced offset. The subsequent complete
 | Owner | Exact remaining dependency |
 | --- | --- |
 | Ion | No remaining observed streaming/feature/KPI delivery defect in these ten runs; validate again when teammate runtime changes land. |
-| Sergiu | Implement the SMS episode/evidence worker with aligned SMSC input, durable state and detection publication; integrate real VoLTE/SMS ML inference without changing the 0.99 threshold. |
+| Sergiu | Integrate and live-verify the SMS episode/evidence worker with aligned SMSC input, durable state and detection publication, plus real VoLTE/SMS ML inference without changing the 0.99 threshold. His unmerged candidate branch requires coordination with Ion's SMS KPI publisher and the VoLTE-only scheduler/service filters. |
 | Denis | Implement the public authenticated simulator controller, durable run ledger, and dispatch handoff to the generator. |
-| Stanislav / environment | Docker, Kafka, PostgreSQL, Keycloak and proxy were healthy. Proposed model packaging in open PR #27 is not merged into this branch; no authenticated test analyst session was available for dashboard/API verification. |
+| Environment | Docker, Kafka, PostgreSQL, Keycloak and proxy were healthy during the run. PR #27 model packaging is now on main but unmerged into this branch; no authenticated test analyst session was available for dashboard/API verification. |
 
 The gate remains **PARTIAL** until live SMS episodes, real model ranks,
 public durable dispatch, and authenticated API/dashboard visibility are
