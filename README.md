@@ -82,11 +82,11 @@ Host/IntelliJ startup is also supported. See the [local development runbook](doc
 
 ## Validation
 
-Use Python 3.11+ and JDK 21. From the repository root, with a Python virtual
-environment active:
+Use Python 3.13 for the bundled ML artifacts and JDK 21. From the repository
+root, with a Python virtual environment active:
 
 ```bash
-python -m pip install -r requirements-dev.txt
+python -m pip install -r services/ml-service/requirements-ml.txt
 python scripts/check-contracts.py
 python -m unittest discover -s tests -v
 python -m unittest discover -s services/ml-service/tests -v
