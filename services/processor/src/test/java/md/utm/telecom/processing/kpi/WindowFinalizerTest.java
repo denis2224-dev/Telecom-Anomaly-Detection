@@ -363,10 +363,10 @@ class WindowFinalizerTest {
         assertEquals(SCOPE, jdbc.queryForObject("SELECT kafka_key FROM app.feature_outbox", String.class));
     }
 
-    @Test void nodeOnlyAndSmsBucketsAreNotFinalizedAndPollingIsBounded() throws Exception {
+    @Test void nodeOnlyBucketsWaitAndBothServicesFinalizeWithinBound() throws Exception {
         ingest(fixture("normal-ims")); ingest(fixture("normal-sms"));
         assertEquals(NO_SERVICE, finalizer.finalizeWindow(SCOPE, START));
-        assertEquals(NOT_VOICE, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
+        assertEquals(FINALIZED, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
         assertTrue(finalizer.dueWindows(100).isEmpty());
         ingest(fixture("normal-volte"));
         var second = fixture("normal-volte").put("eventId", UUID.randomUUID().toString())
@@ -375,9 +375,10 @@ class WindowFinalizerTest {
         ingest(second); clock.now = DUE.plusSeconds(60);
         assertEquals(1, finalizer.dueWindows(1).size());
         new WindowFinalizationScheduler(finalizer, 1).poll();
-        assertEquals(1, outputs()); assertTrue(finalized());
+        assertTrue(outputs() >= 2); assertTrue(finalized());
         new WindowFinalizationScheduler(finalizer, 1).poll();
-        assertEquals(2, outputs());
+        assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM app.feature_outbox WHERE scope_id=?",
+                Integer.class, SCOPE));
         assertThrows(IllegalArgumentException.class, () -> finalizer.dueWindows(0));
         assertThrows(IllegalArgumentException.class, () -> new WindowFinalizationScheduler(finalizer, 1001));
     }

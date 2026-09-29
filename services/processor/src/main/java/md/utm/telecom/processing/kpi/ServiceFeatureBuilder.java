@@ -72,13 +72,18 @@ public final class ServiceFeatureBuilder {
 
     /** Inferred absence has no observation event ID or measured KPI. */
     public ObjectNode buildMissing(String scope, Instant start, Instant end) {
+        return buildMissing(scope, start, end, List.of());
+    }
+
+    /** Keep independent aligned node evidence even when the service source is absent. */
+    public ObjectNode buildMissing(String scope, Instant start, Instant end, List<JsonNode> nodes) {
         String serviceName = scopes.serviceFor(scope);
         requireWindow(scope, serviceName, scopes.requireScope(scope).serviceSourceId(), start, end);
         Lookup baseline = baselines.lookup(scope, start);
         var kpis = mapper.createArrayNode();
         var sources = new TreeSet<String>();
         List<Number> vector = calculate(serviceName, mapper.createObjectNode(),
-                joiner.join(scope, start, end, List.of()), baseline.values(), kpis, sources);
+                joiner.join(scope, start, end, nodes), baseline.values(), kpis, sources);
         return assemble(scope, serviceName, start, end, "MISSING", baseline, kpis, vector, sources);
     }
 

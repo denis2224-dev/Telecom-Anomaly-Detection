@@ -134,6 +134,8 @@ docker compose exec -T event-generator curl --fail --silent --show-error --max-t
   http://localhost:8081/actuator/health/readiness
 docker compose exec -T processor curl --fail --silent --show-error --max-time 5 \
   http://localhost:8083/actuator/health/readiness
+docker compose exec -T ml-service python -c \
+  "import urllib.request; urllib.request.urlopen('http://localhost:8090/health/ready', timeout=5)"
 
 echo "Checking Keycloak readiness and OIDC discovery..."
 docker compose exec -T event-generator curl --fail --silent --show-error --max-time 5 \
