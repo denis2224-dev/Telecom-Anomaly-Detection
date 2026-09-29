@@ -1,11 +1,12 @@
 # G2 Streaming Evidence — 2026-09-29
 
-**G2 STATUS: PARTIAL.** All ten scheduled profiles completed through the private
+**G2 STATUS: PARTIAL.** In the original Day 11 run, all ten scheduled profiles completed through the private
 generator API. Both services reached accepted observations, finalized features,
 Kafka KPI publication, and incident-service KPI persistence. Three VoLTE faults
 also produced separate live OPEN-to-RECOVERY episodes and incidents. SMS
 episode delivery, model invocation, public simulator dispatch, and authenticated
-API/dashboard visibility are still unverified or absent as described below.
+API/dashboard visibility were unverified or absent. Later merged private-path
+verification is recorded separately at the end of this document.
 
 The [machine-readable live results](2026-09-29-g2-live-results.json) contain
 every run ID, observation event ID, finalized window ID and value, KPI window
@@ -326,6 +327,95 @@ The local Docker pipe was absent during the incident-service run, so its
 database-backed regression suite needs a repeat when Docker is available.
 This environment limitation does not alter the prior live run's measured
 events, windows, detections, or incidents. No 40-minute scenario replay was
-needed: the merge made no generator or processor runtime changes. G2 remains
-**PARTIAL** pending the existing SMS, inference, public dispatch, and
-authenticated visibility boundaries.
+needed: that intermediate merge made no generator or processor runtime changes.
+G2 remained **PARTIAL** at this stage, before Sergiu's detector/ML merge.
+
+## Final post-Sergiu merge verification
+
+This is new evidence for the merged runtime, not a rewrite of the original
+11:04–11:44 UTC measurements. Previous Ion HEAD was `7a8809f77bf4640cb2eeae93ee3b0239472a4c06`;
+fetched main was `66383bf171ed637d1c49e3120a46e027f5de053c`;
+the semantically resolved merge commit was `5e8e8c75760fc477a23d867b2f29d991159eb2c4`.
+
+### Delivery architecture
+
+The merge initially exposed two SMS KPI publishers: Ion's direct
+`SmsKpiDeliveryScheduler` and Sergiu's generalized `VoiceDeliveryService` outbox.
+The automatic merge also retained VoLTE-only discovery filters in both the
+delivery scheduler and service. The final implementation removes the direct
+SMS scheduler, allows both `VOLTE` and `SMS` through the shared scheduler and
+service, and enqueues KPI and any detection in one database transaction.
+`voice_evaluated_window` prevents reevaluation; `voice_delivery` retries failed
+Kafka sends with stable IDs. Processor tests cover one publication per service,
+failed SMS send and retry, and deterministic SMS detection when ML is unavailable.
+V005 and its table remain unchanged because that migration applied to the
+original Day 11 database; the table is no longer written by this runtime path.
+
+### Private ML and episode verification
+
+The Compose ML service reached `/health/ready`. Canonical HTTP normal/fault
+ranks were VoLTE `0.9776785714285714` / `1.0` and SMS
+`0.8973214285714286` / `0.9890873015873016`, all finite and versioned
+`isoforest-v2-synthetic-1`. The frozen `0.99` threshold was unchanged; SMS
+deterministic episodes do not depend on an ML candidate. Both focused Java
+replays passed through ingestion, feature finalization, real HTTP inference,
+the service rules, durable episode state and detection outbox. Their five-run
+fixtures per service include three faults, a normal control, and a telemetry
+gap; they are test replays, not public simulator runs. The separate unavailable
+ML test still opens and recovers an SMS episode with null rank/version. The
+client has a 250 ms request budget, eight permits, no inline retry, and maps
+timeout, unavailable and ineligible inputs to distinct statuses.
+
+### Targeted merged live runs
+
+One private generator run per service was scheduled in parallel for
+18:31–18:39 UTC on 29 September 2026 with seed `29092031`. Both returned
+`COMPLETED` with eight published windows. The merged Compose generator,
+processor and ML service, host incident consumer, Kafka and PostgreSQL were
+running. Counts below were read from processing and incident databases, not
+from generator expectations.
+
+| Service / run ID | Accepted / feature / incident KPI | Episode ID | OPEN detection ID / rank | RECOVERY detection ID / rank | Incident ID |
+| --- | --- | --- | --- | --- | --- |
+| VoLTE `0437f0c9-0cbf-4873-8988-8cb4faf8c923` | 24 / 8 / 8 | `97fa89e5a6c18ca21d7761ee3b32218aec226accc831ac2425f727f88cc6be0e` | `e093e69dc6f3f1ee8e602bc9713ead4eecc609830f0b53e6b6704cb963e72567` / `1.0` | `14d32468882643422f16238e4acf0cd066c9f5866cdabe1f942b4188c8a300b5` / `0.4548611111111111` | `bd8a4b63-a092-41d6-b9a3-91f48d8b5600` |
+| SMS `be919e74-8faf-4394-87d6-28e031e7d19c` | 16 / 8 / 8 | `332c85c6c11a0eca4ef9b11dcc411efb43eb0b64bae9edeaa6abf286e08639c6` | `d8eb3efd382547a0c5e52015cfe9ff904f1c2befbb1cf98d2853b50ea614f940` / `0.9950396825396826` | `5537ec6af27f516ea26122db79161bef03c837611af327ea26be13ec6801ddc4` / `0.9821428571428571` | `5908428b-b1b3-44c5-b230-ccd43bb77433` |
+
+Each service persisted five detections in one episode: OPEN, three UPDATEs,
+RECOVERY. All ten detections have `mlStatus=OK`, model version
+`isoforest-v2-synthetic-1`, and a finite rank. Both incidents finished with
+`technical_state=RECOVERED` and `latest_sequence=5`. The processor outbox has
+16 acknowledged KPI messages and 10 acknowledged detections. All 16 incident
+KPI window IDs are unique and match the 16 features; V005 SMS marker rows for
+this interval are zero. Rejection rows are zero. Exact read-only results are
+in ignored `target/final-g2-live/results.json` locally. No second three-seed
+live matrix was needed after these two merged end-to-end runs passed.
+
+### Final regression and remaining gate
+
+| Command | Result |
+| --- | --- |
+| `.\.venv\Scripts\python.exe -B scripts/check-contracts.py` | PASS: 13 observation fixtures, four detection payloads, seven voice and 12 SMS parity cases |
+| `.\.venv\Scripts\python.exe -B -m unittest discover -s tests -v` | PASS: 17 tests |
+| `.\.venv\Scripts\python.exe -B -m unittest discover -s services/ml-service/tests -v` | PASS: 15 tests, including HTTP API and model evaluation |
+| `.\.venv\Scripts\python.exe -B scripts/check-voice-parity.py` / `check-sms-parity.py --java-output services/processor/target/sms-parity-java.json` | PASS: seven / 12 comparisons |
+| `mvn -q -pl services/event-generator -am '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' test` | PASS: 58 streaming-support and 44 generator tests |
+| `mvn -q -pl services/processor -am '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' test` | PASS: 58 streaming-support and 175 processor tests; two HTTP replay methods skipped until a service URL was set |
+| `mvn -q -pl services/processor -am '-Dtest=VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode,SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode' '-Dsurefire.failIfNoSpecifiedTests=false' test` with `ML_SERVICE_URL=http://127.0.0.1:8090` | PASS: two real HTTP replay methods |
+| `mvn -q -pl services/processor -am '-Dtest=MissingWindowDecisionIT,MissingWindowHandoffIT' '-Dsurefire.failIfNoSpecifiedTests=false' test` | PASS: nine PostgreSQL integration tests |
+| `mvn -q test` in incident-service | PASS: 99 tests with Docker restored |
+| `mvn -q '-Dtest=FirstSliceIT,CommentConcurrencyIT' test` in incident-service | PASS: two explicit PostgreSQL integration tests |
+| `git diff --check` and `docker compose config --quiet` | PASS |
+
+The Docker-backed incident-service suite no longer has the earlier 71 context
+errors. Two Maven runs attempted concurrently during the live window exceeded
+the workstation paging file; their sequential reruns above passed. The public
+`/api/simulator/...` paths remain declared in OpenAPI, and the incident service
+has a scenario command model and repository, but current production source has
+no public controller or dispatch worker. Dashboard HTML returned 200 and an
+anonymous incident API request returned 401. No authenticated analyst session
+was available for a live API/dashboard check.
+
+**Ion streaming: PASS. Sergiu detector/ML private integration: PASS. Combined
+private generator-to-incident pipeline: PASS for the targeted VoLTE/SMS pair.
+Shared public G2: PARTIAL** until Denis's durable authenticated simulator
+dispatch and authenticated API/dashboard acceptance are exercised.
