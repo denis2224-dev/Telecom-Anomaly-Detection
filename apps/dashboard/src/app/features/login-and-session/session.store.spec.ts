@@ -50,14 +50,54 @@ describe("SessionStore", () => {
     expect(store.csrf()).toBeNull();
   });
 
-  it("shows signed out for 401 without fetching protected data", async () => {
+  it("shows signed out for 401 and refreshes the public CSRF token", async () => {
     const pending = store.initialize();
     http
       .expectOne("/api/auth/me")
       .flush({}, { status: 401, statusText: "Unauthorized" });
+    await Promise.resolve();
+    http.expectOne("/api/auth/csrf").flush({
+      token: "anonymous-test-csrf",
+      headerName: "X-CSRF-TOKEN",
+      parameterName: "_csrf",
+    });
     await pending;
     expect(store.phase()).toBe("signed-out");
     expect(store.actor()).toBeNull();
+    expect(store.csrf()?.token).toBe("anonymous-test-csrf");
+  });
+
+  it("shows an error when anonymous CSRF discovery fails", async () => {
+    const pending = store.initialize();
+    http
+      .expectOne("/api/auth/me")
+      .flush({}, { status: 401, statusText: "Unauthorized" });
+    await Promise.resolve();
+    http
+      .expectOne("/api/auth/csrf")
+      .flush({}, { status: 503, statusText: "Unavailable" });
+    await pending;
+    expect(store.phase()).toBe("error");
+    expect(store.message()).toBe("Session protection could not be loaded. Try again.");
+  });
+
+  it("refreshes CSRF before logout even when the cached token was cleared", async () => {
+    store.phase.set("authenticated");
+    store.csrf.set(null);
+    const submit = vi.spyOn(HTMLFormElement.prototype, "submit").mockImplementation(() => {});
+    const pending = store.logout();
+    http.expectOne("/api/auth/csrf").flush({
+      token: "fresh-csrf",
+      headerName: "X-CSRF-TOKEN",
+      parameterName: "_csrf",
+    });
+    await pending;
+    expect(submit).toHaveBeenCalledOnce();
+    expect(document.body.querySelector('form[action="/logout"] input[name="_csrf"]')?.getAttribute("value"))
+      .toBe("fresh-csrf");
+    expect(store.phase()).toBe("signed-out");
+    document.body.querySelector('form[action="/logout"]')?.remove();
+    submit.mockRestore();
   });
 
   it("rejects accidental HTML instead of opening the workspace", async () => {
