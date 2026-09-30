@@ -68,7 +68,7 @@ jobs:
         run: >
           ./mvnw -pl services/processor -am test
           -Dtest=VoiceDeliveryTest,SmsDeliveryTest
-          -DfailIfNoTests=false
+          -Dsurefire.failIfNoSpecifiedTests=false
       - name: Stop private ML inference
         if: always()
         run: docker stop telecom-ml-integration || true
