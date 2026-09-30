@@ -1,5 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { provideHttpClient } from "@angular/common/http";
+import { withInterceptors } from '@angular/common/http';
+import { sessionInterceptor } from '../../features/login-and-session/session.interceptor';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -7,13 +9,17 @@ import {
 import { SessionStore } from "../../features/login-and-session/session.store";
 import { TelecomClient } from "./telecom-client";
 
+
 describe("TelecomClient", () => {
   let client: TelecomClient;
   let http: HttpTestingController;
   let session: SessionStore;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideHttpClient(withInterceptors([sessionInterceptor])),
+        provideHttpClientTesting(),
+      ],
     });
     client = TestBed.inject(TelecomClient);
     http = TestBed.inject(HttpTestingController);
@@ -62,6 +68,14 @@ describe("TelecomClient", () => {
     expect(session.phase()).toBe("expired");
     expect(session.actor()).toBeNull();
     expect(session.csrf()).toBeNull();
+  });
+
+  it("cancels a pending protected request when the session ends", async () => {
+    const response = client.listServices();
+    const request = http.expectOne("/api/services");
+    session.expire();
+    await expect(response).rejects.toMatchObject({ status: 401 });
+    expect(request.cancelled).toBe(true);
   });
 
   it("never sends a mutation without CSRF settings", async () => {

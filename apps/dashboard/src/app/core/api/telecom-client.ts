@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { firstValueFrom } from "rxjs";
+import { EmptyError, firstValueFrom, takeUntil } from "rxjs";
 import type { components, operations } from "./schema";
 import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
@@ -132,42 +132,58 @@ stopScenario(runId: string): Promise<ScenarioRun> {
   );
 }
 
-  private async request<T>(
-    method: "GET" | "POST",
+    private async request<T>(
+    method: 'GET' | 'POST',
     url: string,
     body?: unknown,
     query?: object,
   ): Promise<T> {
-    if (dataSource.fixture)
-      throw new Error("This action is unavailable in the fixture preview.");
-    if (this.session.phase() !== "authenticated") throw new ApiFailure(401);
-    const actor = this.session.actor();
-    if (!actor || Date.parse(actor.expiresAt) <= Date.now()) {
-      this.session.expire();
-      throw new ApiFailure(401);
+    if (dataSource.fixture) {
+      throw new Error(
+        'This action is unavailable in the fixture preview.',
+      );
     }
+
+    const revision = this.session.revision;
     const params: Record<string, string> = {};
-    for (const [key, value] of Object.entries(query ?? {}))
+
+    for (const [key, value] of Object.entries(query ?? {})) {
       if (value !== undefined) params[key] = String(value);
-    const headers: Record<string, string> = {};
-    if (method === "POST") {
-      const csrf = this.session.csrf();
-      if (!csrf) throw new ApiFailure(403, "CSRF_INVALID");
-      headers[csrf.headerName] = csrf.token;
     }
+
     try {
       const result = await firstValueFrom(
-        this.http.request<T>(method, url, { body, params, headers }),
+        this.http.request<T>(method, url, {
+          body,
+          params,
+        }),
       );
-      if (this.session.phase() !== "authenticated") throw new ApiFailure(401);
+
+      if (
+        this.session.revision !== revision
+        || this.session.phase() !== 'authenticated'
+      ) {
+        throw new ApiFailure(401);
+      }
+
       return result;
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        if (error.status === 401) this.session.expire();
-        if (error.status === 403 && error.error?.code === "CSRF_INVALID")
-          this.session.csrf.set(null);
-        throw new ApiFailure(error.status, error.error?.code);
+      if (error instanceof ApiFailure) throw error;
+
+      if (
+        this.session.revision !== revision
+        || this.session.phase() !== 'authenticated'
+      ) {
+        throw new ApiFailure(401);
       }
+
+      if (error instanceof HttpErrorResponse) {
+        throw new ApiFailure(
+          error.status,
+          error.error?.code,
+        );
+      }
+
       throw error;
     }
   }

@@ -12,6 +12,9 @@
           >Session ends {{ actor.expiresAt | date: "HH:mm" : "UTC" }} UTC</small
         ></span
       ><button (click)="session.logout()">Sign out</button>
+      @if (session.message()) {
+        <p role="alert">{{ session.message() }}</p>
+      }
     </div>
   }
 </header>
