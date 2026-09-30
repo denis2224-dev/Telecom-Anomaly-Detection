@@ -62,13 +62,18 @@ jobs:
             curl --fail --silent http://127.0.0.1:8090/health/ready && break
             sleep 2
           done
-      - name: Replay both service profiles and controls
+      - name: Replay controls without ML service
+        run: >
+          ./mvnw -pl services/processor -am test
+          -Dtest=VoiceDeliveryTest#committedWindowsProduceOneDurableEpisodeAndIdenticalReplayProducesNothing,SmsDeliveryTest#completeSmsWindowsProduceOneRecoveredEpisodeWithoutMlService
+          -Dsurefire.failIfNoSpecifiedTests=false
+      - name: Replay both service profiles with packaged model
         env:
           ML_SERVICE_URL: http://127.0.0.1:8090
         run: >
           ./mvnw -pl services/processor -am test
-          -Dtest=VoiceDeliveryTest,SmsDeliveryTest
-          -DfailIfNoTests=false
+          -Dtest=VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode,SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode
+          -Dsurefire.failIfNoSpecifiedTests=false
       - name: Stop private ML inference
         if: always()
         run: docker stop telecom-ml-integration || true
