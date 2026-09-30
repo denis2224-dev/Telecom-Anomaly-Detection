@@ -5,11 +5,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient, type Incident } from '../../core/api/telecom-client';
 import type { components } from '../../core/api/schema';
 import { dataSource } from '../../core/api/data-source';
+import { IncidentActionsComponent } from './incident-actions.component';
 import { EvidenceTimelineComponent } from './evidence-timeline.component';
 
 @Component({
   selector: 'app-incident-detail',
-  imports: [DatePipe, RouterLink, EvidenceTimelineComponent],
+  imports: [DatePipe, RouterLink, IncidentActionsComponent, EvidenceTimelineComponent],
   styles: ['code { overflow-wrap: anywhere; }'],
   template: `
     <h1>Incident investigation</h1>
@@ -68,6 +69,11 @@ import { EvidenceTimelineComponent } from './evidence-timeline.component';
           The investigation remains open until an analyst resolves it.
         </p>
       </section>
+
+      <app-incident-actions
+        [incident]="item"
+        (updated)="incident.set($event)"
+      />
 
       <app-evidence-timeline [detections]="detections()" />
     }
