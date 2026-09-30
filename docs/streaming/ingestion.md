@@ -188,3 +188,42 @@ decision lock. `WindowFinalizer` creates one immutable feature/outbox record;
 `VoiceDeliveryService` derives KPI/episode delivery from that finalized feature.
 No ML call belongs inside the finalization transaction. Sergiu can rely on the
 frozen late policy above; Day 12 does not redesign rule or episode behavior.
+
+## Replay, concurrent finalization, and retention (Day 13)
+
+The listener returns through the real Spring transaction interceptor before it
+acknowledges the input consumer offset. A failed write or deferred commit leaves
+that offset uncommitted. If the receipt committed but acknowledgement was lost,
+redelivery is `DUPLICATE`, including after feature and episode processing. Receipt,
+accepted count, source state, complete feature identity, evaluated-window state,
+and detection identity stay unchanged. Producer broker acknowledgements are a
+separate boundary: a failed `published_at` mark can resend identical KPI,
+detection, or rejection records. Deduplicate KPI by `windowId`, detection by
+`detectionId`, and rejection by `rejectionId`.
+
+Normal and missing finalizers and ingestion serialize using PostgreSQL transaction
+advisory locks for the same scope/window. Controlled Day 13 tests observe database
+lock waiters and independent committed state, then verify exactly one final
+feature agrees with the winning SERVICE/NODE receipts. An observation captured
+one microsecond before closure can win admission; new observations at closure or
+after it are late and cannot change finalized evidence. Finalizer retries preserve
+the full stored payload, original payload hash, metadata, and `sourceEventIds`.
+
+Raw observations default to 24-hour Kafka retention
+(`KAFKA_RAW_RETENTION_MS=86400000`). No processor receipt/outbox cleanup job exists
+yet: receipts and unpublished `feature_outbox`, `voice_delivery`, and
+`rejection_outbox` work remain retained without expiry. Day 18's retention job
+must start with a **minimum 48-hour receipt horizon**, longer than configured raw
+retention, and must never delete pending output. This is an application invariant,
+not a claim that the runtime role cannot manually delete any table: its existing
+receipt/rejection permissions are unchanged.
+
+Run `ReplayIT` and `FinalizerRaceIT` explicitly or through the normal processor
+suite; both are included in Surefire defaults. Their generated
+`target/day13-replay.json` and `target/day13-finalizer-races.json` contain exact
+before/after snapshots. The retention test deletes actual raw Kafka records and
+advances an injected application clock by 49 hours; it does not claim a physical
+49-hour soak or test a cleanup job that has not been implemented.
+
+See [Day 13 evidence](../evidence/2026-09-30-day13-replay-finalizer.md) for commands,
+counts, feature/episode identities, and the Denis/Sergiu downstream handoff.
