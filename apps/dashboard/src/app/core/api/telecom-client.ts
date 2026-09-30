@@ -6,10 +6,11 @@ import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
 import { ApiFailure } from "./api-errors";
 
-export { ApiFailure } from "./api-errors";
-
 export type ServiceSummary = components["schemas"]["ServiceSummary"];
 export type Incident = components["schemas"]["Incident"];
+export type ScenarioRun = components["schemas"]["ScenarioRun"];
+export type ScenarioType = ScenarioRun["scenarioType"];
+export type StartScenarioRequest = components["schemas"]["StartScenarioRequest"];
 type IncidentQuery = operations["listIncidents"]["parameters"]["query"];
 type KpiQuery = operations["getServiceKpis"]["parameters"]["query"];
 
