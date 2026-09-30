@@ -140,6 +140,13 @@ public class ScenarioCommand {
         lastError = error;
     }
 
+public void markDispatchError(String safeCode) {
+    if (safeCode != null && safeCode.length() > 2000) {
+        throw new IllegalArgumentException("Dispatch error code is too long");
+    }
+    lastError = safeCode;
+}
+
     public UUID getRunId() {
         return runId;
     }
