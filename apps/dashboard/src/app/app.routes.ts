@@ -4,6 +4,7 @@ import { LoginComponent } from "./features/login-and-session/login.component";
 import { sessionGuard } from "./features/login-and-session/session.guard";
 import { ServiceDetailComponent } from './features/service-kpi-history/service-detail.component';
 import { IncidentDetailComponent } from './features/incident-investigation/incident-detail.component';
+import { ScenarioRunnerComponent } from './features/scenario-runner/scenario-runner.component';
 
 
 // Dashboard routes and shared components for service assurance application.
@@ -15,4 +16,6 @@ export const routes: Routes = [
   { path: "incidents/:id", component: IncidentDetailComponent, canActivate: [sessionGuard] },
   { path: "signed-out", component: LoginComponent },
   { path: "**", redirectTo: "dashboard" },
+  { path: 'scenarios', component: ScenarioRunnerComponent, canActivate: [sessionGuard], },
 ];
+ 
