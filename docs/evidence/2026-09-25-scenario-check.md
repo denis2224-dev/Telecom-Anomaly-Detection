@@ -7,7 +7,7 @@ Date: 2026-09-25
 - `scripts/run-service-scenarios.py` exercises the authenticated public simulator
   API, records the request and run IDs, verifies the durable schedule, retries
   the same request, and polls server state through completion.
-- `tests/e2e/specs/service-scenarios.spec.ts` creates a temporary supervisor,
+- `apps/dashboard/tests/e2e/specs/service-scenarios.spec.ts` creates a temporary supervisor,
   performs real browser login, verifies schedule duration and exact retry
   behavior, exercises the idempotent stop control, and polls for the
   `RECOVERY` episode phase.
