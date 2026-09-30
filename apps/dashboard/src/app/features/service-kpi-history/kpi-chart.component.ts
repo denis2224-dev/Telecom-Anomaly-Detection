@@ -33,7 +33,7 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
         <p class="muted">Scale: {{ floor() }}–100%. Gaps are unavailable data, not 0% success. A zero attempt count also has no success rate.</p>
         <details><summary>Show exact values and attempt counts ({{ rows().length }} windows)</summary>
           <div class="chart-scroll"><table class="kpi-table"><caption>Server windows in UTC · start inclusive, end exclusive</caption><thead><tr><th>Window</th><th>Actual (%)</th><th>Expected (%)</th><th>Attempts</th><th>Data quality</th></tr></thead><tbody>
-            @for (row of rows(); track row.windowId) { <tr><th>{{ clock(row.windowStart) }}–{{ clock(row.windowEnd) }}</th><td>{{ value(row) ?? 'Unavailable' }}</td><td>{{ metric(row)?.baseline ?? 'Unavailable' }}</td><td>{{ metric(row)?.denominator ?? 'Unavailable' }}</td><td>{{ row.quality }}</td></tr> }
+            @for (row of rows(); track row.windowId) { <tr [attr.data-window-id]="row.windowId"><th>{{ clock(row.windowStart) }}–{{ clock(row.windowEnd) }}</th><td>{{ value(row) ?? 'Unavailable' }}</td><td>{{ metric(row)?.baseline ?? 'Unavailable' }}</td><td>{{ metric(row)?.denominator ?? 'Unavailable' }}</td><td>{{ row.quality }}</td></tr> }
           </tbody></table></div>
         </details>
       } @else { <p role="status">No voice KPI history in this time range.</p> }

@@ -23,7 +23,8 @@
     "test:auth": "playwright test --config playwright.auth.config.ts",
     "test:auth-routing": "node ../../scripts/check-auth-routing.mjs",
     "test:branding": "node --test ../../scripts/sync-branding.test.mjs",
-    "check:fixtures": "node scripts/check-fixtures.mjs"
+    "check:fixtures": "node scripts/check-fixtures.mjs",
+    "test:g2": "playwright test --config playwright.g2.config.ts"
   },
   "dependencies": {
     "@angular/common": "21.2.23",
@@ -39,6 +40,7 @@
     "@angular/cli": "21.2.24",
     "@angular/compiler-cli": "21.2.23",
     "@playwright/test": "^1.63.0",
+    "@types/node": "24.19.0",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "jsdom": "27.4.0",
