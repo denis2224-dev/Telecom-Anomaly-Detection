@@ -3,6 +3,7 @@ import {
   Component,
   OnDestroy,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -273,6 +274,12 @@ export class ScenarioRunnerComponent implements OnDestroy {
       this.now.set(Date.now());
       void this.store.refresh();
     }, 5000);
+
+    effect(() => {
+      if (this.session.phase() !== 'authenticated') {
+        clearInterval(this.timer);
+      }
+    });
   }
 
   async loadScopes(): Promise<void> {

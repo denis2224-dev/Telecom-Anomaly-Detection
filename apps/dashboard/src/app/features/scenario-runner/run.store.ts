@@ -91,6 +91,7 @@ export class RunStore {
     seed: number,
     scopeId: string,
   ): Promise<void> {
+    if (this.session.phase() !== 'authenticated') return;
     if (this.busy() || this.run()) return;
 
     if (!Number.isSafeInteger(seed) || seed < 0 || !scopeId) {
@@ -156,6 +157,7 @@ export class RunStore {
   }
 
   async refresh(): Promise<void> {
+    if (this.session.phase() !== 'authenticated') return;
     const current = this.run();
 
     if (
@@ -184,6 +186,7 @@ export class RunStore {
   }
 
   async stop(): Promise<void> {
+    if (this.session.phase() !== 'authenticated') return;
     const current = this.run();
 
     if (
@@ -227,6 +230,7 @@ export class RunStore {
   }
 
   private save(): void {
+    if (!this.session.actor()) return;
     try {
       sessionStorage.setItem(
         this.storageKey,

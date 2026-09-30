@@ -40,7 +40,10 @@ describe('Day 10 scenario command retry', () => {
         },
         {
           provide: SessionStore,
-          useValue: { actor: () => actor },
+          useValue: {
+            actor: () => actor,
+            phase: () => 'authenticated',
+          },
         },
       ],
     });
@@ -75,5 +78,33 @@ describe('Day 10 scenario command retry', () => {
     sessionStorage.removeItem(
       'telecom.scenario-runner:supervisor-1',
     );
+  });
+
+  it('does not start or save a command after the session ends', async () => {
+    const startScenario = vi.fn();
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: TelecomClient, useValue: { startScenario } },
+        {
+          provide: SessionStore,
+          useValue: { actor: () => null, phase: () => 'expired' },
+        },
+      ],
+    });
+    sessionStorage.removeItem('telecom.scenario-runner:unknown');
+    const store = TestBed.inject(RunStore);
+
+    await store.start('VOLTE_IMS_OVERLOAD', 42, 'VOLTE-MD-CENTRAL');
+    expect(startScenario).not.toHaveBeenCalled();
+
+    store.command.set({
+      type: 'VOLTE_IMS_OVERLOAD',
+      requestId: 'previous-request',
+      seed: 42,
+      scopeId: 'VOLTE-MD-CENTRAL',
+    });
+    store.canAbandon.set(true);
+    store.newCommand();
+    expect(sessionStorage.getItem('telecom.scenario-runner:unknown')).toBeNull();
   });
 });

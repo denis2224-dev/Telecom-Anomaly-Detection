@@ -1,7 +1,7 @@
 import { DOCUMENT } from "@angular/common";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, OnDestroy, inject, signal } from "@angular/core";
-import { firstValueFrom, timeout } from "rxjs";
+import { firstValueFrom, Subject, timeout } from "rxjs";
 import type { components } from "../../core/api/schema";
 import { dataSource } from "../../core/api/data-source";
 
@@ -24,9 +24,16 @@ export class SessionStore implements OnDestroy {
   readonly actor = signal<Session | null>(null);
   readonly csrf = signal<Csrf | null>(null);
   readonly message = signal("");
+  private readonly endedSubject = new Subject<void>();
+  readonly ended$ = this.endedSubject.asObservable();
   private expiryTimer?: ReturnType<typeof setTimeout>;
   private pending?: Promise<void>;
   private generation = 0;
+  private loggingOut = false;
+
+  get revision(): number {
+    return this.generation;
+  }
 
   initialize(): Promise<void> {
     if (this.pending) return this.pending;
@@ -67,21 +74,13 @@ export class SessionStore implements OnDestroy {
         this.expire();
         return;
       }
-      const csrf = await firstValueFrom(this.http.get<Csrf>("/api/auth/csrf").pipe(timeout(10000)));
+      await this.refreshCsrf();
       if (generation !== this.generation) return;
-      if (
-        !csrf.token ||
-        csrf.headerName !== "X-CSRF-TOKEN" ||
-        csrf.parameterName !== "_csrf"
-      ) {
-        throw new Error("Invalid CSRF response");
-      }
       if (deadline <= Date.now()) {
         this.expire();
         return;
       }
       this.actor.set(actor);
-      this.csrf.set(csrf);
       this.phase.set("authenticated");
       this.expiryTimer = setTimeout(
         () => this.expire(),
@@ -90,9 +89,17 @@ export class SessionStore implements OnDestroy {
     } catch (error) {
       if (generation !== this.generation) return;
       this.clear();
-      if (error instanceof HttpErrorResponse && error.status === 401)
+      if (error instanceof HttpErrorResponse && error.status === 401) {
         this.phase.set("signed-out");
-      else if (error instanceof HttpErrorResponse && error.status === 403) {
+        try {
+          await this.refreshCsrf();
+        } catch {
+          if (this.phase() === "signed-out") {
+            this.phase.set("error");
+            this.message.set("Session protection could not be loaded. Try again.");
+          }
+        }
+      } else if (error instanceof HttpErrorResponse && error.status === 403) {
         this.phase.set("forbidden");
         this.message.set("This account does not have access to the workspace.");
       } else {
@@ -104,6 +111,22 @@ export class SessionStore implements OnDestroy {
     }
   }
 
+  async refreshCsrf(): Promise<void> {
+    const generation = this.generation;
+    const csrf = await firstValueFrom(
+      this.http.get<Csrf>("/api/auth/csrf").pipe(timeout(10000)),
+    );
+    if (generation !== this.generation) return;
+    if (
+      !csrf.token ||
+      csrf.headerName !== "X-CSRF-TOKEN" ||
+      csrf.parameterName !== "_csrf"
+    ) {
+      throw new Error("Invalid CSRF response");
+    }
+    this.csrf.set(csrf);
+  }
+
   login(): void {
     if (dataSource.fixture) return;
     this.document.defaultView?.location.assign(
@@ -111,21 +134,33 @@ export class SessionStore implements OnDestroy {
     );
   }
 
-  logout(): void {
-    const csrf = this.csrf();
-    if (!csrf || this.phase() !== "authenticated") return;
-    const form = this.document.createElement("form");
-    form.method = "POST";
-    form.action = "/logout";
-    const input = this.document.createElement("input");
-    input.type = "hidden";
-    input.name = csrf.parameterName;
-    input.value = csrf.token;
-    form.append(input);
-    this.document.body.append(form);
-    this.clear();
-    this.phase.set("signed-out");
-    form.submit();
+  async logout(): Promise<void> {
+    if (this.loggingOut || this.phase() !== "authenticated") return;
+    this.loggingOut = true;
+    try {
+      await this.refreshCsrf();
+      if (this.phase() !== "authenticated") return;
+      const csrf = this.csrf();
+      if (!csrf) return;
+      const form = this.document.createElement("form");
+      form.method = "POST";
+      form.action = "/logout";
+      const input = this.document.createElement("input");
+      input.type = "hidden";
+      input.name = csrf.parameterName;
+      input.value = csrf.token;
+      form.append(input);
+      this.document.body.append(form);
+      this.clear();
+      this.phase.set("signed-out");
+      form.submit();
+    } catch {
+      this.message.set(
+        "Sign out could not be started. Check the connection and try again.",
+      );
+    } finally {
+      this.loggingOut = false;
+    }
   }
 
   expire(): void {
@@ -136,6 +171,7 @@ export class SessionStore implements OnDestroy {
 
   private clear(): void {
     this.generation++;
+    this.endedSubject.next();
     clearTimeout(this.expiryTimer);
     this.actor.set(null);
     this.csrf.set(null);
