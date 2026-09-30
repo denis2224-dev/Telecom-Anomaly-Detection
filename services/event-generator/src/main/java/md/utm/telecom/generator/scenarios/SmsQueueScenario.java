@@ -92,17 +92,16 @@ public class SmsQueueScenario {
         return generateTelemetryGapWindows(start, seed).stream().flatMap(List::stream).toList();
     }
 
-    /** Withhold the authoritative SERVICE source for minutes 2-4; NODE evidence continues. */
+    /** Withhold unmeasured SERVICE and NODE sources for minutes 2-4. */
     public List<List<String>> generateTelemetryGapWindows(Instant start, long seed) {
         validateMinuteAlignment(start);
         var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
-            var healthy = generateSeededWindow(from, Phase.NORMAL, seed);
             if (minute >= 2 && minute < 5) {
-                result.add(List.of(healthy.get(0)));
+                result.add(List.of());
             } else {
-                result.add(healthy);
+                result.add(generateSeededWindow(from, Phase.NORMAL, seed));
             }
         }
         return List.copyOf(result);

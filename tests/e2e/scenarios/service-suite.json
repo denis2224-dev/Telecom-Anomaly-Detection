@@ -1,0 +1,79 @@
+{
+  "suiteVersion": 1,
+  "observationSchemaVersion": 2,
+  "featureVersion": 2,
+  "detectionSchemaVersion": 2,
+  "topologyVersion": "2-baseline",
+  "baselineVersion": "baseline-v2",
+  "rulesetVersion": "service-rules-v2",
+  "profileMinutes": 8,
+  "windowSec": 60,
+  "allowedLatenessSec": 10,
+  "phaseByMinute": ["NORMAL", "NORMAL", "FAULT", "FAULT", "FAULT", "RECOVERY", "RECOVERY", "RECOVERY"],
+  "scenarios": [
+    {
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "seeds": [29092026, 29092027, 29092028],
+      "sourcesPerMeasuredMinute": ["VOLTE-ADAPTER", "IMS-A", "TRANSPORT-A"],
+      "expectedAcceptedObservations": 24,
+      "expectedFinalizedWindows": 8,
+      "expectedEpisodeCount": 1,
+      "expectedDetectionPhasesByMinute": {"3": "OPEN", "4": "UPDATE", "5": "UPDATE", "6": "UPDATE", "7": "RECOVERY"},
+      "expectedModel": {"service": "VOLTE", "status": "OK", "rank": "PRESENT"}
+    },
+    {
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "seeds": [29092026, 29092027, 29092028],
+      "sourcesPerMeasuredMinute": ["SMS-ADAPTER", "SMSC-A"],
+      "expectedAcceptedObservations": 16,
+      "expectedFinalizedWindows": 8,
+      "expectedEpisodeCount": 1,
+      "expectedDetectionPhasesByMinute": {"3": "OPEN", "4": "UPDATE", "5": "UPDATE", "6": "UPDATE", "7": "RECOVERY"},
+      "expectedModel": {"service": "SMS", "status": "OK", "rank": "PRESENT"}
+    },
+    {
+      "scenarioType": "NORMAL_CONTROL",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "seeds": [29092029],
+      "sourcesPerMeasuredMinute": ["VOLTE-ADAPTER", "IMS-A", "TRANSPORT-A"],
+      "expectedAcceptedObservations": 24,
+      "expectedFinalizedWindows": 8,
+      "expectedEpisodeCount": 0
+    },
+    {
+      "scenarioType": "NORMAL_CONTROL",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "seeds": [29092029],
+      "sourcesPerMeasuredMinute": ["SMS-ADAPTER", "SMSC-A"],
+      "expectedAcceptedObservations": 16,
+      "expectedFinalizedWindows": 8,
+      "expectedEpisodeCount": 0
+    },
+    {
+      "scenarioType": "TELEMETRY_GAP",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "seeds": [29092030],
+      "gapMinutes": [2, 3, 4],
+      "sourcesPerMeasuredMinute": ["VOLTE-ADAPTER", "IMS-A", "TRANSPORT-A"],
+      "expectedAcceptedObservations": 15,
+      "expectedFinalizedWindows": 8,
+      "expectedGapQuality": "MISSING",
+      "expectedEpisodeCount": 0,
+      "gapCannotRecoverActiveEpisode": true
+    },
+    {
+      "scenarioType": "TELEMETRY_GAP",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "seeds": [29092030],
+      "gapMinutes": [2, 3, 4],
+      "sourcesPerMeasuredMinute": ["SMS-ADAPTER", "SMSC-A"],
+      "expectedAcceptedObservations": 10,
+      "expectedFinalizedWindows": 8,
+      "expectedGapQuality": "MISSING",
+      "expectedEpisodeCount": 0,
+      "gapCannotRecoverActiveEpisode": true
+    }
+  ]
+}

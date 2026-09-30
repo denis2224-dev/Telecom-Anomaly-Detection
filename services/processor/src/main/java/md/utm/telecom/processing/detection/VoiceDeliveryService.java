@@ -27,6 +27,7 @@ public class VoiceDeliveryService {
     public void evaluate(String scope) throws Exception {
         var windows = jdbc.queryForList("""
                 SELECT window_id, payload::text FROM app.feature_outbox f WHERE scope_id=?
+                AND f.payload->>'service' IN ('VOLTE', 'SMS')
                 AND NOT EXISTS (SELECT 1 FROM app.voice_evaluated_window e WHERE e.window_id=f.window_id)
                 ORDER BY window_start LIMIT 100
                 """, scope);

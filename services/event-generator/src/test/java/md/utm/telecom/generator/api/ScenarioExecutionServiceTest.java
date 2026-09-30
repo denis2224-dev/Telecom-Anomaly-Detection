@@ -100,10 +100,10 @@ class ScenarioExecutionServiceTest {
         advance(START.plusSeconds(480));
         assertEquals("COMPLETED", service.status(id).status());
         assertEquals(8, service.status(id).publishedWindows());
-        verify(kafka, times(16)).send(eq("telecom.observations.v2"), eq("VOLTE-MD-CENTRAL"), anyString());
+        verify(kafka, times(24)).send(eq("telecom.observations.v2"), eq("VOLTE-MD-CENTRAL"), anyString());
     }
 
-    @Test void telemetryGapProcessesEightWindowsWithOnlyThirteenNodeAndServiceSends() {
+    @Test void telemetryGapProcessesEightWindowsWithoutInventingSourceMeasurements() {
         List<UUID> ids = new ArrayList<>();
         for (String scope : List.of("VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A")) {
             UUID id = start("TELEMETRY_GAP", scope);
@@ -113,7 +113,8 @@ class ScenarioExecutionServiceTest {
         assertEquals(18, tasks.size());
         advance(START.plusSeconds(480));
         for (String scope : List.of("VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A")) {
-            verify(kafka, times(13)).send(eq("telecom.observations.v2"), eq(scope), anyString());
+            verify(kafka, times(scope.equals("VOLTE-MD-CENTRAL") ? 15 : 10))
+                    .send(eq("telecom.observations.v2"), eq(scope), anyString());
         }
         for (UUID id : ids) {
             assertEquals("COMPLETED", service.status(id).status());
@@ -162,7 +163,7 @@ class ScenarioExecutionServiceTest {
         advance(START.plusSeconds(60));
         assertEquals(service.status(id), service.start(id, command("VOLTE_IMS_OVERLOAD", "VOLTE-MD-CENTRAL")));
         assertEquals(9, tasks.size());
-        verify(kafka, times(2)).send(anyString(), anyString(), anyString());
+        verify(kafka, times(3)).send(anyString(), anyString(), anyString());
     }
 
     @Test void differentRunIdSameScopeAndScheduleConflictsWithoutChangingReservation() {
@@ -339,7 +340,7 @@ class ScenarioExecutionServiceTest {
         assertEquals("STOPPED", stopped.get().status());
         assertEquals(1, stopped.get().publishedWindows());
         advance(START.plusSeconds(480));
-        verify(kafka, times(2)).send(anyString(), anyString(), anyString());
+        verify(kafka, times(3)).send(anyString(), anyString(), anyString());
         assertEquals(1, service.status(id).publishedWindows());
     }
 
@@ -408,7 +409,7 @@ class ScenarioExecutionServiceTest {
         assertEquals("STOPPED", service.stop(id).status());
         advance(START.plusSeconds(480));
         assertEquals(1, service.status(id).publishedWindows());
-        verify(kafka, times(2)).send(anyString(), anyString(), anyString());
+        verify(kafka, times(3)).send(anyString(), anyString(), anyString());
 
         clock.at.set(START.minusSeconds(30));
         UUID complete = start("SMS_QUEUE_DELAY", "SMS-MD-ROUTE-A");
@@ -435,7 +436,7 @@ class ScenarioExecutionServiceTest {
                 () -> restarted.start(id, command("VOLTE_IMS_OVERLOAD", "VOLTE-MD-CENTRAL"))).code());
         assertTrue(newTasks.isEmpty(), "Restarted process must not install replay callbacks");
         advance(START.plusSeconds(480)); // no old callbacks survive process death
-        verify(kafka, times(2)).send(anyString(), anyString(), anyString());
+        verify(kafka, times(3)).send(anyString(), anyString(), anyString());
     }
 
     @Test void restartBeforeStartCanReinstallFutureRun() throws Exception {

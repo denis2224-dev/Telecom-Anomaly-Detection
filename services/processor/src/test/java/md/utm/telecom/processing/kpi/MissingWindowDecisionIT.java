@@ -127,7 +127,7 @@ class MissingWindowDecisionIT {
         assertEquals(1, count("observation_receipt", VOICE, next));
     }
 
-    @Test void olderSmsBucketsCannotStarveVoiceMissingBatch() {
+    @Test void olderSmsBucketsCannotHideVoiceMissingBatch() {
         for (int i = 0; i < 101; i++) bucket(SMS, T0.plusSeconds(i * 60L), 1);
         Instant voiceStart = T0.plusSeconds(101 * 60L);
         bucket(VOICE, voiceStart, 1);
@@ -135,6 +135,7 @@ class MissingWindowDecisionIT {
         var due = finalizer.dueMissingWindows(100);
         assertEquals(100, due.size());
         assertTrue(due.contains(new WindowFinalizer.Window(VOICE, voiceStart)));
+        assertTrue(due.stream().anyMatch(window -> window.scopeId().equals(SMS)));
         assertEquals(WindowFinalizer.Result.FINALIZED, finalizer.finalizeMissingWindow(VOICE, voiceStart));
         assertEquals(1, count("feature_outbox", VOICE, voiceStart));
     }

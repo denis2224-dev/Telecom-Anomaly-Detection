@@ -58,29 +58,37 @@ public class VoiceScenario {
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             boolean fault = minute >= 2 && minute < 5;
-            boolean omitService = profile == Profile.TELEMETRY_GAP && fault;
+            boolean gap = profile == Profile.TELEMETRY_GAP && fault;
             boolean overload = profile == Profile.VOLTE_IMS_OVERLOAD && fault;
+            var window = new ArrayList<String>();
+            // A telemetry gap has no measured source values for this interval.
+            if (gap) {
+                result.add(List.of());
+                continue;
+            }
             ObjectNode node = event(from, "IMS-A", "NODE", "COMPLETE");
             node.put("nodeId", "IMS-A");
             node.putObject("metrics").put("cpuPct", overload ? 97 : 35);
             validator.validate(node);
-            var window = new ArrayList<String>();
             window.add(node.toString());
+            ObjectNode transport = event(from, "TRANSPORT-A", "NODE", "COMPLETE");
+            transport.put("nodeId", "TRANSPORT-A");
+            transport.putObject("metrics").put("packetLossRatio", 0.001).put("throughputMbps", 120);
+            validator.validate(transport);
+            window.add(transport.toString());
 
-            if (!omitService) {
-                ObjectNode service = event(from, "VOLTE-ADAPTER", "SERVICE", "COMPLETE");
-                service.put("service", "VOLTE");
-                // Day 10 values are fixed by the Common Guide. Seed is command
-                // metadata here; it never changes observation identity.
-                service.putObject("metrics").put("attempts", 1020).put("userOutcomes", 20)
-                        .put("technicalSuccesses", overload ? 940 : 993)
-                        .put("technicalFailures", overload ? 60 : 7)
-                        .put("rrcAttempts", 1200).put("rrcSuccesses", 1194)
-                        .put("bearerAttempts", 1100).put("bearerSuccesses", 1095)
-                        .put("sip503Count", overload ? 55 : 2);
-                validator.validate(service);
-                window.add(service.toString());
-            }
+            ObjectNode service = event(from, "VOLTE-ADAPTER", "SERVICE", "COMPLETE");
+            service.put("service", "VOLTE");
+            // Day 10 values are fixed by the Common Guide. Seed is command
+            // metadata here; it never changes observation identity.
+            service.putObject("metrics").put("attempts", 1020).put("userOutcomes", 20)
+                    .put("technicalSuccesses", overload ? 940 : 993)
+                    .put("technicalFailures", overload ? 60 : 7)
+                    .put("rrcAttempts", 1200).put("rrcSuccesses", 1194)
+                    .put("bearerAttempts", 1100).put("bearerSuccesses", 1095)
+                    .put("sip503Count", overload ? 55 : 2);
+            validator.validate(service);
+            window.add(service.toString());
             result.add(List.copyOf(window));
         }
         return List.copyOf(result);

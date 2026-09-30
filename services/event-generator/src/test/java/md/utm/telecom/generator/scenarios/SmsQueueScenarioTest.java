@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SmsQueueScenarioTest {
     @Test
-    void controlStaysHealthyAndGapOmitsServiceWithoutFakeZeroSamples() throws Exception {
+    void controlStaysHealthyAndGapOmitsUnmeasuredSourcesWithoutFakeZeroSamples() throws Exception {
         var control = scenario.generateHealthyWindows(baseStart, 42);
         var gap = scenario.generateTelemetryGapWindows(baseStart, 42);
         assertEquals(8, control.size());
@@ -28,8 +28,7 @@ class SmsQueueScenarioTest {
             assertEquals(0, controlNode.get("metrics").get("queueDepth").asInt());
             assertEquals("COMPLETE", controlService.get("quality").asText());
             if (minute >= 2 && minute < 5) {
-                assertEquals(1, gap.get(minute).size());
-                assertEquals("NODE", json.readTree(gap.get(minute).get(0)).get("kind").asText());
+                assertTrue(gap.get(minute).isEmpty());
             } else {
                 assertEquals(2, gap.get(minute).size());
                 var gapService = json.readTree(gap.get(minute).get(1));
