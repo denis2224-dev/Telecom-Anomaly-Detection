@@ -71,8 +71,7 @@ button,
 .login-card { border-radius: var(--telecom-border-radius); }
 .login-card [role="alert"] { color: var(--telecom-danger); }
 :focus-visible {
-  outline: 3px solid var(--telecom-focus);
-  outline-offset: 4px;
+  outline: none;
 }
 .skip-link {
   position: absolute;

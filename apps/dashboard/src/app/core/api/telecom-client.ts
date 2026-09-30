@@ -6,10 +6,11 @@ import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
 import { ApiFailure } from "./api-errors";
 
-export { ApiFailure } from "./api-errors";
-
 export type ServiceSummary = components["schemas"]["ServiceSummary"];
 export type Incident = components["schemas"]["Incident"];
+export type ScenarioRun = components["schemas"]["ScenarioRun"];
+export type ScenarioType = ScenarioRun["scenarioType"];
+export type StartScenarioRequest = components["schemas"]["StartScenarioRequest"];
 type IncidentQuery = operations["listIncidents"]["parameters"]["query"];
 type KpiQuery = operations["getServiceKpis"]["parameters"]["query"];
 
@@ -105,6 +106,31 @@ export class TelecomClient {
       body,
     );
   }
+
+  startScenario(
+  type: ScenarioType,
+  body: StartScenarioRequest,
+): Promise<ScenarioRun> {
+  return this.request<ScenarioRun>(
+    "POST",
+    `/api/simulator/scenarios/${encodeURIComponent(type)}`,
+    body,
+  );
+}
+
+getScenarioRun(runId: string): Promise<ScenarioRun> {
+  return this.request<ScenarioRun>(
+    "GET",
+    `/api/simulator/runs/${encodeURIComponent(runId)}`,
+  );
+}
+
+stopScenario(runId: string): Promise<ScenarioRun> {
+  return this.request<ScenarioRun>(
+    "POST",
+    `/api/simulator/runs/${encodeURIComponent(runId)}/stop`,
+  );
+}
 
   private async request<T>(
     method: "GET" | "POST",
