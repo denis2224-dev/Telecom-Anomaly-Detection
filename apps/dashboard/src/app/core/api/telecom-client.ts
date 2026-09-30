@@ -4,32 +4,14 @@ import { firstValueFrom } from "rxjs";
 import type { components, operations } from "./schema";
 import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
+import { ApiFailure } from "./api-errors";
+
+export { ApiFailure } from "./api-errors";
 
 export type ServiceSummary = components["schemas"]["ServiceSummary"];
 export type Incident = components["schemas"]["Incident"];
 type IncidentQuery = operations["listIncidents"]["parameters"]["query"];
 type KpiQuery = operations["getServiceKpis"]["parameters"]["query"];
-
-export class ApiFailure extends Error {
-  constructor(
-    readonly status: number,
-    readonly code?: string,
-  ) {
-    super(
-      status === 401
-        ? "Your session has expired. Please sign in again."
-        : status === 403
-          ? code === "CSRF_INVALID"
-            ? "Session protection needs to be refreshed. Review and retry your action."
-            : "You do not have permission to access this content."
-          : status === 409
-            ? "This item changed. Reload and review it before trying again."
-            : status === 404
-              ? "This item could not be found."
-              : "The service could not be reached. Try again.",
-    );
-  }
-}
 
 @Injectable({ providedIn: "root" })
 export class TelecomClient {
