@@ -2,7 +2,7 @@
 """Exercise the authenticated, public simulator command API.
 
 The session cookie is deliberately supplied by the real browser login in
-``tests/e2e/specs/service-scenarios.spec.ts``; this runner never talks to
+``apps/dashboard/tests/e2e/specs/service-scenarios.spec.ts``; this runner never talks to
 Keycloak's admin API or the private generator endpoint.
 """
 
