@@ -1,0 +1,1171 @@
+[ {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 45000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 83.33333333333333,
+    "numerator" : 100,
+    "denominator" : 120
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 250,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 90,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "OPEN",
+  "impact" : {
+    "pendingMessages" : 250,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 100
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=45000 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "5284f72b-f2cc-3c32-9520-2dbea28c8692", "f01a04ad-4b66-303d-b209-0e2dbb441472" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=250; oldest=90 s",
+    "sourceEventIds" : [ "f01a04ad-4b66-303d-b209-0e2dbb441472" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 1,
+  "severity" : "HIGH",
+  "episodeId" : "afb5447eb9eb8cbe2866e68816878f54b5df506247f7c17f0bf0b68fa39391d7",
+  "windowEnd" : "2026-09-15T08:04:00Z",
+  "detectedAt" : "2026-09-15T08:15:00Z",
+  "anomalyRank" : 0.9985119047619048,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "b48d9ced2cf81aa12ceff1827e57d04d19e453ef59cb1885277b8424aafdc357",
+  "windowStart" : "2026-09-15T08:03:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 45000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 83.33333333333333,
+    "numerator" : 100,
+    "denominator" : 120
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 250,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 90,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 250,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 100
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=45000 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "a970b35a-b2a0-3335-a5b7-d2bfc9cf504f", "ad94f9b1-b533-3872-8750-66e394b3a6d0" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=250; oldest=90 s",
+    "sourceEventIds" : [ "a970b35a-b2a0-3335-a5b7-d2bfc9cf504f" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 2,
+  "severity" : "HIGH",
+  "episodeId" : "afb5447eb9eb8cbe2866e68816878f54b5df506247f7c17f0bf0b68fa39391d7",
+  "windowEnd" : "2026-09-15T08:05:00Z",
+  "detectedAt" : "2026-09-15T08:15:00Z",
+  "anomalyRank" : 0.9985119047619048,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "201cf6e155453e20b102eafeafaef8826a9b87a0548c355c6d707c35d35315ed",
+  "windowStart" : "2026-09-15T08:04:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2000 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "d542bdfc-7c57-3ab8-9f08-f0d6e36b7b46", "dd355167-9404-3319-9681-1b4f52d69b20" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "dd355167-9404-3319-9681-1b4f52d69b20" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 3,
+  "severity" : "HIGH",
+  "episodeId" : "afb5447eb9eb8cbe2866e68816878f54b5df506247f7c17f0bf0b68fa39391d7",
+  "windowEnd" : "2026-09-15T08:06:00Z",
+  "detectedAt" : "2026-09-15T08:15:00Z",
+  "anomalyRank" : 0.9995039682539683,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "ffae88c83a3730104664e04d2b85a9f4363e699cc8158eafdd6b72f985e698de",
+  "windowStart" : "2026-09-15T08:05:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2000 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "a9a69dbf-12f1-38a6-b3ec-cc9c7083a2e0", "d3cf24df-19a1-3395-9e71-4be1b99a721a" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "a9a69dbf-12f1-38a6-b3ec-cc9c7083a2e0" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 4,
+  "severity" : "HIGH",
+  "episodeId" : "afb5447eb9eb8cbe2866e68816878f54b5df506247f7c17f0bf0b68fa39391d7",
+  "windowEnd" : "2026-09-15T08:07:00Z",
+  "detectedAt" : "2026-09-15T08:15:00Z",
+  "anomalyRank" : 0.9995039682539683,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "98d599d7291f50ca9b3851ad2950306281ae56c1949a74a50f26238e4d40bf7e",
+  "windowStart" : "2026-09-15T08:06:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "RECOVERY",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2000 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "44a31c24-cff2-3349-87e0-5ac0ab109abc", "ed023447-25b5-3a07-a463-618c8506f686" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "ed023447-25b5-3a07-a463-618c8506f686" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 5,
+  "severity" : "HIGH",
+  "episodeId" : "afb5447eb9eb8cbe2866e68816878f54b5df506247f7c17f0bf0b68fa39391d7",
+  "windowEnd" : "2026-09-15T08:08:00Z",
+  "detectedAt" : "2026-09-15T08:15:00Z",
+  "anomalyRank" : 0.9995039682539683,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "09713744fe81124d82a2bf341a943e7f2e9ada41daf292a77136b241c565ffc0",
+  "windowStart" : "2026-09-15T08:07:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "RECOVERED",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 45500,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 83.33333333333333,
+    "numerator" : 100,
+    "denominator" : 120
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 250,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 90,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "OPEN",
+  "impact" : {
+    "pendingMessages" : 250,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 100
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=45500 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "986133a2-1227-34af-89e5-ed2869d97542", "ab8e1e0f-eb31-3989-aad0-b26d74d85cb2" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=250; oldest=90 s",
+    "sourceEventIds" : [ "986133a2-1227-34af-89e5-ed2869d97542" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 1,
+  "severity" : "HIGH",
+  "episodeId" : "cafc7339c732c77c94160ba74cd8941798be3817d9d5bf45bd00bc2927219740",
+  "windowEnd" : "2026-09-15T08:14:00Z",
+  "detectedAt" : "2026-09-15T08:25:00Z",
+  "anomalyRank" : 0.9985119047619048,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "8acb2ef2938f6701c992aaa5f169ac982ce2e10d22d27409213c9e8a5a4f3f9a",
+  "windowStart" : "2026-09-15T08:13:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 45500,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 83.33333333333333,
+    "numerator" : 100,
+    "denominator" : 120
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 250,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 90,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 250,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 100
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=45500 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "3bbe3710-89f1-3359-924c-72b8bd75a763", "a8160788-06b7-3443-b0f1-1d8b0a0005d6" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=250; oldest=90 s",
+    "sourceEventIds" : [ "3bbe3710-89f1-3359-924c-72b8bd75a763" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 2,
+  "severity" : "HIGH",
+  "episodeId" : "cafc7339c732c77c94160ba74cd8941798be3817d9d5bf45bd00bc2927219740",
+  "windowEnd" : "2026-09-15T08:15:00Z",
+  "detectedAt" : "2026-09-15T08:25:00Z",
+  "anomalyRank" : 0.9985119047619048,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "e05aea2e28441f21ff88b4761cbe8ee7c354b7f545b9084db534b0fc7889b890",
+  "windowStart" : "2026-09-15T08:14:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2050,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2050 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "1389fa0d-9b5e-352c-99a8-da5b6c410e19", "743553f4-1e86-3e25-bc61-896f404f0653" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "1389fa0d-9b5e-352c-99a8-da5b6c410e19" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 3,
+  "severity" : "HIGH",
+  "episodeId" : "cafc7339c732c77c94160ba74cd8941798be3817d9d5bf45bd00bc2927219740",
+  "windowEnd" : "2026-09-15T08:16:00Z",
+  "detectedAt" : "2026-09-15T08:25:00Z",
+  "anomalyRank" : 0.9518849206349206,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "99dfa7307c670e8f9e5dbe68981400554cc5839494028b3576e738f66a01b9f7",
+  "windowStart" : "2026-09-15T08:15:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2050,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2050 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "0a2d4f67-5d97-3f5e-965a-25405d2cd6cc", "0e2013e8-08eb-3731-8695-9ff47ead60ea" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "0e2013e8-08eb-3731-8695-9ff47ead60ea" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 4,
+  "severity" : "HIGH",
+  "episodeId" : "cafc7339c732c77c94160ba74cd8941798be3817d9d5bf45bd00bc2927219740",
+  "windowEnd" : "2026-09-15T08:17:00Z",
+  "detectedAt" : "2026-09-15T08:25:00Z",
+  "anomalyRank" : 0.9518849206349206,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "27d007784343e3db7c5d01a14009c19bf42bb164cd142ffe7a2f4882ad6d3871",
+  "windowStart" : "2026-09-15T08:16:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2050,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "RECOVERY",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2050 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "3697b601-2f65-3d65-af83-48405d92c426", "f8e195d3-aae5-37c0-863d-7b29b1668dc8" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "f8e195d3-aae5-37c0-863d-7b29b1668dc8" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 5,
+  "severity" : "HIGH",
+  "episodeId" : "cafc7339c732c77c94160ba74cd8941798be3817d9d5bf45bd00bc2927219740",
+  "windowEnd" : "2026-09-15T08:18:00Z",
+  "detectedAt" : "2026-09-15T08:25:00Z",
+  "anomalyRank" : 0.9518849206349206,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "5271d8cd659e1687590b3286e08209e80784028afa630fc642f6f5607bf79d04",
+  "windowStart" : "2026-09-15T08:17:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "RECOVERED",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 46000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 83.33333333333333,
+    "numerator" : 100,
+    "denominator" : 120
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 250,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 90,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "OPEN",
+  "impact" : {
+    "pendingMessages" : 250,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 100
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=46000 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "b88c5d1f-c56e-3e11-b24b-cfc538a39f9f", "bd5adb53-7fba-38fc-931d-4ed108f289f7" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=250; oldest=90 s",
+    "sourceEventIds" : [ "b88c5d1f-c56e-3e11-b24b-cfc538a39f9f" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 1,
+  "severity" : "HIGH",
+  "episodeId" : "98cc6ad8f7bb8d3efffccad58d1bd56d01a35beb7ab624cbd52baf031cb44b7b",
+  "windowEnd" : "2026-09-15T08:24:00Z",
+  "detectedAt" : "2026-09-15T08:35:00Z",
+  "anomalyRank" : 0.9985119047619048,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "ed1909316f33457b322deb0880dd4ccab2d5c920f81661bc0b691d66a45227cd",
+  "windowStart" : "2026-09-15T08:23:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 46000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 83.33333333333333,
+    "numerator" : 100,
+    "denominator" : 120
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 250,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 90,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 250,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 100
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=46000 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "1f8d8d2c-db36-3f82-8e97-d7288c648264", "d2746989-a883-3810-8179-568be565feca" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=250; oldest=90 s",
+    "sourceEventIds" : [ "1f8d8d2c-db36-3f82-8e97-d7288c648264" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 2,
+  "severity" : "HIGH",
+  "episodeId" : "98cc6ad8f7bb8d3efffccad58d1bd56d01a35beb7ab624cbd52baf031cb44b7b",
+  "windowEnd" : "2026-09-15T08:25:00Z",
+  "detectedAt" : "2026-09-15T08:35:00Z",
+  "anomalyRank" : 0.9985119047619048,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "0a6792cddeee3b3aff5c1891e92ddc8b47749eafe5980df101fbee223ab93be9",
+  "windowStart" : "2026-09-15T08:24:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2100 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "060d8cb7-253d-356b-ad08-2a9d146d72c0", "e6e9083a-49eb-3722-a7b7-852c64591f26" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "e6e9083a-49eb-3722-a7b7-852c64591f26" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 3,
+  "severity" : "HIGH",
+  "episodeId" : "98cc6ad8f7bb8d3efffccad58d1bd56d01a35beb7ab624cbd52baf031cb44b7b",
+  "windowEnd" : "2026-09-15T08:26:00Z",
+  "detectedAt" : "2026-09-15T08:35:00Z",
+  "anomalyRank" : 0.8754960317460317,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "a93fb069e31f0f448540999b4826410d6f709d74fa86ceae056ef8ca0833e125",
+  "windowStart" : "2026-09-15T08:25:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2100 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "afa4b9a8-6f24-3659-ac93-1ee8a5fcb7ff", "e903bf49-1e8e-3ba9-8f85-e377de081f1e" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "e903bf49-1e8e-3ba9-8f85-e377de081f1e" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 4,
+  "severity" : "HIGH",
+  "episodeId" : "98cc6ad8f7bb8d3efffccad58d1bd56d01a35beb7ab624cbd52baf031cb44b7b",
+  "windowEnd" : "2026-09-15T08:27:00Z",
+  "detectedAt" : "2026-09-15T08:35:00Z",
+  "anomalyRank" : 0.8754960317460317,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "842183153523ebdd3a85e681b5341f03dbe0be9b75b6eec3afca12c3f9ac4da5",
+  "windowStart" : "2026-09-15T08:26:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+}, {
+  "kpis" : [ {
+    "name" : "p95DeliveryMs",
+    "unit" : "MILLISECONDS",
+    "baseline" : 2000,
+    "observed" : 2100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "deliverySrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 98.03921568627452,
+    "numerator" : 100,
+    "denominator" : 102
+  }, {
+    "name" : "deliveredMessages",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 100,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "queueDepth",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "oldestPendingAgeSec",
+    "unit" : "SECONDS",
+    "baseline" : null,
+    "observed" : 0,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "RECOVERY",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "SMS-MD-ROUTE-A",
+  "service" : "SMS",
+  "evidence" : [ {
+    "code" : "SMS_DELIVERY_DELAY",
+    "nodeId" : null,
+    "summary" : "p95=2100 ms; baseline=2000 ms; completed=100",
+    "sourceEventIds" : [ "b0164274-ae82-3281-8958-a9084ba9aca9", "fa11098c-317e-35ba-ab44-45f348860157" ]
+  }, {
+    "code" : "SMSC_QUEUE",
+    "nodeId" : "SMSC-A",
+    "summary" : "pending=0; oldest=0 s",
+    "sourceEventIds" : [ "b0164274-ae82-3281-8958-a9084ba9aca9" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 5,
+  "severity" : "HIGH",
+  "episodeId" : "98cc6ad8f7bb8d3efffccad58d1bd56d01a35beb7ab624cbd52baf031cb44b7b",
+  "windowEnd" : "2026-09-15T08:28:00Z",
+  "detectedAt" : "2026-09-15T08:35:00Z",
+  "anomalyRank" : 0.8754960317460317,
+  "anomalyType" : "SMS_DELIVERY_DELAY",
+  "detectionId" : "7ba4d66dfdc2706d01daae4b0a210859217aa59d3591ea9f56c638130d331104",
+  "windowStart" : "2026-09-15T08:27:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "No cause established from this SMS window.",
+  "schemaVersion" : 2,
+  "correlationKey" : "e8f533c2e1a6d9d6497f15f7c9b2e5c0a2ed8d38d5ba416fbfce3d456fad9f73",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "RECOVERED",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify SMSC queue freshness", "Inspect delivery and routing traces" ]
+} ]

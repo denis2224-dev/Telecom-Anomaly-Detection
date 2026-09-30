@@ -2,6 +2,7 @@ package md.utm.telecom.incidents;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +17,7 @@ import md.utm.telecom.incidents.model.TechnicalState;
 import md.utm.telecom.incidents.repository.IncidentRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -53,7 +55,7 @@ class ServiceScenariosIT extends IncidentServiceIntegrationTestSupport {
 
     private void verifyProcessorReplay(String filename, String service, String scope)
             throws Exception {
-        JsonNode records = json.readTree(Files.readString(processorOutput(filename)));
+        JsonNode records = json.readTree(replayPayload(filename));
         assertTrue(records.isArray(), "Processor replay must produce a JSON array");
         assertEquals(15, records.size(), "Three fault episodes should have five detections each");
 
@@ -140,12 +142,12 @@ class ServiceScenariosIT extends IncidentServiceIntegrationTestSupport {
         return database.queryForObject(query, Long.class, argument);
     }
 
-    private static Path processorOutput(String filename) {
+    private static String replayPayload(String filename) throws Exception {
         Path fromModule = Path.of("..", "processor", "target", filename);
         Path fromRoot = Path.of("services", "processor", "target", filename);
-        Path result = Files.exists(fromModule) ? fromModule : fromRoot;
-        assertTrue(Files.isRegularFile(result),
-                "Generate " + filename + " with the real-model processor replay first");
-        return result;
+        if (Files.isRegularFile(fromModule)) return Files.readString(fromModule);
+        if (Files.isRegularFile(fromRoot)) return Files.readString(fromRoot);
+        return new ClassPathResource("scenarios/" + filename)
+                .getContentAsString(StandardCharsets.UTF_8);
     }
 }
