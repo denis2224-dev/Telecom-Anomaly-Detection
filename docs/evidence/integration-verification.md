@@ -13,8 +13,13 @@
 
 The processor replay matrix is intentionally kept in the focused test classes
 so each run asserts durable episode state, recovery, telemetry-gap provenance,
-and model enrichment. The workflow runs those tests with `ML_SERVICE_URL`
-pointing at the freshly built private inference container.
+and model enrichment. The workflow runs the control tests without
+`ML_SERVICE_URL`, then runs the live-model tests with the freshly built private
+inference container.
+
+The Maven selector disables the specified-test failure only for reactor
+modules that do not contain the focused processor classes; the processor
+module still fails normally if either selected test class is missing or fails.
 
 The SMS candidate miss remains an explicit evaluation result. No threshold,
 calibration distribution, or model artifact is changed by the integration
