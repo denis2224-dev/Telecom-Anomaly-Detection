@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.UUID;
 import md.utm.telecom.observation.ObservationValidationException;
 import md.utm.telecom.processing.ObservationInput;
+import md.utm.telecom.processing.detection.DetectionPolicy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -23,20 +24,24 @@ public class IngestionService {
     private final JdbcTemplate jdbc;
     private final Clock clock;
     private final WindowDecisionLock decisionLock;
+    private final DetectionPolicy policy;
 
     public IngestionService(ObservationInput input, PayloadCodec codec, JdbcTemplate jdbc, Clock clock,
-                            WindowDecisionLock decisionLock) {
+                            WindowDecisionLock decisionLock, DetectionPolicy policy) {
         this.input = input;
         this.codec = codec;
         this.jdbc = jdbc;
         this.clock = clock;
         this.decisionLock = decisionLock;
+        this.policy = policy;
     }
 
     // READ_COMMITTED gives the conflict lookup a new snapshot after ON CONFLICT waits
     // for a competing receipt to commit. A successful proxy return means commit finished.
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public IngestionResult ingest(ObservationDelivery delivery) {
+        // Application receipt time is sampled once, before validation or waiting for a window lock.
+        Instant receivedAt = clock.instant();
         byte[] raw = delivery.payload();
         JsonNode event;
         try { event = codec.parse(raw); }
@@ -63,8 +68,30 @@ public class IngestionService {
         Timestamp start = timestamp(event, "windowStart");
         Timestamp end = timestamp(event, "windowEnd");
         Timestamp emitted = timestamp(event, "emittedAt");
-        Timestamp now = Timestamp.from(clock.instant());
+        Timestamp now = Timestamp.from(receivedAt);
         decisionLock.acquire(scope, start.toInstant());
+        var identity = existingEvent(source, scope, kind, start, hash, canonical, id);
+        if (!identity.isEmpty()) {
+            return identity.getFirst() ? IngestionResult.duplicate()
+                    : reject(delivery, eventId, hash, RejectionReason.EVENT_ID_CONFLICT,
+                            "eventId already identifies different content");
+        }
+        if (Boolean.TRUE.equals(jdbc.queryForObject("""
+                SELECT EXISTS (SELECT 1 FROM app.observation_receipt
+                    WHERE source_id=? AND scope_id=? AND kind=? AND window_start=?)
+                """, Boolean.class, source, scope, kind, start))) {
+            return reject(delivery, eventId, hash, RejectionReason.NATURAL_KEY_CONFLICT,
+                    "sourceId/scopeId/kind/windowStart already identifies another observation");
+        }
+        boolean finalized = Boolean.TRUE.equals(jdbc.queryForObject("""
+                SELECT EXISTS (SELECT 1 FROM app.interval_bucket
+                    WHERE scope_id=? AND window_start=? AND finalized)
+                """, Boolean.class, scope, start));
+        Instant closure = end.toInstant().plusSeconds(policy.allowedLatenessSec());
+        if (finalized || !receivedAt.isBefore(closure)) {
+            return reject(delivery, eventId, hash, RejectionReason.LATE_OBSERVATION,
+                    "Window closed at " + closure + "; received at " + receivedAt + "; finalized=" + finalized);
+        }
         int inserted = jdbc.update("""
                 INSERT INTO app.observation_receipt
                     (event_id, source_id, scope_id, kind, window_start, window_end, emitted_at,
@@ -74,11 +101,9 @@ public class IngestionService {
                 """, id, source, scope, kind, start, end, emitted, event.get("quality").textValue(),
                 hash, canonical, delivery.topic(), delivery.partition(), delivery.offset(), now);
         if (inserted == 0) {
-            var matches = jdbc.query("""
-                    SELECT source_id = ? AND scope_id = ? AND kind = ? AND window_start = ?
-                           AND payload_hash = ? AND payload = ?::jsonb AS identical
-                    FROM app.observation_receipt WHERE event_id = ?
-                    """, (rs, row) -> rs.getBoolean("identical"), source, scope, kind, start, hash, canonical, id);
+            // Unique constraints also arbitrate event IDs reused in another scope/window.
+            // READ COMMITTED sees a competing winner after ON CONFLICT waits for its commit.
+            var matches = existingEvent(source, scope, kind, start, hash, canonical, id);
             if (!matches.isEmpty()) {
                 return matches.getFirst() ? IngestionResult.duplicate()
                         : reject(delivery, eventId, hash, RejectionReason.EVENT_ID_CONFLICT,
@@ -115,6 +140,15 @@ public class IngestionService {
                        app.source_state.last_event_id)
                 """, scope, source, start, end, emitted, id, now);
         return IngestionResult.accepted();
+    }
+
+    private java.util.List<Boolean> existingEvent(String source, String scope, String kind, Timestamp start,
+                                                  String hash, String canonical, UUID id) {
+        return jdbc.query("""
+                SELECT source_id = ? AND scope_id = ? AND kind = ? AND window_start = ?
+                       AND payload_hash = ? AND payload = ?::jsonb AS identical
+                FROM app.observation_receipt WHERE event_id = ?
+                """, (rs, row) -> rs.getBoolean("identical"), source, scope, kind, start, hash, canonical, id);
     }
 
     private IngestionResult reject(ObservationDelivery delivery, String eventId, String hash,

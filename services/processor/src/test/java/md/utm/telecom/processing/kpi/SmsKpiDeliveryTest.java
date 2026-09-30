@@ -56,11 +56,15 @@ class SmsKpiDeliveryTest {
     }
 
     private void ingest(String fixture, int offset) throws Exception {
-        var payload = ObservationValidator.resource("fixtures/observations/" + fixture + ".json",
-                new com.fasterxml.jackson.databind.ObjectMapper());
-        assertEquals(IngestionResult.Status.ACCEPTED, ingestion.ingest(new ObservationDelivery(
-                payload.toString().getBytes(StandardCharsets.UTF_8), payload.get("scopeId").asText(),
-                "telecom.observations.v2", 0, offset)).status());
+        Instant decisionTime = clock.now;
+        clock.now = START.plusSeconds(65);
+        try {
+            var payload = ObservationValidator.resource("fixtures/observations/" + fixture + ".json",
+                    new com.fasterxml.jackson.databind.ObjectMapper());
+            assertEquals(IngestionResult.Status.ACCEPTED, ingestion.ingest(new ObservationDelivery(
+                    payload.toString().getBytes(StandardCharsets.UTF_8), payload.get("scopeId").asText(),
+                    "telecom.observations.v2", 0, offset)).status());
+        } finally { clock.now = decisionTime; }
     }
 
     private VoiceDeliveryScheduler scheduler() {

@@ -101,9 +101,13 @@ class MissingWindowHandoffIT {
     }
 
     private void ingest(ObjectNode event) {
-        var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
-                event.get("scopeId").asText(), "telecom.observations.v2", 0, ++offset));
-        assertEquals(IngestionResult.Status.ACCEPTED, result.status());
+        Instant decisionTime = clock.now;
+        clock.now = Instant.parse(event.get("windowEnd").asText()).plusSeconds(5);
+        try {
+            var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
+                    event.get("scopeId").asText(), "telecom.observations.v2", 0, ++offset));
+            assertEquals(IngestionResult.Status.ACCEPTED, result.status());
+        } finally { clock.now = decisionTime; }
     }
 
     @Test

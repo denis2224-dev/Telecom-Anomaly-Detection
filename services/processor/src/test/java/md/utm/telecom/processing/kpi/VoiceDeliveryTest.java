@@ -47,7 +47,9 @@ class VoiceDeliveryTest {
             event.put("eventId", UUID.randomUUID().toString()).put("windowStart", start.plusSeconds(minute * 60).toString())
                 .put("windowEnd", start.plusSeconds((minute+1)*60).toString()).put("emittedAt", start.plusSeconds((minute+1)*60).toString());
             var record = new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8), "VOLTE-MD-CENTRAL", "telecom.observations.v2", 0, minute);
+            clock.now = start.plusSeconds((minute + 1) * 60L + 5);
             assertEquals(IngestionResult.Status.ACCEPTED, ingestion.ingest(record).status());
+            clock.now = start.plusSeconds((minute + 1) * 60L + 10);
             assertEquals(WindowFinalizer.Result.FINALIZED, finalizer.finalizeWindow("VOLTE-MD-CENTRAL", start.plusSeconds(minute*60)));
             delivery.evaluate("VOLTE-MD-CENTRAL");
             assertEquals(IngestionResult.Status.DUPLICATE, ingestion.ingest(record).status());
@@ -82,8 +84,10 @@ class VoiceDeliveryTest {
                             .put("emittedAt", start.plusSeconds((minute + 1) * 60L).toString());
                     var record = new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
                             "VOLTE-MD-CENTRAL", "telecom.observations.v2", 0, run * 24 + minute * 3 + part);
+                    clock.now = start.plusSeconds((minute + 1) * 60L + 5);
                     assertEquals(IngestionResult.Status.ACCEPTED, ingestion.ingest(record).status());
                 }
+                clock.now = start.plusSeconds((minute + 1) * 60L + 10);
                 assertEquals(WindowFinalizer.Result.FINALIZED, gap
                         ? finalizer.finalizeMissingWindow("VOLTE-MD-CENTRAL", start.plusSeconds(minute * 60L))
                         : finalizer.finalizeWindow("VOLTE-MD-CENTRAL", start.plusSeconds(minute * 60L)));

@@ -47,14 +47,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = ProcessorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE,
-        properties = {"telecom.finalization.enabled=false", "debug=false", "logging.level.root=WARN", "logging.level.kafka=ERROR",
+        properties = {"telecom.finalization.enabled=false", "telecom.rejection-delivery.enabled=false", "debug=false", "logging.level.root=WARN", "logging.level.kafka=ERROR",
                 "spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer",
                 "spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.ByteArraySerializer"})
 @EmbeddedKafka(kraft = true, partitions = 1, topics = "telecom.observations.v2", bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @Import(IngestionIntegrationTest.TimeConfiguration.class)
 @DirtiesContext
 class IngestionIntegrationTest {
-    private static final Instant NOW = Instant.parse("2026-09-18T15:30:00Z");
+    private static final Instant NOW = Instant.parse("2026-09-15T08:01:05Z");
     private static final String TOPIC = "telecom.observations.v2";
     @Autowired IngestionService ingestion;
     @Autowired ObservationListener listener;
