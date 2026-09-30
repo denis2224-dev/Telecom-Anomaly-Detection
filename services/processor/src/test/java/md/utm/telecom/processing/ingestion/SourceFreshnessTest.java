@@ -102,8 +102,9 @@ class SourceFreshnessTest {
     @Test
     void recentServiceActivityIsFresh() throws Exception {
         var event = fixture("normal-volte");
-        clock.now = Instant.parse(event.get("emittedAt").asText()).plusSeconds(30);
+        clock.now = END.plusSeconds(5);
         ingest(event);
+        clock.now = Instant.parse(event.get("emittedAt").asText()).plusSeconds(30);
 
         assertEquals(SourceFreshness.ActivityFreshness.FRESH, freshness.activityFreshness(SCOPE, SOURCE));
     }
@@ -111,8 +112,9 @@ class SourceFreshnessTest {
     @Test
     void recentNodeActivityIsFresh() throws Exception {
         var ims = fixture("normal-ims");
-        clock.now = Instant.parse(ims.get("emittedAt").asText()).plusSeconds(20);
+        clock.now = END.plusSeconds(5);
         ingest(ims);
+        clock.now = Instant.parse(ims.get("emittedAt").asText()).plusSeconds(20);
 
         assertEquals(SourceFreshness.ActivityFreshness.FRESH, freshness.activityFreshness(SCOPE, "IMS-A"));
     }
@@ -120,8 +122,9 @@ class SourceFreshnessTest {
     @Test
     void recentHeartbeatIsFreshActivity() throws Exception {
         var heartbeat = fixture("heartbeat");
-        clock.now = Instant.parse(heartbeat.get("emittedAt").asText()).plusSeconds(10);
+        clock.now = END.plusSeconds(5);
         ingest(heartbeat);
+        clock.now = Instant.parse(heartbeat.get("emittedAt").asText()).plusSeconds(10);
 
         assertEquals(SourceFreshness.ActivityFreshness.FRESH, freshness.activityFreshness(SCOPE, SOURCE));
     }
@@ -186,8 +189,9 @@ class SourceFreshnessTest {
     void explicitlyReportedMissingDiffersFromAbsentReceipt() throws Exception {
         var event = fixture("normal-volte").put("quality", "MISSING");
         event.remove("metrics");
-        clock.now = END.plusSeconds(15);
+        clock.now = END.plusSeconds(5);
         ingest(event);
+        clock.now = END.plusSeconds(15);
         assertEquals(SourceFreshness.IntervalCoverage.REPORTED_MISSING,
                 freshness.intervalCoverage(SCOPE, SOURCE, START, END));
     }

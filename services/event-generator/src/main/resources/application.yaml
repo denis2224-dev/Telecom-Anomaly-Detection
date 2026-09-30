@@ -1,6 +1,11 @@
 server:
   port: ${SERVER_PORT:8081}
 spring:
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+    serialization:
+      write-dates-as-timestamps: false
   application:
     name: event-generator
   kafka:

@@ -48,6 +48,12 @@ management:
         readiness:
           include: readinessState,kafka,db
 telecom:
+  rejection-delivery:
+    enabled: ${REJECTION_DELIVERY_ENABLED:true}
+    invalid-topic: ${KAFKA_V2_INVALID_TOPIC:telecom.observations.invalid.v2}
+    late-topic: ${KAFKA_V2_LATE_TOPIC:telecom.observations.late.v2}
+    poll-interval: ${REJECTION_DELIVERY_POLL_INTERVAL:1000}
+    batch-size: ${REJECTION_DELIVERY_BATCH_SIZE:100}
   finalization:
     enabled: ${VOICE_FINALIZATION_ENABLED:true}
     poll-interval: ${VOICE_FINALIZATION_POLL_INTERVAL:1000}

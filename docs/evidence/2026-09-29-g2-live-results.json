@@ -1,0 +1,3491 @@
+{
+  "collectedAt": "2026-09-29T17:42:09.045565+03:00",
+  "source": "live local Docker Compose generator, Kafka, processing_db and incidents_db",
+  "observationTopic": "telecom.observations.v2",
+  "observationTopicLogStart": 32,
+  "observationTopicLogEnd": 257,
+  "observationTopicAvailableRecords": 225,
+  "capturedKafkaRecords": 225,
+  "totalRejectionOutboxRowsSinceStart": 0,
+  "runs": [
+    {
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "seed": 29092026,
+      "runId": "bca33f35-0909-4f3e-b97e-75abde07ea95",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "scheduledStartAt": "2026-09-29T11:04:00Z",
+      "scheduledEndAt": "2026-09-29T11:12:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 24,
+      "kafkaDeliveryCount": 48,
+      "observationEventIds": [
+        "0bc5e2d6-c928-3024-a791-b8c92920ee24",
+        "139a3a6d-6189-3906-94ff-eecd02a2e849",
+        "15127127-e1da-3170-b67a-4cc5a0c3d0ee",
+        "153ff936-b310-3383-a50d-23314f53f7d8",
+        "1729e67b-e9c9-3f21-b4ff-6616ad5913a2",
+        "200e1091-353d-31fa-9171-8203327b51e8",
+        "505d8bb5-d12c-38a3-8174-b5a3eddb6d96",
+        "5a4bfd4c-4ff0-390e-8b27-ca422b492ca5",
+        "6d30278d-03a1-33a5-b7ba-86d04471e406",
+        "7549f676-4ef7-3374-afca-a134b96166c0",
+        "899e3c73-c677-3c53-a0fd-28771ccaa0bc",
+        "8a79c7a7-92b0-36e6-8ae9-8964f4cb53b7",
+        "9302d663-cbfc-3bf2-bf5e-0d8baa66dac7",
+        "993eb0c0-a999-3b1c-b424-2100deee19f3",
+        "9e281611-4d5c-34bf-bff0-11cde941307e",
+        "a139f2ab-5dd7-38e4-8655-5f77af85eb64",
+        "ae028f9d-532a-3c16-812b-622cb19e8d02",
+        "ae0e0f90-9b8c-3a4f-8294-7573764f9939",
+        "ae8470e2-6928-3c2f-bb18-8e7cf9b2f8b2",
+        "d5f46384-5b63-358a-95b6-b84a724535a3",
+        "df9c960b-ef3e-3cea-a24a-20793f90f1c7",
+        "e0dbf667-fd79-3fff-bdcc-a77460581cdc",
+        "eab8e325-2125-3079-b5f3-0059a1d5da9a",
+        "f4283733-b44c-3d10-9781-6ad6206f3bc7"
+      ],
+      "acceptedObservationCount": 24,
+      "acceptedEventIds": [
+        "0bc5e2d6-c928-3024-a791-b8c92920ee24",
+        "139a3a6d-6189-3906-94ff-eecd02a2e849",
+        "15127127-e1da-3170-b67a-4cc5a0c3d0ee",
+        "153ff936-b310-3383-a50d-23314f53f7d8",
+        "1729e67b-e9c9-3f21-b4ff-6616ad5913a2",
+        "200e1091-353d-31fa-9171-8203327b51e8",
+        "505d8bb5-d12c-38a3-8174-b5a3eddb6d96",
+        "5a4bfd4c-4ff0-390e-8b27-ca422b492ca5",
+        "6d30278d-03a1-33a5-b7ba-86d04471e406",
+        "7549f676-4ef7-3374-afca-a134b96166c0",
+        "899e3c73-c677-3c53-a0fd-28771ccaa0bc",
+        "8a79c7a7-92b0-36e6-8ae9-8964f4cb53b7",
+        "9302d663-cbfc-3bf2-bf5e-0d8baa66dac7",
+        "993eb0c0-a999-3b1c-b424-2100deee19f3",
+        "9e281611-4d5c-34bf-bff0-11cde941307e",
+        "a139f2ab-5dd7-38e4-8655-5f77af85eb64",
+        "ae028f9d-532a-3c16-812b-622cb19e8d02",
+        "ae0e0f90-9b8c-3a4f-8294-7573764f9939",
+        "ae8470e2-6928-3c2f-bb18-8e7cf9b2f8b2",
+        "d5f46384-5b63-358a-95b6-b84a724535a3",
+        "df9c960b-ef3e-3cea-a24a-20793f90f1c7",
+        "e0dbf667-fd79-3fff-bdcc-a77460581cdc",
+        "eab8e325-2125-3079-b5f3-0059a1d5da9a",
+        "f4283733-b44c-3d10-9781-6ad6206f3bc7"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "a5e080be3ef0737c392897b804729a3cc1e4c9e6511e0b3e14c4b5267416319e",
+          "windowStart": "2026-09-29T11:04:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:05:10.94667+00:00",
+          "finalizationDelaySec": 10.947
+        },
+        {
+          "windowId": "a32ba900050e85224accbd999881d082d215ea0dacbd957c2810af76fe66df79",
+          "windowStart": "2026-09-29T11:05:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:06:10.292988+00:00",
+          "finalizationDelaySec": 10.293
+        },
+        {
+          "windowId": "b9ec2423c607c0913d4e32911c118d713b65750fd3adad3458c03534798ba2e8",
+          "windowStart": "2026-09-29T11:06:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:07:10.696637+00:00",
+          "finalizationDelaySec": 10.697
+        },
+        {
+          "windowId": "902d8a47b5d7c8e6510314d12e7230744e038683caaffbdde6b8d882edd82317",
+          "windowStart": "2026-09-29T11:07:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:08:10.849234+00:00",
+          "finalizationDelaySec": 10.849
+        },
+        {
+          "windowId": "941e670797c19f9a219bba1abc5455dd9eb4193dce57e6ca6391f83869643401",
+          "windowStart": "2026-09-29T11:08:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:09:10.010752+00:00",
+          "finalizationDelaySec": 10.011
+        },
+        {
+          "windowId": "dce8d25081b00e36d91256f52414b63d87d1a246429aed5929281c8ff1cf6251",
+          "windowStart": "2026-09-29T11:09:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:10:10.996287+00:00",
+          "finalizationDelaySec": 10.996
+        },
+        {
+          "windowId": "0ba05edee0c45e038d7077b02d10743274bcb15c4c728468a34e021f6ca19a03",
+          "windowStart": "2026-09-29T11:10:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:11:10.999232+00:00",
+          "finalizationDelaySec": 10.999
+        },
+        {
+          "windowId": "8b1d1db5fe5087b16864c0ba21ff8f6f79fa5000a99ab7eb71b816d12dda4f9f",
+          "windowStart": "2026-09-29T11:11:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:12:10.815764+00:00",
+          "finalizationDelaySec": 10.816
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "0ba05edee0c45e038d7077b02d10743274bcb15c4c728468a34e021f6ca19a03",
+        "8b1d1db5fe5087b16864c0ba21ff8f6f79fa5000a99ab7eb71b816d12dda4f9f",
+        "902d8a47b5d7c8e6510314d12e7230744e038683caaffbdde6b8d882edd82317",
+        "941e670797c19f9a219bba1abc5455dd9eb4193dce57e6ca6391f83869643401",
+        "a32ba900050e85224accbd999881d082d215ea0dacbd957c2810af76fe66df79",
+        "a5e080be3ef0737c392897b804729a3cc1e4c9e6511e0b3e14c4b5267416319e",
+        "b9ec2423c607c0913d4e32911c118d713b65750fd3adad3458c03534798ba2e8",
+        "dce8d25081b00e36d91256f52414b63d87d1a246429aed5929281c8ff1cf6251"
+      ],
+      "detections": [
+        {
+          "detectionId": "96e74c2bf8bd9b6b94c9cb2ac97cb7ae362dfd125e251ec21524b1d8a418a745",
+          "episodeId": "98b54c7eef5f801ee455efb18fe4bb2cd43d223202c10b26547ed02083993e5d",
+          "windowStart": "2026-09-29T11:07:00+00:00",
+          "phase": "OPEN",
+          "sequence": 1,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:08:11.920483071Z",
+          "receivedAt": "2026-09-29T11:08:11.990604+00:00"
+        },
+        {
+          "detectionId": "76df0cc75faee96778871bc92e07effdf087990bca8e709b374d03c88b43190b",
+          "episodeId": "98b54c7eef5f801ee455efb18fe4bb2cd43d223202c10b26547ed02083993e5d",
+          "windowStart": "2026-09-29T11:08:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 2,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:09:11.064822274Z",
+          "receivedAt": "2026-09-29T11:09:11.079936+00:00"
+        },
+        {
+          "detectionId": "584b551ae39023407792fc2d4a8be91d6d971d4355bd9f803c9b79e0067777df",
+          "episodeId": "98b54c7eef5f801ee455efb18fe4bb2cd43d223202c10b26547ed02083993e5d",
+          "windowStart": "2026-09-29T11:09:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 3,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:10:12.048854539Z",
+          "receivedAt": "2026-09-29T11:10:12.066784+00:00"
+        },
+        {
+          "detectionId": "00528f4d8379c2b720c3c8509a1435ed04a441ca47e67e2b8ddaf0bea08175a4",
+          "episodeId": "98b54c7eef5f801ee455efb18fe4bb2cd43d223202c10b26547ed02083993e5d",
+          "windowStart": "2026-09-29T11:10:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 4,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:11:12.186489922Z",
+          "receivedAt": "2026-09-29T11:11:12.224004+00:00"
+        },
+        {
+          "detectionId": "e185aef45d28e70bd241b61423a0d84f710c7acf72242e3e219bd4b542e2531a",
+          "episodeId": "98b54c7eef5f801ee455efb18fe4bb2cd43d223202c10b26547ed02083993e5d",
+          "windowStart": "2026-09-29T11:11:00+00:00",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "technicalState": "RECOVERED",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:12:11.860884591Z",
+          "receivedAt": "2026-09-29T11:12:11.87902+00:00"
+        }
+      ],
+      "episodeIds": [
+        "98b54c7eef5f801ee455efb18fe4bb2cd43d223202c10b26547ed02083993e5d"
+      ],
+      "incidents": [
+        {
+          "incidentId": "a7e1d56d-4a6a-4ba7-a3b6-068d10896449",
+          "episodeId": "98b54c7eef5f801ee455efb18fe4bb2cd43d223202c10b26547ed02083993e5d",
+          "scopeId": "VOLTE-MD-CENTRAL",
+          "service": "VOLTE",
+          "firstObservedAt": "2026-09-29T11:06:00+00:00",
+          "detectedAt": "2026-09-29T11:08:11.920483+00:00",
+          "lastObservedAt": "2026-09-29T11:12:00+00:00",
+          "status": "OPEN",
+          "technicalState": "RECOVERED",
+          "latestSequence": 5
+        }
+      ]
+    },
+    {
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "seed": 29092026,
+      "runId": "4c155379-4115-4744-9bd6-02517e44c3da",
+      "service": "SMS",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "scheduledStartAt": "2026-09-29T11:04:00Z",
+      "scheduledEndAt": "2026-09-29T11:12:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 16,
+      "kafkaDeliveryCount": 32,
+      "observationEventIds": [
+        "0b9fe7a4-96d1-326c-b03f-690453b7f2ee",
+        "0c4ef669-8967-366a-9ffc-f96e411ba2ba",
+        "3051a8c3-a198-3868-835f-55b25f95877e",
+        "34d6dcf6-e479-3b41-b4be-bf5ee9719fa0",
+        "36adc7c8-5be5-3018-91a5-8edfbe0eeffa",
+        "39e7fb7d-41ff-335c-85e6-8f689e991ef8",
+        "6b453464-73b4-3400-92fd-99070f71d9f1",
+        "8217d43a-6392-370f-b517-57b6a1cddd15",
+        "8c3f9e4d-cc75-35e5-b657-18a29ed6d212",
+        "98f896c5-662c-37b9-a367-cc89f3388647",
+        "9a12ddef-9e92-3a57-9fa1-3dbd177628d1",
+        "b635e687-234d-389e-8a22-906b08d0dd8b",
+        "c4c08e3b-8781-33c2-8917-788cd6b7c294",
+        "ce380d4f-90f7-3703-a1ad-b445686c33fe",
+        "dba7efd0-21c6-3e15-89bd-3d2e6a5ce34e",
+        "fedf88a9-1440-3903-9d15-23a7aa1642f9"
+      ],
+      "acceptedObservationCount": 16,
+      "acceptedEventIds": [
+        "0b9fe7a4-96d1-326c-b03f-690453b7f2ee",
+        "0c4ef669-8967-366a-9ffc-f96e411ba2ba",
+        "3051a8c3-a198-3868-835f-55b25f95877e",
+        "34d6dcf6-e479-3b41-b4be-bf5ee9719fa0",
+        "36adc7c8-5be5-3018-91a5-8edfbe0eeffa",
+        "39e7fb7d-41ff-335c-85e6-8f689e991ef8",
+        "6b453464-73b4-3400-92fd-99070f71d9f1",
+        "8217d43a-6392-370f-b517-57b6a1cddd15",
+        "8c3f9e4d-cc75-35e5-b657-18a29ed6d212",
+        "98f896c5-662c-37b9-a367-cc89f3388647",
+        "9a12ddef-9e92-3a57-9fa1-3dbd177628d1",
+        "b635e687-234d-389e-8a22-906b08d0dd8b",
+        "c4c08e3b-8781-33c2-8917-788cd6b7c294",
+        "ce380d4f-90f7-3703-a1ad-b445686c33fe",
+        "dba7efd0-21c6-3e15-89bd-3d2e6a5ce34e",
+        "fedf88a9-1440-3903-9d15-23a7aa1642f9"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "b0bae1aa85fd87e8da26d15ee31ba05d1b793fc183cf422b5b6813ba3c08fd15",
+          "windowStart": "2026-09-29T11:04:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6965,
+            3393,
+            0,
+            0,
+            0.4764397905759097,
+            95
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3393,
+            "deliverySrPct": 99.47643979057591,
+            "deliveredMessages": 95,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:05:10.918404+00:00",
+          "finalizationDelaySec": 10.918
+        },
+        {
+          "windowId": "f43ac2475ba31f2451bd8c5774a91e6ef2a93aa817a3a403ccb372e4f67106dc",
+          "windowStart": "2026-09-29T11:05:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.654,
+            3308,
+            0,
+            0,
+            -1.07253886010362,
+            110
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3308,
+            "deliverySrPct": 97.92746113989638,
+            "deliveredMessages": 110,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:06:10.28327+00:00",
+          "finalizationDelaySec": 10.283
+        },
+        {
+          "windowId": "fd64d15e4ec8c70143d747c7beed544502c5864619dc3edbc6eb99a66655904d",
+          "windowStart": "2026-09-29T11:06:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            29.471,
+            58942,
+            164,
+            71,
+            -0.477832512315274,
+            103
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 58942,
+            "deliverySrPct": 98.52216748768473,
+            "deliveredMessages": 103,
+            "queueDepth": 164,
+            "oldestPendingAgeSec": 71
+          },
+          "createdAt": "2026-09-29T11:07:10.686011+00:00",
+          "finalizationDelaySec": 10.686
+        },
+        {
+          "windowId": "e816190c7fb5de48846142f6219bbf1255d45a2c85eadf20250e6c179a32df83",
+          "windowStart": "2026-09-29T11:07:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            29.1505,
+            58301,
+            328,
+            81,
+            0.5391705069124413,
+            109
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 58301,
+            "deliverySrPct": 99.53917050691244,
+            "deliveredMessages": 109,
+            "queueDepth": 328,
+            "oldestPendingAgeSec": 81
+          },
+          "createdAt": "2026-09-29T11:08:10.843355+00:00",
+          "finalizationDelaySec": 10.843
+        },
+        {
+          "windowId": "64398a16ab4765371ddaea31e927eec47d18bc4cd984c2de59bc4f117ade0921",
+          "windowStart": "2026-09-29T11:08:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            28.1605,
+            56321,
+            212,
+            76,
+            -1.1978021978022042,
+            82
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 56321,
+            "deliverySrPct": 97.8021978021978,
+            "deliveredMessages": 82,
+            "queueDepth": 212,
+            "oldestPendingAgeSec": 76
+          },
+          "createdAt": "2026-09-29T11:09:10.005333+00:00",
+          "finalizationDelaySec": 10.005
+        },
+        {
+          "windowId": "bfc02902f39f8c28c8bfa7b514acb1464839616e82fd3f6bd06f22334a7c2a11",
+          "windowStart": "2026-09-29T11:09:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6975,
+            3395,
+            0,
+            0,
+            1.0,
+            107
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3395,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 107,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:10:10.988986+00:00",
+          "finalizationDelaySec": 10.989
+        },
+        {
+          "windowId": "7216fead24523b62e5027bde150c45deab156ccf86a88224509d56737d5fad36",
+          "windowStart": "2026-09-29T11:10:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.677,
+            3354,
+            0,
+            0,
+            -0.08695652173912549,
+            112
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3354,
+            "deliverySrPct": 98.91304347826087,
+            "deliveredMessages": 112,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:11:10.984091+00:00",
+          "finalizationDelaySec": 10.984
+        },
+        {
+          "windowId": "09a0c64c95f4adabc57d12847cb7d381250669332f6914bb034d40e843c71be1",
+          "windowStart": "2026-09-29T11:11:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.638,
+            3276,
+            0,
+            0,
+            -0.36363636363635976,
+            80
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3276,
+            "deliverySrPct": 98.63636363636364,
+            "deliveredMessages": 80,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:12:10.808904+00:00",
+          "finalizationDelaySec": 10.809
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "09a0c64c95f4adabc57d12847cb7d381250669332f6914bb034d40e843c71be1",
+        "64398a16ab4765371ddaea31e927eec47d18bc4cd984c2de59bc4f117ade0921",
+        "7216fead24523b62e5027bde150c45deab156ccf86a88224509d56737d5fad36",
+        "b0bae1aa85fd87e8da26d15ee31ba05d1b793fc183cf422b5b6813ba3c08fd15",
+        "bfc02902f39f8c28c8bfa7b514acb1464839616e82fd3f6bd06f22334a7c2a11",
+        "e816190c7fb5de48846142f6219bbf1255d45a2c85eadf20250e6c179a32df83",
+        "f43ac2475ba31f2451bd8c5774a91e6ef2a93aa817a3a403ccb372e4f67106dc",
+        "fd64d15e4ec8c70143d747c7beed544502c5864619dc3edbc6eb99a66655904d"
+      ],
+      "detections": [],
+      "episodeIds": [],
+      "incidents": []
+    },
+    {
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "seed": 29092027,
+      "runId": "d446cd9c-1c57-4ffb-932e-a9b4aacbe71e",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "scheduledStartAt": "2026-09-29T11:12:00Z",
+      "scheduledEndAt": "2026-09-29T11:20:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 24,
+      "kafkaDeliveryCount": 24,
+      "observationEventIds": [
+        "12de350a-689b-32c2-b577-0189ccf053dc",
+        "13dca43e-00c9-3c04-9e7a-0dff35635f28",
+        "162d18f0-e34e-3a55-87b2-ed585384d6c0",
+        "1b375d32-f49f-318e-8fa3-2cec08d8d55b",
+        "1bedb149-d48d-3bb9-acd9-1ebebd5405e1",
+        "2e6dda1e-4252-385c-8556-0a27144cff8d",
+        "52804279-1c59-3bdb-a55d-7ed285df7efd",
+        "6258860c-904a-36e9-93e3-ebc680de70aa",
+        "66a0596c-87ae-33e0-98ad-0c5fe15b5f4a",
+        "6afc0f40-0d6a-36d0-abae-09dff7548e5e",
+        "7f4f3bd4-2d07-3fbe-a9b9-0e29d370e3b5",
+        "933fb10f-0d2e-3991-8bb1-fca0a8d14446",
+        "9d179262-4934-3ab5-b42a-9a28bf60b48a",
+        "9e71404c-0e97-3928-b83c-0187e3274046",
+        "ad1f9bfd-a269-35ae-970d-e26c0c177525",
+        "af6fb883-b3c8-349d-9458-1fb299f1ee03",
+        "c548eb10-8545-303c-9e2a-7615914692da",
+        "c66ac3eb-c9ce-3778-9046-a6ee64a423c3",
+        "e058ae45-2e4f-3484-a2bc-53c631e9d9c8",
+        "e1d81c72-a4e4-3985-82ab-e76abdbb665b",
+        "eb35b577-4aa3-38e3-a979-2ec5f8e752bf",
+        "f576841c-4598-3d44-b059-06f617ab2ad2",
+        "fa1c36e7-cf78-3200-acc7-99d94e2fe271",
+        "fa763b04-faef-3330-a36b-17c80e265e79"
+      ],
+      "acceptedObservationCount": 24,
+      "acceptedEventIds": [
+        "12de350a-689b-32c2-b577-0189ccf053dc",
+        "13dca43e-00c9-3c04-9e7a-0dff35635f28",
+        "162d18f0-e34e-3a55-87b2-ed585384d6c0",
+        "1b375d32-f49f-318e-8fa3-2cec08d8d55b",
+        "1bedb149-d48d-3bb9-acd9-1ebebd5405e1",
+        "2e6dda1e-4252-385c-8556-0a27144cff8d",
+        "52804279-1c59-3bdb-a55d-7ed285df7efd",
+        "6258860c-904a-36e9-93e3-ebc680de70aa",
+        "66a0596c-87ae-33e0-98ad-0c5fe15b5f4a",
+        "6afc0f40-0d6a-36d0-abae-09dff7548e5e",
+        "7f4f3bd4-2d07-3fbe-a9b9-0e29d370e3b5",
+        "933fb10f-0d2e-3991-8bb1-fca0a8d14446",
+        "9d179262-4934-3ab5-b42a-9a28bf60b48a",
+        "9e71404c-0e97-3928-b83c-0187e3274046",
+        "ad1f9bfd-a269-35ae-970d-e26c0c177525",
+        "af6fb883-b3c8-349d-9458-1fb299f1ee03",
+        "c548eb10-8545-303c-9e2a-7615914692da",
+        "c66ac3eb-c9ce-3778-9046-a6ee64a423c3",
+        "e058ae45-2e4f-3484-a2bc-53c631e9d9c8",
+        "e1d81c72-a4e4-3985-82ab-e76abdbb665b",
+        "eb35b577-4aa3-38e3-a979-2ec5f8e752bf",
+        "f576841c-4598-3d44-b059-06f617ab2ad2",
+        "fa1c36e7-cf78-3200-acc7-99d94e2fe271",
+        "fa763b04-faef-3330-a36b-17c80e265e79"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "485c1ac0316c4da0dc72af8071095d276f904c811807edba813cd46fa32fc340",
+          "windowStart": "2026-09-29T11:12:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:13:10.971822+00:00",
+          "finalizationDelaySec": 10.972
+        },
+        {
+          "windowId": "0b9a87513c7a1b17004686cb6bf31f2f31ff49b1a3452aea69be1fe91cc78694",
+          "windowStart": "2026-09-29T11:13:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:14:10.467297+00:00",
+          "finalizationDelaySec": 10.467
+        },
+        {
+          "windowId": "7731b59e2346efe2cc06a0c5d1c7179769a6f6184a473a879b9c0e5136cb8e44",
+          "windowStart": "2026-09-29T11:14:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:15:11.037672+00:00",
+          "finalizationDelaySec": 11.038
+        },
+        {
+          "windowId": "fcab5ef81696e80cb2f145e7e5e390e7238a86ba3c071f81354322bc08b0833e",
+          "windowStart": "2026-09-29T11:15:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:16:10.495697+00:00",
+          "finalizationDelaySec": 10.496
+        },
+        {
+          "windowId": "df24858cf3fe742f295ce39bbd8f2855b0c16310e7d58617c8be9b971ed9a22d",
+          "windowStart": "2026-09-29T11:16:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:17:10.077512+00:00",
+          "finalizationDelaySec": 10.078
+        },
+        {
+          "windowId": "dd9623a0e6dff929f037655921aed6f83f66e266f4dff52ad9ea2838bd73509c",
+          "windowStart": "2026-09-29T11:17:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:18:10.877161+00:00",
+          "finalizationDelaySec": 10.877
+        },
+        {
+          "windowId": "af01454868331f8a40f534f81debae0ea94e0da1861ab01d7b440607ee3d7b5c",
+          "windowStart": "2026-09-29T11:18:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:19:10.761807+00:00",
+          "finalizationDelaySec": 10.762
+        },
+        {
+          "windowId": "8e02bc8dbc1e3f1a0f4864bdee4618a0423855c954835bd5bb3e8e9a2a5847ac",
+          "windowStart": "2026-09-29T11:19:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:20:10.358992+00:00",
+          "finalizationDelaySec": 10.359
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "0b9a87513c7a1b17004686cb6bf31f2f31ff49b1a3452aea69be1fe91cc78694",
+        "485c1ac0316c4da0dc72af8071095d276f904c811807edba813cd46fa32fc340",
+        "7731b59e2346efe2cc06a0c5d1c7179769a6f6184a473a879b9c0e5136cb8e44",
+        "8e02bc8dbc1e3f1a0f4864bdee4618a0423855c954835bd5bb3e8e9a2a5847ac",
+        "af01454868331f8a40f534f81debae0ea94e0da1861ab01d7b440607ee3d7b5c",
+        "dd9623a0e6dff929f037655921aed6f83f66e266f4dff52ad9ea2838bd73509c",
+        "df24858cf3fe742f295ce39bbd8f2855b0c16310e7d58617c8be9b971ed9a22d",
+        "fcab5ef81696e80cb2f145e7e5e390e7238a86ba3c071f81354322bc08b0833e"
+      ],
+      "detections": [
+        {
+          "detectionId": "3b755b4aa08cfd51991f0cf8128f5dbca2af5e6f25fb74a972dea614ec895700",
+          "episodeId": "28f990e74b64b521f1638004f6bfe75d3aeda094c56bd649510ae6349477cc03",
+          "windowStart": "2026-09-29T11:15:00+00:00",
+          "phase": "OPEN",
+          "sequence": 1,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:16:11.555081220Z",
+          "receivedAt": "2026-09-29T11:16:11.572468+00:00"
+        },
+        {
+          "detectionId": "6652e63c9100055ddd2084570d140be7a3223ebe3a18c76b674c888423c8e428",
+          "episodeId": "28f990e74b64b521f1638004f6bfe75d3aeda094c56bd649510ae6349477cc03",
+          "windowStart": "2026-09-29T11:16:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 2,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:17:11.140720362Z",
+          "receivedAt": "2026-09-29T11:17:11.164014+00:00"
+        },
+        {
+          "detectionId": "0e9f4c60982eb312a7dddd58daf3f00f571ba72638605366b52dcbb2035b8775",
+          "episodeId": "28f990e74b64b521f1638004f6bfe75d3aeda094c56bd649510ae6349477cc03",
+          "windowStart": "2026-09-29T11:17:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 3,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:18:11.940774513Z",
+          "receivedAt": "2026-09-29T11:18:11.956187+00:00"
+        },
+        {
+          "detectionId": "ec914386325450211660a8fc03e77bc3a6e568cd9a9644f76c128c0b008682e4",
+          "episodeId": "28f990e74b64b521f1638004f6bfe75d3aeda094c56bd649510ae6349477cc03",
+          "windowStart": "2026-09-29T11:18:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 4,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:19:11.809551484Z",
+          "receivedAt": "2026-09-29T11:19:11.830666+00:00"
+        },
+        {
+          "detectionId": "d97d74f5a9838f3fa9db1865761779af306695eb9f6700c4fe98abf45317df89",
+          "episodeId": "28f990e74b64b521f1638004f6bfe75d3aeda094c56bd649510ae6349477cc03",
+          "windowStart": "2026-09-29T11:19:00+00:00",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "technicalState": "RECOVERED",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:20:10.585543522Z",
+          "receivedAt": "2026-09-29T11:20:10.631344+00:00"
+        }
+      ],
+      "episodeIds": [
+        "28f990e74b64b521f1638004f6bfe75d3aeda094c56bd649510ae6349477cc03"
+      ],
+      "incidents": [
+        {
+          "incidentId": "267ccf39-dce8-41ac-80ef-54ba275e8296",
+          "episodeId": "28f990e74b64b521f1638004f6bfe75d3aeda094c56bd649510ae6349477cc03",
+          "scopeId": "VOLTE-MD-CENTRAL",
+          "service": "VOLTE",
+          "firstObservedAt": "2026-09-29T11:14:00+00:00",
+          "detectedAt": "2026-09-29T11:16:11.555081+00:00",
+          "lastObservedAt": "2026-09-29T11:20:00+00:00",
+          "status": "OPEN",
+          "technicalState": "RECOVERED",
+          "latestSequence": 5
+        }
+      ]
+    },
+    {
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "seed": 29092027,
+      "runId": "78d8aa9e-32e2-44e4-98b8-532952c7eb41",
+      "service": "SMS",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "scheduledStartAt": "2026-09-29T11:12:00Z",
+      "scheduledEndAt": "2026-09-29T11:20:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 16,
+      "kafkaDeliveryCount": 16,
+      "observationEventIds": [
+        "0a006758-e996-38b6-8c06-a796a4aaa5b7",
+        "0f5b9569-bcc7-3fce-aa9b-e1d4d28246d7",
+        "1b8b0aad-3cfb-30db-aca2-c1ea098e5ff1",
+        "22bccbb1-df2a-3a42-928d-36f9e2ca6e57",
+        "23ccbb85-24a5-3487-a5c3-8f6539bd5df9",
+        "3cbfe5c2-a13f-31d8-a044-0a560fc5278f",
+        "43ff2338-eaf8-3bee-b068-d30f8d14600e",
+        "5346dbaf-fdfe-397c-a4c7-4451ee7ea4bb",
+        "57ecea0d-0cc9-3b48-b5ee-f998e8c29665",
+        "722f7e3f-093a-3719-8d96-9013b92ca67f",
+        "a2e5d575-f7d0-365e-afdd-58c7637b249d",
+        "b1f84a12-3bca-3edd-a828-eb4389097dd5",
+        "b4e449f0-7f7a-3116-a8a1-b1b460b1bbce",
+        "b7234a27-1948-380b-94d5-30683a4e5204",
+        "cff2993a-13bc-3646-b89b-29e9c361c791",
+        "f14a853f-595f-37a3-a77b-921f5cc95056"
+      ],
+      "acceptedObservationCount": 16,
+      "acceptedEventIds": [
+        "0a006758-e996-38b6-8c06-a796a4aaa5b7",
+        "0f5b9569-bcc7-3fce-aa9b-e1d4d28246d7",
+        "1b8b0aad-3cfb-30db-aca2-c1ea098e5ff1",
+        "22bccbb1-df2a-3a42-928d-36f9e2ca6e57",
+        "23ccbb85-24a5-3487-a5c3-8f6539bd5df9",
+        "3cbfe5c2-a13f-31d8-a044-0a560fc5278f",
+        "43ff2338-eaf8-3bee-b068-d30f8d14600e",
+        "5346dbaf-fdfe-397c-a4c7-4451ee7ea4bb",
+        "57ecea0d-0cc9-3b48-b5ee-f998e8c29665",
+        "722f7e3f-093a-3719-8d96-9013b92ca67f",
+        "a2e5d575-f7d0-365e-afdd-58c7637b249d",
+        "b1f84a12-3bca-3edd-a828-eb4389097dd5",
+        "b4e449f0-7f7a-3116-a8a1-b1b460b1bbce",
+        "b7234a27-1948-380b-94d5-30683a4e5204",
+        "cff2993a-13bc-3646-b89b-29e9c361c791",
+        "f14a853f-595f-37a3-a77b-921f5cc95056"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "9fe7d33e04fdaa5e8bd7b89b09db9a31d15b13431e92d5c3a0a9af125d719f85",
+          "windowStart": "2026-09-29T11:12:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6915,
+            3383,
+            0,
+            0,
+            0.08675799086758218,
+            117
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3383,
+            "deliverySrPct": 99.08675799086758,
+            "deliveredMessages": 117,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:13:10.966127+00:00",
+          "finalizationDelaySec": 10.966
+        },
+        {
+          "windowId": "0fb5e09099afab492bc8ddfd99eb1765c45b3add396dabb10cae35d575f1e92d",
+          "windowStart": "2026-09-29T11:13:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6715,
+            3343,
+            0,
+            0,
+            0.5073891625615801,
+            92
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3343,
+            "deliverySrPct": 99.50738916256158,
+            "deliveredMessages": 92,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:14:10.459997+00:00",
+          "finalizationDelaySec": 10.46
+        },
+        {
+          "windowId": "1b0ba4647d5cc6ac3cd5dccd7818dc2a2c66a05932639f365cedf858749ac5e5",
+          "windowStart": "2026-09-29T11:14:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            29.5715,
+            59143,
+            250,
+            105,
+            0.543378995433784,
+            96
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 59143,
+            "deliverySrPct": 99.54337899543378,
+            "deliveredMessages": 96,
+            "queueDepth": 250,
+            "oldestPendingAgeSec": 105
+          },
+          "createdAt": "2026-09-29T11:15:11.028725+00:00",
+          "finalizationDelaySec": 11.029
+        },
+        {
+          "windowId": "ec05662fe9adcf51146abdefe4d95f94a61e1dc6f0842997b3bfd489453363f9",
+          "windowStart": "2026-09-29T11:15:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            28.7345,
+            57469,
+            340,
+            77,
+            1.0,
+            115
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 57469,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 115,
+            "queueDepth": 340,
+            "oldestPendingAgeSec": 77
+          },
+          "createdAt": "2026-09-29T11:16:10.488622+00:00",
+          "finalizationDelaySec": 10.489
+        },
+        {
+          "windowId": "c3ad474f107eb28c156dcba133d216a4429e43a2a1b280af8fac9ce7f592d071",
+          "windowStart": "2026-09-29T11:16:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            29.515,
+            59030,
+            156,
+            78,
+            1.0,
+            101
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 59030,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 101,
+            "queueDepth": 156,
+            "oldestPendingAgeSec": 78
+          },
+          "createdAt": "2026-09-29T11:17:10.063297+00:00",
+          "finalizationDelaySec": 10.063
+        },
+        {
+          "windowId": "01078d4ad16e20c8e63693e7eb8a25454f77620a31170f899ec1e76742f675f2",
+          "windowStart": "2026-09-29T11:17:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.7075,
+            3415,
+            0,
+            0,
+            0.5454545454545467,
+            102
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3415,
+            "deliverySrPct": 99.54545454545455,
+            "deliveredMessages": 102,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:18:10.872745+00:00",
+          "finalizationDelaySec": 10.873
+        },
+        {
+          "windowId": "7201215074cbfd6f6c5fe87b8b346774e1c1e81ac6cce9eb4c04fd674a32248e",
+          "windowStart": "2026-09-29T11:18:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.672,
+            3344,
+            0,
+            0,
+            -0.8867924528301927,
+            100
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3344,
+            "deliverySrPct": 98.11320754716981,
+            "deliveredMessages": 100,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:19:10.745201+00:00",
+          "finalizationDelaySec": 10.745
+        },
+        {
+          "windowId": "1689974b8fb9ad63b726b18096509f34f88e15d8ba3f3c7fab7ef8bdb3e7ec22",
+          "windowStart": "2026-09-29T11:19:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.729,
+            3458,
+            0,
+            0,
+            1.0,
+            81
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3458,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 81,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:20:10.307476+00:00",
+          "finalizationDelaySec": 10.307
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "01078d4ad16e20c8e63693e7eb8a25454f77620a31170f899ec1e76742f675f2",
+        "0fb5e09099afab492bc8ddfd99eb1765c45b3add396dabb10cae35d575f1e92d",
+        "1689974b8fb9ad63b726b18096509f34f88e15d8ba3f3c7fab7ef8bdb3e7ec22",
+        "1b0ba4647d5cc6ac3cd5dccd7818dc2a2c66a05932639f365cedf858749ac5e5",
+        "7201215074cbfd6f6c5fe87b8b346774e1c1e81ac6cce9eb4c04fd674a32248e",
+        "9fe7d33e04fdaa5e8bd7b89b09db9a31d15b13431e92d5c3a0a9af125d719f85",
+        "c3ad474f107eb28c156dcba133d216a4429e43a2a1b280af8fac9ce7f592d071",
+        "ec05662fe9adcf51146abdefe4d95f94a61e1dc6f0842997b3bfd489453363f9"
+      ],
+      "detections": [],
+      "episodeIds": [],
+      "incidents": []
+    },
+    {
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "seed": 29092028,
+      "runId": "379ebd89-7bee-471f-b913-760e7f9dbb7c",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "scheduledStartAt": "2026-09-29T11:20:00Z",
+      "scheduledEndAt": "2026-09-29T11:28:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 24,
+      "kafkaDeliveryCount": 24,
+      "observationEventIds": [
+        "0a6adb2c-baa8-34d7-a47c-a676830285b9",
+        "19f8adff-8c9b-3338-a4e3-17224099a7d3",
+        "2e903617-2474-3667-8288-7fa9af63427a",
+        "397e78c7-31f2-344d-8210-7c3dd90ca1d1",
+        "3c462452-9b83-3ec2-8229-69c0fc532d63",
+        "3e7723c0-3bed-38c4-bdf1-2d98ccf4e395",
+        "40876ab6-72ea-3f13-9087-a5c870f6f803",
+        "72d8a4c2-dd14-39bf-a333-7cbd16831f10",
+        "7f0de3be-5f59-383e-b8f8-11a9b195183d",
+        "879a79b8-9c97-3a1e-b749-b5eb81854b0c",
+        "8b80e267-158c-3ee5-ae4e-6e5ce5254d81",
+        "8f1d3d10-f0c8-3d9c-b994-b8a096c5cbde",
+        "9e4568c8-4d9c-305d-b8c3-7918ccb19da8",
+        "a06c419c-8a32-3a40-b6f0-898a1c9a2c17",
+        "a2def1b3-07cf-3efe-b2e1-222d6ad3988d",
+        "a98091f5-fb3f-37ad-9fd2-c1a75f7050fa",
+        "aa201278-d112-397c-89bb-9d693a522e5e",
+        "c4426431-b710-3de3-a144-3d43ca238521",
+        "d116b573-4d1a-3a74-91b8-9bdd37f51cd3",
+        "e20b2374-331e-3512-8537-b6f6354fabdf",
+        "e4d2e8d0-e011-3bbb-8bab-c77a264845e3",
+        "e683e249-06c3-3c0b-8ac2-8cfc9dfc2df7",
+        "e6ca27d4-e33e-3b57-8c7a-bed93cab6b24",
+        "ea5fea4e-9b10-3be5-9481-e536f66c2e25"
+      ],
+      "acceptedObservationCount": 24,
+      "acceptedEventIds": [
+        "0a6adb2c-baa8-34d7-a47c-a676830285b9",
+        "19f8adff-8c9b-3338-a4e3-17224099a7d3",
+        "2e903617-2474-3667-8288-7fa9af63427a",
+        "397e78c7-31f2-344d-8210-7c3dd90ca1d1",
+        "3c462452-9b83-3ec2-8229-69c0fc532d63",
+        "3e7723c0-3bed-38c4-bdf1-2d98ccf4e395",
+        "40876ab6-72ea-3f13-9087-a5c870f6f803",
+        "72d8a4c2-dd14-39bf-a333-7cbd16831f10",
+        "7f0de3be-5f59-383e-b8f8-11a9b195183d",
+        "879a79b8-9c97-3a1e-b749-b5eb81854b0c",
+        "8b80e267-158c-3ee5-ae4e-6e5ce5254d81",
+        "8f1d3d10-f0c8-3d9c-b994-b8a096c5cbde",
+        "9e4568c8-4d9c-305d-b8c3-7918ccb19da8",
+        "a06c419c-8a32-3a40-b6f0-898a1c9a2c17",
+        "a2def1b3-07cf-3efe-b2e1-222d6ad3988d",
+        "a98091f5-fb3f-37ad-9fd2-c1a75f7050fa",
+        "aa201278-d112-397c-89bb-9d693a522e5e",
+        "c4426431-b710-3de3-a144-3d43ca238521",
+        "d116b573-4d1a-3a74-91b8-9bdd37f51cd3",
+        "e20b2374-331e-3512-8537-b6f6354fabdf",
+        "e4d2e8d0-e011-3bbb-8bab-c77a264845e3",
+        "e683e249-06c3-3c0b-8ac2-8cfc9dfc2df7",
+        "e6ca27d4-e33e-3b57-8c7a-bed93cab6b24",
+        "ea5fea4e-9b10-3be5-9481-e536f66c2e25"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "96c5acc88c801e0d4b87611ae04fdf8f1cf9875858e6d8a41070de053a022750",
+          "windowStart": "2026-09-29T11:20:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:21:10.731509+00:00",
+          "finalizationDelaySec": 10.732
+        },
+        {
+          "windowId": "e7f026042b6fa1784a69b54ca6e9629af39bba2140fbd679372036419f8574cd",
+          "windowStart": "2026-09-29T11:21:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:22:10.581058+00:00",
+          "finalizationDelaySec": 10.581
+        },
+        {
+          "windowId": "534ed0cc2d0a0e6dff559b566f3cc1fcdf1b56b294fc0a9f7814048ba328cac9",
+          "windowStart": "2026-09-29T11:22:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:23:10.429496+00:00",
+          "finalizationDelaySec": 10.429
+        },
+        {
+          "windowId": "cbf000d283deda9c570ca2d0369f06ba93a262f6c16dc8c429e2a5684b0b5e53",
+          "windowStart": "2026-09-29T11:23:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:24:11.332878+00:00",
+          "finalizationDelaySec": 11.333
+        },
+        {
+          "windowId": "c262eab7af9631d38c28fd4a35e43dee441e027f1254affd1b30e78b917004f4",
+          "windowStart": "2026-09-29T11:24:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            -5.299999999999997,
+            0.055,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            97
+          ],
+          "observedKpis": {
+            "cssrPct": 94.0,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.055,
+            "sip503Count": 55,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 97
+          },
+          "createdAt": "2026-09-29T11:25:11.032821+00:00",
+          "finalizationDelaySec": 11.033
+        },
+        {
+          "windowId": "13db172a21408b18274bd3382f5c2a799d47004903a86d14f9f9eb93a454e8f8",
+          "windowStart": "2026-09-29T11:25:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:26:10.986633+00:00",
+          "finalizationDelaySec": 10.987
+        },
+        {
+          "windowId": "4409a398c3c3873518ff340ec78146c54c4cda61f5fb15c5eb2ce2416923b9f6",
+          "windowStart": "2026-09-29T11:26:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:27:10.660905+00:00",
+          "finalizationDelaySec": 10.661
+        },
+        {
+          "windowId": "fca325ffca3f44d8561a4c7139317a7696a915e3d3c1b5008753e6a938ddeb68",
+          "windowStart": "2026-09-29T11:27:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:28:10.415239+00:00",
+          "finalizationDelaySec": 10.415
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "13db172a21408b18274bd3382f5c2a799d47004903a86d14f9f9eb93a454e8f8",
+        "4409a398c3c3873518ff340ec78146c54c4cda61f5fb15c5eb2ce2416923b9f6",
+        "534ed0cc2d0a0e6dff559b566f3cc1fcdf1b56b294fc0a9f7814048ba328cac9",
+        "96c5acc88c801e0d4b87611ae04fdf8f1cf9875858e6d8a41070de053a022750",
+        "c262eab7af9631d38c28fd4a35e43dee441e027f1254affd1b30e78b917004f4",
+        "cbf000d283deda9c570ca2d0369f06ba93a262f6c16dc8c429e2a5684b0b5e53",
+        "e7f026042b6fa1784a69b54ca6e9629af39bba2140fbd679372036419f8574cd",
+        "fca325ffca3f44d8561a4c7139317a7696a915e3d3c1b5008753e6a938ddeb68"
+      ],
+      "detections": [
+        {
+          "detectionId": "35aa3b6936b7609202b1762c978aaf4373094afea9a537e8830e8d888f73463b",
+          "episodeId": "471fe6cf125c1377795efaf74280785492f585d6bb7b0d3b9f8138b7b0bae232",
+          "windowStart": "2026-09-29T11:23:00+00:00",
+          "phase": "OPEN",
+          "sequence": 1,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:24:11.918216437Z",
+          "receivedAt": "2026-09-29T11:24:12.148116+00:00"
+        },
+        {
+          "detectionId": "a6a41c367ae887a1da0d5c26b174506c0c3ce55c29050d3356d1f8e0d12b38a5",
+          "episodeId": "471fe6cf125c1377795efaf74280785492f585d6bb7b0d3b9f8138b7b0bae232",
+          "windowStart": "2026-09-29T11:24:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 2,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:25:12.085948427Z",
+          "receivedAt": "2026-09-29T11:25:12.10454+00:00"
+        },
+        {
+          "detectionId": "45cb47704b6cb482551413c81bc72c3b2c324560711060e617c3d2dfef85ea3a",
+          "episodeId": "471fe6cf125c1377795efaf74280785492f585d6bb7b0d3b9f8138b7b0bae232",
+          "windowStart": "2026-09-29T11:25:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 3,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:26:12.019872070Z",
+          "receivedAt": "2026-09-29T11:26:12.038416+00:00"
+        },
+        {
+          "detectionId": "f9e55e0abcf7dad37d1564b4f21d24a52b5b60d28cd50a958b0d387c9eb5a298",
+          "episodeId": "471fe6cf125c1377795efaf74280785492f585d6bb7b0d3b9f8138b7b0bae232",
+          "windowStart": "2026-09-29T11:26:00+00:00",
+          "phase": "UPDATE",
+          "sequence": 4,
+          "technicalState": "ONGOING",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:27:11.700700393Z",
+          "receivedAt": "2026-09-29T11:27:11.716972+00:00"
+        },
+        {
+          "detectionId": "35b96b50debaabfdffddf2c5c31692c8a9ce564db235269f1538751d7b15ce1e",
+          "episodeId": "471fe6cf125c1377795efaf74280785492f585d6bb7b0d3b9f8138b7b0bae232",
+          "windowStart": "2026-09-29T11:27:00+00:00",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "technicalState": "RECOVERED",
+          "mlStatus": "UNAVAILABLE",
+          "modelVersion": null,
+          "anomalyRank": null,
+          "detectedAt": "2026-09-29T11:28:11.447557542Z",
+          "receivedAt": "2026-09-29T11:28:11.460557+00:00"
+        }
+      ],
+      "episodeIds": [
+        "471fe6cf125c1377795efaf74280785492f585d6bb7b0d3b9f8138b7b0bae232"
+      ],
+      "incidents": [
+        {
+          "incidentId": "90fb7336-8628-4a09-a3ac-7a3f17f55403",
+          "episodeId": "471fe6cf125c1377795efaf74280785492f585d6bb7b0d3b9f8138b7b0bae232",
+          "scopeId": "VOLTE-MD-CENTRAL",
+          "service": "VOLTE",
+          "firstObservedAt": "2026-09-29T11:22:00+00:00",
+          "detectedAt": "2026-09-29T11:24:11.918216+00:00",
+          "lastObservedAt": "2026-09-29T11:28:00+00:00",
+          "status": "OPEN",
+          "technicalState": "RECOVERED",
+          "latestSequence": 5
+        }
+      ]
+    },
+    {
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "seed": 29092028,
+      "runId": "ddc103c6-633a-4811-af96-1332a3945bc1",
+      "service": "SMS",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "scheduledStartAt": "2026-09-29T11:20:00Z",
+      "scheduledEndAt": "2026-09-29T11:28:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 16,
+      "kafkaDeliveryCount": 16,
+      "observationEventIds": [
+        "008b4c61-f886-30b8-9755-9bc24ae1eee7",
+        "00e5a34d-7496-33ef-a3d5-5d9f7047728c",
+        "3dd2adbb-b0ba-365a-9b25-a4867b64a6a3",
+        "49f8c305-3b4e-3188-ba15-c004c3291e50",
+        "50840f13-c919-3033-bfc4-5fc83d61ff12",
+        "58c4517d-ef7b-3613-9a19-cef3944b7266",
+        "6296c378-58c5-3eec-b256-5b7bcf672579",
+        "6b11fa71-21e4-326d-84da-31426daca24c",
+        "7bc28dd3-bdb9-3738-ae82-fd7c1013c3ec",
+        "88d10e4c-2bbe-3b55-9c5f-2000b90be06b",
+        "92db6686-76d1-3c05-b813-99a963a64b50",
+        "a4ae7027-f7b0-39c2-a17c-3d2feb26c788",
+        "c4549d66-bb3b-3f62-9c08-57c5563770c0",
+        "c6c140b1-a884-36b8-b540-bdf4d0511036",
+        "cf40eed4-83fd-3bbd-b5e5-6ecc2f07067e",
+        "e58cbcc1-7e07-369f-a9b6-95964615d807"
+      ],
+      "acceptedObservationCount": 16,
+      "acceptedEventIds": [
+        "008b4c61-f886-30b8-9755-9bc24ae1eee7",
+        "00e5a34d-7496-33ef-a3d5-5d9f7047728c",
+        "3dd2adbb-b0ba-365a-9b25-a4867b64a6a3",
+        "49f8c305-3b4e-3188-ba15-c004c3291e50",
+        "50840f13-c919-3033-bfc4-5fc83d61ff12",
+        "58c4517d-ef7b-3613-9a19-cef3944b7266",
+        "6296c378-58c5-3eec-b256-5b7bcf672579",
+        "6b11fa71-21e4-326d-84da-31426daca24c",
+        "7bc28dd3-bdb9-3738-ae82-fd7c1013c3ec",
+        "88d10e4c-2bbe-3b55-9c5f-2000b90be06b",
+        "92db6686-76d1-3c05-b813-99a963a64b50",
+        "a4ae7027-f7b0-39c2-a17c-3d2feb26c788",
+        "c4549d66-bb3b-3f62-9c08-57c5563770c0",
+        "c6c140b1-a884-36b8-b540-bdf4d0511036",
+        "cf40eed4-83fd-3bbd-b5e5-6ecc2f07067e",
+        "e58cbcc1-7e07-369f-a9b6-95964615d807"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "465c55591c7cc91e47d850e2f70a03f941e721fcaa524eeb9b9ef4953df37cc1",
+          "windowStart": "2026-09-29T11:20:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.69,
+            3380,
+            0,
+            0,
+            1.0,
+            92
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3380,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 92,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:21:10.722753+00:00",
+          "finalizationDelaySec": 10.723
+        },
+        {
+          "windowId": "19d52bebe393ff0b319212b19a53aab1a1e2b74535e0228a7788062efd7d8366",
+          "windowStart": "2026-09-29T11:21:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.7025,
+            3405,
+            0,
+            0,
+            0.08675799086758218,
+            105
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3405,
+            "deliverySrPct": 99.08675799086758,
+            "deliveredMessages": 105,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:22:10.57503+00:00",
+          "finalizationDelaySec": 10.575
+        },
+        {
+          "windowId": "2ad0ad3b3f9d1ef577d1b11cdf52638c49591e101a24c56ad233ec8703faba07",
+          "windowStart": "2026-09-29T11:22:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            29.456,
+            58912,
+            203,
+            120,
+            -0.06382978723404165,
+            80
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 58912,
+            "deliverySrPct": 98.93617021276596,
+            "deliveredMessages": 80,
+            "queueDepth": 203,
+            "oldestPendingAgeSec": 120
+          },
+          "createdAt": "2026-09-29T11:23:10.417288+00:00",
+          "finalizationDelaySec": 10.417
+        },
+        {
+          "windowId": "4e61c843eec0d32e353e1826c6188f42df3c8ccba9a0b3847f74207705474c7c",
+          "windowStart": "2026-09-29T11:23:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            29.3985,
+            58797,
+            325,
+            89,
+            1.0,
+            97
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 58797,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 97,
+            "queueDepth": 325,
+            "oldestPendingAgeSec": 89
+          },
+          "createdAt": "2026-09-29T11:24:10.830291+00:00",
+          "finalizationDelaySec": 10.83
+        },
+        {
+          "windowId": "94d01a3b6ba41faa83ff3a5c8ba7671da16df1a6786eb2344dd7c0a549b142d3",
+          "windowStart": "2026-09-29T11:24:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            29.0875,
+            58175,
+            171,
+            113,
+            1.0,
+            116
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 58175,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 116,
+            "queueDepth": 171,
+            "oldestPendingAgeSec": 113
+          },
+          "createdAt": "2026-09-29T11:25:11.01886+00:00",
+          "finalizationDelaySec": 11.019
+        },
+        {
+          "windowId": "470cba74145a01e9d73eec67c5b9b2e5f31c591b145b1830d5c2c452b7cf8a03",
+          "windowStart": "2026-09-29T11:25:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6985,
+            3397,
+            0,
+            0,
+            0.5073891625615801,
+            111
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3397,
+            "deliverySrPct": 99.50738916256158,
+            "deliveredMessages": 111,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:26:10.977647+00:00",
+          "finalizationDelaySec": 10.978
+        },
+        {
+          "windowId": "44e5fa301f637043246aa1d85bfc3083c9ee4dd1102ae16d489959723a48d9a8",
+          "windowStart": "2026-09-29T11:26:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6905,
+            3381,
+            0,
+            0,
+            1.0,
+            102
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3381,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 102,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:27:10.653347+00:00",
+          "finalizationDelaySec": 10.653
+        },
+        {
+          "windowId": "4b96e0ca463902ad4a2b91121b96a1298f585f9d6ca7966fc69c2dd713f308b7",
+          "windowStart": "2026-09-29T11:27:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.671,
+            3342,
+            0,
+            0,
+            1.0,
+            82
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3342,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 82,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:28:10.40867+00:00",
+          "finalizationDelaySec": 10.409
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "19d52bebe393ff0b319212b19a53aab1a1e2b74535e0228a7788062efd7d8366",
+        "2ad0ad3b3f9d1ef577d1b11cdf52638c49591e101a24c56ad233ec8703faba07",
+        "44e5fa301f637043246aa1d85bfc3083c9ee4dd1102ae16d489959723a48d9a8",
+        "465c55591c7cc91e47d850e2f70a03f941e721fcaa524eeb9b9ef4953df37cc1",
+        "470cba74145a01e9d73eec67c5b9b2e5f31c591b145b1830d5c2c452b7cf8a03",
+        "4b96e0ca463902ad4a2b91121b96a1298f585f9d6ca7966fc69c2dd713f308b7",
+        "4e61c843eec0d32e353e1826c6188f42df3c8ccba9a0b3847f74207705474c7c",
+        "94d01a3b6ba41faa83ff3a5c8ba7671da16df1a6786eb2344dd7c0a549b142d3"
+      ],
+      "detections": [],
+      "episodeIds": [],
+      "incidents": []
+    },
+    {
+      "scenarioType": "NORMAL_CONTROL",
+      "seed": 29092029,
+      "runId": "0f06b7ff-d585-43a4-957f-b3eab37a2e2a",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "scheduledStartAt": "2026-09-29T11:28:00Z",
+      "scheduledEndAt": "2026-09-29T11:36:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 24,
+      "kafkaDeliveryCount": 24,
+      "observationEventIds": [
+        "24abfc34-901d-37bc-ae22-d3b3bc223bd4",
+        "3207e22e-5d59-34d7-8220-342406847194",
+        "3cfd4756-2ea1-33fb-a973-ffcadd5a3d0c",
+        "4eee769a-aebc-3628-8fa6-cdbbaff08e32",
+        "54ff67b3-ad3b-311d-b9e1-ed5e4c734da1",
+        "6931aada-fc06-31a3-b0b3-d6575a1e97c4",
+        "716d5470-1fd9-37ba-ac91-fae90a0b9538",
+        "7309063c-9fdd-34a3-b6a4-1ea35b1ae4ad",
+        "7ea34a75-01e1-390f-b85c-2048bd8add51",
+        "899f396a-2ad0-3049-b74b-946e020b3c00",
+        "9ee8c818-9669-376f-80bb-44dd99872e4e",
+        "a1bc1b5c-2197-3af0-8a0d-6d37cbb0a91b",
+        "aede3ce6-f651-3bb0-af35-effe452c9c0e",
+        "af7a2ba1-63f2-383b-8b01-1017c22817f5",
+        "bf6f872d-5b54-3778-b97b-1a2221921c96",
+        "ce35db6e-1e4e-31fc-bd92-02c7cb9a4b98",
+        "d38b9123-5e69-39e9-805e-d1071d568702",
+        "d708d7f3-0495-3c68-ad62-bc4d1d7145fe",
+        "d88701a4-7334-336e-8a76-108f013e7e42",
+        "e94f4756-0f6f-3fc1-97b7-a643e0069370",
+        "e993eab5-05a8-343d-9d72-30f8fdf64b6f",
+        "ea58f7b5-a63a-3650-910c-9e41a5b9235a",
+        "ef8ed458-e2f1-3f83-86a2-bee12f8c2d6b",
+        "f16fd122-e0d9-39b0-a06f-bc6c22b65737"
+      ],
+      "acceptedObservationCount": 24,
+      "acceptedEventIds": [
+        "24abfc34-901d-37bc-ae22-d3b3bc223bd4",
+        "3207e22e-5d59-34d7-8220-342406847194",
+        "3cfd4756-2ea1-33fb-a973-ffcadd5a3d0c",
+        "4eee769a-aebc-3628-8fa6-cdbbaff08e32",
+        "54ff67b3-ad3b-311d-b9e1-ed5e4c734da1",
+        "6931aada-fc06-31a3-b0b3-d6575a1e97c4",
+        "716d5470-1fd9-37ba-ac91-fae90a0b9538",
+        "7309063c-9fdd-34a3-b6a4-1ea35b1ae4ad",
+        "7ea34a75-01e1-390f-b85c-2048bd8add51",
+        "899f396a-2ad0-3049-b74b-946e020b3c00",
+        "9ee8c818-9669-376f-80bb-44dd99872e4e",
+        "a1bc1b5c-2197-3af0-8a0d-6d37cbb0a91b",
+        "aede3ce6-f651-3bb0-af35-effe452c9c0e",
+        "af7a2ba1-63f2-383b-8b01-1017c22817f5",
+        "bf6f872d-5b54-3778-b97b-1a2221921c96",
+        "ce35db6e-1e4e-31fc-bd92-02c7cb9a4b98",
+        "d38b9123-5e69-39e9-805e-d1071d568702",
+        "d708d7f3-0495-3c68-ad62-bc4d1d7145fe",
+        "d88701a4-7334-336e-8a76-108f013e7e42",
+        "e94f4756-0f6f-3fc1-97b7-a643e0069370",
+        "e993eab5-05a8-343d-9d72-30f8fdf64b6f",
+        "ea58f7b5-a63a-3650-910c-9e41a5b9235a",
+        "ef8ed458-e2f1-3f83-86a2-bee12f8c2d6b",
+        "f16fd122-e0d9-39b0-a06f-bc6c22b65737"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "f1830628cefb15873b9c6d7c2f1d06599c3e77d5b4e344371fc1c60d42e2a219",
+          "windowStart": "2026-09-29T11:28:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:29:10.107662+00:00",
+          "finalizationDelaySec": 10.108
+        },
+        {
+          "windowId": "0bb37e9c2c247eb3f4ab850a7a364bbf9326044341d8603f23788d2b878dd2b9",
+          "windowStart": "2026-09-29T11:29:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:30:10.016254+00:00",
+          "finalizationDelaySec": 10.016
+        },
+        {
+          "windowId": "b68331bb0cc280dd850ab641d0451144546deaefda99f625bf2f9dfc25ab5172",
+          "windowStart": "2026-09-29T11:30:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:31:10.810062+00:00",
+          "finalizationDelaySec": 10.81
+        },
+        {
+          "windowId": "acad7544b92d1b0fc99fe8a361e72cfd1dcc135acec43bdb49e3e0c630202486",
+          "windowStart": "2026-09-29T11:31:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:32:10.545248+00:00",
+          "finalizationDelaySec": 10.545
+        },
+        {
+          "windowId": "9cb15f5f597eb32725d9264ef4f04fde30ac7755b4f3510bbb5e10a42a7a8e12",
+          "windowStart": "2026-09-29T11:32:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:33:10.15044+00:00",
+          "finalizationDelaySec": 10.15
+        },
+        {
+          "windowId": "065ba673ff29a35f35b06e6f9df302dfaf6fc117ce97f24c29baf11aee2f6698",
+          "windowStart": "2026-09-29T11:33:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:34:10.770801+00:00",
+          "finalizationDelaySec": 10.771
+        },
+        {
+          "windowId": "983d4069e32a5442e2401c2da11a9200887e2caa2779ff0eb64c012d5b7e9ddd",
+          "windowStart": "2026-09-29T11:34:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:35:10.405156+00:00",
+          "finalizationDelaySec": 10.405
+        },
+        {
+          "windowId": "a2bf8fdb33996f0cb2d6dc8f1d9c2c516f06c54b661a121f1a8a3a75c9983e0e",
+          "windowStart": "2026-09-29T11:35:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:36:10.052297+00:00",
+          "finalizationDelaySec": 10.052
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "065ba673ff29a35f35b06e6f9df302dfaf6fc117ce97f24c29baf11aee2f6698",
+        "0bb37e9c2c247eb3f4ab850a7a364bbf9326044341d8603f23788d2b878dd2b9",
+        "983d4069e32a5442e2401c2da11a9200887e2caa2779ff0eb64c012d5b7e9ddd",
+        "9cb15f5f597eb32725d9264ef4f04fde30ac7755b4f3510bbb5e10a42a7a8e12",
+        "a2bf8fdb33996f0cb2d6dc8f1d9c2c516f06c54b661a121f1a8a3a75c9983e0e",
+        "acad7544b92d1b0fc99fe8a361e72cfd1dcc135acec43bdb49e3e0c630202486",
+        "b68331bb0cc280dd850ab641d0451144546deaefda99f625bf2f9dfc25ab5172",
+        "f1830628cefb15873b9c6d7c2f1d06599c3e77d5b4e344371fc1c60d42e2a219"
+      ],
+      "detections": [],
+      "episodeIds": [],
+      "incidents": []
+    },
+    {
+      "scenarioType": "NORMAL_CONTROL",
+      "seed": 29092029,
+      "runId": "ef792535-c538-4c7f-87b6-f69bfd5c8612",
+      "service": "SMS",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "scheduledStartAt": "2026-09-29T11:28:00Z",
+      "scheduledEndAt": "2026-09-29T11:36:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 16,
+      "kafkaDeliveryCount": 16,
+      "observationEventIds": [
+        "03938b4c-3ee4-3592-ad47-e18eed557a6b",
+        "0f22c706-6fd9-3f07-af2f-241bd4d6f5b5",
+        "2d641dfe-60f1-3ab0-b72f-04b97d836837",
+        "3f7afe92-2636-3612-bd64-aa7c001e9717",
+        "56aafe12-6630-3a4f-9804-f0715d77a62c",
+        "583f0df3-51cb-3cf4-ac61-e16300857210",
+        "5989e239-fc22-3bb7-954a-163f1fc038b7",
+        "67381ccf-52fe-3b77-9465-223cee0f051c",
+        "8554f31b-434c-39d0-b804-878bee98f1ea",
+        "8b7d4fe6-dbaa-3f53-8504-c7a2fb269029",
+        "8cf717b1-8a31-3000-80e6-fc52d3906c26",
+        "a03da6fb-ecfa-30c1-98f9-0f99305beec0",
+        "ca4fcd66-7a33-394f-bd72-20b81c3e4281",
+        "e9854648-029d-39c2-9f15-73270c8ef8dd",
+        "f0fcc817-1182-3cd3-8744-842d507222cc",
+        "f4fb7aa5-8adf-3da2-9ad9-c48f38bd27db"
+      ],
+      "acceptedObservationCount": 16,
+      "acceptedEventIds": [
+        "03938b4c-3ee4-3592-ad47-e18eed557a6b",
+        "0f22c706-6fd9-3f07-af2f-241bd4d6f5b5",
+        "2d641dfe-60f1-3ab0-b72f-04b97d836837",
+        "3f7afe92-2636-3612-bd64-aa7c001e9717",
+        "56aafe12-6630-3a4f-9804-f0715d77a62c",
+        "583f0df3-51cb-3cf4-ac61-e16300857210",
+        "5989e239-fc22-3bb7-954a-163f1fc038b7",
+        "67381ccf-52fe-3b77-9465-223cee0f051c",
+        "8554f31b-434c-39d0-b804-878bee98f1ea",
+        "8b7d4fe6-dbaa-3f53-8504-c7a2fb269029",
+        "8cf717b1-8a31-3000-80e6-fc52d3906c26",
+        "a03da6fb-ecfa-30c1-98f9-0f99305beec0",
+        "ca4fcd66-7a33-394f-bd72-20b81c3e4281",
+        "e9854648-029d-39c2-9f15-73270c8ef8dd",
+        "f0fcc817-1182-3cd3-8744-842d507222cc",
+        "f4fb7aa5-8adf-3da2-9ad9-c48f38bd27db"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "2bfda220d25a444193073fc4b1165d2308b5849c7e5098f74a7982d04596093a",
+          "windowStart": "2026-09-29T11:28:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6785,
+            3357,
+            0,
+            0,
+            -0.4634146341463463,
+            83
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3357,
+            "deliverySrPct": 98.53658536585365,
+            "deliveredMessages": 83,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:29:10.099679+00:00",
+          "finalizationDelaySec": 10.1
+        },
+        {
+          "windowId": "47cefbba784294daf0e8f9321007787dd419568a59eedc2940778af7665ee7ba",
+          "windowStart": "2026-09-29T11:29:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6535,
+            3307,
+            0,
+            0,
+            -1.2222222222222285,
+            97
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3307,
+            "deliverySrPct": 97.77777777777777,
+            "deliveredMessages": 97,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:30:10.006639+00:00",
+          "finalizationDelaySec": 10.007
+        },
+        {
+          "windowId": "466ac77bf113387fde0ffbfe3d1e9b56c96b934445ad72ada9e11e28d1eb1bc0",
+          "windowStart": "2026-09-29T11:30:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6995,
+            3399,
+            0,
+            0,
+            1.0,
+            114
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3399,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 114,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:31:10.803374+00:00",
+          "finalizationDelaySec": 10.803
+        },
+        {
+          "windowId": "f7069b73bb8020ee446286046b337a1f456ac534498b9bea049974520bf2e208",
+          "windowStart": "2026-09-29T11:31:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.69,
+            3380,
+            0,
+            0,
+            -0.5228426395939039,
+            120
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3380,
+            "deliverySrPct": 98.4771573604061,
+            "deliveredMessages": 120,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:32:10.537676+00:00",
+          "finalizationDelaySec": 10.538
+        },
+        {
+          "windowId": "4abfc3f1d88f4da903a0bb50c548e8f4eecb18c8dfc61d1b74fd06f2b1a45745",
+          "windowStart": "2026-09-29T11:32:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6585,
+            3317,
+            0,
+            0,
+            -0.058201058201063915,
+            85
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3317,
+            "deliverySrPct": 98.94179894179894,
+            "deliveredMessages": 85,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:33:10.142919+00:00",
+          "finalizationDelaySec": 10.143
+        },
+        {
+          "windowId": "5596f2880a6d7055b6f658b5746ebf69baf30e879b3c08c19a96eba2c43210c3",
+          "windowStart": "2026-09-29T11:33:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.608,
+            3216,
+            0,
+            0,
+            -0.36986301369863384,
+            120
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3216,
+            "deliverySrPct": 98.63013698630137,
+            "deliveredMessages": 120,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:34:10.76439+00:00",
+          "finalizationDelaySec": 10.764
+        },
+        {
+          "windowId": "0b5dfbd8499b860de0dfbf015fa08c04ca809e3f00b8ead55c2d4c054e7e4cfa",
+          "windowStart": "2026-09-29T11:34:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.686,
+            3372,
+            0,
+            0,
+            1.0,
+            109
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3372,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 109,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:35:10.398158+00:00",
+          "finalizationDelaySec": 10.398
+        },
+        {
+          "windowId": "4cdc9b07b1e4aeedb557828338fc76ce426c8d45681a47bc24fa6e7d8aabb23f",
+          "windowStart": "2026-09-29T11:35:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.696,
+            3392,
+            0,
+            0,
+            0.5370370370370381,
+            101
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3392,
+            "deliverySrPct": 99.53703703703704,
+            "deliveredMessages": 101,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:36:10.046031+00:00",
+          "finalizationDelaySec": 10.046
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "0b5dfbd8499b860de0dfbf015fa08c04ca809e3f00b8ead55c2d4c054e7e4cfa",
+        "2bfda220d25a444193073fc4b1165d2308b5849c7e5098f74a7982d04596093a",
+        "466ac77bf113387fde0ffbfe3d1e9b56c96b934445ad72ada9e11e28d1eb1bc0",
+        "47cefbba784294daf0e8f9321007787dd419568a59eedc2940778af7665ee7ba",
+        "4abfc3f1d88f4da903a0bb50c548e8f4eecb18c8dfc61d1b74fd06f2b1a45745",
+        "4cdc9b07b1e4aeedb557828338fc76ce426c8d45681a47bc24fa6e7d8aabb23f",
+        "5596f2880a6d7055b6f658b5746ebf69baf30e879b3c08c19a96eba2c43210c3",
+        "f7069b73bb8020ee446286046b337a1f456ac534498b9bea049974520bf2e208"
+      ],
+      "detections": [],
+      "episodeIds": [],
+      "incidents": []
+    },
+    {
+      "scenarioType": "TELEMETRY_GAP",
+      "seed": 29092030,
+      "runId": "c296dab5-7b0f-4d8e-9241-8b4782d8659c",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "scheduledStartAt": "2026-09-29T11:36:00Z",
+      "scheduledEndAt": "2026-09-29T11:44:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 15,
+      "kafkaDeliveryCount": 15,
+      "observationEventIds": [
+        "08d9c986-3307-359e-a8c1-2b9bda5ea281",
+        "0c772077-d97c-31b5-ae90-4f8edc6b7a57",
+        "0f99a3c0-9dad-33b5-8fc9-82a1c9d2ed1a",
+        "2d88db7f-b2e2-38c6-a55f-b5f91b673fb0",
+        "352f8ab1-e60d-3f3f-9131-08b4a038a99b",
+        "4bc25f46-5825-3699-88dd-f7b1b0a8269e",
+        "56818120-d61e-3cec-a457-b9c784858b01",
+        "61605461-4d3f-3712-9bea-a5aa46911657",
+        "63f66e15-e807-33b7-97a1-641ea2b506ee",
+        "65071004-223a-3cf5-ae60-1f50c565838b",
+        "8d234253-ed6e-3a12-aa5b-5e270382762f",
+        "96868161-c7c9-3eeb-96ed-c6aa317ae726",
+        "a0209e66-cebe-32d7-bb0f-85264b37a307",
+        "a4b41a1c-72c5-39aa-ac54-9b3831e163db",
+        "cea6e0a4-93a1-3f01-ab83-77862b031560"
+      ],
+      "acceptedObservationCount": 15,
+      "acceptedEventIds": [
+        "08d9c986-3307-359e-a8c1-2b9bda5ea281",
+        "0c772077-d97c-31b5-ae90-4f8edc6b7a57",
+        "0f99a3c0-9dad-33b5-8fc9-82a1c9d2ed1a",
+        "2d88db7f-b2e2-38c6-a55f-b5f91b673fb0",
+        "352f8ab1-e60d-3f3f-9131-08b4a038a99b",
+        "4bc25f46-5825-3699-88dd-f7b1b0a8269e",
+        "56818120-d61e-3cec-a457-b9c784858b01",
+        "61605461-4d3f-3712-9bea-a5aa46911657",
+        "63f66e15-e807-33b7-97a1-641ea2b506ee",
+        "65071004-223a-3cf5-ae60-1f50c565838b",
+        "8d234253-ed6e-3a12-aa5b-5e270382762f",
+        "96868161-c7c9-3eeb-96ed-c6aa317ae726",
+        "a0209e66-cebe-32d7-bb0f-85264b37a307",
+        "a4b41a1c-72c5-39aa-ac54-9b3831e163db",
+        "cea6e0a4-93a1-3f01-ab83-77862b031560"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "21abcb8eaf15dd470b7b5ba438b654a3be49ef49014080eb5fb6cb7ecfbf157b",
+          "windowStart": "2026-09-29T11:36:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:37:10.687058+00:00",
+          "finalizationDelaySec": 10.687
+        },
+        {
+          "windowId": "28d03675467384db342bf66f17c88fbba33f3e4d76a1617ecbeebcf1f0c6a570",
+          "windowStart": "2026-09-29T11:37:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:38:10.282026+00:00",
+          "finalizationDelaySec": 10.282
+        },
+        {
+          "windowId": "17223e4f0d9ad9e59bfa83f54065155cae7ec475b46d723c289997e57a06fd97",
+          "windowStart": "2026-09-29T11:38:00Z",
+          "quality": "MISSING",
+          "mlEligible": false,
+          "featureNames": [],
+          "featureValues": [],
+          "observedKpis": {
+            "cssrPct": null,
+            "eligibleAttempts": null,
+            "sip503Ratio": null,
+            "sip503Count": null,
+            "rrcSrPct": null,
+            "bearerSrPct": null,
+            "packetLossRatio": null,
+            "imsCpuPct": null
+          },
+          "createdAt": "2026-09-29T11:39:10.952063+00:00",
+          "finalizationDelaySec": 10.952
+        },
+        {
+          "windowId": "b0d1eb5f7bcb7832adef331b8cafb75624e8875c65c760c2f65293e3c3345d15",
+          "windowStart": "2026-09-29T11:39:00Z",
+          "quality": "MISSING",
+          "mlEligible": false,
+          "featureNames": [],
+          "featureValues": [],
+          "observedKpis": {
+            "cssrPct": null,
+            "eligibleAttempts": null,
+            "sip503Ratio": null,
+            "sip503Count": null,
+            "rrcSrPct": null,
+            "bearerSrPct": null,
+            "packetLossRatio": null,
+            "imsCpuPct": null
+          },
+          "createdAt": "2026-09-29T11:40:10.574358+00:00",
+          "finalizationDelaySec": 10.574
+        },
+        {
+          "windowId": "563b22fef841e06c40ac09a155d6f9bc3c73aa6284e234da869c0329520a62e4",
+          "windowStart": "2026-09-29T11:40:00Z",
+          "quality": "MISSING",
+          "mlEligible": false,
+          "featureNames": [],
+          "featureValues": [],
+          "observedKpis": {
+            "cssrPct": null,
+            "eligibleAttempts": null,
+            "sip503Ratio": null,
+            "sip503Count": null,
+            "rrcSrPct": null,
+            "bearerSrPct": null,
+            "packetLossRatio": null,
+            "imsCpuPct": null
+          },
+          "createdAt": "2026-09-29T11:41:10.171996+00:00",
+          "finalizationDelaySec": 10.172
+        },
+        {
+          "windowId": "b38384476d74b86c0ec9181359a3aa4afd979e01a32dc0a600d0a9acd053023b",
+          "windowStart": "2026-09-29T11:41:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:42:10.778072+00:00",
+          "finalizationDelaySec": 10.778
+        },
+        {
+          "windowId": "6d550916b74f420aa688dfd15ba30fcf01eb22287989ff79d4d958477b003368",
+          "windowStart": "2026-09-29T11:42:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:43:10.40752+00:00",
+          "finalizationDelaySec": 10.408
+        },
+        {
+          "windowId": "4a7053d94340eb1faa39091e49addb91f1ac2854ab14e77d44d7174fa80c128f",
+          "windowStart": "2026-09-29T11:43:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "cssrDeltaPp",
+            "sip503Ratio",
+            "rrcDeltaPp",
+            "bearerDeltaPp",
+            "packetLossRatio",
+            "imsCpuPct"
+          ],
+          "featureValues": [
+            0.0,
+            0.002,
+            0.0,
+            0.5454545454545467,
+            0.001,
+            35
+          ],
+          "observedKpis": {
+            "cssrPct": 99.3,
+            "eligibleAttempts": 1000,
+            "sip503Ratio": 0.002,
+            "sip503Count": 2,
+            "rrcSrPct": 99.5,
+            "bearerSrPct": 99.54545454545455,
+            "packetLossRatio": 0.001,
+            "imsCpuPct": 35
+          },
+          "createdAt": "2026-09-29T11:44:10.030195+00:00",
+          "finalizationDelaySec": 10.03
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "17223e4f0d9ad9e59bfa83f54065155cae7ec475b46d723c289997e57a06fd97",
+        "21abcb8eaf15dd470b7b5ba438b654a3be49ef49014080eb5fb6cb7ecfbf157b",
+        "28d03675467384db342bf66f17c88fbba33f3e4d76a1617ecbeebcf1f0c6a570",
+        "4a7053d94340eb1faa39091e49addb91f1ac2854ab14e77d44d7174fa80c128f",
+        "563b22fef841e06c40ac09a155d6f9bc3c73aa6284e234da869c0329520a62e4",
+        "6d550916b74f420aa688dfd15ba30fcf01eb22287989ff79d4d958477b003368",
+        "b0d1eb5f7bcb7832adef331b8cafb75624e8875c65c760c2f65293e3c3345d15",
+        "b38384476d74b86c0ec9181359a3aa4afd979e01a32dc0a600d0a9acd053023b"
+      ],
+      "detections": [],
+      "episodeIds": [],
+      "incidents": []
+    },
+    {
+      "scenarioType": "TELEMETRY_GAP",
+      "seed": 29092030,
+      "runId": "62bf6855-78d3-425f-9366-dcade34cb9e2",
+      "service": "SMS",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "scheduledStartAt": "2026-09-29T11:36:00Z",
+      "scheduledEndAt": "2026-09-29T11:44:00Z",
+      "generatorStatus": "COMPLETED",
+      "publishedWindows": 8,
+      "generatedUniqueObservationCount": 10,
+      "kafkaDeliveryCount": 10,
+      "observationEventIds": [
+        "1f421e1f-aef2-3321-a569-c21ccd84f4e1",
+        "2675becd-ef9e-31f8-b72b-381476caa863",
+        "2ccf1c43-2dd3-3d8f-b830-b81a481860f9",
+        "340c20ac-bff2-3677-a324-d8d4aa9a0ee9",
+        "772825eb-6b01-3595-b222-aad56cacaacd",
+        "861b5d5b-aca3-3f90-816d-046165b59a3b",
+        "892dbdb3-ab1c-3d5e-a73b-70cbff4bcb88",
+        "93b641c7-330f-3f7f-940e-a643ced8220b",
+        "b7cbf044-ea2e-3549-846c-bce4743f5717",
+        "fef061ca-d092-38ca-8b57-79137916fc11"
+      ],
+      "acceptedObservationCount": 10,
+      "acceptedEventIds": [
+        "1f421e1f-aef2-3321-a569-c21ccd84f4e1",
+        "2675becd-ef9e-31f8-b72b-381476caa863",
+        "2ccf1c43-2dd3-3d8f-b830-b81a481860f9",
+        "340c20ac-bff2-3677-a324-d8d4aa9a0ee9",
+        "772825eb-6b01-3595-b222-aad56cacaacd",
+        "861b5d5b-aca3-3f90-816d-046165b59a3b",
+        "892dbdb3-ab1c-3d5e-a73b-70cbff4bcb88",
+        "93b641c7-330f-3f7f-940e-a643ced8220b",
+        "b7cbf044-ea2e-3549-846c-bce4743f5717",
+        "fef061ca-d092-38ca-8b57-79137916fc11"
+      ],
+      "rejectedObservationCount": 0,
+      "featureWindowCount": 8,
+      "featureWindows": [
+        {
+          "windowId": "3aa986f2174168073649403ca1739d9449783f80aa4b967efd5dac5e1a1d48cd",
+          "windowStart": "2026-09-29T11:36:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6125,
+            3225,
+            0,
+            0,
+            1.0,
+            86
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3225,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 86,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:37:10.681254+00:00",
+          "finalizationDelaySec": 10.681
+        },
+        {
+          "windowId": "c121193ddeaf873d94f4833f5fc6d2f5401ee905df8e0f654eba58407b08e6e0",
+          "windowStart": "2026-09-29T11:37:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.7075,
+            3415,
+            0,
+            0,
+            -0.904761904761898,
+            99
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3415,
+            "deliverySrPct": 98.0952380952381,
+            "deliveredMessages": 99,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:38:10.276166+00:00",
+          "finalizationDelaySec": 10.276
+        },
+        {
+          "windowId": "19717f98e0413a77a461ac7d6fdb1b3a17322ef522055496e1bc41c96f0b0d2b",
+          "windowStart": "2026-09-29T11:38:00Z",
+          "quality": "MISSING",
+          "mlEligible": false,
+          "featureNames": [],
+          "featureValues": [],
+          "observedKpis": {
+            "p95DeliveryMs": null,
+            "deliverySrPct": null,
+            "deliveredMessages": null,
+            "queueDepth": null,
+            "oldestPendingAgeSec": null
+          },
+          "createdAt": "2026-09-29T11:39:10.935919+00:00",
+          "finalizationDelaySec": 10.936
+        },
+        {
+          "windowId": "aff2366f67ef0f503c00b82b5f1855ba63651c655714b5eaf252c18a3ef6ffff",
+          "windowStart": "2026-09-29T11:39:00Z",
+          "quality": "MISSING",
+          "mlEligible": false,
+          "featureNames": [],
+          "featureValues": [],
+          "observedKpis": {
+            "p95DeliveryMs": null,
+            "deliverySrPct": null,
+            "deliveredMessages": null,
+            "queueDepth": null,
+            "oldestPendingAgeSec": null
+          },
+          "createdAt": "2026-09-29T11:40:10.569828+00:00",
+          "finalizationDelaySec": 10.57
+        },
+        {
+          "windowId": "a711f0f0686fabc9cdfa1cb4927fa597a2512fae109502d64628f38e572854d0",
+          "windowStart": "2026-09-29T11:40:00Z",
+          "quality": "MISSING",
+          "mlEligible": false,
+          "featureNames": [],
+          "featureValues": [],
+          "observedKpis": {
+            "p95DeliveryMs": null,
+            "deliverySrPct": null,
+            "deliveredMessages": null,
+            "queueDepth": null,
+            "oldestPendingAgeSec": null
+          },
+          "createdAt": "2026-09-29T11:41:10.161973+00:00",
+          "finalizationDelaySec": 10.162
+        },
+        {
+          "windowId": "b48f9c5359410703fb37d56f626d299bf81bca35bdde929585dc8c3c3e18e565",
+          "windowStart": "2026-09-29T11:41:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6385,
+            3277,
+            0,
+            0,
+            1.0,
+            94
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3277,
+            "deliverySrPct": 100.0,
+            "deliveredMessages": 94,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:42:10.772798+00:00",
+          "finalizationDelaySec": 10.773
+        },
+        {
+          "windowId": "c10dfe882454d0d595e17c0eed5e22fa3e9d5fe71a2fa11ef57313b56c42dfc3",
+          "windowStart": "2026-09-29T11:42:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.6655,
+            3331,
+            0,
+            0,
+            0.056603773584910755,
+            94
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3331,
+            "deliverySrPct": 99.05660377358491,
+            "deliveredMessages": 94,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:43:10.398415+00:00",
+          "finalizationDelaySec": 10.398
+        },
+        {
+          "windowId": "1b4138924d4c847d4c0c2a9416dd73bf52ad8322953b30d1b0448f8a8a4f0bd2",
+          "windowStart": "2026-09-29T11:43:00Z",
+          "quality": "COMPLETE",
+          "mlEligible": true,
+          "featureNames": [
+            "p95DelayRatio",
+            "p95DeliveryMs",
+            "queueDepth",
+            "oldestPendingAgeSec",
+            "deliverySrDeltaPp",
+            "deliveredMessages"
+          ],
+          "featureValues": [
+            1.69,
+            3380,
+            0,
+            0,
+            -0.6393442622950829,
+            120
+          ],
+          "observedKpis": {
+            "p95DeliveryMs": 3380,
+            "deliverySrPct": 98.36065573770492,
+            "deliveredMessages": 120,
+            "queueDepth": 0,
+            "oldestPendingAgeSec": 0
+          },
+          "createdAt": "2026-09-29T11:44:10.02403+00:00",
+          "finalizationDelaySec": 10.024
+        }
+      ],
+      "incidentKpiWindowIds": [
+        "19717f98e0413a77a461ac7d6fdb1b3a17322ef522055496e1bc41c96f0b0d2b",
+        "1b4138924d4c847d4c0c2a9416dd73bf52ad8322953b30d1b0448f8a8a4f0bd2",
+        "3aa986f2174168073649403ca1739d9449783f80aa4b967efd5dac5e1a1d48cd",
+        "a711f0f0686fabc9cdfa1cb4927fa597a2512fae109502d64628f38e572854d0",
+        "aff2366f67ef0f503c00b82b5f1855ba63651c655714b5eaf252c18a3ef6ffff",
+        "b48f9c5359410703fb37d56f626d299bf81bca35bdde929585dc8c3c3e18e565",
+        "c10dfe882454d0d595e17c0eed5e22fa3e9d5fe71a2fa11ef57313b56c42dfc3",
+        "c121193ddeaf873d94f4833f5fc6d2f5401ee905df8e0f654eba58407b08e6e0"
+      ],
+      "detections": [],
+      "episodeIds": [],
+      "incidents": []
+    }
+  ]
+}

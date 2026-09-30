@@ -47,14 +47,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = ProcessorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE,
-        properties = {"telecom.finalization.enabled=false", "debug=false", "logging.level.root=WARN", "logging.level.kafka=ERROR",
+        properties = {"telecom.finalization.enabled=false", "telecom.rejection-delivery.enabled=false", "debug=false", "logging.level.root=WARN", "logging.level.kafka=ERROR",
                 "spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer",
                 "spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.ByteArraySerializer"})
 @EmbeddedKafka(kraft = true, partitions = 1, topics = "telecom.observations.v2", bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @Import(IngestionIntegrationTest.TimeConfiguration.class)
 @DirtiesContext
 class IngestionIntegrationTest {
-    private static final Instant NOW = Instant.parse("2026-09-18T15:30:00Z");
+    private static final Instant NOW = Instant.parse("2026-09-15T08:01:05Z");
     private static final String TOPIC = "telecom.observations.v2";
     @Autowired IngestionService ingestion;
     @Autowired ObservationListener listener;
@@ -370,14 +370,18 @@ class IngestionIntegrationTest {
             await().atMost(Duration.ofSeconds(25)).untilAsserted(() -> {
                 assertEquals(1, count("observation_receipt"));
                 var committed = admin.listConsumerGroupOffsets("telecom-processor-v2").partitionsToOffsetAndMetadata().get(5, TimeUnit.SECONDS);
-                assertTrue(committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, metadata.partition())).offset() > metadata.offset());
+                var position = committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, metadata.partition()));
+                assertNotNull(position);
+                assertTrue(position.offset() > metadata.offset());
             });
             assertEquals(1, inputs());
             var rejected = producer.send(TOPIC, "bad", new byte[]{'{'}).get(10, TimeUnit.SECONDS).getRecordMetadata();
             await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> {
                 assertEquals(1, count("rejection_outbox"));
                 var committed = admin.listConsumerGroupOffsets("telecom-processor-v2").partitionsToOffsetAndMetadata().get(5, TimeUnit.SECONDS);
-                assertTrue(committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, rejected.partition())).offset() > rejected.offset());
+                var position = committed.get(new org.apache.kafka.common.TopicPartition(TOPIC, rejected.partition()));
+                assertNotNull(position);
+                assertTrue(position.offset() > rejected.offset());
             });
         }
     }

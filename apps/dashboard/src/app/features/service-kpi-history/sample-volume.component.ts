@@ -9,12 +9,12 @@ import { Component, input } from '@angular/core';
     </p>
 
     @if (count() === 0) {
-      <p>
+      <p role="status">
         No completed messages in this window.
         Delivery p95 cannot be measured.
       </p>
     } @else if (count() !== null && count()! < 30) {
-      <p>
+      <p role="status">
         Low sample volume: fewer than 30 completed messages.
         Interpret p95 cautiously.
       </p>

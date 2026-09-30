@@ -60,7 +60,7 @@ class WindowFinalizerTest {
     static final String SCOPE = "VOLTE-MD-CENTRAL";
     static final ObjectMapper MAPPER = new ObjectMapper();
     @Autowired WindowFinalizer finalizer;
-    @Autowired VoiceFeatureBuilder builder;
+    @Autowired ServiceFeatureBuilder builder;
     @Autowired IngestionService ingestion;
     @Autowired JdbcTemplate jdbc;
     @Autowired DetectionPolicy policy;
@@ -80,7 +80,7 @@ class WindowFinalizerTest {
 
     @Configuration(proxyBeanMethods = false)
     @EnableTransactionManagement
-    @Import({WindowFinalizer.class, VoiceFeatureBuilder.class, BaselineRegistry.class, ScopeRegistry.class,
+    @Import({WindowFinalizer.class, ServiceFeatureBuilder.class, BaselineRegistry.class, ScopeRegistry.class,
             PayloadCodec.class, IngestionService.class, ObservationInput.class,
             EvidenceJoiner.class, SourceFreshness.class, WindowDecisionLock.class, DetectionPolicy.class})
     static class Config {
@@ -111,9 +111,14 @@ class WindowFinalizerTest {
         return (ObjectNode) ObservationValidator.resource("fixtures/observations/" + name + ".json", MAPPER);
     }
     private void ingest(JsonNode event) {
-        var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
-                event.get("scopeId").asText(), "telecom.observations.v2", 0, ++offset));
-        assertEquals(md.utm.telecom.processing.ingestion.IngestionResult.Status.ACCEPTED, result.status());
+        // Seed admitted input before closure, then restore the finalization decision clock.
+        Instant decisionTime = clock.now;
+        clock.now = Instant.parse(event.get("windowEnd").asText()).plusSeconds(5);
+        try {
+            var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
+                    event.get("scopeId").asText(), "telecom.observations.v2", 0, ++offset));
+            assertEquals(md.utm.telecom.processing.ingestion.IngestionResult.Status.ACCEPTED, result.status());
+        } finally { clock.now = decisionTime; }
     }
     private void normal() throws Exception {
         ingest(fixture("normal-volte")); ingest(fixture("normal-ims")); ingest(fixture("normal-transport"));
@@ -247,7 +252,7 @@ class WindowFinalizerTest {
         var catalog = ObservationValidator.resource("baselines/demo-baseline-v2.json", MAPPER);
         ((ObjectNode) catalog.get("baselines").get(0)).putArray("hours").add(0);
         var registry = new BaselineRegistry(catalog, ObservationValidator.resource("topology/demo-scopes-v2.json", MAPPER));
-        var p = new VoiceFeatureBuilder(registry, scopes, codec).build(fixture("normal-volte"),
+        var p = new ServiceFeatureBuilder(registry, scopes, codec, new EvidenceJoiner(scopes)).build(fixture("normal-volte"),
                 List.of(fixture("normal-ims"), fixture("normal-transport")));
         assertEquals("BASELINE_MISSING", registry.lookup(SCOPE, START).status());
         assertTrue(kpi(p, "cssrPct").get("baseline").isNull());
@@ -267,7 +272,7 @@ class WindowFinalizerTest {
         assertTrue(finalizer.dueWindows(10).isEmpty());
         assertEquals(1, outputs());
         // Existing output must not even reach calculation on a later retry.
-        var poisoned = mock(VoiceFeatureBuilder.class);
+        var poisoned = mock(ServiceFeatureBuilder.class);
         var retry = new WindowFinalizer(jdbc, clock, scopes, poisoned, codec, freshness, policy, decisionLock);
         new org.springframework.transaction.support.TransactionTemplate(new DataSourceTransactionManager(jdbc.getDataSource()))
                 .execute(status -> { assertEquals(ALREADY_FINALIZED, retry.finalizeWindow(SCOPE, START)); return null; });
@@ -363,10 +368,17 @@ class WindowFinalizerTest {
         assertEquals(SCOPE, jdbc.queryForObject("SELECT kafka_key FROM app.feature_outbox", String.class));
     }
 
-    @Test void nodeOnlyAndSmsBucketsAreNotFinalizedAndPollingIsBounded() throws Exception {
-        ingest(fixture("normal-ims")); ingest(fixture("normal-sms"));
+    @Test void nodeOnlyAndSmsBucketsAreFinalizedAndPollingIsBounded() throws Exception {
+        ingest(fixture("normal-ims")); ingest(fixture("normal-sms")); ingest(fixture("normal-smsc"));
         assertEquals(NO_SERVICE, finalizer.finalizeWindow(SCOPE, START));
-        assertEquals(NOT_VOICE, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
+        assertEquals(List.of(new WindowFinalizer.Window("SMS-MD-ROUTE-A", START)), finalizer.dueWindows(100));
+        assertEquals(FINALIZED, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
+        var sms = MAPPER.readTree(jdbc.queryForObject("SELECT payload::text FROM app.feature_outbox WHERE scope_id=?",
+                String.class, "SMS-MD-ROUTE-A"));
+        assertEquals("SMS", sms.get("service").asText());
+        assertEquals(0, kpi(sms, "queueDepth").get("observed").asInt());
+        assertTrue(sms.get("mlEligible").asBoolean());
+        assertEquals(6, sms.get("featureValues").size());
         assertTrue(finalizer.dueWindows(100).isEmpty());
         ingest(fixture("normal-volte"));
         var second = fixture("normal-volte").put("eventId", UUID.randomUUID().toString())
@@ -375,11 +387,30 @@ class WindowFinalizerTest {
         ingest(second); clock.now = DUE.plusSeconds(60);
         assertEquals(1, finalizer.dueWindows(1).size());
         new WindowFinalizationScheduler(finalizer, 1).poll();
-        assertEquals(1, outputs()); assertTrue(finalized());
+        assertEquals(3, outputs()); assertTrue(finalized());
         new WindowFinalizationScheduler(finalizer, 1).poll();
-        assertEquals(2, outputs());
+        assertEquals(4, outputs());
         assertThrows(IllegalArgumentException.class, () -> finalizer.dueWindows(0));
         assertThrows(IllegalArgumentException.class, () -> new WindowFinalizationScheduler(finalizer, 1001));
+    }
+
+    @Test void absentSmsIntervalPersistsMissingFeatureWithoutInventedMeasurements() throws Exception {
+        ingest(fixture("normal-sms")); ingest(fixture("normal-smsc"));
+        assertEquals(FINALIZED, finalizer.finalizeWindow("SMS-MD-ROUTE-A", START));
+        var gap = START.plusSeconds(60);
+        clock.now = gap.plusSeconds(70);
+        assertTrue(finalizer.dueMissingWindows(10).contains(new WindowFinalizer.Window("SMS-MD-ROUTE-A", gap)));
+        assertEquals(FINALIZED, finalizer.finalizeMissingWindow("SMS-MD-ROUTE-A", gap));
+        var missing = MAPPER.readTree(jdbc.queryForObject("""
+                SELECT payload::text FROM app.feature_outbox WHERE scope_id=? AND window_start=?
+                """, String.class, "SMS-MD-ROUTE-A", Timestamp.from(gap)));
+        assertEquals("SMS", missing.get("service").asText());
+        assertEquals("MISSING", missing.get("quality").asText());
+        assertFalse(missing.get("mlEligible").asBoolean());
+        assertTrue(missing.get("featureValues").isEmpty());
+        assertTrue(missing.get("sourceEventIds").isEmpty());
+        assertTrue(kpi(missing, "queueDepth").get("observed").isNull());
+        assertEquals(ALREADY_FINALIZED, finalizer.finalizeMissingWindow("SMS-MD-ROUTE-A", gap));
     }
 
     @Test void schedulerContinuesAfterOneWindowFails() {

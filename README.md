@@ -16,21 +16,19 @@ The intended platform flow is:
 Simulator -> Kafka -> Processing -> Detection -> Impact Analysis -> Dashboard
 ```
 
-The implemented voice flow generates synthetic observations, consumes them through
-Kafka, finalizes KPI windows, persists incident episodes and publishes evidence to
-the protected dashboard. Keycloak provides real login. A local command generates
-the demonstration; public scenario scheduling and SMS episode processing remain
-separate work. Python service features and Java baseline/policy rules are shared
-foundations for the pipeline.
+The processor finalizes VoLTE and SMS KPI windows, evaluates deterministic rules,
+adds private model ranks when available, and persists ordered episode evidence.
+The protected dashboard and Keycloak login are available for the voice flow;
+public scenario scheduling and full SMS browser acceptance remain team handoffs.
 
 ## Repository Structure
 
 | Directory | Contents |
 | --- | --- |
 | `services/event-generator` | Observation preview and replayable voice scenario publication. |
-| `services/processor` | Observation ingestion, KPI calculation and durable voice episode publication. |
+| `services/processor` | Observation ingestion, KPI calculation and durable VoLTE/SMS episode publication. |
 | `services/incident-service` | Login session, protected APIs, incident/evidence storage. |
-| `services/ml-service` | Independent Python VOLTE/SMS feature calculations and tests. |
+| `services/ml-service` | Packaged VOLTE/SMS models and private HTTP inference. |
 | `services/streaming-support` | Shared validation and Kafka readiness library. |
 | `contracts` | JSON schemas, topology, fixtures and the incident API specification. |
 | `docs` | Technical references and runbooks. |
@@ -57,8 +55,8 @@ for authentication and API routes.
 The shared Compose stack starts PostgreSQL and Apache Kafka 3.9.1, provisions three
 databases (`processing_db`, `incidents_db`, `keycloak_db`), application schemas and
 V1/V2 topics, starts Keycloak 26.7.4, then builds and starts the event-generator and
-processor containers. Startup waits for infrastructure and Keycloak health,
-successful topic initialization and both application readiness endpoints.
+processor and ML containers. Startup waits for infrastructure and Keycloak health,
+successful topic initialization and all three application readiness endpoints.
 Keycloak and Java container ports remain private to Compose. The loopback-bound
 NGINX proxy exposes `http://telecom.test:8080`; add the hosts entry in the runbook.
 Startup imports the `telecom` realm and `telecom-web` client, then synchronizes the
@@ -82,11 +80,12 @@ Host/IntelliJ startup is also supported. See the [local development runbook](doc
 
 ## Validation
 
-Use Python 3.11+ and JDK 21. From the repository root, with a Python virtual
-environment active:
+Use Python 3.13 for the bundled ML artifacts and JDK 21. From the repository
+root, with a Python virtual environment active:
 
 ```bash
 python -m pip install -r requirements-dev.txt
+python -m pip install -r services/ml-service/requirements-ml.txt
 python scripts/check-contracts.py
 python -m unittest discover -s tests -v
 python -m unittest discover -s services/ml-service/tests -v

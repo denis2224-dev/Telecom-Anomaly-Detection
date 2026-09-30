@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 2,
+  "eventId": "2d419b90-74fe-5eca-b645-420e04728a0f",
+  "sourceId": "TRANSPORT-A",
+  "scopeId": "SMS-MD-ROUTE-A",
+  "kind": "NODE",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "emittedAt": "2026-09-15T08:01:00Z",
+  "quality": "COMPLETE",
+  "nodeId": "TRANSPORT-A",
+  "metrics": {
+    "throughputMbps": 120
+  }
+}

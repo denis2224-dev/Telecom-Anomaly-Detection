@@ -78,8 +78,7 @@ def build_features(observation, node_observations, baseline):
             raise ValueError('Expected NODE evidence')
         if (node['quality'] == 'COMPLETE'
                 and all(node[k] == observation[k] for k in ('scopeId', 'windowStart', 'windowEnd'))):
-            nodes[node['nodeId']] = node['metrics']
-            source_ids.add(node['eventId'])
+            nodes[node['nodeId']] = node
     m = observation.get('metrics', {}) if observation['quality'] == 'COMPLETE' else {}
     kpis = []
 
@@ -93,6 +92,13 @@ def build_features(observation, node_observations, baseline):
         observed = _ratio(numerator, denominator, 100) if m else None
         return kpi(name, observed, 'PERCENT', numerator, denominator)
 
+    def node_metric(node_id, name):
+        node = nodes.get(node_id)
+        value = node['metrics'].get(name) if node else None
+        if value is not None:
+            source_ids.add(node['eventId'])
+        return value
+
     if observation['service'] == 'VOLTE':
         eligible = m['attempts'] - m['userOutcomes'] if m else None
         cssr = kpi('cssrPct', _ratio(m['technicalSuccesses'], eligible, 100) if m else None,
@@ -104,8 +110,8 @@ def build_features(observation, node_observations, baseline):
         rrc = rate('rrcSrPct', 'rrcSuccesses', 'rrcAttempts')
         bearer = rate('bearerSrPct', 'bearerSuccesses', 'bearerAttempts')
         # ponytail: fixed demo node roles; add inventory role metadata before supporting other node layouts.
-        loss = kpi('packetLossRatio', nodes.get('TRANSPORT-A', {}).get('packetLossRatio'), 'RATIO')
-        cpu = kpi('imsCpuPct', nodes.get('IMS-A', {}).get('cpuPct'), 'PERCENT')
+        loss = kpi('packetLossRatio', node_metric('TRANSPORT-A', 'packetLossRatio'), 'RATIO')
+        cpu = kpi('imsCpuPct', node_metric('IMS-A', 'cpuPct'), 'PERCENT')
         vector = [_delta(cssr, values.get('cssrPct')), sip, _delta(rrc, values.get('rrcSrPct')),
                   _delta(bearer, values.get('bearerSrPct')), loss, cpu]
     else:
@@ -115,9 +121,8 @@ def build_features(observation, node_observations, baseline):
                   'MILLISECONDS')
         sr = rate('deliverySrPct', 'deliverySuccesses', 'deliveryAttempts')
         delivered = kpi('deliveredMessages', m.get('deliveredMessages'), 'COUNT')
-        queue = nodes.get('SMSC-A', {})
-        depth = kpi('queueDepth', queue.get('queueDepth'), 'COUNT')
-        age = kpi('oldestPendingAgeSec', queue.get('oldestPendingAgeSeconds'), 'SECONDS')
+        depth = kpi('queueDepth', node_metric('SMSC-A', 'queueDepth'), 'COUNT')
+        age = kpi('oldestPendingAgeSec', node_metric('SMSC-A', 'oldestPendingAgeSeconds'), 'SECONDS')
         ratio = _ratio(p95, values.get('p95DeliveryMs')) if p95 is not None else None
         vector = [ratio, p95, depth, age, _delta(sr, values.get('deliverySrPct')), delivered]
     bounds = OUTPUT.schema['properties']['featureValues']['items']

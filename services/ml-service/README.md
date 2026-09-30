@@ -1,16 +1,25 @@
-# Service features — Sergiu days 1–4
+# Service features and models - Sergiu days 1-12
 
-This module calculates independent Python VOLTE/SMS features. It does not yet
-train models, serve HTTP inference, or provide anomaly ranks.
+This module calculates independent Python VOLTE/SMS features and packages
+synthetic Isolation Forest models and serves private HTTP inference.
 
-From the repository root, using Python 3.11+:
+From the repository root, using Python 3.13:
 
 ```text
 python -m venv .venv
 # Activate .venv, then:
 python -m pip install -r requirements-dev.txt
+python -m pip install -r services/ml-service/requirements-ml.txt
 python scripts/check-contracts.py
 python -m unittest discover -s services/ml-service/tests -v
+```
+
+These checks validate the committed models before rebuilding them. To reproduce
+the training history and package new artifacts, run:
+
+```text
+python services/ml-service/training/generate_history.py
+python services/ml-service/training/train.py
 ```
 
 ## Builder interface
@@ -77,3 +86,48 @@ do not claim independent Java feature-builder parity; Ion owns that later work.
 See [detection contracts](../../docs/detection-contracts.md) for policy and the
 handoff boundaries, and [verification evidence](../../docs/evidence/2026-09-18-sergiu-days-1-4.md)
 for the tested commands and remaining work.
+
+## Synthetic training and local scoring
+
+`generate_history.py` spans four normal training weeks, a separate normal
+calibration week, and untouched normal/fault test runs. It samples one completed
+minute every five minutes; the eight-minute fault runs use every minute. Seeds,
+time ranges, row counts, eligibility and checksums are recorded in
+`training/split_manifest.json`. Generated JSONL rows live in ignored
+`training/data/`; rerun generation to reproduce them. Only eligible six-value
+vectors are saved. Run IDs and test labels are metadata, never model inputs.
+
+`train.py` fits one Isolation Forest per service on training rows only. It sorts
+`-score_samples` from independent normal calibration rows; the fraction at or
+below a new strength is its anomaly rank. The initial synthetic candidate is
+rank >= 0.99. This is unusualness, not a fault probability or severity. No test
+labels are read during training or calibration. Model artifacts, calibration
+distributions and checksums are in `models/manifest.json`.
+
+With `services/ml-service` on the Python path, call `load("VOLTE")` or
+`load("SMS")` from `app.inference.scoring`, then `score(feature_window, loaded)`.
+The loader checks the artifact checksum and exact library/feature versions
+before deserializing the bundled local model. Do not load model files from
+untrusted sources. The scorer rejects incomplete, reordered and nonfinite input.
+The committed artifacts were built on Python 3.13 and the manifest records the
+exact NumPy, scikit-learn and joblib versions used to package them. Rebuild the
+artifacts on a different target Python minor version before packaging that
+runtime. Calibration and manifest JSON use UTF-8 with LF line endings so hashes
+remain valid across Windows and Linux checkouts. The packaged-file regression
+checks the committed dataset manifest, calibration files and model hashes.
+The private endpoint is `POST /internal/inference` with a complete
+`ServiceFeatureWindowV2` JSON body. A successful response contains `mlStatus=OK`,
+`anomalyRank`, `modelVersion`, and the frozen-threshold `anomaly` decision.
+Ineligible or incompatible input returns HTTP 422 with `INSUFFICIENT_DATA` and
+null rank/version. The processor maps timeout to `TIMEOUT` and network/server
+failure to `UNAVAILABLE`; deterministic rules continue. The endpoint is only
+reachable on the Compose private network. Locally, start it with
+`python -m uvicorn app.inference.api:app --app-dir services/ml-service --port 8090 --limit-concurrency 8`.
+
+After `generate_history.py`, run
+`python services/ml-service/training/evaluate.py --output tmp/g2-model-evaluation.json`
+to evaluate the untouched test runs. Add `--api-url http://localhost:8090` to
+compare representative ranks with the live endpoint. See
+`docs/evidence/2026-09-29-g2-detection.md` for integration results and limits.
+For this frozen candidate, one representative synthetic SMS fault scored 0.9891,
+below the 0.99 cutoff; the deterministic SMS rule remains the fault trigger.

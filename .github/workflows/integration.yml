@@ -1,0 +1,79 @@
+name: service-integration
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  model-evaluation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install validation and ML dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+          python -m pip install -r services/ml-service/requirements-ml.txt
+      - name: Validate contracts and packaged models
+        run: |
+          python scripts/check-contracts.py
+          python -m unittest discover -s tests -v
+          python -m unittest discover -s services/ml-service/tests -v
+      - name: Rebuild deterministic evaluation data
+        run: python services/ml-service/training/generate_history.py
+      - name: Evaluate local packaged models
+        run: python services/ml-service/training/evaluate.py --output tmp/integration-model-evaluation.json
+      - name: Build and start private ML inference
+        run: |
+          docker build -f services/ml-service/Dockerfile -t telecom-ml-integration .
+          docker run --detach --rm --name telecom-ml-integration -p 8090:8090 telecom-ml-integration
+          trap 'docker stop telecom-ml-integration' EXIT
+          for attempt in $(seq 1 30); do
+            curl --fail --silent http://127.0.0.1:8090/health/ready && break
+            sleep 2
+          done
+          curl --fail --silent http://127.0.0.1:8090/health/ready
+          python services/ml-service/training/evaluate.py \
+            --api-url http://127.0.0.1:8090 \
+            --output tmp/integration-http-evaluation.json
+
+  processor-evaluation:
+    runs-on: ubuntu-latest
+    needs: model-evaluation
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Start private ML inference
+        run: |
+          docker build -f services/ml-service/Dockerfile -t telecom-ml-integration .
+          docker run --detach --rm --name telecom-ml-integration -p 8090:8090 telecom-ml-integration
+          for attempt in $(seq 1 30); do
+            curl --fail --silent http://127.0.0.1:8090/health/ready && break
+            sleep 2
+          done
+      - name: Replay controls without ML service
+        run: >
+          ./mvnw -pl services/processor -am test
+          -Dtest=VoiceDeliveryTest#committedWindowsProduceOneDurableEpisodeAndIdenticalReplayProducesNothing,SmsDeliveryTest#completeSmsWindowsProduceOneRecoveredEpisodeWithoutMlService
+          -Dsurefire.failIfNoSpecifiedTests=false
+      - name: Replay both service profiles with packaged model
+        env:
+          ML_SERVICE_URL: http://127.0.0.1:8090
+        run: >
+          ./mvnw -pl services/processor -am test
+          -Dtest=VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode,SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode
+          -Dsurefire.failIfNoSpecifiedTests=false
+      - name: Stop private ML inference
+        if: always()
+        run: docker stop telecom-ml-integration || true

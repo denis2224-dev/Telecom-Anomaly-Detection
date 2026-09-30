@@ -127,34 +127,39 @@ class MissingWindowDecisionIT {
         assertEquals(1, count("observation_receipt", VOICE, next));
     }
 
-    @Test void olderSmsBucketsCannotFillVoiceMissingBatch() {
+    @Test void olderSmsBucketsCannotHideVoiceMissingBatch() {
         for (int i = 0; i < 101; i++) bucket(SMS, T0.plusSeconds(i * 60L), 1);
         Instant voiceStart = T0.plusSeconds(101 * 60L);
         bucket(VOICE, voiceStart, 1);
         clock.now = voiceStart.plusSeconds(75);
         var due = finalizer.dueMissingWindows(100);
-        assertEquals(List.of(new WindowFinalizer.Window(VOICE, voiceStart)), due);
+        assertEquals(100, due.size());
+        assertTrue(due.contains(new WindowFinalizer.Window(VOICE, voiceStart)));
+        assertTrue(due.stream().anyMatch(window -> window.scopeId().equals(SMS)));
         assertEquals(WindowFinalizer.Result.FINALIZED, finalizer.finalizeMissingWindow(VOICE, voiceStart));
         assertEquals(1, count("feature_outbox", VOICE, voiceStart));
     }
 
-    @Test void committedServiceAfterDiscoveryWins() throws Exception {
+    @Test void newServiceAfterClosureCannotReplaceDiscoveredMissingInterval() throws Exception {
         bucket(VOICE, T0, 1);
         Instant gap = T0.plusSeconds(60);
         clock.now = gap.plusSeconds(75);
         assertTrue(finalizer.dueMissingWindows(10).contains(new WindowFinalizer.Window(VOICE, gap)));
-        ingest(fixture("normal-volte", gap));
-        assertEquals(WindowFinalizer.Result.SERVICE_PRESENT, finalizer.finalizeMissingWindow(VOICE, gap));
-        assertEquals(0, count("feature_outbox", VOICE, gap));
-        assertEquals(WindowFinalizer.Result.FINALIZED, finalizer.finalizeWindow(VOICE, gap));
-        assertEquals("COMPLETE", jdbc.queryForObject("SELECT payload->>'quality' FROM app.feature_outbox WHERE scope_id=? AND window_start=?",
+        var event = fixture("normal-volte", gap);
+        var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
+                VOICE, "telecom.observations.v2", 0, ++offset));
+        assertEquals(IngestionResult.Status.REJECTED, result.status());
+        assertEquals(md.utm.telecom.processing.ingestion.RejectionReason.LATE_OBSERVATION, result.reason());
+        assertEquals(WindowFinalizer.Result.FINALIZED, finalizer.finalizeMissingWindow(VOICE, gap));
+        assertEquals(0, count("observation_receipt", VOICE, gap));
+        assertEquals("MISSING", jdbc.queryForObject("SELECT payload->>'quality' FROM app.feature_outbox WHERE scope_id=? AND window_start=?",
                 String.class, VOICE, Timestamp.from(gap)));
     }
 
     @Test void concurrentIngestionCommitWinsAfterMissingFinalizerWaitsForSharedLock() throws Exception {
         bucket(VOICE, T0, 1);
         Instant gap = T0.plusSeconds(60);
-        clock.now = gap.plusSeconds(75);
+        clock.now = gap.plusSeconds(69);
         var entered = new CountDownLatch(1);
         var release = new CountDownLatch(1);
         try (var pool = Executors.newFixedThreadPool(2)) {
@@ -166,6 +171,7 @@ class MissingWindowDecisionIT {
                 return null;
             }));
             assertTrue(entered.await(10, TimeUnit.SECONDS));
+            clock.now = gap.plusSeconds(70);
             var missing = pool.submit(() -> finalizer.finalizeMissingWindow(VOICE, gap));
             try {
                 org.awaitility.Awaitility.await().atMost(java.time.Duration.ofSeconds(10)).until(() ->
