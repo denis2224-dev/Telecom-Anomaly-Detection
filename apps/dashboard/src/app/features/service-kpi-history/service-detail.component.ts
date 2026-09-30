@@ -8,9 +8,10 @@ import { KpiChartComponent } from './kpi-chart.component';
 import { IncidentListComponent } from '../incident-investigation/incident-list.component';
 import { episodes, type Incident, type KpiWindow } from './voice-model';
 import { SmsQualityComponent } from './sms-quality.component';
+import { SmsHistoryComponent } from './sms-history.component';
 
 @Component({
-  selector: 'app-service-detail', imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent, SmsQualityComponent],
+  selector: 'app-service-detail', imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent, SmsQualityComponent, SmsHistoryComponent],
   styles: [`.page-heading { margin: 14px 0; } .page-heading h1, .page-heading p { margin: 6px 0; } :host > .muted { margin: 8px 0; }`],
   template: `
     <a class="back-link" routerLink="/dashboard">← Service overview</a>
@@ -18,24 +19,74 @@ import { SmsQualityComponent } from './sms-quality.component';
     @if (loading()) { <p role="status">Loading service evidence…</p> }
     @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
     @if (!loading() && !error() && service(); as service) {
-      <p class="muted">{{ service.scope.region }} · {{ service.scope.route }} · Source: {{ service.freshness }}</p>
-      @if (service.scope.service === 'VOLTE') {
-        <form class="time-filter" (submit)="applyRange($event, start.value, end.value)">
-          <label>From (UTC)<input #start type="datetime-local" [value]="from().slice(0,16)" required /></label>
-          <label>To (UTC, exclusive)<input #end type="datetime-local" [value]="to().slice(0,16)" required /></label>
-          <button type="submit">Apply time range</button>
-        </form>
-        @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
-        <p class="muted">{{ from() | date:'dd MMM yyyy HH:mm':'UTC' }} – {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }} UTC · {{ windows().length }} windows · {{ incidents().length }} {{ incidents().length === 1 ? 'episode' : 'episodes' }}</p>
-        <p class="muted">Server evidence as of {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC{{ fixture ? ' · Synthetic sample' : '' }}</p>
-        <app-kpi-chart [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
-        <app-incident-list [incidents]="incidents()" />
-      } @else {
-        <app-sms-quality
-          [window]="service.latestWindow"
-          [freshness]="service.freshness"
+          <p class="muted">
+      {{ service.scope.region }}
+      · {{ service.scope.route }}
+      · Source: {{ service.freshness }}
+    </p>
+
+    <form
+      class="time-filter"
+      (submit)="applyRange($event, start.value, end.value)"
+    >
+      <label>
+        From (UTC)
+        <input
+          #start
+          type="datetime-local"
+          [value]="from().slice(0,16)"
+          required
         />
-      }
+      </label>
+
+      <label>
+        To (UTC, exclusive)
+        <input
+          #end
+          type="datetime-local"
+          [value]="to().slice(0,16)"
+          required
+        />
+      </label>
+
+      <button type="submit">Apply time range</button>
+    </form>
+
+    @if (rangeError()) {
+      <p role="alert">{{ rangeError() }}</p>
+    }
+
+    <p class="muted">
+      {{ from() | date:'dd MMM yyyy HH:mm':'UTC' }}
+      –
+      {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }}
+      UTC · {{ windows().length }} windows
+      · {{ incidents().length }}
+      {{ incidents().length === 1 ? 'episode' : 'episodes' }}
+    </p>
+
+    <p class="muted">
+      Server evidence as of
+      {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
+      UTC{{ fixture ? ' · Synthetic sample' : '' }}
+    </p>
+
+    @if (service.scope.service === 'VOLTE') {
+      <app-kpi-chart
+        [windows]="windows()"
+        [incidents]="incidents()"
+        [from]="from()"
+        [to]="to()"
+      />
+    } @else {
+      <app-sms-quality
+        [window]="service.latestWindow"
+        [freshness]="service.freshness"
+      />
+      <app-sms-history [windows]="windows()" />
+    }
+
+    <app-incident-list [incidents]="incidents()" />
     }
   `,
 })
@@ -76,7 +127,7 @@ export class ServiceDetailComponent {
       const service = services.find(item => item.scope.scopeId === scopeId);
       if (!service) throw new Error('This service could not be found. Return to the service overview.');
       this.service.set(service);
-      if (service.scope.service !== 'VOLTE') return;
+      if (this.fixture && service.scope.service === 'SMS') return;
       if (!this.from()) {
         const end = Date.parse(service.latestWindow?.windowEnd ?? service.observedAt);
         const range = this.fixture ? (await dataSource.loadVoice()).voiceRange : { from: new Date(end - 3600000).toISOString(), to: new Date(end).toISOString() };
@@ -86,7 +137,7 @@ export class ServiceDetailComponent {
       const from = this.from(), to = this.to();
       const [history, incidents] = await Promise.all([
         this.allPages(page => this.api.getServiceKpis(scopeId, { from, to, page, size: 100 })),
-        this.allPages(page => this.api.listIncidents({ scopeId, service: 'VOLTE', page, size: 100 })),
+        this.allPages(page => this.api.listIncidents({scopeId, service: service.scope.service, page, size: 100, })),
       ]);
       if (generation !== this.generation) return;
       this.windows.set(history.items);
