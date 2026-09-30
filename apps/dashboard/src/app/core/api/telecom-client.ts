@@ -107,6 +107,31 @@ export class TelecomClient {
     );
   }
 
+  startScenario(
+  type: ScenarioType,
+  body: StartScenarioRequest,
+): Promise<ScenarioRun> {
+  return this.request<ScenarioRun>(
+    "POST",
+    `/api/simulator/scenarios/${encodeURIComponent(type)}`,
+    body,
+  );
+}
+
+getScenarioRun(runId: string): Promise<ScenarioRun> {
+  return this.request<ScenarioRun>(
+    "GET",
+    `/api/simulator/runs/${encodeURIComponent(runId)}`,
+  );
+}
+
+stopScenario(runId: string): Promise<ScenarioRun> {
+  return this.request<ScenarioRun>(
+    "POST",
+    `/api/simulator/runs/${encodeURIComponent(runId)}/stop`,
+  );
+}
+
   private async request<T>(
     method: "GET" | "POST",
     url: string,

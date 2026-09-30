@@ -14,8 +14,7 @@ export const routes: Routes = [
   { path: "dashboard", component: ServiceOverviewComponent, canActivate: [sessionGuard] },
   { path: "services/:scopeId", component: ServiceDetailComponent, canActivate: [sessionGuard] },
   { path: "incidents/:id", component: IncidentDetailComponent, canActivate: [sessionGuard] },
+  { path: 'scenarios', component: ScenarioRunnerComponent, canActivate: [sessionGuard] },
   { path: "signed-out", component: LoginComponent },
   { path: "**", redirectTo: "dashboard" },
-  { path: 'scenarios', component: ScenarioRunnerComponent, canActivate: [sessionGuard], },
 ];
- 
