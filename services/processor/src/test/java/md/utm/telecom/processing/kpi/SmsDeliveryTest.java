@@ -111,6 +111,24 @@ class SmsDeliveryTest {
             evidence.add(json.readTree(payload));
         json.writerWithDefaultPrettyPrinter().writeValue(Path.of("target/g2-sms-detections.json").toFile(), evidence);
     }
+    @Test void eligibleFeaturesStillOpenRuleEpisodeWhenMlHttpIsUnavailable() throws Exception {
+        var unavailable = new VoiceDeliveryService(jdbc, episodes, new MlClient("http://127.0.0.1:1"), clock, transactionManager);
+        Instant start = Instant.parse("2026-09-15T08:00:00Z");
+        for (int minute = 0; minute < 2; minute++) {
+            clock.now = start.plusSeconds(60L * (minute + 1) + 10);
+            ingest("degraded-sms", start, minute, minute * 2, 0);
+            ingest("degraded-smsc", start, minute, minute * 2 + 1, 0);
+            assertEquals(WindowFinalizer.Result.FINALIZED, finalizer.finalizeWindow(scope, start.plusSeconds(60L * minute)));
+            unavailable.evaluate(scope);
+        }
+        assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM app.feature_outbox WHERE (payload->>'mlEligible')::boolean", Integer.class));
+        assertEquals("OPEN", jdbc.queryForObject("SELECT payload->>'phase' FROM app.voice_delivery WHERE topic='telecom.detections.v2'", String.class));
+        assertEquals("UNAVAILABLE", jdbc.queryForObject("SELECT payload->>'mlStatus' FROM app.voice_delivery WHERE topic='telecom.detections.v2'", String.class));
+        assertEquals(0, jdbc.queryForObject("""
+                SELECT count(*) FROM app.voice_delivery WHERE topic='telecom.detections.v2'
+                AND (payload->>'modelVersion' IS NOT NULL OR payload->>'anomalyRank' IS NOT NULL OR payload->>'phase'='RECOVERY')
+                """, Integer.class));
+    }
     private void ingest(String fixture, Instant start, int minute, int offset, int seed) throws Exception {
         var event = (ObjectNode) ObservationValidator.resource("fixtures/observations/" + fixture + ".json", json);
         event.put("eventId", UUID.nameUUIDFromBytes((seed + ":" + fixture + ":" + minute)
@@ -126,6 +144,10 @@ class SmsDeliveryTest {
         }
         var record = new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
                 scope, "telecom.observations.v2", 0, offset);
-        assertEquals(IngestionResult.Status.ACCEPTED, ingestion.ingest(record).status());
+        Instant decisionTime = clock.now;
+        clock.now = start.plusSeconds(60L * (minute + 1) + 5);
+        try {
+            assertEquals(IngestionResult.Status.ACCEPTED, ingestion.ingest(record).status());
+        } finally { clock.now = decisionTime; }
     }
 }

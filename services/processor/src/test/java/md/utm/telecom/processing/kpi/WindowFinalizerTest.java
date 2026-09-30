@@ -111,9 +111,14 @@ class WindowFinalizerTest {
         return (ObjectNode) ObservationValidator.resource("fixtures/observations/" + name + ".json", MAPPER);
     }
     private void ingest(JsonNode event) {
-        var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
-                event.get("scopeId").asText(), "telecom.observations.v2", 0, ++offset));
-        assertEquals(md.utm.telecom.processing.ingestion.IngestionResult.Status.ACCEPTED, result.status());
+        // Seed admitted input before closure, then restore the finalization decision clock.
+        Instant decisionTime = clock.now;
+        clock.now = Instant.parse(event.get("windowEnd").asText()).plusSeconds(5);
+        try {
+            var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
+                    event.get("scopeId").asText(), "telecom.observations.v2", 0, ++offset));
+            assertEquals(md.utm.telecom.processing.ingestion.IngestionResult.Status.ACCEPTED, result.status());
+        } finally { clock.now = decisionTime; }
     }
     private void normal() throws Exception {
         ingest(fixture("normal-volte")); ingest(fixture("normal-ims")); ingest(fixture("normal-transport"));
