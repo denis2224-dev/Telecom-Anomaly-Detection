@@ -31,6 +31,10 @@ export class SessionStore implements OnDestroy {
   private generation = 0;
   private loggingOut = false;
 
+  get revision(): number {
+    return this.generation;
+  }
+
   initialize(): Promise<void> {
     if (this.pending) return this.pending;
     this.pending = this.discover().finally(() => {
