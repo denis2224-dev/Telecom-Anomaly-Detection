@@ -29,10 +29,10 @@ September are simulated observation time, not execution dates.
   `graphify-out/`. No teammate history or worktree was rewritten.
 - Changes are tests, their Surefire inclusion, and documentation/evidence.
   Production transaction scope, schemas, permissions, policies and models are unchanged.
-- This commit cannot embed its own SHA. The final HEAD and Git status are recorded
-  after committing in `C:\OrangeSystems\Program\day13-final-state.json` and in
-  the task handoff. On this branch, reproduce it with `git log -1 --format=%H`.
-- Local commit only: no push, PR creation, or merge was performed for Day 13.
+- Original implementation commit:
+  `00a3481f1f249927b7dd5fdf0999fe75ba845538`. At initial completion it was local
+  only, with no push, PR creation, or merge. Publication review is recorded below.
+  Resolve the current branch HEAD with `git log -1 --format=%H`.
 
 ## Graphify and architecture audit
 
@@ -42,7 +42,7 @@ and `WindowFinalizer` to the shared transaction advisory lock. The graph predate
 Day 12's rejection publisher, so its current source was read directly.
 
 After code changes, `graphify update .` was attempted. The known launcher error
-still reports missing `C:\Users\Admin\.local\bin\graphify`; its exit status is
+still reports a missing entry-point script in the installed launcher; its exit status is
 misleadingly zero. No refreshed graph is claimed. Existing graph plus targeted
 source inspection covered listener, ingestion, finalizer/scheduler, detector,
 publishers, and all eight relevant tables. Unrelated frontend/incident code was
@@ -205,7 +205,8 @@ Java 21; cached Maven 3.9.16; Surefire heap 512 MiB / metaspace 256 MiB.
 The known Windows wrapper issue was not repaired. Run from the repository root:
 
 ```powershell
-$maven = 'C:\Users\Admin\.m2\wrapper\dists\apache-maven-3.9.16\0daed3be3ebd1c706f0e69e8b07c6b73f5cc4ea3dfce72a8d0ec2e849ca2ddb0\bin\mvn.cmd'
+# Use Maven 3.9.16 on PATH, or set MAVEN_CMD to a working cached distribution.
+$maven = if ($env:MAVEN_CMD) { $env:MAVEN_CMD } else { 'mvn' }
 & $maven -q -pl services/processor -am '-Dtest=ReplayIT,FinalizerRaceIT' '-Dsurefire.failIfNoSpecifiedTests=false' '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' clean test
 & $maven -q -pl services/processor -am '-Dtest=LateInputIT,RejectionPublisherTest,IngestionIntegrationTest,WindowFinalizerTest,SourceFreshnessTest,SmsKpiDeliveryTest,VoiceDeliveryTest,SmsDeliveryTest,SmsEpisodeTest,MlClientTest,MissingWindowDecisionIT,MissingWindowHandoffIT' '-Dsurefire.failIfNoSpecifiedTests=false' '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' test
 & $maven -q -pl services/processor -am '-DargLine=-Xmx512m -XX:MaxMetaspaceSize=256m' clean test
@@ -250,11 +251,11 @@ Live detection rank ranges: VOLTE 0.5838293650793651 to 1.0; SMS
 integration coverage; the new crash/race matrix deliberately tests deterministic
 rule behavior with real unavailable HTTP inference.
 
-Logs and preserved run summaries are under `C:\OrangeSystems\Program\day13-*.log`
-and `day13-*-summary.json`. Full-run reports were captured before the live rerun
-overwrote the two delivery class XML reports. Generated exact snapshots remain
-in processor `target/day13-*.json` and were also preserved outside build cleanup
-as `day13-replay-final-run.json` and `day13-finalizer-races-final-run.json`.
+Maven XML reports are under `services/processor/target/surefire-reports/` and
+`services/streaming-support/target/surefire-reports/`. The machine evidence captures
+full-run totals before a live rerun can overwrite the two delivery class reports.
+Generated exact snapshots are `services/processor/target/day13-replay.json` and
+`services/processor/target/day13-finalizer-races.json`; rerun to regenerate them.
 
 ## Strict self-review
 
@@ -301,3 +302,61 @@ window/episode lock boundary; unavailable inference still permits rule evidence.
 The real packaged models pass the existing recovered voice/SMS integration cases.
 No receipt/pending output is expired now; preserve the minimum 48-hour receipt
 horizon and all pending output when Day 18 retention is implemented.
+
+## Publication audit: 30 September 2026
+
+Fresh reviewer verification ran on implementation HEAD
+`00a3481f1f249927b7dd5fdf0999fe75ba845538`, based directly on
+`0de61c277894d3603f53957352fb5ad32c2a80f8`. Main had not advanced at the audit's
+initial fetch. The publication follow-up changes only this report and its machine
+evidence; test code and production files are unchanged.
+
+At the final publication fetch, main advanced through five inspected commits
+(`d86ad71`, `996efa7`, `c2d4749`, `9a5fd53`, `9128ab3`) to
+`9128ab3e74a343ffbd1357a1b1b6f6e85f303e91`, the merge of PR #31. All five changed
+paths are dashboard API/action components or their tests. Processor, streaming
+support, ML, contracts, scripts, root tests, infrastructure, Compose, Maven POMs,
+requirements and CI workflows have no upstream difference. Step 1 of the
+publication instructions permits a normal merge of such compatible main changes
+into the feature branch; original commits are preserved without rebasing or
+force-pushing. This branch synchronization is distinct from merging the Day 13 PR.
+
+| Fresh check | Actual result |
+| --- | --- |
+| Focused Day 13 | 18 passed, zero failures/errors/skips. |
+| Relevant existing regressions | 103 total: 101 passed, two live-model skips, zero failures/errors. |
+| Clean full processor | 219 total: 217 passed, two live-model skips, zero failures/errors. |
+| Clean full streaming-support | 58 passed, zero failures/errors/skips. |
+| Separate live-model rerun | Both skipped cases passed with zero skips. Each service produced 15 OK detections, three episodes and three recoveries. |
+| Root / ML Python | 17 / 15 passed. |
+| Contracts | Observation, detection, policy, baseline and parity expectations passed. |
+| Persisted Java/Python parity | Seven voice and twelve SMS cases; all fields match, maximum numeric difference 0. |
+| Compose / whitespace | Passed. |
+| Identity cross-check | 27 regenerated feature snapshots match the committed complete payloads, original hashes, IDs and counts; every per-case before/after snapshot is equal. |
+
+The new races invoke actual Spring proxies and observe PostgreSQL waiters before
+releasing the winning SQL gate. All eleven cases assert exact winning receipts,
+one feature/bucket, valid loser outcomes and immutable retries. No arbitrary
+sleeps, JVM substitute locks, or extra production hooks were introduced. The
+shared scope/window advisory key and production lock order remain unchanged.
+Consumer offsets commit after receipt transaction return. Producer broker ACK
+followed by mark failure preserves identical retry topic/key/content; output
+publication remains intentionally at least once. No cleanup job is present,
+and the 49-hour clock test establishes current persistence without claiming a
+physical 49-hour soak or a process-kill test.
+
+**REQUIRED, fixed:** Absolute workstation paths in portable evidence violated
+the publication acceptance instructions. Replaced them with repository-relative
+artifacts and a portable Maven executable selection. The seven-file Day 13 diff
+contains no generated build output, real credentials, unrelated dashboard work,
+new migrations, or Day 14+ implementation. No required code changes found.
+
+**RECOMMENDED:** The existing `service-integration` workflow explicitly selects
+voice/SMS delivery methods and does not execute the new eighteen-case matrix or
+the full processor suite. Consider adding those checks to CI in a separate scoped
+change. Its eventual green result must not be represented as CI execution of all
+Day 13 tests; the fresh full verification above supplies the local evidence.
+
+**OPTIONAL:** Physical process-kill/retention soak, downstream incident-service
+acceptance, and Graphify launcher repair remain outside this publication task.
+RetentionJob remains Day 18 scope. No merge is authorized by this publication audit.

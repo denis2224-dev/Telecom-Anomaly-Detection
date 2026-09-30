@@ -4415,5 +4415,96 @@
     "tested_inputs_diff_exit_code": 0,
     "branch_created_from_latest_main": true,
     "rebase_or_merge_performed": false
+  },
+  "publication_verification": {
+    "execution_date": "2026-09-30",
+    "tested_head": "00a3481f1f249927b7dd5fdf0999fe75ba845538",
+    "tested_base": "0de61c277894d3603f53957352fb5ad32c2a80f8",
+    "focused": {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "affected": {
+      "tests": 103,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "processor": {
+      "tests": 219,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "streaming_support": {
+      "tests": 58,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "live_packaged_model": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "live_services": {
+      "voice": {
+        "detections": 15,
+        "episodes": 3,
+        "recoveries": 3,
+        "ml_status": [
+          "OK"
+        ],
+        "model_versions": [
+          "isoforest-v2-synthetic-1"
+        ],
+        "rank_min": 0.5838293650793651,
+        "rank_max": 1.0
+      },
+      "sms": {
+        "detections": 15,
+        "episodes": 3,
+        "recoveries": 3,
+        "ml_status": [
+          "OK"
+        ],
+        "model_versions": [
+          "isoforest-v2-synthetic-1"
+        ],
+        "rank_min": 0.8754960317460317,
+        "rank_max": 0.9995039682539683
+      }
+    },
+    "identity_cross_check": {
+      "matched_feature_snapshots": 27,
+      "race_cases": 11,
+      "replay_cases": 8,
+      "ids_hashes_full_payloads_counts_match_original": true,
+      "before_after_snapshots_equal": true
+    },
+    "python_passed": {
+      "python": 17,
+      "ml-python": 15
+    },
+    "parity_cases": {
+      "voice": 7,
+      "sms": 12
+    },
+    "parity_max_numeric_difference": 0,
+    "compose_valid": true,
+    "ci_scope": "existing delivery-only methods; new eighteen-case matrix verified locally",
+    "required_fix": "portable evidence paths; no test or production code changes",
+    "integration_base": "9128ab3e74a343ffbd1357a1b1b6f6e85f303e91",
+    "incoming_commits_inspected": [
+      "d86ad715f32b0c6e28c1bd6f831d59a71f21ad8e",
+      "996efa78abfd19f94721d35914b752a8491e5d81",
+      "c2d4749754eec618a431aa5e49a0c61c611485c6",
+      "9a5fd53feab31485334aeef7785b99461923c64e",
+      "9128ab3e74a343ffbd1357a1b1b6f6e85f303e91"
+    ],
+    "incoming_scope": "five dashboard paths; tested inputs and CI identical"
   }
 }
