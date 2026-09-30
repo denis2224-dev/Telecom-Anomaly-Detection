@@ -13,6 +13,10 @@ test.describe('Day 5 voice investigation', () => {
       return route.fulfill({ json: { items: voiceWindows.slice(page * 5, (page + 1) * 5), total: 10, page, size: 5, observedAt: '2026-09-15T10:10:00Z' } });
     });
     await page.route('**/api/incidents?**', route => route.fulfill({ json: { items: [voiceIncidents[0], { ...voiceIncidents[0], version: 1, technicalState: 'ONGOING' }], total: 2, page: 0, size: 100 } }));
+    await page.route('**/api/incidents/*', route => route.fulfill({ json: voiceIncidents[0] }));
+    await page.route('**/api/incidents/*/detections?**', route => route.fulfill({ json: {
+      items: [voiceIncidents[0].latestDetection], total: 1, page: 0, size: 100,
+    } }));
   });
   test('overview opens paginated history with gaps and one recovered/open episode', async ({ page }, info) => {
     await page.goto('/dashboard');
@@ -31,6 +35,10 @@ test.describe('Day 5 voice investigation', () => {
     await expect(page.locator('tbody tr').nth(8)).toContainText('Unavailable');
     await page.getByText('View incident evidence', { exact: true }).click();
     await expect(page.getByText(/Probable IMS capacity pressure/)).toBeVisible();
+    await page.getByRole('link', { name: 'Open incident detail' }).click();
+    await expect(page.getByRole('heading', { name: 'Incident investigation' })).toBeVisible();
+    await expect(page.locator('[data-detection-id]')).toHaveCount(1);
+    await expect(page.getByRole('region', { name: 'Cause hypothesis' })).toContainText('Probable IMS capacity pressure');
   });
   test('validates time range and sends UTC boundaries to the backend', async ({ page }) => {
     await page.goto('/services/VOLTE-MD-CENTRAL');

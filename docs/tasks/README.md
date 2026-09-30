@@ -9,6 +9,7 @@ so there is one implementation to maintain, even when several days use it.
 - [Day 03: login and session](day-03-login-and-session/README.md) — sign-in page, access protection, Keycloak styling and account setup.
 - [Day 05: voice KPI trend](day-05-voice-kpi-trend/README.md) — graph, expected values, attempt counts and one card per incident.
 - [Day 06: protected voice investigation](day-06-protected-voice-investigation/README.md) — complete login-to-evidence flow and exact startup commands.
+- [Day 08: evidence timeline and cause panel](day-08-evidence-timeline-and-cause/README.md) — historical detections, source evidence, impact and cause hypotheses.
 
 ## Frontend folders
 

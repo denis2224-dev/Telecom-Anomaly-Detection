@@ -3,11 +3,21 @@ import { Component, input } from '@angular/core';
 @Component({
   selector: 'app-sample-volume',
   template: `
-    <p>Completed-message samples: {{ count() ?? 'Unavailable' }}</p>
+    <p>
+      <strong>Completed-message samples:</strong>
+      {{ count() ?? 'Unavailable' }}
+    </p>
+
     @if (count() === 0) {
-      <p role="status">No completed messages in this window.</p>
+      <p role="status">
+        No completed messages in this window.
+        Delivery p95 cannot be measured.
+      </p>
     } @else if (count() !== null && count()! < 30) {
-      <p role="status">Low sample volume; interpret delivery p95 with caution.</p>
+      <p role="status">
+        Low sample volume: fewer than 30 completed messages.
+        Interpret p95 cautiously.
+      </p>
     }
   `,
 })
