@@ -12,8 +12,10 @@ metrics and source activity. No real subscriber data is used.
 
 `services/event-generator` is a Spring Boot application with health probes and an
 `ObservationGenerator` that returns validated, serialized observations. Preview
-mode prints a finite JSON array and exits. Normal startup exposes health probes;
-it does not schedule continuous generation or publish messages.
+mode prints a finite JSON array and exits. Integrated Compose startup enables
+continuous healthy UTC-minute publication. Scheduled scenarios reserve their own
+scope/minutes and temporarily override the baseline. See
+[continuous telemetry and initial synthetic history](../runbooks/continuous-telemetry.md).
 
 ### Processor
 

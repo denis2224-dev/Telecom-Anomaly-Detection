@@ -48,6 +48,10 @@ management:
         readiness:
           include: readinessState,kafka,db
 telecom:
+  history:
+    enabled: ${HISTORICAL_BOOTSTRAP_ENABLED:false}
+    days: ${HISTORICAL_BOOTSTRAP_DAYS:30}
+    seed: ${HISTORICAL_BOOTSTRAP_SEED:42}
   rejection-delivery:
     enabled: ${REJECTION_DELIVERY_ENABLED:true}
     invalid-topic: ${KAFKA_V2_INVALID_TOPIC:telecom.observations.invalid.v2}

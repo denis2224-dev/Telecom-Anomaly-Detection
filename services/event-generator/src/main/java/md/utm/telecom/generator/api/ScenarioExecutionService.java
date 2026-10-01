@@ -50,7 +50,7 @@ public class ScenarioExecutionService {
     private final SmsQueueScenario sms;
     private final TopologyCatalog topology;
 
-    public ScenarioExecutionService(@Qualifier("clock") Clock clock, TaskScheduler scheduler,
+    public ScenarioExecutionService(@Qualifier("clock") Clock clock, @Qualifier("scenarioTaskScheduler") TaskScheduler scheduler,
             KafkaTemplate<String, String> kafka, VoiceScenario voice, SmsQueueScenario sms,
             TopologyCatalog topology) {
         this.clock = clock;
@@ -125,6 +125,13 @@ public class ScenarioExecutionService {
 
     public synchronized Snapshot status(UUID runId) {
         return requireRun(runId).snapshot();
+    }
+
+    /** Terminal runs retain ownership: stopping a simulation is not measured recovery. */
+    public synchronized boolean reserves(String scopeId, Instant windowStart) {
+        return runs.values().stream().anyMatch(run -> run.command.scopeId().equals(scopeId)
+                && !windowStart.isBefore(run.command.scheduledStartAt())
+                && windowStart.isBefore(run.command.scheduledEndAt()));
     }
 
     public synchronized Snapshot stop(UUID runId) {

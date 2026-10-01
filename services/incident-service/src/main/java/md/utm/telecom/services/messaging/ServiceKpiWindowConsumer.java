@@ -24,10 +24,14 @@ public class ServiceKpiWindowConsumer {
             ConsumerRecord<String, String> record,
             Acknowledgment acknowledgment
     ) {
-        boolean inserted = service.ingest(record.key(), record.value());
+        var origin = record.headers().lastHeader("telecom-history-bootstrap");
+        boolean bootstrap = origin != null && java.util.Arrays.equals(origin.value(),
+                "initial-demo-v1".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        boolean inserted = bootstrap ? service.ingestBootstrap(record.key(), record.value())
+                : service.ingest(record.key(), record.value());
         acknowledgment.acknowledge();
         log.info(
-                "KPI window consumed: topic={}, partition={}, offset={}, inserted={}",
-                record.topic(), record.partition(), record.offset(), inserted);
+                "KPI window consumed: topic={}, partition={}, offset={}, inserted={}, bootstrap={}",
+                record.topic(), record.partition(), record.offset(), inserted, bootstrap);
     }
 }

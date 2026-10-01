@@ -22,6 +22,16 @@ public class ServiceKpiWindowService {
 
     @Transactional
     public boolean ingest(String kafkaKey, String rawPayload) {
+        return persist(kafkaKey, rawPayload, false);
+    }
+
+    /** Explicit initial demo import retains valid prior evidence, including reported gaps/faults. */
+    @Transactional
+    public boolean ingestBootstrap(String kafkaKey, String rawPayload) {
+        return persist(kafkaKey, rawPayload, true);
+    }
+
+    private boolean persist(String kafkaKey, String rawPayload, boolean bootstrap) {
         ServiceKpiWindowMessage message =
                 ServiceKpiWindowMessage.parse(json, rawPayload);
         if (!message.scopeId().equals(kafkaKey)) {
@@ -40,12 +50,12 @@ public class ServiceKpiWindowService {
                 message.canonicalPayload());
 
         if (inserted == 0) {
-            assertExactReplay(message);
+            assertReplay(message, bootstrap);
         }
         return inserted == 1;
     }
 
-    private void assertExactReplay(ServiceKpiWindowMessage incoming) {
+    private void assertReplay(ServiceKpiWindowMessage incoming, boolean bootstrap) {
         ServiceKpiWindow existing = windows.findById(incoming.windowId())
                 .orElseGet(() -> windows
                         .findByServiceAndScopeIdAndWindowStartAndFeatureVersionAndBaselineVersionAndTopologyVersion(
@@ -54,9 +64,13 @@ public class ServiceKpiWindowService {
                         .orElseThrow(() -> new IllegalStateException(
                                 "KPI insert conflicted without a visible stored row")));
 
-        if (!existing.getWindowId().equals(incoming.windowId())
-                || !json.readTree(existing.getPayload())
-                .equals(json.readTree(incoming.canonicalPayload()))) {
+        var stored = ServiceKpiWindowMessage.parse(json, existing.getPayload());
+        boolean sameIdentity = existing.getWindowId().equals(incoming.windowId()) && stored.windowId().equals(incoming.windowId())
+                && stored.scopeId().equals(incoming.scopeId()) && stored.service().equals(incoming.service())
+                && stored.windowStart().equals(incoming.windowStart()) && stored.windowEnd().equals(incoming.windowEnd())
+                && stored.baselineVersion().equals(incoming.baselineVersion()) && stored.topologyVersion().equals(incoming.topologyVersion());
+        if (!sameIdentity || (!bootstrap && !json.readTree(existing.getPayload())
+                .equals(json.readTree(incoming.canonicalPayload())))) {
             throw new IllegalArgumentException(
                     "windowId or versioned KPI identity was reused with different content");
         }
