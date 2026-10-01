@@ -266,7 +266,7 @@ class ReplayIT extends Day13TestSupport {
             var scheduler = new VoiceDeliveryScheduler(delivery, jdbc, output);
             owner().execute("""
                     CREATE FUNCTION app.day13_fail_mark() RETURNS trigger LANGUAGE plpgsql AS $$
-                    BEGIN IF NEW.topic='%s' THEN
+                    BEGIN IF NEW.topic='%s' AND NEW.published_at IS NOT NULL THEN
                     RAISE EXCEPTION 'Day 13 injected publish mark failure' USING ERRCODE='08006';
                     END IF; RETURN NEW; END $$
                     """.formatted(failedTopic));
