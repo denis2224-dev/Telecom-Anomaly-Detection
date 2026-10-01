@@ -1,13 +1,13 @@
 import { Component, effect, inject } from "@angular/core";
 import { DatePipe } from "@angular/common";
-import { Router, RouterLink, RouterOutlet } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { LoginComponent } from "./features/login-and-session/login.component";
 import { SessionStore } from "./features/login-and-session/session.store";
 import { dataSource } from "./core/api/data-source";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, RouterLink, DatePipe, LoginComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, DatePipe, LoginComponent],
   templateUrl: "./app.component.html",
 })
 export class AppComponent {

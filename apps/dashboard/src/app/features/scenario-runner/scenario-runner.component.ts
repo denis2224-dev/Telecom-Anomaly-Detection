@@ -18,6 +18,14 @@ import { RunStore } from './run.store';
 @Component({
   selector: 'app-scenario-runner',
   imports: [DatePipe],
+  styles: [`
+    .scenario-progress { margin: 22px 0; }
+    .scenario-progress p { margin: 0 0 10px; font-weight: 700; }
+    .progress-segments { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+    .progress-segments span { height: 14px; border-radius: 3px; background: var(--telecom-secondary-background); border: 1px solid var(--telecom-border); }
+    .progress-segments .complete { background: var(--telecom-primary); border-color: var(--telecom-primary); }
+    .progress-segments .current { background: #b9781b; border-color: #9c6111; }
+  `],
   template: `
     <h1>Scenario runner</h1>
 
@@ -120,6 +128,26 @@ import { RunStore } from './run.store';
           Each stage lasts one minute. The labels describe planned
           synthetic traffic, not a measured health result.
         </p>
+        @if (store.run(); as progressRun) {
+          @if (progressRun.status === 'SCHEDULED' || progressRun.status === 'RUNNING' || progressRun.status === 'COMPLETED') {
+            <div class="scenario-progress">
+              <p>
+                @if (progressRun.status === 'SCHEDULED') {
+                  Awaiting scheduled start · 0 of 8 minutes
+                } @else if (progressRun.status === 'COMPLETED') {
+                  Schedule completed · 8 of 8 minutes
+                } @else {
+                  Current scheduled minute {{ currentMinute() }} of 8
+                }
+              </p>
+              <div class="progress-segments" role="progressbar" aria-label="Scheduled scenario progress" [attr.aria-valuenow]="progressMinute()" aria-valuemin="0" aria-valuemax="8" [attr.aria-valuetext]="progressMinute() + ' of 8 scheduled minutes'">
+                @for (minute of minutes; track minute) {
+                  <span aria-hidden="true" [class.complete]="minute < progressMinute() || progressRun.status === 'COMPLETED'" [class.current]="progressRun.status === 'RUNNING' && minute === progressMinute()"></span>
+                }
+              </div>
+            </div>
+          }
+        }
         <ol>
           @for (minute of minutes; track minute) {
             <li>
@@ -254,6 +282,13 @@ export class ScenarioRunnerComponent implements OnDestroy {
     if (elapsed < 0) return 0;
 
     return Math.min(8, Math.floor(elapsed / 60000) + 1);
+  });
+
+  readonly progressMinute = computed(() => {
+    const status = this.store.run()?.status;
+    if (status === 'COMPLETED') return 8;
+    if (status === 'RUNNING') return this.currentMinute();
+    return 0;
   });
 
   constructor() {

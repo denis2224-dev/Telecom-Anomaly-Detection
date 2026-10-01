@@ -28,6 +28,8 @@ describe("Service overview rendering", () => {
     expect(element.textContent).toContain("Current health: DEGRADED");
     expect(element.textContent).toContain("Current health: STALE");
     expect(element.textContent).toContain("Current health: UNKNOWN");
+    expect(Array.from(element.querySelectorAll(".summary-card strong"), (card) => card.textContent?.trim())).toEqual(["4", "1", "2", "3"]);
+    expect(element.querySelectorAll(".service-row .status-chip")).toHaveLength(8);
     expect(element.textContent).toContain("Sample volume matters");
     expect(element.querySelectorAll(".support section")).toHaveLength(3);
   });

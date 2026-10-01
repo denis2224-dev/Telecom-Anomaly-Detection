@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from "@angular/core";
+import { Component, DestroyRef, computed, inject, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { ServiceStore, ServiceHealth } from "./service.store";
@@ -15,6 +15,18 @@ export class ServiceOverviewComponent {
   readonly loading = this.store.loading;
   readonly error = this.store.error;
   readonly scopeId = signal<string | null>(null);
+  readonly summary = computed(() => {
+    let degraded = 0;
+    let uncertain = 0;
+    let openEpisodes = 0;
+    for (const service of this.services()) {
+      const health = this.store.health(service);
+      if (health === "DEGRADED") degraded++;
+      if (health === "STALE" || health === "UNKNOWN") uncertain++;
+      openEpisodes += service.openIncidents;
+    }
+    return { monitored: this.services().length, degraded, uncertain, openEpisodes };
+  });
 
   constructor() {
     inject(ActivatedRoute)

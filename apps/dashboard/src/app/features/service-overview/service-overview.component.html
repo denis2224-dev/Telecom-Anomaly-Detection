@@ -81,6 +81,20 @@
     <p>The request succeeded, but no service scopes were returned.</p>
   </section>
 } @else {
+  <section class="overview-stats" aria-label="Service summary">
+    <div class="summary-card">
+      <span>Monitored scopes</span><strong>{{ summary().monitored }}</strong>
+    </div>
+    <div class="summary-card summary-card--degraded">
+      <span>Degraded</span><strong>{{ summary().degraded }}</strong>
+    </div>
+    <div class="summary-card summary-card--uncertain">
+      <span>Data uncertain</span><strong>{{ summary().uncertain }}</strong>
+    </div>
+    <div class="summary-card summary-card--episodes">
+      <span>Open episodes</span><strong>{{ summary().openEpisodes }}</strong>
+    </div>
+  </section>
   <div class="overview-grid">
     <section class="priority-panel">
       <p class="eyebrow">Investigation focus</p>
@@ -141,8 +155,10 @@
           </p>
         </div>
         <div>
-          <strong>Current health: {{ health(service) }}</strong>
-          <p><span class="status-label">Data status: {{ service.freshness }}</span></p>
+          <div class="service-status">
+            <span class="status-chip" [class.status-chip--normal]="health(service) === 'NORMAL'" [class.status-chip--degraded]="health(service) === 'DEGRADED'" [class.status-chip--stale]="health(service) === 'STALE'" [class.status-chip--unknown]="health(service) === 'UNKNOWN'">Current health: {{ health(service) }}</span>
+            <span class="status-chip status-chip--data" [class.status-chip--stale]="service.freshness === 'STALE'" [class.status-chip--unknown]="service.freshness === 'MISSING'">Data status: {{ service.freshness }}</span>
+          </div>
           <p>
             {{
               service.latestWindow

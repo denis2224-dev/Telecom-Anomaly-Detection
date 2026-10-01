@@ -31,6 +31,10 @@ describe('Historical detection evidence', () => {
     expect(headings.map(item => item.textContent?.trim())).toEqual([
       'Update 1 · OPEN', 'Update 2 · UPDATE', 'Update 3 · UNKNOWN', 'Update 4 · RECOVERY',
     ]);
+    const events = fixture.nativeElement.querySelectorAll('.evidence-rail > .evidence-event');
+    expect(events).toHaveLength(4);
+    expect(events[2].classList.contains('evidence-event--unknown')).toBe(true);
+    expect(events[3].querySelector('time')?.getAttribute('datetime')).toBe(records[0].detectedAt);
     expect(records).toEqual(before);
     expect(fixture.componentInstance.ordered()[0]).toBe(records[1]);
   });

@@ -25,12 +25,12 @@
   @if (!isAccessPage() && (session.phase() === 'authenticated' || session.phase() === 'fixture')) {
   <nav aria-label="Workspace">
     <p class="eyebrow">Workspace</p>
-    <a routerLink="/dashboard" class="nav-link">Service overview</a>
+    <a routerLink="/dashboard" routerLinkActive="nav-link-active" ariaCurrentWhenActive="page" class="nav-link">Service overview</a>
     @if (
   session.actor()?.roles?.includes('SUPERVISOR')
   || session.actor()?.roles?.includes('ADMIN')
 ) {
-  <a routerLink="/scenarios" class="nav-link">
+  <a routerLink="/scenarios" routerLinkActive="nav-link-active" ariaCurrentWhenActive="page" class="nav-link">
     Scenario runner
   </a>
 }

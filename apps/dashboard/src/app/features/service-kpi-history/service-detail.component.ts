@@ -136,7 +136,9 @@ export class ServiceDetailComponent {
       }
       const from = this.from(), to = this.to();
       const [history, incidents] = await Promise.all([
-        this.allPages(page => this.api.getServiceKpis(scopeId, { from, to, page, size: 100 })),
+        service.latestWindow
+          ? this.allPages(page => this.api.getServiceKpis(scopeId, { from, to, page, size: 100 }))
+          : Promise.resolve({ items: [] as KpiWindow[], observedAt: service.observedAt }),
         this.allPages(page => this.api.listIncidents({scopeId, service: service.scope.service, page, size: 100, })),
       ]);
       if (generation !== this.generation) return;
