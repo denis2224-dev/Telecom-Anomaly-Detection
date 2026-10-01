@@ -52,10 +52,14 @@ public class VoiceScenario {
 
     /** Eight explicit minute windows; the legacy G1 generate method is unchanged. */
     public List<List<String>> generateWindows(Instant start, long seed, Profile profile) {
+        return generateWindows(start, seed, profile, 8);
+    }
+
+    private List<List<String>> generateWindows(Instant start, long seed, Profile profile, int minutes) {
         if (start.getNano() != 0 || Math.floorMod(start.getEpochSecond(), 60) != 0)
             throw new IllegalArgumentException("Start must be an aligned UTC minute");
         var result = new ArrayList<List<String>>();
-        for (int minute = 0; minute < 8; minute++) {
+        for (int minute = 0; minute < minutes; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             boolean fault = minute >= 2 && minute < 5;
             boolean gap = profile == Profile.TELEMETRY_GAP && fault;
@@ -93,6 +97,35 @@ public class VoiceScenario {
         }
         return List.copyOf(result);
     }
+    /** Healthy variation uses the canonical control envelopes and measurement relationships. */
+    public List<String> generateHealthyWindow(Instant start, long seed) {
+        var control = generateWindows(start, seed, Profile.NORMAL_CONTROL, 1).getFirst();
+        var rng = new java.util.SplittableRandom(seed ^ start.getEpochSecond());
+        var result = new ArrayList<String>();
+        for (String payload : control) {
+            ObjectNode observation;
+            try { observation = (ObjectNode) json.readTree(payload); }
+            catch (java.io.IOException invalid) { throw new IllegalStateException(invalid); }
+            var metrics = (ObjectNode) observation.get("metrics");
+            switch (observation.path("sourceId").asText()) {
+                case "IMS-A" -> metrics.put("cpuPct", 30 + rng.nextInt(16));
+                case "TRANSPORT-A" -> metrics.put("packetLossRatio", 0.0005 + rng.nextDouble() * 0.001)
+                        .put("throughputMbps", 100 + rng.nextInt(41));
+                case "VOLTE-ADAPTER" -> {
+                    int hour = start.atZone(java.time.ZoneOffset.UTC).getHour();
+                    int eligible = (hour >= 8 && hour < 20 ? 1100 : 800) + rng.nextInt(101);
+                    int failures = Math.max(1, (int) Math.round(eligible * (0.006 + rng.nextDouble() * 0.002)));
+                    metrics.put("attempts", eligible + 20).put("technicalSuccesses", eligible - failures)
+                            .put("technicalFailures", failures);
+                }
+                default -> throw new IllegalStateException("Unknown healthy source");
+            }
+            validator.validate(observation);
+            result.add(observation.toString());
+        }
+        return List.copyOf(result);
+    }
+
     private ObjectNode event(Instant start, String source, String kind, String quality) {
         String identity = String.join("|", "telecom-observation-v2", source, "VOLTE-MD-CENTRAL", kind, start.toString());
         return json.createObjectNode().put("schemaVersion", 2)

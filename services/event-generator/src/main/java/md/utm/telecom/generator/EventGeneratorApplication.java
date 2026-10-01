@@ -34,4 +34,14 @@ public class EventGeneratorApplication {
         scheduler.setWaitForTasksToCompleteOnShutdown(false);
         return scheduler;
     }
+
+    @Bean
+    ThreadPoolTaskScheduler continuousTaskScheduler() {
+        var scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setPoolSize(2);
+        scheduler.setThreadNamePrefix("continuous-");
+        scheduler.setRemoveOnCancelPolicy(true);
+        scheduler.setWaitForTasksToCompleteOnShutdown(false);
+        return scheduler;
+    }
 }

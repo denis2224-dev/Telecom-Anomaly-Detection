@@ -87,6 +87,11 @@ public class SmsQueueScenario {
         return List.copyOf(result);
     }
 
+    public List<String> generateHealthyWindow(Instant start, long seed) {
+        validateMinuteAlignment(start);
+        return generateSeededWindow(start, Phase.NORMAL, seed);
+    }
+
     /** Flat compatibility view of the telemetry gap profile. */
     public List<String> generateTelemetryGap(Instant start, long seed) {
         return generateTelemetryGapWindows(start, seed).stream().flatMap(List::stream).toList();

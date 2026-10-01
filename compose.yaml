@@ -195,12 +195,18 @@ services:
       context: .
       dockerfile: services/event-generator/Dockerfile
     environment:
+      JAVA_TOOL_OPTIONS: "-Xms32m -Xmx256m -XX:MaxMetaspaceSize=160m"
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      CONTINUOUS_TELEMETRY_ENABLED: ${CONTINUOUS_TELEMETRY_ENABLED:-true}
+      CONTINUOUS_TELEMETRY_SEED: ${CONTINUOUS_TELEMETRY_SEED:-42}
+      CONTINUOUS_TELEMETRY_PUBLISH_DELAY: ${CONTINUOUS_TELEMETRY_PUBLISH_DELAY:-1s}
       SERVER_PORT: 8081
       KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
       KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
     depends_on:
       kafka-init:
+        condition: service_completed_successfully
+      history-bootstrap:
         condition: service_completed_successfully
     expose:
       - "8081"
@@ -220,6 +226,7 @@ services:
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SERVER_PORT: 8083
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx384m -XX:MaxMetaspaceSize=192m"
       KAFKA_V2_OBSERVATIONS_TOPIC: ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2}
       KAFKA_V2_INVALID_TOPIC: ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2}
       KAFKA_V2_LATE_TOPIC: ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2}
@@ -237,6 +244,8 @@ services:
     depends_on:
       kafka-init:
         condition: service_completed_successfully
+      history-bootstrap:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
     expose:
@@ -249,6 +258,31 @@ services:
       start_period: 10s
     networks:
       - telecom-private
+
+  history-bootstrap:
+    build:
+      context: .
+      dockerfile: services/processor/Dockerfile
+    environment:
+      HISTORY_BOOTSTRAP_MODE: "true"
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx384m -XX:MaxMetaspaceSize=192m"
+      HISTORICAL_BOOTSTRAP_ENABLED: ${HISTORICAL_BOOTSTRAP_ENABLED:-true}
+      HISTORICAL_BOOTSTRAP_DAYS: ${HISTORICAL_BOOTSTRAP_DAYS:-30}
+      HISTORICAL_BOOTSTRAP_SEED: ${HISTORICAL_BOOTSTRAP_SEED:-42}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      PROCESSING_DB_URL: jdbc:postgresql://postgres:5432/processing_db?currentSchema=app
+      PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
+      PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:?Set PROCESSING_DB_PASSWORD}
+      PROCESSING_MIGRATOR_USER: ${PROCESSING_MIGRATOR_USER:-processing_migrator}
+      PROCESSING_MIGRATOR_PASSWORD: ${PROCESSING_MIGRATOR_PASSWORD:?Set PROCESSING_MIGRATOR_PASSWORD}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    networks:
+      - telecom-private
+    restart: "no"
 
   ml-service:
     build:

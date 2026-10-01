@@ -29,6 +29,10 @@ echo "Creating Kafka topics..."
 docker compose up --no-deps --force-recreate --abort-on-container-exit --exit-code-from kafka-init kafka-init
 
 echo "Starting runnable application services and waiting for readiness..."
+echo "Initializing synthetic history (the first 30-day bootstrap may take several minutes)..."
+docker compose stop event-generator processor
+docker compose up -d --build history-bootstrap
+docker compose wait history-bootstrap
 docker compose up -d --build --wait --wait-timeout 120 event-generator processor ml-service
 
 echo "Compose stack is ready. Start host incident-service from services/incident-service with ./mvnw spring-boot:run, then run ./scripts/verify."
