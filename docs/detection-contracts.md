@@ -126,3 +126,35 @@ using the worked feature values and a hypothetical first breach at 07:59 UTC.
 Its OPEN at the 08:00 window and sequence 1 illustrate day-5 episode semantics;
 no episode was actually opened or persisted by this implementation. The existing
 incident fixture is preserved as historical reference rather than silently rewritten.
+
+## Explanation review (days 13–14)
+
+The two-argument voice rule additionally accepts an authoritative same-window IMS
+receipt. An eligible CSSR breach, IMS CPU >=90%, positive SIP 503 count, and RRC and
+bearer rates no more than 0.5 percentage points below their baselines support a
+**probable IMS capacity pressure** hypothesis with MEDIUM confidence. The receipt
+must be COMPLETE, match scope/window/source, appear in `sourceEventIds`, and agree
+with the saved CPU KPI. Missing, stale, mismatched, or weaker evidence stays LOW.
+These are approved synthetic explanation criteria, not production thresholds.
+
+SMS's existing fresh aging-backlog breach supports a MEDIUM queue-bottleneck
+hypothesis. Delay-only evidence stays LOW. Checks include delivery/routing traces,
+recipient unreachability, campaign load, and source freshness. Neither hypothesis
+establishes root cause or changes eligibility, opening, severity, recovery, or ML.
+
+`fixtures/detections/service-explanation-cases.json` contains twelve independently
+isolated trajectories: normal, fault, gray zone, low volume, missing source, and
+recovered for each service. Nested observations/features/detections are validated
+by the normal contract checker. Java checks exact explanations and transitions;
+`npm run test:g3` checks their browser rendering with controlled API responses.
+The fixtures share episode anchors across independent cases and must not be
+published together as one live history. Their rank 0.99 is explicit test evidence.
+
+The dashboard distinguishes impact severity, calibrated anomaly rank, and cause
+confidence; rank is not outage probability. Unique customer counts remain null.
+Investigation comments use the existing versioned, idempotent comment endpoint;
+manual retries retain the request ID and text. The local analyst directory follows
+the existing API projection, and `enabled` filters accounts (true by default).
+Request IDs use secure random bytes on the HTTP demo origin, where `randomUUID`
+is unavailable ([Web Crypto documentation](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)).
+Recovery still leaves the analyst workflow open until explicit resolution.
