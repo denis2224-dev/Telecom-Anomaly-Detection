@@ -317,3 +317,26 @@ Remote main advanced during the takeover. The existing feature branch was kept;
 no reset, rebase or merge was performed. Only this evidence file is included in
 the single finalization commit. Existing AGENTS.md, graph/cache files, local
 `.telemetry*` evidence/logs, credentials, .env and build artifacts remain excluded.
+
+## Post-main-sync verification
+
+- **Merged origin/main SHA**: `b15612f1477a37063d64aadc513d24ec1cd21370`
+- **Migration alignment**: Feature migration renumbered from `V006__historical_bootstrap.sql` to `V007__historical_bootstrap.sql` to maintain sequential Flyway ordering following incoming `V006__detection_leases.sql`. Table count in `IngestionIntegrationTest` updated from 9 to 10 (8 baseline + `detection_job` + `historical_bootstrap`).
+- **Targeted test results**:
+  - `check-contracts.py`: PASS (v2 schema, 13 observation fixtures, detection schemas, policy, baseline, 4 payloads, 12 explanation trajectories, 7 voice parity cases, 12 SMS parity cases)
+  - `check-voice-parity.py`: PASS (7 cases, exact integer matches, 0 float diff)
+  - `check-sms-parity.py`: PASS (12 cases against canonical Python reference)
+  - `docker compose config --quiet`: exit 0
+  - `event-generator`: 59 tests, 0 failures, 0 errors, 0 skips
+  - `incident-service`: 27 tests (`ServiceKpiWindowIngestionTest`, `ServiceKpiWindowRepositoryTest`, `ServiceControllerTest`), 0 failures, 0 errors, 0 skips
+  - `processor`: 237 tests (including historical bootstrap, `IngestionIntegrationTest`, `DetectionMigrationTest`, `DetectionReplayIT`, `ExplanationCasesTest`, `ReplayIT`, `FinalizerRaceIT`), 0 failures, 0 errors, 2 skips
+- **Short live smoke results** (UTC windows `15:51:00Z` - `15:56:00Z`):
+  - VoLTE (`VOLTE-MD-CENTRAL`): 3 healthy observations/minute, finalized, COMPLETE quality in read model
+  - SMS (`SMS-MD-ROUTE-A`): 2 healthy observations/minute, finalized, COMPLETE quality in read model
+  - Duplicate natural keys: 0
+  - Rejections since: 0
+  - Spurious detections: 0
+- **Canonical history verification**:
+  - `SMS-MD-ROUTE-A`: 43,200 historical minutes confirmed
+  - `VOLTE-MD-CENTRAL`: 43,200 historical minutes confirmed
+- **Changed limitations**: None. Previous constraints remain active (browser SSE unverified, authenticated REST smoke previously returned 401, no 24-hour soak performed).

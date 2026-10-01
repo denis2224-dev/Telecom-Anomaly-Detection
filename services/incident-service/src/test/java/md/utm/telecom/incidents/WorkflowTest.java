@@ -43,6 +43,27 @@ class WorkflowTest extends IncidentServiceIntegrationTestSupport {
     private Analyst bob;
     private Incident incident;
 
+    @Test
+    void analystDirectoryFiltersDisabledAccountsAndExposesOnlyPublicFields() throws Exception {
+        bob.setEnabled(false);
+        analysts.saveAndFlush(bob);
+        var request = get("/api/analysts").session(authenticatedSession())
+                .with(oidcLogin().idToken(token -> token.issuer(ISSUER).subject("alice"))
+                        .authorities(new SimpleGrantedAuthority("ROLE_ANALYST")));
+        mvc.perform(request).andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value(alice.getId().toString()))
+                .andExpect(jsonPath("$[0].displayName").value("Alice"))
+                .andExpect(jsonPath("$[0].enabled").value(true))
+                .andExpect(jsonPath("$[0].issuer").doesNotExist())
+                .andExpect(jsonPath("$[0].subject").doesNotExist());
+        mvc.perform(request.param("enabled", "false")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value(bob.getId().toString()))
+                .andExpect(jsonPath("$[0].enabled").value(false));
+        mvc.perform(get("/api/analysts")).andExpect(status().isUnauthorized());
+    }
+
     @BeforeEach
     void fixture() {
         alice = analysts.save(new Analyst(ISSUER, "alice", "Alice"));

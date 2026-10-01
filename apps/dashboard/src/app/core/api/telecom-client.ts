@@ -107,6 +107,10 @@ export class TelecomClient {
     );
   }
 
+  commentOnIncident(id: string, body: components["schemas"]["CommentRequest"]) {
+    return this.request<Incident>("POST", `/api/incidents/${encodeURIComponent(id)}/comments`, body);
+  }
+
   startScenario(
   type: ScenarioType,
   body: StartScenarioRequest,

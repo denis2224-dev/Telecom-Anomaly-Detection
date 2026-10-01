@@ -36,6 +36,7 @@
           <include>**/Test*.java</include><include>**/*Test.java</include><include>**/*Tests.java</include>
           <include>**/*TestCase.java</include><include>**/LateInputIT.java</include>
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
+          <include>**/DetectionReplayIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

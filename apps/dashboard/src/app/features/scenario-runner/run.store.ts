@@ -6,6 +6,7 @@ import {
 } from '../../core/api/telecom-client';
 import { ApiFailure } from '../../core/api/api-errors';
 import { SessionStore } from '../login-and-session/session.store';
+import { requestId } from '../../core/api/request-id';
 
 export type ScenarioCommand = {
   type: ScenarioType;
@@ -119,7 +120,7 @@ export class RunStore {
       type,
       seed,
       scopeId,
-      requestId: crypto.randomUUID(),
+      requestId: requestId(),
     };
 
     this.command.set(command);
