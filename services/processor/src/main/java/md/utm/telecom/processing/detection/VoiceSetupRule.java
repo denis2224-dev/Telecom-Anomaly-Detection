@@ -40,10 +40,12 @@ public final class VoiceSetupRule {
     private final DetectionPolicy policy;
     private final BaselineRegistry baselines;
     private final JsonSchema schema;
+    private final ObservationValidator observations;
 
     public VoiceSetupRule(DetectionPolicy policy, BaselineRegistry baselines) throws IOException {
         this.policy = policy;
         this.baselines = baselines;
+        observations = new ObservationValidator();
         schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
                 ObservationValidator.resource("features/service-feature-window-v2.schema.json", new ObjectMapper()),
                 SchemaValidatorsConfig.builder().formatAssertionsEnabled(true).build());
@@ -111,6 +113,46 @@ public final class VoiceSetupRule {
                 new Impact(extra, 0, 0, null), window, kpis);
     }
 
+    public Evaluation evaluate(JsonNode window, JsonNode imsReceipt) {
+        var evaluated = evaluate(window);
+        if (!evaluated.breached() || imsReceipt == null) return evaluated;
+        observations.validate(imsReceipt);
+        boolean aligned = imsReceipt.path("kind").asText().equals("NODE")
+                && imsReceipt.path("nodeId").asText().equals("IMS-A")
+                && imsReceipt.path("sourceId").asText().equals("IMS-A")
+                && imsReceipt.path("quality").asText().equals("COMPLETE")
+                && imsReceipt.path("scopeId").equals(window.get("scopeId"))
+                && imsReceipt.path("windowStart").equals(window.get("windowStart"))
+                && imsReceipt.path("windowEnd").equals(window.get("windowEnd"));
+        boolean sourcePresent = false;
+        for (var id : window.required("sourceEventIds")) if (id.equals(imsReceipt.get("eventId"))) sourcePresent = true;
+        Map<String, JsonNode> kpis = new HashMap<>();
+        window.required("kpis").forEach(k -> kpis.put(k.required("name").asText(), k));
+        var cpu = kpis.get("imsCpuPct");
+        var sip = kpis.get("sip503Count");
+        if (!aligned || !sourcePresent || cpu == null || !cpu.path("observed").isNumber()
+                || !imsReceipt.path("metrics").path("cpuPct").isNumber()
+                || number(cpu.get("observed")).compareTo(number(imsReceipt.get("metrics").get("cpuPct"))) != 0
+                || number(cpu.get("observed")).compareTo(BigDecimal.valueOf(90)) < 0
+                || sip == null || !sip.path("observed").isNumber() || number(sip.get("observed")).signum() <= 0
+                || !healthyAccess(kpis.get("rrcSrPct")) || !healthyAccess(kpis.get("bearerSrPct"))) return evaluated;
+        var evidence = new ArrayList<>(evaluated.evidence());
+        evidence.add(new Evidence("IMS_CAPACITY_HYPOTHESIS",
+                "Aligned IMS CPU=" + cpu.get("observed") + "%; SIP 503=" + sip.get("observed")
+                        + "; RRC/bearer within 0.5 pp of baseline. Supports a capacity hypothesis, not a confirmed diagnosis.",
+                "IMS-A", List.of(imsReceipt.required("eventId").asText())));
+        return new Evaluation(evaluated.status(), true, evaluated.severity(), evaluated.cssrDropPp(),
+                evaluated.impact(), evaluated.rulesetVersion(), evaluated.baselineVersion(), evaluated.topologyVersion(),
+                "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+                "MEDIUM", evidence, List.of("Inspect SIP 503 traces and IMS capacity", "Check downstream routing and transport before confirming the cause"),
+                evaluated.mlStatus(), evaluated.modelVersion(), evaluated.anomalyRank());
+    }
+    private static boolean healthyAccess(JsonNode kpi) {
+        return kpi != null && kpi.path("observed").isNumber() && kpi.path("baseline").isNumber()
+                && number(kpi.get("baseline")).subtract(number(kpi.get("observed")))
+                .compareTo(new BigDecimal("0.5")) <= 0;
+    }
+
     private Evaluation result(String status, boolean breached, String severity, BigDecimal drop,
                               Impact impact, JsonNode window, Map<String, JsonNode> kpis) {
         var sources = new ArrayList<String>();
@@ -127,9 +169,14 @@ public final class VoiceSetupRule {
                 }
             }
         }
+        String cause = window.path("quality").asText().equals("COMPLETE")
+                ? status.equals("INSUFFICIENT_DATA") ? "Insufficient eligible call attempts; no cause established."
+                : status.equals("BASELINE_MISSING") ? "Baseline unavailable; no cause established."
+                : "Cause undetermined; inspect SIP traces and aligned dependency measurements."
+                : "Service telemetry is missing or incomplete; this window cannot establish a cause or recovery.";
         return new Evaluation(status, breached, severity, drop, impact, policy.version(),
                 window.get("baselineVersion").asText(), window.get("topologyVersion").asText(),
-                "Cause undetermined; inspect SIP traces and aligned dependency measurements.", "LOW", evidence,
+                cause, "LOW", evidence,
                 List.of("Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health"),
                 window.get("mlEligible").asBoolean() ? "UNAVAILABLE" : "INSUFFICIENT_DATA", null, null);
     }
