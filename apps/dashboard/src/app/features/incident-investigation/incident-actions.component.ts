@@ -15,6 +15,7 @@ import { incidentActionMessage } from '../../core/api/api-errors';
 import type { components } from '../../core/api/schema';
 import { dataSource } from '../../core/api/data-source';
 import { SessionStore } from '../login-and-session/session.store';
+import { requestId } from '../../core/api/request-id';
 
 type Analyst = components['schemas']['AnalystSummary'];
 
@@ -144,6 +145,16 @@ type Analyst = components['schemas']['AnalystSummary'];
             Reload incident
           </button>
         }
+
+        @if (privileged() || canChangeStatus()) {
+          <label for="investigation-comment">Investigation comment</label>
+          <textarea id="investigation-comment" rows="3" maxlength="2000"
+            [value]="commentText()" [disabled]="busy()"
+            (input)="editComment($event)"></textarea>
+          <button type="button" [disabled]="busy() || !commentText().trim()"
+            (click)="addComment()">Add comment</button>
+          @if (commentSaved()) { <p role="status">Comment saved.</p> }
+        }
       }
     </section>
   `,
@@ -160,6 +171,9 @@ export class IncidentActionsComponent implements OnInit {
   readonly directoryError = signal('');
   readonly targetId = signal('');
   readonly resolutionNote = signal('');
+  readonly commentText = signal('');
+  readonly commentSaved = signal(false);
+  private pendingComment?: { id: string; text: string; requestId: string };
   readonly message = signal('');
   readonly busy = signal(false);
 
@@ -224,6 +238,11 @@ export class IncidentActionsComponent implements OnInit {
     this.resolutionNote.set(
       (event.target as HTMLTextAreaElement).value,
     );
+  }
+
+  editComment(event: Event): void {
+    this.commentText.set((event.target as HTMLTextAreaElement).value);
+    this.commentSaved.set(false);
   }
 
   claim(): void {
@@ -317,6 +336,25 @@ export class IncidentActionsComponent implements OnInit {
       this.message.set(incidentActionMessage(error));
     } finally {
       this.busy.set(false);
+    }
+  }
+
+  async addComment(): Promise<void> {
+    const item = this.incident();
+    const text = this.commentText().trim();
+    if (dataSource.fixture || this.busy() || !(this.privileged() || this.canChangeStatus())
+      || !text || text.length > 2000) return;
+    if (this.pendingComment?.id !== item.id || this.pendingComment.text !== text) {
+      this.pendingComment = { id: item.id, text, requestId: requestId() };
+    }
+    this.commentSaved.set(false);
+    await this.submit(() => this.api.commentOnIncident(item.id, {
+      text, version: item.version, requestId: this.pendingComment!.requestId,
+    }));
+    if (!this.message()) {
+      this.commentText.set('');
+      this.pendingComment = undefined;
+      this.commentSaved.set(true);
     }
   }
 
