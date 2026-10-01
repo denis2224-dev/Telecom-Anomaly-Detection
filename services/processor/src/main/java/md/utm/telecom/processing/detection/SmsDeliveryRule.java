@@ -131,7 +131,7 @@ public final class SmsDeliveryRule {
         return new Evaluation("EVALUATED", breached, healthy, severity, impact, List.copyOf(evidence),
                 window.required("mlEligible").asBoolean() ? "UNAVAILABLE" : "INSUFFICIENT_DATA",
                 policy.version(), window.required("baselineVersion").asText(), window.required("topologyVersion").asText(),
-                cause, "LOW", List.of("Verify SMSC queue freshness", "Inspect delivery and routing traces"));
+                cause, backlogBreach ? "MEDIUM" : "LOW", List.of("Verify SMSC queue freshness", "Inspect delivery and routing traces; check recipient unreachability and campaign load"));
     }
 
     private Evaluation unavailable(String status, JsonNode window) {

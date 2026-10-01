@@ -11,6 +11,30 @@ from test_utils import FORMAT_CHECKER, ROOT, read_json
 
 
 class DetectionContractTests(unittest.TestCase):
+    def test_explanation_collection_validates_every_nested_payload(self):
+        import importlib.util
+        import sys
+        sys.path.insert(0, str(ROOT / 'scripts'))
+        spec = importlib.util.spec_from_file_location('check_contracts', ROOT / 'scripts/check-contracts.py')
+        checks = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(checks)
+        suite = read_json(ROOT / 'contracts/fixtures/detections/service-explanation-cases.json')
+        checks.validate_explanation_cases(suite)
+        self.assertEqual(len(suite['cases']), 12)
+        for defect in ('feature_order', 'fake_subscribers', 'invalid_node', 'duplicate_case'):
+            with self.subTest(defect=defect):
+                broken = copy.deepcopy(suite)
+                if defect == 'feature_order':
+                    broken['cases'][0]['windows'][0]['feature']['featureNames'].reverse()
+                elif defect == 'fake_subscribers':
+                    broken['cases'][1]['detections'][0]['impact']['uniqueSubscribers'] = 0
+                elif defect == 'invalid_node':
+                    del broken['cases'][0]['windows'][0]['node']['sourceId']
+                else:
+                    broken['cases'].append(copy.deepcopy(broken['cases'][0]))
+                with self.assertRaises((ValueError, __import__('jsonschema').ValidationError)):
+                    checks.validate_explanation_cases(broken)
+
     def test_policy_values_and_schema(self):
         policy = read_json(ROOT / 'contracts/policies/service-rules-v2.json')
         schema = read_json(ROOT / 'contracts/policies/service-rules-v2.schema.json')
