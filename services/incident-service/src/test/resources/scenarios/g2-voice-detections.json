@@ -1,0 +1,1786 @@
+[ {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 90.0,
+    "numerator" : 900,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.08,
+    "numerator" : 80,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 80,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 95,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "OPEN",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 93,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=90.0 PERCENT; baseline=99.3; numerator=900; denominator=1000",
+    "sourceEventIds" : [ "549aa560-c421-3302-ab9a-6bc1009d2862", "642932df-aefd-3e8f-a970-3f62b27114e9", "f69f2833-48d3-3451-adc9-42fb3969eff7" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=80 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "549aa560-c421-3302-ab9a-6bc1009d2862", "642932df-aefd-3e8f-a970-3f62b27114e9", "f69f2833-48d3-3451-adc9-42fb3969eff7" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "549aa560-c421-3302-ab9a-6bc1009d2862", "642932df-aefd-3e8f-a970-3f62b27114e9", "f69f2833-48d3-3451-adc9-42fb3969eff7" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "549aa560-c421-3302-ab9a-6bc1009d2862", "642932df-aefd-3e8f-a970-3f62b27114e9", "f69f2833-48d3-3451-adc9-42fb3969eff7" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=95 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "549aa560-c421-3302-ab9a-6bc1009d2862", "642932df-aefd-3e8f-a970-3f62b27114e9", "f69f2833-48d3-3451-adc9-42fb3969eff7" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "549aa560-c421-3302-ab9a-6bc1009d2862", "642932df-aefd-3e8f-a970-3f62b27114e9", "f69f2833-48d3-3451-adc9-42fb3969eff7" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 1,
+  "severity" : "HIGH",
+  "episodeId" : "b545edec56a0545dbd568bcc29e5d2da4f8b570c1be8e1176fa2b53dc9505d06",
+  "windowEnd" : "2026-09-15T08:04:00Z",
+  "detectedAt" : "2026-09-15T08:04:10Z",
+  "anomalyRank" : 1.0,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "8bd3c283dc563231713e554ba9f098173d820cd9df83a2761ec442a7bdbb304d",
+  "windowStart" : "2026-09-15T08:03:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 90.0,
+    "numerator" : 900,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.08,
+    "numerator" : 80,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 80,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 95,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 93,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=90.0 PERCENT; baseline=99.3; numerator=900; denominator=1000",
+    "sourceEventIds" : [ "53adbb53-6f0b-391f-bc85-ed33727e0805", "8172a389-1ab7-3819-9786-441a9c9a1745", "8eeea173-e920-33e0-b410-a480d1d81f9a" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=80 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "53adbb53-6f0b-391f-bc85-ed33727e0805", "8172a389-1ab7-3819-9786-441a9c9a1745", "8eeea173-e920-33e0-b410-a480d1d81f9a" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "53adbb53-6f0b-391f-bc85-ed33727e0805", "8172a389-1ab7-3819-9786-441a9c9a1745", "8eeea173-e920-33e0-b410-a480d1d81f9a" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "53adbb53-6f0b-391f-bc85-ed33727e0805", "8172a389-1ab7-3819-9786-441a9c9a1745", "8eeea173-e920-33e0-b410-a480d1d81f9a" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=95 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "53adbb53-6f0b-391f-bc85-ed33727e0805", "8172a389-1ab7-3819-9786-441a9c9a1745", "8eeea173-e920-33e0-b410-a480d1d81f9a" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "53adbb53-6f0b-391f-bc85-ed33727e0805", "8172a389-1ab7-3819-9786-441a9c9a1745", "8eeea173-e920-33e0-b410-a480d1d81f9a" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 2,
+  "severity" : "HIGH",
+  "episodeId" : "b545edec56a0545dbd568bcc29e5d2da4f8b570c1be8e1176fa2b53dc9505d06",
+  "windowEnd" : "2026-09-15T08:05:00Z",
+  "detectedAt" : "2026-09-15T08:05:10Z",
+  "anomalyRank" : 1.0,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "0695a316c95ef93eb950945085db81f445952bd6e62fe5ced138ced643500e73",
+  "windowStart" : "2026-09-15T08:04:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "1d8632cd-8ccf-3c48-b53f-1e6a9a12850c", "87aa4097-86f1-3eca-b40f-7112858e63a8", "aefd6ce4-e2bd-3d16-80a9-81e132feb210" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "1d8632cd-8ccf-3c48-b53f-1e6a9a12850c", "87aa4097-86f1-3eca-b40f-7112858e63a8", "aefd6ce4-e2bd-3d16-80a9-81e132feb210" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "1d8632cd-8ccf-3c48-b53f-1e6a9a12850c", "87aa4097-86f1-3eca-b40f-7112858e63a8", "aefd6ce4-e2bd-3d16-80a9-81e132feb210" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "1d8632cd-8ccf-3c48-b53f-1e6a9a12850c", "87aa4097-86f1-3eca-b40f-7112858e63a8", "aefd6ce4-e2bd-3d16-80a9-81e132feb210" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "1d8632cd-8ccf-3c48-b53f-1e6a9a12850c", "87aa4097-86f1-3eca-b40f-7112858e63a8", "aefd6ce4-e2bd-3d16-80a9-81e132feb210" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "1d8632cd-8ccf-3c48-b53f-1e6a9a12850c", "87aa4097-86f1-3eca-b40f-7112858e63a8", "aefd6ce4-e2bd-3d16-80a9-81e132feb210" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 3,
+  "severity" : "HIGH",
+  "episodeId" : "b545edec56a0545dbd568bcc29e5d2da4f8b570c1be8e1176fa2b53dc9505d06",
+  "windowEnd" : "2026-09-15T08:06:00Z",
+  "detectedAt" : "2026-09-15T08:06:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "7d4054df50ee07c485d6996426cbcd0c4dd40b058bd3f8c9e96ccbac9ba75407",
+  "windowStart" : "2026-09-15T08:05:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "01e42fa7-f4d2-3ef5-8a31-154729d7f3cf", "8ac81a38-ca75-313d-8c27-45cd90fa445a", "c1026af2-8e0a-3095-aafe-a85a358139b9" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "01e42fa7-f4d2-3ef5-8a31-154729d7f3cf", "8ac81a38-ca75-313d-8c27-45cd90fa445a", "c1026af2-8e0a-3095-aafe-a85a358139b9" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "01e42fa7-f4d2-3ef5-8a31-154729d7f3cf", "8ac81a38-ca75-313d-8c27-45cd90fa445a", "c1026af2-8e0a-3095-aafe-a85a358139b9" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "01e42fa7-f4d2-3ef5-8a31-154729d7f3cf", "8ac81a38-ca75-313d-8c27-45cd90fa445a", "c1026af2-8e0a-3095-aafe-a85a358139b9" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "01e42fa7-f4d2-3ef5-8a31-154729d7f3cf", "8ac81a38-ca75-313d-8c27-45cd90fa445a", "c1026af2-8e0a-3095-aafe-a85a358139b9" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "01e42fa7-f4d2-3ef5-8a31-154729d7f3cf", "8ac81a38-ca75-313d-8c27-45cd90fa445a", "c1026af2-8e0a-3095-aafe-a85a358139b9" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 4,
+  "severity" : "HIGH",
+  "episodeId" : "b545edec56a0545dbd568bcc29e5d2da4f8b570c1be8e1176fa2b53dc9505d06",
+  "windowEnd" : "2026-09-15T08:07:00Z",
+  "detectedAt" : "2026-09-15T08:07:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "293e680646b36786d32e59ad830d4a8b29ab6f0025f9e3d94cc318508a34ab44",
+  "windowStart" : "2026-09-15T08:06:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "RECOVERY",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "13d9ccab-c3fb-3c52-9c0a-7b36a977a1b9", "3e3a8d2a-1e7b-35c6-a5a6-8c1648f8fe33", "d64cea9b-a2af-3391-b549-7e0b25c8fd94" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "13d9ccab-c3fb-3c52-9c0a-7b36a977a1b9", "3e3a8d2a-1e7b-35c6-a5a6-8c1648f8fe33", "d64cea9b-a2af-3391-b549-7e0b25c8fd94" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "13d9ccab-c3fb-3c52-9c0a-7b36a977a1b9", "3e3a8d2a-1e7b-35c6-a5a6-8c1648f8fe33", "d64cea9b-a2af-3391-b549-7e0b25c8fd94" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "13d9ccab-c3fb-3c52-9c0a-7b36a977a1b9", "3e3a8d2a-1e7b-35c6-a5a6-8c1648f8fe33", "d64cea9b-a2af-3391-b549-7e0b25c8fd94" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "13d9ccab-c3fb-3c52-9c0a-7b36a977a1b9", "3e3a8d2a-1e7b-35c6-a5a6-8c1648f8fe33", "d64cea9b-a2af-3391-b549-7e0b25c8fd94" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "13d9ccab-c3fb-3c52-9c0a-7b36a977a1b9", "3e3a8d2a-1e7b-35c6-a5a6-8c1648f8fe33", "d64cea9b-a2af-3391-b549-7e0b25c8fd94" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 5,
+  "severity" : "HIGH",
+  "episodeId" : "b545edec56a0545dbd568bcc29e5d2da4f8b570c1be8e1176fa2b53dc9505d06",
+  "windowEnd" : "2026-09-15T08:08:00Z",
+  "detectedAt" : "2026-09-15T08:08:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "e5df909f2b1be2e8aad2b6251f80f961921d92e2c16261785aacaa758f14f6ee",
+  "windowStart" : "2026-09-15T08:07:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "RECOVERED",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:02:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 90.0,
+    "numerator" : 900,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.08,
+    "numerator" : 80,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 80,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 95,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "OPEN",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 93,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=90.0 PERCENT; baseline=99.3; numerator=900; denominator=1000",
+    "sourceEventIds" : [ "3a38cbc1-30db-3080-b824-33784358de6e", "7620e26d-089c-3eac-8846-c97a94f603d7", "af426754-962c-3b7d-bf9a-7cda5f2870af" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=80 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "3a38cbc1-30db-3080-b824-33784358de6e", "7620e26d-089c-3eac-8846-c97a94f603d7", "af426754-962c-3b7d-bf9a-7cda5f2870af" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "3a38cbc1-30db-3080-b824-33784358de6e", "7620e26d-089c-3eac-8846-c97a94f603d7", "af426754-962c-3b7d-bf9a-7cda5f2870af" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "3a38cbc1-30db-3080-b824-33784358de6e", "7620e26d-089c-3eac-8846-c97a94f603d7", "af426754-962c-3b7d-bf9a-7cda5f2870af" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=95 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "3a38cbc1-30db-3080-b824-33784358de6e", "7620e26d-089c-3eac-8846-c97a94f603d7", "af426754-962c-3b7d-bf9a-7cda5f2870af" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "3a38cbc1-30db-3080-b824-33784358de6e", "7620e26d-089c-3eac-8846-c97a94f603d7", "af426754-962c-3b7d-bf9a-7cda5f2870af" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 1,
+  "severity" : "HIGH",
+  "episodeId" : "8f77261f4b99b19705fea1651888d0cfad4523b20a8062a674bae67fc51eed2d",
+  "windowEnd" : "2026-09-15T08:14:00Z",
+  "detectedAt" : "2026-09-15T08:14:10Z",
+  "anomalyRank" : 1.0,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "3630c6416b9d84495889afa1411164c6fd9ee7fb94ef51e9e6719653b70c02f6",
+  "windowStart" : "2026-09-15T08:13:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 90.0,
+    "numerator" : 900,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.08,
+    "numerator" : 80,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 80,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 95,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 93,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=90.0 PERCENT; baseline=99.3; numerator=900; denominator=1000",
+    "sourceEventIds" : [ "615ce0ab-4195-3fa1-8129-b416c327cd64", "8207609c-50f7-336e-bdd1-824bd9794dcb", "d1bfe17c-f39d-3158-92d2-4c2a58b5398d" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=80 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "615ce0ab-4195-3fa1-8129-b416c327cd64", "8207609c-50f7-336e-bdd1-824bd9794dcb", "d1bfe17c-f39d-3158-92d2-4c2a58b5398d" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "615ce0ab-4195-3fa1-8129-b416c327cd64", "8207609c-50f7-336e-bdd1-824bd9794dcb", "d1bfe17c-f39d-3158-92d2-4c2a58b5398d" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "615ce0ab-4195-3fa1-8129-b416c327cd64", "8207609c-50f7-336e-bdd1-824bd9794dcb", "d1bfe17c-f39d-3158-92d2-4c2a58b5398d" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=95 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "615ce0ab-4195-3fa1-8129-b416c327cd64", "8207609c-50f7-336e-bdd1-824bd9794dcb", "d1bfe17c-f39d-3158-92d2-4c2a58b5398d" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "615ce0ab-4195-3fa1-8129-b416c327cd64", "8207609c-50f7-336e-bdd1-824bd9794dcb", "d1bfe17c-f39d-3158-92d2-4c2a58b5398d" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 2,
+  "severity" : "HIGH",
+  "episodeId" : "8f77261f4b99b19705fea1651888d0cfad4523b20a8062a674bae67fc51eed2d",
+  "windowEnd" : "2026-09-15T08:15:00Z",
+  "detectedAt" : "2026-09-15T08:15:10Z",
+  "anomalyRank" : 1.0,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "f6927a8a6b5ea071e421ccaf387141898f5e3829d98b45c44bb3f895873d61cf",
+  "windowStart" : "2026-09-15T08:14:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "5ac2b827-dab2-3db0-87d7-0f9c72f02b99", "75df6a3f-a11a-3444-ba5e-8ae01af5f638", "9b5b962b-98bb-3cc3-8c1f-4e1c6ebe1f17" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "5ac2b827-dab2-3db0-87d7-0f9c72f02b99", "75df6a3f-a11a-3444-ba5e-8ae01af5f638", "9b5b962b-98bb-3cc3-8c1f-4e1c6ebe1f17" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "5ac2b827-dab2-3db0-87d7-0f9c72f02b99", "75df6a3f-a11a-3444-ba5e-8ae01af5f638", "9b5b962b-98bb-3cc3-8c1f-4e1c6ebe1f17" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "5ac2b827-dab2-3db0-87d7-0f9c72f02b99", "75df6a3f-a11a-3444-ba5e-8ae01af5f638", "9b5b962b-98bb-3cc3-8c1f-4e1c6ebe1f17" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "5ac2b827-dab2-3db0-87d7-0f9c72f02b99", "75df6a3f-a11a-3444-ba5e-8ae01af5f638", "9b5b962b-98bb-3cc3-8c1f-4e1c6ebe1f17" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "5ac2b827-dab2-3db0-87d7-0f9c72f02b99", "75df6a3f-a11a-3444-ba5e-8ae01af5f638", "9b5b962b-98bb-3cc3-8c1f-4e1c6ebe1f17" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 3,
+  "severity" : "HIGH",
+  "episodeId" : "8f77261f4b99b19705fea1651888d0cfad4523b20a8062a674bae67fc51eed2d",
+  "windowEnd" : "2026-09-15T08:16:00Z",
+  "detectedAt" : "2026-09-15T08:16:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "15f4e88d27d77591b2aee49e72ed538bac7b0d8cd1e21560526fdf9b565f6a91",
+  "windowStart" : "2026-09-15T08:15:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "489f1a5f-bdd4-36c6-b8bd-326b9c68c11c", "6cbf2956-b2a5-34d7-b3f8-3ea1783e2b30", "aa9ee1b6-7cb7-3549-83ab-868b18ba42bd" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "489f1a5f-bdd4-36c6-b8bd-326b9c68c11c", "6cbf2956-b2a5-34d7-b3f8-3ea1783e2b30", "aa9ee1b6-7cb7-3549-83ab-868b18ba42bd" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "489f1a5f-bdd4-36c6-b8bd-326b9c68c11c", "6cbf2956-b2a5-34d7-b3f8-3ea1783e2b30", "aa9ee1b6-7cb7-3549-83ab-868b18ba42bd" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "489f1a5f-bdd4-36c6-b8bd-326b9c68c11c", "6cbf2956-b2a5-34d7-b3f8-3ea1783e2b30", "aa9ee1b6-7cb7-3549-83ab-868b18ba42bd" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "489f1a5f-bdd4-36c6-b8bd-326b9c68c11c", "6cbf2956-b2a5-34d7-b3f8-3ea1783e2b30", "aa9ee1b6-7cb7-3549-83ab-868b18ba42bd" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "489f1a5f-bdd4-36c6-b8bd-326b9c68c11c", "6cbf2956-b2a5-34d7-b3f8-3ea1783e2b30", "aa9ee1b6-7cb7-3549-83ab-868b18ba42bd" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 4,
+  "severity" : "HIGH",
+  "episodeId" : "8f77261f4b99b19705fea1651888d0cfad4523b20a8062a674bae67fc51eed2d",
+  "windowEnd" : "2026-09-15T08:17:00Z",
+  "detectedAt" : "2026-09-15T08:17:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "26dd2fe7eaf760a9047d566723b72e3a3ceda007f053cc4997780d4d96be4145",
+  "windowStart" : "2026-09-15T08:16:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "RECOVERY",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "42193026-1237-33fd-8bd9-6ac0d3133084", "74e965de-97c7-337a-b461-e313247cc6fd", "e733a4f8-42ae-3ade-a7c2-06c2976ec130" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "42193026-1237-33fd-8bd9-6ac0d3133084", "74e965de-97c7-337a-b461-e313247cc6fd", "e733a4f8-42ae-3ade-a7c2-06c2976ec130" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "42193026-1237-33fd-8bd9-6ac0d3133084", "74e965de-97c7-337a-b461-e313247cc6fd", "e733a4f8-42ae-3ade-a7c2-06c2976ec130" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "42193026-1237-33fd-8bd9-6ac0d3133084", "74e965de-97c7-337a-b461-e313247cc6fd", "e733a4f8-42ae-3ade-a7c2-06c2976ec130" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "42193026-1237-33fd-8bd9-6ac0d3133084", "74e965de-97c7-337a-b461-e313247cc6fd", "e733a4f8-42ae-3ade-a7c2-06c2976ec130" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "42193026-1237-33fd-8bd9-6ac0d3133084", "74e965de-97c7-337a-b461-e313247cc6fd", "e733a4f8-42ae-3ade-a7c2-06c2976ec130" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 5,
+  "severity" : "HIGH",
+  "episodeId" : "8f77261f4b99b19705fea1651888d0cfad4523b20a8062a674bae67fc51eed2d",
+  "windowEnd" : "2026-09-15T08:18:00Z",
+  "detectedAt" : "2026-09-15T08:18:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "6c61d8c88d82b255c95f4c156446100add6d4961a9c66271822b5e0536a1c3ee",
+  "windowStart" : "2026-09-15T08:17:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "RECOVERED",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:12:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 90.0,
+    "numerator" : 900,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.08,
+    "numerator" : 80,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 80,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 95,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "OPEN",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 93,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=90.0 PERCENT; baseline=99.3; numerator=900; denominator=1000",
+    "sourceEventIds" : [ "87bd8642-eb6c-3030-975e-e0f07d05f168", "b48dce94-8f67-3683-a4c6-c3c5357b373b", "bcbc1de2-b1e1-33ad-bb61-f8b1e8cbc619" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=80 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "87bd8642-eb6c-3030-975e-e0f07d05f168", "b48dce94-8f67-3683-a4c6-c3c5357b373b", "bcbc1de2-b1e1-33ad-bb61-f8b1e8cbc619" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "87bd8642-eb6c-3030-975e-e0f07d05f168", "b48dce94-8f67-3683-a4c6-c3c5357b373b", "bcbc1de2-b1e1-33ad-bb61-f8b1e8cbc619" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "87bd8642-eb6c-3030-975e-e0f07d05f168", "b48dce94-8f67-3683-a4c6-c3c5357b373b", "bcbc1de2-b1e1-33ad-bb61-f8b1e8cbc619" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=95 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "87bd8642-eb6c-3030-975e-e0f07d05f168", "b48dce94-8f67-3683-a4c6-c3c5357b373b", "bcbc1de2-b1e1-33ad-bb61-f8b1e8cbc619" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "87bd8642-eb6c-3030-975e-e0f07d05f168", "b48dce94-8f67-3683-a4c6-c3c5357b373b", "bcbc1de2-b1e1-33ad-bb61-f8b1e8cbc619" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 1,
+  "severity" : "HIGH",
+  "episodeId" : "eff3f07f6ea7377fe1f71d1264895ac17d23905afcd4207dbff7faf6e25c8e13",
+  "windowEnd" : "2026-09-15T08:24:00Z",
+  "detectedAt" : "2026-09-15T08:24:10Z",
+  "anomalyRank" : 1.0,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "9b41e484ee48b2f43d4e1fb4637b48a37f776880e7f34eaa5f00b3a47302bd8f",
+  "windowStart" : "2026-09-15T08:23:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 90.0,
+    "numerator" : 900,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.08,
+    "numerator" : 80,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 80,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 95,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 93,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=90.0 PERCENT; baseline=99.3; numerator=900; denominator=1000",
+    "sourceEventIds" : [ "04871c69-6779-3d5c-be19-115567be0373", "8d2734c3-d4e0-3195-9576-809eeb8aaa81", "addb94a8-b230-30ff-bcf9-b28ddc58fc8f" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=80 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "04871c69-6779-3d5c-be19-115567be0373", "8d2734c3-d4e0-3195-9576-809eeb8aaa81", "addb94a8-b230-30ff-bcf9-b28ddc58fc8f" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "04871c69-6779-3d5c-be19-115567be0373", "8d2734c3-d4e0-3195-9576-809eeb8aaa81", "addb94a8-b230-30ff-bcf9-b28ddc58fc8f" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "04871c69-6779-3d5c-be19-115567be0373", "8d2734c3-d4e0-3195-9576-809eeb8aaa81", "addb94a8-b230-30ff-bcf9-b28ddc58fc8f" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=95 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "04871c69-6779-3d5c-be19-115567be0373", "8d2734c3-d4e0-3195-9576-809eeb8aaa81", "addb94a8-b230-30ff-bcf9-b28ddc58fc8f" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "04871c69-6779-3d5c-be19-115567be0373", "8d2734c3-d4e0-3195-9576-809eeb8aaa81", "addb94a8-b230-30ff-bcf9-b28ddc58fc8f" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 2,
+  "severity" : "HIGH",
+  "episodeId" : "eff3f07f6ea7377fe1f71d1264895ac17d23905afcd4207dbff7faf6e25c8e13",
+  "windowEnd" : "2026-09-15T08:25:00Z",
+  "detectedAt" : "2026-09-15T08:25:10Z",
+  "anomalyRank" : 1.0,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "ae9b3061282822bd5e82dc6555eed5c5d9a1860a1dc7958fc1d7cbd69f513c8c",
+  "windowStart" : "2026-09-15T08:24:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "62811b45-8ba9-3735-b828-5ffc0519a93c", "9918bdcd-dabf-359d-a34e-d7d9f2bf3b1d", "e25cd95a-ba69-31d3-b3c8-5c31c453aac0" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "62811b45-8ba9-3735-b828-5ffc0519a93c", "9918bdcd-dabf-359d-a34e-d7d9f2bf3b1d", "e25cd95a-ba69-31d3-b3c8-5c31c453aac0" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "62811b45-8ba9-3735-b828-5ffc0519a93c", "9918bdcd-dabf-359d-a34e-d7d9f2bf3b1d", "e25cd95a-ba69-31d3-b3c8-5c31c453aac0" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "62811b45-8ba9-3735-b828-5ffc0519a93c", "9918bdcd-dabf-359d-a34e-d7d9f2bf3b1d", "e25cd95a-ba69-31d3-b3c8-5c31c453aac0" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "62811b45-8ba9-3735-b828-5ffc0519a93c", "9918bdcd-dabf-359d-a34e-d7d9f2bf3b1d", "e25cd95a-ba69-31d3-b3c8-5c31c453aac0" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "62811b45-8ba9-3735-b828-5ffc0519a93c", "9918bdcd-dabf-359d-a34e-d7d9f2bf3b1d", "e25cd95a-ba69-31d3-b3c8-5c31c453aac0" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 3,
+  "severity" : "HIGH",
+  "episodeId" : "eff3f07f6ea7377fe1f71d1264895ac17d23905afcd4207dbff7faf6e25c8e13",
+  "windowEnd" : "2026-09-15T08:26:00Z",
+  "detectedAt" : "2026-09-15T08:26:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "a14bbb0d5730799c2f4eccc0eec3d581e4b3db3b3f8866d137a437d2b11ae3c9",
+  "windowStart" : "2026-09-15T08:25:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "UPDATE",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "1ec8b7d4-8378-3ad5-bbee-fa8e3b4e8df0", "2ff1c5cd-2820-3101-a591-74d963066f99", "beb1f561-fbd0-3040-9f0c-bc21e66981f3" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "1ec8b7d4-8378-3ad5-bbee-fa8e3b4e8df0", "2ff1c5cd-2820-3101-a591-74d963066f99", "beb1f561-fbd0-3040-9f0c-bc21e66981f3" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "1ec8b7d4-8378-3ad5-bbee-fa8e3b4e8df0", "2ff1c5cd-2820-3101-a591-74d963066f99", "beb1f561-fbd0-3040-9f0c-bc21e66981f3" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "1ec8b7d4-8378-3ad5-bbee-fa8e3b4e8df0", "2ff1c5cd-2820-3101-a591-74d963066f99", "beb1f561-fbd0-3040-9f0c-bc21e66981f3" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "1ec8b7d4-8378-3ad5-bbee-fa8e3b4e8df0", "2ff1c5cd-2820-3101-a591-74d963066f99", "beb1f561-fbd0-3040-9f0c-bc21e66981f3" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "1ec8b7d4-8378-3ad5-bbee-fa8e3b4e8df0", "2ff1c5cd-2820-3101-a591-74d963066f99", "beb1f561-fbd0-3040-9f0c-bc21e66981f3" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 4,
+  "severity" : "HIGH",
+  "episodeId" : "eff3f07f6ea7377fe1f71d1264895ac17d23905afcd4207dbff7faf6e25c8e13",
+  "windowEnd" : "2026-09-15T08:27:00Z",
+  "detectedAt" : "2026-09-15T08:27:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "5fe5b0126295fcb402176b26483a937fe4cb615a5d8262383d5a2982c7d530c1",
+  "windowStart" : "2026-09-15T08:26:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "ONGOING",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+}, {
+  "kpis" : [ {
+    "name" : "cssrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.3,
+    "observed" : 99.5,
+    "numerator" : 995,
+    "denominator" : 1000
+  }, {
+    "name" : "eligibleAttempts",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 1000,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "sip503Ratio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.002,
+    "numerator" : 2,
+    "denominator" : 1000
+  }, {
+    "name" : "sip503Count",
+    "unit" : "COUNT",
+    "baseline" : null,
+    "observed" : 2,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "rrcSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99.5,
+    "observed" : 99.5,
+    "numerator" : 1194,
+    "denominator" : 1200
+  }, {
+    "name" : "bearerSrPct",
+    "unit" : "PERCENT",
+    "baseline" : 99,
+    "observed" : 99.54545454545455,
+    "numerator" : 1095,
+    "denominator" : 1100
+  }, {
+    "name" : "packetLossRatio",
+    "unit" : "RATIO",
+    "baseline" : null,
+    "observed" : 0.001,
+    "numerator" : null,
+    "denominator" : null
+  }, {
+    "name" : "imsCpuPct",
+    "unit" : "PERCENT",
+    "baseline" : null,
+    "observed" : 35,
+    "numerator" : null,
+    "denominator" : null
+  } ],
+  "phase" : "RECOVERY",
+  "impact" : {
+    "pendingMessages" : 0,
+    "uniqueSubscribers" : null,
+    "extraFailedAttempts" : 0,
+    "affectedDeliveredMessages" : 0
+  },
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "service" : "VOLTE",
+  "evidence" : [ {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+    "sourceEventIds" : [ "2bd06ad4-5aeb-321e-9316-a0c39a91b258", "7cc544e4-5f40-363b-a208-dd252c583283", "f51b25db-51d9-32a0-a192-8f8fc94b7156" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "2bd06ad4-5aeb-321e-9316-a0c39a91b258", "7cc544e4-5f40-363b-a208-dd252c583283", "f51b25db-51d9-32a0-a192-8f8fc94b7156" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+    "sourceEventIds" : [ "2bd06ad4-5aeb-321e-9316-a0c39a91b258", "7cc544e4-5f40-363b-a208-dd252c583283", "f51b25db-51d9-32a0-a192-8f8fc94b7156" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+    "sourceEventIds" : [ "2bd06ad4-5aeb-321e-9316-a0c39a91b258", "7cc544e4-5f40-363b-a208-dd252c583283", "f51b25db-51d9-32a0-a192-8f8fc94b7156" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "2bd06ad4-5aeb-321e-9316-a0c39a91b258", "7cc544e4-5f40-363b-a208-dd252c583283", "f51b25db-51d9-32a0-a192-8f8fc94b7156" ]
+  }, {
+    "code" : "FINALIZED_KPI_EVIDENCE",
+    "nodeId" : null,
+    "summary" : "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+    "sourceEventIds" : [ "2bd06ad4-5aeb-321e-9316-a0c39a91b258", "7cc544e4-5f40-363b-a208-dd252c583283", "f51b25db-51d9-32a0-a192-8f8fc94b7156" ]
+  } ],
+  "mlStatus" : "OK",
+  "sequence" : 5,
+  "severity" : "HIGH",
+  "episodeId" : "eff3f07f6ea7377fe1f71d1264895ac17d23905afcd4207dbff7faf6e25c8e13",
+  "windowEnd" : "2026-09-15T08:28:00Z",
+  "detectedAt" : "2026-09-15T08:28:10Z",
+  "anomalyRank" : 0.5838293650793651,
+  "anomalyType" : "VOLTE_SETUP_DEGRADATION",
+  "detectionId" : "6df96dacbbd73d2184f4c7d72a08d29e4f8208464cdeea016656b6429a8dbe17",
+  "windowStart" : "2026-09-15T08:27:00Z",
+  "modelVersion" : "isoforest-v2-synthetic-1",
+  "probableCause" : "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+  "schemaVersion" : 2,
+  "correlationKey" : "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+  "rulesetVersion" : "service-rules-v2",
+  "technicalState" : "RECOVERED",
+  "baselineVersion" : "baseline-v2",
+  "causeConfidence" : "LOW",
+  "firstObservedAt" : "2026-09-15T08:22:00Z",
+  "topologyVersion" : "2-baseline",
+  "recommendedChecks" : [ "Verify source freshness and baseline coverage", "Inspect SIP 503 traces and IMS/transport health" ]
+} ]
