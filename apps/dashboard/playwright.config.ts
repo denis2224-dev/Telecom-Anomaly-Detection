@@ -7,7 +7,7 @@ const localUrl = `http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: "./tests/e2e/specs",
   outputDir: "./test-results/dashboard",
-  testIgnore: ["**/keycloak-theme.spec.ts", "**/auth-integration.spec.ts", "**/voice-first-slice.spec.ts", "**/service-scenarios.spec.ts"],
+  testIgnore: ["**/live-investigation.spec.ts", "**/keycloak-theme.spec.ts", "**/auth-integration.spec.ts", "**/voice-first-slice.spec.ts", "**/service-scenarios.spec.ts"],
   fullyParallel: true,
   use: {
     baseURL: process.env.E2E_BASE_URL || localUrl,

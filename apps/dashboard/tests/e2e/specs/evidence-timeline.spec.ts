@@ -23,6 +23,8 @@ async function mockSessionAndIncident(page: Page) {
     analystId: 'day8-test', displayName: 'Day 8 tester', roles: ['ANALYST'],
     expiresAt: new Date(Date.now() + 600000).toISOString(),
   } }));
+  await page.route('**/api/incidents/*/timeline?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100 } }));
+  await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
   await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
     token: 'test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf',
   } }));
