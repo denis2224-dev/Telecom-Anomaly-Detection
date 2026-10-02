@@ -57,3 +57,7 @@ For the next integrated run, use a provisioned analyst and supervisor account an
 ## Merge decision
 
 This branch makes proxy/runtime verification repeatable and passed the checks it can execute locally. Authenticated and HTTPS acceptance remain **PARTIAL**. Keep this PR reviewable; do not use it to mark the three backend gates complete or merge their separate branches.
+
+## Merge follow-up — 2 October 2026
+
+All three PR #41 checks passed on `9b7bf73`: runtime image build, model evaluation and processor evaluation. At the user's explicit request, PR #41 was merged without squashing as `57fc003`. This merge does not claim TLS or full G3 release acceptance.
