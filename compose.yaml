@@ -250,6 +250,9 @@ services:
         condition: service_completed_successfully
     expose:
       - "8081"
+    # incident-service runs on the host; keep the internal API local-only.
+    ports:
+      - "127.0.0.1:${GENERATOR_HOST_PORT:-8081}:8081"
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8081/actuator/health/readiness"]
       interval: 5s

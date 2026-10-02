@@ -22,13 +22,16 @@ public class AuditService {
     private final IncidentAuditRepository audits;
     private final AnalystRepository analysts;
     private final EntityManager entityManager;
+    private final md.utm.telecom.incidents.live.IncidentStream stream;
 
     public AuditService(IncidentRepository incidents, IncidentAuditRepository audits,
-                        AnalystRepository analysts, EntityManager entityManager) {
+                        AnalystRepository analysts, EntityManager entityManager,
+                        md.utm.telecom.incidents.live.IncidentStream stream) {
         this.incidents = incidents;
         this.audits = audits;
         this.analysts = analysts;
         this.entityManager = entityManager;
+        this.stream = stream;
     }
 
     @Transactional
@@ -75,6 +78,7 @@ public class AuditService {
         audits.insert(new IncidentAudit(incident, ActorKind.ANALYST, actor,
                 "COMMENT", requestId, null, null, null, note));
         entityManager.flush();
+        stream.changed(incident);
         return incident;
     }
 

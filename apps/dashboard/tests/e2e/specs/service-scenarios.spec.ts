@@ -411,6 +411,8 @@ for (const scenario of cases) {
         await page.getByText(
           /^Show exact values and attempt counts/,
         ).click();
+      } else {
+        await page.getByText('Delivery quality and exact SMS history', { exact: true }).click();
       }
 
       for (const window of windows) {

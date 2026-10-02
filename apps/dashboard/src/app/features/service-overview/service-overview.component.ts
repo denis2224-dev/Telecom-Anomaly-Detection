@@ -2,6 +2,9 @@ import { Component, DestroyRef, inject, signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { ServiceStore, ServiceHealth } from "./service.store";
+import { LiveUpdates } from '../../core/api/live-updates';
+import { delta, formatMetric, metricValue } from '../service-kpi-history/assurance-model';
+import type { ServiceSummary } from '../../core/api/telecom-client';
 
 @Component({
   selector: "app-service-overview",
@@ -15,21 +18,30 @@ export class ServiceOverviewComponent {
   readonly loading = this.store.loading;
   readonly error = this.store.error;
   readonly scopeId = signal<string | null>(null);
+  readonly serviceFilter = signal('ALL'); readonly healthFilter = signal('ALL'); readonly hours = signal('1');
+  private refreshing = false;
+  readonly difference = delta;
 
   constructor() {
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => this.scopeId.set(params.get("scopeId")));
     void this.load();
+    this.destroyRef.onDestroy(() => this.store.invalidate());
+    inject(LiveUpdates).refresh$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      if (!this.refreshing) void this.load(true);
+    });
   }
 
-  async load(): Promise<void> {
-    await this.store.load();
+  async load(quiet = false): Promise<void> {
+    this.refreshing = true;
+    try { await this.store.load(quiet); } finally { this.refreshing = false; }
   }
-
-  selected() {
-    return this.store.selected(this.scopeId());
-  }
+  filtered() { return this.services().filter(service => (this.serviceFilter() === 'ALL' || this.serviceFilter() === service.scope.service)
+    && (this.healthFilter() === 'ALL' || this.healthFilter() === (this.health(service) === 'STALE' ? 'UNKNOWN' : this.health(service)))
+    && (!this.scopeId() || service.scope.scopeId === this.scopeId())); }
+  primary(service: ServiceSummary) { return service.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs'; }
+  primaryValue(service: ServiceSummary) { const name = this.primary(service); return formatMetric(metricValue(service.latestWindow, name), service.latestWindow?.kpis.find(item => item.name === name)?.unit); }
 
   health(service: Parameters<ServiceStore["health"]>[0]): ServiceHealth {
     return this.store.health(service);
@@ -38,13 +50,9 @@ export class ServiceOverviewComponent {
   healthExplanation(service: Parameters<ServiceStore["health"]>[0]): string {
     return this.store.healthExplanation(this.health(service));
   }
-  metric(value: number | null, unit: string): string {
-    if (value === null) return "Unavailable";
-    return `${new Intl.NumberFormat("en", { maximumFractionDigits: 2 }).format(value)} ${({ PERCENT: "%", PERCENTAGE_POINTS: "pp", RATIO: "(ratio)", COUNT: "", MILLISECONDS: "ms", SECONDS: "s", MBPS: "Mbps" } as Record<string, string>)[unit] ?? unit}`.trim();
-  }
   time(value: string): string {
     return new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Europe/Chisinau",
+      timeZone: "UTC",
       dateStyle: "medium",
       timeStyle: "short",
     }).format(new Date(value));

@@ -59,8 +59,9 @@ Both Java applications must pass `/actuator/health/readiness` and the ML service
 health waits are bounded to 120 seconds per phase, or 180 seconds for Keycloak's
 initial database migration and development-mode startup.
 
-Application ports (`8081` for the generator, `8083` for the processor, `8090` for ML) are private
-to the Compose network. Inspect health with `docker compose ps` and diagnose
+The generator publishes `127.0.0.1:${GENERATOR_HOST_PORT:-8081}` so the host incident
+service can reach its Scenario Runner API. The processor (`8083`) and ML (`8090`)
+remain private to the Compose network. Inspect health with `docker compose ps` and diagnose
 startup failures with `docker compose logs --tail=100 <service>`. The processor receives separate runtime and Flyway credentials for `processing_db.app`;
 the generator has no database credentials. Keycloak receives only its own database and bootstrap admin
 credentials. The incident service is not started by Compose.
@@ -70,12 +71,14 @@ Public local ports:
 - Proxy and Keycloak console: `http://telecom.test:8080/auth/admin/`
 - PostgreSQL host access: `localhost:${POSTGRES_PORT:-5432}`
 - Kafka host access: `localhost:${KAFKA_HOST_PORT:-9094}`
+- Scenario Runner generator: `http://127.0.0.1:${GENERATOR_HOST_PORT:-8081}` (loopback only)
 
 Internal container addresses:
 
 - Kafka: `kafka:9092`
 - PostgreSQL: `postgres:5432`
 - Keycloak: `http://keycloak:8080/auth` (readiness: `http://keycloak:9000/health/ready`)
+- Event generator: `http://event-generator:8081`
 
 Kafka uses `apache/kafka:3.9.1` for both the broker and topic initializer. Its
 data is stored in the `apache-kafka-data` volume, with tools under `/opt/kafka/bin`.
@@ -185,7 +188,22 @@ IntelliJ or the host:
 INCIDENT_DB_URL=jdbc:postgresql://localhost:5432/incidents_db?currentSchema=app
 PROCESSING_DB_URL=jdbc:postgresql://localhost:5432/processing_db?currentSchema=app
 KAFKA_BOOTSTRAP_SERVERS=localhost:9094
+GENERATOR_HOST_PORT=8081
+GENERATOR_BASE_URL=http://127.0.0.1:8081
 ```
+
+`GENERATOR_BASE_URL` is the address used by the **host-run incident-service**.
+Docker service aliases such as `event-generator` do not resolve on the host.
+For an existing `.env`, replace only the old
+`GENERATOR_BASE_URL=http://event-generator:8081` entry with
+`GENERATOR_BASE_URL=http://127.0.0.1:8081`; preserve all credentials and other settings.
+If changing `GENERATOR_HOST_PORT`, update the port in `GENERATOR_BASE_URL` too
+(or omit `GENERATOR_BASE_URL` to use the incident service's loopback default).
+Apply the port mapping with `docker compose up -d --no-deps event-generator`
+and restart the host incident service so it reloads configuration. This works with
+Docker Desktop on Windows/macOS and Docker Engine on Linux. Containers retain
+`event-generator:8081` on `telecom-private`; do not publish the generator on
+`0.0.0.0` or route its internal API through the public proxy.
 
 The Java Streaming services do not load this Compose `.env` file automatically. Supply its
 variables through the IntelliJ run configuration, or export them before launching
@@ -201,7 +219,8 @@ Authentication uses the documented Keycloak/server-session design; no custom
 `./scripts/verify` requires the host incident service on port 8082. It checks all
 three databases, database ownership and connection isolation, each application
 schema's ownership and runtime permissions, all six V1 and five V2 Kafka topics,
-both Java application readiness endpoints, ML readiness, Keycloak readiness, the telecom realm's
+both Java application readiness endpoints, host access to the configured generator
+URL, ML readiness, Keycloak readiness, the telecom realm's
 discovery through the proxy, host DNS, and authentication routing. V2 topic
 names and retention settings are configured in `.env`; V1 topics remain separate.
 Topic creation adds missing topics; changing retention or partition settings does

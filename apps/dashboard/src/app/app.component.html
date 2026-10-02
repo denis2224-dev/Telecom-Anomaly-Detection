@@ -1,5 +1,6 @@
 <a class="skip-link" href="#workspace">Skip to workspace</a>
-<header class="app-header">
+<header class="app-header" [class.assurance-header]="session.phase() === 'authenticated' || session.phase() === 'fixture'">
+  <div class="live-clock" role="status"><strong>{{ live.state() }}</strong><small>{{ live.now() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</small></div>
   <a class="brand" routerLink="/dashboard"
     ><span class="brand-mark" aria-hidden="true"></span
     ><span>TELECOM<small>SERVICE ASSURANCE</small></span></a
@@ -68,6 +69,7 @@
       }
     }
     <footer>
+      Synthetic teaching/service-assurance environment, not a production operator NOC.
       Telecom service assurance · Service health and analyst workflow are
       separate states.
     </footer>

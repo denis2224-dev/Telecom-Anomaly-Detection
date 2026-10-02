@@ -23,17 +23,20 @@ public class EvidenceService {
     private final IncidentRepository incidents;
     private final IncidentAuditRepository audits;
     private final ObjectMapper json;
+    private final md.utm.telecom.incidents.live.IncidentStream stream;
 
     public EvidenceService(
             DetectionEvidenceRepository evidence,
             IncidentRepository incidents,
             IncidentAuditRepository audits,
-            ObjectMapper json
+            ObjectMapper json,
+            md.utm.telecom.incidents.live.IncidentStream stream
     ) {
         this.evidence = evidence;
         this.incidents = incidents;
         this.audits = audits;
         this.json = json;
+        this.stream = stream;
     }
 
     @Transactional
@@ -110,6 +113,7 @@ public class EvidenceService {
         Disposition disposition = applied == 0
                 ? Disposition.STORED_PENDING_GAP
                 : Disposition.APPLIED;
+        if (applied > 0) stream.changed(incident);
         return new IngestResult(
                 disposition, applied, incident.getLatestSequence());
     }

@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { Detection, phaseAt } from './assurance-model';
 import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-model';
 
 @Component({
@@ -7,7 +8,7 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
   template: `
     <section class="detail-panel" aria-labelledby="chart-title">
       <h2 id="chart-title">Call setup success rate</h2>
-      <p class="muted">CSSR is the percentage of call attempts that connected. Times are UTC; each point represents one server window.</p>
+      <p class="muted">VoLTE CSSR is the percentage of eligible technical setup attempts that succeeded; modeled user outcomes are excluded. Times are UTC; each point represents one server window.</p>
       <div class="chart-legend"><span>━━ Actual CSSR (%)</span><span class="expected-key">┄┄ Expected CSSR (%)</span><span>▧ Incident interval</span></div>
       <p>{{ hasAttemptCounts() ? attempts().toLocaleString('en') + ' recorded attempts' : 'Attempt counts unavailable' }} · {{ unavailable() }} windows with unavailable success rate. Exact per-window counts are below.</p>
       @if (rows().length) {
@@ -15,6 +16,7 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
           <svg viewBox="0 0 900 280" role="img" aria-labelledby="plot-title plot-desc">
             <title id="plot-title">Actual and expected voice call setup success</title>
             <desc id="plot-desc">Vertical scale {{ floor() }} to 100 percent. Blank gaps mean unavailable observations. Shaded bands show incident intervals. Exact values and attempts are in the table below.</desc>
+            @for (band of bands(); track $index) { <rect [attr.data-phase]="band.phase" [attr.class]="'phase-band ' + band.phase" [attr.x]="x(band.start)" y="20" [attr.width]="Math.max(1, x(band.end) - x(band.start))" height="210"><title>{{ band.phase }}</title></rect> }
             @for (incident of intervals(); track incident.episodeId) {
               <rect class="incident-band" [attr.x]="x(incident.firstObservedAt)" y="20" [attr.width]="Math.max(0, x(incident.lastObservedAt) - x(incident.firstObservedAt))" height="210" />
             }
@@ -42,6 +44,20 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
 export class KpiChartComponent {
   readonly windows = input<KpiWindow[]>([]);
   readonly incidents = input<Incident[]>([]);
+  readonly detections = input<Detection[]>([]);
+  readonly bands = computed(() => {
+    const bands: { start: string; end: string; phase: string }[] = [];
+    let previousEnd = this.from();
+    for (const row of this.rows()) {
+      if (Date.parse(row.windowStart) > Date.parse(previousEnd)) bands.push({ start: previousEnd, end: row.windowStart, phase: 'UNKNOWN' });
+      const phase = phaseAt(row, this.detections()), previous = bands.at(-1);
+      if (previous?.phase === phase && Date.parse(previous.end) === Date.parse(row.windowStart)) previous.end = row.windowEnd;
+      else bands.push({ start: row.windowStart, end: row.windowEnd, phase });
+      previousEnd = row.windowEnd;
+    }
+    if (Date.parse(previousEnd) < Date.parse(this.to())) bands.push({ start: previousEnd, end: this.to(), phase: 'UNKNOWN' });
+    return bands;
+  });
   readonly from = input.required<string>();
   readonly to = input.required<string>();
   readonly rows = computed(() => [...this.windows()].sort((a,b) => Date.parse(a.windowStart) - Date.parse(b.windowStart)));

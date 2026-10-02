@@ -1,5 +1,7 @@
 import { Injectable, inject, signal } from "@angular/core";
 import { ServiceSummary, TelecomClient } from "../../core/api/telecom-client";
+import type { Incident } from '../../core/api/telecom-client';
+import { allPages, metricValue, serviceHealth } from '../service-kpi-history/assurance-model';
 
 export type ServiceHealth = "NORMAL" | "DEGRADED" | "STALE" | "UNKNOWN";
 
@@ -9,17 +11,26 @@ export class ServiceStore {
   private requestId = 0;
 
   readonly services = signal<ServiceSummary[]>([]);
+  readonly incidents = signal<Incident[]>([]);
+  readonly previous = signal<ServiceSummary[]>([]);
   readonly loading = signal(true);
   readonly error = signal("");
 
-  async load(): Promise<void> {
+  async load(quiet = false): Promise<void> {
     const requestId = ++this.requestId;
-    this.loading.set(true);
+    if (!quiet) this.loading.set(true);
     this.error.set("");
 
     try {
       const services = await this.api.listServices();
-      if (requestId === this.requestId) this.services.set(services);
+      const incidentPage = await allPages(page => this.api.listIncidents({ page, size: 100 }), () => requestId === this.requestId);
+      if (requestId === this.requestId) {
+        const old = this.services();
+        // Keep the prior completed window until a genuinely new minute arrives.
+        this.previous.update(previous => services.map(service => old.find(item => item.scope.scopeId === service.scope.scopeId && item.latestWindow?.windowId !== service.latestWindow?.windowId)
+          ?? previous.find(item => item.scope.scopeId === service.scope.scopeId)).filter((item): item is ServiceSummary => !!item));
+        this.services.set(services); this.incidents.set(incidentPage.items);
+      }
     } catch (error) {
       if (requestId === this.requestId) {
         this.error.set(
@@ -31,32 +42,23 @@ export class ServiceStore {
     }
   }
 
-  selected(scopeId: string | null): ServiceSummary | undefined {
-    return this.services().find((service) => service.scope.scopeId === scopeId);
-  }
-
   health(service: ServiceSummary): ServiceHealth {
-    if (service.freshness === "MISSING" || service.latestWindow === null) {
-      return "UNKNOWN";
-    }
-    if (service.freshness === "STALE") return "STALE";
-
-    const hasDegradedKpi = service.latestWindow.kpis.some((kpi) => {
-      if (kpi.observed === null || kpi.baseline === null) return false;
-      if (kpi.unit === "PERCENT") return kpi.observed < kpi.baseline - 1;
-      if (kpi.unit === "MILLISECONDS" || kpi.unit === "SECONDS") {
-        return kpi.observed > kpi.baseline * 2;
-      }
-      return false;
-    });
-    return hasDegradedKpi ? "DEGRADED" : "NORMAL";
+    return serviceHealth(service, this.incidents());
   }
+  trend(service: ServiceSummary) {
+    const primary = service.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs';
+    const current = metricValue(service.latestWindow, primary);
+    const previous = metricValue(this.previous().find(item => item.scope.scopeId === service.scope.scopeId)?.latestWindow, primary);
+    if (current === null || previous === null) return 'Trend unavailable until next measured minute';
+    return current === previous ? 'Unchanged from previous minute' : current > previous ? '↑ Increased from previous minute' : '↓ Decreased from previous minute';
+  }
+  invalidate() { this.requestId++; }
 
   healthExplanation(health: ServiceHealth): string {
     return {
-      NORMAL: "The latest observation is within its expected baseline.",
+      NORMAL: "Complete service telemetry; no persisted ongoing anomaly. Compare actual values with the contextual baseline.",
       DEGRADED:
-        "The latest observation is outside its expected baseline. Review the evidence.",
+        "A persisted service episode is ongoing. Review the supporting evidence.",
       STALE:
         "The last observation is stale. Current service health cannot be confirmed.",
       UNKNOWN:

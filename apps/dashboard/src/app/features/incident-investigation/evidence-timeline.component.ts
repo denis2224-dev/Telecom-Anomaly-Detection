@@ -44,6 +44,7 @@ type Detection = components['schemas']['ServiceDetection'];
       <article
         class="detail-panel"
         [attr.data-detection-id]="detection.detectionId"
+        [attr.data-phase]="detection.phase"
       >
         <h3>Update {{ detection.sequence }} · {{ detection.phase }}</h3>
 
@@ -136,6 +137,7 @@ type Detection = components['schemas']['ServiceDetection'];
           Unique customers:
           {{ detection.impact.uniqueSubscribers ?? 'Unavailable' }}
         </p>
+        <p>Unique subscribers: not available in aggregate demo</p>
 
         <p>
           Attempts and messages are not unique customers.
