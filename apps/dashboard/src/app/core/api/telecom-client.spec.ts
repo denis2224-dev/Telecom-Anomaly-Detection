@@ -85,4 +85,22 @@ describe("TelecomClient", () => {
     ).rejects.toMatchObject({ status: 403, code: "CSRF_INVALID" });
     http.expectNone("/api/incidents/1/status");
   });
+
+  it('cancels a read when its screen aborts it', async () => {
+    const controller = new AbortController();
+    const response = client.listIncidents({ page: 0, size: 20 }, controller.signal);
+    const rejected = expect(response).rejects.toMatchObject({ name: 'AbortError' });
+    const request = http.expectOne('/api/incidents?page=0&size=20');
+    controller.abort();
+    await rejected;
+    expect(request.cancelled).toBe(true);
+    expect(session.phase()).toBe('authenticated');
+  });
+
+  it('sends the requested evidence page size', async () => {
+    const response = client.getDetections('incident/1', 2, 20);
+    const request = http.expectOne('/api/incidents/incident%2F1/detections?page=2&size=20');
+    request.flush({ items: [], total: 40, page: 2, size: 20 });
+    expect(await response).toEqual({ items: [], total: 40, page: 2, size: 20 });
+  });
 });

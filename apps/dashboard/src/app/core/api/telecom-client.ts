@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { EmptyError, firstValueFrom, takeUntil } from "rxjs";
+import { firstValueFrom, fromEvent, takeUntil } from "rxjs";
 import type { components, operations } from "./schema";
 import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
@@ -19,15 +19,15 @@ export class TelecomClient {
   private readonly http = inject(HttpClient);
   private readonly session = inject(SessionStore);
 
-  async listServices(): Promise<ServiceSummary[]> {
+  async listServices(signal?: AbortSignal): Promise<ServiceSummary[]> {
     if (dataSource.fixture)
       return structuredClone(
         await dataSource.loadServices(),
       ) as ServiceSummary[];
-    return this.request<ServiceSummary[]>("GET", "/api/services");
+    return this.request<ServiceSummary[]>("GET", "/api/services", undefined, undefined, signal);
   }
 
-  async listIncidents(query: IncidentQuery = {}) {
+  async listIncidents(query: IncidentQuery = {}, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const { voiceIncidents } = await dataSource.loadVoice();
       const items = voiceIncidents.filter(item => (!query.scopeId || item.scopeId === query.scopeId)
@@ -42,10 +42,11 @@ export class TelecomClient {
       "/api/incidents",
       undefined,
       query,
+      signal,
     );
   }
 
-  async getIncident(id: string) {
+  async getIncident(id: string, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const incident = (await dataSource.loadVoice()).voiceIncidents.find(item => item.id === id);
       if (!incident) throw new ApiFailure(404);
@@ -54,19 +55,23 @@ export class TelecomClient {
     return this.request<Incident>(
       "GET",
       `/api/incidents/${encodeURIComponent(id)}`,
+      undefined,
+      undefined,
+      signal,
     );
   }
 
-  async getDetections(id: string, page = 0) {
+  async getDetections(id: string, page = 0, size = 20, signal?: AbortSignal) {
     if (dataSource.fixture) {
-      const incident = await this.getIncident(id);
-      return { items: page === 0 ? [incident.latestDetection] : [], total: 1, page, size: 100 };
+      const incident = await this.getIncident(id, signal);
+      const items = [incident.latestDetection];
+      return { items: items.slice(page * size, (page + 1) * size), total: items.length, page, size };
     }
     return this.request<components['schemas']['DetectionPage']>('GET',
-      `/api/incidents/${encodeURIComponent(id)}/detections`, undefined, { page, size: 100 });
+      `/api/incidents/${encodeURIComponent(id)}/detections`, undefined, { page, size }, signal);
   }
 
-  async getServiceKpis(scopeId: string, query: KpiQuery) {
+  async getServiceKpis(scopeId: string, query: KpiQuery, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const { voiceWindows, voiceRange } = await dataSource.loadVoice();
       const items = voiceWindows.filter(item => item.scopeId === scopeId
@@ -79,6 +84,7 @@ export class TelecomClient {
       `/api/services/${encodeURIComponent(scopeId)}/kpis`,
       undefined,
       query,
+      signal,
     );
   }
 
@@ -137,6 +143,7 @@ stopScenario(runId: string): Promise<ScenarioRun> {
     url: string,
     body?: unknown,
     query?: object,
+    signal?: AbortSignal,
   ): Promise<T> {
     if (dataSource.fixture) {
       throw new Error(
@@ -144,6 +151,7 @@ stopScenario(runId: string): Promise<ScenarioRun> {
       );
     }
 
+    signal?.throwIfAborted();
     const revision = this.session.revision;
     const params: Record<string, string> = {};
 
@@ -152,12 +160,10 @@ stopScenario(runId: string): Promise<ScenarioRun> {
     }
 
     try {
-      const result = await firstValueFrom(
-        this.http.request<T>(method, url, {
-          body,
-          params,
-        }),
-      );
+      const response = this.http.request<T>(method, url, { body, params });
+      const result = await firstValueFrom(signal
+        ? response.pipe(takeUntil(fromEvent(signal, 'abort')))
+        : response);
 
       if (
         this.session.revision !== revision
@@ -176,6 +182,8 @@ stopScenario(runId: string): Promise<ScenarioRun> {
       ) {
         throw new ApiFailure(401);
       }
+
+      if (signal?.aborted) throw new DOMException('Request cancelled', 'AbortError');
 
       if (error instanceof HttpErrorResponse) {
         throw new ApiFailure(
