@@ -8,6 +8,8 @@ import md.utm.telecom.incidents.model.Incident;
 import md.utm.telecom.incidents.model.IncidentAudit;
 import md.utm.telecom.incidents.repository.IncidentAuditRepository;
 import md.utm.telecom.incidents.repository.IncidentRepository;
+import md.utm.telecom.incidents.stream.IncidentChanged;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.ObjectMapper;
@@ -24,19 +26,22 @@ public class EvidenceService {
     private final IncidentAuditRepository audits;
     private final ObjectMapper json;
     private final EpisodeLock episodeLock;
+    private final ApplicationEventPublisher events;
 
     public EvidenceService(
             DetectionEvidenceRepository evidence,
             IncidentRepository incidents,
             IncidentAuditRepository audits,
             ObjectMapper json,
-            EpisodeLock episodeLock
+            EpisodeLock episodeLock,
+            ApplicationEventPublisher events
     ) {
         this.evidence = evidence;
         this.incidents = incidents;
         this.audits = audits;
         this.json = json;
         this.episodeLock = episodeLock;
+        this.events = events;
     }
 
     @Transactional
@@ -125,6 +130,9 @@ public class EvidenceService {
         }
 
         incidents.flush();
+        if (applied > 0) {
+            events.publishEvent(new IncidentChanged(incident.getId(), incident.getVersion()));
+        }
         Disposition disposition = applied > 0
                 ? Disposition.APPLIED
                 : (replay ? Disposition.DUPLICATE : Disposition.STORED_PENDING_GAP);

@@ -14,6 +14,10 @@ test.describe('Day 5 voice investigation', () => {
     });
     await page.route('**/api/incidents?**', route => route.fulfill({ json: { items: [voiceIncidents[0], { ...voiceIncidents[0], version: 1, technicalState: 'ONGOING' }], total: 2, page: 0, size: 100 } }));
     await page.route('**/api/incidents/*', route => route.fulfill({ json: voiceIncidents[0] }));
+    await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
+    await page.route('**/api/incidents/*/timeline?**', route => route.fulfill({ json: {
+      items: [], total: 0, page: 0, size: 100,
+    } }));
     await page.route('**/api/incidents/*/detections?**', route => route.fulfill({ json: {
       items: [voiceIncidents[0].latestDetection], total: 1, page: 0, size: 100,
     } }));

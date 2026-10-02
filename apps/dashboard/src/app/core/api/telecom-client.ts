@@ -107,6 +107,12 @@ export class TelecomClient {
     );
   }
 
+  getTimeline(id: string, page = 0) {
+    if (dataSource.fixture) return Promise.resolve({ items: [], total: 0, page, size: 100 });
+    return this.request<components['schemas']['AuditPage']>('GET',
+      `/api/incidents/${encodeURIComponent(id)}/timeline`, undefined, { page, size: 100 });
+  }
+
   commentIncident(
     id: string,
     body: components['schemas']['CommentRequest'],

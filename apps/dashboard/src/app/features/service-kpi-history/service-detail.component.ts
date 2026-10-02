@@ -9,6 +9,10 @@ import { IncidentListComponent } from '../incident-investigation/incident-list.c
 import { episodes, type Incident, type KpiWindow } from './voice-model';
 import { SmsQualityComponent } from './sms-quality.component';
 import { SmsHistoryComponent } from './sms-history.component';
+import {
+  IncidentStream,
+  mergeIncidentVersions,
+} from '../../core/state/incident-stream';
 
 @Component({
   selector: 'app-service-detail', imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent, SmsQualityComponent, SmsHistoryComponent],
@@ -71,6 +75,13 @@ import { SmsHistoryComponent } from './sms-history.component';
       UTC{{ fixture ? ' · Synthetic sample' : '' }}
     </p>
 
+    @if (streamError()) {
+      <p role="status">{{ streamError() }}</p>
+      <button type="button" (click)="refreshIncidents()">
+        Retry incident refresh
+      </button>
+    }
+
     @if (service.scope.service === 'VOLTE') {
       <app-kpi-chart
         [windows]="windows()"
@@ -92,7 +103,12 @@ import { SmsHistoryComponent } from './sms-history.component';
 })
 export class ServiceDetailComponent {
   private readonly api = inject(TelecomClient);
+  private readonly stream = inject(IncidentStream);
   private generation = 0;
+  private closeStream?: () => void;
+  private refreshTimer?: ReturnType<typeof setTimeout>;
+  private refreshId = 0;
+  readonly streamError = signal('');
   readonly fixture = dataSource.fixture;
   readonly scopeId = signal('');
   readonly service = signal<ServiceSummary | null>(null);
@@ -103,11 +119,22 @@ export class ServiceDetailComponent {
   readonly windows = signal<KpiWindow[]>([]); readonly incidents = signal<Incident[]>([]);
   constructor() {
     const destroy = inject(DestroyRef);
-    destroy.onDestroy(() => { this.generation++; });
-    inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
-      this.scopeId.set(params.get('scopeId') ?? ''); this.from.set(''); this.to.set('');
-      void this.load();
+    destroy.onDestroy(() => {
+      this.generation++;
+      this.refreshId++;
+      clearTimeout(this.refreshTimer);
+      this.closeStream?.();
     });
+    inject(ActivatedRoute).paramMap
+      .pipe(takeUntilDestroyed(destroy))
+      .subscribe(params => {
+        this.refreshId++;
+        clearTimeout(this.refreshTimer);
+        this.scopeId.set(params.get('scopeId') ?? '');
+        this.from.set('');
+        this.to.set('');
+        void this.load();
+      });
   }
   applyRange(event: Event, start: string, end: string) {
     event.preventDefault();
@@ -116,10 +143,17 @@ export class ServiceDetailComponent {
       this.rangeError.set('Choose an end after the start, with a range of at most 24 hours.'); return;
     }
     this.rangeError.set(''); this.from.set(new Date(from).toISOString()); this.to.set(new Date(to).toISOString());
+    this.refreshId++;
+    clearTimeout(this.refreshTimer);
     void this.load();
   }
   async load() {
     const generation = ++this.generation, scopeId = this.scopeId();
+    const previousIncidents = this.incidents()
+      .filter(item => item.scopeId === scopeId);
+    this.refreshId++;
+    clearTimeout(this.refreshTimer);
+    this.streamError.set('');
     this.loading.set(true); this.error.set(''); this.windows.set([]); this.incidents.set([]);
     try {
       const services = await this.api.listServices();
@@ -142,11 +176,70 @@ export class ServiceDetailComponent {
       if (generation !== this.generation) return;
       this.windows.set(history.items);
       this.observedAt.set(history.observedAt ?? service.observedAt);
-      this.incidents.set(episodes(incidents.items).filter(item => Date.parse(item.firstObservedAt) < Date.parse(to) && Date.parse(item.lastObservedAt) > Date.parse(from)));
+      const merged = mergeIncidentVersions(previousIncidents, incidents.items);
+      this.incidents.set(episodes(merged).filter(item =>
+        Date.parse(item.firstObservedAt) < Date.parse(to)
+        && Date.parse(item.lastObservedAt) > Date.parse(from),
+      ));
+      if (!this.fixture && !this.closeStream) {
+        this.closeStream = this.stream.connect(
+          () => this.queueIncidentRefresh(),
+          () => this.streamError.set(
+            'Live connection interrupted. Existing evidence is still shown; reconnecting…',
+          ),
+        );
+      }
     } catch (error) {
       if (generation === this.generation) this.error.set(error instanceof Error ? error.message : 'Could not load evidence. Try again.');
     } finally { if (generation === this.generation) this.loading.set(false); }
   }
+  private queueIncidentRefresh(): void {
+    clearTimeout(this.refreshTimer);
+    this.refreshTimer = setTimeout(() => {
+      if (this.loading()) {
+        this.queueIncidentRefresh();
+        return;
+      }
+      void this.refreshIncidents();
+    }, 150);
+  }
+
+  async refreshIncidents(): Promise<void> {
+    if (this.fixture || !this.scopeId() || !this.from() || !this.to()) return;
+
+    const refreshId = ++this.refreshId;
+    const generation = this.generation;
+    const scopeId = this.scopeId();
+    const service = this.service()?.scope.service;
+    const from = this.from();
+    const to = this.to();
+    if (!service) return;
+
+    try {
+      const result = await this.allPages(page => this.api.listIncidents({
+        scopeId,
+        service,
+        page,
+        size: 100,
+      }));
+
+      if (generation !== this.generation || refreshId !== this.refreshId) return;
+
+      const merged = mergeIncidentVersions(this.incidents(), result.items);
+      this.incidents.set(episodes(merged).filter(item =>
+        Date.parse(item.firstObservedAt) < Date.parse(to)
+        && Date.parse(item.lastObservedAt) > Date.parse(from),
+      ));
+      this.streamError.set('');
+    } catch {
+      if (generation === this.generation && refreshId === this.refreshId) {
+        this.streamError.set(
+          'Live incident refresh failed. Existing evidence is still shown; retry to catch up.',
+        );
+      }
+    }
+  }
+
   private async allPages<T>(fetch: (page: number) => Promise<{items: T[]; total: number; observedAt?: string}>) {
     const items: T[] = []; let observedAt: string | undefined;
     for (let page = 0; page < 100; page++) {

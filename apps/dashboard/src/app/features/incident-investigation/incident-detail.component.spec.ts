@@ -4,23 +4,26 @@ import { Subject } from 'rxjs';
 import type { ParamMap } from '@angular/router';
 import { TelecomClient } from '../../core/api/telecom-client';
 import { voiceIncidents } from '../../../fixtures/voice';
+import { IncidentStream } from '../../core/state/incident-stream';
 import { IncidentDetailComponent } from './incident-detail.component';
 
 describe('Incident investigation evidence', () => {
   const incident = voiceIncidents[0];
   const latest = incident.latestDetection;
   let params: Subject<ParamMap>;
-  let api: { getIncident: ReturnType<typeof vi.fn>; getDetections: ReturnType<typeof vi.fn> };
+  let api: { getIncident: ReturnType<typeof vi.fn>; getDetections: ReturnType<typeof vi.fn>; getTimeline: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     params = new Subject<ParamMap>();
     api = {
+      getTimeline: vi.fn().mockResolvedValue({ items: [], total: 0 }),
       getIncident: vi.fn().mockResolvedValue(incident),
       getDetections: vi.fn().mockResolvedValue({ items: [latest], total: 1 }),
     };
     TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
+        { provide: IncidentStream, useValue: { connect: vi.fn().mockReturnValue(() => {}) } },
         { provide: ActivatedRoute, useValue: { paramMap: params } },
         { provide: TelecomClient, useValue: api },
       ],
@@ -149,4 +152,24 @@ describe('Incident investigation evidence', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).toContain('The service has recovered.');
   });
+  it('refreshes an equal-version comment without hiding current evidence', async () => {
+    const fixture = await open();
+    const comment = { id: 'comment-1', action: 'COMMENT', note: 'Inspecting the IMS node',
+      occurredAt: '2026-10-02T09:00:00Z', actorKind: 'ANALYST' };
+    api.getTimeline.mockResolvedValue({ items: [comment], total: 1 });
+    await fixture.componentInstance.load(true);
+    fixture.detectChanges();
+    expect(fixture.componentInstance.incident()?.version).toBe(incident.version);
+    expect(fixture.nativeElement.textContent).toContain(comment.note);
+    expect(fixture.componentInstance.detections()).toEqual([latest]);
+  });
+
+  it('keeps a newer action result when a background request returns an older version', async () => {
+    const fixture = await open();
+    fixture.componentInstance.incident.set({ ...incident, version: incident.version + 1 });
+    await fixture.componentInstance.load(true);
+    expect(fixture.componentInstance.incident()?.version).toBe(incident.version + 1);
+    fixture.destroy();
+  });
+
 });

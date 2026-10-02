@@ -13,7 +13,8 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
       analystId: 'g3-review', displayName: 'G3 reviewer', roles: ['ANALYST'],
       expiresAt: new Date(Date.now() + 600000).toISOString(),
     } }));
-    await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
+    await page.route('**/api/incidents/*/timeline?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100 } }));
+  await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
       token: 'controlled-test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf',
     } }));
     await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
