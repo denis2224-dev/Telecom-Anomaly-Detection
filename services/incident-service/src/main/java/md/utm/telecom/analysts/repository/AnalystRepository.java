@@ -11,5 +11,5 @@ public interface AnalystRepository extends JpaRepository<Analyst, UUID> {
 
     Optional<Analyst> findByIssuerAndSubject(String issuer, String subject);
 
-    List<Analyst> findAllByEnabledTrueOrderByDisplayNameAsc();
+    List<Analyst> findAllByEnabledOrderByDisplayNameAsc(boolean enabled);
 }

@@ -15,7 +15,8 @@ def validate_detection_contracts():
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/features').glob('*.json')
           if p.name not in ('parity-v2.json', 'voice-parity-v2.json', 'sms-parity-v2.json')]),
         ('detections/service-detection-v2.schema.json',
-         [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/detections').glob('*.json')]),
+         [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/detections').glob('*.json')
+          if p.name != 'service-explanation-cases.json']),
     ]
     count = 0
     for schema_path, paths in pairs:
@@ -28,6 +29,7 @@ def validate_detection_contracts():
             validator.validate(read_json(ROOT / 'contracts' / path))
             count += 1
     print(f'PASS: detection schemas, policy, baseline and {count} payloads')
+    validate_explanation_cases(read_json(ROOT / 'contracts/fixtures/detections/service-explanation-cases.json'))
     # A parity suite references observations; it is not itself a feature payload.
     # Execute its cases against the canonical reference instead of skipping validation.
     import importlib.util
@@ -39,6 +41,45 @@ def validate_detection_contracts():
     sms_parity = importlib.util.module_from_spec(spec_sms)
     spec_sms.loader.exec_module(sms_parity)
     print(f'PASS: {len(sms_parity.reference_cases())} SMS parity cases with unchanged shared expectations')
+
+
+def validate_explanation_cases(suite):
+    # This named file is a test collection; all other detection JSON files remain standalone payloads.
+    expected = {'type': 'object', 'required': ['status', 'breached', 'confidence', 'phase'],
+                'additionalProperties': False, 'properties': {
+                    'status': {'enum': ['EVALUATED', 'INSUFFICIENT_DATA', 'BASELINE_MISSING']},
+                    'breached': {'type': 'boolean'}, 'confidence': {'enum': ['LOW', 'MEDIUM']},
+                    'phase': {'enum': [None, 'OPEN', 'UPDATE', 'UNKNOWN', 'RECOVERY']}}}
+    step = {'type': 'object', 'required': ['feature', 'node', 'expected', 'mlStatus'],
+            'additionalProperties': False, 'properties': {
+                'feature': {'type': 'object'}, 'node': {'type': 'object'}, 'expected': expected,
+                'mlStatus': {'enum': ['OK', 'INSUFFICIENT_DATA']}}}
+    case_schema = {'type': 'object', 'required': ['id', 'service', 'windows', 'detections'],
+                   'additionalProperties': False, 'properties': {
+                       'id': {'type': 'string', 'minLength': 1}, 'service': {'enum': ['VOLTE', 'SMS']},
+                       'detections': {'type': 'array'},
+                       'windows': {'type': 'array', 'minItems': 1, 'items': step}}}
+    Draft202012Validator({'type': 'object', 'required': ['description', 'cases'],
+                         'additionalProperties': False, 'properties': {
+                             'description': {'type': 'string'},
+                             'cases': {'type': 'array', 'minItems': 1, 'items': case_schema}}}).validate(suite)
+    feature_validator = Draft202012Validator(read_json(ROOT / 'contracts/features/service-feature-window-v2.schema.json'), format_checker=FormatChecker())
+    detection_validator = Draft202012Validator(read_json(ROOT / 'contracts/detections/service-detection-v2.schema.json'), format_checker=FormatChecker())
+    ids = set()
+    for case in suite['cases']:
+        if case['id'] in ids:
+            raise ValueError('Duplicate explanation case: ' + case['id'])
+        ids.add(case['id'])
+        for step in case['windows']:
+            feature_validator.validate(step['feature'])
+            validate_observation(step['node'])
+            if step['feature']['service'] != case['service']:
+                raise ValueError('Explanation case service mismatch')
+        for detection in case['detections']:
+            detection_validator.validate(detection)
+            if detection['service'] != case['service']:
+                raise ValueError('Explanation detection service mismatch')
+    print(f'PASS: {len(ids)} explanation trajectories with validated nested features, nodes and detections')
 
 
 def main():

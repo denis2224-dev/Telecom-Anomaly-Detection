@@ -13,6 +13,9 @@ import { IncidentActionsComponent } from './incident-actions.component';
   styles: ['code { overflow-wrap: anywhere; }'],
   template: `
     <h1>Incident investigation</h1>
+    @if (!loading() && !error()) {
+      <button type="button" (click)="load()">Refresh incident</button>
+    }
     @if (loading()) { <p role="status">Loading incident evidence…</p> }
     @if (error()) { <section role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
     @if (!loading() && !error() && incident(); as item) {
@@ -24,7 +27,14 @@ import { IncidentActionsComponent } from './incident-actions.component';
         <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
         <p>{{ fixture ? 'Synthetic preview: only the sample latest update is available.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
         @if (!fixture) { <p class="muted">Synthetic telecom demo · measurements processed by the running backend.</p> }
-        <p>Recovery describes the service. The investigation remains open until an analyst resolves it.</p>
+        <p>Severity: <strong>{{ item.severity }}</strong>. This is the rule's service-impact priority, not a probability.</p>
+        @if (item.technicalState === 'RECOVERED') {
+          <p>The service has recovered. The analyst investigation stays open until someone resolves it.</p>
+        } @else if (item.technicalState === 'UNKNOWN') {
+          <p>Technical state is unknown because evidence is incomplete. Do not treat this as recovery.</p>
+        } @else {
+          <p>The issue is still ongoing at the latest observation.</p>
+        }
       </section>
       <app-incident-actions [incident]="item" (updated)="incident.set($event)" />
       <p class="muted">

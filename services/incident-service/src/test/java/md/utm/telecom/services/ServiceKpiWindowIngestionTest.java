@@ -119,6 +119,40 @@ class ServiceKpiWindowIngestionTest extends IncidentServiceIntegrationTestSuppor
         verifyNoInteractions(acknowledgment);
     }
 
+    @Test
+    void explicitBootstrapRetainsPriorMissingEvidenceAndAcknowledges() {
+        String original = payload("bootstrap-retained", "MISSING", "null");
+        String candidate = payload("bootstrap-retained", "COMPLETE", "42");
+        service.ingest(SCOPE, original);
+        var record = new ConsumerRecord<String,String>("telecom.kpis.v2", 0, 20L, SCOPE, candidate);
+        record.headers().add("telecom-history-bootstrap", "initial-demo-v1".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        var acknowledgment = mock(Acknowledgment.class);
+        consumer.consume(record, acknowledgment);
+        verify(acknowledgment).acknowledge();
+        entityManager.flush(); entityManager.clear();
+        assertEquals(json.readTree(original), json.readTree(windows.findById("bootstrap-retained").orElseThrow().getPayload()));
+        assertThrows(IllegalArgumentException.class, () -> service.ingest(SCOPE, candidate));
+    }
+
+    @Test
+    void bootstrapCannotReuseIdentityForDifferentInterval() {
+        String original = payload("bootstrap-wrong-interval", "COMPLETE", "0");
+        service.ingest(SCOPE, original);
+        String changed = original.replace("10:00:00Z", "11:00:00Z").replace("10:01:00Z", "11:01:00Z");
+        assertThrows(IllegalArgumentException.class, () -> service.ingestBootstrap(SCOPE, changed));
+    }
+
+    @Test
+    void unknownBootstrapMarkerKeepsExactReplayProtection() {
+        service.ingest(SCOPE, payload("bootstrap-unknown-marker", "COMPLETE", "0"));
+        var record = new ConsumerRecord<String,String>("telecom.kpis.v2", 0, 21L, SCOPE,
+                payload("bootstrap-unknown-marker", "COMPLETE", "1"));
+        record.headers().add("telecom-history-bootstrap", "unknown".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        var acknowledgment = mock(Acknowledgment.class);
+        assertThrows(IllegalArgumentException.class, () -> consumer.consume(record, acknowledgment));
+        verifyNoInteractions(acknowledgment);
+    }
+
     private static String payload(String windowId, String quality, String observed) {
         return """
                 {

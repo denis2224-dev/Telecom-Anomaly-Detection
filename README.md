@@ -50,7 +50,9 @@ npm --prefix apps/dashboard run build
 Start `incident-service` in a second terminal with
 `cd services/incident-service && ./mvnw spring-boot:run`, then run
 `./scripts/verify` from the repository root. The proxy needs this host service
-for authentication and API routes.
+for authentication and API routes. To run the backend in Compose instead, use
+`./scripts/up --with-incident-service`; do not start the host backend on the same
+port. This opt-in mode keeps the backend running after the terminal closes.
 
 The shared Compose stack starts PostgreSQL and Apache Kafka 3.9.1, provisions three
 databases (`processing_db`, `incidents_db`, `keycloak_db`), application schemas and

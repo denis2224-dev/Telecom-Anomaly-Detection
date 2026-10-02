@@ -67,7 +67,7 @@ class SmsRuleTest {
         assertEquals("baseline-v2", result.baselineVersion());
         assertEquals("2-baseline", result.topologyVersion());
         assertEquals("INSUFFICIENT_DATA", result.mlStatus());
-        assertEquals("LOW", result.causeConfidence());
+        assertEquals("MEDIUM", result.causeConfidence());
         assertEquals("SMSC_QUEUE", result.evidence().getFirst().code());
         assertEquals("2fbe9f8b-abc3-5f88-ae74-52aa04b49c74",
                 result.evidence().getFirst().sourceEventIds().getFirst());

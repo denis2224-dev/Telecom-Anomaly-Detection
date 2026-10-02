@@ -4,13 +4,19 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: service-integration-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   model-evaluation:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -47,6 +53,7 @@ jobs:
   processor-evaluation:
     runs-on: ubuntu-latest
     needs: model-evaluation
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

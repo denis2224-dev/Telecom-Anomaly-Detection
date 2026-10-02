@@ -14,6 +14,11 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       acks: all
+      properties:
+        max.block.ms: 500
+        request.timeout.ms: 1000
+        delivery.timeout.ms: 1500
+        linger.ms: 0
     admin:
       auto-create: false
 management:
@@ -31,6 +36,11 @@ management:
         readiness:
           include: readinessState,kafka
 telecom:
+  continuous:
+    enabled: ${CONTINUOUS_TELEMETRY_ENABLED:false}
+    seed: ${CONTINUOUS_TELEMETRY_SEED:42}
+    publish-delay: ${CONTINUOUS_TELEMETRY_PUBLISH_DELAY:1s}
+    kafka-timeout: ${CONTINUOUS_TELEMETRY_KAFKA_TIMEOUT:500ms}
   kafka-readiness:
     timeout: ${KAFKA_READINESS_TIMEOUT:2s}
     poll-interval: ${KAFKA_READINESS_POLL_INTERVAL:1s}

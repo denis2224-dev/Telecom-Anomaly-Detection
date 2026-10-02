@@ -15,6 +15,7 @@ import { incidentActionMessage } from '../../core/api/api-errors';
 import type { components } from '../../core/api/schema';
 import { dataSource } from '../../core/api/data-source';
 import { SessionStore } from '../login-and-session/session.store';
+import { requestId } from '../../core/api/request-id';
 
 type Analyst = components['schemas']['AnalystSummary'];
 
@@ -134,6 +135,28 @@ type Analyst = components['schemas']['AnalystSummary'];
           </p>
         }
 
+        @if (canComment()) {
+          <label for="investigation-comment">Investigation comment</label>
+          <textarea
+            id="investigation-comment"
+            rows="4"
+            maxlength="2000"
+            [value]="commentText()"
+            [disabled]="busy()"
+            (input)="editComment($event)"
+          ></textarea>
+          <button
+            type="button"
+            [disabled]="busy() || !commentText().trim()"
+            (click)="addComment()"
+          >
+            Add comment
+          </button>
+          @if (commentNotice()) {
+            <p role="status">{{ commentNotice() }}</p>
+          }
+        }
+
         @if (message()) {
           <p role="alert">{{ message() }}</p>
           <button
@@ -160,6 +183,9 @@ export class IncidentActionsComponent implements OnInit {
   readonly directoryError = signal('');
   readonly targetId = signal('');
   readonly resolutionNote = signal('');
+  readonly commentText = signal('');
+  readonly commentNotice = signal('');
+  private pendingComment?: { id: string; text: string; requestId: string };
   readonly message = signal('');
   readonly busy = signal(false);
 
@@ -187,6 +213,10 @@ export class IncidentActionsComponent implements OnInit {
         || assignee === this.session.actor()?.analystId
       );
   });
+
+  readonly canComment = computed(() =>
+    this.privileged() || this.canChangeStatus(),
+  );
 
   readonly assigneeName = computed(() => {
     const id = this.incident().assigneeId;
@@ -224,6 +254,13 @@ export class IncidentActionsComponent implements OnInit {
     this.resolutionNote.set(
       (event.target as HTMLTextAreaElement).value,
     );
+  }
+
+  editComment(event: Event): void {
+    const next = (event.target as HTMLTextAreaElement).value;
+    if (next !== this.commentText()) this.pendingComment = undefined;
+    this.commentText.set(next);
+    this.commentNotice.set('');
   }
 
   claim(): void {
@@ -313,6 +350,35 @@ export class IncidentActionsComponent implements OnInit {
       this.message.set(
         'Incident refreshed. Review it before making another change.',
       );
+    } catch (error) {
+      this.message.set(incidentActionMessage(error));
+    } finally {
+      this.busy.set(false);
+    }
+  }
+
+  async addComment(): Promise<void> {
+    const item = this.incident();
+    const text = this.commentText().trim();
+    if (dataSource.fixture || this.busy() || !this.canComment()
+      || !text || text.length > 2000) return;
+    if (this.pendingComment?.id !== item.id || this.pendingComment.text !== text) {
+      this.pendingComment = { id: item.id, text, requestId: requestId() };
+    }
+    this.busy.set(true);
+    this.message.set('');
+    this.commentNotice.set('');
+
+    try {
+      const updated = await this.api.commentIncident(item.id, {
+        text,
+        version: item.version,
+        requestId: this.pendingComment.requestId,
+      });
+      this.updated.emit(updated);
+      this.commentText.set('');
+      this.pendingComment = undefined;
+      this.commentNotice.set('Comment saved.');
     } catch (error) {
       this.message.set(incidentActionMessage(error));
     } finally {

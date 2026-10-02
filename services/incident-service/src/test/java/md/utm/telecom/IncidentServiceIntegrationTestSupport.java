@@ -54,9 +54,7 @@ public abstract class IncidentServiceIntegrationTestSupport {
 
     protected MockHttpSession authenticatedSession() {
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute(
-                SessionDeadlineFilter.EXPIRES_AT,
-                Instant.now().plusSeconds(600));
+        SessionDeadlineFilter.initialize(session, Instant.now());
         return session;
     }
 }

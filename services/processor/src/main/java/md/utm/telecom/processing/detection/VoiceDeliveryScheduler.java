@@ -1,6 +1,7 @@
 package md.utm.telecom.processing.detection;
 
 import java.util.concurrent.TimeUnit;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,15 +28,46 @@ public class VoiceDeliveryScheduler {
             for (String scope : jdbc.queryForList("""
                     SELECT DISTINCT scope_id FROM app.feature_outbox f WHERE f.payload->>'service' IN ('VOLTE', 'SMS') AND NOT EXISTS
                     (SELECT 1 FROM app.voice_evaluated_window e WHERE e.window_id=f.window_id)
-                    """, String.class)) service.evaluate(scope);
-            for (var row : jdbc.queryForList("""
-                    SELECT id, topic, kafka_key, payload::text FROM app.voice_delivery
-                    WHERE published_at IS NULL ORDER BY created_at, id LIMIT 100
-                    """)) {
-                kafka.send((String)row.get("topic"), (String)row.get("kafka_key"), (String)row.get("payload"))
-                        .get(10, TimeUnit.SECONDS);
-                // A crash before this mark resends identical IDs and content; consumers deduplicate.
-                jdbc.update("UPDATE app.voice_delivery SET published_at=now() WHERE id=?", row.get("id"));
+                    """, String.class)) {
+                try { service.evaluate(scope); }
+                catch (Exception failure) {
+                    if (Thread.currentThread().isInterrupted()) return;
+                    LOG.error("Detector scope {} retained for retry", scope, failure);
+                }
+            }
+            for (int count = 0; count < 100; count++) {
+                UUID token = UUID.randomUUID();
+                var rows = jdbc.queryForList("""
+                        WITH head AS (
+                            SELECT d.id FROM app.voice_delivery d
+                            WHERE d.published_at IS NULL AND (d.lease_until IS NULL OR d.lease_until<=clock_timestamp())
+                            AND NOT EXISTS (
+                                SELECT 1 FROM app.voice_delivery p WHERE p.published_at IS NULL
+                                AND p.topic=d.topic AND p.kafka_key=d.kafka_key AND
+                                CASE WHEN d.topic='telecom.detections.v2'
+                                    THEN (p.payload->>'sequence')::bigint < (d.payload->>'sequence')::bigint
+                                    ELSE (p.payload->>'windowStart')::timestamptz < (d.payload->>'windowStart')::timestamptz END)
+                            ORDER BY d.created_at, d.id LIMIT 1 FOR UPDATE OF d SKIP LOCKED)
+                        UPDATE app.voice_delivery d SET claim_token=?, lease_until=clock_timestamp()+interval '30 seconds'
+                        FROM head WHERE d.id=head.id
+                        RETURNING d.id,d.topic,d.kafka_key,d.payload::text
+                        """, token);
+                if (rows.isEmpty()) return;
+                var row = rows.getFirst();
+                try {
+                    kafka.send((String)row.get("topic"), (String)row.get("kafka_key"), (String)row.get("payload"))
+                            .get(10, TimeUnit.SECONDS);
+                    // ACK-before-mark crashes replay identical evidence; consumers still deduplicate by ID.
+                    jdbc.update("""
+                            UPDATE app.voice_delivery SET published_at=clock_timestamp(),claim_token=NULL,lease_until=NULL
+                            WHERE id=? AND claim_token=? AND published_at IS NULL AND lease_until>clock_timestamp()
+                            """, row.get("id"), token);
+                } catch (Exception failure) {
+                    // If the DB is down this release also fails; persisted expiry still recovers the claim.
+                    try { jdbc.update("UPDATE app.voice_delivery SET claim_token=NULL,lease_until=NULL WHERE id=? AND claim_token=? AND published_at IS NULL", row.get("id"), token); }
+                    catch (Exception release) { failure.addSuppressed(release); }
+                    throw failure;
+                }
             }
         } catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); }
         catch (Exception failure) { LOG.error("Voice evidence delivery failed; retained for retry", failure); }

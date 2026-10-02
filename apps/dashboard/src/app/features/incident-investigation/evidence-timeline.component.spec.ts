@@ -93,4 +93,17 @@ describe('Historical detection evidence', () => {
     expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('No evidence updates available');
     expect(fixture.nativeElement.querySelectorAll('article')).toHaveLength(0);
   });
+
+  it('distinguishes calibrated rank from severity and cause confidence and preserves a real zero rank', () => {
+    const record = detection(1, 'OPEN');
+    record.mlStatus = 'OK'; record.modelVersion = 'test-model'; record.anomalyRank = 0;
+    record.severity = 'HIGH'; record.causeConfidence = 'MEDIUM';
+    const text = render([record]).nativeElement.textContent as string;
+    expect(text).toContain('Severity: HIGH');
+    expect(text).toContain('Cause confidence: MEDIUM');
+    expect(text).toContain('Model anomaly rank: 0');
+    expect(text).toContain('not a failure probability');
+    const timeout: Detection = { ...record, mlStatus: 'TIMEOUT', modelVersion: null, anomalyRank: null };
+    expect(render([timeout]).nativeElement.textContent).toContain('Model anomaly rank: Unavailable');
+  });
 });

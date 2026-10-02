@@ -8,6 +8,8 @@
   </parent>
   <artifactId>processor</artifactId>
   <dependencies>
+    <dependency><groupId>md.utm.telecom</groupId><artifactId>event-generator</artifactId>
+      <version>${project.version}</version><classifier>library</classifier></dependency>
     <dependency><groupId>md.utm.telecom</groupId><artifactId>streaming-support</artifactId></dependency>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-configuration-processor</artifactId><optional>true</optional></dependency>
@@ -34,6 +36,7 @@
           <include>**/Test*.java</include><include>**/*Test.java</include><include>**/*Tests.java</include>
           <include>**/*TestCase.java</include><include>**/LateInputIT.java</include>
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
+          <include>**/DetectionReplayIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

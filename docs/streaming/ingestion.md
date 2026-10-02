@@ -227,3 +227,27 @@ advances an injected application clock by 49 hours; it does not claim a physical
 
 See [Day 13 evidence](../evidence/2026-09-30-day13-replay-finalizer.md) for commands,
 counts, feature/episode identities, and the Denis/Sergiu downstream handoff.
+
+### Detector job and ordered delivery leases (Sergiu days 13–14)
+
+`V006__detection_leases.sql` backfills `detection_job` from saved feature windows
+and existing evaluated-window timestamps. Completed windows remain completed;
+saved episodes and output payloads remain unchanged. `DetectionWorker` commits a
+30-second database-clock claim of the oldest unfinished window for a scope, then
+calls ML outside a transaction. Completion compares the token and unexpired lease
+and atomically saves episode state, evaluated-window identity, KPI/detection output,
+and the job's completion timestamp. An expired worker cannot commit its result.
+Failures around statement execution or commit roll back the entire completion.
+
+KPI/detection publication claims one head per `(topic,kafka_key)`. Earlier pending
+work, including an active claim, blocks later windows/sequences for that stream.
+Broker I/O holds no database transaction; acknowledgement is followed by a fenced
+publication mark. Runtime can update delivery bookkeeping, but cannot rewrite the
+saved payload, ID, topic, or key. Another scope/stream can progress independently.
+
+Delivery remains at least once. A failed mark can replay the same payload; an
+already in-flight Kafka send cannot be revoked by a database lease. Consumers must
+still deduplicate identities and reconcile sequence gaps. Rejection publication
+uses the separate existing publisher and has no new lease. There is no cleanup job.
+`DetectionReplayIT` and `DetectionMigrationTest` verify these boundaries with real
+PostgreSQL runtime permissions. See the [Sergiu handoff](../evidence/2026-10-01-sergiu-days-13-14.md).

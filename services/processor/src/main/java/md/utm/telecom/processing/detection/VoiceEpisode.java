@@ -32,14 +32,14 @@ public class VoiceEpisode {
         return advance(state, window, null, window.path("mlEligible").asBoolean()
                 ? MlClient.Result.unavailable() : MlClient.Result.insufficient(), detectedAt);
     }
-    public ObjectNode advance(ObjectNode state, JsonNode window, JsonNode smscReceipt,
+    public ObjectNode advance(ObjectNode state, JsonNode window, JsonNode nodeReceipt,
                               MlClient.Result ml, Instant detectedAt) {
         String start = window.required("windowStart").asText();
         String end = window.required("windowEnd").asText();
         if (state.has("end") && !Instant.parse(start).isAfter(Instant.parse(state.get("end").asText()).minusSeconds(60)))
             return null; // Late windows remain in history; never rewrite a committed episode.
         String service = window.required("service").asText();
-        var evaluation = evaluate(window, smscReceipt);
+        var evaluation = evaluate(window, nodeReceipt);
         boolean eligible = evaluation.status().equals("EVALUATED")
                 && (window.path("quality").asText().equals("COMPLETE") || evaluation.breached());
         var verdict = !eligible ? RecoveryPolicy.Verdict.UNKNOWN : evaluation.breached()
@@ -95,15 +95,15 @@ public class VoiceEpisode {
     private record Outcome(String status, boolean breached, boolean healthy, String severity,
                            Object impact, List<?> evidence, String baselineVersion, String topologyVersion,
                            String probableCause, String causeConfidence, List<String> recommendedChecks) {}
-    private Outcome evaluate(JsonNode window, JsonNode smscReceipt) {
+    private Outcome evaluate(JsonNode window, JsonNode nodeReceipt) {
         if (window.required("service").asText().equals("SMS")) {
             if (smsRule == null) throw new IllegalStateException("SMS rule is unavailable");
-            var result = smsRule.evaluate(window, smscReceipt);
+            var result = smsRule.evaluate(window, nodeReceipt);
             return new Outcome(result.status(), result.breached(), result.healthy(), result.severity(),
                     result.impact(), result.evidence(), result.baselineVersion(), result.topologyVersion(),
                     result.probableCause(), result.causeConfidence(), result.recommendedChecks());
         }
-        var result = rule.evaluate(window);
+        var result = rule.evaluate(window, nodeReceipt);
         boolean healthy = result.status().equals("EVALUATED") && !result.breached()
                 && result.cssrDropPp().compareTo(policy.voice("recoveryDropPpAtMost")) <= 0;
         return new Outcome(result.status(), result.breached(), healthy, result.severity(),
