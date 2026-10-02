@@ -3,7 +3,7 @@
 - Planned date: 2026-09-30
 - Actual execution date and timezone: 2026-10-02, Europe/Chisinau (EEST)
 - Owner: Denis Moroz
-- Branch and tested commit: `fix/session-security-lifecycle`, `9c52056` plus the regression test in the next commit
+- Branch and tested commit: `fix/session-security-lifecycle`, `c3a79c1` (PR CI)
 - Gate status: **PARTIAL**
 - Backend/frontend/processor/model/proxy revisions: backend branch above; other components at `origin/main` `7ef9a9f`; no compatible live stack run
 - Contract and migration versions: incident API OpenAPI in `7ef9a9f`; no migration changed
@@ -17,7 +17,7 @@
 | `./mvnw -o -DargLine=-javaagent:... verify` | Unit and integration suites pass | Stopped in Surefire: 105 run, 76 errors caused by Testcontainers finding no Docker environment; Failsafe did not run | BLOCKED | `/private/tmp/incident-security-verify.log` and Surefire reports |
 | `.venv/bin/python scripts/check-contracts.py` | Existing contracts validate | All listed v2, explanation, voice and SMS validations passed | PASS | Command output, 2026-10-02 |
 | `git diff --check` | No whitespace errors | No errors | PASS | Local check |
-| PR backend CI | Tested PR revision passes | No PR run yet | NOT RUN | Pending PR |
+| PR backend CI | Tested PR revision passes | 111 Surefire tests and 11 Failsafe tests; 0 failures, errors or skips | PASS | [PR #40 backend job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37007486152/job/110839071347), downloaded XML reports in `/private/tmp/incident-ci-reports/` |
 
 The added workflow regression checks missing and invalid CSRF on assignment, status and comment routes and asserts no incident or audit change. It compiled but could not run locally because its PostgreSQL Testcontainer needs Docker. The focused suite used the already-installed Mockito 5.23.0 agent because local JVM self-attachment is restricted.
 
@@ -39,13 +39,13 @@ The added workflow regression checks missing and invalid CSRF on assignment, sta
 
 ## Limits and unfinished checks
 
-- Docker Desktop is installed as an application bundle without an executable in this environment, and the Docker daemon socket is absent. Re-run full `./mvnw verify` on a Docker-capable host or PR CI; inspect actual Surefire/Failsafe counts.
+- Docker Desktop is installed as an application bundle without an executable in this environment, and the Docker daemon socket is absent. PR CI executed the full `./mvnw verify` successfully on a Docker-capable host; local Docker-backed rerun remains unavailable.
 - No real OIDC/browser/proxy evidence was collected. David and Stanislav must perform the checks above and record revisions, timestamps and redacted results before merge.
 - The earlier [G2 backend evidence](2026-09-29-g2-backend.md) remains a separate partial live acceptance record.
 - Do not record credentials, CSRF tokens, cookies or OIDC tokens.
 
 ## Merge decision
 
-- Required checks satisfied: **no**; deterministic focused tests and contract validation passed, full backend and live checks remain.
-- Remaining blockers: Docker-backed verification, PR CI, David's browser check, Stanislav's proxy/cookie check.
-- PR and merge commit: pending; leave PR open until blockers close.
+- Required checks satisfied: **no**; focused tests, contract validation and full backend PR CI passed, while live checks remain.
+- Remaining blockers: David's browser check and Stanislav's proxy/cookie check.
+- PR and merge commit: [draft PR #40](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/40); no merge commit. Leave it open until blockers close.
