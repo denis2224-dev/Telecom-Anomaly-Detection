@@ -361,6 +361,36 @@ class WorkflowTest extends IncidentServiceIntegrationTestSupport {
         assertEquals(0L, auditCount());
     }
 
+    @Test
+    void missingOrInvalidCsrfCannotChangeWorkflowOrAudit() throws Exception {
+        long version = incident.getVersion();
+        String[] paths = {"assignment", "status", "comments"};
+        String[] bodies = {
+                "{\"analystId\":\"%s\",\"version\":%d}".formatted(alice.getId(), version),
+                "{\"status\":\"INVESTIGATING\",\"version\":%d}".formatted(version),
+                commentBody("Must not save", version, UUID.randomUUID())
+        };
+        for (int index = 0; index < paths.length; index++) {
+            for (boolean invalid : new boolean[] {false, true}) {
+                var request = post("/api/incidents/{id}/" + paths[index], incident.getId())
+                        .session(authenticatedSession())
+                        .with(oidcLogin().idToken(token -> token.issuer(ISSUER).subject("alice"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST")))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bodies[index]);
+                if (invalid) request.header("X-CSRF-TOKEN", "invalid-token");
+                mvc.perform(request).andExpect(status().isForbidden())
+                        .andExpect(jsonPath("$.code").value("CSRF_INVALID"));
+            }
+        }
+        entityManager.clear();
+        Incident unchanged = incidents.findById(incident.getId()).orElseThrow();
+        assertEquals(version, unchanged.getVersion());
+        assertEquals(IncidentStatus.OPEN, unchanged.getStatus());
+        assertEquals(null, unchanged.getAssignee());
+        assertEquals(0L, auditCount());
+    }
+
     private static String commentBody(String text, long version, UUID requestId) {
         return """
                 {"text":"%s","version":%d,"requestId":"%s"}
