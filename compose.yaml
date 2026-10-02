@@ -116,6 +116,7 @@ services:
 
   incident-service:
     profiles: [app]
+    restart: unless-stopped
     build:
       context: .
       dockerfile: services/incident-service/Dockerfile

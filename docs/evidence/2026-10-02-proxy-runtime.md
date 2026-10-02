@@ -28,7 +28,9 @@ The dashboard production bundle and Compose Java images were built from local `m
 | Initial `docker compose --profile app up -d --wait incident-service` | Created the incident-service container from the new image; it became healthy and served the existing proxy route | PASS |
 | `./scripts/up --with-incident-service` | Full startup command completed with the already-created managed backend healthy and no host Maven process | PASS |
 | `docker build --file services/incident-service/Dockerfile --tag incident-service:ci .` | Exact new image-CI build command succeeded locally | PASS |
+| PR #41 CI on `3e3490b` | Image build, model evaluation and processor evaluation all passed; recheck after the restart-policy commit | PASS on tested revision |
 | `docker compose --profile app restart incident-service` then `./scripts/verify` | Managed backend restarted, returned to healthy, public routes recovered, and its Kafka consumers rejoined the existing group with lag 0 on populated partitions | PASS |
+| `docker exec telecom-anomaly-incident-service-1 sh -c 'kill -TERM 1'` | Java exited from inside the container; `restart: unless-stopped` brought it back (`RestartCount=1`), `./scripts/verify` passed, and populated Kafka partitions returned to lag 0 without offset reset | PASS for process-exit recovery |
 | `KEYCLOAK_CLIENT_SECRET= docker compose config --quiet` | First-time Compose validation succeeds before Keycloak client provisioning; the running backend received a nonempty provisioned secret (value not inspected or recorded) | PASS |
 | `docker run --rm --network none incident-service:ci` with no secret | Image exited 1 before Java startup with a provisioning message | PASS |
 | `./scripts/verify` after this branch's edits | Database isolation; immutable incident evidence, audit and KPI grants; Kafka topics; service readiness; OIDC discovery and PKCE; Angular routes; callback rejection; anonymous API/stream JSON 401; logout protection | PASS |
@@ -46,7 +48,8 @@ The first `npm run test:auth` attempt failed before any page opened because the 
 - No test analyst credentials were available to this run. Real session rotation, authenticated CSRF mutation/logout, provider outage, idle/absolute browser expiry, and the public supervisor simulator journey remain open. Do not treat the anonymous browser handoff as those checks.
 - `main` has no incident stream controller or dashboard `EventSource` consumer yet. The anonymous stream request correctly returned 401 at Spring's security boundary, but live event delivery, reconnect and session closure through NGINX remain open for the later stream branch.
 - The replay worktree's acknowledgement test simulates the transaction boundary and uses real PostgreSQL. A disposable-stack process termination before/after commit with an isolated Kafka consumer group was not performed here. Do not claim real crash acceptance from these tests.
-- The new incident-image CI job was added after the first PR revision; its result on the updated PR revision must be recorded before merge.
+- An explicit `docker kill` was treated as an operator stop and did not trigger `unless-stopped`; `docker compose up` restored the service. Sending SIGTERM to Java PID 1 from inside the container did exercise automatic restart. This was a process-exit drill, not a before/after database-commit fault injection or hard-crash proof.
+- The image build, model and processor jobs passed on `3e3490b`. The restart-policy revision must pass the same jobs before merge.
 - [The earlier G2 record](2026-09-29-g2-backend.md) remains **PARTIAL** for the authenticated public simulator and UI check.
 
 For the next integrated run, use a provisioned analyst and supervisor account and a compatible UI/backend revision. Save run/episode/incident IDs, Kafka offsets, proxy arrival and stream closure times, and redacted browser evidence. Never record cookies, CSRF values, credentials or OIDC tokens.
