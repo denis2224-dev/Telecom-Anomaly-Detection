@@ -119,8 +119,7 @@ class CommentConcurrencyIT {
             throws Exception {
         start.await();
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute(SessionDeadlineFilter.EXPIRES_AT,
-                Instant.now().plusSeconds(600));
+        SessionDeadlineFilter.initialize(session, Instant.now());
         return mvc.perform(post("/api/incidents/{id}/comments", incidentId)
                         .session(session)
                         .with(oidcLogin().idToken(token -> token.issuer(ISSUER)
