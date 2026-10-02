@@ -114,6 +114,45 @@ services:
         aliases:
           - telecom.test
 
+  incident-service:
+    profiles: [app]
+    build:
+      context: .
+      dockerfile: services/incident-service/Dockerfile
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx384m -XX:MaxMetaspaceSize=192m"
+      INCIDENT_DB_URL: jdbc:postgresql://postgres:5432/incidents_db?currentSchema=app
+      INCIDENT_DB_USER: ${INCIDENT_DB_USER:-incidents_app}
+      INCIDENT_DB_PASSWORD: ${INCIDENT_DB_PASSWORD:?Set INCIDENT_DB_PASSWORD}
+      INCIDENT_MIGRATOR_USER: ${INCIDENT_MIGRATOR_USER:-incidents_migrator}
+      INCIDENT_MIGRATOR_PASSWORD: ${INCIDENT_MIGRATOR_PASSWORD:?Set INCIDENT_MIGRATOR_PASSWORD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_PUBLIC_ORIGIN: http://telecom.test:8080
+      KEYCLOAK_ISSUER: http://telecom.test:8080/auth/realms/telecom
+      # The initial Compose config check runs before prepare-keycloak writes this secret.
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET:-}
+      GENERATOR_BASE_URL: http://event-generator:8081
+      SESSION_COOKIE_SECURE: "false"
+    ports:
+      - "127.0.0.1:8082:8082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      proxy:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+      event-generator:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://localhost:8082/actuator/health/readiness"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 15s
+    networks:
+      - telecom-private
+
   kafka:
     image: apache/kafka:3.9.1
     environment:

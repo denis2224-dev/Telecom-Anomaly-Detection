@@ -1,0 +1,7 @@
+.env
+.git
+**/target
+**/node_modules
+apps/dashboard/dist
+apps/dashboard/test-results
+apps/dashboard/playwright-report

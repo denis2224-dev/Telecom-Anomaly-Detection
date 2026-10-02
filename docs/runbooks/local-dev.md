@@ -154,6 +154,12 @@ cd services/incident-service
 The incident service imports the root `.env` when launched from its own directory.
 Start login at `http://telecom.test:8080/oauth2/authorization/keycloak`. The proxy
 starts independently of the backend to avoid an issuer-discovery startup cycle.
+For a terminal-independent local backend, run `./scripts/up --with-incident-service`
+from the repository root instead of starting the host Maven process. This builds
+and starts the incident service after the proxy and its dependencies are healthy.
+It publishes backend port 8082 to host loopback for the existing proxy route;
+do not run the host backend on that port at the same time. The default
+`./scripts/up` path still supports IntelliJ development.
 The proxy serves the Angular production build at `/dashboard`, `/login` and
 `/signed-out`. Build it with `npm --prefix apps/dashboard run build` before
 opening the site. See the [Day 06 guide](../tasks/day-06-protected-voice-investigation/README.md)
