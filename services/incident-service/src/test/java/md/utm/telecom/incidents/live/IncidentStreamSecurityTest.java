@@ -27,7 +27,7 @@ class IncidentStreamSecurityTest {
     }
     @Test void analystWithValidDeadlineCanOpenSessionBoundStream() throws Exception {
         var session = new MockHttpSession();
-        session.setAttribute(SessionDeadlineFilter.EXPIRES_AT, Instant.now().plusSeconds(60));
+        SessionDeadlineFilter.initialize(session, Instant.now());
         when(stream.open(session)).thenReturn(new SseEmitter(60000L));
         mvc.perform(get("/api/incidents/stream").session(session).with(oidcLogin()
                 .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"))))
@@ -36,6 +36,7 @@ class IncidentStreamSecurityTest {
     }
     @Test void expiredSessionCannotOpenStream() throws Exception {
         var session = new MockHttpSession();
+        SessionDeadlineFilter.initialize(session, Instant.now());
         session.setAttribute(SessionDeadlineFilter.EXPIRES_AT, Instant.now().minusSeconds(1));
         mvc.perform(get("/api/incidents/stream").session(session).with(oidcLogin()
                 .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"))))

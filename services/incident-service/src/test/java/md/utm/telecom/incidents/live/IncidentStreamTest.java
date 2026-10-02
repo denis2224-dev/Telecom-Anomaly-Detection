@@ -22,6 +22,7 @@ class IncidentStreamTest {
     private final IncidentStream stream = new IncidentStream(Clock.fixed(NOW, ZoneOffset.UTC), timeout -> emitter);
     private MockHttpSession session() {
         var session = new MockHttpSession();
+        SessionDeadlineFilter.initialize(session, NOW);
         session.setAttribute(SessionDeadlineFilter.EXPIRES_AT, NOW.plusSeconds(60));
         return session;
     }
