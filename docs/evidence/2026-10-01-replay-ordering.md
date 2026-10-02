@@ -20,3 +20,7 @@ A disposable-stack termination before commit and after commit/before Kafka ackno
 ## Merge decision
 
 The user explicitly requested completing, committing, merging and pushing without squashing. Merge the tested implementation with a regular merge commit after PR CI passes, retaining these release-evidence limits. This supersedes the older preparation-only instruction to leave all work unmerged pending human handoffs.
+
+## CI portability correction
+
+The first PR run passed replay tests but FirstSliceIT could not start `apache/kafka-native:latest`: the native broker segfaulted on the hosted Linux runner. The shared backend test fixture now uses the pinned JVM image `apache/kafka:3.9.1`, matching the local Compose broker, instead of an unversioned native binary. The Kafka tests are retained; none are disabled.
