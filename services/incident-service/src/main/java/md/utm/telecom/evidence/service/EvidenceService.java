@@ -23,17 +23,20 @@ public class EvidenceService {
     private final IncidentRepository incidents;
     private final IncidentAuditRepository audits;
     private final ObjectMapper json;
+    private final EpisodeLock episodeLock;
 
     public EvidenceService(
             DetectionEvidenceRepository evidence,
             IncidentRepository incidents,
             IncidentAuditRepository audits,
-            ObjectMapper json
+            ObjectMapper json,
+            EpisodeLock episodeLock
     ) {
         this.evidence = evidence;
         this.incidents = incidents;
         this.audits = audits;
         this.json = json;
+        this.episodeLock = episodeLock;
     }
 
     @Transactional
@@ -42,6 +45,8 @@ public class EvidenceService {
         if (!message.episodeId().equals(kafkaKey)) {
             throw new IllegalArgumentException("Kafka key must equal episodeId");
         }
+
+        episodeLock.acquire(message.episodeId());
 
         int inserted = evidence.insertIfAbsent(
                 message.detectionId(),
@@ -57,18 +62,23 @@ public class EvidenceService {
 
         if (inserted == 0) {
             assertExactReplay(message);
-            long latest = incidents.findByEpisodeId(message.episodeId())
-                    .map(Incident::getLatestSequence)
-                    .orElse(0L);
-            return new IngestResult(Disposition.DUPLICATE, 0, latest);
         }
+        return applyContiguous(message.episodeId(), inserted == 0);
+    }
 
-        Incident incident = incidents.findByEpisodeId(message.episodeId()).orElse(null);
+    @Transactional
+    public IngestResult reconcile(String episodeId) {
+        episodeLock.acquire(episodeId);
+        return applyContiguous(episodeId, false);
+    }
+
+    private IngestResult applyContiguous(String episodeId, boolean replay) {
+        Incident incident = incidents.findByEpisodeId(episodeId).orElse(null);
         int applied = 0;
 
         if (incident == null) {
             DetectionEvidence opening = evidence
-                    .findByEpisodeIdAndSequence(message.episodeId(), 1)
+                    .findByEpisodeIdAndSequence(episodeId, 1)
                     .orElse(null);
             if (opening == null) {
                 return new IngestResult(Disposition.STORED_PENDING_GAP, 0, 0);
@@ -86,7 +96,7 @@ public class EvidenceService {
         while (true) {
             long nextSequence = incident.getLatestSequence() + 1;
             DetectionEvidence next = evidence
-                    .findByEpisodeIdAndSequence(message.episodeId(), nextSequence)
+                    .findByEpisodeIdAndSequence(episodeId, nextSequence)
                     .orElse(null);
             if (next == null) {
                 break;
@@ -96,6 +106,13 @@ public class EvidenceService {
             if (!nextMessage.firstObservedAt().equals(incident.getFirstObservedAt())) {
                 throw new IllegalArgumentException(
                         "Detection episode anchor changed within the episode");
+            }
+            if (incident.getTechnicalState()
+                    == md.utm.telecom.incidents.model.TechnicalState.RECOVERED) {
+                throw new IllegalArgumentException("A recovered episode cannot reopen; use a new episode");
+            }
+            if (next.getWindowStart().isBefore(incident.getLastObservedAt())) {
+                throw new IllegalArgumentException("Episode windows must not move backwards or overlap");
             }
             String before = snapshot(incident);
             incident.setLatestEvidence(next);
@@ -107,9 +124,10 @@ public class EvidenceService {
             applied++;
         }
 
-        Disposition disposition = applied == 0
-                ? Disposition.STORED_PENDING_GAP
-                : Disposition.APPLIED;
+        incidents.flush();
+        Disposition disposition = applied > 0
+                ? Disposition.APPLIED
+                : (replay ? Disposition.DUPLICATE : Disposition.STORED_PENDING_GAP);
         return new IngestResult(
                 disposition, applied, incident.getLatestSequence());
     }

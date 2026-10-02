@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import md.utm.telecom.evidence.repository.DetectionEvidenceRepository;
 import md.utm.telecom.evidence.service.Disposition;
 import md.utm.telecom.evidence.service.EvidenceService;
+import md.utm.telecom.evidence.service.EpisodeLock;
 import md.utm.telecom.incidents.repository.IncidentAuditRepository;
 import md.utm.telecom.incidents.repository.IncidentRepository;
 import md.utm.telecom.shared.persistence.PersistenceConfiguration;
@@ -35,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({
         EvidenceService.class,
+        EpisodeLock.class,
         PersistenceConfiguration.class,
         EvidenceServiceTest.JacksonConfig.class
 })
