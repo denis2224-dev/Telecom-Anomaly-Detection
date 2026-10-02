@@ -1,23 +1,30 @@
 import { Component, input, output, signal } from '@angular/core';
+import { IconComponent } from '../../shared/icon.component';
 
 export type HistoryRange = { from: string; to: string };
 
 @Component({
   selector: 'app-history-range',
+  imports: [IconComponent],
   template: `
-    <form class="time-filter" (submit)="apply($event, start.value, end.value)">
-      <label>From (UTC)
-        <input #start type="datetime-local" [value]="from().slice(0, 16)" required />
-      </label>
-      <label>To (UTC, exclusive)
-        <input #end type="datetime-local" [value]="to().slice(0, 16)" required />
-      </label>
-      <button type="submit">Apply time range</button>
-      <button type="button" (click)="refresh.emit()">Refresh selected range</button>
-      <button type="button" (click)="latest.emit()">Latest hour</button>
-    </form>
-    <p class="muted">Choose up to 24 hours. The end time is excluded.</p>
-    @if (error()) { <p role="alert">{{ error() }}</p> }
+    <section class="range-toolbar" aria-label="History time range">
+      <div class="range-toolbar-heading"><span><app-icon name="clock" />Observation range</span>
+        <div class="segmented" aria-label="Quick time ranges">
+          @for (range of ranges; track range.minutes) {
+            <button type="button" [class.selected]="duration() === range.minutes" [attr.aria-pressed]="duration() === range.minutes" (click)="quickRange(range.minutes)">{{ range.label }}</button>
+          }
+        </div>
+        <span class="helper range-hint" title="A request covers at most 24 hours. The end instant is excluded."><app-icon name="info" />Up to 24 hours · end excluded</span>
+      </div>
+      <form class="time-filter" (submit)="apply($event, start.value, end.value)">
+        <label class="field">From (UTC)<input #start type="datetime-local" [value]="from().slice(0, 16)" required /></label>
+        <label class="field">To (UTC, exclusive)<input #end type="datetime-local" [value]="to().slice(0, 16)" required /></label>
+        <div class="button-row"><button type="submit" class="primary"><app-icon name="check" />Apply time range</button>
+        <button type="button" (click)="refresh.emit()" aria-label="Refresh selected range" title="Refresh selected range"><app-icon name="refresh" /><span>Refresh</span></button>
+        <button type="button" class="ghost" (click)="latest.emit()"><app-icon name="clock" />Latest hour</button></div>
+      </form>
+      @if (error()) { <p role="alert">{{ error() }}</p> }
+    </section>
   `,
 })
 export class HistoryRangeComponent {
@@ -27,19 +34,23 @@ export class HistoryRangeComponent {
   readonly refresh = output<void>();
   readonly latest = output<void>();
   readonly error = signal('');
-
+  readonly ranges = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 }];
+  duration(): number { return (Date.parse(this.to()) - Date.parse(this.from())) / 60_000; }
+  quickRange(minutes: number): void {
+    const end = Date.parse(this.to());
+    if (!Number.isFinite(end)) return;
+    this.error.set('');
+    this.changed.emit({ from: new Date(end - minutes * 60_000).toISOString(), to: this.to() });
+  }
   apply(event: Event, start: string, end: string): void {
     event.preventDefault();
     const from = Date.parse(start + 'Z');
     const to = Date.parse(end + 'Z');
-    if (!Number.isFinite(from) || !Number.isFinite(to)
-      || to <= from || to - from > 86_400_000) {
+    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from || to - from > 86_400_000) {
       this.error.set('Choose an end after the start, with a range of at most 24 hours.');
       return;
     }
     this.error.set('');
-    this.changed.emit({
-      from: new Date(from).toISOString(), to: new Date(to).toISOString(),
-    });
+    this.changed.emit({ from: new Date(from).toISOString(), to: new Date(to).toISOString() });
   }
 }

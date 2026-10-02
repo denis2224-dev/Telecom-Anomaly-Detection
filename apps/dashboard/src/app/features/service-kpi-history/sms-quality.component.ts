@@ -7,21 +7,6 @@ import { SampleVolumeComponent } from './sample-volume.component';
 @Component({
   selector: 'app-sms-quality',
   imports: [DatePipe, SampleVolumeComponent],
-  styles: [`
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
-
-    dt {
-      font-weight: 600;
-    }
-
-    dd {
-      margin: 8px 0;
-    }
-  `],
   template: `
     <section class="detail-panel" aria-labelledby="sms-quality-heading">
       <h2 id="sms-quality-heading">SMS delivery and queue</h2>

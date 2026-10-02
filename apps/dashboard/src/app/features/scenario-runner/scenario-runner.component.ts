@@ -13,13 +13,15 @@ import {
   type ServiceSummary,
 } from '../../core/api/telecom-client';
 import { SessionStore } from '../login-and-session/session.store';
+import { IconComponent } from '../../shared/icon.component';
+import { ToastService } from '../../shared/toast.service';
 import { RunStore } from './run.store';
 
 @Component({
   selector: 'app-scenario-runner',
-  imports: [DatePipe],
+  imports: [DatePipe, IconComponent],
   template: `
-    <h1>Scenario runner</h1>
+    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Controlled simulation</p><h1>Scenario runner</h1><p>Reproduce a service event and follow its recovery.</p></div><span class="badge" [attr.data-state]="store.run()?.status ?? 'IDLE'">{{ store.run()?.status ?? 'IDLE' }}</span></div>
 
     @if (!privileged()) {
       <p role="alert">
@@ -29,9 +31,7 @@ import { RunStore } from './run.store';
       <section class="detail-panel">
         <h2>Schedule a scenario</h2>
         <p>
-          The server chooses the next full-minute start and the fixed
-          eight-minute duration. The browser sends only a request ID,
-          seed, and scope.
+          Choose a service and repeatable traffic profile. Runs start on the next full minute and last eight minutes.
         </p>
 
         @if (scopeError()) {
@@ -41,7 +41,7 @@ import { RunStore } from './run.store';
           </button>
         }
 
-        <label for="scenario-type">Scenario</label>
+        <div class="scenario-form"><div class="field"><label for="scenario-type">Scenario</label>
         <select
           id="scenario-type"
           [value]="type()"
@@ -54,7 +54,7 @@ import { RunStore } from './run.store';
           <option value="TELEMETRY_GAP">Telemetry gap</option>
         </select>
 
-        <label for="scenario-scope">Service scope</label>
+        </div><div class="field"><label for="scenario-scope">Service scope</label>
         <select
           id="scenario-scope"
           [value]="scopeId()"
@@ -69,7 +69,7 @@ import { RunStore } from './run.store';
           }
         </select>
 
-        <label for="scenario-seed">Seed</label>
+        </div><div class="field"><label for="scenario-seed">Seed</label>
         <input
           id="scenario-seed"
           type="number"
@@ -80,6 +80,7 @@ import { RunStore } from './run.store';
           (input)="editSeed($event)"
         />
 
+        </div></div>
         @if (store.command(); as command) {
           <p>
             Saved command: <code>{{ command.requestId }}</code>
@@ -92,10 +93,10 @@ import { RunStore } from './run.store';
         @if (!store.run()) {
           <button
             type="button"
-            [disabled]="store.busy() || !canStart()"
+            class="primary" [attr.aria-busy]="store.busy()" [disabled]="store.busy() || !canStart()"
             (click)="start()"
           >
-            {{ store.command() ? 'Retry same command' : 'Start scenario' }}
+            <app-icon name="play" />{{ store.command() ? 'Retry same command' : 'Start scenario' }}
           </button>
         }
 
@@ -120,19 +121,21 @@ import { RunStore } from './run.store';
           Each stage lasts one minute. The labels describe planned
           synthetic traffic, not a measured health result.
         </p>
-        <ol>
+        <ol class="scenario-stepper">
           @for (minute of minutes; track minute) {
-            <li>
-              Minute {{ minute }}: {{ stage(minute) }}
+            <li [attr.data-phase]="phase(minute)" [class.is-current]="store.run()?.status === 'RUNNING' && currentMinute() === minute"><strong><span class="sr-only">Minute </span>{{ minute.toString().padStart(2, '0') }}</strong><span>{{ stage(minute) }}</span>
               @if (
                 store.run()?.status === 'RUNNING'
                 && currentMinute() === minute
               ) {
-                <strong>— current scheduled minute</strong>
+                <span class="sr-only">— current scheduled minute</span>
               }
             </li>
           }
         </ol>
+        @if (store.run(); as run) {
+          <div class="run-progress">@if (run.status !== 'STOPPED' && run.status !== 'FAILED') { <progress [value]="progress()" max="100" aria-label="Scheduled run progress"></progress> }<span class="mono">{{ countdown() }}</span></div>
+        }
       </section>
 
       @if (store.run(); as run) {
@@ -177,7 +180,7 @@ import { RunStore } from './run.store';
             <button
               type="button"
               [disabled]="store.busy()"
-              (click)="store.stop()"
+              class="danger" (click)="store.stop()"
             >
               Stop telemetry
             </button>
@@ -186,7 +189,7 @@ import { RunStore } from './run.store';
               [disabled]="store.refreshing()"
               (click)="store.refresh()"
             >
-              Refresh status
+              <app-icon name="refresh" />Refresh status
             </button>
           } @else {
             <button type="button" (click)="store.newCommand()">
@@ -200,9 +203,11 @@ import { RunStore } from './run.store';
 })
 export class ScenarioRunnerComponent implements OnDestroy {
   readonly store = inject(RunStore);
+  private readonly toast = inject(ToastService);
 
   private readonly api = inject(TelecomClient);
   private readonly session = inject(SessionStore);
+  private clockTimer?: ReturnType<typeof setInterval>;
   private timer?: ReturnType<typeof setInterval>;
 
   readonly scopes = signal<ServiceSummary[]>([]);
@@ -270,14 +275,15 @@ export class ScenarioRunnerComponent implements OnDestroy {
 
     void this.loadScopes();
 
+    this.clockTimer = setInterval(() => this.now.set(Date.now()), 1000);
     this.timer = setInterval(() => {
-      this.now.set(Date.now());
       void this.store.refresh();
     }, 5000);
 
     effect(() => {
       if (this.session.phase() !== 'authenticated') {
         clearInterval(this.timer);
+        clearInterval(this.clockTimer);
       }
     });
   }
@@ -313,14 +319,37 @@ export class ScenarioRunnerComponent implements OnDestroy {
     );
   }
 
-  start(): void {
+  async start(): Promise<void> {
     const saved = this.store.command();
 
-    void this.store.start(
+    await this.store.start(
       saved?.type ?? this.type(),
       saved?.seed ?? this.seed(),
       saved?.scopeId ?? this.scopeId(),
     );
+    if (this.store.run()) this.toast.show('Scenario scheduled successfully.');
+    else if (this.store.error()) this.toast.show(this.store.error()!, 'error');
+  }
+
+  readonly progress = computed(() => {
+    const run = this.store.run();
+    if (!run) return 0;
+    if (run.status === 'COMPLETED') return 100;
+    const end = Date.parse(run.scheduledEndAt), start = Date.parse(run.scheduledStartAt);
+    const instant = this.now();
+    return Math.max(0, Math.min(100, 100 * (instant - start) / (end - start)));
+  });
+  readonly countdown = computed(() => {
+    const run = this.store.run();
+    if (!run) return 'Ready to schedule';
+    if (!['SCHEDULED', 'RUNNING'].includes(run.status)) return run.status.toLowerCase();
+    const pending = this.now() < Date.parse(run.scheduledStartAt);
+    const seconds = Math.max(0, Math.ceil((Date.parse(pending ? run.scheduledStartAt : run.scheduledEndAt) - this.now()) / 1000));
+    return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')} ${pending ? 'until start' : 'remaining'}`;
+  });
+  phase(minute: number): string {
+    const stage = this.stage(minute);
+    return stage.includes('normal') ? 'normal' : minute <= 5 ? 'disruption' : 'recovery';
   }
 
   stage(minute: number): string {
@@ -348,5 +377,6 @@ export class ScenarioRunnerComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.timer);
+    clearInterval(this.clockTimer);
   }
 }

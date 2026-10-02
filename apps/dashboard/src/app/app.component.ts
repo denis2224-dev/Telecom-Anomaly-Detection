@@ -1,16 +1,27 @@
-import { Component, effect, inject } from "@angular/core";
+import { Component, effect, inject, signal } from "@angular/core";
 import { DatePipe } from "@angular/common";
-import { Router, RouterLink, RouterOutlet } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { LoginComponent } from "./features/login-and-session/login.component";
 import { SessionStore } from "./features/login-and-session/session.store";
+import { IconComponent } from "./shared/icon.component";
+import { ToastService } from "./shared/toast.service";
 import { dataSource } from "./core/api/data-source";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, RouterLink, DatePipe, LoginComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, DatePipe, LoginComponent, IconComponent],
   templateUrl: "./app.component.html",
 })
 export class AppComponent {
+  readonly collapsed = signal(false);
+  readonly mobileOpen = signal(false);
+  readonly toast = inject(ToastService);
+  pageTitle(): string {
+    const path = this.router.url;
+    return path.startsWith('/scenarios') ? 'Scenario runner'
+      : path.startsWith('/incidents') ? 'Incident investigation'
+      : path.startsWith('/services') ? 'Service investigation' : 'Service overview';
+  }
   readonly session = inject(SessionStore);
   readonly fixture = dataSource.fixture;
   readonly router = inject(Router);

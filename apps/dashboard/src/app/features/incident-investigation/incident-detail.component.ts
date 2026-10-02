@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -9,20 +10,21 @@ import { EvidenceTimelineComponent } from './evidence-timeline.component';
 import { IncidentActionsComponent } from './incident-actions.component';
 
 @Component({
-  selector: 'app-incident-detail', imports: [DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent],
-  styles: ['code { overflow-wrap: anywhere; }'],
+  selector: 'app-incident-detail', imports: [DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
-    <h1>Incident investigation</h1>
+    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
     @if (!loading() && !error()) {
-      <button type="button" (click)="load()">Refresh incident</button>
+      <button type="button" class="ghost" (click)="load()"><app-icon name="refresh" />Refresh incident</button>
     }
-    @if (loading()) { <p role="status">Loading incident evidence…</p> }
+    </div>
+    @if (loading()) { <section class="state-panel skeleton-panel" role="status">Loading incident evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
     @if (error()) { <section role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
     @if (!loading() && !error() && incident(); as item) {
-      <a [routerLink]="['/services', item.scopeId]">← Back to service</a>
-      <section class="detail-panel">
+      <a class="back-link" [routerLink]="['/services', item.scopeId]"><app-icon name="left" />Back to service</a>
+      <div class="investigation-grid"><div>
+      <section class="detail-panel incident-summary">
         <h2>{{ item.scopeId }}</h2>
-        <p>Technical state: <strong>{{ item.technicalState }}</strong> · Workflow state: <strong>{{ item.status }}</strong></p>
+        <div class="badge-row"><span class="sr-only">Technical state: </span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span><span class="sr-only">Workflow state: </span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></div>
         <p>Episode: <code>{{ item.episodeId }}</code></p>
         <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
         <p>{{ fixture ? 'Synthetic preview: only the sample latest update is available.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
@@ -37,20 +39,23 @@ import { IncidentActionsComponent } from './incident-actions.component';
         }
       </section>
       <app-incident-actions [incident]="item" (updated)="incident.set($event)" />
+      </div><div class="evidence-column">
       <p class="muted">
         Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
         This page is part of the timeline; the incident summary shows the current state.
       </p>
-      <nav aria-label="Evidence pages">
-        <button (click)="load(page() - 1)" [disabled]="page() === 0">Previous evidence</button>
+      <nav class="pagination" aria-label="Evidence pages">
+        <button (click)="load(page() - 1)" [disabled]="page() === 0"><app-icon name="left" />Previous evidence</button><span>{{ page() + 1 }} / {{ Math.max(1, Math.ceil(total() / pageSize)) }}</span>
         <button (click)="load(page() + 1)"
-          [disabled]="(page() + 1) * pageSize >= total()">Next evidence</button>
+          [disabled]="(page() + 1) * pageSize >= total()">Next evidence<app-icon name="right" /></button>
       </nav>
       <app-evidence-timeline [detections]="detections()" />
+      </div></div>
     }
   `,
 })
 export class IncidentDetailComponent {
+  readonly Math = Math;
   private readonly api = inject(TelecomClient);
   private id = '';
   private generation = 0;

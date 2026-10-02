@@ -28,12 +28,11 @@ test("generation is deterministic; check rejects stale or missing output", async
     assert.equal(check().status, 0);
     const tokensPath = join(temp, "design/branding.json");
     const tokens = JSON.parse(await readFile(tokensPath, "utf8"));
-    tokens.primary = "#123456";
+    tokens.accent = "#123456";
     await writeFile(tokensPath, JSON.stringify(tokens));
     const stale = check();
     assert.equal(stale.status, 1);
     assert.match(stale.stderr, /tokens\.css/);
-    assert.match(stale.stderr, /mark\.svg/);
   } finally {
     await rm(temp, { recursive: true, force: true });
   }

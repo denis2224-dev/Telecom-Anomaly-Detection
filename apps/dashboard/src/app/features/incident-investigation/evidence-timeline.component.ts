@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import type { components } from '../../core/api/schema';
 import { CauseEvidenceComponent } from './cause-evidence.component';
@@ -7,31 +8,7 @@ type Detection = components['schemas']['ServiceDetection'];
 
 @Component({
   selector: 'app-evidence-timeline',
-  imports: [DatePipe, CauseEvidenceComponent],
-  styles: [`
-    .evidence-table {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #d8e2dd;
-    }
-
-    code {
-      overflow-wrap: anywhere;
-    }
-
-    article {
-      margin-top: 20px;
-    }
-  `],
+  imports: [DatePipe, CauseEvidenceComponent, IconComponent],
   template: `
     <h2>Evidence timeline</h2>
 
@@ -42,10 +19,10 @@ type Detection = components['schemas']['ServiceDetection'];
 
     @for (detection of ordered(); track detection.detectionId) {
       <article
-        class="detail-panel"
+        class="detail-panel evidence-entry"
         [attr.data-detection-id]="detection.detectionId"
       >
-        <h3>Update {{ detection.sequence }} · {{ detection.phase }}</h3>
+        <span class="timeline-dot"><app-icon name="activity" /></span><h3>Update {{ detection.sequence }} · <span class="badge" [attr.data-state]="detection.technicalState">{{ detection.phase }}</span></h3>
 
         <p>
           {{ detection.windowStart | date:'dd MMM yyyy HH:mm:ss':'UTC' }}

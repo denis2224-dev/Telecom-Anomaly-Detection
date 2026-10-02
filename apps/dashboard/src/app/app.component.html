@@ -1,75 +1,65 @@
 <a class="skip-link" href="#workspace">Skip to workspace</a>
-<header class="app-header">
-  <a class="brand" routerLink="/dashboard"
-    ><span class="brand-mark" aria-hidden="true"></span
-    ><span>TELECOM<small>SERVICE ASSURANCE</small></span></a
-  >
-  @if (session.actor(); as actor) {
-    <div class="identity">
-      <span
-        >{{ actor.displayName }} · {{ actor.roles.join(", ")
-        }}<small
-          >Session ends {{ actor.expiresAt | date: "HH:mm" : "UTC" }} UTC</small
-        ></span
-      ><button (click)="session.logout()">Sign out</button>
-      @if (session.message()) {
-        <p role="alert">{{ session.message() }}</p>
-      }
-    </div>
-  }
-</header>
-<div
-  class="workspace-layout"
-  [class.access-layout]="isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')"
->
+<div class="app-shell" [class.sidebar-collapsed]="collapsed()" [class.mobile-nav-open]="mobileOpen()"
+  [class.access-shell]="isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')">
   @if (!isAccessPage() && (session.phase() === 'authenticated' || session.phase() === 'fixture')) {
-  <nav aria-label="Workspace">
-    <p class="eyebrow">Workspace</p>
-    <a routerLink="/dashboard" class="nav-link">Service overview</a>
-    @if (
-  session.actor()?.roles?.includes('SUPERVISOR')
-  || session.actor()?.roles?.includes('ADMIN')
-) {
-  <a routerLink="/scenarios" class="nav-link">
-    Scenario runner
-  </a>
-}
-    <p class="nav-note">VoLTE setup<br />SMS delivery</p>
-  </nav>
-  }
-  <main id="workspace">
-    @if (fixture && !isAccessPage()) {
-      <div class="preview-label">
-        SYNTHETIC FIXTURE PREVIEW · Sample data, no live telemetry or
-        authenticated session
+    <aside class="sidebar" id="workspace-navigation">
+      <a class="brand" routerLink="/dashboard" (click)="mobileOpen.set(false)">
+        <span class="brand-symbol"><app-icon name="signal" /></span>
+        <span class="brand-copy">telecom<span>NETWORK OPERATIONS</span></span>
+      </a>
+      <div class="sidebar-section-label">WORKSPACE</div>
+      <nav aria-label="Workspace" class="sidebar-nav">
+        <a routerLink="/dashboard" routerLinkActive="active" [class.active]="pageTitle() !== 'Scenario runner'" class="nav-link" aria-label="Service overview" title="Service overview" (click)="mobileOpen.set(false)"><app-icon name="grid" /><span>Service overview</span></a>
+        @if (session.actor()?.roles?.includes('SUPERVISOR') || session.actor()?.roles?.includes('ADMIN')) {
+          <a routerLink="/scenarios" routerLinkActive="active" class="nav-link" aria-label="Scenario runner" title="Scenario runner" (click)="mobileOpen.set(false)"><app-icon name="play" /><span>Scenario runner</span></a>
+        }
+      </nav>
+      <div class="sidebar-context">
+        <div class="sidebar-section-label">SERVICE ASSURANCE</div>
+        <p><app-icon name="signal" /><span>VoLTE setup</span></p>
+        <p><app-icon name="message" /><span>SMS delivery</span></p>
+        <p><app-icon name="shield" /><span>Incident investigation</span></p>
       </div>
-    }
-    @switch (session.phase()) {
-      @case ("loading") {
-        <section class="state-panel" role="status">
-          <h1>Loading your workspace</h1>
-          <p>Checking the backend session and session protection settings.</p>
-        </section>
+      <div class="sidebar-bottom">
+        <div class="system-note"><span class="status-dot"></span><span>{{ fixture ? 'Sample workspace' : 'Protected workspace' }}<small>Telecom service assurance</small></span></div>
+        <button class="ghost sidebar-collapse" (click)="collapsed.set(!collapsed())" [attr.aria-expanded]="!collapsed()" aria-controls="workspace-navigation" [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'" [title]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"><app-icon [name]="collapsed() ? 'right' : 'left'" /><span>Collapse sidebar</span></button>
+      </div>
+    </aside>
+    @if (mobileOpen()) { <button class="nav-scrim" aria-label="Close navigation" (click)="mobileOpen.set(false)"></button> }
+  }
+  <div class="workspace-layout">
+    <header class="app-header">
+      @if (isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')) {
+        <a class="brand" routerLink="/dashboard"><span class="brand-symbol"><app-icon name="signal" /></span><span class="brand-copy">telecom<span>SERVICE ASSURANCE</span></span></a>
+      } @else {
+        <div class="header-location">
+          <button class="ghost mobile-menu icon-button" aria-label="Open navigation" [attr.aria-expanded]="mobileOpen()" aria-controls="workspace-navigation" (click)="mobileOpen.set(!mobileOpen())"><app-icon name="menu" /></button>
+          <span class="breadcrumb-root">Workspace</span><span class="breadcrumb-divider">/</span><strong>{{ pageTitle() }}</strong>
+        </div>
       }
-      @case ("authenticated") {
-        <router-outlet />
+      <div class="header-tools">
+        <span class="connection-status"><span class="status-dot" [class.offline]="session.phase() !== 'authenticated'"></span>{{ session.phase() === 'authenticated' ? 'Session connected' : fixture ? 'Preview' : 'Secure access' }}</span>
+        @if (session.actor(); as actor) {
+          <div class="identity"><span class="avatar">{{ actor.displayName.slice(0, 2).toUpperCase() }}</span><span class="identity-copy">{{ actor.displayName }}<small>{{ actor.roles.join(', ') }} · until {{ actor.expiresAt | date:'HH:mm':'UTC' }} UTC</small></span></div>
+          <button class="ghost icon-button" (click)="session.logout()" aria-label="Sign out" title="Sign out"><app-icon name="logout" /></button>
+        }
+      </div>
+    </header>
+    <main id="workspace">
+      @if (session.message() && session.phase() === 'authenticated') { <p role="alert">{{ session.message() }}</p> }
+      @if (fixture && !isAccessPage()) { <div class="preview-label"><app-icon name="info" /> SYNTHETIC FIXTURE PREVIEW · Sample data, no live telemetry or authenticated session</div> }
+      @switch (session.phase()) {
+        @case ('loading') { <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span><h1>Loading your workspace</h1><p>Checking the backend session and session protection settings.</p><div class="skeleton"></div><div class="skeleton short"></div></section> }
+        @case ('authenticated') { <router-outlet /> }
+        @case ('fixture') { <router-outlet /> }
+        @default { <app-login /> }
       }
-      @case ("fixture") {
-        <router-outlet />
-      }
-      @case ("error") {
-        <app-login />
-      }
-      @case ("forbidden") {
-        <app-login />
-      }
-      @default {
-        <app-login />
-      }
-    }
-    <footer>
-      Telecom service assurance · Service health and analyst workflow are
-      separate states.
-    </footer>
-  </main>
+      <footer><app-icon name="signal" /> Telecom service assurance <span>Service health and analyst workflow are separate states.</span></footer>
+    </main>
+  </div>
+</div>
+<div class="toast-region" aria-live="polite" aria-atomic="true">
+  @if (toast.current(); as item) {
+    <div class="toast" [class.toast-error]="item.kind === 'error'"><app-icon [name]="item.kind === 'error' ? 'alert' : 'check'" /><span>{{ item.message }}</span><button class="ghost icon-button" aria-label="Dismiss notification" title="Dismiss notification" (click)="toast.current.set(null)"><app-icon name="close" /></button></div>
+  }
 </div>
