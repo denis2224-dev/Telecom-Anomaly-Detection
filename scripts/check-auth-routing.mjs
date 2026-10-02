@@ -11,6 +11,27 @@ async function request(path, options = {}) {
   return { response, body };
 }
 const isShell = body => /<app-root(?:\s|>)/i.test(body);
+const publicOrigin = new URL(origin).origin;
+const secureCookieExpected = new URL(origin).protocol === "https:";
+const csrf = await request("/api/auth/csrf");
+assert.equal(csrf.response.status, 200, "Spring must serve CSRF through the proxy");
+assert.match(csrf.response.headers.get("content-type") || "", /application\/json/);
+const csrfBody = JSON.parse(csrf.body);
+assert.equal(csrfBody.headerName, "X-CSRF-TOKEN");
+assert.equal(csrfBody.parameterName, "_csrf");
+assert.ok(csrfBody.token, "CSRF response must contain a token");
+const sessionCookies = (csrf.response.headers.getSetCookie?.() ||
+  [csrf.response.headers.get("set-cookie")].filter(Boolean))
+  .filter(cookie => cookie.split("=", 1)[0].trim() === "JSESSIONID");
+assert.equal(sessionCookies.length, 1, "CSRF request must create one session cookie");
+const attributes = sessionCookies[0].split(";").slice(1)
+  .map(attribute => attribute.trim().toLowerCase());
+assert.ok(attributes.includes("path=/"), "Session cookie must cover the public origin");
+assert.ok(attributes.includes("httponly"), "Session cookie must be HttpOnly");
+assert.ok(attributes.includes("samesite=lax"), "Session cookie must be SameSite=Lax");
+assert.equal(attributes.includes("secure"), secureCookieExpected,
+  "Session cookie Secure attribute must match the public origin scheme");
+console.log("PASS CSRF/session cookie: JSON token contract and public-origin cookie attributes");
 for (const path of ["/login", "/login?refresh=1", "/dashboard", "/signed-out"]) {
   const { response, body } = await request(path);
   assert.equal(response.status, 200, `${path}: expected the Angular shell`);
@@ -22,11 +43,11 @@ for (const path of ["/login", "/login?refresh=1", "/dashboard", "/signed-out"]) 
 const auth = await request("/oauth2/authorization/keycloak");
 assert.equal(auth.response.status, 302, "OIDC authorization must redirect");
 const target = new URL(auth.response.headers.get("location"), origin);
-assert.equal(target.origin, new URL(origin).origin);
+assert.equal(target.origin, publicOrigin);
 assert.equal(target.pathname, "/auth/realms/telecom/protocol/openid-connect/auth");
 for (const [key, value] of Object.entries({
   client_id: "telecom-web", response_type: "code", code_challenge_method: "S256",
-  redirect_uri: `${new URL(origin).origin}/login/oauth2/code/keycloak`,
+  redirect_uri: `${publicOrigin}/login/oauth2/code/keycloak`,
 })) assert.equal(target.searchParams.get(key), value, `OIDC ${key}`);
 assert.ok(target.searchParams.get("state"), "OIDC state is required");
 assert.ok(target.searchParams.get("code_challenge"), "PKCE challenge is required");
@@ -34,7 +55,7 @@ console.log("PASS authorization: Spring creates canonical OIDC + PKCE redirect")
 
 const discovery = await request("/auth/realms/telecom/.well-known/openid-configuration");
 assert.equal(discovery.response.status, 200);
-assert.equal(JSON.parse(discovery.body).issuer, `${new URL(origin).origin}/auth/realms/telecom`);
+assert.equal(JSON.parse(discovery.body).issuer, `${publicOrigin}/auth/realms/telecom`);
 const form = await request(target.pathname + target.search);
 assert.equal(form.response.status, 200);
 assert.match(form.body, /telecom\.css/, "Keycloak must serve the child theme");
@@ -50,7 +71,7 @@ for (const path of ["/login/oauth2/code/keycloak", "/login/oauth2/code/keycloak?
 }
 console.log("PASS callback: rejected by Spring, never Angular HTML");
 
-for (const path of ["/api/auth/me", "/api/services"]) {
+for (const path of ["/api/auth/me", "/api/services", "/api/incidents/stream"]) {
   const { response, body } = await request(path);
   assert.equal(response.status, 401, `${path}: anonymous API must be 401`);
   assert.match(response.headers.get("content-type") || "", /application\/json/);
