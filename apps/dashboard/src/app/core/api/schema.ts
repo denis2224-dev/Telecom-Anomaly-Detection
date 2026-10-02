@@ -491,6 +491,11 @@ export interface components {
       scopeId: string;
       /** @enum {string} */
       service: "VOLTE" | "SMS";
+      /**
+       * Format: date-time
+       * @description Episode anchor and first eligible breached window start used to derive episodeId.
+       */
+      firstObservedAt: string;
       /** Format: date-time */
       windowStart: string;
       /** Format: date-time */

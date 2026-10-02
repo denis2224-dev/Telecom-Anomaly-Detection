@@ -1,5 +1,97 @@
 @import "./branding/tokens.css";
 
+/* Operational workspace palette; the shared identity/login brand stays in tokens.css. */
+.workspace-layout:not(.access-layout), .assurance-header {
+  --telecom-page-background: #0b1220;
+  --telecom-surface: #121e30;
+  --telecom-secondary-background: #1a2940;
+  --telecom-text: #edf3fa;
+  --telecom-muted-text: #afbdd0;
+  --telecom-border: #34465e;
+  --telecom-field-border: #667891;
+  --telecom-primary: #ffad66;
+  --telecom-primary-hover: #ffd0a8;
+  --telecom-danger: #ff8e99;
+  background: var(--telecom-page-background);
+  color: var(--telecom-text);
+}
+.workspace-layout:not(.access-layout) :focus-visible, .assurance-header :focus-visible { outline: 3px solid #72d9ea; outline-offset: 3px; }
+.workspace-layout:not(.access-layout) .support { background: var(--telecom-secondary-background); }
+.workspace-layout:not(.access-layout) main { max-width: 1680px; padding: 22px 28px; }
+.workspace-layout:not(.access-layout) h1 { font-size: 28px; }
+.workspace-layout:not(.access-layout) h2 { font-size: 19px; }
+.workspace-layout:not(.access-layout) .page-heading { margin: 8px 0 18px; }
+.workspace-layout:not(.access-layout) .detail-panel { padding: 18px 22px; margin: 16px 0; }
+.live-clock { font-size: 12px; font-variant-numeric: tabular-nums; }
+.live-clock strong { display: block; color: #78dcb0; letter-spacing: 1px; }
+.live-clock small { display: block; padding-top: 5px; }
+.assurance-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.assurance-filters { margin: 16px 0 22px; }
+.assurance-filters label { display: grid; gap: 5px; font-size: 12px; }
+select { background: var(--telecom-surface); color: var(--telecom-text); font: inherit; border: 1px solid var(--telecom-field-border); padding: 10px; max-width: 100%; }
+.service-assurance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.service-assurance-card.service-row { display: grid; grid-template-columns: 1fr 1fr; background: var(--telecom-surface); border: 1px solid var(--telecom-border); border-top: 3px solid #ffad66; gap: 16px; align-items: start; }
+.service-assurance-card[data-service="SMS"], app-service-detail[data-service="SMS"] { --telecom-primary: #67dbe4; }
+.service-assurance-card[data-service="SMS"] { border-top-color: #67dbe4; }
+.service-assurance-card h2 { font-size: 17px; overflow-wrap: anywhere; }
+.service-assurance-card .overview-kpi { display: block; font-size: 30px; line-height: 1.7; font-variant-numeric: tabular-nums; }
+.health-badge { display: inline-block; border: 1px solid currentColor; padding: 5px 8px; }
+[data-health="NORMAL"] .health-badge { color: #78dcb0; }
+[data-health="DEGRADED"] .health-badge { color: #ff8e99; }
+[data-health="UNKNOWN"] .health-badge, [data-health="STALE"] .health-badge { color: #afbdd0; }
+.assurance-notes.support { margin-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--telecom-border); }
+.assurance-notes.support section { padding: 12px 16px; border: 0; }
+.kpi-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.kpi-card { border: 1px solid var(--telecom-border); background: var(--telecom-surface); padding: 14px; }
+.kpi-card h3 { margin: 0 0 8px; color: var(--telecom-muted-text); font-size: 12px; }
+.kpi-value { font-size: 25px; color: var(--telecom-primary); font-variant-numeric: tabular-nums; }
+.kpi-card p { margin: 4px 0; font-size: 12px; }
+.kpi-card small, .incident-story li small { display: block; color: var(--telecom-muted-text); font-size: 10px; margin-top: 5px; }
+.no-measurement .kpi-value { color: var(--telecom-muted-text); }
+.dependency-flow { display: flex; gap: 12px; align-items: stretch; }
+.dependency-node { background: var(--telecom-secondary-background); border: 1px solid var(--telecom-border); padding: 12px; flex: 1; min-width: 0; }
+.dependency-node h3 { margin-top: 0; }
+.dependency-node strong { font-size: 11px; color: #f5c57b; }
+.dependency-node.no-measurement strong { color: var(--telecom-muted-text); }
+.dependency-node p { font-size: 12px; margin: 5px 0; overflow-wrap: anywhere; }
+.dependency-arrow { align-self: center; color: var(--telecom-muted-text); }
+.supporting-charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+app-metric-chart { display: block; min-width: 0; }
+.supporting-charts .detail-panel { margin: 0 !important; padding: 14px !important; }
+.supporting-charts .chart-scroll svg { min-width: 350px; }
+.metric-chart .chart-legend { font-size: 11px; gap: 12px; }
+.expected-line { stroke: #b4c4ec; }
+.expected-key { color: #b4c4ec; }
+.phase-band.NORMAL { fill: #63c69b; opacity: .035; }
+.phase-band.DEGRADED { fill: #ff7081; opacity: .16; }
+.phase-band.RECOVERY { fill: #62deb1; opacity: .22; }
+.phase-band.UNKNOWN { fill: #9daac0; opacity: .23; }
+.state-degraded { color: #ff8e99; }
+.state-recovery { color: #78dcb0; }
+.state-unknown { color: #afbdd0; }
+.phase-label { border: 1px solid currentColor; padding: 4px 8px; font-size: 12px; }
+.phase-label.OPEN, .phase-label.UPDATE { color: #ff8e99; }
+.phase-label.RECOVERY { color: #78dcb0; }
+.phase-label.UNKNOWN { color: #afbdd0; }
+.detail-panel[data-phase="RECOVERY"] { border-left: 3px solid #78dcb0; }
+.detail-panel[data-phase="OPEN"], .detail-panel[data-phase="UPDATE"] { border-left: 3px solid #ff8e99; }
+.detail-panel[data-phase="UNKNOWN"] { border-left: 3px dashed #afbdd0; }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.story-grid p, .story-grid li { font-size: 13px; }
+.story-grid ul { padding-left: 20px; }
+.story-grid li { margin: 10px 0; }
+@media (max-width: 1050px) { .service-assurance-grid, .supporting-charts { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 650px) {
+  .workspace-layout:not(.access-layout) main { padding: 16px; }
+  .service-assurance-card.service-row, .story-grid { grid-template-columns: 1fr; }
+  .dependency-flow { flex-direction: column; }
+  .dependency-arrow { transform: rotate(90deg); }
+  .assurance-notes.support { grid-template-columns: 1fr; }
+  .kpi-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi-card { padding: 10px; }
+  .kpi-value { font-size: 20px; overflow-wrap: anywhere; }
+}
+
 .time-filter { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; }
 .time-filter label { display: grid; gap: 8px; font-size: 14px; }
 .time-filter input { font: inherit; padding: 10px; background: var(--telecom-surface); color: var(--telecom-text); border: 1px solid var(--telecom-field-border); border-radius: var(--telecom-border-radius); max-width: 100%; }

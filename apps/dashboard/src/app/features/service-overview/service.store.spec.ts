@@ -2,6 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { ServiceSummary, TelecomClient } from "../../core/api/telecom-client";
 import { ServiceStore } from "./service.store";
 import services from "../../../fixtures/services.json";
+import { voiceIncidents } from "../../../fixtures/voice";
 
 describe("ServiceStore", () => {
   it("derives normal, degraded, stale, and unknown labels from fixture evidence", () => {
@@ -11,6 +12,7 @@ describe("ServiceStore", () => {
     const store = TestBed.inject(ServiceStore);
 
     const fixtureServices = services as ServiceSummary[];
+    store.incidents.set([{ ...voiceIncidents[0], service: "SMS", scopeId: "SMS-MD-ROUTE-A", technicalState: "ONGOING" }]);
     expect(store.health(fixtureServices[0])).toBe("NORMAL");
     expect(store.health(fixtureServices[1])).toBe("DEGRADED");
     expect(store.health(fixtureServices[2])).toBe("STALE");

@@ -16,7 +16,7 @@ import type { KpiWindow } from './voice-model';
       </p>
 
       <div
-        style="overflow-x: auto"
+        class="chart-scroll"
         tabindex="0"
         role="region"
         aria-label="SMS history"

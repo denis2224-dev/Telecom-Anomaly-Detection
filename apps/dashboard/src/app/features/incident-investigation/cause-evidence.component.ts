@@ -7,7 +7,7 @@ type Detection = components['schemas']['ServiceDetection'];
   selector: 'app-cause-evidence',
   template: `
     <section aria-label="Cause hypothesis">
-      <h4>Cause hypothesis</h4>
+      <h4>Probable cause</h4>
 
       <p>{{ detection().probableCause }}</p>
 

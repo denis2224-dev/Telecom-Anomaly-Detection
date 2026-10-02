@@ -1,159 +1,127 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient, type ServiceSummary } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
+import { LiveUpdates } from '../../core/api/live-updates';
 import { KpiChartComponent } from './kpi-chart.component';
 import { IncidentListComponent } from '../incident-investigation/incident-list.component';
+import { IncidentStoryComponent } from '../incident-investigation/incident-story.component';
 import { episodes, type Incident, type KpiWindow } from './voice-model';
 import { SmsQualityComponent } from './sms-quality.component';
 import { SmsHistoryComponent } from './sms-history.component';
+import { KpiCardsComponent } from './kpi-cards.component';
+import { MetricChartComponent } from './metric-chart.component';
+import { ServicePathComponent } from './service-path.component';
+import { Detection, allPages, historySlices, mergeWindows, serviceHealth } from './assurance-model';
 
 @Component({
-  selector: 'app-service-detail', imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent, SmsQualityComponent, SmsHistoryComponent],
-  styles: [`.page-heading { margin: 14px 0; } .page-heading h1, .page-heading p { margin: 6px 0; } :host > .muted { margin: 8px 0; }`],
-  template: `
-    <a class="back-link" routerLink="/dashboard">← Service overview</a>
-    <div class="page-heading"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS service' : 'Voice call setup' }}</h1><p>{{ scopeId() }}</p></div>
-    @if (loading()) { <p role="status">Loading service evidence…</p> }
-    @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
-    @if (!loading() && !error() && service(); as service) {
-          <p class="muted">
-      {{ service.scope.region }}
-      · {{ service.scope.route }}
-      · Source: {{ service.freshness }}
-    </p>
-
-    <form
-      class="time-filter"
-      (submit)="applyRange($event, start.value, end.value)"
-    >
-      <label>
-        From (UTC)
-        <input
-          #start
-          type="datetime-local"
-          [value]="from().slice(0,16)"
-          required
-        />
-      </label>
-
-      <label>
-        To (UTC, exclusive)
-        <input
-          #end
-          type="datetime-local"
-          [value]="to().slice(0,16)"
-          required
-        />
-      </label>
-
-      <button type="submit">Apply time range</button>
-    </form>
-
-    @if (rangeError()) {
-      <p role="alert">{{ rangeError() }}</p>
-    }
-
-    <p class="muted">
-      {{ from() | date:'dd MMM yyyy HH:mm':'UTC' }}
-      –
-      {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }}
-      UTC · {{ windows().length }} windows
-      · {{ incidents().length }}
-      {{ incidents().length === 1 ? 'episode' : 'episodes' }}
-    </p>
-
-    <p class="muted">
-      Server evidence as of
-      {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
-      UTC{{ fixture ? ' · Synthetic sample' : '' }}
-    </p>
-
-    @if (service.scope.service === 'VOLTE') {
-      <app-kpi-chart
-        [windows]="windows()"
-        [incidents]="incidents()"
-        [from]="from()"
-        [to]="to()"
-      />
-    } @else {
-      <app-sms-quality
-        [window]="service.latestWindow"
-        [freshness]="service.freshness"
-      />
-      <app-sms-history [windows]="windows()" />
-    }
-
-    <app-incident-list [incidents]="incidents()" />
-    }
-  `,
+  selector: 'app-service-detail',
+  host: { '[attr.data-service]': 'service()?.scope?.service' },
+  imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent, SmsQualityComponent,
+    SmsHistoryComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent, IncidentStoryComponent],
+  templateUrl: './service-detail.component.html',
 })
 export class ServiceDetailComponent {
   private readonly api = inject(TelecomClient);
   private generation = 0;
+  private refreshing = false;
+  private cache = new Map<string, { version: number; detections: Detection[] }>();
   readonly fixture = dataSource.fixture;
-  readonly scopeId = signal('');
-  readonly service = signal<ServiceSummary | null>(null);
-  readonly loading = signal(true);
-  readonly error = signal('');
-  readonly rangeError = signal('');
+  readonly scopeId = signal(''); readonly service = signal<ServiceSummary | null>(null);
+  readonly loading = signal(true); readonly error = signal(''); readonly rangeError = signal('');
   readonly from = signal(''); readonly to = signal(''); readonly observedAt = signal('');
+  readonly hours = signal(1); readonly rolling = signal(true);
   readonly windows = signal<KpiWindow[]>([]); readonly incidents = signal<Incident[]>([]);
+  private readonly currentIncidents = signal<Incident[]>([]);
+  readonly detections = signal<Detection[]>([]);
+  readonly health = computed(() => this.service() ? serviceHealth(this.service()!, this.currentIncidents()) : 'UNKNOWN');
+  readonly charts = computed(() => this.service()?.scope.service === 'SMS' ? [
+    { name: 'deliverySrPct', title: 'Delivery success rate', unit: 'PERCENT' },
+    { name: 'queueDepth', title: 'Queue depth', unit: 'COUNT' },
+    { name: 'oldestPendingAgeSec', title: 'Oldest pending message age', unit: 'SECONDS' },
+    { name: 'deliveredMessages', title: 'Delivered sample volume', unit: 'COUNT' },
+  ] : [
+    { name: 'rrcSrPct', title: 'Radio / access · RRC SR', unit: 'PERCENT' },
+    { name: 'bearerSrPct', title: 'Radio / access · Bearer SR', unit: 'PERCENT' },
+    { name: 'imsCpuPct', title: 'IMS / core · CPU', unit: 'PERCENT' },
+    { name: 'sip503Ratio', title: 'IMS / core · SIP 503 rate', unit: 'RATIO' },
+    { name: 'packetLossRatio', title: 'Transport · packet loss', unit: 'RATIO' },
+    { name: 'eligibleAttempts', title: 'Eligible attempt volume', unit: 'COUNT' },
+  ]);
   constructor() {
     const destroy = inject(DestroyRef);
-    destroy.onDestroy(() => { this.generation++; });
-    inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+    const injectRoute = inject(ActivatedRoute);
+    destroy.onDestroy(() => { this.generation++; this.cache.clear(); });
+    inject(LiveUpdates).refresh$.pipe(takeUntilDestroyed(destroy)).subscribe(() => {
+      if (!this.fixture && !this.loading() && !this.refreshing) void this.load(true);
+    });
+    injectRoute.paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+      const requested = Number(injectRoute.snapshot.queryParamMap.get('hours'));
+      if ([1, 6, 24, 48].includes(requested)) this.hours.set(requested);
       this.scopeId.set(params.get('scopeId') ?? ''); this.from.set(''); this.to.set('');
+      this.cache.clear(); this.windows.set([]); this.service.set(null); this.currentIncidents.set([]); this.rolling.set(true);
       void this.load();
     });
   }
-  applyRange(event: Event, start: string, end: string) {
-    event.preventDefault();
-    const from = Date.parse(start + 'Z'), to = Date.parse(end + 'Z');
-    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from || to - from > 86400000) {
-      this.rangeError.set('Choose an end after the start, with a range of at most 24 hours.'); return;
-    }
-    this.rangeError.set(''); this.from.set(new Date(from).toISOString()); this.to.set(new Date(to).toISOString());
+  selectHours(value: string) {
+    const hours = Number(value); if (![1, 6, 24, 48].includes(hours)) return;
+    this.hours.set(hours); this.rolling.set(true); this.from.set(''); this.to.set(''); this.rangeError.set('');
     void this.load();
   }
-  async load() {
-    const generation = ++this.generation, scopeId = this.scopeId();
-    this.loading.set(true); this.error.set(''); this.windows.set([]); this.incidents.set([]);
+  applyRange(event: Event, start: string, end: string) {
+    event.preventDefault();
     try {
-      const services = await this.api.listServices();
-      if (generation !== this.generation) return;
+      const from = new Date(start + 'Z').toISOString(), to = new Date(end + 'Z').toISOString();
+      historySlices(from, to);
+      this.rangeError.set(''); this.rolling.set(false); this.from.set(from); this.to.set(to); void this.load();
+    } catch { this.rangeError.set('Choose an end after the start, with a range of at most 48 hours.'); }
+  }
+  async load(incremental = false) {
+    const generation = ++this.generation, scopeId = this.scopeId(), valid = () => generation === this.generation;
+    this.refreshing = true;
+    if (!incremental) { this.loading.set(true); this.windows.set([]); this.incidents.set([]); this.detections.set([]); }
+    this.error.set('');
+    try {
+      const services = await this.api.listServices(); if (!valid()) return;
       const service = services.find(item => item.scope.scopeId === scopeId);
       if (!service) throw new Error('This service could not be found. Return to the service overview.');
-      this.service.set(service);
-      if (this.fixture && service.scope.service === 'SMS') return;
-      if (!this.from()) {
-        const end = Date.parse(service.latestWindow?.windowEnd ?? service.observedAt);
-        const range = this.fixture ? (await dataSource.loadVoice()).voiceRange : { from: new Date(end - 3600000).toISOString(), to: new Date(end).toISOString() };
-        if (generation !== this.generation) return;
-        this.from.set(range.from); this.to.set(range.to);
+      let from = this.from(), to = this.to();
+      if (this.rolling() || !from) {
+        const end = Math.floor(Date.parse(service.observedAt) / 60000) * 60000;
+        const range = this.fixture ? await dataSource.loadRange(scopeId) : { from: new Date(end - this.hours() * 3600000).toISOString(), to: new Date(end).toISOString() };
+        if (!valid()) return; from = range.from; to = range.to;
       }
-      const from = this.from(), to = this.to();
-      const [history, incidents] = await Promise.all([
-        this.allPages(page => this.api.getServiceKpis(scopeId, { from, to, page, size: 100 })),
-        this.allPages(page => this.api.listIncidents({scopeId, service: service.scope.service, page, size: 100, })),
-      ]);
-      if (generation !== this.generation) return;
-      this.windows.set(history.items);
-      this.observedAt.set(history.observedAt ?? service.observedAt);
-      this.incidents.set(episodes(incidents.items).filter(item => Date.parse(item.firstObservedAt) < Date.parse(to) && Date.parse(item.lastObservedAt) > Date.parse(from)));
+      const old = incremental ? this.windows() : [];
+      const tail = incremental && old.length ? Math.max(Date.parse(from), Date.parse(old.at(-1)!.windowStart) - 120000) : Date.parse(from);
+      const fetchFrom = new Date(Math.min(tail, Date.parse(to) - 60000)).toISOString();
+      const history = (!incremental || this.rolling()) ? await Promise.all(historySlices(fetchFrom, to).map(range =>
+        allPages(page => this.api.getServiceKpis(scopeId, { ...range, page, size: 100 }), valid))) : [];
+      const incidentPage = await allPages(page => this.api.listIncidents({ scopeId, service: service.scope.service, page, size: 100 }), valid);
+      if (!valid()) return;
+      const currentIncidents = episodes(incidentPage.items);
+      const incidents = currentIncidents.filter(item => Date.parse(item.firstObservedAt) < Date.parse(to)
+        && (Date.parse(item.lastObservedAt) > Date.parse(from) || item.technicalState !== 'RECOVERED'));
+      const evidence: Detection[] = [];
+      for (const incident of incidents) {
+        let cached = this.cache.get(incident.id);
+        if (!cached || cached.version !== incident.version) {
+          const result = await allPages(page => this.api.getDetections(incident.id, page), valid);
+          cached = { version: incident.version, detections: result.items };
+          if (!valid()) return; this.cache.set(incident.id, cached);
+        }
+        evidence.push(...cached.detections);
+      }
+      if (!valid()) return;
+      const activeIds = new Set(incidents.map(item => item.id));
+      for (const id of this.cache.keys()) if (!activeIds.has(id)) this.cache.delete(id);
+      this.service.set(service); this.from.set(from); this.to.set(to);
+      this.currentIncidents.set(currentIncidents);
+      this.windows.set(mergeWindows(old, ...history.map(item => item.items)).filter(row => Date.parse(row.windowStart) >= Date.parse(from) && Date.parse(row.windowStart) < Date.parse(to)));
+      this.observedAt.set(service.observedAt); this.incidents.set(incidents); this.detections.set(evidence);
     } catch (error) {
-      if (generation === this.generation) this.error.set(error instanceof Error ? error.message : 'Could not load evidence. Try again.');
-    } finally { if (generation === this.generation) this.loading.set(false); }
-  }
-  private async allPages<T>(fetch: (page: number) => Promise<{items: T[]; total: number; observedAt?: string}>) {
-    const items: T[] = []; let observedAt: string | undefined;
-    for (let page = 0; page < 100; page++) {
-      const result = await fetch(page); items.push(...result.items); observedAt ??= result.observedAt;
-      if (items.length >= result.total) return { items, observedAt };
-      if (!result.items.length) throw new Error('Evidence changed while loading. Retry to get a complete view.');
-    }
-    throw new Error('Too much evidence to load. Ask your administrator to review the service history.');
+      if (valid()) this.error.set(error instanceof Error ? error.message : 'Could not load evidence. Try again.');
+    } finally { if (valid()) { this.loading.set(false); this.refreshing = false; } }
   }
 }

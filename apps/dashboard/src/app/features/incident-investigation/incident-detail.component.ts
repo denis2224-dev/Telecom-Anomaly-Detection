@@ -7,6 +7,7 @@ import type { components } from '../../core/api/schema';
 import { dataSource } from '../../core/api/data-source';
 import { EvidenceTimelineComponent } from './evidence-timeline.component';
 import { IncidentActionsComponent } from './incident-actions.component';
+import { LiveUpdates } from '../../core/api/live-updates';
 
 @Component({
   selector: 'app-incident-detail', imports: [DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent],
@@ -22,7 +23,7 @@ import { IncidentActionsComponent } from './incident-actions.component';
         <p>Technical state: <strong>{{ item.technicalState }}</strong> · Workflow state: <strong>{{ item.status }}</strong></p>
         <p>Episode: <code>{{ item.episodeId }}</code></p>
         <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
-        <p>{{ fixture ? 'Synthetic preview: only the sample latest update is available.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
+        <p>{{ fixture ? 'Synthetic preview: sample detection history only.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
         @if (!fixture) { <p class="muted">Synthetic telecom demo · measurements processed by the running backend.</p> }
         <p>Recovery describes the service. The investigation remains open until an analyst resolves it.</p>
       </section>
@@ -35,6 +36,7 @@ export class IncidentDetailComponent {
   private readonly api = inject(TelecomClient);
   private id = '';
   private generation = 0;
+  private refreshing = false;
   readonly fixture = dataSource.fixture;
   readonly loading = signal(true);
   readonly error = signal('');
@@ -43,16 +45,24 @@ export class IncidentDetailComponent {
   constructor() {
     const destroy = inject(DestroyRef);
     destroy.onDestroy(() => { this.generation++; });
+    inject(LiveUpdates).refresh$.pipe(takeUntilDestroyed(destroy)).subscribe(() => {
+      if (!this.fixture && !this.loading() && !this.refreshing) void this.load(true);
+    });
     inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
       this.id = params.get('id') ?? ''; void this.load();
     });
   }
-  async load() {
+  async load(quiet = false) {
     const generation = ++this.generation, id = this.id;
-    this.loading.set(true); this.error.set(''); this.incident.set(null); this.detections.set([]);
+    this.refreshing = true;
+    if (!quiet) { this.loading.set(true); this.incident.set(null); this.detections.set([]); }
+    this.error.set('');
     try {
       const item = await this.api.getIncident(id);
       if (generation !== this.generation) return;
+      if (quiet && this.incident()?.latestSequence === item.latestSequence) {
+        this.incident.set(item); return;
+      }
       const updates: components['schemas']['ServiceDetection'][] = [];
       for (let page = 0; ; page++) {
         if (page >= 100) throw new Error('Too much evidence to load. Contact your administrator.');
@@ -66,6 +76,6 @@ export class IncidentDetailComponent {
       this.incident.set(item); this.detections.set(updates);
     } catch (error) {
       if (generation === this.generation) this.error.set(error instanceof Error ? error.message : 'Could not load incident evidence.');
-    } finally { if (generation === this.generation) this.loading.set(false); }
+    } finally { if (generation === this.generation) { this.loading.set(false); this.refreshing = false; } }
   }
 }
