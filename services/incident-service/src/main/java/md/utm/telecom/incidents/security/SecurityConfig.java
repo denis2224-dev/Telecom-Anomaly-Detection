@@ -1,5 +1,6 @@
 package md.utm.telecom.incidents.security;
 
+import jakarta.servlet.DispatcherType;
 import java.time.Clock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -58,6 +59,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
+                        // Completion of an authenticated stream can run after logout invalidates its session.
+                        // Only this internal dispatch is allowed; the initial HTTP request stays protected.
+                        .requestMatchers(request -> request.getDispatcherType() == DispatcherType.ASYNC
+                                && "GET".equals(request.getMethod())
+                                && "/api/incidents/stream".equals(request.getServletPath())).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/auth/csrf",
                                 "/actuator/health", "/actuator/health/**").permitAll()
                         .requestMatchers("/oauth2/authorization/keycloak",

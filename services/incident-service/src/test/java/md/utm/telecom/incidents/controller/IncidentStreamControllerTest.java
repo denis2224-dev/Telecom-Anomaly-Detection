@@ -24,6 +24,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -89,6 +91,25 @@ class IncidentStreamControllerTest {
         var session = new MockHttpSession();
         SessionDeadlineFilter.initialize(session, Instant.now());
         return session;
+    }
+
+    @Test
+    void alreadyOpenStreamCompletesAfterLogoutButNewRequestIsUnauthorized() throws Exception {
+        SseEmitter emitter = new SseEmitter(30_000L);
+        when(streams.open(any())).thenReturn(emitter);
+        MockHttpSession session = session();
+        var opened = mvc.perform(get("/api/incidents/stream").servletPath("/api/incidents/stream")
+                        .accept(MediaType.TEXT_EVENT_STREAM).session(session).with(login()))
+                .andExpect(request().asyncStarted()).andReturn();
+        emitter.send(SseEmitter.event().name("ready").data("refresh"));
+        session.invalidate();
+        emitter.complete();
+        mvc.perform(servletContext -> anonymous().postProcessRequest(
+                        asyncDispatch(opened).buildRequest(servletContext)))
+                .andExpect(status().isOk());
+        mvc.perform(get("/api/incidents/stream").servletPath("/api/incidents/stream"))
+                .andExpect(status().isUnauthorized());
+        verify(streams, times(1)).open(any());
     }
 
     private org.springframework.test.web.servlet.request.RequestPostProcessor login() {

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const root = resolve(__dirname, '../../../../..');
 function command(file: string, args: string[], input?: string) {
@@ -24,11 +24,18 @@ function sql(query: string) {
     'exec psql -X -q -tA -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d incidents_db'], query);
 }
 
-test('real login, both public scenarios, investigation, reconnect and logout', async ({ page, context, browser }) => {
+test('real session-bound investigation and logout', async ({ page, context, browser }) => {
   const username = 'live-check-' + randomBytes(6).toString('hex');
   const password = randomBytes(24).toString('base64url') + '!Aa1';
   let userId = '';
   const results: any = { executedAt: new Date().toISOString(), runs: [], checks: [] };
+  const resume = process.env.LIVE_RESUME_RESULTS;
+  if (resume) {
+    const previous = JSON.parse(readFileSync(resume, 'utf8'));
+    results.runs = previous.runs;
+    results.resumedFrom = previous.executedAt;
+    results.checks = previous.checks;
+  }
   try {
     const pre = await (await context.request.get('/api/auth/csrf')).json();
     const before = (await context.cookies()).find(c => c.name === 'JSESSIONID')?.value;
@@ -72,7 +79,45 @@ test('real login, both public scenarios, investigation, reconnect and logout', a
         }
       };
     });
-    for (const [type, scopeId] of [['VOLTE_IMS_OVERLOAD', 'VOLTE-MD-CENTRAL'], ['SMS_QUEUE_DELAY', 'SMS-MD-ROUTE-A']]) {
+    if (process.env.LIVE_SESSION_ONLY === '1') {
+      results.mode = 'session logout regression';
+      await page.goto('/services/VOLTE-MD-CENTRAL');
+      const observer = await context.newPage();
+      await observer.goto('/services/VOLTE-MD-CENTRAL');
+      for (const tab of [page, observer]) {
+        await expect.poll(() => tab.evaluate(() => (window as any).__streamCounts.ready)).toBeGreaterThan(0);
+      }
+      const recoveredId = process.env.LIVE_RECOVERED_INCIDENT_ID;
+      if (recoveredId) {
+        await page.goto(`/incidents/${recoveredId}`);
+        await observer.goto(`/incidents/${recoveredId}`);
+        await expect(page.locator('app-incident-actions')).toContainText('RECOVERED');
+        await page.getByRole('button', { name: 'Claim for myself' }).click();
+        await expect(page.getByRole('button', { name: 'Start investigation' })).toBeEnabled();
+        await page.getByRole('button', { name: 'Start investigation' }).click();
+        await expect(observer.locator('app-incident-actions')).toContainText('INVESTIGATING');
+        const note = 'Verified recovered SMS delivery and queue evidence ' + randomUUID();
+        await page.getByLabel('Investigation comment', { exact: true }).fill(note);
+        await page.getByRole('button', { name: 'Add comment', exact: true }).click();
+        await expect(observer.getByRole('region', { name: 'Investigation timeline' })).toContainText(note);
+        await page.getByLabel('Resolution note', { exact: true }).fill('SMS recovery verified from three healthy windows.');
+        await page.getByRole('button', { name: 'Resolve incident', exact: true }).click();
+        await expect(observer.locator('app-incident-actions')).toContainText('RESOLVED');
+        results.additionalIncident = recoveredId;
+        results.checks.push('recovered SMS UI claim/investigate/comment/resolve with second-tab updates');
+      }
+      await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+      await expect.poll(() => new URL(page.url()).pathname).toBe('/signed-out');
+      await expect.poll(() => observer.evaluate(() => (window as any).__streamCounts.errors)).toBeGreaterThan(0);
+      expect((await context.request.get('/api/auth/me', { maxRedirects: 0 })).status()).toBe(401);
+      expect((await context.request.get('/api/incidents/stream', { maxRedirects: 0 })).status()).toBe(401);
+      const logs = command('docker', ['compose', 'logs', '--no-color', '--since', results.executedAt, 'incident-service']);
+      expect(/Unable to handle.*already committed|Cannot render error page/.test(logs)).toBe(false);
+      results.checks.push('real two-tab logout completion without committed-response errors', 'new stream remains protected');
+      results.result = 'PASS';
+      return;
+    }
+    if (!resume) for (const [type, scopeId] of [['VOLTE_IMS_OVERLOAD', 'VOLTE-MD-CENTRAL'], ['SMS_QUEUE_DELAY', 'SMS-MD-ROUTE-A']]) {
       const runner = await context.newPage();
       await runner.goto('/scenarios');
       await runner.getByLabel('Scenario', { exact: true }).selectOption(type);
@@ -102,11 +147,19 @@ test('real login, both public scenarios, investigation, reconnect and logout', a
     const observer = await context.newPage();
     await observer.goto(`/incidents/${incident.id}`);
     await expect.poll(() => observer.evaluate(() => (window as any).__streamCounts.ready)).toBeGreaterThan(0);
-    await page.getByRole('button', { name: 'Claim for myself' }).click();
-    await expect(page.getByRole('button', { name: 'Start investigation' })).toBeEnabled();
-    await page.getByRole('button', { name: 'Start investigation' }).click();
+    if (!incident.assigneeId) {
+      await page.getByRole('button', { name: 'Claim for myself' }).click();
+    } else {
+      await expect(page.getByLabel('Assign to enabled analyst')).toBeEnabled();
+      await page.getByLabel('Assign to enabled analyst').selectOption(me.analystId);
+      await page.getByRole('button', { name: 'Reassign', exact: true }).click();
+    }
+    if (incident.status === 'OPEN') {
+      await expect(page.getByRole('button', { name: 'Start investigation' })).toBeEnabled();
+      await page.getByRole('button', { name: 'Start investigation' }).click();
+    }
     await expect(observer.locator('app-incident-actions')).toContainText('INVESTIGATING');
-    const note = 'Verified live evidence and immutable event sequence';
+    const note = 'Verified live evidence and immutable event sequence ' + randomUUID();
     await page.getByLabel('Investigation comment', { exact: true }).fill(note);
     const commentResponse = page.waitForResponse(r => new URL(r.url()).pathname.endsWith('/comments') && r.request().method() === 'POST');
     await page.getByRole('button', { name: 'Add comment', exact: true }).click();
@@ -127,9 +180,16 @@ test('real login, both public scenarios, investigation, reconnect and logout', a
       expect(early.status()).toBe(409);
       results.checks.push('premature resolution rejected');
     }
+    results.checks.push('UI claim/reassign/investigate/comment', 'comment retry idempotency', 'second-tab committed updates');
     const readyBefore = await observer.evaluate(() => (window as any).__streamCounts.ready);
     const other = await browser.newContext({ baseURL: 'http://telecom.test:8080', storageState: await context.storageState() });
     await context.setOffline(true);
+    // Chromium offline emulation alone may leave established EventSource sockets alive.
+    // A real proxy restart closes those sockets while offline mode prevents reconnect.
+    command('docker', ['compose', 'restart', 'proxy']);
+    await expect.poll(async () => {
+      try { return (await other.request.get('/api/auth/me')).status(); } catch { return 0; }
+    }).toBe(200);
     await expect.poll(() => observer.evaluate(() => (window as any).__streamCounts.errors)).toBeGreaterThan(0);
     const current = await (await other.request.get(`/api/incidents/${incident.id}`)).json();
     const missed = 'Comment created while the viewing browser was disconnected';
@@ -140,7 +200,7 @@ test('real login, both public scenarios, investigation, reconnect and logout', a
     await expect.poll(() => observer.evaluate(() => (window as any).__streamCounts.ready)).toBeGreaterThan(readyBefore);
     await expect(observer.getByRole('region', { name: 'Investigation timeline' })).toContainText(missed);
     await other.close();
-    results.checks.push('UI claim/investigate/comment', 'comment retry idempotency', 'second-tab committed updates', 'offline reconnect REST reconciliation');
+    results.checks.push('proxy restart and offline reconnect REST reconciliation');
     console.log('Investigation and reconnect passed; waiting for actual service recovery.');
     await expect.poll(async () => (await findIncident(results.runs[0]))?.technicalState,
       { timeout: 360_000, intervals: [5000] }).toBe('RECOVERED');
