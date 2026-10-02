@@ -69,13 +69,33 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByRole('heading', { name: 'SMS delivery and queue' })).toBeVisible();
     await capture('sms');
     await page.goto(`/incidents/${incident.id}`);
+    const summary = page.locator('.incident-summary-bar');
+    await expect(summary).toContainText('Latest KPI deviation');
+    await expect(summary).toContainText('cssrPct: +0.3 pp');
+    await expect(summary).toContainText('Unassigned');
+    expect((await summary.boundingBox())!.y + (await summary.boundingBox())!.height).toBeLessThan(900);
+    const drawer = page.locator('.workflow-drawer');
+    await expect(drawer).toBeHidden();
+    await page.getByRole('button', { name: 'Details & workflow' }).click();
+    await expect(drawer).toBeVisible();
     await expect(page.getByLabel('Investigation comment', { exact: true })).toBeDisabled();
+    await page.keyboard.press('Escape');
+    await expect(drawer).toBeHidden();
+    await page.getByRole('button', { name: 'Details & workflow' }).click();
+    if (width !== 390) {
+      await page.mouse.click(5, 200);
+      await expect(drawer).toBeHidden();
+      await page.getByRole('button', { name: 'Details & workflow' }).click();
+    }
     await capture('incident-unassigned');
     await page.getByRole('button', { name: 'Claim for myself' }).click();
     await expect(page.getByLabel('Investigation comment', { exact: true })).toBeEnabled();
     await page.getByLabel('Investigation comment', { exact: true }).fill('Reviewed recovery evidence and queue samples.');
     await page.getByRole('button', { name: 'Add comment', exact: true }).click();
     await expect(page.locator('.toast')).toContainText('Comment added');
+    await capture('incident-details');
+    await page.getByRole('button', { name: 'Close details and workflow' }).click();
+    await expect(summary).toContainText('Alex Morgan');
     await capture('incident');
     await page.goto('/scenarios');
     await expect(page.getByRole('heading', { name: 'Eight-minute profile' })).toBeVisible();
@@ -84,6 +104,10 @@ for (const width of [1366, 768, 390]) {
     await page.getByRole('button', { name: 'Start scenario', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Server run' })).toBeVisible();
     await expect(page.locator('.scenario-stepper .is-current')).toHaveCount(1);
+    await expect(page.locator('.server-run-grid')).toContainText('Scheduled window');
+    const stop = await page.getByRole('button', { name: 'Stop telemetry' }).boundingBox();
+    const refresh = await page.getByRole('button', { name: 'Refresh status' }).boundingBox();
+    expect(Math.abs(stop!.y - refresh!.y)).toBeLessThan(2);
     await capture('scenario-running');
     expect(errors).toEqual([]);
   });

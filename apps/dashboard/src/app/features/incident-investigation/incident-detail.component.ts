@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -21,25 +21,38 @@ import { IncidentActionsComponent } from './incident-actions.component';
     @if (error()) { <section role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
     @if (!loading() && !error() && incident(); as item) {
       <a class="back-link" [routerLink]="['/services', item.scopeId]"><app-icon name="left" />Back to service</a>
-      <div class="investigation-grid"><div>
-      <section class="detail-panel incident-summary">
-        <h2>{{ item.scopeId }}</h2>
-        <div class="badge-row"><span class="sr-only">Technical state: </span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span><span class="sr-only">Workflow state: </span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></div>
-        <p>Episode: <code>{{ item.episodeId }}</code></p>
-        <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
-        <p>{{ fixture ? 'Synthetic preview: only the sample latest update is available.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
-        @if (!fixture) { <p class="muted">Synthetic telecom demo · measurements processed by the running backend.</p> }
-        <p>Severity: <strong>{{ item.severity }}</strong>. This is the rule's service-impact priority, not a probability.</p>
-        @if (item.technicalState === 'RECOVERED') {
-          <p>The service has recovered. The analyst investigation stays open until someone resolves it.</p>
-        } @else if (item.technicalState === 'UNKNOWN') {
-          <p>Technical state is unknown because evidence is incomplete. Do not treat this as recovery.</p>
-        } @else {
-          <p>The issue is still ongoing at the latest observation.</p>
-        }
-      </section>
-      <app-incident-actions [incident]="item" (updated)="incident.set($event)" />
-      </div><div class="evidence-column">
+      <dialog #detailsDrawer class="workflow-drawer" aria-labelledby="details-title"
+        (click)="$event.target === detailsDrawer && detailsDrawer.close()">
+        <div class="drawer-heading"><h2 id="details-title">Details &amp; workflow</h2><button type="button" class="ghost icon-button" aria-label="Close details and workflow" (click)="detailsDrawer.close()"><app-icon name="close" /></button></div>
+        <section class="detail-panel incident-summary">
+          <h2>{{ item.scopeId }}</h2>
+          <div class="badge-row"><span class="sr-only">Technical state: </span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span><span class="sr-only">Workflow state: </span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></div>
+          <p>Episode: <code>{{ item.episodeId }}</code></p>
+          <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
+          <p>{{ fixture ? 'Synthetic preview: only the sample latest update is available.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
+          @if (!fixture) { <p class="muted">Synthetic telecom demo · measurements processed by the running backend.</p> }
+          <p>Severity: <strong>{{ item.severity }}</strong>. This is the rule's service-impact priority, not a probability.</p>
+          @if (item.technicalState === 'RECOVERED') {
+            <p>The service has recovered. The analyst investigation stays open until someone resolves it.</p>
+          } @else if (item.technicalState === 'UNKNOWN') {
+            <p>Technical state is unknown because evidence is incomplete. Do not treat this as recovery.</p>
+          } @else {
+            <p>The issue is still ongoing at the latest observation.</p>
+          }
+        </section>
+        <app-incident-actions #workflow [incident]="item" (updated)="incident.set($event)" />
+      </dialog>
+      <header class="incident-summary-bar">
+        <div class="incident-summary-title"><p class="eyebrow">Incident episode</p><h2>{{ item.scopeId }}</h2></div>
+        <div class="incident-at-a-glance">
+          <span><small>Severity</small><strong class="badge" [attr.data-state]="item.severity">{{ item.severity }}</strong></span>
+          <span><small>Technical state</small><strong class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</strong></span>
+          <span><small>Assignee</small><strong>{{ workflow.assigneeName() }}</strong></span>
+          <span><small>Latest KPI deviation</small><strong class="mono">{{ latestDeviation() }}</strong></span>
+        </div>
+        <button type="button" class="primary" (click)="detailsDrawer.showModal()"><app-icon name="user" />Details &amp; workflow</button>
+      </header>
+      <div class="evidence-column">
       <p class="muted">
         Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
         This page is part of the timeline; the incident summary shows the current state.
@@ -50,7 +63,7 @@ import { IncidentActionsComponent } from './incident-actions.component';
           [disabled]="(page() + 1) * pageSize >= total()">Next evidence<app-icon name="right" /></button>
       </nav>
       <app-evidence-timeline [detections]="detections()" />
-      </div></div>
+      </div>
     }
   `,
 })
@@ -68,6 +81,18 @@ export class IncidentDetailComponent {
   readonly error = signal('');
   readonly incident = signal<Incident | null>(null);
   readonly detections = signal<components['schemas']['ServiceDetection'][]>([]);
+  readonly latestDeviation = computed(() => {
+    const detection = this.incident()?.latestDetection;
+    if (!detection || detection.phase === 'UNKNOWN') return 'Unavailable';
+    const completed = detection.kpis.find(kpi => kpi.name === 'deliveredMessages')?.observed;
+    const kpi = detection.kpis.find(value => value.observed !== null
+      && value.baseline !== null && value.denominator !== 0
+      && (value.name !== 'p95DeliveryMs' || (completed !== null && completed !== undefined && completed > 0)));
+    if (!kpi) return 'Unavailable';
+    const difference = Math.round((kpi.observed! - kpi.baseline!) * 100) / 100;
+    const unit = kpi.unit === 'PERCENT' ? 'pp' : kpi.unit === 'MILLISECONDS' ? 'ms' : kpi.unit;
+    return `${kpi.name}: ${difference > 0 ? '+' : ''}${difference} ${unit}`;
+  });
 
   constructor() {
     const destroy = inject(DestroyRef);

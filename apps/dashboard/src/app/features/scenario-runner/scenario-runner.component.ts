@@ -139,20 +139,17 @@ import { RunStore } from './run.store';
       </section>
 
       @if (store.run(); as run) {
-        <section class="detail-panel" aria-labelledby="run-title">
-          <h2 id="run-title">Server run</h2>
-
-          <p>Run ID: <code>{{ run.runId }}</code></p>
-          <p>Status: <strong>{{ run.status }}</strong></p>
-          <p>Scenario: {{ run.scenarioType }}</p>
-          <p>Scope: {{ run.scopeId }}</p>
-          <p>
-            Scheduled:
-            {{ run.scheduledStartAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
-            –
-            {{ run.scheduledEndAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
-            UTC
-          </p>
+        <section class="detail-panel server-run" aria-labelledby="run-title">
+          <div class="server-run-heading">
+            <h2 id="run-title">Server run</h2>
+            <span class="badge" [attr.data-state]="run.status">{{ run.status }}</span>
+          </div>
+          <dl class="server-run-grid">
+            <div><dt>Run ID</dt><dd><code>{{ run.runId }}</code></dd></div>
+            <div><dt>Scenario</dt><dd>{{ run.scenarioType }}</dd></div>
+            <div><dt>Scope</dt><dd>{{ run.scopeId }}</dd></div>
+            <div class="server-run-window"><dt>Scheduled window · UTC</dt><dd>{{ run.scheduledStartAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ run.scheduledEndAt | date:'dd MMM HH:mm:ss':'UTC' }}</dd></div>
+          </dl>
 
           @if (run.status === 'STOPPED') {
             <p class="notice">
@@ -173,29 +170,14 @@ import { RunStore } from './run.store';
             </p>
           }
 
-          @if (
-            run.status === 'SCHEDULED'
-            || run.status === 'RUNNING'
-          ) {
-            <button
-              type="button"
-              [disabled]="store.busy()"
-              class="danger" (click)="store.stop()"
-            >
-              Stop telemetry
-            </button>
-            <button
-              type="button"
-              [disabled]="store.refreshing()"
-              (click)="store.refresh()"
-            >
-              <app-icon name="refresh" />Refresh status
-            </button>
-          } @else {
-            <button type="button" (click)="store.newCommand()">
-              Prepare another command
-            </button>
-          }
+          <div class="server-run-actions">
+            @if (run.status === 'SCHEDULED' || run.status === 'RUNNING') {
+              <button type="button" [disabled]="store.busy()" class="danger" (click)="store.stop()">Stop telemetry</button>
+              <button type="button" [disabled]="store.refreshing()" (click)="store.refresh()"><app-icon name="refresh" />Refresh status</button>
+            } @else {
+              <button type="button" (click)="store.newCommand()">Prepare another command</button>
+            }
+          </div>
         </section>
       }
     }

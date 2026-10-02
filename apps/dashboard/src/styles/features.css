@@ -57,8 +57,19 @@
 .episode-card > a { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; }
 .episode-card p, .episode-card li { font-size: 11px; color: var(--text-muted); }
 .episode-card .notice { color: var(--info); }
-.investigation-grid { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.5fr); gap: 24px; align-items: start; }
-.investigation-grid > * { min-width: 0; }
+.incident-summary-bar { position: sticky; top: 10px; z-index: 20; display: flex; align-items: center; flex-wrap: wrap; gap: 16px 24px; padding: 16px 20px; background: var(--glass); backdrop-filter: blur(16px); border-radius: var(--radius); box-shadow: var(--shadow-raised); }
+.incident-summary-title { min-width: 170px; }
+.incident-summary-title h2 { margin-top: 4px; overflow-wrap: anywhere; }
+.incident-at-a-glance { display: flex; align-items: center; flex: 1; flex-wrap: wrap; gap: 14px 24px; min-width: 0; }
+.incident-at-a-glance > span { display: grid; gap: 5px; min-width: 0; }
+.incident-at-a-glance small { font-size: 10px; color: var(--text-muted); }
+.incident-at-a-glance strong:not(.badge) { font-size: 12px; font-weight: 600; overflow-wrap: anywhere; }
+.incident-at-a-glance .mono { color: var(--accent); }
+.incident-summary-bar > button { margin-left: auto; white-space: nowrap; }
+.workflow-drawer { position: fixed; inset: 0 0 0 auto; width: min(440px, 100vw); max-width: none; height: 100dvh; max-height: 100dvh; margin: 0; padding: 20px; overflow-y: auto; color: var(--text); background: var(--surface); border: 0; box-shadow: var(--shadow-raised); }
+.workflow-drawer::backdrop { background: var(--glass); backdrop-filter: blur(3px); }
+.drawer-heading { position: sticky; top: -20px; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 10px 0; background: var(--surface); }
+.workflow-drawer .detail-panel { margin: 16px 0; background: var(--field); }
 .incident-summary h2 { overflow-wrap: anywhere; }
 .incident-summary .badge-row { margin: 18px 0; }
 .incident-summary .mono { display: block; font-size: 11px; margin-top: 6px; }
@@ -70,20 +81,29 @@
 .assignment-picker { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; }
 .comment-composer { display: grid; gap: 12px; padding-top: 10px; }
 .comment-composer.is-muted { opacity: .65; }
-.evidence-column { padding-top: 22px; }
+.evidence-column { padding-top: 4px; }
 .evidence-column > .muted { margin: 12px 0; }
 app-evidence-timeline { display: block; }
 app-evidence-timeline > h2 { margin-top: 28px; }
 app-evidence-timeline > p { font-size: 12px; color: var(--text-muted); margin: 10px 0 22px; }
-.evidence-entry { position: relative; margin-left: 20px; padding: 22px; animation: enter .25s ease; }
+.evidence-entry { position: relative; margin: 12px 0 12px 20px; padding: 18px 22px; animation: enter .25s ease; }
 .evidence-entry::before { content: ''; position: absolute; left: -20px; top: 0; bottom: -22px; width: 2px; background: var(--surface-raised); }
 .evidence-entry:last-child::before { bottom: 0; }
 .timeline-dot { position: absolute; left: -29px; top: 25px; width: 20px; height: 20px; display: grid; place-items: center; color: var(--accent); background: var(--bg); }
 .timeline-dot .icon { width: 14px; height: 14px; }
-.evidence-entry h3 { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.evidence-entry p { margin-top: 12px; font-size: 11px; }
+.evidence-entry-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.evidence-entry-header h3 { font-size: 14px; }
+.evidence-entry-header .badge-row { justify-content: flex-end; }
+.evidence-entry p { margin-top: 8px; font-size: 11px; }
+.evidence-entry .evidence-meta { color: var(--text-muted); font-size: 10px; }
+.evidence-entry .evidence-impact { padding: 10px 12px; background: var(--field); border-radius: var(--radius-control); }
+.evidence-entry .evidence-impact strong { color: var(--text); }
 .evidence-entry table { min-width: 520px; }
-.evidence-entry .evidence-table { margin-top: 12px; }
+.evidence-entry .evidence-table { margin-top: 4px; }
+.evidence-entry th, .evidence-entry td { padding: 8px 10px; }
+.evidence-entry caption { padding: 7px 0; }
+.evidence-entry h4 { margin: 14px 0 6px; }
+.cause-details { margin-top: 4px; }
 app-cause-evidence section { margin-top: 20px; padding: 1px 18px 14px; background: var(--field); border-radius: var(--radius-control); }
 app-cause-evidence li { font-size: 12px; color: var(--text-muted); }
 /* Scenario scheduling and live schedule. */
@@ -102,14 +122,23 @@ progress::-webkit-progress-bar { background: var(--field); border-radius: var(--
 progress::-webkit-progress-value { background: var(--accent); border-radius: var(--radius-pill); }
 progress::-moz-progress-bar { background: var(--accent); border-radius: var(--radius-pill); }
 .run-progress span { white-space: nowrap; color: var(--text-muted); font-size: 11px; }
+.server-run-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.server-run-grid { display: flex; flex-wrap: wrap; gap: 16px 28px; margin: 18px 0; }
+.server-run-grid > div { min-width: 130px; }
+.server-run-grid .server-run-window { flex: 1 1 240px; }
+.server-run-grid dd { font-size: 12px; }
+.server-run-grid code { color: var(--text); }
+.server-run-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.server-run > .notice { margin-bottom: 14px; }
 .login-panel { max-width: 640px; margin: 8vh auto; }
-@media (max-width: 1200px) { .time-filter { grid-template-columns: 1fr 1fr; } .time-filter .button-row { grid-column: 1 / -1; } .scenario-stepper { grid-template-columns: repeat(4,1fr); } .investigation-grid { grid-template-columns: minmax(260px,.8fr) minmax(0,1fr); } }
-@media (max-width: 1000px) { .scenario-form { grid-template-columns: 1fr; } .investigation-grid { grid-template-columns: 1fr; } .service-table-head { display: none; } .service-row { grid-template-columns: 1.5fr 1fr; } .metrics { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 1200px) { .time-filter { grid-template-columns: 1fr 1fr; } .time-filter .button-row { grid-column: 1 / -1; } .scenario-stepper { grid-template-columns: repeat(4,1fr); } }
+@media (max-width: 1000px) { .scenario-form { grid-template-columns: 1fr; } .service-table-head { display: none; } .service-row { grid-template-columns: 1.5fr 1fr; } .metrics { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 600px) {
  .scope-section { padding: 16px; } .scope-section .section-heading { align-items: flex-start; } .service-row { gap: 20px 10px; padding: 16px; } .service-name { grid-column: 1/-1; } .scope-incidents { justify-content: flex-end; } .support { grid-template-columns: 1fr; gap: 0; } .support section { padding: 16px 4px; }
  .range-toolbar { padding: 18px; } .range-toolbar-heading { gap: 12px; } .range-toolbar-heading > .helper { margin-left: 0; } .time-filter { grid-template-columns: 1fr; } .time-filter .button-row { display: grid; grid-template-columns: 1fr 1fr; } .time-filter .primary { grid-column: 1/-1; } .range-caption { flex-direction: column; gap: 5px; }
  .scenario-form { grid-template-columns: 1fr; } .scenario-stepper li { padding: 12px 10px; min-height: 132px; } .scenario-stepper { gap: 6px; } .scenario-stepper strong { font-size: 20px; } .scenario-stepper span { font-size: 9px; }
- .evidence-entry { padding: 16px; margin-left: 16px; } .evidence-entry::before { left: -16px; } .timeline-dot { left: -25px; } .evidence-entry h3 { flex-wrap: wrap; } .metrics { gap: 10px; } .metrics > div { padding: 13px; } .metrics dd { font-size: 16px; }
+ .evidence-entry { padding: 16px; margin-left: 16px; } .evidence-entry::before { left: -16px; } .timeline-dot { left: -25px; } .evidence-entry-header .badge-row { justify-content: flex-start; } .metrics { gap: 10px; } .metrics > div { padding: 13px; } .metrics dd { font-size: 16px; }
+ .incident-summary-bar { top: 0; gap: 12px; padding: 14px; } .incident-summary-title { min-width: 0; width: 100%; } .incident-at-a-glance { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .incident-summary-bar > button { margin-left: 0; width: 100%; } .workflow-drawer { padding: 16px; } .drawer-heading { top: -16px; }
  .episode-card { padding: 16px; } .episode-card dl { grid-template-columns: 1fr 1fr; } .assignment-picker { grid-template-columns: 1fr; } .stat-sparkline { bottom: 48px; }
 }
 
