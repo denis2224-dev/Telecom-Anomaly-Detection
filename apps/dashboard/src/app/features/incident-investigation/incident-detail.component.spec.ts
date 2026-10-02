@@ -130,6 +130,23 @@ describe('Incident investigation evidence', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('Technical state: RECOVERED');
     expect(text).toContain('Workflow state: OPEN');
+    expect(text).toContain(`Severity: ${incident.severity}`);
+    expect(text).toContain('The service has recovered.');
     expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe(`/services/${incident.scopeId}`);
+  });
+
+  it('refreshes an ongoing incident to show later recovery', async () => {
+    api.getIncident
+      .mockResolvedValueOnce({ ...incident, technicalState: 'ONGOING' })
+      .mockResolvedValueOnce(incident);
+    const fixture = await open();
+    expect(fixture.nativeElement.textContent).toContain('The issue is still ongoing');
+    const refresh = [...fixture.nativeElement.querySelectorAll('button')]
+      .find(button => button.textContent.trim() === 'Refresh incident');
+    expect(refresh).toBeDefined();
+    refresh.click();
+    await vi.waitFor(() => expect(fixture.componentInstance.incident()?.technicalState).toBe('RECOVERED'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('The service has recovered.');
   });
 });

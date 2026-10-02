@@ -101,9 +101,9 @@ describe('Historical detection evidence', () => {
     const text = render([record]).nativeElement.textContent as string;
     expect(text).toContain('Severity: HIGH');
     expect(text).toContain('Cause confidence: MEDIUM');
-    expect(text).toContain('Calibrated anomaly rank: 0');
-    expect(text).toContain('not an outage probability');
+    expect(text).toContain('Model anomaly rank: 0');
+    expect(text).toContain('not a failure probability');
     const timeout: Detection = { ...record, mlStatus: 'TIMEOUT', modelVersion: null, anomalyRank: null };
-    expect(render([timeout]).nativeElement.textContent).toContain('Calibrated anomaly rank: Unavailable');
+    expect(render([timeout]).nativeElement.textContent).toContain('Model anomaly rank: Unavailable');
   });
 });

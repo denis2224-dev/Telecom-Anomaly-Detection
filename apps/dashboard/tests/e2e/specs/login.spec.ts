@@ -1,11 +1,23 @@
 import { test, expect } from "@playwright/test";
 
+const csrf = {
+  token: "test-only-csrf",
+  headerName: "X-CSRF-TOKEN",
+  parameterName: "_csrf",
+};
+
 test.describe("Frontend login behavior (mocked API)", () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, "Run separately from real backend verification");
+  test.beforeEach(async ({ page }) => {
+    await page.route("**/api/auth/csrf", route => route.fulfill({ json: csrf }));
+  });
 
   test("anonymous deep links show sign-in without fetching service data", async ({ page }, testInfo) => {
     let serviceRequests = 0;
     await page.route("**/api/**", async (route) => {
+      if (route.request().url().includes("/api/auth/csrf")) {
+        return route.fulfill({ json: csrf });
+      }
       if (route.request().url().includes("/api/services")) serviceRequests++;
       await route.fulfill({ status: 401, json: { code: "UNAUTHENTICATED" } });
     });
@@ -44,9 +56,6 @@ test.describe("Frontend login behavior (mocked API)", () => {
     await page.route("**/api/auth/me", route => route.fulfill({ json: {
       analystId: "test-analyst", displayName: "Test analyst", roles: ["ANALYST"],
       expiresAt: new Date(Date.now() + 60000).toISOString(),
-    } }));
-    await page.route("**/api/auth/csrf", route => route.fulfill({ json: {
-      token: "test-only-csrf", headerName: "X-CSRF-TOKEN", parameterName: "_csrf",
     } }));
     await page.route("**/api/services", route => route.fulfill({ json: [] }));
     await page.goto("/dashboard");

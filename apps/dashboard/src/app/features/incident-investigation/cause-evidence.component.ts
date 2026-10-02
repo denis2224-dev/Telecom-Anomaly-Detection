@@ -20,10 +20,13 @@ type Detection = components['schemas']['ServiceDetection'];
 
       <p>ML status: {{ detection().mlStatus }}</p>
 
-      <p>Calibrated anomaly rank: {{ detection().anomalyRank ?? 'Unavailable' }}</p>
       <p>
-        Rank compares this window with normal calibration data; it is not an outage probability.
-        Severity describes service impact. Cause confidence describes supporting evidence.
+        Model anomaly rank:
+        {{ detection().anomalyRank ?? 'Unavailable' }}
+      </p>
+      <p>
+        Rank is a model signal from 0 to 1, not a failure probability or
+        the service severity. An unavailable rank is not zero.
       </p>
 
       <h4>Recommended checks</h4>

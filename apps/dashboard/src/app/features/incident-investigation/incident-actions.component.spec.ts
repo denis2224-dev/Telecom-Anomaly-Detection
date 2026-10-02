@@ -8,12 +8,12 @@ import { voiceIncidents } from '../../../fixtures/voice';
 describe('Day 9 incident actions', () => {
   it('retains a failed comment and reuses its request ID on manual retry', async () => {
     const incident = { ...structuredClone(voiceIncidents[0]), assigneeId: 'analyst-1' };
-    const commentOnIncident = vi.fn()
+    const commentIncident = vi.fn()
       .mockRejectedValueOnce(new ApiFailure(0))
       .mockResolvedValueOnce(incident);
     TestBed.configureTestingModule({ providers: [
       { provide: TelecomClient, useValue: {
-        listAnalysts: vi.fn().mockResolvedValue([]), commentOnIncident,
+        listAnalysts: vi.fn().mockResolvedValue([]), commentIncident,
       } },
       { provide: SessionStore, useValue: { actor: () => ({ analystId: 'analyst-1', roles: ['ANALYST'] }) } },
     ] });
@@ -23,15 +23,40 @@ describe('Day 9 incident actions', () => {
     await fixture.whenStable();
     const component = fixture.componentInstance;
     await component.addComment();
-    expect(commentOnIncident).not.toHaveBeenCalled();
+    expect(commentIncident).not.toHaveBeenCalled();
     component.commentText.set('Checked the IMS traces');
     await component.addComment();
     expect(component.commentText()).toBe('Checked the IMS traces');
-    expect(commentOnIncident).toHaveBeenCalledTimes(1);
+    expect(commentIncident).toHaveBeenCalledTimes(1);
     await component.addComment();
-    expect(commentOnIncident.mock.calls[1]).toEqual(commentOnIncident.mock.calls[0]);
+    expect(commentIncident.mock.calls[1]).toEqual(commentIncident.mock.calls[0]);
     expect(component.commentText()).toBe('');
-    expect(component.commentSaved()).toBe(true);
+    expect(component.commentNotice()).toBe('Comment saved.');
+  });
+
+  it('starts a new comment request when the analyst edits failed text', async () => {
+    const incident = { ...structuredClone(voiceIncidents[0]), assigneeId: 'analyst-1' };
+    const commentIncident = vi.fn().mockRejectedValue(new ApiFailure(0));
+    TestBed.configureTestingModule({ providers: [
+      { provide: TelecomClient, useValue: {
+        listAnalysts: vi.fn().mockResolvedValue([]), commentIncident,
+      } },
+      { provide: SessionStore, useValue: { actor: () => ({ analystId: 'analyst-1', roles: ['ANALYST'] }) } },
+    ] });
+    const fixture = TestBed.createComponent(IncidentActionsComponent);
+    fixture.componentRef.setInput('incident', incident);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const component = fixture.componentInstance;
+    component.commentText.set('First note');
+    await component.addComment();
+    component.editComment({ target: { value: 'Revised note' } } as unknown as Event);
+    await component.addComment();
+
+    expect(commentIncident).toHaveBeenCalledTimes(2);
+    expect(commentIncident.mock.calls[0][1].requestId)
+      .not.toBe(commentIncident.mock.calls[1][1].requestId);
+    expect(component.commentText()).toBe('Revised note');
   });
 
   it('keeps a note after a conflict and does not replay the write', async () => {
