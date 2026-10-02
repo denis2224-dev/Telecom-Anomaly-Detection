@@ -4,100 +4,70 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient, type ServiceSummary } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
+import { IncidentStream, mergeIncidentPage } from '../../core/state/incident-stream';
 import { KpiChartComponent } from './kpi-chart.component';
 import { IncidentListComponent } from '../incident-investigation/incident-list.component';
-import { episodes, type Incident, type KpiWindow } from './voice-model';
+import { type Incident, type KpiWindow } from './voice-model';
 import { SmsQualityComponent } from './sms-quality.component';
 import { SmsHistoryComponent } from './sms-history.component';
-import {
-  IncidentStream,
-  mergeIncidentVersions,
-} from '../../core/state/incident-stream';
+import { HistoryRangeComponent, type HistoryRange } from './history-range.component';
+
+const PAGE_SIZE = 20;
+const MAX_WINDOWS = 1440;
 
 @Component({
-  selector: 'app-service-detail', imports: [RouterLink, DatePipe, KpiChartComponent, IncidentListComponent, SmsQualityComponent, SmsHistoryComponent],
-  styles: [`.page-heading { margin: 14px 0; } .page-heading h1, .page-heading p { margin: 6px 0; } :host > .muted { margin: 8px 0; }`],
+  selector: 'app-service-detail',
+  imports: [RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
+    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent],
   template: `
     <a class="back-link" routerLink="/dashboard">← Service overview</a>
-    <div class="page-heading"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS service' : 'Voice call setup' }}</h1><p>{{ scopeId() }}</p></div>
+    <div class="page-heading">
+      <p class="eyebrow">Service investigation</p>
+      <h1>{{ service()?.scope?.service === 'SMS' ? 'SMS service' : 'Voice call setup' }}</h1>
+      <p>{{ scopeId() }}</p>
+    </div>
     @if (loading()) { <p role="status">Loading service evidence…</p> }
-    @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
-    @if (!loading() && !error() && service(); as service) {
-          <p class="muted">
-      {{ service.scope.region }}
-      · {{ service.scope.route }}
-      · Source: {{ service.freshness }}
-    </p>
-
-    <form
-      class="time-filter"
-      (submit)="applyRange($event, start.value, end.value)"
-    >
-      <label>
-        From (UTC)
-        <input
-          #start
-          type="datetime-local"
-          [value]="from().slice(0,16)"
-          required
-        />
-      </label>
-
-      <label>
-        To (UTC, exclusive)
-        <input
-          #end
-          type="datetime-local"
-          [value]="to().slice(0,16)"
-          required
-        />
-      </label>
-
-      <button type="submit">Apply time range</button>
-    </form>
-
-    @if (rangeError()) {
-      <p role="alert">{{ rangeError() }}</p>
+    @if (error()) {
+      <section class="state-panel" role="alert">
+        <h2>Evidence unavailable</h2><p>{{ error() }}</p>
+        <button (click)="load()">Retry</button>
+      </section>
     }
-
-    <p class="muted">
-      {{ from() | date:'dd MMM yyyy HH:mm':'UTC' }}
-      –
-      {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }}
-      UTC · {{ windows().length }} windows
-      · {{ incidents().length }}
-      {{ incidents().length === 1 ? 'episode' : 'episodes' }}
-    </p>
-
-    <p class="muted">
-      Server evidence as of
-      {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
-      UTC{{ fixture ? ' · Synthetic sample' : '' }}
-    </p>
-
-    @if (streamError()) {
-      <p role="status">{{ streamError() }}</p>
-      <button type="button" (click)="refreshIncidents()">
-        Retry incident refresh
-      </button>
-    }
-
-    @if (service.scope.service === 'VOLTE') {
-      <app-kpi-chart
-        [windows]="windows()"
-        [incidents]="incidents()"
-        [from]="from()"
-        [to]="to()"
-      />
-    } @else {
-      <app-sms-quality
-        [window]="service.latestWindow"
-        [freshness]="service.freshness"
-      />
-      <app-sms-history [windows]="windows()" />
-    }
-
-    <app-incident-list [incidents]="incidents()" />
+    @if (!loading() && !error() && service(); as item) {
+      <p class="muted">{{ item.scope.region }} · {{ item.scope.route }} · Source: {{ item.freshness }}</p>
+      <app-history-range [from]="from()" [to]="to()"
+        (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
+      <p class="muted">
+        {{ from() | date:'dd MMM yyyy HH:mm':'UTC' }} –
+        {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }} UTC · {{ windows().length }} windows
+      </p>
+      <p class="muted">Server evidence as of
+        {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC
+        {{ fixture ? ' · Synthetic sample' : '' }}
+      </p>
+      @if (streamError()) {
+        <p role="status">{{ streamError() }}</p>
+        <button (click)="refreshIncidents()">Retry incident refresh</button>
+        <button (click)="refreshIncidents(0)" [disabled]="incidentLoading()">Show first incident page</button>
+      }
+      @if (item.scope.service === 'VOLTE') {
+        <p class="notice">Incident shading uses only incident page {{ incidentPage() + 1 }}.
+          Unshaded time may contain incidents on other pages.</p>
+        <app-kpi-chart [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
+      } @else {
+        <app-sms-quality [window]="item.latestWindow" [freshness]="item.freshness" />
+        <app-sms-history [windows]="windows()" />
+      }
+      <p class="muted">Incidents are paged for this scope independently of the KPI time range.</p>
+      @if (incidentLoading()) { <p role="status">Refreshing incident page…</p> }
+      <app-incident-list [incidents]="incidents()" />
+      <nav aria-label="Incident pages">
+        <button (click)="refreshIncidents(incidentPage() - 1)"
+          [disabled]="incidentLoading() || incidentPage() === 0">Previous incidents</button>
+        <span>Page {{ incidentPage() + 1 }} · {{ incidents().length }} shown · {{ incidentTotal() }} total</span>
+        <button (click)="refreshIncidents(incidentPage() + 1)"
+          [disabled]="incidentLoading() || (incidentPage() + 1) * pageSize >= incidentTotal()">Next incidents</button>
+      </nav>
     }
   `,
 })
@@ -105,82 +75,110 @@ export class ServiceDetailComponent {
   private readonly api = inject(TelecomClient);
   private readonly stream = inject(IncidentStream);
   private generation = 0;
+  private loadController?: AbortController;
+  private refreshController?: AbortController;
   private closeStream?: () => void;
   private refreshTimer?: ReturnType<typeof setTimeout>;
-  private refreshId = 0;
-  readonly streamError = signal('');
+  private refreshAgain = false;
+  readonly pageSize = PAGE_SIZE;
   readonly fixture = dataSource.fixture;
   readonly scopeId = signal('');
   readonly service = signal<ServiceSummary | null>(null);
   readonly loading = signal(true);
   readonly error = signal('');
-  readonly rangeError = signal('');
-  readonly from = signal(''); readonly to = signal(''); readonly observedAt = signal('');
-  readonly windows = signal<KpiWindow[]>([]); readonly incidents = signal<Incident[]>([]);
+  readonly streamError = signal('');
+  readonly from = signal('');
+  readonly to = signal('');
+  readonly observedAt = signal('');
+  readonly windows = signal<KpiWindow[]>([]);
+  readonly incidents = signal<Incident[]>([]);
+  readonly incidentPage = signal(0);
+  readonly incidentTotal = signal(0);
+  readonly incidentLoading = signal(false);
+
   constructor() {
     const destroy = inject(DestroyRef);
     destroy.onDestroy(() => {
-      this.generation++;
-      this.refreshId++;
-      clearTimeout(this.refreshTimer);
+      ++this.generation;
+      this.cancelReads();
       this.closeStream?.();
     });
-    inject(ActivatedRoute).paramMap
-      .pipe(takeUntilDestroyed(destroy))
-      .subscribe(params => {
-        this.refreshId++;
-        clearTimeout(this.refreshTimer);
-        this.scopeId.set(params.get('scopeId') ?? '');
-        this.from.set('');
-        this.to.set('');
-        void this.load();
-      });
+    inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+      this.closeStream?.();
+      this.closeStream = undefined;
+      this.scopeId.set(params.get('scopeId') ?? '');
+      this.from.set('');
+      this.to.set('');
+      this.incidents.set([]);
+      this.incidentPage.set(0);
+      void this.load();
+    });
   }
-  applyRange(event: Event, start: string, end: string) {
-    event.preventDefault();
-    const from = Date.parse(start + 'Z'), to = Date.parse(end + 'Z');
-    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from || to - from > 86400000) {
-      this.rangeError.set('Choose an end after the start, with a range of at most 24 hours.'); return;
-    }
-    this.rangeError.set(''); this.from.set(new Date(from).toISOString()); this.to.set(new Date(to).toISOString());
-    this.refreshId++;
-    clearTimeout(this.refreshTimer);
+
+  applyRange(range: HistoryRange): void {
+    this.from.set(range.from);
+    this.to.set(range.to);
     void this.load();
   }
-  async load() {
-    const generation = ++this.generation, scopeId = this.scopeId();
-    const previousIncidents = this.incidents()
-      .filter(item => item.scopeId === scopeId);
-    this.refreshId++;
+
+  latestHour(): void {
+    this.from.set('');
+    this.to.set('');
+    void this.load();
+  }
+
+  private cancelReads(): void {
     clearTimeout(this.refreshTimer);
+    this.loadController?.abort();
+    this.refreshController?.abort();
+    this.refreshController = undefined;
+    this.refreshAgain = false;
+    this.incidentLoading.set(false);
+  }
+
+  async load(): Promise<void> {
+    const generation = ++this.generation;
+    this.cancelReads();
+    const controller = this.loadController = new AbortController();
+    const scopeId = this.scopeId();
+    const previous = this.incidents();
+    this.loading.set(true);
+    this.error.set('');
     this.streamError.set('');
-    this.loading.set(true); this.error.set(''); this.windows.set([]); this.incidents.set([]);
+    this.windows.set([]);
     try {
-      const services = await this.api.listServices();
+      const services = await this.api.listServices(controller.signal);
       if (generation !== this.generation) return;
       const service = services.find(item => item.scope.scopeId === scopeId);
-      if (!service) throw new Error('This service could not be found. Return to the service overview.');
+      if (!service) throw new Error('This service could not be found. Return to the overview.');
       this.service.set(service);
-      if (this.fixture && service.scope.service === 'SMS') return;
       if (!this.from()) {
         const end = Date.parse(service.latestWindow?.windowEnd ?? service.observedAt);
-        const range = this.fixture ? (await dataSource.loadVoice()).voiceRange : { from: new Date(end - 3600000).toISOString(), to: new Date(end).toISOString() };
+        if (!Number.isFinite(end)) throw new Error('The service has no valid evidence time.');
+        const range = this.fixture && service.scope.service === 'VOLTE'
+          ? (await dataSource.loadVoice()).voiceRange
+          : { from: new Date(end - 3_600_000).toISOString(), to: new Date(end).toISOString() };
         if (generation !== this.generation) return;
-        this.from.set(range.from); this.to.set(range.to);
+        this.from.set(range.from);
+        this.to.set(range.to);
       }
       const from = this.from(), to = this.to();
+      const duration = Date.parse(to) - Date.parse(from);
+      if (!Number.isFinite(duration) || duration <= 0 || duration > 86_400_000) {
+        throw new Error('Choose a valid time range of at most 24 hours.');
+      }
       const [history, incidents] = await Promise.all([
-        this.allPages(page => this.api.getServiceKpis(scopeId, { from, to, page, size: 100 })),
-        this.allPages(page => this.api.listIncidents({scopeId, service: service.scope.service, page, size: 100, })),
+        this.history(scopeId, from, to, controller.signal),
+        this.api.listIncidents({ scopeId, service: service.scope.service,
+          page: 0, size: PAGE_SIZE }, controller.signal),
       ]);
       if (generation !== this.generation) return;
+      this.checkIncidentPage(incidents);
       this.windows.set(history.items);
       this.observedAt.set(history.observedAt ?? service.observedAt);
-      const merged = mergeIncidentVersions(previousIncidents, incidents.items);
-      this.incidents.set(episodes(merged).filter(item =>
-        Date.parse(item.firstObservedAt) < Date.parse(to)
-        && Date.parse(item.lastObservedAt) > Date.parse(from),
-      ));
+      this.incidents.set(mergeIncidentPage(previous, incidents.items));
+      this.incidentPage.set(0);
+      this.incidentTotal.set(incidents.total);
       if (!this.fixture && !this.closeStream) {
         this.closeStream = this.stream.connect(
           () => this.queueIncidentRefresh(),
@@ -190,63 +188,96 @@ export class ServiceDetailComponent {
         );
       }
     } catch (error) {
-      if (generation === this.generation) this.error.set(error instanceof Error ? error.message : 'Could not load evidence. Try again.');
-    } finally { if (generation === this.generation) this.loading.set(false); }
+      controller.abort(); // Also cancel the other Promise.all request on failure.
+      if (generation === this.generation) {
+        this.error.set(error instanceof Error ? error.message : 'Could not load evidence.');
+      }
+    } finally {
+      if (generation === this.generation) this.loading.set(false);
+    }
   }
+
+  private async history(scopeId: string, from: string, to: string, signal: AbortSignal) {
+    const items: KpiWindow[] = [];
+    const ids = new Set<string>();
+    let total: number | undefined;
+    let observedAt: string | undefined;
+    for (let page = 0; page < 15; page++) {
+      signal.throwIfAborted();
+      const result = await this.api.getServiceKpis(scopeId, { from, to, page, size: 100 }, signal);
+      signal.throwIfAborted();
+      if (!Number.isInteger(result.total) || result.total < 0 || result.total > MAX_WINDOWS
+        || result.items.length > 100 || (total !== undefined && total !== result.total)) {
+        throw new Error('History exceeded its limit or changed while loading. Retry the selected range.');
+      }
+      total = result.total;
+      observedAt ??= result.observedAt;
+      for (const item of result.items) {
+        const start = Date.parse(item.windowStart);
+        if (ids.has(item.windowId) || item.scopeId !== scopeId || !Number.isFinite(start)
+          || start < Date.parse(from) || start >= Date.parse(to)) {
+          throw new Error('History contains duplicate or unexpected windows. Retry the selected range.');
+        }
+        ids.add(item.windowId);
+        items.push(item);
+      }
+      if (items.length > total || items.length > MAX_WINDOWS) {
+        throw new Error('History exceeded its reported limit. Retry the selected range.');
+      }
+      if (items.length === total) return { items, observedAt };
+      if (result.items.length !== 100) {
+        throw new Error('History changed while loading. Retry to get a complete range.');
+      }
+    }
+    throw new Error('History exceeded 15 pages. Choose a shorter range.');
+  }
+
+  private checkIncidentPage(result: { items: Incident[]; total: number }): void {
+    if (!Number.isInteger(result.total) || result.total < 0 || result.items.length > PAGE_SIZE
+      || result.items.length > result.total || (result.total > 0 && !result.items.length)) {
+      throw new Error('This incident page changed or exceeded its limit. Return to the first page.');
+    }
+  }
+
   private queueIncidentRefresh(): void {
     clearTimeout(this.refreshTimer);
     this.refreshTimer = setTimeout(() => {
-      if (this.loading()) {
-        this.queueIncidentRefresh();
-        return;
-      }
-      void this.refreshIncidents();
+      if (this.loading()) { this.queueIncidentRefresh(); return; }
+      if (!this.error()) void this.refreshIncidents();
     }, 150);
   }
 
-  async refreshIncidents(): Promise<void> {
-    if (this.fixture || !this.scopeId() || !this.from() || !this.to()) return;
-
-    const refreshId = ++this.refreshId;
+  async refreshIncidents(page = this.incidentPage()): Promise<void> {
+    const service = this.service();
+    if (this.loading() || this.error() || !service || page < 0) return;
+    if (this.refreshController) { this.refreshAgain = true; return; }
+    const controller = this.refreshController = new AbortController();
     const generation = this.generation;
-    const scopeId = this.scopeId();
-    const service = this.service()?.scope.service;
-    const from = this.from();
-    const to = this.to();
-    if (!service) return;
-
+    this.incidentLoading.set(true);
     try {
-      const result = await this.allPages(page => this.api.listIncidents({
-        scopeId,
-        service,
-        page,
-        size: 100,
-      }));
-
-      if (generation !== this.generation || refreshId !== this.refreshId) return;
-
-      const merged = mergeIncidentVersions(this.incidents(), result.items);
-      this.incidents.set(episodes(merged).filter(item =>
-        Date.parse(item.firstObservedAt) < Date.parse(to)
-        && Date.parse(item.lastObservedAt) > Date.parse(from),
-      ));
+      const result = await this.api.listIncidents({
+        scopeId: this.scopeId(), service: service.scope.service, page, size: PAGE_SIZE,
+      }, controller.signal);
+      if (generation !== this.generation) return;
+      this.checkIncidentPage(result);
+      this.incidents.set(mergeIncidentPage(this.incidents(), result.items));
+      this.incidentPage.set(page);
+      this.incidentTotal.set(result.total);
       this.streamError.set('');
-    } catch {
-      if (generation === this.generation && refreshId === this.refreshId) {
-        this.streamError.set(
-          'Live incident refresh failed. Existing evidence is still shown; retry to catch up.',
-        );
+    } catch (error) {
+      if (generation === this.generation) {
+        this.streamError.set(error instanceof Error ? error.message
+          : 'Live incident refresh failed. Retry to catch up.');
+      }
+    } finally {
+      if (this.refreshController === controller) {
+        this.refreshController = undefined;
+        this.incidentLoading.set(false);
+        if (this.refreshAgain) {
+          this.refreshAgain = false;
+          this.queueIncidentRefresh();
+        }
       }
     }
-  }
-
-  private async allPages<T>(fetch: (page: number) => Promise<{items: T[]; total: number; observedAt?: string}>) {
-    const items: T[] = []; let observedAt: string | undefined;
-    for (let page = 0; page < 100; page++) {
-      const result = await fetch(page); items.push(...result.items); observedAt ??= result.observedAt;
-      if (items.length >= result.total) return { items, observedAt };
-      if (!result.items.length) throw new Error('Evidence changed while loading. Retry to get a complete view.');
-    }
-    throw new Error('Too much evidence to load. Ask your administrator to review the service history.');
   }
 }

@@ -27,6 +27,15 @@ import { IncidentActionsComponent } from './incident-actions.component';
         <p>Recovery describes the service. The investigation remains open until an analyst resolves it.</p>
       </section>
       <app-incident-actions [incident]="item" (updated)="incident.set($event)" />
+      <p class="muted">
+        Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
+        This page is part of the timeline; the incident summary shows the current state.
+      </p>
+      <nav aria-label="Evidence pages">
+        <button (click)="load(page() - 1)" [disabled]="page() === 0">Previous evidence</button>
+        <button (click)="load(page() + 1)"
+          [disabled]="(page() + 1) * pageSize >= total()">Next evidence</button>
+      </nav>
       <app-evidence-timeline [detections]="detections()" />
     }
   `,
@@ -35,37 +44,59 @@ export class IncidentDetailComponent {
   private readonly api = inject(TelecomClient);
   private id = '';
   private generation = 0;
+  private controller?: AbortController;
   readonly fixture = dataSource.fixture;
+  readonly pageSize = 20;
+  readonly page = signal(0);
+  readonly total = signal(0);
   readonly loading = signal(true);
   readonly error = signal('');
   readonly incident = signal<Incident | null>(null);
   readonly detections = signal<components['schemas']['ServiceDetection'][]>([]);
+
   constructor() {
     const destroy = inject(DestroyRef);
-    destroy.onDestroy(() => { this.generation++; });
+    destroy.onDestroy(() => { ++this.generation; this.controller?.abort(); });
     inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
-      this.id = params.get('id') ?? ''; void this.load();
+      this.id = params.get('id') ?? '';
+      this.page.set(0);
+      this.total.set(0);
+      void this.load();
     });
   }
-  async load() {
-    const generation = ++this.generation, id = this.id;
-    this.loading.set(true); this.error.set(''); this.incident.set(null); this.detections.set([]);
+
+  async load(page = 0): Promise<void> {
+    if (page < 0) return;
+    const generation = ++this.generation;
+    this.controller?.abort();
+    const controller = this.controller = new AbortController();
+    const id = this.id;
+    this.loading.set(true);
+    this.error.set('');
+    this.incident.set(null);
+    this.detections.set([]);
     try {
-      const item = await this.api.getIncident(id);
+      const [item, result] = await Promise.all([
+        this.api.getIncident(id, controller.signal),
+        this.api.getDetections(id, page, this.pageSize, controller.signal),
+      ]);
       if (generation !== this.generation) return;
-      const updates: components['schemas']['ServiceDetection'][] = [];
-      for (let page = 0; ; page++) {
-        if (page >= 100) throw new Error('Too much evidence to load. Contact your administrator.');
-        const result = await this.api.getDetections(id, page);
-        if (generation !== this.generation) return;
-        updates.push(...result.items);
-        if (updates.length >= result.total) break;
-        if (!result.items.length) throw new Error('Evidence changed while loading. Please retry.');
+      if (!Number.isInteger(result.total) || result.total < 0
+        || result.items.length > this.pageSize || result.items.length > result.total
+        || (result.total > 0 && !result.items.length)) {
+        throw new Error('This evidence page changed or exceeded its limit. Retry from the first page.');
       }
-      if (generation !== this.generation) return;
-      this.incident.set(item); this.detections.set(updates);
+      this.incident.set(item);
+      this.detections.set(result.items);
+      this.page.set(page);
+      this.total.set(result.total);
     } catch (error) {
-      if (generation === this.generation) this.error.set(error instanceof Error ? error.message : 'Could not load incident evidence.');
-    } finally { if (generation === this.generation) this.loading.set(false); }
+      controller.abort();
+      if (generation === this.generation) {
+        this.error.set(error instanceof Error ? error.message : 'Could not load incident evidence.');
+      }
+    } finally {
+      if (generation === this.generation) this.loading.set(false);
+    }
   }
 }

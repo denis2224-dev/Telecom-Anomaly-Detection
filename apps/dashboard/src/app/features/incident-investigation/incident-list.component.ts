@@ -17,7 +17,7 @@ import { episodes, type Incident } from '../service-kpi-history/voice-model';
         @if (item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED') { <p class="notice">The service recovered. The investigation still needs attention.</p> }
         <details><summary>View incident evidence</summary><p>{{ item.latestDetection.probableCause }}</p><p class="muted">Cause confidence: {{ item.latestDetection.causeConfidence }} · Detected {{ item.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p><ul>@for (check of item.latestDetection.recommendedChecks; track check) { <li>{{ check }}</li> }</ul></details>
       </article>
-    } @empty { <p role="status">No incident episodes overlap this time range.</p> }
+    } @empty { <p role="status">No incident episodes on this page.</p> }
   </section>`,
 })
 export class IncidentListComponent {

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import type { KpiWindow } from './voice-model';
 
 @Component({
@@ -35,7 +35,7 @@ import type { KpiWindow } from './voice-model';
             </tr>
           </thead>
           <tbody>
-            @for (row of rows(); track row.windowId) {
+            @for (row of tableRows(); track row.windowId) {
               <tr [attr.data-window-id]="row.windowId">
                 <th scope="row">
                   {{ row.windowStart | date:'HH:mm:ss':'UTC' }}
@@ -59,6 +59,11 @@ import type { KpiWindow } from './voice-model';
           </tbody>
         </table>
       </div>
+      <nav aria-label="History table pages">
+        <button (click)="tablePage.set(tablePage() - 1)" [disabled]="tablePage() === 0">Previous windows</button>
+        <span>Page {{ tablePage() + 1 }} of {{ tablePages() }} · {{ rows().length }} windows total</span>
+        <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows</button>
+      </nav>
     </section>
   `,
 })
@@ -71,6 +76,16 @@ export class SmsHistoryComponent {
         Date.parse(a.windowStart) - Date.parse(b.windowStart),
     ),
   );
+  readonly tablePage = signal(0);
+  readonly tablePages = computed(() => Math.max(1, Math.ceil(this.rows().length / 50)));
+  readonly tableRows = computed(() => this.rows().slice(this.tablePage() * 50, (this.tablePage() + 1) * 50));
+
+  constructor() {
+    effect(() => {
+      this.windows();
+      this.tablePage.set(0);
+    });
+  }
 
   value(row: KpiWindow, name: string): number | null {
     if (row.quality === 'MISSING') return null;

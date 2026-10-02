@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-model';
 
 @Component({
@@ -33,8 +33,13 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
         <p class="muted">Scale: {{ floor() }}–100%. Gaps are unavailable data, not 0% success. A zero attempt count also has no success rate.</p>
         <details><summary>Show exact values and attempt counts ({{ rows().length }} windows)</summary>
           <div class="chart-scroll"><table class="kpi-table"><caption>Server windows in UTC · start inclusive, end exclusive</caption><thead><tr><th>Window</th><th>Actual (%)</th><th>Expected (%)</th><th>Attempts</th><th>Data quality</th></tr></thead><tbody>
-            @for (row of rows(); track row.windowId) { <tr [attr.data-window-id]="row.windowId"><th>{{ clock(row.windowStart) }}–{{ clock(row.windowEnd) }}</th><td>{{ value(row) ?? 'Unavailable' }}</td><td>{{ metric(row)?.baseline ?? 'Unavailable' }}</td><td>{{ metric(row)?.denominator ?? 'Unavailable' }}</td><td>{{ row.quality }}</td></tr> }
+            @for (row of tableRows(); track row.windowId) { <tr [attr.data-window-id]="row.windowId"><th>{{ clock(row.windowStart) }}–{{ clock(row.windowEnd) }}</th><td>{{ value(row) ?? 'Unavailable' }}</td><td>{{ metric(row)?.baseline ?? 'Unavailable' }}</td><td>{{ metric(row)?.denominator ?? 'Unavailable' }}</td><td>{{ row.quality }}</td></tr> }
           </tbody></table></div>
+          <nav aria-label="History table pages">
+            <button (click)="tablePage.set(tablePage() - 1)" [disabled]="tablePage() === 0">Previous windows</button>
+            <span>Page {{ tablePage() + 1 }} of {{ tablePages() }} · {{ rows().length }} windows total</span>
+            <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows</button>
+          </nav>
         </details>
       } @else { <p role="status">No voice KPI history in this time range.</p> }
     </section>`,
@@ -45,6 +50,15 @@ export class KpiChartComponent {
   readonly from = input.required<string>();
   readonly to = input.required<string>();
   readonly rows = computed(() => [...this.windows()].sort((a,b) => Date.parse(a.windowStart) - Date.parse(b.windowStart)));
+  readonly tablePage = signal(0);
+  readonly tablePages = computed(() => Math.max(1, Math.ceil(this.rows().length / 50)));
+  readonly tableRows = computed(() => this.rows().slice(this.tablePage() * 50, (this.tablePage() + 1) * 50));
+  constructor() {
+    effect(() => {
+      this.windows();
+      this.tablePage.set(0);
+    });
+  }
   readonly attempts = computed(() => this.rows().reduce((total, row) => total + (cssr(row)?.denominator ?? 0), 0));
   readonly hasAttemptCounts = computed(() => this.rows().some(row => cssr(row)?.denominator != null));
   readonly unavailable = computed(() => this.rows().filter(row => observed(row) === null).length);
