@@ -33,16 +33,16 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
       page: 0, size: 100, observedAt: feature.windowEnd,
     } }));
     await page.route('**/api/incidents?**', route => route.fulfill({ json: {
-      items: incident ? [incident] : [], total: incident ? 1 : 0, page: 0, size: 100,
+      items: incident ? [incident] : [], total: incident ? 1 : 0, page: 0, size: 20,
     } }));
     await page.route('**/api/incidents/*', route => route.fulfill({ json: incident }));
     await page.route('**/api/incidents/*/detections?**', route => route.fulfill({ json: {
-      items: detections, total: detections.length, page: 0, size: 100,
+      items: detections, total: detections.length, page: 0, size: 20,
     } }));
     if (!incident) {
       await page.goto(`/services/${feature.scopeId}`);
       await expect(page.locator('.episode-card')).toHaveCount(0);
-      await expect(page.getByText('No incident episodes overlap this time range.')).toBeVisible();
+      await expect(page.getByText('No incident episodes on this page.')).toBeVisible();
     } else {
       await page.goto(`/incidents/${incident.id}`);
       await expect(page.locator('[data-detection-id]')).toHaveCount(detections.length);
