@@ -348,7 +348,7 @@ export class IncidentActionsComponent implements OnInit {
       this.pendingComment = { id: item.id, text, requestId: requestId() };
     }
     this.commentSaved.set(false);
-    await this.submit(() => this.api.commentOnIncident(item.id, {
+    await this.submit(() => this.api.commentIncident(item.id, {
       text, version: item.version, requestId: this.pendingComment!.requestId,
     }));
     if (!this.message()) {

@@ -8,12 +8,12 @@ import { voiceIncidents } from '../../../fixtures/voice';
 describe('Day 9 incident actions', () => {
   it('retains a failed comment and reuses its request ID on manual retry', async () => {
     const incident = { ...structuredClone(voiceIncidents[0]), assigneeId: 'analyst-1' };
-    const commentOnIncident = vi.fn()
+    const commentIncident = vi.fn()
       .mockRejectedValueOnce(new ApiFailure(0))
       .mockResolvedValueOnce(incident);
     TestBed.configureTestingModule({ providers: [
       { provide: TelecomClient, useValue: {
-        listAnalysts: vi.fn().mockResolvedValue([]), commentOnIncident,
+        listAnalysts: vi.fn().mockResolvedValue([]), commentIncident,
       } },
       { provide: SessionStore, useValue: { actor: () => ({ analystId: 'analyst-1', roles: ['ANALYST'] }) } },
     ] });
@@ -23,13 +23,13 @@ describe('Day 9 incident actions', () => {
     await fixture.whenStable();
     const component = fixture.componentInstance;
     await component.addComment();
-    expect(commentOnIncident).not.toHaveBeenCalled();
+    expect(commentIncident).not.toHaveBeenCalled();
     component.commentText.set('Checked the IMS traces');
     await component.addComment();
     expect(component.commentText()).toBe('Checked the IMS traces');
-    expect(commentOnIncident).toHaveBeenCalledTimes(1);
+    expect(commentIncident).toHaveBeenCalledTimes(1);
     await component.addComment();
-    expect(commentOnIncident.mock.calls[1]).toEqual(commentOnIncident.mock.calls[0]);
+    expect(commentIncident.mock.calls[1]).toEqual(commentIncident.mock.calls[0]);
     expect(component.commentText()).toBe('');
     expect(component.commentSaved()).toBe(true);
   });
