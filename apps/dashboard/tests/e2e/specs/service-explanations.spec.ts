@@ -50,8 +50,8 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
         const article = page.locator(`[data-detection-id="${detection.detectionId}"]`);
         await expect(article).toContainText(detection.probableCause);
         await expect(article).toContainText(`Cause confidence: ${detection.causeConfidence}`);
-        await expect(article).toContainText(`Calibrated anomaly rank: ${detection.anomalyRank ?? 'Unavailable'}`);
-        await expect(article).toContainText('not an outage probability');
+        await expect(article).toContainText(`Model anomaly rank: ${detection.anomalyRank ?? 'Unavailable'}`);
+        await expect(article).toContainText('not a failure probability');
         await expect(article).toContainText('Unique customers: Unavailable');
         for (const check of detection.recommendedChecks) await expect(article).toContainText(check);
         for (const kpi of detection.kpis) {
