@@ -135,6 +135,28 @@ type Analyst = components['schemas']['AnalystSummary'];
           </p>
         }
 
+        @if (canComment()) {
+          <label for="investigation-comment">Investigation comment</label>
+          <textarea
+            id="investigation-comment"
+            rows="4"
+            maxlength="2000"
+            [value]="commentText()"
+            [disabled]="busy()"
+            (input)="editComment($event)"
+          ></textarea>
+          <button
+            type="button"
+            [disabled]="busy() || !commentText().trim()"
+            (click)="addComment()"
+          >
+            Add comment
+          </button>
+          @if (commentNotice()) {
+            <p role="status">{{ commentNotice() }}</p>
+          }
+        }
+
         @if (message()) {
           <p role="alert">{{ message() }}</p>
           <button
@@ -144,16 +166,6 @@ type Analyst = components['schemas']['AnalystSummary'];
           >
             Reload incident
           </button>
-        }
-
-        @if (privileged() || canChangeStatus()) {
-          <label for="investigation-comment">Investigation comment</label>
-          <textarea id="investigation-comment" rows="3" maxlength="2000"
-            [value]="commentText()" [disabled]="busy()"
-            (input)="editComment($event)"></textarea>
-          <button type="button" [disabled]="busy() || !commentText().trim()"
-            (click)="addComment()">Add comment</button>
-          @if (commentSaved()) { <p role="status">Comment saved.</p> }
         }
       }
     </section>
@@ -172,7 +184,7 @@ export class IncidentActionsComponent implements OnInit {
   readonly targetId = signal('');
   readonly resolutionNote = signal('');
   readonly commentText = signal('');
-  readonly commentSaved = signal(false);
+  readonly commentNotice = signal('');
   private pendingComment?: { id: string; text: string; requestId: string };
   readonly message = signal('');
   readonly busy = signal(false);
@@ -201,6 +213,10 @@ export class IncidentActionsComponent implements OnInit {
         || assignee === this.session.actor()?.analystId
       );
   });
+
+  readonly canComment = computed(() =>
+    this.privileged() || this.canChangeStatus(),
+  );
 
   readonly assigneeName = computed(() => {
     const id = this.incident().assigneeId;
@@ -241,8 +257,10 @@ export class IncidentActionsComponent implements OnInit {
   }
 
   editComment(event: Event): void {
-    this.commentText.set((event.target as HTMLTextAreaElement).value);
-    this.commentSaved.set(false);
+    const next = (event.target as HTMLTextAreaElement).value;
+    if (next !== this.commentText()) this.pendingComment = undefined;
+    this.commentText.set(next);
+    this.commentNotice.set('');
   }
 
   claim(): void {
@@ -342,19 +360,29 @@ export class IncidentActionsComponent implements OnInit {
   async addComment(): Promise<void> {
     const item = this.incident();
     const text = this.commentText().trim();
-    if (dataSource.fixture || this.busy() || !(this.privileged() || this.canChangeStatus())
+    if (dataSource.fixture || this.busy() || !this.canComment()
       || !text || text.length > 2000) return;
     if (this.pendingComment?.id !== item.id || this.pendingComment.text !== text) {
       this.pendingComment = { id: item.id, text, requestId: requestId() };
     }
-    this.commentSaved.set(false);
-    await this.submit(() => this.api.commentIncident(item.id, {
-      text, version: item.version, requestId: this.pendingComment!.requestId,
-    }));
-    if (!this.message()) {
+    this.busy.set(true);
+    this.message.set('');
+    this.commentNotice.set('');
+
+    try {
+      const updated = await this.api.commentIncident(item.id, {
+        text,
+        version: item.version,
+        requestId: this.pendingComment.requestId,
+      });
+      this.updated.emit(updated);
       this.commentText.set('');
       this.pendingComment = undefined;
-      this.commentSaved.set(true);
+      this.commentNotice.set('Comment saved.');
+    } catch (error) {
+      this.message.set(incidentActionMessage(error));
+    } finally {
+      this.busy.set(false);
     }
   }
 

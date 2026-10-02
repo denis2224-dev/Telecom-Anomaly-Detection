@@ -31,7 +31,32 @@ describe('Day 9 incident actions', () => {
     await component.addComment();
     expect(commentIncident.mock.calls[1]).toEqual(commentIncident.mock.calls[0]);
     expect(component.commentText()).toBe('');
-    expect(component.commentSaved()).toBe(true);
+    expect(component.commentNotice()).toBe('Comment saved.');
+  });
+
+  it('starts a new comment request when the analyst edits failed text', async () => {
+    const incident = { ...structuredClone(voiceIncidents[0]), assigneeId: 'analyst-1' };
+    const commentIncident = vi.fn().mockRejectedValue(new ApiFailure(0));
+    TestBed.configureTestingModule({ providers: [
+      { provide: TelecomClient, useValue: {
+        listAnalysts: vi.fn().mockResolvedValue([]), commentIncident,
+      } },
+      { provide: SessionStore, useValue: { actor: () => ({ analystId: 'analyst-1', roles: ['ANALYST'] }) } },
+    ] });
+    const fixture = TestBed.createComponent(IncidentActionsComponent);
+    fixture.componentRef.setInput('incident', incident);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const component = fixture.componentInstance;
+    component.commentText.set('First note');
+    await component.addComment();
+    component.editComment({ target: { value: 'Revised note' } } as unknown as Event);
+    await component.addComment();
+
+    expect(commentIncident).toHaveBeenCalledTimes(2);
+    expect(commentIncident.mock.calls[0][1].requestId)
+      .not.toBe(commentIncident.mock.calls[1][1].requestId);
+    expect(component.commentText()).toBe('Revised note');
   });
 
   it('keeps a note after a conflict and does not replay the write', async () => {
