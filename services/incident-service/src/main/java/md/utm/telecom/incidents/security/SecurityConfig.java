@@ -1,7 +1,6 @@
 package md.utm.telecom.incidents.security;
 
 import java.time.Clock;
-import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -82,8 +81,7 @@ public class SecurityConfig {
                         .authorizationEndpoint(endpoint -> endpoint.authorizationRequestResolver(resolver))
                         .userInfoEndpoint(userInfo -> userInfo.userAuthoritiesMapper(new AppRoleMapper()))
                         .successHandler((request, response, authentication) -> {
-                            request.getSession().setAttribute(SessionDeadlineFilter.EXPIRES_AT,
-                                    sessionClock.instant().plus(Duration.ofMinutes(30)));
+                            SessionDeadlineFilter.initialize(request.getSession(), sessionClock.instant());
                             response.sendRedirect(publicOrigin + "/dashboard");
                         })
                         .failureHandler(loginFailureHandler))

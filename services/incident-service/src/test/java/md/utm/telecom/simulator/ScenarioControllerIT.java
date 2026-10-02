@@ -310,7 +310,7 @@ class ScenarioControllerIT {
 
     private static MockHttpSession session() {
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute(SessionDeadlineFilter.EXPIRES_AT, CLOCK.instant().plusSeconds(600));
+        SessionDeadlineFilter.initialize(session, CLOCK.instant());
         return session;
     }
 

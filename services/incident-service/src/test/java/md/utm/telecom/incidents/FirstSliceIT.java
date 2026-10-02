@@ -181,9 +181,7 @@ class FirstSliceIT {
 
     private static MockHttpSession authenticatedSession() {
         MockHttpSession session = new MockHttpSession();
-        session.setAttribute(
-                SessionDeadlineFilter.EXPIRES_AT,
-                Instant.now().plusSeconds(600));
+        SessionDeadlineFilter.initialize(session, Instant.now());
         return session;
     }
 
