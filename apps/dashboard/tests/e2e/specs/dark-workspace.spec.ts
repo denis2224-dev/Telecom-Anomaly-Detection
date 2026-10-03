@@ -72,7 +72,7 @@ for (const width of [1366, 768, 390]) {
     await page.goto(`/incidents/${incident.id}`);
     const summary = page.locator('.incident-summary-bar');
     await expect(summary).toContainText('Latest KPI deviation');
-    await expect(summary).toContainText('cssrPct: +0.3 pp');
+    await expect(summary).toContainText('Call setup success rate: +0.3 pp');
     await expect(summary).toContainText('Unassigned');
     expect((await summary.boundingBox())!.y + (await summary.boundingBox())!.height).toBeLessThan(900);
     const drawer = page.locator('.workflow-drawer');
