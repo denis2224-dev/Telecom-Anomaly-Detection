@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { firstValueFrom, type Subscription, timeout } from 'rxjs';
+import { firstValueFrom, Subject, takeUntil, type Subscription, timeout } from 'rxjs';
 import type { Incident } from '../api/telecom-client';
 import { dataSource } from '../api/data-source';
 import { SessionStore } from '../../features/login-and-session/session.store';
@@ -29,6 +29,13 @@ export function mergeIncidentVersions(
   return [...byId.values()];
 }
 
+export function mergeIncidentPage(current: Incident[], incoming: Incident[]): Incident[] {
+  const merged = new Map(
+    mergeIncidentVersions(current, incoming).map(item => [item.id, item]),
+  );
+  return [...new Set(incoming.map(item => item.id))].map(id => merged.get(id)!);
+}
+
 @Injectable({ providedIn: 'root' })
 export class IncidentStream {
   private readonly http = inject(HttpClient);
@@ -41,6 +48,7 @@ export class IncidentStream {
 
     const revision = this.session.revision;
     const source = new EventSource('/api/incidents/stream');
+    const stopProbe = new Subject<void>();
     let closed = false;
     let checkingSession = false;
     let ended: Subscription | undefined;
@@ -52,6 +60,8 @@ export class IncidentStream {
     const close = () => {
       if (closed) return;
       closed = true;
+      stopProbe.next();
+      stopProbe.complete();
       source.close();
       ended?.unsubscribe();
     };
@@ -80,7 +90,7 @@ export class IncidentStream {
     };
 
     source.addEventListener('incident-upsert', upsert);
-    // ready follows server registration; refresh again to close the initial snapshot race.
+    // The server sends ready after registration; refresh to close the initial snapshot race.
     source.addEventListener('ready', () => { if (active()) refresh(); });
 
     source.onerror = () => {
@@ -92,7 +102,7 @@ export class IncidentStream {
       // EventSource hides the HTTP error status. Probe the existing session;
       // network failures keep native EventSource retry behavior.
       void firstValueFrom(
-        this.http.get('/api/auth/me').pipe(timeout(5_000)),
+        this.http.get('/api/auth/me').pipe(timeout(5_000), takeUntil(stopProbe)),
       ).catch(error => {
         if (active()
           && error instanceof HttpErrorResponse

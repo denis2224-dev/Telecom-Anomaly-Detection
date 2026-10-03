@@ -39,6 +39,15 @@ import { IncidentActionsComponent } from './incident-actions.component';
         }
       </section>
       <app-incident-actions [incident]="item" (updated)="acceptAction($event)" />
+      <p class="muted">
+        Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
+        This page is part of the timeline; the incident summary shows the current state.
+      </p>
+      <nav aria-label="Evidence pages">
+        <button (click)="load(page() - 1)" [disabled]="page() === 0">Previous evidence</button>
+        <button (click)="load(page() + 1)"
+          [disabled]="(page() + 1) * pageSize >= total()">Next evidence</button>
+      </nav>
       <app-evidence-timeline [detections]="detections()" />
       <section class="detail-panel" aria-label="Investigation timeline">
         <h2>Investigation timeline</h2>
@@ -58,80 +67,110 @@ export class IncidentDetailComponent {
   private closeStream?: () => void;
   private refreshTimer?: ReturnType<typeof setTimeout>;
   private refreshing = false;
-  private destroyed = false;
   readonly streamError = signal('');
   readonly timeline = signal<components['schemas']['AuditEvent'][]>([]);
   private id = '';
   private generation = 0;
+  private controller?: AbortController;
   readonly fixture = dataSource.fixture;
+  readonly pageSize = 20;
+  readonly page = signal(0);
+  readonly total = signal(0);
   readonly loading = signal(true);
   readonly error = signal('');
   readonly incident = signal<Incident | null>(null);
   readonly detections = signal<components['schemas']['ServiceDetection'][]>([]);
+
   constructor() {
     const destroy = inject(DestroyRef);
     destroy.onDestroy(() => {
-      this.destroyed = true;
-      this.generation++;
+      ++this.generation;
       clearTimeout(this.refreshTimer);
+      this.controller?.abort();
       this.closeStream?.();
     });
     inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+      this.closeStream?.();
+      this.closeStream = undefined;
       clearTimeout(this.refreshTimer);
-      this.id = params.get('id') ?? ''; void this.load();
+      this.id = params.get('id') ?? '';
+      this.page.set(0);
+      this.total.set(0);
+      void this.load();
     });
   }
-  acceptAction(item: Incident) {
+
+  acceptAction(item: Incident): void {
     if (!this.incident() || item.version >= this.incident()!.version) this.incident.set(item);
     this.queueRefresh();
   }
-  private queueRefresh() {
-    if (this.destroyed) return;
+
+  private queueRefresh(): void {
     clearTimeout(this.refreshTimer);
     this.refreshTimer = setTimeout(() => {
       if (this.loading() || this.refreshing) { this.queueRefresh(); return; }
-      void this.load(true);
+      void this.load(this.page(), true);
     }, 150);
   }
-  async load(background = false) {
-    const generation = ++this.generation, id = this.id;
+
+  async load(page = 0, background = false): Promise<void> {
+    if (page < 0) return;
+    const generation = ++this.generation;
+    this.controller?.abort();
+    const controller = this.controller = new AbortController();
+    const id = this.id;
     this.refreshing = true;
     if (!background) {
-      this.loading.set(true); this.error.set(''); this.incident.set(null);
-      this.detections.set([]); this.timeline.set([]);
+      this.loading.set(true);
+      this.error.set('');
+      this.incident.set(null);
+      this.detections.set([]);
+      this.timeline.set([]);
     }
     try {
-      const item = await this.api.getIncident(id);
+      const [item, result] = await Promise.all([
+        this.api.getIncident(id, controller.signal),
+        this.api.getDetections(id, page, this.pageSize, controller.signal),
+      ]);
       if (generation !== this.generation) return;
-      const updates: components['schemas']['ServiceDetection'][] = [];
-      for (let page = 0; ; page++) {
-        if (page >= 100) throw new Error('Too much evidence to load. Contact your administrator.');
-        const result = await this.api.getDetections(id, page);
-        if (generation !== this.generation) return;
-        updates.push(...result.items);
-        if (updates.length >= result.total) break;
-        if (!result.items.length) throw new Error('Evidence changed while loading. Please retry.');
+      if (!Number.isInteger(result.total) || result.total < 0
+        || result.items.length > this.pageSize || result.items.length > result.total
+        || (result.total > 0 && !result.items.length)) {
+        throw new Error('This evidence page changed or exceeded its limit. Retry from the first page.');
       }
-      if (generation !== this.generation) return;
       const actions: components['schemas']['AuditEvent'][] = [];
-      for (let page = 0; ; page++) {
-        if (page >= 100) throw new Error('Too much investigation history to load.');
-        const result = await this.api.getTimeline(id, page);
+      for (let auditPage = 0; ; auditPage++) {
+        if (auditPage >= 100) throw new Error('Too much investigation history to load.');
+        const audit = await this.api.getTimeline(id, auditPage);
         if (generation !== this.generation) return;
-        actions.push(...result.items);
-        if (actions.length >= result.total) break;
-        if (!result.items.length) throw new Error('Investigation history changed. Retry to refresh it.');
+        actions.push(...audit.items);
+        if (actions.length >= audit.total) break;
+        if (!audit.items.length) throw new Error('Investigation history changed. Retry to refresh it.');
       }
-      const current = this.incident();
-      if (current && item.version < current.version) { this.queueRefresh(); return; }
-      this.incident.set(item); this.detections.set(updates); this.timeline.set(actions);
+      if (this.incident() && item.version < this.incident()!.version) {
+        this.queueRefresh();
+        return;
+      }
+      this.incident.set(item);
+      this.detections.set(result.items);
+      this.page.set(page);
+      this.total.set(result.total);
+      this.timeline.set(actions);
       this.streamError.set('');
       if (!this.closeStream) this.closeStream = this.stream.connect(
         () => this.queueRefresh(),
         () => this.streamError.set('Live connection interrupted. Reconnecting…'));
-
     } catch (error) {
-      if (generation === this.generation) (background ? this.streamError : this.error).set(error instanceof Error ? error.message : 'Could not load incident evidence.');
-    } finally { if (generation === this.generation) { this.loading.set(false); this.refreshing = false; } }
+      controller.abort();
+      if (generation === this.generation) {
+        (background ? this.streamError : this.error).set(
+          error instanceof Error ? error.message : 'Could not load incident evidence.');
+      }
+    } finally {
+      if (generation === this.generation) {
+        this.loading.set(false);
+        this.refreshing = false;
+      }
+    }
   }
 }

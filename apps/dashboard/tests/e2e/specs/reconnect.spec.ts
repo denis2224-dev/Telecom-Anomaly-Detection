@@ -78,7 +78,7 @@ test.describe('Day 13 incident reconnect', () => {
     await page.route('**/api/incidents?**', route => {
       listReads++;
       return route.fulfill({ json: {
-        items: [current], total: 1, page: 0, size: 100,
+        items: [current], total: 1, page: 0, size: 20,
       } });
     });
 
@@ -157,7 +157,7 @@ test.describe('Day 13 incident reconnect', () => {
       size: 100, observedAt: '2026-09-15T10:10:00Z',
     } }));
     await page.route('**/api/incidents?**', route => route.fulfill({ json: {
-      items: voiceIncidents, total: 1, page: 0, size: 100,
+      items: voiceIncidents, total: 1, page: 0, size: 20,
     } }));
 
     await page.goto('/services/VOLTE-MD-CENTRAL');
