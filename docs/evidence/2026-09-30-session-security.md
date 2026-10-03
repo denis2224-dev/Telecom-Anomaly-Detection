@@ -49,3 +49,7 @@ The added workflow regression checks missing and invalid CSRF on assignment, sta
 - Required checks satisfied: **no**; focused tests, contract validation and full backend PR CI passed, while live checks remain.
 - Remaining blockers: David's browser check and Stanislav's proxy/cookie check.
 - PR and merge commit: [draft PR #40](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/40); no merge commit. Leave it open until blockers close.
+
+## Follow-up verification and merge — 2 October 2026
+
+Docker became available. The complete security-branch backend suite passed locally: 111 Surefire + 11 Failsafe tests, zero failures/errors/skips, using the local Mockito agent. PR #40's backend/model/processor CI passed. At the user's explicit request to commit, merge and push without squashing, PR #40 was merged with regular merge commit `42253e9`. The original commits remain intact. The earlier Docker-unavailable statement describes the earlier attempt; it no longer blocks local testing. Live authenticated/HTTPS release acceptance is tracked in the later integrated G3 record, not inferred from this merge.

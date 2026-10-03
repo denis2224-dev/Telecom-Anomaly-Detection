@@ -8,12 +8,15 @@ test.describe('Day 5 voice investigation', () => {
     await page.route('**/api/auth/me', route => route.fulfill({ json: { analystId: 'voice-test', displayName: 'Voice tester', roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600000).toISOString() } }));
     await page.route('**/api/auth/csrf', route => route.fulfill({ json: { token: 'test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' } }));
     await page.route('**/api/services', route => route.fulfill({ json: services.map((item, i) => i === 0 ? { ...item, latestWindow: voiceWindows[9] } : item) }));
-    await page.route('**/api/services/*/kpis?**', route => {
-      const page = Number(new URL(route.request().url()).searchParams.get('page'));
-      return route.fulfill({ json: { items: voiceWindows.slice(page * 5, (page + 1) * 5), total: 10, page, size: 5, observedAt: '2026-09-15T10:10:00Z' } });
-    });
+    await page.route('**/api/services/*/kpis?**', route => route.fulfill({ json: {
+      items: voiceWindows, total: 10, page: 0, size: 100, observedAt: '2026-09-15T10:10:00Z',
+    } }));
     await page.route('**/api/incidents?**', route => route.fulfill({ json: { items: [voiceIncidents[0], { ...voiceIncidents[0], version: 1, technicalState: 'ONGOING' }], total: 2, page: 0, size: 100 } }));
     await page.route('**/api/incidents/*', route => route.fulfill({ json: voiceIncidents[0] }));
+    await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
+    await page.route('**/api/incidents/*/timeline?**', route => route.fulfill({ json: {
+      items: [], total: 0, page: 0, size: 100,
+    } }));
     await page.route('**/api/incidents/*/detections?**', route => route.fulfill({ json: {
       items: [voiceIncidents[0].latestDetection], total: 1, page: 0, size: 100,
     } }));
@@ -65,7 +68,7 @@ test.describe('Day 5 voice investigation', () => {
     await page.route('**/api/incidents?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100 } }));
     await page.goto('/services/VOLTE-MD-CENTRAL');
     await expect(page.getByText('No voice KPI history in this time range.')).toBeVisible();
-    await expect(page.getByText('No incident episodes overlap this time range.')).toBeVisible();
+    await expect(page.getByText('No incident episodes on this page.')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath('voice-mobile-empty.png'), fullPage: true });
   });

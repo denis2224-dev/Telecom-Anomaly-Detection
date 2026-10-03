@@ -90,6 +90,8 @@ export class IncidentStream {
     };
 
     source.addEventListener('incident-upsert', upsert);
+    // The server sends ready after registration; refresh to close the initial snapshot race.
+    source.addEventListener('ready', () => { if (active()) refresh(); });
 
     source.onerror = () => {
       if (!active()) return close();

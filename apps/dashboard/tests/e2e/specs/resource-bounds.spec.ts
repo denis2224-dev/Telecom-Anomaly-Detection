@@ -105,6 +105,9 @@ async function setup(page: Page) {
     const index = Number(new URL(route.request().url()).pathname.split('-').at(-1));
     return route.fulfill({ json: incident(index) });
   });
+  await page.route('**/api/incidents/*/timeline?**', route => route.fulfill({ json: {
+    items: [], total: 0, page: 0, size: 100,
+  } }));
   await page.route('**/api/incidents/*/detections?**', route => {
     const query = new URL(route.request().url()).searchParams;
     const number = Number(query.get('page') ?? 0), size = Number(query.get('size') ?? 20);
@@ -171,7 +174,7 @@ test.describe('Day 15 browser resource bounds', () => {
 
     await page.getByRole('link', { name: 'Open incident detail' }).first().click();
     await expect(page.locator('[data-detection-id]')).toHaveCount(20);
-    expect(await page.evaluate(() => (window as any).__day15.active)).toBe(0);
+    expect(await page.evaluate(() => (window as any).__day15.active)).toBe(1);
     await page.getByRole('button', { name: 'Next evidence' }).click();
     await expect(page.locator('[data-detection-id]').first()).toHaveAttribute('data-detection-id', 'day15-detection-20');
     expect(data.evidencePage()).toBe(1);

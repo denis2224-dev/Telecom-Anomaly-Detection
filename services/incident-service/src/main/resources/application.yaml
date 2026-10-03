@@ -65,6 +65,9 @@ server:
 
 app:
   public-origin: ${APP_PUBLIC_ORIGIN:http://telecom.test:8080}
+  evidence:
+    reconcile-enabled: ${EVIDENCE_RECONCILE_ENABLED:true}
+    reconcile-ms: 5000
   kafka:
     topics:
       detections: ${KAFKA_V2_DETECTIONS_TOPIC:telecom.detections.v2}
