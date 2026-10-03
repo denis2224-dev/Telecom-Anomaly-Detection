@@ -36,4 +36,19 @@ describe("ServiceStore", () => {
     expect(store.error()).toBe("Connection unavailable");
     expect(store.loading()).toBe(false);
   });
+
+  it('does not call missing baselines or unsupported samples normal', () => {
+    TestBed.configureTestingModule({ providers: [{ provide: TelecomClient, useValue: {} }] });
+    const store = TestBed.inject(ServiceStore);
+    const voice = structuredClone(services[0]) as ServiceSummary;
+    const rate = voice.latestWindow!.kpis.find(kpi => kpi.name === 'Call setup success rate (CSSR)')!;
+    rate.baseline = null;
+    expect(store.health(voice)).toBe('UNKNOWN');
+    rate.baseline = 99.3;
+    rate.denominator = 0;
+    expect(store.health(voice)).toBe('UNKNOWN');
+    const sms = structuredClone(services[1]) as ServiceSummary;
+    sms.latestWindow!.kpis.find(kpi => kpi.name === 'deliveredMessages')!.observed = 0;
+    expect(store.health(sms)).toBe('UNKNOWN');
+  });
 });

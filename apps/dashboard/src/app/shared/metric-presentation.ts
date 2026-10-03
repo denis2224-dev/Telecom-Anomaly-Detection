@@ -6,7 +6,8 @@ export type Kpi = Window['kpis'][number];
 
 export function primaryMetric(service: 'VOLTE' | 'SMS', kpis: Kpi[]): Kpi | undefined {
   const name = service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs';
-  return kpis.find(kpi => kpi.name === name);
+  return kpis.find(kpi => kpi.name === name)
+    ?? (service === 'VOLTE' ? kpis.find(kpi => kpi.name === 'Call setup success rate (CSSR)') : undefined);
 }
 
 export function supportedValue(
@@ -38,6 +39,7 @@ export function deviation(kpi: Kpi | undefined, observed: number | null): string
 export function metricLabel(name: string): string {
   const names: Record<string, string> = {
     cssrPct: 'Call setup success rate', p95DeliveryMs: 'Delivery p95',
+    'Call setup success rate (CSSR)': 'Call setup success rate',
     deliveredMessages: 'Completed messages', queueDepth: 'Queued messages',
     oldestPendingAgeSec: 'Oldest queued-message age',
     rrcSuccessPct: 'Radio connection success rate',

@@ -3,10 +3,11 @@ import { DatePipe } from '@angular/common';
 import type { ServiceSummary } from '../../core/api/telecom-client';
 import type { KpiWindow } from './voice-model';
 import { SampleVolumeComponent } from './sample-volume.component';
+import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
 
 @Component({
   selector: 'app-sms-quality',
-  imports: [DatePipe, SampleVolumeComponent],
+  imports: [DatePipe, SampleVolumeComponent, MetricExplanationComponent],
   template: `
     <section class="detail-panel" aria-labelledby="sms-quality-heading">
       <h2 id="sms-quality-heading">SMS delivery and queue</h2>
@@ -23,6 +24,11 @@ import { SampleVolumeComponent } from './sample-volume.component';
           · Window quality: {{ window.quality }}
           · Source: {{ freshness() }}
         </p>
+        @if (freshness() === 'STALE') {
+          <app-metric-explanation topic="stale-evidence" mode="state" />
+        } @else if (freshness() === 'MISSING' || window.quality === 'MISSING') {
+          <app-metric-explanation topic="missing-evidence" mode="state" />
+        }
 
         @if (freshness() !== 'FRESH') {
           <p role="status">
@@ -67,11 +73,10 @@ import { SampleVolumeComponent } from './sample-volume.component';
 
         <app-sample-volume [count]="samples()" />
 
-        <p>
-          Delivery p95 describes the delay at or below which
-          95% of completed-message samples fall.
-          Pending messages are outside those samples.
-        </p>
+        <app-metric-explanation topic="p95" />
+        @if (baseline() === null) {
+          <app-metric-explanation topic="baseline-missing" mode="state" />
+        }
 
         @if (samples() === 0 && depth() !== null && depth()! > 0) {
           <p role="status">
@@ -92,6 +97,7 @@ import { SampleVolumeComponent } from './sample-volume.component';
           No SMS observation available.
           Delivery and queue metrics are unavailable.
         </p>
+        <app-metric-explanation topic="missing-evidence" mode="state" />
       }
     </section>
   `,

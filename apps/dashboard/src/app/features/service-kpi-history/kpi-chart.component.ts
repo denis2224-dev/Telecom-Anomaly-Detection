@@ -1,14 +1,20 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
 import { IconComponent } from '../../shared/icon.component';
 import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-model';
+import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
 
 @Component({
   selector: 'app-kpi-chart',
-  imports: [IconComponent],
+  imports: [IconComponent, MetricExplanationComponent],
   template: `
     <section class="detail-panel chart-panel" aria-labelledby="chart-title">
       <div class="section-heading"><div><p class="eyebrow">Voice performance</p><h2 id="chart-title">Call setup success rate</h2></div><span class="badge">CSSR · %</span></div>
       <p class="muted">CSSR is the percentage of call attempts that connected. Times are UTC; each point represents one server window.</p>
+      <app-metric-explanation topic="percentage-points" />
+      @if (missingBaseline()) {
+        <p class="helper">Some windows have no expected success-rate value. Actual measurements and gaps are preserved.</p>
+        <app-metric-explanation topic="baseline-missing" mode="state" />
+      }
       <div class="chart-legend"><span class="actual-key">Actual CSSR (%)</span><span class="expected-key">Expected baseline (%)</span><span class="incident-key">Incident interval</span></div>
       <p>{{ hasAttemptCounts() ? attempts().toLocaleString('en') + ' recorded attempts' : 'Attempt counts unavailable' }} · {{ unavailable() }} windows with unavailable success rate. Exact per-window counts are below.</p>
       @if (rows().length) {
@@ -49,7 +55,7 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
             <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows<app-icon name="right" /></button>
           </nav>
         </details>
-      } @else { <p role="status">No voice KPI history in this time range.</p> }
+      } @else { <p role="status">No voice KPI history in this time range. Try a nearby range or refresh the service. An empty history cannot confirm recovery.</p> }
     </section>`,
 })
 export class KpiChartComponent {
@@ -76,6 +82,7 @@ export class KpiChartComponent {
   readonly from = input.required<string>();
   readonly to = input.required<string>();
   readonly rows = computed(() => [...this.windows()].sort((a,b) => Date.parse(a.windowStart) - Date.parse(b.windowStart)));
+  readonly missingBaseline = computed(() => this.rows().some(row => cssr(row)?.baseline === null));
   readonly tablePage = signal(0);
   readonly tablePages = computed(() => Math.max(1, Math.ceil(this.rows().length / 50)));
   readonly tableRows = computed(() => this.rows().slice(this.tablePage() * 50, (this.tablePage() + 1) * 50));
