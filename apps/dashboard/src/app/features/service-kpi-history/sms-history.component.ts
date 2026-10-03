@@ -1,10 +1,11 @@
+import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import { Component, computed, effect, input, signal } from '@angular/core';
 import type { KpiWindow } from './voice-model';
 
 @Component({
   selector: 'app-sms-history',
-  imports: [DatePipe],
+  imports: [DatePipe, IconComponent],
   template: `
     <section class="detail-panel">
       <h2>SMS delivery history</h2>
@@ -16,7 +17,7 @@ import type { KpiWindow } from './voice-model';
       </p>
 
       <div
-        style="overflow-x: auto"
+        class="chart-scroll"
         tabindex="0"
         role="region"
         aria-label="SMS history"
@@ -59,10 +60,10 @@ import type { KpiWindow } from './voice-model';
           </tbody>
         </table>
       </div>
-      <nav aria-label="History table pages">
-        <button (click)="tablePage.set(tablePage() - 1)" [disabled]="tablePage() === 0">Previous windows</button>
+      <nav class="pagination" aria-label="History table pages">
+        <button (click)="tablePage.set(tablePage() - 1)" [disabled]="tablePage() === 0"><app-icon name="left" />Previous windows</button>
         <span>Page {{ tablePage() + 1 }} of {{ tablePages() }} · {{ rows().length }} windows total</span>
-        <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows</button>
+        <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows<app-icon name="right" /></button>
       </nav>
     </section>
   `,

@@ -55,13 +55,15 @@ test.describe('Day 8 controlled historical evidence', () => {
       await expect(updates.nth(1).locator('[data-kpi] td').first()).toHaveText('Unavailable');
       await expect(updates.nth(2).locator('[data-kpi] td').first()).toHaveText('99.6');
       await expect(updates.nth(1)).toContainText('does not prove recovery');
-      await expect(page.locator('app-incident-detail')).toContainText('Technical state: RECOVERED · Workflow state: OPEN');
+      await expect(page.locator('.incident-summary-bar')).toContainText('RECOVERED');
+      await expect(page.locator('.incident-summary-bar')).toContainText('Latest KPI deviation');
       await expect(page.getByRole('link', { name: 'Back to service' })).toHaveAttribute('href', `/services/${incident.scopeId}`);
       for (let index = 0; index < 3; index++) {
         const update = updates.nth(index);
         await expect(update).toContainText(`Source scope: ${incident.scopeId}`);
         await expect(update.locator('[data-kpi] td').nth(1)).toHaveText('99.3');
         await expect(update.locator('[data-kpi] td').nth(2)).toHaveText('PERCENT');
+        await update.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
         await expect(update.getByRole('region', { name: 'Cause hypothesis' })).toContainText(`Window ${index + 1} capacity hypothesis`);
         await expect(update).toContainText(`Inspect source window ${index + 1}`);
         await expect(update).toContainText('Unique customers: Unavailable');
@@ -80,22 +82,25 @@ test.describe('Day 8 controlled historical evidence', () => {
     });
   }
 
-  test('hides a failed evidence page and retries from the first page', async ({ page }) => {
+  test('clears a failed evidence page and retries from the first page', async ({ page }) => {
     await mockSessionAndIncident(page);
     let failSecondPage = true;
+    const firstPage = Array.from({ length: 20 }, (_, index) => ({
+      ...history[0], detectionId: `page-one-${index}`, sequence: index + 1,
+    }));
     await page.route('**/api/incidents/*/detections?**', route => {
       const pageNumber = Number(new URL(route.request().url()).searchParams.get('page'));
       if (pageNumber === 1 && failSecondPage) return route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } });
-      return route.fulfill({ json: { items: pageNumber ? [history[2]] : history.slice(0, 2), total: 21, page: pageNumber, size: 20 } });
+      return route.fulfill({ json: { items: pageNumber === 0 ? firstPage : [history[2]], total: 21, page: pageNumber, size: 20 } });
     });
     await page.goto(`/incidents/${incident.id}`);
-    await expect(page.locator('[data-detection-id]')).toHaveCount(2);
+    await expect(page.locator('[data-detection-id]')).toHaveCount(20);
     await page.getByRole('button', { name: 'Next evidence' }).click();
     await expect(page.getByRole('alert')).toContainText('could not be reached');
     await expect(page.locator('[data-detection-id]')).toHaveCount(0);
     failSecondPage = false;
     await page.getByRole('button', { name: 'Retry' }).click();
     await expect(page.getByRole('alert')).toHaveCount(0);
-    await expect(page.locator('[data-detection-id]')).toHaveCount(2);
+    await expect(page.locator('[data-detection-id]')).toHaveCount(20);
   });
 });

@@ -41,6 +41,7 @@ test.describe('Day 5 voice investigation', () => {
     await page.getByRole('link', { name: 'Open incident detail' }).click();
     await expect(page.getByRole('heading', { name: 'Incident investigation' })).toBeVisible();
     await expect(page.locator('[data-detection-id]')).toHaveCount(1);
+    await page.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
     await expect(page.getByRole('region', { name: 'Cause hypothesis' })).toContainText('Probable IMS capacity pressure');
   });
   test('validates time range and sends UTC boundaries to the backend', async ({ page }) => {

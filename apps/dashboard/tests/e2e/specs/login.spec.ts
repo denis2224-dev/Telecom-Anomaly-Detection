@@ -59,11 +59,11 @@ test.describe("Frontend login behavior (mocked API)", () => {
     } }));
     await page.route("**/api/services", route => route.fulfill({ json: [] }));
     await page.goto("/dashboard");
-    await expect(page.getByText("Test analyst · ANALYST")).toBeVisible();
+    await expect(page.locator(".identity")).toContainText("Test analyst");
     await page.clock.fastForward(61000);
     await expect(page).toHaveURL(/\/login$/);
     await expect(page.getByRole("heading", { name: "Your session has expired" })).toBeVisible();
-    await expect(page.getByText("Test analyst · ANALYST")).toHaveCount(0);
+    await expect(page.locator(".identity")).toHaveCount(0);
     expect(await page.evaluate(() => [localStorage.length, sessionStorage.length])).toEqual([0, 0]);
   });
 

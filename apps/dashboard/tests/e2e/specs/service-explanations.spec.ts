@@ -66,6 +66,7 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
         incident.status = 'INVESTIGATING';
         incident.assigneeId = 'g3-review';
         await page.reload();
+        await page.getByRole('button', { name: 'Details & workflow' }).click();
         await page.getByLabel('Resolution note', { exact: true }).fill('This note cannot substitute for recovery');
         await expect(page.getByRole('button', { name: 'Resolve incident', exact: true })).toBeDisabled();
       }

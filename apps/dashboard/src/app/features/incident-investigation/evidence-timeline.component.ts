@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import type { components } from '../../core/api/schema';
 import { CauseEvidenceComponent } from './cause-evidence.component';
@@ -7,31 +8,7 @@ type Detection = components['schemas']['ServiceDetection'];
 
 @Component({
   selector: 'app-evidence-timeline',
-  imports: [DatePipe, CauseEvidenceComponent],
-  styles: [`
-    .evidence-table {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #d8e2dd;
-    }
-
-    code {
-      overflow-wrap: anywhere;
-    }
-
-    article {
-      margin-top: 20px;
-    }
-  `],
+  imports: [DatePipe, CauseEvidenceComponent, IconComponent],
   template: `
     <h2>Evidence timeline</h2>
 
@@ -42,33 +19,18 @@ type Detection = components['schemas']['ServiceDetection'];
 
     @for (detection of ordered(); track detection.detectionId) {
       <article
-        class="detail-panel"
+        class="detail-panel evidence-entry"
         [attr.data-detection-id]="detection.detectionId"
       >
-        <h3>Update {{ detection.sequence }} · {{ detection.phase }}</h3>
-
-        <p>
-          {{ detection.windowStart | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
-          –
-          {{ detection.windowEnd | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
-          UTC
-        </p>
-
-        <p>
-          Server detected at
-          {{ detection.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}
-          UTC
-        </p>
-
-        <p>
-          Source scope: {{ detection.scopeId }}
-          · Service: {{ detection.service }}
-        </p>
-
-        <p>
-          Technical state: {{ detection.technicalState }}
-          · Severity: {{ detection.severity }}
-        </p>
+        <span class="timeline-dot"><app-icon name="activity" /></span>
+        <header class="evidence-entry-header">
+          <div>
+            <h3>Update {{ detection.sequence }} · {{ detection.phase }}</h3>
+            <p class="mono">{{ detection.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} – {{ detection.windowEnd | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
+          </div>
+          <div class="badge-row"><span class="badge" [attr.data-state]="detection.severity"><span class="sr-only">Severity: </span>{{ detection.severity }}</span><span class="badge" [attr.data-state]="detection.technicalState"><span class="sr-only">Technical state: </span>{{ detection.technicalState }}</span><span class="badge">{{ detection.phase }}</span></div>
+        </header>
+        <p class="evidence-meta">Server detected at {{ detection.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Source scope: {{ detection.scopeId }} · Service: {{ detection.service }}</p>
 
         @if (detection.phase === 'UNKNOWN') {
           <p class="notice">
@@ -116,37 +78,13 @@ type Detection = components['schemas']['ServiceDetection'];
           </table>
         </div>
 
-        <h4>Estimated impact</h4>
-
-        @if (detection.service === 'VOLTE') {
-          <p>
-            Estimated extra failed attempts:
-            {{ detection.impact.extraFailedAttempts }}
-          </p>
-        } @else {
-          <p>
-            Affected delivered messages:
-            {{ detection.impact.affectedDeliveredMessages }}
-          </p>
-
-          <p>Pending messages: {{ detection.impact.pendingMessages }}</p>
-        }
-
-        <p>
-          Unique customers:
-          {{ detection.impact.uniqueSubscribers ?? 'Unavailable' }}
+        <p class="evidence-impact"><strong>Estimated impact</strong> ·
+          @if (detection.service === 'VOLTE') { Estimated extra failed attempts: {{ detection.impact.extraFailedAttempts }} }
+          @else { Affected delivered messages: {{ detection.impact.affectedDeliveredMessages }} · Pending messages: {{ detection.impact.pendingMessages }} }
+          · Unique customers: {{ detection.impact.uniqueSubscribers ?? 'Unavailable' }}
         </p>
-
-        <p>
-          Attempts and messages are not unique customers.
-          Aggregate observations do not identify distinct subscribers.
-        </p>
-
-        <p>
-          Rules: {{ detection.rulesetVersion }}
-          · Baseline: {{ detection.baselineVersion }}
-          · Topology: {{ detection.topologyVersion }}
-        </p>
+        <p class="helper">Attempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.</p>
+        <p class="evidence-meta">Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
 
         <details>
           <summary>Source evidence</summary>
@@ -171,7 +109,7 @@ type Detection = components['schemas']['ServiceDetection'];
           }
         </details>
 
-        <app-cause-evidence [detection]="detection" />
+        <details class="cause-details"><summary>Cause hypothesis &amp; recommended checks</summary><app-cause-evidence [detection]="detection" /></details>
       </article>
     } @empty {
       <p role="status">No evidence updates available.</p>

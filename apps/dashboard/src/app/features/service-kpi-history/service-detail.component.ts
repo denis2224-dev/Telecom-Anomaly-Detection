@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -7,10 +7,12 @@ import { dataSource } from '../../core/api/data-source';
 import { IncidentStream, mergeIncidentPage } from '../../core/state/incident-stream';
 import { KpiChartComponent } from './kpi-chart.component';
 import { IncidentListComponent } from '../incident-investigation/incident-list.component';
-import { type Incident, type KpiWindow } from './voice-model';
+import { observed, type Incident, type KpiWindow } from './voice-model';
 import { SmsQualityComponent } from './sms-quality.component';
 import { SmsHistoryComponent } from './sms-history.component';
 import { HistoryRangeComponent, type HistoryRange } from './history-range.component';
+
+import { IconComponent } from '../../shared/icon.component';
 
 const PAGE_SIZE = 20;
 const MAX_WINDOWS = 1440;
@@ -18,56 +20,41 @@ const MAX_WINDOWS = 1440;
 @Component({
   selector: 'app-service-detail',
   imports: [RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
-    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent],
+    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent],
   template: `
-    <a class="back-link" routerLink="/dashboard">← Service overview</a>
-    <div class="page-heading">
-      <p class="eyebrow">Service investigation</p>
-      <h1>{{ service()?.scope?.service === 'SMS' ? 'SMS service' : 'Voice call setup' }}</h1>
-      <p>{{ scopeId() }}</p>
+    <a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a>
+    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery' : 'Voice call setup' }}</h1><p class="mono">{{ scopeId() }}</p></div>
+      @if (service(); as item) { <span class="badge" [attr.data-state]="item.freshness"><span class="status-dot"></span>Source: {{ item.freshness }}</span> }
     </div>
-    @if (loading()) { <p role="status">Loading service evidence…</p> }
-    @if (error()) {
-      <section class="state-panel" role="alert">
-        <h2>Evidence unavailable</h2><p>{{ error() }}</p>
-        <button (click)="load()">Retry</button>
-      </section>
-    }
+    @if (loading()) { <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
+    @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()"><app-icon name="refresh" />Retry</button></section> }
     @if (!loading() && !error() && service(); as item) {
-      <p class="muted">{{ item.scope.region }} · {{ item.scope.route }} · Source: {{ item.freshness }}</p>
-      <app-history-range [from]="from()" [to]="to()"
-        (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
-      <p class="muted">
-        {{ from() | date:'dd MMM yyyy HH:mm':'UTC' }} –
-        {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }} UTC · {{ windows().length }} windows
-      </p>
-      <p class="muted">Server evidence as of
-        {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC
-        {{ fixture ? ' · Synthetic sample' : '' }}
-      </p>
-      @if (streamError()) {
-        <p role="status">{{ streamError() }}</p>
-        <button (click)="refreshIncidents()">Retry incident refresh</button>
-        <button (click)="refreshIncidents(0)" [disabled]="incidentLoading()">Show first incident page</button>
-      }
+      <app-history-range [from]="from()" [to]="to()" (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
+      <div class="range-caption"><span>{{ from() | date:'dd MMM yyyy HH:mm':'UTC' }} – {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }} UTC</span><span>{{ item.scope.region }} · {{ item.scope.route }}</span></div>
+      <div class="stat-grid">
+        <section class="stat-card"><div class="stat-label">{{ item.scope.service === 'VOLTE' ? 'Latest success rate' : 'Latest delivery p95' }}<app-icon name="activity" /></div><strong class="metric-value">{{ summary().latest === null ? 'Unavailable' : summary().latest }} <small>{{ summary().latest === null ? '' : item.scope.service === 'VOLTE' ? '%' : 'ms' }}</small></strong>
+          @if (summary().delta !== null) { <p class="stat-trend" [class.negative]="summary().worsened"><app-icon name="trend" />{{ summary().delta! > 0 ? '+' : '' }}{{ summary().delta }} {{ item.scope.service === 'VOLTE' ? 'pp' : 'ms' }} over range</p> } @else { <p class="helper">Trend requires comparable observations</p> }
+          <svg class="stat-sparkline" viewBox="0 0 100 32" aria-hidden="true"><path [attr.d]="summary().sparkline" /></svg>
+        </section>
+        <section class="stat-card"><div class="stat-label">Observation windows<app-icon name="calendar" /></div><strong class="metric-value">{{ windows().length }} <small>windows</small></strong><p class="helper">{{ summary().available }} with a measured {{ item.scope.service === 'VOLTE' ? 'success rate' : 'delivery p95' }}</p><div class="stat-meter"><span [style.width.%]="windows().length ? summary().available / windows().length * 100 : 0"></span></div></section>
+        <section class="stat-card"><div class="stat-label">Open incidents<app-icon name="alert" /></div><strong class="metric-value">{{ item.openIncidents }}</strong><p class="helper">Unresolved work across this service scope</p></section>
+      </div>
+      @if (streamError()) { <div class="notice" role="status">{{ streamError() }}<div class="button-row"><button (click)="refreshIncidents()"><app-icon name="refresh" />Retry incident refresh</button><button (click)="refreshIncidents(0)" [disabled]="incidentLoading()">Show first incident page</button></div></div> }
       @if (item.scope.service === 'VOLTE') {
-        <p class="notice">Incident shading uses only incident page {{ incidentPage() + 1 }}.
-          Unshaded time may contain incidents on other pages.</p>
         <app-kpi-chart [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
+        <p class="chart-disclaimer"><app-icon name="info" />Incident shading uses only incident page {{ incidentPage() + 1 }}. Unshaded time may contain incidents on other pages.</p>
       } @else {
         <app-sms-quality [window]="item.latestWindow" [freshness]="item.freshness" />
         <app-sms-history [windows]="windows()" />
       }
-      <p class="muted">Incidents are paged for this scope independently of the KPI time range.</p>
-      @if (incidentLoading()) { <p role="status">Refreshing incident page…</p> }
+      <div class="section-heading"><div><p class="eyebrow">Incident workspace</p><p>Incidents are paged for this scope independently of the KPI time range.</p></div>@if (incidentLoading()) { <span class="helper" role="status"><span class="spinner"></span> Refreshing incident page…</span> }</div>
       <app-incident-list [incidents]="incidents()" />
-      <nav aria-label="Incident pages">
-        <button (click)="refreshIncidents(incidentPage() - 1)"
-          [disabled]="incidentLoading() || incidentPage() === 0">Previous incidents</button>
+      <nav class="pagination" aria-label="Incident pages">
+        <button (click)="refreshIncidents(incidentPage() - 1)" [disabled]="incidentLoading() || incidentPage() === 0"><app-icon name="left" />Previous incidents</button>
         <span>Page {{ incidentPage() + 1 }} · {{ incidents().length }} shown · {{ incidentTotal() }} total</span>
-        <button (click)="refreshIncidents(incidentPage() + 1)"
-          [disabled]="incidentLoading() || (incidentPage() + 1) * pageSize >= incidentTotal()">Next incidents</button>
+        <button (click)="refreshIncidents(incidentPage() + 1)" [disabled]="incidentLoading() || (incidentPage() + 1) * pageSize >= incidentTotal()">Next incidents<app-icon name="right" /></button>
       </nav>
+      <p class="evidence-asof">Server evidence as of {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC{{ fixture ? ' · Synthetic sample' : '' }}</p>
     }
   `,
 })
@@ -95,6 +82,27 @@ export class ServiceDetailComponent {
   readonly incidentPage = signal(0);
   readonly incidentTotal = signal(0);
   readonly incidentLoading = signal(false);
+
+  readonly summary = computed(() => {
+    const rows = [...this.windows()].sort((a, b) => Date.parse(a.windowStart) - Date.parse(b.windowStart));
+    const sms = this.service()?.scope.service === 'SMS';
+    const values = rows.map(row => sms
+      ? (row.quality === 'MISSING' || !row.kpis.find(kpi => kpi.name === 'deliveredMessages')?.observed ? null : row.kpis.find(kpi => kpi.name === 'p95DeliveryMs')?.observed ?? null)
+      : observed(row));
+    const latest = values.at(-1) ?? null, first = values[0] ?? null;
+    const delta = latest === null || first === null || rows.length < 2 ? null : Math.round((latest - first) * 100) / 100;
+    const valid = values.filter((value): value is number => value !== null);
+    const min = Math.min(...valid), max = Math.max(...valid);
+    let connected = false;
+    const sparkline = values.map((value, index) => {
+      if (value === null) { connected = false; return ''; }
+      const contiguous = index > 0 && rows[index - 1].windowEnd === rows[index].windowStart;
+      const point = `${connected && contiguous ? 'L' : 'M'}${index / Math.max(1, rows.length - 1) * 100},${28 - (value - min) / (max - min || 1) * 24}`;
+      connected = true;
+      return point;
+    }).join(' ');
+    return { latest, delta, available: valid.length, worsened: delta !== null && (sms ? delta > 0 : delta < 0), sparkline };
+  });
 
   constructor() {
     const destroy = inject(DestroyRef);
