@@ -59,11 +59,13 @@ describe('Historical detection evidence', () => {
     expect(articles[0].textContent).toContain(`Source scope: ${bad.scopeId}`);
     expect(articles[0].textContent).toContain('EARLIER_SOURCE');
     expect(articles[0].textContent).toContain('IMS-A');
-    expect(articles[0].querySelector('details').textContent).toContain('earlier-event');
+    const source = Array.from<HTMLDetailsElement>(articles[0].querySelectorAll('details'))
+      .find(details => details.querySelector('summary')?.textContent === 'Source evidence');
+    expect(source?.textContent).toContain('earlier-event');
     const hypothesis = articles[0].querySelector('[aria-label="Cause hypothesis"]');
     expect(hypothesis.textContent).toContain('Earlier capacity hypothesis');
     expect(hypothesis.textContent).toContain('Cause confidence: LOW');
-    expect(hypothesis.textContent).toContain('ML status: UNAVAILABLE');
+    expect(hypothesis.textContent).toContain('ML result: Model service unavailable');
     expect(hypothesis.textContent).toContain('not a confirmed root cause');
     expect(hypothesis.textContent).toContain('Inspect IMS load');
     expect(articles[1].textContent).not.toContain('Earlier capacity hypothesis');
@@ -86,6 +88,22 @@ describe('Historical detection evidence', () => {
     expect(text).not.toContain('Estimated extra failed attempts');
     expect(text).toContain('Node: Unavailable');
     expect(text).toContain('No source event IDs supplied');
+  });
+
+  it('explains absent baseline and refuses unsupported p95 even if a value was supplied', () => {
+    const record = detection(1, 'OPEN');
+    record.service = 'SMS';
+    record.kpis = [
+      { name: 'p95DeliveryMs', observed: 45000, baseline: null, unit: 'MILLISECONDS', numerator: null, denominator: null },
+      { name: 'deliveredMessages', observed: 0, baseline: null, unit: 'COUNT', numerator: null, denominator: null },
+      { name: 'queueDepth', observed: 250, baseline: null, unit: 'COUNT', numerator: null, denominator: null },
+    ];
+    const fixture = render([record]);
+    const article: HTMLElement = fixture.nativeElement.querySelector('article');
+    expect(article.querySelector('[data-kpi="p95DeliveryMs"] td')?.textContent?.trim()).toBe('Unavailable');
+    expect(article.querySelector('[data-kpi="queueDepth"] td')?.textContent?.trim()).toBe('250');
+    expect(article.textContent).toContain('Expected value unavailable');
+    expect(article.textContent).toContain('No completed messages in this window');
   });
 
   it('makes an empty detection history explicit', () => {

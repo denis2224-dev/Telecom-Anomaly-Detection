@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from "@angular/core";
 import { ServiceSummary, TelecomClient } from "../../core/api/telecom-client";
+import { primaryMetric, supportedValue } from '../../shared/metric-presentation';
 
 export type ServiceHealth = "NORMAL" | "DEGRADED" | "STALE" | "UNKNOWN";
 
@@ -41,6 +42,13 @@ export class ServiceStore {
     }
     if (service.freshness === "STALE") return "STALE";
 
+    const window = service.latestWindow;
+    const main = primaryMetric(service.scope.service, window.kpis);
+    if (!main || main.baseline === null || window.quality !== 'COMPLETE'
+      || supportedValue(main, window.kpis, window.quality) === null) {
+      return 'UNKNOWN';
+    }
+
     const hasDegradedKpi = service.latestWindow.kpis.some((kpi) => {
       if (kpi.observed === null || kpi.baseline === null) return false;
       if (kpi.unit === "PERCENT") return kpi.observed < kpi.baseline - 1;
@@ -60,7 +68,7 @@ export class ServiceStore {
       STALE:
         "The last observation is stale. Current service health cannot be confirmed.",
       UNKNOWN:
-        "Monitoring data is missing. Service health is unknown; no healthy value can be inferred.",
+        'Service health is unknown: current measurements, sample support, or an expected value are unavailable. Open the service evidence to check what is missing.',
     }[health];
   }
 }

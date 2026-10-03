@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { IconComponent } from "../../shared/icon.component";
 import { ServiceStore, ServiceHealth } from "./service.store";
+import { primaryMetric, supportedValue } from '../../shared/metric-presentation';
 
 @Component({
   selector: "app-service-overview",
@@ -22,11 +23,10 @@ export class ServiceOverviewComponent {
   readonly observedCount = computed(() => this.services().filter(item => item.latestWindow !== null).length);
   mainMetric(service: Parameters<ServiceStore['health']>[0]): string {
     const window = service.latestWindow;
-    if (!window || window.quality === 'MISSING') return 'Unavailable';
-    const name = service.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs';
-    const kpi = window.kpis.find(item => item.name === name);
-    if (kpi?.denominator === 0 || (name === 'p95DeliveryMs' && !window.kpis.find(item => item.name === 'deliveredMessages')?.observed)) return 'Unavailable';
-    return kpi ? this.metric(kpi.observed, kpi.unit) : 'Unavailable';
+    if (!window) return 'Unavailable';
+    const kpi = primaryMetric(service.scope.service, window.kpis);
+    const actual = supportedValue(kpi, window.kpis, window.quality);
+    return kpi ? this.metric(actual, kpi.unit) : 'Unavailable';
   }
   readonly scopeId = signal<string | null>(null);
 

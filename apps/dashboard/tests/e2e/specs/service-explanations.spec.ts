@@ -56,8 +56,14 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
         await expect(article).toContainText('Unique customers: Unavailable');
         for (const check of detection.recommendedChecks) await expect(article).toContainText(check);
         for (const kpi of detection.kpis) {
+          const unsupportedRate = (kpi.unit === 'PERCENT' || kpi.unit === 'RATIO') && kpi.denominator === 0;
+          const unsupportedP95 = kpi.name === 'p95DeliveryMs'
+            && !detection.kpis.some(sample => sample.name === 'deliveredMessages'
+              && sample.unit === 'COUNT' && sample.observed !== null && sample.observed > 0);
+          const shown = detection.phase === 'UNKNOWN' || unsupportedRate || unsupportedP95 || kpi.observed === null
+            ? 'Unavailable' : String(kpi.observed);
           await expect(article.locator(`[data-kpi="${kpi.name}"] td`).first())
-            .toHaveText(kpi.observed === null ? 'Unavailable' : String(kpi.observed));
+            .toHaveText(shown);
         }
       }
       if (latest!.phase === 'UNKNOWN') await expect(page.locator('[data-detection-id]').last()).toContainText('does not prove recovery');

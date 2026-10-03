@@ -94,7 +94,11 @@
       @for (service of visibleServices(); track service.scope.scopeId) {
         <article class="service-row">
           <div class="service-name"><span class="service-icon"><app-icon [name]="service.scope.service === 'VOLTE' ? 'signal' : 'message'" /></span><div><span class="eyebrow">{{ service.scope.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</span><h3><a [routerLink]="['/services', service.scope.scopeId]">{{ service.scope.scopeId }}</a></h3><p>{{ service.scope.region }} · {{ service.scope.rat }} · {{ service.scope.route }}</p></div></div>
-          <div><span class="sr-only">Current health: </span><span class="badge" [attr.data-state]="health(service)">{{ health(service) }}</span><p class="helper">Data status: {{ service.freshness }}</p></div>
+          <div><span class="sr-only">Current health: </span><span class="badge" [attr.data-state]="health(service)">{{ health(service) }}</span><p class="helper">Data status: {{ service.freshness }}</p>
+            @if (health(service) === 'UNKNOWN' || health(service) === 'STALE') {
+              <p class="helper">{{ healthExplanation(service) }}</p>
+            }
+          </div>
           <div><strong class="scope-metric">{{ mainMetric(service) }}</strong><p class="helper">{{ service.scope.service === 'VOLTE' ? 'Call setup success' : 'Delivery p95' }}</p><p class="scope-time">{{ service.latestWindow ? time(service.latestWindow.windowEnd) : 'No observation available' }}</p></div>
           <div class="scope-incidents"><strong [class.has-incidents]="service.openIncidents > 0">{{ service.openIncidents }}</strong><span class="helper">open episodes</span></div>
         </article>
