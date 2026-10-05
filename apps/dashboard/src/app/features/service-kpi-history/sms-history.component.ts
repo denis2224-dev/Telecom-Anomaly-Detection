@@ -2,10 +2,11 @@ import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import { Component, computed, effect, input, signal } from '@angular/core';
 import type { KpiWindow } from './voice-model';
+import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
 
 @Component({
   selector: 'app-sms-history',
-  imports: [DatePipe, IconComponent],
+  imports: [DatePipe, IconComponent, MetricExplanationComponent],
   template: `
     <section class="detail-panel">
       <h2>SMS delivery history</h2>
@@ -15,6 +16,7 @@ import type { KpiWindow } from './voice-model';
         across the selected interval. Missing service telemetry
         cannot demonstrate healthy delivery.
       </p>
+      <app-metric-explanation topic="p95" />
 
       <div
         class="chart-scroll"
@@ -54,7 +56,7 @@ import type { KpiWindow } from './voice-model';
               </tr>
             } @empty {
               <tr>
-                <td colspan="7">No SMS history in this interval.</td>
+                <td colspan="7">No SMS history in this interval. Try a nearby range or refresh the service. No returned windows does not prove healthy delivery.</td>
               </tr>
             }
           </tbody>

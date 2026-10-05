@@ -1,6 +1,7 @@
 import type { ServiceSummary, Incident } from '../../core/api/telecom-client';
 import type { components } from '../../core/api/schema';
 import type { KpiWindow } from './voice-model';
+import { primaryMetric, supportedValue } from '../../shared/metric-presentation';
 
 export type Detection = components['schemas']['ServiceDetection'];
 export const VOLTE_METRICS = [
@@ -14,11 +15,9 @@ export const SMS_METRICS = [
   ['oldestPendingAgeSec', 'Oldest Pending Message Age'],
 ] as const;
 export function metricValue(window: KpiWindow | null | undefined, name: string): number | null {
-  if (!window || window.quality === 'MISSING') return null;
+  if (!window) return null;
   const kpi = window.kpis.find(item => item.name === name);
-  if ((name.endsWith('SrPct') || name === 'cssrPct' || name === 'sip503Ratio') && kpi?.denominator === 0) return null;
-  if (name === 'p95DeliveryMs' && (window.kpis.find(item => item.name === 'deliveredMessages')?.observed ?? 0) === 0) return null;
-  return kpi?.observed ?? null;
+  return supportedValue(kpi, window.kpis, window.quality);
 }
 export function formatMetric(value: number | null | undefined, unit = ''): string {
   if (value == null || !Number.isFinite(value)) return 'Unavailable';
@@ -38,8 +37,9 @@ export function serviceHealth(service: ServiceSummary, incidents: Incident[] = [
   if (relevant.some(item => item.technicalState === 'UNKNOWN')) return 'UNKNOWN';
   if (relevant.some(item => item.technicalState === 'ONGOING')) return 'DEGRADED';
   // An unresolved workflow count is not a technical health verdict.
-  const primary = service.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs';
-  if (metricValue(service.latestWindow, primary) === null) return 'UNKNOWN';
+  const primary = primaryMetric(service.scope.service, service.latestWindow.kpis);
+  if (!primary || primary.baseline === null
+    || supportedValue(primary, service.latestWindow.kpis, service.latestWindow.quality) === null) return 'UNKNOWN';
   return 'NORMAL';
 }
 export function phaseAt(window: KpiWindow, detections: Detection[]): 'NORMAL' | 'DEGRADED' | 'RECOVERY' | 'UNKNOWN' {

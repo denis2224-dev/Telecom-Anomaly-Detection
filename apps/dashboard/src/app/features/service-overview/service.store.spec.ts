@@ -39,6 +39,21 @@ describe("ServiceStore", () => {
     expect(store.loading()).toBe(false);
   });
 
+  it('does not call missing baselines or unsupported samples normal', () => {
+    TestBed.configureTestingModule({ providers: [{ provide: TelecomClient, useValue: {} }] });
+    const store = TestBed.inject(ServiceStore);
+    const voice = structuredClone(services[0]) as ServiceSummary;
+    const rate = voice.latestWindow!.kpis.find(kpi => kpi.name === 'cssrPct')!;
+    rate.baseline = null;
+    expect(store.health(voice)).toBe('UNKNOWN');
+    rate.baseline = 99.3;
+    rate.denominator = 0;
+    expect(store.health(voice)).toBe('UNKNOWN');
+    const sms = structuredClone(services[1]) as ServiceSummary;
+    sms.latestWindow!.kpis.find(kpi => kpi.name === 'deliveredMessages')!.observed = 0;
+    expect(store.health(sms)).toBe('UNKNOWN');
+  });
+
   it('keeps newer incident versions while replacing the authoritative snapshot membership', async () => {
     const incident = voiceIncidents[0];
     const listIncidents = vi.fn().mockResolvedValue({ items: [{ ...incident, version: 3 }], total: 1 });
