@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.SplittableRandom;
 import java.util.UUID;
 import md.utm.telecom.observation.ObservationValidator;
+import md.utm.telecom.observation.GeographyCatalog.Role;
+import md.utm.telecom.generator.GenerationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -92,6 +94,12 @@ public class SmsQueueScenario {
         return generateSeededWindow(start, Phase.NORMAL, seed);
     }
 
+    public List<String> generateHealthyWindow(Instant start, long seed, GenerationContext context) {
+        validateMinuteAlignment(start);
+        Objects.requireNonNull(context, "context").requireService(SERVICE);
+        return generateSeededWindow(start, Phase.NORMAL, seed, context);
+    }
+
     /** Flat compatibility view of the telemetry gap profile. */
     public List<String> generateTelemetryGap(Instant start, long seed) {
         return generateTelemetryGapWindows(start, seed).stream().flatMap(List::stream).toList();
@@ -119,10 +127,15 @@ public class SmsQueueScenario {
      * the same seed + same logical window always reproduces identical measurements.
      */
     private List<String> generateSeededWindow(Instant start, Phase phase, long seed) {
+        return generateSeededWindow(start, phase, seed, null);
+    }
+
+    private List<String> generateSeededWindow(Instant start, Phase phase, long seed, GenerationContext context) {
         // Derive a stable per-window seed from the SERVICE event identity (which covers
         // the logical interval). NODE uses the same derived seed for consistency.
         String serviceIdentity = String.join("|", "telecom-observation-v2",
-                SERVICE_SOURCE_ID, SCOPE_ID, "SERVICE", start.toString());
+                context == null ? SERVICE_SOURCE_ID : context.scope().serviceSourceId(),
+                context == null ? SCOPE_ID : context.scope().scopeId(), "SERVICE", start.toString());
         UUID serviceUuid = UUID.nameUUIDFromBytes(serviceIdentity.getBytes(StandardCharsets.UTF_8));
         long windowSeed = seed ^ serviceUuid.getMostSignificantBits() ^ serviceUuid.getLeastSignificantBits();
         var rng = new SplittableRandom(windowSeed);
@@ -142,7 +155,7 @@ public class SmsQueueScenario {
                 for (int i = 0; i < delivered; i++) {
                     delays.add(1000L + rng.nextLong(2501));    // 1000..3500 ms
                 }
-                yield generateCustomWindow(start, attempts, successes, delays, 0, 0);
+                yield generateCustomWindow(start, attempts, successes, delays, 0, 0, context);
             }
             case SLOW_DELIVERY -> {
                 // Degraded: delays in 30 000–60 000 ms (well above 20 000 ms threshold).
@@ -158,7 +171,7 @@ public class SmsQueueScenario {
                 }
                 int queueDepth = 150 + rng.nextInt(201);      // 150..350
                 int age = 70 + rng.nextInt(51);                // 70..120
-                yield generateCustomWindow(start, attempts, successes, delays, queueDepth, age);
+                yield generateCustomWindow(start, attempts, successes, delays, queueDepth, age, context);
             }
             default -> throw new IllegalArgumentException("generate() does not use " + phase);
         };
@@ -199,6 +212,17 @@ public class SmsQueueScenario {
     public List<String> generateCustomWindow(Instant start, int deliveryAttempts, int deliverySuccesses,
                                              List<Long> deliveryDelayMs, Integer queueDepth,
                                              Integer oldestPendingAgeSeconds) {
+        return generateCustomWindow(start, deliveryAttempts, deliverySuccesses, deliveryDelayMs,
+                queueDepth, oldestPendingAgeSeconds, null);
+    }
+
+    private List<String> generateCustomWindow(Instant start, int deliveryAttempts, int deliverySuccesses,
+                                              List<Long> deliveryDelayMs, Integer queueDepth,
+                                              Integer oldestPendingAgeSeconds, GenerationContext context) {
+        String scope = context == null ? SCOPE_ID : context.scope().scopeId();
+        String serviceSource = context == null ? SERVICE_SOURCE_ID : context.scope().serviceSourceId();
+        var smsc = context == null ? new md.utm.telecom.observation.TopologyCatalog.Node(NODE_SOURCE_ID, NODE_SOURCE_ID)
+                : context.role(Role.SMS_SMSC);
         validateMinuteAlignment(start);
         var result = new ArrayList<String>();
 
@@ -210,8 +234,8 @@ public class SmsQueueScenario {
 
         // 1. Independent NODE observation from SMSC-A (if queue evidence is present)
         if (queueDepth != null) {
-            ObjectNode node = createEnvelope(start, NODE_SOURCE_ID, "NODE", "COMPLETE");
-            node.put("nodeId", NODE_SOURCE_ID);
+            ObjectNode node = createEnvelope(start, smsc.sourceId(), "NODE", "COMPLETE", scope);
+            node.put("nodeId", smsc.nodeId());
             ObjectNode nodeMetrics = node.putObject("metrics");
             nodeMetrics.put("queueDepth", queueDepth);
             nodeMetrics.put("oldestPendingAgeSeconds", oldestPendingAgeSeconds);
@@ -220,7 +244,7 @@ public class SmsQueueScenario {
         }
 
         // 2. Authoritative SERVICE observation from SMS-ADAPTER
-        ObjectNode service = createEnvelope(start, SERVICE_SOURCE_ID, "SERVICE", "COMPLETE");
+        ObjectNode service = createEnvelope(start, serviceSource, "SERVICE", "COMPLETE", scope);
         service.put("service", SERVICE);
         ObjectNode serviceMetrics = service.putObject("metrics");
         serviceMetrics.put("deliveryAttempts", deliveryAttempts);
@@ -236,15 +260,15 @@ public class SmsQueueScenario {
         return List.copyOf(result);
     }
 
-    private ObjectNode createEnvelope(Instant start, String sourceId, String kind, String quality) {
-        String identity = String.join("|", "telecom-observation-v2", sourceId, SCOPE_ID, kind, start.toString());
+    private ObjectNode createEnvelope(Instant start, String sourceId, String kind, String quality, String scope) {
+        String identity = String.join("|", "telecom-observation-v2", sourceId, scope, kind, start.toString());
         String eventId = UUID.nameUUIDFromBytes(identity.getBytes(StandardCharsets.UTF_8)).toString();
         Instant end = start.plusSeconds(60);
         return json.createObjectNode()
                 .put("schemaVersion", 2)
                 .put("eventId", eventId)
                 .put("sourceId", sourceId)
-                .put("scopeId", SCOPE_ID)
+                .put("scopeId", scope)
                 .put("kind", kind)
                 .put("windowStart", start.toString())
                 .put("windowEnd", end.toString())

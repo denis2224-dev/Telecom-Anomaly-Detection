@@ -8,6 +8,56 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoiceScenarioTest {
+    @Test void legacyBytesMatchSnapshotTakenFromIntegratedMain() throws Exception {
+        var json = new ObjectMapper();
+        var voice = new VoiceScenario(json, new ObservationValidator());
+        var start = Instant.parse("2026-10-05T08:00:00Z");
+        var expected = json.readTree(getClass().getResourceAsStream("/legacy-day2-baseline.json"));
+        assertEquals(expected.get("voiceOriginal"), json.valueToTree(voice.generate(start, 42)));
+        assertEquals(expected.get("voiceHealthy"), json.valueToTree(voice.generateHealthyWindow(start, 42)));
+        for (var profile : VoiceScenario.Profile.values())
+            assertEquals(expected.get("voice" + profile), json.valueToTree(voice.generateWindows(start, 42, profile)));
+        var legacy = GenerationContext.forScope(md.utm.telecom.observation.GeographyCatalog.load(), "VOLTE-MD-CENTRAL");
+        assertEquals(voice.generateHealthyWindow(start, 42), voice.generateHealthyWindow(start, 42, legacy));
+    }
+
+    @Test void everyCityHasDeterministicIndependentVoiceMeasurementsAndSeedIndependentIdentity() throws Exception {
+        var json = new ObjectMapper();
+        var geography = md.utm.telecom.observation.GeographyCatalog.load();
+        var validator = new ObservationValidator(geography.authority());
+        var voice = new VoiceScenario(json, validator);
+        var start = Instant.parse("2026-10-05T08:00:00Z");
+        var ids = new java.util.HashSet<String>();
+        var measurements = new java.util.HashSet<String>();
+        for (String city : geography.cities().keySet()) {
+            var context = GenerationContext.forScope(geography, "VOLTE-MD-" + city);
+            var first = voice.generateHealthyWindow(start, 42, context);
+            assertEquals(first, voice.generateHealthyWindow(start, 42, context));
+            var changed = voice.generateHealthyWindow(start, 43, context);
+            assertNotEquals(first, changed);
+            for (int i = 0; i < first.size(); i++) {
+                var event = json.readTree(first.get(i));
+                validator.validate(event);
+                assertEquals(context.scope().scopeId(), event.path("scopeId").asText());
+                assertTrue(ids.add(event.path("eventId").asText()));
+                assertEquals(event.get("eventId"), json.readTree(changed.get(i)).get("eventId"));
+                String natural = String.join("|", "telecom-observation-v2", event.path("sourceId").asText(),
+                        context.scope().scopeId(), event.path("kind").asText(), start.toString());
+                assertEquals(java.util.UUID.nameUUIDFromBytes(natural.getBytes(java.nio.charset.StandardCharsets.UTF_8)).toString(),
+                        event.path("eventId").asText());
+            }
+            assertTrue(measurements.add(first.stream().map(raw -> assertDoesNotThrow(() -> json.readTree(raw)).get("metrics").toString())
+                    .collect(java.util.stream.Collectors.joining())));
+            var batch = new md.utm.telecom.observation.ObservationBatch(validator);
+            assertEquals(md.utm.telecom.observation.ObservationBatch.Result.ACCEPTED, batch.accept(json.readTree(first.get(1))));
+            var conflicting = json.readTree(changed.get(1));
+            assertThrows(IllegalArgumentException.class, () -> batch.accept(conflicting));
+        }
+        assertEquals(30, ids.size());
+        assertThrows(IllegalArgumentException.class, () -> voice.generateHealthyWindow(start, 42,
+                GenerationContext.forScope(geography, "SMS-MD-CHI")));
+        assertThrows(IllegalArgumentException.class, () -> GenerationContext.forScope(geography, "VOLTE-MD-UNKNOWN"));
+    }
     @Test void canonicalOverloadHasTwoHealthyThreeFaultThreeRecoveryMinutes() throws Exception {
         var json = new ObjectMapper();
         var generator = new VoiceScenario(json, new ObservationValidator(TopologyCatalog.load()));
