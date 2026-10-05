@@ -1,0 +1,91 @@
+{
+  "catalogueVersion": "1-geography-g1",
+  "synthetic": true,
+  "cities": [
+    {
+      "cityId": "CHI",
+      "displayName": "Chișinău",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-CHI",
+        "SMS": "SMS-MD-CHI"
+      }
+    },
+    {
+      "cityId": "BAL",
+      "displayName": "Bălți",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-BAL",
+        "SMS": "SMS-MD-BAL"
+      }
+    },
+    {
+      "cityId": "EDI",
+      "displayName": "Edineț",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-EDI",
+        "SMS": "SMS-MD-EDI"
+      }
+    },
+    {
+      "cityId": "SOR",
+      "displayName": "Soroca",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-SOR",
+        "SMS": "SMS-MD-SOR"
+      }
+    },
+    {
+      "cityId": "RIB",
+      "displayName": "Rîbnița",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-RIB",
+        "SMS": "SMS-MD-RIB"
+      }
+    },
+    {
+      "cityId": "UNG",
+      "displayName": "Ungheni",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-UNG",
+        "SMS": "SMS-MD-UNG"
+      }
+    },
+    {
+      "cityId": "TIR",
+      "displayName": "Tiraspol",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-TIR",
+        "SMS": "SMS-MD-TIR"
+      }
+    },
+    {
+      "cityId": "COM",
+      "displayName": "Comrat",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-COM",
+        "SMS": "SMS-MD-COM"
+      }
+    },
+    {
+      "cityId": "CAH",
+      "displayName": "Cahul",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-CAH",
+        "SMS": "SMS-MD-CAH"
+      }
+    },
+    {
+      "cityId": "ORH",
+      "displayName": "Orhei",
+      "scopes": {
+        "VOLTE": "VOLTE-MD-ORH",
+        "SMS": "SMS-MD-ORH"
+      }
+    }
+  ],
+  "legacyUnallocatedScopeIds": [
+    "VOLTE-MD-CENTRAL",
+    "SMS-MD-ROUTE-A"
+  ],
+  "topologyVersion": "2-geography-g1"
+}
