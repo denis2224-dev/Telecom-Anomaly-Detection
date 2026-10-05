@@ -11,6 +11,27 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ScopeRegistryTest {
+    @Test void pinnedRolesResolveCitiesAndLegacyAndFailClosedOnWrongRoleOrChangedSource() throws Exception {
+        var geography = GeographyCatalog.load();
+        var candidate = new ScopeRegistry(geography.authority());
+        assertEquals("IMS-MD-CHI-01", candidate.resolveRole("VOLTE-MD-CHI", GeographyCatalog.Role.VOLTE_IMS).nodeId());
+        assertEquals("IMS-MD-BAL-01", candidate.resolveRole("VOLTE-MD-BAL", GeographyCatalog.Role.VOLTE_IMS).nodeId());
+        assertEquals("SMSC-MD-CHI-01", candidate.resolveRole("SMS-MD-CHI", GeographyCatalog.Role.SMS_SMSC).nodeId());
+        assertEquals("IMS-A", registry.resolveRole("VOLTE-MD-CENTRAL", GeographyCatalog.Role.VOLTE_IMS).nodeId());
+        assertEquals("TRANSPORT-A", registry.resolveRole("VOLTE-MD-CENTRAL", GeographyCatalog.Role.VOLTE_TRANSPORT).nodeId());
+        assertEquals("SMSC-A", registry.resolveRole("SMS-MD-ROUTE-A", GeographyCatalog.Role.SMS_SMSC).nodeId());
+        assertThrows(IllegalArgumentException.class, () -> candidate.resolveRole("SMS-MD-CHI", GeographyCatalog.Role.VOLTE_IMS));
+        var root = ObservationValidatorResource.geographic();
+        ((com.fasterxml.jackson.databind.node.ObjectNode) root.path("scopes").get(2).path("nodes").get(0)).put("sourceId", "OTHER-SOURCE");
+        var changed = new ScopeRegistry(TopologyCatalog.fromJson(root));
+        assertThrows(IllegalArgumentException.class, () -> changed.resolveRole("VOLTE-MD-CHI", GeographyCatalog.Role.VOLTE_IMS));
+    }
+    private static class ObservationValidatorResource {
+        static com.fasterxml.jackson.databind.JsonNode geographic() throws Exception {
+            return md.utm.telecom.observation.ObservationValidator.resource("topology/geographic-scopes-v2.json",
+                    new com.fasterxml.jackson.databind.ObjectMapper());
+        }
+    }
     private final ScopeRegistry registry = new ScopeRegistry(TopologyCatalog.load());
 
     ScopeRegistryTest() throws Exception {}

@@ -16,6 +16,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EvidenceJoinerTest {
+    @Test void foreignCitySourceCannotJoinEvenWithClaimedLocalScopeAndMissingMeasurementsStayMissing() throws Exception {
+        var candidate = new EvidenceJoiner(new ScopeRegistry(GeographyCatalog.load().authority()));
+        var foreign = node("VOLTE-MD-CHI","IMS-MD-BAL-01","IMS-MD-BAL-01",start,"COMPLETE","cpuPct",99);
+        var rejected = candidate.join("VOLTE-MD-CHI",start,end,List.of(foreign));
+        assertTrue(rejected.accepted().isEmpty());
+        assertEquals(EvidenceJoiner.IgnoreReason.UNAPPROVED_DEPENDENCY,rejected.ignored().getFirst().reason());
+        var local = node("VOLTE-MD-CHI","IMS-MD-CHI-01","IMS-MD-CHI-01",start,"COMPLETE",null,null);
+        var absent = candidate.join("VOLTE-MD-CHI",start,end,List.of(local));
+        assertTrue(absent.accepted().isEmpty());
+        assertEquals(EvidenceJoiner.IgnoreReason.MEASUREMENT_MISSING,absent.ignored().getFirst().reason());
+    }
 
     private final ObjectMapper mapper = new ObjectMapper();
     private EvidenceJoiner joiner;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import md.utm.telecom.observation.TopologyCatalog;
+import md.utm.telecom.observation.GeographyCatalog;
 import md.utm.telecom.observation.TopologyCatalog.Node;
 import md.utm.telecom.observation.TopologyCatalog.Scope;
 import org.springframework.stereotype.Component;
@@ -12,8 +13,21 @@ import org.springframework.stereotype.Component;
 @Component
 public final class ScopeRegistry {
     private final TopologyCatalog topology;
+    private final GeographyCatalog geography;
 
-    public ScopeRegistry(TopologyCatalog topology) { this.topology = Objects.requireNonNull(topology, "topology"); }
+    public ScopeRegistry(TopologyCatalog topology) {
+        this.topology = Objects.requireNonNull(topology, "topology");
+        try { this.geography = GeographyCatalog.load(); }
+        catch (java.io.IOException invalid) { throw new IllegalStateException("Cannot load pinned role authority", invalid); }
+    }
+
+    public GeographyCatalog geography() { return geography; }
+    public Node resolveRole(String scopeId, GeographyCatalog.Role role) {
+        var pinned = geography.resolve(scopeId, role);
+        var actual = requireNode(scopeId, pinned.nodeId());
+        if (!actual.equals(pinned)) throw new IllegalArgumentException("Role/source authority mismatch");
+        return actual;
+    }
 
     public String topologyVersion() { return topology.topologyVersion(); }
     public Map<String, Scope> scopes() { return topology.scopes(); }

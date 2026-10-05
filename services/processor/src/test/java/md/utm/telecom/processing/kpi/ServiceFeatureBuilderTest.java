@@ -21,6 +21,82 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceFeatureBuilderTest {
+    private static List<JsonNode> geographicReceipts(String scope) throws Exception {
+        var result = new ArrayList<JsonNode>();
+        for (var event : ObservationValidator.resource("fixtures/geography/complete-city-observations-v1.json", MAPPER))
+            if (scope.equals(event.path("scopeId").asText())) result.add(event.deepCopy());
+        return result;
+    }
+    private static JsonNode geographicFeature(ServiceFeatureBuilder processor, String scope) throws Exception {
+        var receipts = geographicReceipts(scope);
+        return processor.build(receipts.stream().filter(r -> r.path("kind").asText().equals("SERVICE")).findFirst().orElseThrow(),
+                receipts.stream().filter(r -> r.path("kind").asText().equals("NODE")).toList());
+    }
+
+    @Test void geographicRolesPreserveObservedKpisWithoutInventingCityBaselinesAndExportHandoff() throws Exception {
+        var geography = md.utm.telecom.observation.GeographyCatalog.load();
+        var registry = new ScopeRegistry(geography.authority());
+        var processor = builder(new BaselineRegistry(), registry);
+        var export = MAPPER.createObjectNode();
+        for (String scope : List.of("VOLTE-MD-CHI", "SMS-MD-CHI", "VOLTE-MD-BAL", "SMS-MD-BAL")) {
+            var result = geographicFeature(processor, scope);
+            assertEquals(md.utm.telecom.observation.CoverageContract.windowId(scope, START), result.path("windowId").asText());
+            assertFalse(result.path("mlEligible").asBoolean());
+            assertTrue(result.path("featureValues").isEmpty());
+            var receipts = geographicReceipts(scope);
+            var node = receipts.stream().filter(r -> r.path("kind").asText().equals("NODE")).findFirst().orElseThrow();
+            String metric = scope.startsWith("VOLTE") ? "imsCpuPct" : "queueDepth";
+            assertNumbers(node.path("metrics").get(scope.startsWith("VOLTE") ? "cpuPct" : "queueDepth"), kpi(result, metric).get("observed"));
+            for (var item : result.path("kpis")) assertTrue(item.path("baseline").isNull());
+            export.set(scope, result);
+        }
+        export.set("legacyVoLTE", builder(new BaselineRegistry(), scopes()).build(fixture("normal-volte"),
+                List.of(fixture("normal-ims"),fixture("normal-transport"))));
+        export.set("legacySMS", builder(new BaselineRegistry(), scopes()).build(fixture("normal-sms"),List.of(fixture("normal-smsc"))));
+        var chi = geographicReceipts("VOLTE-MD-CHI");
+        var service = chi.stream().filter(r -> r.path("kind").asText().equals("SERVICE")).findFirst().orElseThrow();
+        var foreign = geographicReceipts("VOLTE-MD-BAL").stream().filter(r -> r.path("kind").asText().equals("NODE")).toList();
+        var missing = processor.build(service, foreign);
+        assertTrue(kpi(missing,"imsCpuPct").path("observed").isNull());
+        assertEquals(MAPPER.createArrayNode().add(service.path("eventId").asText()),missing.get("sourceEventIds"));
+        export.set("missingRequiredDependency",missing);
+        export.set("smsWithoutOptionalTransport",geographicFeature(processor,"SMS-MD-CHI"));
+        Files.createDirectories(Path.of("target"));
+        MAPPER.writerWithDefaultPrettyPrinter().writeValue(Path.of("target/geographic-features-java.json").toFile(),export);
+    }
+
+    @Test void geographicFeatureOrderAndFormulasEqualLegacyWithExplicitTestOnlyReferenceValues() throws Exception {
+        var topology = ObservationValidator.resource("topology/geographic-scopes-v2.json", MAPPER);
+        var catalogue = (ObjectNode) ObservationValidator.resource("baselines/demo-baseline-v2.json",MAPPER);
+        var originals = catalogue.path("baselines").deepCopy();
+        for (var original : originals) {
+            var entry = ((ObjectNode) original).deepCopy();
+            entry.put("scopeId",entry.path("service").asText().equals("VOLTE") ? "VOLTE-MD-CHI" : "SMS-MD-CHI");
+            ((com.fasterxml.jackson.databind.node.ArrayNode) catalogue.path("baselines")).add(entry);
+        }
+        var processor = builder(new BaselineRegistry(catalogue,topology),new ScopeRegistry(TopologyCatalog.fromJson(topology)));
+        for (String serviceName : List.of("VOLTE","SMS")) {
+            var scope = serviceName + "-MD-CHI";
+            var service = fixture(serviceName.equals("VOLTE") ? "normal-volte" : "normal-sms");
+            var nodes = serviceName.equals("VOLTE") ? List.<JsonNode>of(fixture("normal-ims"),fixture("normal-transport"))
+                    : List.<JsonNode>of(fixture("normal-smsc"));
+            var legacy = builder(new BaselineRegistry(),scopes()).build(service,nodes);
+            var geography = md.utm.telecom.observation.GeographyCatalog.load();
+            service.put("scopeId",scope).put("sourceId",geography.authority().requireScope(scope).serviceSourceId());
+            for (var item : nodes) {
+                var node = (ObjectNode) item;
+                var role = serviceName.equals("SMS") ? md.utm.telecom.observation.GeographyCatalog.Role.SMS_SMSC
+                        : node.path("nodeId").asText().startsWith("IMS") ? md.utm.telecom.observation.GeographyCatalog.Role.VOLTE_IMS
+                        : md.utm.telecom.observation.GeographyCatalog.Role.VOLTE_TRANSPORT;
+                var authority = geography.resolve(scope,role);
+                node.put("scopeId",scope).put("nodeId",authority.nodeId()).put("sourceId",authority.sourceId());
+            }
+            var result = processor.build(service,nodes);
+            assertEquals(legacy.get("featureNames"),result.get("featureNames"));
+            assertEquals(legacy.get("featureValues"),result.get("featureValues"));
+            assertEquals(legacy.get("kpis"),result.get("kpis"));
+        }
+    }
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final Instant START = Instant.parse("2026-09-15T08:00:00Z");
 
