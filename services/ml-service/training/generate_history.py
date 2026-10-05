@@ -87,6 +87,8 @@ def generate(output=DATA, cadence_minutes=5, training_weeks=4, calibration_weeks
     if any(type(size) is not int or size < 1 for size in sizes):
         raise ValueError("Week counts, fault runs and fault minutes must be positive integers")
     legacy = sizes == (4, 1, 1, 1, 8) and cadence_minutes == 5
+    if not legacy and output.resolve() == DATA.resolve():
+        raise ValueError('Use a separate output directory for expanded data')
     output.mkdir(parents=True, exist_ok=True)
     runs = []
     for service in FIXTURES:

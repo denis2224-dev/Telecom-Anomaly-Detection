@@ -7,6 +7,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path[:0] = [str(ROOT / 'services/ml-service/training')]
@@ -54,6 +55,14 @@ class ExpandedHistoryTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     generate(Path(directory) / 'data', **options)
             self.assertFalse((Path(directory) / 'data').exists())
+
+    def test_expansion_requires_a_separate_data_location(self):
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory) / 'data'
+            with patch('generate_history.DATA', data):
+                with self.assertRaisesRegex(ValueError, 'output'):
+                    generate(output=data, training_weeks=12)
+            self.assertFalse(data.exists())
 
 
 if __name__ == '__main__':
