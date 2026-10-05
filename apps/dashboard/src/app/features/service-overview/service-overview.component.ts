@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, signal, computed } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { IconComponent } from "../../shared/icon.component";
 import { IncidentStream } from '../../core/state/incident-stream';
 import { SessionStore } from '../login-and-session/session.store';
@@ -8,10 +8,22 @@ import { dataSource } from '../../core/api/data-source';
 import { delta } from '../service-kpi-history/assurance-model';
 import { ServiceStore, ServiceHealth } from "./service.store";
 
+import { ConnectedOverviewComponent } from './connected-overview.component';
+import type { Filter } from './dashboard-geography';
+
 @Component({
   selector: "app-service-overview",
-  imports: [RouterLink, IconComponent],
+  imports: [RouterLink, IconComponent, ConnectedOverviewComponent],
   templateUrl: "./service-overview.component.html",
+  styles: [`
+    .stat-grid.four { gap: 10px; }
+    .stat-grid.four .stat-card { padding: 12px 16px; }
+    .stat-grid.four .metric-value { font-size: 26px; }
+    .stat-grid.four .stat-label { font-size: 11px; }
+    .stat-grid.four .helper, .stat-grid.four .stat-trend { font-size: 10px; }
+    .source-inventory { margin-top: 14px; }
+    .source-inventory > summary { padding: 10px; cursor: pointer; color: var(--text-muted); }
+  `],
 })
 export class ServiceOverviewComponent {
   readonly store = inject(ServiceStore);
@@ -19,7 +31,11 @@ export class ServiceOverviewComponent {
   readonly services = this.store.services;
   readonly loading = this.store.loading;
   readonly error = this.store.error;
-  readonly serviceFilter = signal('ALL');
+  readonly serviceFilter = signal<Filter>('ALL');
+  private readonly router = inject(Router);
+  setService(service: Filter): void {
+    void this.router.navigate(['/dashboard'], { queryParams: { service: service === 'ALL' ? null : service }, queryParamsHandling: 'merge' });
+  }
   readonly visibleServices = computed(() => this.services().filter(item => this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter()));
   readonly healthyCount = computed(() => this.services().filter(item => this.health(item) === 'NORMAL').length);
   readonly openCount = computed(() => this.services().reduce((sum, item) => sum + item.openIncidents, 0));
@@ -44,6 +60,10 @@ export class ServiceOverviewComponent {
   private active = true;
 
   constructor() {
+    inject(ActivatedRoute).queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      const service = params.get('service');
+      this.serviceFilter.set(service === 'VOLTE' || service === 'SMS' ? service : 'ALL');
+    });
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => this.scopeId.set(params.get("scopeId")));

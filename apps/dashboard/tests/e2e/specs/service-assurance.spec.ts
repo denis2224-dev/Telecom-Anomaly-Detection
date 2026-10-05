@@ -29,6 +29,7 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     await page.goto('/dashboard');
     await expect(page.locator('.service-assurance-card')).toHaveCount(1);
     await page.screenshot({ path: info.outputPath(`controlled-${id}-overview-${width}.png`), fullPage: true });
+    await page.locator('details.source-inventory > summary').click();
     await page.locator('.service-assurance-card a').click();
     await expect(page.locator('app-kpi-cards .kpi-card')).toHaveCount(trajectory.service === 'VOLTE' ? 8 : 5);
     if (trajectory.service === 'SMS') await expect(page.locator('[data-node-id="TRANSPORT-A"]')).toContainText('NO CURRENT MEASUREMENT');

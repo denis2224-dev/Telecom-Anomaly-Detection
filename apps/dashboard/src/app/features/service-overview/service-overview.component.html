@@ -84,11 +84,11 @@
     <section class="stat-card"><div class="stat-label">Open incidents<app-icon name="alert" /></div><strong class="metric-value">{{ openCount() }}</strong><p class="helper">Unresolved analyst work</p></section>
     <section class="stat-card"><div class="stat-label">Observed scopes<app-icon name="activity" /></div><strong class="metric-value">{{ observedCount() }} <small>/ {{ services().length }}</small></strong><p class="helper">Coverage is not a health verdict</p></section>
   </div>
+  <app-connected-overview [services]="services()" [serviceFilter]="serviceFilter()" (filterChanged)="setService($event)" />
+  <details class="source-inventory"><summary>Service scopes and definitions</summary>
   <section class="scope-section" aria-labelledby="scopes-heading">
     <div class="section-heading"><div><h2 id="scopes-heading">Monitored scopes</h2><p>Latest service evidence · observation times in Europe/Chisinau</p></div>
-      <div class="segmented" aria-label="Filter services">
-        @for (kind of ['ALL', 'VOLTE', 'SMS']; track kind) { <button [class.selected]="serviceFilter() === kind" [attr.aria-pressed]="serviceFilter() === kind" (click)="serviceFilter.set(kind)">{{ kind === 'ALL' ? 'All services' : kind === 'VOLTE' ? 'VoLTE' : 'SMS' }}</button> }
-      </div>
+
     </div>
     <div class="service-list">
       <div class="service-table-head" aria-hidden="true"><span>Service / scope</span><span>Service health</span><span>Latest measurement</span><span>Incidents</span></div>
@@ -107,4 +107,5 @@
     <section><app-icon name="signal" /><h3>Sample volume matters</h3><p>Zero attempts give an unavailable rate. No completed SMS samples do not prove an empty queue.</p></section>
     <section><app-icon name="shield" /><h3>Recovery and workflow</h3><p>A recovered service can still have an open analyst investigation.</p></section>
   </aside>
+  </details>
 }

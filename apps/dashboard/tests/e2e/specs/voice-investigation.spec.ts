@@ -24,6 +24,7 @@ test.describe('Day 5 voice investigation', () => {
   });
   test('overview opens paginated history with gaps and one recovered/open episode', async ({ page }, info) => {
     await page.goto('/dashboard');
+    await page.locator('details.source-inventory > summary').click();
     await page.locator('a[href="/services/VOLTE-MD-CENTRAL"]').first().click();
     await expect(page.getByRole('heading', { name: 'VoLTE setup assurance', exact: true })).toBeVisible();
     await expect(page.getByText('8,000 recorded attempts', { exact: false })).toBeVisible();

@@ -244,6 +244,7 @@ test.describe('Day 15 browser resource bounds', () => {
       await paint(page);
       navigation.push({ iteration, ...await sample() });
       // SPA navigation, rather than a full reload that could hide retained screens.
+      await page.locator('details.source-inventory > summary').click();
       await page.getByRole('link', { name: SCOPE, exact: true }).click();
       await expect(page.locator('.episode-card')).toHaveCount(20);
     }
