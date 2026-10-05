@@ -63,6 +63,8 @@ test(`fixture city selection links map, charts, service and incident detail at $
   await expect(page.locator('.featured-city')).toHaveCount(5);
   await expect(page.getByLabel('Service', { exact: true })).toHaveValue('ALL');
   await expect(page.getByLabel('Technology', { exact: true })).toBeDisabled();
+  await expect(page.getByRole('link', { name: 'VoLTE setup', exact: true, includeHidden: true })).toHaveAttribute('href', '/dashboard?service=VOLTE');
+  await expect(page.getByRole('link', { name: 'SMS delivery', exact: true, includeHidden: true })).toHaveAttribute('href', '/dashboard?service=SMS');
   await expect(page.locator('details.source-inventory')).not.toHaveAttribute('open');
   await page.getByLabel('Service', { exact: true }).selectOption('SMS');
   await expect(page.locator('.map-table caption')).toContainText('SMS delivery');
@@ -96,6 +98,7 @@ test(`fixture city selection links map, charts, service and incident detail at $
   await page.screenshot({ path: info.outputPath(`connected-fixture-${width}.png`), fullPage: true });
   await page.getByRole('link', { name: 'Open incident evidence', exact: true }).click();
   await expect(page).toHaveURL(/\/incidents\/00000000-0000-4000-8000-000000000001$/);
+  await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
   await page.getByRole('button', { name: 'Details & workflow', exact: true }).click();
   await expect(page.locator('.workflow-drawer')).toContainText('First observed');
   await page.goto('/dashboard');
@@ -104,7 +107,11 @@ test(`fixture city selection links map, charts, service and incident detail at $
   await page.getByRole('link', { name: 'Open Orhei VoLTE evidence', exact: true }).click();
   await expect(page).toHaveURL(/\/services\/fixture-VOLTE-ORH$/);
   await expect(page.getByRole('heading', { name: 'Call setup success rate', exact: true })).toBeVisible();
-  await page.goto('/dashboard?service=SMS');
+  await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
+  await page.getByLabel('Service', { exact: true }).selectOption('SMS');
+  await expect(page).toHaveURL(/\/dashboard\?service=SMS$/);
+  await expect(page.getByLabel('Service', { exact: true })).toHaveValue('SMS');
+  await expect(page.locator('.map-table caption')).toContainText('SMS delivery');
   await page.getByLabel('Region', { exact: true }).fill('Orhei');
   await expect(page.getByRole('heading', { name: 'Orhei service detail' })).toBeVisible();
   await page.getByLabel('Region', { exact: true }).fill('');

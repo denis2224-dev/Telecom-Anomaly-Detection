@@ -1,3 +1,4 @@
+import { ServiceContextComponent } from '../../shared/service-context.component';
 import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -25,12 +26,12 @@ const MAX_WINDOWS = 1440;
 
 @Component({
   selector: 'app-service-detail',
-  imports: [RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
+  imports: [ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a>
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
-      @if (service(); as item) { <span class="badge" [attr.data-state]="item.freshness"><span class="status-dot"></span>Source: {{ item.freshness }}</span> }
+      @if (service(); as item) { <div class="button-row"><app-service-context [current]="item.scope.service" /><span class="badge" [attr.data-state]="item.freshness"><span class="status-dot"></span>Source: {{ item.freshness }}</span></div> }
     </div>
     @if (loading()) { <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
     @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()"><app-icon name="refresh" />Retry</button></section> }

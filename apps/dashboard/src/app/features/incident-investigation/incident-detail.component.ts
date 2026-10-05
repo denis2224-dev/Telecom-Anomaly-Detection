@@ -1,3 +1,4 @@
+import { ServiceContextComponent } from '../../shared/service-context.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
@@ -11,9 +12,10 @@ import { EvidenceTimelineComponent } from './evidence-timeline.component';
 import { IncidentActionsComponent } from './incident-actions.component';
 
 @Component({
-  selector: 'app-incident-detail', imports: [DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  selector: 'app-incident-detail', imports: [ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
+    @if (incident(); as item) { <app-service-context [current]="item.service" /> }
     @if (!loading() && !error()) {
       <button type="button" class="ghost" (click)="load()"><app-icon name="refresh" />Refresh incident</button>
     }
