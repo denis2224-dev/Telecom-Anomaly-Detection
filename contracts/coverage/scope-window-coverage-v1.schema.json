@@ -1,0 +1,122 @@
+{
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "coverageId",
+    "windowId",
+    "scopeId",
+    "service",
+    "windowStart",
+    "windowEnd",
+    "topologyVersion",
+    "catalogueVersion",
+    "expectedSourceIds",
+    "receivedSourceIds",
+    "usableSourceIds",
+    "sourceIssues",
+    "synthetic"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "coverageId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "windowId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scopeId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+      "maxLength": 64
+    },
+    "service": {
+      "enum": [
+        "VOLTE",
+        "SMS"
+      ]
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:00Z$"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:00Z$"
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "catalogueVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expectedSourceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+        "maxLength": 64
+      },
+      "uniqueItems": true
+    },
+    "receivedSourceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+        "maxLength": 64
+      },
+      "uniqueItems": true
+    },
+    "usableSourceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+        "maxLength": 64
+      },
+      "uniqueItems": true
+    },
+    "sourceIssues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sourceId",
+          "reason"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "reason": {
+            "enum": [
+              "NOT_RECEIVED",
+              "REPORTED_MISSING",
+              "INCOMPLETE",
+              "MEASUREMENT_MISSING"
+            ]
+          }
+        }
+      },
+      "uniqueItems": true
+    },
+    "synthetic": {
+      "const": true
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/telecom/coverage/scope-window-coverage-v1.schema.json",
+  "title": "ScopeWindowCoverageV1"
+}
