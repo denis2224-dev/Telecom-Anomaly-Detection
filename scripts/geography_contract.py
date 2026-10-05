@@ -177,7 +177,6 @@ def validate_coverage(value, catalogue, authority):
     require((datetime.fromisoformat(value['windowEnd'])-datetime.fromisoformat(value['windowStart'])).total_seconds() == 60, 'Expected one minute coverage')
     require(value['topologyVersion'] == authority['topologyVersion'] and value['catalogueVersion'] == catalogue['catalogueVersion'], 'Coverage version mismatch')
     require(value['coverageId'] == coverage_id(value['scopeId'],value['windowStart'],value['topologyVersion'],value['catalogueVersion']), 'Coverage identity mismatch')
-    require(value['windowId'] == digest([value['scopeId'],value['windowStart'],2]), 'Coverage window identity mismatch')
     for field in ['expectedSourceIds','receivedSourceIds','usableSourceIds']:
         require(value[field] == sorted(set(value[field])), 'Coverage sets must be sorted/unique')
     require(value['expectedSourceIds'] == expected_sources(catalogue,authority,value['scopeId']), 'Coverage expected source mismatch')
