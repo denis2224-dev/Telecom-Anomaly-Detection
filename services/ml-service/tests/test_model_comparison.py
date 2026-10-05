@@ -54,6 +54,56 @@ class CandidateTrainingTests(unittest.TestCase):
             self.assertEqual(result['modelVersion'], 'isoforest-test-1')
             self.assertEqual(result['services']['SMS']['trainingRows'], 3)
 
+    def test_comparison_matches_single_window_scoring_and_rejects_leakage(self):
+        from compare_models import compare
+        from app.inference.scoring import load, score
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory) / 'data'
+            tiny_history(data)
+            models = Path(directory) / 'models'
+            train(data, models, model_version='isoforest-test-1')
+            split_path = data.parent / 'split_manifest.json'
+            result = compare(data, models, models, split_path)
+            for service in ('VOLTE', 'SMS'):
+                expected_tp = expected_fp = 0
+                loaded = load(service, models)
+                split = json.loads(split_path.read_text())
+                for run in split['runs']:
+                    if run['service'] != service or run['split'] != 'test':
+                        continue
+                    for line in (data / run['path']).read_text().splitlines():
+                        row = json.loads(line)
+                        window = dict(row, featureVersion=2, baselineVersion='baseline-v2',
+                                      quality='COMPLETE', mlEligible=True)
+                        detected = score(window, loaded)['anomaly']
+                        expected_tp += detected and row['label'] == 'FAULT'
+                        expected_fp += detected and row['label'] == 'NORMAL'
+                for name in ('reference', 'candidate'):
+                    metrics = result[name]['services'][service]
+                    self.assertEqual(metrics['truePositives'], expected_tp)
+                    self.assertEqual(metrics['falsePositives'], expected_fp)
+            # Keep dataset hashes valid while introducing overlapping split times.
+            split['runs'][2]['start'] = split['runs'][0]['start']
+            split_path.write_text(json.dumps(split), encoding='utf-8')
+            manifest_path = models / 'manifest.json'
+            model = json.loads(manifest_path.read_text())
+            model['datasetManifestSha256'] = sha256(split_path.read_bytes()).hexdigest()
+            manifest_path.write_text(json.dumps(model), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'overlap'):
+                compare(data, models, models, split_path)
+
+    def test_comparison_rejects_corrupted_test_rows(self):
+        from compare_models import compare
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory) / 'data'
+            tiny_history(data)
+            models = Path(directory) / 'models'
+            train(data, models, model_version='isoforest-test-1')
+            with (data / 'SMS-test-2.jsonl').open('ab') as stream:
+                stream.write(b'{}\n')
+            with self.assertRaisesRegex(ValueError, 'checksum'):
+                compare(data, models, models, data.parent / 'split_manifest.json')
+
 
 if __name__ == '__main__':
     unittest.main()
