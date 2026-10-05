@@ -90,6 +90,18 @@ can therefore complete detection with the same baseline values and episode ident
 topology versions remain rejected. City feature construction retains `BASELINE_MISSING` and ML
 ineligibility until reviewed city baselines/readers exist.
 
+Geographic publication owns a fixed pool of twenty submission workers and a queue capped at twenty
+tasks. At most twenty scope chains are admitted, with one outstanding submission/ACK per scope.
+An ACK callback only enqueues the next record; it never invokes potentially blocking `KafkaTemplate.send`.
+Each chain owns a +67-second deadline task. Expiry/stop cancels submissions, ACKs and scheduled retries;
+stop shuts down the pool without waiting on Kafka. A restart is rejected until the previous pool has
+terminated, so an unresponsive send cannot multiply workers. An expired send that ignores interruption
+keeps its scope reserved until it returns, preventing a new minute from overtaking it. Retry payload bytes, the three-attempt
+limit, 250ms backoff and +70-second processor closure are unchanged. A missed deadline leaves missing
+telemetry, not fabricated catch-up. These bounds isolate a slow scope; they do not guarantee broker
+delivery under arbitrary stalls. Controlled incomplete-future tests prove 150ms per ACK and all fifty
+required receipts across twenty scopes in 450ms of modeled publication time.
+
 ## Observation identity and compatibility
 
 Natural identity is exactly `(sourceId, scopeId, kind, windowStart)`. The generator's established
