@@ -94,3 +94,5 @@ Incident-service has applied V001 and V002; V003 is a candidate only after the s
 | Migration version and deployment order | V003 candidate, no migration committed | Stanislav/Denis reserve on integration SHA. |
 
 **Shared G1 is still partial** until these reviews, the integration SHA, and combined regressions are accepted. Contract-only files are not evidence of a live geographic endpoint.
+
+The local clean-merge and focused regression results are recorded in `docs/evidence/2026-10-05-geography-contract-merge-check.md`; the full processor run still requires a Docker-enabled environment.
