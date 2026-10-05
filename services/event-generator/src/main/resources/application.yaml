@@ -37,6 +37,7 @@ management:
           include: readinessState,kafka
 telecom:
   continuous:
+    legacy-enabled: ${CONTINUOUS_LEGACY_ENABLED:true}
     enabled: ${CONTINUOUS_TELEMETRY_ENABLED:false}
     seed: ${CONTINUOUS_TELEMETRY_SEED:42}
     publish-delay: ${CONTINUOUS_TELEMETRY_PUBLISH_DELAY:1s}

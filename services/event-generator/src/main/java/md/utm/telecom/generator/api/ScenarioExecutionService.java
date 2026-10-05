@@ -177,6 +177,9 @@ public class ScenarioExecutionService {
             throw new ApiFailure(HttpStatus.BAD_REQUEST, "UNSUPPORTED_SCENARIO", "Unsupported scenario type");
         }
         TopologyCatalog.Scope scope;
+        // Geographic scenario targeting is Day 3. Never publish legacy payloads under a city Kafka key.
+        if (!java.util.List.of("VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A").contains(command.scopeId()))
+            throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Scenario targeting requires a legacy scope");
         try { scope = topology.requireScope(command.scopeId()); }
         catch (IllegalArgumentException invalid) {
             throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Unknown scenario scope");

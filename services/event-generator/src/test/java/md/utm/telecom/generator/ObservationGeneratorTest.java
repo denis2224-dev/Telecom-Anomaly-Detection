@@ -13,6 +13,12 @@ import org.springframework.core.io.ClassPathResource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObservationGeneratorTest {
+    @Test void legacyFixtureBytesMatchSnapshotTakenFromIntegratedMain() throws Exception {
+        var expected = mapper.readTree(getClass().getResourceAsStream("/legacy-day2-baseline.json"));
+        var start = Instant.parse("2026-10-05T08:00:00Z");
+        assertEquals(expected.get("fixtures"), mapper.valueToTree(generator(42,
+                Clock.fixed(start.plusSeconds(222), ZoneOffset.UTC)).generate(24)));
+    }
     private final ObjectMapper mapper = new ObjectMapper();
     private final ObservationValidator validator = new ObservationValidator();
     private final Clock clock = Clock.fixed(Instant.parse("2026-09-15T08:03:42Z"), ZoneOffset.UTC);

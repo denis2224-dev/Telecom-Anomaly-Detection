@@ -62,7 +62,8 @@ public final class VoiceSetupRule {
         var baseline = baselines.lookup(window.get("scopeId").asText(), start);
         require(baseline.service().equals("VOLTE"), "Scope service mismatch");
         require(window.get("baselineVersion").asText().equals(baseline.baselineVersion()), "Baseline version mismatch");
-        require(window.get("topologyVersion").asText().equals(baselines.topologyVersion()), "Topology version mismatch");
+        require(baselines.acceptsTopology(window.get("scopeId").asText(), window.get("topologyVersion").asText()),
+                "Topology version mismatch");
         Map<String, JsonNode> kpis = new HashMap<>();
         for (var kpi : window.get("kpis")) {
             require(kpis.putIfAbsent(kpi.get("name").asText(), kpi) == null, "Duplicate KPI name");
