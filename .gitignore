@@ -4,6 +4,7 @@
 .env
 *.log
 docs/evidence/*/
+!docs/evidence/assets/
 !docs/evidence/.gitkeep
 __pycache__/
 *.py[cod]

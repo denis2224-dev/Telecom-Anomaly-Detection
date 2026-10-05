@@ -12,6 +12,12 @@ import { SmsQualityComponent } from './sms-quality.component';
 import { SmsHistoryComponent } from './sms-history.component';
 import { HistoryRangeComponent, type HistoryRange } from './history-range.component';
 
+import { KpiCardsComponent } from './kpi-cards.component';
+import { MetricChartComponent } from './metric-chart.component';
+import { ServicePathComponent } from './service-path.component';
+import { serviceHealth } from './assurance-model';
+import { SessionStore } from '../login-and-session/session.store';
+
 import { IconComponent } from '../../shared/icon.component';
 
 const PAGE_SIZE = 20;
@@ -20,10 +26,10 @@ const MAX_WINDOWS = 1440;
 @Component({
   selector: 'app-service-detail',
   imports: [RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
-    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent],
+    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a>
-    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery' : 'Voice call setup' }}</h1><p class="mono">{{ scopeId() }}</p></div>
+    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
       @if (service(); as item) { <span class="badge" [attr.data-state]="item.freshness"><span class="status-dot"></span>Source: {{ item.freshness }}</span> }
     </div>
     @if (loading()) { <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
@@ -31,6 +37,9 @@ const MAX_WINDOWS = 1440;
     @if (!loading() && !error() && service(); as item) {
       <app-history-range [from]="from()" [to]="to()" (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
       <div class="range-caption"><span>{{ from() | date:'dd MMM yyyy HH:mm':'UTC' }} – {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }} UTC</span><span>{{ item.scope.region }} · {{ item.scope.route }}</span></div>
+      <p class="helper">Current health: {{ health() }} · Technical recovery and analyst resolution are separate.</p>
+      <app-kpi-cards [service]="item" />
+      <app-service-path [service]="item" [detections]="detections()" />
       <div class="stat-grid">
         <section class="stat-card"><div class="stat-label">{{ item.scope.service === 'VOLTE' ? 'Latest success rate' : 'Latest delivery p95' }}<app-icon name="activity" /></div><strong class="metric-value">{{ summary().latest === null ? 'Unavailable' : summary().latest }} <small>{{ summary().latest === null ? '' : item.scope.service === 'VOLTE' ? '%' : 'ms' }}</small></strong>
           @if (summary().delta !== null) { <p class="stat-trend" [class.negative]="summary().worsened"><app-icon name="trend" />{{ summary().delta! > 0 ? '+' : '' }}{{ summary().delta }} {{ item.scope.service === 'VOLTE' ? 'pp' : 'ms' }} over range</p> } @else { <p class="helper">Trend requires comparable observations</p> }
@@ -44,9 +53,14 @@ const MAX_WINDOWS = 1440;
         <app-kpi-chart [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
         <p class="chart-disclaimer"><app-icon name="info" />Incident shading uses only incident page {{ incidentPage() + 1 }}. Unshaded time may contain incidents on other pages.</p>
       } @else {
+        <app-metric-chart name="p95DeliveryMs" title="P95 delivery delay · actual versus baseline" unit="MILLISECONDS" [windows]="windows()" [detections]="detections()" [from]="from()" [to]="to()" />
         <app-sms-quality [window]="item.latestWindow" [freshness]="item.freshness" />
         <app-sms-history [windows]="windows()" />
       }
+      <div class="supporting-charts">@for (chart of charts(); track chart.name) {
+        <app-metric-chart [name]="chart.name" [title]="chart.title" [unit]="chart.unit" [windows]="windows()" [detections]="detections()" [from]="from()" [to]="to()" />
+      }</div>
+      <p class="helper">Phase bands use the latest persisted detection on incident page {{ incidentPage() + 1 }}. Earlier phases and other pages require incident investigation; missing evidence does not prove normal health.</p>
       <div class="section-heading"><div><p class="eyebrow">Incident workspace</p><p>Incidents are paged for this scope independently of the KPI time range.</p></div>@if (incidentLoading()) { <span class="helper" role="status"><span class="spinner"></span> Refreshing incident page…</span> }</div>
       <app-incident-list [incidents]="incidents()" />
       <nav class="pagination" aria-label="Incident pages">
@@ -67,6 +81,26 @@ export class ServiceDetailComponent {
   private closeStream?: () => void;
   private refreshTimer?: ReturnType<typeof setTimeout>;
   private refreshAgain = false;
+  private currentTimer?: ReturnType<typeof setInterval>;
+  readonly detections = computed(() => this.incidents().map(item => item.latestDetection));
+  readonly health = computed(() => {
+    if (!this.service()) return 'UNKNOWN';
+    const health = serviceHealth(this.service()!, this.incidents());
+    return health === 'NORMAL' && this.incidentTotal() > this.incidents().length ? 'UNKNOWN' : health;
+  });
+  readonly charts = computed(() => this.service()?.scope.service === 'SMS' ? [
+    { name: 'deliverySrPct', title: 'Delivery success rate', unit: 'PERCENT' },
+    { name: 'queueDepth', title: 'Queue depth', unit: 'COUNT' },
+    { name: 'oldestPendingAgeSec', title: 'Oldest pending message age', unit: 'SECONDS' },
+    { name: 'deliveredMessages', title: 'Delivered sample volume', unit: 'COUNT' },
+  ] : [
+    { name: 'rrcSrPct', title: 'Radio / access · RRC SR', unit: 'PERCENT' },
+    { name: 'bearerSrPct', title: 'Radio / access · Bearer SR', unit: 'PERCENT' },
+    { name: 'imsCpuPct', title: 'IMS / core · CPU', unit: 'PERCENT' },
+    { name: 'sip503Ratio', title: 'IMS / core · SIP 503 rate', unit: 'RATIO' },
+    { name: 'packetLossRatio', title: 'Transport · packet loss', unit: 'RATIO' },
+    { name: 'eligibleAttempts', title: 'Eligible attempt volume', unit: 'COUNT' },
+  ]);
   readonly pageSize = PAGE_SIZE;
   readonly fixture = dataSource.fixture;
   readonly scopeId = signal('');
@@ -106,11 +140,15 @@ export class ServiceDetailComponent {
 
   constructor() {
     const destroy = inject(DestroyRef);
-    destroy.onDestroy(() => {
+    const stop = () => {
       ++this.generation;
       this.cancelReads();
       this.closeStream?.();
-    });
+      this.closeStream = undefined;
+      clearInterval(this.currentTimer);
+    };
+    inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
+    destroy.onDestroy(stop);
     inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
       this.closeStream?.();
       this.closeStream = undefined;
@@ -121,6 +159,7 @@ export class ServiceDetailComponent {
       this.incidentPage.set(0);
       void this.load();
     });
+    if (!this.fixture) this.currentTimer = setInterval(() => void this.refreshIncidents(), 30_000);
   }
 
   applyRange(range: HistoryRange): void {
@@ -263,16 +302,21 @@ export class ServiceDetailComponent {
     const generation = this.generation;
     this.incidentLoading.set(true);
     try {
-      const result = await this.api.listIncidents({
-        scopeId: this.scopeId(), service: service.scope.service, page, size: PAGE_SIZE,
-      }, controller.signal);
+      const [result, services] = await Promise.all([
+        this.api.listIncidents({ scopeId: this.scopeId(), service: service.scope.service, page, size: PAGE_SIZE }, controller.signal),
+        this.api.listServices(controller.signal),
+      ]);
       if (generation !== this.generation) return;
       this.checkIncidentPage(result);
+      const current = services.find(item => item.scope.scopeId === this.scopeId());
+      if (!current) throw new Error('This service could not be found. Return to the overview.');
+      this.service.set(current);
       this.incidents.set(mergeIncidentPage(this.incidents(), result.items));
       this.incidentPage.set(page);
       this.incidentTotal.set(result.total);
       this.streamError.set('');
     } catch (error) {
+      controller.abort();
       if (generation === this.generation) {
         this.streamError.set(error instanceof Error ? error.message
           : 'Live incident refresh failed. Retry to catch up.');

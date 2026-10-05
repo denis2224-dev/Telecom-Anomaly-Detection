@@ -8,7 +8,7 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
   template: `
     <section class="detail-panel chart-panel" aria-labelledby="chart-title">
       <div class="section-heading"><div><p class="eyebrow">Voice performance</p><h2 id="chart-title">Call setup success rate</h2></div><span class="badge">CSSR · %</span></div>
-      <p class="muted">CSSR is the percentage of call attempts that connected. Times are UTC; each point represents one server window.</p>
+      <p class="muted">VoLTE CSSR is the percentage of eligible technical setup attempts that succeeded; modeled user outcomes are excluded. Times are UTC; each point represents one server window.</p>
       <div class="chart-legend"><span class="actual-key">Actual CSSR (%)</span><span class="expected-key">Expected baseline (%)</span><span class="incident-key">Incident interval</span></div>
       <p>{{ hasAttemptCounts() ? attempts().toLocaleString('en') + ' recorded attempts' : 'Attempt counts unavailable' }} · {{ unavailable() }} windows with unavailable success rate. Exact per-window counts are below.</p>
       @if (rows().length) {

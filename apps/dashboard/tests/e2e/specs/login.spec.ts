@@ -19,6 +19,9 @@ test.describe("Frontend login behavior (mocked API)", () => {
         return route.fulfill({ json: csrf });
       }
       if (route.request().url().includes("/api/services")) serviceRequests++;
+      if (new URL(route.request().url()).pathname === '/api/auth/csrf') {
+        await route.fulfill({ json: { token: 'controlled-test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' } }); return;
+      }
       await route.fulfill({ status: 401, json: { code: "UNAUTHENTICATED" } });
     });
     await page.goto("/services/VOLTE-MD-CENTRAL");
@@ -42,6 +45,9 @@ test.describe("Frontend login behavior (mocked API)", () => {
 
   test("direct login survives refresh and never collects credentials", async ({ page }) => {
     await page.route("**/api/auth/me", route => route.fulfill({ status: 401, json: {} }));
+    await page.route("**/api/auth/csrf", route => route.fulfill({ json: {
+      token: "controlled-test-only", headerName: "X-CSRF-TOKEN", parameterName: "_csrf",
+    } }));
     await page.goto("/login");
     await expect(page.getByRole("button", { name: "Continue to sign in", exact: true })).toBeVisible();
     await page.reload();

@@ -5,6 +5,7 @@ import { voiceWindows, voiceIncidents } from '../../../src/fixtures/voice';
 test.describe('Day 5 voice investigation', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Uses controlled API responses; real login runs separately');
   test.beforeEach(async ({ page }) => {
+    await page.route('**/api/incidents/stream', route => route.fulfill({ contentType: 'text/event-stream', body: ': controlled UI fixture\n\n' }));
     await page.route('**/api/auth/me', route => route.fulfill({ json: { analystId: 'voice-test', displayName: 'Voice tester', roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600000).toISOString() } }));
     await page.route('**/api/auth/csrf', route => route.fulfill({ json: { token: 'test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' } }));
     await page.route('**/api/services', route => route.fulfill({ json: services.map((item, i) => i === 0 ? { ...item, latestWindow: voiceWindows[9] } : item) }));
@@ -24,20 +25,20 @@ test.describe('Day 5 voice investigation', () => {
   test('overview opens paginated history with gaps and one recovered/open episode', async ({ page }, info) => {
     await page.goto('/dashboard');
     await page.locator('a[href="/services/VOLTE-MD-CENTRAL"]').first().click();
-    await expect(page.getByRole('heading', { name: 'Voice call setup', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'VoLTE setup assurance', exact: true })).toBeVisible();
     await expect(page.getByText('8,000 recorded attempts', { exact: false })).toBeVisible();
     await expect(page.locator('.episode-card')).toHaveCount(1);
     await expect(page.locator('.episode-card')).toContainText('RECOVERED');
     await expect(page.locator('.episode-card')).toContainText('OPEN');
-    expect((await page.locator('.actual-line').getAttribute('d'))?.match(/M/g)).toHaveLength(3);
+    expect((await page.locator('app-kpi-chart .actual-line').getAttribute('d'))?.match(/M/g)).toHaveLength(3);
     await expect(page.locator('.incident-band')).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath('voice-laptop.png'), fullPage: true });
     await page.getByText('Show exact values and attempt counts', { exact: false }).click();
-    await expect(page.locator('tbody tr')).toHaveCount(10);
-    await expect(page.locator('tbody tr').nth(8)).toContainText('Unavailable');
+    await expect(page.locator('app-kpi-chart tbody tr')).toHaveCount(10);
+    await expect(page.locator('app-kpi-chart tbody tr').nth(8)).toContainText('Unavailable');
     await page.getByText('View incident evidence', { exact: true }).click();
-    await expect(page.getByText(/Probable IMS capacity pressure/)).toBeVisible();
+    await expect(page.locator('.episode-card').getByText(/Probable IMS capacity pressure/)).toBeVisible();
     await page.getByRole('link', { name: 'Open incident detail' }).click();
     await expect(page.getByRole('heading', { name: 'Incident investigation' })).toBeVisible();
     await expect(page.locator('[data-detection-id]')).toHaveCount(1);
@@ -61,7 +62,7 @@ test.describe('Day 5 voice investigation', () => {
     await page.route('**/api/services/*/kpis?**', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
     await page.goto('/services/VOLTE-MD-CENTRAL');
     await expect(page.getByRole('alert')).toContainText('could not be reached');
-    await expect(page.locator('.actual-line')).toHaveCount(0);
+    await expect(page.locator('app-kpi-chart .actual-line')).toHaveCount(0);
   });
   test('empty history and mobile layout remain readable', async ({ page }, info) => {
     await page.setViewportSize({ width: 390, height: 844 });

@@ -4,7 +4,7 @@
     "freshness": "FRESH", "observedAt": "2026-09-15T08:01:10Z", "openIncidents": 0,
     "latestWindow": {
       "schemaVersion": 2, "featureVersion": 2, "windowId": "VOLTE-normal-0800", "scopeId": "VOLTE-MD-CENTRAL", "service": "VOLTE", "windowStart": "2026-09-15T08:00:00Z", "windowEnd": "2026-09-15T08:01:00Z", "quality": "COMPLETE", "baselineVersion": "design-fixture-v2", "topologyVersion": "2-baseline",
-      "kpis": [{ "name": "Call setup success rate (CSSR)", "observed": 99.6, "baseline": 99.5, "unit": "PERCENT", "numerator": 996, "denominator": 1000 }],
+      "kpis": [{ "name": "cssrPct", "observed": 99.6, "baseline": 99.5, "unit": "PERCENT", "numerator": 996, "denominator": 1000 }],
       "featureNames": [], "featureValues": [], "mlEligible": false, "sourceEventIds": []
     }
   },
@@ -55,7 +55,7 @@
     "freshness": "STALE", "observedAt": "2026-09-14T06:20:00Z", "openIncidents": 2,
     "latestWindow": {
       "schemaVersion": 2, "featureVersion": 2, "windowId": "VOLTE-stale-0620", "scopeId": "VOLTE-MD-NORTH", "service": "VOLTE", "windowStart": "2026-09-14T06:19:00Z", "windowEnd": "2026-09-14T06:20:00Z", "quality": "COMPLETE", "baselineVersion": "design-fixture-v2", "topologyVersion": "2-baseline",
-      "kpis": [{ "name": "Call setup success rate (CSSR)", "observed": 99.7, "baseline": 99.5, "unit": "PERCENT", "numerator": 997, "denominator": 1000 }],
+      "kpis": [{ "name": "cssrPct", "observed": 99.7, "baseline": 99.5, "unit": "PERCENT", "numerator": 997, "denominator": 1000 }],
       "featureNames": [], "featureValues": [], "mlEligible": false, "sourceEventIds": []
     }
   },

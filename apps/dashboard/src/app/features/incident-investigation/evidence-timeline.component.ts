@@ -21,6 +21,7 @@ type Detection = components['schemas']['ServiceDetection'];
       <article
         class="detail-panel evidence-entry"
         [attr.data-detection-id]="detection.detectionId"
+        [attr.data-phase]="detection.phase"
       >
         <span class="timeline-dot"><app-icon name="activity" /></span>
         <header class="evidence-entry-header">
@@ -83,6 +84,7 @@ type Detection = components['schemas']['ServiceDetection'];
           @else { Affected delivered messages: {{ detection.impact.affectedDeliveredMessages }} · Pending messages: {{ detection.impact.pendingMessages }} }
           · Unique customers: {{ detection.impact.uniqueSubscribers ?? 'Unavailable' }}
         </p>
+        <p class="helper">Unique subscribers: not available in aggregate demo</p>
         <p class="helper">Attempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.</p>
         <p class="evidence-meta">Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
 
