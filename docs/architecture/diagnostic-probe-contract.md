@@ -1,4 +1,4 @@
-# Day 1 Diagnostic Probe Foundation
+# Diagnostic Probe Foundation
 
 This is an infrastructure boundary, not a telecom health classifier. Probe
 results are evidence about the specific controlled reachability check and must
@@ -40,7 +40,7 @@ adapter or dashboard endpoint.
 - Results must be bounded in size and must not contain credentials, cookies,
   authorization headers or unrestricted response bodies.
 
-## Day 1 test matrix
+## Verification matrix
 
 | Case | Expected outcome | Evidence class |
 | --- | --- | --- |
@@ -50,6 +50,6 @@ adapter or dashboard endpoint.
 | Age beyond freshness limit | `STALE`; not treated as current health | Controlled fixture |
 | Worker stopped | `WORKER_UNAVAILABLE`; distinguishable from target failure | Controlled fixture |
 
-The adapter and executable probes are intentionally deferred. Day 1 establishes
+The adapter and executable probes are intentionally deferred. This baseline establishes
 the contract and safety constraints so later implementation cannot become an
 SSRF-like arbitrary request mechanism.

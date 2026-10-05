@@ -1,4 +1,4 @@
-# Day 1 DevOps Test Matrix
+# DevOps Verification Matrix
 
 This matrix separates repository/controlled evidence from live runtime
 acceptance. A row is `PASS` only when the check was executed and its expected
@@ -6,7 +6,7 @@ result was observed.
 
 | Area | Check | Expected evidence | Status | Current evidence |
 | --- | --- | --- | --- | --- |
-| Git | Branch and revision recorded | Exact branch and SHA | PASS | [Day 1 baseline](day1-devops-baseline.md) |
+| Git | Branch and revision recorded | Exact branch and SHA | PASS | [Integration baseline](integration-baseline.md) |
 | Git | Dirty-file inventory | Existing untracked files preserved | PASS | `scripts/failure-drill.py` recorded |
 | Startup | Existing startup path | Services start through `scripts/up` | BLOCKED | Docker daemon unavailable |
 | Runtime | PostgreSQL/Kafka/Keycloak readiness | Health and readiness pass | BLOCKED | Docker daemon unavailable |

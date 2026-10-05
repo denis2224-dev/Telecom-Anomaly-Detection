@@ -1,4 +1,4 @@
-# Day 1 DevOps Baseline Runbook
+# DevOps Integration Baseline Runbook
 
 Run these steps from the repository root. They preserve the development
 database and keep the disposable restore target separate from it.
@@ -52,8 +52,8 @@ Back up the complete local cluster, including roles and all databases, before
 any provisioning change:
 
 ```bash
-mkdir -p tmp/day1-backups
-backup="tmp/day1-backups/postgres-$(date -u +%Y%m%dT%H%M%SZ)-$(git rev-parse --short HEAD).sql"
+mkdir -p tmp/integration-backups
+backup="tmp/integration-backups/postgres-$(date -u +%Y%m%dT%H%M%SZ)-$(git rev-parse --short HEAD).sql"
 (umask 077; set -o noclobber; docker compose exec -T postgres \
   bash -c 'pg_dumpall -U "$POSTGRES_USER"' > "$backup")
 wc -c "$backup"
@@ -71,16 +71,16 @@ Start a temporary container using an isolated named volume and a loopback-only
 port:
 
 ```bash
-docker volume create telecom-day1-restore
-docker run --detach --rm --name telecom-day1-restore \
+docker volume create telecom-integration-restore
+docker run --detach --rm --name telecom-integration-restore \
   -e POSTGRES_PASSWORD=temporary-local-only \
   -p 127.0.0.1:55432:5432 \
-  -v telecom-day1-restore:/var/lib/postgresql/data \
+  -v telecom-integration-restore:/var/lib/postgresql/data \
   postgres:16.4-alpine
-until docker exec telecom-day1-restore pg_isready -U postgres; do sleep 2; done
-cat "$backup" | docker exec -i telecom-day1-restore \
+until docker exec telecom-integration-restore pg_isready -U postgres; do sleep 2; done
+cat "$backup" | docker exec -i telecom-integration-restore \
   bash -c 'psql -U postgres -d postgres'
-docker exec telecom-day1-restore psql -U postgres -d postgres \
+docker exec telecom-integration-restore psql -U postgres -d postgres \
   -c '\l' -c '\dn'
 ```
 
@@ -88,8 +88,8 @@ Record the restore result and validation output without recording credentials.
 When finished, stop and remove only the named disposable container and volume:
 
 ```bash
-docker rm --force telecom-day1-restore
-docker volume rm telecom-day1-restore
+docker rm --force telecom-integration-restore
+docker volume rm telecom-integration-restore
 ```
 
 If any step fails, mark the restore gate `BLOCKED` and preserve the source
@@ -103,7 +103,7 @@ use `docker compose down -v` as a normal troubleshooting step.
 ## Feature boundary
 
 No geographic service-assurance toggle currently exists in the inspected
-configuration. The proposed Day 1 boundary is an environment-backed
+configuration. The proposed boundary is an environment-backed
 `GEOGRAPHIC_SERVICE_ASSURANCE_ENABLED` flag with a default of `false`, owned by
 the service that will later consume geographic evidence. It is intentionally
 not wired in this baseline change. Until the integration gate is approved, the

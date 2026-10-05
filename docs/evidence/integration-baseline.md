@@ -1,6 +1,6 @@
-# Day 1 DevOps Baseline
+# DevOps Integration Baseline
 
-This record captures the baseline inspection and runtime attempts for the Day 1
+This record captures the baseline inspection and runtime attempts for the
 infrastructure handoff. It distinguishes repository facts from checks that were
 blocked by the local environment.
 
@@ -18,7 +18,7 @@ blocked by the local environment.
 | Related PR 43 | Open, `feature/volte-sms-service-assurance`, head `90a7273`; not merged |
 | Related PR 46 | Merged, `bound-history-resources`; included in the current mainline history |
 
-The Day 1 changes are isolated on `feature/devops-day1-baseline`. No existing
+The changes are isolated on `feature/devops-integration-baseline`. No existing
 tracked changes were reset, staged, or overwritten.
 
 ## Environment inspection
@@ -56,9 +56,9 @@ These are current observations, not fixture or historical results.
 - PR 43 is not automatically merged or modified.
 - PR 46 is treated as already integrated because it is merged into the current
   mainline ancestry.
-- The geographic service-assurance feature remains outside this Day 1 change.
+- The geographic service-assurance feature remains outside this baseline change.
 - The feature-toggle boundary and bounded probe contract are documented separately
-  in the Day 1 runbook; no dashboard or telecom business logic was changed.
+  in the integration runbook; no dashboard or telecom business logic was changed.
 - Database backup and disposable restore are marked `BLOCKED` until Docker is
   available. No development volume or database was reset.
 
