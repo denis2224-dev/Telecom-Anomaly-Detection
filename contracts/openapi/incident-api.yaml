@@ -15,7 +15,145 @@ tags:
 - name: Analysts
 - name: Services
 - name: Simulator
+- name: Geography
+- name: Operations
 paths:
+  /api/geography/cities:
+    get:
+      operationId: listGeographyCities
+      summary: List the configured synthetic city inventory and current service state
+      tags: [Geography]
+      x-implementation-status: proposed
+      description: Ten cities with both services. Legacy scopes remain unallocated. No child topology or full history is embedded.
+      responses:
+        '200':
+          description: Bounded current city summaries from pinned catalogue and durable projections.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [generatedAt, catalogueVersion, topologyVersion, cities]
+                properties:
+                  generatedAt: {type: string, format: date-time}
+                  catalogueVersion: {type: string}
+                  topologyVersion: {type: string}
+                  cities:
+                    type: array
+                    minItems: 10
+                    maxItems: 10
+                    items: {$ref: '#/components/schemas/GeographyCitySummary'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /api/geography/cities/{cityId}:
+    get:
+      operationId: getGeographyCity
+      summary: Read one city's configured footprint and service state
+      tags: [Geography]
+      x-implementation-status: proposed
+      parameters:
+      - {$ref: '#/components/parameters/GeographyCityId'}
+      responses:
+        '200':
+          description: City detail; unmeasured child nodes have no copied KPI.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/GeographyCityDetail'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/geography/cities/{cityId}/topology:
+    get:
+      operationId: getGeographyTopology
+      summary: Page through contained nodes and separate dependency references
+      tags: [Geography]
+      x-implementation-status: proposed
+      parameters:
+      - {$ref: '#/components/parameters/GeographyCityId'}
+      - name: parentId
+        in: query
+        schema: {type: string, maxLength: 96}
+        description: Omit for city roots; an explicit parent must belong to this city and catalogue version.
+      - name: catalogueVersion
+        in: query
+        schema: {type: string, maxLength: 80}
+        description: Omit for active topology; supply a captured archived version when investigating history.
+      - {$ref: '#/components/parameters/Page'}
+      - name: size
+        in: query
+        schema: {type: integer, minimum: 1, maximum: 100, default: 50}
+      responses:
+        '200':
+          description: Versioned topology page.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/GeographyTopologyPage'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/geography/cities/{cityId}/kpis:
+    get:
+      operationId: getGeographyCityKpis
+      summary: Page through finalized KPI windows for one city and service
+      tags: [Geography]
+      x-implementation-status: proposed
+      description: UTC half-open [from,to), at most 24 hours per request and 100 points per page; gaps are not filled.
+      parameters:
+      - {$ref: '#/components/parameters/GeographyCityId'}
+      - name: service
+        in: query
+        required: true
+        schema: {type: string, enum: [VOLTE, SMS]}
+      - name: from
+        in: query
+        required: true
+        schema: {type: string, format: date-time, pattern: 'Z$'}
+      - name: to
+        in: query
+        required: true
+        schema: {type: string, format: date-time, pattern: 'Z$'}
+      - {$ref: '#/components/parameters/Page'}
+      - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200':
+          description: Canonically ordered persisted KPI windows and matching coverage facts.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/GeographyKpiPage'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/operations/priority:
+    get:
+      operationId: listOperationalPriority
+      summary: Page through a stable view of persisted technical incidents
+      tags: [Operations]
+      x-implementation-status: proposed
+      description: Fresh ongoing incidents lead. Uncertain and recovered items retain distinct states. Do not compare VoLTE percentage points with SMS milliseconds.
+      parameters:
+      - name: cityId
+        in: query
+        schema: {type: string, pattern: '^[A-Z]{3}$'}
+      - name: service
+        in: query
+        schema: {type: string, enum: [VOLTE, SMS]}
+      - name: technicalState
+        in: query
+        schema: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
+      - {$ref: '#/components/parameters/Page'}
+      - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200':
+          description: Stable priority page with separate technical and analyst states.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/GeographyPriorityPage'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
   /oauth2/authorization/keycloak:
     get:
       operationId: startKeycloakLogin
@@ -667,6 +805,11 @@ components:
       description: Token returned by GET /api/auth/csrf. Required alongside the session cookie for JSON mutations;
         never a replacement for authentication. POST /logout uses the _csrf form parameter instead.
   parameters:
+    GeographyCityId:
+      name: cityId
+      in: path
+      required: true
+      schema: {type: string, pattern: '^[A-Z]{3}$'}
     IncidentId:
       name: id
       in: path
@@ -754,6 +897,135 @@ components:
           schema:
             $ref: '#/components/schemas/ApiError'
   schemas:
+    GeographyMetric:
+      type: object
+      description: A finalized measurement; null is never silently converted to zero.
+      required: [name, unit, observed, baseline, deltaPp, delayRatio, nullReason]
+      properties:
+        name: {type: string, enum: [TECHNICAL_CSSR, SMS_DELIVERY_P95]}
+        unit: {type: string, enum: [PERCENT, MILLISECONDS]}
+        observed: {type: number, nullable: true}
+        baseline: {type: number, nullable: true}
+        deltaPp: {type: number, nullable: true, description: VoLTE observed minus baseline in percentage points.}
+        delayRatio: {type: number, nullable: true, description: SMS observed divided by positive matching baseline.}
+        numerator: {type: integer, format: int64, minimum: 0, nullable: true}
+        denominator: {type: integer, format: int64, minimum: 0, nullable: true}
+        sampleCount: {type: integer, format: int64, minimum: 0, nullable: true}
+        nullReason:
+          type: string
+          nullable: true
+          enum: [UNKNOWN, NEVER_SEEN, MISSING, STALE, BASELINE_MISSING, INSUFFICIENT_DATA, NOT_AGGREGATABLE, UNSUPPORTED]
+    GeographyCoverage:
+      type: object
+      required: [state, expectedSources, receivedSources, usableSources]
+      properties:
+        state: {type: string, enum: [UNKNOWN, COMPLETE, PARTIAL, MISSING, STALE]}
+        expectedSources: {type: integer, minimum: 0, nullable: true}
+        receivedSources: {type: integer, minimum: 0, nullable: true}
+        usableSources: {type: integer, minimum: 0, nullable: true}
+    GeographyServiceState:
+      type: object
+      required: [service, scopeId, latestWindowEnd, freshness, technicalActiveCount, analystOpenCount, coverage, metric]
+      properties:
+        service: {type: string, enum: [VOLTE, SMS]}
+        scopeId: {type: string, maxLength: 96}
+        latestWindowEnd: {type: string, format: date-time, nullable: true}
+        freshness: {type: string, enum: [FRESH, STALE, MISSING, NEVER_SEEN]}
+        technicalActiveCount: {type: integer, minimum: 0}
+        analystOpenCount: {type: integer, minimum: 0}
+        coverage: {$ref: '#/components/schemas/GeographyCoverage'}
+        metric: {$ref: '#/components/schemas/GeographyMetric'}
+    GeographyCitySummary:
+      type: object
+      required: [cityId, displayName, synthetic, catalogueVersion, topologyVersion, services]
+      properties:
+        cityId: {type: string, pattern: '^[A-Z]{3}$'}
+        displayName: {type: string}
+        synthetic: {type: boolean, enum: [true]}
+        catalogueVersion: {type: string}
+        topologyVersion: {type: string}
+        services:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items: {$ref: '#/components/schemas/GeographyServiceState'}
+    GeographyCityDetail:
+      allOf:
+      - {$ref: '#/components/schemas/GeographyCitySummary'}
+      - type: object
+        required: [generatedAt, footprintNodeIds]
+        properties:
+          generatedAt: {type: string, format: date-time}
+          footprintNodeIds:
+            type: array
+            items: {type: string}
+    GeographyTopologyPage:
+      type: object
+      required: [cityId, catalogueVersion, page, size, hasNext, nodes]
+      properties:
+        cityId: {type: string}
+        catalogueVersion: {type: string}
+        page: {type: integer, minimum: 0}
+        size: {type: integer, minimum: 1, maximum: 100}
+        hasNext: {type: boolean}
+        nodes:
+          type: array
+          items:
+            type: object
+            required: [nodeId, parentId, kind, measured, dependencyNodeIds]
+            properties:
+              nodeId: {type: string}
+              parentId: {type: string, nullable: true}
+              kind: {type: string, enum: [COUNTRY, CITY, AGGREGATION, SITE, CELL, IMS, SMSC, TRANSPORT]}
+              measured: {type: boolean, description: True only when this node has its own authoritative measurement.}
+              dependencyNodeIds:
+                type: array
+                items: {type: string}
+    GeographyKpiPage:
+      type: object
+      required: [cityId, service, page, size, hasNext, points]
+      properties:
+        cityId: {type: string}
+        service: {type: string, enum: [VOLTE, SMS]}
+        page: {type: integer, minimum: 0}
+        size: {type: integer, minimum: 1, maximum: 100}
+        hasNext: {type: boolean}
+        points:
+          type: array
+          items:
+            type: object
+            required: [windowId, scopeId, catalogueVersion, topologyVersion, windowStart, windowEnd, coverage, metric]
+            properties:
+              windowId: {type: string, pattern: '^[0-9a-f]{64}$'}
+              scopeId: {type: string}
+              catalogueVersion: {type: string}
+              topologyVersion: {type: string}
+              windowStart: {type: string, format: date-time}
+              windowEnd: {type: string, format: date-time}
+              coverage: {$ref: '#/components/schemas/GeographyCoverage'}
+              metric: {$ref: '#/components/schemas/GeographyMetric'}
+    GeographyPriorityPage:
+      type: object
+      required: [generatedAt, page, size, hasNext, items]
+      properties:
+        generatedAt: {type: string, format: date-time}
+        page: {type: integer, minimum: 0}
+        size: {type: integer, minimum: 1, maximum: 100}
+        hasNext: {type: boolean}
+        items:
+          type: array
+          items:
+            type: object
+            required: [incidentId, cityId, service, technicalState, analystStatus, severity, firstObservedAt, detectedAt]
+            properties:
+              incidentId: {type: string, format: uuid}
+              cityId: {type: string}
+              service: {type: string, enum: [VOLTE, SMS]}
+              technicalState: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
+              analystStatus: {type: string, enum: [OPEN, INVESTIGATING, RESOLVED]}
+              severity: {type: string, enum: [MEDIUM, HIGH, CRITICAL]}
+              firstObservedAt: {type: string, format: date-time}
+              detectedAt: {type: string, format: date-time}
     Sha256Id:
       type: string
       pattern: ^[a-f0-9]{64}$

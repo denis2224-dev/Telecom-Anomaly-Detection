@@ -1,0 +1,57 @@
+{
+  "cityId": "CHI",
+  "displayName": "Chișinău",
+  "synthetic": true,
+  "catalogueVersion": "1-geography-g1",
+  "topologyVersion": "2-geography-g1",
+  "generatedAt": "2026-10-05T12:00:00Z",
+  "footprintNodeIds": ["CELL-MD-CHI-01"],
+  "services": [
+    {
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CHI",
+      "latestWindowEnd": null,
+      "freshness": "NEVER_SEEN",
+      "technicalActiveCount": 0,
+      "analystOpenCount": 0,
+      "coverage": {
+        "state": "UNKNOWN",
+        "expectedSources": null,
+        "receivedSources": null,
+        "usableSources": null
+      },
+      "metric": {
+        "name": "TECHNICAL_CSSR",
+        "unit": "PERCENT",
+        "observed": null,
+        "baseline": null,
+        "deltaPp": null,
+        "delayRatio": null,
+        "nullReason": "NEVER_SEEN"
+      }
+    },
+    {
+      "service": "SMS",
+      "scopeId": "SMS-MD-CHI",
+      "latestWindowEnd": null,
+      "freshness": "NEVER_SEEN",
+      "technicalActiveCount": 0,
+      "analystOpenCount": 0,
+      "coverage": {
+        "state": "UNKNOWN",
+        "expectedSources": null,
+        "receivedSources": null,
+        "usableSources": null
+      },
+      "metric": {
+        "name": "SMS_DELIVERY_P95",
+        "unit": "MILLISECONDS",
+        "observed": null,
+        "baseline": null,
+        "deltaPp": null,
+        "delayRatio": null,
+        "nullReason": "NEVER_SEEN"
+      }
+    }
+  ]
+}
