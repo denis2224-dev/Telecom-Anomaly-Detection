@@ -1,5 +1,8 @@
 """Shared Day 1 authority fixtures and contract negatives; no live acceptance claims."""
 import copy
+from datetime import datetime, timedelta
+import hashlib
+import json
 from pathlib import Path
 import sys
 import unittest
@@ -80,6 +83,33 @@ class GeographyContractTests(unittest.TestCase):
         validate_coverage(value, self.catalogue, self.authority)
         modified = copy.deepcopy(value)
         modified['windowId'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, '^Coverage window identity mismatch$'):
+            validate_coverage(modified, self.catalogue, self.authority)
+
+    def test_coverage_rejects_window_identity_from_another_scope(self):
+        value = coverage_snapshot(self.catalogue, self.authority, 'VOLTE-MD-CHI', self.events[0]['windowStart'], [])
+        different_scope_id = 'VOLTE-MD-BAL'
+        self.assertIn(different_scope_id, authority_scopes(self.authority))
+        self.assertNotEqual(value['scopeId'], different_scope_id)
+        self.assert_window_identity_mismatch(value, window_id(different_scope_id, value['windowStart']))
+
+    def test_coverage_rejects_window_identity_from_another_minute(self):
+        value = coverage_snapshot(self.catalogue, self.authority, 'VOLTE-MD-CHI', self.events[0]['windowStart'], [])
+        different_minute = (datetime.fromisoformat(value['windowStart']) + timedelta(minutes=1)).isoformat().replace('+00:00', 'Z')
+        self.assert_window_identity_mismatch(value, window_id(value['scopeId'], different_minute))
+
+    def test_coverage_rejects_window_identity_from_another_feature_version(self):
+        value = coverage_snapshot(self.catalogue, self.authority, 'VOLTE-MD-CHI', self.events[0]['windowStart'], [])
+        identity = [value['scopeId'], value['windowStart'], 1]
+        different_version_id = hashlib.sha256(json.dumps(identity, separators=(',', ':')).encode('utf-8')).hexdigest()
+        self.assert_window_identity_mismatch(value, different_version_id)
+
+    def assert_window_identity_mismatch(self, value, window_id):
+        validate_coverage(value, self.catalogue, self.authority)
+        self.assertRegex(window_id, '^[0-9a-f]{64}$')
+        self.assertNotEqual(value['windowId'], window_id)
+        modified = copy.deepcopy(value)
+        modified['windowId'] = window_id
         with self.assertRaisesRegex(ValueError, '^Coverage window identity mismatch$'):
             validate_coverage(modified, self.catalogue, self.authority)
 

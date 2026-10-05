@@ -2,8 +2,11 @@ package md.utm.telecom.observation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HexFormat;
 import java.util.List;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -37,6 +40,47 @@ class CoverageContractTest {
                 .get(0).get("coverage");
         assertDoesNotThrow(() -> CoverageContract.validate(coverage, geo));
         var invalid = coverage.deepCopy().put("windowId", "0".repeat(64));
+        var error = assertThrows(IllegalArgumentException.class, () -> CoverageContract.validate(invalid, geo));
+        assertEquals("Coverage window identity mismatch", error.getMessage());
+    }
+    @Test
+    void rejectsWindowIdentityFromAnotherScope() throws Exception {
+        var geo = GeographyCatalog.load();
+        var coverage = validCoverage(geo);
+        String differentScopeId = "VOLTE-MD-BAL";
+        geo.authority().requireScope(differentScopeId);
+        assertNotEquals(coverage.path("scopeId").asText(), differentScopeId);
+        assertWindowIdentityMismatch(coverage, CoverageContract.windowId(differentScopeId,
+                Instant.parse(coverage.path("windowStart").asText())), geo);
+    }
+    @Test
+    void rejectsWindowIdentityFromAnotherMinute() throws Exception {
+        var geo = GeographyCatalog.load();
+        var coverage = validCoverage(geo);
+        var differentMinute = Instant.parse(coverage.path("windowStart").asText()).plusSeconds(60);
+        assertWindowIdentityMismatch(coverage, CoverageContract.windowId(
+                coverage.path("scopeId").asText(), differentMinute), geo);
+    }
+    @Test
+    void rejectsWindowIdentityFromAnotherFeatureVersion() throws Exception {
+        var geo = GeographyCatalog.load();
+        var coverage = validCoverage(geo);
+        var identity = mapper.createArrayNode().add(coverage.path("scopeId").asText())
+                .add(Instant.parse(coverage.path("windowStart").asText()).toString()).add(1);
+        var differentVersionId = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
+                .digest(identity.toString().getBytes(StandardCharsets.UTF_8)));
+        assertWindowIdentityMismatch(coverage, differentVersionId, geo);
+    }
+    private ObjectNode validCoverage(GeographyCatalog geo) throws Exception {
+        var coverage = (ObjectNode) ObservationValidator.resource("fixtures/coverage/coverage-cases-v1.json", mapper)
+                .get(0).get("coverage");
+        assertDoesNotThrow(() -> CoverageContract.validate(coverage, geo));
+        return coverage;
+    }
+    private void assertWindowIdentityMismatch(ObjectNode coverage, String windowId, GeographyCatalog geo) {
+        assertTrue(windowId.matches("[0-9a-f]{64}"));
+        assertNotEquals(coverage.path("windowId").asText(), windowId);
+        var invalid = coverage.deepCopy().put("windowId", windowId);
         var error = assertThrows(IllegalArgumentException.class, () -> CoverageContract.validate(invalid, geo));
         assertEquals("Coverage window identity mismatch", error.getMessage());
     }
