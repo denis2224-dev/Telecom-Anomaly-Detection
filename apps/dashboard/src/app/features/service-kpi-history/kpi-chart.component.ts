@@ -9,7 +9,7 @@ import { MetricExplanationComponent } from '../../shared/metric-explanation.comp
   template: `
     <section class="detail-panel chart-panel" aria-labelledby="chart-title">
       <div class="section-heading"><div><p class="eyebrow">Voice performance</p><h2 id="chart-title">Call setup success rate</h2></div><span class="badge">CSSR · %</span></div>
-      <p class="muted">CSSR is the percentage of call attempts that connected. Times are UTC; each point represents one server window.</p>
+      <p class="muted">VoLTE CSSR is the percentage of eligible technical setup attempts that succeeded; modeled user outcomes are excluded. Times are UTC; each point represents one server window.</p>
       <app-metric-explanation topic="percentage-points" />
       @if (missingBaseline()) {
         <p class="helper">Some windows have no expected success-rate value. Actual measurements and gaps are preserved.</p>

@@ -19,6 +19,8 @@ const history = (['OPEN', 'UNKNOWN', 'RECOVERY'] as const).map((phase, index): D
 }));
 
 async function mockSessionAndIncident(page: Page) {
+  await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
+  await page.route('**/api/incidents/stream', route => route.fulfill({ contentType: 'text/event-stream', body: ': controlled UI fixture\n\n' }));
   await page.route('**/api/auth/me', route => route.fulfill({ json: {
     analystId: 'day8-test', displayName: 'Day 8 tester', roles: ['ANALYST'],
     expiresAt: new Date(Date.now() + 600000).toISOString(),

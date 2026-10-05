@@ -21,7 +21,7 @@ async function setup(page: Page, scenario: Case) {
     .find(item => item.scope.service === scenario.service && item.latestWindow !== null)!);
   summary.freshness = scenario.stale ? 'STALE' : scenario.missing ? 'MISSING' : 'FRESH';
   const window = summary.latestWindow!;
-  const primaryName = scenario.service === 'VOLTE' ? 'Call setup success rate (CSSR)' : 'p95DeliveryMs';
+  const primaryName = scenario.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs';
   if (scenario.noBaseline) window.kpis.find(kpi => kpi.name === primaryName)!.baseline = null;
   if (scenario.samples !== undefined) {
     window.kpis.find(kpi => kpi.name === 'deliveredMessages')!.observed = scenario.samples;

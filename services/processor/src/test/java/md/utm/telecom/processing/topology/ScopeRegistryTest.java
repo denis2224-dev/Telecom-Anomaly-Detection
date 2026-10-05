@@ -3,6 +3,7 @@ package md.utm.telecom.processing.topology;
 import java.util.List;
 import java.util.Set;
 import md.utm.telecom.observation.TopologyCatalog;
+import md.utm.telecom.observation.GeographyCatalog;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,6 +14,23 @@ class ScopeRegistryTest {
     private final ScopeRegistry registry = new ScopeRegistry(TopologyCatalog.load());
 
     ScopeRegistryTest() throws Exception {}
+
+    @Test
+    void injectedGeographicAuthorityResolvesAllScopesWithoutDefaultFallback() throws Exception {
+        var geography = GeographyCatalog.load();
+        var candidate = new ScopeRegistry(geography.authority());
+        assertEquals(22, candidate.scopes().size());
+        for (var binding : geography.bindings().values()) {
+            var scope = candidate.requireScope(binding.scopeId());
+            assertTrue(candidate.isAuthoritativeServiceSource(scope.scopeId(), scope.service(), scope.serviceSourceId()));
+            for (var node : binding.roles().values()) {
+                assertEquals(node, candidate.requireNode(scope.scopeId(), node.nodeId()));
+                assertTrue(candidate.isAuthoritativeNodeSource(scope.scopeId(), node.nodeId(), node.sourceId()));
+            }
+        }
+        assertFalse(candidate.isAuthoritativeNodeSource("VOLTE-MD-CHI", "IMS-MD-BAL-01", "IMS-MD-BAL-01"));
+        assertThrows(IllegalArgumentException.class, () -> registry.requireScope("VOLTE-MD-CHI"));
+    }
 
     @Test
     void loadsVersionAndExactlyTheTwoExpectedScopes() {

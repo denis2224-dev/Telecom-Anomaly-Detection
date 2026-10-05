@@ -10,7 +10,7 @@ type Detection = components['schemas']['ServiceDetection'];
   imports: [MetricExplanationComponent],
   template: `
     <section aria-label="Cause hypothesis">
-      <h4>Cause hypothesis</h4>
+      <h4>Probable cause</h4>
       <p>{{ detection().probableCause }}</p>
       <p>Cause confidence: {{ detection().causeConfidence }}</p>
       <p>This is a probable explanation, not a confirmed root cause.</p>

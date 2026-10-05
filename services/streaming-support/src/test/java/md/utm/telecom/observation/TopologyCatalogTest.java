@@ -20,6 +20,22 @@ class TopologyCatalogTest {
         return (ObjectNode) ObservationValidator.resource("topology/demo-scopes-v2.json", mapper);
     }
 
+    @Test
+    void candidateAuthorityAddsCitiesWithoutChangingOrWeakeningBaseline() throws Exception {
+        var baseline = TopologyCatalog.load();
+        var candidate = GeographyCatalog.load().authority();
+        assertEquals(2, baseline.scopes().size());
+        assertEquals(22, candidate.scopes().size());
+        baseline.scopes().forEach((id, scope) -> assertEquals(scope, candidate.requireScope(id)));
+        var root = (ObjectNode) ObservationValidator.resource("topology/geographic-scopes-v2.json", mapper);
+        ((ObjectNode) root.at("/scopes/2")).put("cityId", "CHI");
+        assertThrows(IllegalArgumentException.class, () -> TopologyCatalog.fromJson(root));
+        ((ObjectNode) root.at("/scopes/2")).remove("cityId");
+        ((ObjectNode) root.at("/scopes/2")).put("serviceSourceId", "IMS-MD-CHI-01");
+        assertThrows(IllegalArgumentException.class, () -> GeographyCatalog.fromJson(
+                ObservationValidator.resource("geography/demo-geography-v1.json", mapper), TopologyCatalog.fromJson(root)));
+    }
+
     @TestFactory
     List<DynamicTest> rejectsMalformedInventory() {
         var tests = new ArrayList<DynamicTest>();

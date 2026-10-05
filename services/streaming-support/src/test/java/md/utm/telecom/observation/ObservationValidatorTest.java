@@ -21,6 +21,31 @@ class ObservationValidatorTest {
         return (ObjectNode) ObservationValidator.resource("fixtures/observations/" + name + ".json", mapper);
     }
 
+    @Test
+    void geographicSourcesAreExplicitAndChangedContentStillConflicts() throws Exception {
+        var geography = GeographyCatalog.load();
+        var candidate = new ObservationValidator(geography.authority());
+        var events = ObservationValidator.resource("fixtures/geography/complete-city-observations-v1.json", mapper);
+        var batch = new ObservationBatch(candidate);
+        for (var event : events) {
+            assertEquals(ObservationBatch.Result.ACCEPTED, batch.accept(event));
+            String identity = String.join("|", "telecom-observation-v2", event.path("sourceId").asText(),
+                    event.path("scopeId").asText(), event.path("kind").asText(), event.path("windowStart").asText());
+            assertEquals(java.util.UUID.nameUUIDFromBytes(identity.getBytes(java.nio.charset.StandardCharsets.UTF_8)).toString(),
+                    event.path("eventId").asText());
+        }
+        var service = (ObjectNode) events.get(0).deepCopy();
+        var node = (ObjectNode) events.get(1).deepCopy();
+        assertEquals(ObservationBatch.Result.DUPLICATE, batch.accept(service));
+        ((ObjectNode) service.get("metrics")).put("sip503Count", 1);
+        assertThrows(IllegalArgumentException.class, () -> batch.accept(service));
+        service.put("sourceId", "VOLTE-ADAPTER");
+        assertThrows(IllegalArgumentException.class, () -> candidate.validate(service));
+        node.put("sourceId", "IMS-A");
+        assertThrows(IllegalArgumentException.class, () -> candidate.validate(node));
+        assertThrows(IllegalArgumentException.class, () -> validator.validate(events.get(0)));
+    }
+
     @TestFactory
     List<DynamicTest> sharedReferenceCases() throws Exception {
         var tests = new ArrayList<DynamicTest>();

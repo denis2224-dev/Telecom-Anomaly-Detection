@@ -30,7 +30,8 @@ export class TelecomClient {
   async listIncidents(query: IncidentQuery = {}, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const { voiceIncidents } = await dataSource.loadVoice();
-      const items = voiceIncidents.filter(item => (!query.scopeId || item.scopeId === query.scopeId)
+      const { smsIncidents } = await dataSource.loadSms();
+      const items = [...voiceIncidents, ...smsIncidents].filter(item => (!query.scopeId || item.scopeId === query.scopeId)
         && (!query.service || item.service === query.service)
         && (!query.status || item.status === query.status)
         && (!query.technicalState || item.technicalState === query.technicalState));
@@ -48,7 +49,8 @@ export class TelecomClient {
 
   async getIncident(id: string, signal?: AbortSignal) {
     if (dataSource.fixture) {
-      const incident = (await dataSource.loadVoice()).voiceIncidents.find(item => item.id === id);
+      const { smsIncidents } = await dataSource.loadSms();
+      const incident = [...(await dataSource.loadVoice()).voiceIncidents, ...smsIncidents].find(item => item.id === id);
       if (!incident) throw new ApiFailure(404);
       return structuredClone(incident);
     }
@@ -64,7 +66,7 @@ export class TelecomClient {
   async getDetections(id: string, page = 0, size = 20, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const incident = await this.getIncident(id, signal);
-      const items = [incident.latestDetection];
+      const items = incident.service === 'SMS' ? (await dataSource.loadSms()).smsDetections : [incident.latestDetection];
       return { items: items.slice(page * size, (page + 1) * size), total: items.length, page, size };
     }
     return this.request<components['schemas']['DetectionPage']>('GET',
@@ -74,10 +76,11 @@ export class TelecomClient {
   async getServiceKpis(scopeId: string, query: KpiQuery, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const { voiceWindows, voiceRange } = await dataSource.loadVoice();
-      const items = voiceWindows.filter(item => item.scopeId === scopeId
+      const { smsWindows, smsRange } = await dataSource.loadSms();
+      const items = [...voiceWindows, ...smsWindows].filter(item => item.scopeId === scopeId
         && Date.parse(item.windowStart) >= Date.parse(query.from) && Date.parse(item.windowStart) < Date.parse(query.to));
       const page = query.page ?? 0, size = query.size ?? 100;
-      return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size, observedAt: voiceRange.to };
+      return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size, observedAt: scopeId === 'SMS-MD-ROUTE-A' ? smsRange.to : voiceRange.to };
     }
     return this.request<components["schemas"]["ServiceKpiPage"]>(
       "GET",

@@ -1023,6 +1023,11 @@ components:
           enum:
           - VOLTE
           - SMS
+        firstObservedAt:
+          type: string
+          format: date-time
+          pattern: Z$
+          description: Episode anchor and first eligible breached window start used to derive episodeId.
         windowStart:
           type: string
           format: date-time
@@ -1193,6 +1198,7 @@ components:
       - anomalyType
       - scopeId
       - service
+      - firstObservedAt
       - windowStart
       - windowEnd
       - detectedAt

@@ -1,10 +1,16 @@
+import { provideHttpClient } from '@angular/common/http';
+import { IncidentStream } from '../../core/state/incident-stream';
 import { TestBed } from "@angular/core/testing";
 import { provideRouter } from "@angular/router";
 import { ServiceOverviewComponent } from "./service-overview.component";
 import { TelecomClient } from "../../core/api/telecom-client";
 import services from "../../../fixtures/services.json";
+import { voiceIncidents } from "../../../fixtures/voice";
+const incident = { ...voiceIncidents[0], service: "SMS", scopeId: "SMS-MD-ROUTE-A", technicalState: "ONGOING" };
 
 describe("Service overview rendering", () => {
+  beforeEach(() => TestBed.configureTestingModule({ providers: [provideHttpClient(),
+    { provide: IncidentStream, useValue: { connect: () => () => {} } }] }));
   it("renders all fixture service states with text labels", async () => {
     TestBed.configureTestingModule({
       providers: [
@@ -13,6 +19,7 @@ describe("Service overview rendering", () => {
           provide: TelecomClient,
           useValue: {
             listServices: async () => services,
+            listIncidents: async () => ({ items: [incident], total: 1 }),
           },
         },
       ],
@@ -36,13 +43,13 @@ describe("Service overview rendering", () => {
     TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
-        { provide: TelecomClient, useValue: { listServices: async () => services } },
+        { provide: TelecomClient, useValue: { listServices: async () => services, listIncidents: async () => ({ items: [incident], total: 1 }) } },
       ],
     });
     const fixture = TestBed.createComponent(ServiceOverviewComponent);
     await fixture.whenStable();
     const link = fixture.nativeElement.querySelector(
-      'a[href="/services/SMS-MD-ROUTE-A"]',
+      'a[href^="/services/SMS-MD-ROUTE-A"]',
     ) as HTMLAnchorElement;
     link.focus();
     expect(document.activeElement).toBe(link);
@@ -59,6 +66,7 @@ describe("Service overview rendering", () => {
           provide: TelecomClient,
           useValue: {
             listServices: async () => [data],
+            listIncidents: async () => ({ items: [], total: 0 }),
           },
         },
       ],

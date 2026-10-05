@@ -1,0 +1,236 @@
+{
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "catalogueVersion",
+    "topologyVersion",
+    "activation",
+    "synthetic",
+    "cities",
+    "nodes",
+    "scopes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "catalogueVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "activation": {
+      "type": "object",
+      "required": [
+        "status",
+        "effectiveFrom"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "CONTRACT_ONLY",
+            "ACTIVE"
+          ]
+        },
+        "effectiveFrom": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:00Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "synthetic": {
+      "const": true
+    },
+    "cities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "cityId",
+          "displayName",
+          "active"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "cityId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64,
+            "enum": [
+              "CHI",
+              "BAL",
+              "EDI",
+              "SOR",
+              "RIB",
+              "UNG",
+              "TIR",
+              "COM",
+              "CAH",
+              "ORH"
+            ]
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "active": {
+            "const": true
+          }
+        }
+      },
+      "minItems": 10,
+      "maxItems": 10
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "nodeId",
+          "parentId",
+          "cityId",
+          "type"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "nodeId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cityId": {
+            "enum": [
+              "CHI",
+              "BAL",
+              "EDI",
+              "SOR",
+              "RIB",
+              "UNG",
+              "TIR",
+              "COM",
+              "CAH",
+              "ORH",
+              null
+            ]
+          },
+          "type": {
+            "enum": [
+              "COUNTRY",
+              "CITY",
+              "AGGREGATION",
+              "SITE",
+              "CELL",
+              "IMS",
+              "SMSC",
+              "TRANSPORT"
+            ]
+          }
+        }
+      }
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "scopeId",
+          "cityId",
+          "legacy",
+          "footprintNodeIds",
+          "roles"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "scopeId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "cityId": {
+            "enum": [
+              "CHI",
+              "BAL",
+              "EDI",
+              "SOR",
+              "RIB",
+              "UNG",
+              "TIR",
+              "COM",
+              "CAH",
+              "ORH",
+              null
+            ]
+          },
+          "legacy": {
+            "type": "boolean"
+          },
+          "footprintNodeIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+              "maxLength": 64
+            },
+            "uniqueItems": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "role",
+                "nodeId"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "role": {
+                  "enum": [
+                    "VOLTE_IMS",
+                    "VOLTE_TRANSPORT",
+                    "SMS_SMSC",
+                    "SMS_TRANSPORT"
+                  ]
+                },
+                "nodeId": {
+                  "type": "string",
+                  "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+                  "maxLength": 64
+                }
+              }
+            }
+          }
+        }
+      },
+      "minItems": 22,
+      "maxItems": 22
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/telecom/geography/geography-catalogue-v1.schema.json",
+  "title": "GeographyCatalogueV1"
+}

@@ -2,6 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { ServiceSummary, TelecomClient } from "../../core/api/telecom-client";
 import { ServiceStore } from "./service.store";
 import services from "../../../fixtures/services.json";
+import { voiceIncidents } from "../../../fixtures/voice";
 
 describe("ServiceStore", () => {
   it("derives normal, degraded, stale, and unknown labels from fixture evidence", () => {
@@ -11,6 +12,7 @@ describe("ServiceStore", () => {
     const store = TestBed.inject(ServiceStore);
 
     const fixtureServices = services as ServiceSummary[];
+    store.incidents.set([{ ...voiceIncidents[0], service: "SMS", scopeId: "SMS-MD-ROUTE-A", technicalState: "ONGOING" }]);
     expect(store.health(fixtureServices[0])).toBe("NORMAL");
     expect(store.health(fixtureServices[1])).toBe("DEGRADED");
     expect(store.health(fixtureServices[2])).toBe("STALE");
@@ -41,7 +43,7 @@ describe("ServiceStore", () => {
     TestBed.configureTestingModule({ providers: [{ provide: TelecomClient, useValue: {} }] });
     const store = TestBed.inject(ServiceStore);
     const voice = structuredClone(services[0]) as ServiceSummary;
-    const rate = voice.latestWindow!.kpis.find(kpi => kpi.name === 'Call setup success rate (CSSR)')!;
+    const rate = voice.latestWindow!.kpis.find(kpi => kpi.name === 'cssrPct')!;
     rate.baseline = null;
     expect(store.health(voice)).toBe('UNKNOWN');
     rate.baseline = 99.3;
@@ -50,5 +52,20 @@ describe("ServiceStore", () => {
     const sms = structuredClone(services[1]) as ServiceSummary;
     sms.latestWindow!.kpis.find(kpi => kpi.name === 'deliveredMessages')!.observed = 0;
     expect(store.health(sms)).toBe('UNKNOWN');
+  });
+
+  it('keeps newer incident versions while replacing the authoritative snapshot membership', async () => {
+    const incident = voiceIncidents[0];
+    const listIncidents = vi.fn().mockResolvedValue({ items: [{ ...incident, version: 3 }], total: 1 });
+    TestBed.configureTestingModule({ providers: [{ provide: TelecomClient,
+      useValue: { listServices: async () => services, listIncidents } }] });
+    const store = TestBed.inject(ServiceStore);
+    store.incidents.set([{ ...incident, version: 4, technicalState: 'ONGOING' }]);
+    await store.load();
+    expect(store.incidents()[0].version).toBe(4);
+    expect(store.health(services[0] as ServiceSummary)).toBe('DEGRADED');
+    listIncidents.mockResolvedValue({ items: [], total: 0 });
+    await store.load();
+    expect(store.incidents()).toEqual([]);
   });
 });

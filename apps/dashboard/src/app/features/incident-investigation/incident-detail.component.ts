@@ -32,7 +32,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
           <div class="badge-row"><span class="sr-only">Technical state: </span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span><span class="sr-only">Workflow state: </span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></div>
           <p>Episode: <code>{{ item.episodeId }}</code></p>
           <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
-          <p>{{ fixture ? 'Synthetic preview: only the sample latest update is available.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
+          <p>{{ fixture ? 'Synthetic preview: sample detection history only.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
           @if (!fixture) { <p class="muted">Synthetic telecom demo · measurements processed by the running backend.</p> }
           <p>Severity: <strong>{{ item.severity }}</strong>. This is the rule's service-impact priority, not a probability.</p>
           @if (item.technicalState === 'RECOVERED') {

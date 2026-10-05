@@ -1,3 +1,4 @@
+@if (streamError()) { <p role="status">{{ streamError() }}</p> }
 <div class="page-heading">
   <div class="heading-copy"><p class="eyebrow">Network operations</p><h1>{{ scopeId() ? 'Service scope' : 'Network overview' }}</h1><p>Monitor service quality, track incidents, and investigate the evidence.</p></div>
   <button class="ghost" (click)="load()" [disabled]="loading()" [attr.aria-busy]="loading()"><app-icon name="refresh" />Refresh overview</button>
@@ -79,7 +80,7 @@
 } @else {
   <div class="stat-grid four">
     <section class="stat-card"><div class="stat-label">Monitored scopes<app-icon name="signal" /></div><strong class="metric-value">{{ services().length }}</strong><p class="helper">VoLTE &amp; SMS coverage</p></section>
-    <section class="stat-card"><div class="stat-label">Within baseline<app-icon name="check" /></div><strong class="metric-value">{{ healthyCount() }} <small>/ {{ services().length }}</small></strong><p class="stat-trend">Latest service observations</p></section>
+    <section class="stat-card"><div class="stat-label">No ongoing episode<app-icon name="check" /></div><strong class="metric-value">{{ healthyCount() }} <small>/ {{ services().length }}</small></strong><p class="stat-trend">Latest service observations</p></section>
     <section class="stat-card"><div class="stat-label">Open incidents<app-icon name="alert" /></div><strong class="metric-value">{{ openCount() }}</strong><p class="helper">Unresolved analyst work</p></section>
     <section class="stat-card"><div class="stat-label">Observed scopes<app-icon name="activity" /></div><strong class="metric-value">{{ observedCount() }} <small>/ {{ services().length }}</small></strong><p class="helper">Coverage is not a health verdict</p></section>
   </div>
@@ -92,14 +93,14 @@
     <div class="service-list">
       <div class="service-table-head" aria-hidden="true"><span>Service / scope</span><span>Service health</span><span>Latest measurement</span><span>Incidents</span></div>
       @for (service of visibleServices(); track service.scope.scopeId) {
-        <article class="service-row">
+        <article class="service-row service-assurance-card" [attr.data-health]="health(service)" [attr.data-service]="service.scope.service">
           <div class="service-name"><span class="service-icon"><app-icon [name]="service.scope.service === 'VOLTE' ? 'signal' : 'message'" /></span><div><span class="eyebrow">{{ service.scope.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</span><h3><a [routerLink]="['/services', service.scope.scopeId]">{{ service.scope.scopeId }}</a></h3><p>{{ service.scope.region }} · {{ service.scope.rat }} · {{ service.scope.route }}</p></div></div>
           <div><span class="sr-only">Current health: </span><span class="badge" [attr.data-state]="health(service)">{{ health(service) }}</span><p class="helper">Data status: {{ service.freshness }}</p>
             @if (health(service) === 'UNKNOWN' || health(service) === 'STALE') {
               <p class="helper">{{ healthExplanation(service) }}</p>
             }
           </div>
-          <div><strong class="scope-metric">{{ mainMetric(service) }}</strong><p class="helper">{{ service.scope.service === 'VOLTE' ? 'Call setup success' : 'Delivery p95' }}</p><p class="scope-time">{{ service.latestWindow ? time(service.latestWindow.windowEnd) : 'No observation available' }}</p></div>
+          <div><strong class="scope-metric">{{ mainMetric(service) }}</strong><p class="helper">{{ difference(service.latestWindow, service.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs') }}</p><p class="helper">{{ store.trend(service) }}</p><p class="helper">{{ service.scope.service === 'VOLTE' ? 'Call setup success' : 'Delivery p95' }}</p><p class="scope-time">{{ service.latestWindow ? time(service.latestWindow.windowEnd) : 'No observation available' }}</p></div>
           <div class="scope-incidents"><strong [class.has-incidents]="service.openIncidents > 0">{{ service.openIncidents }}</strong><span class="helper">open episodes</span></div>
         </article>
       } @empty { <div class="empty-state"><app-icon name="filter" /><p>No service scopes match this filter.</p></div> }

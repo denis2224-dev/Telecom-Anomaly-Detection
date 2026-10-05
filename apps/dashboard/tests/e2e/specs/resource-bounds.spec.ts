@@ -181,8 +181,12 @@ test.describe('Day 15 browser resource bounds', () => {
     await expect(page.locator('[data-detection-id]')).toHaveCount(20);
     await page.getByRole('link', { name: 'Back to service', exact: false }).click();
     await expect(page.locator('.episode-card')).toHaveCount(20);
+    await page.evaluate(() => (window as any).__previousStream = (window as any).__day15.stream);
     await page.locator('a.back-link').click();
     await expect(page).toHaveURL(/\/dashboard$/);
+    expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(true);
+    expect(await page.evaluate(() => (window as any).__day15.active)).toBe(1);
+    await page.goto('/login');
     expect(await page.evaluate(() => (window as any).__day15.active)).toBe(0);
   });
 
@@ -232,15 +236,19 @@ test.describe('Day 15 browser resource bounds', () => {
     const percentile = (p: number) => timings[Math.ceil(timings.length * p) - 1];
     const navigation = [];
     for (let iteration = 0; iteration < 10; iteration++) {
+      await page.evaluate(() => (window as any).__previousStream = (window as any).__day15.stream);
       await page.locator('a.back-link').click();
       await expect(page).toHaveURL(/\/dashboard$/);
-      expect(await page.evaluate(() => (window as any).__day15.active)).toBe(0);
+      expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(true);
+      expect(await page.evaluate(() => (window as any).__day15.active)).toBe(1);
       await paint(page);
       navigation.push({ iteration, ...await sample() });
       // SPA navigation, rather than a full reload that could hide retained screens.
       await page.getByRole('link', { name: SCOPE, exact: true }).click();
       await expect(page.locator('.episode-card')).toHaveCount(20);
     }
+    await page.goto('/login');
+    expect(await page.evaluate(() => (window as any).__day15.active)).toBe(0);
     const report = {
       mode: 'synthetic routed REST; mock SSE', browser: browserName,
       scopeCount, incidentTotal: 1000, evidenceTotal: 1000,
