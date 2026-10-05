@@ -10,6 +10,7 @@ __pycache__/
 *.py[cod]
 .venv/
 services/ml-service/training/data/
+tmp/ml-expanded-history/
 target/
 **/test-results/
 **/playwright-report/

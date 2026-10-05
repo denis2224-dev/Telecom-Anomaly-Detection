@@ -1,0 +1,98 @@
+{
+  "testManifestSha256": "3617fa21da236a0eef121145de74037373b0a48b8be6aca6ad2e39dbaa47c38f",
+  "testDatasetVersion": "synthetic-v2-expanded-t12-c2-n2-f8x60-m5",
+  "syntheticOnly": true,
+  "status": "EXPERIMENTAL_NOT_PROMOTED",
+  "reference": {
+    "modelVersion": "isoforest-v2-synthetic-1",
+    "datasetVersion": "synthetic-v2-1",
+    "thresholdRank": 0.99,
+    "services": {
+      "VOLTE": {
+        "testNormalWindows": 4032,
+        "testFaultWindows": 480,
+        "truePositives": 480,
+        "falsePositives": 39,
+        "falseNegatives": 0,
+        "trueNegatives": 3993,
+        "precision": 0.9248554913294798,
+        "recall": 1.0,
+        "falsePositivesPer1000Normal": 9.672619047619047,
+        "medianInferenceMs": null,
+        "p95InferenceMs": null,
+        "trainingRows": 8064,
+        "calibrationRows": 2016,
+        "modelSha256": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd"
+      },
+      "SMS": {
+        "testNormalWindows": 4032,
+        "testFaultWindows": 480,
+        "truePositives": 88,
+        "falsePositives": 23,
+        "falseNegatives": 392,
+        "trueNegatives": 4009,
+        "precision": 0.7927927927927928,
+        "recall": 0.18333333333333332,
+        "falsePositivesPer1000Normal": 5.704365079365079,
+        "medianInferenceMs": null,
+        "p95InferenceMs": null,
+        "trainingRows": 8064,
+        "calibrationRows": 2016,
+        "modelSha256": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307"
+      }
+    }
+  },
+  "candidate": {
+    "modelVersion": "isoforest-v2-expanded-history-1",
+    "datasetVersion": "synthetic-v2-expanded-t12-c2-n2-f8x60-m5",
+    "thresholdRank": 0.99,
+    "services": {
+      "VOLTE": {
+        "testNormalWindows": 4032,
+        "testFaultWindows": 480,
+        "truePositives": 480,
+        "falsePositives": 49,
+        "falseNegatives": 0,
+        "trueNegatives": 3983,
+        "precision": 0.9073724007561437,
+        "recall": 1.0,
+        "falsePositivesPer1000Normal": 12.152777777777779,
+        "medianInferenceMs": null,
+        "p95InferenceMs": null,
+        "trainingRows": 24192,
+        "calibrationRows": 4032,
+        "modelSha256": "01fd9c7e7cda9ba25ba62bf4387b5afbede25178f1b7791f088619582fff7a72"
+      },
+      "SMS": {
+        "testNormalWindows": 4032,
+        "testFaultWindows": 480,
+        "truePositives": 196,
+        "falsePositives": 28,
+        "falseNegatives": 284,
+        "trueNegatives": 4004,
+        "precision": 0.875,
+        "recall": 0.4083333333333333,
+        "falsePositivesPer1000Normal": 6.944444444444445,
+        "medianInferenceMs": null,
+        "p95InferenceMs": null,
+        "trainingRows": 24192,
+        "calibrationRows": 4032,
+        "modelSha256": "9bc2c0165ebc60730cf3aeb8fd4563e35c1d78bb6b56af992484f5ef5ba6f905"
+      }
+    }
+  },
+  "artifacts": {
+    "data": "tmp\\ml-expanded-history\\data",
+    "models": "tmp\\ml-expanded-history\\models",
+    "fullComparison": "tmp\\ml-expanded-history\\comparison.json"
+  },
+  "fullComparisonSha256": "5ba04e97eae0ff279d9e4dadc5989c66fd121754e75d58f354faeb73e9baf78f",
+  "candidateManifestSha256": "689ff03b514084ee847ce1242542d4c23744f0b5e91369b457e015746ca67611",
+  "verification": {
+    "rootPythonTests": 44,
+    "mlPythonTests": 22,
+    "frozenModelsAndContracts": "PASS",
+    "batchScalarParity": "PASS",
+    "promotion": "NOT_PROMOTED"
+  }
+}

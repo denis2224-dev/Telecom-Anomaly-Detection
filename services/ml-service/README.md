@@ -131,3 +131,43 @@ compare representative ranks with the live endpoint. See
 `docs/evidence/2026-09-29-g2-detection.md` for integration results and limits.
 For this frozen candidate, one representative synthetic SMS fault scored 0.9891,
 below the 0.99 cutoff; the deterministic SMS rule remains the fault trigger.
+
+## Larger synthetic training experiments
+
+The four original normal training weeks are `training/data/volte-train-1.jsonl`
+through `volte-train-4.jsonl`, and their SMS equivalents. Each row contains six
+canonical feature values built from simulated raw observations. These ignored
+files can be reproduced with `generate_history.py`; the tracked split manifest
+records their time ranges, seeds, row counts and checksums. The models fit only
+the normal training rows. Normal calibration rows set anomaly ranks, while test
+rows are reserved for evaluation.
+
+From the repository root, using the Python 3.13 environment above:
+
+```powershell
+.\.venv\Scripts\python.exe services/ml-service/training/generate_history.py --output tmp/ml-expanded-history/data --training-weeks 12 --calibration-weeks 2 --test-weeks 2 --fault-runs 8 --fault-minutes 60
+.\.venv\Scripts\python.exe services/ml-service/training/train.py --data tmp/ml-expanded-history/data --models tmp/ml-expanded-history/models --model-version isoforest-v2-expanded-history-1
+.\.venv\Scripts\python.exe services/ml-service/training/compare_models.py --data tmp/ml-expanded-history/data --candidate-models tmp/ml-expanded-history/models --output tmp/ml-expanded-history/comparison.json
+```
+
+These commands create 65,472 rows: per service, 24,192 normal training rows,
+4,032 normal calibration rows, 4,032 normal test rows and 480 fault test rows.
+Expanded histories require a separate data directory; expanded models require
+a separate model directory and version. Default data, packaged models and the
+Day 1 freeze retain their existing versions. Candidate files remain local under
+`tmp/ml-expanded-history/` and are not activated by inference or Compose.
+
+`compare_models.py` evaluates both models on identical later test runs, verifies
+training-manifest and test-file checksums, rejects overlapping time ranges and
+duplicate test windows, and checks batch ranks against production scalar scoring.
+It does not tune parameters or thresholds against these tests. Latency fields are
+null because this offline comparison uses batch scoring, not a serving benchmark.
+The existing `evaluate.py` continues to evaluate the default packaged artifacts.
+
+On 5 October 2026, this candidate improved synthetic SMS recall from 18.3% to
+40.8%, while false positives rose from 5.70 to 6.94 per 1,000 normal windows.
+Voice recall stayed at 100%, while false positives rose from 9.67 to 12.15.
+The candidate remains experimental. More rows from the same simulator are not
+proof of real-network accuracy: these tests still cover the existing voice
+capacity and SMS delay/backlog patterns, not new fault families or city behavior.
+See [experiment evidence](../../docs/evidence/2026-10-05-ml-expanded-history.md).
