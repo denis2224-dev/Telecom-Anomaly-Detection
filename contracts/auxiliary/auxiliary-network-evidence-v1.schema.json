@@ -1,0 +1,138 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "evidenceId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "type": {
+      "enum": [
+        "POWER_ALARM",
+        "PING_RESULT",
+        "PROBE_WORKER_HEALTH"
+      ]
+    },
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+      "maxLength": 64
+    },
+    "targetNodeId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+      "maxLength": 64
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "emittedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "status": {
+      "enum": [
+        "ALARM",
+        "CLEAR",
+        "SUCCESS",
+        "FAILURE",
+        "UNKNOWN"
+      ]
+    },
+    "synthetic": {
+      "const": true
+    },
+    "vantagePoint": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 160
+    },
+    "latencyMs": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "detail": {
+      "type": "string",
+      "maxLength": 512
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "evidenceId",
+    "type",
+    "sourceId",
+    "targetNodeId",
+    "topologyVersion",
+    "observedAt",
+    "emittedAt",
+    "status",
+    "synthetic"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AuxiliaryNetworkEvidenceV1 optional G1 contract candidate",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "POWER_ALARM"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "enum": [
+              "ALARM",
+              "CLEAR",
+              "UNKNOWN"
+            ]
+          },
+          "latencyMs": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "PING_RESULT",
+              "PROBE_WORKER_HEALTH"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "enum": [
+              "SUCCESS",
+              "FAILURE",
+              "UNKNOWN"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

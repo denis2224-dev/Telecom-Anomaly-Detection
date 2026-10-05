@@ -98,6 +98,8 @@ def main():
     validate_day1_contracts()
     from geographic_numeric_contract import validate_day1_numeric_contracts
     validate_day1_numeric_contracts()
+    from day1_evidence_contract import validate_day1_evidence_contracts
+    validate_day1_evidence_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)
