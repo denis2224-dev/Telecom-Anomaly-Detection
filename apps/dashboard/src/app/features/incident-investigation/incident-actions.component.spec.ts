@@ -5,7 +5,7 @@ import { SessionStore } from '../login-and-session/session.store';
 import { ApiFailure } from '../../core/api/api-errors';
 import { voiceIncidents } from '../../../fixtures/voice';
 
-describe('Day 9 incident actions', () => {
+describe('Incident actions', () => {
   it('retains a failed comment and reuses its request ID on manual retry', async () => {
     const incident = { ...structuredClone(voiceIncidents[0]), assigneeId: 'analyst-1' };
     const commentIncident = vi.fn()

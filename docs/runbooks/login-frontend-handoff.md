@@ -1,4 +1,4 @@
-# Day 03: login frontend and backend handoff
+# Login frontend and backend handoff
 
 Status: frontend prepared. Real Keycloak login still needs the running backend
 and a provisioned test account.
@@ -71,7 +71,7 @@ and checks anonymous JSON 401, real login, the expected identity, empty browser
 storage, and logout. Missing variables fail the real run. Custom Keycloak themes
 may need adjustments to the default form-label selectors.
 
-Before declaring Day 03 complete, also expire the server session and verify that
+Before accepting the login flow, also expire the server session and verify that
 the next protected API request removes the workspace, confirm real service data,
 and record the run as evidence. Mocked tests and sample previews do not establish
 that the actual backend login works.

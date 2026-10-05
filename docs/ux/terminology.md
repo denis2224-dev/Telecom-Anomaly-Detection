@@ -1,4 +1,4 @@
-# Dashboard terminology — Day 16
+# Dashboard terminology
 
 Planned date: 2026-10-06
 Commit reviewed: pending
@@ -99,7 +99,7 @@ Sergiu's metric wording/sign-off: pending
 Denis's nullable-field/sign-off: pending
 Teammate correctly interprets all five cases and rank: pending
 Keyboard/touch readability: automated keyboard and 390px checks passed; human touch review pending
-Day 15 browser resource budget regression: passed (2 controlled browser checks, 2026-10-03)
+Browser resource budget regression: passed (2 controlled browser checks, 2026-10-03)
 Remaining defects, owner, and target date: pending
 Final team acceptance: pending
 
@@ -108,6 +108,6 @@ Final team acceptance: pending
 - Dashboard unit tests: 70 passed.
 - Production build: passed.
 - Five-state terminology browser checks: 12 passed at desktop and mobile widths, including zero-rank keyboard help and zero-completion SMS evidence.
-- Day 13 reconnect, service explanations, and evidence-timeline controlled browser checks: passed.
-- Day 15 browser resource checks: 2 passed.
+- Reconnect, service explanations, and evidence-timeline controlled browser checks: passed.
+- Browser resource checks: 2 passed.
 - Full controlled browser suite: 55 passed, 6 real-login cases skipped without the backend environment.

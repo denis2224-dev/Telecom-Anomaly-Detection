@@ -49,7 +49,7 @@ async function setup(page: Page, scenario: Case) {
     (window as any).EventSource = QuietSource;
   });
   await page.route('**/api/auth/me', route => route.fulfill({ json: {
-    analystId: 'day16-review', displayName: 'Day 16 reviewer', roles: ['ANALYST'],
+    analystId: 'day16-review', displayName: 'Terminology tester', roles: ['ANALYST'],
     expiresAt: new Date(Date.now() + 600_000).toISOString(),
   } }));
   await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
@@ -74,7 +74,7 @@ async function setup(page: Page, scenario: Case) {
   return { summary, item };
 }
 
-test.describe('Day 16 terminology', () => {
+test.describe('Dashboard terminology', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled UI cases; human acceptance uses normal login separately');
 
   for (const width of [1366, 390]) for (const scenario of cases) {

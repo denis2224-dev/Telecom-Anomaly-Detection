@@ -1,4 +1,4 @@
-# Day 13 — Resilient incident SSE refresh
+# Resilient incident SSE refresh
 
 ## What this change does
 

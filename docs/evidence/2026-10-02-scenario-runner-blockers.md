@@ -1,13 +1,13 @@
 # Scenario Runner connectivity and workflow wording audit — 2026-10-02
 
 > Historical pre-acceptance snapshot. The live blockers below are superseded by
-> [Gemini's fresh authenticated acceptance](2026-10-02-gemini-authenticated-acceptance.md):
+> [Authenticated live acceptance](2026-10-02-authenticated-acceptance.md):
 > ACCEPTED / PASS. Live SSE updates passed; intentional reconnect remains
 > **NOT DIRECTLY VERIFIED**. See [the final repository audit](2026-10-02-final-repository-audit.md).
 
 Both requested fixes are implemented and running locally. The fresh authenticated
 acceptance pass is **BLOCKED** because this session has no connected browser.
-Gemini's successful verification supplied by the user remains the accepted prior
+The successful verification supplied by the user remains the accepted prior
 baseline; it is not represented here as a fresh post-fix verification.
 
 | # | Requested result | Status and direct evidence |

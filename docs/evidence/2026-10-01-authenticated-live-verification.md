@@ -1,7 +1,7 @@
 # Authenticated live verification — 2026-10-01
 
 > Historical attempt. The blocked acceptance statuses below are superseded by
-> [Gemini's fresh October 2 authenticated acceptance](2026-10-02-gemini-authenticated-acceptance.md):
+> [October 2 authenticated acceptance](2026-10-02-authenticated-acceptance.md):
 > ACCEPTED / PASS. SSE intentional reconnect is **NOT DIRECTLY VERIFIED**.
 
 Attempted at approximately 18:52 UTC / 21:52 Europe/Chisinau.

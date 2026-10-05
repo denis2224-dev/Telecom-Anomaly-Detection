@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SmsQueueScenarioTest {
     @Test void legacyBytesMatchSnapshotTakenFromIntegratedMain() throws Exception {
         var start = Instant.parse("2026-10-05T08:00:00Z");
-        var expected = json.readTree(getClass().getResourceAsStream("/legacy-day2-baseline.json"));
+        var expected = json.readTree(getClass().getResourceAsStream("/legacy-telemetry-baseline.json"));
         assertEquals(expected.get("smsScenario"), json.valueToTree(scenario.generate(start, 42)));
         assertEquals(expected.get("smsHealthy"), json.valueToTree(scenario.generateHealthyWindow(start, 42)));
         var legacy = md.utm.telecom.generator.GenerationContext.forScope(

@@ -113,7 +113,7 @@ public class IngestionService {
                     "sourceId/scopeId/kind/windowStart already identifies another observation");
         }
         // Only the transaction that inserted the receipt can increment this row.
-        // This upsert acquires the same row lock that Day 05 can use for finalization.
+        // This upsert shares the bucket row lock with finalization.
         jdbc.update("""
                 INSERT INTO app.interval_bucket
                     (scope_id, window_start, window_end, accepted_input_count, created_at, updated_at)

@@ -2,9 +2,8 @@
 
 **Overall acceptance verdict: ACCEPTED / PASS.**
 
-Provenance: Gemini performed the fresh authenticated live verification. The user
-supplied these results as authoritative live evidence for the final repository
-audit. This document records that evidence; it does not claim a second live
+Provenance: the user supplied the authenticated live verification results as
+authoritative evidence for the final repository audit. This document records that evidence; it does not claim a second live
 acceptance performed by the repository auditor. It supersedes the acceptance
 blockers in the October 1 audits and the earlier October 2 connectivity audit.
 
@@ -68,8 +67,7 @@ controlled-browser reconnect coverage does not upgrade this live status.
 
 ## Durable screenshots
 
-Five original PNG screenshots were visually inspected and copied from Gemini's
-temporary evidence directory into [repository assets](assets/service-assurance/README.md).
+Five original PNG screenshots were visually inspected and copied from the temporary evidence directory into [repository assets](assets/service-assurance/README.md).
 They contain application UI, aggregate telemetry and non-secret run/episode IDs.
 No login screens, browser storage, network captures, auth headers or raw logs
 are retained. Screenshot filenames alone are not proof of a scenario phase;

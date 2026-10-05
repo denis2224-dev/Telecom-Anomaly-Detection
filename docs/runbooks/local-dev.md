@@ -167,7 +167,7 @@ restarts after an unexpected process exit; `docker compose stop` remains an
 intentional stop until the service is started again.
 The proxy serves the Angular production build at `/dashboard`, `/login` and
 `/signed-out`. Build it with `npm --prefix apps/dashboard run build` before
-opening the site. See the [Day 06 guide](../tasks/day-06-protected-voice-investigation/README.md)
+opening the site. See the [protected investigation guide](../tasks/protected-voice-investigation/README.md)
 for the full login and voice investigation sequence.
 
 If startup reports `UnknownHostException: telecom.test`, check the hosts entry.

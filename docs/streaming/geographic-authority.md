@@ -1,9 +1,9 @@
-# Geographic source authority - Ion Day 1
+# Geographic source authority
 
-This is a validated contract candidate for the ten-area redesign, not live geographic generation.
-`GeographyCatalog.load()` explicitly loads the candidate pair. The existing `TopologyCatalog.load()`
-continues loading the unchanged `2-baseline` authority and two legacy scopes. No Spring bean, generator
-scope list, finalizer or detector is switched to the candidate in Day 1.
+`GeographyCatalog.load()` loads the versioned geographic contract pair. The bundled catalogue
+remains `CONTRACT_ONLY`; deployment activation is explicit. `TopologyCatalog.load()` continues
+loading the unchanged `2-baseline` authority and two legacy scopes. Runtime authority selection
+belongs to `GeographicRuntimeConfiguration`.
 
 ## Artifacts and interfaces
 
@@ -74,14 +74,14 @@ metadata or activation metadata requires a new immutable catalogue version and a
 changes also require a new topology version. Retain old versioned files for historical resolution;
 never reinterpret or re-finalize old windows under a new mapping.
 
-Day 2 must install compatible readers before enabling producers. Drain pending baseline feature and
+Deploy compatible readers before enabling producers. Drain pending baseline feature and
 detection work before switching the default authority, or implement and test a version-aware registry.
 `GeographyCatalog` validates an explicitly supplied pair; it is not an automatic version selector or
 archive store. Snapshot coverage against the pair effective for that UTC minute. A version change cannot
 occur within a minute. Rollback disables geographic production while retaining readers for pending city
 facts; do not downgrade to baseline-only authority while such facts remain pending.
 
-The Day 2 baseline registry explicitly accepts both `2-baseline` and the pinned `2-geography-g1`
+The baseline registry explicitly accepts both `2-baseline` and the pinned `2-geography-g1`
 feature provenance for the unchanged legacy scopes. Compatibility is checked against the historical
 scope authority and the validated geography contract's `legacy=true` bindings; it is not a topology
 version prefix or a baseline for city scopes. Features keep the topology version that authorized them.
@@ -162,9 +162,9 @@ worker. No second delivery system, cross-database transaction or applied-migrati
 
 The existing generic table and publisher are in Rusu's detection package. Rusu must review/enact the
 package-facing change with Ion; Denis owns coverage consumption/idempotent projection/OpenAPI. This
-boundary is the Ion Day 1 proposal frozen for review, not a claim that those reviews or consumers exist.
-Day 2 should insert before detection, since an ML/detection delay must not delay measurement coverage.
-Day 3 history's bounded drain currently joins delivery ID to feature window ID and sends KPI-only facts;
+boundary defines the coverage handoff without claiming consumer acceptance.
+Coverage insertion precedes detection so that inference latency cannot delay measurement coverage.
+The history bootstrap's bounded drain joins delivery ID to feature window ID and sends KPI-only facts;
 extend it explicitly for coverage IDs/topics before geographic bootstrap. No migration is needed today.
 
 ## Validation and fixtures
@@ -189,6 +189,6 @@ These are offline golden contracts, not new live measurements or finalized city 
 
 Future AuxiliaryEvidence is separate from TelecomObservationV2: evidence ID/type, allowlisted source,
 target node, topology version, observed/emitted timestamps, status/result, optional vantage/latency and
-synthetic provenance. Publisher/consumer/freshness/storage remain subject to the shared Day 2 go/no-go
-review. No runtime producer, probe, power-off detector or new V2 field is added today. Missing telemetry
+synthetic provenance. Publisher, consumer, freshness and storage contracts require shared
+integration review. No runtime producer, probe, power-off detector or new V2 field is added today. Missing telemetry
 does not imply power-off; ping failure does not imply power-off; injected scenario cause is never input.

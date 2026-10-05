@@ -1,6 +1,6 @@
 # Session, replay and live-update implementation status
 
-Scope: the session-security, replay-ordering and live-investigation backend guide for tasks 12–14. The removed network-map experiment was not restored. Existing analyst-workflow UI changes were preserved when adding the necessary stream consumer and audit refresh.
+Scope: session security, replay ordering and live investigation. The removed network-map experiment was not restored. Existing analyst-workflow UI changes were preserved when adding the necessary stream consumer and audit refresh.
 
 | Work | Branch | Pull request | Status |
 | --- | --- | --- | --- |
@@ -19,10 +19,8 @@ The integrated backend passed 129 unit/controller and 25 PostgreSQL/Kafka integr
 
 Both public scenarios recovered with actual model status `OK`. Real browser checks completed the VoLTE and SMS investigations, including comments, cross-tab updates, proxy restart/reconnect, resolution and logout without server completion errors.
 
-## Follow-up constraints for a Codex agent
+## Acceptance and test operation
 
-1. Read the linked evidence and inspect current Git history before changing code. Resume existing branches when applicable; do not repeat completed merges or rewrite history.
-2. Use normal merge commits, never squash. Keep `day` out of new branch names and commit/merge messages.
-3. Preserve the distinction between implementation checks and release acceptance. Actual HTTPS cookie behavior, an isolated process-kill/ack drill, wall-clock session expiry measurements and independent teammate comprehension require their own recorded evidence.
-4. The live browser test uses a temporary account and actual public scenarios. Never print secrets or save authenticated browser storage. It disables its retained local audit actor after deleting the temporary provider account.
-5. A failed browser run can resume its existing scenarios with `LIVE_RESUME_RESULTS` pointing to the saved non-secret JSON result. Inspect the scenario and incident states first; do not resume an already resolved investigation. Do not overwrite another user's work or manufacture recovery.
+1. Preserve the distinction between implementation checks and release acceptance. Actual HTTPS cookie behavior, an isolated process-kill/ack drill, wall-clock session expiry measurements and independent teammate comprehension require their own recorded evidence.
+2. The live browser test uses a temporary account and actual public scenarios. Never print secrets or save authenticated browser storage. It disables its retained local audit actor after deleting the temporary provider account.
+3. A failed browser run can resume its existing scenarios with `LIVE_RESUME_RESULTS` pointing to the saved non-secret JSON result. Inspect the scenario and incident states first; do not resume an already resolved investigation. Do not overwrite another user's work or manufacture recovery.

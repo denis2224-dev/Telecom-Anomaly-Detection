@@ -46,12 +46,12 @@ public class VoiceScenario {
         }
         return List.copyOf(result);
     }
-    /** Flat compatibility view of the Day 10 windows. */
+    /** Flat compatibility view of the scheduled scenario windows. */
     public List<String> generate(Instant start, long seed, Profile profile) {
         return generateWindows(start, seed, profile).stream().flatMap(List::stream).toList();
     }
 
-    /** Eight explicit minute windows; the legacy G1 generate method is unchanged. */
+    /** Eight explicit minute windows; the legacy generate method is unchanged. */
     public List<List<String>> generateWindows(Instant start, long seed, Profile profile) {
         return generateWindows(start, seed, profile, 8);
     }
@@ -97,8 +97,7 @@ public class VoiceScenario {
 
             ObjectNode service = event(from, serviceSource, "SERVICE", "COMPLETE", scope);
             service.put("service", "VOLTE");
-            // Day 10 values are fixed by the Common Guide. Seed is command
-            // metadata here; it never changes observation identity.
+            // Fixed scenario measurements; seed metadata does not affect observation identity.
             service.putObject("metrics").put("attempts", 1020).put("userOutcomes", 20)
                     .put("technicalSuccesses", overload ? 940 : 993)
                     .put("technicalFailures", overload ? 60 : 7)

@@ -1,6 +1,6 @@
 # Final repository audit — 2026-10-02
 
-**Final audit result: PASS. Ready for PR: YES.** Gemini's fresh authenticated
+**Final audit result: PASS. Ready for PR: YES.** Fresh authenticated
 acceptance is ACCEPTED / PASS. SSE intentional reconnect is **NOT DIRECTLY VERIFIED**.
 The implementation was audited and minimally cleaned up, not reimplemented.
 
@@ -43,7 +43,7 @@ No secret-bearing local environment files are included.
 
 ## Acceptance evidence
 
-[Gemini's fresh authenticated acceptance](2026-10-02-gemini-authenticated-acceptance.md)
+[Authenticated live acceptance](2026-10-02-authenticated-acceptance.md)
 contains all supplied statuses, identity/role, three run IDs, observed KPIs and
 missing-data/recovery results. Earlier blocked reports have explicit superseding
 links while preserving their historical observations. Five inspected PNGs and
@@ -79,7 +79,7 @@ history bootstrap were not run. The host service was restored after packaging.
 The first controlled browser attempt hung during Windows server teardown; final
 browser verification used an explicitly managed local server and exited 0.
 Raw local logs are outside the repository, not committed acceptance artifacts.
-Automated credential-based browser login was not rerun; Gemini's authenticated
+Automated credential-based browser login was not rerun; the recorded authenticated
 acceptance is the authoritative live gate.
 
 ## scripts/up decision
@@ -155,7 +155,7 @@ The working tree intentionally retains the excluded infrastructure/tooling chang
 - `docs/design/volte-sms-mentor-service-assurance.md`
 - `docs/evidence/2026-10-01-authenticated-live-verification.md`
 - `docs/evidence/2026-10-01-volte-sms-service-assurance-audit.md`
-- `docs/evidence/2026-10-02-gemini-authenticated-acceptance.md`
+- `docs/evidence/2026-10-02-authenticated-acceptance.md`
 - `docs/evidence/2026-10-02-scenario-runner-blockers.md`
 - `docs/evidence/assets/service-assurance/README.md`
 - `docs/evidence/assets/service-assurance/dashboard_ui_semantics.png`
@@ -177,6 +177,6 @@ The working tree intentionally retains the excluded infrastructure/tooling chang
 - `services/incident-service/src/test/java/md/utm/telecom/incidents/live/IncidentStreamTest.java`
 
 Also separately reviewed: `scripts/up`, `AGENTS.md`, and the four line-ending-only
-branding copies listed in the October 1 audit. `.agents/`, `.codex/`, `.telemetry*`
-and `graphify-out/` were classified as existing local tooling/scratch artifacts;
+branding copies listed in the October 1 audit. Local instructions, telemetry audit files
+and analysis output were classified as existing local tooling/scratch artifacts;
 their contents are not feature inputs and are not staged or included in the PR.
