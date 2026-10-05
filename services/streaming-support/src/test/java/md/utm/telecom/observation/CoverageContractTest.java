@@ -31,6 +31,25 @@ class CoverageContractTest {
         return tests;
     }
     @Test
+    void rejectsValidLookingHashForWrongFeatureWindowIdentity() throws Exception {
+        var geo = GeographyCatalog.load();
+        var coverage = (ObjectNode) ObservationValidator.resource("fixtures/coverage/coverage-cases-v1.json", mapper)
+                .get(0).get("coverage");
+        assertDoesNotThrow(() -> CoverageContract.validate(coverage, geo));
+        var invalid = coverage.deepCopy().put("windowId", "0".repeat(64));
+        var error = assertThrows(IllegalArgumentException.class, () -> CoverageContract.validate(invalid, geo));
+        assertEquals("Coverage window identity mismatch", error.getMessage());
+    }
+    @Test
+    void windowIdentityMatchesExistingFinalizedFeatureFixture() throws Exception {
+        var feature = ObservationValidator.resource("fixtures/features/voice-worked-v2.json", mapper);
+        assertEquals(2, feature.path("featureVersion").asInt());
+        assertEquals("VOLTE-MD-CENTRAL", feature.path("scopeId").asText());
+        assertEquals("2026-09-15T08:00:00Z", feature.path("windowStart").asText());
+        assertEquals(feature.path("windowId").asText(), CoverageContract.windowId(
+                feature.path("scopeId").asText(), Instant.parse(feature.path("windowStart").asText())));
+    }
+    @Test
     void rejectsInconsistentIdentityVersionsSourceSetsAndReasons() throws Exception {
         var geo = GeographyCatalog.load();
         var root = (ObjectNode) ObservationValidator.resource("fixtures/coverage/coverage-cases-v1.json", mapper)

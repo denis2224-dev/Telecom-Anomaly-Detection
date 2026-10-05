@@ -5,7 +5,7 @@ import sys
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from geography_contract import (validate_day1_contracts, validate_catalogue, validate_coverage,
-                               coverage_snapshot, resolve, authority_scopes, ROOT, read_json)
+                               coverage_snapshot, window_id, resolve, authority_scopes, ROOT, read_json)
 from observation_contract import ObservationBatch, validate_observation
 from jsonschema import ValidationError
 
@@ -74,3 +74,18 @@ class GeographyContractTests(unittest.TestCase):
             modified=copy.deepcopy(self.catalogue);modified[field]=new
             with self.subTest(field=field),self.assertRaises((ValueError,ValidationError)):
                 validate_catalogue(modified,self.authority)
+
+    def test_coverage_rejects_valid_looking_hash_for_wrong_feature_window_identity(self):
+        value = coverage_snapshot(self.catalogue, self.authority, 'VOLTE-MD-CHI', self.events[0]['windowStart'], [])
+        validate_coverage(value, self.catalogue, self.authority)
+        modified = copy.deepcopy(value)
+        modified['windowId'] = '0' * 64
+        with self.assertRaisesRegex(ValueError, '^Coverage window identity mismatch$'):
+            validate_coverage(modified, self.catalogue, self.authority)
+
+    def test_window_identity_matches_existing_finalized_feature_fixture(self):
+        feature = read_json(ROOT / 'contracts/fixtures/features/voice-worked-v2.json')
+        self.assertEqual(2, feature['featureVersion'])
+        self.assertEqual('VOLTE-MD-CENTRAL', feature['scopeId'])
+        self.assertEqual('2026-09-15T08:00:00Z', feature['windowStart'])
+        self.assertEqual(feature['windowId'], window_id(feature['scopeId'], feature['windowStart']))

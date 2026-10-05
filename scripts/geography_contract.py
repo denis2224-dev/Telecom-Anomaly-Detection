@@ -132,6 +132,11 @@ def digest(values):
 def coverage_id(scope_id, start, topology_version, catalogue_version):
     return digest(['scope-window-coverage-v1', scope_id, start, topology_version, catalogue_version])
 
+def window_id(scope_id, start):
+    """Match the finalized ServiceFeatureWindowV2 compact JSON identity."""
+    identity = [scope_id, start, 2]
+    return hashlib.sha256(json.dumps(identity, separators=(',', ':')).encode('utf-8')).hexdigest()
+
 def coverage_snapshot(catalogue, authority, scope_id, start, receipts):
     """Golden-fixture reference only: callers supply accepted receipts from ONE finalized UTC minute."""
     validate_catalogue(catalogue, authority)
@@ -162,7 +167,7 @@ def coverage_snapshot(catalogue, authority, scope_id, start, receipts):
         else: usable.add(source)
     for source in set(expected)-received: reasons[source] = 'NOT_RECEIVED'
     result = {'schemaVersion':1,'coverageId':coverage_id(scope_id,start,authority['topologyVersion'],catalogue['catalogueVersion']),
-              'windowId':digest([scope_id,start,2]), 'scopeId':scope_id,'service':scope['service'],'windowStart':start,'windowEnd':end,
+              'windowId':window_id(scope_id,start), 'scopeId':scope_id,'service':scope['service'],'windowStart':start,'windowEnd':end,
               'topologyVersion':authority['topologyVersion'],'catalogueVersion':catalogue['catalogueVersion'],
               'expectedSourceIds':expected,'receivedSourceIds':sorted(received),'usableSourceIds':sorted(usable),
               'sourceIssues':[{'sourceId':s,'reason':reasons[s]} for s in sorted(reasons)],'synthetic':True}
@@ -177,6 +182,7 @@ def validate_coverage(value, catalogue, authority):
     require((datetime.fromisoformat(value['windowEnd'])-datetime.fromisoformat(value['windowStart'])).total_seconds() == 60, 'Expected one minute coverage')
     require(value['topologyVersion'] == authority['topologyVersion'] and value['catalogueVersion'] == catalogue['catalogueVersion'], 'Coverage version mismatch')
     require(value['coverageId'] == coverage_id(value['scopeId'],value['windowStart'],value['topologyVersion'],value['catalogueVersion']), 'Coverage identity mismatch')
+    require(value['windowId'] == window_id(value['scopeId'],value['windowStart']), 'Coverage window identity mismatch')
     for field in ['expectedSourceIds','receivedSourceIds','usableSourceIds']:
         require(value[field] == sorted(set(value[field])), 'Coverage sets must be sorted/unique')
     require(value['expectedSourceIds'] == expected_sources(catalogue,authority,value['scopeId']), 'Coverage expected source mismatch')
