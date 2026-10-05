@@ -16,12 +16,25 @@ public final class ScopeRegistry {
     private final GeographyCatalog geography;
 
     public ScopeRegistry(TopologyCatalog topology) {
+        this(topology, pinnedGeography());
+    }
+    @org.springframework.beans.factory.annotation.Autowired
+    public ScopeRegistry(TopologyCatalog topology, java.util.Optional<GeographyCatalog> geography) {
+        this(topology, geography.orElseGet(ScopeRegistry::pinnedGeography));
+    }
+    public ScopeRegistry(TopologyCatalog topology, GeographyCatalog geography) {
         this.topology = Objects.requireNonNull(topology, "topology");
-        try { this.geography = GeographyCatalog.load(); }
+        this.geography = Objects.requireNonNull(geography, "geography");
+    }
+    private static GeographyCatalog pinnedGeography() {
+        try { return GeographyCatalog.load(); }
         catch (java.io.IOException invalid) { throw new IllegalStateException("Cannot load pinned role authority", invalid); }
     }
 
     public GeographyCatalog geography() { return geography; }
+    public boolean coverageEnabled() {
+        return topology.topologyVersion().equals(geography.authority().topologyVersion());
+    }
     public Node resolveRole(String scopeId, GeographyCatalog.Role role) {
         var pinned = geography.resolve(scopeId, role);
         var actual = requireNode(scopeId, pinned.nodeId());

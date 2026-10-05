@@ -21,4 +21,10 @@ public class GeographicRuntimeConfiguration {
     @Bean
     @Primary
     TopologyCatalog geographicTopology(GeographyCatalog geography) { return geography.authority(); }
+
+    @Bean
+    @Primary
+    ObservationValidator geographicObservationValidator(GeographyCatalog geography) throws IOException {
+        return new ObservationValidator(geography);
+    }
 }

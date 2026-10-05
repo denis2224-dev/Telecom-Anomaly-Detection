@@ -32,15 +32,16 @@ public final class GeographyCatalog {
         }
     }
     private final String catalogueVersion;
+    private final String catalogueDigest;
     private final Activation activation;
     private final TopologyCatalog authority;
     private final Map<String, City> cities;
     private final Map<String, Place> nodes;
     private final Map<String, Binding> bindings;
 
-    private GeographyCatalog(String version, Activation activation, TopologyCatalog authority, Map<String, City> cities,
+    private GeographyCatalog(String version, String digest, Activation activation, TopologyCatalog authority, Map<String, City> cities,
                              Map<String, Place> nodes, Map<String, Binding> bindings) {
-        this.catalogueVersion = version; this.authority = authority;
+        this.catalogueVersion = version; this.catalogueDigest = digest; this.authority = authority;
         this.activation = activation;
         this.cities = Map.copyOf(cities); this.nodes = Map.copyOf(nodes); this.bindings = Map.copyOf(bindings);
     }
@@ -60,6 +61,8 @@ public final class GeographyCatalog {
         var root = (com.fasterxml.jackson.databind.node.ObjectNode)
                 ObservationValidator.resource("geography/demo-geography-v1.json", mapper);
         root.putObject("activation").put("status", "ACTIVE").put("effectiveFrom", effectiveFrom.toString());
+        // Includes the frozen inventory and activation minute: changed metadata cannot reuse a version.
+        root.put("catalogueVersion", "2-geography-day2-" + digest(root));
         return fromJson(root, TopologyCatalog.fromJson(
                 ObservationValidator.resource("topology/geographic-scopes-v2.json", mapper)));
     }
@@ -170,13 +173,14 @@ public final class GeographyCatalog {
         nodes.values().stream().filter(n -> Set.of("IMS", "SMSC", "TRANSPORT").contains(n.type()))
                 .forEach(n -> metadataIds.add(n.nodeId()));
         require(dependencyIds.equals(metadataIds), "Dependency metadata/authority mismatch");
-        return new GeographyCatalog(root.path("catalogueVersion").asText(),
+        return new GeographyCatalog(root.path("catalogueVersion").asText(), digest(root),
                 new Activation(activation.path("status").asText(), activation.path("effectiveFrom").isNull()
                         ? null : Instant.parse(activation.path("effectiveFrom").asText())),
                 authority, cities, nodes, bindings);
     }
 
     public String catalogueVersion() { return catalogueVersion; }
+    public String catalogueDigest() { return catalogueDigest; }
     public Activation activation() { return activation; }
     public TopologyCatalog authority() { return authority; }
     public Map<String, City> cities() { return cities; }
@@ -199,6 +203,13 @@ public final class GeographyCatalog {
         return Collections.unmodifiableSortedSet(expected);
     }
     private static String nullable(JsonNode value) { return value.isNull() ? null : value.asText(); }
+    private static String digest(JsonNode root) {
+        try {
+            var canonical = new ObjectMapper().enable(com.fasterxml.jackson.databind.SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
+            byte[] bytes = canonical.writeValueAsBytes(canonical.convertValue(root, Object.class));
+            return HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256").digest(bytes));
+        } catch (IOException | java.security.NoSuchAlgorithmException impossible) { throw new IllegalStateException(impossible); }
+    }
     private static void require(boolean valid, String reason) {
         if (!valid) throw new IllegalArgumentException(reason);
     }

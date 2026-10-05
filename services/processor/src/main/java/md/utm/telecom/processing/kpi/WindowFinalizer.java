@@ -35,6 +35,7 @@ public class WindowFinalizer {
     private final SourceFreshness sourceFreshness;
     private final DetectionPolicy policy;
     private final WindowDecisionLock decisionLock;
+    private final CoverageSnapshot coverage;
     private static final Logger LOG = LoggerFactory.getLogger(WindowFinalizer.class);
 
     public WindowFinalizer(JdbcTemplate jdbc, Clock clock, ScopeRegistry scopes, ServiceFeatureBuilder features,
@@ -48,6 +49,7 @@ public class WindowFinalizer {
         this.sourceFreshness = sourceFreshness;
         this.policy = policy;
         this.decisionLock = decisionLock;
+        this.coverage = scopes.coverageEnabled() ? new CoverageSnapshot(scopes.geography()) : null;
     }
 
     public List<Window> dueWindows(int limit) {
@@ -98,6 +100,7 @@ public class WindowFinalizer {
                 VALUES (?, ?, ?, ?, ?, ?::jsonb, ?, 'telecom.kpis.v2', ?, ?)
                 """, feature.get("windowId").asText(), scopeId, Timestamp.from(windowStart), Timestamp.from(bucket.end()),
                 feature.get("featureVersion").intValue(), payload, codec.hash(payload), scopeId, Timestamp.from(now));
+        enqueueCoverage(scopeId, windowStart, bucket.end(), feature, receipts);
         jdbc.update("""
                 UPDATE app.interval_bucket SET finalized=true, finalized_at=?, updated_at=GREATEST(updated_at, ?)
                 WHERE scope_id=? AND window_start=?
@@ -210,6 +213,7 @@ public class WindowFinalizer {
                 VALUES (?, ?, ?, ?, ?, ?::jsonb, ?, 'telecom.kpis.v2', ?, ?)
                 """, feature.get("windowId").asText(), scopeId, Timestamp.from(windowStart), Timestamp.from(bucket.end()),
                 feature.get("featureVersion").intValue(), payload, codec.hash(payload), scopeId, Timestamp.from(now));
+        enqueueCoverage(scopeId, windowStart, bucket.end(), feature, nodes);
         jdbc.update("""
                 UPDATE app.interval_bucket SET finalized=true, finalized_at=?, updated_at=GREATEST(updated_at, ?)
                 WHERE scope_id=? AND window_start=?
@@ -220,5 +224,12 @@ public class WindowFinalizer {
     private JsonNode parse(String payload) {
         try { return codec.parse(payload.getBytes(StandardCharsets.UTF_8)); }
         catch (IOException invalid) { throw new IllegalStateException("Invalid stored receipt", invalid); }
+    }
+    private void enqueueCoverage(String scopeId, Instant start, Instant end, JsonNode feature, List<JsonNode> receipts) {
+        if (coverage == null) return;
+        var snapshot = coverage.build(scopeId,start,end,feature,receipts);
+        // Existing generic leased outbox. This insert shares the window lock and transaction with feature/marker.
+        jdbc.update("INSERT INTO app.voice_delivery(id,topic,kafka_key,payload) VALUES (?,?,?,?::jsonb)",
+                snapshot.path("coverageId").asText(),"telecom.coverage.v1",scopeId,codec.canonical(snapshot));
     }
 }
