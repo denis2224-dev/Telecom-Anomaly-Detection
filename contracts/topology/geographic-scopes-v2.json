@@ -1,0 +1,335 @@
+{
+  "topologyVersion": "2-geography-g1",
+  "scopes": [
+    {
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-ADAPTER",
+      "nodes": [
+        {
+          "nodeId": "IMS-A",
+          "sourceId": "IMS-A"
+        },
+        {
+          "nodeId": "TRANSPORT-A",
+          "sourceId": "TRANSPORT-A"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-ROUTE-A",
+      "service": "SMS",
+      "serviceSourceId": "SMS-ADAPTER",
+      "nodes": [
+        {
+          "nodeId": "SMSC-A",
+          "sourceId": "SMSC-A"
+        },
+        {
+          "nodeId": "TRANSPORT-A",
+          "sourceId": "TRANSPORT-A"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-CHI",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-CHI",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-CHI-01",
+          "sourceId": "IMS-MD-CHI-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-CHI-01",
+          "sourceId": "TRANSPORT-MD-CHI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-CHI",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-CHI",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-CHI-01",
+          "sourceId": "SMSC-MD-CHI-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-CHI-01",
+          "sourceId": "TRANSPORT-MD-CHI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-BAL",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-BAL",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-BAL-01",
+          "sourceId": "IMS-MD-BAL-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-BAL-01",
+          "sourceId": "TRANSPORT-MD-BAL-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-BAL",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-BAL",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-BAL-01",
+          "sourceId": "SMSC-MD-BAL-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-BAL-01",
+          "sourceId": "TRANSPORT-MD-BAL-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-EDI",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-EDI",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-EDI-01",
+          "sourceId": "IMS-MD-EDI-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-EDI-01",
+          "sourceId": "TRANSPORT-MD-EDI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-EDI",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-EDI",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-EDI-01",
+          "sourceId": "SMSC-MD-EDI-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-EDI-01",
+          "sourceId": "TRANSPORT-MD-EDI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-SOR",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-SOR",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-SOR-01",
+          "sourceId": "IMS-MD-SOR-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-SOR-01",
+          "sourceId": "TRANSPORT-MD-SOR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-SOR",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-SOR",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-SOR-01",
+          "sourceId": "SMSC-MD-SOR-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-SOR-01",
+          "sourceId": "TRANSPORT-MD-SOR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-RIB",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-RIB",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-RIB-01",
+          "sourceId": "IMS-MD-RIB-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-RIB-01",
+          "sourceId": "TRANSPORT-MD-RIB-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-RIB",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-RIB",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-RIB-01",
+          "sourceId": "SMSC-MD-RIB-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-RIB-01",
+          "sourceId": "TRANSPORT-MD-RIB-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-UNG",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-UNG",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-UNG-01",
+          "sourceId": "IMS-MD-UNG-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-UNG-01",
+          "sourceId": "TRANSPORT-MD-UNG-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-UNG",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-UNG",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-UNG-01",
+          "sourceId": "SMSC-MD-UNG-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-UNG-01",
+          "sourceId": "TRANSPORT-MD-UNG-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-TIR",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-TIR",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-TIR-01",
+          "sourceId": "IMS-MD-TIR-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-TIR-01",
+          "sourceId": "TRANSPORT-MD-TIR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-TIR",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-TIR",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-TIR-01",
+          "sourceId": "SMSC-MD-TIR-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-TIR-01",
+          "sourceId": "TRANSPORT-MD-TIR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-COM",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-COM",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-COM-01",
+          "sourceId": "IMS-MD-COM-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-COM-01",
+          "sourceId": "TRANSPORT-MD-COM-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-COM",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-COM",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-COM-01",
+          "sourceId": "SMSC-MD-COM-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-COM-01",
+          "sourceId": "TRANSPORT-MD-COM-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-CAH",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-CAH",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-CAH-01",
+          "sourceId": "IMS-MD-CAH-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-CAH-01",
+          "sourceId": "TRANSPORT-MD-CAH-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-CAH",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-CAH",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-CAH-01",
+          "sourceId": "SMSC-MD-CAH-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-CAH-01",
+          "sourceId": "TRANSPORT-MD-CAH-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-ORH",
+      "service": "VOLTE",
+      "serviceSourceId": "VOLTE-SRC-ORH",
+      "nodes": [
+        {
+          "nodeId": "IMS-MD-ORH-01",
+          "sourceId": "IMS-MD-ORH-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-ORH-01",
+          "sourceId": "TRANSPORT-MD-ORH-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-ORH",
+      "service": "SMS",
+      "serviceSourceId": "SMS-SRC-ORH",
+      "nodes": [
+        {
+          "nodeId": "SMSC-MD-ORH-01",
+          "sourceId": "SMSC-MD-ORH-01"
+        },
+        {
+          "nodeId": "TRANSPORT-MD-ORH-01",
+          "sourceId": "TRANSPORT-MD-ORH-01"
+        }
+      ]
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.observation.TopologyCatalog;
+import md.utm.telecom.observation.GeographyCatalog;
 import org.slf4j.LoggerFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,30 @@ class EvidenceJoinerTest {
         TopologyCatalog topology = TopologyCatalog.load();
         ScopeRegistry scopes = new ScopeRegistry(topology);
         joiner = new EvidenceJoiner(scopes);
+    }
+
+    @Test
+    void allCityDependenciesJoinOnlyTheirOwnAlignedCompleteEvidence() throws Exception {
+        var geo = GeographyCatalog.load();
+        var candidate = new EvidenceJoiner(new ScopeRegistry(geo.authority()));
+        var events = ObservationValidator.resource("fixtures/geography/complete-city-observations-v1.json", mapper);
+        for (var binding : geo.bindings().values()) {
+            if (binding.legacy()) continue;
+            var receipts = new java.util.ArrayList<com.fasterxml.jackson.databind.JsonNode>();
+            for (var event : events) if (binding.scopeId().equals(event.path("scopeId").asText())
+                    && event.path("kind").asText().equals("NODE")) receipts.add(event);
+            var joined = candidate.join(binding.scopeId(), start, end, receipts);
+            assertEquals(geo.authority().requireScope(binding.scopeId()).service().equals("VOLTE") ? 2 : 1,
+                    joined.accepted().size());
+            assertTrue(joined.ignored().isEmpty());
+        }
+        var foreign = events.get(6); // BAL IMS, not a CHI receipt.
+        var wrongCity = candidate.join("VOLTE-MD-CHI", start, end, List.of(foreign));
+        assertTrue(wrongCity.accepted().isEmpty());
+        var missing = ((ObjectNode) events.get(1)).deepCopy().put("quality", "MISSING");
+        missing.remove("metrics");
+        var ignored = candidate.join("VOLTE-MD-CHI", start, end, List.of(missing));
+        assertEquals(EvidenceJoiner.IgnoreReason.QUALITY_INELIGIBLE, ignored.ignored().getFirst().reason());
     }
 
     private ObjectNode node(String scopeId, String nodeId, String sourceId, Instant winStart,

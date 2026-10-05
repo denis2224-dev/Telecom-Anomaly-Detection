@@ -20,14 +20,14 @@ SCOPES = {scope["scopeId"]: scope for scope in read_json(
     ROOT / "contracts/topology/demo-scopes-v2.json")["scopes"]}
 
 
-def validate_observation(event):
+def validate_observation(event, scopes=None):
     """Validate structure first, then time, authority and counter relationships."""
     VALIDATOR.validate(event)
     start, end, emitted = (datetime.fromisoformat(event[k]) for k in
                            ("windowStart", "windowEnd", "emittedAt"))
     if (end - start).total_seconds() != 60 or emitted < end:
         raise ValueError("Expected one completed UTC minute and emittedAt >= windowEnd")
-    scope = SCOPES.get(event["scopeId"])
+    scope = (SCOPES if scopes is None else scopes).get(event["scopeId"])
     if scope is None:
         raise ValueError("Unknown scope")
     source, kind = event["sourceId"], event["kind"]
@@ -66,12 +66,13 @@ def validate_observation(event):
 class ObservationBatch:
     """Finite reference batch, not a durable production receipt store."""
 
-    def __init__(self):
+    def __init__(self, scopes=None):
         self.by_id = {}
         self.by_interval = {}
+        self.scopes = scopes
 
     def accept(self, event):
-        validate_observation(event)
+        validate_observation(event, self.scopes)
         key = tuple(event[k] for k in ("sourceId", "scopeId", "kind", "windowStart"))
         prior_id = self.by_id.get(event["eventId"])
         prior_interval = self.by_interval.get(key)

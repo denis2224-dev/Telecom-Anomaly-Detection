@@ -1,0 +1,524 @@
+{
+  "schemaVersion": 1,
+  "baseSha": "c539b67a40ac776c693e9301fac91b035e4037bc",
+  "branch": "feature/ion-day1-geographic-authority",
+  "catalogueVersion": "1-geography-g1",
+  "topologyVersion": "2-geography-g1",
+  "activation": "CONTRACT_ONLY",
+  "fixtureOnly": true,
+  "digests": {
+    "contracts/topology/geographic-scopes-v2.json": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+    "contracts/geography/demo-geography-v1.json": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced",
+    "contracts/geography/geography-catalogue-v1.schema.json": "26ddda289276f10846a5b2011087369bf9593ae0c05a064fe331625fbebc670c",
+    "contracts/coverage/scope-window-coverage-v1.schema.json": "67bd4240a8e7e00037f753f5867eb5d6b7b1874f73f7014cc604bcfa2c168866",
+    "contracts/fixtures/geography/complete-city-observations-v1.json": "78d96fbfdbb3ccaa104c2d7591822defd82f7a48dd4e2c632a133f157d95d0f6",
+    "contracts/fixtures/geography/invalid-catalogue-cases-v1.json": "19fee89f4db3bb71bc46eab80908a0bf2638b5d28783e0f938f820ac94205b2b",
+    "contracts/fixtures/coverage/coverage-cases-v1.json": "9d2eb47d54e3e4e7bb2e344aec3ce24fe80ac53376178d5061debd7f2efd9e1f"
+  },
+  "observationIdentityInputs": [
+    "telecom-observation-v2",
+    "sourceId",
+    "scopeId",
+    "kind",
+    "windowStart"
+  ],
+  "seedInIdentity": false,
+  "coverageIdentityInputs": [
+    "scope-window-coverage-v1",
+    "scopeId",
+    "windowStart",
+    "topologyVersion",
+    "catalogueVersion"
+  ],
+  "goldenObservationIds": [
+    {
+      "scopeId": "VOLTE-MD-CHI",
+      "sourceId": "VOLTE-SRC-CHI",
+      "kind": "SERVICE",
+      "eventId": "1976a3a3-e2b2-3d2c-a480-f7fa455b453b"
+    },
+    {
+      "scopeId": "VOLTE-MD-CHI",
+      "sourceId": "IMS-MD-CHI-01",
+      "kind": "NODE",
+      "eventId": "ecfba212-2ac1-3774-b7fb-12d7627a0827"
+    },
+    {
+      "scopeId": "VOLTE-MD-CHI",
+      "sourceId": "TRANSPORT-MD-CHI-01",
+      "kind": "NODE",
+      "eventId": "6186a13f-3e74-3044-bfa1-ae333a851881"
+    },
+    {
+      "scopeId": "SMS-MD-CHI",
+      "sourceId": "SMS-SRC-CHI",
+      "kind": "SERVICE",
+      "eventId": "23ae3115-6b78-3be2-8927-b0ef43a56b0f"
+    },
+    {
+      "scopeId": "SMS-MD-CHI",
+      "sourceId": "SMSC-MD-CHI-01",
+      "kind": "NODE",
+      "eventId": "253733f5-44c2-3a11-9923-326034451fbc"
+    },
+    {
+      "scopeId": "VOLTE-MD-BAL",
+      "sourceId": "VOLTE-SRC-BAL",
+      "kind": "SERVICE",
+      "eventId": "39e4da4a-94b8-3451-a5a8-8d420afea669"
+    },
+    {
+      "scopeId": "VOLTE-MD-BAL",
+      "sourceId": "IMS-MD-BAL-01",
+      "kind": "NODE",
+      "eventId": "aaba2f90-602f-3b92-8fa6-138bfa4607bc"
+    },
+    {
+      "scopeId": "VOLTE-MD-BAL",
+      "sourceId": "TRANSPORT-MD-BAL-01",
+      "kind": "NODE",
+      "eventId": "2e014cb1-d404-3005-a7f6-f9566a539127"
+    },
+    {
+      "scopeId": "SMS-MD-BAL",
+      "sourceId": "SMS-SRC-BAL",
+      "kind": "SERVICE",
+      "eventId": "254b183a-6cd2-3d9f-b14d-d2e0680770b3"
+    },
+    {
+      "scopeId": "SMS-MD-BAL",
+      "sourceId": "SMSC-MD-BAL-01",
+      "kind": "NODE",
+      "eventId": "4625543b-5f39-34c9-a45a-174647657f24"
+    },
+    {
+      "scopeId": "VOLTE-MD-EDI",
+      "sourceId": "VOLTE-SRC-EDI",
+      "kind": "SERVICE",
+      "eventId": "d37a58ea-e5ac-3733-acf6-24d6792b6090"
+    },
+    {
+      "scopeId": "VOLTE-MD-EDI",
+      "sourceId": "IMS-MD-EDI-01",
+      "kind": "NODE",
+      "eventId": "2f486ecb-ee48-3515-8184-950c19164fcd"
+    },
+    {
+      "scopeId": "VOLTE-MD-EDI",
+      "sourceId": "TRANSPORT-MD-EDI-01",
+      "kind": "NODE",
+      "eventId": "188e39fd-e074-3179-9df8-ef4ffc7c42ba"
+    },
+    {
+      "scopeId": "SMS-MD-EDI",
+      "sourceId": "SMS-SRC-EDI",
+      "kind": "SERVICE",
+      "eventId": "97833e67-a9fd-3fc8-a059-ed059c3905e0"
+    },
+    {
+      "scopeId": "SMS-MD-EDI",
+      "sourceId": "SMSC-MD-EDI-01",
+      "kind": "NODE",
+      "eventId": "7f58dec0-1d2b-33a6-ab21-b1551e17fd4c"
+    },
+    {
+      "scopeId": "VOLTE-MD-SOR",
+      "sourceId": "VOLTE-SRC-SOR",
+      "kind": "SERVICE",
+      "eventId": "f972582b-e1b0-3fda-b42c-1e8e497fb84a"
+    },
+    {
+      "scopeId": "VOLTE-MD-SOR",
+      "sourceId": "IMS-MD-SOR-01",
+      "kind": "NODE",
+      "eventId": "3bc1bb0c-7f22-31d7-8cd4-1a6e7d2ef818"
+    },
+    {
+      "scopeId": "VOLTE-MD-SOR",
+      "sourceId": "TRANSPORT-MD-SOR-01",
+      "kind": "NODE",
+      "eventId": "39d0818d-4c88-3731-a346-af9558ae7dd4"
+    },
+    {
+      "scopeId": "SMS-MD-SOR",
+      "sourceId": "SMS-SRC-SOR",
+      "kind": "SERVICE",
+      "eventId": "d6f6b2e7-d39d-3ef1-b0e2-1331a1979034"
+    },
+    {
+      "scopeId": "SMS-MD-SOR",
+      "sourceId": "SMSC-MD-SOR-01",
+      "kind": "NODE",
+      "eventId": "f113c468-fc67-3da7-ad67-75319a28d149"
+    },
+    {
+      "scopeId": "VOLTE-MD-RIB",
+      "sourceId": "VOLTE-SRC-RIB",
+      "kind": "SERVICE",
+      "eventId": "7854f6c7-2e49-3ef3-aca6-2d1f31940827"
+    },
+    {
+      "scopeId": "VOLTE-MD-RIB",
+      "sourceId": "IMS-MD-RIB-01",
+      "kind": "NODE",
+      "eventId": "d1469f7d-eaa4-316c-af88-6e3302e2a2fe"
+    },
+    {
+      "scopeId": "VOLTE-MD-RIB",
+      "sourceId": "TRANSPORT-MD-RIB-01",
+      "kind": "NODE",
+      "eventId": "77a843de-ab8c-328a-975d-9a7a144201b5"
+    },
+    {
+      "scopeId": "SMS-MD-RIB",
+      "sourceId": "SMS-SRC-RIB",
+      "kind": "SERVICE",
+      "eventId": "a7e76194-d939-3cf8-9375-a04436e4af08"
+    },
+    {
+      "scopeId": "SMS-MD-RIB",
+      "sourceId": "SMSC-MD-RIB-01",
+      "kind": "NODE",
+      "eventId": "bda83999-336e-3177-b2c6-5af346180f85"
+    },
+    {
+      "scopeId": "VOLTE-MD-UNG",
+      "sourceId": "VOLTE-SRC-UNG",
+      "kind": "SERVICE",
+      "eventId": "c3865a6b-bc01-39e1-a46a-c5626c7a4eaa"
+    },
+    {
+      "scopeId": "VOLTE-MD-UNG",
+      "sourceId": "IMS-MD-UNG-01",
+      "kind": "NODE",
+      "eventId": "d295774d-6840-3a30-84e1-96bfe46a1012"
+    },
+    {
+      "scopeId": "VOLTE-MD-UNG",
+      "sourceId": "TRANSPORT-MD-UNG-01",
+      "kind": "NODE",
+      "eventId": "44d4a8d4-baa4-3fc0-97fa-4b33dd5bf7ee"
+    },
+    {
+      "scopeId": "SMS-MD-UNG",
+      "sourceId": "SMS-SRC-UNG",
+      "kind": "SERVICE",
+      "eventId": "a656d195-7016-3f23-ab99-eaaff23a4509"
+    },
+    {
+      "scopeId": "SMS-MD-UNG",
+      "sourceId": "SMSC-MD-UNG-01",
+      "kind": "NODE",
+      "eventId": "bf631f6e-9a59-3a50-80d2-271b8b498e0e"
+    },
+    {
+      "scopeId": "VOLTE-MD-TIR",
+      "sourceId": "VOLTE-SRC-TIR",
+      "kind": "SERVICE",
+      "eventId": "35248be3-d577-3b2b-825c-4029a84aacd2"
+    },
+    {
+      "scopeId": "VOLTE-MD-TIR",
+      "sourceId": "IMS-MD-TIR-01",
+      "kind": "NODE",
+      "eventId": "9c2f1700-50b2-3c92-9535-36620031ecaa"
+    },
+    {
+      "scopeId": "VOLTE-MD-TIR",
+      "sourceId": "TRANSPORT-MD-TIR-01",
+      "kind": "NODE",
+      "eventId": "c2b97208-a687-393e-8462-9e448ac2bd89"
+    },
+    {
+      "scopeId": "SMS-MD-TIR",
+      "sourceId": "SMS-SRC-TIR",
+      "kind": "SERVICE",
+      "eventId": "224613ff-d9ec-3386-8929-41265bfc1397"
+    },
+    {
+      "scopeId": "SMS-MD-TIR",
+      "sourceId": "SMSC-MD-TIR-01",
+      "kind": "NODE",
+      "eventId": "a58fb862-3393-3c74-879c-d45babce50b1"
+    },
+    {
+      "scopeId": "VOLTE-MD-COM",
+      "sourceId": "VOLTE-SRC-COM",
+      "kind": "SERVICE",
+      "eventId": "3f24f5ff-4a89-38f9-98d4-0050e0c40fb5"
+    },
+    {
+      "scopeId": "VOLTE-MD-COM",
+      "sourceId": "IMS-MD-COM-01",
+      "kind": "NODE",
+      "eventId": "f4aef13e-622c-3e81-92fd-909c2f9193d3"
+    },
+    {
+      "scopeId": "VOLTE-MD-COM",
+      "sourceId": "TRANSPORT-MD-COM-01",
+      "kind": "NODE",
+      "eventId": "c4cf6637-d014-3730-8a4a-49706453627e"
+    },
+    {
+      "scopeId": "SMS-MD-COM",
+      "sourceId": "SMS-SRC-COM",
+      "kind": "SERVICE",
+      "eventId": "92b90c93-5029-32fc-98b8-fa655d677a35"
+    },
+    {
+      "scopeId": "SMS-MD-COM",
+      "sourceId": "SMSC-MD-COM-01",
+      "kind": "NODE",
+      "eventId": "7721dfff-f70b-3a26-87e7-e45abf2fe652"
+    },
+    {
+      "scopeId": "VOLTE-MD-CAH",
+      "sourceId": "VOLTE-SRC-CAH",
+      "kind": "SERVICE",
+      "eventId": "8ee75110-e992-339d-9518-de1121284116"
+    },
+    {
+      "scopeId": "VOLTE-MD-CAH",
+      "sourceId": "IMS-MD-CAH-01",
+      "kind": "NODE",
+      "eventId": "f7649e55-1310-3d9b-b1f9-2a443f9a952c"
+    },
+    {
+      "scopeId": "VOLTE-MD-CAH",
+      "sourceId": "TRANSPORT-MD-CAH-01",
+      "kind": "NODE",
+      "eventId": "4a2498da-0e61-3518-beb5-83034ec4a76e"
+    },
+    {
+      "scopeId": "SMS-MD-CAH",
+      "sourceId": "SMS-SRC-CAH",
+      "kind": "SERVICE",
+      "eventId": "9aa1bf56-f2f3-3f5a-979f-76c10c4be13f"
+    },
+    {
+      "scopeId": "SMS-MD-CAH",
+      "sourceId": "SMSC-MD-CAH-01",
+      "kind": "NODE",
+      "eventId": "86e592a0-510b-321f-a3f1-8f58c8c60bd5"
+    },
+    {
+      "scopeId": "VOLTE-MD-ORH",
+      "sourceId": "VOLTE-SRC-ORH",
+      "kind": "SERVICE",
+      "eventId": "f3f65b73-158f-347b-8bee-f20503511ea3"
+    },
+    {
+      "scopeId": "VOLTE-MD-ORH",
+      "sourceId": "IMS-MD-ORH-01",
+      "kind": "NODE",
+      "eventId": "be88bad7-7c4f-3f70-b404-eceb4c9c0e9e"
+    },
+    {
+      "scopeId": "VOLTE-MD-ORH",
+      "sourceId": "TRANSPORT-MD-ORH-01",
+      "kind": "NODE",
+      "eventId": "976e6eba-726a-3a64-854c-b49ff04698d5"
+    },
+    {
+      "scopeId": "SMS-MD-ORH",
+      "sourceId": "SMS-SRC-ORH",
+      "kind": "SERVICE",
+      "eventId": "e34c7330-a8dd-38c0-ad58-472414c734eb"
+    },
+    {
+      "scopeId": "SMS-MD-ORH",
+      "sourceId": "SMSC-MD-ORH-01",
+      "kind": "NODE",
+      "eventId": "409ea624-136d-381f-b7ce-8c3614d783ae"
+    }
+  ],
+  "goldenCoverageIds": [
+    {
+      "case": "complete-VOLTE-MD-CHI",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowId": "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+      "coverageId": "0f4f156023d6b9aac674bfffa7573a4ef108f372dae6af5fa20c3e74f14027a4"
+    },
+    {
+      "case": "complete-SMS-MD-CHI",
+      "scopeId": "SMS-MD-CHI",
+      "windowId": "27d921d0c514707904fbaf0939f5e998e308dbdfeaceb4138a0d05e800d39d90",
+      "coverageId": "5930731737e8b1a2aba9ad5d804fdc6662e7a0e35520b7c4fd2c036f2507c8bf"
+    },
+    {
+      "case": "complete-VOLTE-MD-BAL",
+      "scopeId": "VOLTE-MD-BAL",
+      "windowId": "753fb0b9af7689a9b27b6effee1b50698c15b11039788fbd7b72a3c327c2e139",
+      "coverageId": "b0e9650bcbc3ad26f39d0a921754f6f0f38a96ebf5a1dd2e8b964a527723d6ab"
+    },
+    {
+      "case": "complete-SMS-MD-BAL",
+      "scopeId": "SMS-MD-BAL",
+      "windowId": "78f217e981d225d41b77fca41e658f69a36268e64cae2ee03e8f41801815e259",
+      "coverageId": "beed01894aa2a4bfb183b10be360027458db0b647a276c7dce0d4d3a27fb9dfb"
+    },
+    {
+      "case": "complete-VOLTE-MD-EDI",
+      "scopeId": "VOLTE-MD-EDI",
+      "windowId": "2c1ea0323de3508c20f021fabf5ea74b98756cd3d0b611ac221825ea981ea701",
+      "coverageId": "78167fb737ad108c299c4c341abe3bda6a6159774472e0d32830bbf04ebc25fd"
+    },
+    {
+      "case": "complete-SMS-MD-EDI",
+      "scopeId": "SMS-MD-EDI",
+      "windowId": "c77889458f031cbb6559b7d30b8fd4d7c74689d82c5ba051cdee3cd049dde80c",
+      "coverageId": "5317ae54e024f8123defebd7d0274299d2fddcb8e7d1a351e02a5695647079ce"
+    },
+    {
+      "case": "complete-VOLTE-MD-SOR",
+      "scopeId": "VOLTE-MD-SOR",
+      "windowId": "90e320faa32e537518fedd0ccaf29b7b47cabbbdcb78c424dca1fb6d5295b649",
+      "coverageId": "bd45bf4e410397cdeef1f13a72c69c66f20fbb154ec333a5f6dc53072e0c1611"
+    },
+    {
+      "case": "complete-SMS-MD-SOR",
+      "scopeId": "SMS-MD-SOR",
+      "windowId": "84858f82d4eefcc7a7167420fb2ceb9e86580ffcb9243511b736b4d9e2beb707",
+      "coverageId": "655985d292aafeaf8c5da744acb4581534a84291e3b3d14dd6006ecf6ac55ddf"
+    },
+    {
+      "case": "complete-VOLTE-MD-RIB",
+      "scopeId": "VOLTE-MD-RIB",
+      "windowId": "6cb877e4d5d04b664c2d709a731f2743c57f1ec67bcfd71f3946d41d60f6d655",
+      "coverageId": "b0d689e2bf138156359165278de2b1354b72d71899610f34af00af5ae7f58f63"
+    },
+    {
+      "case": "complete-SMS-MD-RIB",
+      "scopeId": "SMS-MD-RIB",
+      "windowId": "6fc4e686c7457a456817a252fe9159c09d95b75bc1ad24069c37678407010e59",
+      "coverageId": "0182eb368427fe9409dbc1af26e8ff9f27c6c62ca53b03c0c96984c2c3d51df9"
+    },
+    {
+      "case": "complete-VOLTE-MD-UNG",
+      "scopeId": "VOLTE-MD-UNG",
+      "windowId": "656ea441971eb8b6bf76fa13b39b68bfee346c319aaf866dd6fb8bff468e5df6",
+      "coverageId": "ee4d3f0fa720ce19a4f1bea23364794358d6aea166a53e1f665760b853b93805"
+    },
+    {
+      "case": "complete-SMS-MD-UNG",
+      "scopeId": "SMS-MD-UNG",
+      "windowId": "4de636c75463b2f99d6f7d8e739fb5564881bbd93b143c8a465050dad1c143fe",
+      "coverageId": "0037873b3f328d8b4fcb87f92306c7ca9f56eee19a0dcff2492152db864a7536"
+    },
+    {
+      "case": "complete-VOLTE-MD-TIR",
+      "scopeId": "VOLTE-MD-TIR",
+      "windowId": "66ef7fe21ab4137df677dce258aab56d03d40244961404cc21b57978592ec5f6",
+      "coverageId": "f46e5f53daba5c10daefcb161ccc81e65e4d7939a37fc05395dc002bb8581172"
+    },
+    {
+      "case": "complete-SMS-MD-TIR",
+      "scopeId": "SMS-MD-TIR",
+      "windowId": "fe5a26ecae9cde800f7053d718ecab42fbd0af056a58210fb4084f5da2293ae1",
+      "coverageId": "fcb3590935b2b595a87f43b48e159b5e3ebb5497dc94c09dc182c6a342b276f8"
+    },
+    {
+      "case": "complete-VOLTE-MD-COM",
+      "scopeId": "VOLTE-MD-COM",
+      "windowId": "c89837e5967797b7b403c44d29445929e5e7459c90df0255ebb02a5e4795742b",
+      "coverageId": "e6c3c4440f2df1a64fff006521e39db36892972f6121c5e4bb8d1260814e3dbb"
+    },
+    {
+      "case": "complete-SMS-MD-COM",
+      "scopeId": "SMS-MD-COM",
+      "windowId": "c650e078f5f8c68a3f077d903f9a32126d0efbd39a1aa53de205b49890087a54",
+      "coverageId": "0035151345d2e71dec816bc51e046b09487507e84bcb82f8acdab44b5a7e4a0f"
+    },
+    {
+      "case": "complete-VOLTE-MD-CAH",
+      "scopeId": "VOLTE-MD-CAH",
+      "windowId": "87770788c9c7756e5f740ebe2a570fb295073fb0b68a27026ffc508386ecd3e8",
+      "coverageId": "3920732d779512e0e762137403d217946309fb9e5ff18080b6c9ffdeafdc8988"
+    },
+    {
+      "case": "complete-SMS-MD-CAH",
+      "scopeId": "SMS-MD-CAH",
+      "windowId": "a92ff734564ad402c32d87637c710eb405938dd3d59219f259bcf7dda1f3b05b",
+      "coverageId": "7665af9a3fa520c049d50fee1fad5f26479c73c440accc612d1eb6fd92d77898"
+    },
+    {
+      "case": "complete-VOLTE-MD-ORH",
+      "scopeId": "VOLTE-MD-ORH",
+      "windowId": "a14be02a7cd1a6b17e1a46fb2f7d4c939b17cb4aea10265b67954b8b2f81cf60",
+      "coverageId": "835302d809ca3838e072f36f49781583ea0b996a9a411ba74b74afcf567c8c35"
+    },
+    {
+      "case": "complete-SMS-MD-ORH",
+      "scopeId": "SMS-MD-ORH",
+      "windowId": "ffc438ee7c4a5eaf7207bc55aaf35202d106fc5eeb50310705e50bc0adb280ec",
+      "coverageId": "4d45091552ce299bd3fcd622d8c3b005d2a959d3eb9d1d5abca8a9d65119a3cb"
+    },
+    {
+      "case": "zero-volume-valid",
+      "scopeId": "SMS-MD-CHI",
+      "windowId": "27d921d0c514707904fbaf0939f5e998e308dbdfeaceb4138a0d05e800d39d90",
+      "coverageId": "5930731737e8b1a2aba9ad5d804fdc6662e7a0e35520b7c4fd2c036f2507c8bf"
+    },
+    {
+      "case": "absent-required-node",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowId": "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+      "coverageId": "0f4f156023d6b9aac674bfffa7573a4ef108f372dae6af5fa20c3e74f14027a4"
+    },
+    {
+      "case": "all-absent",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowId": "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+      "coverageId": "0f4f156023d6b9aac674bfffa7573a4ef108f372dae6af5fa20c3e74f14027a4"
+    },
+    {
+      "case": "reported-missing-node",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowId": "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+      "coverageId": "0f4f156023d6b9aac674bfffa7573a4ef108f372dae6af5fa20c3e74f14027a4"
+    },
+    {
+      "case": "incomplete-service",
+      "scopeId": "SMS-MD-CHI",
+      "windowId": "27d921d0c514707904fbaf0939f5e998e308dbdfeaceb4138a0d05e800d39d90",
+      "coverageId": "5930731737e8b1a2aba9ad5d804fdc6662e7a0e35520b7c4fd2c036f2507c8bf"
+    },
+    {
+      "case": "wrong-role-measurement",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowId": "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+      "coverageId": "0f4f156023d6b9aac674bfffa7573a4ef108f372dae6af5fa20c3e74f14027a4"
+    },
+    {
+      "case": "optional-sms-transport",
+      "scopeId": "SMS-MD-CHI",
+      "windowId": "27d921d0c514707904fbaf0939f5e998e308dbdfeaceb4138a0d05e800d39d90",
+      "coverageId": "5930731737e8b1a2aba9ad5d804fdc6662e7a0e35520b7c4fd2c036f2507c8bf"
+    },
+    {
+      "case": "heartbeat-not-measurement",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowId": "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+      "coverageId": "0f4f156023d6b9aac674bfffa7573a4ef108f372dae6af5fa20c3e74f14027a4"
+    },
+    {
+      "case": "legacy-volte",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "windowId": "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+      "coverageId": "c067a21db03f800302ee10ec32aff8afe68c787353fb7da53f6f4bf786a3e777"
+    },
+    {
+      "case": "legacy-sms",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "windowId": "f2943ba9da001a33ee7f781c651fa25474cdde2723d63d8e927d940d6cfb8f7e",
+      "coverageId": "c1ce7f74980effda3c15753b1af092d5effaa0a1cc7a6ccc2ff73c48ef21b415"
+    }
+  ],
+  "requiredRawPerCityMinute": {
+    "VOLTE": 3,
+    "SMS": 2
+  },
+  "cityRawPerMinute": 50,
+  "futureCityKpiPerMinute": 20,
+  "digestEncoding": "Git blob bytes: UTF-8 with LF; normalize CRLF checkout bytes before comparing"
+}

@@ -1,0 +1,101 @@
+[
+  {
+    "name": "duplicate city",
+    "patch": {
+      "/cities/1/cityId": "CHI"
+    },
+    "reason": "Duplicate cityId"
+  },
+  {
+    "name": "duplicate scope",
+    "patch": {
+      "/scopes/1/scopeId": "VOLTE-MD-CHI"
+    },
+    "reason": "Duplicate scopeId"
+  },
+  {
+    "name": "duplicate node",
+    "patch": {
+      "/nodes/2/nodeId": "CITY-MD-CHI"
+    },
+    "reason": "Duplicate nodeId"
+  },
+  {
+    "name": "missing parent",
+    "patch": {
+      "/nodes/2/parentId": "ABSENT"
+    },
+    "reason": "Dangling parent"
+  },
+  {
+    "name": "cycle",
+    "patch": {
+      "/nodes/2/parentId": "CELL-MD-CHI-01"
+    },
+    "reason": "Containment cycle"
+  },
+  {
+    "name": "cross city parent",
+    "patch": {
+      "/nodes/2/parentId": "CITY-MD-BAL"
+    },
+    "reason": "Cross-city parent"
+  },
+  {
+    "name": "missing role",
+    "patch": {
+      "/scopes/0/roles": []
+    },
+    "reason": "Missing role"
+  },
+  {
+    "name": "ambiguous role",
+    "patch": {
+      "/scopes/0/roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-CHI-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-CHI-01"
+        },
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-CHI-01"
+        }
+      ]
+    },
+    "reason": "Ambiguous role"
+  },
+  {
+    "name": "absent role target",
+    "patch": {
+      "/scopes/0/roles/0/nodeId": "ABSENT"
+    },
+    "reason": "Unknown node"
+  },
+  {
+    "name": "wrong service role target",
+    "patch": {
+      "/scopes/0/roles/0/nodeId": "TRANSPORT-MD-CHI-01"
+    },
+    "reason": "Wrong role capability"
+  },
+  {
+    "name": "cross city role",
+    "patch": {
+      "/scopes/0/roles/0/nodeId": "IMS-MD-BAL-01"
+    },
+    "reason": "Unknown node"
+  },
+  {
+    "name": "wrong footprint",
+    "patch": {
+      "/scopes/0/footprintNodeIds": [
+        "CELL-MD-BAL-01"
+      ]
+    },
+    "reason": "Invalid footprint"
+  }
+]

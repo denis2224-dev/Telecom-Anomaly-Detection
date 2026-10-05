@@ -1,0 +1,902 @@
+{
+  "schemaVersion": 1,
+  "catalogueVersion": "1-geography-g1",
+  "topologyVersion": "2-geography-g1",
+  "activation": {
+    "status": "CONTRACT_ONLY",
+    "effectiveFrom": null
+  },
+  "synthetic": true,
+  "cities": [
+    {
+      "cityId": "CHI",
+      "displayName": "Chișinău",
+      "active": true
+    },
+    {
+      "cityId": "BAL",
+      "displayName": "Bălți",
+      "active": true
+    },
+    {
+      "cityId": "EDI",
+      "displayName": "Edineț",
+      "active": true
+    },
+    {
+      "cityId": "SOR",
+      "displayName": "Soroca",
+      "active": true
+    },
+    {
+      "cityId": "RIB",
+      "displayName": "Rîbnița",
+      "active": true
+    },
+    {
+      "cityId": "UNG",
+      "displayName": "Ungheni",
+      "active": true
+    },
+    {
+      "cityId": "TIR",
+      "displayName": "Tiraspol",
+      "active": true
+    },
+    {
+      "cityId": "COM",
+      "displayName": "Comrat",
+      "active": true
+    },
+    {
+      "cityId": "CAH",
+      "displayName": "Cahul",
+      "active": true
+    },
+    {
+      "cityId": "ORH",
+      "displayName": "Orhei",
+      "active": true
+    }
+  ],
+  "nodes": [
+    {
+      "nodeId": "MD",
+      "parentId": null,
+      "cityId": null,
+      "type": "COUNTRY"
+    },
+    {
+      "nodeId": "CITY-MD-CHI",
+      "parentId": "MD",
+      "cityId": "CHI",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-CHI-01",
+      "parentId": "CITY-MD-CHI",
+      "cityId": "CHI",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-CHI-01",
+      "parentId": "AGG-MD-CHI-01",
+      "cityId": "CHI",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-CHI-01",
+      "parentId": "SITE-MD-CHI-01",
+      "cityId": "CHI",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-CHI-01",
+      "parentId": "CITY-MD-CHI",
+      "cityId": "CHI",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-CHI-01",
+      "parentId": "CITY-MD-CHI",
+      "cityId": "CHI",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-CHI-01",
+      "parentId": "CITY-MD-CHI",
+      "cityId": "CHI",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-BAL",
+      "parentId": "MD",
+      "cityId": "BAL",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-BAL-01",
+      "parentId": "CITY-MD-BAL",
+      "cityId": "BAL",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-BAL-01",
+      "parentId": "AGG-MD-BAL-01",
+      "cityId": "BAL",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-BAL-01",
+      "parentId": "SITE-MD-BAL-01",
+      "cityId": "BAL",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-BAL-01",
+      "parentId": "CITY-MD-BAL",
+      "cityId": "BAL",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-BAL-01",
+      "parentId": "CITY-MD-BAL",
+      "cityId": "BAL",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-BAL-01",
+      "parentId": "CITY-MD-BAL",
+      "cityId": "BAL",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-EDI",
+      "parentId": "MD",
+      "cityId": "EDI",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-EDI-01",
+      "parentId": "CITY-MD-EDI",
+      "cityId": "EDI",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-EDI-01",
+      "parentId": "AGG-MD-EDI-01",
+      "cityId": "EDI",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-EDI-01",
+      "parentId": "SITE-MD-EDI-01",
+      "cityId": "EDI",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-EDI-01",
+      "parentId": "CITY-MD-EDI",
+      "cityId": "EDI",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-EDI-01",
+      "parentId": "CITY-MD-EDI",
+      "cityId": "EDI",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-EDI-01",
+      "parentId": "CITY-MD-EDI",
+      "cityId": "EDI",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-SOR",
+      "parentId": "MD",
+      "cityId": "SOR",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-SOR-01",
+      "parentId": "CITY-MD-SOR",
+      "cityId": "SOR",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-SOR-01",
+      "parentId": "AGG-MD-SOR-01",
+      "cityId": "SOR",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-SOR-01",
+      "parentId": "SITE-MD-SOR-01",
+      "cityId": "SOR",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-SOR-01",
+      "parentId": "CITY-MD-SOR",
+      "cityId": "SOR",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-SOR-01",
+      "parentId": "CITY-MD-SOR",
+      "cityId": "SOR",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-SOR-01",
+      "parentId": "CITY-MD-SOR",
+      "cityId": "SOR",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-RIB",
+      "parentId": "MD",
+      "cityId": "RIB",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-RIB-01",
+      "parentId": "CITY-MD-RIB",
+      "cityId": "RIB",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-RIB-01",
+      "parentId": "AGG-MD-RIB-01",
+      "cityId": "RIB",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-RIB-01",
+      "parentId": "SITE-MD-RIB-01",
+      "cityId": "RIB",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-RIB-01",
+      "parentId": "CITY-MD-RIB",
+      "cityId": "RIB",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-RIB-01",
+      "parentId": "CITY-MD-RIB",
+      "cityId": "RIB",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-RIB-01",
+      "parentId": "CITY-MD-RIB",
+      "cityId": "RIB",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-UNG",
+      "parentId": "MD",
+      "cityId": "UNG",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-UNG-01",
+      "parentId": "CITY-MD-UNG",
+      "cityId": "UNG",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-UNG-01",
+      "parentId": "AGG-MD-UNG-01",
+      "cityId": "UNG",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-UNG-01",
+      "parentId": "SITE-MD-UNG-01",
+      "cityId": "UNG",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-UNG-01",
+      "parentId": "CITY-MD-UNG",
+      "cityId": "UNG",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-UNG-01",
+      "parentId": "CITY-MD-UNG",
+      "cityId": "UNG",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-UNG-01",
+      "parentId": "CITY-MD-UNG",
+      "cityId": "UNG",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-TIR",
+      "parentId": "MD",
+      "cityId": "TIR",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-TIR-01",
+      "parentId": "CITY-MD-TIR",
+      "cityId": "TIR",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-TIR-01",
+      "parentId": "AGG-MD-TIR-01",
+      "cityId": "TIR",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-TIR-01",
+      "parentId": "SITE-MD-TIR-01",
+      "cityId": "TIR",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-TIR-01",
+      "parentId": "CITY-MD-TIR",
+      "cityId": "TIR",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-TIR-01",
+      "parentId": "CITY-MD-TIR",
+      "cityId": "TIR",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-TIR-01",
+      "parentId": "CITY-MD-TIR",
+      "cityId": "TIR",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-COM",
+      "parentId": "MD",
+      "cityId": "COM",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-COM-01",
+      "parentId": "CITY-MD-COM",
+      "cityId": "COM",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-COM-01",
+      "parentId": "AGG-MD-COM-01",
+      "cityId": "COM",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-COM-01",
+      "parentId": "SITE-MD-COM-01",
+      "cityId": "COM",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-COM-01",
+      "parentId": "CITY-MD-COM",
+      "cityId": "COM",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-COM-01",
+      "parentId": "CITY-MD-COM",
+      "cityId": "COM",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-COM-01",
+      "parentId": "CITY-MD-COM",
+      "cityId": "COM",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-CAH",
+      "parentId": "MD",
+      "cityId": "CAH",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-CAH-01",
+      "parentId": "CITY-MD-CAH",
+      "cityId": "CAH",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-CAH-01",
+      "parentId": "AGG-MD-CAH-01",
+      "cityId": "CAH",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-CAH-01",
+      "parentId": "SITE-MD-CAH-01",
+      "cityId": "CAH",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-CAH-01",
+      "parentId": "CITY-MD-CAH",
+      "cityId": "CAH",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-CAH-01",
+      "parentId": "CITY-MD-CAH",
+      "cityId": "CAH",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-CAH-01",
+      "parentId": "CITY-MD-CAH",
+      "cityId": "CAH",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "CITY-MD-ORH",
+      "parentId": "MD",
+      "cityId": "ORH",
+      "type": "CITY"
+    },
+    {
+      "nodeId": "AGG-MD-ORH-01",
+      "parentId": "CITY-MD-ORH",
+      "cityId": "ORH",
+      "type": "AGGREGATION"
+    },
+    {
+      "nodeId": "SITE-MD-ORH-01",
+      "parentId": "AGG-MD-ORH-01",
+      "cityId": "ORH",
+      "type": "SITE"
+    },
+    {
+      "nodeId": "CELL-MD-ORH-01",
+      "parentId": "SITE-MD-ORH-01",
+      "cityId": "ORH",
+      "type": "CELL"
+    },
+    {
+      "nodeId": "IMS-MD-ORH-01",
+      "parentId": "CITY-MD-ORH",
+      "cityId": "ORH",
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-MD-ORH-01",
+      "parentId": "CITY-MD-ORH",
+      "cityId": "ORH",
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-MD-ORH-01",
+      "parentId": "CITY-MD-ORH",
+      "cityId": "ORH",
+      "type": "TRANSPORT"
+    },
+    {
+      "nodeId": "IMS-A",
+      "parentId": "MD",
+      "cityId": null,
+      "type": "IMS"
+    },
+    {
+      "nodeId": "SMSC-A",
+      "parentId": "MD",
+      "cityId": null,
+      "type": "SMSC"
+    },
+    {
+      "nodeId": "TRANSPORT-A",
+      "parentId": "MD",
+      "cityId": null,
+      "type": "TRANSPORT"
+    }
+  ],
+  "scopes": [
+    {
+      "scopeId": "VOLTE-MD-CHI",
+      "cityId": "CHI",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-CHI-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-CHI-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-CHI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-CHI",
+      "cityId": "CHI",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-CHI-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-CHI-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-CHI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-BAL",
+      "cityId": "BAL",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-BAL-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-BAL-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-BAL-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-BAL",
+      "cityId": "BAL",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-BAL-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-BAL-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-BAL-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-EDI",
+      "cityId": "EDI",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-EDI-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-EDI-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-EDI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-EDI",
+      "cityId": "EDI",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-EDI-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-EDI-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-EDI-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-SOR",
+      "cityId": "SOR",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-SOR-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-SOR-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-SOR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-SOR",
+      "cityId": "SOR",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-SOR-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-SOR-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-SOR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-RIB",
+      "cityId": "RIB",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-RIB-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-RIB-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-RIB-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-RIB",
+      "cityId": "RIB",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-RIB-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-RIB-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-RIB-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-UNG",
+      "cityId": "UNG",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-UNG-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-UNG-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-UNG-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-UNG",
+      "cityId": "UNG",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-UNG-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-UNG-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-UNG-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-TIR",
+      "cityId": "TIR",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-TIR-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-TIR-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-TIR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-TIR",
+      "cityId": "TIR",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-TIR-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-TIR-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-TIR-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-COM",
+      "cityId": "COM",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-COM-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-COM-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-COM-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-COM",
+      "cityId": "COM",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-COM-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-COM-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-COM-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-CAH",
+      "cityId": "CAH",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-CAH-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-CAH-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-CAH-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-CAH",
+      "cityId": "CAH",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-CAH-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-CAH-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-CAH-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-ORH",
+      "cityId": "ORH",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-ORH-01"
+      ],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-MD-ORH-01"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-ORH-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-ORH",
+      "cityId": "ORH",
+      "legacy": false,
+      "footprintNodeIds": [
+        "CELL-MD-ORH-01"
+      ],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-MD-ORH-01"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-MD-ORH-01"
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "cityId": null,
+      "legacy": true,
+      "footprintNodeIds": [],
+      "roles": [
+        {
+          "role": "VOLTE_IMS",
+          "nodeId": "IMS-A"
+        },
+        {
+          "role": "VOLTE_TRANSPORT",
+          "nodeId": "TRANSPORT-A"
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-ROUTE-A",
+      "cityId": null,
+      "legacy": true,
+      "footprintNodeIds": [],
+      "roles": [
+        {
+          "role": "SMS_SMSC",
+          "nodeId": "SMSC-A"
+        },
+        {
+          "role": "SMS_TRANSPORT",
+          "nodeId": "TRANSPORT-A"
+        }
+      ]
+    }
+  ]
+}

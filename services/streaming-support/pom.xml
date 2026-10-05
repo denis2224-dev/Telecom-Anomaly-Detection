@@ -19,8 +19,15 @@
       <resource><directory>src/main/resources</directory></resource>
       <resource>
         <directory>../../contracts</directory><targetPath>contracts</targetPath>
-        <includes><include>observations/**</include><include>topology/**</include><include>fixtures/observations/**</include><include>fixtures/validation/**</include></includes>
+        <includes><include>observations/**</include><include>topology/**</include><include>geography/**</include><include>coverage/**</include><include>fixtures/geography/**</include><include>fixtures/coverage/**</include><include>fixtures/observations/**</include><include>fixtures/validation/**</include></includes>
       </resource>
     </resources>
+    <testResources>
+      <testResource><directory>src/test/resources</directory></testResource>
+      <testResource>
+        <directory>../../contracts</directory><targetPath>contracts</targetPath>
+        <includes><include>fixtures/features/voice-worked-v2.json</include></includes>
+      </testResource>
+    </testResources>
   </build>
 </project>
