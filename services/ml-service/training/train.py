@@ -39,12 +39,19 @@ def vectors(data, runs, service, split):
     return result
 
 
-def train(data=HERE / "data", models=MODELS):
+def train(data=HERE / "data", models=MODELS, model_version="isoforest-v2-synthetic-1"):
     split = json.loads((data.parent / "split_manifest.json").read_text(encoding="utf-8"))
     if split["featureVersion"] != ORDER["featureVersion"] or split["baselineVersion"] != "baseline-v2":
         raise ValueError("Incompatible dataset versions")
+    if split['datasetVersion'] != 'synthetic-v2-1':
+        if models.resolve() == MODELS.resolve():
+            raise ValueError('Expanded data requires a separate candidate model directory')
+        if model_version == 'isoforest-v2-synthetic-1':
+            raise ValueError('Expanded data requires a distinct model version')
+    if not isinstance(model_version, str) or not model_version.strip():
+        raise ValueError('Model version must be nonempty')
     models.mkdir(parents=True, exist_ok=True)
-    manifest = dict(modelVersion="isoforest-v2-synthetic-1", observationSchemaVersion=2,
+    manifest = dict(modelVersion=model_version, observationSchemaVersion=2,
                     featureSchemaVersion=2, featureVersion=ORDER["featureVersion"],
                     baselineVersion=split["baselineVersion"], datasetVersion=split["datasetVersion"],
                     datasetManifestSha256=sha256((data.parent / "split_manifest.json").read_bytes()).hexdigest(),
@@ -74,6 +81,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, default=HERE / "data")
     parser.add_argument("--models", type=Path, default=MODELS)
+    parser.add_argument("--model-version", default="isoforest-v2-synthetic-1")
     args = parser.parse_args()
-    result = train(args.data, args.models)
+    result = train(args.data, args.models, args.model_version)
     print(f"Packaged {', '.join(result['services'])} models as {result['modelVersion']}")
