@@ -33,6 +33,7 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     await expect(page.locator('app-kpi-cards .kpi-card')).toHaveCount(trajectory.service === 'VOLTE' ? 8 : 5);
     if (trajectory.service === 'SMS') await expect(page.locator('[data-node-id="TRANSPORT-A"]')).toContainText('NO CURRENT MEASUREMENT');
     if (latest) {
+      await page.getByText('View incident evidence', { exact: true }).click();
       await expect(page.locator('.incident-story')).toContainText(latest.probableCause);
       await expect(page.locator('.incident-story')).toContainText(`Cause confidence: ${latest.causeConfidence}`);
       await expect(page.locator('.incident-story')).toContainText('Unique subscribers: not available in aggregate demo');
@@ -40,8 +41,8 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
       if (latest.phase === 'RECOVERY') await expect(page.locator('svg [data-phase="RECOVERY"]').first()).toBeVisible();
       if (latest.phase === 'UNKNOWN') await expect(page.locator('svg [data-phase="UNKNOWN"]').first()).toBeVisible();
     }
-    await page.getByLabel('Time range', { exact: true }).selectOption('48');
-    await expect.poll(() => requests.length).toBe(3);
+    await page.getByRole('button', { name: '24h', exact: true }).click();
+    await expect.poll(() => requests.length).toBe(2);
     for (const request of requests) expect(Date.parse(request.to) - Date.parse(request.from)).toBeLessThanOrEqual(86400000);
     await expect(page.locator('.kpi-cards')).toBeVisible();
     expect(await page.evaluate(() => [...document.querySelectorAll('body *')].filter(element => {

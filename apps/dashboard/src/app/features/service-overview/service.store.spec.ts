@@ -38,4 +38,19 @@ describe("ServiceStore", () => {
     expect(store.error()).toBe("Connection unavailable");
     expect(store.loading()).toBe(false);
   });
+
+  it('keeps newer incident versions while replacing the authoritative snapshot membership', async () => {
+    const incident = voiceIncidents[0];
+    const listIncidents = vi.fn().mockResolvedValue({ items: [{ ...incident, version: 3 }], total: 1 });
+    TestBed.configureTestingModule({ providers: [{ provide: TelecomClient,
+      useValue: { listServices: async () => services, listIncidents } }] });
+    const store = TestBed.inject(ServiceStore);
+    store.incidents.set([{ ...incident, version: 4, technicalState: 'ONGOING' }]);
+    await store.load();
+    expect(store.incidents()[0].version).toBe(4);
+    expect(store.health(services[0] as ServiceSummary)).toBe('DEGRADED');
+    listIncidents.mockResolvedValue({ items: [], total: 0 });
+    await store.load();
+    expect(store.incidents()).toEqual([]);
+  });
 });

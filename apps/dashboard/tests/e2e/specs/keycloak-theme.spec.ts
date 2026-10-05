@@ -22,17 +22,25 @@ test("branded provider form preserves password controls and validation", async (
   const styles = await page.locator('link[rel="stylesheet"]').evaluateAll(links => links.map(link => (link as HTMLLinkElement).href));
   expect(styles.findIndex(href => href.endsWith("/css/login.css"))).toBeGreaterThanOrEqual(0);
   expect(styles.findIndex(href => href.endsWith("/css/login.css"))).toBeLessThan(styles.findIndex(href => href.endsWith("/css/telecom.css")));
-  await expect(page.locator("#kc-login")).toHaveCSS("background-color", rgb(branding.primary));
-  await expect(page.locator("body")).toHaveCSS("background-color", rgb(branding["page-background"]));
-  await expect(page.locator(".login-pf-page")).toHaveCSS("font-family", branding["font-family"]);
-  await expect(page.locator(".card-pf")).toHaveCSS("border-radius", branding["border-radius"]);
+  await expect(page.locator("#kc-login")).toHaveCSS("background-image", /linear-gradient/);
+  await expect(page.locator("body")).toHaveCSS("background-color", rgb(branding.bg));
+  const normalizedFont = await page.evaluate(font => {
+    const probe = document.createElement('span');
+    probe.style.fontFamily = font;
+    document.body.append(probe);
+    const computed = getComputedStyle(probe).fontFamily;
+    probe.remove();
+    return computed;
+  }, branding['font-family']);
+  await expect(page.locator(".login-pf-page")).toHaveCSS("font-family", normalizedFont);
+  await expect(page.locator(".card-pf")).toHaveCSS("border-radius", branding.radius);
   expect(await page.locator("#kc-login").evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThanOrEqual(46);
   await expect(page.getByText("Need access? Contact your project administrator.")).toBeVisible();
   // The mark is decorative, while real text retains the brand's accessible name.
   await expect(page.locator("#kc-header-wrapper")).toContainText("Telecom");
-  await expect(page.locator("#kc-header-wrapper")).toHaveCSS("background-image", /mark\.svg/);
+  expect(await page.locator("#kc-header-wrapper").evaluate(el => getComputedStyle(el, "::before").maskImage)).toContain("mark.svg");
   await page.locator("#kc-login").hover();
-  await expect(page.locator("#kc-login")).toHaveCSS("background-color", rgb(branding["primary-hover"]));
+  await expect(page.locator("#kc-login")).toHaveCSS("background-image", /linear-gradient/);
   await page.mouse.move(0, 0);
   await page.screenshot({ path: info.outputPath("login-desktop.png"), fullPage: true });
   await page.locator("#username").fill("nonexistent-theme-test-user");
@@ -44,7 +52,7 @@ test("branded provider form preserves password controls and validation", async (
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await expect(page.getByText("Invalid username or password.")).toBeVisible();
   await expect(page.locator("#username")).toHaveAttribute("aria-invalid", "true");
-  await expect(page.locator("#username")).toHaveCSS("border-top-color", rgb(branding.danger));
+  await expect(page.locator("#username")).toHaveCSS("box-shadow", new RegExp(rgb(branding.danger).replace(/[()]/g, "\\$&")));
   await expect(page.locator("#password")).toHaveValue("");
   await page.screenshot({ path: info.outputPath("login-error.png"), fullPage: true });
 });
@@ -64,8 +72,8 @@ test("keyboard focus and labels remain usable at 320px", async ({ page }) => {
   await page.goto(authorize);
   const username = page.getByLabel(/username or email/i);
   await expect(username).toBeFocused();
-  await expect(username).toHaveCSS("outline-color", rgb(branding.focus));
-  await expect(username).toHaveCSS("outline-width", "3px");
+  await expect(username).toHaveCSS("outline-style", "solid");
+  await expect(username).toHaveCSS("outline-color", rgb(branding.accent));
   await page.keyboard.press("Tab");
   await expect(page.getByLabel("Password", { exact: true })).toBeFocused();
   await page.keyboard.press("Tab");
@@ -85,7 +93,7 @@ test("inherited recovery page keeps labels, navigation and branding", async ({ p
   await expect(page.getByLabel(/username or email/i)).toBeVisible();
   const submit = page.getByRole("button", { name: "Submit", exact: true });
   await expect(submit).toBeVisible();
-  await expect(submit).toHaveCSS("background-color", rgb(branding.primary));
+  await expect(submit).toHaveCSS("background-image", /linear-gradient/);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   // Do not submit, send mail, or change any account.
   await page.getByRole("link", { name: /back to login/i }).click();

@@ -1,4 +1,4 @@
-import { historySlices, mergeWindows, metricValue, phaseAt, serviceHealth } from './assurance-model';
+import { allPages, metricValue, phaseAt, serviceHealth } from './assurance-model';
 import { voiceWindows, voiceIncidents } from '../../../fixtures/voice';
 import services from '../../../fixtures/services.json';
 import type { ServiceSummary } from '../../core/api/telecom-client';
@@ -15,7 +15,7 @@ describe('Assurance evidence semantics', () => {
     const base = voiceIncidents[0].latestDetection;
     const opening = { ...base, phase: 'OPEN' as const, sequence: 1, windowStart: voiceWindows[2].windowStart, windowEnd: voiceWindows[2].windowEnd };
     const recovery = { ...base, phase: 'RECOVERY' as const, sequence: 2, windowStart: voiceWindows[7].windowStart, windowEnd: voiceWindows[7].windowEnd };
-    expect(phaseAt(voiceWindows[0], [opening, recovery])).toBe('NORMAL');
+    expect(phaseAt(voiceWindows[0], [opening, recovery])).toBe('UNKNOWN');
     expect(phaseAt(voiceWindows[6], [opening, recovery])).toBe('DEGRADED');
     expect(phaseAt(voiceWindows[7], [opening, recovery])).toBe('RECOVERY');
     expect(phaseAt(voiceWindows[9], [opening, recovery])).toBe('NORMAL');
@@ -29,16 +29,9 @@ describe('Assurance evidence semantics', () => {
     expect(serviceHealth({ ...service, latestWindow: voiceWindows[4] })).toBe('UNKNOWN');
     expect(serviceHealth({ ...service, freshness: 'STALE' })).toBe('STALE');
   });
-  it('splits 48 hours into two legal half-open 24 hour requests', () => {
-    const ranges = historySlices('2026-09-13T10:00:00Z', '2026-09-15T10:00:00Z');
-    expect(ranges).toHaveLength(2);
-    expect(ranges[0].to).toBe(ranges[1].from);
-    for (const range of ranges) expect(Date.parse(range.to) - Date.parse(range.from)).toBe(86400000);
-    expect(() => historySlices('2026-09-12T10:00:00Z', '2026-09-15T10:00:00Z')).toThrow();
-  });
-  it('merges overlapping pages by window id/start, retaining latest and sorting', () => {
-    const changed = { ...voiceWindows[0], quality: 'INCOMPLETE' as const };
-    expect(mergeWindows([voiceWindows[2], voiceWindows[0]], [voiceWindows[1], changed, voiceWindows[2]]))
-      .toEqual([changed, voiceWindows[1], voiceWindows[2]]);
+  it('bounds overview incident reads and rejects shifting totals', async () => {
+    await expect(allPages(async () => ({ items: [], total: 10001 }))).rejects.toThrow('limit');
+    let calls = 0;
+    await expect(allPages(async () => ({ items: [1], total: ++calls === 1 ? 2 : 3 }))).rejects.toThrow('changed');
   });
 });

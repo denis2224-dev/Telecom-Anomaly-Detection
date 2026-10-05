@@ -17,149 +17,43 @@ import { dataSource } from '../../core/api/data-source';
 import { SessionStore } from '../login-and-session/session.store';
 import { requestId } from '../../core/api/request-id';
 
+import { IconComponent } from '../../shared/icon.component';
+import { ToastService } from '../../shared/toast.service';
+
 type Analyst = components['schemas']['AnalystSummary'];
 
 @Component({
   selector: 'app-incident-actions',
+  imports: [IconComponent],
   template: `
-    <section class="detail-panel" aria-labelledby="incident-actions-title">
+    <section class="detail-panel workflow-card" aria-labelledby="incident-actions-title">
       <h2 id="incident-actions-title">Assignment and workflow</h2>
-
-      <p>
-        Assigned to: {{ assigneeName() }}
-        · Workflow: {{ incident().status }}
-        · Technical state: {{ incident().technicalState }}
-      </p>
-
-      @if (dataSource.fixture) {
-        <p class="muted">Actions are unavailable in the fixture preview.</p>
-      } @else {
-        @if (directoryError()) {
-          <p role="alert">{{ directoryError() }}</p>
-          <button type="button" (click)="loadAnalysts()">
-            Retry analyst directory
-          </button>
-        }
-
-        @if (canClaim()) {
-          <button
-            type="button"
-            [disabled]="busy()"
-            (click)="claim()"
-          >
-            Claim for myself
-          </button>
-        }
-
+      <div class="assignee"><span class="avatar">{{ assigneeName().slice(0, 2).toUpperCase() }}</span><p>Assigned to<strong>{{ assigneeName() }}</strong></p><span class="badge" [attr.data-state]="incident().status">{{ incident().status }}</span></div>
+      @if (dataSource.fixture) { <p class="muted">Actions are unavailable in the fixture preview.</p> } @else {
+        @if (directoryError()) { <p role="alert">{{ directoryError() }}</p><button type="button" (click)="loadAnalysts()">Retry analyst directory</button> }
+        @if (canClaim()) { <button class="primary" type="button" [disabled]="busy()" [attr.aria-busy]="busy()" (click)="claim()"><app-icon name="user" />Claim for myself</button> }
         @if (privileged() && incident().status !== 'RESOLVED') {
-          <label for="assignee-choice">
-            Assign to enabled analyst
-          </label>
-
-          <select
-            id="assignee-choice"
-            [value]="targetId()"
-            [disabled]="busy() || !analysts().length"
-            (change)="selectTarget($event)"
-          >
-            <option value="">Choose an analyst</option>
-            @for (analyst of analysts(); track analyst.id) {
-              <option [value]="analyst.id">
-                {{ analyst.displayName }}
-              </option>
-            }
-          </select>
-
-          <button
-            type="button"
-            [disabled]="
-              busy()
-              || !targetId()
-              || targetId() === incident().assigneeId
-            "
-            (click)="assign(targetId())"
-          >
-            {{ incident().assigneeId ? 'Reassign' : 'Assign' }}
-          </button>
+          <div class="assignment-picker"><div class="field"><label for="assignee-choice">Assign to enabled analyst</label><select id="assignee-choice" [value]="targetId()" [disabled]="busy() || !analysts().length" (change)="selectTarget($event)"><option value="">Choose an analyst</option>@for (analyst of analysts(); track analyst.id) { <option [value]="analyst.id">{{ analyst.displayName }}</option> }</select></div><button type="button" [disabled]="busy() || !targetId() || targetId() === incident().assigneeId" (click)="assign(targetId())"><app-icon name="user" />{{ incident().assigneeId ? 'Reassign' : 'Assign' }}</button></div>
         }
-
-        @if (incident().status === 'OPEN') {
-          <p>Assign the incident before starting the investigation.</p>
-
-          @if (canChangeStatus()) {
-            <button
-              type="button"
-              [disabled]="busy()"
-              (click)="changeStatus('INVESTIGATING')"
-            >
-              Start investigation
-            </button>
-          }
-        }
-
+        @if (!incident().assigneeId) { <p class="notice" id="assignment-help"><app-icon name="info" />Assign the incident before starting the investigation or adding a comment.</p> }
+        @if (incident().status === 'OPEN') { <button type="button" [disabled]="busy() || !canChangeStatus()" (click)="changeStatus('INVESTIGATING')"><app-icon name="play" />Start investigation</button> }
         @if (incident().status === 'INVESTIGATING') {
-          <p>
-            Resolution requires technical recovery and a nonblank
-            investigation note. Current technical state:
-            {{ incident().technicalState }}.
-          </p>
-
-          @if (canChangeStatus()) {
-            <label for="resolution-note">Resolution note</label>
-            <textarea
-              id="resolution-note"
-              rows="4"
-              maxlength="2000"
-              [value]="resolutionNote()"
-              (input)="editNote($event)"
-            ></textarea>
-
-            <button
-              type="button"
-              [disabled]="
-                busy()
-                || incident().technicalState !== 'RECOVERED'
-                || !resolutionNote().trim()
-              "
-              (click)="changeStatus('RESOLVED')"
-            >
-              Resolve incident
-            </button>
-          }
+          <p class="helper">Resolution requires technical recovery and a nonblank investigation note. Current technical state: {{ incident().technicalState }}.</p>
+          @if (canChangeStatus()) { <div class="field"><label for="resolution-note">Resolution note</label><textarea id="resolution-note" rows="4" maxlength="2000" [value]="resolutionNote()" (input)="editNote($event)"></textarea></div><button type="button" [disabled]="busy() || incident().technicalState !== 'RECOVERED' || !resolutionNote().trim()" (click)="changeStatus('RESOLVED')"><app-icon name="check" />Resolve incident</button> }
         }
-
-        @if (incident().status === 'RESOLVED') {
-          <p>
-            Resolved. No further assignment or workflow action is
-            available.
-          </p>
-        }
-
-        @if (message()) {
-          <p role="alert">{{ message() }}</p>
-          <button
-            type="button"
-            [disabled]="busy()"
-            (click)="reload()"
-          >
-            Reload incident
-          </button>
-        }
-
-        @if (privileged() || canChangeStatus()) {
-          <label for="investigation-comment">Investigation comment</label>
-          <textarea id="investigation-comment" rows="3" maxlength="2000"
-            [value]="commentText()" [disabled]="busy()"
-            (input)="editComment($event)"></textarea>
-          <button type="button" [disabled]="busy() || !commentText().trim()"
-            (click)="addComment()">Add comment</button>
-          @if (commentSaved()) { <p role="status">Comment saved.</p> }
-        }
+        @if (incident().status === 'RESOLVED') { <p class="notice">Resolved. No further assignment or workflow action is available.</p> }
+        <div class="comment-composer" [class.is-muted]="!incident().assigneeId || !canComment()">
+          <div class="field"><label for="investigation-comment">Investigation comment</label><textarea id="investigation-comment" rows="4" maxlength="2000" placeholder="Add findings, context, or your next step…" [value]="commentText()" [disabled]="busy() || !incident().assigneeId || !canComment()" [attr.aria-describedby]="!incident().assigneeId ? 'assignment-help' : null" (input)="editComment($event)"></textarea></div>
+          <button type="button" [disabled]="busy() || !incident().assigneeId || !canComment() || !commentText().trim()" [attr.aria-busy]="busy()" (click)="addComment()"><app-icon name="message" />Add comment</button>
+          @if (commentNotice()) { <p role="status">{{ commentNotice() }}</p> }
+        </div>
+        @if (message()) { <p role="alert">{{ message() }}</p><button type="button" [disabled]="busy()" (click)="reload()"><app-icon name="refresh" />Reload incident</button> }
       }
     </section>
   `,
 })
 export class IncidentActionsComponent implements OnInit {
+  private readonly toast = inject(ToastService);
   private readonly api = inject(TelecomClient);
   private readonly session = inject(SessionStore);
 
@@ -172,7 +66,7 @@ export class IncidentActionsComponent implements OnInit {
   readonly targetId = signal('');
   readonly resolutionNote = signal('');
   readonly commentText = signal('');
-  readonly commentSaved = signal(false);
+  readonly commentNotice = signal('');
   private pendingComment?: { id: string; text: string; requestId: string };
   readonly message = signal('');
   readonly busy = signal(false);
@@ -201,6 +95,10 @@ export class IncidentActionsComponent implements OnInit {
         || assignee === this.session.actor()?.analystId
       );
   });
+
+  readonly canComment = computed(() =>
+    this.privileged() || this.canChangeStatus(),
+  );
 
   readonly assigneeName = computed(() => {
     const id = this.incident().assigneeId;
@@ -241,8 +139,10 @@ export class IncidentActionsComponent implements OnInit {
   }
 
   editComment(event: Event): void {
-    this.commentText.set((event.target as HTMLTextAreaElement).value);
-    this.commentSaved.set(false);
+    const next = (event.target as HTMLTextAreaElement).value;
+    if (next !== this.commentText()) this.pendingComment = undefined;
+    this.commentText.set(next);
+    this.commentNotice.set('');
   }
 
   claim(): void {
@@ -334,6 +234,7 @@ export class IncidentActionsComponent implements OnInit {
       );
     } catch (error) {
       this.message.set(incidentActionMessage(error));
+      this.toast.show(incidentActionMessage(error), 'error');
     } finally {
       this.busy.set(false);
     }
@@ -342,19 +243,31 @@ export class IncidentActionsComponent implements OnInit {
   async addComment(): Promise<void> {
     const item = this.incident();
     const text = this.commentText().trim();
-    if (dataSource.fixture || this.busy() || !(this.privileged() || this.canChangeStatus())
+    if (dataSource.fixture || this.busy() || !this.canComment()
       || !text || text.length > 2000) return;
     if (this.pendingComment?.id !== item.id || this.pendingComment.text !== text) {
       this.pendingComment = { id: item.id, text, requestId: requestId() };
     }
-    this.commentSaved.set(false);
-    await this.submit(() => this.api.commentOnIncident(item.id, {
-      text, version: item.version, requestId: this.pendingComment!.requestId,
-    }));
-    if (!this.message()) {
+    this.busy.set(true);
+    this.message.set('');
+    this.commentNotice.set('');
+
+    try {
+      const updated = await this.api.commentIncident(item.id, {
+        text,
+        version: item.version,
+        requestId: this.pendingComment.requestId,
+      });
+      this.updated.emit(updated);
       this.commentText.set('');
       this.pendingComment = undefined;
-      this.commentSaved.set(true);
+      this.commentNotice.set('Comment saved.');
+      this.toast.show('Comment added to the investigation.');
+    } catch (error) {
+      this.message.set(incidentActionMessage(error));
+      this.toast.show(incidentActionMessage(error), 'error');
+    } finally {
+      this.busy.set(false);
     }
   }
 
@@ -368,8 +281,10 @@ export class IncidentActionsComponent implements OnInit {
       const updated = await write();
       this.updated.emit(updated);
       this.targetId.set('');
+      this.toast.show('Incident updated successfully.');
     } catch (error) {
       this.message.set(incidentActionMessage(error));
+      this.toast.show(incidentActionMessage(error), 'error');
     } finally {
       this.busy.set(false);
     }

@@ -1,24 +1,110 @@
-<div class="page-heading"><p class="eyebrow">Orange / UTM · VoLTE + SMS</p><h1>Telecom Service Assurance</h1><p>Service quality, contextual baseline and persisted incident evidence.</p></div>
-<div class="assurance-filters">
-  <label>Service<select #serviceChoice (change)="serviceFilter.set(serviceChoice.value)"><option>ALL</option><option value="VOLTE">VoLTE</option><option>SMS</option></select></label>
-  <label>Health<select #healthChoice (change)="healthFilter.set(healthChoice.value)"><option>ALL</option><option>NORMAL</option><option>DEGRADED</option><option>UNKNOWN</option></select></label>
-  <label>Time range<select #range (change)="hours.set(range.value)"><option value="1">1h</option><option value="6">6h</option><option value="24">24h</option><option value="48">48h</option></select></label>
-  <label>Scope<select #scopeChoice (change)="scopeId.set(scopeChoice.value || null)"><option value="">ALL</option>@for (service of services(); track service.scope.scopeId) { <option [value]="service.scope.scopeId">{{ service.scope.scopeId }}</option> }</select></label>
-  <button (click)="load()" [disabled]="loading()">Refresh</button>
+@if (streamError()) { <p role="status">{{ streamError() }}</p> }
+<div class="page-heading">
+  <div class="heading-copy"><p class="eyebrow">Network operations</p><h1>{{ scopeId() ? 'Service scope' : 'Network overview' }}</h1><p>Monitor service quality, track incidents, and investigate the evidence.</p></div>
+  <button class="ghost" (click)="load()" [disabled]="loading()" [attr.aria-busy]="loading()"><app-icon name="refresh" />Refresh overview</button>
 </div>
-@if (loading()) { <section class="state-panel" role="status">Loading service scopes…</section> }
-@else if (error()) { <section class="state-panel" role="alert"><h2>Services could not be loaded</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
-@else if (!services().length) { <section class="state-panel"><h2>No monitored service scopes</h2><p>The request succeeded, but no service scopes were returned.</p></section> }
-@else {
-  <div class="service-assurance-grid">
-    @for (service of filtered(); track service.scope.scopeId) {
-      <article class="service-row service-assurance-card" [attr.data-service]="service.scope.service" [attr.data-health]="health(service)">
-        <div><p class="eyebrow">{{ service.scope.service === 'VOLTE' ? 'VoLTE · Setup' : 'SMS · Delivery' }}</p><h2><a [routerLink]="['/services', service.scope.scopeId]" [queryParams]="{ hours: hours() }">{{ service.scope.scopeId }}</a></h2><p>{{ service.scope.region }} · {{ service.scope.route }}</p></div>
-        <div><strong class="health-badge">Current health: {{ health(service) }}</strong><p>Data status: {{ service.freshness }} · {{ service.latestWindow?.quality ?? 'MISSING' }}</p><p>{{ healthExplanation(service) }}</p></div>
-        <div><span>{{ service.scope.service === 'VOLTE' ? 'CSSR' : 'P95 delivery delay' }}</span><strong class="overview-kpi">{{ primaryValue(service) }}</strong><p>{{ difference(service.latestWindow, primary(service)) }}</p><p>{{ store.trend(service) }}</p></div>
-        <div><strong>{{ service.openIncidents }} open analyst incidents</strong><p>Awaiting analyst resolution; technical health may have recovered.</p><p>Latest completed minute: {{ service.latestWindow ? time(service.latestWindow.windowEnd) + ' UTC' : 'No observation available' }}</p><p>Last update: {{ time(service.observedAt) }} UTC</p></div>
-      </article>
-    } @empty { <section class="state-panel">No service scopes match these filters.</section> }
+@if (loading()) {
+  <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span> Loading service scopes…<div class="skeleton"></div><div class="skeleton chart"></div></section>
+} @else if (error()) {
+  <section class="state-panel" role="alert">
+    <h2>Services could not be loaded</h2>
+    <p>{{ error() }}</p>
+    <button (click)="load()">Retry</button>
+  </section>
+} @else if (scopeId()) {
+  <a class="back-link" routerLink="/dashboard">← All service scopes</a>
+  @if (selected(); as service) {
+    <section class="detail-panel">
+      <p class="eyebrow">
+        {{ service.scope.service }} · {{ service.freshness }} · Current health:
+        {{ health(service) }}
+      </p>
+      <h2>{{ service.scope.scopeId }}</h2>
+      <p>
+        {{ service.scope.region }} · {{ service.scope.rat }} ·
+        {{ service.scope.route }}
+      </p>
+      <p>
+        {{ service.openIncidents }} unresolved incident episodes. Technical
+        recovery does not automatically close analyst work.
+      </p>
+      <p class="health-summary"><strong>Current health: {{ health(service) }}</strong></p>
+      <p class="muted">{{ healthExplanation(service) }}</p>
+      @if (service.latestWindow; as window) {
+        <p class="muted">
+          Observation: {{ time(window.windowStart) }} –
+          {{ time(window.windowEnd) }} · Europe/Chisinau · {{ window.quality }}
+        </p>
+        <div class="metric-list">
+          @for (kpi of window.kpis; track kpi.name) {
+            <section>
+              <h3>{{ kpi.name }}</h3>
+              <dl>
+                <div>
+                  <dt>Observed</dt>
+                  <dd>{{ metric(kpi.observed, kpi.unit) }}</dd>
+                </div>
+                <div>
+                  <dt>Expected baseline</dt>
+                  <dd>{{ metric(kpi.baseline, kpi.unit) }}</dd>
+                </div>
+                <div>
+                  <dt>Denominator / sample volume</dt>
+                  <dd>
+                    {{
+                      kpi.denominator === null ? "Unavailable" : kpi.denominator
+                    }}
+                  </dd>
+                </div>
+              </dl>
+            </section>
+          }
+        </div>
+      } @else {
+        <div class="notice">
+          {{ healthExplanation(service) }}
+        </div>
+      }
+    </section>
+  } @else {
+    <section class="state-panel">
+      <h2>Service scope not found</h2>
+      <p>This scope is not present in the current response.</p>
+    </section>
+  }
+} @else if (services().length === 0) {
+  <section class="state-panel">
+    <h2>No monitored service scopes</h2>
+    <p>The request succeeded, but no service scopes were returned.</p>
+  </section>
+} @else {
+  <div class="stat-grid four">
+    <section class="stat-card"><div class="stat-label">Monitored scopes<app-icon name="signal" /></div><strong class="metric-value">{{ services().length }}</strong><p class="helper">VoLTE &amp; SMS coverage</p></section>
+    <section class="stat-card"><div class="stat-label">No ongoing episode<app-icon name="check" /></div><strong class="metric-value">{{ healthyCount() }} <small>/ {{ services().length }}</small></strong><p class="stat-trend">Latest service observations</p></section>
+    <section class="stat-card"><div class="stat-label">Open incidents<app-icon name="alert" /></div><strong class="metric-value">{{ openCount() }}</strong><p class="helper">Unresolved analyst work</p></section>
+    <section class="stat-card"><div class="stat-label">Observed scopes<app-icon name="activity" /></div><strong class="metric-value">{{ observedCount() }} <small>/ {{ services().length }}</small></strong><p class="helper">Coverage is not a health verdict</p></section>
   </div>
-  <aside class="support assurance-notes"><section><h3>Actual and baseline</h3><p>Baseline is contextual. A difference alone is not a proven root cause.</p></section><section><h3>Sample volume matters</h3><p>Missing telemetry is UNKNOWN. Zero samples have no measured success rate.</p></section><section><h3>Recovery and workflow</h3><p>Technical recovery follows persisted evidence; analyst resolution remains separate.</p></section></aside>
+  <section class="scope-section" aria-labelledby="scopes-heading">
+    <div class="section-heading"><div><h2 id="scopes-heading">Monitored scopes</h2><p>Latest service evidence · observation times in Europe/Chisinau</p></div>
+      <div class="segmented" aria-label="Filter services">
+        @for (kind of ['ALL', 'VOLTE', 'SMS']; track kind) { <button [class.selected]="serviceFilter() === kind" [attr.aria-pressed]="serviceFilter() === kind" (click)="serviceFilter.set(kind)">{{ kind === 'ALL' ? 'All services' : kind === 'VOLTE' ? 'VoLTE' : 'SMS' }}</button> }
+      </div>
+    </div>
+    <div class="service-list">
+      <div class="service-table-head" aria-hidden="true"><span>Service / scope</span><span>Service health</span><span>Latest measurement</span><span>Incidents</span></div>
+      @for (service of visibleServices(); track service.scope.scopeId) {
+        <article class="service-row service-assurance-card" [attr.data-health]="health(service)" [attr.data-service]="service.scope.service">
+          <div class="service-name"><span class="service-icon"><app-icon [name]="service.scope.service === 'VOLTE' ? 'signal' : 'message'" /></span><div><span class="eyebrow">{{ service.scope.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</span><h3><a [routerLink]="['/services', service.scope.scopeId]">{{ service.scope.scopeId }}</a></h3><p>{{ service.scope.region }} · {{ service.scope.rat }} · {{ service.scope.route }}</p></div></div>
+          <div><span class="sr-only">Current health: </span><span class="badge" [attr.data-state]="health(service)">{{ health(service) }}</span><p class="helper">Data status: {{ service.freshness }}</p></div>
+          <div><strong class="scope-metric">{{ mainMetric(service) }}</strong><p class="helper">{{ difference(service.latestWindow, service.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs') }}</p><p class="helper">{{ store.trend(service) }}</p><p class="helper">{{ service.scope.service === 'VOLTE' ? 'Call setup success' : 'Delivery p95' }}</p><p class="scope-time">{{ service.latestWindow ? time(service.latestWindow.windowEnd) : 'No observation available' }}</p></div>
+          <div class="scope-incidents"><strong [class.has-incidents]="service.openIncidents > 0">{{ service.openIncidents }}</strong><span class="helper">open episodes</span></div>
+        </article>
+      } @empty { <div class="empty-state"><app-icon name="filter" /><p>No service scopes match this filter.</p></div> }
+    </div>
+  </section>
+  <aside class="support">
+    <section><app-icon name="activity" /><h3>Observed and expected</h3><p>Read measurements alongside the baseline for the same service scope.</p></section>
+    <section><app-icon name="signal" /><h3>Sample volume matters</h3><p>Zero attempts give an unavailable rate. No completed SMS samples do not prove an empty queue.</p></section>
+    <section><app-icon name="shield" /><h3>Recovery and workflow</h3><p>A recovered service can still have an open analyst investigation.</p></section>
+  </aside>
 }

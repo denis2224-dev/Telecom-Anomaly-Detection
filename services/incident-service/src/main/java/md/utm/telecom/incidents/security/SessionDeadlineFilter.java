@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,10 +17,46 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public final class SessionDeadlineFilter extends OncePerRequestFilter {
     public static final String EXPIRES_AT = "telecom.session.expiresAt";
+    public static final String LAST_ACTIVITY_AT = "telecom.session.lastActivityAt";
+    public static final Duration IDLE_LIMIT = Duration.ofMinutes(15);
+    public static final Duration ABSOLUTE_LIMIT = Duration.ofMinutes(30);
     private final Clock clock;
 
     public SessionDeadlineFilter(Clock clock) {
         this.clock = clock;
+    }
+
+    public static void initialize(HttpSession session, Instant now) {
+        synchronized (session) {
+            session.setMaxInactiveInterval(Math.toIntExact(IDLE_LIMIT.toSeconds()));
+            session.setAttribute(EXPIRES_AT, now.plus(ABSOLUTE_LIMIT));
+            session.setAttribute(LAST_ACTIVITY_AT, now);
+        }
+    }
+
+    public static boolean expired(HttpSession session, Instant now) {
+        if (session == null) return true;
+        try {
+            synchronized (session) {
+                Object absolute = session.getAttribute(EXPIRES_AT);
+                Object activity = session.getAttribute(LAST_ACTIVITY_AT);
+                return !(absolute instanceof Instant deadline)
+                        || !(activity instanceof Instant lastActivity)
+                        || !now.isBefore(deadline)
+                        || !now.isBefore(lastActivity.plus(IDLE_LIMIT));
+            }
+        } catch (IllegalStateException invalidated) {
+            return true;
+        }
+    }
+
+    public static void invalidate(HttpSession session) {
+        if (session == null) return;
+        try {
+            session.invalidate();
+        } catch (IllegalStateException alreadyInvalidated) {
+            // A concurrent logout or expiry already invalidated it.
+        }
     }
 
     @Override
@@ -30,11 +67,22 @@ public final class SessionDeadlineFilter extends OncePerRequestFilter {
         if (authentication != null && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken)) {
             HttpSession session = request.getSession(false);
-            Object deadline = session == null ? null : session.getAttribute(EXPIRES_AT);
-            if (!(deadline instanceof Instant expiry) || !clock.instant().isBefore(expiry)) {
-                if (session != null) {
-                    session.invalidate();
+            boolean allowed = false;
+            if (session != null) {
+                try {
+                    synchronized (session) {
+                        Instant now = clock.instant();
+                        if (!expired(session, now)) {
+                            session.setAttribute(LAST_ACTIVITY_AT, now);
+                            allowed = true;
+                        }
+                    }
+                } catch (IllegalStateException invalidated) {
+                    // A concurrent logout wins over this request.
                 }
+            }
+            if (!allowed) {
+                invalidate(session);
                 SecurityContextHolder.clearContext();
             }
         }

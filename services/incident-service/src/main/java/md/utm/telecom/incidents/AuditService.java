@@ -10,6 +10,8 @@ import md.utm.telecom.incidents.model.Incident;
 import md.utm.telecom.incidents.model.IncidentAudit;
 import md.utm.telecom.incidents.repository.IncidentAuditRepository;
 import md.utm.telecom.incidents.repository.IncidentRepository;
+import md.utm.telecom.incidents.stream.IncidentChanged;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -22,16 +24,16 @@ public class AuditService {
     private final IncidentAuditRepository audits;
     private final AnalystRepository analysts;
     private final EntityManager entityManager;
-    private final md.utm.telecom.incidents.live.IncidentStream stream;
+    private final ApplicationEventPublisher events;
 
     public AuditService(IncidentRepository incidents, IncidentAuditRepository audits,
                         AnalystRepository analysts, EntityManager entityManager,
-                        md.utm.telecom.incidents.live.IncidentStream stream) {
+                        ApplicationEventPublisher events) {
         this.incidents = incidents;
         this.audits = audits;
         this.analysts = analysts;
         this.entityManager = entityManager;
-        this.stream = stream;
+        this.events = events;
     }
 
     @Transactional
@@ -78,7 +80,7 @@ public class AuditService {
         audits.insert(new IncidentAudit(incident, ActorKind.ANALYST, actor,
                 "COMMENT", requestId, null, null, null, note));
         entityManager.flush();
-        stream.changed(incident);
+        events.publishEvent(new IncidentChanged(incident.getId(), incident.getVersion()));
         return incident;
     }
 

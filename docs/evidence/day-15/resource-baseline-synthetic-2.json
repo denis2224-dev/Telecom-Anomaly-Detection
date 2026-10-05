@@ -1,0 +1,248 @@
+{
+  "mode": "synthetic routed REST; mock SSE",
+  "browser": "chromium",
+  "scopeCount": 100,
+  "incidentTotal": 1000,
+  "evidenceTotal": 1000,
+  "maximumRange": {
+    "uiReadyMs": 140.49587500000007,
+    "heapBytes": 8933800,
+    "domNodes": 7545
+  },
+  "medianUiReadyMs": 74.68974999999955,
+  "p95UiReadyMs": 101.3979159999999,
+  "samples": [
+    {
+      "iteration": 10,
+      "uiReadyMs": 80.30054199999995,
+      "heapBytes": 8078696,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 11,
+      "uiReadyMs": 82.84612500000003,
+      "heapBytes": 8098432,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 12,
+      "uiReadyMs": 74.17395800000031,
+      "heapBytes": 8137668,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 13,
+      "uiReadyMs": 84.81162500000028,
+      "heapBytes": 8156652,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 14,
+      "uiReadyMs": 74.16533299999992,
+      "heapBytes": 8183420,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 15,
+      "uiReadyMs": 74.44950000000063,
+      "heapBytes": 8205824,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 16,
+      "uiReadyMs": 74.77995800000008,
+      "heapBytes": 8207672,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 17,
+      "uiReadyMs": 74.67958400000043,
+      "heapBytes": 8261664,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 18,
+      "uiReadyMs": 75.12262499999997,
+      "heapBytes": 8295892,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 19,
+      "uiReadyMs": 74.44675000000007,
+      "heapBytes": 8320180,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 20,
+      "uiReadyMs": 75.0077080000001,
+      "heapBytes": 8342952,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 21,
+      "uiReadyMs": 74.51029199999994,
+      "heapBytes": 8370048,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 22,
+      "uiReadyMs": 75.19337499999983,
+      "heapBytes": 8399252,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 23,
+      "uiReadyMs": 74.69725000000017,
+      "heapBytes": 8507752,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 24,
+      "uiReadyMs": 125.70345799999996,
+      "heapBytes": 8523932,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 25,
+      "uiReadyMs": 72.03974999999991,
+      "heapBytes": 8527548,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 26,
+      "uiReadyMs": 101.3979159999999,
+      "heapBytes": 8532268,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 27,
+      "uiReadyMs": 94.72116600000027,
+      "heapBytes": 8560480,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 28,
+      "uiReadyMs": 74.68974999999955,
+      "heapBytes": 8570992,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 29,
+      "uiReadyMs": 73.54625000000033,
+      "heapBytes": 8572648,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 30,
+      "uiReadyMs": 74.08962499999961,
+      "heapBytes": 8572404,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 31,
+      "uiReadyMs": 74.71220799999992,
+      "heapBytes": 8572996,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 32,
+      "uiReadyMs": 73.94025000000056,
+      "heapBytes": 8575420,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 33,
+      "uiReadyMs": 74.3270420000008,
+      "heapBytes": 8580844,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 34,
+      "uiReadyMs": 74.36904199999935,
+      "heapBytes": 8604704,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 35,
+      "uiReadyMs": 74.82454200000029,
+      "heapBytes": 8609240,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 36,
+      "uiReadyMs": 74.48370800000066,
+      "heapBytes": 8608576,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 37,
+      "uiReadyMs": 74.7977920000003,
+      "heapBytes": 8620468,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 38,
+      "uiReadyMs": 74.52458399999978,
+      "heapBytes": 8638516,
+      "domNodes": 2027
+    },
+    {
+      "iteration": 39,
+      "uiReadyMs": 75.2882499999996,
+      "heapBytes": 8640380,
+      "domNodes": 2027
+    }
+  ],
+  "navigation": [
+    {
+      "iteration": 0,
+      "heapBytes": 9425800,
+      "domNodes": 4256
+    },
+    {
+      "iteration": 1,
+      "heapBytes": 9490712,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 2,
+      "heapBytes": 9578272,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 3,
+      "heapBytes": 9635768,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 4,
+      "heapBytes": 9844340,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 5,
+      "heapBytes": 9887004,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 6,
+      "heapBytes": 9901272,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 7,
+      "heapBytes": 9912184,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 8,
+      "heapBytes": 9963428,
+      "domNodes": 4254
+    },
+    {
+      "iteration": 9,
+      "heapBytes": 9996732,
+      "domNodes": 4254
+    }
+  ]
+}

@@ -53,33 +53,27 @@ export function phaseAt(window: KpiWindow, detections: Detection[]): 'NORMAL' | 
     if (!previous || item.sequence > previous.sequence) latestByEpisode.set(item.episodeId, item);
   }
   const current = [...latestByEpisode.values()];
+  if (!current.length) return 'UNKNOWN';
   if (current.some(item => item.phase === 'UNKNOWN')) return 'UNKNOWN';
   if (current.some(item => item.phase === 'OPEN' || item.phase === 'UPDATE')) return 'DEGRADED';
   if (current.some(item => item.phase === 'RECOVERY' && time < Date.parse(item.windowEnd))) return 'RECOVERY';
   return 'NORMAL';
 }
-export function mergeWindows(...groups: KpiWindow[][]): KpiWindow[] {
-  const byId = new Map<string, KpiWindow>();
-  for (const row of groups.flat()) byId.set(row.windowId, row);
-  const byStart = new Map<string, KpiWindow>();
-  for (const row of byId.values()) byStart.set(`${row.scopeId}:${Date.parse(row.windowStart)}`, row);
-  return [...byStart.values()].sort((a, b) => Date.parse(a.windowStart) - Date.parse(b.windowStart));
-}
-export function historySlices(from: string, to: string) {
-  const start = Date.parse(from), end = Date.parse(to);
-  if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start || end - start > 172800000) throw new Error('Choose a valid range of at most 48 hours.');
-  const slices: { from: string; to: string }[] = [];
-  for (let cursor = start; cursor < end; cursor += 86400000) slices.push({ from: new Date(cursor).toISOString(), to: new Date(Math.min(end, cursor + 86400000)).toISOString() });
-  return slices;
-}
 export async function allPages<T>(fetch: (page: number) => Promise<{ items: T[]; total: number; observedAt?: string }>, valid = () => true) {
   const items: T[] = []; let observedAt: string | undefined;
+  let total: number | undefined;
   for (let page = 0; page < 100; page++) {
     if (!valid()) throw new Error('View changed while loading.');
     const result = await fetch(page);
     if (!valid()) throw new Error('View changed while loading.');
+    if (!Number.isInteger(result.total) || result.total < 0 || result.total > 10_000
+      || result.items.length > 100 || (total !== undefined && result.total !== total)) {
+      throw new Error('Incident history exceeded its limit or changed while loading. Narrow the range or retry.');
+    }
+    total = result.total;
     items.push(...result.items); observedAt = result.observedAt ?? observedAt;
-    if (items.length >= result.total) return { items, observedAt };
+    if (items.length > result.total) throw new Error('Incident history exceeded its reported limit.');
+    if (items.length === result.total) return { items, observedAt };
     if (!result.items.length) throw new Error('Evidence changed while loading. Retry to get a complete view.');
   }
   throw new Error('Too much evidence to load. Narrow the selected interval.');

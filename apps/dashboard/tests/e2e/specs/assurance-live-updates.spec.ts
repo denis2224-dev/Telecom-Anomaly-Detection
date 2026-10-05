@@ -13,7 +13,7 @@ test('incident notifications and reconnect reload REST; expiry stops refresh', a
   await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
     token: 'controlled-test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf',
   } }));
-  let degraded = false, streams = 0, requests = 0;
+  let degraded = false, requests = 0;
   await page.route('**/api/services', route => {
     requests++;
     return route.fulfill({ json: [{ ...services[0], latestWindow: voiceWindows[0] }] });
@@ -22,27 +22,34 @@ test('incident notifications and reconnect reload REST; expiry stops refresh', a
     items: degraded ? [{ ...voiceIncidents[0], technicalState: 'ONGOING' }] : [],
     total: degraded ? 1 : 0,
   } }));
-  await page.route('**/api/incidents/stream', route => {
-    streams++;
-    // An actual browser EventSource consumes this controlled notification, then reconnects.
-    return route.fulfill({ contentType: 'text/event-stream', body:
-      ': connected\n\nevent: incident.upsert\ndata: {"id":"controlled-incident","version":2}\n\n' });
+  await page.addInitScript(() => {
+    class ControlledSource extends EventTarget {
+      onopen: (() => void) | null = null;
+      onerror: (() => void) | null = null;
+      closed = false;
+      constructor() { super(); (window as any).__source = this; (window as any).__created = ((window as any).__created ?? 0) + 1; }
+      close() { this.closed = true; }
+    }
+    (window as any).EventSource = ControlledSource;
   });
   await page.goto('/dashboard');
   await expect(page.locator('.service-assurance-card')).toHaveAttribute('data-health', 'NORMAL');
-  await expect.poll(() => streams).toBe(1);
+  await expect.poll(() => page.evaluate(() => (window as any).__created)).toBe(1);
   degraded = true;
   const before = requests;
+  await page.evaluate(() => (window as any).__source.dispatchEvent(new MessageEvent('incident-upsert', { data: JSON.stringify({ id: 'controlled-incident', version: 2 }) })));
   await page.clock.runFor(500);
   await expect.poll(() => requests).toBeGreaterThan(before);
   await expect(page.locator('.service-assurance-card')).toHaveAttribute('data-health', 'DEGRADED');
   degraded = false;
-  await page.clock.runFor(30500);
-  await expect.poll(() => streams).toBe(2);
+  await page.evaluate(() => (window as any).__source.onopen?.());
+  await page.clock.runFor(500);
+  expect(await page.evaluate(() => (window as any).__created)).toBe(1);
   await expect(page.locator('.service-assurance-card')).toHaveAttribute('data-health', 'NORMAL');
   await page.clock.runFor(180000);
   await expect(page).toHaveURL(/\/login$/);
-  const ended = { requests, streams };
+  expect(await page.evaluate(() => (window as any).__source.closed)).toBe(true);
+  const ended = requests;
   await page.clock.runFor(60000);
-  expect({ requests, streams }).toEqual(ended);
+  expect(requests).toBe(ended);
 });

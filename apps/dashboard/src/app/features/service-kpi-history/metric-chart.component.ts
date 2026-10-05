@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import type { KpiWindow } from './voice-model';
 import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model';
@@ -20,8 +20,12 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
         </svg>
       </div>
       <details><summary>Exact {{ title() }} values ({{ rows().length }} windows)</summary><div class="chart-scroll" tabindex="0"><table class="kpi-table"><thead><tr><th>UTC start</th><th>Actual</th><th>Baseline</th><th>State</th><th>Quality</th></tr></thead><tbody>
-        @for (row of rows(); track row.windowId) { <tr><th>{{ row.windowStart | date:'dd MMM HH:mm':'UTC' }}</th><td>{{ format(value(row), unit()) }}</td><td>{{ format(baseline(row), unit()) }}</td><td>{{ phase(row) }}</td><td>{{ row.quality }}</td></tr> }
-      </tbody></table></div></details>
+        @for (row of tableRows(); track row.windowId) { <tr><th>{{ row.windowStart | date:'dd MMM HH:mm':'UTC' }}</th><td>{{ format(value(row), unit()) }}</td><td>{{ format(baseline(row), unit()) }}</td><td>{{ phase(row) }}</td><td>{{ row.quality }}</td></tr> }
+      </tbody></table></div><nav class="pagination" [attr.aria-label]="title() + ' table pages'">
+        <button (click)="tablePage.set(tablePage() - 1)" [disabled]="tablePage() === 0">Previous windows</button>
+        <span>Page {{ tablePage() + 1 }} of {{ tablePages() }}</span>
+        <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows</button>
+      </nav></details>
     } @else { <p role="status">No KPI history in this time range.</p> }
   </section>`,
 })
@@ -30,6 +34,10 @@ export class MetricChartComponent {
   readonly name = input.required<string>(); readonly title = input.required<string>(); readonly unit = input('');
   readonly from = input.required<string>(); readonly to = input.required<string>();
   readonly rows = computed(() => [...this.windows()].sort((a,b) => Date.parse(a.windowStart) - Date.parse(b.windowStart)));
+  readonly tablePage = signal(0);
+  readonly tablePages = computed(() => Math.max(1, Math.ceil(this.rows().length / 50)));
+  readonly tableRows = computed(() => this.rows().slice(this.tablePage() * 50, (this.tablePage() + 1) * 50));
+  constructor() { effect(() => { this.windows(); this.tablePage.set(0); }); }
   readonly bounds = computed(() => {
     const values = this.rows().flatMap(row => [this.value(row), this.baseline(row)]).filter((v): v is number => v != null && Number.isFinite(v));
     if (!values.length) return [0, 1];

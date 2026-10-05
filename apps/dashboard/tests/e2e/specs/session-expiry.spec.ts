@@ -4,6 +4,8 @@ import {
   type Page,
 } from '@playwright/test';
 
+test.skip(!process.env.E2E_REAL_LOGIN, 'Requires the protected local stack and test credentials');
+
 async function login(page: Page): Promise<void> {
   const username = process.env.SESSION_USERNAME
     ?? process.env.G2_USERNAME;

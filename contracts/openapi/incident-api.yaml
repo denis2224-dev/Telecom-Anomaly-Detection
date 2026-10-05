@@ -515,8 +515,16 @@ paths:
       summary: Session-bound SSE updates
       tags:
       - Incidents
-      description: Emit committed incident upserts with id/version; close on logout or session expiry. Client
-        reloads REST after reconnect; stream is not a replay log.
+      description: |
+        Emits `ready` on each connection. The client must refresh authoritative REST list,
+        detail, detection and audit data after every `ready`, including reconnects.
+        A committed change emits `incident-upsert` with data
+        `{"id":"<incident UUID>","version":7}`. Heartbeats are SSE comments.
+        An equal-version hint may represent an audit-only comment, so refresh the
+        visible timeline even when the incident version is unchanged. Logout or
+        session expiry closes the stream. This stream has no durable replay cursor;
+        Last-Event-ID is not supported. Refresh REST after reconnect to repair
+        notifications missed during a disconnect.
       responses:
         '200':
           description: SSE stream

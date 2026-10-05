@@ -112,6 +112,28 @@ if [[ "$feature_outbox" != "t" ]]; then
   exit 1
 fi
 
+echo "Checking immutable incident evidence, audit and KPI runtime permissions..."
+incident_history="$(docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 \
+  -U "$POSTGRES_USER" -d incidents_db -tA <<'SQL'
+WITH expected(name) AS (
+  VALUES ('detection_evidence'), ('incident_audit'), ('service_kpi_windows')
+)
+SELECT count(t.oid) = 3 AND bool_and(COALESCE(
+  pg_get_userbyid(t.relowner) = 'incidents_migrator'
+  AND has_table_privilege('incidents_app', t.oid, 'SELECT')
+  AND has_table_privilege('incidents_app', t.oid, 'INSERT')
+  AND NOT has_table_privilege('incidents_app', t.oid, 'UPDATE')
+  AND NOT has_table_privilege('incidents_app', t.oid, 'DELETE')
+  AND NOT has_table_privilege('incidents_app', t.oid, 'TRUNCATE'), false))
+FROM expected e
+LEFT JOIN pg_class t ON t.relname = e.name AND t.relnamespace = 'app'::regnamespace;
+SQL
+)"
+if [[ "$incident_history" != "t" ]]; then
+  echo "Incident history migration, ownership or insert-only permissions are incorrect." >&2
+  exit 1
+fi
+
 echo "Checking Kafka topics..."
 topics="$(docker compose exec -T kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)"
 echo "$topics"
@@ -166,7 +188,7 @@ fi
 echo "Checking host incident-service readiness..."
 if ! curl --noproxy '*' --fail --silent --max-time 5 \
   http://localhost:8082/actuator/health/readiness >/dev/null; then
-  echo "incident-service is unavailable on localhost:8082. Start it from services/incident-service with ./mvnw spring-boot:run, then rerun ./scripts/verify." >&2
+  echo "incident-service is unavailable on localhost:8082. Start it with ./scripts/up --with-incident-service or from services/incident-service with ./mvnw spring-boot:run, then rerun ./scripts/verify." >&2
   exit 1
 fi
 

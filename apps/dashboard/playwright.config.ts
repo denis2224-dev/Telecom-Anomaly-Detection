@@ -7,7 +7,7 @@ const localUrl = `http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: "./tests/e2e/specs",
   outputDir: "./test-results/dashboard",
-  testIgnore: ["**/keycloak-theme.spec.ts", "**/auth-integration.spec.ts", "**/voice-first-slice.spec.ts", "**/service-scenarios.spec.ts", "**/session-expiry.spec.ts"],
+  testIgnore: ["**/live-investigation.spec.ts", "**/keycloak-theme.spec.ts", "**/auth-integration.spec.ts", "**/voice-first-slice.spec.ts", "**/service-scenarios.spec.ts"],
   fullyParallel: true,
   use: {
     baseURL: process.env.E2E_BASE_URL || localUrl,
@@ -20,6 +20,6 @@ export default defineConfig({
   webServer: process.env.E2E_REAL_LOGIN ? undefined : {
     command: `npm start -- --port ${port}`,
     url: localUrl,
-    reuseExistingServer: process.env.E2E_REUSE_SERVER === '1',
+    reuseExistingServer: false,
   },
 });

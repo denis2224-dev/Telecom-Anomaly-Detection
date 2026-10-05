@@ -13,7 +13,8 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
       analystId: 'g3-review', displayName: 'G3 reviewer', roles: ['ANALYST'],
       expiresAt: new Date(Date.now() + 600000).toISOString(),
     } }));
-    await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
+    await page.route('**/api/incidents/*/timeline?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100 } }));
+  await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
       token: 'controlled-test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf',
     } }));
     await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
@@ -33,16 +34,16 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
       page: 0, size: 100, observedAt: feature.windowEnd,
     } }));
     await page.route('**/api/incidents?**', route => route.fulfill({ json: {
-      items: incident ? [incident] : [], total: incident ? 1 : 0, page: 0, size: 100,
+      items: incident ? [incident] : [], total: incident ? 1 : 0, page: 0, size: 20,
     } }));
     await page.route('**/api/incidents/*', route => route.fulfill({ json: incident }));
     await page.route('**/api/incidents/*/detections?**', route => route.fulfill({ json: {
-      items: detections, total: detections.length, page: 0, size: 100,
+      items: detections, total: detections.length, page: 0, size: 20,
     } }));
     if (!incident) {
       await page.goto(`/services/${feature.scopeId}`);
       await expect(page.locator('.episode-card')).toHaveCount(0);
-      await expect(page.getByText('No incident episodes overlap this time range.')).toBeVisible();
+      await expect(page.getByText('No incident episodes on this page.')).toBeVisible();
     } else {
       await page.goto(`/incidents/${incident.id}`);
       await expect(page.locator('[data-detection-id]')).toHaveCount(detections.length);
@@ -50,8 +51,8 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
         const article = page.locator(`[data-detection-id="${detection.detectionId}"]`);
         await expect(article).toContainText(detection.probableCause);
         await expect(article).toContainText(`Cause confidence: ${detection.causeConfidence}`);
-        await expect(article).toContainText(`Calibrated anomaly rank: ${detection.anomalyRank ?? 'Unavailable'}`);
-        await expect(article).toContainText('not an outage probability');
+        await expect(article).toContainText(`Model anomaly rank: ${detection.anomalyRank ?? 'Unavailable'}`);
+        await expect(article).toContainText('not a failure probability');
         await expect(article).toContainText('Unique customers: Unavailable');
         for (const check of detection.recommendedChecks) await expect(article).toContainText(check);
         for (const kpi of detection.kpis) {
@@ -65,6 +66,7 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
         incident.status = 'INVESTIGATING';
         incident.assigneeId = 'g3-review';
         await page.reload();
+        await page.getByRole('button', { name: 'Details & workflow' }).click();
         await page.getByLabel('Resolution note', { exact: true }).fill('This note cannot substitute for recovery');
         await expect(page.getByRole('button', { name: 'Resolve incident', exact: true })).toBeDisabled();
       }

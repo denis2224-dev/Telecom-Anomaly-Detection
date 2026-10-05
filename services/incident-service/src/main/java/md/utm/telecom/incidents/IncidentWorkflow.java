@@ -13,6 +13,8 @@ import md.utm.telecom.incidents.model.IncidentStatus;
 import md.utm.telecom.incidents.model.TechnicalState;
 import md.utm.telecom.incidents.repository.IncidentAuditRepository;
 import md.utm.telecom.incidents.repository.IncidentRepository;
+import md.utm.telecom.incidents.stream.IncidentChanged;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -26,20 +28,20 @@ public class IncidentWorkflow {
     private final AnalystRepository analysts;
     private final IncidentAuditRepository audits;
     private final ObjectMapper json;
-    private final md.utm.telecom.incidents.live.IncidentStream stream;
+    private final ApplicationEventPublisher events;
 
     public IncidentWorkflow(
             IncidentRepository incidents,
             AnalystRepository analysts,
             IncidentAuditRepository audits,
             ObjectMapper json,
-            md.utm.telecom.incidents.live.IncidentStream stream
+            ApplicationEventPublisher events
     ) {
         this.incidents = incidents;
         this.analysts = analysts;
         this.audits = audits;
         this.json = json;
-        this.stream = stream;
+        this.events = events;
     }
 
     @Transactional
@@ -86,7 +88,7 @@ public class IncidentWorkflow {
         incidents.flush(); // Force the @Version check before inserting audit.
         audit(incident, actor, "ASSIGN", before, snapshot(incident), null);
         incidents.flush(); // Persist audit in the same transaction.
-        stream.changed(incident);
+        events.publishEvent(new IncidentChanged(incident.getId(), incident.getVersion()));
         return incident;
     }
 
@@ -139,7 +141,7 @@ public class IncidentWorkflow {
         incidents.flush(); // A competing update must fail before any audit insert.
         audit(incident, actor, target.name(), before, snapshot(incident), note);
         incidents.flush();
-        stream.changed(incident);
+        events.publishEvent(new IncidentChanged(incident.getId(), incident.getVersion()));
         return incident;
     }
 

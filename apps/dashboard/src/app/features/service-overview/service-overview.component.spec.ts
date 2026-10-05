@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { IncidentStream } from '../../core/state/incident-stream';
 import { TestBed } from "@angular/core/testing";
 import { provideRouter } from "@angular/router";
 import { ServiceOverviewComponent } from "./service-overview.component";
@@ -7,6 +9,8 @@ import { voiceIncidents } from "../../../fixtures/voice";
 const incident = { ...voiceIncidents[0], service: "SMS", scopeId: "SMS-MD-ROUTE-A", technicalState: "ONGOING" };
 
 describe("Service overview rendering", () => {
+  beforeEach(() => TestBed.configureTestingModule({ providers: [provideHttpClient(),
+    { provide: IncidentStream, useValue: { connect: () => () => {} } }] }));
   it("renders all fixture service states with text labels", async () => {
     TestBed.configureTestingModule({
       providers: [

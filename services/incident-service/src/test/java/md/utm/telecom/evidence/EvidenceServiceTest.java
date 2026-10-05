@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import md.utm.telecom.evidence.repository.DetectionEvidenceRepository;
 import md.utm.telecom.evidence.service.Disposition;
 import md.utm.telecom.evidence.service.EvidenceService;
+import md.utm.telecom.evidence.service.EpisodeLock;
 import md.utm.telecom.incidents.repository.IncidentAuditRepository;
 import md.utm.telecom.incidents.repository.IncidentRepository;
 import md.utm.telecom.shared.persistence.PersistenceConfiguration;
@@ -35,12 +36,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({
         EvidenceService.class,
+        EpisodeLock.class,
         PersistenceConfiguration.class,
         EvidenceServiceTest.JacksonConfig.class
 })
 class EvidenceServiceTest {
-    @org.springframework.test.context.bean.override.mockito.MockitoBean
-    md.utm.telecom.incidents.live.IncidentStream stream;
     private static final String EPISODE =
             "10d4257443e9d97179187b6e0c719283e161a6bfc53a31b0f6502b231386e325";
     private static final String FIRST_OBSERVED = "2026-09-15T07:59:00Z";

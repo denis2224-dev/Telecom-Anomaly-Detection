@@ -37,6 +37,7 @@ class AuthSecurityTest {
 
     private MockHttpSession session(Instant expiresAt) {
         var session = new MockHttpSession();
+        SessionDeadlineFilter.initialize(session, Instant.now());
         session.setAttribute(SessionDeadlineFilter.EXPIRES_AT, expiresAt);
         return session;
     }
@@ -116,5 +117,34 @@ class AuthSecurityTest {
     void anonymousMutationReturns401() throws Exception {
         mvc.perform(post("/api/incidents/example/assignment"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void invalidCsrfCannotLogoutAnAuthenticatedSession() throws Exception {
+        var authenticated = session(Instant.now().plusSeconds(600));
+        mvc.perform(post("/logout").session(authenticated)
+                        .with(oidcLogin().idToken(t -> t.issuer(ISSUER).subject("subject-1"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST")))
+                        .param("_csrf", "invalid-token"))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("CSRF_INVALID"));
+        assertThat(authenticated.isInvalid()).isFalse();
+    }
+
+    @Test
+    void discoveredCsrfAllowsAuthenticatedLocalLogout() throws Exception {
+        var authenticated = session(Instant.now().plusSeconds(600));
+        var result = mvc.perform(get("/api/auth/csrf").session(authenticated)
+                        .with(oidcLogin().idToken(t -> t.issuer(ISSUER).subject("subject-1"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"))))
+                .andExpect(status().isOk()).andReturn();
+        String token = json.readTree(result.getResponse().getContentAsString())
+                .path("token").asText();
+        mvc.perform(post("/logout").session(authenticated).param("_csrf", token)
+                        .with(oidcLogin().idToken(t -> t.issuer(ISSUER).subject("subject-1"))
+                                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"))))
+                .andExpect(status().is3xxRedirection());
+        assertThat(authenticated.isInvalid()).isTrue();
+        mvc.perform(get("/api/auth/me")).andExpect(status().isUnauthorized());
     }
 }
