@@ -26,6 +26,8 @@ class CoverageContractTest {
                 assertEquals(coverage.path("coverageId").asText(), CoverageContract.coverageId(
                         coverage.path("scopeId").asText(), Instant.parse(coverage.path("windowStart").asText()),
                         coverage.path("topologyVersion").asText(), coverage.path("catalogueVersion").asText()));
+                assertEquals(coverage.path("windowId").asText(), CoverageContract.windowId(
+                        coverage.path("scopeId").asText(), Instant.parse(coverage.path("windowStart").asText())));
             }));
         }
         return tests;
@@ -35,8 +37,9 @@ class CoverageContractTest {
         var geo = GeographyCatalog.load();
         var root = (ObjectNode) ObservationValidator.resource("fixtures/coverage/coverage-cases-v1.json", mapper)
                 .get(0).get("coverage");
-        for (String field : List.of("coverageId", "topologyVersion", "catalogueVersion", "service")) {
-            var invalid = root.deepCopy().put(field, field.equals("coverageId") ? "0".repeat(64) : "wrong");
+        for (String field : List.of("coverageId", "windowId", "topologyVersion", "catalogueVersion", "service")) {
+            var invalid = root.deepCopy().put(field,
+                    field.equals("coverageId") || field.equals("windowId") ? "0".repeat(64) : "wrong");
             assertThrows(IllegalArgumentException.class, () -> CoverageContract.validate(invalid, geo));
         }
         var invalid = root.deepCopy();

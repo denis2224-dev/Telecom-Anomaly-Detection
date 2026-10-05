@@ -61,7 +61,7 @@ class GeographyContractTests(unittest.TestCase):
 
     def test_coverage_identity_and_sets_reject_inconsistent_payloads(self):
         value=coverage_snapshot(self.catalogue,self.authority,'VOLTE-MD-CHI',self.events[0]['windowStart'],[])
-        for field,new in [('coverageId','0'*64),('topologyVersion','wrong'),('service','SMS'),
+        for field,new in [('coverageId','0'*64),('windowId','0'*64),('topologyVersion','wrong'),('service','SMS'),
                           ('expectedSourceIds',[]),('sourceIssues',[]),('receivedSourceIds',['UNAUTHORIZED']),
                           ('usableSourceIds',value['expectedSourceIds'])]:
             modified=copy.deepcopy(value);modified[field]=new

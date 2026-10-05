@@ -21,6 +21,15 @@ public final class CoverageContract {
     public static String coverageId(String scopeId, Instant start, String topologyVersion, String catalogueVersion) {
         var identity = new ObjectMapper().createArrayNode().add("scope-window-coverage-v1")
                 .add(scopeId).add(start.toString()).add(topologyVersion).add(catalogueVersion);
+        return hash(identity);
+    }
+
+    /** Matches the finalized ServiceFeatureWindowV2 identity for this scope and minute. */
+    public static String windowId(String scopeId, Instant start) {
+        return hash(new ObjectMapper().createArrayNode().add(scopeId).add(start.toString()).add(2));
+    }
+
+    private static String hash(JsonNode identity) {
         try {
             return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
                     .digest(identity.toString().getBytes(StandardCharsets.UTF_8)));
@@ -44,6 +53,8 @@ public final class CoverageContract {
                 && catalogue.equals(geography.catalogueVersion()), "Coverage version mismatch");
         require(coverage.path("coverageId").asText().equals(coverageId(scopeId, start, topology, catalogue)),
                 "Coverage identity mismatch");
+        require(coverage.path("windowId").asText().equals(windowId(scopeId, start)),
+                "Coverage window identity mismatch");
         var expected = sources(coverage.path("expectedSourceIds"));
         var received = sources(coverage.path("receivedSourceIds"));
         var usable = sources(coverage.path("usableSourceIds"));
