@@ -2,7 +2,7 @@
 
 **Status:** proposed for the shared G1 review. No geographic producer, coverage consumer, database migration, or API controller is activated by this document.
 
-**Base:** `c539b67a40ac776c693e9301fac91b035e4037bc` (`origin/main`, fetched 5 October 2026). Ion's geographic authority candidate is PR #48 at `2f36936f3f33da5da6076fe92b63dc45f6f08422`. It is a dependency, not part of this branch. Reconfirm both heads before integration.
+**Base:** `c539b67a40ac776c693e9301fac91b035e4037bc` (`origin/main`, fetched 5 October 2026). Ion's geographic authority candidate is PR #48 at `f3f8a7d`; that head reverts Denis's validation change, so its contract files match Ion's `2f36936` commit. It is a dependency, not part of this branch. Reconfirm both heads before integration.
 
 ## Ownership and boundaries
 
@@ -88,7 +88,7 @@ Incident-service has applied V001 and V002; V003 is a candidate only after the s
 | --- | --- | --- |
 | PR #43 backend stream disposition | Reviewed against `origin/pr-43` at `90a7273`; keep `main` | Denis/Stanislav verify combined tree at final integration SHA. |
 | PR #48 city/role/coverage candidate | Reviewed at `2f36936`; contract-only and not activated | Ion and Rusu approve role/source and model/baseline compatibility. |
-| `windowId` identity validation in PR #48 | Review finding: current Java/Python validators accept an arbitrary 64-hex `windowId` | Ion fixes or explicitly assigns the check to the finalizer and Denis's consumer, with tests. |
+| `windowId` identity validation in PR #48 | Open review finding: Java/Python validators accept an arbitrary 64-hex `windowId`; Denis's temporary fix was reverted at `f3f8a7d`. | Ion validates the exact finalized V2 feature-window ID and adds valid-shape mutation tests before coverage publication. |
 | Coverage consumer and payload-hash policy | Proposed here | Ion/Rusu/Denis sign exact outbox/wire/import boundary. |
 | OpenAPI response and null meanings | Proposed here | David and Rusu review before client generation. |
 | Migration version and deployment order | V003 candidate, no migration committed | Stanislav/Denis reserve on integration SHA. |
