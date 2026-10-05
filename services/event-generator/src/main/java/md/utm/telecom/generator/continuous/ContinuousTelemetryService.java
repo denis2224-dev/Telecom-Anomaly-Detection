@@ -57,9 +57,19 @@ public class ContinuousTelemetryService implements SmartLifecycle {
     private void tick(Instant start) {
         if (!running) return;
         try {
-            for (String scope : HealthyTelemetry.SCOPES) {
-                if (!scenarios.reserves(scope, start)) publish(scope, start, healthy.window(scope, start, properties.seed()), 0);
-                else LOG.info("Continuous scopeId={} windowStart={} result=SCENARIO_RESERVED", scope, start);
+            for (String scope : healthy.scopes(start)) {
+                try {
+                    if (scenarios.reserves(scope, start)) {
+                        LOG.info("Continuous scopeId={} windowStart={} result=SCENARIO_RESERVED", scope, start);
+                        continue;
+                    }
+                    if (!clock.instant().isBefore(start.plusSeconds(67))) continue;
+                    var payloads = healthy.window(scope, start, properties.seed());
+                    if (healthy.geographic(scope)) publishAsync(scope, start, payloads, 0);
+                    else publish(scope, start, payloads, 0);
+                } catch (RuntimeException failure) {
+                    LOG.warn("Continuous scopeId={} windowStart={} result=MISSING", scope, start);
+                }
             }
         } catch (RuntimeException failure) {
             LOG.error("Continuous windowStart={} result=FAILED", start);
@@ -70,6 +80,28 @@ public class ContinuousTelemetryService implements SmartLifecycle {
             if (!now.isBefore(following.plusSeconds(60))) following = now.truncatedTo(ChronoUnit.MINUTES).plusSeconds(60);
             schedule(following);
         }
+    }
+    /** One outstanding ACK per geographic scope (at most twenty), without blocking later cities. */
+    private void publishAsync(String scope, Instant start, List<String> pending, int attempt) {
+        Instant deadline = start.plusSeconds(67);
+        long remaining = Duration.between(clock.instant(), deadline).toMillis();
+        if (!running || remaining <= 0 || attempt >= 3 || pending.isEmpty()) return;
+        try {
+            kafka.send("telecom.observations.v2", scope, pending.getFirst())
+                    .orTimeout(Math.min(remaining, properties.kafkaTimeout().toMillis()), TimeUnit.MILLISECONDS)
+                    .whenComplete((ack, failure) -> {
+                        if (!running) return;
+                        if (failure == null) {
+                            publishAsync(scope, start, pending.subList(1, pending.size()), attempt);
+                        } else retryAsync(scope, start, pending, attempt);
+                    });
+        } catch (RuntimeException failure) { retryAsync(scope, start, pending, attempt); }
+    }
+    private void retryAsync(String scope, Instant start, List<String> pending, int attempt) {
+        Instant at = clock.instant().plusMillis(250);
+        if (running && attempt < 2 && at.isBefore(start.plusSeconds(67)))
+            retry(() -> publishAsync(scope, start, pending, attempt + 1), at);
+        else LOG.warn("Continuous scopeId={} windowStart={} pendingRecords={} result=MISSING", scope, start, pending.size());
     }
     private void publish(String scope, Instant start, List<String> payloads, int attempt) {
         Instant deadline = start.plusSeconds(67); // transport/consumer margin before +10s closure

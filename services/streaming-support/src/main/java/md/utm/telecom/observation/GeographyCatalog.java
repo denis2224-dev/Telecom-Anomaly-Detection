@@ -51,6 +51,19 @@ public final class GeographyCatalog {
                 TopologyCatalog.fromJson(ObservationValidator.resource("topology/geographic-scopes-v2.json", mapper)));
     }
 
+    /** Explicit deployment activation of the frozen role inventory; the Day 1 resource stays contract-only. */
+    public static GeographyCatalog activate(Instant effectiveFrom) throws IOException {
+        Objects.requireNonNull(effectiveFrom, "effectiveFrom");
+        if (effectiveFrom.getNano() != 0 || Math.floorMod(effectiveFrom.getEpochSecond(), 60) != 0)
+            throw new IllegalArgumentException("Activation must be a whole UTC minute");
+        var mapper = new ObjectMapper();
+        var root = (com.fasterxml.jackson.databind.node.ObjectNode)
+                ObservationValidator.resource("geography/demo-geography-v1.json", mapper);
+        root.putObject("activation").put("status", "ACTIVE").put("effectiveFrom", effectiveFrom.toString());
+        return fromJson(root, TopologyCatalog.fromJson(
+                ObservationValidator.resource("topology/geographic-scopes-v2.json", mapper)));
+    }
+
     public static GeographyCatalog fromJson(JsonNode root, TopologyCatalog authority) throws IOException {
         var schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
                 ObservationValidator.resource("geography/geography-catalogue-v1.schema.json", new ObjectMapper()),

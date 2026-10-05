@@ -18,6 +18,95 @@ import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.*;
 
 class ContinuousTelemetryServiceTest {
+    void geographicService() throws Exception {
+        var geography = GeographyCatalog.activate(START);
+        validator = new ObservationValidator(geography.authority());
+        healthy = new HealthyTelemetry(new VoiceScenario(json, validator), new SmsQueueScenario(json, validator), geography, false);
+        service = new ContinuousTelemetryService(clock, scheduler, kafka, scenarios, healthy,
+                new ContinuousTelemetryProperties(true, 42L, null, null));
+    }
+
+    @Test void allTwentyGeographicScopesFitPublicationDeadlineWith150msAckLatency() throws Exception {
+        geographicService();
+        doAnswer(call -> {
+            String payload = call.getArgument(2);
+            assertEquals(json.readTree(payload).path("scopeId").asText(), call.getArgument(1));
+            sent.add(payload);
+            var ack = new CompletableFuture<org.springframework.kafka.support.SendResult<String, String>>() {
+                @Override public org.springframework.kafka.support.SendResult<String, String> get(long timeout, TimeUnit unit) {
+                    clock.now = clock.now.plusMillis(150);
+                    return null;
+                }
+            };
+            ack.complete(null);
+            return ack;
+        }).when(kafka).send(anyString(), anyString(), anyString());
+        service.start(); fire();
+        assertEquals(50, sent.size(), "Fifty receipts must fit before +7 seconds");
+        assertTrue(clock.now.isBefore(START.plusSeconds(67)));
+    }
+
+    @Test void oneUnacknowledgedCityDoesNotBlockOtherNineteenAndKeepsIdentityOrder() throws Exception {
+        geographicService();
+        var held = new CompletableFuture<org.springframework.kafka.support.SendResult<String,String>>();
+        List<String> calls = new ArrayList<>();
+        doAnswer(call -> {
+            String payload = call.getArgument(2);
+            assertEquals(json.readTree(payload).path("scopeId").asText(), call.getArgument(1));
+            calls.add(payload);
+            return calls.size() == 1 ? held : CompletableFuture.completedFuture(null);
+        }).when(kafka).send(anyString(),anyString(),anyString());
+        service.start(); fire();
+        assertEquals(49, calls.size());
+        assertEquals(20, calls.stream().map(p -> assertDoesNotThrow(() -> json.readTree(p)).path("scopeId").asText()).distinct().count());
+        var first = json.readTree(calls.getFirst());
+        held.complete(null);
+        assertEquals(50, calls.size());
+        var last = json.readTree(calls.getLast());
+        assertEquals(first.get("scopeId"), last.get("scopeId"));
+        assertEquals("NODE", first.path("kind").asText());
+        assertEquals("SERVICE", last.path("kind").asText());
+    }
+
+    @Test void minimumGeographicInventoryAndSeparateLegacyConfiguration() throws Exception {
+        geographicService(); service.start(); fire();
+        assertEquals(50, sent.size());
+        var geography = GeographyCatalog.activate(START);
+        for (String scope : healthy.scopes(START)) {
+            var receipts = sent.stream().map(p -> assertDoesNotThrow(() -> json.readTree(p)))
+                    .filter(p -> scope.equals(p.path("scopeId").asText())).toList();
+            assertEquals(geography.expectedSourceIds(scope), receipts.stream().map(p -> p.path("sourceId").asText())
+                    .collect(java.util.stream.Collectors.toCollection(TreeSet::new)));
+            assertEquals(scope.startsWith("VOLTE") ? 3 : 2, receipts.size());
+            for (var receipt : receipts) validator.validate(receipt);
+        }
+        var both = new HealthyTelemetry(new VoiceScenario(json,validator),new SmsQueueScenario(json,validator),geography,true);
+        assertEquals(22,both.scopes(START).size());
+        assertEquals(HealthyTelemetry.SCOPES,both.scopes(START.minusSeconds(60)));
+        assertTrue(healthy.scopes(START.minusSeconds(60)).isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> new HealthyTelemetry(
+                new VoiceScenario(json,validator),new SmsQueueScenario(json,validator),GeographyCatalog.load(),false));
+    }
+
+    @Test void geographicRetryIsIdenticalAndNoSendStartsAfterDeadlineOrStop() throws Exception {
+        geographicService();
+        List<String> attempts = new ArrayList<>();
+        doAnswer(call -> { attempts.add(call.getArgument(2)); return CompletableFuture.failedFuture(new IllegalStateException()); })
+                .when(kafka).send(anyString(),anyString(),anyString());
+        service.start(); fire();
+        while (tasks.stream().anyMatch(t -> t.at().isBefore(START.plusSeconds(68)))) {
+            tasks.sort(Comparator.comparing(Task::at)); fire();
+        }
+        assertEquals(60,attempts.size());
+        assertEquals(20,attempts.stream().distinct().count());
+        var pending = new CompletableFuture<org.springframework.kafka.support.SendResult<String,String>>();
+        doReturn(pending).when(kafka).send(anyString(),anyString(),anyString());
+        clock.now=START.plusSeconds(60); service.stop(); service.start(); fire();
+        int before = mockingDetails(kafka).getInvocations().size();
+        clock.now=START.plusSeconds(200); pending.complete(null);
+        assertEquals(before,mockingDetails(kafka).getInvocations().size());
+        service.stop();
+    }
     static final Instant START = Instant.parse("2026-10-01T09:34:00Z");
     static class MutableClock extends Clock {
         Instant now = START.minusSeconds(23);
