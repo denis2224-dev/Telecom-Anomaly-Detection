@@ -10,7 +10,10 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import md.utm.telecom.observation.GeographyCatalog;
 import md.utm.telecom.observation.ObservationValidator;
+import md.utm.telecom.observation.TopologyCatalog;
 import org.springframework.stereotype.Component;
 
 /** Explicit coverage and one-hop, same-service peers; no global default baseline. */
@@ -25,6 +28,8 @@ public final class BaselineRegistry {
 
     private final String version;
     private final String topologyVersion;
+    private final String legacyCompatibleTopologyVersion;
+    private final Set<String> legacyCompatibleScopes;
     private final Map<String, String> services = new HashMap<>();
     private final Map<Key, Map<String, BigDecimal>> baselines = new HashMap<>();
     private final Map<String, String> peers = new HashMap<>();
@@ -68,6 +73,19 @@ public final class BaselineRegistry {
             if (peers.putIfAbsent(scope, peer) != null)
                 throw new IllegalArgumentException("Duplicate peer mapping: " + scope);
         }
+        // The pinned geographic contract validates exact preservation of the historical legacy
+        // authority. Only those unchanged scopes may use this baseline under the new provenance.
+        // Retain native-version support for immutable pending features across activation.
+        var historical = TopologyCatalog.load();
+        var geographic = GeographyCatalog.load();
+        var supplied = TopologyCatalog.fromJson(topology);
+        legacyCompatibleTopologyVersion = geographic.authority().topologyVersion();
+        legacyCompatibleScopes = topologyVersion.equals(historical.topologyVersion())
+                ? historical.scopes().values().stream()
+                    .filter(scope -> scope.equals(supplied.scopes().get(scope.scopeId())))
+                    .filter(scope -> geographic.bindings().get(scope.scopeId()).legacy())
+                    .map(TopologyCatalog.Scope::scopeId).collect(java.util.stream.Collectors.toUnmodifiableSet())
+                : Set.of();
     }
 
     public Lookup lookup(String scopeId, Instant windowStart) {
@@ -85,4 +103,10 @@ public final class BaselineRegistry {
 
     public String version() { return version; }
     public String topologyVersion() { return topologyVersion; }
+
+    public boolean acceptsTopology(String scopeId, String featureTopologyVersion) {
+        return services.containsKey(scopeId) && (topologyVersion.equals(featureTopologyVersion)
+                || legacyCompatibleTopologyVersion.equals(featureTopologyVersion)
+                    && legacyCompatibleScopes.contains(scopeId));
+    }
 }

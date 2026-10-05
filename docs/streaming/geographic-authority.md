@@ -81,6 +81,15 @@ archive store. Snapshot coverage against the pair effective for that UTC minute.
 occur within a minute. Rollback disables geographic production while retaining readers for pending city
 facts; do not downgrade to baseline-only authority while such facts remain pending.
 
+The Day 2 baseline registry explicitly accepts both `2-baseline` and the pinned `2-geography-g1`
+feature provenance for the unchanged legacy scopes. Compatibility is checked against the historical
+scope authority and the validated geography contract's `legacy=true` bindings; it is not a topology
+version prefix or a baseline for city scopes. Features keep the topology version that authorized them.
+Pending immutable legacy features from before activation and new legacy features across activation
+can therefore complete detection with the same baseline values and episode identities. Unrelated
+topology versions remain rejected. City feature construction retains `BASELINE_MISSING` and ML
+ineligibility until reviewed city baselines/readers exist.
+
 ## Observation identity and compatibility
 
 Natural identity is exactly `(sourceId, scopeId, kind, windowStart)`. The generator's established
