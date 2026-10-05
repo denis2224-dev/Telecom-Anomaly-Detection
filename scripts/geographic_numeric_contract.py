@@ -1,12 +1,11 @@
 """Offline Day 1 arithmetic oracle. Does not activate producers, APIs or detection."""
 
 from datetime import datetime, timedelta
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-NUMERIC_FIELDS = {'observedPct', 'baselinePct', 'deltaPp', 'detectorDropPp', 'extraFailedAttempts'}
 
 
 def require(condition, message):
@@ -16,7 +15,10 @@ def require(condition, message):
 
 def decimal(value):
     require(type(value) in (int, float, str, Decimal), 'Expected numeric measurement')
-    result = Decimal(str(value))
+    try:
+        result = Decimal(str(value))
+    except InvalidOperation as error:
+        raise ValueError('Expected numeric measurement') from error
     require(result.is_finite() and result >= 0, 'Expected finite nonnegative measurement')
     return result
 
@@ -79,6 +81,7 @@ def aggregate_voice(partitions):
 
 def aggregate_sms_p95(partitions):
     compatible(partitions, 'SMS', 'MILLISECONDS')
+    require(all(p['quality'] in {'COMPLETE', 'INCOMPLETE', 'MISSING'} for p in partitions), 'Invalid measurement quality')
     if any(p['quality'] != 'COMPLETE' for p in partitions):
         return dict(p95DeliveryMs=None, sampleCount=None, nullReason='PARTIAL_COVERAGE')
     if any(p['samples'] is None for p in partitions):

@@ -41,7 +41,7 @@ class GeographicNumericContractTests(unittest.TestCase):
 
     def test_invalid_and_nonfinite_counts_are_rejected_without_mutating_inputs(self):
         for field, value in [('attempts', True), ('technicalSuccesses', -1), ('technicalFailures', 0.5),
-                             ('userOutcomes', 101), ('baselinePct', 'NaN'), ('baselinePct', 101)]:
+                             ('userOutcomes', 101), ('baselinePct', 'NaN'), ('baselinePct', 'invalid'), ('baselinePct', 101)]:
             partitions = copy.deepcopy(self.suite['voiceCases'][0]['partitions'])
             partitions[0][field] = value
             with self.subTest(field=field, value=value), self.assertRaises(ValueError):
@@ -58,6 +58,9 @@ class GeographicNumericContractTests(unittest.TestCase):
                 aggregate_sms_p95(partitions)
         self.assertRaises(ValueError, aggregate_voice, [])
         self.assertRaises(ValueError, aggregate_sms_p95, [])
+        partitions = copy.deepcopy(self.suite['smsCases'][0]['partitions'])
+        partitions[0]['quality'] = 'INVALID'
+        self.assertRaises(ValueError, aggregate_sms_p95, partitions)
 
     def test_full_day1_contract_entrypoint(self):
         validate_day1_numeric_contracts()
