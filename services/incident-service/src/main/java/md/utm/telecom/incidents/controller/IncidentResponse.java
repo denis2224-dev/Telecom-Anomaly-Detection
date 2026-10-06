@@ -1,5 +1,6 @@
 package md.utm.telecom.incidents.controller;
 
+import md.utm.telecom.incidents.evidence.IncidentProjection;
 import md.utm.telecom.incidents.model.IncidentStatus;
 import md.utm.telecom.incidents.model.Severity;
 import md.utm.telecom.incidents.model.TechnicalState;
@@ -26,6 +27,7 @@ public record IncidentResponse(
         Instant updatedAt,
         Long version,
         long latestSequence,
-        JsonNode latestDetection
+        JsonNode latestDetection,
+        IncidentProjection presentation
 ) {
 }

@@ -1779,6 +1779,49 @@ components:
           minimum: 1
         latestDetection:
           $ref: '#/components/schemas/ServiceDetection'
+        presentation:
+          type: object
+          additionalProperties: false
+          description: Impact freshness and explanation copied from latest immutable detection.
+          properties:
+            impactState:
+              type: string
+              enum: [CURRENT, STALE, RECOVERED]
+            currentImpact:
+              type: object
+              nullable: true
+              additionalProperties: false
+              properties:
+                extraFailedAttempts: {type: number, minimum: 0}
+                affectedDeliveredMessages: {type: integer, minimum: 0}
+                pendingMessages: {type: integer, minimum: 0}
+                uniqueSubscribers: {type: string, nullable: true, enum: [null]}
+              required: [extraFailedAttempts, affectedDeliveredMessages, pendingMessages, uniqueSubscribers]
+            retainedImpact:
+              type: object
+              nullable: true
+              additionalProperties: false
+              description: Last observed estimate during UNKNOWN, never a live estimate or historical peak.
+              properties:
+                extraFailedAttempts: {type: number, minimum: 0}
+                affectedDeliveredMessages: {type: integer, minimum: 0}
+                pendingMessages: {type: integer, minimum: 0}
+                uniqueSubscribers: {type: string, nullable: true, enum: [null]}
+              required: [extraFailedAttempts, affectedDeliveredMessages, pendingMessages, uniqueSubscribers]
+            impactSourceDetectionId:
+              type: string
+            impactWindowEnd:
+              type: string
+              format: date-time
+            probableCause:
+              type: string
+            causeConfidence:
+              type: string
+              enum: [LOW, MEDIUM, HIGH]
+            evidenceHistoryPath:
+              type: string
+          required: [impactState, currentImpact, retainedImpact, impactSourceDetectionId,
+            impactWindowEnd, probableCause, causeConfidence, evidenceHistoryPath]
       required:
       - id
       - episodeId
@@ -1797,6 +1840,7 @@ components:
       - version
       - latestSequence
       - latestDetection
+      - presentation
     IncidentPage:
       type: object
       additionalProperties: false
