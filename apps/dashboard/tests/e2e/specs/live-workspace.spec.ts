@@ -50,15 +50,22 @@ test('overview fallback preserves the workspace and stale status catches missing
   await expect(from).toHaveValue('2026-09-15T10:01'); await expect(from).toBeFocused();
   expect(await page.evaluate(() => (window as any).__overview === document.querySelector('app-connected-overview'))).toBe(true);
   expect(await page.evaluate(() => scrollY)).toBe(scroll);
+  await page.clock.runFor(1000); // Give the reconnect its own UTC display second.
   const openingReads = reads();
+  const previousUpdate = await page.locator('.live-status').textContent();
+  state.summary.openIncidents = 4;
   await streamEvent(page, 'open'); await page.clock.runFor(200);
   await expect.poll(reads).toBeGreaterThan(openingReads);
-  await page.clock.runFor(1000);
-  await expect.poll(async () => { await page.clock.runFor(50); return page.locator('.live-status').textContent(); }).toContain('Live');
+  await expect.poll(async () => {
+    await page.clock.runFor(50);
+    return page.locator('.kpi-strip > div').filter({ hasText: 'Open incidents' }).textContent();
+  }).toContain('4');
+  await expect.poll(async () => { await page.clock.runFor(50); return page.locator('.live-status').textContent(); }).not.toBe(previousUpdate);
   const connectedReads = reads();
   await page.clock.runFor(120_000);
+  // Freshness is sampled once a second; advance that tick after the threshold.
+  await expect.poll(async () => { await page.clock.runFor(1000); return page.locator('.live-status').textContent(); }).toContain('Stale');
   expect(reads()).toBe(connectedReads);
-  await expect(page.locator('.live-status')).toContainText('Stale');
   await page.evaluate(() => {
     Object.defineProperty(document, 'hidden', { configurable: true, value: true });
     document.dispatchEvent(new Event('visibilitychange'));

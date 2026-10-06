@@ -1,0 +1,637 @@
+{
+  "schemaVersion": 1,
+  "description": "Offline golden meaning, not city runtime feature output. Partitions are disjoint synthetic footprints of the same service/window/version.",
+  "voiceCases": [
+    {
+      "id": "AGG-01-weighted-counters",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 100,
+          "userOutcomes": 0,
+          "technicalSuccesses": 90,
+          "technicalFailures": 10,
+          "baselinePct": "99.3"
+        },
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-BAL",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-BAL-01"
+          ],
+          "attempts": 1000,
+          "userOutcomes": 0,
+          "technicalSuccesses": 999,
+          "technicalFailures": 1,
+          "baselinePct": "99.3"
+        }
+      ],
+      "expected": {
+        "coverage": "COMPLETE",
+        "numerator": 1089,
+        "denominator": 1100,
+        "observedPct": 99,
+        "baselinePct": 99.3,
+        "deltaPp": -0.3,
+        "detectorDropPp": 0.3,
+        "extraFailedAttempts": 3.3,
+        "uniqueSubscribers": null,
+        "nullReasons": {}
+      }
+    },
+    {
+      "id": "AGG-01-weighted-baselines",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 100,
+          "userOutcomes": 0,
+          "technicalSuccesses": 90,
+          "technicalFailures": 10,
+          "baselinePct": "90"
+        },
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-BAL",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-BAL-01"
+          ],
+          "attempts": 1000,
+          "userOutcomes": 0,
+          "technicalSuccesses": 999,
+          "technicalFailures": 1,
+          "baselinePct": "99.9"
+        }
+      ],
+      "expected": {
+        "coverage": "COMPLETE",
+        "numerator": 1089,
+        "denominator": 1100,
+        "observedPct": 99,
+        "baselinePct": 99,
+        "deltaPp": 0,
+        "detectorDropPp": 0,
+        "extraFailedAttempts": 0,
+        "uniqueSubscribers": null,
+        "nullReasons": {}
+      }
+    },
+    {
+      "id": "TECHNICAL-user-outcomes-excluded",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 120,
+          "userOutcomes": 20,
+          "technicalSuccesses": 99,
+          "technicalFailures": 1,
+          "baselinePct": "99.3"
+        }
+      ],
+      "expected": {
+        "coverage": "COMPLETE",
+        "numerator": 99,
+        "denominator": 100,
+        "observedPct": 99,
+        "baselinePct": 99.3,
+        "deltaPp": -0.3,
+        "detectorDropPp": 0.3,
+        "extraFailedAttempts": 0.3,
+        "uniqueSubscribers": null,
+        "nullReasons": {}
+      }
+    },
+    {
+      "id": "AGG-02-zero",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 0,
+          "userOutcomes": 0,
+          "technicalSuccesses": 0,
+          "technicalFailures": 0,
+          "baselinePct": "99.3"
+        }
+      ],
+      "expected": {
+        "coverage": "COMPLETE",
+        "numerator": 0,
+        "denominator": 0,
+        "observedPct": null,
+        "baselinePct": null,
+        "deltaPp": null,
+        "detectorDropPp": null,
+        "extraFailedAttempts": null,
+        "uniqueSubscribers": null,
+        "nullReasons": {
+          "baselinePct": "ZERO_DENOMINATOR",
+          "deltaPp": "ZERO_DENOMINATOR",
+          "detectorDropPp": "ZERO_DENOMINATOR",
+          "extraFailedAttempts": "ZERO_DENOMINATOR",
+          "observedPct": "ZERO_DENOMINATOR"
+        }
+      }
+    },
+    {
+      "id": "AGG-02-missing-baseline",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 100,
+          "userOutcomes": 0,
+          "technicalSuccesses": 90,
+          "technicalFailures": 10,
+          "baselinePct": "99.3"
+        },
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-BAL",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-BAL-01"
+          ],
+          "attempts": 1000,
+          "userOutcomes": 0,
+          "technicalSuccesses": 999,
+          "technicalFailures": 1,
+          "baselinePct": null
+        }
+      ],
+      "expected": {
+        "coverage": "COMPLETE",
+        "numerator": 1089,
+        "denominator": 1100,
+        "observedPct": 99,
+        "baselinePct": null,
+        "deltaPp": null,
+        "detectorDropPp": null,
+        "extraFailedAttempts": null,
+        "uniqueSubscribers": null,
+        "nullReasons": {
+          "baselinePct": "BASELINE_MISSING",
+          "deltaPp": "BASELINE_MISSING",
+          "detectorDropPp": "BASELINE_MISSING",
+          "extraFailedAttempts": "BASELINE_MISSING"
+        }
+      }
+    },
+    {
+      "id": "AGG-02-partial-subset",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 100,
+          "userOutcomes": 0,
+          "technicalSuccesses": 90,
+          "technicalFailures": 10,
+          "baselinePct": "99.3"
+        },
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "MISSING",
+          "scopeId": "VOLTE-MD-BAL",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-BAL-01"
+          ],
+          "attempts": 1000,
+          "userOutcomes": 0,
+          "technicalSuccesses": 999,
+          "technicalFailures": 1,
+          "baselinePct": "99.3"
+        }
+      ],
+      "expected": {
+        "coverage": "PARTIAL",
+        "numerator": 90,
+        "denominator": 100,
+        "observedPct": 90,
+        "baselinePct": null,
+        "deltaPp": null,
+        "detectorDropPp": null,
+        "extraFailedAttempts": null,
+        "uniqueSubscribers": null,
+        "nullReasons": {
+          "baselinePct": "PARTIAL_COVERAGE",
+          "deltaPp": "PARTIAL_COVERAGE",
+          "detectorDropPp": "PARTIAL_COVERAGE",
+          "extraFailedAttempts": "PARTIAL_COVERAGE"
+        }
+      }
+    },
+    {
+      "id": "IMPACT-clamped-improvement",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 1000,
+          "userOutcomes": 0,
+          "technicalSuccesses": 1000,
+          "technicalFailures": 0,
+          "baselinePct": "99.3"
+        }
+      ],
+      "expected": {
+        "coverage": "COMPLETE",
+        "numerator": 1000,
+        "denominator": 1000,
+        "observedPct": 100,
+        "baselinePct": 99.3,
+        "deltaPp": 0.7,
+        "detectorDropPp": -0.7,
+        "extraFailedAttempts": 0,
+        "uniqueSubscribers": null,
+        "nullReasons": {}
+      }
+    },
+    {
+      "id": "DECIMAL-large-counters",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "unit": "PERCENT",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "attempts": 9007199254740000,
+          "userOutcomes": 0,
+          "technicalSuccesses": 9007199254740000,
+          "technicalFailures": 0,
+          "baselinePct": "100"
+        }
+      ],
+      "expected": {
+        "coverage": "COMPLETE",
+        "numerator": 9007199254740000,
+        "denominator": 9007199254740000,
+        "observedPct": 100,
+        "baselinePct": 100,
+        "deltaPp": 0,
+        "detectorDropPp": 0,
+        "extraFailedAttempts": 0,
+        "uniqueSubscribers": null,
+        "nullReasons": {}
+      }
+    }
+  ],
+  "smsCases": [
+    {
+      "id": "AGG-03-nearest-rank",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-CHI",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "samples": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "p95DeliveryMs": null,
+          "sampleCount": null
+        }
+      ],
+      "expected": {
+        "p95DeliveryMs": 19,
+        "sampleCount": 20,
+        "nullReason": null
+      }
+    },
+    {
+      "id": "AGG-03-fractional",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-CHI",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "samples": [
+            1.25,
+            2.5,
+            3.75
+          ],
+          "p95DeliveryMs": null,
+          "sampleCount": null
+        }
+      ],
+      "expected": {
+        "p95DeliveryMs": 3.75,
+        "sampleCount": 3,
+        "nullReason": null
+      }
+    },
+    {
+      "id": "AGG-03-raw-merge",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-CHI",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "samples": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "p95DeliveryMs": null,
+          "sampleCount": null
+        },
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-BAL-01"
+          ],
+          "samples": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "p95DeliveryMs": null,
+          "sampleCount": null
+        }
+      ],
+      "expected": {
+        "p95DeliveryMs": 19,
+        "sampleCount": 20,
+        "nullReason": null
+      }
+    },
+    {
+      "id": "AGG-03-unmergeable",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-CHI",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "samples": null,
+          "p95DeliveryMs": 10,
+          "sampleCount": 10
+        },
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-BAL-01"
+          ],
+          "samples": null,
+          "p95DeliveryMs": 20,
+          "sampleCount": 10
+        }
+      ],
+      "expected": {
+        "p95DeliveryMs": null,
+        "sampleCount": null,
+        "nullReason": "NOT_AGGREGATABLE"
+      }
+    },
+    {
+      "id": "AGG-03-single-finalized-scalar",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-CHI",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "samples": null,
+          "p95DeliveryMs": 19,
+          "sampleCount": 20
+        }
+      ],
+      "expected": {
+        "p95DeliveryMs": 19,
+        "sampleCount": 20,
+        "nullReason": null
+      }
+    },
+    {
+      "id": "AGG-03-empty-measured",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "COMPLETE",
+          "scopeId": "SMS-MD-CHI",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "samples": [],
+          "p95DeliveryMs": null,
+          "sampleCount": null
+        }
+      ],
+      "expected": {
+        "p95DeliveryMs": null,
+        "sampleCount": 0,
+        "nullReason": "INSUFFICIENT_DATA"
+      }
+    },
+    {
+      "id": "AGG-03-missing",
+      "partitions": [
+        {
+          "windowStart": "2026-10-05T08:00:00Z",
+          "windowEnd": "2026-10-05T08:01:00Z",
+          "topologyVersion": "2-geography-g1",
+          "catalogueVersion": "1-geography-g1",
+          "quality": "MISSING",
+          "scopeId": "SMS-MD-CHI",
+          "service": "SMS",
+          "unit": "MILLISECONDS",
+          "footprintNodeIds": [
+            "CELL-MD-CHI-01"
+          ],
+          "samples": null,
+          "p95DeliveryMs": null,
+          "sampleCount": null
+        }
+      ],
+      "expected": {
+        "p95DeliveryMs": null,
+        "sampleCount": null,
+        "nullReason": "PARTIAL_COVERAGE"
+      }
+    }
+  ]
+}

@@ -36,6 +36,8 @@ public class WindowFinalizer {
     private final DetectionPolicy policy;
     private final WindowDecisionLock decisionLock;
     private final CoverageSnapshot coverage;
+    private md.utm.telecom.processing.monitoring.GeographicMonitoringCheckpoint monitoring;
+    private final java.util.concurrent.atomic.AtomicLong discoveryTurn = new java.util.concurrent.atomic.AtomicLong();
     private static final Logger LOG = LoggerFactory.getLogger(WindowFinalizer.class);
 
     public WindowFinalizer(JdbcTemplate jdbc, Clock clock, ScopeRegistry scopes, ServiceFeatureBuilder features,
@@ -50,6 +52,19 @@ public class WindowFinalizer {
         this.policy = policy;
         this.decisionLock = decisionLock;
         this.coverage = scopes.coverageEnabled() ? new CoverageSnapshot(scopes.geography()) : null;
+    }
+
+    // The standalone historical bootstrap intentionally imports no live checkpoint/recorder.
+    @org.springframework.beans.factory.annotation.Autowired(required = false)
+    public void monitoring(md.utm.telecom.processing.monitoring.GeographicMonitoringCheckpoint checkpoint) {
+        this.monitoring = checkpoint;
+    }
+    public void acknowledgeMonitoring(String scopeId, Instant start) {
+        if (monitoring != null) monitoring.acknowledge(scopeId, start);
+    }
+    private boolean geographic(String scopeId) {
+        var binding = scopes.geography().bindings().get(scopeId);
+        return scopes.coverageEnabled() && binding != null && !binding.legacy();
     }
 
     public List<Window> dueWindows(int limit) {
@@ -70,6 +85,7 @@ public class WindowFinalizer {
         String serviceName = scopes.serviceFor(scopeId);
         if (!serviceName.equals("VOLTE") && !serviceName.equals("SMS")) return Result.UNSUPPORTED_SERVICE;
         decisionLock.acquire(scopeId, windowStart);
+        if (monitoring != null) monitoring.verifyAuthorityIfEnrolled(scopeId, windowStart);
         var buckets = jdbc.query("""
                 SELECT window_end, finalized FROM app.interval_bucket
                 WHERE scope_id=? AND window_start=? FOR UPDATE
@@ -110,8 +126,25 @@ public class WindowFinalizer {
 
     public List<Window> dueMissingWindows(int limit) {
         if (limit < 1 || limit > 1000) throw new IllegalArgumentException("Batch size must be 1..1000");
+        var legacy = dueLegacyMissingWindows(limit);
+        var geographic = monitoring == null ? List.<Window>of() : monitoring.dueWindows(limit,
+                clock.instant().minusSeconds(policy.allowedLatenessSec()));
+        var paths = discoveryTurn.getAndIncrement() % 2 == 0 ? List.of(geographic, legacy) : List.of(legacy, geographic);
+        var merged = new java.util.LinkedHashSet<Window>();
+        for (int i=0; merged.size()<limit; i++) {
+            boolean found=false;
+            for (var path:paths) if (i<path.size()) {
+                merged.add(path.get(i)); found=true;
+                if (merged.size()==limit) break;
+            }
+            if (!found) break;
+        }
+        return List.copyOf(merged);
+    }
+
+    private List<Window> dueLegacyMissingWindows(int limit) {
         var serviceScopes = scopes.scopes().keySet().stream()
-                .filter(scope -> List.of("VOLTE", "SMS").contains(scopes.serviceFor(scope))).sorted().toList();
+                .filter(scope -> !geographic(scope) && List.of("VOLTE", "SMS").contains(scopes.serviceFor(scope))).sorted().toList();
         if (serviceScopes.isEmpty()) return List.of();
         var missing = new ArrayList<Window>();
         var dueLimit = Timestamp.from(clock.instant().minusSeconds(policy.allowedLatenessSec()));
@@ -159,6 +192,9 @@ public class WindowFinalizer {
         Instant windowEnd = windowStart.plusSeconds(policy.windowSec());
         Instant now = clock.instant();
         if (now.isBefore(windowEnd.plusSeconds(policy.allowedLatenessSec()))) return Result.NOT_DUE;
+        // Receipt adjacency and activation do not prove live participation in a city minute.
+        if (geographic(scopeId) && (monitoring == null || !monitoring.isMonitored(scopeId, windowStart)))
+            return Result.NOT_DUE;
 
         var existing = jdbc.query("""
                 SELECT window_end, finalized FROM app.interval_bucket

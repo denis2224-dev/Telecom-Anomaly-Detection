@@ -48,6 +48,9 @@ management:
         readiness:
           include: readinessState,kafka,db
 telecom:
+  sms-shadow:
+    enabled: ${ML_SMS_SHADOW_ENABLED:false}
+    poll-interval: ${ML_SMS_SHADOW_POLL_INTERVAL:1000}
   history:
     enabled: ${HISTORICAL_BOOTSTRAP_ENABLED:false}
     days: ${HISTORICAL_BOOTSTRAP_DAYS:30}

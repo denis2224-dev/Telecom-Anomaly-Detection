@@ -1,0 +1,6 @@
+{
+  "sourcePackage": "tmp/sms-supervised-experiment/round-2/selection/model",
+  "copiedWithoutRetraining": true,
+  "selectionSha256": "71dae7b5689471011b83c522e6890f7c19b768b0bf8a79c46131199a95eab604",
+  "datasetManifestSha256": "c5c68f006bf333059f926834b398cc7447bb2ee7e9659bd1ac3c49efb07cb1e4"
+}

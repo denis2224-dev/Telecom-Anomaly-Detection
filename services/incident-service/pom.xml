@@ -151,6 +151,10 @@
 					<include>detections/service-detection-v2.schema.json</include>
 					<include>features/service-feature-window-v2.schema.json</include>
 					<include>topology/demo-scopes-v2.json</include>
+					<include>ml-shadow/sms-shadow-evidence-v1.schema.json</include>
+					<include>topology/geographic-scopes-v2.json</include>
+					<include>geography/**</include>
+					<include>coverage/**</include>
 				</includes>
 			</resource>
 		</resources>
@@ -163,6 +167,7 @@
 				<targetPath>contracts</targetPath>
 				<includes>
 					<include>fixtures/detections/**</include>
+					<include>fixtures/coverage/**</include>
 				</includes>
 			</testResource>
 		</testResources>

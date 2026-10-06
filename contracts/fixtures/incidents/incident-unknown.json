@@ -1,0 +1,156 @@
+{
+  "id": "22bbfbd8-91e5-5c46-b7be-85b8a54330e9",
+  "episodeId": "472e09c31a2d6cc5ac1b4a19fd4b6b2ed150fa9b21b0280c226277a68ad8a294",
+  "service": "VOLTE",
+  "scopeId": "VOLTE-MD-CENTRAL",
+  "status": "OPEN",
+  "technicalState": "UNKNOWN",
+  "severity": "HIGH",
+  "assigneeId": null,
+  "resolutionNote": null,
+  "firstObservedAt": "2026-09-15T08:00:00Z",
+  "detectedAt": "2026-09-15T08:03:10Z",
+  "lastObservedAt": "2026-09-15T08:03:00Z",
+  "createdAt": "2026-09-15T08:02:10Z",
+  "updatedAt": "2026-09-15T08:03:10Z",
+  "version": 1,
+  "latestSequence": 2,
+  "latestDetection": {
+    "schemaVersion": 2,
+    "correlationKey": "d303eb575ca15f46bca94fb21956c80ba5b8ba75bf56f66526b0ddcbc9502103",
+    "episodeId": "472e09c31a2d6cc5ac1b4a19fd4b6b2ed150fa9b21b0280c226277a68ad8a294",
+    "detectionId": "8fe864b02951426472911794a5cefb32491fc403867e8a0e1adb80620ce1cd23",
+    "sequence": 2,
+    "phase": "UNKNOWN",
+    "anomalyType": "VOLTE_SETUP_DEGRADATION",
+    "service": "VOLTE",
+    "scopeId": "VOLTE-MD-CENTRAL",
+    "firstObservedAt": "2026-09-15T08:00:00Z",
+    "windowStart": "2026-09-15T08:02:00Z",
+    "windowEnd": "2026-09-15T08:03:00Z",
+    "detectedAt": "2026-09-15T08:03:10Z",
+    "severity": "HIGH",
+    "technicalState": "UNKNOWN",
+    "rulesetVersion": "service-rules-v2",
+    "baselineVersion": "baseline-v2",
+    "topologyVersion": "2-baseline",
+    "probableCause": "Service telemetry is missing or incomplete; this window cannot establish a cause or recovery.",
+    "causeConfidence": "LOW",
+    "mlStatus": "INSUFFICIENT_DATA",
+    "kpis": [
+      {
+        "name": "cssrPct",
+        "observed": null,
+        "baseline": 99.3,
+        "unit": "PERCENT",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "eligibleAttempts",
+        "observed": null,
+        "baseline": null,
+        "unit": "COUNT",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "sip503Ratio",
+        "observed": null,
+        "baseline": null,
+        "unit": "RATIO",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "sip503Count",
+        "observed": null,
+        "baseline": null,
+        "unit": "COUNT",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "rrcSrPct",
+        "observed": null,
+        "baseline": 99.5,
+        "unit": "PERCENT",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "bearerSrPct",
+        "observed": null,
+        "baseline": 99.0,
+        "unit": "PERCENT",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "packetLossRatio",
+        "observed": 0.001,
+        "baseline": null,
+        "unit": "RATIO",
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "imsCpuPct",
+        "observed": 35,
+        "baseline": null,
+        "unit": "PERCENT",
+        "numerator": null,
+        "denominator": null
+      }
+    ],
+    "impact": {
+      "extraFailedAttempts": 93,
+      "affectedDeliveredMessages": 0,
+      "pendingMessages": 0,
+      "uniqueSubscribers": null
+    },
+    "evidence": [
+      {
+        "code": "HISTORICAL_SEVERITY",
+        "summary": "Historical value from 2026-09-15T08:01:00Z; not a measurement for this UNKNOWN decision",
+        "nodeId": null,
+        "sourceEventIds": [
+          "aba9163a-282a-594d-b244-9260383345ac",
+          "c98b027d-9b1e-5ad8-a3dd-8ef4346c9ac9",
+          "f1f075f1-1bb9-5d9d-9c5c-9c45125b648c"
+        ]
+      },
+      {
+        "code": "HISTORICAL_IMPACT",
+        "summary": "Historical value from 2026-09-15T08:01:00Z; not a measurement for this UNKNOWN decision",
+        "nodeId": null,
+        "sourceEventIds": [
+          "aba9163a-282a-594d-b244-9260383345ac",
+          "c98b027d-9b1e-5ad8-a3dd-8ef4346c9ac9",
+          "f1f075f1-1bb9-5d9d-9c5c-9c45125b648c"
+        ]
+      }
+    ],
+    "recommendedChecks": [
+      "Verify source freshness and baseline coverage",
+      "Inspect SIP 503 traces and IMS/transport health"
+    ],
+    "modelVersion": null,
+    "anomalyRank": null
+  },
+  "presentation": {
+    "impactState": "STALE",
+    "currentImpact": null,
+    "retainedImpact": {
+      "extraFailedAttempts": 93,
+      "affectedDeliveredMessages": 0,
+      "pendingMessages": 0,
+      "uniqueSubscribers": null
+    },
+    "impactSourceDetectionId": "8fe864b02951426472911794a5cefb32491fc403867e8a0e1adb80620ce1cd23",
+    "impactWindowEnd": "2026-09-15T08:03:00Z",
+    "probableCause": "Service telemetry is missing or incomplete; this window cannot establish a cause or recovery.",
+    "causeConfidence": "LOW",
+    "evidenceHistoryPath": "/api/incidents/22bbfbd8-91e5-5c46-b7be-85b8a54330e9/detections"
+  }
+}

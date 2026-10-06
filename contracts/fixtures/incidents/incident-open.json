@@ -101,5 +101,20 @@
     "mlStatus": "NOT_APPLICABLE",
     "modelVersion": null,
     "anomalyRank": null
+  },
+  "presentation": {
+    "impactState": "CURRENT",
+    "currentImpact": {
+      "extraFailedAttempts": 53.0,
+      "affectedDeliveredMessages": 0,
+      "pendingMessages": 0,
+      "uniqueSubscribers": null
+    },
+    "retainedImpact": null,
+    "impactSourceDetectionId": "1345ca08dc39743d5dc07783fcd8f18baccd508257429e5ac171ac8741283029",
+    "impactWindowEnd": "2026-09-15T10:04:00Z",
+    "probableCause": "Probable IMS capacity pressure; confirm traces and dependency health.",
+    "causeConfidence": "MEDIUM",
+    "evidenceHistoryPath": "/api/incidents/81205a34-116c-5d90-ae54-d80e0dee4fb1/detections"
   }
 }

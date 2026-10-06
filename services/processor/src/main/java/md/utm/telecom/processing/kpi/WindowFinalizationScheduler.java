@@ -27,13 +27,21 @@ public class WindowFinalizationScheduler {
             initialDelayString = "${telecom.finalization.poll-interval:1000}")
     public void poll() {
         for (var window : finalizer.dueWindows(batchSize)) {
-            try { finalizer.finalizeWindow(window.scopeId(), window.windowStart()); }
+            try {
+                finalizer.finalizeWindow(window.scopeId(), window.windowStart());
+                finalizer.acknowledgeMonitoring(window.scopeId(), window.windowStart());
+            }
             catch (RuntimeException failure) {
                 LOG.error("Service finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
             }
         }
         for (var window : finalizer.dueMissingWindows(batchSize)) {
-            try { finalizer.finalizeMissingWindow(window.scopeId(), window.windowStart()); }
+            try {
+                var result = finalizer.finalizeMissingWindow(window.scopeId(), window.windowStart());
+                if (result == WindowFinalizer.Result.SERVICE_PRESENT)
+                    finalizer.finalizeWindow(window.scopeId(), window.windowStart());
+                finalizer.acknowledgeMonitoring(window.scopeId(), window.windowStart());
+            }
             catch (RuntimeException failure) {
                 LOG.error("Service missing window finalization failed for {} at {}", window.scopeId(), window.windowStart(), failure);
             }

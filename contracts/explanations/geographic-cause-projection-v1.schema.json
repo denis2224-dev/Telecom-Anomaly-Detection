@@ -1,0 +1,325 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "scopeId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+      "maxLength": 64
+    },
+    "service": {
+      "enum": [
+        "VOLTE",
+        "SMS"
+      ]
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "catalogueVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "probableCauseCode": {
+      "enum": [
+        "UNDETERMINED",
+        "IMS_CAPACITY_HYPOTHESIS",
+        "SMSC_BACKLOG_HYPOTHESIS",
+        "SMS_DELIVERY_DELAY"
+      ]
+    },
+    "probableCause": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "causeConfidence": {
+      "enum": [
+        "LOW",
+        "MEDIUM"
+      ]
+    },
+    "supportingEvidence": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceEventId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "nodeId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "role": {
+            "enum": [
+              "SERVICE",
+              "VOLTE_IMS",
+              "VOLTE_TRANSPORT",
+              "SMS_SMSC",
+              "SMS_TRANSPORT"
+            ]
+          },
+          "scopeId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "windowStart": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "windowEnd": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "topologyVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "catalogueVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "sourceEventId",
+          "sourceId",
+          "nodeId",
+          "role",
+          "scopeId",
+          "windowStart",
+          "windowEnd",
+          "topologyVersion",
+          "catalogueVersion",
+          "summary"
+        ]
+      }
+    },
+    "contradictoryEvidence": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceEventId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "nodeId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "role": {
+            "enum": [
+              "SERVICE",
+              "VOLTE_IMS",
+              "VOLTE_TRANSPORT",
+              "SMS_SMSC",
+              "SMS_TRANSPORT"
+            ]
+          },
+          "scopeId": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$",
+            "maxLength": 64
+          },
+          "windowStart": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "windowEnd": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "topologyVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "catalogueVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "sourceEventId",
+          "sourceId",
+          "nodeId",
+          "role",
+          "scopeId",
+          "windowStart",
+          "windowEnd",
+          "topologyVersion",
+          "catalogueVersion",
+          "summary"
+        ]
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "recommendedChecks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 512
+      }
+    },
+    "synthetic": {
+      "const": true
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "scopeId",
+    "service",
+    "windowStart",
+    "windowEnd",
+    "topologyVersion",
+    "catalogueVersion",
+    "probableCauseCode",
+    "probableCause",
+    "causeConfidence",
+    "supportingEvidence",
+    "contradictoryEvidence",
+    "limitations",
+    "recommendedChecks",
+    "synthetic"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GeographicCauseProjectionV1 contract candidate",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "probableCauseCode": {
+            "const": "UNDETERMINED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "causeConfidence": {
+            "const": "LOW"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "supportingEvidence": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "probableCauseCode": {
+            "const": "IMS_CAPACITY_HYPOTHESIS"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "service": {
+            "const": "VOLTE"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "probableCauseCode": {
+            "enum": [
+              "SMSC_BACKLOG_HYPOTHESIS",
+              "SMS_DELIVERY_DELAY"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "service": {
+            "const": "SMS"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "archiveVerified": true,
+  "sourceCommit": "46c72f9b02beabf5b1b8e58ee9bb2bf0df33a6bf",
+  "files": [
+    {
+      "source": "services/ml-service/models/manifest.json",
+      "archive": "tmp/sms-ml-shadow-archives/20261006T103548163102Z/manifest.json",
+      "rawSha256": "82fe0c7d7be5b33bf9c66d20cf91f55cfa391c4cad0293c23b3006b2fb3439ef",
+      "normalizedSha256": "82fe0c7d7be5b33bf9c66d20cf91f55cfa391c4cad0293c23b3006b2fb3439ef"
+    },
+    {
+      "source": "services/ml-service/models/VOLTE.joblib",
+      "archive": "tmp/sms-ml-shadow-archives/20261006T103548163102Z/VOLTE.joblib",
+      "rawSha256": "ee4dc113e8f0cb1f47f6f644c6786882f2ee348a5b3e947cf5976cc06bf8d8a2",
+      "normalizedSha256": "ee4dc113e8f0cb1f47f6f644c6786882f2ee348a5b3e947cf5976cc06bf8d8a2"
+    },
+    {
+      "source": "services/ml-service/models/SMS.joblib",
+      "archive": "tmp/sms-ml-shadow-archives/20261006T103548163102Z/SMS.joblib",
+      "rawSha256": "0068a99f3afc4cec895da19a417756dc4f50ea4d093de79ba874523b83d8be96",
+      "normalizedSha256": "0068a99f3afc4cec895da19a417756dc4f50ea4d093de79ba874523b83d8be96"
+    },
+    {
+      "source": "services/ml-service/models/VOLTE-calibration.json",
+      "archive": "tmp/sms-ml-shadow-archives/20261006T103548163102Z/VOLTE-calibration.json",
+      "rawSha256": "70f8317d664a97ded556efbf7ff6fa12bd16295eac3476dd51fdbc9d5148ab89",
+      "normalizedSha256": "70f8317d664a97ded556efbf7ff6fa12bd16295eac3476dd51fdbc9d5148ab89"
+    },
+    {
+      "source": "services/ml-service/models/SMS-calibration.json",
+      "archive": "tmp/sms-ml-shadow-archives/20261006T103548163102Z/SMS-calibration.json",
+      "rawSha256": "79c2318714f8638938ee6644a3a3dedd7aa6cea0ca258abb065d1da0271860a3",
+      "normalizedSha256": "79c2318714f8638938ee6644a3a3dedd7aa6cea0ca258abb065d1da0271860a3"
+    },
+    {
+      "source": "tmp/pr27-reproduction/split_manifest.json",
+      "archive": "tmp/sms-ml-shadow-archives/20261006T103548163102Z/split_manifest.json",
+      "rawSha256": "a1a834795506dcf93fc1b08020f483163ad55ecd1b5d87f4b0d3062b3343367e",
+      "normalizedSha256": "a1a834795506dcf93fc1b08020f483163ad55ecd1b5d87f4b0d3062b3343367e"
+    }
+  ],
+  "restored": [
+    {
+      "path": "services/ml-service/models/manifest.json",
+      "sha256": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711"
+    },
+    {
+      "path": "services/ml-service/models/VOLTE.joblib",
+      "sha256": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd"
+    },
+    {
+      "path": "services/ml-service/models/SMS.joblib",
+      "sha256": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307"
+    },
+    {
+      "path": "services/ml-service/models/VOLTE-calibration.json",
+      "sha256": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489"
+    },
+    {
+      "path": "services/ml-service/models/SMS-calibration.json",
+      "sha256": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b"
+    }
+  ]
+}

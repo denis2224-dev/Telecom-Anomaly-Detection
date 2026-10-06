@@ -100,14 +100,15 @@ class IngestionIntegrationTest {
     @Test void migrationOwnershipRuntimeDmlAndIsolation() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(10, jdbc.queryForObject("""
+        assertEquals(14, jdbc.queryForObject("""
                 SELECT count(*) FROM pg_tables WHERE schemaname='app' AND tableowner='processing_migrator'
                 AND tablename <> 'flyway_schema_history'
                 """, Integer.class));
         assertEquals("processing_app", jdbc.queryForObject("SELECT current_user", String.class));
         for (String sql : List.of("CREATE TABLE app.forbidden(id int)", "CREATE TABLE public.forbidden(id int)",
                 "CREATE SCHEMA forbidden", "DROP TABLE app.interval_bucket", "ALTER TABLE app.source_state ADD COLUMN forbidden int",
-                "DELETE FROM app.flyway_schema_history")) {
+                "DELETE FROM app.flyway_schema_history", "UPDATE app.sms_shadow_result SET evidence_id='forbidden'",
+                "DELETE FROM app.sms_shadow_result")) {
             var error = assertThrows(DataAccessException.class, () -> jdbc.execute(sql));
             assertEquals("42501", ((SQLException) error.getMostSpecificCause()).getSQLState());
         }

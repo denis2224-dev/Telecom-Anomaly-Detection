@@ -1,0 +1,723 @@
+{
+  "selectionSplit": "validation",
+  "evaluationSplit": "test",
+  "status": "EXPERIMENTAL_NOT_PROMOTED",
+  "syntheticOnly": true,
+  "datasetVersion": "synthetic-validation-v1-t8-m5-f2x30",
+  "datasetManifestSha256": "a641ed875656f7bb903cfa35ed7908e6c4bab55d5d4d2b42dd6105d59a6c5f2c",
+  "selectionSha256": "475e100d230f5ad1715819cd3f8257b159e049f83d55e26ece19b5ae51c05d39",
+  "falsePositiveBudget": 0.01,
+  "original": {
+    "services": {
+      "VOLTE": {
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "modelSha256": "ee4dc113e8f0cb1f47f6f644c6786882f2ee348a5b3e947cf5976cc06bf8d8a2",
+        "scalarBatchParity": "PASS",
+        "metrics": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 545,
+          "falsePositives": 144,
+          "falseNegatives": 175,
+          "trueNegatives": 1872,
+          "precision": 0.7910014513788098,
+          "recall": 0.7569444444444444,
+          "falsePositivesPer1000Normal": 71.42857142857143,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "ims-capacity": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "transport-loss": {
+              "windows": 180,
+              "detected": 176,
+              "recall": 0.9777777777777777
+            },
+            "access-failure": {
+              "windows": 180,
+              "detected": 58,
+              "recall": 0.32222222222222224
+            },
+            "service-failure": {
+              "windows": 180,
+              "detected": 131,
+              "recall": 0.7277777777777777
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 181,
+              "recall": 0.7541666666666667
+            },
+            "2": {
+              "windows": 240,
+              "detected": 178,
+              "recall": 0.7416666666666667
+            },
+            "3": {
+              "windows": 240,
+              "detected": 186,
+              "recall": 0.775
+            }
+          },
+          "byHealthyProfile": {
+            "nominal": {
+              "windows": 1074,
+              "falsePositives": 6,
+              "falsePositiveRate": 0.00558659217877095
+            },
+            "low-volume": {
+              "windows": 285,
+              "falsePositives": 28,
+              "falsePositiveRate": 0.09824561403508772
+            },
+            "high-load": {
+              "windows": 440,
+              "falsePositives": 75,
+              "falsePositiveRate": 0.17045454545454544
+            },
+            "healthy-jitter": {
+              "windows": 217,
+              "falsePositives": 35,
+              "falsePositiveRate": 0.16129032258064516
+            }
+          },
+          "macroRecall": 0.7569444444444444,
+          "falsePositiveRate": 0.07142857142857142
+        }
+      },
+      "SMS": {
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "modelSha256": "0068a99f3afc4cec895da19a417756dc4f50ea4d093de79ba874523b83d8be96",
+        "scalarBatchParity": "PASS",
+        "metrics": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 487,
+          "falsePositives": 1507,
+          "falseNegatives": 233,
+          "trueNegatives": 509,
+          "precision": 0.24423269809428286,
+          "recall": 0.6763888888888889,
+          "falsePositivesPer1000Normal": 747.5198412698413,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "delivery-delay": {
+              "windows": 180,
+              "detected": 10,
+              "recall": 0.05555555555555555
+            },
+            "backlog": {
+              "windows": 180,
+              "detected": 167,
+              "recall": 0.9277777777777778
+            },
+            "delivery-failure": {
+              "windows": 180,
+              "detected": 170,
+              "recall": 0.9444444444444444
+            },
+            "mixed-delay-backlog": {
+              "windows": 180,
+              "detected": 140,
+              "recall": 0.7777777777777778
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 166,
+              "recall": 0.6916666666666667
+            },
+            "2": {
+              "windows": 240,
+              "detected": 164,
+              "recall": 0.6833333333333333
+            },
+            "3": {
+              "windows": 240,
+              "detected": 157,
+              "recall": 0.6541666666666667
+            }
+          },
+          "byHealthyProfile": {
+            "nominal": {
+              "windows": 1073,
+              "falsePositives": 800,
+              "falsePositiveRate": 0.7455731593662628
+            },
+            "high-load": {
+              "windows": 421,
+              "falsePositives": 421,
+              "falsePositiveRate": 1.0
+            },
+            "healthy-jitter": {
+              "windows": 204,
+              "falsePositives": 5,
+              "falsePositiveRate": 0.024509803921568627
+            },
+            "low-volume": {
+              "windows": 318,
+              "falsePositives": 281,
+              "falsePositiveRate": 0.8836477987421384
+            }
+          },
+          "macroRecall": 0.6763888888888889,
+          "falsePositiveRate": 0.7475198412698413
+        }
+      }
+    }
+  },
+  "expanded": {
+    "services": {
+      "VOLTE": {
+        "modelVersion": "isoforest-v2-expanded-history-1",
+        "thresholdRank": 0.99,
+        "modelSha256": "01fd9c7e7cda9ba25ba62bf4387b5afbede25178f1b7791f088619582fff7a72",
+        "scalarBatchParity": "PASS",
+        "metrics": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 564,
+          "falsePositives": 189,
+          "falseNegatives": 156,
+          "trueNegatives": 1827,
+          "precision": 0.749003984063745,
+          "recall": 0.7833333333333333,
+          "falsePositivesPer1000Normal": 93.75,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "ims-capacity": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "transport-loss": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "access-failure": {
+              "windows": 180,
+              "detected": 85,
+              "recall": 0.4722222222222222
+            },
+            "service-failure": {
+              "windows": 180,
+              "detected": 119,
+              "recall": 0.6611111111111111
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 184,
+              "recall": 0.7666666666666667
+            },
+            "2": {
+              "windows": 240,
+              "detected": 179,
+              "recall": 0.7458333333333333
+            },
+            "3": {
+              "windows": 240,
+              "detected": 201,
+              "recall": 0.8375
+            }
+          },
+          "byHealthyProfile": {
+            "nominal": {
+              "windows": 1074,
+              "falsePositives": 7,
+              "falsePositiveRate": 0.006517690875232775
+            },
+            "low-volume": {
+              "windows": 285,
+              "falsePositives": 31,
+              "falsePositiveRate": 0.10877192982456141
+            },
+            "high-load": {
+              "windows": 440,
+              "falsePositives": 99,
+              "falsePositiveRate": 0.225
+            },
+            "healthy-jitter": {
+              "windows": 217,
+              "falsePositives": 52,
+              "falsePositiveRate": 0.23963133640552994
+            }
+          },
+          "macroRecall": 0.7833333333333333,
+          "falsePositiveRate": 0.09375
+        }
+      },
+      "SMS": {
+        "modelVersion": "isoforest-v2-expanded-history-1",
+        "thresholdRank": 0.99,
+        "modelSha256": "9bc2c0165ebc60730cf3aeb8fd4563e35c1d78bb6b56af992484f5ef5ba6f905",
+        "scalarBatchParity": "PASS",
+        "metrics": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 497,
+          "falsePositives": 1632,
+          "falseNegatives": 223,
+          "trueNegatives": 384,
+          "precision": 0.2334429309534993,
+          "recall": 0.6902777777777778,
+          "falsePositivesPer1000Normal": 809.5238095238095,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "delivery-delay": {
+              "windows": 180,
+              "detected": 12,
+              "recall": 0.06666666666666667
+            },
+            "backlog": {
+              "windows": 180,
+              "detected": 172,
+              "recall": 0.9555555555555556
+            },
+            "delivery-failure": {
+              "windows": 180,
+              "detected": 176,
+              "recall": 0.9777777777777777
+            },
+            "mixed-delay-backlog": {
+              "windows": 180,
+              "detected": 137,
+              "recall": 0.7611111111111111
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 170,
+              "recall": 0.7083333333333334
+            },
+            "2": {
+              "windows": 240,
+              "detected": 169,
+              "recall": 0.7041666666666667
+            },
+            "3": {
+              "windows": 240,
+              "detected": 158,
+              "recall": 0.6583333333333333
+            }
+          },
+          "byHealthyProfile": {
+            "nominal": {
+              "windows": 1073,
+              "falsePositives": 911,
+              "falsePositiveRate": 0.8490214352283317
+            },
+            "high-load": {
+              "windows": 421,
+              "falsePositives": 420,
+              "falsePositiveRate": 0.997624703087886
+            },
+            "healthy-jitter": {
+              "windows": 204,
+              "falsePositives": 6,
+              "falsePositiveRate": 0.029411764705882353
+            },
+            "low-volume": {
+              "windows": 318,
+              "falsePositives": 295,
+              "falsePositiveRate": 0.9276729559748428
+            }
+          },
+          "macroRecall": 0.6902777777777778,
+          "falsePositiveRate": 0.8095238095238095
+        }
+      }
+    }
+  },
+  "selected": {
+    "services": {
+      "VOLTE": {
+        "modelVersion": "isoforest-v2-validation-1-VOLTE",
+        "thresholdRank": 0.9975,
+        "modelSha256": "6b04e2133b8ff7f1e986988b54eb85881e90522c97eeb863ae7dbd9f0330eed6",
+        "scalarBatchParity": "PASS",
+        "metrics": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 720,
+          "falsePositives": 11,
+          "falseNegatives": 0,
+          "trueNegatives": 2005,
+          "precision": 0.9849521203830369,
+          "recall": 1.0,
+          "falsePositivesPer1000Normal": 5.4563492063492065,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "ims-capacity": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "transport-loss": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "access-failure": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "service-failure": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 240,
+              "recall": 1.0
+            },
+            "2": {
+              "windows": 240,
+              "detected": 240,
+              "recall": 1.0
+            },
+            "3": {
+              "windows": 240,
+              "detected": 240,
+              "recall": 1.0
+            }
+          },
+          "byHealthyProfile": {
+            "nominal": {
+              "windows": 1074,
+              "falsePositives": 0,
+              "falsePositiveRate": 0.0
+            },
+            "low-volume": {
+              "windows": 285,
+              "falsePositives": 6,
+              "falsePositiveRate": 0.021052631578947368
+            },
+            "high-load": {
+              "windows": 440,
+              "falsePositives": 1,
+              "falsePositiveRate": 0.0022727272727272726
+            },
+            "healthy-jitter": {
+              "windows": 217,
+              "falsePositives": 4,
+              "falsePositiveRate": 0.018433179723502304
+            }
+          },
+          "macroRecall": 1.0,
+          "falsePositiveRate": 0.005456349206349206
+        }
+      },
+      "SMS": {
+        "modelVersion": "isoforest-v2-validation-1-SMS",
+        "thresholdRank": 0.99,
+        "modelSha256": "cd231ab3bfe4baacb4610812c4e74ca4b68fbf568dcf8b973cabf222d7bf58e2",
+        "scalarBatchParity": "PASS",
+        "metrics": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 363,
+          "falsePositives": 18,
+          "falseNegatives": 357,
+          "trueNegatives": 1998,
+          "precision": 0.952755905511811,
+          "recall": 0.5041666666666667,
+          "falsePositivesPer1000Normal": 8.928571428571429,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "delivery-delay": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "backlog": {
+              "windows": 180,
+              "detected": 3,
+              "recall": 0.016666666666666666
+            },
+            "delivery-failure": {
+              "windows": 180,
+              "detected": 0,
+              "recall": 0.0
+            },
+            "mixed-delay-backlog": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 120,
+              "recall": 0.5
+            },
+            "2": {
+              "windows": 240,
+              "detected": 122,
+              "recall": 0.5083333333333333
+            },
+            "3": {
+              "windows": 240,
+              "detected": 121,
+              "recall": 0.5041666666666667
+            }
+          },
+          "byHealthyProfile": {
+            "nominal": {
+              "windows": 1073,
+              "falsePositives": 0,
+              "falsePositiveRate": 0.0
+            },
+            "high-load": {
+              "windows": 421,
+              "falsePositives": 1,
+              "falsePositiveRate": 0.0023752969121140144
+            },
+            "healthy-jitter": {
+              "windows": 204,
+              "falsePositives": 15,
+              "falsePositiveRate": 0.07352941176470588
+            },
+            "low-volume": {
+              "windows": 318,
+              "falsePositives": 2,
+              "falsePositiveRate": 0.006289308176100629
+            }
+          },
+          "macroRecall": 0.5041666666666667,
+          "falsePositiveRate": 0.008928571428571428
+        }
+      }
+    }
+  },
+  "validationSelection": {
+    "modelVersion": "isoforest-v2-validation-1",
+    "datasetVersion": "synthetic-validation-v1-t8-m5-f2x30",
+    "datasetManifestSha256": "a641ed875656f7bb903cfa35ed7908e6c4bab55d5d4d2b42dd6105d59a6c5f2c",
+    "syntheticOnly": true,
+    "falsePositiveBudget": 0.01,
+    "selectionSplit": "validation",
+    "status": "EXPERIMENTAL_NOT_PROMOTED",
+    "services": {
+      "VOLTE": {
+        "models": "VOLTE",
+        "modelVersion": "isoforest-v2-validation-1-VOLTE",
+        "manifestSha256": "88d68b9aead50b60c426ed9d04aba8fdace49c3523e188ec2c53a650745dc015",
+        "thresholdRank": 0.9975,
+        "validation": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 720,
+          "falsePositives": 8,
+          "falseNegatives": 0,
+          "trueNegatives": 2008,
+          "precision": 0.989010989010989,
+          "recall": 1.0,
+          "falsePositivesPer1000Normal": 3.9682539682539684,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "ims-capacity": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "transport-loss": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "access-failure": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "service-failure": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 240,
+              "recall": 1.0
+            },
+            "2": {
+              "windows": 240,
+              "detected": 240,
+              "recall": 1.0
+            },
+            "3": {
+              "windows": 240,
+              "detected": 240,
+              "recall": 1.0
+            }
+          },
+          "byHealthyProfile": {
+            "nominal": {
+              "windows": 1103,
+              "falsePositives": 0,
+              "falsePositiveRate": 0.0
+            },
+            "low-volume": {
+              "windows": 296,
+              "falsePositives": 5,
+              "falsePositiveRate": 0.016891891891891893
+            },
+            "healthy-jitter": {
+              "windows": 209,
+              "falsePositives": 1,
+              "falsePositiveRate": 0.004784688995215311
+            },
+            "high-load": {
+              "windows": 408,
+              "falsePositives": 2,
+              "falsePositiveRate": 0.004901960784313725
+            }
+          },
+          "macroRecall": 1.0,
+          "falsePositiveRate": 0.003968253968253968,
+          "threshold": 0.9975,
+          "nEstimators": 200,
+          "maxSamples": 4096,
+          "config": "n200-s4096"
+        }
+      },
+      "SMS": {
+        "models": "SMS",
+        "modelVersion": "isoforest-v2-validation-1-SMS",
+        "manifestSha256": "fd2d03e6c29c287891407e9f6a8e3ba7cc086dea5064ac654b059cae7518d2d1",
+        "thresholdRank": 0.99,
+        "validation": {
+          "testNormalWindows": 2016,
+          "testFaultWindows": 720,
+          "truePositives": 368,
+          "falsePositives": 20,
+          "falseNegatives": 352,
+          "trueNegatives": 1996,
+          "precision": 0.9484536082474226,
+          "recall": 0.5111111111111111,
+          "falsePositivesPer1000Normal": 9.920634920634921,
+          "medianInferenceMs": null,
+          "p95InferenceMs": null,
+          "byFamily": {
+            "delivery-delay": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            },
+            "backlog": {
+              "windows": 180,
+              "detected": 7,
+              "recall": 0.03888888888888889
+            },
+            "delivery-failure": {
+              "windows": 180,
+              "detected": 1,
+              "recall": 0.005555555555555556
+            },
+            "mixed-delay-backlog": {
+              "windows": 180,
+              "detected": 180,
+              "recall": 1.0
+            }
+          },
+          "bySeverity": {
+            "1": {
+              "windows": 240,
+              "detected": 127,
+              "recall": 0.5291666666666667
+            },
+            "2": {
+              "windows": 240,
+              "detected": 121,
+              "recall": 0.5041666666666667
+            },
+            "3": {
+              "windows": 240,
+              "detected": 120,
+              "recall": 0.5
+            }
+          },
+          "byHealthyProfile": {
+            "healthy-jitter": {
+              "windows": 219,
+              "falsePositives": 19,
+              "falsePositiveRate": 0.0867579908675799
+            },
+            "low-volume": {
+              "windows": 266,
+              "falsePositives": 1,
+              "falsePositiveRate": 0.0037593984962406013
+            },
+            "nominal": {
+              "windows": 1119,
+              "falsePositives": 0,
+              "falsePositiveRate": 0.0
+            },
+            "high-load": {
+              "windows": 412,
+              "falsePositives": 0,
+              "falsePositiveRate": 0.0
+            }
+          },
+          "macroRecall": 0.5111111111111111,
+          "falsePositiveRate": 0.00992063492063492,
+          "threshold": 0.99,
+          "nEstimators": 200,
+          "maxSamples": 4096,
+          "config": "n200-s4096"
+        }
+      }
+    }
+  },
+  "finalReportSha256": "1716b9f68be1c28b7f3d87e2cfc0d2cba7d27846b7f7d379a6f40ba77f0385fc",
+  "verification": {
+    "mlTests": 30,
+    "rootTestsRun": 44,
+    "rootTestsPassing": 43,
+    "preexistingRootFailure": "Day1 model-byte freeze: five subtest failures present before implementation",
+    "preexistingModelsPreserved": true,
+    "budgetMutationRejected": true,
+    "modelActivation": "NOT_PROMOTED",
+    "ml-tests.logSha256": "8c14038e2d32537182407cad6264dfa078f5454fec07cc1824b3e974ecdf8982",
+    "root-tests.logSha256": "1df3c15d513d818a47a19bc39424ff303a12ecf066da5a02ed4d2dc13acc193b",
+    "budget-mutation-test.logSha256": "6de4cf352adb04ead990bf57fb9acbced2db1d125e7cc55c74c4d20ca69a1294"
+  },
+  "sources": {
+    "dataset": "tmp\\ml-validation-experiment\\dataset\\data",
+    "models": "tmp\\ml-validation-experiment\\selection",
+    "fullFinalReport": "tmp\\ml-validation-experiment\\final-evaluation.json"
+  },
+  "preservedDefaultModelSha256": {
+    "services\\ml-service\\models\\.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "services\\ml-service\\models\\manifest.json": "82fe0c7d7be5b33bf9c66d20cf91f55cfa391c4cad0293c23b3006b2fb3439ef",
+    "services\\ml-service\\models\\SMS-calibration.json": "79c2318714f8638938ee6644a3a3dedd7aa6cea0ca258abb065d1da0271860a3",
+    "services\\ml-service\\models\\SMS.joblib": "0068a99f3afc4cec895da19a417756dc4f50ea4d093de79ba874523b83d8be96",
+    "services\\ml-service\\models\\VOLTE-calibration.json": "70f8317d664a97ded556efbf7ff6fa12bd16295eac3476dd51fdbc9d5148ab89",
+    "services\\ml-service\\models\\VOLTE.joblib": "ee4dc113e8f0cb1f47f6f644c6786882f2ee348a5b3e947cf5976cc06bf8d8a2"
+  }
+}

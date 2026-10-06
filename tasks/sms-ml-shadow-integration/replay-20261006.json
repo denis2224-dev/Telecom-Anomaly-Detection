@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "evaluationKind": "ISOLATED_SYNTHETIC_DELIVERY_REPLAY",
+  "datasetId": "sms-shadow-replay-20270503-seed3200000",
+  "modelVersion": "sms-supervised-v1-2",
+  "threshold": 0.55,
+  "scoreSemantics": "uncalibrated classifier score for fault class 1",
+  "overall": {
+    "tp": 2823,
+    "fn": 57,
+    "fp": 10,
+    "tn": 8534,
+    "faultWindows": 2880,
+    "healthyWindows": 8544,
+    "recall": 0.9802083333333333,
+    "falsePositiveRate": 0.0011704119850187266,
+    "precision": 0.9964701729615248
+  },
+  "families": {
+    "delivery-delay": {
+      "tp": 720,
+      "fn": 0,
+      "fp": 0,
+      "tn": 0,
+      "faultWindows": 720,
+      "healthyWindows": 0,
+      "recall": 1.0,
+      "falsePositiveRate": null,
+      "precision": 1.0
+    },
+    "backlog": {
+      "tp": 720,
+      "fn": 0,
+      "fp": 0,
+      "tn": 0,
+      "faultWindows": 720,
+      "healthyWindows": 0,
+      "recall": 1.0,
+      "falsePositiveRate": null,
+      "precision": 1.0
+    },
+    "delivery-failure": {
+      "tp": 663,
+      "fn": 57,
+      "fp": 0,
+      "tn": 0,
+      "faultWindows": 720,
+      "healthyWindows": 0,
+      "recall": 0.9208333333333333,
+      "falsePositiveRate": null,
+      "precision": 1.0
+    },
+    "mixed-delay-backlog": {
+      "tp": 720,
+      "fn": 0,
+      "fp": 0,
+      "tn": 0,
+      "faultWindows": 720,
+      "healthyWindows": 0,
+      "recall": 1.0,
+      "falsePositiveRate": null,
+      "precision": 1.0
+    }
+  },
+  "healthyProfiles": {
+    "nominal": {
+      "tp": 0,
+      "fn": 0,
+      "fp": 0,
+      "tn": 2136,
+      "faultWindows": 0,
+      "healthyWindows": 2136,
+      "recall": null,
+      "falsePositiveRate": 0.0,
+      "precision": null
+    },
+    "high-load": {
+      "tp": 0,
+      "fn": 0,
+      "fp": 0,
+      "tn": 2136,
+      "faultWindows": 0,
+      "healthyWindows": 2136,
+      "recall": null,
+      "falsePositiveRate": 0.0,
+      "precision": null
+    },
+    "low-volume": {
+      "tp": 0,
+      "fn": 0,
+      "fp": 10,
+      "tn": 2126,
+      "faultWindows": 0,
+      "healthyWindows": 2136,
+      "recall": null,
+      "falsePositiveRate": 0.0046816479400749065,
+      "precision": 0.0
+    },
+    "healthy-jitter": {
+      "tp": 0,
+      "fn": 0,
+      "fp": 0,
+      "tn": 2136,
+      "faultWindows": 0,
+      "healthyWindows": 2136,
+      "recall": null,
+      "falsePositiveRate": 0.0,
+      "precision": null
+    }
+  },
+  "severities": {
+    "1": {
+      "tp": 903,
+      "fn": 57,
+      "fp": 0,
+      "tn": 0,
+      "faultWindows": 960,
+      "healthyWindows": 0,
+      "recall": 0.940625,
+      "falsePositiveRate": null,
+      "precision": 1.0
+    },
+    "2": {
+      "tp": 960,
+      "fn": 0,
+      "fp": 0,
+      "tn": 0,
+      "faultWindows": 960,
+      "healthyWindows": 0,
+      "recall": 1.0,
+      "falsePositiveRate": null,
+      "precision": 1.0
+    },
+    "3": {
+      "tp": 960,
+      "fn": 0,
+      "fp": 0,
+      "tn": 0,
+      "faultWindows": 960,
+      "healthyWindows": 0,
+      "recall": 1.0,
+      "falsePositiveRate": null,
+      "precision": 1.0
+    }
+  },
+  "missingCoverage": {
+    "unlabelledFeatures": 0,
+    "labelsWithoutFeatures": 0
+  },
+  "acceptanceStatus": "PASSED",
+  "coverageRequirements": {
+    "faultsPerFamily": 720,
+    "healthyPerProfile": 2016
+  },
+  "inference": {
+    "requests": 11424,
+    "meanMs": 21.789449623599438,
+    "p50Ms": 17.387500000000003,
+    "p95Ms": 47.44086500000001,
+    "p99Ms": 59.08148100000003,
+    "maxMs": 217.6254,
+    "budgetMs": 250,
+    "concurrency": 2
+  },
+  "pipeline": {
+    "episodes": 36,
+    "shadowIncidentParity": true,
+    "windows": 11424,
+    "featureParity": true,
+    "detections": 1293,
+    "correlatedWindows": 1329,
+    "mlOnlyPositivesOutsideIncidents": 1633,
+    "incidents": 36,
+    "duplicateKafkaDeliveryIdempotent": true,
+    "allIncidentsRecovered": true,
+    "apiWindows": 11424,
+    "persistedWindows": 11424,
+    "offlineHttpPersistedParity": true,
+    "historyBootstrapUsed": false,
+    "concurrentLeasedPublishers": true
+  },
+  "realNetworkValidation": "PENDING_DATA",
+  "provenance": {
+    "modelSha256": "f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19",
+    "packageManifestSha256": "f42afaac32866cce66dee5364241fc9aaf05c9bc909c8e297583296307f64f98",
+    "datasetManifestSha256": "30b9301beaf3d44f77207010d023bbdaffa5cbf35abf379d56c0245771ee3367",
+    "containerImageId": "sha256:71bbebdeb1cd4f95dd76fcdfeb2e07d6f4a860c86a006255a856603cc07f1c58",
+    "sourceCommit": "b8fec7cbf9fe6aeff2a8d0273299e3c1f663c308",
+    "implementationFiles": {
+      "tasks/sms-ml-shadow-integration/generate_replay.py": "4a7ce8c04e297623bbf93304d121f1cdbefb997efa07ee4d6c02451dbdc96bda",
+      "tasks/sms-ml-shadow-integration/run_replay.py": "8ce240a94adb449f13d0b20c4c8b38b9d153b1d6dc884344b01ee5b57736862f",
+      "tasks/sms-ml-shadow-integration/ReplayPublisher.java": "d79a58b83c7757cccba40a0eda98c4220bce11fda594998dd3490096d7c6ba16",
+      "services/processor/src/test/java/md/utm/telecom/processing/kpi/SmsShadowReplayTest.java": "4c07cd1cbf26dc2ce500365fee7aa7bb7de0f11a7b5166be79e63fe1ae65b4b9",
+      "services/incident-service/src/test/java/md/utm/telecom/shadow/SmsShadowReplayTest.java": "c5f54c8ce35eeaa3869ca5d271c7422c02d5c84bac990f9b4d90a65f1c058008",
+      "services/ml-service/app/inference/sms_classifier.py": "d289199110409feb5fca0587273a5ba8d4dcb8ce4230f847a5c4ada302393e1d",
+      "services/ml-service/app/validation/sms_real_data.py": "55bef6be7ed917cff3814fd7580804879f6a299ce8c90c292b8e8adbff0c806d",
+      "services/processor/src/main/java/md/utm/telecom/processing/shadow/SmsShadowWorker.java": "a69122e879549fa224655cd2c974678cd2b507fadfacce48d028ae0d35526713",
+      "services/processor/src/main/java/md/utm/telecom/processing/shadow/SmsShadowPublisher.java": "00d153be535747eb9d05223d4c3efc7930cf8f37347181ec23d5fb577cba2d9b",
+      "services/processor/src/main/resources/db/migration/V010__feature_worker_indexes.sql": "b63742fe1199fb50465764a7e306c335dd286f2b354660acc941440f5cdc18e8",
+      "services/incident-service/src/main/java/md/utm/telecom/shadow/SmsShadowStore.java": "e6d8ea7cd4a60fbbb2f9bd225808be2cf0aa9211fb9fb8864a93a24decc34bea"
+    },
+    "files": {
+      "features.jsonl": "048b5091eae24cb14f277af6ca553f28a57aec4d2110602f78bd0d76fea346c5",
+      "labels.csv": "d2ad14dc8cff7e6cc1915f8435c5ab8dc596f61886deb7a35139e90bcaa1786f",
+      "observations.jsonl": "73847c24e81b5e7c7b0016d36424db9283fe23dfffbbd8f654f21213194f9adf",
+      "processor-features.jsonl": "78b3b5531d4ea36275c496e477a62da0eed874acfaa2049614c9564eca94cb1e",
+      "rule-off-detections.jsonl": "23d0ea98229e57ddb320a2286c99223d579c7c080ec24c9e8d8308fb951b3d9c",
+      "rule-on-detections.jsonl": "196452d5f2155c2769940741095e4548cc4bdd1d78a8eae9d829031cdc2edb75",
+      "shadow-results.jsonl": "a7f44202c9551c078af7ede9125a26b9e83e3bdf4d1a04f0d9009ed53d04e5e2"
+    }
+  }
+}

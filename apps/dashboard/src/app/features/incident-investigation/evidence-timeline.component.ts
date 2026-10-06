@@ -34,7 +34,7 @@ type Detection = components['schemas']['ServiceDetection'];
           </div>
           <div class="badge-row"><span class="badge" [attr.data-state]="detection.severity"><span class="sr-only">Severity: </span>{{ detection.severity }}</span><span class="badge" [attr.data-state]="detection.technicalState"><span class="sr-only">Technical state: </span>{{ detection.technicalState }}</span><span class="badge">{{ detection.phase }}</span></div>
         </header>
-        <p class="evidence-meta">Server detected at {{ detection.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Source scope: {{ detection.scopeId }} · Service: {{ detection.service }}</p>
+        <p class="evidence-meta">Server detected at <time [attr.datetime]="detection.detectedAt">{{ detection.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</time> UTC · Source scope: {{ detection.scopeId }} · Service: {{ detection.service }}</p>
 
         @if (detection.phase === 'UNKNOWN') {
           <p class="notice">

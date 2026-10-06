@@ -209,3 +209,13 @@ policy, feature order, baseline lookup and voice-rule handoff using these unchan
 observation names. `scripts/check-contracts.py` also validates the new policy,
 baseline and canonical feature/detection fixtures. The independent feature builder
 and stateless voice rule do not implement ingestion, finalization or episodes.
+# Optional SMS classifier shadow evidence
+
+`ml-shadow/sms-shadow-evidence-v1.schema.json` is an independent event on
+`telecom.ml-shadow.sms.v1`, keyed by SMS scope. Identity is SHA-256 of compact
+JSON `[windowId,requestedModelVersion]`. Window intervals are aligned UTC minutes.
+Claims deduplicate by that pair. Only `OK` has a score and decision; the score is
+uncalibrated and `detection` means `classifierScore >= 0.55`. Failures have null
+predictions. Labels and `anomalyRank` are excluded. The artifact hash identifies
+the requested frozen package even when HTTP fails. Read APIs use existing session
+roles and pagination; incident correlation uses overlapping observed windows.

@@ -2,6 +2,7 @@ package md.utm.telecom.incidents.exception;
 
 import jakarta.persistence.OptimisticLockException;
 import md.utm.telecom.evidence.controller.EvidenceController;
+import md.utm.telecom.geography.GeographyController;
 import md.utm.telecom.analysts.AnalystController;
 import md.utm.telecom.incidents.controller.IncidentController;
 import md.utm.telecom.incidents.controller.IncidentStreamController;
@@ -18,7 +19,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @RestControllerAdvice(assignableTypes = {
         IncidentController.class, EvidenceController.class, AnalystController.class,
-        IncidentStreamController.class
+        IncidentStreamController.class, GeographyController.class
 })
 public class WorkflowErrors {
     @ExceptionHandler(WorkflowProblem.class)

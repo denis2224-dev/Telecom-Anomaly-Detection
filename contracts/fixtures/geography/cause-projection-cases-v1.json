@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "status": "CONTRACT_ONLY",
+  "description": "Hypothetical DTO/wording examples. These do not claim a measured cause or activated geographic correlation. Runtime truth remains tested by existing explanation trajectories.",
+  "cases": [
+    {
+      "id": "CAUSE-undetermined",
+      "value": {
+        "schemaVersion": 1,
+        "scopeId": "VOLTE-MD-CHI",
+        "service": "VOLTE",
+        "windowStart": "2026-09-15T08:00:00Z",
+        "windowEnd": "2026-09-15T08:01:00Z",
+        "topologyVersion": "2-geography-g1",
+        "catalogueVersion": "1-geography-g1",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect aligned service and dependency evidence.",
+        "causeConfidence": "LOW",
+        "supportingEvidence": [],
+        "contradictoryEvidence": [],
+        "limitations": [
+          "Synthetic teaching evidence; a hypothesis is not a confirmed diagnosis."
+        ],
+        "recommendedChecks": [
+          "Verify source freshness, scope, authority and aligned measurements."
+        ],
+        "synthetic": true
+      }
+    },
+    {
+      "id": "CAUSE-ims-hypothesis",
+      "value": {
+        "schemaVersion": 1,
+        "scopeId": "VOLTE-MD-CHI",
+        "service": "VOLTE",
+        "windowStart": "2026-09-15T08:00:00Z",
+        "windowEnd": "2026-09-15T08:01:00Z",
+        "topologyVersion": "2-geography-g1",
+        "catalogueVersion": "1-geography-g1",
+        "probableCauseCode": "IMS_CAPACITY_HYPOTHESIS",
+        "probableCause": "IMS capacity pressure is a hypothesis when high CPU and SIP 503 accompany degradation with healthy access.",
+        "causeConfidence": "MEDIUM",
+        "supportingEvidence": [
+          {
+            "sourceEventId": "1976a3a3-e2b2-3d2c-a480-f7fa455b453b",
+            "sourceId": "VOLTE-SRC-CHI",
+            "nodeId": null,
+            "role": "SERVICE",
+            "scopeId": "VOLTE-MD-CHI",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "topologyVersion": "2-geography-g1",
+            "catalogueVersion": "1-geography-g1",
+            "summary": "Hypothetical aligned observed evidence; scenario ground truth is excluded."
+          },
+          {
+            "sourceEventId": "ecfba212-2ac1-3774-b7fb-12d7627a0827",
+            "sourceId": "IMS-MD-CHI-01",
+            "nodeId": "IMS-MD-CHI-01",
+            "role": "VOLTE_IMS",
+            "scopeId": "VOLTE-MD-CHI",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "topologyVersion": "2-geography-g1",
+            "catalogueVersion": "1-geography-g1",
+            "summary": "Hypothetical aligned observed evidence; scenario ground truth is excluded."
+          }
+        ],
+        "contradictoryEvidence": [],
+        "limitations": [
+          "Synthetic teaching evidence; a hypothesis is not a confirmed diagnosis."
+        ],
+        "recommendedChecks": [
+          "Verify source freshness, scope, authority and aligned measurements."
+        ],
+        "synthetic": true
+      }
+    },
+    {
+      "id": "CAUSE-smsc-backlog",
+      "value": {
+        "schemaVersion": 1,
+        "scopeId": "SMS-MD-CHI",
+        "service": "SMS",
+        "windowStart": "2026-09-15T08:00:00Z",
+        "windowEnd": "2026-09-15T08:01:00Z",
+        "topologyVersion": "2-geography-g1",
+        "catalogueVersion": "1-geography-g1",
+        "probableCauseCode": "SMSC_BACKLOG_HYPOTHESIS",
+        "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+        "causeConfidence": "MEDIUM",
+        "supportingEvidence": [
+          {
+            "sourceEventId": "253733f5-44c2-3a11-9923-326034451fbc",
+            "sourceId": "SMSC-MD-CHI-01",
+            "nodeId": "SMSC-MD-CHI-01",
+            "role": "SMS_SMSC",
+            "scopeId": "SMS-MD-CHI",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "topologyVersion": "2-geography-g1",
+            "catalogueVersion": "1-geography-g1",
+            "summary": "Hypothetical aligned observed evidence; scenario ground truth is excluded."
+          }
+        ],
+        "contradictoryEvidence": [],
+        "limitations": [
+          "Synthetic teaching evidence; a hypothesis is not a confirmed diagnosis."
+        ],
+        "recommendedChecks": [
+          "Verify source freshness, scope, authority and aligned measurements."
+        ],
+        "synthetic": true
+      }
+    },
+    {
+      "id": "CAUSE-sms-delay",
+      "value": {
+        "schemaVersion": 1,
+        "scopeId": "SMS-MD-CHI",
+        "service": "SMS",
+        "windowStart": "2026-09-15T08:00:00Z",
+        "windowEnd": "2026-09-15T08:01:00Z",
+        "topologyVersion": "2-geography-g1",
+        "catalogueVersion": "1-geography-g1",
+        "probableCauseCode": "SMS_DELIVERY_DELAY",
+        "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+        "causeConfidence": "LOW",
+        "supportingEvidence": [
+          {
+            "sourceEventId": "23ae3115-6b78-3be2-8927-b0ef43a56b0f",
+            "sourceId": "SMS-SRC-CHI",
+            "nodeId": null,
+            "role": "SERVICE",
+            "scopeId": "SMS-MD-CHI",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "topologyVersion": "2-geography-g1",
+            "catalogueVersion": "1-geography-g1",
+            "summary": "Hypothetical aligned observed evidence; scenario ground truth is excluded."
+          }
+        ],
+        "contradictoryEvidence": [],
+        "limitations": [
+          "Synthetic teaching evidence; a hypothesis is not a confirmed diagnosis."
+        ],
+        "recommendedChecks": [
+          "Verify source freshness, scope, authority and aligned measurements."
+        ],
+        "synthetic": true
+      }
+    },
+    {
+      "id": "CAUSE-contradictory",
+      "value": {
+        "schemaVersion": 1,
+        "scopeId": "VOLTE-MD-CHI",
+        "service": "VOLTE",
+        "windowStart": "2026-09-15T08:00:00Z",
+        "windowEnd": "2026-09-15T08:01:00Z",
+        "topologyVersion": "2-geography-g1",
+        "catalogueVersion": "1-geography-g1",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Contradictory healthy evidence prevents establishing an IMS cause.",
+        "causeConfidence": "LOW",
+        "supportingEvidence": [
+          {
+            "sourceEventId": "1976a3a3-e2b2-3d2c-a480-f7fa455b453b",
+            "sourceId": "VOLTE-SRC-CHI",
+            "nodeId": null,
+            "role": "SERVICE",
+            "scopeId": "VOLTE-MD-CHI",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "topologyVersion": "2-geography-g1",
+            "catalogueVersion": "1-geography-g1",
+            "summary": "Hypothetical aligned observed evidence; scenario ground truth is excluded."
+          }
+        ],
+        "contradictoryEvidence": [
+          {
+            "sourceEventId": "ecfba212-2ac1-3774-b7fb-12d7627a0827",
+            "sourceId": "IMS-MD-CHI-01",
+            "nodeId": "IMS-MD-CHI-01",
+            "role": "VOLTE_IMS",
+            "scopeId": "VOLTE-MD-CHI",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "topologyVersion": "2-geography-g1",
+            "catalogueVersion": "1-geography-g1",
+            "summary": "Hypothetical aligned observed evidence; scenario ground truth is excluded."
+          }
+        ],
+        "limitations": [
+          "Synthetic teaching evidence; a hypothesis is not a confirmed diagnosis."
+        ],
+        "recommendedChecks": [
+          "Verify source freshness, scope, authority and aligned measurements."
+        ],
+        "synthetic": true
+      }
+    },
+    {
+      "id": "CAUSE-gap-no-power",
+      "value": {
+        "schemaVersion": 1,
+        "scopeId": "VOLTE-MD-CHI",
+        "service": "VOLTE",
+        "windowStart": "2026-09-15T08:00:00Z",
+        "windowEnd": "2026-09-15T08:01:00Z",
+        "topologyVersion": "2-geography-g1",
+        "catalogueVersion": "1-geography-g1",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Service telemetry is missing; a gap or failed ping cannot establish power loss.",
+        "causeConfidence": "LOW",
+        "supportingEvidence": [],
+        "contradictoryEvidence": [],
+        "limitations": [
+          "Synthetic teaching evidence; a hypothesis is not a confirmed diagnosis."
+        ],
+        "recommendedChecks": [
+          "Verify source freshness, scope, authority and aligned measurements."
+        ],
+        "synthetic": true
+      }
+    },
+    {
+      "id": "CAUSE-baseline-missing",
+      "value": {
+        "schemaVersion": 1,
+        "scopeId": "SMS-MD-CHI",
+        "service": "SMS",
+        "windowStart": "2026-09-15T08:00:00Z",
+        "windowEnd": "2026-09-15T08:01:00Z",
+        "topologyVersion": "2-geography-g1",
+        "catalogueVersion": "1-geography-g1",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Baseline unavailable; delay deviation and a delay-derived cause are unavailable.",
+        "causeConfidence": "LOW",
+        "supportingEvidence": [],
+        "contradictoryEvidence": [],
+        "limitations": [
+          "Synthetic teaching evidence; a hypothesis is not a confirmed diagnosis."
+        ],
+        "recommendedChecks": [
+          "Verify source freshness, scope, authority and aligned measurements."
+        ],
+        "synthetic": true
+      }
+    }
+  ]
+}
