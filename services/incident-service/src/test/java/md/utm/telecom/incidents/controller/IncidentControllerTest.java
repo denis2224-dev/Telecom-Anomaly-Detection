@@ -121,6 +121,9 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
                 .andExpect(status().isBadRequest());
         mvc.perform(authenticatedGet("/api/incidents?page=-1"))
                 .andExpect(status().isBadRequest());
+        mvc.perform(authenticatedGet("/api/incidents?size=100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(100));
     }
 
     @Test
@@ -249,8 +252,21 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
         UUID missing = UUID.randomUUID();
         mvc.perform(authenticatedGet("/api/incidents/{id}/timeline?size=101", missing))
                 .andExpect(status().isBadRequest());
+        mvc.perform(authenticatedGet("/api/incidents/{id}/detections?size=101", missing))
+                .andExpect(status().isBadRequest());
         mvc.perform(authenticatedGet("/api/incidents/{id}/detections?page=-1", missing))
                 .andExpect(status().isBadRequest());
+        Incident bounded = saveIncident("episode-bounded", ServiceType.VOLTE,
+                "VOLTE-CENTRAL", Instant.parse("2026-09-15T10:01:10Z"),
+                IncidentStatus.OPEN, TechnicalState.ONGOING, 3);
+        entityManager.flush();
+        mvc.perform(authenticatedGet("/api/incidents/{id}/detections?size=100", bounded.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(100))
+                .andExpect(jsonPath("$.items", hasSize(3)));
+        mvc.perform(authenticatedGet("/api/incidents/{id}/timeline?size=100", bounded.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(100));
         mvc.perform(authenticatedGet("/api/incidents/{id}/timeline", missing))
                 .andExpect(status().isNotFound());
     }
