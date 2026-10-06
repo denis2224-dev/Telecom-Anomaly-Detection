@@ -23,8 +23,8 @@ paths:
       operationId: listGeographyCities
       summary: List the configured synthetic city inventory and current service state
       tags: [Geography]
-      x-implementation-status: proposed
-      description: Ten cities with both services. Legacy scopes remain unallocated. No child topology or full history is embedded.
+      x-implementation-status: backend-implemented
+      description: Ten cities with both services after explicit catalogue activation. Legacy scopes remain unallocated. No child topology or full history is embedded.
       responses:
         '200':
           description: Bounded current city summaries from pinned catalogue and durable projections.
@@ -50,7 +50,7 @@ paths:
       operationId: getGeographyCity
       summary: Read one city's configured footprint and service state
       tags: [Geography]
-      x-implementation-status: proposed
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/GeographyCityId'}
       responses:
@@ -63,6 +63,7 @@ paths:
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+        '503': {$ref: '#/components/responses/Unavailable'}
   /api/geography/cities/{cityId}/topology:
     get:
       operationId: getGeographyTopology
@@ -77,7 +78,7 @@ paths:
         description: Omit for city roots; an explicit parent must belong to this city and catalogue version.
       - name: catalogueVersion
         in: query
-        schema: {type: string, maxLength: 80}
+        schema: {type: string, maxLength: 128}
         description: Omit for active topology; supply a captured archived version when investigating history.
       - {$ref: '#/components/parameters/Page'}
       - name: size
@@ -98,8 +99,8 @@ paths:
       operationId: getGeographyCityKpis
       summary: Page through finalized KPI windows for one city and service
       tags: [Geography]
-      x-implementation-status: proposed
-      description: UTC half-open [from,to), at most 24 hours per request and 100 points per page; gaps are not filled.
+      x-implementation-status: backend-implemented
+      description: UTC half-open [from,to), at most 24 hours per request and 100 points per page; gaps are not filled. Requires an active catalogue.
       parameters:
       - {$ref: '#/components/parameters/GeographyCityId'}
       - name: service
@@ -126,6 +127,7 @@ paths:
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+        '503': {$ref: '#/components/responses/Unavailable'}
   /api/operations/priority:
     get:
       operationId: listOperationalPriority
