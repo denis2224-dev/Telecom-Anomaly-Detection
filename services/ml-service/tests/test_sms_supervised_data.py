@@ -32,6 +32,7 @@ class SmsSupervisedDataTests(unittest.TestCase):
     def test_disjoint_labelled_splits_and_no_metadata_in_inputs(self):
         from sms_supervised_data import generate, read_split, arrays, validate_manifest
         from experiment_data import validate_manifest as validate_normal_only
+        from train import vectors
         from scenario_history import FAULTS, NORMALS
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / 'dataset'
@@ -40,6 +41,8 @@ class SmsSupervisedDataTests(unittest.TestCase):
             validate_manifest(manifest)
             with self.assertRaises(ValueError):
                 validate_normal_only(manifest)
+            with self.assertRaisesRegex(ValueError, 'Invalid train row'):
+                vectors(root / 'data', manifest['runs'], 'SMS', 'train')
             runs = manifest['runs']
             self.assertEqual(len({r['seed'] for r in runs}), len(runs))
             self.assertEqual(len({r['episodeId'] for r in runs}), len(runs))
