@@ -72,8 +72,15 @@ def scenario_window(service, start, seed, scenario, severity, run_id='scenario')
                        raw_transform=transform)
 
 
-def generate_scenarios(root, normal_weeks=8, cadence_minutes=5, fault_minutes=30, repetitions=2):
+def generate_scenarios(root, normal_weeks=8, cadence_minutes=5, fault_minutes=30, repetitions=2,
+                       start=START, seed_offset=0):
     root = Path(root)
+    if (not isinstance(start, datetime) or start.tzinfo is None
+            or type(seed_offset) is not int or seed_offset < 0):
+        raise ValueError('Use an aware UTC start and nonnegative integer seed offset')
+    origin = start.astimezone(timezone.utc)
+    if origin.weekday() != 0 or origin.time() != START.time():
+        raise ValueError('Experiment start must be Monday at midnight UTC')
     if any(type(v) is not int or v < 1 for v in (normal_weeks, cadence_minutes, fault_minutes, repetitions)):
         raise ValueError('Dataset sizes must be positive integers')
     if 60 % cadence_minutes or 12 * repetitions * fault_minutes > 7 * 24 * 60:
@@ -83,8 +90,8 @@ def generate_scenarios(root, normal_weeks=8, cadence_minutes=5, fault_minutes=30
     data.mkdir()
     runs = []
     for service in ('VOLTE', 'SMS'):
-        specs = [('train', START + week * WEEK, WEEK, None, 0) for week in range(normal_weeks)]
-        calibration = START + normal_weeks * WEEK
+        specs = [('train', origin + week * WEEK, WEEK, None, 0) for week in range(normal_weeks)]
+        calibration = origin + normal_weeks * WEEK
         specs.append(('calibration', calibration, WEEK, None, 0))
         for split, when in (('validation', calibration + WEEK), ('test', calibration + 3 * WEEK)):
             specs.append((split, when, WEEK, None, 0))
@@ -96,7 +103,7 @@ def generate_scenarios(root, normal_weeks=8, cadence_minutes=5, fault_minutes=30
                         fault_start += fault_minutes * MINUTE
         for index, (split, start, span, family, severity) in enumerate(specs):
             run_id = f'{service.lower()}-{split}-{index}'
-            seed = (800000 if service == 'VOLTE' else 900000) + index
+            seed = (800000 if service == 'VOLTE' else 900000) + seed_offset + index
             path = data / f'{run_id}.jsonl'
             digest, count = sha256(), 0
             step = 1 if family else cadence_minutes
@@ -122,7 +129,10 @@ def generate_scenarios(root, normal_weeks=8, cadence_minutes=5, fault_minutes=30
                              sha256=digest.hexdigest(), scenario=family or 'healthy-mixture', severity=severity,
                              label='FAULT' if family else 'NORMAL'))
         print(f'Generated {service} scenario history', flush=True)
-    manifest = dict(datasetVersion=f'synthetic-validation-v1-t{normal_weeks}-m{cadence_minutes}-f{repetitions}x{fault_minutes}',
+    version = f'synthetic-validation-v1-t{normal_weeks}-m{cadence_minutes}-f{repetitions}x{fault_minutes}'
+    if origin != START or seed_offset:
+        version += f'-start{origin:%Y%m%d}-seed{seed_offset}'
+    manifest = dict(datasetVersion=version,
                     featureVersion=2, baselineVersion=BASELINES['baselineVersion'], syntheticOnly=True, runs=runs)
     (root / 'split_manifest.json').write_bytes((json.dumps(manifest, indent=2) + '\n').encode())
     return manifest
@@ -132,6 +142,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True, help='New experiment directory, containing data/')
     parser.add_argument('--training-weeks', type=int, default=8)
+    parser.add_argument('--start-date', default=START.date().isoformat(), help='Monday YYYY-MM-DD in UTC')
+    parser.add_argument('--seed-offset', type=int, default=0, help='Change for a fresh experiment')
     args = parser.parse_args()
-    manifest = generate_scenarios(args.output, normal_weeks=args.training_weeks)
+    origin = datetime.strptime(args.start_date, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+    manifest = generate_scenarios(args.output, normal_weeks=args.training_weeks,
+                                  start=origin, seed_offset=args.seed_offset)
     print(f"Generated {sum(r['rows'] for r in manifest['runs'])} eligible rows")

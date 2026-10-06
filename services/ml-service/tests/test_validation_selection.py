@@ -69,6 +69,10 @@ class ValidationSelectionTests(unittest.TestCase):
             broken['runs'][1]['start'] = broken['runs'][0]['start']
             with self.assertRaisesRegex(ValueError, 'overlap'):
                 validate_manifest(broken)
+            broken = json.loads(json.dumps(manifest))
+            broken['runs'][0]['label'] = 'FAULT'
+            with self.assertRaisesRegex(ValueError, 'normal'):
+                validate_manifest(broken)
             run = next(r for r in manifest['runs'] if r['split'] == 'validation')
             (root / 'data' / run['path']).write_bytes(b'{}\n')
             with self.assertRaisesRegex(ValueError, 'checksum'):

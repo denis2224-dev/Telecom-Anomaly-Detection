@@ -17,6 +17,8 @@ def validate_manifest(manifest):
     if manifest['featureVersion'] != ORDER['featureVersion'] or manifest['baselineVersion'] != 'baseline-v2':
         raise ValueError('Incompatible experiment feature or baseline version')
     runs = manifest['runs']
+    if any(r['service'] not in ORDER['models'] or r['label'] not in ('NORMAL', 'FAULT') for r in runs):
+        raise ValueError('Unknown experiment service or label')
     if (len({r['runId'] for r in runs}) != len(runs)
             or len({r['path'] for r in runs}) != len(runs)):
         raise ValueError('Duplicate experiment run identity or file')
@@ -28,6 +30,8 @@ def validate_manifest(manifest):
         selected.sort(key=lambda r: interval(r)[0])
         for run in selected:
             interval(run)
+            if run['split'] in ('train', 'calibration') and run['label'] != 'NORMAL':
+                raise ValueError('Training and calibration must contain normal observations only')
             if type(run['rows']) is not int or run['rows'] < 1:
                 raise ValueError('Invalid experiment row count')
         for left, right in zip(selected, selected[1:]):

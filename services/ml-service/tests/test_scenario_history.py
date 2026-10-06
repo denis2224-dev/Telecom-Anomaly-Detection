@@ -31,6 +31,8 @@ class ScenarioHistoryTests(unittest.TestCase):
                 self.assertEqual(len({tuple(v) for v in vectors}), 3)
         with self.assertRaises(ValueError):
             scenario_window('SMS', START, 50, 'unknown', 1)
+        self.assertNotEqual(baseline['featureValues'],
+                            scenario_window('SMS', START, 51, 'nominal', 0)['featureValues'])
 
     def test_train_calibration_validation_and_test_are_disjoint_and_test_is_fresh(self):
         from scenario_history import generate_scenarios, FAULTS
@@ -55,6 +57,19 @@ class ScenarioHistoryTests(unittest.TestCase):
                         self.assertEqual(len(row['featureValues']), 6)
             with self.assertRaises(FileExistsError):
                 generate_scenarios(root)
+
+    def test_new_seed_and_start_create_a_new_experiment_identity(self):
+        from scenario_history import generate_scenarios, START
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            first = generate_scenarios(root / 'one', normal_weeks=1, cadence_minutes=60,
+                                       fault_minutes=1, repetitions=1)
+            second = generate_scenarios(root / 'two', normal_weeks=1, cadence_minutes=60,
+                                        fault_minutes=1, repetitions=1,
+                                        start=START + timedelta(weeks=16), seed_offset=10000)
+            self.assertNotEqual(first['datasetVersion'], second['datasetVersion'])
+            self.assertNotEqual(first['runs'][0]['sha256'], second['runs'][0]['sha256'])
+            self.assertLess(first['runs'][-1]['endExclusive'], second['runs'][0]['start'])
 
 
 if __name__ == '__main__':
