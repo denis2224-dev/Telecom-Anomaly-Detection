@@ -13,6 +13,22 @@ sys.path.insert(0, str(ROOT / 'services/ml-service/training'))
 
 
 class SmsSupervisedDataTests(unittest.TestCase):
+    def test_balanced_training_and_larger_profile_cohorts_are_distinct_experiments(self):
+        from sms_supervised_data import generate, read_split, validate_manifest
+        from scenario_history import NORMALS
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / 'balanced'
+            manifest = generate(root, normal_weeks=1, cadence_minutes=60, fault_minutes=1, repetitions=1,
+                                balanced_healthy=True, healthy_profile_days=7)
+            validate_manifest(manifest)
+            self.assertIn('-balanced-p7', manifest['datasetVersion'])
+            rows = read_split(root / 'data', 'train', manifest)
+            counts = {p: sum(r['scenario'] == p for r in rows) for p in NORMALS}
+            self.assertTrue(all(count >= 25 for count in counts.values()), counts)
+            rows = read_split(root / 'data', 'validation', manifest)
+            self.assertEqual({p: sum(r['scenario'] == p for r in rows) for p in NORMALS},
+                             {p: 168 for p in NORMALS})
+
     def test_disjoint_labelled_splits_and_no_metadata_in_inputs(self):
         from sms_supervised_data import generate, read_split, arrays, validate_manifest
         from experiment_data import validate_manifest as validate_normal_only
@@ -48,6 +64,11 @@ class SmsSupervisedDataTests(unittest.TestCase):
             broken = deepcopy(manifest)
             broken['runs'][1]['start'] = broken['runs'][0]['start']
             with self.assertRaisesRegex(ValueError, 'overlap'):
+                validate_manifest(broken)
+            broken = deepcopy(manifest)
+            broken['runs'] = [r for r in broken['runs'] if not (r['split'] == 'train'
+                              and r['scenario'] == 'delivery-failure' and r['severity'] == 1)]
+            with self.assertRaisesRegex(ValueError, 'coverage'):
                 validate_manifest(broken)
             with self.assertRaises(FileExistsError):
                 generate(root)

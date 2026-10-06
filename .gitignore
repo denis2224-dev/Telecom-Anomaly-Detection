@@ -12,7 +12,7 @@ __pycache__/
 services/ml-service/training/data/
 tmp/ml-expanded-history/
 tmp/ml-validation-experiment/
-tmp/sms-supervised-experiment/
+tmp/sms-supervised-*/
 target/
 **/test-results/
 **/playwright-report/
