@@ -35,6 +35,8 @@ public class DetectionWorker {
                     SELECT window_id FROM app.feature_outbox f WHERE scope_id=?
                     AND payload->>'service' IN ('VOLTE','SMS')
                     AND NOT EXISTS (SELECT 1 FROM app.voice_evaluated_window e WHERE e.window_id=f.window_id)
+                    AND NOT EXISTS (SELECT 1 FROM app.detection_job j WHERE j.window_id=f.window_id)
+                    ORDER BY window_start, window_id LIMIT 100
                     ON CONFLICT DO NOTHING
                     """, scope);
             UUID token = UUID.randomUUID();

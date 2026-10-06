@@ -72,6 +72,7 @@ app:
     topics:
       detections: ${KAFKA_V2_DETECTIONS_TOPIC:telecom.detections.v2}
       kpis: ${KAFKA_V2_KPIS_TOPIC:telecom.kpis.v2}
+      sms-shadow: telecom.ml-shadow.sms.v1
   simulator:
     generator-base-url: ${GENERATOR_BASE_URL:http://127.0.0.1:${GENERATOR_HOST_PORT:8081}}
     reconcile-ms: 5000

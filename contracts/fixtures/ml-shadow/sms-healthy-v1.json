@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "evidenceId": "822f20d9c7f13f5768fb595ca4341bab6482a2f4413fad6cb248f3149a303610",
+  "windowId": "f2943ba9da001a33ee7f781c651fa25474cdde2723d63d8e927d940d6cfb8f7e",
+  "service": "SMS",
+  "scopeId": "SMS-MD-ROUTE-A",
+  "windowStart": "2026-09-15T08:00:00Z",
+  "windowEnd": "2026-09-15T08:01:00Z",
+  "featureVersion": 2,
+  "baselineVersion": "baseline-v2",
+  "topologyVersion": "2-baseline",
+  "requestedAt": "2026-09-15T08:01:10Z",
+  "completedAt": "2026-09-15T08:01:10.050Z",
+  "requestedModelVersion": "sms-supervised-v1-2",
+  "modelSha256": "f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19",
+  "mlStatus": "OK",
+  "threshold": 0.55,
+  "classifierScore": 0.0,
+  "detection": false,
+  "modelVersion": "sms-supervised-v1-2"
+}

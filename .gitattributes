@@ -9,3 +9,11 @@ services/ml-service/training/split_manifest.json text eol=lf
 services/ml-service/models/*-calibration.json text eol=lf
 services/ml-service/models/manifest.json text eol=lf
 services/ml-service/models/*.joblib binary
+docs/evidence/*-sms-supervised*.json text eol=lf
+
+# Preserve raw hashes of immutable SMS validation reports across checkouts.
+tasks/sms-ml-shadow-integration/replay-*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+tasks/sms-ml-shadow-integration/replay-*.md -text whitespace=trailing-space,space-before-tab,cr-at-eol
+tasks/sms-ml-shadow-integration/prior-runs.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+tasks/sms-ml-shadow-integration/prior-runs.md -text whitespace=trailing-space,space-before-tab,cr-at-eol
+tasks/sms-ml-shadow-integration/verification.json -text whitespace=trailing-space,space-before-tab,cr-at-eol

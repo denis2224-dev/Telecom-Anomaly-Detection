@@ -151,6 +151,7 @@
 					<include>detections/service-detection-v2.schema.json</include>
 					<include>features/service-feature-window-v2.schema.json</include>
 					<include>topology/demo-scopes-v2.json</include>
+					<include>ml-shadow/sms-shadow-evidence-v1.schema.json</include>
 				</includes>
 			</resource>
 		</resources>

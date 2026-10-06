@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "status": "PLANNED",
+  "cases": [
+    {
+      "schemaVersion": 1,
+      "evidenceId": "synthetic-power-chi-example",
+      "type": "POWER_ALARM",
+      "sourceId": "POWER-SRC-CHI",
+      "targetNodeId": "SITE-MD-CHI-01",
+      "topologyVersion": "2-geography-g1",
+      "observedAt": "2026-10-05T08:00:30Z",
+      "emittedAt": "2026-10-05T08:00:31Z",
+      "status": "ALARM",
+      "synthetic": true,
+      "detail": "Contract sample only; authority/publisher/consumer are not activated."
+    }
+  ]
+}
