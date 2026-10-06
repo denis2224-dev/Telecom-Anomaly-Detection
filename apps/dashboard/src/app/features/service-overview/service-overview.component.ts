@@ -16,9 +16,16 @@ import type { Filter } from './dashboard-geography';
   imports: [RouterLink, IconComponent, ConnectedOverviewComponent],
   templateUrl: "./service-overview.component.html",
   styles: [`
-    .stat-grid.four { gap: 10px; }
-    .stat-grid.four .stat-card { padding: 12px 16px; }
-    .stat-grid.four .metric-value { font-size: 26px; }
+    .page-heading { margin-bottom: 10px; }
+    .page-heading h1 { font-size: 24px; margin: 2px 0; }
+    .page-heading .eyebrow { display: none; }
+    .page-heading p:not(.eyebrow) { display: none; }
+    .stat-grid.four .stat-card { display: grid; grid-template-columns: 1fr auto; align-items: center; }
+    .stat-grid.four .stat-card .helper, .stat-grid.four .stat-card .stat-trend { display: none; }
+    .stat-grid.four .stat-label .icon { display: none; }
+    .stat-grid.four { gap: 8px; margin: 8px 0; }
+    .stat-grid.four .stat-card { padding: 6px 10px; }
+    .stat-grid.four .metric-value { font-size: 22px; margin: 2px 0; }
     .stat-grid.four .stat-label { font-size: 11px; }
     .stat-grid.four .helper, .stat-grid.four .stat-trend { font-size: 10px; }
     .source-inventory { margin-top: 14px; }

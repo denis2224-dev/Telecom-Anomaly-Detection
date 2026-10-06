@@ -1,8 +1,8 @@
-import { Component, DestroyRef, computed, effect, inject, input, output, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, ElementRef, viewChild, computed, effect, inject, input, output, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SessionStore } from '../login-and-session/session.store';
 import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TelecomClient } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
 import { ServiceStore } from './service.store';
@@ -29,6 +29,7 @@ interface History {
     <section class="connected" aria-labelledby="connected-title">
       <div class="section-heading"><div><h2 id="connected-title">City service overview</h2>
         <p class="helper">{{ fixture ? 'Synthetic design fixture · city membership pending owner review' : 'Live APIs · only explicitly mapped scopes appear on cities' }}</p></div>
+        <button type="button" (click)="queueDialog.showModal()" aria-haspopup="dialog">Incidents ({{ queueTotal() }}) <span class="badge" title="Highest severity on the loaded queue page" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
         <button type="button" (click)="refresh.update(next)" [disabled]="queueLoading() || historyLoading()">Refresh city evidence</button>
       </div>
       <form class="controls" (submit)="applyRange($event, fromInput.value, toInput.value)">
@@ -49,7 +50,7 @@ interface History {
           <input type="search" list="dashboard-city-options" [value]="search()" (input)="setRegion($any($event.target).value)" placeholder="All cities · search Orhei" />
           <datalist id="dashboard-city-options">@for (city of catalogue(); track city.id) { <option [value]="city.name"></option> }</datalist>
         </label>
-        <button type="submit">Apply</button>
+        <label><span aria-hidden="true">Apply range</span><button type="submit" aria-label="Apply">Apply</button></label>
       </form>
       @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
       <p class="toolbar-caption">Time range: charts · Map values: latest stored observation · Region: map selection and incident-page matches</p>
@@ -88,6 +89,30 @@ interface History {
             }
           </div>
           <p class="map-legend">✓ Normal · ! Degraded · ? Unavailable · ◷ Stale</p>
+          <p class="map-source">Map: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a> · Cities: <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a> · {{ fixture ? 'Synthetic service values' : 'Stored service values' }}</p>
+          <details class="map-notes"><summary>Map meaning and topology</summary><p>City positions are geographic. Orhei is available through Region search. Only catalogue-approved network links are drawn; neutral lines do not assert capacity or utilization. All-services node labels summarize service health; select VoLTE or SMS to see that service's KPI. The compact table defaults to VoLTE when All services is selected. Missing mappings and missing measurements remain unavailable.</p></details>
+        </section>
+        <div class="city-workspace">
+      @if (selectedCity(); as city) {
+        <section class="city-detail" aria-labelledby="selected-city-title">
+          <div class="section-heading"><h3 id="selected-city-title">{{ city.name }} service detail</h3>
+            <button type="button" (click)="selectedId.set(null)">Clear city selection</button></div>
+
+          @for (item of cityServices(city, services(), serviceFilter()); track item.scope.scopeId) {
+            <article class="city-service">
+              <h4>{{ item.scope.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }} · {{ scopeHealth(item) }}</h4>
+              <dl>
+                <div><dt>Observed</dt><dd>{{ metric(item.latestWindow, item.scope.service) }}</dd></div>
+                <div><dt>Baseline</dt><dd>{{ baseline(item.latestWindow, item.scope.service) === null ? 'Unavailable' : number(baseline(item.latestWindow, item.scope.service)!) + (item.scope.service === 'VOLTE' ? ' %' : ' ms') }}</dd></div>
+                <div><dt>Deviation</dt><dd>{{ deviation(item.latestWindow, item.scope.service).replace(' from baseline', '') }}</dd></div>
+              </dl>
+              <details class="city-source"><summary>Source &amp; samples</summary><p class="helper">Samples: {{ sampleVolume(item.latestWindow, item.scope.service) }} · Open incidents: {{ item.openIncidents }}</p><p class="helper">Source: {{ item.freshness }} · As of {{ item.observedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p></details>
+              <a [routerLink]="['/services', item.scope.scopeId]">Open {{ city.name }} {{ item.scope.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} evidence</a>
+            </article>
+          } @empty { <p>{{ city.scopeIds.length === 0 ? 'Mapping pending. No city values are inferred from regional scopes.' : 'No linked service scopes returned for this filter. Current service health is unavailable.' }}</p> }
+
+        </section>
+      }
           <div class="map-table"><table>
             <caption>{{ tableService() === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }} · five featured cities · latest observations</caption>
             <thead><tr><th>City</th><th>Observed</th><th>Baseline Δ</th><th>State</th></tr></thead>
@@ -99,37 +124,48 @@ interface History {
               </tr>
             }</tbody>
           </table></div>
-          <p class="map-source">Map: <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth</a> · Cities: <a href="https://www.geonames.org/" target="_blank" rel="noopener noreferrer">GeoNames</a> · {{ fixture ? 'Synthetic service values' : 'Stored service values' }}</p>
-          <details class="map-notes"><summary>Map meaning and topology</summary><p>City positions are geographic. Orhei is available through Region search. Only catalogue-approved network links are drawn; neutral lines do not assert capacity or utilization. All-services node labels summarize service health; select VoLTE or SMS to see that service's KPI. The compact table defaults to VoLTE when All services is selected. Missing mappings and missing measurements remain unavailable.</p></details>
-        </section>
-        <section class="queue-panel" id="incident-queue" aria-labelledby="queue-title">
-      @if (selectedCity(); as city) {
-        <section class="city-detail" aria-labelledby="selected-city-title">
-          <div class="section-heading"><h3 id="selected-city-title">{{ city.name }} service detail</h3>
-            <button type="button" (click)="selectedId.set(null)">Clear city selection</button></div>
-          <p class="helper">{{ city.scopeIds.length }} configured scope links · {{ cityServices(city, services(), serviceFilter()).length }} returned scopes for this service filter. Delivery coverage is not available in the current API.</p>
+      <div class="section-heading"><div><h3>Featured cities</h3>
+        <p class="helper">Solid: observed · dashed: baseline · gaps: unavailable · UTC</p></div></div>
+      @if (historyLoading()) { <p role="status">Loading featured-city trends…</p> }
+      <div class="featured-cities">
+        @for (city of featuredCities(); track city.id) {
+          <article class="featured-city">
+            <button type="button" (click)="select(city.id)" [attr.aria-pressed]="selectedId() === city.id">{{ city.name }}</button>
+            @for (item of cityServices(city, services(), serviceFilter()); track item.scope.scopeId) {
+              @if (histories()[item.scope.scopeId]; as history) {
+                @if (history.error) { <p role="alert">{{ history.error }}</p> }
+                @else {
+                  <app-city-trend [compact]="true" [rows]="history.rows" [service]="item.scope.service" [from]="history.from" [to]="history.to" [collapsed]="serviceFilter() === 'ALL' && item.scope.service === 'SMS'" />
+
+                  @if (history.total > history.rows.length) { <p class="helper">First 100 windows shown. Open service evidence for paginated history.</p> }
+                }
+              }
+            } @empty { <p class="helper">{{ city.scopeIds.length === 0 ? 'Mapping pending' : 'No linked scope returned' }}</p> }
+          </article>
+        }
+      </div>
+      <details class="featured-sources"><summary>Featured city sources &amp; evidence</summary>
+        @for (city of featuredCities(); track city.id) {
+          <h4>{{ city.name }}</h4>
           @for (item of cityServices(city, services(), serviceFilter()); track item.scope.scopeId) {
-            <article class="city-service">
-              <h4>{{ item.scope.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }} · {{ scopeHealth(item) }}</h4>
-              <dl>
-                <div><dt>Observed</dt><dd>{{ metric(item.latestWindow, item.scope.service) }}</dd></div>
-                <div><dt>Baseline</dt><dd>{{ baseline(item.latestWindow, item.scope.service) === null ? 'Unavailable' : number(baseline(item.latestWindow, item.scope.service)!) + (item.scope.service === 'VOLTE' ? ' %' : ' ms') }}</dd></div>
-                <div><dt>Deviation</dt><dd>{{ deviation(item.latestWindow, item.scope.service) }}</dd></div>
-                <div><dt>{{ item.scope.service === 'VOLTE' ? 'Eligible attempts' : 'Delivered-message samples' }}</dt><dd>{{ sampleVolume(item.latestWindow, item.scope.service) }}</dd></div>
-                <div><dt>Open analyst incidents</dt><dd>{{ item.openIncidents }}</dd></div>
-              </dl>
-              <p class="helper">Source: {{ item.freshness }} · As of {{ item.observedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
-              <a [routerLink]="['/services', item.scope.scopeId]">Open {{ city.name }} {{ item.scope.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} evidence</a>
-            </article>
-          } @empty { <p>{{ city.scopeIds.length === 0 ? 'Mapping pending. No city values are inferred from regional scopes.' : 'No linked service scopes returned for this filter. Current service health is unavailable.' }}</p> }
-          <p class="helper">Additional service types: NOT MONITORED. Missing VoLTE/SMS data is UNKNOWN, not NOT MONITORED.</p>
-        </section>
-      }
+            @if (histories()[item.scope.scopeId]; as history) {
+                  <details class="chart-source"><summary>{{ item.scope.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} evidence</summary><p class="helper">{{ fixture ? 'Synthetic API fixture' : 'Stored API history' }} · {{ history.from | date:'dd MMM HH:mm':'UTC' }} – {{ history.to | date:'HH:mm':'UTC' }} UTC · as of {{ history.observedAt | date:'dd MMM HH:mm':'UTC' }} UTC</p><a [routerLink]="['/services', item.scope.scopeId]">Open {{ item.scope.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} history</a></details>
+            }
+          }
+        }
+      </details>
+        </div>
+      </div>
+        <dialog #queueDialog class="queue-panel" id="incident-queue" aria-labelledby="queue-title" (click)="closeOutside($event, queueDialog)" (close)="clearQueueFragment()">
+<button class="drawer-close" type="button" (click)="queueDialog.close()" aria-label="Close incidents">Close</button>
           <h3 id="queue-title">Incident queue</h3>
           <p class="helper">Newest detected first · one row per incident record · page {{ queuePage() + 1 }} · {{ queueTotal() }} total for the service filter</p>
           @if (selectedCity()) { <p class="helper">Showing selected-city matches on this incident page.</p> }
-          @if (queueLoading()) { <p role="status">Loading incidents…</p> }
-          @else if (queueError()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
+          <div class="queue-filters"><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label></div>
+          <p class="helper">Severity and state filter this page · {{ visibleIncidents().length }} matches</p>
+          <div class="queue-scroll" [attr.aria-busy]="queueLoading()">
+          @if (queueLoading()) { <p class="queue-refresh" role="status">Refreshing incidents…</p> }
+          @if (queueError()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
           @else {
             @for (incident of visibleIncidents(); track incident.id) {
               <article class="queue-item">
@@ -150,51 +186,57 @@ interface History {
               <p>{{ selectedCity() ? 'No selected-city incidents on this page. Other pages may contain matches.' : 'No incidents returned on this page.' }}</p>
             }
           }
+          </div>
           <nav class="pagination" aria-label="Overview incident pages">
             <button type="button" (click)="queuePage.update(previous)" [disabled]="queueLoading() || queuePage() === 0">Previous</button>
             <button type="button" (click)="queuePage.update(next)" [disabled]="queueLoading() || (queuePage() + 1) * pageSize >= queueTotal()">Next</button>
           </nav>
           <p class="helper">Open incident totals in service cards are independent of this page. Unmapped incidents remain visible when no city is selected.</p>
-        </section>
-      </div>
-      <div class="section-heading"><div><h3>Featured cities</h3>
-        <p class="helper">Five configured cities · observed vs baseline · UTC · not a population ranking.</p></div></div>
-      @if (historyLoading()) { <p role="status">Loading featured-city trends…</p> }
-      <div class="featured-cities">
-        @for (city of featuredCities(); track city.id) {
-          <article class="featured-city">
-            <button type="button" (click)="select(city.id)" [attr.aria-pressed]="selectedId() === city.id">{{ city.name }}</button>
-            @for (item of cityServices(city, services(), serviceFilter()); track item.scope.scopeId) {
-              @if (histories()[item.scope.scopeId]; as history) {
-                @if (history.error) { <p role="alert">{{ history.error }}</p> }
-                @else {
-                  <app-city-trend [rows]="history.rows" [service]="item.scope.service" [from]="history.from" [to]="history.to" [collapsed]="serviceFilter() === 'ALL' && item.scope.service === 'SMS'" />
-                  <details class="chart-source"><summary>Source and interval</summary><p class="helper">{{ fixture ? 'Synthetic API fixture' : 'Stored API history' }} · {{ history.from | date:'dd MMM HH:mm':'UTC' }} – {{ history.to | date:'HH:mm':'UTC' }} UTC · as of {{ history.observedAt | date:'dd MMM HH:mm':'UTC' }} UTC</p></details>
-                  @if (history.total > history.rows.length) { <p class="helper">First 100 windows shown. Open service evidence for paginated history.</p> }
-                }
-              }
-              <a [routerLink]="['/services', item.scope.scopeId]">Open {{ item.scope.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} history</a>
-            } @empty { <p class="helper">{{ city.scopeIds.length === 0 ? 'Mapping pending' : 'No linked scope returned' }}</p> }
-          </article>
-        }
-      </div>
+        </dialog>
     </section>
   `,
   styles: [`
-    :host { display: block; margin: var(--space-5) 0; }
+    :host { display: block; margin: 8px 0; }
+    .city-workspace { min-width: 0; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 6px; }
+    .city-workspace > .city-detail { max-height: 230px; margin: 0; }
+    .city-workspace > .map-table { grid-column: 2; padding: 0; }
+    .city-workspace:not(:has(.city-detail)) > .map-table, .city-workspace > .section-heading, .city-workspace > .featured-cities { grid-column: 1 / -1; }
+    .city-detail dl { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    .city-workspace > .section-heading { margin: 2px 0 !important; }
+    @media (max-width: 1000px) { .city-workspace { grid-template-columns: 1fr; } .city-workspace > .map-table { grid-column: 1; } .city-workspace > .city-detail { max-height: none; } }
+
+    .featured-sources { grid-column: 1 / -1; font-size: 10px; }
+    .featured-sources > summary { padding: 2px 0; font-size: 10px; }
+    .city-workspace > .section-heading { margin: 8px 0; }
+    .city-workspace > .section-heading p { font-size: 10px; }
+    .queue-panel { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(520px, 100%); max-width: 100%; height: 100dvh; max-height: 100dvh; border: 0; color: var(--text); box-shadow: var(--shadow-raised); }
+    .queue-panel::backdrop { background: color-mix(in srgb, var(--bg) 75%, transparent); backdrop-filter: blur(3px); }
+    .queue-scroll { height: calc(100dvh - 300px); min-height: 180px; overflow: auto; scrollbar-gutter: stable; position: relative; }
+    .queue-refresh { position: absolute; top: 0; right: 0; z-index: 1; background: var(--surface); }
+    .queue-filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .drawer-close { float: right; }
+    .queue-panel .queue-item { padding: 8px 0; margin: 0; }
+    .queue-item p { margin: 4px 0; }
+    .featured-city .chart-source, .featured-city > a { font-size: 9px; margin: 2px 0; }
+    .featured-city > button { min-height: 28px; }
+    @media (max-width: 600px) { .city-detail dl { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .connected { min-width: 0; }
-    .controls { display: grid; grid-template-columns: .8fr 1.15fr 1.15fr 1fr .65fr 1fr auto; align-items: end; gap: 8px; padding: 10px; margin: 12px 0 4px; background: var(--surface); border-radius: var(--radius-control); }
-    .controls label { min-width: 0; font-size: 10px; }
+    .connected > .section-heading { margin: 4px 0; gap: 8px; }
+    .connected > .section-heading h2 { font-size: 15px; }
+    .connected > .section-heading .helper { display: none; }
+    .connected > .section-heading button { font-size: 11px; min-height: 32px; padding: 6px 10px; }
+    .controls { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); align-items: end; gap: 8px; padding: 6px; margin: 6px 0 4px; background: var(--surface); border-radius: var(--radius-control); }
+    .controls label { min-width: 0; font-size: 10px; grid-template-rows: 16px 40px; }
     .controls input, .controls select { width: 100%; min-width: 0; padding: 7px; font-size: 11px; }
-    .controls button { padding: 7px; font-size: 11px; }
+    .controls input, .controls select, .controls button { box-sizing: border-box; height: 40px; min-height: 40px; width: 100%; margin: 0; padding: 6px; font-size: 11px; }
     label { display: grid; gap: 5px; color: var(--text-muted); }
     input, select { max-width: 100%; padding: 10px; border-radius: var(--radius-control); background: var(--field); color: var(--text); }
-    .search-results { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-    .map-queue { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, 300px); align-items: start; gap: 16px; }
+    .search-results { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+    .map-queue { display: grid; grid-template-columns: minmax(300px, .85fr) minmax(0, 1.65fr); align-items: start; gap: 10px; }
     .map-panel, .queue-panel, .city-detail, .featured-city { min-width: 0; padding: 12px; background: var(--surface); border-radius: var(--radius); }
     .map-panel { padding: 0; overflow: hidden; border: 1px solid var(--accent-soft); }
-    #city-map-title { padding: 12px 16px; background: linear-gradient(100deg, color-mix(in srgb, var(--accent) 22%, var(--surface)), color-mix(in srgb, var(--info) 30%, var(--surface))); border-bottom: 1px solid var(--accent-soft); }
-    .city-map { position: relative; width: min(100%, 430px); aspect-ratio: 600 / 740; margin: 8px auto; }
+    #city-map-title { padding: 8px 12px; background: linear-gradient(100deg, color-mix(in srgb, var(--accent) 22%, var(--surface)), color-mix(in srgb, var(--info) 30%, var(--surface))); border-bottom: 1px solid var(--accent-soft); }
+    .city-map { position: relative; width: min(100%, 250px); aspect-ratio: 600 / 740; margin: 8px auto; }
     .city-map > svg { display: block; width: 100%; height: 100%; }
     .grid-line { fill: none; stroke: var(--mesh); stroke-width: 1; }
     .country-outline { fill: var(--field); stroke: var(--accent-end); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
@@ -207,40 +249,60 @@ interface History {
     .city-marker[data-state="DEGRADED"] .marker-symbol { border-color: var(--danger); }
     .city-marker[data-state="STALE"] .marker-symbol { border-color: var(--warning); }
     .city-marker[data-state="UNKNOWN"] .marker-symbol, .city-marker[data-state="MAPPING PENDING"] .marker-symbol, .city-marker[data-state="UNAVAILABLE"] .marker-symbol { border-color: var(--text-muted); }
-    .node-label { position: absolute; left: 36px; top: 4px; display: grid; white-space: nowrap; padding: 3px 5px; border: 1px solid var(--surface-hover); border-radius: 4px; background: var(--glass); color: var(--text); font-size: 11px; line-height: 1.25; text-align: left; }
-    .node-label small { color: var(--text-muted); font-size: 10px; }
-    .city-marker[data-label-side="left"] .node-label { left: auto; right: 36px; text-align: right; }
+    .city-marker[aria-label^="Chișinău"] .node-label { top: 18px; }
+    .city-map .city-marker[aria-label^="Tiraspol"] .node-label { left: 36px; right: auto; text-align: left; }
+    .controls input[type="datetime-local"] { font-size: 9px; padding: 4px; }
+    .city-marker[aria-label^="Ungheni"] .node-label { top: -12px; }
+    .node-label { pointer-events: none; position: absolute; left: 29px; top: 4px; display: grid; white-space: nowrap; padding: 3px 5px; border: 1px solid var(--surface-hover); border-radius: 4px; background: var(--glass); color: var(--text); font-size: 10px; line-height: 1.25; text-align: left; }
+    .node-label small { color: var(--text-muted); font-size: 9px; }
+    .city-marker[data-label-side="left"] .node-label { left: auto; right: 29px; text-align: right; }
     button[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .map-notes summary { padding: 2px 0; font-size: 10px; }
     .map-legend, .map-source, .map-notes { margin: 8px 12px; font-size: 10px; color: var(--text-muted); }
     .map-table { overflow-x: auto; padding: 0 10px; }
     .map-table table { width: 100%; border-collapse: collapse; font-size: 11px; }
     .map-table caption { text-align: left; padding: 6px; color: var(--text-muted); }
-    .map-table th, .map-table td { text-align: left; padding: 5px; border-bottom: 1px solid var(--surface-raised); }
-    .map-table button { min-height: 32px; padding: 3px 6px; font-size: 11px; }
+    .map-table th, .map-table td { text-align: left; padding: 2px 4px; border-bottom: 1px solid var(--surface-raised); }
+    .map-table button { min-height: 24px; padding: 1px 4px; font-size: 10px; }
     .toolbar-caption { font-size: 10px; color: var(--text-muted); margin-bottom: 8px; }
     .queue-item + .queue-item { border-top: 1px solid var(--surface-raised); margin-top: 12px; padding-top: 12px; }
     .queue-item h4, .city-service h4 { margin: 8px 0; }
     .queue-item p { font-size: 12px; overflow-wrap: anywhere; }
-    .city-detail { margin: 0 0 16px; padding: 0; background: none; }
+    .city-detail { margin: 0 0 8px; padding: 8px; max-height: 174px; overflow: auto; }
     .city-detail .helper { font-size: 10px; }
     .city-detail h3 { font-size: 14px; }
-    .city-detail dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; font-size: 11px; }
+    .city-detail dl { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; font-size: 11px; }
     .city-detail dt { font-size: 10px; }
-    .city-service { padding: 12px 0; }
+    .city-service { padding: 2px 0; }
+    .city-detail dd { font-size: 11px; }
+    .city-source { display: inline-block; margin-right: 8px; }
+    .city-source summary, .chart-source summary { padding: 2px 0; font-size: 9px; }
+    .city-service h4 { margin: 0; font-size: 10px; }
+    .city-service dl { margin: 2px 0; }
+    .city-source, .city-service > a { font-size: 10px; }
+    .city-detail .section-heading { margin: 0 0 4px; }
+    .city-detail .section-heading button, .search-results button { min-height: 26px; padding: 2px 6px; font-size: 10px; }
     dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
     dt { color: var(--text-muted); font-size: 12px; }
     dd { margin: 0; }
-    .featured-cities { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+    .featured-cities { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
     .featured-city { padding: 8px; }
     .featured-city > button { padding: 4px 6px; font-size: 12px; }
     .chart-source { font-size: 10px; color: var(--text-muted); }
-    .featured-city a { display: inline-block; margin: 8px 0; font-size: 12px; }
-    @media (max-width: 1250px) { .controls { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .featured-city a { display: inline-block; margin: 2px 0; font-size: 9px; }
+    @media (max-width: 1100px) { .controls { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
     @media (max-width: 1000px) { .map-queue { grid-template-columns: 1fr; } .featured-cities { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 600px) { .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } .node-label { font-size: 10px; } .node-label small { font-size: 9px; } .city-marker[data-label-side="left"] .node-label { right: 26px; } .node-label { left: 26px; } .featured-cities { grid-template-columns: 1fr; } .queue-panel, .city-detail, .featured-city { padding: 12px; } .map-panel { padding: 0; } .controls { align-items: stretch; } label { width: 100%; }  }
   `],
 })
 export class ConnectedOverviewComponent {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly fragment = toSignal(this.route.fragment);
+  readonly queueDialog = viewChild<ElementRef<HTMLDialogElement>>('queueDialog');
+  clearQueueFragment(): void {
+    if (this.fragment() === 'incident-queue') void this.router.navigate([], { relativeTo: this.route, queryParamsHandling: 'preserve', replaceUrl: true });
+  }
   private readonly api = inject(TelecomClient);
   private readonly store = inject(ServiceStore);
   readonly services = input.required<Summary[]>();
@@ -267,6 +329,14 @@ export class ConnectedOverviewComponent {
   readonly chartFrom = computed(() => this.customRange()?.from ?? new Date(Date.parse(this.chartTo()) - this.minutes() * 60_000).toISOString());
   readonly refresh = signal(0);
   readonly statusMessage = signal('');
+  readonly queueSeverityFilter = signal('');
+  readonly queueStateFilter = signal('');
+  readonly queueSeverity = computed(() => ['CRITICAL', 'HIGH', 'MEDIUM'].find(level => this.incidents().some(item => item.severity === level)) ?? 'NONE');
+  closeOutside(event: MouseEvent, dialog: HTMLDialogElement): void {
+    if (event.target !== dialog) return;
+    const rect = dialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+  }
   readonly queuePage = signal(0);
   readonly queueTotal = signal(0);
   readonly queueLoading = signal(false);
@@ -288,7 +358,10 @@ export class ConnectedOverviewComponent {
   });
   readonly visibleIncidents = computed(() => {
     const city = this.selectedCity();
-    return this.incidents().filter(item => !city || city.scopeIds.includes(item.scopeId));
+    return this.incidents().filter(item => (!city || city.scopeIds.includes(item.scopeId))
+      && (!this.queueSeverityFilter() || item.severity === this.queueSeverityFilter())
+      && (!this.queueStateFilter() || item.technicalState === this.queueStateFilter()))
+      .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
   readonly cityServices = cityServices;
   readonly cityForScope = cityForScope;
@@ -303,6 +376,9 @@ export class ConnectedOverviewComponent {
 
   constructor() {
     const destroy = inject(DestroyRef);
+    effect(() => {
+      if (this.fragment() === 'incident-queue') this.queueDialog()?.nativeElement.showModal();
+    });
     const stop = () => {
       this.stopped = true;
       this.queueController?.abort();

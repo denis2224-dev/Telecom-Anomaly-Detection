@@ -9,10 +9,10 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
     <section class="detail-panel chart-panel" aria-labelledby="chart-title">
       <div class="section-heading"><div><p class="eyebrow">Voice performance</p><h2 id="chart-title">Call setup success rate</h2></div><span class="badge">CSSR · %</span></div>
       <p class="muted">VoLTE CSSR is the percentage of eligible technical setup attempts that succeeded; modeled user outcomes are excluded. Times are UTC; each point represents one server window.</p>
-      <div class="chart-legend"><span class="actual-key">Actual CSSR (%)</span><span class="expected-key">Expected baseline (%)</span><span class="incident-key">Incident interval</span></div>
+      @if (view() === 'both') { <div class="chart-legend"><span class="actual-key">Actual CSSR (%)</span><span class="expected-key">Expected baseline (%)</span><span class="incident-key">Incident interval</span></div> }
       <p>{{ hasAttemptCounts() ? attempts().toLocaleString('en') + ' recorded attempts' : 'Attempt counts unavailable' }} · {{ unavailable() }} windows with unavailable success rate. Exact per-window counts are below.</p>
       @if (rows().length) {
-        <div class="plot-wrapper" (mouseleave)="chartScrollable.matches(':focus') || hovered.set(null)">
+        @if (view() !== 'table') { <div class="plot-wrapper" (mouseleave)="chartScrollable.matches(':focus') || hovered.set(null)">
           <div class="chart-tooltip" [class.tooltip-visible]="hovered() !== null" aria-live="polite">
             @if (hovered(); as row) { <span>{{ clock(row.windowStart) }} UTC</span><strong>{{ value(row) ?? 'Unavailable' }}{{ value(row) !== null ? '%' : '' }}</strong><small>{{ metric(row)?.denominator ?? 'Unknown' }} attempts</small> } @else { <span>Window detail</span><strong>Explore the observations</strong><small>Hover a point or focus the chart and use arrow keys.</small> }
           </div>
@@ -39,7 +39,8 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
         </div></div>
         <p id="chart-keyboard-hint" class="helper">Focus the chart and use arrow keys to inspect windows. Exact values are available below.</p>
         <p class="muted">Scale: {{ floor() }}–100%. Gaps are unavailable data, not 0% success. A zero attempt count also has no success rate.</p>
-        <details><summary>Show exact values and attempt counts ({{ rows().length }} windows)</summary>
+        }
+        @if (view() !== 'chart') { <details [open]="view() === 'table'"><summary>Show exact values and attempt counts ({{ rows().length }} windows)</summary>
           <div class="chart-scroll"><table class="kpi-table"><caption>Server windows in UTC · start inclusive, end exclusive</caption><thead><tr><th>Window</th><th>Actual (%)</th><th>Expected (%)</th><th>Attempts</th><th>Data quality</th></tr></thead><tbody>
             @for (row of tableRows(); track row.windowId) { <tr [attr.data-window-id]="row.windowId"><th>{{ clock(row.windowStart) }}–{{ clock(row.windowEnd) }}</th><td>{{ value(row) ?? 'Unavailable' }}</td><td>{{ metric(row)?.baseline ?? 'Unavailable' }}</td><td>{{ metric(row)?.denominator ?? 'Unavailable' }}</td><td>{{ row.quality }}</td></tr> }
           </tbody></table></div>
@@ -48,7 +49,7 @@ import { cssr, observed, clock, type KpiWindow, type Incident } from './voice-mo
             <span>Page {{ tablePage() + 1 }} of {{ tablePages() }} · {{ rows().length }} windows total</span>
             <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows<app-icon name="right" /></button>
           </nav>
-        </details>
+        </details> }
       } @else { <p role="status">No voice KPI history in this time range.</p> }
     </section>`,
 })
@@ -71,6 +72,7 @@ export class KpiChartComponent {
       return `M${segment.trim()} L${lastX},230 L${firstX},230 Z`;
     }).join(' ');
   }
+  readonly view = input<'chart' | 'table' | 'both'>('both');
   readonly windows = input<KpiWindow[]>([]);
   readonly incidents = input<Incident[]>([]);
   readonly from = input.required<string>();

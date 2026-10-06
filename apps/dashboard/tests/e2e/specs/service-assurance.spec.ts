@@ -31,7 +31,10 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     await page.screenshot({ path: info.outputPath(`controlled-${id}-overview-${width}.png`), fullPage: true });
     await page.locator('details.source-inventory > summary').click();
     await page.locator('.service-assurance-card a').click();
-    await expect(page.locator('app-kpi-cards .kpi-card')).toHaveCount(trajectory.service === 'VOLTE' ? 8 : 5);
+    await expect(page.locator('app-kpi-cards [data-kpi-card]')).toHaveCount(trajectory.service === 'VOLTE' ? 8 : 5);
+    const expectedCharts = new Set(trajectory.windows.flatMap(window => window.feature.kpis.filter(kpi => kpi.baseline != null).map(kpi => kpi.name)));
+    for (const name of await page.locator('.diagnosis-charts [data-chart]').evaluateAll(nodes => nodes.map(node => node.getAttribute('data-chart')!))) expect(expectedCharts.has(name)).toBe(true);
+    await expect(page.locator('.diagnosis-charts .chart-legend')).toHaveCount(0);
     if (trajectory.service === 'SMS') await expect(page.locator('[data-node-id="TRANSPORT-A"]')).toContainText('NO CURRENT MEASUREMENT');
     if (latest) {
       await page.getByText('View incident evidence', { exact: true }).click();
@@ -45,7 +48,7 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     await page.getByRole('button', { name: '24h', exact: true }).click();
     await expect.poll(() => requests.length).toBe(2);
     for (const request of requests) expect(Date.parse(request.to) - Date.parse(request.from)).toBeLessThanOrEqual(86400000);
-    await expect(page.locator('.kpi-cards')).toBeVisible();
+    await expect(page.locator('.kpi-summary')).toBeVisible();
     expect(await page.evaluate(() => [...document.querySelectorAll('body *')].filter(element => {
       const rect = element.getBoundingClientRect(); return rect.right > innerWidth + 1 && getComputedStyle(element).overflowX !== 'auto' && !element.closest('.chart-scroll');
     }).map(element => ({ tag: element.tagName, class: element.className, width: element.getBoundingClientRect().width })))).toEqual([]);

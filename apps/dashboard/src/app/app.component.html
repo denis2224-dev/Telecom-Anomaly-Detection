@@ -16,8 +16,8 @@
       </nav>
       <div class="sidebar-context">
         <div class="sidebar-section-label">SERVICE ASSURANCE</div>
-        <a class="nav-link" routerLink="/dashboard" [queryParams]="{ service: 'VOLTE' }" aria-label="VoLTE setup" title="VoLTE setup" (click)="mobileOpen.set(false)"><app-icon name="signal" /><span>VoLTE setup</span></a>
-        <a class="nav-link" routerLink="/dashboard" [queryParams]="{ service: 'SMS' }" aria-label="SMS delivery" title="SMS delivery" (click)="mobileOpen.set(false)"><app-icon name="message" /><span>SMS delivery</span></a>
+        <a class="nav-link" [routerLink]="serviceScope('VOLTE') ? ['/services', serviceScope('VOLTE')] : null" [class.active]="serviceActive('VOLTE')" [attr.aria-current]="serviceActive('VOLTE') ? 'page' : null" [attr.aria-disabled]="!serviceScope('VOLTE')" aria-label="VoLTE setup" title="VoLTE setup" (click)="mobileOpen.set(false)"><app-icon name="signal" /><span>VoLTE setup</span></a>
+        <a class="nav-link" [routerLink]="serviceScope('SMS') ? ['/services', serviceScope('SMS')] : null" [class.active]="serviceActive('SMS')" [attr.aria-current]="serviceActive('SMS') ? 'page' : null" [attr.aria-disabled]="!serviceScope('SMS')" aria-label="SMS delivery" title="SMS delivery" (click)="mobileOpen.set(false)"><app-icon name="message" /><span>SMS delivery</span></a>
         <a class="nav-link" routerLink="/dashboard" fragment="incident-queue" aria-label="Incident investigation" title="Incident investigation" (click)="mobileOpen.set(false)"><app-icon name="shield" /><span>Incident investigation</span></a>
       </div>
       <div class="sidebar-bottom">

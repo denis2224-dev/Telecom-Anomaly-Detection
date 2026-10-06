@@ -155,9 +155,9 @@ test.describe('Day 15 browser resource bounds', () => {
     await expect(page.locator('.actual-dot')).toHaveCount(1440);
     expect(data.reads() - before).toBe(15);
     await expect(page.locator('[data-window-id]')).toHaveCount(50);
-    await page.getByText('Show exact values and attempt counts', { exact: false }).click();
+    await page.locator('.exact-values > summary').click();
     const firstWindow = await page.locator('[data-window-id]').first().getAttribute('data-window-id');
-    await page.getByRole('button', { name: 'Next windows' }).click();
+    await page.getByRole('navigation', { name: 'History table pages' }).getByRole('button', { name: 'Next windows' }).click();
     await expect(page.locator('[data-window-id]').first()).not.toHaveAttribute('data-window-id', firstWindow!);
     await expect(page.locator('[data-window-id]')).toHaveCount(50);
 

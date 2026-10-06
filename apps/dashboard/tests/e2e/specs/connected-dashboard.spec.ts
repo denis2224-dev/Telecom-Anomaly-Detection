@@ -3,7 +3,7 @@ import { cityIncidents, citySummaries, cityWindows, fixtureCities, fixtureRange 
 
 for (const width of [1366, 768, 390]) {
   test(`connected dashboard at ${width}px`, async ({ page }, info) => {
-    await page.setViewportSize({ width, height: 1000 });
+    await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.addInitScript(() => {
@@ -57,14 +57,17 @@ for (const width of [1366, 768, 390]) {
 for (const width of [1366, 768, 390]) {
 test(`fixture city selection links map, charts, service and incident detail at ${width}px`, async ({ page }, info) => {
   test.skip(process.env.E2E_CITY_FIXTURE !== '1', 'Run explicitly against the fixture server');
-  await page.setViewportSize({ width, height: 1000 });
+  await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
   await page.goto('/dashboard');
   await expect(page.locator('.city-marker')).toHaveCount(9);
   await expect(page.locator('.featured-city')).toHaveCount(5);
   await expect(page.getByLabel('Service', { exact: true })).toHaveValue('ALL');
   await expect(page.getByLabel('Technology', { exact: true })).toBeDisabled();
-  await expect(page.getByRole('link', { name: 'VoLTE setup', exact: true, includeHidden: true })).toHaveAttribute('href', '/dashboard?service=VOLTE');
-  await expect(page.getByRole('link', { name: 'SMS delivery', exact: true, includeHidden: true })).toHaveAttribute('href', '/dashboard?service=SMS');
+  const controls = await page.locator('.controls input:not([type="hidden"]), .controls select, .controls button').evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { width: r.width, height: r.height }; }));
+  expect(Math.max(...controls.map(r => r.width)) - Math.min(...controls.map(r => r.width))).toBeLessThan(2);
+  expect(controls.every(r => r.height === 40)).toBe(true);
+  await expect(page.getByRole('link', { name: 'VoLTE setup', exact: true, includeHidden: true })).toHaveAttribute('href', '/services/VOLTE-MD-CENTRAL');
+  await expect(page.getByRole('link', { name: 'SMS delivery', exact: true, includeHidden: true })).toHaveAttribute('href', '/services/SMS-MD-ROUTE-A');
   await expect(page.locator('details.source-inventory')).not.toHaveAttribute('open');
   await page.getByLabel('Service', { exact: true }).selectOption('SMS');
   await expect(page.locator('.map-table caption')).toContainText('SMS delivery');
@@ -91,11 +94,17 @@ test(`fixture city selection links map, charts, service and incident detail at $
   await expect(page.locator('.city-marker[aria-label="Chișinău, DEGRADED"]')).toBeVisible();
   await page.locator('.city-marker').filter({ hasText: 'Chișinău' }).click();
   await expect(page.getByRole('heading', { name: 'Chișinău service detail' })).toBeVisible();
-  await expect(page.locator('.city-detail')).toContainText('-5.3 pp from baseline');
+  await expect(page.locator('.city-detail')).toContainText('-5.3 pp');
   await expect(page.locator('.queue-item')).toContainText('Chișinău');
   await expect(page.locator('app-city-trend')).toHaveCount(10);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: info.outputPath(`connected-fixture-${width}.png`), fullPage: true });
+  if (width === 1366) expect(await page.locator('.featured-cities').evaluate(node => node.getBoundingClientRect().bottom <= innerHeight)).toBe(true);
+  await page.getByRole('button', { name: /^Incidents \(/ }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await page.getByRole('button', { name: /^Incidents \(/ }).click();
   await page.getByRole('link', { name: 'Open incident evidence', exact: true }).click();
   await expect(page).toHaveURL(/\/incidents\/00000000-0000-4000-8000-000000000001$/);
   await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
@@ -117,5 +126,21 @@ test(`fixture city selection links map, charts, service and incident detail at $
   await page.getByLabel('Region', { exact: true }).fill('');
   await expect(page.locator('.city-detail')).toHaveCount(0);
   expect(fixtureCities.find(city => city.id === 'ORH')?.marker).toBeNull();
+  for (const [label, scope, service] of [['VoLTE setup', 'VOLTE-MD-CENTRAL', 'VOLTE'], ['SMS delivery', 'SMS-MD-ROUTE-A', 'SMS']]) {
+    if (width === 390) await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
+    const link = page.getByRole('link', { name: label, exact: true, includeHidden: true });
+    await link.click();
+    await expect(page).toHaveURL(new RegExp('/services/' + scope + '$'));
+    await expect(link).toHaveAttribute('aria-current', 'page');
+    await expect(page.locator('app-service-context select')).toHaveValue(service);
+    await expect(page.locator('app-kpi-cards tbody tr')).toHaveCount(service === 'VOLTE' ? 8 : 5);
+    await expect(page.locator('.exact-values')).not.toHaveAttribute('open');
+    expect(await page.locator('.back-link').evaluate(node => node.getBoundingClientRect().height)).toBeGreaterThanOrEqual(40);
+  }
+  await page.goto('/dashboard#incident-queue');
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(page).toHaveURL(/\/dashboard$/);
 });
 }

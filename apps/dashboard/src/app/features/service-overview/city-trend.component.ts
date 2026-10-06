@@ -7,8 +7,8 @@ import { baseline, measured, number, type Service, type Window } from './dashboa
   imports: [DatePipe],
   template: `
     <details class="trend" [open]="!collapsed()">
-    <summary class="trend-title">{{ service() === 'VOLTE' ? 'Call setup success (%)' : 'Delivery p95 (ms)' }}</summary>
-    <p class="helper">{{ rows().length }} windows · {{ available() }} measured · {{ available() === 0 ? 'No usable measurements' : 'Observed and baseline' }}</p>
+    <summary class="trend-title">{{ service() === 'VOLTE' ? (compact() ? 'CSSR (%)' : 'Call setup success (%)') : 'Delivery p95 (ms)' }}</summary>
+    @if (!compact()) { <p class="helper">{{ rows().length }} windows · {{ available() }} measured · {{ available() === 0 ? 'No usable measurements' : 'Observed and baseline' }}</p> }
     @if (rows().length > 0) {
       <svg viewBox="0 0 300 140" role="img" [attr.aria-label]="description()">
         <path d="M40 15V105H290" class="axis" />
@@ -20,8 +20,8 @@ import { baseline, measured, number, type Service, type Window } from './dashboa
         <path [attr.d]="path(true)" class="expected" />
         <path [attr.d]="path(false)" class="actual" />
       </svg>
-      <p class="helper">Solid cyan: observed · dashed: baseline · gaps: unavailable</p>
-      <details>
+      @if (!compact()) { <p class="helper">Solid cyan: observed · dashed: baseline · gaps: unavailable</p> }
+      @if (!compact()) { <details>
         <summary>Exact values and sample counts</summary>
         <div class="values"><table>
           <caption>{{ service() === 'VOLTE' ? 'CSSR (%)' : 'Delivery p95 (ms)' }} by one-minute window; UTC</caption>
@@ -33,14 +33,14 @@ import { baseline, measured, number, type Service, type Window } from './dashboa
               <td>{{ samples(row) }}</td></tr>
           }</tbody>
         </table></div>
-      </details>
+      </details> }
     } @else { <p>No KPI windows returned for this range.</p> }
     </details>
   `,
   styles: [`
     :host { display: block; min-width: 0; }
     .trend { margin-top: 6px; }
-    .trend-title { font-size: 10px; font-weight: 600; }
+    .trend-title { padding: 2px 0; font-size: 10px; font-weight: 600; }
     .helper { font-size: 10px; line-height: 1.3; }
     summary { font-size: 10px; }
     svg { width: 100%; height: auto; max-height: 105px; overflow: visible; }
@@ -57,6 +57,7 @@ import { baseline, measured, number, type Service, type Window } from './dashboa
   `],
 })
 export class CityTrendComponent {
+  readonly compact = input(false);
   readonly collapsed = input(false);
   readonly rows = input.required<Window[]>();
   readonly service = input.required<Service>();
