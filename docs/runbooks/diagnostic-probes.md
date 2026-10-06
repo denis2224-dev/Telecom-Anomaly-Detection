@@ -74,4 +74,14 @@ such as `http://event-generator:8081`. The generator is not publicly exposed.
 When the optional geographic profile is enabled, set
 `TELECOM_GEOGRAPHY_ENABLED=true` and provide the same
 `TELECOM_GEOGRAPHY_EFFECTIVE_FROM` value to both the generator and processor.
-The checked-in default keeps the profile disabled.
+Compose supplies both values through one shared environment anchor so the
+services cannot drift in the checked-in deployment definition. Validate the
+rendered configuration before startup:
+
+```sh
+docker compose config --format json | python scripts/check_geography_config.py
+```
+
+The check rejects missing values, mismatched service settings, malformed
+timestamps, and timestamps without an explicit timezone. The checked-in
+default keeps the profile disabled.

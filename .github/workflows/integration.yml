@@ -26,6 +26,10 @@ jobs:
         run: python -m pip install -r requirements-dev.txt
       - name: Validate bounded diagnostic probes
         run: python -m unittest tests.test_diagnostic_probe -v
+      - name: Validate rendered geography deployment configuration
+        run: |
+          docker compose config --format json | python scripts/check_geography_config.py
+          python -m unittest tests.test_geography_config -v
 
   model-evaluation:
     runs-on: ubuntu-latest
