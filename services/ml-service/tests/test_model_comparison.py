@@ -42,6 +42,22 @@ def tiny_history(data):
 
 
 class CandidateTrainingTests(unittest.TestCase):
+    def test_experimental_settings_are_recorded_and_used_without_changing_defaults(self):
+        from app.inference.scoring import load
+        with tempfile.TemporaryDirectory() as directory:
+            data = Path(directory) / 'data'
+            tiny_history(data)
+            models = Path(directory) / 'models'
+            manifest = train(data, models, model_version='isoforest-tuned-test',
+                             n_estimators=20, max_samples=3, threshold_rank=.97)
+            self.assertEqual(manifest['nEstimators'], 20)
+            self.assertEqual(manifest['maxSamples'], 3)
+            self.assertEqual(manifest['thresholdRank'], .97)
+            self.assertEqual(load('SMS', models)[2].max_samples_, 3)
+            for options in ({'n_estimators': 0}, {'max_samples': 0}, {'threshold_rank': 1.1}):
+                with self.assertRaises(ValueError):
+                    train(data, models, model_version='isoforest-tuned-test', **options)
+
     def test_expanded_data_requires_candidate_location_and_version(self):
         with tempfile.TemporaryDirectory() as directory:
             data = Path(directory) / 'data'
