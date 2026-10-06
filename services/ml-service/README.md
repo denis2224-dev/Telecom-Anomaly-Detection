@@ -171,3 +171,42 @@ The candidate remains experimental. More rows from the same simulator are not
 proof of real-network accuracy: these tests still cover the existing voice
 capacity and SMS delay/backlog patterns, not new fault families or city behavior.
 See [experiment evidence](../../docs/evidence/2026-10-05-ml-expanded-history.md).
+
+## Validation-based selection and varied fault tests
+
+The newer pipeline separates healthy training, healthy calibration, labelled
+validation for selecting settings, and final test runs opened after selection.
+It includes four healthy profiles and four fault families per service at three
+severity levels. All six model inputs still come from the canonical feature
+builder; scenario, severity, run IDs and labels stay outside the model vector.
+
+To reproduce the checked experiment, choose an unused directory and run:
+
+```powershell
+.\.venv\Scripts\python.exe services/ml-service/training/scenario_history.py --output tmp/ml-validation-reproduction/dataset
+.\.venv\Scripts\python.exe services/ml-service/training/tune_models.py --data tmp/ml-validation-reproduction/dataset/data --output tmp/ml-validation-reproduction/selection
+.\.venv\Scripts\python.exe services/ml-service/training/evaluate_selection.py --data tmp/ml-validation-reproduction/dataset/data --selection tmp/ml-validation-reproduction/selection --output tmp/ml-validation-reproduction/final-evaluation.json
+```
+
+The first command generates 47,232 observations. The second searches six model
+configurations and nine rank thresholds using validation only, with a default
+1% false-positive budget. It writes `selection.json`, `validation-search.json`
+and separate compatible model packages in `selection/VOLTE/` and `selection/SMS/`.
+The third evaluates those frozen packages and the current default models on the
+same final test rows. Add `--expanded-models tmp/ml-expanded-history/models
+--expanded-training-manifest tmp/ml-expanded-history/split_manifest.json` to
+include the previous expanded candidate in the comparison.
+
+Generation and selection reject existing output directories; final evaluation
+rejects an existing report or a modified selected package. Reproducing the same
+defaults reproduces the same synthetic rows. Further tuning after inspecting
+final results needs a new experiment directory, model version, start date and
+seed offset, for example `--start-date 2026-08-24 --seed-offset 10000` on generation
+and `--model-version isoforest-v2-validation-2` on selection. Dates are simulated.
+
+The completed experiment is under `tmp/ml-validation-experiment/`. Final voice
+recall was 100% with 0.55% false positives; SMS recall was 50.4% with 0.89% false
+positives. SMS delay faults were detected, but standalone backlog and delivery
+failure detection remain weak. These packages remain experimental and are not
+activated by the HTTP API. See [results and limits](../../docs/evidence/2026-10-06-ml-validation-selection.md)
+before considering model promotion. No real Orange network dataset was supplied.

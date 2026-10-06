@@ -29,3 +29,10 @@ The 1% false-positive budget is an experimental default, not an approved
 production target. Generated data, search artifacts and final packages remain
 local under `tmp/ml-validation-experiment/`. No model activation or publication
 is part of this task.
+
+Completed: scenario generation, validation-only search, frozen selection,
+independent final evaluation and reproducible documentation. Final results and
+limits are in `docs/evidence/2026-10-06-ml-validation-selection.md`. Voice recall
+is 100% and SMS recall is 50.4%, with overall false positives below 1%; standalone
+SMS backlog/delivery failure and per-profile behavior remain model limitations.
+The preexisting Day 1 default-model byte mismatch is recorded and not suppressed.
