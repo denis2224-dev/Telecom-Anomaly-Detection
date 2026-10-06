@@ -80,7 +80,7 @@ The canonical proposed endpoints are `GET /api/geography/cities`, `GET /api/geog
 
 On fetched `main`, one `IncidentStreamController` serves `/api/incidents/stream`; `IncidentCommittedListener` broadcasts `IncidentChanged` after commit; the stream emits `ready` and `incident-upsert`, checks enabled analysts and ends with the session. PR #43's current net diff against `main` contains no incident stream or backend event publisher changes. Keep the current implementation; do not add a second controller or event vocabulary. Recheck if PR #43 moves.
 
-Incident-service has applied V001 and V002; V003 is a candidate only after the shared integration base is checked. Processor migrations have a separate sequence through V007. No applied migration is edited. The current `DatabaseMigrationTest` expects two incident migrations and six application tables, so promotion of this draft SQL requires coordinated test updates, clean install, upgrade and repeat-migrate checks on disposable databases. Compatible readers and schema deploy before city producers. Feature-off returns to the old route while retaining migrated data and pending facts.
+Incident-service has V001 and V002 plus merged PR #52's V003 SMS shadow migration; geography uses V004. Processor migrations have a separate sequence through V010. No applied migration is edited. `DatabaseMigrationTest` expects four incident migrations and fifteen application tables. Promotion of this draft SQL requires clean install, upgrade and repeat-migrate checks on disposable databases. Compatible readers and schema deploy before city producers. Feature-off returns to the old route while retaining migrated data and pending facts.
 
 ## G1 review and remaining decisions
 
@@ -91,6 +91,6 @@ Incident-service has applied V001 and V002; V003 is a candidate only after the s
 | `windowId` identity validation in PR #48 | Review finding: current Java/Python validators accept an arbitrary 64-hex `windowId` | Ion fixes or explicitly assigns the check to the finalizer and Denis's consumer, with tests. |
 | Coverage consumer and payload-hash policy | Proposed here | Ion/Rusu/Denis sign exact outbox/wire/import boundary. |
 | OpenAPI response and null meanings | Proposed here | David and Rusu review before client generation. |
-| Migration version and deployment order | V003 candidate, no migration committed | Stanislav/Denis reserve on integration SHA. |
+| Migration version and deployment order | V004 geography migration on the current integration SHA | Stanislav/Denis verify the combined sequence. |
 
 **Shared G1 is still partial** until these reviews, the integration SHA, and combined regressions are accepted. Contract-only files are not evidence of a live geographic endpoint.
