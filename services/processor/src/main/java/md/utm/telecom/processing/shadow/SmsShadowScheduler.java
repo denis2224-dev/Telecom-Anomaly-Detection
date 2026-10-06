@@ -8,10 +8,8 @@ import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 /** A dedicated scheduler and eight workers keep shadow HTTP off the rule scheduler. */
@@ -23,18 +21,6 @@ public class SmsShadowScheduler {
     private final ExecutorService pool=Executors.newFixedThreadPool(8);
     private final SmsShadowWorker worker;
     public SmsShadowScheduler(SmsShadowWorker worker) { this.worker=worker; }
-    @Bean(name="taskScheduler")
-    public ThreadPoolTaskScheduler ruleScheduler() {
-        var scheduler=new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(1); scheduler.setThreadNamePrefix("rule-scheduler-");
-        return scheduler;
-    }
-    @Bean(name="smsShadowScheduler")
-    public ThreadPoolTaskScheduler scheduler() {
-        var scheduler=new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(1); scheduler.setThreadNamePrefix("sms-shadow-");
-        return scheduler;
-    }
     @Scheduled(fixedDelayString="${telecom.sms-shadow.poll-interval:1000}",scheduler="smsShadowScheduler")
     public void poll() {
         var tasks=new ArrayList<Callable<Void>>();

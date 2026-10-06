@@ -18,5 +18,6 @@ CREATE TABLE app.sms_shadow_result (
     UNIQUE(window_id, requested_model_version),
     FOREIGN KEY(window_id, requested_model_version) REFERENCES app.sms_shadow_job
 );
+REVOKE ALL ON app.sms_shadow_job, app.sms_shadow_result FROM processing_app;
 GRANT SELECT, INSERT, UPDATE ON app.sms_shadow_job TO processing_app;
 GRANT SELECT, INSERT ON app.sms_shadow_result TO processing_app;

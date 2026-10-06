@@ -41,6 +41,7 @@ public class VoiceDeliveryScheduler {
                         WITH head AS (
                             SELECT d.id FROM app.voice_delivery d
                             WHERE d.published_at IS NULL AND (d.lease_until IS NULL OR d.lease_until<=clock_timestamp())
+                            AND d.topic<>'telecom.ml-shadow.sms.v1'
                             AND NOT EXISTS (
                                 SELECT 1 FROM app.voice_delivery p WHERE p.published_at IS NULL
                                 AND p.topic=d.topic AND p.kafka_key=d.kafka_key AND

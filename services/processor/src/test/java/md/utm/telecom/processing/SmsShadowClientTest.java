@@ -11,6 +11,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SmsShadowClientTest {
     private final ObjectMapper json = new ObjectMapper();
+    @Test void noMoreThanEightRequestsReachTheServerAtOnce() throws Exception {
+        var server=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
+        var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor();
+        server.setExecutor(executor);
+        var received=new java.util.concurrent.atomic.AtomicInteger();
+        server.createContext("/internal/inference/sms-classifier",exchange->{
+            received.incrementAndGet();
+            try { Thread.sleep(600); } catch(InterruptedException interrupted) { Thread.currentThread().interrupt(); }
+            exchange.close();
+        });
+        server.start();
+        try(var pool=java.util.concurrent.Executors.newFixedThreadPool(9)) {
+            var client=new SmsShadowClient("http://127.0.0.1:"+server.getAddress().getPort());
+            var barrier=new java.util.concurrent.CyclicBarrier(9);
+            var tasks=new java.util.ArrayList<java.util.concurrent.Future<SmsShadowClient.Result>>();
+            for(int i=0;i<9;i++) tasks.add(pool.submit(()->{barrier.await();return client.score(json.createObjectNode());}));
+            int unavailable=0,timeouts=0;
+            for(var task:tasks) {
+                var result=task.get(3,java.util.concurrent.TimeUnit.SECONDS);
+                assertNull(result.score());assertNull(result.detection());
+                if(result.status().equals("UNAVAILABLE")) unavailable++;
+                if(result.status().equals("TIMEOUT")) timeouts++;
+            }
+            assertEquals(1,unavailable);assertEquals(8,timeouts);
+            assertTrue(received.get()<=8);
+        } finally { server.stop(0);executor.shutdownNow(); }
+    }
     @Test void failuresAreNullAndResponsesMustMatchFrozenPackageAndInclusiveCutoff() throws Exception {
         var response = new AtomicReference<>("""
                 {"schemaVersion":1,"mlStatus":"OK","classifierScore":0.55,"detection":true,

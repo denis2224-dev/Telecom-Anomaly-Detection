@@ -55,7 +55,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(2, flyway.migrate().migrationsExecuted);
+        assertEquals(3, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -76,7 +76,7 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals("6", scalar("""
+        assertEquals("7", scalar("""
                 SELECT count(*) FROM pg_tables WHERE schemaname = 'app'
                 AND tablename <> 'flyway_schema_history' AND tableowner = 'incidents_migrator'
                 """));
@@ -91,6 +91,8 @@ class DatabaseMigrationTest {
         rejects("42501", "CREATE SCHEMA forbidden");
         rejects("42501", "ALTER TABLE app.analysts ADD COLUMN forbidden INTEGER");
         rejects("42501", "DELETE FROM app.flyway_schema_history");
+        rejects("42501", "UPDATE app.sms_ml_shadow SET scope_id='forbidden'");
+        rejects("42501", "DELETE FROM app.sms_ml_shadow");
         for (String db : new String[]{"processing_db", "keycloak_db"}) {
             SQLException failure = assertThrows(SQLException.class, () -> {
                 try (Connection ignored = DriverManager.getConnection(url(db),
