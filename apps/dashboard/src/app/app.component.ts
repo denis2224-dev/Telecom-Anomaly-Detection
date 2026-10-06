@@ -7,6 +7,7 @@ import { SessionStore } from "./features/login-and-session/session.store";
 import { IconComponent } from "./shared/icon.component";
 import { ToastService } from "./shared/toast.service";
 import { dataSource } from "./core/api/data-source";
+import { LiveUpdates } from './core/state/live-updates';
 
 @Component({
   selector: "app-root",
@@ -22,7 +23,17 @@ export class AppComponent {
   serviceActive(service: string): boolean {
     return this.serviceScopes().some(item => item.scope.service === service && this.router.url.split('?')[0] === '/services/' + encodeURIComponent(item.scope.scopeId));
   }
-  readonly collapsed = signal(false);
+  readonly collapsed = signal(this.savedSidebar());
+  readonly live = inject(LiveUpdates);
+  private savedSidebar(): boolean {
+    try { return sessionStorage.getItem('telecom.sidebar.collapsed') !== 'false'; }
+    catch { return true; }
+  }
+  toggleSidebar(): void {
+    this.collapsed.update(value => !value);
+    try { sessionStorage.setItem('telecom.sidebar.collapsed', String(this.collapsed())); }
+    catch { /* The icon rail still works when storage is unavailable. */ }
+  }
   readonly mobileOpen = signal(false);
   readonly toast = inject(ToastService);
   pageTitle(): string {

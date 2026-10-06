@@ -19,7 +19,9 @@
 .system-note small { display: block; font-size: 9px; color: var(--text-muted); margin-top: 4px; }
 .sidebar-collapse { width: 100%; justify-content: start; font-size: 11px; }
 .sidebar-collapsed .brand { padding: 0 7px; }
-.sidebar-collapsed .brand-copy, .sidebar-collapsed .sidebar-section-label, .sidebar-collapsed .nav-link span, .sidebar-collapsed .sidebar-context, .sidebar-collapsed .system-note, .sidebar-collapsed .sidebar-collapse span { display: none; }
+.sidebar-collapsed .brand-copy, .sidebar-collapsed .sidebar-section-label, .sidebar-collapsed .nav-link span, .sidebar-collapsed .system-note, .sidebar-collapsed .sidebar-collapse span { display: none; }
+.sidebar-collapsed .sidebar-context { margin-top: 24px; }
+.access-shell .brand-copy { display: block; }
 .sidebar-collapsed .sidebar-nav { margin-top: 44px; }
 .sidebar-collapsed .nav-link { padding: 13px 15px; }
 .workspace-layout { margin-left: var(--sidebar-width); min-width: 0; }
@@ -46,12 +48,16 @@ main::before { content: ''; position: absolute; z-index: -1; inset: 0; pointer-e
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 28px 0 16px; }
 .section-heading p { color: var(--text-muted); font-size: 12px; margin-top: 4px; }
 .section-heading:first-child { margin-top: 0; }
-.back-link { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; margin: 0 0 12px; color: var(--text); background: var(--surface-raised); font-size: 14px; font-weight: 600; border-radius: var(--radius-control); }
-.back-link:hover { background: var(--surface-raised); color: var(--text); text-decoration: none; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; margin: 0 0 12px; color: var(--text); background: var(--surface-raised); font-size: 16px; font-weight: 600; border-radius: var(--radius-control); }
+.back-link:hover { background: var(--surface-hover); color: var(--text); text-decoration: none; }
+.live-status { min-width: 140px; font-variant-numeric: tabular-nums; }
+.live-status strong { color: var(--success); }
+.live-status.stale strong { color: var(--warning); }
+.live-status.stale .status-dot { background: var(--warning); box-shadow: none; }
 footer { display: flex; gap: 10px; align-items: center; color: var(--text-muted); font-size: 10px; margin: 40px 0 8px; opacity: .85; }
 footer .icon { width: 13px; height: 13px; flex-basis: 13px; }
 footer span { margin-left: auto; }
-.preview-label { display: flex; align-items: center; gap: 8px; padding: 10px 14px; margin-bottom: 24px; border-radius: var(--radius-control); background: var(--info-soft); color: var(--info); font-size: 10px; }
+.preview-label { display: flex; align-items: center; gap: 8px; padding: 4px 10px; margin-bottom: 0; border-radius: var(--radius-control); background: var(--info-soft); color: var(--info); font-size: 10px; }
 .mobile-menu, .nav-scrim { display: none !important; }
 @media (max-width: 1100px) { .app-shell { --sidebar-width: 208px; } .app-header { padding: 0 24px; } main { padding: 24px; } .header-tools { gap: 12px; } .identity-copy { display: none; } }
 @media (max-width: 760px) {
@@ -63,10 +69,12 @@ footer span { margin-left: auto; }
   .mobile-menu { display: inline-flex !important; }
   .sidebar-collapse { display: none !important; }
   .sidebar-collapsed .brand-copy, .sidebar-collapsed .sidebar-section-label, .sidebar-collapsed .nav-link span, .sidebar-collapsed .sidebar-context, .sidebar-collapsed .system-note { display: block; }
-  .sidebar-collapsed .sidebar-nav { margin-top: 0; }
+  .sidebar-collapsed .sidebar-nav, .sidebar-collapsed .sidebar-context { margin-top: 0; }
   .app-header { height: 64px; padding: 0 16px; gap: 8px; }
   .header-tools { gap: 8px; }
   .breadcrumb-root, .breadcrumb-divider, .connection-status, .identity { display: none; }
+  .connection-status.live-status { display: flex; flex-wrap: wrap; gap: 4px 6px; min-width: 0; max-width: 112px; font-size: 9px; }
+  .live-status > span:last-child { flex-basis: 100%; text-align: right; }
   .header-location { gap: 10px; font-size: 11px; }
   main { padding: 20px 16px; }
   .page-heading { align-items: start; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }

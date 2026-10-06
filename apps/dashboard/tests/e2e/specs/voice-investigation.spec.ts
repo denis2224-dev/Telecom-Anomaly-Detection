@@ -32,7 +32,7 @@ test.describe('Voice investigation', () => {
     await expect(page.locator('.episode-card')).toHaveCount(1);
     await expect(page.locator('.episode-card')).toContainText('RECOVERED');
     await expect(page.locator('.episode-card')).toContainText('OPEN');
-    expect((await page.locator('app-kpi-chart .actual-line').getAttribute('d'))?.match(/M/g)).toHaveLength(3);
+    expect((await page.locator('.service-hero .actual-line').getAttribute('d'))?.match(/M/g)).toHaveLength(3);
     await expect(page.locator('.incident-band')).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath('voice-laptop.png'), fullPage: true });
@@ -64,14 +64,14 @@ test.describe('Voice investigation', () => {
     await page.route('**/api/services/*/kpis?**', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
     await page.goto('/services/VOLTE-MD-CENTRAL');
     await expect(page.getByRole('alert')).toContainText('could not be reached');
-    await expect(page.locator('app-kpi-chart .actual-line')).toHaveCount(0);
+    await expect(page.locator('.service-hero .actual-line')).toHaveCount(0);
   });
   test('empty history and mobile layout remain readable', async ({ page }, info) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.route('**/api/services/*/kpis?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100, observedAt: '2026-09-15T10:10:00Z' } }));
     await page.route('**/api/incidents?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100 } }));
     await page.goto('/services/VOLTE-MD-CENTRAL');
-    await expect(page.getByText('No diagnostic charts with a baseline in this range.', { exact: false })).toBeVisible();
+    await expect(page.locator('.service-hero').getByText('No KPI history in this time range.', { exact: true })).toBeVisible();
     await expect(page.getByText('No incident episodes on this page.')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath('voice-mobile-empty.png'), fullPage: true });

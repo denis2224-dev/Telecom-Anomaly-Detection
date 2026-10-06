@@ -7,8 +7,8 @@ import { MetricExplanationComponent } from '../../shared/metric-explanation.comp
   selector: 'app-kpi-chart',
   imports: [IconComponent, MetricExplanationComponent],
   template: `
-    <section class="detail-panel chart-panel" aria-labelledby="chart-title">
-      <div class="section-heading"><div><p class="eyebrow">Voice performance</p><h2 id="chart-title">Call setup success rate</h2></div><span class="badge">CSSR · %</span></div>
+    <section class="detail-panel chart-panel" [attr.aria-labelledby]="chartId + '-title'">
+      <div class="section-heading"><div><p class="eyebrow">Voice performance</p><h2 [id]="chartId + '-title'">Call setup success rate</h2></div><span class="badge">CSSR · %</span></div>
       <p class="muted">VoLTE CSSR is the percentage of eligible technical setup attempts that succeeded; modeled user outcomes are excluded. Times are UTC; each point represents one server window.</p>
       <app-metric-explanation topic="percentage-points" />
       @if (missingBaseline()) {
@@ -22,11 +22,11 @@ import { MetricExplanationComponent } from '../../shared/metric-explanation.comp
           <div class="chart-tooltip" [class.tooltip-visible]="hovered() !== null" aria-live="polite">
             @if (hovered(); as row) { <span>{{ clock(row.windowStart) }} UTC</span><strong>{{ value(row) ?? 'Unavailable' }}{{ value(row) !== null ? '%' : '' }}</strong><small>{{ metric(row)?.denominator ?? 'Unknown' }} attempts</small> } @else { <span>Window detail</span><strong>Explore the observations</strong><small>Hover a point or focus the chart and use arrow keys.</small> }
           </div>
-        <div #chartScrollable class="chart-scroll" tabindex="0" aria-label="Scrollable CSSR chart" aria-describedby="chart-keyboard-hint" (keydown)="navigateChart($event)" (blur)="hovered.set(null)">
-          <svg viewBox="0 0 900 280" role="img" aria-labelledby="plot-title plot-desc">
-            <defs><linearGradient id="cssr-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" class="area-start" /><stop offset="100%" class="area-end" /></linearGradient></defs>
-            <title id="plot-title">Actual and expected voice call setup success</title>
-            <desc id="plot-desc">Vertical scale {{ floor() }} to 100 percent. Blank gaps mean unavailable observations. Shaded bands show incident intervals. Exact values and attempts are in the table below.</desc>
+        <div #chartScrollable class="chart-scroll" tabindex="0" aria-label="Scrollable CSSR chart" [attr.aria-describedby]="chartId + '-keyboard-hint'" (keydown)="navigateChart($event)" (blur)="hovered.set(null)">
+          <svg viewBox="0 0 900 280" role="img" [attr.aria-labelledby]="chartId + '-plot-title'" [attr.aria-describedby]="chartId + '-plot-desc'">
+            <defs><linearGradient [id]="chartId + '-area'" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" class="area-start" /><stop offset="100%" class="area-end" /></linearGradient></defs>
+            <title [id]="chartId + '-plot-title'">Actual and expected voice call setup success</title>
+            <desc [id]="chartId + '-plot-desc'">Vertical scale {{ floor() }} to 100 percent. Blank gaps mean unavailable observations. Shaded bands show incident intervals. Exact values and attempts are in the table below.</desc>
             @for (incident of intervals(); track incident.episodeId) {
               <rect class="incident-band" [attr.x]="x(incident.firstObservedAt)" y="20" [attr.width]="Math.max(0, x(incident.lastObservedAt) - x(incident.firstObservedAt))" height="210" />
             }
@@ -34,7 +34,7 @@ import { MetricExplanationComponent } from '../../shared/metric-explanation.comp
               <line x1="65" x2="875" [attr.y1]="y(tick)" [attr.y2]="y(tick)" class="chart-grid" />
               <text x="55" [attr.y]="y(tick) + 5" text-anchor="end">{{ tick }}%</text>
             }
-            <path class="actual-area" [attr.d]="areaPath()" />
+            <path class="actual-area" [style.fill]="'url(#' + chartId + '-area)'" [attr.d]="areaPath()" />
             <path class="expected-line" [attr.d]="path(true)" />
             <path class="actual-line" [attr.d]="path(false)" />
             @for (row of rows(); track row.windowId) {
@@ -43,11 +43,11 @@ import { MetricExplanationComponent } from '../../shared/metric-explanation.comp
             @for (label of labels(); track label; let first = $first; let last = $last) { <text [attr.x]="x(label)" y="258" [attr.text-anchor]="first ? 'start' : last ? 'end' : 'middle'">{{ clock(label) }}</text> }
           </svg>
         </div></div>
-        <p id="chart-keyboard-hint" class="helper">Focus the chart and use arrow keys to inspect windows. Exact values are available below.</p>
+        <p [id]="chartId + '-keyboard-hint'" class="helper chart-keyboard-hint">Focus the chart and use arrow keys to inspect windows. Exact values are available below.</p>
         <p class="muted">Scale: {{ floor() }}–100%. Gaps are unavailable data, not 0% success. A zero attempt count also has no success rate.</p>
         }
         @if (view() !== 'chart') { <details [open]="view() === 'table'"><summary>Show exact values and attempt counts ({{ rows().length }} windows)</summary>
-          <div class="chart-scroll"><table class="kpi-table"><caption>Server windows in UTC · start inclusive, end exclusive</caption><thead><tr><th>Window</th><th>Actual (%)</th><th>Expected (%)</th><th>Attempts</th><th>Data quality</th></tr></thead><tbody>
+          <div class="chart-scroll" tabindex="0" role="region" aria-label="Exact CSSR values and attempt counts"><table class="kpi-table"><caption>Server windows in UTC · start inclusive, end exclusive</caption><thead><tr><th>Window</th><th>Actual (%)</th><th>Expected (%)</th><th>Attempts</th><th>Data quality</th></tr></thead><tbody>
             @for (row of tableRows(); track row.windowId) { <tr [attr.data-window-id]="row.windowId"><th>{{ clock(row.windowStart) }}–{{ clock(row.windowEnd) }}</th><td>{{ value(row) ?? 'Unavailable' }}</td><td>{{ metric(row)?.baseline ?? 'Unavailable' }}</td><td>{{ metric(row)?.denominator ?? 'Unavailable' }}</td><td>{{ row.quality }}</td></tr> }
           </tbody></table></div>
           <nav class="pagination" aria-label="History table pages">
@@ -60,6 +60,8 @@ import { MetricExplanationComponent } from '../../shared/metric-explanation.comp
     </section>`,
 })
 export class KpiChartComponent {
+  private static nextId = 0;
+  readonly chartId = `cssr-${KpiChartComponent.nextId++}`;
   readonly hovered = signal<KpiWindow | null>(null);
   navigateChart(event: KeyboardEvent): void {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;

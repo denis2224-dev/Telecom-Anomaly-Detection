@@ -73,4 +73,38 @@ describe('Reconciled assurance history and current state', () => {
     fixture.destroy();
     expect(close).toHaveBeenCalledTimes(1);
   });
+  it('rolls a full 24-hour live range without exceeding the 1440-window bound', async () => {
+    const end = Date.parse(service.latestWindow!.windowEnd);
+    const rows = Array.from({ length: 1440 }, (_, index) => ({ ...voiceWindows[0], windowId: `minute-${index}`,
+      windowStart: new Date(end - (1440 - index) * 60_000).toISOString(),
+      windowEnd: new Date(end - (1439 - index) * 60_000).toISOString() }));
+    api.getServiceKpis.mockImplementation(async (_id, query) => {
+      const items = rows.filter(row => Date.parse(row.windowStart) >= Date.parse(query.from) && Date.parse(row.windowStart) < Date.parse(query.to));
+      return { items: items.slice(query.page * 100, (query.page + 1) * 100), total: items.length };
+    });
+    const fixture = TestBed.createComponent(ServiceDetailComponent); await fixture.whenStable();
+    fixture.componentInstance.applyRange({ from: rows[0].windowStart, to: fixture.componentInstance.to() });
+    await fixture.whenStable();
+    expect(fixture.componentInstance.windows()).toHaveLength(1440);
+    const next = { ...rows.at(-1)!, windowId: 'minute-1440', windowStart: new Date(end).toISOString(), windowEnd: new Date(end + 60_000).toISOString() };
+    rows.push(next);
+    api.listServices.mockResolvedValue([{ ...service, latestWindow: next }]);
+    await fixture.componentInstance.refreshIncidents();
+    expect(fixture.componentInstance.streamError()).toBe('');
+    expect(fixture.componentInstance.windows()).toHaveLength(1440);
+    expect(fixture.componentInstance.windows()[0].windowId).toBe('minute-1');
+    expect(fixture.componentInstance.windows().at(-1)!.windowId).toBe('minute-1440');
+  });
+  it('keeps an explicitly historical range fixed when new current evidence arrives', async () => {
+    const fixture = TestBed.createComponent(ServiceDetailComponent); await fixture.whenStable();
+    const range = { from: voiceWindows[0].windowStart, to: voiceWindows[4].windowEnd };
+    fixture.componentInstance.applyRange(range); await fixture.whenStable();
+    api.getServiceKpis.mockClear();
+    api.listServices.mockResolvedValue([{ ...service, latestWindow: { ...service.latestWindow,
+      windowEnd: new Date(Date.parse(service.latestWindow!.windowEnd) + 60_000).toISOString() } }]);
+    await fixture.componentInstance.refreshIncidents();
+    expect(api.getServiceKpis).not.toHaveBeenCalled();
+    expect(fixture.componentInstance.from()).toBe(range.from);
+    expect(fixture.componentInstance.to()).toBe(range.to);
+  });
 });

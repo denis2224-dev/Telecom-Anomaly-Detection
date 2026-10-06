@@ -53,12 +53,15 @@ for (const width of [1366, 768, 390]) {
       await capture('navigation');
       await page.getByRole('button', { name: 'Close navigation' }).click({ position: { x: 350, y: 200 } });
     } else {
+      await expect(page.locator('.app-shell')).toHaveClass(/sidebar-collapsed/);
+      await page.getByRole('button', { name: 'Expand sidebar' }).click();
       await page.getByRole('button', { name: 'Collapse sidebar' }).click();
       await expect(page.locator('.app-shell')).toHaveClass(/sidebar-collapsed/);
       await page.getByRole('button', { name: 'Expand sidebar' }).click();
     }
     await page.goto('/services/VOLTE-MD-CENTRAL');
     await expect(page.getByRole('heading', { name: 'Call setup success rate' })).toBeVisible();
+    await page.getByText('Range options', { exact: true }).click();
     await page.getByRole('button', { name: '15m', exact: true }).click();
     await expect(page.getByRole('button', { name: '15m', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await page.getByLabel('Scrollable CSSR chart').focus();

@@ -13,10 +13,7 @@
 .dependency-node.no-measurement strong { color: var(--telecom-muted-text); }
 .dependency-node p { font-size: 12px; margin: 5px 0; overflow-wrap: anywhere; }
 .dependency-arrow { align-self: center; color: var(--telecom-muted-text); }
-.supporting-charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 app-metric-chart { display: block; min-width: 0; }
-.supporting-charts .detail-panel { margin: 0 !important; padding: 14px !important; }
-.supporting-charts .chart-scroll svg { min-width: 350px; }
 .metric-chart .chart-legend { font-size: 11px; gap: 12px; }
 .phase-band.NORMAL { fill: #63c69b; opacity: .035; }
 .phase-band.DEGRADED { fill: #ff7081; opacity: .16; }
@@ -37,7 +34,6 @@ app-metric-chart { display: block; min-width: 0; }
 .story-grid ul { padding-left: 20px; }
 .story-grid li { margin: 10px 0; }
 
-@media (max-width: 1050px) { .supporting-charts { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 650px) {
   .story-grid { grid-template-columns: 1fr; }
   .dependency-flow { flex-direction: column; }
@@ -45,12 +41,6 @@ app-metric-chart { display: block; min-width: 0; }
 }
 
 /* Compact diagnostic views share the same chart and evidence components. */
-.diagnosis-charts { gap: 8px; }
-.diagnosis-charts .detail-panel { padding: 10px !important; }
-.diagnosis-charts h2 { font-size: 14px; }
-.diagnosis-charts .section-heading { margin: 0 0 6px; }
-.diagnosis-charts .chart-scroll svg { min-width: 0; max-height: 190px; }
-.diagnosis-charts .chart-panel > .muted, .diagnosis-charts .chart-panel > p { font-size: 10px; margin: 4px 0; }
 .exact-values { margin: 12px 0; background: var(--surface); padding: 10px; border-radius: var(--radius); }
 .exact-values .chart-scroll { max-height: 320px; overflow: auto; }
 main:has(app-connected-overview) { padding-top: 8px; }
@@ -59,9 +49,133 @@ main:has(app-connected-overview) .preview-label { margin-bottom: 8px; padding: 5
   .app-shell:has(app-connected-overview) .app-header { height: 40px; }
 }
 
-.diagnosis-charts .plot-wrapper { margin: 8px 0; }
-.diagnosis-charts .chart-panel > .muted, .diagnosis-charts .chart-panel > p:not(#chart-keyboard-hint) { display: none; }
-.diagnosis-charts app-kpi-chart { min-width: 0; }
-.diagnosis-charts .chart-panel { height: 100%; }
-.diagnosis-charts .chart-panel .eyebrow { display: none; }
-@media (min-width: 1101px) { .diagnosis-charts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* Day 18: retain native scrolling and allow long diagnostic text to wrap. */
+#workspace { min-width: 0; scroll-margin-top: 16px; }
+.connection-banner { margin-block: 12px; }
+.connection-banner button { margin-block: 8px; }
+.evidence-entry, .evidence-entry-header > div,
+.incident-summary-bar > div, .workflow-card, .workflow-card .field {
+  min-width: 0;
+}
+.evidence-entry p, .evidence-entry li,
+.incident-summary-bar h2, .workflow-card p,
+.workflow-card strong, .workflow-card textarea {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.evidence-entry p, .evidence-entry li {
+  text-overflow: clip;
+  -webkit-line-clamp: unset;
+}
+.workflow-card textarea { max-width: 100%; }
+.evidence-table:focus-visible, .chart-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (forced-colors: active) {
+  :focus-visible { outline: 2px solid Highlight; box-shadow: none; }
+  .badge { border: 1px solid CanvasText; }
+}
+
+/* Shared service investigation: selectable KPI history, stable plotting space. */
+app-service-detail { display: block; min-width: 0; }
+app-service-detail .page-heading { margin-bottom: 8px; align-items: center; justify-content: start; gap: 16px; }
+app-service-detail .page-heading .back-link { margin: 0; flex-shrink: 0; }
+app-service-detail .heading-copy { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 16px; }
+app-service-detail .heading-copy .eyebrow { display: none; }
+app-service-detail .heading-copy h1 { font-size: 24px; margin: 0; }
+app-service-detail .heading-copy p { font-size: 11px; margin: 0; }
+.service-toolbar { display: flex; align-items: end; gap: 12px; padding: 10px 12px; background: var(--surface); border-radius: var(--radius); }
+.service-selection { flex: 0 0 145px; }
+.service-selection app-service-context { width: 100%; }
+.service-toolbar app-history-range { flex: 1; min-width: 0; }
+.compact-range.range-toolbar { margin: 0; padding: 0; position: relative; }
+.compact-range .time-filter { display: grid; grid-template-columns: repeat(2, minmax(140px, 1fr)) auto; gap: 8px; align-items: end; }
+.compact-range input, .service-toolbar select { min-height: 40px; height: 40px; padding: 8px; font-size: 11px; }
+.compact-range .button-row { flex-wrap: nowrap; gap: 6px; }
+.compact-range button { padding: 8px 10px; white-space: nowrap; }
+.range-options > summary { display: none; }
+.compact-range .range-options { position: absolute; right: 0; top: -24px; z-index: 25; }
+.compact-range .range-options > summary { display: block; padding: 0 2px; font-size: 10px; color: var(--text-muted); }
+.compact-range .range-options[open] { padding: 8px; background: var(--surface-raised); border-radius: var(--radius-control); box-shadow: var(--shadow-raised); }
+.compact-range .range-options .range-toolbar-heading { display: grid; gap: 8px; margin: 6px 0 0; }
+.service-hero { background: var(--surface); border-radius: var(--radius); overflow: hidden; margin: 12px 0; }
+.kpi-switcher { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; background: var(--field); }
+.kpi-switcher button { min-height: 40px; padding: 6px 10px; font-size: 11px; }
+.kpi-switcher button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); box-shadow: inset 0 -2px var(--accent); }
+.service-hero .hero-chart { padding: 12px 16px 0; margin: 0; box-shadow: none; }
+.hero-chart h2 { font-size: 18px; margin: 0; }
+.hero-chart .plot-wrapper { position: relative; margin: 10px 0 0; }
+.hero-chart .chart-scroll { height: clamp(260px, 40vh, 430px); }
+.hero-chart svg { width: 100%; height: 100%; display: block; }
+.hero-chart .chart-empty { position: absolute; inset: 40% 10% auto; text-align: center; padding: 12px; background: var(--glass); border-radius: var(--radius-control); }
+.hero-chart-caption { display: flex; justify-content: space-between; gap: 8px; color: var(--text-muted); font-size: 10px; font-variant-numeric: tabular-nums; }
+.hero-chart .chart-keyboard-hint { font-size: 10px; margin: 6px 0; }
+.service-hero > .chart-legend { margin: 0; padding: 8px 20px 14px; font-size: 10px; gap: 16px; }
+.chart-crosshair { stroke: var(--text-muted); stroke-width: 1; stroke-dasharray: 3 4; }
+.selected-dot { filter: drop-shadow(0 0 4px var(--accent)); }
+.service-connection .connection-banner { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; padding: 8px 12px; }
+.service-connection .connection-banner strong { font-size: 11px; }
+.service-connection .connection-banner p { margin: 0; font-size: 11px; }
+.service-connection .connection-banner button { margin: 0; min-height: 32px; }
+.service-connection .connection-banner > .helper { flex-basis: 100%; }
+.service-alerts { height: 40px; padding: 4px 0; box-sizing: border-box; }
+.service-alerts .service-connection { display: flex; align-items: center; gap: 8px; padding: 0 8px; height: 32px; border-radius: var(--radius-control); background: var(--warning-soft); color: var(--warning); }
+.service-alerts .service-connection > span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 11px; }
+.service-alerts button { min-height: 28px; padding: 4px 8px; font-size: 10px; }
+.traffic-success, .traffic-failed { fill: none; stroke-width: 2; }
+.traffic-success { stroke: var(--success); }
+.traffic-failed { stroke: var(--danger); }
+.traffic-success-dot { fill: var(--success); }
+.traffic-failed-dot { fill: var(--danger); }
+.service-hero .chart-legend .traffic-success-key::before { background: var(--success); }
+.service-hero .chart-legend .traffic-failed-key::before { background: var(--danger); }
+.traffic-chart .chart-tooltip { pointer-events: none; }
+.traffic-chart .chart-scroll { height: clamp(240px, 32vh, 320px); }
+.traffic-chart .hero-reading strong { font-size: 24px; }
+main:has(app-service-detail) { padding-top: 8px; }
+@media (min-width: 1101px) { .app-shell:has(app-service-detail) .app-header { height: 40px; } }
+.service-loading { min-height: calc(40vh + 390px); }
+@media (max-width: 1200px) {
+  .service-toolbar { flex-wrap: wrap; }
+  .service-toolbar app-history-range { flex-basis: 100%; }
+}
+@media (max-width: 600px) {
+  app-service-detail .page-heading { flex-wrap: wrap; gap: 6px; }
+  .compact-range .time-filter { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .compact-range .button-row { grid-column: 1 / -1; flex-wrap: wrap; }
+  .compact-range .button-row button { flex: 1; font-size: 10px; padding-inline: 6px; }
+  .service-hero .hero-chart { padding: 12px 10px 0; }
+  .kpi-switcher { gap: 2px; padding: 8px; }
+  .kpi-switcher button { font-size: 10px; padding-inline: 8px; }
+  .hero-chart .chart-scroll { height: 260px; }
+  .hero-chart svg { min-width: 0; }
+  .hero-chart-caption { flex-wrap: wrap; }
+  .service-hero > .chart-legend { padding: 8px 10px 12px; gap: 10px; }
+}
+.metric-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hero-reading { display: grid; text-align: right; flex-shrink: 0; }
+.hero-reading strong { color: var(--accent); font-size: 28px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.hero-reading span { font-size: 10px; color: var(--text-muted); }
+@media (max-width: 600px) { .hero-reading strong { font-size: 20px; } .hero-chart h2 { font-size: 14px; } }
+
+.hero-chart .chart-tooltip { position: absolute; inset: 8px 10px auto auto; margin: 0; min-height: 0; max-width: calc(100% - 20px); opacity: 0; }
+.hero-chart .chart-tooltip { pointer-events: none; }
+.hero-chart .chart-tooltip.tooltip-visible { opacity: 1; }
+.hero-chart .phase-band.UNKNOWN { opacity: .08; }
+.service-hero .chart-legend .state-degraded::before { background: var(--danger); height: 8px; opacity: .5; }
+.service-hero .chart-legend .state-recovery::before { background: var(--success); }
+.service-hero .chart-legend .state-unknown::before { background: var(--text-muted); }
+
+.hero-chart .chart-crosshair, .hero-chart .selected-dot { pointer-events: none; }
+
+.hero-chart .chart-scroll svg text { font-size: 10px; }
+.service-hero .actual-line { animation: none; }
+app-connected-overview .compact-chart { padding: 0 8px; margin: 0; box-shadow: none; background: var(--transparent); }
+app-connected-overview .compact-chart .plot-wrapper { margin: 0; }
+app-connected-overview .compact-chart .chart-scroll { height: 200px; overflow: hidden; }
+app-connected-overview .compact-chart svg { min-width: 0; }
+app-connected-overview .compact-chart .actual-line { animation: none; }
+app-connected-overview .compact-chart .chart-tooltip { inset: 4px 8px auto auto; padding: 8px; font-size: 10px; }
+app-connected-overview .compact-chart .chart-tooltip strong { font-size: 16px; }

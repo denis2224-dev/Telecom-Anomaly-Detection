@@ -41,7 +41,7 @@ export class IncidentStream {
   private readonly http = inject(HttpClient);
   private readonly session = inject(SessionStore);
 
-  connect(refresh: () => void, interrupted: () => void): () => void {
+  connect(refresh: () => void, interrupted: () => void, connected: () => void = () => {}): () => void {
     if (dataSource.fixture || this.session.phase() !== 'authenticated') {
       return () => {};
     }
@@ -72,6 +72,7 @@ export class IncidentStream {
     // The stream has no durable replay, so both cases require a REST snapshot.
     source.onopen = () => {
       if (!active()) return close();
+      connected();
       refresh();
     };
 

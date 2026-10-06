@@ -1,5 +1,6 @@
 import { ServiceContextComponent } from '../../shared/service-context.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { StatusBannerComponent } from '../../shared/status-banner.component';
 import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -13,7 +14,7 @@ import { IncidentActionsComponent } from './incident-actions.component';
 import { deviation, metricLabel, primaryMetric, supportedValue } from '../../shared/metric-presentation';
 
 @Component({
-  selector: 'app-incident-detail', imports: [ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  selector: 'app-incident-detail', imports: [StatusBannerComponent, ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
     @if (incident(); as item) { <app-service-context [current]="item.service" /> }
@@ -21,6 +22,9 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
       <button type="button" class="ghost" (click)="load()"><app-icon name="refresh" />Refresh incident</button>
     }
     </div>
+    @if (connectionInterrupted()) {
+      <app-status-banner [message]="connectionInterrupted()" [busy]="loading()" (retry)="load()" />
+    }
     @if (loading()) { <section class="state-panel skeleton-panel" role="status">Loading incident evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
     @if (streamError()) { <p role="status">{{ streamError() }}</p> }
     @if (error()) { <section role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()">Retry</button></section> }
@@ -89,6 +93,7 @@ export class IncidentDetailComponent {
   private refreshTimer?: ReturnType<typeof setTimeout>;
   private refreshing = false;
   readonly streamError = signal('');
+  readonly connectionInterrupted = signal('');
   readonly timeline = signal<components['schemas']['AuditEvent'][]>([]);
   private id = '';
   private generation = 0;
@@ -188,7 +193,8 @@ export class IncidentDetailComponent {
       this.streamError.set('');
       if (!this.closeStream) this.closeStream = this.stream.connect(
         () => this.queueRefresh(),
-        () => this.streamError.set('Live connection interrupted. Reconnecting…'));
+        () => this.connectionInterrupted.set('Live connection interrupted. Reconnecting…'),
+        () => this.connectionInterrupted.set(''));
     } catch (error) {
       controller.abort();
       if (generation === this.generation) {

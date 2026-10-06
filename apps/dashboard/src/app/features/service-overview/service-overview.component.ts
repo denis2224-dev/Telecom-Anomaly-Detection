@@ -1,8 +1,10 @@
 import { Component, DestroyRef, inject, signal, computed } from "@angular/core";
+import { DatePipe } from '@angular/common';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { StatusBannerComponent } from '../../shared/status-banner.component';
 import { IconComponent } from "../../shared/icon.component";
-import { IncidentStream } from '../../core/state/incident-stream';
+import { LiveUpdates } from '../../core/state/live-updates';
 import { SessionStore } from '../login-and-session/session.store';
 import { dataSource } from '../../core/api/data-source';
 import { delta } from '../service-kpi-history/assurance-model';
@@ -14,21 +16,28 @@ import type { Filter } from './dashboard-geography';
 
 @Component({
   selector: "app-service-overview",
-  imports: [RouterLink, IconComponent, ConnectedOverviewComponent],
+  imports: [DatePipe, StatusBannerComponent, RouterLink, IconComponent, ConnectedOverviewComponent],
   templateUrl: "./service-overview.component.html",
   styles: [`
-    .page-heading { margin-bottom: 10px; }
+    .page-heading { margin-bottom: 6px; gap: 12px; }
     .page-heading h1 { font-size: 24px; margin: 2px 0; }
     .page-heading .eyebrow { display: none; }
     .page-heading p:not(.eyebrow) { display: none; }
-    .stat-grid.four .stat-card { display: grid; grid-template-columns: 1fr auto; align-items: center; }
-    .stat-grid.four .stat-card .helper, .stat-grid.four .stat-card .stat-trend { display: none; }
-    .stat-grid.four .stat-label .icon { display: none; }
-    .stat-grid.four { gap: 8px; margin: 8px 0; }
-    .stat-grid.four .stat-card { padding: 6px 10px; }
-    .stat-grid.four .metric-value { font-size: 22px; margin: 2px 0; }
-    .stat-grid.four .stat-label { font-size: 11px; }
-    .stat-grid.four .helper, .stat-grid.four .stat-trend { font-size: 10px; }
+    .page-heading .heading-copy { flex: 1; }
+    .page-heading button { min-height: 36px; }
+    .kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 8px 12px; background: var(--surface); border-radius: var(--radius-control); }
+    .kpi-strip > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+    .kpi-strip span { color: var(--text-muted); font-size: 11px; }
+    .kpi-strip strong { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    @media (max-width: 600px) {
+      .page-heading { flex-wrap: nowrap; gap: 8px; align-items: center; }
+      .page-heading h1 { font-size: 18px; }
+      .page-heading button { padding: 8px; }
+      .refresh-copy { display: none; }
+      .kpi-strip { gap: 8px; padding: 8px; }
+      .kpi-strip > div { display: grid; gap: 2px; }
+      .kpi-strip span { font-size: 9px; }
+    }
     .source-inventory { margin-top: 14px; }
     .source-inventory > summary { padding: 10px; cursor: pointer; color: var(--text-muted); }
   `],
@@ -37,6 +46,7 @@ export class ServiceOverviewComponent {
   readonly store = inject(ServiceStore);
   private readonly destroyRef = inject(DestroyRef);
   readonly services = this.store.services;
+  readonly fixture = dataSource.fixture;
   readonly loading = this.store.loading;
   readonly error = this.store.error;
   readonly serviceFilter = signal<Filter>('ALL');
@@ -46,6 +56,7 @@ export class ServiceOverviewComponent {
   }
   readonly visibleServices = computed(() => this.services().filter(item => this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter()));
   readonly healthyCount = computed(() => this.services().filter(item => this.health(item) === 'NORMAL').length);
+  readonly ongoingCount = computed(() => new Set(this.store.incidents().filter(item => item.technicalState === 'ONGOING').map(item => item.episodeId)).size);
   readonly openCount = computed(() => this.services().reduce((sum, item) => sum + item.openIncidents, 0));
   readonly observedCount = computed(() => this.services().filter(item => item.latestWindow !== null).length);
   mainMetric(service: Parameters<ServiceStore['health']>[0]): string {
@@ -58,9 +69,8 @@ export class ServiceOverviewComponent {
   readonly scopeId = signal<string | null>(null);
   readonly difference = delta;
   readonly streamError = signal('');
-  private readonly stream = inject(IncidentStream);
+  readonly live = inject(LiveUpdates);
   private closeStream?: () => void;
-  private currentTimer?: ReturnType<typeof setInterval>;
   private refreshTimer?: ReturnType<typeof setTimeout>;
   private refreshing = false;
   private refreshAgain = false;
@@ -74,11 +84,9 @@ export class ServiceOverviewComponent {
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => this.scopeId.set(params.get("scopeId")));
-    void this.load();
     const stop = () => {
       this.active = false;
       this.refreshAgain = false;
-      clearInterval(this.currentTimer);
       clearTimeout(this.refreshTimer);
       this.closeStream?.();
       this.closeStream = undefined;
@@ -87,27 +95,28 @@ export class ServiceOverviewComponent {
     this.destroyRef.onDestroy(stop);
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(stop);
     if (!dataSource.fixture) {
-      this.closeStream = this.stream.connect(() => {
+      this.closeStream = this.live.watch(() => {
         clearTimeout(this.refreshTimer);
-        this.refreshTimer = setTimeout(() => void this.load(true), 150);
-      }, () => this.streamError.set('Live connection interrupted. Existing evidence is still shown; reconnecting…'));
-      this.currentTimer = setInterval(() => void this.load(true), 30_000);
+        this.refreshTimer = setTimeout(() => { if (this.live.visible()) void this.load(true); }, 150);
+      }, () => this.streamError.set('Live connection interrupted. Existing evidence is still shown; reconnecting…'),
+      () => this.streamError.set(''));
     }
+    void this.load();
   }
 
-  async load(quiet = false): Promise<void> {
+  async load(quiet = this.services().length > 0): Promise<void> {
     if (!this.active) return;
     if (quiet && this.refreshing) { this.refreshAgain = true; return; }
     this.refreshing = true;
     try {
       await this.store.load(quiet);
-      if (!this.store.error()) this.streamError.set('');
+      if (!this.error()) this.live.updated();
     } finally {
       this.refreshing = false;
       if (this.active && this.refreshAgain) {
         this.refreshAgain = false;
         clearTimeout(this.refreshTimer);
-        this.refreshTimer = setTimeout(() => void this.load(true), 150);
+        this.refreshTimer = setTimeout(() => { if (this.live.visible()) void this.load(true); }, 150);
       }
     }
   }

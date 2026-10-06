@@ -152,7 +152,8 @@ test.describe('Browser resource bounds', () => {
 
     await page.getByLabel('From (UTC)', { exact: true }).fill('2026-10-04T12:00');
     await page.getByRole('button', { name: 'Apply time range' }).click();
-    await expect(page.locator('.actual-dot')).toHaveCount(1440);
+    // Dense history is one path; retain every observation without 1,440 DOM markers.
+    await expect.poll(async () => (await page.locator('.service-hero .actual-line').getAttribute('d'))?.match(/[ML]/g)?.length ?? 0).toBe(1440);
     expect(data.reads() - before).toBe(15);
     await expect(page.locator('[data-window-id]')).toHaveCount(50);
     await page.locator('.exact-values > summary').click();
@@ -169,7 +170,7 @@ test.describe('Browser resource bounds', () => {
     const readsBeforeHint = data.incidentReads();
     await page.evaluate(() => (window as any).__day15.stream.hint());
     await expect.poll(data.incidentReads).toBeGreaterThan(readsBeforeHint);
-    await expect(page.getByText('Refreshing incident page…')).toHaveCount(0);
+    await expect(page.getByText('Updating…', { exact: true })).toHaveCount(0);
     await expect(page.locator('.episode-card')).toHaveCount(20);
 
     await page.getByRole('link', { name: 'Open incident detail' }).first().click();
@@ -213,7 +214,8 @@ test.describe('Browser resource bounds', () => {
     await page.getByLabel('To (UTC, exclusive)').fill('2026-10-05T12:00');
     let started = performance.now();
     await page.getByRole('button', { name: 'Apply time range' }).click();
-    await expect(page.locator('.actual-dot')).toHaveCount(1440);
+    // Dense history is one path; retain every observation without 1,440 DOM markers.
+    await expect.poll(async () => (await page.locator('.service-hero .actual-line').getAttribute('d'))?.match(/[ML]/g)?.length ?? 0).toBe(1440);
     await paint(page);
     const maximumRange = { uiReadyMs: performance.now() - started, ...await sample() };
     const samples: { iteration: number; uiReadyMs: number; heapBytes: number; domNodes: number }[] = [];
