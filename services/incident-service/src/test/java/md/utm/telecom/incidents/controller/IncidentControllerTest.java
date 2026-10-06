@@ -139,7 +139,11 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
                 .andExpect(jsonPath("$.latestSequence").value(2))
                 .andExpect(jsonPath("$.latestDetection.sequence").value(2))
                 .andExpect(jsonPath("$.latestDetection.detectionId")
-                        .value("episode-detail-detection-2"));
+                        .value("episode-detail-detection-2"))
+                .andExpect(jsonPath("$.presentation.impactState").value("CURRENT"))
+                .andExpect(jsonPath("$.presentation.currentImpact.extraFailedAttempts")
+                        .value(53))
+                .andExpect(jsonPath("$.presentation.causeConfidence").value("LOW"));
     }
 
     @Test
@@ -210,6 +214,13 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
                     .andExpect(jsonPath("$.items[0].impact.uniqueSubscribers")
                             .value(nullValue()));
         }
+        mvc.perform(authenticatedGet("/api/incidents/{id}", incident.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.presentation.impactState").value("RECOVERED"))
+                .andExpect(jsonPath("$.presentation.currentImpact.extraFailedAttempts")
+                        .value(0))
+                .andExpect(jsonPath("$.presentation.retainedImpact").value(nullValue()))
+                .andExpect(jsonPath("$.presentation.causeConfidence").value("LOW"));
     }
 
     @Test
@@ -331,17 +342,20 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
         String payload = """
                 {"schemaVersion":2,"detectionId":"%s","episodeId":"%s",
                  "sequence":%d,"phase":"%s","service":"%s","scopeId":"%s",
+                 "windowEnd":"%s","causeConfidence":"LOW",
                  "probableCause":"Check IMS dependency",
                  "evidence":[{"code":"IMS_CPU_HIGH","summary":"CPU high",
                               "nodeId":"IMS-A",
                               "sourceEventIds":["00000000-0000-0000-0000-000000000001"]}],
                  "kpis":[{"name":"CSSR","observed":94,"baseline":99.3,
                           "unit":"PERCENT","numerator":940,"denominator":1000}],
-                 "impact":{"extraFailedAttempts":53,
+                 "impact":{"extraFailedAttempts":%d,
                            "affectedDeliveredMessages":0,"pendingMessages":0,
                            "uniqueSubscribers":null}}
                 """.formatted(
-                detectionId, episodeId, sequence, phase, service, scopeId);
+                detectionId, episodeId, sequence, phase, service, scopeId,
+                windowStart.plusSeconds(60),
+                phase == DetectionEvidence.Phase.RECOVERY ? 0 : 53);
         return new DetectionEvidence(
                 detectionId, episodeId, sequence, phase, service, scopeId,
                 windowStart, windowStart.plusSeconds(60), detectedAt, payload);
