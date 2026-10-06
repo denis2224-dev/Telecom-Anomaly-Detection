@@ -19,8 +19,9 @@ html.login-pf, .login-pf body { background: var(--bg); color: var(--text); font-
 .login-pf-page .pf-c-input-group button::after { border: 0; }
 #kc-login, .login-pf-page .btn, .login-pf-page .pf-c-button.pf-m-primary, .login-pf-page .pf-c-button.pf-m-secondary { border: 0; border-radius: var(--radius-control); min-height: 46px; font: 600 14px var(--font-family); text-shadow: none; padding: 11px 17px; white-space: normal; transition: transform var(--transition), box-shadow var(--transition); }
 .login-pf-page .btn-default, .login-pf-page .pf-c-button.pf-m-secondary { background: var(--surface-raised); color: var(--text); }
-#kc-login, .login-pf-page .btn-primary, .login-pf-page .pf-c-button.pf-m-primary { background: linear-gradient(115deg,var(--accent),var(--accent-end)); color: var(--bg); box-shadow: 0 4px 18px var(--accent-glow); }
+#kc-login, .login-pf-page .btn-primary, .login-pf-page .pf-c-button.pf-m-primary { background: var(--accent); color: var(--bg); box-shadow: 0 4px 18px var(--accent-glow); }
 #kc-login:hover, .login-pf-page .btn:hover { transform: translateY(-1px); }
+#kc-login:hover, .login-pf-page .btn-primary:hover, .login-pf-page .pf-c-button.pf-m-primary:hover { background: var(--accent-end); }
 #kc-login:active, .login-pf-page .btn:active { transform: translateY(1px); }
 .login-pf-page a { color: var(--accent); text-underline-offset: 4px; }
 .login-pf-page :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; box-shadow: 0 0 0 5px var(--accent-glow); }
