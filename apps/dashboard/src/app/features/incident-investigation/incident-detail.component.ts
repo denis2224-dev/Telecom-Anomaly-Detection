@@ -10,6 +10,7 @@ import { dataSource } from '../../core/api/data-source';
 import { IncidentStream } from '../../core/state/incident-stream';
 import { EvidenceTimelineComponent } from './evidence-timeline.component';
 import { IncidentActionsComponent } from './incident-actions.component';
+import { deviation, metricLabel, primaryMetric, supportedValue } from '../../shared/metric-presentation';
 
 @Component({
   selector: 'app-incident-detail', imports: [ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
@@ -102,15 +103,11 @@ export class IncidentDetailComponent {
   readonly detections = signal<components['schemas']['ServiceDetection'][]>([]);
   readonly latestDeviation = computed(() => {
     const detection = this.incident()?.latestDetection;
-    if (!detection || detection.phase === 'UNKNOWN') return 'Unavailable';
-    const completed = detection.kpis.find(kpi => kpi.name === 'deliveredMessages')?.observed;
-    const kpi = detection.kpis.find(value => value.observed !== null
-      && value.baseline !== null && value.denominator !== 0
-      && (value.name !== 'p95DeliveryMs' || (completed !== null && completed !== undefined && completed > 0)));
-    if (!kpi) return 'Unavailable';
-    const difference = Math.round((kpi.observed! - kpi.baseline!) * 100) / 100;
-    const unit = kpi.unit === 'PERCENT' ? 'pp' : kpi.unit === 'MILLISECONDS' ? 'ms' : kpi.unit;
-    return `${kpi.name}: ${difference > 0 ? '+' : ''}${difference} ${unit}`;
+    if (!detection || detection.phase === 'UNKNOWN') return 'Comparison unavailable';
+    const kpi = primaryMetric(detection.service, detection.kpis);
+    const actual = supportedValue(kpi, detection.kpis);
+    if (!kpi || actual === null || kpi.baseline === null) return 'Comparison unavailable';
+    return `${metricLabel(kpi.name)}: ${deviation(kpi, actual)}`;
   });
 
   constructor() {

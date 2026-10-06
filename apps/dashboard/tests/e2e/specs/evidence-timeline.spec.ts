@@ -22,7 +22,7 @@ async function mockSessionAndIncident(page: Page) {
   await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
   await page.route('**/api/incidents/stream', route => route.fulfill({ contentType: 'text/event-stream', body: ': controlled UI fixture\n\n' }));
   await page.route('**/api/auth/me', route => route.fulfill({ json: {
-    analystId: 'day8-test', displayName: 'Day 8 tester', roles: ['ANALYST'],
+    analystId: 'day8-test', displayName: 'Evidence tester', roles: ['ANALYST'],
     expiresAt: new Date(Date.now() + 600000).toISOString(),
   } }));
   await page.route('**/api/incidents/*/timeline?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100 } }));
@@ -35,7 +35,7 @@ async function mockSessionAndIncident(page: Page) {
   } }));
 }
 
-test.describe('Day 8 controlled historical evidence', () => {
+test.describe('Controlled historical evidence', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled API responses do not verify live ingestion or login');
 
   for (const width of [1366, 390]) {

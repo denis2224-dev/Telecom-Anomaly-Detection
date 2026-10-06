@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
-class DetectionReplayIT extends Day13TestSupport {
+class DetectionReplayIT extends ReplayTestSupport {
     void windows(String service, int minutes) throws Exception {
         for (int minute = 0; minute < minutes; minute++) {
             var start = START.plusSeconds(minute * 60L);

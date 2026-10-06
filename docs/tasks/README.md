@@ -1,15 +1,14 @@
-# Start here — find your task
+# Project guides
 
-The code folders are named after what they do. Task guides link to the shared code
-so there is one implementation to maintain, even when several days use it.
+Feature guides link to shared implementations, setup instructions and verification evidence.
 
-## Open a task guide
+## Feature guides
 
 - [Foundations and service overview](foundations-and-service-overview/README.md) — shared contracts, overview screen and earlier backend evidence.
-- [Day 03: login and session](day-03-login-and-session/README.md) — sign-in page, access protection, Keycloak styling and account setup.
-- [Day 05: voice KPI trend](day-05-voice-kpi-trend/README.md) — graph, expected values, attempt counts and one card per incident.
-- [Day 06: protected voice investigation](day-06-protected-voice-investigation/README.md) — complete login-to-evidence flow and exact startup commands.
-- [Day 08: evidence timeline and cause panel](day-08-evidence-timeline-and-cause/README.md) — historical detections, source evidence, impact and cause hypotheses.
+- [Login and session](login-and-session/README.md) — sign-in page, access protection, Keycloak styling and account setup.
+- [Voice KPI trend](voice-kpi-trend/README.md) — graph, expected values, attempt counts and one card per incident.
+- [Protected voice investigation](protected-voice-investigation/README.md) — complete login-to-evidence flow and exact startup commands.
+- [Evidence timeline and cause panel](evidence-timeline-and-cause/README.md) — historical detections, source evidence, impact and cause hypotheses.
 
 ## Frontend folders
 

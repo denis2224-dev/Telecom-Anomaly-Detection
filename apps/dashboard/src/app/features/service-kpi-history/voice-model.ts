@@ -2,7 +2,9 @@ import type { components } from '../../core/api/schema';
 export type KpiWindow = components['schemas']['ServiceKpiWindow'];
 export type Incident = components['schemas']['Incident'];
 export function cssr(window: KpiWindow) {
-  return window.kpis.find(kpi => kpi.name === 'cssrPct' && kpi.unit === 'PERCENT');
+  return window.kpis.find(kpi =>
+    (kpi.name === 'cssrPct' || kpi.name === 'Call setup success rate (CSSR)')
+    && kpi.unit === 'PERCENT');
 }
 export function observed(window: KpiWindow): number | null {
   const kpi = cssr(window);

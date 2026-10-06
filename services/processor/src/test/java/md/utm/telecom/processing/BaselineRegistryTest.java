@@ -19,6 +19,21 @@ class BaselineRegistryTest {
         return ObservationValidator.resource(path, MAPPER);
     }
 
+    @Test void geographicCompatibilityRequiresTheExactHistoricalScopeAuthority() throws Exception {
+        var registry = new BaselineRegistry();
+        for (String scope : java.util.List.of("VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A")) {
+            assertTrue(registry.acceptsTopology(scope, "2-baseline"));
+            assertTrue(registry.acceptsTopology(scope, "2-geography-g1"));
+            assertFalse(registry.acceptsTopology(scope, "2-geography-g2"));
+        }
+        assertFalse(registry.acceptsTopology("VOLTE-MD-CHI", "2-geography-g1"));
+        var topology = resource("topology/demo-scopes-v2.json");
+        ((ObjectNode) topology.path("scopes").get(0)).put("serviceSourceId", "OTHER-ADAPTER");
+        var changed = new BaselineRegistry(resource("baselines/demo-baseline-v2.json"), topology);
+        assertFalse(changed.acceptsTopology("VOLTE-MD-CENTRAL", "2-geography-g1"));
+        assertTrue(changed.acceptsTopology("SMS-MD-ROUTE-A", "2-geography-g1"));
+    }
+
     @Test
     void exactUtcHoursAndAllDemoCoverage() throws Exception {
         var registry = new BaselineRegistry();

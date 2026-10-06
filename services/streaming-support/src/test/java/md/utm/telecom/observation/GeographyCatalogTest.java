@@ -11,6 +11,20 @@ import org.junit.jupiter.api.TestFactory;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GeographyCatalogTest {
+    @Test void activationHasDistinctImmutableVersionAndDigestWithoutMutatingDayOne() throws Exception {
+        var start = java.time.Instant.parse("2026-10-05T08:00:00Z");
+        var frozen = GeographyCatalog.load();
+        var active = GeographyCatalog.activate(start);
+        assertEquals("ACTIVE",active.activation().status());
+        assertEquals(start,active.activation().effectiveFrom());
+        assertNotEquals(frozen.catalogueVersion(),active.catalogueVersion());
+        assertNotEquals(frozen.catalogueDigest(),active.catalogueDigest());
+        assertEquals(active.catalogueVersion(),GeographyCatalog.activate(start).catalogueVersion());
+        assertEquals(active.catalogueDigest(),GeographyCatalog.activate(start).catalogueDigest());
+        assertNotEquals(active.catalogueVersion(),GeographyCatalog.activate(start.plusSeconds(60)).catalogueVersion());
+        assertEquals("CONTRACT_ONLY",GeographyCatalog.load().activation().status());
+        assertThrows(IllegalArgumentException.class,() -> GeographyCatalog.activate(start.plusSeconds(1)));
+    }
     private final ObjectMapper mapper = new ObjectMapper();
     @TestFactory
     List<DynamicTest> sharedMalformedMappings() throws Exception {

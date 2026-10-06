@@ -69,7 +69,7 @@ export class ServiceStore {
       STALE:
         "The last observation is stale. Current service health cannot be confirmed.",
       UNKNOWN:
-        "Monitoring data is missing. Service health is unknown; no healthy value can be inferred.",
+        'Service health is unknown: current measurements, sample support, or an expected value are unavailable. Open the service evidence to check what is missing.',
     }[health];
   }
 }

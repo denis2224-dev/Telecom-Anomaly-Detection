@@ -127,7 +127,7 @@ Use `KAFKA_BOOTSTRAP_SERVERS` for readiness connectivity. See the
 generation and live HTTP probes against an embedded Kafka broker.
 `scripts/check-streaming-smoke.py` checks packaged previews and unavailable-broker
 startup. The [runbook](../runbooks/streaming.md#validation-and-tests) lists commands.
-The [Day 03 G0 evidence](../evidence/2026-09-17-g0-streaming.md) records fixture
+The [Streaming foundation evidence](../evidence/2026-09-17-g0-streaming.md) records fixture
 ownership, negative tests, runtime checks and the remaining shared database gate.
 
 ## Limitations

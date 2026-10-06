@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import services from '../../../src/fixtures/services.json';
 import { voiceWindows, voiceIncidents } from '../../../src/fixtures/voice';
 
-test.describe('Day 5 voice investigation', () => {
+test.describe('Voice investigation', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Uses controlled API responses; real login runs separately');
   test.beforeEach(async ({ page }) => {
     await page.route('**/api/incidents/stream', route => route.fulfill({ contentType: 'text/event-stream', body: ': controlled UI fixture\n\n' }));

@@ -48,9 +48,9 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Test-only fixtures: real runtime role/proxies, independent observers, and disposable SQL gates. */
-@SpringJUnitConfig(Day13TestSupport.Config.class)
+@SpringJUnitConfig(ReplayTestSupport.Config.class)
 @Timeout(90)
-abstract class Day13TestSupport {
+abstract class ReplayTestSupport {
     static final ObjectMapper JSON = new ObjectMapper();
     static final Instant START = Instant.parse("2026-09-15T08:00:00Z");
     static final Instant CLOSURE = START.plusSeconds(70);

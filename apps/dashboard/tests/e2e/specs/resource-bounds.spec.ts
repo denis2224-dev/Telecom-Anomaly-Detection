@@ -58,7 +58,7 @@ async function setup(page: Page) {
     (window as any).__day15 = state;
   });
   await page.route('**/api/auth/me', route => route.fulfill({ json: {
-    analystId: 'day15-test', displayName: 'Day 15 tester', roles: ['ANALYST'],
+    analystId: 'day15-test', displayName: 'Resource tester', roles: ['ANALYST'],
     expiresAt: new Date(Date.now() + 3_600_000).toISOString(),
   } }));
   await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
@@ -134,7 +134,7 @@ async function paint(page: Page) {
     requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 
-test.describe('Day 15 browser resource bounds', () => {
+test.describe('Browser resource bounds', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled dataset; use real login separately for backend evidence');
 
   test('bounds history, replaces pages, and closes the stream on navigation', async ({ page }) => {

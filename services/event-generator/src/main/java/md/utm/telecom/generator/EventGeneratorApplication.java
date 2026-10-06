@@ -12,7 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@Import(BoundaryConfiguration.class)
+@Import({BoundaryConfiguration.class, md.utm.telecom.observation.GeographicRuntimeConfiguration.class})
 public class EventGeneratorApplication {
     public static void main(String[] args) { SpringApplication.run(EventGeneratorApplication.class, args); }
 

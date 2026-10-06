@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import md.utm.telecom.observation.ObservationValidator;
+import md.utm.telecom.observation.GeographyCatalog.Role;
 import org.springframework.stereotype.Component;
 
 /** Eight measured synthetic minutes: healthy, three degraded, missing, three healthy.
@@ -45,17 +46,30 @@ public class VoiceScenario {
         }
         return List.copyOf(result);
     }
-    /** Flat compatibility view of the Day 10 windows. */
+    /** Flat compatibility view of the scheduled scenario windows. */
     public List<String> generate(Instant start, long seed, Profile profile) {
         return generateWindows(start, seed, profile).stream().flatMap(List::stream).toList();
     }
 
-    /** Eight explicit minute windows; the legacy G1 generate method is unchanged. */
+    /** Eight explicit minute windows; the legacy generate method is unchanged. */
     public List<List<String>> generateWindows(Instant start, long seed, Profile profile) {
         return generateWindows(start, seed, profile, 8);
     }
 
     private List<List<String>> generateWindows(Instant start, long seed, Profile profile, int minutes) {
+        return generateWindows(start, seed, profile, minutes, null);
+    }
+
+    private List<List<String>> generateWindows(Instant start, long seed, Profile profile, int minutes,
+                                              GenerationContext context) {
+        if (context != null) context.requireService("VOLTE");
+        String scope = context == null ? "VOLTE-MD-CENTRAL" : context.scope().scopeId();
+        String serviceSource = context == null ? "VOLTE-ADAPTER" : context.scope().serviceSourceId();
+        var ims = context == null ? new md.utm.telecom.observation.TopologyCatalog.Node("IMS-A", "IMS-A")
+                : context.role(Role.VOLTE_IMS);
+        var transportNode = context == null
+                ? new md.utm.telecom.observation.TopologyCatalog.Node("TRANSPORT-A", "TRANSPORT-A")
+                : context.role(Role.VOLTE_TRANSPORT);
         if (start.getNano() != 0 || Math.floorMod(start.getEpochSecond(), 60) != 0)
             throw new IllegalArgumentException("Start must be an aligned UTC minute");
         var result = new ArrayList<List<String>>();
@@ -70,21 +84,20 @@ public class VoiceScenario {
                 result.add(List.of());
                 continue;
             }
-            ObjectNode node = event(from, "IMS-A", "NODE", "COMPLETE");
-            node.put("nodeId", "IMS-A");
+            ObjectNode node = event(from, ims.sourceId(), "NODE", "COMPLETE", scope);
+            node.put("nodeId", ims.nodeId());
             node.putObject("metrics").put("cpuPct", overload ? 97 : 35);
             validator.validate(node);
             window.add(node.toString());
-            ObjectNode transport = event(from, "TRANSPORT-A", "NODE", "COMPLETE");
-            transport.put("nodeId", "TRANSPORT-A");
+            ObjectNode transport = event(from, transportNode.sourceId(), "NODE", "COMPLETE", scope);
+            transport.put("nodeId", transportNode.nodeId());
             transport.putObject("metrics").put("packetLossRatio", 0.001).put("throughputMbps", 120);
             validator.validate(transport);
             window.add(transport.toString());
 
-            ObjectNode service = event(from, "VOLTE-ADAPTER", "SERVICE", "COMPLETE");
+            ObjectNode service = event(from, serviceSource, "SERVICE", "COMPLETE", scope);
             service.put("service", "VOLTE");
-            // Day 10 values are fixed by the Common Guide. Seed is command
-            // metadata here; it never changes observation identity.
+            // Fixed scenario measurements; seed metadata does not affect observation identity.
             service.putObject("metrics").put("attempts", 1020).put("userOutcomes", 20)
                     .put("technicalSuccesses", overload ? 940 : 993)
                     .put("technicalFailures", overload ? 60 : 7)
@@ -99,27 +112,32 @@ public class VoiceScenario {
     }
     /** Healthy variation uses the canonical control envelopes and measurement relationships. */
     public List<String> generateHealthyWindow(Instant start, long seed) {
-        var control = generateWindows(start, seed, Profile.NORMAL_CONTROL, 1).getFirst();
-        var rng = new java.util.SplittableRandom(seed ^ start.getEpochSecond());
+        return generateHealthyWindow(start, seed, null);
+    }
+
+    public List<String> generateHealthyWindow(Instant start, long seed, GenerationContext context) {
+        var control = generateWindows(start, seed, Profile.NORMAL_CONTROL, 1, context).getFirst();
+        long measurementSeed = context == null ? seed : context.measurementSeed(seed);
+        var rng = new java.util.SplittableRandom(measurementSeed ^ start.getEpochSecond());
+        String imsSource = context == null ? "IMS-A" : context.role(Role.VOLTE_IMS).sourceId();
+        String transportSource = context == null ? "TRANSPORT-A" : context.role(Role.VOLTE_TRANSPORT).sourceId();
         var result = new ArrayList<String>();
         for (String payload : control) {
             ObjectNode observation;
             try { observation = (ObjectNode) json.readTree(payload); }
             catch (java.io.IOException invalid) { throw new IllegalStateException(invalid); }
             var metrics = (ObjectNode) observation.get("metrics");
-            switch (observation.path("sourceId").asText()) {
-                case "IMS-A" -> metrics.put("cpuPct", 30 + rng.nextInt(16));
-                case "TRANSPORT-A" -> metrics.put("packetLossRatio", 0.0005 + rng.nextDouble() * 0.001)
-                        .put("throughputMbps", 100 + rng.nextInt(41));
-                case "VOLTE-ADAPTER" -> {
+            String source = observation.path("sourceId").asText();
+            if (source.equals(imsSource)) metrics.put("cpuPct", 30 + rng.nextInt(16));
+            else if (source.equals(transportSource)) metrics.put("packetLossRatio", 0.0005 + rng.nextDouble() * 0.001)
+                    .put("throughputMbps", 100 + rng.nextInt(41));
+            else if (observation.path("kind").asText().equals("SERVICE")) {
                     int hour = start.atZone(java.time.ZoneOffset.UTC).getHour();
                     int eligible = (hour >= 8 && hour < 20 ? 1100 : 800) + rng.nextInt(101);
                     int failures = Math.max(1, (int) Math.round(eligible * (0.006 + rng.nextDouble() * 0.002)));
                     metrics.put("attempts", eligible + 20).put("technicalSuccesses", eligible - failures)
                             .put("technicalFailures", failures);
-                }
-                default -> throw new IllegalStateException("Unknown healthy source");
-            }
+            } else throw new IllegalStateException("Unknown healthy source");
             validator.validate(observation);
             result.add(observation.toString());
         }
@@ -127,10 +145,13 @@ public class VoiceScenario {
     }
 
     private ObjectNode event(Instant start, String source, String kind, String quality) {
-        String identity = String.join("|", "telecom-observation-v2", source, "VOLTE-MD-CENTRAL", kind, start.toString());
+        return event(start, source, kind, quality, "VOLTE-MD-CENTRAL");
+    }
+    private ObjectNode event(Instant start, String source, String kind, String quality, String scope) {
+        String identity = String.join("|", "telecom-observation-v2", source, scope, kind, start.toString());
         return json.createObjectNode().put("schemaVersion", 2)
                 .put("eventId", UUID.nameUUIDFromBytes(identity.getBytes(StandardCharsets.UTF_8)).toString())
-                .put("sourceId", source).put("scopeId", "VOLTE-MD-CENTRAL").put("kind", kind)
+                .put("sourceId", source).put("scopeId", scope).put("kind", kind)
                 .put("windowStart", start.toString()).put("windowEnd", start.plusSeconds(60).toString())
                 .put("emittedAt", start.plusSeconds(60).toString()).put("quality", quality);
     }

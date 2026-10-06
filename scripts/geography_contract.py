@@ -1,4 +1,4 @@
-"""Offline Day 1 companion authority and coverage contract, not a producer or detector."""
+"""Offline geography authority and coverage contract validation."""
 import copy
 import hashlib
 import json
@@ -205,7 +205,7 @@ def patch(value, updates):
         target[key] = replacement
     return result
 
-def validate_day1_contracts():
+def validate_geography_contracts():
     catalogue = read_json(ROOT / 'contracts/geography/demo-geography-v1.json')
     authority = read_json(ROOT / 'contracts/topology/geographic-scopes-v2.json')
     validate_catalogue(catalogue,authority)

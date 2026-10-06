@@ -5,10 +5,9 @@ This is a synthetic teaching/service-assurance environment, not a production ope
 
 ## Repository map
 
-Cached Graphify query/path navigation followed Angular `TelecomClient`, service overview/history,
-incident investigation, `ServiceOverviewController` / `ServiceController`, persisted detection
-evidence, processor `ServiceFeatureBuilder`, generator continuous/scenario execution and
-`TopologyCatalog`. No Graphify repair is included.
+The service path connects Angular `TelecomClient`, service overview/history and incident
+investigation to `ServiceOverviewController` / `ServiceController`, persisted detection evidence,
+processor `ServiceFeatureBuilder`, generator continuous/scenario execution and `TopologyCatalog`.
 
 ## SUPPORTED NOW
 

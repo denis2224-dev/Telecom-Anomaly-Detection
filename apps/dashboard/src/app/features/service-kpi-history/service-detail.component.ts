@@ -8,7 +8,7 @@ import { dataSource } from '../../core/api/data-source';
 import { IncidentStream, mergeIncidentPage } from '../../core/state/incident-stream';
 import { KpiChartComponent } from './kpi-chart.component';
 import { IncidentListComponent } from '../incident-investigation/incident-list.component';
-import { observed, type Incident, type KpiWindow } from './voice-model';
+import { type Incident, type KpiWindow } from './voice-model';
 import { SmsQualityComponent } from './sms-quality.component';
 import { SmsHistoryComponent } from './sms-history.component';
 import { HistoryRangeComponent, type HistoryRange } from './history-range.component';
@@ -20,6 +20,8 @@ import { serviceHealth } from './assurance-model';
 import { SessionStore } from '../login-and-session/session.store';
 
 import { IconComponent } from '../../shared/icon.component';
+import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
+import { primaryMetric, supportedValue } from '../../shared/metric-presentation';
 
 const PAGE_SIZE = 20;
 const MAX_WINDOWS = 1440;
@@ -27,7 +29,7 @@ const MAX_WINDOWS = 1440;
 @Component({
   selector: 'app-service-detail',
   imports: [ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
-    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
+    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a>
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
@@ -38,7 +40,18 @@ const MAX_WINDOWS = 1440;
     @if (!loading() && !error() && service(); as item) {
       <app-history-range [from]="from()" [to]="to()" (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
       <div class="range-caption"><span>{{ from() | date:'dd MMM yyyy HH:mm':'UTC' }} – {{ to() | date:'dd MMM yyyy HH:mm':'UTC' }} UTC</span><span>{{ item.scope.region }} · {{ item.scope.route }}</span></div>
+      @if (!item.latestWindow || item.latestWindow.quality === 'MISSING' || item.freshness === 'MISSING') {
+        <app-metric-explanation topic="missing-evidence" mode="state" />
+      } @else if (item.freshness === 'STALE') {
+        <app-metric-explanation topic="stale-evidence" mode="state" />
+      }
+      @if (item.scope.service === 'VOLTE') {
+        <app-metric-explanation topic="percentage-points" />
+      }
       <p class="helper">Current health: {{ health() }} · Technical recovery and analyst resolution are separate.</p>
+      @if (item.latestWindow && !hasBaseline(item.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs')) {
+        <app-metric-explanation topic="baseline-missing" mode="state" />
+      }
       <app-kpi-cards [service]="item" [windows]="windows()" />
       <details class="source-inventory"><summary>Service dependencies and source quality</summary>
         <app-service-path [service]="item" [detections]="detections()" />
@@ -128,9 +141,9 @@ export class ServiceDetailComponent {
   readonly summary = computed(() => {
     const rows = [...this.windows()].sort((a, b) => Date.parse(a.windowStart) - Date.parse(b.windowStart));
     const sms = this.service()?.scope.service === 'SMS';
-    const values = rows.map(row => sms
-      ? (row.quality === 'MISSING' || !row.kpis.find(kpi => kpi.name === 'deliveredMessages')?.observed ? null : row.kpis.find(kpi => kpi.name === 'p95DeliveryMs')?.observed ?? null)
-      : observed(row));
+    const values = rows.map(row => supportedValue(
+      primaryMetric(sms ? 'SMS' : 'VOLTE', row.kpis), row.kpis, row.quality,
+    ));
     const latest = values.at(-1) ?? null, first = values[0] ?? null;
     const delta = latest === null || first === null || rows.length < 2 ? null : Math.round((latest - first) * 100) / 100;
     const valid = values.filter((value): value is number => value !== null);

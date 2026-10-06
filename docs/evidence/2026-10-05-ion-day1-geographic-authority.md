@@ -9,8 +9,8 @@ Original checkout: `feature/volte-sms-service-assurance`, HEAD
 `8e456f8035308057514929e8839508a81a611f0e`. After successful refetch, origin/main is
 `c539b67a40ac776c693e9301fac91b035e4037bc`; original HEAD is 5 ahead / 43 behind.
 Original tracked changes in dashboard branding mark/tokens, matching Keycloak branding and `scripts/up`
-were preserved. Existing untracked `.agents/`, `.codex/`, `AGENTS.md`, telemetry audit artifacts and
-`graphify-out/` were preserved. Existing stash `stash@{0}` on feature/durable-scenario-handoff,
+were preserved. Existing untracked local instructions, telemetry audit files and analysis artifacts
+were preserved. Existing stash `stash@{0}` on feature/durable-scenario-handoff,
 `day11-g2-presync-2026-09-29`, was neither applied nor deleted.
 
 No accepted redesign integration branch was found. `feature/g1-streaming-slice` and

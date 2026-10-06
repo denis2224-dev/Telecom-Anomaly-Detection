@@ -94,8 +94,8 @@ def main():
         validate_observation(read_json(path))
     print(f"PASS: v2 schema and {len(fixtures)} independent observation fixtures")
     validate_detection_contracts()
-    from geography_contract import validate_day1_contracts
-    validate_day1_contracts()
+    from geography_contract import validate_geography_contracts
+    validate_geography_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)

@@ -5,8 +5,8 @@ No real customer data is used. Developed as a UTM internship project at Orange
 Systems Moldova.
 
 **Start here:** [Find each task, its code, and how to open it](docs/tasks/README.md).
-For the working Day 05–06 flow, use the
-[login and investigation instructions](docs/tasks/day-06-protected-voice-investigation/README.md).
+For the working login-to-investigation flow, use the
+[login and investigation instructions](docs/tasks/protected-voice-investigation/README.md).
 
 ## Architecture
 
@@ -104,6 +104,6 @@ Packaging, service startup and smoke tests are in the Streaming runbook.
 - [Streaming services: build, run and test](docs/runbooks/streaming.md)
 - [Incident API specification](contracts/openapi/incident-api.yaml)
 
-- [Detection definitions and day 1-4 interfaces](docs/detection-contracts.md)
+- [Detection definitions and interfaces](docs/detection-contracts.md)
 - [Python feature builder and shared cases](services/ml-service/README.md)
-- [Sergiu day 1-4 verification evidence](docs/evidence/2026-09-18-sergiu-days-1-4.md)
+- [Sergiu detection verification evidence](docs/evidence/2026-09-18-sergiu-days-1-4.md)

@@ -3,12 +3,15 @@ import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import type { components } from '../../core/api/schema';
 import { CauseEvidenceComponent } from './cause-evidence.component';
+import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
+import { SampleVolumeComponent } from '../service-kpi-history/sample-volume.component';
+import { metricLabel, primaryMetric, supportedValue, type Kpi } from '../../shared/metric-presentation';
 
 type Detection = components['schemas']['ServiceDetection'];
 
 @Component({
   selector: 'app-evidence-timeline',
-  imports: [DatePipe, CauseEvidenceComponent, IconComponent],
+  imports: [DatePipe, CauseEvidenceComponent, IconComponent, MetricExplanationComponent, SampleVolumeComponent],
   template: `
     <h2>Evidence timeline</h2>
 
@@ -41,6 +44,15 @@ type Detection = components['schemas']['ServiceDetection'];
         }
 
         <h4>Observed evidence</h4>
+        @if (baselineMissing(detection)) {
+          <app-metric-explanation topic="baseline-missing" mode="state" />
+        }
+        @if (detection.service === 'SMS') {
+          <app-sample-volume [count]="completedSamples(detection)" />
+          <app-metric-explanation topic="p95" />
+        } @else {
+          <app-metric-explanation topic="percentage-points" />
+        }
 
         <div
           class="evidence-table"
@@ -67,8 +79,8 @@ type Detection = components['schemas']['ServiceDetection'];
             <tbody>
               @for (kpi of detection.kpis; track kpi.name) {
                 <tr [attr.data-kpi]="kpi.name">
-                  <th scope="row">{{ kpi.name }}</th>
-                  <td>{{ kpi.observed ?? 'Unavailable' }}</td>
+                  <th scope="row">{{ label(kpi.name) }}</th>
+                  <td>{{ observedFor(detection, kpi) ?? 'Unavailable' }}</td>
                   <td>{{ kpi.baseline ?? 'Unavailable' }}</td>
                   <td>{{ kpi.unit }}</td>
                   <td>{{ kpi.numerator ?? 'Unavailable' }}</td>
@@ -86,6 +98,9 @@ type Detection = components['schemas']['ServiceDetection'];
         </p>
         <p class="helper">Unique subscribers: not available in aggregate demo</p>
         <p class="helper">Attempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.</p>
+        @if (detection.service === 'VOLTE') {
+          <app-metric-explanation topic="failed-attempts" />
+        }
         <p class="evidence-meta">Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
 
         <details>
@@ -114,12 +129,26 @@ type Detection = components['schemas']['ServiceDetection'];
         <details class="cause-details"><summary>Cause hypothesis &amp; recommended checks</summary><app-cause-evidence [detection]="detection" /></details>
       </article>
     } @empty {
-      <p role="status">No evidence updates available.</p>
+      <p role="status">No evidence updates available on this page. Refresh the incident or return to its first evidence page. This does not prove recovery.</p>
     }
   `,
 })
 export class EvidenceTimelineComponent {
   readonly detections = input<Detection[]>([]);
+  readonly label = metricLabel;
+
+  observedFor(detection: Detection, kpi: Kpi): number | null {
+    return supportedValue(kpi, detection.kpis, detection.phase === 'UNKNOWN' ? 'MISSING' : 'COMPLETE');
+  }
+
+  baselineMissing(detection: Detection): boolean {
+    return primaryMetric(detection.service, detection.kpis)?.baseline === null;
+  }
+
+  completedSamples(detection: Detection): number | null {
+    const kpi = detection.kpis.find(item => item.name === 'deliveredMessages' && item.unit === 'COUNT');
+    return supportedValue(kpi, detection.kpis, detection.phase === 'UNKNOWN' ? 'MISSING' : 'COMPLETE');
+  }
 
   readonly ordered = computed(() =>
     [...this.detections()].sort((a, b) => a.sequence - b.sequence),

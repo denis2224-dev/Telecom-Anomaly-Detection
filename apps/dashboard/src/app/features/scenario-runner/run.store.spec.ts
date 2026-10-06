@@ -4,7 +4,7 @@ import { TelecomClient } from '../../core/api/telecom-client';
 import { SessionStore } from '../login-and-session/session.store';
 import { RunStore } from './run.store';
 
-describe('Day 10 scenario command retry', () => {
+describe('Scenario command retry', () => {
   it('reuses the original request ID after an uncertain failure', async () => {
     const actor = {
       analystId: 'supervisor-1',

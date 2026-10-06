@@ -1,30 +1,14 @@
-# Day 14 — G3 analyst workflow and usability
+# Analyst workflow and usability
 
 **Friday, 2 October 2026** · Frontend acceptance guide
 
-## What you will finish
+## Acceptance workflow
 
 Walk through **login → service selection → claim → investigate → comment → technical recovery → resolve → logout** using a real analyst account and a dedicated incident that starts `ONGOING` and later recovers. Ask a teammate unfamiliar with telecom to explain the incident from the screen. Record the actual result and defects in `docs/evidence/2026-10-02-g3-ui.md`.
 
 This is an implementation guide, **not a claim that G3 has passed**. Current `main` already has a comment API caller and a basic comment form; this branch aligns them with the workflow below. The backend accepts `POST /api/incidents/{id}/comments`. The API contract also describes a read endpoint for the analyst audit timeline, but this checkout's backend controller does not implement that read endpoint. A successful comment can be confirmed from the UI and write response; a persistent comment-history display remains a defect to record until the backend read is available.
 
 The slide's `tests/e2e/specs/investigation.spec.ts` maps to **`apps/dashboard/tests/e2e/specs/investigation.spec.ts`** in this repository because that is Playwright's configured test directory. No new package is needed.
-
-## 1. Make a clean Day 14 branch
-
-The current checkout is on `resilient-sse-refresh`, the Day 13 branch. Day 14's workflow changes can start from current `main` independently. Run from the repository root:
-
-```sh
-cd /Users/davidnenita/Documents/PT/Telecom-Anomaly-Detection
-git status --short
-git switch main
-git pull --ff-only origin main
-git switch -c analyst-workflow-usability
-```
-
-If this guide is already an untracked file in your checkout, it will follow you to the new branch. Resolve any unrelated modified or deleted files before switching; in particular, do not carry deletions of older guides into Day 14. If `main` is occupied by another worktree, create the branch from the latest `origin/main` in a free checkout. Do not commit just for creating the branch.
-
-**Why?** Day 14 can be reviewed and merged without bringing in unfinished Day 13 commits. **App benefit:** the acceptance result is tied to one clear branch and commit set.
 
 ## 2. Add the existing comment API to the dashboard client
 
@@ -476,7 +460,7 @@ Do not paste passwords, tokens, cookies, CSRF values or full login URLs here.
 git diff --check
 git add \
   docs/evidence/2026-10-02-g3-ui.md \
-  Guides/Day-14-g3-analyst-workflow-and-usability.md
+  Guides/analyst-workflow-and-usability.md
 git diff --cached
 git commit -m "docs(evidence): record G3 analyst workflow and usability"
 ```
@@ -500,7 +484,7 @@ git status --short
 git push -u origin analyst-workflow-usability
 ```
 
-Open a PR against `main` titled **Day 14: G3 analyst workflow and usability**. Include the real test result, the usability participant's observations, and all remaining defects. Request review from the frontend owner and the teammate responsible for backend comment/audit behavior. Keep the PR in draft while the real run or acceptance decision is pending.
+Open a PR against `main` titled **Analyst workflow and usability**. Include the real test result, the usability participant's observations, and all remaining defects. Request review from the frontend owner and the teammate responsible for backend comment/audit behavior. Keep the PR in draft while the real run or acceptance decision is pending.
 
 **Merge when** the real end-to-end journey passes, required CI is green, the team accepts the analyst experience, and blocking defects are fixed. If the missing audit timeline is judged blocking, implement and verify it in the appropriate backend/frontend PR before accepting G3. Follow the team's approved merge method, then update your local `main`:
 

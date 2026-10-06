@@ -16,6 +16,7 @@ import static md.utm.telecom.observation.ObservationValidationException.Category
 public final class ObservationValidator {
     private final JsonSchema schema;
     private final TopologyCatalog topology;
+    private GeographyCatalog activeGeography;
 
     public ObservationValidator() throws IOException {
         this(TopologyCatalog.load());
@@ -29,6 +30,13 @@ public final class ObservationValidator {
                 resource("observations/telecom-observation-v2.schema.json", mapper), config);
     }
 
+    public ObservationValidator(GeographyCatalog geography) throws IOException {
+        this(geography.authority());
+        if (!geography.activation().status().equals("ACTIVE"))
+            throw new IllegalArgumentException("Runtime geography must be activated");
+        this.activeGeography = geography;
+    }
+
     public static JsonNode resource(String path, ObjectMapper mapper) throws IOException {
         try (var input = ObservationValidator.class.getResourceAsStream("/contracts/" + path)) {
             if (input == null) throw new IOException("Missing contract resource: " + path);
@@ -40,6 +48,11 @@ public final class ObservationValidator {
         var errors = schema.validate(event);
         if (!errors.isEmpty()) throw new ObservationValidationException(SCHEMA_INVALID, "Schema: " + errors);
         var start = Instant.parse(event.get("windowStart").asText());
+        if (activeGeography != null) {
+            var binding = activeGeography.bindings().get(event.path("scopeId").asText());
+            require(binding == null || binding.legacy() || !start.isBefore(activeGeography.activation().effectiveFrom()),
+                    "Geographic receipt precedes activation");
+        }
         var end = Instant.parse(event.get("windowEnd").asText());
         require(Duration.between(start, end).equals(Duration.ofMinutes(1)), "Expected one minute");
         require(!Instant.parse(event.get("emittedAt").asText()).isBefore(end), "emittedAt before end");

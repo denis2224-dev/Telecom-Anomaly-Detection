@@ -25,8 +25,7 @@ September are simulated observation time, not execution dates.
   No rebase, reset, or local merge was used. Runtime tests ran on the initial base;
   all tested inputs are byte-identical on the final base, preserving their evidence.
 - Local `main` remains `8fa0c34857aab61cdfc3aa51492539407ffeb9d7`; it was not reset.
-- Preserved preexisting untracked `.agents/`, `.codex/`, `AGENTS.md`, and
-  `graphify-out/`. No teammate history or worktree was rewritten.
+- Preserved preexisting untracked local instructions, scratch files and analysis artifacts. No teammate history or worktree was rewritten.
 - Changes are tests, their Surefire inclusion, and documentation/evidence.
   Production transaction scope, schemas, permissions, policies and models are unchanged.
 - Original implementation commit:
@@ -34,7 +33,7 @@ September are simulated observation time, not execution dates.
   only, with no push, PR creation, or merge. Publication review is recorded below.
   Resolve the current branch HEAD with `git log -1 --format=%H`.
 
-## Graphify and architecture audit
+## Architecture audit
 
 Used the existing 3,285-node graph first, including a replay/finalizer/outbox query
 and a focused `WindowDecisionLock` explanation. It connects `IngestionService`

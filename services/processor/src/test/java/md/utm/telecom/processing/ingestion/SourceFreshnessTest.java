@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.UUID;
+import java.util.List;
 import javax.sql.DataSource;
 import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.observation.TopologyCatalog;
@@ -64,7 +65,7 @@ class SourceFreshnessTest {
         }
         @Bean JdbcTemplate jdbc(DataSource ds) { return new JdbcTemplate(ds); }
         @Bean DataSourceTransactionManager transactionManager(DataSource ds) { return new DataSourceTransactionManager(ds); }
-        @Bean TopologyCatalog topology() throws Exception { return TopologyCatalog.load(); }
+        @Bean TopologyCatalog topology() throws Exception { return md.utm.telecom.observation.GeographyCatalog.load().authority(); }
         @Bean ObservationValidator validator(TopologyCatalog topology) throws Exception { return new ObservationValidator(topology); }
         @Bean TestClock clock() { return new TestClock(); }
     }
@@ -86,6 +87,24 @@ class SourceFreshnessTest {
 
     private static ObjectNode fixture(String name) throws Exception {
         return (ObjectNode) ObservationValidator.resource("fixtures/observations/" + name + ".json", MAPPER);
+    }
+
+    @Test void cityHeartbeatAndReportedMissingDoNotCreateCompleteCoverageInEitherCity() throws Exception {
+        var receipts = ObservationValidator.resource("fixtures/geography/complete-city-observations-v1.json",MAPPER);
+        ObjectNode service = null;
+        for (var receipt : receipts) if (receipt.path("scopeId").asText().equals("VOLTE-MD-CHI")
+                && receipt.path("kind").asText().equals("SERVICE")) service = (ObjectNode) receipt.deepCopy();
+        assertNotNull(service);
+        var heartbeat = service.deepCopy().put("kind","HEARTBEAT").put("eventId",UUID.randomUUID().toString());
+        heartbeat.remove(List.of("service","metrics"));
+        clock.now=END.plusSeconds(5); ingest(heartbeat);
+        assertEquals(SourceFreshness.ActivityFreshness.FRESH,freshness.activityFreshness("VOLTE-MD-CHI","VOLTE-SRC-CHI"));
+        assertEquals(SourceFreshness.ActivityFreshness.NEVER_SEEN,freshness.activityFreshness("VOLTE-MD-BAL","VOLTE-SRC-BAL"));
+        assertEquals(SourceFreshness.IntervalCoverage.PENDING,freshness.intervalCoverage("VOLTE-MD-CHI","VOLTE-SRC-CHI",START,END));
+        service.put("quality","MISSING"); service.remove("metrics"); ingest(service);
+        clock.now=END.plusSeconds(10);
+        assertEquals(SourceFreshness.IntervalCoverage.REPORTED_MISSING,freshness.intervalCoverage("VOLTE-MD-CHI","VOLTE-SRC-CHI",START,END));
+        assertEquals(SourceFreshness.IntervalCoverage.MISSING,freshness.intervalCoverage("VOLTE-MD-BAL","VOLTE-SRC-BAL",START,END));
     }
 
     private void ingest(ObjectNode event) {

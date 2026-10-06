@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
-/** Offline contract boundary only. Receipt collection and durable publication are Day 2 work. */
+/** Coverage identity and payload validation; runtime services collect receipts and publish coverage. */
 public final class CoverageContract {
     private CoverageContract() {}
 

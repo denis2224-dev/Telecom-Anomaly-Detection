@@ -1,7 +1,7 @@
 # VoLTE + SMS Service Assurance audit — 2026-10-01
 
 > Historical audit. Its pending authenticated acceptance and PR blockers are
-> superseded by [Gemini's fresh October 2 acceptance](2026-10-02-gemini-authenticated-acceptance.md)
+> superseded by [October 2 authenticated acceptance](2026-10-02-authenticated-acceptance.md)
 > and [the final repository audit](2026-10-02-final-repository-audit.md).
 > Live SSE updates passed; SSE intentional reconnect is **NOT DIRECTLY VERIFIED**.
 
@@ -78,7 +78,7 @@ Feature source, contract, fixture, test and design files reviewed:
 
 This evidence report is also new. Four generated branding files have only line-ending working-tree
 differences; `git diff --ignore-space-at-eol` is empty for those files. They were preserved.
-Existing `.agents/`, `.codex/`, `AGENTS.md`, `.telemetry*` files and `graphify-out/` are local
+Existing local instructions, telemetry audit files and analysis artifacts are local
 tooling/previous environment evidence, distinct from feature source. No existing artifacts were discarded.
 
 ## 3. LIVE AUTH RESULT
