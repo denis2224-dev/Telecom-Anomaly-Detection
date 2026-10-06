@@ -22,7 +22,7 @@
       </div>
       <div class="sidebar-bottom">
         <div class="system-note"><span class="status-dot"></span><span>{{ fixture ? 'Sample workspace' : 'Protected workspace' }}<small>Telecom service assurance</small></span></div>
-        <button class="ghost sidebar-collapse" (click)="collapsed.set(!collapsed())" [attr.aria-expanded]="!collapsed()" aria-controls="workspace-navigation" [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'" [title]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"><app-icon [name]="collapsed() ? 'right' : 'left'" /><span>Collapse sidebar</span></button>
+        <button class="ghost sidebar-collapse" (click)="toggleSidebar()" [attr.aria-expanded]="!collapsed()" aria-controls="workspace-navigation" [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'" [title]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"><app-icon [name]="collapsed() ? 'right' : 'left'" /><span>Collapse sidebar</span></button>
       </div>
     </aside>
     @if (mobileOpen()) { <button class="nav-scrim" aria-label="Close navigation" (click)="mobileOpen.set(false)"></button> }
@@ -38,6 +38,9 @@
         </div>
       }
       <div class="header-tools">
+        @if (live.monitored() && pageTitle() !== 'Service overview') {
+          <span class="connection-status live-status" [class.stale]="live.stale()" aria-label="Live data status"><span class="status-dot"></span><strong>{{ live.stale() ? 'Stale' : 'Live' }}</strong><span>{{ live.lastUpdated() === null ? 'Unavailable' : (live.lastUpdated() | date:'HH:mm:ss':'UTC') + ' UTC' }}</span></span>
+        }
         <span class="connection-status"><span class="status-dot" [class.offline]="session.phase() !== 'authenticated'"></span>{{ session.phase() === 'authenticated' ? 'Session connected' : fixture ? 'Preview' : 'Secure access' }}</span>
         @if (session.actor(); as actor) {
           <div class="identity"><span class="avatar">{{ actor.displayName.slice(0, 2).toUpperCase() }}</span><span class="identity-copy">{{ actor.displayName }}<small>{{ actor.roles.join(', ') }} · until {{ actor.expiresAt | date:'HH:mm':'UTC' }} UTC</small></span></div>
@@ -45,7 +48,7 @@
         }
       </div>
     </header>
-    <main id="workspace">
+    <main id="workspace" tabindex="-1">
       @if (session.message() && session.phase() === 'authenticated') { <p role="alert">{{ session.message() }}</p> }
       @if (fixture && !isAccessPage()) { <div class="preview-label"><app-icon name="info" /> SYNTHETIC FIXTURE PREVIEW · Sample data, no live telemetry or authenticated session</div> }
       @switch (session.phase()) {

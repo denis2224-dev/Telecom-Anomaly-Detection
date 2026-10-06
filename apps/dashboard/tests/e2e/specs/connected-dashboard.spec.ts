@@ -1,5 +1,33 @@
 import { test, expect } from '@playwright/test';
-import { cityIncidents, citySummaries, cityWindows, fixtureCities, fixtureRange } from '../../../src/fixtures/connected-dashboard';
+import { cityIncidents, citySummaries, cityWindows, fixtureRange } from '../../../src/fixtures/connected-dashboard';
+import { controlledApi } from '../helpers/controlled-api';
+import suite from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
+
+test('overview SMS chart uses the measured delivery success rate, not delay', async ({ page }) => {
+  const state = await controlledApi(page);
+  const trajectory = suite.cases.find(item => item.id === 'sms-fault')!;
+  state.windows = structuredClone(trajectory.windows.map(item => item.feature)) as typeof state.windows;
+  state.summary.scope.service = 'SMS';
+  state.summary.scope.scopeId = state.windows[0].scopeId;
+  state.summary.latestWindow = state.windows.at(-1)!;
+  state.summary.observedAt = state.windows.at(-1)!.windowEnd;
+  state.incident.scopeId = state.summary.scope.scopeId;
+  state.incident.service = 'SMS';
+  state.incident.firstObservedAt = state.windows[0].windowStart;
+  state.incident.lastObservedAt = state.windows.at(-1)!.windowEnd;
+  state.incident.latestDetection = structuredClone(trajectory.detections.at(-1)!) as typeof state.incident.latestDetection;
+  await page.goto('/dashboard');
+  const chart = page.locator('[data-chart=deliverySrPct]');
+  await expect(chart.locator('.actual-line')).not.toHaveAttribute('d', '');
+  await expect(chart.locator('.expected-line')).not.toHaveAttribute('d', '');
+  await expect(chart.locator('.incident-band')).toHaveCount(1);
+  await chart.locator('.chart-scroll').focus();
+  await page.keyboard.press('End');
+  await expect(chart.locator('.chart-tooltip')).toContainText('83.333 %');
+  await expect(page.locator('.sms-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('.sms-table tbody td').nth(1)).toHaveText('83.333');
+  await expect(page.locator('.volte-table tbody')).toContainText('No monitored scopes');
+});
 
 for (const width of [1366, 768, 390]) {
   test(`connected dashboard at ${width}px`, async ({ page }, info) => {
@@ -39,108 +67,108 @@ for (const width of [1366, 768, 390]) {
     });
 
     await page.goto('/dashboard');
-    await expect(page.getByRole('heading', { name: 'City service overview' })).toBeVisible();
-    // Production configuration must NOT infer mappings from these synthetic API scope IDs.
+    await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
     await expect(page.locator('.city-marker')).toHaveCount(9);
-    await expect(page.locator('.featured-city')).toHaveCount(5);
+    await expect(page.locator('.overview-panels > section')).toHaveCount(3);
+    await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
+    await expect(page.locator('.featured-city, .featured-sources, .map-notes, .map-source, .search-results')).toHaveCount(0);
     await expect(page.locator('.city-marker').first()).toHaveAttribute('data-state', 'MAPPING PENDING');
-    await page.getByLabel('Region', { exact: true }).fill('Orhei');
-    await page.getByRole('button', { name: 'Orhei', exact: true }).click();
-    await expect(page.getByRole('heading', { name: 'Orhei service detail' })).toBeVisible();
-    await expect(page.locator('.city-detail')).toContainText('Mapping pending');
+    await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
+    for (const table of await page.locator('.overview-panels table').all()) {
+      expect(await table.locator('tbody tr').count()).toBeLessThanOrEqual(5);
+      expect(await table.evaluate(node => node.scrollWidth <= node.clientWidth + 1 && node.getBoundingClientRect().height <= node.parentElement!.clientHeight + 1)).toBe(true);
+    }
+    if (width === 1366) {
+      const panels = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
+      expect(Math.max(...panels.map(r => r.width)) - Math.min(...panels.map(r => r.width))).toBeLessThan(1);
+      expect(Math.max(...panels.map(r => r.y)) - Math.min(...panels.map(r => r.y))).toBeLessThan(1);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`live-unmapped-design-${width}.png`), fullPage: true });
+    await page.screenshot({ path: info.outputPath(`three-panels-unmapped-${width}.png`), fullPage: true, animations: 'disabled' });
+    await page.getByLabel('Region', { exact: true }).fill('Orhei');
+    await expect(page.locator('#city-map-title')).toContainText('Orhei');
+    await expect(page.locator('.service-panel .chart-scope')).toHaveText(['Unavailable', 'Unavailable']);
+    await page.getByLabel('Region', { exact: true }).fill('');
+    await expect(page.locator('.volte-table tbody tr')).toHaveCount(5);
     expect(errors).toEqual([]);
   });
 }
 
 for (const width of [1366, 768, 390]) {
-test(`fixture city selection links map, charts, service and incident detail at ${width}px`, async ({ page }, info) => {
-  test.skip(process.env.E2E_CITY_FIXTURE !== '1', 'Run explicitly against the fixture server');
-  await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
-  await page.goto('/dashboard');
-  await expect(page.locator('.city-marker')).toHaveCount(9);
-  await expect(page.locator('.featured-city')).toHaveCount(5);
-  await expect(page.getByLabel('Service', { exact: true })).toHaveValue('ALL');
-  await expect(page.getByLabel('Technology', { exact: true })).toBeDisabled();
-  const controls = await page.locator('.controls input:not([type="hidden"]), .controls select, .controls button').evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { width: r.width, height: r.height }; }));
-  expect(Math.max(...controls.map(r => r.width)) - Math.min(...controls.map(r => r.width))).toBeLessThan(2);
-  expect(controls.every(r => r.height === 40)).toBe(true);
-  await expect(page.getByRole('link', { name: 'VoLTE setup', exact: true, includeHidden: true })).toHaveAttribute('href', '/services/VOLTE-MD-CENTRAL');
-  await expect(page.getByRole('link', { name: 'SMS delivery', exact: true, includeHidden: true })).toHaveAttribute('href', '/services/SMS-MD-ROUTE-A');
-  await expect(page.locator('details.source-inventory')).not.toHaveAttribute('open');
-  await page.getByLabel('Service', { exact: true }).selectOption('SMS');
-  await expect(page.locator('.map-table caption')).toContainText('SMS delivery');
-  await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('ms');
-  await expect(page.locator('app-city-trend')).toHaveCount(5);
-  await page.getByLabel('Service', { exact: true }).selectOption('VOLTE');
-  await expect(page.locator('.map-table caption')).toContainText('VoLTE setup');
-  await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('%');
-  await page.getByLabel('From (UTC)', { exact: true }).fill('2026-10-05T10:00');
-  await page.getByLabel('To (UTC, exclusive)', { exact: true }).fill('2026-10-05T12:00');
-  await page.getByRole('button', { name: 'Apply', exact: true }).click();
-  await expect(page.getByRole('alert')).toContainText('at most one hour');
-  await page.getByLabel('Chart period', { exact: true }).selectOption('60');
-  await expect(page.getByLabel('To (UTC, exclusive)', { exact: true })).toHaveValue(fixtureRange.to.slice(0, 16));
-  await page.getByLabel('Service', { exact: true }).selectOption('ALL');
-  // Callouts must remain inside the map panel, including on phones.
-  expect(await page.locator('.map-panel').evaluate(panel => {
-    const box = panel.getBoundingClientRect();
-    return [...panel.querySelectorAll('.node-label')].every(label => {
-      const rect = label.getBoundingClientRect();
-      return rect.left >= box.left && rect.right <= box.right;
-    });
-  })).toBe(true);
-  await expect(page.locator('.city-marker[aria-label="Chișinău, DEGRADED"]')).toBeVisible();
-  await page.locator('.city-marker').filter({ hasText: 'Chișinău' }).click();
-  await expect(page.getByRole('heading', { name: 'Chișinău service detail' })).toBeVisible();
-  await expect(page.locator('.city-detail')).toContainText('-5.3 pp');
-  await expect(page.locator('.queue-item')).toContainText('Chișinău');
-  await expect(page.locator('app-city-trend')).toHaveCount(10);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: info.outputPath(`connected-fixture-${width}.png`), fullPage: true });
-  if (width === 1366) expect(await page.locator('.featured-cities').evaluate(node => node.getBoundingClientRect().bottom <= innerHeight)).toBe(true);
-  await page.getByRole('button', { name: /^Incidents \(/ }).click();
-  await expect(page.getByRole('dialog')).toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(page.getByRole('dialog')).not.toBeVisible();
-  await page.getByRole('button', { name: /^Incidents \(/ }).click();
-  await page.getByRole('link', { name: 'Open incident evidence', exact: true }).click();
-  await expect(page).toHaveURL(/\/incidents\/00000000-0000-4000-8000-000000000001$/);
-  await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
-  await page.getByRole('button', { name: 'Details & workflow', exact: true }).click();
-  await expect(page.locator('.workflow-drawer')).toContainText('First observed');
-  await page.goto('/dashboard');
-  await page.getByLabel('Region', { exact: true }).fill('Orhei');
-  await page.getByRole('button', { name: 'Orhei', exact: true }).click();
-  await page.getByRole('link', { name: 'Open Orhei VoLTE evidence', exact: true }).click();
-  await expect(page).toHaveURL(/\/services\/fixture-VOLTE-ORH$/);
-  await expect(page.getByRole('heading', { name: 'Call setup success rate', exact: true })).toBeVisible();
-  await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
-  await page.getByLabel('Service', { exact: true }).selectOption('SMS');
-  await expect(page).toHaveURL(/\/dashboard\?service=SMS$/);
-  await expect(page.getByLabel('Service', { exact: true })).toHaveValue('SMS');
-  await expect(page.locator('.map-table caption')).toContainText('SMS delivery');
-  await page.getByLabel('Region', { exact: true }).fill('Orhei');
-  await expect(page.getByRole('heading', { name: 'Orhei service detail' })).toBeVisible();
-  await page.getByLabel('Region', { exact: true }).fill('');
-  await expect(page.locator('.city-detail')).toHaveCount(0);
-  expect(fixtureCities.find(city => city.id === 'ORH')?.marker).toBeNull();
-  for (const [label, scope, service] of [['VoLTE setup', 'VOLTE-MD-CENTRAL', 'VOLTE'], ['SMS delivery', 'SMS-MD-ROUTE-A', 'SMS']]) {
-    if (width === 390) await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
-    const link = page.getByRole('link', { name: label, exact: true, includeHidden: true });
-    await link.click();
-    await expect(page).toHaveURL(new RegExp('/services/' + scope + '$'));
-    await expect(link).toHaveAttribute('aria-current', 'page');
-    await expect(page.locator('app-service-context select')).toHaveValue(service);
-    await expect(page.locator('app-kpi-cards tbody tr')).toHaveCount(service === 'VOLTE' ? 8 : 5);
-    await expect(page.locator('.exact-values')).not.toHaveAttribute('open');
-    expect(await page.locator('.back-link').evaluate(node => node.getBoundingClientRect().height)).toBeGreaterThanOrEqual(40);
-  }
-  await page.goto('/dashboard#incident-queue');
-  await expect(page.getByRole('dialog')).toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(page.getByRole('dialog')).not.toBeVisible();
-  await expect(page).toHaveURL(/\/dashboard$/);
-});
+  test(`fixture city selection links map, charts, service and incident detail at ${width}px`, async ({ page }, info) => {
+    test.skip(process.env.E2E_CITY_FIXTURE !== '1', 'Run explicitly against the fixture server');
+    await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
+    await page.goto('/dashboard');
+    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await expect(page.locator('.overview-panels > section')).toHaveCount(3);
+    await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
+    await expect(page.locator('.overview-panels [data-chart]')).toHaveCount(2);
+    await expect(page.locator('[data-chart=cssrPct] .actual-line')).not.toHaveAttribute('d', '');
+    // This older fixture has delay and message counts, but no delivery success KPI.
+    await expect(page.locator('[data-chart=deliverySrPct] .actual-line')).toHaveAttribute('d', '');
+    await expect(page.locator('[data-chart=deliverySrPct]')).toContainText(/No usable observations|No KPI history/);
+    await expect(page.getByLabel('Technology', { exact: true })).toBeDisabled();
+    await expect(page.locator('details.source-inventory')).not.toHaveAttribute('open');
+    await page.screenshot({ path: info.outputPath(`three-panels-fixture-${width}.png`), fullPage: true, animations: 'disabled' });
+    for (const table of await page.locator('.overview-panels table').all()) {
+      expect(await table.locator('tbody tr').count()).toBeLessThanOrEqual(5);
+      expect(await table.evaluate(node => node.scrollWidth <= node.clientWidth + 1 && node.getBoundingClientRect().height <= node.parentElement!.clientHeight + 1)).toBe(true);
+    }
+    if (width === 1366) {
+      const controls = await page.locator('.controls input:not([type=hidden]), .controls select, .period-chips, .apply-field button').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
+      expect(Math.max(...controls.map(r => r.y)) - Math.min(...controls.map(r => r.y))).toBeLessThan(2);
+      expect(controls.every(r => r.height === 36)).toBe(true);
+      expect(await page.locator('.overview-panels').evaluate(node => node.getBoundingClientRect().bottom)).toBeLessThanOrEqual(768);
+    }
+    expect(await page.locator('.map-panel').evaluate(panel => {
+      const box = panel.getBoundingClientRect();
+      const labels = [...panel.querySelectorAll('.node-label')].map(label => ({ rect: label.getBoundingClientRect(), name: label.textContent }));
+      return labels.flatMap(({ rect, name }, index) => [
+        ...(rect.left < box.left || rect.right > box.right ? [`${name} outside panel`] : []),
+        ...labels.slice(index + 1).filter(({ rect: other }) => rect.right > other.left && other.right > rect.left
+          && rect.bottom > other.top && other.bottom > rect.top).map(other => `${name} overlaps ${other.name}`),
+      ]);
+    })).toEqual([]);
+    await page.screenshot({ path: info.outputPath(`three-panels-fixture-${width}.png`), fullPage: true, animations: 'disabled' });
+    await page.getByRole('button', { name: '24h', exact: true }).click();
+    await expect(page.getByRole('button', { name: '24h', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await page.getByLabel('From (UTC)', { exact: true }).fill('2026-10-05T10:00');
+    await page.getByLabel('To (UTC, exclusive)', { exact: true }).fill('2026-10-07T12:00');
+    await page.getByRole('button', { name: 'Apply', exact: true }).click();
+    await expect(page.getByRole('alert')).toContainText('at most 24 hours');
+    await page.getByRole('button', { name: '1h', exact: true }).click();
+    await expect(page.getByLabel('To (UTC, exclusive)', { exact: true })).toHaveValue(fixtureRange.to.slice(0, 16));
+    await page.locator('.map-table').getByRole('button', { name: 'Chișinău', exact: true }).click();
+    await expect(page.locator('.city-marker[aria-label="Chișinău, DEGRADED"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.map-table tr.selected-city')).toContainText('-5.3 pp');
+    await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);
+    await expect(page.locator('[data-chart=cssrPct] .incident-band')).toHaveCount(1);
+    const chart = page.locator('[data-chart=cssrPct] .chart-scroll');
+    await chart.focus(); await page.keyboard.press('End');
+    await expect(page.locator('[data-chart=cssrPct] .chart-tooltip')).toContainText('UTC');
+    await page.getByLabel('Service', { exact: true }).selectOption('SMS');
+    await expect(page.locator('.volte-table tbody')).toContainText('No monitored scopes');
+    await expect(page.locator('.sms-table tbody tr')).toHaveCount(1);
+    await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('ms');
+    await page.getByLabel('Service', { exact: true }).selectOption('ALL');
+    await page.getByRole('button', { name: /^Incidents \(/ }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: 'Open incident investigation', exact: true }).click();
+    await expect(page).toHaveURL(/\/incidents\/00000000-0000-4000-8000-000000000001$/);
+    await page.goto('/dashboard');
+    await page.getByLabel('Region', { exact: true }).fill('Orhei');
+    await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);
+    await page.getByRole('button', { name: 'Open VoLTE setup', exact: true }).click();
+    await expect(page).toHaveURL(/\/services\/fixture-VOLTE-ORH$/);
+    await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
+    await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Open SMS delivery', exact: true }).click();
+    await expect(page).toHaveURL(/\/services\/SMS-MD-ROUTE-A$/);
+    await expect(page.locator('app-kpi-cards tbody tr')).toHaveCount(5);
+    await page.goto('/dashboard#incident-queue');
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/\/dashboard$/);
+  });
 }

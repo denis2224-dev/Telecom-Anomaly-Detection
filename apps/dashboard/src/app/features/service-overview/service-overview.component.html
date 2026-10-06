@@ -1,13 +1,11 @@
-@if (streamError()) {
-  <app-status-banner [message]="streamError()" [busy]="loading()" (retry)="load()" />
-}
 <div class="page-heading">
   <div class="heading-copy"><p class="eyebrow">Network operations</p><h1>{{ scopeId() ? 'Service scope' : 'Network overview' }}</h1><p>Monitor service quality, track incidents, and investigate the evidence.</p></div>
-  <button class="ghost" (click)="load()" [disabled]="loading()" [attr.aria-busy]="loading()"><app-icon name="refresh" />Refresh overview</button>
+  <span class="connection-status live-status" [class.stale]="!fixture && live.stale()" aria-label="Live data status"><span class="status-dot"></span><strong>{{ fixture ? 'Preview' : live.stale() ? 'Stale' : 'Live' }}</strong><span>{{ fixture || live.lastUpdated() === null ? 'Unavailable' : (live.lastUpdated() | date:'HH:mm:ss':'UTC') + ' UTC' }}</span></span>
+  <button class="ghost" aria-label="Refresh overview" (click)="load()" [disabled]="loading()" [attr.aria-busy]="loading()"><app-icon name="refresh" /><span class="refresh-copy">Refresh overview</span></button>
 </div>
 @if (loading()) {
   <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span> Loading service scopes…<div class="skeleton"></div><div class="skeleton chart"></div></section>
-} @else if (error()) {
+} @else if (error() && services().length === 0) {
   <section class="state-panel" role="alert">
     <h2>Services could not be loaded</h2>
     <p>{{ error() }}</p>
@@ -80,13 +78,15 @@
     <p>The request succeeded, but no service scopes were returned.</p>
   </section>
 } @else {
-  <div class="stat-grid four">
-    <section class="stat-card"><div class="stat-label">Monitored scopes<app-icon name="signal" /></div><strong class="metric-value">{{ services().length }}</strong><p class="helper">VoLTE &amp; SMS coverage</p></section>
-    <section class="stat-card"><div class="stat-label">No ongoing episode<app-icon name="check" /></div><strong class="metric-value">{{ healthyCount() }} <small>/ {{ services().length }}</small></strong><p class="stat-trend">Latest service observations</p></section>
-    <section class="stat-card"><div class="stat-label">Open incidents<app-icon name="alert" /></div><strong class="metric-value">{{ openCount() }}</strong><p class="helper">Unresolved analyst work</p></section>
-    <section class="stat-card"><div class="stat-label">Observed scopes<app-icon name="activity" /></div><strong class="metric-value">{{ observedCount() }} <small>/ {{ services().length }}</small></strong><p class="helper">Coverage is not a health verdict</p></section>
+  <div class="kpi-strip" aria-label="Network KPI summary">
+    <div><span>Monitored scopes</span><strong>{{ services().length }}</strong></div>
+    <div><span>Ongoing episodes</span><strong>{{ ongoingCount() }}</strong></div>
+    <div><span>Open incidents</span><strong>{{ openCount() }}</strong></div>
+    <div><span>Observed scopes</span><strong>{{ observedCount() }}</strong></div>
   </div>
   <app-connected-overview [services]="services()" [serviceFilter]="serviceFilter()" (filterChanged)="setService($event)" />
+  @if (streamError()) { <app-status-banner [compact]="true" [message]="streamError()" [busy]="loading()" (retry)="load()" /> }
+  @if (error()) { <p role="alert">{{ error() }} Existing evidence is still shown.</p> }
   <details class="source-inventory"><summary>Service scopes and definitions</summary>
   <section class="scope-section" aria-labelledby="scopes-heading">
     <div class="section-heading"><div><h2 id="scopes-heading">Monitored scopes</h2><p>Latest service evidence · observation times in Europe/Chisinau</p></div>

@@ -24,7 +24,7 @@ test('overview API interruption has a retry and recovers', async ({ page }) => {
   await expect(page.locator('.identity')).toBeVisible();
   state.servicesStatus = 200;
   await page.getByRole('button', { name: 'Retry', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'City service overview' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
 });
 
 test('KPI API interruption retries the same selected range', async ({ page }) => {
@@ -36,7 +36,7 @@ test('KPI API interruption retries the same selected range', async ({ page }) =>
   await page.getByRole('button', { name: 'Retry', exact: true }).click();
   await expect(page.getByLabel('To (UTC, exclusive)', { exact: true }))
     .toHaveValue('2026-09-15T10:10');
-  await expect(page.locator('app-kpi-chart svg[role="img"]')).toBeVisible();
+  await expect(page.locator('.service-hero svg[role="img"]')).toBeVisible();
 });
 
 for (const screen of ['overview', 'service', 'incident'] as const) {
@@ -49,9 +49,9 @@ for (const screen of ['overview', 'service', 'incident'] as const) {
     await expect.poll(() => page.evaluate(() => (window as any).__sources?.length ?? 0))
       .toBeGreaterThan(0);
     await streamEvent(page, 'error');
-    const banner = page.locator('app-status-banner');
+    const banner = page.locator(screen === 'service' ? '.service-alerts .service-connection' : 'app-status-banner');
     await expect(banner).toContainText('Live connection interrupted');
-    await banner.getByRole('button', { name: 'Refresh evidence' }).click();
+    await banner.getByRole('button', { name: screen === 'service' ? 'Retry' : 'Refresh evidence', exact: true }).click();
     // A successful REST read is useful but cannot prove the SSE connection recovered.
     await expect(banner).toContainText('Live connection interrupted');
     await streamEvent(page, 'open');
