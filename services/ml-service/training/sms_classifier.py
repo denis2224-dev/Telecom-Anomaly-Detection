@@ -1,5 +1,6 @@
 """Experimental offline SMS classifier packages; scores are not calibrated probabilities."""
 
+import argparse
 from hashlib import sha256
 import json
 import math
@@ -94,3 +95,11 @@ def score(window, loaded):
     projected = np.asarray([values], dtype=float)[:, manifest['projection']]
     value = float(classifier_scores(model, projected)[0])
     return dict(classifierScore=value, detection=value >= manifest['threshold'], modelVersion=manifest['modelVersion'])
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--models', type=Path, required=True)
+    parser.add_argument('--window', type=Path, required=True, help='Complete ServiceFeatureWindowV2 JSON')
+    args = parser.parse_args()
+    print(json.dumps(score(json.loads(args.window.read_bytes()), load_classifier(args.models)), allow_nan=False))

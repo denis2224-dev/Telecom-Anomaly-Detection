@@ -23,8 +23,15 @@ class ReversedClasses:
 
 class SmsClassifierTests(unittest.TestCase):
     def test_fault_class_lookup_does_not_assume_column_one(self):
-        from sms_classifier import classifier_scores
+        from sms_classifier import classifier_scores, score
+        from sms_supervised_data import FEATURES
         self.assertEqual(classifier_scores(ReversedClasses(), [[1]])[0], .8)
+        window = dict(service='SMS', quality='COMPLETE', mlEligible=True, featureVersion=2,
+                      baselineVersion='baseline-v2', featureNames=FEATURES, featureValues=[0.] * 6)
+        manifest = dict(baselineVersion='baseline-v2', projection=list(range(6)), threshold=.8, modelVersion='boundary')
+        self.assertTrue(score(window, (manifest, ReversedClasses()))['detection'])
+        manifest['threshold'] = float(np.nextafter(.8, np.inf))
+        self.assertFalse(score(window, (manifest, ReversedClasses()))['detection'])
         invalid = ReversedClasses()
         invalid.classes_ = np.asarray([0, 2])
         with self.assertRaisesRegex(ValueError, 'class'):

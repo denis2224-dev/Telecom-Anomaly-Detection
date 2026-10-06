@@ -85,8 +85,7 @@ def tune(data, output, grid=GRID, model_version='sms-supervised-v1-1'):
         view = settings['view']
         x, y = arrays(training, view)
         model = estimator(settings)
-        # Cap OpenMP threads on Windows: tiny six-feature histograms otherwise spend
-        # most of their time coordinating hundreds of threads rather than fitting.
+        # Bound native threads for predictable offline runtime, including Windows.
         with threadpool_limits(limits=4):
             model.fit(x, y)
             healthy_scores = classifier_scores(model, arrays(calibration, view)[0])
