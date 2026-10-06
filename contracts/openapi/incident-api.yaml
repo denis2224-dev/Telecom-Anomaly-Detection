@@ -16,6 +16,59 @@ tags:
 - name: Services
 - name: Simulator
 paths:
+  /api/services/{scopeId}/ml-shadow:
+    get:
+      operationId: getServiceMlShadow
+      summary: Read optional SMS classifier shadow evidence
+      tags: [Services]
+      description: Analyst/supervisor/admin session required. UTC windowStart interval [from,to), at most 24 hours. Includes healthy windows, classifier-only positives and failures. Order windowStart ASC,evidenceId ASC. Scores are uncalibrated and do not drive incidents.
+      parameters:
+      - name: scopeId
+        in: path
+        required: true
+        schema: {type: string, pattern: '^[A-Za-z0-9_.:-]{1,96}$'}
+      - name: from
+        in: query
+        required: true
+        schema: {type: string, format: date-time, pattern: 'Z$'}
+      - name: to
+        in: query
+        required: true
+        schema: {type: string, format: date-time, pattern: 'Z$'}
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Persisted shadow evidence
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/MlShadowPage'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+  /api/incidents/{id}/ml-shadow:
+    get:
+      operationId: getIncidentMlShadow
+      summary: Read shadow evidence in an incident's observed SMS interval
+      tags: [Incidents]
+      description: Analyst/supervisor/admin session required. Correlates SMS scope and windows overlapping [firstObservedAt,lastObservedAt). A non-SMS incident returns an empty page. Does not alter lifecycle, severity or recovery.
+      parameters:
+      - $ref: '#/components/parameters/IncidentId'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/Size'
+      responses:
+        '200':
+          description: Correlated persisted shadow evidence
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/MlShadowPage'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '503': {$ref: '#/components/responses/Unavailable'}
   /oauth2/authorization/keycloak:
     get:
       operationId: startKeycloakLogin
@@ -1735,3 +1788,132 @@ components:
       - observedAt
       - openIncidents
       - latestWindow
+    SmsShadowEvidence:
+      type: object
+      additionalProperties: false
+      required:
+      - schemaVersion
+      - evidenceId
+      - windowId
+      - service
+      - scopeId
+      - windowStart
+      - windowEnd
+      - featureVersion
+      - baselineVersion
+      - topologyVersion
+      - requestedAt
+      - completedAt
+      - requestedModelVersion
+      - modelVersion
+      - modelSha256
+      - mlStatus
+      - classifierScore
+      - detection
+      - threshold
+      properties:
+        schemaVersion:
+          enum:
+          - 1
+          type: integer
+        evidenceId:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        windowId:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        service:
+          enum:
+          - SMS
+          type: string
+        scopeId:
+          type: string
+          pattern: ^[A-Za-z0-9_.:-]{1,96}$
+        windowStart:
+          type: string
+          format: date-time
+          pattern: Z$
+        windowEnd:
+          type: string
+          format: date-time
+          pattern: Z$
+        requestedAt:
+          type: string
+          format: date-time
+          pattern: Z$
+        completedAt:
+          type: string
+          format: date-time
+          pattern: Z$
+        featureVersion:
+          enum:
+          - 2
+          type: integer
+        baselineVersion:
+          enum:
+          - baseline-v2
+          type: string
+        topologyVersion:
+          type: string
+          minLength: 1
+        requestedModelVersion:
+          enum:
+          - sms-supervised-v1-2
+          type: string
+        modelVersion:
+          enum:
+          - sms-supervised-v1-2
+          nullable: true
+          type: string
+        modelSha256:
+          enum:
+          - f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19
+          type: string
+        mlStatus:
+          enum:
+          - OK
+          - DISABLED
+          - UNAVAILABLE
+          - TIMEOUT
+          - INSUFFICIENT_DATA
+          - MALFORMED_RESPONSE
+        classifierScore:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Uncalibrated fault-class score; never anomalyRank or a fault probability.
+          nullable: true
+        detection:
+          type: boolean
+          nullable: true
+        threshold:
+          enum:
+          - 0.55
+          type: number
+      description: Canonical event sms-shadow-evidence-v1. OK requires a score, boolean
+        decision, and modelVersion. Failure predictions and modelVersion are null. Cutoff
+        decision is inclusive at 0.55.
+    MlShadowPage:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - total
+      - page
+      - size
+      properties:
+        items:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/SmsShadowEvidence'
+        total:
+          type: integer
+          minimum: 0
+        page:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 1
+          maximum: 100
