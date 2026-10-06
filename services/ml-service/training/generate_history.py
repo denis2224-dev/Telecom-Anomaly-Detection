@@ -29,7 +29,7 @@ def observation(name):
     return json.loads((ROOT / "contracts/fixtures/observations" / (name + ".json")).read_text(encoding="utf-8"))
 
 
-def make_window(service, start, seed, fault=False, run_id="sample"):
+def make_window(service, start, seed, fault=False, run_id="sample", raw_transform=None):
     """Return a canonical feature window from independently varied raw observations."""
     rng = random.Random(f"{seed}:{service}:{start.isoformat()}:{fault}")
     raw, *nodes = (observation(name) for name in FIXTURES[service])
@@ -72,6 +72,8 @@ def make_window(service, start, seed, fault=False, run_id="sample"):
         if not fault and nodes[0]["metrics"]["queueDepth"]:
             nodes[0]["metrics"]["oldestPendingAgeSeconds"] = rng.randrange(1, 20)
 
+    if raw_transform is not None:
+        raw_transform(raw, nodes, rng)
     baseline = next(b for b in BASELINES["baselines"] if b["service"] == service)
     context = dict(baselineVersion=BASELINES["baselineVersion"], status="DIRECT",
                    scopeId=raw["scopeId"], sourceScopeId=raw["scopeId"], service=service,
