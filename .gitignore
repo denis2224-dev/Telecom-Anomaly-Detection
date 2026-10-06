@@ -14,6 +14,7 @@ tmp/ml-expanded-history/
 tmp/ml-validation-experiment/
 tmp/sms-supervised-*/
 tmp/sms-ml-shadow-archives/
+tmp/sms-ml-shadow-work/
 target/
 **/test-results/
 **/playwright-report/
