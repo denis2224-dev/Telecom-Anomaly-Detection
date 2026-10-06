@@ -77,6 +77,11 @@ public final class VoiceSetupRule {
                 if (!kpi.get(field).isNull()) number(kpi.get(field));
             }
         }
+        // Windows persisted before geographic activation may have no baseline
+        // value. Treat them as unavailable so the worker can advance without
+        // rewriting their historical payload.
+        if (legacyWindowWithoutBaseline(window, kpis))
+            return result("BASELINE_MISSING", false, null, null, null, window, kpis);
         for (var feature : window.get("featureValues")) number(feature);
         if (!window.get("quality").asText().equals("COMPLETE"))
             return result("INSUFFICIENT_DATA", false, null, null, null, window, kpis);
@@ -191,6 +196,13 @@ public final class VoiceSetupRule {
     private static BigDecimal number(JsonNode node) {
         require(node.isNumber() && Double.isFinite(node.doubleValue()), "Expected finite numeric measurement");
         return node.decimalValue();
+    }
+
+    private static boolean legacyWindowWithoutBaseline(JsonNode window, Map<String, JsonNode> kpis) {
+        return "baseline-v2".equals(window.path("baselineVersion").asText())
+                && "2-geography-g1".equals(window.path("topologyVersion").asText())
+                && kpis.containsKey("cssrPct")
+                && kpis.get("cssrPct").path("baseline").isNull();
     }
 
     private static void require(boolean valid, String message) {

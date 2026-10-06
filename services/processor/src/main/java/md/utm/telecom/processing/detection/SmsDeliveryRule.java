@@ -75,6 +75,9 @@ public final class SmsDeliveryRule {
         var p95Kpi = kpis.get("p95DeliveryMs");
         if (p95Kpi != null) {
             var supplied = p95Kpi.required("baseline");
+            if (supplied.isNull() && "baseline-v2".equals(window.path("baselineVersion").asText())
+                    && "2-geography-g1".equals(window.path("topologyVersion").asText()))
+                return unavailable("BASELINE_MISSING", window);
             require(expected == null ? supplied.isNull() : !supplied.isNull()
                     && number(supplied).compareTo(expected) == 0, "SMS p95 baseline mismatch");
         }

@@ -56,11 +56,16 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "21"
           cache: maven
+      - name: Install geographic parity dependencies
+        run: python -m pip install -r requirements-dev.txt -r services/ml-service/requirements-ml.txt
       - name: Start private ML inference
         run: |
           docker build -f services/ml-service/Dockerfile -t telecom-ml-integration .
@@ -81,6 +86,15 @@ jobs:
           ./mvnw -pl services/processor -am test
           -Dtest=VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode,SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode
           -Dsurefire.failIfNoSpecifiedTests=false
+      - name: Run geographic processor and parity verification
+        run: |
+          ./mvnw -pl services/processor -am test \
+            -Dtest=GeographicDetectionTest,GeographicWorkerTest,GeographicParityTest \
+            -Dsurefire.failIfNoSpecifiedTests=false
+          python scripts/check-voice-parity.py --geographic \
+            --java-output services/processor/target/geographic-voice-parity-java.json
+          python scripts/check-sms-parity.py --geographic \
+            --java-output services/processor/target/geographic-sms-parity-java.json
       - name: Stop private ML inference
         if: always()
         run: docker stop telecom-ml-integration || true
