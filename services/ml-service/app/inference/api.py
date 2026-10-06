@@ -26,11 +26,7 @@ async def lifespan(app: FastAPI):
     app.state.sms_prediction_slots = BoundedSemaphore(8)
     if app.state.sms_shadow_enabled:
         loaded = load_classifier(os.getenv('ML_SMS_CANDIDATE_PATH', str(
-            ROOT / 'services/ml-service/candidate-models' / MODEL_VERSION)))
-        manifest = loaded[0]
-        if (manifest['modelVersion'] != MODEL_VERSION or manifest['modelSha256'] != MODEL_SHA256
-                or manifest['threshold'] != THRESHOLD):
-            raise ValueError('Shadow candidate must match the frozen version, artifact and cutoff')
+            ROOT / 'services/ml-service/candidate-models' / MODEL_VERSION)), expected=(MODEL_VERSION, MODEL_SHA256, THRESHOLD))
         app.state.sms_classifier = loaded
     yield
 

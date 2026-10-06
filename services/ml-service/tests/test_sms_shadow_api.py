@@ -96,3 +96,11 @@ class SmsShadowApiTests(unittest.TestCase):
             response = client.post('/internal/inference/sms-classifier', json=self.window())
             self.assertEqual(response.status_code, 503)
             self.assertIsNone(response.json()['classifierScore'])
+
+    def test_frozen_identity_is_checked_before_deserializing(self):
+        from app.inference.sms_classifier import load_classifier
+        package=ROOT/'services/ml-service/candidate-models/sms-supervised-v1-2'
+        with patch('app.inference.sms_classifier.joblib.load') as deserialize:
+            with self.assertRaisesRegex(ValueError,'frozen identity'):
+                load_classifier(package,expected=('wrong-version','a'*64,.55))
+            deserialize.assert_not_called()

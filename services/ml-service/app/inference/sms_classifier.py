@@ -1,5 +1,6 @@
 """Trusted SMS classifier runtime. Scores are uncalibrated; no training imports."""
 from hashlib import sha256
+from io import BytesIO
 import json
 import math
 from pathlib import Path
@@ -27,10 +28,12 @@ def classifier_scores(model, values):
     return probabilities[:, classes.index(1)]
 
 
-def load_classifier(root):
+def load_classifier(root, *, expected=None):
     """Load only trusted local artifacts, after compatibility and integrity checks."""
     root = Path(root).resolve()
     manifest = json.loads((root / 'manifest.json').read_bytes())
+    if expected is not None and tuple(manifest.get(field) for field in ('modelVersion','modelSha256','threshold')) != expected:
+        raise ValueError('Classifier package does not match the frozen identity and cutoff')
     if (manifest.get('packageKind') != 'sms-classifier-v1' or manifest.get('service') != 'SMS'
             or manifest.get('featureVersion') != 2 or manifest.get('baselineVersion') != 'baseline-v2'
             or manifest.get('inputFeatureNames') != FEATURES):
@@ -51,9 +54,10 @@ def load_classifier(root):
     path = (root / manifest['modelFile']).resolve()
     if not path.is_relative_to(root):
         raise ValueError('Classifier artifact escapes package')
-    if sha256(path.read_bytes()).hexdigest() != manifest['modelSha256']:
+    artifact = path.read_bytes()
+    if sha256(artifact).hexdigest() != manifest['modelSha256']:
         raise ValueError('Classifier artifact checksum mismatch')
-    model = joblib.load(path)
+    model = joblib.load(BytesIO(artifact))
     if (type(model) not in TYPES or TYPES[type(model)] != manifest['modelType']
             or model.n_features_in_ != len(VIEWS[view]) or model.classes_.tolist() != manifest['classes']
             or set(model.classes_.tolist()) != {0, 1}):
