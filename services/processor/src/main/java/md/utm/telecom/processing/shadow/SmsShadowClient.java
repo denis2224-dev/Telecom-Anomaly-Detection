@@ -23,7 +23,7 @@ public class SmsShadowClient {
         public static Result failure(String status) { return new Result(status, null, null); }
     }
     private static final Duration BUDGET = Duration.ofMillis(250);
-    private final HttpClient http = HttpClient.newBuilder().connectTimeout(BUDGET).build();
+    private final HttpClient http = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(BUDGET).build();
     private final Semaphore permits = new Semaphore(8);
     private final ObjectMapper json = new ObjectMapper();
     private final URI endpoint;
