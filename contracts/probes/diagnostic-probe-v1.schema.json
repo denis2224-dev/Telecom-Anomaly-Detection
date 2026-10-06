@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://telecom-anomaly.local/contracts/probes/diagnostic-probe-v1.schema.json",
+  "title": "Bounded diagnostic probe result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "probeId",
+    "targetId",
+    "targetType",
+    "protocol",
+    "observedAt",
+    "result",
+    "latencyMs",
+    "errorCategory",
+    "workerStatus",
+    "freshness",
+    "vantagePoint",
+    "target"
+  ],
+  "properties": {
+    "probeId": {"type": "string", "format": "uuid"},
+    "targetId": {"type": "string", "minLength": 1},
+    "targetType": {"type": "string", "minLength": 1},
+    "protocol": {"enum": ["TCP", "HTTP", "ICMP"]},
+    "observedAt": {"type": "string", "format": "date-time"},
+    "result": {"enum": ["SUCCESS", "TIMEOUT", "REJECTED", "TARGET_UNAVAILABLE", "WORKER_UNAVAILABLE", "ERROR"]},
+    "latencyMs": {"type": ["integer", "null"], "minimum": 0},
+    "errorCategory": {
+      "enum": ["NONE", "TARGET_NOT_ALLOWED", "INVALID_TARGET", "TIMEOUT", "CONNECTION_REFUSED",
+        "DNS_FAILURE", "HTTP_ERROR", "ICMP_UNREACHABLE", "WORKER_STOPPED", "QUEUE_FULL", "UNKNOWN"]
+    },
+    "workerStatus": {"enum": ["HEALTHY", "DEGRADED", "STOPPED"]},
+    "freshness": {"enum": ["CURRENT", "STALE", "UNKNOWN"]},
+    "vantagePoint": {"type": "string", "minLength": 1},
+    "target": {"type": "string", "minLength": 1}
+  }
+}

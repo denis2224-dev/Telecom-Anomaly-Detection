@@ -1,0 +1,24 @@
+[
+  {
+    "targetId": "local-readiness",
+    "targetName": "Local readiness fixture",
+    "targetType": "HTTP_READINESS",
+    "protocol": "HTTP",
+    "address": "http://127.0.0.1:18081/health/ready"
+  },
+  {
+    "targetId": "local-kafka",
+    "targetName": "Local Kafka fixture",
+    "targetType": "TCP_REACHABILITY",
+    "protocol": "TCP",
+    "address": "127.0.0.1",
+    "port": 19092
+  },
+  {
+    "targetId": "local-icmp",
+    "targetName": "Local loopback fixture",
+    "targetType": "ICMP_REACHABILITY",
+    "protocol": "ICMP",
+    "address": "127.0.0.1"
+  }
+]
