@@ -65,7 +65,7 @@ def load_classifier(root):
 
 def score(window, loaded):
     manifest, model = loaded
-    if any(key in window for key in ('label', 'groundTruth', 'scenario', 'operatingProfile')):
+    if any(key in window for key in ('label', 'groundTruth', 'scenario', 'operatingProfile', 'faultFamily', 'severity', 'runId', 'episodeId', 'seed')):
         raise ValueError('Labels and evaluation metadata are not runtime inputs')
     values = window.get('featureValues')
     if (window.get('service') != 'SMS' or window.get('quality') != 'COMPLETE'

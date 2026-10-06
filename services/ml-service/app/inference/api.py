@@ -5,6 +5,8 @@ import os
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from fastapi.exception_handlers import request_validation_exception_handler
 
 from app.inference.scoring import load, score
 from app.inference.scoring import ROOT
@@ -57,6 +59,13 @@ def infer(window: dict):
 def shadow_failure(status, code):
     return JSONResponse(status_code=code, content=dict(schemaVersion=1, mlStatus=status,
         classifierScore=None, detection=None, threshold=THRESHOLD, modelVersion=None, modelSha256=MODEL_SHA256))
+
+
+@app.exception_handler(RequestValidationError)
+async def invalid_request(request, error):
+    if request.url.path == '/internal/inference/sms-classifier':
+        return shadow_failure('INSUFFICIENT_DATA', 422)
+    return await request_validation_exception_handler(request, error)
 
 
 @app.post('/internal/inference/sms-classifier')

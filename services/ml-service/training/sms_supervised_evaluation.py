@@ -76,7 +76,9 @@ def parity(rows, scores, threshold, scorer, loaded):
     for index, row in enumerate(rows):
         representatives.setdefault((row['scenario'], row['severity'], row['operatingProfile']), index)
     for index in representatives.values():
-        window = dict(rows[index], featureVersion=2, baselineVersion='baseline-v2', quality='COMPLETE', mlEligible=True)
+        row = rows[index]
+        window = dict(service=row['service'], featureNames=row['featureNames'], featureValues=row['featureValues'],
+                      featureVersion=2, baselineVersion='baseline-v2', quality='COMPLETE', mlEligible=True)
         scalar = scorer(window, loaded)
         value = scalar.get('classifierScore', scalar.get('anomalyRank'))
         decision = scalar.get('detection', scalar.get('anomaly'))

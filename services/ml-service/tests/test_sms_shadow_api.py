@@ -45,6 +45,11 @@ class SmsShadowApiTests(unittest.TestCase):
                 self.assertEqual(response.status_code, 422)
                 self.assertIsNone(response.json()['classifierScore'])
                 self.assertIsNone(response.json()['detection'])
+            for body in ([], 'invalid', None):
+                response = client.post('/internal/inference/sms-classifier', json=body)
+                self.assertEqual(response.status_code, 422)
+                self.assertIsNone(response.json()['classifierScore'])
+                self.assertIsNone(response.json()['detection'])
 
     def test_disabled_invalid_package_readiness_and_unavailable(self):
         from app.inference.api import app
