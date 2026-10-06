@@ -96,9 +96,9 @@ minute, receipt races, rollback, crash recovery, independent recorder ownership,
 continuity bounds, immutable enrollment, and fair bounded discovery. Lifecycle
 tests separately check readiness, configuration bounds and bootstrap exclusion.
 
-PR #52 also changes the ingestion integration test's schema assertion. It now
-verifies migrator ownership without a fixed table total, permitting V011's two
-tables and PR #52's two tables while retaining the
-runtime isolation checks. This is the only shared changed file; integration must
-retain PR #52's additional runtime privilege assertions when resolving that
-small test overlap.
+After merging current main, the ingestion integration test expects fourteen
+application tables owned by `processing_migrator`: twelve through V010 plus the
+two V011 checkpoint tables. PR #52's SMS shadow runtime privilege assertions
+and the database isolation checks remain. The clean processor and dependency
+test suite passed with Docker after this merge, including 25 monitoring cases,
+the V011 migration check and 28 ingestion integration cases.
