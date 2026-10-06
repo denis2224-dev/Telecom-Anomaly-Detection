@@ -30,6 +30,10 @@
     "if": {"properties": {"mlStatus": {"const": "OK"}}},
     "then": {"properties": {"classifierScore": {"type": "number"}, "detection": {"type": "boolean"}, "modelVersion": {"const": "sms-supervised-v1-2"}}},
     "else": {"properties": {"classifierScore": {"type": "null"}, "detection": {"type": "null"}, "modelVersion": {"type": "null"}}}
+  }, {
+    "if": {"properties": {"mlStatus": {"const": "OK"}, "classifierScore": {"type": "number", "minimum": 0.55}}},
+    "then": {"properties": {"detection": {"const": true}}},
+    "else": {"if": {"properties": {"mlStatus": {"const": "OK"}}}, "then": {"properties": {"detection": {"const": false}}}}
   }],
   "$defs": {"utc": {"type": "string", "format": "date-time", "pattern": "Z$"}}
 }

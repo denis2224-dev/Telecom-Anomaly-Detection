@@ -33,3 +33,9 @@ class ShadowContractTests(unittest.TestCase):
                 self.validate(dict(self.event, **{field: 1}))
         with self.assertRaises(ValidationError):
             self.validate(dict(self.event, threshold=.5))
+
+    def test_cutoff_is_inclusive_and_decision_matches_score(self):
+        for value,decision in ((.55,True),(.549999,False),(1,True),(0,False)):
+            self.validate(dict(self.event,classifierScore=value,detection=decision))
+            with self.assertRaises(ValidationError):
+                self.validate(dict(self.event,classifierScore=value,detection=not decision))

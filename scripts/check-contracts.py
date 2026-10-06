@@ -9,6 +9,7 @@ from observation_contract import (
 
 def validate_detection_contracts():
     pairs = [
+        ('ml-shadow/sms-shadow-evidence-v1.schema.json', ['fixtures/ml-shadow/sms-healthy-v1.json']),
         ('policies/service-rules-v2.schema.json', ['policies/service-rules-v2.json']),
         ('baselines/baseline-catalogue-v2.schema.json', ['baselines/demo-baseline-v2.json', 'baselines/geographic-peer-baseline-v2.json']),
         ('features/service-feature-window-v2.schema.json',
