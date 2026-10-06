@@ -5,6 +5,7 @@
 ## Completed local checks
 
 - Incident-service compilation and package succeeded with Java 21.
+- With Docker available, `./mvnw -q clean test` passed the full incident-service suite on Testcontainers PostgreSQL 16.4. `DatabaseMigrationTest` passed all seven checks, and an explicit `-Dtest=GeographyProjectionIT` run passed both geography import/replay tests. The first unclean suite attempt encountered a stale V003 classpath resource left from the V004 rename; the clean run removed it.
 - `CoverageFactTest` and `GeographyControllerTest` passed: producer fixture identity, changed 64-character window ID, foreign source/version, activated catalogue digest, enabled-analyst call and 24-hour bound.
 - The canonical OpenAPI YAML parsed, `git diff --check` passed, and `docker compose config --quiet` passed.
 - On disposable local PostgreSQL 18, V001–V004 applied from an empty database and created 15 application tables, including merged PR #52's SMS shadow table. Runtime `incidents_app` had SELECT/INSERT but no UPDATE/DELETE on immutable coverage in the prior isolated check.
@@ -15,7 +16,6 @@
 
 ## Still required for shared G2
 
-- `DatabaseMigrationTest` and `GeographyProjectionIT` need the CI/Testcontainers PostgreSQL 16 environment. Docker was unavailable locally, so they were compiled but not executed here.
 - Run authenticated browser/API checks and the three-minute 20-scope receipt → KPI → coverage → API matrix on one integration revision. David's UI must consume those real responses before live acceptance is claimed.
-- The processor checkpoint for a geographic city silent from activation is reserved as `processing_db` V011 after merged PR #52's V008–V010. It is outside this incident-service branch. Until it lands, do not claim that first missing minute is fully covered.
+- The processor checkpoint for a geographic city silent from activation is in companion PR #53 as `processing_db` V011 after merged PR #52's V008–V010. Until it lands, do not claim that first missing minute is fully covered.
 - The optional national weighted aggregate and multi-scope percentile handling are not exposed by these city endpoints. Never average child p95 scalars.
