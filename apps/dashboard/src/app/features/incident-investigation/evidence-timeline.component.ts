@@ -50,8 +50,6 @@ type Detection = components['schemas']['ServiceDetection'];
         @if (detection.service === 'SMS') {
           <app-sample-volume [count]="completedSamples(detection)" />
           <app-metric-explanation topic="p95" />
-        } @else {
-          <app-metric-explanation topic="percentage-points" />
         }
 
         <div

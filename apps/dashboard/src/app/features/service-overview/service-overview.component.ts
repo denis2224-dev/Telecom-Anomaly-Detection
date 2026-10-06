@@ -19,13 +19,13 @@ import type { Filter } from './dashboard-geography';
   imports: [DatePipe, StatusBannerComponent, RouterLink, IconComponent, ConnectedOverviewComponent],
   templateUrl: "./service-overview.component.html",
   styles: [`
-    .page-heading { margin-bottom: 6px; gap: 12px; }
+    .page-heading { margin-bottom: 2px; gap: 12px; }
     .page-heading h1 { font-size: 24px; margin: 2px 0; }
     .page-heading .eyebrow { display: none; }
     .page-heading p:not(.eyebrow) { display: none; }
     .page-heading .heading-copy { flex: 1; }
     .page-heading button { min-height: 36px; }
-    .kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 8px 12px; background: var(--surface); border-radius: var(--radius-control); }
+    .kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 3px 12px; background: var(--surface); border-radius: var(--radius-control); }
     .kpi-strip > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
     .kpi-strip span { color: var(--text-muted); font-size: 11px; }
     .kpi-strip strong { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }

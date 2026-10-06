@@ -68,9 +68,6 @@ const MAX_WINDOWS = 1440;
       } @else if (item.freshness === 'STALE') {
         <app-metric-explanation topic="stale-evidence" mode="state" />
       }
-      @if (item.scope.service === 'VOLTE') {
-        <app-metric-explanation topic="percentage-points" />
-      }
       @if (item.latestWindow && !hasBaseline(selectedMetric().name)) {
         <app-metric-explanation topic="baseline-missing" mode="state" />
       }
