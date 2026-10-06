@@ -30,11 +30,15 @@ export class TelecomClient {
   async listIncidents(query: IncidentQuery = {}, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const { voiceIncidents } = await dataSource.loadVoice();
+      signal?.throwIfAborted();
       const { smsIncidents } = await dataSource.loadSms();
-      const items = [...voiceIncidents, ...smsIncidents].filter(item => (!query.scopeId || item.scopeId === query.scopeId)
+      const { cityIncidents } = await dataSource.loadConnectedDashboard();
+      signal?.throwIfAborted();
+      const items = [...voiceIncidents, ...smsIncidents, ...cityIncidents].filter(item => (!query.scopeId || item.scopeId === query.scopeId)
         && (!query.service || item.service === query.service)
         && (!query.status || item.status === query.status)
-        && (!query.technicalState || item.technicalState === query.technicalState));
+        && (!query.technicalState || item.technicalState === query.technicalState))
+        .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt) || b.id.localeCompare(a.id));
       const page = query.page ?? 0, size = query.size ?? 100;
       return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size };
     }
@@ -49,8 +53,11 @@ export class TelecomClient {
 
   async getIncident(id: string, signal?: AbortSignal) {
     if (dataSource.fixture) {
+      signal?.throwIfAborted();
       const { smsIncidents } = await dataSource.loadSms();
-      const incident = [...(await dataSource.loadVoice()).voiceIncidents, ...smsIncidents].find(item => item.id === id);
+      const { cityIncidents } = await dataSource.loadConnectedDashboard();
+      signal?.throwIfAborted();
+      const incident = [...(await dataSource.loadVoice()).voiceIncidents, ...smsIncidents, ...cityIncidents].find(item => item.id === id);
       if (!incident) throw new ApiFailure(404);
       return structuredClone(incident);
     }
@@ -66,7 +73,7 @@ export class TelecomClient {
   async getDetections(id: string, page = 0, size = 20, signal?: AbortSignal) {
     if (dataSource.fixture) {
       const incident = await this.getIncident(id, signal);
-      const items = incident.service === 'SMS' ? (await dataSource.loadSms()).smsDetections : [incident.latestDetection];
+      const items = incident.scopeId === 'SMS-MD-ROUTE-A' ? (await dataSource.loadSms()).smsDetections : [incident.latestDetection];
       return { items: items.slice(page * size, (page + 1) * size), total: items.length, page, size };
     }
     return this.request<components['schemas']['DetectionPage']>('GET',
@@ -77,7 +84,9 @@ export class TelecomClient {
     if (dataSource.fixture) {
       const { voiceWindows, voiceRange } = await dataSource.loadVoice();
       const { smsWindows, smsRange } = await dataSource.loadSms();
-      const items = [...voiceWindows, ...smsWindows].filter(item => item.scopeId === scopeId
+      const { cityWindows } = await dataSource.loadConnectedDashboard();
+      signal?.throwIfAborted();
+      const items = [...voiceWindows, ...smsWindows, ...cityWindows].filter(item => item.scopeId === scopeId
         && Date.parse(item.windowStart) >= Date.parse(query.from) && Date.parse(item.windowStart) < Date.parse(query.to));
       const page = query.page ?? 0, size = query.size ?? 100;
       return { items: structuredClone(items.slice(page * size, (page + 1) * size)), total: items.length, page, size, observedAt: scopeId === 'SMS-MD-ROUTE-A' ? smsRange.to : voiceRange.to };

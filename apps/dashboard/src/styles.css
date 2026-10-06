@@ -5,13 +5,7 @@
 @import './styles/features.css';
 
 /* Service Assurance content in the accepted operations shell. */
-.kpi-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
-.kpi-card { border: 1px solid var(--telecom-border); background: var(--telecom-surface); padding: 14px; }
-.kpi-card h3 { margin: 0 0 8px; color: var(--telecom-muted-text); font-size: 12px; }
-.kpi-value { font-size: 25px; color: var(--telecom-primary); font-variant-numeric: tabular-nums; }
-.kpi-card p { margin: 4px 0; font-size: 12px; }
-.kpi-card small, .incident-story li small { display: block; color: var(--telecom-muted-text); font-size: 10px; margin-top: 5px; }
-.no-measurement .kpi-value { color: var(--telecom-muted-text); }
+.incident-story li small { display: block; color: var(--text-muted); font-size: 10px; margin-top: 5px; }
 .dependency-flow { display: flex; gap: 12px; align-items: stretch; }
 .dependency-node { background: var(--telecom-secondary-background); border: 1px solid var(--telecom-border); padding: 12px; flex: 1; min-width: 0; }
 .dependency-node h3 { margin-top: 0; }
@@ -48,7 +42,26 @@ app-metric-chart { display: block; min-width: 0; }
   .story-grid { grid-template-columns: 1fr; }
   .dependency-flow { flex-direction: column; }
   .dependency-arrow { transform: rotate(90deg); }
-  .kpi-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kpi-card { padding: 10px; min-width: 0; }
-  .kpi-value { font-size: 20px; overflow-wrap: anywhere; }
 }
+
+/* Compact diagnostic views share the same chart and evidence components. */
+.diagnosis-charts { gap: 8px; }
+.diagnosis-charts .detail-panel { padding: 10px !important; }
+.diagnosis-charts h2 { font-size: 14px; }
+.diagnosis-charts .section-heading { margin: 0 0 6px; }
+.diagnosis-charts .chart-scroll svg { min-width: 0; max-height: 190px; }
+.diagnosis-charts .chart-panel > .muted, .diagnosis-charts .chart-panel > p { font-size: 10px; margin: 4px 0; }
+.exact-values { margin: 12px 0; background: var(--surface); padding: 10px; border-radius: var(--radius); }
+.exact-values .chart-scroll { max-height: 320px; overflow: auto; }
+main:has(app-connected-overview) { padding-top: 8px; }
+main:has(app-connected-overview) .preview-label { margin-bottom: 8px; padding: 5px 10px; }
+@media (min-width: 1101px) {
+  .app-shell:has(app-connected-overview) .app-header { height: 40px; }
+}
+
+.diagnosis-charts .plot-wrapper { margin: 8px 0; }
+.diagnosis-charts .chart-panel > .muted, .diagnosis-charts .chart-panel > p:not(#chart-keyboard-hint) { display: none; }
+.diagnosis-charts app-kpi-chart { min-width: 0; }
+.diagnosis-charts .chart-panel { height: 100%; }
+.diagnosis-charts .chart-panel .eyebrow { display: none; }
+@media (min-width: 1101px) { .diagnosis-charts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

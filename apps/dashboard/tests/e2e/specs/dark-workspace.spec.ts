@@ -67,6 +67,7 @@ for (const width of [1366, 768, 390]) {
     await capture('volte');
     const sms = services.find(item => item.scope.service === 'SMS')!;
     await page.goto(`/services/${sms.scope.scopeId}`);
+    await page.locator('details.source-inventory > summary').click();
     await expect(page.getByRole('heading', { name: 'SMS delivery and queue' })).toBeVisible();
     await capture('sms');
     await page.goto(`/incidents/${incident.id}`);

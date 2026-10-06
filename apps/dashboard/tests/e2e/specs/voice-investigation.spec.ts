@@ -24,9 +24,11 @@ test.describe('Voice investigation', () => {
   });
   test('overview opens paginated history with gaps and one recovered/open episode', async ({ page }, info) => {
     await page.goto('/dashboard');
+    await page.locator('details.source-inventory > summary').click();
     await page.locator('a[href="/services/VOLTE-MD-CENTRAL"]').first().click();
     await expect(page.getByRole('heading', { name: 'VoLTE setup assurance', exact: true })).toBeVisible();
-    await expect(page.getByText('8,000 recorded attempts', { exact: false })).toBeVisible();
+    await page.locator('.exact-values > summary').click();
+    await expect(page.getByText('8,000 recorded attempts', { exact: false }).last()).toBeVisible();
     await expect(page.locator('.episode-card')).toHaveCount(1);
     await expect(page.locator('.episode-card')).toContainText('RECOVERED');
     await expect(page.locator('.episode-card')).toContainText('OPEN');
@@ -34,7 +36,7 @@ test.describe('Voice investigation', () => {
     await expect(page.locator('.incident-band')).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath('voice-laptop.png'), fullPage: true });
-    await page.getByText('Show exact values and attempt counts', { exact: false }).click();
+
     await expect(page.locator('app-kpi-chart tbody tr')).toHaveCount(10);
     await expect(page.locator('app-kpi-chart tbody tr').nth(8)).toContainText('Unavailable');
     await page.getByText('View incident evidence', { exact: true }).click();
@@ -69,7 +71,7 @@ test.describe('Voice investigation', () => {
     await page.route('**/api/services/*/kpis?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100, observedAt: '2026-09-15T10:10:00Z' } }));
     await page.route('**/api/incidents?**', route => route.fulfill({ json: { items: [], total: 0, page: 0, size: 100 } }));
     await page.goto('/services/VOLTE-MD-CENTRAL');
-    await expect(page.getByText('No voice KPI history in this time range.')).toBeVisible();
+    await expect(page.getByText('No diagnostic charts with a baseline in this range.', { exact: false })).toBeVisible();
     await expect(page.getByText('No incident episodes on this page.')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath('voice-mobile-empty.png'), fullPage: true });

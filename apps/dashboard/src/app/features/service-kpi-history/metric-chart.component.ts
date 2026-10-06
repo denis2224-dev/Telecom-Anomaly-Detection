@@ -6,10 +6,10 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
   selector: 'app-metric-chart', imports: [DatePipe],
   template: `<section class="detail-panel metric-chart" [attr.data-chart]="name()">
     <h2>{{ title() }}</h2>
-    <div class="chart-legend"><span>━━ Actual {{ unit() }}</span><span class="expected-key">┄┄ Contextual baseline</span><span class="state-degraded">DEGRADED</span><span class="state-recovery">RECOVERY</span><span class="state-unknown">UNKNOWN / MISSING</span></div>
+    @if (view() === 'both') { <div class="chart-legend"><span>━━ Actual {{ unit() }}</span><span class="expected-key">┄┄ Contextual baseline</span><span class="state-degraded">DEGRADED</span><span class="state-recovery">RECOVERY</span><span class="state-unknown">UNKNOWN / MISSING</span></div> }
     @if (!hasBaseline()) { <p class="muted">No baseline available for this metric.</p> }
     @if (rows().length) {
-      <div class="chart-scroll" tabindex="0" [attr.aria-label]="title() + ' chart'">
+      @if (view() !== 'table') { <div class="chart-scroll" tabindex="0" [attr.aria-label]="title() + ' chart'">
         <svg viewBox="0 0 900 220" role="img" [attr.aria-label]="title() + ': actual versus baseline, with persisted detection phases'">
           <title>{{ title() }} · {{ unit() }}</title><desc>Blank actual gaps are unavailable measurements. Phase bands follow persisted detections; healthy points alone do not prove recovery. Exact values are below.</desc>
           @for (band of bands(); track $index) { <rect [attr.data-phase]="band.phase" [attr.class]="'phase-band ' + band.phase" [attr.x]="x(band.start)" y="15" [attr.width]="Math.max(1, x(band.end) - x(band.start))" height="160"><title>{{ band.phase }} {{ band.start }} – {{ band.end }}</title></rect> }
@@ -19,17 +19,19 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
           <text x="65" y="205">{{ from() | date:'dd MMM HH:mm':'UTC' }}</text><text x="875" y="205" text-anchor="end">{{ to() | date:'dd MMM HH:mm':'UTC' }} UTC</text>
         </svg>
       </div>
-      <details><summary>Exact {{ title() }} values ({{ rows().length }} windows)</summary><div class="chart-scroll" tabindex="0"><table class="kpi-table"><thead><tr><th>UTC start</th><th>Actual</th><th>Baseline</th><th>State</th><th>Quality</th></tr></thead><tbody>
+      }
+      @if (view() !== 'chart') { <details [open]="view() === 'table'"><summary>Exact {{ title() }} values ({{ rows().length }} windows)</summary><div class="chart-scroll" tabindex="0"><table class="kpi-table"><thead><tr><th>UTC start</th><th>Actual</th><th>Baseline</th><th>State</th><th>Quality</th></tr></thead><tbody>
         @for (row of tableRows(); track row.windowId) { <tr><th>{{ row.windowStart | date:'dd MMM HH:mm':'UTC' }}</th><td>{{ format(value(row), unit()) }}</td><td>{{ format(baseline(row), unit()) }}</td><td>{{ phase(row) }}</td><td>{{ row.quality }}</td></tr> }
       </tbody></table></div><nav class="pagination" [attr.aria-label]="title() + ' table pages'">
         <button (click)="tablePage.set(tablePage() - 1)" [disabled]="tablePage() === 0">Previous windows</button>
         <span>Page {{ tablePage() + 1 }} of {{ tablePages() }}</span>
         <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows</button>
-      </nav></details>
+      </nav></details> }
     } @else { <p role="status">No KPI history in this time range.</p> }
   </section>`,
 })
 export class MetricChartComponent {
+  readonly view = input<'chart' | 'table' | 'both'>('both');
   readonly windows = input<KpiWindow[]>([]); readonly detections = input<Detection[]>([]);
   readonly name = input.required<string>(); readonly title = input.required<string>(); readonly unit = input('');
   readonly from = input.required<string>(); readonly to = input.required<string>();

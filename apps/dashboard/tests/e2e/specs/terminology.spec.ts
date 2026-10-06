@@ -85,6 +85,7 @@ test.describe('Dashboard terminology', () => {
         await page.goto('/dashboard');
         await expect(page.locator('.service-row')).toContainText('UNKNOWN');
         await expect(page.locator('.service-row')).toContainText('expected value');
+        await page.locator('details.source-inventory > summary').click();
         await page.getByRole('link', { name: summary.scope.scopeId, exact: true }).click();
       } else {
         await page.goto(scenario.modelTimeout ? `/incidents/${item.id}` : `/services/${summary.scope.scopeId}`);
@@ -94,6 +95,7 @@ test.describe('Dashboard terminology', () => {
         await expect(page.locator('[aria-label="Cause hypothesis"]')).toContainText('Model response timed out');
         await expect(page.locator('[aria-label="Cause hypothesis"]')).toContainText('Model anomaly rank: Unavailable');
       }
+      if (scenario.samples !== undefined || scenario.stale) await page.locator('details.source-inventory > summary').click();
       const state = page.locator(`aside[data-topic="${scenario.topic}"]`).first();
       await expect(state).toBeVisible();
       await expect(state.locator('strong')).not.toBeEmpty();
@@ -121,6 +123,7 @@ test.describe('Dashboard terminology', () => {
   test('keeps queue evidence visible when no messages completed', async ({ page }) => {
     const { summary } = await setup(page, { id: 'zero-samples', service: 'SMS', topic: 'no-samples', samples: 0 });
     await page.goto(`/services/${summary.scope.scopeId}`);
+    await page.locator('details.source-inventory > summary').click();
     await expect(page.locator('app-sms-quality')).toContainText('No completed messages in this window');
     await expect(page.locator('app-sms-quality')).toContainText('Delivery p95 Unavailable');
     await expect(page.locator('app-sms-quality')).toContainText('250 messages');

@@ -1,5 +1,6 @@
 export const dataSource = {
   fixture: true,
+  loadConnectedDashboard: async () => import('../../../fixtures/connected-dashboard'),
   loadVoice: async () => import('../../../fixtures/voice'),
   loadSms: async () => import('../../../fixtures/sms'),
   loadRange: async (scopeId: string) => {
@@ -11,7 +12,9 @@ export const dataSource = {
     const { voiceWindows, voiceRange } = await import('../../../fixtures/voice');
     const voice = services.find(item => item.scope.scopeId === 'VOLTE-MD-CENTRAL')!;
     const { smsWindows, smsRange } = await import('../../../fixtures/sms');
-    return services.map(item => item === voice ? { ...item, latestWindow: voiceWindows.at(-1), observedAt: voiceRange.to, openIncidents: 1 }
+    const { citySummaries } = await import('../../../fixtures/connected-dashboard');
+    const legacy = services.map(item => item === voice ? { ...item, latestWindow: voiceWindows.at(-1), observedAt: voiceRange.to, openIncidents: 1 }
       : item.scope.scopeId === 'SMS-MD-ROUTE-A' ? { ...item, latestWindow: smsWindows.at(-1), observedAt: smsRange.to, openIncidents: 1 } : item);
+    return [...legacy, ...structuredClone(citySummaries)];
   },
 };

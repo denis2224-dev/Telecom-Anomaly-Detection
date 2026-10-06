@@ -18,7 +18,7 @@ describe("Service overview rendering", () => {
         {
           provide: TelecomClient,
           useValue: {
-            listServices: async () => services,
+            getServiceKpis: async () => ({ items: [], total: 0, observedAt: '2026-09-15T10:10:00Z' }), listServices: async () => services,
             listIncidents: async () => ({ items: [incident], total: 1 }),
           },
         },
@@ -43,10 +43,12 @@ describe("Service overview rendering", () => {
     TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
-        { provide: TelecomClient, useValue: { listServices: async () => services, listIncidents: async () => ({ items: [incident], total: 1 }) } },
+        { provide: TelecomClient, useValue: { getServiceKpis: async () => ({ items: [], total: 0, observedAt: '2026-09-15T10:10:00Z' }), listServices: async () => services, listIncidents: async () => ({ items: [incident], total: 1 }) } },
       ],
     });
     const fixture = TestBed.createComponent(ServiceOverviewComponent);
+    await fixture.whenStable();
+    (fixture.nativeElement.querySelector('details.source-inventory') as HTMLDetailsElement).open = true;
     await fixture.whenStable();
     const link = fixture.nativeElement.querySelector(
       'a[href^="/services/SMS-MD-ROUTE-A"]',
