@@ -18,7 +18,7 @@ public class SmsShadowPublisher {
     private final JdbcTemplate jdbc;
     private final KafkaTemplate<String,String> kafka;
     public SmsShadowPublisher(JdbcTemplate jdbc,KafkaTemplate<String,String> kafka) { this.jdbc=jdbc;this.kafka=kafka; }
-    @Scheduled(fixedDelayString="${telecom.sms-shadow.poll-interval:1000}",scheduler="smsShadowScheduler")
+    @Scheduled(fixedDelayString="${telecom.sms-shadow.poll-interval:1000}",scheduler="smsShadowTaskScheduler")
     public void poll() {
         try { publishBatch(); }
         catch(InterruptedException interrupted) { Thread.currentThread().interrupt(); }

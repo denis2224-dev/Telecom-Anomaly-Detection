@@ -8,7 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 public class SmsShadowScheduling {
     @Bean(name="taskScheduler")
     public ThreadPoolTaskScheduler ruleScheduler() { return scheduler("rule-scheduler-"); }
-    @Bean(name="smsShadowScheduler")
+    @Bean(name="smsShadowTaskScheduler")
     public ThreadPoolTaskScheduler shadowScheduler() { return scheduler("sms-shadow-"); }
     private ThreadPoolTaskScheduler scheduler(String prefix) {
         var scheduler=new ThreadPoolTaskScheduler();

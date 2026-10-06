@@ -21,7 +21,7 @@ public class SmsShadowScheduler {
     private final ExecutorService pool=Executors.newFixedThreadPool(8);
     private final SmsShadowWorker worker;
     public SmsShadowScheduler(SmsShadowWorker worker) { this.worker=worker; }
-    @Scheduled(fixedDelayString="${telecom.sms-shadow.poll-interval:1000}",scheduler="smsShadowScheduler")
+    @Scheduled(fixedDelayString="${telecom.sms-shadow.poll-interval:1000}",scheduler="smsShadowTaskScheduler")
     public void poll() {
         var tasks=new ArrayList<Callable<Void>>();
         for(int i=0;i<8;i++) tasks.add(() -> {
