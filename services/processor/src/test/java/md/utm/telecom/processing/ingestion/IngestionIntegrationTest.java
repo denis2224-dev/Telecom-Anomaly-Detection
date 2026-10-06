@@ -100,8 +100,9 @@ class IngestionIntegrationTest {
     @Test void migrationOwnershipRuntimeDmlAndIsolation() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(10, jdbc.queryForObject("""
-                SELECT count(*) FROM pg_tables WHERE schemaname='app' AND tableowner='processing_migrator'
+        // Additive migrations may add tables; every application table still belongs to the migrator.
+        assertEquals(0, jdbc.queryForObject("""
+                SELECT count(*) FROM pg_tables WHERE schemaname='app' AND tableowner <> 'processing_migrator'
                 AND tablename <> 'flyway_schema_history'
                 """, Integer.class));
         assertEquals("processing_app", jdbc.queryForObject("SELECT current_user", String.class));
