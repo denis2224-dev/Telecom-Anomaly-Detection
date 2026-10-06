@@ -40,12 +40,18 @@ public final class VoiceSetupRule {
     private final DetectionPolicy policy;
     private final BaselineRegistry baselines;
     private final JsonSchema schema;
-    private final ObservationValidator observations;
+    private final DetectionAuthority authority;
 
     public VoiceSetupRule(DetectionPolicy policy, BaselineRegistry baselines) throws IOException {
+        this(policy, baselines, java.util.Optional.empty());
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public VoiceSetupRule(DetectionPolicy policy, BaselineRegistry baselines,
+                          java.util.Optional<DetectionAuthority> authority) throws IOException {
         this.policy = policy;
         this.baselines = baselines;
-        observations = new ObservationValidator();
+        this.authority = authority.orElseGet(DetectionAuthority::load);
         schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
                 ObservationValidator.resource("features/service-feature-window-v2.schema.json", new ObjectMapper()),
                 SchemaValidatorsConfig.builder().formatAssertionsEnabled(true).build());
@@ -117,14 +123,7 @@ public final class VoiceSetupRule {
     public Evaluation evaluate(JsonNode window, JsonNode imsReceipt) {
         var evaluated = evaluate(window);
         if (!evaluated.breached() || imsReceipt == null) return evaluated;
-        observations.validate(imsReceipt);
-        boolean aligned = imsReceipt.path("kind").asText().equals("NODE")
-                && imsReceipt.path("nodeId").asText().equals("IMS-A")
-                && imsReceipt.path("sourceId").asText().equals("IMS-A")
-                && imsReceipt.path("quality").asText().equals("COMPLETE")
-                && imsReceipt.path("scopeId").equals(window.get("scopeId"))
-                && imsReceipt.path("windowStart").equals(window.get("windowStart"))
-                && imsReceipt.path("windowEnd").equals(window.get("windowEnd"));
+        boolean aligned = authority.matches(window, imsReceipt);
         boolean sourcePresent = false;
         for (var id : window.required("sourceEventIds")) if (id.equals(imsReceipt.get("eventId"))) sourcePresent = true;
         Map<String, JsonNode> kpis = new HashMap<>();
@@ -141,7 +140,7 @@ public final class VoiceSetupRule {
         evidence.add(new Evidence("IMS_CAPACITY_HYPOTHESIS",
                 "Aligned IMS CPU=" + cpu.get("observed") + "%; SIP 503=" + sip.get("observed")
                         + "; RRC/bearer within 0.5 pp of baseline. Supports a capacity hypothesis, not a confirmed diagnosis.",
-                "IMS-A", List.of(imsReceipt.required("eventId").asText())));
+                imsReceipt.required("nodeId").asText(), List.of(imsReceipt.required("eventId").asText())));
         return new Evaluation(evaluated.status(), true, evaluated.severity(), evaluated.cssrDropPp(),
                 evaluated.impact(), evaluated.rulesetVersion(), evaluated.baselineVersion(), evaluated.topologyVersion(),
                 "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",

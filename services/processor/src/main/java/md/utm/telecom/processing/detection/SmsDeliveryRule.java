@@ -30,13 +30,19 @@ public final class SmsDeliveryRule {
     private static final BigDecimal MAX_COUNT = new BigDecimal("9007199254740991");
     private final DetectionPolicy policy;
     private final BaselineRegistry baselines;
-    private final ObservationValidator observations;
+    private final DetectionAuthority authority;
     private final com.networknt.schema.JsonSchema featureSchema;
 
     public SmsDeliveryRule(DetectionPolicy policy, BaselineRegistry baselines) throws IOException {
+        this(policy, baselines, java.util.Optional.empty());
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public SmsDeliveryRule(DetectionPolicy policy, BaselineRegistry baselines,
+                           java.util.Optional<DetectionAuthority> authority) throws IOException {
         this.policy = policy;
         this.baselines = baselines;
-        observations = new ObservationValidator();
+        this.authority = authority.orElseGet(DetectionAuthority::load);
         featureSchema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
                 ObservationValidator.resource("features/service-feature-window-v2.schema.json", new ObjectMapper()),
                 SchemaValidatorsConfig.builder().formatAssertionsEnabled(true).build());
@@ -76,14 +82,7 @@ public final class SmsDeliveryRule {
         boolean freshQueue = false;
         BigDecimal depth = null, age = null;
         if (smscReceipt != null) {
-            observations.validate(smscReceipt);
-            // ponytail: demo inventory has one SMSC role; use topology role metadata when more are added.
-            freshQueue = smscReceipt.path("kind").asText().equals("NODE")
-                    && smscReceipt.path("nodeId").asText().equals("SMSC-A")
-                    && smscReceipt.path("quality").asText().equals("COMPLETE")
-                    && smscReceipt.path("scopeId").equals(window.get("scopeId"))
-                    && smscReceipt.path("windowStart").equals(window.get("windowStart"))
-                    && smscReceipt.path("windowEnd").equals(window.get("windowEnd"))
+            freshQueue = authority.matches(window, smscReceipt)
                     && contains(window.required("sourceEventIds"), smscReceipt.required("eventId").asText())
                     && smscReceipt.path("metrics").has("queueDepth")
                     && smscReceipt.path("metrics").has("oldestPendingAgeSeconds");
@@ -124,7 +123,7 @@ public final class SmsDeliveryRule {
                 "p95=" + p95 + " ms; baseline=" + expected + " ms; completed=" + delivered,
                 null, ids(window.required("sourceEventIds"))));
         if (freshQueue) evidence.add(new Evidence("SMSC_QUEUE",
-                "pending=" + depth + "; oldest=" + age + " s", "SMSC-A",
+                "pending=" + depth + "; oldest=" + age + " s", smscReceipt.required("nodeId").asText(),
                 List.of(smscReceipt.required("eventId").asText())));
         String cause = backlogBreach ? "SMSC backlog suggests a delivery bottleneck; verify downstream routing."
                 : delayBreach ? "Completed SMS delivery is delayed; inspect SMSC and transport evidence."
