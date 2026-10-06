@@ -50,7 +50,7 @@ profile** are required. Once coverage is complete, acceptance also requires
 overall and in every healthy profile**. Reports include TP/FN/FP/TN, grouped
 metrics, missing coverage, inference timing and artifact/input/baseline hashes.
 JSON and Markdown reports use exclusive creation and cannot overwrite earlier
-results. A insufficiently covered cohort is `INSUFFICIENT_COVERAGE`, even if its
+results. An insufficiently covered cohort is `INSUFFICIENT_COVERAGE`, even if its
 point estimates look good.
 
 Test-only Kafka registry configuration preserves `autoStartup=false` when
@@ -107,7 +107,11 @@ while independent HTTP shadow inference runs. Detection identity, phase,
 severity, technical state, and recovery must match. History bootstrap is unused.
 
 The actual leased outbox publishers deliver to the actual incident-service
-Kafka consumers. Every eligible result must be OK and reach durable storage.
+Kafka consumers concurrently with the shadow phase. `ReplayPublisher.java` runs
+only the existing publication code; the processor test JVM evaluates every rule
+window. It waits until the off snapshot and shadow phase exist before publishing,
+and stops before the deliberate duplicate replay. Every eligible result must be
+OK and reach durable storage.
 An ACK-before-mark replay checks duplicate delivery. MockMvc exercises the real
 controllers/security filter chain, pages through all service results in UTC
 intervals of at most 24 hours, and checks incident overlap correlation. Healthy
@@ -118,6 +122,21 @@ The immutable run report includes stricter synthetic coverage gates, family and
 profile counts, HTTP latency, model/dataset/input hashes, image ID, and pipeline
 assertions. Large raw inputs and logs remain in the ignored run directory;
 reviewable report copies are recorded alongside implementation checkpoints.
+The timed replay uses two concurrent requests on this development machine. A
+separate real-container check sends eight simultaneous requests in five batches;
+API and client tests prove the eight-request bound and null saturation failures.
+The overall harness allows 60 minutes (55 minutes waiting for delivery); the
+HTTP request budget remains 250 ms. Earlier failed/aborted runs are preserved.
+
+```powershell
+.venv/Scripts/python.exe tasks/sms-ml-shadow-integration/check_container.py
+.venv/Scripts/python.exe tasks/sms-ml-shadow-integration/verify_replay.py `
+  --run tmp/sms-ml-shadow-work/replay-new --output replay-coverage-new.json
+```
+
+The supplemental verifier checks all 48 fault-family/severity/profile cells,
+at least 60 windows in each cell, 2,016 healthy controls in every profile, and
+zero rule detections in those controls. Its output is also created exclusively.
 
 ## Rollout and rollback
 
@@ -127,6 +146,8 @@ startup/readiness. Enable both flags only in isolated validation first. The
 processor uses a 250 ms budget and at most eight concurrent shadow requests;
 inference and delivery use a separate scheduler. Failures remain terminal
 evidence with null predictions, never healthy decisions.
+Serving caps active classifier predictions at eight with a nonblocking semaphore.
+Uvicorn has connection headroom for those requests and keepalive connections.
 
 Rollback disables both flags. Existing results remain readable and already
 queued outbox records remain deliverable. No dashboard or incident-lifecycle

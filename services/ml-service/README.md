@@ -260,3 +260,21 @@ an unused folder and a distinct model version.
 
 See [full results, the failed first attempt, checks and limitations](../../docs/evidence/2026-10-06-sms-supervised.md).
 No real-network accuracy is established by this synthetic experiment.
+
+## Optional SMS classifier shadow serving
+
+`POST /internal/inference/sms-classifier` serves the packaged
+`candidate-models/sms-supervised-v1-2` only when `ML_SMS_SHADOW_ENABLED=true`.
+`ML_SMS_CANDIDATE_PATH` selects its local package directory. The enabled package
+must match the frozen artifact and **0.55** cutoff; invalid packages fail startup.
+The complete six-feature SMS input is projected to five estimator features.
+Scores are uncalibrated, never `anomalyRank`. Failure scores and decisions are
+null (422 incompatible input; 503 disabled/unavailable).
+
+The application scorer has no training/data-generator imports, loads once, and
+uses one Random Forest worker per request. The offline CLI uses the same scorer.
+The processor persists independent shadow evidence for every finalized SMS
+window; deterministic rules retain all incident decisions. Shadow mode is
+disabled by default. See the [validation and rollout workflow](../../tasks/sms-ml-shadow-integration/validation.md)
+for isolated pipeline replay and supplied-data evaluation. Actual real-network
+validation is **PENDING_DATA**.
