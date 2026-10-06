@@ -15,15 +15,18 @@ FAULTS = {'VOLTE': ('ims-capacity', 'transport-loss', 'access-failure', 'service
           'SMS': ('delivery-delay', 'backlog', 'delivery-failure', 'mixed-delay-backlog')}
 
 
-def scenario_window(service, start, seed, scenario, severity, run_id='scenario'):
+def scenario_window(service, start, seed, scenario, severity, run_id='scenario', operating_profile=None):
     if (service not in FAULTS or scenario not in NORMALS + FAULTS[service]
             or (scenario in NORMALS and severity != 0)
             or (scenario in FAULTS[service] and severity not in (1, 2, 3))):
         raise ValueError('Unknown scenario or invalid severity')
+    if operating_profile is not None and operating_profile not in NORMALS:
+        raise ValueError('Unknown operating profile')
+    profile = operating_profile or scenario
 
     def transform(raw, nodes, rng):
         m = raw['metrics']
-        factor = 1.8 if scenario == 'high-load' else .35 if scenario == 'low-volume' else 1
+        factor = 1.8 if profile == 'high-load' else .35 if profile == 'low-volume' else 1
         if service == 'VOLTE':
             old_eligible = m['attempts'] - m['userOutcomes']
             eligible = max(50, round(old_eligible * factor))
@@ -57,18 +60,21 @@ def scenario_window(service, start, seed, scenario, severity, run_id='scenario')
                 success_rate = (.96, .85, .60)[severity - 1]
             m.update(deliveredMessages=delivered, deliverySuccesses=delivered,
                      deliveryAttempts=round(delivered / success_rate))
-            delay = 1700 * rng.uniform(1.15, 1.7) if scenario == 'healthy-jitter' else 1700
+            delay = 1700 * rng.uniform(1.15, 1.7) if profile == 'healthy-jitter' else 1700
             if scenario in ('delivery-delay', 'mixed-delay-backlog'):
                 delay = (4000, 9000, 30000)[severity - 1]
             m['deliveryDelayMs'] = [max(1, round(delay * rng.uniform(.8, 1.2))) for _ in range(delivered)]
             gauge = nodes[0]['metrics']
-            if scenario == 'high-load':
+            if profile == 'high-load':
                 gauge.update(queueDepth=rng.randrange(10, 36), oldestPendingAgeSeconds=rng.randrange(5, 26))
-            elif scenario in ('backlog', 'mixed-delay-backlog'):
+            if scenario in ('backlog', 'mixed-delay-backlog'):
                 gauge.update(queueDepth=round((45, 150, 450)[severity - 1] * rng.uniform(.9, 1.1)),
                              oldestPendingAgeSeconds=round((35, 120, 600)[severity - 1] * rng.uniform(.9, 1.1)))
 
-    return make_window(service, start, f'{seed}:{scenario}:{severity}', run_id=run_id,
+    identity = f'{seed}:{scenario}:{severity}'
+    if operating_profile is not None:
+        identity += f':{operating_profile}'
+    return make_window(service, start, identity, run_id=run_id,
                        raw_transform=transform)
 
 
