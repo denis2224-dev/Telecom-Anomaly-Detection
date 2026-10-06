@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "status": "PASSED",
+  "realNetworkValidation": "PENDING_DATA",
+  "shadowEnabledByDefault": false,
+  "restoration": {
+    "archiveAndFrozenDefaultsVerified": true,
+    "reportNormalizedSha256": "1b10f4a8d7a6e8bb16fb10a19e138d31fcef2f68dea689166db4e7689797854b"
+  },
+  "suites": {
+    "pythonRoot": {
+      "status": "PASSED",
+      "path": "tmp/sms-ml-shadow-work/python-root-complete.log",
+      "sha256": "d9343010377908dd74b220e0d03436f64d6a891f3b0c5ce24b5eeef91479b2a4",
+      "testCounts": 46
+    },
+    "pythonMl": {
+      "status": "PASSED",
+      "path": "tmp/sms-ml-shadow-work/python-ml-suite-complete.log",
+      "sha256": "5eec3251043390bcf8dc6c641f92f3abea95575a4cac23e5c7248a2fe01c45c9",
+      "testCounts": 48
+    },
+    "contracts": {
+      "status": "PASSED",
+      "path": "tmp/sms-ml-shadow-work/contracts-complete.log",
+      "sha256": "1bca2e67de8182f9b58239df832cff5065b3532508110bf3d76c42b1d9408c51",
+      "testCounts": null
+    },
+    "mavenProcessor": {
+      "status": "PASSED",
+      "path": "tmp/sms-ml-shadow-work/maven-processor-verify-complete.log",
+      "sha256": "b7595f0f52ae9c385875be828758efd1c65c1647ca6b74363f838f2f2eddc18c",
+      "testCounts": [
+        {
+          "tests": 110,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "tests": 59,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "tests": 252,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 3
+        }
+      ]
+    },
+    "mavenIncident": {
+      "status": "PASSED",
+      "path": "tmp/sms-ml-shadow-work/maven-incident-verify-complete.log",
+      "sha256": "1c2de1ac3a2941ef66d265ed0034d57b0b617f9179be374b1dfa7050e268ec57",
+      "testCounts": [
+        {
+          "tests": 133,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "processorReplay": {
+      "status": "PASSED",
+      "path": "tmp/sms-ml-shadow-work/replay-20261006-4/processor.log",
+      "sha256": "c1d5841ecb108ecae2f811e6230225d7300164de6a3992f4e57d6e3a83dbe44c",
+      "testCounts": [
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "incidentReplay": {
+      "status": "PASSED",
+      "path": "tmp/sms-ml-shadow-work/replay-20261006-4/incident.log",
+      "sha256": "e2b396eccd425df902baa4a8873c3684bd9fcaa0246af27dfcd64f375c7f9f43",
+      "testCounts": [
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    }
+  },
+  "container": {
+    "disabledReadiness": "UP",
+    "disabledStatus": 503,
+    "disabledPredictionsNull": true,
+    "invalidEnabledPackageFailsStartup": true,
+    "enabledReadiness": "UP",
+    "concurrentRequests": 8,
+    "enabledPredictions": 40,
+    "concurrentScoringParity": true
+  },
+  "offlineCli": {
+    "status": "PASSED",
+    "offlineCliHttpParity": true,
+    "modelVersion": "sms-supervised-v1-2",
+    "modelSha256": "f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19",
+    "threshold": 0.55
+  },
+  "artifacts": {
+    "replay-20261006.json": "71cde259588d306f5b47911e07e264d0a665efcf43183e83097d0e7db15dc36e",
+    "replay-20261006.md": "397f471fa916f55dcb367bea7c1ec750d932cfdedc0ff0f64e80f2a592b2dffe",
+    "replay-20261006-coverage.json": "8c761021df15e5ad5f07972eceaf1d8c56d35a2e05ca35666d73fb4bba728aff",
+    "prior-runs.json": "635fc410e80e43008a87b3464df38c0236fcfe0226b6a7d0d724cc4030bb4ff9"
+  },
+  "limitations": [
+    "Synthetic delivery replay establishes no real-network accuracy.",
+    "Replay uses two concurrent inference requests; the eight-request cap is verified separately.",
+    "Two pre-existing optional live-model processor tests are skipped in the default suite; each replay test is gated there and passed via the harness."
+  ],
+  "review": {
+    "correctness": "PASSED",
+    "security": "PASSED",
+    "maintainability": "PASSED",
+    "performance": "PASSED",
+    "fitness": "PASSED",
+    "notes": "Frozen hashes unchanged; no weakened acceptance assertions, retraining, cutoff adjustment, dashboard change or ML incident mutation."
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "modelVersion": "sms-supervised-v1-2",
+  "threshold": 0.55,
+  "modelOrThresholdChanged": false,
+  "usedForModelSelection": false,
+  "realNetworkValidation": "PENDING_DATA",
+  "runs": [
+    {
+      "run": 1,
+      "directory": "tmp/sms-ml-shadow-work/replay-20261006-1",
+      "status": "ABORTED",
+      "reason": "Unpooled test datasource made finalization too slow; no model selection.",
+      "files": {
+        "dataset.json": "d199d95d78054b22c911b7c2fbc90728656f08d6a8c8660d33a623fa3dc54c84",
+        "incident.log": "0d1d71be6ad47d78e26045371cfd52bb554c34b99c28413da855dc5b0e1033bd",
+        "processor.log": "77aa82a58eba760204fbb5471633e037c6ac4850e40b08b94ad40dcac5c63cdc"
+      }
+    },
+    {
+      "run": 2,
+      "directory": "tmp/sms-ml-shadow-work/replay-20261006-2",
+      "status": "FAILED_DELIVERY",
+      "reason": "Old serving connection cap and request timeouts; failure statuses preserved.",
+      "files": {
+        "aborted.json": "af5b0e37075be51570159f333810bfb8450fcbec484b4a0f618bb262f39b2833",
+        "dataset.json": "d199d95d78054b22c911b7c2fbc90728656f08d6a8c8660d33a623fa3dc54c84",
+        "incident.log": "eae82077048674b8d1539e6a1214730cf7e2945fd9d4e5a9c224a149ece7fcc6",
+        "processor.log": "0b7878b4a6b2967faa1fc566561044de98d09c514e6f1ce5dae1f86de2b5e94a"
+      }
+    },
+    {
+      "run": 3,
+      "directory": "tmp/sms-ml-shadow-work/replay-20261006-3",
+      "status": "HARNESSTIMEOUT",
+      "reason": "All 11424 predictions OK and rule parity passed; the 24-minute API wait expired during delivery.",
+      "files": {
+        "dataset.json": "7d2648d0f4bca8f86daa87dad2903d4feb5add3b1079123a9cbb2e94db4d71f8",
+        "incident.log": "e9ed98dcc680491f4cff5e86c9c0709b31c282e738ee75687f16e80e8caf6740",
+        "latencies.json": "b264c6f278de45ecf8db65ed325a86d1cee0b6eee8034115cc0a41c35e5ef6be",
+        "processor.log": "3a6152e4222114463af469cdf351986047247b560f1bfa0dda83b4c2555f42e2",
+        "shadow-results.jsonl": "a302806ed11d1cdaef7ac0827b78a540e3cb15df72886850c72582747b12f659"
+      }
+    }
+  ]
+}
