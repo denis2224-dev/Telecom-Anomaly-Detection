@@ -1,5 +1,4 @@
--- PROPOSAL ONLY: review and reserve a Flyway version on the shared integration SHA.
--- These are additive incident-database projections, not processing authority.
+-- Additive read projections in incidents_db; processor authority remains separate.
 CREATE TABLE app.geo_catalogue_versions (
     catalogue_version VARCHAR(128) PRIMARY KEY,
     topology_version VARCHAR(160) NOT NULL,
@@ -117,6 +116,24 @@ CREATE TABLE app.scope_window_coverage (
 CREATE INDEX scope_window_coverage_lookup_idx
     ON app.scope_window_coverage (service, scope_id, window_start DESC);
 
--- Do not create/apply this migration until catalogue-version import, duplicate-body
--- hashing, source-set checks, exact windowId calculation, old rows and DB grants are
--- tested. The existing incident Flyway tests currently expect V001-V002 only.
+-- Default privileges grant broad DML to incidents_app. Keep imported history immutable.
+REVOKE ALL ON app.geo_catalogue_versions, app.geo_cities, app.geo_nodes,
+    app.geo_scope_bindings, app.geo_scope_roles, app.geo_configured_links,
+    app.scope_window_coverage FROM incidents_app;
+GRANT SELECT, INSERT ON app.geo_catalogue_versions, app.geo_cities, app.geo_nodes,
+    app.geo_scope_bindings, app.geo_scope_roles, app.geo_configured_links,
+    app.scope_window_coverage TO incidents_app;
+
+-- Durable rejection marker prevents one conflicting Kafka record from blocking the partition.
+CREATE TABLE app.scope_window_coverage_rejection (
+    kafka_topic VARCHAR(160) NOT NULL,
+    kafka_partition INTEGER NOT NULL CHECK (kafka_partition >= 0),
+    kafka_offset BIGINT NOT NULL CHECK (kafka_offset >= 0),
+    kafka_key VARCHAR(96),
+    payload_sha256 CHAR(64) NOT NULL CHECK (payload_sha256 ~ '^[0-9a-f]{64}$'),
+    reason VARCHAR(240) NOT NULL,
+    received_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (kafka_topic, kafka_partition, kafka_offset)
+);
+REVOKE ALL ON app.scope_window_coverage_rejection FROM incidents_app;
+GRANT SELECT, INSERT ON app.scope_window_coverage_rejection TO incidents_app;
