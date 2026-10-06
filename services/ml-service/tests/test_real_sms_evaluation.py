@@ -43,12 +43,25 @@ class RealEvaluationTests(unittest.TestCase):
             labels.write_bytes(label_bytes)
             features.write_bytes(feature_bytes*2)
             with self.assertRaisesRegex(ValueError,'Duplicate feature'): evaluate(features,labels,package,'test')
-            for patch in ({'featureValues':[float('nan')]*6},{'baselineVersion':'wrong'},{'featureNames':[]},{'label':'FAULT'}):
+            for patch in ({'featureValues':[float('nan')]*6},{'baselineVersion':'wrong'},{'featureNames':[]},{'label':'FAULT'},
+                          {'topologyVersion':'wrong'},{'scopeId':'UNKNOWN-SMS'}):
                 features.write_text(json.dumps(dict(window,**patch))+'\n')
                 with self.assertRaises(ValueError): evaluate(features,labels,package,'test')
             bad=deepcopy(window); bad['kpis'][0]['baseline']=1000
             features.write_text(json.dumps(bad)+'\n')
             with self.assertRaisesRegex(ValueError,'baseline'): evaluate(features,labels,package,'test')
+    def test_reports_are_immutable_and_include_timing_and_coverage(self):
+        from app.validation.sms_real_data import evaluate,write_report
+        with tempfile.TemporaryDirectory() as name:
+            root=Path(name); _,features,labels=self.fixture(root)
+            report=evaluate(features,labels,dataset_id='report-test')
+            output=root/'report.json'
+            write_report(report,output)
+            original=output.read_bytes()
+            self.assertIn('Inference timing',output.with_suffix('.md').read_text())
+            self.assertIn('Required coverage',output.with_suffix('.md').read_text())
+            with self.assertRaises(FileExistsError): write_report(report,output)
+            self.assertEqual(original,output.read_bytes())
     def test_metrics_gates_require_each_family_and_each_healthy_profile(self):
         from app.validation.sms_real_data import metrics, acceptance
         from app.validation.sms_real_data import FAMILIES, PROFILES

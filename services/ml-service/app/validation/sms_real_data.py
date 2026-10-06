@@ -19,6 +19,7 @@ PACKAGE=ROOT/'services/ml-service/candidate-models/sms-supervised-v1-2'
 MODEL_HASH='f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19'
 OUTPUT=Draft202012Validator(json.loads((ROOT/'contracts/features/service-feature-window-v2.schema.json').read_bytes()),format_checker=FormatChecker())
 BASELINE=json.loads((ROOT/'contracts/baselines/demo-baseline-v2.json').read_bytes())
+TOPOLOGY=json.loads((ROOT/'contracts/topology/demo-scopes-v2.json').read_bytes())
 BASELINE_VALUES=next(item['values'] for item in BASELINE['baselines'] if item['service']=='SMS')
 
 
@@ -41,6 +42,10 @@ def validate_window(window):
             or any(field in window for field in ('label','groundTruth','scenario','operatingProfile'))):
         raise ValueError('Require complete SMS features with the frozen baseline and no labels')
     start=utc(window['windowStart'])
+    hour=start.weekday()*24+start.hour
+    compatible=[item for item in BASELINE['baselines'] if item['scopeId']==window['scopeId'] and item['service']=='SMS' and hour in item['hours']]
+    if len(compatible)!=1 or window['topologyVersion']!=TOPOLOGY['topologyVersion']:
+        raise ValueError('Incompatible frozen baseline scope/hour or topology')
     if datetime.fromisoformat(window['windowEnd'])!=start+timedelta(minutes=1):
         raise ValueError('Incompatible feature window interval')
     expected=sha256(json.dumps([window['scopeId'],window['windowStart'],2],separators=(',',':')).encode()).hexdigest()
@@ -121,9 +126,7 @@ def acceptance(result,missing,min_faults=100,min_healthy=1000):
 
 
 def evaluate(features,labels,package=PACKAGE,dataset_id='supplied-data'):
-    manifest,model=load_classifier(package)
-    if manifest['modelSha256']!=MODEL_HASH or manifest['modelVersion']!='sms-supervised-v1-2' or manifest['threshold']!=.55:
-        raise ValueError('Require the frozen classifier and cutoff; no model selection or retraining')
+    manifest,model=load_classifier(package,expected=('sms-supervised-v1-2',MODEL_HASH,.55))
     windows,ledger=read_inputs(features,labels)
     keys=sorted(windows.keys() & ledger.keys())
     if not keys: raise ValueError('No joined labelled feature windows')
@@ -155,7 +158,12 @@ def write_report(report,output):
         recall='n/a' if group['recall'] is None else f"{group['recall']:.2%}"
         fpr='n/a' if group['falsePositiveRate'] is None else f"{group['falsePositiveRate']:.2%}"
         text.append(f"| {name} | {group['tp']} | {group['fn']} | {group['fp']} | {group['tn']} | {recall} | {fpr} |")
-    text+=['','Missing coverage: '+json.dumps(report.get('missingCoverage',{})), '', 'Provenance:','', '```json',json.dumps(report['provenance'],indent=2),'```','',
+    text+=['','Missing coverage: '+json.dumps(report.get('missingCoverage',{})),
+           '', 'Required coverage: '+json.dumps(report.get('coverageRequirements',{})),
+           '', 'Inference timing:', '', '```json',json.dumps(report.get('inference',{}),indent=2),'```']
+    if 'pipeline' in report:
+        text+=['','Delivery and incident isolation:', '', '```json',json.dumps(report['pipeline'],indent=2),'```']
+    text+=['', 'Provenance:','', '```json',json.dumps(report['provenance'],indent=2),'```','',
            'Actual real-network validation remains PENDING_DATA until labelled network data is supplied. Synthetic replay metrics do not establish real-network accuracy.']
     with output.open('x',encoding='utf-8') as stream: stream.write(json.dumps(report,indent=2,allow_nan=False)+'\n')
     with markdown.open('x',encoding='utf-8') as stream: stream.write('\n'.join(text)+'\n')
