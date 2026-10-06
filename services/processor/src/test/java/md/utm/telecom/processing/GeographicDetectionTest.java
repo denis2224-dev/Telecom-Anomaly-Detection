@@ -101,4 +101,53 @@ class GeographicDetectionTest {
             }
         }
     }
+
+    @ParameterizedTest @ValueSource(strings={"VOLTE-MD-CHI", "SMS-MD-CHI"})
+    void absentCityServiceIsUnknownAndCannotCountAsRecovery(String scope) throws Exception {
+        var baseline=baselines(); var policy=new DetectionPolicy();
+        var episode=new VoiceEpisode(new VoiceSetupRule(policy,baseline),new SmsDeliveryRule(policy,baseline),policy,new PayloadCodec());
+        var state=JSON.createObjectNode();
+        for(int minute=0;minute<2;minute++) {
+            var input=receipts(scope,true,minute);
+            episode.advance(state,feature(input,baseline),node(input),MlClient.Result.unavailable(),START.plusSeconds(minute*60L+70));
+        }
+        var missing=builder(baseline).buildMissing(scope,START.plusSeconds(120),START.plusSeconds(180));
+        assertEquals("UNKNOWN",episode.advance(state,missing,null,MlClient.Result.insufficient(),START.plusSeconds(190)).path("phase").asText());
+        for(int minute=3;minute<6;minute++) {
+            var input=receipts(scope,false,minute);
+            var result=episode.advance(state,feature(input,baseline),node(input),MlClient.Result.unavailable(),START.plusSeconds(minute*60L+70));
+            if(minute<5) assertNotEquals("RECOVERY",result==null ? "" : result.path("phase").asText());
+            else assertEquals("RECOVERY",result.path("phase").asText());
+        }
+    }
+
+    @org.junit.jupiter.api.Test void cityQueueOnlyBreachDoesNotNeedServiceSamplesOrAnMlVector() throws Exception {
+        var baseline=baselines(); var input=receipts("SMS-MD-BAL",true,0);
+        var receipt=node(input);
+        var missing=builder(baseline).buildMissing("SMS-MD-BAL",START,START.plusSeconds(60),List.of(receipt));
+        assertFalse(missing.path("mlEligible").asBoolean());
+        var result=new SmsDeliveryRule(new DetectionPolicy(),baseline).evaluate(missing,receipt);
+        assertTrue(result.breached()); assertFalse(result.healthy());
+        assertEquals(receipt.path("nodeId").asText(),result.evidence().getFirst().nodeId());
+    }
+
+    @ParameterizedTest @MethodSource("scopes")
+    @org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable(named="ML_SERVICE_URL",matches=".+")
+    void pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String scope) throws Exception {
+        var baseline=baselines(); var policy=new DetectionPolicy();
+        var client=new MlClient(System.getenv("ML_SERVICE_URL"));
+        var input=receipts(scope,true,0); var window=feature(input,baseline);
+        var scored=client.score(window);
+        assertEquals("OK",scored.status());
+        assertEquals("isoforest-v2-synthetic-1",scored.modelVersion());
+        var incompatible=((ObjectNode)window).deepCopy().put("baselineVersion","baseline-v2-incompatible");
+        var rejected=client.score(incompatible);
+        assertEquals("INSUFFICIENT_DATA",rejected.status());
+        assertNull(rejected.anomalyRank());
+        var episode=new VoiceEpisode(new VoiceSetupRule(policy,baseline),new SmsDeliveryRule(policy,baseline),policy,new PayloadCodec());
+        var state=JSON.createObjectNode();
+        assertNull(episode.advance(state,window,node(input),rejected,START.plusSeconds(70)));
+        var second=receipts(scope,true,1);
+        assertEquals("OPEN",episode.advance(state,feature(second,baseline),node(second),rejected,START.plusSeconds(130)).path("phase").asText());
+    }
 }
