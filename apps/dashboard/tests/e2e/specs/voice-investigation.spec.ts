@@ -40,7 +40,8 @@ test.describe('Voice investigation', () => {
     await expect(page.locator('app-kpi-chart tbody tr')).toHaveCount(10);
     await expect(page.locator('app-kpi-chart tbody tr').nth(8)).toContainText('Unavailable');
     await page.getByText('View incident evidence', { exact: true }).click();
-    await expect(page.locator('.episode-card').getByText(/Probable IMS capacity pressure/)).toBeVisible();
+    await expect(page.locator('.episode-evidence').getByText(/Probable IMS capacity pressure/)).toBeVisible();
+    await page.keyboard.press('Escape');
     await page.getByRole('link', { name: 'Open incident detail' }).click();
     await expect(page.getByRole('heading', { name: 'Incident investigation' })).toBeVisible();
     await expect(page.locator('[data-detection-id]')).toHaveCount(1);

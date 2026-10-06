@@ -3,11 +3,6 @@ import { Component, computed, input } from '@angular/core';
 type Help = { title: string; text: string; action: string };
 
 export const METRIC_HELP = {
-  'percentage-points': {
-    title: 'Percent or percentage points?',
-    text: 'Percent describes a rate. Percentage points (pp) describe the difference between two rates. A change from 98% to 96% is a drop of 2 pp, or about 2.04% relative to the original 98%.',
-    action: 'Read pp as a difference in rates. The trend on this screen uses pp, not relative percent.',
-  },
   p95: {
     title: 'What does delivery p95 mean?',
     text: 'Delivery p95 is the delay at or below which 95% of completed-message samples fall. It is not the average. Pending messages are outside those samples, and a small sample can make the percentile unstable.',

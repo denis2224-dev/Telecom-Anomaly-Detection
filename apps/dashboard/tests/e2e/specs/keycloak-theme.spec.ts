@@ -22,7 +22,7 @@ test("branded provider form preserves password controls and validation", async (
   const styles = await page.locator('link[rel="stylesheet"]').evaluateAll(links => links.map(link => (link as HTMLLinkElement).href));
   expect(styles.findIndex(href => href.endsWith("/css/login.css"))).toBeGreaterThanOrEqual(0);
   expect(styles.findIndex(href => href.endsWith("/css/login.css"))).toBeLessThan(styles.findIndex(href => href.endsWith("/css/telecom.css")));
-  await expect(page.locator("#kc-login")).toHaveCSS("background-image", /linear-gradient/);
+  await expect(page.locator("#kc-login")).toHaveCSS("background-image", "none");
   await expect(page.locator("body")).toHaveCSS("background-color", rgb(branding.bg));
   const normalizedFont = await page.evaluate(font => {
     const probe = document.createElement('span');
@@ -40,7 +40,7 @@ test("branded provider form preserves password controls and validation", async (
   await expect(page.locator("#kc-header-wrapper")).toContainText("Telecom");
   expect(await page.locator("#kc-header-wrapper").evaluate(el => getComputedStyle(el, "::before").maskImage)).toContain("mark.svg");
   await page.locator("#kc-login").hover();
-  await expect(page.locator("#kc-login")).toHaveCSS("background-image", /linear-gradient/);
+  await expect(page.locator("#kc-login")).toHaveCSS("background-image", "none");
   await page.mouse.move(0, 0);
   await page.screenshot({ path: info.outputPath("login-desktop.png"), fullPage: true });
   await page.locator("#username").fill("nonexistent-theme-test-user");
@@ -93,7 +93,7 @@ test("inherited recovery page keeps labels, navigation and branding", async ({ p
   await expect(page.getByLabel(/username or email/i)).toBeVisible();
   const submit = page.getByRole("button", { name: "Submit", exact: true });
   await expect(submit).toBeVisible();
-  await expect(submit).toHaveCSS("background-image", /linear-gradient/);
+  await expect(submit).toHaveCSS("background-image", "none");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   // Do not submit, send mail, or change any account.
   await page.getByRole("link", { name: /back to login/i }).click();

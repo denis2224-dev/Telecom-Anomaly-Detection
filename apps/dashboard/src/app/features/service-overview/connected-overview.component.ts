@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ElementRef, viewChild, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, DestroyRef, viewChild, computed, effect, inject, input, output, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SessionStore } from '../login-and-session/session.store';
 import { DatePipe } from '@angular/common';
@@ -8,6 +8,7 @@ import { dataSource } from '../../core/api/data-source';
 import { ServiceStore } from './service.store';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
 import { IconComponent } from '../../shared/icon.component';
+import { DrawerComponent } from '../../shared/drawer.component';
 import { allPages, metricValue, formatMetric } from '../service-kpi-history/assurance-model';
 import { moldovaOutline } from './moldova-map';
 import {
@@ -26,7 +27,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent],
+  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -34,7 +35,7 @@ export class ConnectedOverviewComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly fragment = toSignal(this.route.fragment);
-  readonly queueDialog = viewChild<ElementRef<HTMLDialogElement>>('queueDialog');
+  readonly queueDialog = viewChild<DrawerComponent>('queueDialog');
   clearQueueFragment(): void {
     if (this.fragment() === 'incident-queue') void this.router.navigate([], { relativeTo: this.route, queryParamsHandling: 'preserve', replaceUrl: true });
   }
@@ -75,11 +76,6 @@ export class ConnectedOverviewComponent {
   readonly queueSeverityFilter = signal('');
   readonly queueStateFilter = signal('');
   readonly queueSeverity = computed(() => ['CRITICAL', 'HIGH', 'MEDIUM'].find(level => this.incidents().some(item => item.severity === level)) ?? 'NONE');
-  closeOutside(event: MouseEvent, dialog: HTMLDialogElement): void {
-    if (event.target !== dialog) return;
-    const rect = dialog.getBoundingClientRect();
-    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
-  }
   readonly queuePage = signal(0);
   readonly queueTotal = signal(0);
   readonly queueLoading = signal(false);
@@ -157,7 +153,7 @@ export class ConnectedOverviewComponent {
   constructor() {
     const destroy = inject(DestroyRef);
     effect(() => {
-      if (this.fragment() === 'incident-queue') this.queueDialog()?.nativeElement.showModal();
+      if (this.fragment() === 'incident-queue') this.queueDialog()?.open();
     });
     const stop = () => {
       this.stopped = true;

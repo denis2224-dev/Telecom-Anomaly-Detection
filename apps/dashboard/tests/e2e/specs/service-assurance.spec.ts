@@ -39,9 +39,10 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     if (latest) {
       await page.getByText('View incident evidence', { exact: true }).click();
       await expect(page.locator('.incident-story')).toContainText(latest.probableCause);
-      await expect(page.locator('.incident-story')).toContainText(`Cause confidence: ${latest.causeConfidence}`);
-      await expect(page.locator('.incident-story')).toContainText('Unique subscribers: not available in aggregate demo');
+      await expect(page.locator('.incident-story')).not.toContainText('Supporting evidence');
+      await expect(page.locator('.incident-story')).not.toContainText('Unique subscribers:');
       await expect(page.locator(`.incident-story[data-phase="${latest.phase}"]`)).toBeVisible();
+      await page.keyboard.press('Escape');
       if (latest.phase === 'RECOVERY') await expect(page.locator('svg [data-phase="RECOVERY"]').first()).toBeVisible();
       if (latest.phase === 'UNKNOWN') await expect(page.locator('svg [data-phase="UNKNOWN"]').first()).toBeVisible();
     }

@@ -32,7 +32,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
       <a class="back-link" [routerLink]="['/services', item.scopeId]"><app-icon name="left" />Back to service</a>
       <dialog #detailsDrawer class="workflow-drawer" aria-labelledby="details-title"
         (click)="$event.target === detailsDrawer && detailsDrawer.close()">
-        <div class="drawer-heading"><h2 id="details-title">Details &amp; workflow</h2><button type="button" class="ghost icon-button" aria-label="Close details and workflow" (click)="detailsDrawer.close()"><app-icon name="close" /></button></div>
+        <div class="drawer-heading"><h2 id="details-title" tabindex="-1" autofocus>Details &amp; workflow</h2><button type="button" class="drawer-close primary" aria-label="Close details and workflow" (click)="detailsDrawer.close()">Close</button></div>
         <section class="detail-panel incident-summary">
           <h2>{{ item.scopeId }}</h2>
           <div class="badge-row"><span class="sr-only">Technical state: </span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span><span class="sr-only">Workflow state: </span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></div>

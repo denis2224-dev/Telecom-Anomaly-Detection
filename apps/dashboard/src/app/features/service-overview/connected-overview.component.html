@@ -14,8 +14,7 @@
     <label>Technology<select disabled aria-label="Technology"><option>LTE</option></select></label>
     <label class="region-field">Region<input type="search" list="dashboard-city-options" [value]="search()" (input)="setRegion($any($event.target).value)" placeholder="All cities" /><datalist id="dashboard-city-options">@for (city of catalogue(); track city.id) { <option [value]="city.name"></option> }</datalist></label>
     <label class="apply-field"><span aria-hidden="true">Apply</span><button class="primary" type="submit" aria-label="Apply">Apply</button></label>
-    <button class="queue-toggle" type="button" (click)="queueDialog.showModal()" aria-haspopup="dialog">Incidents ({{ queueTotal() }}) <span class="badge" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
-    <button class="city-refresh" type="button" (click)="refresh.update(next)" [disabled]="queueLoading() || historyLoading()">Refresh city evidence</button>
+    <button class="queue-toggle" type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Incidents ({{ queueTotal() }}) <span class="badge" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
   </form>
   @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
   @if (statusMessage()) { <p role="alert">{{ statusMessage() }}</p> }
@@ -51,7 +50,7 @@
         <div class="map-legend" aria-label="Map legend"><span data-state="NORMAL">Normal</span><span data-state="DEGRADED">Degraded</span><span data-state="UNAVAILABLE">Unavailable</span><span data-state="STALE">Stale</span></div>
       </div>
       <div class="panel-table map-table"><table class="overview-table" aria-label="Featured city observations">
-        <thead><tr><th>City</th><th>Observed</th><th>Baseline Δ</th><th>State</th></tr></thead>
+        <thead><tr><th>City</th><th>Observed</th><th>Baseline change</th><th>State</th></tr></thead>
         <tbody>@for (city of featuredCities(); track city.id) {
           <tr [class.selected-city]="selectedId() === city.id" (click)="select(city.id)"><th scope="row"><button type="button" [attr.aria-pressed]="selectedId() === city.id" (click)="select(city.id); $event.stopPropagation()">{{ city.name }}</button></th>
             @if (cityServices(city, services(), tableService())[0]; as item) { <td>{{ metric(item.latestWindow, item.scope.service).replace('Unavailable', '—') }}</td><td>{{ cityDelta(item) }}</td><td>{{ scopeHealth(item) }}</td> }
@@ -83,13 +82,8 @@
   </div>
 </section>
 
-        <dialog #queueDialog class="queue-panel" id="incident-queue" aria-labelledby="queue-title" (click)="closeOutside($event, queueDialog)" (close)="clearQueueFragment()">
-<button class="drawer-close" type="button" (click)="queueDialog.close()" aria-label="Close incidents">Close</button>
-          <h3 id="queue-title">Incident queue</h3>
-          <p class="helper">Newest detected first · one row per incident record · page {{ queuePage() + 1 }} · {{ queueTotal() }} total for the service filter</p>
-          @if (selectedCity()) { <p class="helper">Showing selected-city matches on this incident page.</p> }
-          <div class="queue-filters"><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label></div>
-          <p class="helper">Severity and state filter this page · {{ visibleIncidents().length }} matches</p>
+<app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" [title]="'Incident queue (' + queueTotal() + ')'" closeLabel="Close incidents" (closed)="clearQueueFragment()">
+          <div class="queue-filters" drawer-controls><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label></div>
           <div class="queue-scroll" [attr.aria-busy]="queueLoading()">
           @if (queueLoading()) { <p class="queue-refresh" role="status">Refreshing incidents…</p> }
           @if (queueError()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
@@ -98,15 +92,15 @@
               <article class="queue-item">
                 <h4>{{ cityLabel(catalogue(), incident.scopeId) }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</h4>
                 <p>{{ incident.severity }} severity · Technical: {{ incident.technicalState }} · Workflow: {{ incident.status }}</p>
-                <p>First observed: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
-                <p>Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
+                <p class="queue-meta">First observed: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
+                <p class="queue-meta">Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p>{{ deviation(detectionWindow(incident), incident.service) }}</p>
-                <p class="helper">{{ incident.latestDetection.probableCause }}</p>
+                <p class="queue-meta">{{ incident.latestDetection.probableCause }}</p>
                 <div class="button-row">
                   @if (cityForScope(catalogue(), incident.scopeId); as city) {
                     <button type="button" (click)="select(city.id)">Show {{ city.name }}</button>
                   }
-                  <a [routerLink]="['/incidents', incident.id]">Open incident evidence</a>
+                  <a class="button primary" [routerLink]="['/incidents', incident.id]">Open incident evidence</a>
                 </div>
               </article>
             } @empty {
@@ -114,9 +108,9 @@
             }
           }
           </div>
-          <nav class="pagination" aria-label="Overview incident pages">
+          <nav class="pagination" drawer-footer aria-label="Overview incident pages">
             <button type="button" (click)="queuePage.update(previous)" [disabled]="queueLoading() || queuePage() === 0">Previous</button>
+            <span>Page {{ queuePage() + 1 }} · {{ visibleIncidents().length }} shown · {{ queueTotal() }} total</span>
             <button type="button" (click)="queuePage.update(next)" [disabled]="queueLoading() || (queuePage() + 1) * pageSize >= queueTotal()">Next</button>
           </nav>
-          <p class="helper">Open incident totals in service cards are independent of this page. Unmapped incidents remain visible when no city is selected.</p>
-        </dialog>
+</app-drawer>

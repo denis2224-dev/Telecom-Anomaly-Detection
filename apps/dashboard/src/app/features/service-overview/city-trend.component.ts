@@ -20,7 +20,7 @@ import { baseline, measured, number, type Service, type Window } from './dashboa
         <path [attr.d]="path(true)" class="expected" />
         <path [attr.d]="path(false)" class="actual" />
       </svg>
-      @if (!compact()) { <p class="helper">Solid cyan: observed · dashed: baseline · gaps: unavailable</p> }
+      @if (!compact()) { <p class="helper">Solid line: observed · dashed: baseline · gaps: unavailable</p> }
       @if (!compact()) { <details>
         <summary>Exact values and sample counts</summary>
         <div class="values"><table>
