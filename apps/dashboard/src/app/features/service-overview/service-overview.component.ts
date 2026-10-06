@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, signal, computed } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { StatusBannerComponent } from '../../shared/status-banner.component';
 import { IconComponent } from "../../shared/icon.component";
 import { IncidentStream } from '../../core/state/incident-stream';
 import { SessionStore } from '../login-and-session/session.store';
@@ -14,7 +15,7 @@ import type { Filter } from './dashboard-geography';
 
 @Component({
   selector: "app-service-overview",
-  imports: [RouterLink, IconComponent, ConnectedOverviewComponent],
+  imports: [StatusBannerComponent, RouterLink, IconComponent, ConnectedOverviewComponent],
   templateUrl: "./service-overview.component.html",
   styles: [`
     .page-heading { margin-bottom: 10px; }
@@ -90,7 +91,8 @@ export class ServiceOverviewComponent {
       this.closeStream = this.stream.connect(() => {
         clearTimeout(this.refreshTimer);
         this.refreshTimer = setTimeout(() => void this.load(true), 150);
-      }, () => this.streamError.set('Live connection interrupted. Existing evidence is still shown; reconnecting…'));
+      }, () => this.streamError.set('Live connection interrupted. Existing evidence is still shown; reconnecting…'),
+      () => this.streamError.set(''));
       this.currentTimer = setInterval(() => void this.load(true), 30_000);
     }
   }
@@ -101,7 +103,6 @@ export class ServiceOverviewComponent {
     this.refreshing = true;
     try {
       await this.store.load(quiet);
-      if (!this.store.error()) this.streamError.set('');
     } finally {
       this.refreshing = false;
       if (this.active && this.refreshAgain) {

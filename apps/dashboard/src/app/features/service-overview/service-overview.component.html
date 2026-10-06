@@ -1,4 +1,6 @@
-@if (streamError()) { <p role="status">{{ streamError() }}</p> }
+@if (streamError()) {
+  <app-status-banner [message]="streamError()" [busy]="loading()" (retry)="load()" />
+}
 <div class="page-heading">
   <div class="heading-copy"><p class="eyebrow">Network operations</p><h1>{{ scopeId() ? 'Service scope' : 'Network overview' }}</h1><p>Monitor service quality, track incidents, and investigate the evidence.</p></div>
   <button class="ghost" (click)="load()" [disabled]="loading()" [attr.aria-busy]="loading()"><app-icon name="refresh" />Refresh overview</button>

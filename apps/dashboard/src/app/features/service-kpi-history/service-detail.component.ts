@@ -19,6 +19,7 @@ import { ServicePathComponent } from './service-path.component';
 import { serviceHealth } from './assurance-model';
 import { SessionStore } from '../login-and-session/session.store';
 
+import { StatusBannerComponent } from '../../shared/status-banner.component';
 import { IconComponent } from '../../shared/icon.component';
 import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
 import { primaryMetric, supportedValue } from '../../shared/metric-presentation';
@@ -28,13 +29,16 @@ const MAX_WINDOWS = 1440;
 
 @Component({
   selector: 'app-service-detail',
-  imports: [ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
+  imports: [StatusBannerComponent, ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a>
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
       @if (service(); as item) { <div class="button-row"><app-service-context [current]="item.scope.service" /><span class="badge" [attr.data-state]="item.freshness"><span class="status-dot"></span>Source: {{ item.freshness }}</span></div> }
     </div>
+    @if (connectionInterrupted()) {
+      <app-status-banner [message]="connectionInterrupted()" [busy]="loading()" (retry)="load()" />
+    }
     @if (loading()) { <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
     @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()"><app-icon name="refresh" />Retry</button></section> }
     @if (!loading() && !error() && service(); as item) {
@@ -129,6 +133,7 @@ export class ServiceDetailComponent {
   readonly loading = signal(true);
   readonly error = signal('');
   readonly streamError = signal('');
+  readonly connectionInterrupted = signal('');
   readonly from = signal('');
   readonly to = signal('');
   readonly observedAt = signal('');
@@ -250,9 +255,10 @@ export class ServiceDetailComponent {
       if (!this.fixture && !this.closeStream) {
         this.closeStream = this.stream.connect(
           () => this.queueIncidentRefresh(),
-          () => this.streamError.set(
+          () => this.connectionInterrupted.set(
             'Live connection interrupted. Existing evidence is still shown; reconnecting…',
           ),
+          () => this.connectionInterrupted.set(''),
         );
       }
     } catch (error) {
