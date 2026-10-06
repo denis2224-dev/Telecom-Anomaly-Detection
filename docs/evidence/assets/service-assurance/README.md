@@ -1,9 +1,9 @@
-# Gemini authenticated acceptance screenshots
+# Authenticated acceptance screenshots
 
-Source: Gemini's fresh October 2 acceptance, supplied as authoritative by the
+Source: October 2 authenticated acceptance, supplied as authoritative by the
 user. Original PNG bytes were copied after visual inspection. These assets are
 supporting snapshots; the full accepted observations and run outcomes are in
-[the acceptance record](../../2026-10-02-gemini-authenticated-acceptance.md).
+[the acceptance record](../../2026-10-02-authenticated-acceptance.md).
 
 | Asset | Visible evidence and limit |
 | --- | --- |

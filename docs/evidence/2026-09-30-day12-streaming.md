@@ -16,7 +16,7 @@ followed by a failed database publication mark. This is not a unit-only claim.
   containing this document; reproduce its HEAD with `git rev-parse HEAD`.
 - Day 11's branch/ref was not modified, rebased, or force-pushed.
 
-## Graphify audit
+## Architecture audit
 
 Used the existing 3,285-node graph before source inspection. Queried
 `IngestionService`, `RejectionReason`, `IngestionResult`, `ObservationListener`,
@@ -43,7 +43,7 @@ V001–V005, `docs/streaming/ingestion.md`, ADR 003, and focused ML/security tes
 inspected. No broad recursive source reread or G2 scenario rerun was performed.
 `graphify update .` printed that `C:\Users\Admin\.local\bin\graphify` was missing,
 despite returning exit zero. Refresh therefore did **not** succeed. Existing
-Graphify files and local agent instructions were left untouched; tooling was not repaired.
+Graphify files and local development instructions were left untouched; tooling was not repaired.
 
 ## Implementation files
 

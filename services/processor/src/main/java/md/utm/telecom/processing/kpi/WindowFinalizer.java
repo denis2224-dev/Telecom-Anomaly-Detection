@@ -228,7 +228,7 @@ public class WindowFinalizer {
     private void enqueueCoverage(String scopeId, Instant start, Instant end, JsonNode feature, List<JsonNode> receipts) {
         if (coverage == null) return;
         var snapshot = coverage.build(scopeId,start,end,feature,receipts);
-        // Existing generic leased outbox. This insert shares the window lock and transaction with feature/marker.
+        // Coverage, feature and finalization marker commit under the same window lock.
         jdbc.update("INSERT INTO app.voice_delivery(id,topic,kafka_key,payload) VALUES (?,?,?,?::jsonb)",
                 snapshot.path("coverageId").asText(),"telecom.coverage.v1",scopeId,codec.canonical(snapshot));
     }

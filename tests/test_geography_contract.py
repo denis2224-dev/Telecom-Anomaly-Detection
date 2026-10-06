@@ -1,4 +1,4 @@
-"""Shared Day 1 authority fixtures and contract negatives; no live acceptance claims."""
+"""Geographic authority fixtures and contract negative cases."""
 import copy
 from datetime import datetime, timedelta
 import hashlib
@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from geography_contract import (validate_day1_contracts, validate_catalogue, validate_coverage,
+from geography_contract import (validate_geography_contracts, validate_catalogue, validate_coverage,
                                coverage_snapshot, window_id, resolve, authority_scopes, ROOT, read_json)
 from observation_contract import ObservationBatch, validate_observation
 from jsonschema import ValidationError
@@ -19,7 +19,7 @@ class GeographyContractTests(unittest.TestCase):
         self.events = read_json(ROOT/'contracts/fixtures/geography/complete-city-observations-v1.json')
 
     def test_all_shared_goldens_and_rejections(self):
-        validate_day1_contracts()
+        validate_geography_contracts()
 
     def test_unauthorized_sources_wrong_service_and_city(self):
         scopes = authority_scopes(self.authority)

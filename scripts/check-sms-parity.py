@@ -78,7 +78,7 @@ def reference_cases():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--java-output", default=None, help="Optional Java output for Day 09 parity comparison")
+    parser.add_argument("--java-output", default=None, help="Optional Java output for SMS feature parity comparison")
     args = parser.parse_args()
     expected = reference_cases()
     if args.java_output:

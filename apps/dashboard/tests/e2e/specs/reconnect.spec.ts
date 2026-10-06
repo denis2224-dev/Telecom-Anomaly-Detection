@@ -47,7 +47,7 @@ async function mockStream(page: Page): Promise<void> {
   });
 }
 
-test.describe('Day 13 incident reconnect', () => {
+test.describe('Incident reconnect', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled stream and REST responses');
 
   test('deduplicates rows, rejects old versions, and preserves the selected range', async ({ page }) => {
@@ -60,7 +60,7 @@ test.describe('Day 13 incident reconnect', () => {
     let listReads = 0;
 
     await page.route('**/api/auth/me', route => route.fulfill({ json: {
-      analystId: 'day13-test', displayName: 'Day 13 tester',
+      analystId: 'day13-test', displayName: 'Reconnect tester',
       roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600_000).toISOString(),
     } }));
     await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
@@ -141,7 +141,7 @@ test.describe('Day 13 incident reconnect', () => {
     await page.route('**/api/auth/me', route => route.fulfill(expired
       ? { status: 401, json: { code: 'UNAUTHENTICATED' } }
       : { json: {
-          analystId: 'day13-test', displayName: 'Day 13 tester',
+          analystId: 'day13-test', displayName: 'Reconnect tester',
           roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600_000).toISOString(),
         } }));
     await page.route('**/api/auth/csrf', route => route.fulfill({ json: {

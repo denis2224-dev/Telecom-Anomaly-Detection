@@ -6,7 +6,7 @@ The archive's older raw-field names are not accepted as aliases. Feature names
 remain those in `contracts/features/feature-order-v2.json`; in particular the SMS
 feature `oldestPendingAgeSec` is calculated from `oldestPendingAgeSeconds`.
 
-## Frozen definitions (day 1)
+## Frozen definitions
 
 `contracts/policies/service-rules-v2.json` is the single threshold source.
 These are synthetic teaching thresholds, not operator standards.
@@ -78,7 +78,7 @@ Ion: feature-order and raw/expected parity acceptance **pending**. Denis: rule a
 episode/evidence contract acceptance **pending**. David: explanation review
 **pending**. No teammate approval or G0 team sign-off is implied by passing tests.
 
-## Baseline lookup (day 3)
+## Baseline lookup
 
 The catalogue explicitly lists each covered UTC hour for each scope. Monday 00:00
 is 0; Sunday 23:00 is 167. Both demo scopes cover all 168 hours with fixed reference

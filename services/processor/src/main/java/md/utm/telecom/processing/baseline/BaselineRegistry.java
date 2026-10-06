@@ -73,9 +73,8 @@ public final class BaselineRegistry {
             if (peers.putIfAbsent(scope, peer) != null)
                 throw new IllegalArgumentException("Duplicate peer mapping: " + scope);
         }
-        // The pinned geographic contract validates exact preservation of the historical legacy
-        // authority. Only those unchanged scopes may use this baseline under the new provenance.
-        // Retain native-version support for immutable pending features across activation.
+        // Only unchanged legacy scopes retain baseline compatibility across activation.
+        // Pending features also retain support for their original topology version.
         var historical = TopologyCatalog.load();
         var geographic = GeographyCatalog.load();
         var supplied = TopologyCatalog.fromJson(topology);

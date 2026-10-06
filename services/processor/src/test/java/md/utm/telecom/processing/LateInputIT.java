@@ -72,7 +72,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-/** Day 12 boundary proof: PostgreSQL 16, real transaction proxies and a real Kafka broker. */
+/** Durable ingestion boundary: PostgreSQL 16, transaction proxies and a real Kafka broker. */
 @SpringJUnitConfig(LateInputIT.Config.class)
 @EmbeddedKafka(kraft = true, partitions = 1, topics = {"telecom.observations.invalid.v2", "telecom.observations.late.v2",
         "day12.invalid.configured", "day12.late.configured"})

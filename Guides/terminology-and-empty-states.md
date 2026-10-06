@@ -1,18 +1,15 @@
-# Day 16 — Polish terminology and empty states
+# Terminology and empty states
 
-**Planned day:** Tuesday, 6 October 2026
+**Planned date:** Tuesday, 6 October 2026
 
 **Goal:** Make percentages, model signals, and missing evidence understandable to someone unfamiliar with telecom.
 
-## 1. Explain it like I am five
+## Interpretation goals
 
-Imagine the app is showing a report card. Some numbers tell us what happened, some compare it with what we expected, and some are guesses from a computer helper.
-
-Today we put small explanations beside those numbers. If a number is missing, we say what is missing and what to try next. We never replace “we do not know” with zero or a green “everything is fine.”
-
-**Why do we add this?** A number can be correct but easy to misunderstand. For example, model rank `0.82` does not mean “82% chance of failure.”
-
-**How does it make our app better?** Analysts can explain an incident, understand the limits of its evidence, and choose their next action without asking a developer to decode the screen.
+Explain percentages, model rank and missing evidence beside the relevant metrics.
+Model rank `0.82` is not an 82% failure probability. Unavailable measurements remain
+unavailable rather than becoming zero or healthy. Analysts should be able to
+interpret the evidence and choose the next investigation step.
 
 ## 2. What this guide changes
 
@@ -21,7 +18,8 @@ The screenshot's two main files map directly to this repository:
 - `apps/dashboard/src/app/shared/metric-explanation.component.ts`
 - `docs/ux/terminology.md`
 
-We also connect the shared component to the screens where analysts actually read the metrics. We keep the current dark dashboard layout, Day 15 pagination/range limits, Day 13 reconnect behavior, and Day 14 workflow.
+Connect the shared component to metric views while preserving the dashboard layout,
+pagination and range limits, session reconnect behavior and analyst workflow.
 
 The screenshot names four exceptional conditions. For a concrete five-case acceptance check, this guide uses:
 
@@ -41,15 +39,14 @@ Use the existing contracts:
 - Model status: `OK`, `TIMEOUT`, `UNAVAILABLE`, `INSUFFICIENT_DATA`, or `NOT_APPLICABLE`.
 - Model rank is nullable and ranges from 0 to 1. Its calibration meaning is documented in `services/ml-service/README.md`.
 
-This is an implementation guide. Writing it does not implement Day 16 or establish human acceptance.
+The proposed implementation requires application checks and human acceptance.
 
 Preparation checks: the proposed edits passed Angular application/template and unit-spec type checking in a temporary copy. The new Playwright spec type-checked, and 13 runnable presentation checks passed. The production build, full unit/browser test runs, and human acceptance remain checks to complete after applying the guide.
 
 ## 3. Branch and prerequisites
 
-Recommended branch: **`codex/day-16-terminology-empty-states`**.
-
-Day 15's bounded-history implementation has been merged into `main`. This guide follows Day 15's structure: simple explanation, file-by-file code, commit checkpoints, verification, evidence, and merge criteria.
+Bounded history is already merged into `main`. The guide covers implementation,
+verification, evidence and acceptance criteria.
 
 Run from the repository root:
 
@@ -57,7 +54,7 @@ Run from the repository root:
 git status --short
 git switch main
 git pull --ff-only origin main
-git switch -c codex/day-16-terminology-empty-states
+git switch -c feature/terminology-empty-states
 ```
 
 Review and save any edits before switching if your working tree has changed. Do not create a commit merely for creating a branch.
@@ -418,7 +415,7 @@ Add the shared explanation component to its imports. Immediately before the tabl
 <app-metric-explanation topic="p95" />
 ```
 
-Keep its Day 15 table pages and current `p95`, `value`, and `baseline` methods. Replace the empty table cell with:
+Keep its bounded history table pages and current `p95`, `value`, and `baseline` methods. Replace the empty table cell with:
 
 ```html
 <td colspan="7">No SMS history in this interval. Try a nearby range or refresh the service. No returned windows does not prove healthy delivery.</td>
@@ -766,7 +763,7 @@ This deliberately inconsistent input checks the frontend's defensive display rul
 
 ### Keep existing SMS and workflow regressions
 
-The current `sms-quality.component.spec.ts` already checks 29 versus 30 samples, unknown counts, zero completions with backlog, missing queue evidence, and stale/missing windows. Keep it. Keep Day 13 reconnect/session tests and Day 14 workflow tests.
+The current `sms-quality.component.spec.ts` already checks 29 versus 30 samples, unknown counts, zero completions with backlog, missing queue evidence, and stale/missing windows. Keep it. Retain reconnect/session and analyst workflow tests.
 
 The existing `service-explanations.spec.ts` also checks rank separately from confidence/severity. Its fixtures should continue to return null rank for failed model results. Do not weaken that test to make misleading UI pass.
 
@@ -849,7 +846,7 @@ async function setup(page: Page, scenario: Case) {
     (window as any).EventSource = QuietSource;
   });
   await page.route('**/api/auth/me', route => route.fulfill({ json: {
-    analystId: 'day16-review', displayName: 'Day 16 reviewer', roles: ['ANALYST'],
+    analystId: 'day16-review', displayName: 'Terminology tester', roles: ['ANALYST'],
     expiresAt: new Date(Date.now() + 600_000).toISOString(),
   } }));
   await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
@@ -874,7 +871,7 @@ async function setup(page: Page, scenario: Case) {
   return { summary, item };
 }
 
-test.describe('Day 16 terminology', () => {
+test.describe('Dashboard terminology', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled UI cases; human acceptance uses normal login separately');
 
   for (const width of [1366, 390]) for (const scenario of cases) {
@@ -940,7 +937,7 @@ npm run build
 npm run test:e2e -- tests/e2e/specs/terminology.spec.ts tests/e2e/specs/service-explanations.spec.ts tests/e2e/specs/evidence-timeline.spec.ts tests/e2e/specs/reconnect.spec.ts --workers=1
 ```
 
-Use an unused `E2E_PORT` if needed. Install Playwright's Chromium through normal project setup if it is not installed. Run the existing Day 15 `resource-bounds.spec.ts` before merging as well; the new explanations add DOM nodes and must fit the accepted browser budget.
+Use an unused `E2E_PORT` if needed. Install Playwright's Chromium through normal project setup if it is not installed. Run the existing bounded history `resource-bounds.spec.ts` before merging as well; the new explanations add DOM nodes and must fit the accepted browser budget.
 
 ## 10. Create the terminology and acceptance document
 
@@ -953,7 +950,7 @@ Use an unused `E2E_PORT` if needed. Install Playwright's Chromium through normal
 Paste this document, then fill in real review results. Keep pending entries until the review occurs.
 
 ```md
-# Dashboard terminology — Day 16
+# Dashboard terminology
 
 Planned date: 2026-10-06
 Commit reviewed: pending
@@ -1054,7 +1051,7 @@ Sergiu's metric wording/sign-off: pending
 Denis's nullable-field/sign-off: pending
 Teammate correctly interprets all five cases and rank: pending
 Keyboard/touch readability: pending
-Day 15 browser resource budget regression: pending
+Browser resource budget regression: pending
 Remaining defects, owner, and target date: pending
 Final team acceptance: pending
 ```
@@ -1081,14 +1078,14 @@ The extra-failures formula above comes from `VoiceSetupRule`; model-rank meaning
 After tests pass and actual review results are recorded, run from the repository root:
 
 ```bash
-git add apps/dashboard/tests/e2e/specs/terminology.spec.ts docs/ux/terminology.md Guides/Day-16-polish-terminology-and-empty-states.md
+git add apps/dashboard/tests/e2e/specs/terminology.spec.ts docs/ux/terminology.md Guides/terminology-and-empty-states.md
 git diff --cached --check
 git diff --cached --stat
 git commit -m "test(dashboard): verify terminology and record usability acceptance"
-git push -u origin codex/day-16-terminology-empty-states
+git push -u origin feature/terminology-empty-states
 ```
 
-Open a pull request into `main` titled **“Day 16: polish terminology and empty states”**. Include:
+Open a pull request into `main` titled **“Polish terminology and empty states”**. Include:
 
 - Screens/fields updated and the five explicit exceptional cases.
 - Unit/build/browser/reconnect results.
@@ -1098,7 +1095,7 @@ Open a pull request into `main` titled **“Day 16: polish terminology and empty
 - Links to `docs/ux/terminology.md` and relevant recorded evidence.
 - Sergiu's wording approval and Denis's nullable-field approval.
 
-**Merge only when** checks pass, the Day 15 resource budget remains acceptable, Sergiu and Denis accept their review items, and the teammate correctly interprets all five cases without mistaking rank for probability. A populated glossary alone does not complete Day 16.
+**Merge only when** checks pass, the bounded history resource budget remains acceptable, Sergiu and Denis accept their review items, and the teammate correctly interprets all five cases without mistaking rank for probability. Glossary content alone does not establish usability acceptance.
 
 Use the repository's normal review/merge policy. After merge:
 
@@ -1107,7 +1104,7 @@ git switch main
 git pull --ff-only origin main
 ```
 
-## 13. Day 16 completion checklist
+## 13. Completion checklist
 
 - [ ] Percentage points and relative percent are distinguished near rate changes.
 - [ ] p95 is explained with completed sample count and queue context.
@@ -1118,8 +1115,8 @@ git pull --ff-only origin main
 - [ ] Missing/failed model results do not display a fabricated or leftover rank.
 - [ ] Current severity, rank, confidence, and workflow/technical states remain separate.
 - [ ] Unsupported comparisons do not produce a normal overview label.
-- [ ] Keyboard/touch help works and Day 15 paging/resource behavior remains acceptable.
+- [ ] Keyboard/touch help works and bounded history paging/resource behavior remains acceptable.
 - [ ] Tests/build/reconnect checks pass.
 - [ ] Teammate correctly explains all five cases and does not call rank a probability.
 - [ ] Sergiu and Denis record actual approval; remaining defects have owners.
-- [ ] Reviewed Day 16 pull request merged into `main`.
+- [ ] Reviewed terminology pull request merged into `main`.

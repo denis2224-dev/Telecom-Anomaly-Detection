@@ -44,20 +44,8 @@ public class SmsQueueScenario {
     }
 
     /**
-     * Generates the canonical 8-minute profile (2 normal, 3 slow delivery, 3 recovery)
-     * with deterministic seeded measurement variation.
-     *
-     * <p>Same start + same seed reproduces byte-identical payloads.
-     * Same start + different seed changes measurements while preserving logical event IDs
-     * (identity is source/scope/kind/windowStart only — seed is NOT part of identity).
-     *
-     * <p>Phase semantics are preserved regardless of seed:
-     * <ul>
-     *   <li>NORMAL/RECOVERY: healthy delays, zero queue depth/age</li>
-     *   <li>SLOW_DELIVERY: degraded delays well above p95DelayMsStrictlyGreaterThan (20 000 ms),
-     *       queue depth above queueDepthAtLeast (100), oldest pending age above
-     *       oldestPendingSecStrictlyGreaterThan (60 s) — per service-rules-v2</li>
-     * </ul>
+     * Eight minutes: two normal, three delayed, three recovery. Seeded measurements
+     * preserve these phases and event identity; seed is excluded from the identity.
      */
     public List<String> generate(Instant start, long seed) {
         return generateWindows(start, seed).stream().flatMap(List::stream).toList();
@@ -120,19 +108,13 @@ public class SmsQueueScenario {
         return List.copyOf(result);
     }
 
-    /**
-     * Generates a seeded 1-minute window with deterministic measurement variation.
-     * The per-window RNG is derived from the supplied seed XOR'd with the stable event
-     * identity bits (following the ObservationGenerator precedent), ensuring that
-     * the same seed + same logical window always reproduces identical measurements.
-     */
+    /** Per-window RNG combines the seed with stable event identity bits. */
     private List<String> generateSeededWindow(Instant start, Phase phase, long seed) {
         return generateSeededWindow(start, phase, seed, null);
     }
 
     private List<String> generateSeededWindow(Instant start, Phase phase, long seed, GenerationContext context) {
-        // Derive a stable per-window seed from the SERVICE event identity (which covers
-        // the logical interval). NODE uses the same derived seed for consistency.
+        // SERVICE and NODE measurements share the same deterministic window seed.
         String serviceIdentity = String.join("|", "telecom-observation-v2",
                 context == null ? SERVICE_SOURCE_ID : context.scope().serviceSourceId(),
                 context == null ? SCOPE_ID : context.scope().scopeId(), "SERVICE", start.toString());
@@ -142,35 +124,29 @@ public class SmsQueueScenario {
 
         return switch (phase) {
             case NORMAL, RECOVERY -> {
-                // Healthy: delays in 1000–3500 ms range. Must satisfy BOTH recovery conditions:
-                //   p95 <= recoveryP95DelayMsAtMost (10 000 ms)  AND
-                //   p95 / baselineP95 <= recoveryBaselineMultiplierAtMost (2)
-                // With baseline p95DeliveryMs=2000 the effective ceiling is 4000 ms.
-                // Upper bound 3500 ms gives 500 ms of comfortable margin.
-                int attempts = 180 + rng.nextInt(41);          // 180..220
-                int successes = attempts - rng.nextInt(5);     // attempts..(attempts-4)
-                int delivered = 80 + rng.nextInt(41);          // 80..120
-                successes = Math.max(successes, delivered);    // ensure deliveredMessages <= deliverySuccesses
+                // The 3500 ms ceiling stays below both recovery limits (effective ceiling 4000 ms).
+                int attempts = 180 + rng.nextInt(41);
+                int successes = attempts - rng.nextInt(5);
+                int delivered = 80 + rng.nextInt(41);
+                successes = Math.max(successes, delivered);
                 var delays = new ArrayList<Long>(delivered);
                 for (int i = 0; i < delivered; i++) {
-                    delays.add(1000L + rng.nextLong(2501));    // 1000..3500 ms
+                    delays.add(1000L + rng.nextLong(2501));
                 }
                 yield generateCustomWindow(start, attempts, successes, delays, 0, 0, context);
             }
             case SLOW_DELIVERY -> {
-                // Degraded: delays in 30 000–60 000 ms (well above 20 000 ms threshold).
-                // Queue depth 150–350 (well above 100 threshold).
-                // Oldest pending 70–120 s (well above 60 s threshold).
-                int attempts = 180 + rng.nextInt(41);          // 180..220
-                int successes = attempts - rng.nextInt(5);     // attempts..(attempts-4)
-                int delivered = 80 + rng.nextInt(41);          // 80..120
-                successes = Math.max(successes, delivered);    // ensure deliveredMessages <= deliverySuccesses
+                // Delay, queue depth and age exceed all three fault thresholds.
+                int attempts = 180 + rng.nextInt(41);
+                int successes = attempts - rng.nextInt(5);
+                int delivered = 80 + rng.nextInt(41);
+                successes = Math.max(successes, delivered);
                 var delays = new ArrayList<Long>(delivered);
                 for (int i = 0; i < delivered; i++) {
-                    delays.add(30000L + rng.nextLong(30001));  // 30 000..60 000 ms
+                    delays.add(30000L + rng.nextLong(30001));
                 }
-                int queueDepth = 150 + rng.nextInt(201);      // 150..350
-                int age = 70 + rng.nextInt(51);                // 70..120
+                int queueDepth = 150 + rng.nextInt(201);
+                int age = 70 + rng.nextInt(51);
                 yield generateCustomWindow(start, attempts, successes, delays, queueDepth, age, context);
             }
             default -> throw new IllegalArgumentException("generate() does not use " + phase);
@@ -232,7 +208,7 @@ public class SmsQueueScenario {
             );
         }
 
-        // 1. Independent NODE observation from SMSC-A (if queue evidence is present)
+        // Queue evidence belongs to the independently reported NODE observation.
         if (queueDepth != null) {
             ObjectNode node = createEnvelope(start, smsc.sourceId(), "NODE", "COMPLETE", scope);
             node.put("nodeId", smsc.nodeId());
@@ -243,7 +219,6 @@ public class SmsQueueScenario {
             result.add(node.toString());
         }
 
-        // 2. Authoritative SERVICE observation from SMS-ADAPTER
         ObjectNode service = createEnvelope(start, serviceSource, "SERVICE", "COMPLETE", scope);
         service.put("service", SERVICE);
         ObjectNode serviceMetrics = service.putObject("metrics");

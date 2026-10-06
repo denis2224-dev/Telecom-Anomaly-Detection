@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ObservationGeneratorTest {
     @Test void legacyFixtureBytesMatchSnapshotTakenFromIntegratedMain() throws Exception {
-        var expected = mapper.readTree(getClass().getResourceAsStream("/legacy-day2-baseline.json"));
+        var expected = mapper.readTree(getClass().getResourceAsStream("/legacy-telemetry-baseline.json"));
         var start = Instant.parse("2026-10-05T08:00:00Z");
         assertEquals(expected.get("fixtures"), mapper.valueToTree(generator(42,
                 Clock.fixed(start.plusSeconds(222), ZoneOffset.UTC)).generate(24)));

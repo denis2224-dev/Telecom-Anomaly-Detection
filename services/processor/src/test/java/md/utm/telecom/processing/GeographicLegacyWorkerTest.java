@@ -17,8 +17,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(GeographicLegacyWorkerTest.Config.class)
-class GeographicLegacyWorkerTest extends Day13TestSupport {
-    static class Config extends Day13TestSupport.Config {
+class GeographicLegacyWorkerTest extends ReplayTestSupport {
+    static class Config extends ReplayTestSupport.Config {
         @Override @Bean TopologyCatalog topology() throws Exception { return GeographyCatalog.activate(START).authority(); }
     }
     @Autowired PlatformTransactionManager manager;

@@ -12,7 +12,7 @@ class VoiceScenarioTest {
         var json = new ObjectMapper();
         var voice = new VoiceScenario(json, new ObservationValidator());
         var start = Instant.parse("2026-10-05T08:00:00Z");
-        var expected = json.readTree(getClass().getResourceAsStream("/legacy-day2-baseline.json"));
+        var expected = json.readTree(getClass().getResourceAsStream("/legacy-telemetry-baseline.json"));
         assertEquals(expected.get("voiceOriginal"), json.valueToTree(voice.generate(start, 42)));
         assertEquals(expected.get("voiceHealthy"), json.valueToTree(voice.generateHealthyWindow(start, 42)));
         for (var profile : VoiceScenario.Profile.values())

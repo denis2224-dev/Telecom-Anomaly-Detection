@@ -1,18 +1,17 @@
-# Day 06 — real login and voice investigation
+# Protected voice investigation
 
-Day 05 supplies the graph and incident cards. Day 06 connects generated
-measurements to the real backend, then proves that login, graph, incident evidence
-and replay work together. The measurements are synthetic telecom data; the login,
+The voice KPI view supplies the graph and incident cards. This investigation flow connects
+generated measurements to the backend and verifies login, graph, incident evidence and replay.
+The measurements are synthetic telecom data; the login,
 processing, database records and API responses are real.
 
 ## Open the finished work
 
 1. Open Docker Desktop and wait for it to start.
-2. In Terminal, select the shared Day 05–06 branch and build the frontend:
+2. In Terminal, build the frontend from the integrated checkout:
 
    ```bash
    cd ~/Documents/PT/Telecom-Anomaly-Detection
-   git switch feature/voice-kpi-incident-investigation
    npm --prefix apps/dashboard run build
    ./scripts/up
    ```

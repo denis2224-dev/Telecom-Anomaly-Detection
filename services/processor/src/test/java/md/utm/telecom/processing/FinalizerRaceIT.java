@@ -18,7 +18,7 @@ import static md.utm.telecom.processing.kpi.WindowFinalizer.Result.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Real proxied transactions, observed PostgreSQL waiters, and exact durable winning receipt sets. */
-class FinalizerRaceIT extends Day13TestSupport {
+class FinalizerRaceIT extends ReplayTestSupport {
     static final Map<String, Object> EVIDENCE = new LinkedHashMap<>();
     @AfterAll static void saveEvidence() throws Exception { evidence("day13-finalizer-races.json", EVIDENCE); }
     static <T> T done(Future<T> future) throws Exception { return future.get(20, TimeUnit.SECONDS); }

@@ -214,7 +214,7 @@ A	docs/evidence/assets/service-assurance/volte_incident_detail.png
 M	docs/runbooks/local-dev.md
 M	scripts/verify
 M	services/incident-service/src/main/resources/application.yaml
-`
+```
 
 ### Merge resolution and imported main files versus old PR head
 
@@ -344,4 +344,7 @@ M	services/incident-service/src/test/java/md/utm/telecom/incidents/security/Auth
 A	services/incident-service/src/test/java/md/utm/telecom/incidents/security/SessionSecurityTest.java
 A	services/incident-service/src/test/java/md/utm/telecom/incidents/stream/IncidentStreamTest.java
 M	services/incident-service/src/test/java/md/utm/telecom/simulator/ScenarioControllerIT.java
-`
+```
+
+The inventory retains paths as recorded at the reconciliation SHA. The acceptance
+record is now [authenticated acceptance](2026-10-02-authenticated-acceptance.md).

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
-/** Contract-only companion to strict observation authority. Never activates generator traffic. */
+/** Versioned geography and role bindings for strict observation authority. */
 public final class GeographyCatalog {
     public enum Role {
         VOLTE_IMS("VOLTE", "IMS", true), VOLTE_TRANSPORT("VOLTE", "TRANSPORT", true),
@@ -52,7 +52,7 @@ public final class GeographyCatalog {
                 TopologyCatalog.fromJson(ObservationValidator.resource("topology/geographic-scopes-v2.json", mapper)));
     }
 
-    /** Explicit deployment activation of the frozen role inventory; the Day 1 resource stays contract-only. */
+    /** Explicit deployment activation; the bundled catalogue remains contract-only. */
     public static GeographyCatalog activate(Instant effectiveFrom) throws IOException {
         Objects.requireNonNull(effectiveFrom, "effectiveFrom");
         if (effectiveFrom.getNano() != 0 || Math.floorMod(effectiveFrom.getEpochSecond(), 60) != 0)

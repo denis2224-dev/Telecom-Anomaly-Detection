@@ -88,7 +88,7 @@
 
 ---
 
-## 4. Graphify Intelligence Audit
+## 4. Architecture audit
 
 - **Graph rebuilt:** `graphify update . --no-cluster` with `PYTHONHASHSEED=0`; 2,757 stored nodes and 6,310 edges. The optional SQL parser was unavailable, so six SQL files contributed no graph nodes; migration behavior is covered by PostgreSQL integration tests.
 - **Production Caller Validation:**
