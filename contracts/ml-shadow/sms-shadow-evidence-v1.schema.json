@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:telecom:ml-shadow:sms:v1",
+  "title": "SMS classifier shadow evidence (uncalibrated)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "evidenceId", "windowId", "service", "scopeId", "windowStart", "windowEnd", "featureVersion", "baselineVersion", "topologyVersion", "requestedAt", "completedAt", "requestedModelVersion", "modelVersion", "modelSha256", "mlStatus", "classifierScore", "detection", "threshold"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "evidenceId": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "windowId": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "service": {"const": "SMS"},
+    "scopeId": {"type": "string", "pattern": "^[A-Za-z0-9_.:-]{1,96}$"},
+    "windowStart": {"$ref": "#/$defs/utc"},
+    "windowEnd": {"$ref": "#/$defs/utc"},
+    "requestedAt": {"$ref": "#/$defs/utc"},
+    "completedAt": {"$ref": "#/$defs/utc"},
+    "featureVersion": {"const": 2},
+    "baselineVersion": {"const": "baseline-v2"},
+    "topologyVersion": {"type": "string", "minLength": 1},
+    "requestedModelVersion": {"const": "sms-supervised-v1-2"},
+    "modelVersion": {"enum": ["sms-supervised-v1-2", null]},
+    "modelSha256": {"const": "f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19"},
+    "mlStatus": {"enum": ["OK", "DISABLED", "UNAVAILABLE", "TIMEOUT", "INSUFFICIENT_DATA", "MALFORMED_RESPONSE"]},
+    "classifierScore": {"type": ["number", "null"], "minimum": 0, "maximum": 1, "description": "Uncalibrated fault-class score; never anomalyRank or a fault probability."},
+    "detection": {"type": ["boolean", "null"]},
+    "threshold": {"const": 0.55}
+  },
+  "allOf": [{
+    "if": {"properties": {"mlStatus": {"const": "OK"}}},
+    "then": {"properties": {"classifierScore": {"type": "number"}, "detection": {"type": "boolean"}, "modelVersion": {"const": "sms-supervised-v1-2"}}},
+    "else": {"properties": {"classifierScore": {"type": "null"}, "detection": {"type": "null"}, "modelVersion": {"type": "null"}}}
+  }, {
+    "if": {"properties": {"mlStatus": {"const": "OK"}, "classifierScore": {"type": "number", "minimum": 0.55}}},
+    "then": {"properties": {"detection": {"const": true}}},
+    "else": {"if": {"properties": {"mlStatus": {"const": "OK"}}}, "then": {"properties": {"detection": {"const": false}}}}
+  }],
+  "$defs": {"utc": {"type": "string", "format": "date-time", "pattern": "Z$"}}
+}

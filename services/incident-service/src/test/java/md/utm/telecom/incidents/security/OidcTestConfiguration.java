@@ -9,6 +9,17 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
 @TestConfiguration(proxyBeanMethods = false)
 public class OidcTestConfiguration {
+    /** Cached Spring 7 test contexts may restart; disabled Kafka listeners must stay disabled. */
+    @Bean
+    static org.springframework.beans.factory.config.BeanPostProcessor kafkaTestLifecycle() {
+        return new org.springframework.beans.factory.config.BeanPostProcessor() {
+            @Override public Object postProcessAfterInitialization(Object bean, String name) {
+                if (bean instanceof org.springframework.kafka.config.KafkaListenerEndpointRegistry registry)
+                    registry.setAlwaysStartAfterRefresh(false);
+                return bean;
+            }
+        };
+    }
     private static final String ISSUER = "http://telecom.test:8080/auth/realms/telecom";
     @Bean
     ClientRegistrationRepository clients() {

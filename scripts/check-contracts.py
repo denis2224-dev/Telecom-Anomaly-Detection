@@ -9,8 +9,9 @@ from observation_contract import (
 
 def validate_detection_contracts():
     pairs = [
+        ('ml-shadow/sms-shadow-evidence-v1.schema.json', ['fixtures/ml-shadow/sms-healthy-v1.json']),
         ('policies/service-rules-v2.schema.json', ['policies/service-rules-v2.json']),
-        ('baselines/baseline-catalogue-v2.schema.json', ['baselines/demo-baseline-v2.json']),
+        ('baselines/baseline-catalogue-v2.schema.json', ['baselines/demo-baseline-v2.json', 'baselines/geographic-peer-baseline-v2.json']),
         ('features/service-feature-window-v2.schema.json',
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/features').glob('*.json')
           if p.name not in ('parity-v2.json', 'voice-parity-v2.json', 'sms-parity-v2.json')]),
@@ -96,6 +97,10 @@ def main():
     validate_detection_contracts()
     from geography_contract import validate_geography_contracts
     validate_geography_contracts()
+    from geographic_numeric_contract import validate_day1_numeric_contracts
+    validate_day1_numeric_contracts()
+    from day1_evidence_contract import validate_day1_evidence_contracts
+    validate_day1_evidence_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)

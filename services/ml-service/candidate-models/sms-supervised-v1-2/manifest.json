@@ -1,0 +1,54 @@
+{
+  "packageKind": "sms-classifier-v1",
+  "modelVersion": "sms-supervised-v1-2",
+  "modelType": "random-forest",
+  "service": "SMS",
+  "status": "EXPERIMENTAL_NOT_PROMOTED",
+  "featureVersion": 2,
+  "baselineVersion": "baseline-v2",
+  "inputFeatureNames": [
+    "p95DelayRatio",
+    "p95DeliveryMs",
+    "queueDepth",
+    "oldestPendingAgeSec",
+    "deliverySrDeltaPp",
+    "deliveredMessages"
+  ],
+  "featureView": "without-absolute-delay",
+  "projection": [
+    0,
+    2,
+    3,
+    4,
+    5
+  ],
+  "estimatorFeatureNames": [
+    "p95DelayRatio",
+    "queueDepth",
+    "oldestPendingAgeSec",
+    "deliverySrDeltaPp",
+    "deliveredMessages"
+  ],
+  "threshold": 0.55,
+  "scoreSemantics": "uncalibrated classifier score for fault class 1",
+  "classes": [
+    0,
+    1
+  ],
+  "modelFile": "SMS.joblib",
+  "modelSha256": "f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19",
+  "datasetManifestSha256": "c5c68f006bf333059f926834b398cc7447bb2ee7e9659bd1ac3c49efb07cb1e4",
+  "datasetVersion": "sms-supervised-v1-t8-m5-f2x30-start20261214-seed2000000-balanced-p7",
+  "trainingRows": 19008,
+  "settings": {
+    "estimator": "random-forest",
+    "n_estimators": 200,
+    "max_depth": null,
+    "min_samples_leaf": 1,
+    "view": "without-absolute-delay"
+  },
+  "pythonVersion": "3.13.9",
+  "numpyVersion": "2.4.6",
+  "sklearnVersion": "1.9.1",
+  "joblibVersion": "1.5.3"
+}

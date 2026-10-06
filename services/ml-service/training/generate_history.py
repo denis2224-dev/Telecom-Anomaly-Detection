@@ -29,7 +29,7 @@ def observation(name):
     return json.loads((ROOT / "contracts/fixtures/observations" / (name + ".json")).read_text(encoding="utf-8"))
 
 
-def make_window(service, start, seed, fault=False, run_id="sample"):
+def make_window(service, start, seed, fault=False, run_id="sample", raw_transform=None):
     """Return a canonical feature window from independently varied raw observations."""
     rng = random.Random(f"{seed}:{service}:{start.isoformat()}:{fault}")
     raw, *nodes = (observation(name) for name in FIXTURES[service])
@@ -72,6 +72,8 @@ def make_window(service, start, seed, fault=False, run_id="sample"):
         if not fault and nodes[0]["metrics"]["queueDepth"]:
             nodes[0]["metrics"]["oldestPendingAgeSeconds"] = rng.randrange(1, 20)
 
+    if raw_transform is not None:
+        raw_transform(raw, nodes, rng)
     baseline = next(b for b in BASELINES["baselines"] if b["service"] == service)
     context = dict(baselineVersion=BASELINES["baselineVersion"], status="DIRECT",
                    scopeId=raw["scopeId"], sourceScopeId=raw["scopeId"], service=service,
@@ -79,17 +81,31 @@ def make_window(service, start, seed, fault=False, run_id="sample"):
     return build_features(raw, nodes, context)
 
 
-def generate(output=DATA, cadence_minutes=5):
+def generate(output=DATA, cadence_minutes=5, training_weeks=4, calibration_weeks=1,
+             test_weeks=1, fault_runs=1, fault_minutes=8):
     if cadence_minutes < 1 or 60 % cadence_minutes:
         raise ValueError("cadence_minutes must divide 60")
+    sizes = (training_weeks, calibration_weeks, test_weeks, fault_runs, fault_minutes)
+    if any(type(size) is not int or size < 1 for size in sizes):
+        raise ValueError("Week counts, fault runs and fault minutes must be positive integers")
+    legacy = sizes == (4, 1, 1, 1, 8) and cadence_minutes == 5
+    if not legacy and output.resolve() == DATA.resolve():
+        raise ValueError('Use a separate output directory for expanded data')
     output.mkdir(parents=True, exist_ok=True)
     runs = []
     for service in FIXTURES:
-        specs = [(f"train-{week + 1}", "train", START + week * WEEK, WEEK, 100 + week, False)
-                 for week in range(4)]
-        specs += [("calibration", "calibration", START + 4 * WEEK, WEEK, 200, False),
-                  ("test-normal", "test", START + 5 * WEEK, WEEK, 300, False),
-                  ("test-fault", "test", START + 6 * WEEK, 8 * MINUTE, 400, True)]
+        specs = [(f"train-{week + 1}", "train", START + week * WEEK, WEEK,
+                  (100 if legacy else 10000) + week, False)
+                 for week in range(training_weeks)]
+        test_start = START + (training_weeks + calibration_weeks) * WEEK
+        fault_start = test_start + test_weeks * WEEK
+        specs += [("calibration", "calibration", START + training_weeks * WEEK,
+                   calibration_weeks * WEEK, 200, False),
+                  ("test-normal", "test", test_start, test_weeks * WEEK, 300, False)]
+        specs += [("test-fault" if fault_runs == 1 else f"test-fault-{index + 1}",
+                   "test", fault_start + index * fault_minutes * MINUTE,
+                   fault_minutes * MINUTE, 400 + index, True)
+                  for index in range(fault_runs)]
         for name, split, start, span, seed, fault in specs:
             run_id = f"{service.lower()}-{name}"
             path = output / (run_id + ".jsonl")
@@ -115,7 +131,10 @@ def generate(output=DATA, cadence_minutes=5):
                              endExclusive=(start + span).isoformat().replace("+00:00", "Z"),
                              cadenceMinutes=step, rows=count, eligibleRows=count,
                              path=path.name, sha256=digest.hexdigest()))
-    manifest = dict(datasetVersion="synthetic-v2-1", featureVersion=2,
+    version = ("synthetic-v2-1" if legacy else
+               f"synthetic-v2-expanded-t{training_weeks}-c{calibration_weeks}"
+               f"-n{test_weeks}-f{fault_runs}x{fault_minutes}-m{cadence_minutes}")
+    manifest = dict(datasetVersion=version, featureVersion=2,
                     baselineVersion=BASELINES["baselineVersion"], runs=runs)
     (output.parent / "split_manifest.json").write_bytes((json.dumps(manifest, indent=2) + "\n").encode("utf-8"))
     return manifest
@@ -125,6 +144,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DATA)
     parser.add_argument("--cadence-minutes", type=int, default=5)
+    parser.add_argument("--training-weeks", type=int, default=4)
+    parser.add_argument("--calibration-weeks", type=int, default=1)
+    parser.add_argument("--test-weeks", type=int, default=1)
+    parser.add_argument("--fault-runs", type=int, default=1)
+    parser.add_argument("--fault-minutes", type=int, default=8)
     args = parser.parse_args()
-    result = generate(args.output, args.cadence_minutes)
+    if ((args.training_weeks, args.calibration_weeks, args.test_weeks,
+         args.fault_runs, args.fault_minutes, args.cadence_minutes) != (4, 1, 1, 1, 8, 5)
+            and args.output.resolve() == DATA.resolve()):
+        parser.error("Use --output for expanded data; the default dataset is frozen")
+    result = generate(args.output, args.cadence_minutes, args.training_weeks,
+                      args.calibration_weeks, args.test_weeks, args.fault_runs, args.fault_minutes)
     print(f"Generated {sum(run['rows'] for run in result['runs'])} eligible rows across {len(result['runs'])} runs")

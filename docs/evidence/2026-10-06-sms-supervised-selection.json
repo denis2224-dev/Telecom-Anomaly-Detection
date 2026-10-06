@@ -1,0 +1,105 @@
+{
+  "packageKind": "sms-supervised-selection-v1",
+  "datasetManifestSha256": "c5c68f006bf333059f926834b398cc7447bb2ee7e9659bd1ac3c49efb07cb1e4",
+  "datasetVersion": "sms-supervised-v1-t8-m5-f2x30-start20261214-seed2000000-balanced-p7",
+  "modelVersion": "sms-supervised-v1-2",
+  "modelDirectory": "model",
+  "modelManifestSha256": "f42afaac32866cce66dee5364241fc9aaf05c9bc909c8e297583296307f64f98",
+  "modelSha256": "f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19",
+  "validationSearchSha256": "9669fab8d4cb928d21349ec1e8c8c6645db9d90bd52896cd42bef8bcfdb77925",
+  "threshold": 0.55,
+  "settings": {
+    "estimator": "random-forest",
+    "n_estimators": 200,
+    "max_depth": null,
+    "min_samples_leaf": 1,
+    "view": "without-absolute-delay"
+  },
+  "gates": {
+    "minimumRecall": 0.7,
+    "minimumFamilyRecall": 0.7,
+    "maximumFalsePositiveRate": 0.01,
+    "maximumProfileFalsePositiveRate": 0.01
+  },
+  "randomState": 6102026,
+  "validationMetrics": {
+    "testNormalWindows": 8064,
+    "testFaultWindows": 2880,
+    "truePositives": 2823,
+    "falsePositives": 14,
+    "falseNegatives": 57,
+    "trueNegatives": 8050,
+    "precision": 0.9950652097285866,
+    "recall": 0.9802083333333333,
+    "falsePositivesPer1000Normal": 1.7361111111111112,
+    "medianInferenceMs": null,
+    "p95InferenceMs": null,
+    "byFamily": {
+      "delivery-delay": {
+        "windows": 720,
+        "detected": 720,
+        "recall": 1.0
+      },
+      "backlog": {
+        "windows": 720,
+        "detected": 720,
+        "recall": 1.0
+      },
+      "delivery-failure": {
+        "windows": 720,
+        "detected": 663,
+        "recall": 0.9208333333333333
+      },
+      "mixed-delay-backlog": {
+        "windows": 720,
+        "detected": 720,
+        "recall": 1.0
+      }
+    },
+    "bySeverity": {
+      "1": {
+        "windows": 960,
+        "detected": 903,
+        "recall": 0.940625
+      },
+      "2": {
+        "windows": 960,
+        "detected": 960,
+        "recall": 1.0
+      },
+      "3": {
+        "windows": 960,
+        "detected": 960,
+        "recall": 1.0
+      }
+    },
+    "byHealthyProfile": {
+      "nominal": {
+        "windows": 2016,
+        "falsePositives": 0,
+        "falsePositiveRate": 0.0
+      },
+      "high-load": {
+        "windows": 2016,
+        "falsePositives": 0,
+        "falsePositiveRate": 0.0
+      },
+      "low-volume": {
+        "windows": 2016,
+        "falsePositives": 14,
+        "falsePositiveRate": 0.006944444444444444
+      },
+      "healthy-jitter": {
+        "windows": 2016,
+        "falsePositives": 0,
+        "falsePositiveRate": 0.0
+      }
+    },
+    "macroRecall": 0.9802083333333333,
+    "falsePositiveRate": 0.001736111111111111
+  },
+  "validationPassed": true,
+  "selectionUses": "training, healthy calibration, validation; no final test rows",
+  "syntheticOnly": true,
+  "status": "EXPERIMENTAL_NOT_PROMOTED"
+}

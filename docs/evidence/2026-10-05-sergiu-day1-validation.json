@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-05T19:59:47.741210+00:00",
+  "integrationBase": "46c72f9b02beabf5b1b8e58ee9bb2bf0df33a6bf",
+  "implementationHead": "fd03f894f8ffe62f6fb4a66f3da2bd9e16852247",
+  "status": "IMPLEMENTATION_PASS_OWNER_ACCEPTANCE_PENDING",
+  "commands": {
+    "contract": "python scripts/check-contracts.py",
+    "rootPython": "python -m unittest discover -s tests -v",
+    "mlPython": "python -m unittest discover -s services/ml-service/tests -v",
+    "java": "mvn -pl services/processor -am verify with JAVA_HOME=JDK21 and ML_SERVICE_URL=http://127.0.0.1:18090",
+    "voiceParity": "python scripts/check-voice-parity.py --java-output services/processor/target/voice-parity-java.json",
+    "smsParity": "python scripts/check-sms-parity.py --java-output services/processor/target/sms-parity-java.json"
+  },
+  "results": {
+    "contract": "PASS",
+    "rootPython": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "mlPython": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "javaModules": {
+      "streaming-support": {
+        "tests": 110,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "event-generator": {
+        "tests": 59,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "processor": {
+        "tests": 245,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "javaTotal": 414,
+    "legacyVoiceParity": {
+      "cases": 7,
+      "integer": "EXACT",
+      "maxAbsoluteNumericDifference": 0
+    },
+    "legacySmsParity": {
+      "cases": 12,
+      "integer": "EXACT",
+      "maxAbsoluteNumericDifference": 0
+    },
+    "cityPeerUtcSlotsChecked": 3360,
+    "signMutation": "REJECTED; restored source recompiled; final suite PASS"
+  },
+  "runtime": {
+    "java": "21.0.12",
+    "maven": "3.9.16",
+    "python": "3.13.9",
+    "numpy": "2.4.6",
+    "sklearn": "1.9.1",
+    "joblib": "1.5.3",
+    "uvicorn": "0.54.0",
+    "protocol": "h11",
+    "ml": "private loopback HTTP; existing artifacts; eight permits/250ms budget unchanged",
+    "docker": "29.5.2; disposable Testcontainers"
+  },
+  "logs": {
+    "sergiu-day1-java-verify-h11.log": {
+      "sha256": "fa994a56d1ed299a40069a2b39b4fb5caae745410bdf463295d5d104336dac86",
+      "bytes": 341044,
+      "storage": "local original workspace tmp/; raw logs are not committed"
+    },
+    "sergiu-day1-python-contracts-final.log": {
+      "sha256": "8f6c70c38f6a19b4d072631e8c098aeef4823db243579fe5feaec0c93b0575d8",
+      "bytes": 16896,
+      "storage": "local original workspace tmp/; raw logs are not committed"
+    },
+    "sergiu-day1-python-ml.log": {
+      "sha256": "a8bac4f3fc297867d55ffc3fb1a01f66fd2107b1ec634cf1cf72ce02794862c5",
+      "bytes": 6402,
+      "storage": "local original workspace tmp/; raw logs are not committed"
+    },
+    "sergiu-day1-contract-validation-final.log": {
+      "sha256": "cddca4d88e737534d965a3eb8d7b9d08a2bf5e37730fd5f514a03ea22ffd43ff",
+      "bytes": 1190,
+      "storage": "local original workspace tmp/; raw logs are not committed"
+    },
+    "sergiu-day1-voice-parity.log": {
+      "sha256": "0e968366c8d7c90cc7b2b567ee716b8cc2c72a2e1ff8aab49e3a7a4fd2523b45",
+      "bytes": 1146,
+      "storage": "local original workspace tmp/; raw logs are not committed"
+    },
+    "sergiu-day1-sms-parity.log": {
+      "sha256": "1bc58876c36129f66bf9408241055a120f1c1c47632426abcdc8a091f8383948",
+      "bytes": 2032,
+      "storage": "local original workspace tmp/; raw logs are not committed"
+    }
+  },
+  "implementationSourceNormalizedLFHashes": {
+    "contracts/auxiliary/auxiliary-network-evidence-v1.schema.json": "c6649f706fe80ccb42f799574094d25ccc9580831447ec86c078eaf45cb8cb92",
+    "contracts/baselines/geographic-peer-baseline-v2.json": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+    "contracts/explanations/geographic-cause-projection-v1.schema.json": "edccf2245f2d0addeb00f5aa54b187d0bad62b9e51f0e38691307d93ff6cfc36",
+    "contracts/fixtures/geography/auxiliary-evidence-cases-v1.json": "f2185f9dc4336a15f7da9094d5d706a52a99496d3a20ad09e59a220cdbf31884",
+    "contracts/fixtures/geography/cause-projection-cases-v1.json": "df235705105f1ea913f074bab744cf1e6d166c6c9972fb48b025577c95408d96",
+    "contracts/fixtures/geography/numeric-cases-v1.json": "a33eb6fa1925627fc66f02c618982f245b995860bb371bc70387a3d32ac964c8",
+    "docs/evidence/2026-10-05-sergiu-day1-contract-manifest.json": "80383ea90ff8dd447fbc87b56119da24d65a5ebf016cbe9b9facdbfef751f569",
+    "scripts/check-contracts.py": "992820dfe3c55b481f213b0fe797379503bbb8fc0dc02c0d0e7ce64680e2efac",
+    "scripts/day1_evidence_contract.py": "cdfaa9f0613e35c7726170ff50d70dd686dac2278f3a76ce89cd8c4e8a15b379",
+    "scripts/geographic_numeric_contract.py": "920390a23a1a4de82f8171fe78631a17502cfac47f76f6ec1bc3b3ec981af5f8",
+    "services/ml-service/tests/test_geographic_compatibility.py": "1011ca3fbaf0e5dab6f52e027d2326e3c59b32f06b31a6da76261f2808c5127f",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicAggregationCasesTest.java": "eb7b9d0044012182132423b5795181dc4964503e0c4dfce86df6ba9cab0249c3",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicBaselineContractTest.java": "970a7855adac5cdcb4a8dc3e8bbf80c5a04b159d0dc79f75051ca54d5cf66c89",
+    "services/processor/src/test/java/md/utm/telecom/processing/SmsRuleTest.java": "81ee338131039b2b15b6cd973bf0a69e6a3d7b29c13383eb2875731bdcbb5439",
+    "tests/test_day1_detection_invariants.py": "30a68d5a46fc4667c001d7f410eb6c9c928eca100e8538a87e089e9467dbe9b8",
+    "tests/test_day1_evidence_contract.py": "55891bfd6e4a2f53802de05a1c053a410f85600817c16b0e1e82a310f20a747c",
+    "tests/test_geographic_numeric_contract.py": "bac42a99bdee06d8cafb9b730b399c19134bb7fa876725d220f2eb5cf5d7fd26"
+  },
+  "ownerReviews": {
+    "Ion": "PENDING_ACCEPTANCE_OF_NEW_ARTIFACTS",
+    "Denis": "PENDING_ACCEPTANCE_OF_NEW_ARTIFACTS",
+    "David": "PENDING_ACCEPTANCE_OF_NEW_ARTIFACTS",
+    "Stanislav": "PENDING_ACCEPTANCE_OF_NEW_ARTIFACTS"
+  },
+  "limitations": [
+    "No shared G1 signed acceptance",
+    "No fresh geographic feature parity/live city generation",
+    "No authenticated all-city browser acceptance",
+    "City scorer checks reuse eligible golden vectors; generalization unvalidated",
+    "Optional auxiliary shape only; power/probe runtime PLANNED"
+  ]
+}
