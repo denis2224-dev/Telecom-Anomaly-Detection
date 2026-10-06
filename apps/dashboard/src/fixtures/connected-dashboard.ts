@@ -1,6 +1,7 @@
 import type { components } from '../app/core/api/schema';
 import { cities } from '../app/features/service-overview/dashboard-geography';
 import { voiceIncidents, voiceRange, voiceWindows } from './voice';
+import { presentationFor } from './incident-presentation';
 import legacy from './services.json';
 
 type Summary = components['schemas']['ServiceSummary'];
@@ -73,6 +74,9 @@ export const cityIncidents: Incident[] = [{
     mlStatus: 'NOT_APPLICABLE', modelVersion: null, anomalyRank: null,
   },
 }];
+cityIncidents[0].presentation = presentationFor(
+  cityIncidents[0].id, cityIncidents[0].latestDetection,
+);
 
 export const citySummaries: Summary[] = fixtureCities.flatMap(city =>
   (['VOLTE', 'SMS'] as const).map((service: Service): Summary => {

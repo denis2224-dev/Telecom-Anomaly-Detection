@@ -134,6 +134,8 @@ services:
       KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET:-}
       GENERATOR_BASE_URL: http://event-generator:8081
       SESSION_COOKIE_SECURE: "false"
+      TELECOM_GEOGRAPHY_EFFECTIVE_FROM: ${TELECOM_GEOGRAPHY_EFFECTIVE_FROM:-}
+      KAFKA_COVERAGE_TOPIC: ${KAFKA_COVERAGE_TOPIC:-telecom.coverage.v1}
     ports:
       - "127.0.0.1:8082:8082"
     depends_on:
@@ -221,9 +223,11 @@ services:
         # seven-day retention for the local demo.
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2} --config retention.ms=${KAFKA_RAW_RETENTION_MS:-86400000}
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_KPIS_TOPIC:-telecom.kpis.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_COVERAGE_TOPIC:-telecom.coverage.v1} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_DETECTIONS_TOPIC:-telecom.detections.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic telecom.ml-shadow.sms.v1 --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
 
     networks:
       - telecom-private
@@ -240,6 +244,8 @@ services:
       CONTINUOUS_TELEMETRY_ENABLED: ${CONTINUOUS_TELEMETRY_ENABLED:-true}
       CONTINUOUS_TELEMETRY_SEED: ${CONTINUOUS_TELEMETRY_SEED:-42}
       CONTINUOUS_TELEMETRY_PUBLISH_DELAY: ${CONTINUOUS_TELEMETRY_PUBLISH_DELAY:-1s}
+      TELECOM_GEOGRAPHY_ENABLED: ${TELECOM_GEOGRAPHY_ENABLED:-false}
+      TELECOM_GEOGRAPHY_EFFECTIVE_FROM: ${TELECOM_GEOGRAPHY_EFFECTIVE_FROM:-}
       SERVER_PORT: 8081
       KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
       KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
@@ -273,10 +279,13 @@ services:
       KAFKA_V2_OBSERVATIONS_TOPIC: ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2}
       KAFKA_V2_INVALID_TOPIC: ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2}
       KAFKA_V2_LATE_TOPIC: ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2}
+      TELECOM_GEOGRAPHY_ENABLED: ${TELECOM_GEOGRAPHY_ENABLED:-false}
+      TELECOM_GEOGRAPHY_EFFECTIVE_FROM: ${TELECOM_GEOGRAPHY_EFFECTIVE_FROM:-}
       REJECTION_DELIVERY_ENABLED: ${REJECTION_DELIVERY_ENABLED:-true}
       REJECTION_DELIVERY_BATCH_SIZE: ${REJECTION_DELIVERY_BATCH_SIZE:-100}
       REJECTION_DELIVERY_POLL_INTERVAL: ${REJECTION_DELIVERY_POLL_INTERVAL:-1000}
       ML_SERVICE_URL: http://ml-service:8090
+      ML_SMS_SHADOW_ENABLED: ${ML_SMS_SHADOW_ENABLED:-false}
       PROCESSING_DB_URL: jdbc:postgresql://postgres:5432/processing_db?currentSchema=app
       PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
       PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:?Set PROCESSING_DB_PASSWORD}
@@ -331,6 +340,9 @@ services:
     build:
       context: .
       dockerfile: services/ml-service/Dockerfile
+    environment:
+      ML_SMS_SHADOW_ENABLED: ${ML_SMS_SHADOW_ENABLED:-false}
+      ML_SMS_CANDIDATE_PATH: /app/services/ml-service/candidate-models/sms-supervised-v1-2
     expose:
       - "8090"
     healthcheck:

@@ -131,6 +131,8 @@ public class SourceFreshness {
         if (limit < 1 || limit > 1000) throw new IllegalArgumentException("limit must be 1..1000");
 
         scopes.requireScope(scopeId);
+        var binding = scopes.geography().bindings().get(scopeId);
+        if (scopes.coverageEnabled() && binding != null && !binding.legacy()) return List.of();
         int windowSec = policy.windowSec();
         Instant dueLimit = clock.instant().minusSeconds(policy.allowedLatenessSec());
         var anchors = jdbc.query("""

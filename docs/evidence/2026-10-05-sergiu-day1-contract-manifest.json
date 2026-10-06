@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "integrationBase": "46c72f9b02beabf5b1b8e58ee9bb2bf0df33a6bf",
+  "modelVersion": "isoforest-v2-synthetic-1",
+  "baselineVersion": "baseline-v2",
+  "thresholdRank": 0.99,
+  "unchangedFiles": [
+    {
+      "path": "contracts/policies/service-rules-v2.json",
+      "normalization": "LF",
+      "gitBlobSha256": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+      "checkedOutSha256": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+      "normalizedSha256": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c"
+    },
+    {
+      "path": "contracts/features/feature-order-v2.json",
+      "normalization": "LF",
+      "gitBlobSha256": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+      "checkedOutSha256": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+      "normalizedSha256": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c"
+    },
+    {
+      "path": "contracts/features/service-feature-window-v2.schema.json",
+      "normalization": "LF",
+      "gitBlobSha256": "42031742005596f3fd2989986d933cf6f7463980375e847f0fe7588e7feb9f8d",
+      "checkedOutSha256": "42031742005596f3fd2989986d933cf6f7463980375e847f0fe7588e7feb9f8d",
+      "normalizedSha256": "42031742005596f3fd2989986d933cf6f7463980375e847f0fe7588e7feb9f8d"
+    },
+    {
+      "path": "contracts/detections/service-detection-v2.schema.json",
+      "normalization": "LF",
+      "gitBlobSha256": "20c6bd9664174011fa79653cac8a883394b5713e929286f86a9cfbc04395f679",
+      "checkedOutSha256": "20c6bd9664174011fa79653cac8a883394b5713e929286f86a9cfbc04395f679",
+      "normalizedSha256": "20c6bd9664174011fa79653cac8a883394b5713e929286f86a9cfbc04395f679"
+    },
+    {
+      "path": "contracts/observations/telecom-observation-v2.schema.json",
+      "normalization": "LF",
+      "gitBlobSha256": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d",
+      "checkedOutSha256": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d",
+      "normalizedSha256": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d"
+    },
+    {
+      "path": "contracts/baselines/demo-baseline-v2.json",
+      "normalization": "LF",
+      "gitBlobSha256": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
+      "checkedOutSha256": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
+      "normalizedSha256": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e"
+    },
+    {
+      "path": "contracts/topology/demo-scopes-v2.json",
+      "normalization": "LF",
+      "gitBlobSha256": "6259e98a2081ba93adc5693126a3b14bd3c7bde890d13e1053bca8a8c7320b3c",
+      "checkedOutSha256": "6259e98a2081ba93adc5693126a3b14bd3c7bde890d13e1053bca8a8c7320b3c",
+      "normalizedSha256": "6259e98a2081ba93adc5693126a3b14bd3c7bde890d13e1053bca8a8c7320b3c"
+    },
+    {
+      "path": "contracts/geography/demo-geography-v1.json",
+      "normalization": "LF",
+      "gitBlobSha256": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced",
+      "checkedOutSha256": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced",
+      "normalizedSha256": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced"
+    },
+    {
+      "path": "contracts/topology/geographic-scopes-v2.json",
+      "normalization": "LF",
+      "gitBlobSha256": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+      "checkedOutSha256": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+      "normalizedSha256": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532"
+    },
+    {
+      "path": "services/ml-service/models/manifest.json",
+      "normalization": "LF",
+      "gitBlobSha256": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711",
+      "checkedOutSha256": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711",
+      "normalizedSha256": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711"
+    },
+    {
+      "path": "services/ml-service/models/VOLTE.joblib",
+      "normalization": "BINARY",
+      "gitBlobSha256": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd",
+      "checkedOutSha256": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd",
+      "normalizedSha256": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd"
+    },
+    {
+      "path": "services/ml-service/models/SMS.joblib",
+      "normalization": "BINARY",
+      "gitBlobSha256": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307",
+      "checkedOutSha256": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307",
+      "normalizedSha256": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307"
+    },
+    {
+      "path": "services/ml-service/models/VOLTE-calibration.json",
+      "normalization": "LF",
+      "gitBlobSha256": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
+      "checkedOutSha256": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
+      "normalizedSha256": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489"
+    },
+    {
+      "path": "services/ml-service/models/SMS-calibration.json",
+      "normalization": "LF",
+      "gitBlobSha256": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b",
+      "checkedOutSha256": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b",
+      "normalizedSha256": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b"
+    }
+  ],
+  "peerMapping": {
+    "path": "contracts/baselines/geographic-peer-baseline-v2.json",
+    "normalizedSha256": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+    "topologyVersion": "2-geography-g1",
+    "catalogueVersion": "1-geography-g1",
+    "status": "CONTRACT_ONLY"
+  }
+}

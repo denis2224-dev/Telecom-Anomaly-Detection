@@ -6,6 +6,7 @@ import md.utm.telecom.evidence.model.DetectionEvidence;
 import md.utm.telecom.evidence.repository.DetectionEvidenceRepository;
 import md.utm.telecom.incidents.AuditService;
 import md.utm.telecom.incidents.IncidentWorkflow;
+import md.utm.telecom.incidents.evidence.IncidentProjection;
 import md.utm.telecom.incidents.model.Incident;
 import md.utm.telecom.incidents.model.IncidentStatus;
 import md.utm.telecom.incidents.model.TechnicalState;
@@ -153,6 +154,7 @@ public class IncidentController {
                         "Incident points to missing latest evidence"));
         UUID assigneeId = incident.getAssignee() == null
                 ? null : incident.getAssignee().getId();
+        var latestDetection = json.readTree(latest.getPayload());
         return new IncidentResponse(
                 incident.getId(),
                 incident.getEpisodeId(),
@@ -170,7 +172,8 @@ public class IncidentController {
                 incident.getUpdatedAt(),
                 incident.getVersion(),
                 incident.getLatestSequence(),
-                json.readTree(latest.getPayload()));
+                latestDetection,
+                IncidentProjection.from(incident.getId(), latestDetection));
     }
 
     private static void validatePage(int page, int size) {

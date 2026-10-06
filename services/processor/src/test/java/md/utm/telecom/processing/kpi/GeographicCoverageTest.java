@@ -55,12 +55,21 @@ class GeographicCoverageTest {
     static class Config {
         @Bean GeographyCatalog geography() throws Exception { return GeographyCatalog.activate(START); }
         @Bean @Primary TopologyCatalog geographicTopology(GeographyCatalog geography) { return geography.authority(); }
+        @Bean md.utm.telecom.processing.monitoring.GeographicMonitoringCheckpoint monitoring(JdbcTemplate jdbc,
+                java.time.Clock clock, md.utm.telecom.processing.topology.ScopeRegistry scopes,
+                md.utm.telecom.processing.ingestion.WindowDecisionLock lock,
+                md.utm.telecom.processing.ingestion.PayloadCodec codec,
+                org.springframework.transaction.PlatformTransactionManager transactions) {
+            return new md.utm.telecom.processing.monitoring.GeographicMonitoringCheckpoint(jdbc,clock,scopes,lock,codec,
+                    transactions,new md.utm.telecom.processing.monitoring.MonitoringProperties(10000,20,30));
+        }
     }
     @Autowired WindowFinalizer finalizer;
     @Autowired IngestionService ingestion;
     @Autowired JdbcTemplate jdbc;
     @Autowired GeographyCatalog geography;
     @Autowired WindowFinalizerTest.TestClock clock;
+    @Autowired md.utm.telecom.processing.monitoring.GeographicMonitoringCheckpoint monitoring;
     int offset;
 
     JdbcTemplate owner() {
@@ -68,6 +77,8 @@ class GeographicCoverageTest {
     }
     @BeforeEach void before() { clear(); clock.now=START.plusSeconds(70); }
     @AfterEach void clear() {
+        owner().update("DELETE FROM app.geographic_monitoring_cursor");
+        owner().update("DELETE FROM app.geographic_monitoring_range");
         owner().update("DELETE FROM app.voice_delivery");
         owner().update("DELETE FROM app.feature_outbox");
         jdbc.update("DELETE FROM app.source_state");
@@ -146,6 +157,9 @@ class GeographicCoverageTest {
     }
 
     @Test void absentServiceFinalizationUsesOnlyRealNodeReceipts() throws Exception {
+        for(int second=0;second<=60;second+=10) {
+            clock.now=START.plusSeconds(second); monitoring.tick("coverage-test-owner");
+        }
         var events=generate("SMS-MD-CHI"); ingest(events.getFirst());
         assertEquals(FINALIZED,finalizer.finalizeMissingWindow("SMS-MD-CHI",START));
         var fact=coverage("SMS-MD-CHI");

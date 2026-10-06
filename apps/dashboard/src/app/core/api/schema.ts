@@ -4,1333 +4,1840 @@
  */
 
 export interface paths {
-  "/oauth2/authorization/keycloak": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/geography/cities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List the configured synthetic city inventory and current service state
+         * @description Ten cities with both services after explicit catalogue activation. Legacy scopes remain unallocated. No child topology or full history is embedded.
+         */
+        get: operations["listGeographyCities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Start browser login
-     * @description Browser navigation, not a JSON password request. Backend creates the authorization request. Client telecom-web; issuer http://telecom.test:8080/auth/realms/telecom. Never accept an arbitrary return URL.
-     */
-    get: operations["startKeycloakLogin"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/login/oauth2/code/keycloak": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/geography/cities/{cityId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read one city's configured footprint and service state */
+        get: operations["getGeographyCity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Complete OIDC login
-     * @description Provider-to-backend callback; not an endpoint Angular calls manually. Validate stored state and OIDC identity. Handle provider error callbacks without exposing credentials or tokens. Missing code/state on a success callback is invalid.
-     */
-    get: operations["handleKeycloakCallback"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/auth/me": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/geography/cities/{cityId}/topology": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Page through contained nodes and separate dependency references */
+        get: operations["getGeographyTopology"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get the current analyst session
-     * @description Map the verified issuer/subject to the local analyst UUID; roles come from the verified app_roles claim. Do not return OIDC tokens or session identifiers.
-     */
-    get: operations["getCurrentSession"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/auth/csrf": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/geography/cities/{cityId}/kpis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Page through finalized KPI windows for one city and service
+         * @description UTC half-open [from,to), at most 24 hours per request and 100 points per page; gaps are not filled. Requires an active catalogue.
+         */
+        get: operations["getGeographyCityKpis"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get a CSRF token
-     * @description Public bootstrap route that may establish a pre-login session. Send the token using the returned headerName for JSON mutations or parameterName for form logout.
-     */
-    get: operations["getCsrfToken"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/logout": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/operations/priority": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Page through a stable view of persisted technical incidents
+         * @description Fresh ongoing incidents lead. Uncertain and recovered items retain distinct states. Do not compare VoLTE percentage points with SMS milliseconds.
+         */
+        get: operations["listOperationalPriority"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Log out through browser form navigation
-     * @description Submit a browser form with the returned CSRF parameter; follow redirects as navigation. Refresh CSRF after logout. Not a JSON /api/auth/logout endpoint.
-     */
-    post: operations["logoutSession"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/analysts": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/services/{scopeId}/ml-shadow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read optional SMS classifier shadow evidence
+         * @description Analyst/supervisor/admin session required. UTC windowStart interval [from,to), at most 24 hours. Includes healthy windows, classifier-only positives and failures. Order windowStart ASC,evidenceId ASC. Scores are uncalibrated and do not drive incidents.
+         */
+        get: operations["getServiceMlShadow"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * List local analysts
-     * @description Read the local directory only; no direct Keycloak database queries. enabled=true is the default selector for assignment controls. Target eligibility is rechecked at mutation time.
-     */
-    get: operations["listAnalysts"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/incidents/{id}/ml-shadow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read shadow evidence in an incident's observed SMS interval
+         * @description Analyst/supervisor/admin session required. Correlates SMS scope and windows overlapping [firstObservedAt,lastObservedAt). A non-SMS incident returns an empty page. Does not alter lifecycle, severity or recovery.
+         */
+        get: operations["getIncidentMlShadow"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * List incident episodes
-     * @description Sort detectedAt DESC,id DESC. One row per episode, not per breached minute.
-     */
-    get: operations["listIncidents"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents/{id}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/oauth2/authorization/keycloak": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Start browser login
+         * @description Browser navigation, not a JSON password request. Backend creates the authorization request. Client telecom-web; issuer http://telecom.test:8080/auth/realms/telecom. Never accept an arbitrary return URL.
+         */
+        get: operations["startKeycloakLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get incident episode
-     * @description Return one analyst work item and its latest accepted detection. Historical detections are available from the separate paged detections endpoint.
-     */
-    get: operations["getIncident"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents/{id}/detections": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/login/oauth2/code/keycloak": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Complete OIDC login
+         * @description Provider-to-backend callback; not an endpoint Angular calls manually. Validate stored state and OIDC identity. Handle provider error callbacks without exposing credentials or tokens. Missing code/state on a success callback is invalid.
+         */
+        get: operations["handleKeycloakCallback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get immutable evidence history
-     * @description Order by sequence ASC. Preserve evidence from every accepted episode event.
-     */
-    get: operations["getIncidentDetections"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents/{id}/status": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the current analyst session
+         * @description Map the verified issuer/subject to the local analyst UUID; roles come from the verified app_roles claim. Do not return OIDC tokens or session identifiers.
+         */
+        get: operations["getCurrentSession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Change analyst workflow status
-     * @description Assigned analyst or supervisor/admin. OPEN -> INVESTIGATING requires assignee. INVESTIGATING -> RESOLVED requires technicalState RECOVERED and nonblank resolutionNote. Version conflict returns 409. Technical recovery never resolves analyst work automatically.
-     */
-    post: operations["changeIncidentStatus"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents/{id}/assignment": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/auth/csrf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a CSRF token
+         * @description Public bootstrap route that may establish a pre-login session. Send the token using the returned headerName for JSON mutations or parameterName for form logout.
+         */
+        get: operations["getCsrfToken"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Assign an incident
-     * @description Analyst can claim unassigned work for self; supervisors/admins can reassign to enabled analysts. Optimistic locking and audit are transactional.
-     */
-    post: operations["assignIncident"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents/{id}/comments": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Log out through browser form navigation
+         * @description Submit a browser form with the returned CSRF parameter; follow redirects as navigation. Refresh CSRF after logout. Not a JSON /api/auth/logout endpoint.
+         */
+        post: operations["logoutSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Add a comment
-     * @description Assigned analyst or supervisor/admin; requestId provides comment idempotency.
-     */
-    post: operations["commentOnIncident"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents/{id}/timeline": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/analysts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List local analysts
+         * @description Read the local directory only; no direct Keycloak database queries. enabled=true is the default selector for assignment controls. Target eligibility is rechecked at mutation time.
+         */
+        get: operations["listAnalysts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Get analyst audit
-     * @description Return analyst and system audit events ordered by occurredAt ASC,id ASC. Detection evidence is exposed separately and is never collapsed into this workflow timeline.
-     */
-    get: operations["getIncidentTimeline"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/services": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/incidents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List incident episodes
+         * @description Sort detectedAt DESC,id DESC. One row per episode, not per breached minute.
+         */
+        get: operations["listIncidents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * List monitored scopes
-     * @description Return each monitored service scope with its latest persisted KPI window, source freshness and unresolved incident count. Missing telemetry is distinct from a measured zero.
-     */
-    get: operations["listServices"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/services/{scopeId}/kpis": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/incidents/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get incident episode
+         * @description Return one analyst work item and its latest accepted detection. Historical detections are available from the separate paged detections endpoint.
+         */
+        get: operations["getIncident"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Read KPI history
-     * @description Maximum 24 hours/1440 minute windows; reject reversed or excessive ranges. Show null/missing separately from zero.
-     */
-    get: operations["getServiceKpis"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/incidents/stream": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/incidents/{id}/detections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get immutable evidence history
+         * @description Order by sequence ASC. Preserve evidence from every accepted episode event.
+         */
+        get: operations["getIncidentDetections"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Session-bound SSE updates
-     * @description Emit committed incident upserts with id/version; close on logout or session expiry. Client reloads REST after reconnect; stream is not a replay log.
-     */
-    get: operations["streamIncidents"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/simulator/scenarios/{type}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/incidents/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change analyst workflow status
+         * @description Assigned analyst or supervisor/admin. OPEN -> INVESTIGATING requires assignee. INVESTIGATING -> RESOLVED requires technicalState RECOVERED and nonblank resolutionNote. Version conflict returns 409. Technical recovery never resolves analyst work automatically.
+         */
+        post: operations["changeIncidentStatus"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Schedule a synthetic service scenario
-     * @description Supervisor/admin only. Server schedules the next full minute: two normal, three degraded, three recovery windows (8 minutes). Rate/duration are fixed by versioned scenario profile, not arbitrary request fields. Persist requestId/body hash/runId in incidents_db; retries reuse the saved command and generator runId. Same ID with different body returns 409.
-     */
-    post: operations["startScenario"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/simulator/runs/{runId}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/incidents/{id}/assignment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Assign an incident
+         * @description Analyst can claim unassigned work for self; supervisors/admins can reassign to enabled analysts. Optimistic locking and audit are transactional.
+         */
+        post: operations["assignIncident"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /**
-     * Read scenario progress
-     * @description Supervisor/admin only. Read the durable public command state by the stable run ID; the browser never calls the private generator directly.
-     */
-    get: operations["getScenarioRun"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/simulator/runs/{runId}/stop": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/incidents/{id}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add a comment
+         * @description Assigned analyst or supervisor/admin; requestId provides comment idempotency.
+         */
+        post: operations["commentOnIncident"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /**
-     * Stop a scenario
-     * @description Supervisor/admin only. Stop is idempotent. Stopping traffic creates missing telemetry, not technical recovery; run a normal recovery profile to demonstrate recovery.
-     */
-    post: operations["stopScenario"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/api/incidents/{id}/timeline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get analyst audit
+         * @description Return analyst and system audit events ordered by occurredAt ASC,id ASC. Detection evidence is exposed separately and is never collapsed into this workflow timeline.
+         */
+        get: operations["getIncidentTimeline"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List monitored scopes
+         * @description Return each monitored service scope with its latest persisted KPI window, source freshness and unresolved incident count. Missing telemetry is distinct from a measured zero.
+         */
+        get: operations["listServices"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/services/{scopeId}/kpis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read KPI history
+         * @description Maximum 24 hours/1440 minute windows; reject reversed or excessive ranges. Show null/missing separately from zero.
+         */
+        get: operations["getServiceKpis"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/incidents/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Session-bound SSE updates
+         * @description Emits `ready` on each connection. The client must refresh authoritative REST list,
+         *     detail, detection and audit data after every `ready`, including reconnects.
+         *     A committed change emits `incident-upsert` with data
+         *     `{"id":"<incident UUID>","version":7}`. Heartbeats are SSE comments.
+         *     An equal-version hint may represent an audit-only comment, so refresh the
+         *     visible timeline even when the incident version is unchanged. Logout or
+         *     session expiry closes the stream. This stream has no durable replay cursor;
+         *     Last-Event-ID is not supported. Refresh REST after reconnect to repair
+         *     notifications missed during a disconnect.
+         */
+        get: operations["streamIncidents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/simulator/scenarios/{type}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Schedule a synthetic service scenario
+         * @description Supervisor/admin only. Server schedules the next full minute: two normal, three degraded, three recovery windows (8 minutes). Rate/duration are fixed by versioned scenario profile, not arbitrary request fields. Persist requestId/body hash/runId in incidents_db; retries reuse the saved command and generator runId. Same ID with different body returns 409.
+         */
+        post: operations["startScenario"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/simulator/runs/{runId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Read scenario progress
+         * @description Supervisor/admin only. Read the durable public command state by the stable run ID; the browser never calls the private generator directly.
+         */
+        get: operations["getScenarioRun"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/simulator/runs/{runId}/stop": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Stop a scenario
+         * @description Supervisor/admin only. Stop is idempotent. Stopping traffic creates missing telemetry, not technical recovery; run a normal recovery profile to demonstrate recovery.
+         */
+        post: operations["stopScenario"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    /** @description Lowercase SHA-256 hexadecimal identity derived from the canonical episode contract. */
-    Sha256Id: string;
-    AnalystSummary: {
-      /** Format: uuid */
-      id: string;
-      displayName: string;
-      enabled: boolean;
+    schemas: {
+        /** @description A finalized measurement; null is never silently converted to zero. */
+        GeographyMetric: {
+            /** @enum {string} */
+            name: "TECHNICAL_CSSR" | "SMS_DELIVERY_P95";
+            /** @enum {string} */
+            unit: "PERCENT" | "MILLISECONDS";
+            observed: number | null;
+            baseline: number | null;
+            /** @description VoLTE observed minus baseline in percentage points. */
+            deltaPp: number | null;
+            /** @description SMS observed divided by positive matching baseline. */
+            delayRatio: number | null;
+            /** Format: int64 */
+            numerator?: number | null;
+            /** Format: int64 */
+            denominator?: number | null;
+            /** Format: int64 */
+            sampleCount?: number | null;
+            /** @enum {string|null} */
+            nullReason: "UNKNOWN" | "NEVER_SEEN" | "MISSING" | "STALE" | "BASELINE_MISSING" | "INSUFFICIENT_DATA" | "NOT_AGGREGATABLE" | "UNSUPPORTED" | null;
+        };
+        GeographyCoverage: {
+            /** @enum {string} */
+            state: "UNKNOWN" | "COMPLETE" | "PARTIAL" | "MISSING" | "STALE";
+            expectedSources: number | null;
+            receivedSources: number | null;
+            usableSources: number | null;
+        };
+        GeographyServiceState: {
+            /** @enum {string} */
+            service: "VOLTE" | "SMS";
+            scopeId: string;
+            /** Format: date-time */
+            latestWindowEnd: string | null;
+            /** @enum {string} */
+            freshness: "FRESH" | "STALE" | "MISSING" | "NEVER_SEEN";
+            technicalActiveCount: number;
+            analystOpenCount: number;
+            coverage: components["schemas"]["GeographyCoverage"];
+            metric: components["schemas"]["GeographyMetric"];
+        };
+        GeographyCitySummary: {
+            cityId: string;
+            displayName: string;
+            /** @enum {boolean} */
+            synthetic: true;
+            catalogueVersion: string;
+            topologyVersion: string;
+            services: components["schemas"]["GeographyServiceState"][];
+        };
+        GeographyCityDetail: components["schemas"]["GeographyCitySummary"] & {
+            /** Format: date-time */
+            generatedAt: string;
+            footprintNodeIds: string[];
+        };
+        GeographyTopologyPage: {
+            cityId: string;
+            catalogueVersion: string;
+            page: number;
+            size: number;
+            hasNext: boolean;
+            nodes: {
+                nodeId: string;
+                parentId: string | null;
+                /** @enum {string} */
+                kind: "COUNTRY" | "CITY" | "AGGREGATION" | "SITE" | "CELL" | "IMS" | "SMSC" | "TRANSPORT";
+                /** @description True only when this node has its own authoritative measurement. */
+                measured: boolean;
+                dependencyNodeIds: string[];
+            }[];
+        };
+        GeographyKpiPage: {
+            cityId: string;
+            /** @enum {string} */
+            service: "VOLTE" | "SMS";
+            page: number;
+            size: number;
+            hasNext: boolean;
+            points: {
+                windowId: string;
+                scopeId: string;
+                catalogueVersion: string;
+                topologyVersion: string;
+                /** Format: date-time */
+                windowStart: string;
+                /** Format: date-time */
+                windowEnd: string;
+                coverage: components["schemas"]["GeographyCoverage"];
+                metric: components["schemas"]["GeographyMetric"];
+            }[];
+        };
+        GeographyPriorityPage: {
+            /** Format: date-time */
+            generatedAt: string;
+            page: number;
+            size: number;
+            hasNext: boolean;
+            items: {
+                /** Format: uuid */
+                incidentId: string;
+                cityId: string;
+                /** @enum {string} */
+                service: "VOLTE" | "SMS";
+                /** @enum {string} */
+                technicalState: "ONGOING" | "UNKNOWN" | "RECOVERED";
+                /** @enum {string} */
+                analystStatus: "OPEN" | "INVESTIGATING" | "RESOLVED";
+                /** @enum {string} */
+                severity: "MEDIUM" | "HIGH" | "CRITICAL";
+                /** Format: date-time */
+                firstObservedAt: string;
+                /** Format: date-time */
+                detectedAt: string;
+            }[];
+        };
+        /** @description Lowercase SHA-256 hexadecimal identity derived from the canonical episode contract. */
+        Sha256Id: string;
+        AnalystSummary: {
+            /** Format: uuid */
+            id: string;
+            displayName: string;
+            enabled: boolean;
+        };
+        /** @description The absolute server-session deadline, not the OIDC token expiry. No cookies, tokens, issuer or subject are returned. */
+        CurrentSession: {
+            /** Format: uuid */
+            analystId: string;
+            displayName: string;
+            roles: ("ANALYST" | "SUPERVISOR" | "ADMIN")[];
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        CsrfToken: {
+            token: string;
+            /** @enum {string} */
+            headerName: "X-CSRF-TOKEN";
+            /** @enum {string} */
+            parameterName: "_csrf";
+        };
+        ApiError: {
+            code: string;
+            message: string;
+            /** Format: uuid */
+            requestId: string;
+            fieldErrors?: {
+                field: string;
+                message: string;
+            }[];
+            /** Format: int64 */
+            currentVersion?: number;
+        };
+        /** @description SYSTEM has null actorId; human actors resolve from the authenticated issuer/subject. Field snapshots are bounded to changed business fields, never tokens or full session data. */
+        AuditEvent: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            incidentId: string;
+            /** @enum {string} */
+            actorKind: "ANALYST" | "SYSTEM";
+            /** Format: uuid */
+            actorId: string | null;
+            action: string;
+            /** Format: date-time */
+            occurredAt: string;
+            /** Format: uuid */
+            requestId: string;
+            before: {
+                [key: string]: unknown;
+            } | null;
+            after: {
+                [key: string]: unknown;
+            } | null;
+            note: string | null;
+        };
+        AuditPage: {
+            items: components["schemas"]["AuditEvent"][];
+            /** Format: int64 */
+            total: number;
+            page: number;
+            size: number;
+        };
+        /** @description Service requires a note for RESOLVED, rejects direct OPEN -> RESOLVED, and requires assignment before INVESTIGATING. The acting analyst must be the assignee unless SUPERVISOR/ADMIN. */
+        ChangeStatusRequest: {
+            /** @enum {string} */
+            status: "INVESTIGATING" | "RESOLVED";
+            /** Format: int64 */
+            version: number;
+            resolutionNote?: string;
+        };
+        /** @description Assign to an enabled local analyst. ANALYST may only self-claim an unassigned incident; SUPERVISOR/ADMIN may reassign. A concurrent claim is a 409. */
+        AssignmentRequest: {
+            /** Format: uuid */
+            analystId: string;
+            /** Format: int64 */
+            version: number;
+        };
+        /** @description requestId is correlation metadata, never actor identity. If X-Request-ID is also present, it must match this value. */
+        CommentRequest: {
+            text: string;
+            /** Format: int64 */
+            version: number;
+            /** Format: uuid */
+            requestId: string;
+        };
+        ServiceDetection: {
+            /** @enum {integer} */
+            schemaVersion: 2;
+            detectionId: components["schemas"]["Sha256Id"];
+            episodeId: components["schemas"]["Sha256Id"];
+            correlationKey: components["schemas"]["Sha256Id"];
+            sequence: number;
+            /** @enum {string} */
+            phase: "OPEN" | "UPDATE" | "RECOVERY" | "UNKNOWN";
+            /** @enum {string} */
+            anomalyType: "VOLTE_SETUP_DEGRADATION" | "SMS_DELIVERY_DELAY";
+            scopeId: string;
+            /** @enum {string} */
+            service: "VOLTE" | "SMS";
+            /**
+             * Format: date-time
+             * @description Episode anchor and first eligible breached window start used to derive episodeId.
+             */
+            firstObservedAt: string;
+            /** Format: date-time */
+            windowStart: string;
+            /** Format: date-time */
+            windowEnd: string;
+            /** Format: date-time */
+            detectedAt: string;
+            /** @enum {string} */
+            severity: "MEDIUM" | "HIGH" | "CRITICAL";
+            /** @enum {string} */
+            technicalState: "ONGOING" | "RECOVERED" | "UNKNOWN";
+            rulesetVersion: string;
+            baselineVersion: string;
+            topologyVersion: string;
+            kpis: {
+                name: string;
+                observed: number | null;
+                baseline: number | null;
+                /** @enum {string} */
+                unit: "PERCENT" | "PERCENTAGE_POINTS" | "RATIO" | "COUNT" | "MILLISECONDS" | "SECONDS" | "MBPS";
+                numerator: number | null;
+                denominator: number | null;
+            }[];
+            impact: {
+                extraFailedAttempts: number;
+                affectedDeliveredMessages: number;
+                pendingMessages: number;
+                /**
+                 * @description Always null in this aggregate demo; observations do not identify unique subscribers.
+                 * @enum {string|null}
+                 */
+                uniqueSubscribers: null;
+            };
+            probableCause: string;
+            /** @enum {string} */
+            causeConfidence: "LOW" | "MEDIUM" | "HIGH";
+            evidence: {
+                code: string;
+                summary: string;
+                nodeId: string | null;
+                sourceEventIds: string[];
+            }[];
+            recommendedChecks: string[];
+            /** @enum {string} */
+            mlStatus: "OK" | "TIMEOUT" | "UNAVAILABLE" | "INSUFFICIENT_DATA" | "NOT_APPLICABLE";
+            modelVersion: string | null;
+            anomalyRank: number | null;
+        };
+        ServiceScope: {
+            scopeId: string;
+            /** @enum {string} */
+            service: "VOLTE" | "SMS";
+            region: string;
+            /** @enum {string} */
+            rat: "LTE";
+            partner: string;
+            route: string;
+            dependencyIds: string[];
+        };
+        /** @description Feature version 2. ML-eligible windows require COMPLETE quality and exactly six finite values in the service-specific order from feature-order-v2.json. Ineligible windows use empty featureNames and featureValues. Validate conditional rules with the canonical JSON Schema; OpenAPI 3.0 cannot express its if/then clauses. */
+        ServiceKpiWindow: {
+            /** @enum {integer} */
+            schemaVersion: 2;
+            windowId: string;
+            scopeId: string;
+            /** @enum {string} */
+            service: "VOLTE" | "SMS";
+            /** Format: date-time */
+            windowStart: string;
+            /** Format: date-time */
+            windowEnd: string;
+            /** @enum {string} */
+            quality: "COMPLETE" | "INCOMPLETE" | "MISSING";
+            baselineVersion: string;
+            topologyVersion: string;
+            kpis: {
+                name: string;
+                observed: number | null;
+                baseline: number | null;
+                /** @enum {string} */
+                unit: "PERCENT" | "PERCENTAGE_POINTS" | "RATIO" | "COUNT" | "MILLISECONDS" | "SECONDS" | "MBPS";
+                numerator: number | null;
+                denominator: number | null;
+            }[];
+            featureNames: string[];
+            featureValues: number[];
+            mlEligible: boolean;
+            sourceEventIds: string[];
+            /** @enum {integer} */
+            featureVersion: 2;
+        };
+        Incident: {
+            /** Format: uuid */
+            id: string;
+            episodeId: components["schemas"]["Sha256Id"];
+            /** @enum {string} */
+            service: "VOLTE" | "SMS";
+            scopeId: string;
+            /** @enum {string} */
+            status: "OPEN" | "INVESTIGATING" | "RESOLVED";
+            /** @enum {string} */
+            technicalState: "ONGOING" | "RECOVERED" | "UNKNOWN";
+            /** @enum {string} */
+            severity: "MEDIUM" | "HIGH" | "CRITICAL";
+            /** Format: uuid */
+            assigneeId: string | null;
+            resolutionNote: string | null;
+            /** Format: date-time */
+            firstObservedAt: string;
+            /** Format: date-time */
+            detectedAt: string;
+            /** Format: date-time */
+            lastObservedAt: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            version: number;
+            latestSequence: number;
+            latestDetection: components["schemas"]["ServiceDetection"];
+            /** @description Impact freshness and explanation copied from latest immutable detection. */
+            presentation: {
+                /** @enum {string} */
+                impactState: "CURRENT" | "STALE" | "RECOVERED";
+                currentImpact: {
+                    extraFailedAttempts: number;
+                    affectedDeliveredMessages: number;
+                    pendingMessages: number;
+                    /** @enum {string|null} */
+                    uniqueSubscribers: null;
+                } | null;
+                /** @description Last observed estimate during UNKNOWN, never a live estimate or historical peak. */
+                retainedImpact: {
+                    extraFailedAttempts: number;
+                    affectedDeliveredMessages: number;
+                    pendingMessages: number;
+                    /** @enum {string|null} */
+                    uniqueSubscribers: null;
+                } | null;
+                impactSourceDetectionId: string;
+                /** Format: date-time */
+                impactWindowEnd: string;
+                probableCause: string;
+                /** @enum {string} */
+                causeConfidence: "LOW" | "MEDIUM" | "HIGH";
+                evidenceHistoryPath: string;
+            };
+        };
+        IncidentPage: {
+            items: components["schemas"]["Incident"][];
+            total: number;
+            page: number;
+            size: number;
+        };
+        StartScenarioRequest: {
+            /** Format: uuid */
+            requestId: string;
+            seed: number;
+            scopeId: string;
+        };
+        ScenarioRun: {
+            /** Format: uuid */
+            runId: string;
+            /** @enum {string} */
+            status: "SCHEDULED" | "RUNNING" | "COMPLETED" | "STOPPED" | "FAILED";
+            /** Format: date-time */
+            scheduledStartAt: string;
+            /** Format: date-time */
+            scheduledEndAt: string;
+            /** @enum {string} */
+            scenarioType: "VOLTE_IMS_OVERLOAD" | "SMS_QUEUE_DELAY" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+            scopeId: string;
+        };
+        ServiceKpiPage: {
+            items: components["schemas"]["ServiceKpiWindow"][];
+            total: number;
+            page: number;
+            size: number;
+            /** Format: date-time */
+            observedAt: string;
+        };
+        DetectionPage: {
+            items: components["schemas"]["ServiceDetection"][];
+            total: number;
+            page: number;
+            size: number;
+        };
+        ServiceSummary: {
+            scope: components["schemas"]["ServiceScope"];
+            /** @enum {string} */
+            freshness: "FRESH" | "STALE" | "MISSING";
+            /** Format: date-time */
+            observedAt: string;
+            openIncidents: number;
+            latestWindow: {
+                /** @enum {integer} */
+                schemaVersion: 2;
+                windowId: string;
+                scopeId: string;
+                /** @enum {string} */
+                service: "VOLTE" | "SMS";
+                /** Format: date-time */
+                windowStart: string;
+                /** Format: date-time */
+                windowEnd: string;
+                /** @enum {string} */
+                quality: "COMPLETE" | "INCOMPLETE" | "MISSING";
+                baselineVersion: string;
+                topologyVersion: string;
+                kpis: {
+                    name: string;
+                    observed: number | null;
+                    baseline: number | null;
+                    /** @enum {string} */
+                    unit: "PERCENT" | "PERCENTAGE_POINTS" | "RATIO" | "COUNT" | "MILLISECONDS" | "SECONDS" | "MBPS";
+                    numerator: number | null;
+                    denominator: number | null;
+                }[];
+                featureNames: string[];
+                featureValues: number[];
+                mlEligible: boolean;
+                sourceEventIds: string[];
+                /** @enum {integer} */
+                featureVersion: 2;
+            } | null;
+        };
+        /** @description Canonical event sms-shadow-evidence-v1. OK requires a score, boolean decision, and modelVersion. Failure predictions and modelVersion are null. Cutoff decision is inclusive at 0.55. */
+        SmsShadowEvidence: {
+            /** @enum {integer} */
+            schemaVersion: 1;
+            evidenceId: string;
+            windowId: string;
+            /** @enum {string} */
+            service: "SMS";
+            scopeId: string;
+            /** Format: date-time */
+            windowStart: string;
+            /** Format: date-time */
+            windowEnd: string;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: date-time */
+            completedAt: string;
+            /** @enum {integer} */
+            featureVersion: 2;
+            /** @enum {string} */
+            baselineVersion: "baseline-v2";
+            topologyVersion: string;
+            /** @enum {string} */
+            requestedModelVersion: "sms-supervised-v1-2";
+            /** @enum {string|null} */
+            modelVersion: "sms-supervised-v1-2" | null;
+            /** @enum {string} */
+            modelSha256: "f3baf6be91d56c0a8054a9cd81e028774e3af9464d8124a81aa89180030c9f19";
+            /** @enum {unknown} */
+            mlStatus: "OK" | "DISABLED" | "UNAVAILABLE" | "TIMEOUT" | "INSUFFICIENT_DATA" | "MALFORMED_RESPONSE";
+            /** @description Uncalibrated fault-class score; never anomalyRank or a fault probability. */
+            classifierScore: number | null;
+            detection: boolean | null;
+            /** @enum {number} */
+            threshold: 0.55;
+        };
+        MlShadowPage: {
+            items: components["schemas"]["SmsShadowEvidence"][];
+            total: number;
+            page: number;
+            size: number;
+        };
     };
-    /** @description The absolute server-session deadline, not the OIDC token expiry. No cookies, tokens, issuer or subject are returned. */
-    CurrentSession: {
-      /** Format: uuid */
-      analystId: string;
-      displayName: string;
-      roles: ("ANALYST" | "SUPERVISOR" | "ADMIN")[];
-      /** Format: date-time */
-      expiresAt: string;
+    responses: {
+        /** @description Malformed input, an invalid range or invalid request identifier. */
+        BadRequest: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ApiError"];
+            };
+        };
+        /** @description No valid server session, or the session has expired. API requests receive JSON, not a login redirect. */
+        Unauthenticated: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ApiError"];
+            };
+        };
+        /** @description Insufficient application role, disabled local analyst, wrong assignee or failed CSRF validation. CSRF rejection uses code CSRF_INVALID. */
+        Forbidden: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ApiError"];
+            };
+        };
+        /** @description The requested resource does not exist. */
+        NotFound: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ApiError"];
+            };
+        };
+        /** @description Stale version or an incompatible workflow/assignment state. State failures use INVALID_TRANSITION or ASSIGNMENT_CONFLICT; currentVersion may be returned. */
+        Conflict: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ApiError"];
+            };
+        };
+        /** @description A required dependency is unavailable; no secrets or internal exception text is returned. */
+        Unavailable: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ApiError"];
+            };
+        };
     };
-    CsrfToken: {
-      token: string;
-      /** @enum {string} */
-      headerName: "X-CSRF-TOKEN";
-      /** @enum {string} */
-      parameterName: "_csrf";
+    parameters: {
+        GeographyCityId: string;
+        /** @description Incident UUID, not a detectionId. */
+        IncidentId: string;
+        /** @description Optional correlation UUID; generated by the server when absent. Must match a body requestId if both are provided. */
+        RequestId: string;
+        Page: number;
+        Size: number;
+        /** @description Inclusive start instant. */
+        From: string;
+        /** @description Exclusive end instant. Must be later than from. */
+        To: string;
     };
-    ApiError: {
-      code: string;
-      message: string;
-      /** Format: uuid */
-      requestId: string;
-      fieldErrors?: {
-        field: string;
-        message: string;
-      }[];
-      /** Format: int64 */
-      currentVersion?: number;
-    };
-    /** @description SYSTEM has null actorId; human actors resolve from the authenticated issuer/subject. Field snapshots are bounded to changed business fields, never tokens or full session data. */
-    AuditEvent: {
-      /** Format: uuid */
-      id: string;
-      /** Format: uuid */
-      incidentId: string;
-      /** @enum {string} */
-      actorKind: "ANALYST" | "SYSTEM";
-      /** Format: uuid */
-      actorId: string | null;
-      action: string;
-      /** Format: date-time */
-      occurredAt: string;
-      /** Format: uuid */
-      requestId: string;
-      before: {
-        [key: string]: unknown;
-      } | null;
-      after: {
-        [key: string]: unknown;
-      } | null;
-      note: string | null;
-    };
-    AuditPage: {
-      items: components["schemas"]["AuditEvent"][];
-      /** Format: int64 */
-      total: number;
-      page: number;
-      size: number;
-    };
-    /** @description Service requires a note for RESOLVED, rejects direct OPEN -> RESOLVED, and requires assignment before INVESTIGATING. The acting analyst must be the assignee unless SUPERVISOR/ADMIN. */
-    ChangeStatusRequest: {
-      /** @enum {string} */
-      status: "INVESTIGATING" | "RESOLVED";
-      /** Format: int64 */
-      version: number;
-      resolutionNote?: string;
-    };
-    /** @description Assign to an enabled local analyst. ANALYST may only self-claim an unassigned incident; SUPERVISOR/ADMIN may reassign. A concurrent claim is a 409. */
-    AssignmentRequest: {
-      /** Format: uuid */
-      analystId: string;
-      /** Format: int64 */
-      version: number;
-    };
-    /** @description requestId is correlation metadata, never actor identity. If X-Request-ID is also present, it must match this value. */
-    CommentRequest: {
-      text: string;
-      /** Format: int64 */
-      version: number;
-      /** Format: uuid */
-      requestId: string;
-    };
-    ServiceDetection: {
-      /** @enum {integer} */
-      schemaVersion: 2;
-      detectionId: components["schemas"]["Sha256Id"];
-      episodeId: components["schemas"]["Sha256Id"];
-      correlationKey: components["schemas"]["Sha256Id"];
-      sequence: number;
-      /** @enum {string} */
-      phase: "OPEN" | "UPDATE" | "RECOVERY" | "UNKNOWN";
-      /** @enum {string} */
-      anomalyType: "VOLTE_SETUP_DEGRADATION" | "SMS_DELIVERY_DELAY";
-      scopeId: string;
-      /** @enum {string} */
-      service: "VOLTE" | "SMS";
-      /**
-       * Format: date-time
-       * @description Episode anchor and first eligible breached window start used to derive episodeId.
-       */
-      firstObservedAt: string;
-      /** Format: date-time */
-      windowStart: string;
-      /** Format: date-time */
-      windowEnd: string;
-      /** Format: date-time */
-      detectedAt: string;
-      /** @enum {string} */
-      severity: "MEDIUM" | "HIGH" | "CRITICAL";
-      /** @enum {string} */
-      technicalState: "ONGOING" | "RECOVERED" | "UNKNOWN";
-      rulesetVersion: string;
-      baselineVersion: string;
-      topologyVersion: string;
-      kpis: {
-        name: string;
-        observed: number | null;
-        baseline: number | null;
-        /** @enum {string} */
-        unit:
-          | "PERCENT"
-          | "PERCENTAGE_POINTS"
-          | "RATIO"
-          | "COUNT"
-          | "MILLISECONDS"
-          | "SECONDS"
-          | "MBPS";
-        numerator: number | null;
-        denominator: number | null;
-      }[];
-      impact: {
-        extraFailedAttempts: number;
-        affectedDeliveredMessages: number;
-        pendingMessages: number;
-        /**
-         * @description Always null in this aggregate demo; observations do not identify unique subscribers.
-         * @enum {string|null}
-         */
-        uniqueSubscribers: null;
-      };
-      probableCause: string;
-      /** @enum {string} */
-      causeConfidence: "LOW" | "MEDIUM" | "HIGH";
-      evidence: {
-        code: string;
-        summary: string;
-        nodeId: string | null;
-        sourceEventIds: string[];
-      }[];
-      recommendedChecks: string[];
-      /** @enum {string} */
-      mlStatus:
-        | "OK"
-        | "TIMEOUT"
-        | "UNAVAILABLE"
-        | "INSUFFICIENT_DATA"
-        | "NOT_APPLICABLE";
-      modelVersion: string | null;
-      anomalyRank: number | null;
-    };
-    ServiceScope: {
-      scopeId: string;
-      /** @enum {string} */
-      service: "VOLTE" | "SMS";
-      region: string;
-      /** @enum {string} */
-      rat: "LTE";
-      partner: string;
-      route: string;
-      dependencyIds: string[];
-    };
-    /** @description Feature version 2. ML-eligible windows require COMPLETE quality and exactly six finite values in the service-specific order from feature-order-v2.json. Ineligible windows use empty featureNames and featureValues. Validate conditional rules with the canonical JSON Schema; OpenAPI 3.0 cannot express its if/then clauses. */
-    ServiceKpiWindow: {
-      /** @enum {integer} */
-      schemaVersion: 2;
-      windowId: string;
-      scopeId: string;
-      /** @enum {string} */
-      service: "VOLTE" | "SMS";
-      /** Format: date-time */
-      windowStart: string;
-      /** Format: date-time */
-      windowEnd: string;
-      /** @enum {string} */
-      quality: "COMPLETE" | "INCOMPLETE" | "MISSING";
-      baselineVersion: string;
-      topologyVersion: string;
-      kpis: {
-        name: string;
-        observed: number | null;
-        baseline: number | null;
-        /** @enum {string} */
-        unit:
-          | "PERCENT"
-          | "PERCENTAGE_POINTS"
-          | "RATIO"
-          | "COUNT"
-          | "MILLISECONDS"
-          | "SECONDS"
-          | "MBPS";
-        numerator: number | null;
-        denominator: number | null;
-      }[];
-      featureNames: string[];
-      featureValues: number[];
-      mlEligible: boolean;
-      sourceEventIds: string[];
-      /** @enum {integer} */
-      featureVersion: 2;
-    };
-    Incident: {
-      /** Format: uuid */
-      id: string;
-      episodeId: components["schemas"]["Sha256Id"];
-      /** @enum {string} */
-      service: "VOLTE" | "SMS";
-      scopeId: string;
-      /** @enum {string} */
-      status: "OPEN" | "INVESTIGATING" | "RESOLVED";
-      /** @enum {string} */
-      technicalState: "ONGOING" | "RECOVERED" | "UNKNOWN";
-      /** @enum {string} */
-      severity: "MEDIUM" | "HIGH" | "CRITICAL";
-      /** Format: uuid */
-      assigneeId: string | null;
-      resolutionNote: string | null;
-      /** Format: date-time */
-      firstObservedAt: string;
-      /** Format: date-time */
-      detectedAt: string;
-      /** Format: date-time */
-      lastObservedAt: string;
-      /** Format: date-time */
-      createdAt: string;
-      /** Format: date-time */
-      updatedAt: string;
-      version: number;
-      latestSequence: number;
-      latestDetection: components["schemas"]["ServiceDetection"];
-    };
-    IncidentPage: {
-      items: components["schemas"]["Incident"][];
-      total: number;
-      page: number;
-      size: number;
-    };
-    StartScenarioRequest: {
-      /** Format: uuid */
-      requestId: string;
-      seed: number;
-      scopeId: string;
-    };
-    ScenarioRun: {
-      /** Format: uuid */
-      runId: string;
-      /** @enum {string} */
-      status: "SCHEDULED" | "RUNNING" | "COMPLETED" | "STOPPED" | "FAILED";
-      /** Format: date-time */
-      scheduledStartAt: string;
-      /** Format: date-time */
-      scheduledEndAt: string;
-      /** @enum {string} */
-      scenarioType:
-        | "VOLTE_IMS_OVERLOAD"
-        | "SMS_QUEUE_DELAY"
-        | "NORMAL_CONTROL"
-        | "TELEMETRY_GAP";
-      scopeId: string;
-    };
-    ServiceKpiPage: {
-      items: components["schemas"]["ServiceKpiWindow"][];
-      total: number;
-      page: number;
-      size: number;
-      /** Format: date-time */
-      observedAt: string;
-    };
-    DetectionPage: {
-      items: components["schemas"]["ServiceDetection"][];
-      total: number;
-      page: number;
-      size: number;
-    };
-    ServiceSummary: {
-      scope: components["schemas"]["ServiceScope"];
-      /** @enum {string} */
-      freshness: "FRESH" | "STALE" | "MISSING";
-      /** Format: date-time */
-      observedAt: string;
-      openIncidents: number;
-      latestWindow: {
-        /** @enum {integer} */
-        schemaVersion: 2;
-        windowId: string;
-        scopeId: string;
-        /** @enum {string} */
-        service: "VOLTE" | "SMS";
-        /** Format: date-time */
-        windowStart: string;
-        /** Format: date-time */
-        windowEnd: string;
-        /** @enum {string} */
-        quality: "COMPLETE" | "INCOMPLETE" | "MISSING";
-        baselineVersion: string;
-        topologyVersion: string;
-        kpis: {
-          name: string;
-          observed: number | null;
-          baseline: number | null;
-          /** @enum {string} */
-          unit:
-            | "PERCENT"
-            | "PERCENTAGE_POINTS"
-            | "RATIO"
-            | "COUNT"
-            | "MILLISECONDS"
-            | "SECONDS"
-            | "MBPS";
-          numerator: number | null;
-          denominator: number | null;
-        }[];
-        featureNames: string[];
-        featureValues: number[];
-        mlEligible: boolean;
-        sourceEventIds: string[];
-        /** @enum {integer} */
-        featureVersion: 2;
-      } | null;
-    };
-  };
-  responses: {
-    /** @description Malformed input, an invalid range or invalid request identifier. */
-    BadRequest: {
-      headers: {
-        [name: string]: unknown;
-      };
-      content: {
-        "application/json": components["schemas"]["ApiError"];
-      };
-    };
-    /** @description No valid server session, or the session has expired. API requests receive JSON, not a login redirect. */
-    Unauthenticated: {
-      headers: {
-        [name: string]: unknown;
-      };
-      content: {
-        "application/json": components["schemas"]["ApiError"];
-      };
-    };
-    /** @description Insufficient application role, disabled local analyst, wrong assignee or failed CSRF validation. CSRF rejection uses code CSRF_INVALID. */
-    Forbidden: {
-      headers: {
-        [name: string]: unknown;
-      };
-      content: {
-        "application/json": components["schemas"]["ApiError"];
-      };
-    };
-    /** @description The requested resource does not exist. */
-    NotFound: {
-      headers: {
-        [name: string]: unknown;
-      };
-      content: {
-        "application/json": components["schemas"]["ApiError"];
-      };
-    };
-    /** @description Stale version or an incompatible workflow/assignment state. State failures use INVALID_TRANSITION or ASSIGNMENT_CONFLICT; currentVersion may be returned. */
-    Conflict: {
-      headers: {
-        [name: string]: unknown;
-      };
-      content: {
-        "application/json": components["schemas"]["ApiError"];
-      };
-    };
-    /** @description A required dependency is unavailable; no secrets or internal exception text is returned. */
-    Unavailable: {
-      headers: {
-        [name: string]: unknown;
-      };
-      content: {
-        "application/json": components["schemas"]["ApiError"];
-      };
-    };
-  };
-  parameters: {
-    /** @description Incident UUID, not a detectionId. */
-    IncidentId: string;
-    /** @description Optional correlation UUID; generated by the server when absent. Must match a body requestId if both are provided. */
-    RequestId: string;
-    Page: number;
-    Size: number;
-    /** @description Inclusive start instant. */
-    From: string;
-    /** @description Exclusive end instant. Must be later than from. */
-    To: string;
-  };
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  startKeycloakLogin: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Redirect to Keycloak authorization with state, nonce and PKCE S256. */
-      302: {
-        headers: {
-          /** @description Controlled redirect destination. */
-          Location?: string;
-          [name: string]: unknown;
+    listGeographyCities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content?: never;
-      };
-      503: components["responses"]["Unavailable"];
-    };
-  };
-  handleKeycloakCallback: {
-    parameters: {
-      query?: {
-        code?: string;
-        state?: string;
-        error?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description After validated code/state/nonce/issuer and PKCE, rotate the session identifier and navigate to /dashboard. */
-      302: {
-        headers: {
-          /** @description Controlled redirect destination. */
-          Location?: string;
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description Bounded current city summaries from pinned catalogue and durable projections. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: date-time */
+                        generatedAt: string;
+                        catalogueVersion: string;
+                        topologyVersion: string;
+                        cities: components["schemas"]["GeographyCitySummary"][];
+                    };
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            503: components["responses"]["Unavailable"];
         };
-        content?: never;
-      };
-      400: components["responses"]["BadRequest"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  getCurrentSession: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Validated analyst identity and absolute session expiry. */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getGeographyCity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                cityId: components["parameters"]["GeographyCityId"];
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["CurrentSession"];
+        requestBody?: never;
+        responses: {
+            /** @description City detail; unmeasured child nodes have no copied KPI. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeographyCityDetail"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
         };
-      };
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  getCsrfToken: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description CSRF token for the browser session; fetch again after login/logout. */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getGeographyTopology: {
+        parameters: {
+            query?: {
+                /** @description Omit for city roots; an explicit parent must belong to this city and catalogue version. */
+                parentId?: string;
+                /** @description Omit for active topology; supply a captured archived version when investigating history. */
+                catalogueVersion?: string;
+                page?: components["parameters"]["Page"];
+                size?: number;
+            };
+            header?: never;
+            path: {
+                cityId: components["parameters"]["GeographyCityId"];
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["CsrfToken"];
+        requestBody?: never;
+        responses: {
+            /** @description Versioned topology page. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeographyTopologyPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
         };
-      };
-      503: components["responses"]["Unavailable"];
     };
-  };
-  logoutSession: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/x-www-form-urlencoded": {
-          _csrf: string;
+    getGeographyCityKpis: {
+        parameters: {
+            query: {
+                service: "VOLTE" | "SMS";
+                from: string;
+                to: string;
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path: {
+                cityId: components["parameters"]["GeographyCityId"];
+            };
+            cookie?: never;
         };
-      };
-    };
-    responses: {
-      /** @description Invalidate local session/cookie, close its SSE streams, and attempt provider RP-initiated logout. Final destination is the registered /signed-out URL. Provider outage must not retain the local session. */
-      302: {
-        headers: {
-          /** @description Controlled redirect destination. */
-          Location?: string;
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description Canonically ordered persisted KPI windows and matching coverage facts. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeographyKpiPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
         };
-        content?: never;
-      };
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
     };
-  };
-  listAnalysts: {
-    parameters: {
-      query?: {
-        enabled?: boolean;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Public analyst projections; excludes issuer/subject, credentials and tokens. */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    listOperationalPriority: {
+        parameters: {
+            query?: {
+                cityId?: string;
+                service?: "VOLTE" | "SMS";
+                technicalState?: "ONGOING" | "UNKNOWN" | "RECOVERED";
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["AnalystSummary"][];
+        requestBody?: never;
+        responses: {
+            /** @description Stable priority page with separate technical and analyst states. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeographyPriorityPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  listIncidents: {
-    parameters: {
-      query?: {
-        service?: "VOLTE" | "SMS";
-        scopeId?: string;
-        status?: "OPEN" | "INVESTIGATING" | "RESOLVED";
-        technicalState?: "ONGOING" | "RECOVERED" | "UNKNOWN";
-        page?: components["parameters"]["Page"];
-        size?: components["parameters"]["Size"];
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getServiceMlShadow: {
+        parameters: {
+            query: {
+                from: string;
+                to: string;
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path: {
+                scopeId: string;
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["IncidentPage"];
+        requestBody?: never;
+        responses: {
+            /** @description Persisted shadow evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MlShadowPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  getIncident: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Incident UUID, not a detectionId. */
-        id: components["parameters"]["IncidentId"];
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getIncidentMlShadow: {
+        parameters: {
+            query?: {
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path: {
+                /** @description Incident UUID, not a detectionId. */
+                id: components["parameters"]["IncidentId"];
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Incident"];
+        requestBody?: never;
+        responses: {
+            /** @description Correlated persisted shadow evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MlShadowPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  getIncidentDetections: {
-    parameters: {
-      query?: {
-        page?: components["parameters"]["Page"];
-        size?: components["parameters"]["Size"];
-      };
-      header?: never;
-      path: {
-        /** @description Incident UUID, not a detectionId. */
-        id: components["parameters"]["IncidentId"];
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    startKeycloakLogin: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["DetectionPage"];
+        requestBody?: never;
+        responses: {
+            /** @description Redirect to Keycloak authorization with state, nonce and PKCE S256. */
+            302: {
+                headers: {
+                    /** @description Controlled redirect destination. */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            503: components["responses"]["Unavailable"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  changeIncidentStatus: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Incident UUID, not a detectionId. */
-        id: components["parameters"]["IncidentId"];
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ChangeStatusRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    handleKeycloakCallback: {
+        parameters: {
+            query?: {
+                code?: string;
+                state?: string;
+                error?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Incident"];
+        requestBody?: never;
+        responses: {
+            /** @description After validated code/state/nonce/issuer and PKCE, rotate the session identifier and navigate to /dashboard. */
+            302: {
+                headers: {
+                    /** @description Controlled redirect destination. */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["BadRequest"];
+            503: components["responses"]["Unavailable"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      409: components["responses"]["Conflict"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  assignIncident: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Incident UUID, not a detectionId. */
-        id: components["parameters"]["IncidentId"];
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["AssignmentRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getCurrentSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Incident"];
+        requestBody?: never;
+        responses: {
+            /** @description Validated analyst identity and absolute session expiry. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CurrentSession"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            503: components["responses"]["Unavailable"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      409: components["responses"]["Conflict"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  commentOnIncident: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description Incident UUID, not a detectionId. */
-        id: components["parameters"]["IncidentId"];
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CommentRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getCsrfToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["Incident"];
+        requestBody?: never;
+        responses: {
+            /** @description CSRF token for the browser session; fetch again after login/logout. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CsrfToken"];
+                };
+            };
+            503: components["responses"]["Unavailable"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      409: components["responses"]["Conflict"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  getIncidentTimeline: {
-    parameters: {
-      query?: {
-        page?: components["parameters"]["Page"];
-        size?: components["parameters"]["Size"];
-      };
-      header?: never;
-      path: {
-        /** @description Incident UUID, not a detectionId. */
-        id: components["parameters"]["IncidentId"];
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    logoutSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["AuditPage"];
+        requestBody: {
+            content: {
+                "application/x-www-form-urlencoded": {
+                    _csrf: string;
+                };
+            };
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      503: components["responses"]["Unavailable"];
-    };
-  };
-  listServices: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description Invalidate local session/cookie, close its SSE streams, and attempt provider RP-initiated logout. Final destination is the registered /signed-out URL. Provider outage must not retain the local session. */
+            302: {
+                headers: {
+                    /** @description Controlled redirect destination. */
+                    Location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
         };
-        content: {
-          "application/json": components["schemas"]["ServiceSummary"][];
+    };
+    listAnalysts: {
+        parameters: {
+            query?: {
+                enabled?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      503: components["responses"]["Unavailable"];
-    };
-  };
-  getServiceKpis: {
-    parameters: {
-      query: {
-        /** @description Inclusive UTC start instant. */
-        from: string;
-        /** @description Exclusive UTC end instant; must be after from and no more than 24 hours later. */
-        to: string;
-        page?: components["parameters"]["Page"];
-        size?: components["parameters"]["Size"];
-      };
-      header?: never;
-      path: {
-        scopeId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description Public analyst projections; excludes issuer/subject, credentials and tokens. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnalystSummary"][];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            503: components["responses"]["Unavailable"];
         };
-        content: {
-          "application/json": components["schemas"]["ServiceKpiPage"];
+    };
+    listIncidents: {
+        parameters: {
+            query?: {
+                service?: "VOLTE" | "SMS";
+                scopeId?: string;
+                status?: "OPEN" | "INVESTIGATING" | "RESOLVED";
+                technicalState?: "ONGOING" | "RECOVERED" | "UNKNOWN";
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      503: components["responses"]["Unavailable"];
-    };
-  };
-  streamIncidents: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description SSE stream */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IncidentPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            503: components["responses"]["Unavailable"];
         };
-        content: {
-          "text/event-stream": string;
+    };
+    getIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Incident UUID, not a detectionId. */
+                id: components["parameters"]["IncidentId"];
+            };
+            cookie?: never;
         };
-      };
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      503: components["responses"]["Unavailable"];
-    };
-  };
-  startScenario: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        type:
-          | "VOLTE_IMS_OVERLOAD"
-          | "SMS_QUEUE_DELAY"
-          | "NORMAL_CONTROL"
-          | "TELEMETRY_GAP";
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["StartScenarioRequest"];
-      };
-    };
-    responses: {
-      /** @description Scenario accepted and durably scheduled. An exact retry returns the same run and schedule. */
-      202: {
-        headers: {
-          [name: string]: unknown;
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Incident"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
         };
-        content: {
-          "application/json": components["schemas"]["ScenarioRun"];
-        };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      409: components["responses"]["Conflict"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  getScenarioRun: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        runId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    getIncidentDetections: {
+        parameters: {
+            query?: {
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path: {
+                /** @description Incident UUID, not a detectionId. */
+                id: components["parameters"]["IncidentId"];
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ScenarioRun"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DetectionPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      503: components["responses"]["Unavailable"];
     };
-  };
-  stopScenario: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        runId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful response */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    changeIncidentStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Incident UUID, not a detectionId. */
+                id: components["parameters"]["IncidentId"];
+            };
+            cookie?: never;
         };
-        content: {
-          "application/json": components["schemas"]["ScenarioRun"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeStatusRequest"];
+            };
         };
-      };
-      400: components["responses"]["BadRequest"];
-      401: components["responses"]["Unauthenticated"];
-      403: components["responses"]["Forbidden"];
-      404: components["responses"]["NotFound"];
-      503: components["responses"]["Unavailable"];
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Incident"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
+            503: components["responses"]["Unavailable"];
+        };
     };
-  };
+    assignIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Incident UUID, not a detectionId. */
+                id: components["parameters"]["IncidentId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignmentRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Incident"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    commentOnIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Incident UUID, not a detectionId. */
+                id: components["parameters"]["IncidentId"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CommentRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Incident"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    getIncidentTimeline: {
+        parameters: {
+            query?: {
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path: {
+                /** @description Incident UUID, not a detectionId. */
+                id: components["parameters"]["IncidentId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuditPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    listServices: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceSummary"][];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    getServiceKpis: {
+        parameters: {
+            query: {
+                /** @description Inclusive UTC start instant. */
+                from: string;
+                /** @description Exclusive UTC end instant; must be after from and no more than 24 hours later. */
+                to: string;
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path: {
+                scopeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ServiceKpiPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    streamIncidents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description SSE stream */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    startScenario: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                type: "VOLTE_IMS_OVERLOAD" | "SMS_QUEUE_DELAY" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StartScenarioRequest"];
+            };
+        };
+        responses: {
+            /** @description Scenario accepted and durably scheduled. An exact retry returns the same run and schedule. */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScenarioRun"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            409: components["responses"]["Conflict"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    getScenarioRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScenarioRun"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
+    stopScenario: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                runId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScenarioRun"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
+        };
+    };
 }

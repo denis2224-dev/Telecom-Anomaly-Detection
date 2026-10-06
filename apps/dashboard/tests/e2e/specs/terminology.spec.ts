@@ -95,8 +95,15 @@ test.describe('Dashboard terminology', () => {
         await expect(page.locator('[aria-label="Cause hypothesis"]')).toContainText('Model response timed out');
         await expect(page.locator('[aria-label="Cause hypothesis"]')).toContainText('Model anomaly rank: Unavailable');
       }
-      if (!scenario.modelTimeout) await page.locator('details.source-inventory > summary').click();
-      const state = page.locator(`aside[data-topic="${scenario.topic}"]`).first();
+      const content = scenario.modelTimeout
+        ? page.locator('app-incident-detail')
+        : page.locator('app-service-detail details.source-inventory');
+      if (!scenario.modelTimeout) {
+        await expect(page).toHaveURL(`/services/${summary.scope.scopeId}`);
+        await content.locator(':scope > summary').click();
+        await expect(content).toHaveAttribute('open', '');
+      }
+      const state = content.locator(`aside[data-topic="${scenario.topic}"]`).first();
       await expect(state).toBeVisible();
       await expect(state.locator('strong')).not.toBeEmpty();
       await expect(state.locator('p').last()).not.toBeEmpty();

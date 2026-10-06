@@ -18,6 +18,9 @@ test('incident notifications and reconnect reload REST; expiry stops refresh', a
     requests++;
     return route.fulfill({ json: [{ ...services[0], latestWindow: voiceWindows[0] }] });
   });
+  await page.route('**/api/services/*/kpis?**', route => route.fulfill({ json: {
+    items: [], total: 0, page: 0, size: 100, observedAt: services[0].observedAt,
+  } }));
   await page.route('**/api/incidents?**', route => route.fulfill({ json: {
     items: degraded ? [{ ...voiceIncidents[0], technicalState: 'ONGOING' }] : [],
     total: degraded ? 1 : 0,

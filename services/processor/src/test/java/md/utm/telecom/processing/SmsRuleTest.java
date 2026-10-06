@@ -163,4 +163,32 @@ class SmsRuleTest {
         ((ObjectNode) feature.get("kpis").get(0)).putNull("baseline");
         assertTrue(detector.evaluate(feature, queue(250, 90)).breached());
     }
+
+    @Test void exactRatioAndAbsoluteRecoveryBoundariesRemainIndependent() throws Exception {
+        var catalog = ObservationValidator.resource("baselines/demo-baseline-v2.json", json);
+        for (var entry : catalog.required("baselines")) if (entry.path("service").asText().equals("SMS"))
+            ((ObjectNode) entry.required("values")).put("p95DeliveryMs", 10000);
+        var detector = new SmsDeliveryRule(new DetectionPolicy(), new BaselineRegistry(catalog,
+                ObservationValidator.resource("topology/demo-scopes-v2.json", json)));
+        for (int p95 : new int[]{29999, 30000, 30001, 9999, 10000, 10001}) {
+            var feature = window(30, p95, 1, 30);
+            ((ObjectNode) feature.required("kpis").get(0)).put("baseline", 10000);
+            var result = detector.evaluate(feature, queue(1, 30));
+            assertEquals(p95 > 30000, result.breached(), "strict 3x ratio: " + p95);
+            assertEquals(p95 <= 10000, result.healthy(), "inclusive absolute recovery: " + p95);
+        }
+    }
+
+    @Test void backlogAndSeverityRequireEveryInclusiveOrStrictBoundary() throws Exception {
+        var detector = rule();
+        for (int depth : new int[]{99, 100, 101}) for (int age : new int[]{59, 60, 61})
+            assertEquals(depth >= 100 && age > 60,
+                    detector.evaluate(window(0, null, depth, age), queue(depth, age)).breached());
+        for (int depth : new int[]{999, 1000, 1001}) for (int age : new int[]{299, 300, 301})
+            assertEquals(depth >= 1000 && age >= 300 ? "CRITICAL" : "HIGH",
+                    detector.evaluate(window(0, null, depth, age), queue(depth, age)).severity());
+        for (int deliveries : new int[]{99, 100, 101})
+            assertEquals(deliveries >= 100 ? "HIGH" : "MEDIUM",
+                    detector.evaluate(window(deliveries, 20001, 0, 0), queue(0, 0)).severity());
+    }
 }
