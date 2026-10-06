@@ -50,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @EmbeddedKafka(kraft = true, partitions = 1, topics = {ReplayIT.INPUT, ReplayIT.KPIS, ReplayIT.DETECTIONS},
         brokerProperties = {"log.retention.ms=86400000"})
 @DirtiesContext
-class ReplayIT extends Day13TestSupport {
+class ReplayIT extends ReplayTestSupport {
     static final String INPUT = "day13.observations";
     static final String KPIS = "telecom.kpis.v2";
     static final String DETECTIONS = "telecom.detections.v2";
@@ -241,7 +241,7 @@ class ReplayIT extends Day13TestSupport {
             table = point == Crash.DEFERRED_COMMIT ? "observation_receipt" : "source_state";
             owner().execute("""
                     CREATE FUNCTION app.day13_fail_receipt() RETURNS trigger LANGUAGE plpgsql AS $$
-                    BEGIN RAISE EXCEPTION 'Day 13 injected receipt failure' USING ERRCODE='08006'; END $$
+                    BEGIN RAISE EXCEPTION 'Injected receipt failure' USING ERRCODE='08006'; END $$
                     """);
             owner().execute((point == Crash.DEFERRED_COMMIT ? "CREATE CONSTRAINT TRIGGER" : "CREATE TRIGGER")
                     + " day13_fail_receipt AFTER INSERT ON app." + table
@@ -267,7 +267,7 @@ class ReplayIT extends Day13TestSupport {
             owner().execute("""
                     CREATE FUNCTION app.day13_fail_mark() RETURNS trigger LANGUAGE plpgsql AS $$
                     BEGIN IF NEW.topic='%s' AND NEW.published_at IS NOT NULL THEN
-                    RAISE EXCEPTION 'Day 13 injected publish mark failure' USING ERRCODE='08006';
+                    RAISE EXCEPTION 'Injected publish mark failure' USING ERRCODE='08006';
                     END IF; RETURN NEW; END $$
                     """.formatted(failedTopic));
             owner().execute("CREATE TRIGGER day13_fail_mark BEFORE UPDATE ON app.voice_delivery FOR EACH ROW EXECUTE FUNCTION app.day13_fail_mark()");

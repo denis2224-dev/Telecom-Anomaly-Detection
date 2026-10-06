@@ -25,8 +25,7 @@ not from local generator expectations.
   (PR #27 merged). Ion's three implementation/evidence commits were then three
   ahead and seven behind; no mainline merge or rerun against the new base was done.
 - No mainline merge was attempted in final review. The pre-sync stash remains
-  untouched. Pre-existing untracked `.agents/`, `.codex/`, `AGENTS.md`, and
-  `graphify-out/` were excluded.
+  untouched. Pre-existing local instructions, scratch files and generated analysis artifacts were excluded.
 - Graphify's code graph was refreshed after the processor changes (3,153 nodes,
   7,801 edges; SQL extraction is unavailable without `tree_sitter_sql`).
 

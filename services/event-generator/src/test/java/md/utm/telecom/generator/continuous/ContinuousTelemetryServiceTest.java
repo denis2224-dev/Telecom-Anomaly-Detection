@@ -51,6 +51,7 @@ class ContinuousTelemetryServiceTest {
         service=new ContinuousTelemetryService(clock,scheduler,kafka,scenarios,healthy,new ContinuousTelemetryProperties(true,42L,null,null));
     }
     void fire() { Task task=tasks.removeFirst(); clock.now=task.at(); task.action().run(); }
+    @AfterEach void cleanup() throws Exception { service.stop(); assertTrue(service.awaitSubmissionTermination(5, TimeUnit.SECONDS)); }
     UUID reserve(String type,String scope) {
         UUID id=UUID.randomUUID(); scenarios.start(id,new ScenarioExecutionService.Command(type,scope,42L,START,START.plusSeconds(480))); return id;
     }

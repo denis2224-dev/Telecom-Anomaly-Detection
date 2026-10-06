@@ -1,7 +1,7 @@
 # Proxy and runtime integration check
 
 - Planned and actual execution date: 2 October 2026, Europe/Chisinau (EEST)
-- Operator: Codex, performing Stanislav's proxy/runtime checks at Denis's request
+- Verification: Stanislav's proxy/runtime checks performed at Denis's request
 - Branch: `fix/proxy-runtime-integration`, based on `7ef9a9ff8c8ac94c8b7f13c2160ce49a90f7fec5`
 - Gate status: **PARTIAL** for authenticated release acceptance; public anonymous routing and runtime checks passed
 - Public origin: `http://telecom.test:8080` through the real local NGINX proxy

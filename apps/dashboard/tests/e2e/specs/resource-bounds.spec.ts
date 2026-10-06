@@ -58,7 +58,7 @@ async function setup(page: Page) {
     (window as any).__day15 = state;
   });
   await page.route('**/api/auth/me', route => route.fulfill({ json: {
-    analystId: 'day15-test', displayName: 'Day 15 tester', roles: ['ANALYST'],
+    analystId: 'day15-test', displayName: 'Resource tester', roles: ['ANALYST'],
     expiresAt: new Date(Date.now() + 3_600_000).toISOString(),
   } }));
   await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
@@ -134,7 +134,7 @@ async function paint(page: Page) {
     requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 
-test.describe('Day 15 browser resource bounds', () => {
+test.describe('Browser resource bounds', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled dataset; use real login separately for backend evidence');
 
   test('bounds history, replaces pages, and closes the stream on navigation', async ({ page }) => {
@@ -155,9 +155,9 @@ test.describe('Day 15 browser resource bounds', () => {
     await expect(page.locator('.actual-dot')).toHaveCount(1440);
     expect(data.reads() - before).toBe(15);
     await expect(page.locator('[data-window-id]')).toHaveCount(50);
-    await page.getByText('Show exact values and attempt counts', { exact: false }).click();
+    await page.locator('.exact-values > summary').click();
     const firstWindow = await page.locator('[data-window-id]').first().getAttribute('data-window-id');
-    await page.getByRole('button', { name: 'Next windows' }).click();
+    await page.getByRole('navigation', { name: 'History table pages' }).getByRole('button', { name: 'Next windows' }).click();
     await expect(page.locator('[data-window-id]').first()).not.toHaveAttribute('data-window-id', firstWindow!);
     await expect(page.locator('[data-window-id]')).toHaveCount(50);
 
@@ -244,6 +244,7 @@ test.describe('Day 15 browser resource bounds', () => {
       await paint(page);
       navigation.push({ iteration, ...await sample() });
       // SPA navigation, rather than a full reload that could hide retained screens.
+      await page.locator('details.source-inventory > summary').click();
       await page.getByRole('link', { name: SCOPE, exact: true }).click();
       await expect(page.locator('.episode-card')).toHaveCount(20);
     }

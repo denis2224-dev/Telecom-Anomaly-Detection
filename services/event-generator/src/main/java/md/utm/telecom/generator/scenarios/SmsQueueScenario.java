@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.SplittableRandom;
 import java.util.UUID;
 import md.utm.telecom.observation.ObservationValidator;
+import md.utm.telecom.observation.GeographyCatalog.Role;
+import md.utm.telecom.generator.GenerationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,20 +44,8 @@ public class SmsQueueScenario {
     }
 
     /**
-     * Generates the canonical 8-minute profile (2 normal, 3 slow delivery, 3 recovery)
-     * with deterministic seeded measurement variation.
-     *
-     * <p>Same start + same seed reproduces byte-identical payloads.
-     * Same start + different seed changes measurements while preserving logical event IDs
-     * (identity is source/scope/kind/windowStart only — seed is NOT part of identity).
-     *
-     * <p>Phase semantics are preserved regardless of seed:
-     * <ul>
-     *   <li>NORMAL/RECOVERY: healthy delays, zero queue depth/age</li>
-     *   <li>SLOW_DELIVERY: degraded delays well above p95DelayMsStrictlyGreaterThan (20 000 ms),
-     *       queue depth above queueDepthAtLeast (100), oldest pending age above
-     *       oldestPendingSecStrictlyGreaterThan (60 s) — per service-rules-v2</li>
-     * </ul>
+     * Eight minutes: two normal, three delayed, three recovery. Seeded measurements
+     * preserve these phases and event identity; seed is excluded from the identity.
      */
     public List<String> generate(Instant start, long seed) {
         return generateWindows(start, seed).stream().flatMap(List::stream).toList();
@@ -92,6 +82,12 @@ public class SmsQueueScenario {
         return generateSeededWindow(start, Phase.NORMAL, seed);
     }
 
+    public List<String> generateHealthyWindow(Instant start, long seed, GenerationContext context) {
+        validateMinuteAlignment(start);
+        Objects.requireNonNull(context, "context").requireService(SERVICE);
+        return generateSeededWindow(start, Phase.NORMAL, seed, context);
+    }
+
     /** Flat compatibility view of the telemetry gap profile. */
     public List<String> generateTelemetryGap(Instant start, long seed) {
         return generateTelemetryGapWindows(start, seed).stream().flatMap(List::stream).toList();
@@ -112,53 +108,46 @@ public class SmsQueueScenario {
         return List.copyOf(result);
     }
 
-    /**
-     * Generates a seeded 1-minute window with deterministic measurement variation.
-     * The per-window RNG is derived from the supplied seed XOR'd with the stable event
-     * identity bits (following the ObservationGenerator precedent), ensuring that
-     * the same seed + same logical window always reproduces identical measurements.
-     */
+    /** Per-window RNG combines the seed with stable event identity bits. */
     private List<String> generateSeededWindow(Instant start, Phase phase, long seed) {
-        // Derive a stable per-window seed from the SERVICE event identity (which covers
-        // the logical interval). NODE uses the same derived seed for consistency.
+        return generateSeededWindow(start, phase, seed, null);
+    }
+
+    private List<String> generateSeededWindow(Instant start, Phase phase, long seed, GenerationContext context) {
+        // SERVICE and NODE measurements share the same deterministic window seed.
         String serviceIdentity = String.join("|", "telecom-observation-v2",
-                SERVICE_SOURCE_ID, SCOPE_ID, "SERVICE", start.toString());
+                context == null ? SERVICE_SOURCE_ID : context.scope().serviceSourceId(),
+                context == null ? SCOPE_ID : context.scope().scopeId(), "SERVICE", start.toString());
         UUID serviceUuid = UUID.nameUUIDFromBytes(serviceIdentity.getBytes(StandardCharsets.UTF_8));
         long windowSeed = seed ^ serviceUuid.getMostSignificantBits() ^ serviceUuid.getLeastSignificantBits();
         var rng = new SplittableRandom(windowSeed);
 
         return switch (phase) {
             case NORMAL, RECOVERY -> {
-                // Healthy: delays in 1000–3500 ms range. Must satisfy BOTH recovery conditions:
-                //   p95 <= recoveryP95DelayMsAtMost (10 000 ms)  AND
-                //   p95 / baselineP95 <= recoveryBaselineMultiplierAtMost (2)
-                // With baseline p95DeliveryMs=2000 the effective ceiling is 4000 ms.
-                // Upper bound 3500 ms gives 500 ms of comfortable margin.
-                int attempts = 180 + rng.nextInt(41);          // 180..220
-                int successes = attempts - rng.nextInt(5);     // attempts..(attempts-4)
-                int delivered = 80 + rng.nextInt(41);          // 80..120
-                successes = Math.max(successes, delivered);    // ensure deliveredMessages <= deliverySuccesses
+                // The 3500 ms ceiling stays below both recovery limits (effective ceiling 4000 ms).
+                int attempts = 180 + rng.nextInt(41);
+                int successes = attempts - rng.nextInt(5);
+                int delivered = 80 + rng.nextInt(41);
+                successes = Math.max(successes, delivered);
                 var delays = new ArrayList<Long>(delivered);
                 for (int i = 0; i < delivered; i++) {
-                    delays.add(1000L + rng.nextLong(2501));    // 1000..3500 ms
+                    delays.add(1000L + rng.nextLong(2501));
                 }
-                yield generateCustomWindow(start, attempts, successes, delays, 0, 0);
+                yield generateCustomWindow(start, attempts, successes, delays, 0, 0, context);
             }
             case SLOW_DELIVERY -> {
-                // Degraded: delays in 30 000–60 000 ms (well above 20 000 ms threshold).
-                // Queue depth 150–350 (well above 100 threshold).
-                // Oldest pending 70–120 s (well above 60 s threshold).
-                int attempts = 180 + rng.nextInt(41);          // 180..220
-                int successes = attempts - rng.nextInt(5);     // attempts..(attempts-4)
-                int delivered = 80 + rng.nextInt(41);          // 80..120
-                successes = Math.max(successes, delivered);    // ensure deliveredMessages <= deliverySuccesses
+                // Delay, queue depth and age exceed all three fault thresholds.
+                int attempts = 180 + rng.nextInt(41);
+                int successes = attempts - rng.nextInt(5);
+                int delivered = 80 + rng.nextInt(41);
+                successes = Math.max(successes, delivered);
                 var delays = new ArrayList<Long>(delivered);
                 for (int i = 0; i < delivered; i++) {
-                    delays.add(30000L + rng.nextLong(30001));  // 30 000..60 000 ms
+                    delays.add(30000L + rng.nextLong(30001));
                 }
-                int queueDepth = 150 + rng.nextInt(201);      // 150..350
-                int age = 70 + rng.nextInt(51);                // 70..120
-                yield generateCustomWindow(start, attempts, successes, delays, queueDepth, age);
+                int queueDepth = 150 + rng.nextInt(201);
+                int age = 70 + rng.nextInt(51);
+                yield generateCustomWindow(start, attempts, successes, delays, queueDepth, age, context);
             }
             default -> throw new IllegalArgumentException("generate() does not use " + phase);
         };
@@ -199,6 +188,17 @@ public class SmsQueueScenario {
     public List<String> generateCustomWindow(Instant start, int deliveryAttempts, int deliverySuccesses,
                                              List<Long> deliveryDelayMs, Integer queueDepth,
                                              Integer oldestPendingAgeSeconds) {
+        return generateCustomWindow(start, deliveryAttempts, deliverySuccesses, deliveryDelayMs,
+                queueDepth, oldestPendingAgeSeconds, null);
+    }
+
+    private List<String> generateCustomWindow(Instant start, int deliveryAttempts, int deliverySuccesses,
+                                              List<Long> deliveryDelayMs, Integer queueDepth,
+                                              Integer oldestPendingAgeSeconds, GenerationContext context) {
+        String scope = context == null ? SCOPE_ID : context.scope().scopeId();
+        String serviceSource = context == null ? SERVICE_SOURCE_ID : context.scope().serviceSourceId();
+        var smsc = context == null ? new md.utm.telecom.observation.TopologyCatalog.Node(NODE_SOURCE_ID, NODE_SOURCE_ID)
+                : context.role(Role.SMS_SMSC);
         validateMinuteAlignment(start);
         var result = new ArrayList<String>();
 
@@ -208,10 +208,10 @@ public class SmsQueueScenario {
             );
         }
 
-        // 1. Independent NODE observation from SMSC-A (if queue evidence is present)
+        // Queue evidence belongs to the independently reported NODE observation.
         if (queueDepth != null) {
-            ObjectNode node = createEnvelope(start, NODE_SOURCE_ID, "NODE", "COMPLETE");
-            node.put("nodeId", NODE_SOURCE_ID);
+            ObjectNode node = createEnvelope(start, smsc.sourceId(), "NODE", "COMPLETE", scope);
+            node.put("nodeId", smsc.nodeId());
             ObjectNode nodeMetrics = node.putObject("metrics");
             nodeMetrics.put("queueDepth", queueDepth);
             nodeMetrics.put("oldestPendingAgeSeconds", oldestPendingAgeSeconds);
@@ -219,8 +219,7 @@ public class SmsQueueScenario {
             result.add(node.toString());
         }
 
-        // 2. Authoritative SERVICE observation from SMS-ADAPTER
-        ObjectNode service = createEnvelope(start, SERVICE_SOURCE_ID, "SERVICE", "COMPLETE");
+        ObjectNode service = createEnvelope(start, serviceSource, "SERVICE", "COMPLETE", scope);
         service.put("service", SERVICE);
         ObjectNode serviceMetrics = service.putObject("metrics");
         serviceMetrics.put("deliveryAttempts", deliveryAttempts);
@@ -236,15 +235,15 @@ public class SmsQueueScenario {
         return List.copyOf(result);
     }
 
-    private ObjectNode createEnvelope(Instant start, String sourceId, String kind, String quality) {
-        String identity = String.join("|", "telecom-observation-v2", sourceId, SCOPE_ID, kind, start.toString());
+    private ObjectNode createEnvelope(Instant start, String sourceId, String kind, String quality, String scope) {
+        String identity = String.join("|", "telecom-observation-v2", sourceId, scope, kind, start.toString());
         String eventId = UUID.nameUUIDFromBytes(identity.getBytes(StandardCharsets.UTF_8)).toString();
         Instant end = start.plusSeconds(60);
         return json.createObjectNode()
                 .put("schemaVersion", 2)
                 .put("eventId", eventId)
                 .put("sourceId", sourceId)
-                .put("scopeId", SCOPE_ID)
+                .put("scopeId", scope)
                 .put("kind", kind)
                 .put("windowStart", start.toString())
                 .put("windowEnd", end.toString())

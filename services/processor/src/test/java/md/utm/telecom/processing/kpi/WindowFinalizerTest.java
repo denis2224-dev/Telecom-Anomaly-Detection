@@ -151,6 +151,12 @@ class WindowFinalizerTest {
         assertEquals(DUE, jdbc.queryForObject("SELECT created_at FROM app.feature_outbox", Timestamp.class).toInstant());
     }
 
+    @Test void legacyDefaultDoesNotActivateContractOnlyCoverageProduction() throws Exception {
+        normal(); assertEquals(FINALIZED,finalizer.finalizeWindow(SCOPE,START));
+        assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE topic='telecom.coverage.v1'",Integer.class));
+        assertEquals(1,outputs());
+    }
+
     @Test void versionedLatenessControlsNormalAndMissingDecisions() throws Exception {
         var raw = (ObjectNode) ObservationValidator.resource("policies/service-rules-v2.json", MAPPER);
         raw.put("allowedLatenessSec", 20);

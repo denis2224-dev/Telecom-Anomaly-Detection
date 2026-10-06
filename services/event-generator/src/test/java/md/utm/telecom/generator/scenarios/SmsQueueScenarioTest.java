@@ -16,6 +16,47 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SmsQueueScenarioTest {
+    @Test void legacyBytesMatchSnapshotTakenFromIntegratedMain() throws Exception {
+        var start = Instant.parse("2026-10-05T08:00:00Z");
+        var expected = json.readTree(getClass().getResourceAsStream("/legacy-telemetry-baseline.json"));
+        assertEquals(expected.get("smsScenario"), json.valueToTree(scenario.generate(start, 42)));
+        assertEquals(expected.get("smsHealthy"), json.valueToTree(scenario.generateHealthyWindow(start, 42)));
+        var legacy = md.utm.telecom.generator.GenerationContext.forScope(
+                md.utm.telecom.observation.GeographyCatalog.load(), "SMS-MD-ROUTE-A");
+        assertEquals(scenario.generateHealthyWindow(start, 42), scenario.generateHealthyWindow(start, 42, legacy));
+    }
+
+    @Test void everyCityHasDeterministicIndependentSmsMeasurementsAndSeedIndependentIdentity() throws Exception {
+        var geography = md.utm.telecom.observation.GeographyCatalog.load();
+        var geographicValidator = new ObservationValidator(geography.authority());
+        var generator = new SmsQueueScenario(json, geographicValidator);
+        var start = Instant.parse("2026-10-05T08:00:00Z");
+        var ids = new java.util.HashSet<String>();
+        var measurements = new java.util.HashSet<String>();
+        for (String city : geography.cities().keySet()) {
+            var context = md.utm.telecom.generator.GenerationContext.forScope(geography, "SMS-MD-" + city);
+            var first = generator.generateHealthyWindow(start, 42, context);
+            assertEquals(first, generator.generateHealthyWindow(start, 42, context));
+            var changed = generator.generateHealthyWindow(start, 43, context);
+            assertNotEquals(first, changed);
+            assertEquals(2, first.size()); // Optional transport is not fabricated.
+            for (int i = 0; i < first.size(); i++) {
+                var event = json.readTree(first.get(i));
+                geographicValidator.validate(event);
+                assertEquals(context.scope().scopeId(), event.path("scopeId").asText());
+                assertTrue(ids.add(event.path("eventId").asText()));
+                assertEquals(event.get("eventId"), json.readTree(changed.get(i)).get("eventId"));
+            }
+            assertTrue(measurements.add(json.readTree(first.get(1)).get("metrics").toString()));
+            var batch = new ObservationBatch(geographicValidator);
+            assertEquals(ObservationBatch.Result.ACCEPTED, batch.accept(json.readTree(first.get(1))));
+            var conflicting = json.readTree(changed.get(1));
+            assertThrows(IllegalArgumentException.class, () -> batch.accept(conflicting));
+        }
+        assertEquals(20, ids.size());
+        assertThrows(IllegalArgumentException.class, () -> generator.generateHealthyWindow(start, 42,
+                md.utm.telecom.generator.GenerationContext.forScope(geography, "VOLTE-MD-CHI")));
+    }
     @Test
     void controlStaysHealthyAndGapOmitsUnmeasuredSourcesWithoutFakeZeroSamples() throws Exception {
         var control = scenario.generateHealthyWindows(baseStart, 42);

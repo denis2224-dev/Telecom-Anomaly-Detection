@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import md.utm.telecom.observation.ObservationValidator;
+import md.utm.telecom.observation.GeographyCatalog.Role;
 import md.utm.telecom.processing.baseline.BaselineRegistry;
 import md.utm.telecom.processing.baseline.BaselineRegistry.Lookup;
 import md.utm.telecom.processing.ingestion.PayloadCodec;
@@ -58,14 +59,14 @@ public final class ServiceFeatureBuilder {
         if (!service.path("kind").asText().equals("SERVICE")) {
             throw new IllegalArgumentException("Expected authoritative SERVICE receipt");
         }
-        Lookup baseline = baselines.lookup(scope, start);
+        Lookup baseline = baselineFor(scope, start);
         var sources = new TreeSet<String>();
         sources.add(service.required("eventId").asText());
         JoinResult joined = joiner.join(scope, start, end, nodes);
         JsonNode metrics = service.path("quality").asText().equals("COMPLETE")
                 ? service.path("metrics") : mapper.createObjectNode();
         var kpis = mapper.createArrayNode();
-        List<Number> vector = calculate(serviceName, metrics, joined, baseline.values(), kpis, sources);
+        List<Number> vector = calculate(scope, serviceName, metrics, joined, baseline.values(), kpis, sources);
         return assemble(scope, serviceName, start, end, service.required("quality").asText(),
                 baseline, kpis, vector, sources);
     }
@@ -79,10 +80,10 @@ public final class ServiceFeatureBuilder {
     public ObjectNode buildMissing(String scope, Instant start, Instant end, List<JsonNode> nodes) {
         String serviceName = scopes.serviceFor(scope);
         requireWindow(scope, serviceName, scopes.requireScope(scope).serviceSourceId(), start, end);
-        Lookup baseline = baselines.lookup(scope, start);
+        Lookup baseline = baselineFor(scope, start);
         var kpis = mapper.createArrayNode();
         var sources = new TreeSet<String>();
-        List<Number> vector = calculate(serviceName, mapper.createObjectNode(),
+        List<Number> vector = calculate(scope, serviceName, mapper.createObjectNode(),
                 joiner.join(scope, start, end, nodes), baseline.values(), kpis, sources);
         return assemble(scope, serviceName, start, end, "MISSING", baseline, kpis, vector, sources);
     }
@@ -96,7 +97,21 @@ public final class ServiceFeatureBuilder {
         }
     }
 
-    private List<Number> calculate(String serviceName, JsonNode metrics, JoinResult joined,
+    private Lookup baselineFor(String scope, Instant start) {
+        try { return baselines.lookup(scope, start); }
+        catch (IllegalArgumentException unknownBaselineScope) {
+            // A validated city scope has no reviewed baseline in the legacy catalogue yet.
+            // Preserve observed KPIs and the existing BASELINE_MISSING / ineligible semantics.
+            var binding = scopes.geography().bindings().get(scope);
+            if (binding == null || binding.legacy() || !baselines.topologyVersion().equals("2-baseline"))
+                throw unknownBaselineScope;
+            var utc = start.atZone(java.time.ZoneOffset.UTC);
+            return new Lookup(baselines.version(), "BASELINE_MISSING", scope, null, scopes.serviceFor(scope),
+                    (utc.getDayOfWeek().getValue() - 1) * 24 + utc.getHour(), Map.of());
+        }
+    }
+
+    private List<Number> calculate(String scope, String serviceName, JsonNode metrics, JoinResult joined,
                                    Map<String, BigDecimal> values, ArrayNode kpis, TreeSet<String> sources) {
         if (serviceName.equals("VOLTE")) {
             Number attempts = metric(metrics, "attempts");
@@ -106,8 +121,8 @@ public final class ServiceFeatureBuilder {
             Double sip = ratio(metric(metrics, "sip503Count"), eligible, 1);
             Double rrc = ratio(metric(metrics, "rrcSuccesses"), metric(metrics, "rrcAttempts"), 100);
             Double bearer = ratio(metric(metrics, "bearerSuccesses"), metric(metrics, "bearerAttempts"), 100);
-            Number cpu = nodeMetric(joined, "IMS-A", "cpuPct", sources);
-            Number loss = nodeMetric(joined, "TRANSPORT-A", "packetLossRatio", sources);
+            Number cpu = nodeMetric(joined, scopes.resolveRole(scope, Role.VOLTE_IMS).nodeId(), "cpuPct", sources);
+            Number loss = nodeMetric(joined, scopes.resolveRole(scope, Role.VOLTE_TRANSPORT).nodeId(), "packetLossRatio", sources);
             kpi(kpis, values, "cssrPct", cssr, "PERCENT", metric(metrics, "technicalSuccesses"), eligible);
             kpi(kpis, values, "eligibleAttempts", eligible, "COUNT", null, null);
             kpi(kpis, values, "sip503Ratio", sip, "RATIO", metric(metrics, "sip503Count"), eligible);
@@ -123,8 +138,9 @@ public final class ServiceFeatureBuilder {
         BigDecimal p95 = p95Delivery(metrics.path("deliveryDelayMs"));
         Double deliverySr = ratio(metric(metrics, "deliverySuccesses"), metric(metrics, "deliveryAttempts"), 100);
         Number delivered = metric(metrics, "deliveredMessages");
-        Number queueDepth = nodeMetric(joined, "SMSC-A", "queueDepth", sources);
-        Number oldestAge = nodeMetric(joined, "SMSC-A", "oldestPendingAgeSeconds", sources);
+        String smsc = scopes.resolveRole(scope, Role.SMS_SMSC).nodeId();
+        Number queueDepth = nodeMetric(joined, smsc, "queueDepth", sources);
+        Number oldestAge = nodeMetric(joined, smsc, "oldestPendingAgeSeconds", sources);
         kpi(kpis, values, "p95DeliveryMs", p95, "MILLISECONDS", null, null);
         kpi(kpis, values, "deliverySrPct", deliverySr, "PERCENT",
                 metric(metrics, "deliverySuccesses"), metric(metrics, "deliveryAttempts"));

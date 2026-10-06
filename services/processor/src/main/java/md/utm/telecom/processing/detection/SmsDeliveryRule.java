@@ -53,7 +53,8 @@ public final class SmsDeliveryRule {
         var baseline = baselines.lookup(window.required("scopeId").asText(), start);
         require(baseline.service().equals("SMS"), "Scope service mismatch");
         require(window.required("baselineVersion").asText().equals(baseline.baselineVersion()), "Baseline version mismatch");
-        require(window.required("topologyVersion").asText().equals(baselines.topologyVersion()), "Topology version mismatch");
+        require(baselines.acceptsTopology(window.required("scopeId").asText(), window.required("topologyVersion").asText()),
+                "Topology version mismatch");
         Map<String, JsonNode> kpis = new HashMap<>();
         for (var kpi : window.required("kpis"))
             require(kpis.putIfAbsent(kpi.required("name").asText(), kpi) == null, "Duplicate KPI name");

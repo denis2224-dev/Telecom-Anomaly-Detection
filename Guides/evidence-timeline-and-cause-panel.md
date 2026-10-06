@@ -1,6 +1,6 @@
-# Day 8 — Evidence timeline and cause panel
+# Evidence timeline and cause panel
 
-## What you will complete
+## Investigation requirements
 
 Build an incident investigation view that:
 
@@ -19,27 +19,6 @@ apps/dashboard/src/app/features/incident-investigation/
 ```
 
 The code below is proposed implementation code. Copy it into the indicated files and run the checks. No new dependency or API schema is needed.
-
-## Task 1 — Create your branch
-
-Run all commands from the repository root:
-
-```sh
-cd /Users/davidnenita/Documents/PT/Telecom-Anomaly-Detection
-
-git status --short
-git switch main
-git pull --ff-only origin main
-git switch -c codex/day-08-evidence-timeline
-```
-
-Before switching, commit unfinished work on its own branch or stash it.
-
-If Day 7 is still in an unmerged PR, Day 8 can start from `main` because it changes separate incident components.
-
-**Why?** Keep Day 8 isolated and reviewable.
-
-No commit is needed for creating the branch.
 
 ## Task 2 — Create the cause panel
 
@@ -569,7 +548,7 @@ function detection(
   };
 }
 
-describe('Day 8 evidence timeline', () => {
+describe('Evidence timeline', () => {
   it('orders historical records without mutating its input', () => {
     const fixture = TestBed.createComponent(EvidenceTimelineComponent);
 
@@ -702,7 +681,7 @@ async function setup(emptySecondPage = false) {
   return { fixture, requested };
 }
 
-describe('Day 8 history loading', () => {
+describe('evidence timeline history loading', () => {
   it('fetches every page and renders bad and recovery updates', async () => {
     const { fixture, requested } = await setup();
 
@@ -733,7 +712,7 @@ describe('Day 8 history loading', () => {
 EOF
 ```
 
-**Why do we add these tests?** Ordering, unavailable customer counts and historical pagination are explicit Day 8 requirements. A one-record preview cannot verify paging.
+**Why do we add these tests?** Ordering, unavailable customer counts and historical pagination are explicit evidence timeline requirements. A one-record preview cannot verify paging.
 
 **How does it make our app better?** Tests catch reversed history, mutated input, misleading customer counts and silently incomplete timelines.
 
@@ -778,7 +757,7 @@ The current fixture client returns only the latest sample detection. Use it for 
 For real stored history, follow:
 
 ```text
-docs/tasks/day-06-protected-voice-investigation/README.md
+docs/tasks/protected-voice-investigation/README.md
 ```
 
 Generate the existing voice scenario and open the incident through the protected application on port 8080.
@@ -833,10 +812,10 @@ git commit -m "fix(dashboard): keep evidence table readable on mobile"
 Create the documentation file:
 
 ```sh
-mkdir -p docs/tasks/day-08-evidence-timeline-and-cause
+mkdir -p docs/tasks/evidence-timeline-and-cause
 
-cat > docs/tasks/day-08-evidence-timeline-and-cause/README.md <<'EOF'
-# Day 08 — Evidence timeline and cause panel
+cat > docs/tasks/evidence-timeline-and-cause/README.md <<'EOF'
+# Evidence timeline and cause panel
 
 The incident page shows accepted detections in sequence, with actual/baseline
 KPIs, source scope, estimated impact, source evidence and a separate cause hypothesis.
@@ -845,7 +824,7 @@ Unique customers remain unavailable in this aggregate demo.
 - [Timeline](../../../apps/dashboard/src/app/features/incident-investigation/evidence-timeline.component.ts)
 - [Cause panel](../../../apps/dashboard/src/app/features/incident-investigation/cause-evidence.component.ts)
 - [Incident page](../../../apps/dashboard/src/app/features/incident-investigation/incident-detail.component.ts)
-- [Protected startup](../day-06-protected-voice-investigation/README.md)
+- [Protected startup](../protected-voice-investigation/README.md)
 
 Preview: `npm --prefix apps/dashboard run start:fixtures`.
 The current preview has one latest sample detection; it does not demonstrate paging.
@@ -880,20 +859,20 @@ from pathlib import Path
 path = Path('docs/tasks/README.md')
 text = path.read_text()
 
-link = '- [Day 08: evidence timeline and cause panel](day-08-evidence-timeline-and-cause/README.md) — historical detections, source evidence, impact and cause hypotheses.\n'
+link = '- [Evidence timeline and cause panel](evidence-timeline-and-cause/README.md) — historical detections, source evidence, impact and cause hypotheses.\n'
 marker = '## Frontend folders'
 
 if link not in text:
     if marker not in text:
         raise SystemExit(
-            'Task index changed: add the Day 08 link manually under Open a task guide.'
+            'Task index changed: add the evidence timeline link manually under Feature guides.'
         )
 
     path.write_text(text.replace(marker, link + '\n' + marker, 1))
 PY
 ```
 
-**Why do we add this?** Make Day 8 easy to find and give reviewers an accurate verification record.
+**Why do we add this?** Make evidence timeline easy to find and give reviewers an accurate verification record.
 
 **How does it improve our workflow?** Denis can verify paging and ordering, and Sergiu can approve the explanation wording against the implemented screen.
 
@@ -910,13 +889,13 @@ Record approval when received.
 git diff --check
 
 git add \
-  Guides/Day-08-evidence-timeline-and-cause-panel.md \
-  docs/tasks/day-08-evidence-timeline-and-cause/README.md \
+  Guides/evidence-timeline-and-cause-panel.md \
+  docs/tasks/evidence-timeline-and-cause/README.md \
   docs/tasks/README.md
 
 git diff --cached
 
-git commit -m "docs: record Day 8 verification and review handoff"
+git commit -m "docs: record evidence timeline verification and review handoff"
 ```
 
 ## Task 8 — Push, review and merge
@@ -932,7 +911,7 @@ You now have five coherent commits:
 Push:
 
 ```sh
-git push -u origin codex/day-08-evidence-timeline
+git push -u origin feature/evidence-timeline
 ```
 
 Open a PR targeting `main`.
@@ -940,7 +919,7 @@ Open a PR targeting `main`.
 Suggested title:
 
 ```text
-Day 8: add historical evidence and cause panels
+Add historical evidence and cause panels
 ```
 
 Suggested description:

@@ -1,3 +1,4 @@
+import { ServiceContextComponent } from '../../shared/service-context.component';
 import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -27,13 +28,12 @@ const MAX_WINDOWS = 1440;
 
 @Component({
   selector: 'app-service-detail',
-  imports: [RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
-    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent,
-    KpiCardsComponent, MetricChartComponent, ServicePathComponent],
+  imports: [ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
+    IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a>
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Service investigation</p><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
-      @if (service(); as item) { <span class="badge" [attr.data-state]="item.freshness"><span class="status-dot"></span>Source: {{ item.freshness }}</span> }
+      @if (service(); as item) { <div class="button-row"><app-service-context [current]="item.scope.service" /><span class="badge" [attr.data-state]="item.freshness"><span class="status-dot"></span>Source: {{ item.freshness }}</span></div> }
     </div>
     @if (loading()) { <section class="state-panel skeleton-panel" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
     @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()"><app-icon name="refresh" />Retry</button></section> }
@@ -49,31 +49,36 @@ const MAX_WINDOWS = 1440;
         <app-metric-explanation topic="percentage-points" />
       }
       <p class="helper">Current health: {{ health() }} · Technical recovery and analyst resolution are separate.</p>
-      <app-kpi-cards [service]="item" />
-      <app-service-path [service]="item" [detections]="detections()" />
-      <div class="stat-grid">
-        <section class="stat-card"><div class="stat-label">{{ item.scope.service === 'VOLTE' ? 'Last success rate in selected range' : 'Last delivery p95 in selected range' }}<app-icon name="activity" /></div><strong class="metric-value">{{ summary().latest === null ? 'Unavailable' : summary().latest }} <small>{{ summary().latest === null ? '' : item.scope.service === 'VOLTE' ? '%' : 'ms' }}</small></strong>
-          @if (summary().delta !== null) { <p class="stat-trend" [class.negative]="summary().worsened"><app-icon name="trend" />{{ summary().delta! > 0 ? '+' : '' }}{{ summary().delta }} {{ item.scope.service === 'VOLTE' ? 'pp' : 'ms' }} over range</p> } @else { <p class="helper">Trend requires comparable observations</p> }
-          <svg class="stat-sparkline" viewBox="0 0 100 32" aria-hidden="true"><path [attr.d]="summary().sparkline" /></svg>
-        </section>
-        <section class="stat-card"><div class="stat-label">Observation windows<app-icon name="calendar" /></div><strong class="metric-value">{{ windows().length }} <small>windows</small></strong><p class="helper">{{ summary().available }} with a measured {{ item.scope.service === 'VOLTE' ? 'success rate' : 'delivery p95' }}</p><div class="stat-meter"><span [style.width.%]="windows().length ? summary().available / windows().length * 100 : 0"></span></div></section>
-        <section class="stat-card"><div class="stat-label">Open incidents<app-icon name="alert" /></div><strong class="metric-value">{{ item.openIncidents }}</strong><p class="helper">Unresolved work across this service scope</p></section>
-      </div>
-      @if (streamError()) { <div class="notice" role="status">{{ streamError() }}<div class="button-row"><button (click)="refreshIncidents()"><app-icon name="refresh" />Retry incident refresh</button><button (click)="refreshIncidents(0)" [disabled]="incidentLoading()">Show first incident page</button></div></div> }
-      @if (item.scope.service === 'VOLTE') {
-        <app-kpi-chart [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
-        <p class="chart-disclaimer"><app-icon name="info" />Incident shading uses only incident page {{ incidentPage() + 1 }}. Unshaded time may contain incidents on other pages.</p>
-      } @else {
-        <app-metric-chart name="p95DeliveryMs" title="P95 delivery delay · actual versus baseline" unit="MILLISECONDS" [windows]="windows()" [detections]="detections()" [from]="from()" [to]="to()" />
-        <app-sms-quality [window]="item.latestWindow" [freshness]="item.freshness" />
-        <app-sms-history [windows]="windows()" />
+      @if (item.latestWindow && !hasBaseline(item.scope.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs')) {
+        <app-metric-explanation topic="baseline-missing" mode="state" />
       }
-      <div class="supporting-charts">@for (chart of charts(); track chart.name) {
-        <app-metric-chart [name]="chart.name" [title]="chart.title" [unit]="chart.unit" [windows]="windows()" [detections]="detections()" [from]="from()" [to]="to()" />
-      }</div>
+      <app-kpi-cards [service]="item" [windows]="windows()" />
+      <details class="source-inventory"><summary>Service dependencies and source quality</summary>
+        <app-service-path [service]="item" [detections]="detections()" />
+        @if (item.scope.service === 'SMS') { <app-sms-quality [window]="item.latestWindow" [freshness]="item.freshness" /> }
+      </details>
+      @if (streamError()) { <div class="notice" role="status">{{ streamError() }}<div class="button-row"><button (click)="refreshIncidents()"><app-icon name="refresh" />Retry incident refresh</button><button (click)="refreshIncidents(0)" [disabled]="incidentLoading()">Show first incident page</button></div></div> }
+      <div class="chart-legend" aria-label="Chart legend"><span class="actual-key">Observed</span><span class="expected-key">Baseline</span><span class="state-degraded">Degraded / incident interval</span><span class="state-recovery">Recovery</span><span class="state-unknown">Gaps: unavailable</span></div>
+      <div class="supporting-charts diagnosis-charts">
+        @if (item.scope.service === 'VOLTE' && hasBaseline('cssrPct')) {
+          <app-kpi-chart view="chart" [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
+        }
+        @for (chart of charts(); track chart.name) {
+          <app-metric-chart view="chart" [name]="chart.name" [title]="chart.title" [unit]="chart.unit" [windows]="windows()" [detections]="detections()" [from]="from()" [to]="to()" />
+        }
+      </div>
+      @if (!charts().length && !hasBaseline('cssrPct')) { <p role="status">No diagnostic charts with a baseline in this range. Available observations remain in the KPI table.</p> }
+      <details class="exact-values"><summary>Exact values ({{ windows().length }} windows)</summary>
+        @if (item.scope.service === 'VOLTE') {
+          <app-kpi-chart view="table" [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />
+        } @else { <app-sms-history [windows]="windows()" /> }
+        @for (chart of allCharts(); track chart.name) {
+          <app-metric-chart view="table" [name]="chart.name" [title]="chart.title" [unit]="chart.unit" [windows]="windows()" [detections]="detections()" [from]="from()" [to]="to()" />
+        }
+      </details>
       <p class="helper">Phase bands use the latest persisted detection on incident page {{ incidentPage() + 1 }}. Earlier phases and other pages require incident investigation; missing evidence does not prove normal health.</p>
       <div class="section-heading"><div><p class="eyebrow">Incident workspace</p><p>Incidents are paged for this scope independently of the KPI time range.</p></div>@if (incidentLoading()) { <span class="helper" role="status"><span class="spinner"></span> Refreshing incident page…</span> }</div>
-      <app-incident-list [incidents]="incidents()" />
+      <app-incident-list [incidents]="incidents()" [total]="incidentTotal()" />
       <nav class="pagination" aria-label="Incident pages">
         <button (click)="refreshIncidents(incidentPage() - 1)" [disabled]="incidentLoading() || incidentPage() === 0"><app-icon name="left" />Previous incidents</button>
         <span>Page {{ incidentPage() + 1 }} · {{ incidents().length }} shown · {{ incidentTotal() }} total</span>
@@ -99,7 +104,11 @@ export class ServiceDetailComponent {
     const health = serviceHealth(this.service()!, this.incidents());
     return health === 'NORMAL' && this.incidentTotal() > this.incidents().length ? 'UNKNOWN' : health;
   });
-  readonly charts = computed(() => this.service()?.scope.service === 'SMS' ? [
+  hasBaseline(name: string): boolean {
+    return this.windows().some(row => row.kpis.some(kpi => kpi.name === name && kpi.baseline != null && Number.isFinite(kpi.baseline)));
+  }
+  readonly allCharts = computed(() => (this.service()?.scope.service === 'SMS' ? [
+    { name: 'p95DeliveryMs', title: 'P95 delivery delay · actual versus baseline', unit: 'MILLISECONDS' },
     { name: 'deliverySrPct', title: 'Delivery success rate', unit: 'PERCENT' },
     { name: 'queueDepth', title: 'Queue depth', unit: 'COUNT' },
     { name: 'oldestPendingAgeSec', title: 'Oldest pending message age', unit: 'SECONDS' },
@@ -111,7 +120,8 @@ export class ServiceDetailComponent {
     { name: 'sip503Ratio', title: 'IMS / core · SIP 503 rate', unit: 'RATIO' },
     { name: 'packetLossRatio', title: 'Transport · packet loss', unit: 'RATIO' },
     { name: 'eligibleAttempts', title: 'Eligible attempt volume', unit: 'COUNT' },
-  ]);
+  ]));
+  readonly charts = computed(() => this.allCharts().filter(chart => this.hasBaseline(chart.name)));
   readonly pageSize = PAGE_SIZE;
   readonly fixture = dataSource.fixture;
   readonly scopeId = signal('');

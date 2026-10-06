@@ -184,7 +184,7 @@ observations and commits accepted or rejected state before ACK. It has no HTTP
 ingestion endpoint. Finalization and publication are not implemented. See the
 [Streaming overview](../streaming/README.md#limitations) for the remaining boundaries.
 
-## Durable ingestion (Day 04)
+## Durable ingestion
 
 See [ingestion design and verification](../streaming/ingestion.md). Consume
 `telecom.observations.v2` in group `telecom-processor-v2`, with exact case-sensitive

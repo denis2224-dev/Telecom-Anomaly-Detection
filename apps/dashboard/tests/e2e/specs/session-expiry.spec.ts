@@ -151,6 +151,7 @@ test('frontend stops work after a protected API returns 401', async ({
     });
   });
 
+  await page.locator('details.source-inventory > summary').click();
   await page.locator('a[href^="/services/"]').first().click();
 
   await expect(page.getByRole('heading', {
