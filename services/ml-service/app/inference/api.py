@@ -2,6 +2,7 @@
 
 from contextlib import asynccontextmanager
 import os
+from threading import BoundedSemaphore
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -22,6 +23,7 @@ async def lifespan(app: FastAPI):
     app.state.models = {service: load(service) for service in ("VOLTE", "SMS")}
     app.state.sms_shadow_enabled = os.getenv('ML_SMS_SHADOW_ENABLED', 'false').lower() == 'true'
     app.state.sms_classifier = None
+    app.state.sms_prediction_slots = BoundedSemaphore(8)
     if app.state.sms_shadow_enabled:
         loaded = load_classifier(os.getenv('ML_SMS_CANDIDATE_PATH', str(
             ROOT / 'services/ml-service/candidate-models' / MODEL_VERSION)))
@@ -74,6 +76,8 @@ def infer_sms_classifier(window: dict):
         return shadow_failure('DISABLED', 503)
     if app.state.sms_classifier is None:
         return shadow_failure('UNAVAILABLE', 503)
+    if not app.state.sms_prediction_slots.acquire(blocking=False):
+        return shadow_failure('UNAVAILABLE', 503)
     try:
         result = classifier_score(window, app.state.sms_classifier)
         return dict(result, schemaVersion=1, mlStatus='OK', threshold=THRESHOLD, modelSha256=MODEL_SHA256)
@@ -81,3 +85,5 @@ def infer_sms_classifier(window: dict):
         return shadow_failure('INSUFFICIENT_DATA', 422)
     except Exception:
         return shadow_failure('UNAVAILABLE', 503)
+    finally:
+        app.state.sms_prediction_slots.release()

@@ -9,4 +9,4 @@ COPY services/ml-service/candidate-models services/ml-service/candidate-models
 ENV ML_SMS_SHADOW_ENABLED=false
 ENV ML_SMS_CANDIDATE_PATH=/app/services/ml-service/candidate-models/sms-supervised-v1-2
 ENV PYTHONPATH=/app/services/ml-service
-CMD ["python", "-m", "uvicorn", "app.inference.api:app", "--host", "0.0.0.0", "--port", "8090", "--limit-concurrency", "8"]
+CMD ["python", "-m", "uvicorn", "app.inference.api:app", "--host", "0.0.0.0", "--port", "8090", "--limit-concurrency", "32"]
