@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { voiceIncidents } from '../../../src/fixtures/voice';
+import services from '../../../src/fixtures/services.json';
 import type { components } from '../../../src/app/core/api/schema';
 
 type Detection = components['schemas']['ServiceDetection'];
@@ -19,6 +20,7 @@ const history = (['OPEN', 'UNKNOWN', 'RECOVERY'] as const).map((phase, index): D
 }));
 
 async function mockSessionAndIncident(page: Page) {
+  await page.route('**/api/services', route => route.fulfill({ json: services }));
   await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
   await page.route('**/api/incidents/stream', route => route.fulfill({ contentType: 'text/event-stream', body: ': controlled UI fixture\n\n' }));
   await page.route('**/api/auth/me', route => route.fulfill({ json: {
