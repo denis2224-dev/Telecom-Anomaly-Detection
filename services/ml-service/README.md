@@ -210,3 +210,53 @@ positives. SMS delay faults were detected, but standalone backlog and delivery
 failure detection remain weak. These packages remain experimental and are not
 activated by the HTTP API. See [results and limits](../../docs/evidence/2026-10-06-ml-validation-selection.md)
 before considering model promotion. No real Orange network dataset was supplied.
+
+## Supervised SMS experiment
+
+The implemented supervised SMS experiment passes the agreed synthetic targets:
+**98.06% overall recall**, at least **92.22% per fault family**, and **0.14% overall
+false positives**, with every healthy profile below 1%. It uses labelled SMS fault
+training alongside eight weeks of healthy observations. Validation selects the
+model and cutoff; separate final tests measure the frozen selection.
+
+The selected local package is
+`tmp/sms-supervised-experiment/round-2/selection/model/`, model version
+`sms-supervised-v1-2`. It is a 200-tree Random Forest using five projected features
+and a classifier-score cutoff of 0.55. It remains an offline experiment; the HTTP
+API and default VoLTE/SMS models retain their existing behavior.
+
+To reproduce the successful training run, use an unused output folder and run
+these commands from the original repository root:
+
+```powershell
+.\.venv\Scripts\python.exe services/ml-service/training/sms_supervised_data.py --output tmp/sms-supervised-reproduction/dataset --start-date 2026-12-14 --seed-offset 2000000 --balanced-healthy --healthy-profile-days 7
+.\.venv\Scripts\python.exe services/ml-service/training/sms_supervised_selection.py --data tmp/sms-supervised-reproduction/dataset/data --output tmp/sms-supervised-reproduction/selection --model-version sms-supervised-v1-2
+.\.venv\Scripts\python.exe services/ml-service/training/sms_supervised_evaluation.py --data tmp/sms-supervised-reproduction/dataset/data --selection tmp/sms-supervised-reproduction/selection --output tmp/sms-supervised-reproduction/final-evaluation.json
+```
+
+This creates 42,912 windows and searches 48 classifier configurations. Final
+evaluation also compares the current default SMS model. To include the two older
+local candidates, add `--expanded-models tmp/ml-expanded-history/models
+--expanded-training-manifest tmp/ml-expanded-history/split_manifest.json
+--isolation-models tmp/ml-validation-experiment/selection/SMS
+--isolation-training-manifest tmp/ml-validation-experiment/dataset/split_manifest.json`.
+
+For offline scoring with the already trained package, pass a complete canonical
+`ServiceFeatureWindowV2` JSON file:
+
+```powershell
+.\.venv\Scripts\python.exe services/ml-service/training/sms_classifier.py --models tmp/sms-supervised-experiment/round-2/selection/model --window tmp/sms-supervised-experiment/example-fault-window.json
+```
+
+The result contains `classifierScore`, `detection`, and `modelVersion`. It is an
+uncalibrated classifier score; the public input still contains all six ordered SMS
+features, and the package applies its saved projection internally.
+
+Generation and selection reject existing directories. Final evaluation verifies
+the frozen package and consumes that selection's holdout once, including when a
+different report filename is requested. Reproduction repeats the same synthetic
+experiment. Further tuning requires later periods after 2027-04-23, fresh seeds,
+an unused folder and a distinct model version.
+
+See [full results, the failed first attempt, checks and limitations](../../docs/evidence/2026-10-06-sms-supervised.md).
+No real-network accuracy is established by this synthetic experiment.

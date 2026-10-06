@@ -9,3 +9,4 @@ services/ml-service/training/split_manifest.json text eol=lf
 services/ml-service/models/*-calibration.json text eol=lf
 services/ml-service/models/manifest.json text eol=lf
 services/ml-service/models/*.joblib binary
+docs/evidence/*-sms-supervised*.json text eol=lf
