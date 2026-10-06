@@ -84,7 +84,12 @@ class CommentConcurrencyIT {
                     start.plusSeconds(60), start.plusSeconds(70), """
                             {"schemaVersion":2,"detectionId":"%s","episodeId":"%s",
                              "sequence":1,"phase":"OPEN","service":"VOLTE",
-                             "scopeId":"VOLTE-CENTRAL"}
+                             "scopeId":"VOLTE-CENTRAL","windowEnd":"2026-09-23T10:01:00Z",
+                             "probableCause":"Cause undetermined; inspect IMS traces.",
+                             "causeConfidence":"LOW",
+                             "impact":{"extraFailedAttempts":53,
+                                       "affectedDeliveredMessages":0,"pendingMessages":0,
+                                       "uniqueSubscribers":null}}
                             """.formatted(detectionId, episode)));
             entityManager.flush();
             Incident incident = new Incident(opening, Severity.HIGH, start);
