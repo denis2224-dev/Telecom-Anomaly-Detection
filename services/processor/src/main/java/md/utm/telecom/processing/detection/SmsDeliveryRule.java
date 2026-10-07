@@ -30,13 +30,19 @@ public final class SmsDeliveryRule {
     private static final BigDecimal MAX_COUNT = new BigDecimal("9007199254740991");
     private final DetectionPolicy policy;
     private final BaselineRegistry baselines;
-    private final ObservationValidator observations;
+    private final DetectionAuthority authority;
     private final com.networknt.schema.JsonSchema featureSchema;
 
     public SmsDeliveryRule(DetectionPolicy policy, BaselineRegistry baselines) throws IOException {
+        this(policy, baselines, java.util.Optional.empty());
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public SmsDeliveryRule(DetectionPolicy policy, BaselineRegistry baselines,
+                           java.util.Optional<DetectionAuthority> authority) throws IOException {
         this.policy = policy;
         this.baselines = baselines;
-        observations = new ObservationValidator();
+        this.authority = authority.orElseGet(DetectionAuthority::load);
         featureSchema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
                 ObservationValidator.resource("features/service-feature-window-v2.schema.json", new ObjectMapper()),
                 SchemaValidatorsConfig.builder().formatAssertionsEnabled(true).build());
@@ -66,24 +72,26 @@ public final class SmsDeliveryRule {
         if (p95 != null) require(p95.signum() >= 0, "Negative p95 delay");
         if (delivered != null && delivered.signum() == 0) require(p95 == null, "Zero completions cannot have p95");
         BigDecimal expected = baseline.values().get("p95DeliveryMs");
+        boolean delayBaselineMissing = baseline.status().equals("BASELINE_MISSING");
         var p95Kpi = kpis.get("p95DeliveryMs");
         if (p95Kpi != null) {
             var supplied = p95Kpi.required("baseline");
-            require(expected == null ? supplied.isNull() : !supplied.isNull()
-                    && number(supplied).compareTo(expected) == 0, "SMS p95 baseline mismatch");
+            if (supplied.isNull() && "baseline-v2".equals(window.path("baselineVersion").asText())
+                    && "2-geography-g1".equals(window.path("topologyVersion").asText())) {
+                // Preserve the saved window's missing delay context across peer activation.
+                // Independent aligned queue evidence can still establish a backlog breach.
+                expected = null;
+                delayBaselineMissing = true;
+            } else {
+                require(expected == null ? supplied.isNull() : !supplied.isNull()
+                        && number(supplied).compareTo(expected) == 0, "SMS p95 baseline mismatch");
+            }
         }
 
         boolean freshQueue = false;
         BigDecimal depth = null, age = null;
         if (smscReceipt != null) {
-            observations.validate(smscReceipt);
-            // ponytail: demo inventory has one SMSC role; use topology role metadata when more are added.
-            freshQueue = smscReceipt.path("kind").asText().equals("NODE")
-                    && smscReceipt.path("nodeId").asText().equals("SMSC-A")
-                    && smscReceipt.path("quality").asText().equals("COMPLETE")
-                    && smscReceipt.path("scopeId").equals(window.get("scopeId"))
-                    && smscReceipt.path("windowStart").equals(window.get("windowStart"))
-                    && smscReceipt.path("windowEnd").equals(window.get("windowEnd"))
+            freshQueue = authority.matches(window, smscReceipt)
                     && contains(window.required("sourceEventIds"), smscReceipt.required("eventId").asText())
                     && smscReceipt.path("metrics").has("queueDepth")
                     && smscReceipt.path("metrics").has("oldestPendingAgeSeconds");
@@ -106,7 +114,7 @@ public final class SmsDeliveryRule {
         boolean backlogBreach = freshQueue && depth.compareTo(policy.sms("queueDepthAtLeast")) >= 0
                 && age.compareTo(policy.sms("oldestPendingSecStrictlyGreaterThan")) > 0;
         if (!delayReady && !freshQueue)
-            return unavailable(baseline.status().equals("BASELINE_MISSING") ? "BASELINE_MISSING" : "INSUFFICIENT_DATA", window);
+            return unavailable(delayBaselineMissing ? "BASELINE_MISSING" : "INSUFFICIENT_DATA", window);
         boolean breached = delayBreach || backlogBreach;
         boolean healthy = serviceComplete && freshQueue && age.compareTo(policy.sms("recoveryOldestPendingSecAtMost")) <= 0
                 && ((delayReady && p95.compareTo(policy.sms("recoveryP95DelayMsAtMost")) <= 0
@@ -124,7 +132,7 @@ public final class SmsDeliveryRule {
                 "p95=" + p95 + " ms; baseline=" + expected + " ms; completed=" + delivered,
                 null, ids(window.required("sourceEventIds"))));
         if (freshQueue) evidence.add(new Evidence("SMSC_QUEUE",
-                "pending=" + depth + "; oldest=" + age + " s", "SMSC-A",
+                "pending=" + depth + "; oldest=" + age + " s", smscReceipt.required("nodeId").asText(),
                 List.of(smscReceipt.required("eventId").asText())));
         String cause = backlogBreach ? "SMSC backlog suggests a delivery bottleneck; verify downstream routing."
                 : delayBreach ? "Completed SMS delivery is delayed; inspect SMSC and transport evidence."

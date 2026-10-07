@@ -1,0 +1,3016 @@
+{
+  "generatedAt": "2026-10-06T19:53:26.025444+00:00",
+  "baseCommit": "cd5b013d979e51e27ff1d4b1c1fff3693a2f4e79",
+  "branch": "feature/sergiu-day2-role-aware-detection",
+  "catalogueVersion": "2-geography-day2-3b854ad7c043b09261778b4a1e00e67ace721acd8b090673e73d2c73abf74ac1",
+  "topologyVersion": "2-geography-g1",
+  "baselineVersion": "baseline-v2",
+  "modelVersion": "isoforest-v2-synthetic-1",
+  "thresholdRank": 0.99,
+  "mlBudgetMs": 250,
+  "mlPermits": 8,
+  "hashes": {
+    "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+    "contracts/features/feature-order-v2.json": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+    "contracts/baselines/demo-baseline-v2.json": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
+    "contracts/baselines/geographic-peer-baseline-v2.json": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+    "contracts/geography/demo-geography-v1.json": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced",
+    "contracts/topology/geographic-scopes-v2.json": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+    "contracts/fixtures/features/geographic-parity-v2.json": "afbeea21622f09fa52f99e30e706295e2f107289756c48e17f23d4a4ed46dcd8",
+    "services/ml-service/models/manifest.json": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711",
+    "services/ml-service/models/VOLTE.joblib": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd",
+    "services/ml-service/models/SMS.joblib": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307",
+    "services/ml-service/models/VOLTE-calibration.json": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
+    "services/ml-service/models/SMS-calibration.json": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b"
+  },
+  "unchangedFromBase": [
+    "contracts/policies/service-rules-v2.json",
+    "contracts/features/feature-order-v2.json",
+    "contracts/baselines/demo-baseline-v2.json",
+    "contracts/baselines/geographic-peer-baseline-v2.json",
+    "contracts/geography/demo-geography-v1.json",
+    "contracts/topology/geographic-scopes-v2.json",
+    "services/ml-service/models/manifest.json",
+    "services/ml-service/models/VOLTE.joblib",
+    "services/ml-service/models/SMS.joblib",
+    "services/ml-service/models/VOLTE-calibration.json",
+    "services/ml-service/models/SMS-calibration.json"
+  ],
+  "tests": {
+    "javaCurrentReports": {
+      "tests": 572,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "fullCleanVerify": {
+      "tests": 549,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "supplementalMissingRecovery": 3,
+    "supplementalCityHttp": 20,
+    "pythonRoot": 46,
+    "pythonMl": 54,
+    "skippedReason": "Existing opt-in SmsShadowReplayTest requires SMS_SHADOW_REPLAY_DIR; shadow evaluation is outside Day 2.",
+    "contracts": "PASS",
+    "dashboardBuild": "PASS; existing initial-bundle budget warning (502.30 kB)"
+  },
+  "parity": {
+    "voiceCases": 30,
+    "smsCases": 32,
+    "scopes": 20,
+    "maximumAbsoluteFloatDifference": 0,
+    "integerCounters": "exact",
+    "allFields": true,
+    "exportHashes": {
+      "services/processor/target/geographic-voice-parity-java.json": "18d0834049c1c240d9714f06174995c565597dd3ce59e1f7fbbb4d2b4109c0c6",
+      "services/processor/target/geographic-sms-parity-java.json": "2b0a1af3fc34970a679da288e73615a7625241e32f38d217a0a2bde02c0b36b0",
+      "services/processor/target/geographic-baseline-contexts-java.json": "925e4d9f5a86ce251338ba511c77affa075fecb8094daf611ecac1ae4d7d1413"
+    }
+  },
+  "scorer": {
+    "reference": [
+      {
+        "case": "volte-md-chi-normal",
+        "scopeId": "VOLTE-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-bal-normal",
+        "scopeId": "VOLTE-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-edi-normal",
+        "scopeId": "VOLTE-MD-EDI",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-sor-normal",
+        "scopeId": "VOLTE-MD-SOR",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-rib-normal",
+        "scopeId": "VOLTE-MD-RIB",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-ung-normal",
+        "scopeId": "VOLTE-MD-UNG",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-tir-normal",
+        "scopeId": "VOLTE-MD-TIR",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-com-normal",
+        "scopeId": "VOLTE-MD-COM",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-cah-normal",
+        "scopeId": "VOLTE-MD-CAH",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-orh-normal",
+        "scopeId": "VOLTE-MD-ORH",
+        "mlStatus": "OK",
+        "anomalyRank": 0.5838293650793651,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": false,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-chi-low-volume",
+        "scopeId": "VOLTE-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-chi-breach",
+        "scopeId": "VOLTE-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-chi-unequal-volume",
+        "scopeId": "VOLTE-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-bal-low-volume",
+        "scopeId": "VOLTE-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-bal-breach",
+        "scopeId": "VOLTE-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "volte-md-bal-unequal-volume",
+        "scopeId": "VOLTE-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-chi-normal",
+        "scopeId": "SMS-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-bal-normal",
+        "scopeId": "SMS-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-edi-normal",
+        "scopeId": "SMS-MD-EDI",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-sor-normal",
+        "scopeId": "SMS-MD-SOR",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-rib-normal",
+        "scopeId": "SMS-MD-RIB",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-ung-normal",
+        "scopeId": "SMS-MD-UNG",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-tir-normal",
+        "scopeId": "SMS-MD-TIR",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-com-normal",
+        "scopeId": "SMS-MD-COM",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-cah-normal",
+        "scopeId": "SMS-MD-CAH",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-orh-normal",
+        "scopeId": "SMS-MD-ORH",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-chi-low-volume",
+        "scopeId": "SMS-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-chi-breach",
+        "scopeId": "SMS-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9985119047619048,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-chi-fractional",
+        "scopeId": "SMS-MD-CHI",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-bal-low-volume",
+        "scopeId": "SMS-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 1.0,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-bal-breach",
+        "scopeId": "SMS-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9985119047619048,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      },
+      {
+        "case": "sms-md-bal-fractional",
+        "scopeId": "SMS-MD-BAL",
+        "mlStatus": "OK",
+        "anomalyRank": 0.9995039682539683,
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "anomaly": true,
+        "incompatibleBaselineRejected": true
+      }
+    ],
+    "httpCityScopes": 20,
+    "httpChangedBaselineRejected": 20,
+    "httpDeterministicFallbackOpened": 20,
+    "endpoint": "local pinned service using h11; ML_SERVICE_URL=http://127.0.0.1:18090"
+  },
+  "live": {
+    "project": "telecom-day2-validation",
+    "synthetic": true,
+    "minutes": [
+      "2026-10-06T19:45:00+00:00",
+      "2026-10-06T19:46:00+00:00",
+      "2026-10-06T19:47:00+00:00"
+    ],
+    "scopes": 20,
+    "receipts": 150,
+    "kpis": 60,
+    "coverage": 60,
+    "evaluated": 60,
+    "publishedFacts": 120,
+    "protectedApiPoints": 60,
+    "rejections": 0,
+    "matrix": [
+      {
+        "windowId": "52fe0db16af71a07159b4333c08eabb6d0c462ab1035732c9e9c6839e1b50560",
+        "scopeId": "SMS-MD-BAL",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "41a59926-d616-3128-b339-0b989e0cb3af",
+          "6a6cafe0-a6b9-3b3f-8c6e-bc67f9572715"
+        ],
+        "coverageId": "080527491a15887c47715fbcfe6a1f9c0472462ebb9c389df0a5efbc2479a6d3",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3332,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.666,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 101,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.666,
+          3332,
+          0,
+          0,
+          0.5305164319248803,
+          101
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "4b02bd677155bbe17d329ac4933bfd03894266595e5ae3b33fca21eb4cff9025",
+        "scopeId": "SMS-MD-CAH",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "1bad6d69-20c5-39f1-94e8-8f7b7fa7fb4e",
+          "3f6a71a7-e523-3521-9780-0c8309a5d635"
+        ],
+        "coverageId": "281e6ea8e170fe8790a6fc376b363638481fe5bc8c7f638efe3f37d78c56fe82",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3269,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6345,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 82,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6345,
+          3269,
+          0,
+          0,
+          -0.5,
+          82
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "b9ac7cbe90b0ba572312dfba38edbef964bad3c6d36ff65cf7bebef7a49989c8",
+        "scopeId": "SMS-MD-CHI",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "081a6e80-f6c1-3149-afc4-d1d6f89ec552",
+          "d6120b89-d9fc-38e8-8e12-1f6a2fc1a587"
+        ],
+        "coverageId": "fc8f3e8afe54f506f68da4a5ee016722e900963c513670462fed0d409f3d0503",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3417,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7085,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 81,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.7085,
+          3417,
+          0,
+          0,
+          -1.1164021164021136,
+          81
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "06d9b97b19f3e22e8d7f7e9b9299266c8ab0cf001238990a3a32e21b8f90b91e",
+        "scopeId": "SMS-MD-COM",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "216fd9ad-d679-3faf-a905-419592f9ef18",
+          "5a12ff12-263a-39eb-b8ac-ddc4c1f8febe"
+        ],
+        "coverageId": "15c3b7d5d136d39903de5563db4aeb5e7fe6d3c2099d6bf59d67088f0dc0fc72",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3367,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6835,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 87,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6835,
+          3367,
+          0,
+          0,
+          1.0,
+          87
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "b373315a9a6585925a39abbb460502ac51bf783f6d7b50f2af1db3a3091b28ac",
+        "scopeId": "SMS-MD-EDI",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "9dee455c-b3fc-37b4-bea7-d35b588f7bdc",
+          "ef8659a7-5c6e-3e9e-b88f-6c9acb8eec48"
+        ],
+        "coverageId": "8c1670e28625ae377e60686036883e105d101f69475d207ab4fe6f6aec65aed3",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3225,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6125,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 101,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6125,
+          3225,
+          0,
+          0,
+          -0.04712041884816642,
+          101
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "4375805624c9886a4d011948fec9f0ff7102db534d5a01a4f160583fa5a11f8e",
+        "scopeId": "SMS-MD-ORH",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "1e85c8ce-2e23-3e80-9664-5b79fdb8d7f7",
+          "7c93ef68-5f66-38f1-8c06-1d61eeb88af4"
+        ],
+        "coverageId": "b07a82d60fb00dcc1789f222be67b20201f949d0a197330d9d1e163bdc2fda81",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3294,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.647,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 119,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.647,
+          3294,
+          0,
+          0,
+          0.5454545454545467,
+          119
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "928d0cf4f75936386354b79c6dccbaeb8121479ba7fd1ce03bff2c7824111417",
+        "scopeId": "SMS-MD-RIB",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "ccab7e47-6e8c-3416-b891-43e093c498f3",
+          "e9a870e9-b011-3276-8d6a-d58f22117273"
+        ],
+        "coverageId": "7ea5a3680177268d7a42e5add42136acdd5ca1320a56748f770ebe5a3fb4a9b4",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3406,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.703,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 106,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.703,
+          3406,
+          0,
+          0,
+          -0.477832512315274,
+          106
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "486aedd0564b27891b39cfc99ddfea8efb81fec8958ef079cc5ca239609c3601",
+        "scopeId": "SMS-MD-SOR",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "0e111588-ff1e-3d4c-9510-e2443ab527aa",
+          "6efd3f40-c20f-3a29-995a-7f0e5e0bc506"
+        ],
+        "coverageId": "a4bd67cf5427cc4b84beefda55d9bf235724a50e8dcc556f0f1817865e9b446d",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3317,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6585,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 84,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6585,
+          3317,
+          0,
+          0,
+          -0.8264840182648356,
+          84
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "f8f06f58fe8fb1fc9a7acc23766eabe11e0095f8a6882cb4f39ab387252ef66b",
+        "scopeId": "SMS-MD-TIR",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "119723e8-d26d-3938-bd01-eb15f824579a",
+          "2535c4ab-8ec3-37fb-83b5-2ea04a4f839c"
+        ],
+        "coverageId": "8d11be0898d51f2f0237d738cbdaa7139d40580592da2a96aa599e4a27b48360",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3306,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.653,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 92,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.653,
+          3306,
+          0,
+          0,
+          1.0,
+          92
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "fb7bb379ea79a54569943e4f084ab182089ffe478e5da88155392c073262a9af",
+        "scopeId": "SMS-MD-UNG",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "0f507a26-bfb3-3379-b70b-15f3089c30c4",
+          "f3ca7b47-50c1-32c8-890f-2b55ae2eaf20"
+        ],
+        "coverageId": "989f33c0169fbd74c29c844628e3111d1b88f9dd9c2f6b9cb9b07cd8a8f2bd88",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3332,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.666,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 101,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.666,
+          3332,
+          0,
+          0,
+          -0.9512195121951237,
+          101
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "be1ca1901f975ec5d9e69b08d6258dd653d8f30535f723688a62ba8bc18dfa4b",
+        "scopeId": "VOLTE-MD-BAL",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "639cb655-d4a0-3550-8fc7-82fe22b3e508",
+          "b1b36da8-33c3-3cf4-8160-723c83f0fef5",
+          "c6cb29a0-8674-31de-bf2a-9326ab2196b8"
+        ],
+        "coverageId": "e4cb30f79cda75441ad7f6df39074ee0fc510995065f77ca554dfbb89f389273",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22077922077922,
+          "baseline": 99.3,
+          "deltaPp": -0.07922077922078,
+          "delayRatio": null,
+          "numerator": 1146,
+          "denominator": 1155,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.0792207792207762,
+          0.0017316017316017316,
+          0.0,
+          0.5454545454545467,
+          0.0013878424853369707,
+          37
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "ead9e76af539741878ecd6d0421a2618c706fa6e734b309b4cc7130e5ff52438",
+        "scopeId": "VOLTE-MD-CAH",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "b33bfbff-0de5-3b45-8985-165b86b49b5c",
+          "e7abb839-a6aa-36d7-a504-9b43173f7a7b",
+          "f9bb480b-002a-3cd6-82ad-ef860bca7035"
+        ],
+        "coverageId": "deb2f140a5a2bf2a830263787bb73ccdf070bc2c48d3520f6e13efcb3659a2ca",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.32318104906938,
+          "baseline": 99.3,
+          "deltaPp": 0.02318104906938,
+          "delayRatio": null,
+          "numerator": 1174,
+          "denominator": 1182,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.0231810490693789,
+          0.001692047377326565,
+          0.0,
+          0.5454545454545467,
+          0.0011626066419106152,
+          34
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "178cc65cf34a837f9f6dadc466dfd263c992b504e329c6791591af7b65b34c72",
+        "scopeId": "VOLTE-MD-CHI",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "820de1f3-de5d-30ce-aa36-f00c03e0dd1e",
+          "a3fe406a-0e83-3140-a85a-18ccd9f7ec97",
+          "cf3d9d96-454c-33e4-94ed-adf1a5accdd6"
+        ],
+        "coverageId": "2d03b014bdfd16b672bacc068bcb7ec080dfc2d82d0efe7d32059c02c20a0618",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.2248062015504,
+          "baseline": 99.3,
+          "deltaPp": -0.0751937984496,
+          "delayRatio": null,
+          "numerator": 1152,
+          "denominator": 1161,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.07519379844960383,
+          0.0017226528854435831,
+          0.0,
+          0.5454545454545467,
+          0.001436320058914083,
+          41
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "4cd385680513179de1443f3a6f8bda62f43441855d9867922f7f17ecab699100",
+        "scopeId": "VOLTE-MD-COM",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "7442cb3f-0e95-3749-9fd0-91af012606b2",
+          "a371d3b4-4568-3acb-8b21-2b6f8d898b2d",
+          "aa9b2358-89f6-368c-bb6f-aa1821464133"
+        ],
+        "coverageId": "33192ab226500b41b1d8be0875d8f4bf9a7d11b26763fcf6fc72fd630ad2e4b3",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38864628820961,
+          "baseline": 99.3,
+          "deltaPp": 0.08864628820961,
+          "delayRatio": null,
+          "numerator": 1138,
+          "denominator": 1145,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.08864628820961684,
+          0.0017467248908296944,
+          0.0,
+          0.5454545454545467,
+          0.0012820798205649903,
+          40
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "b7f60e594657603d237793e3564d67a2503b89787689965e76133e082c10872c",
+        "scopeId": "VOLTE-MD-EDI",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "3498bd6d-f6d1-3ba1-a3e6-d674bf7f93e3",
+          "54e0af7d-5c06-33ca-81dc-ab54f000463c",
+          "806c702d-ee3e-3823-b34c-4d0817a0b83c"
+        ],
+        "coverageId": "2e3c35259510dc8374b56f953743431f56a9b21c6bed917c381bb57937cb6ac4",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.19137466307278,
+          "baseline": 99.3,
+          "deltaPp": -0.10862533692722,
+          "delayRatio": null,
+          "numerator": 1104,
+          "denominator": 1113,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.10862533692721854,
+          0.0017969451931716084,
+          0.0,
+          0.5454545454545467,
+          0.0014325756293830717,
+          33
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "199fbde53f998007d375a8383766e8d1bda91bc772ce5f086179fb244cc168df",
+        "scopeId": "VOLTE-MD-ORH",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "119ca267-8550-32b6-8e38-d65c74143860",
+          "24dd9ceb-e1cb-3db0-b293-b4ecf9780182",
+          "289121b2-8b27-36f9-ba40-ad615c8f353e"
+        ],
+        "coverageId": "afd9a7bdefb39087b7ab6db92ef6d8e2d02dcabde6e16a209847bcf634dd958c",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.36708860759494,
+          "baseline": 99.3,
+          "deltaPp": 0.06708860759494,
+          "delayRatio": null,
+          "numerator": 1099,
+          "denominator": 1106,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.06708860759493973,
+          0.0018083182640144665,
+          0.0,
+          0.5454545454545467,
+          0.0009188523037982773,
+          43
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "5bbc6cd0a019ac5c8b057c09583364e64ff8be0116afe720ba0d5e0ea44873aa",
+        "scopeId": "VOLTE-MD-RIB",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "241ebd20-892e-31bb-b9f6-40a58f4d0665",
+          "995d4ed5-58e6-3ee6-9644-14933b6bf144",
+          "cef2dba1-98fd-3db9-8a9c-2765513199cb"
+        ],
+        "coverageId": "314a4e1008e0142f62a2c7e626b7ac99386ea7b33e5c492c7349dfc105fb2415",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.4097807757167,
+          "baseline": 99.3,
+          "deltaPp": 0.1097807757167,
+          "delayRatio": null,
+          "numerator": 1179,
+          "denominator": 1186,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.10978077571670042,
+          0.0016863406408094434,
+          0.0,
+          0.5454545454545467,
+          0.0009907748927067768,
+          43
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "0b3e2e1f2673e4dbc7fdf5ce4573c3c2c8463f7ff66eb71134423ff9bfdac807",
+        "scopeId": "VOLTE-MD-SOR",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "95f0b17e-aa4f-367f-b85b-2775367b8ece",
+          "ad4d1dc7-c037-3e63-830c-122d5d2b85ae",
+          "d08d40f9-94a6-3150-a11d-79a770f4e7c4"
+        ],
+        "coverageId": "30f84da26766c55869063ad9764d3b041750f0b666c9c8de4840b219b0d358d3",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.16666666666667,
+          "baseline": 99.3,
+          "deltaPp": -0.13333333333333,
+          "delayRatio": null,
+          "numerator": 1190,
+          "denominator": 1200,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.13333333333332575,
+          0.0016666666666666668,
+          0.0,
+          0.5454545454545467,
+          0.0014624894477680765,
+          33
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "1e0e056ea73b1bea1f40a997d6e85e6f677f31c9b86905fb93501689cd08218b",
+        "scopeId": "VOLTE-MD-TIR",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "b23cd378-736d-3477-8ae0-494958ee685e",
+          "bb73a099-adba-3130-80d2-d62ece8310a1",
+          "beca9dfe-cad7-3cf4-914d-ea085dc2a296"
+        ],
+        "coverageId": "daa0b809f06d5b82dd358fc32fbfb65c17d8da717c9797d4ccda3565c28c4419",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.25,
+          "baseline": 99.3,
+          "deltaPp": -0.05,
+          "delayRatio": null,
+          "numerator": 1191,
+          "denominator": 1200,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.04999999999999716,
+          0.0016666666666666668,
+          0.0,
+          0.5454545454545467,
+          0.0013954095176895564,
+          32
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "ef2f810cf6f89f66797e8968eff3bbc9833c6c20e9fbf9939d1291269f8a689f",
+        "scopeId": "VOLTE-MD-UNG",
+        "windowStart": "2026-10-06T19:45:00Z",
+        "windowEnd": "2026-10-06T19:46:00Z",
+        "sourceEventIds": [
+          "300ce384-d8e7-3771-a461-daa3f4870278",
+          "d0ddaee6-1f92-3262-b625-5bba36e6a825",
+          "d61abb14-059f-324a-b88f-be81811ddae4"
+        ],
+        "coverageId": "b580f71028c95108b45378a8dbad0ab45b6723b437839859078ac9b42adc6c38",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22010398613519,
+          "baseline": 99.3,
+          "deltaPp": -0.07989601386481,
+          "delayRatio": null,
+          "numerator": 1145,
+          "denominator": 1154,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.07989601386481127,
+          0.0017331022530329288,
+          0.0,
+          0.5454545454545467,
+          0.0006838513675750534,
+          39
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "63cc3acf32c5eca062d63da4b83f366e7f91a8e5a28585e50a63748e7c5a1818",
+        "scopeId": "SMS-MD-BAL",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "1fa9df65-ffce-3696-8e8d-2a0a0f61b212",
+          "4bb8b078-640c-3966-9b74-e37980717a1f"
+        ],
+        "coverageId": "3c8d71bbbbd9b11fc015ff99266759e5230b89fc2963b0c5c8abc5c10e7e397c",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3401,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7005,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 108,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.7005,
+          3401,
+          0,
+          0,
+          0.48453608247422153,
+          108
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "007fdc29e0d9a79aab9783850888bc5f2d6f9860eec6da51394896be9e4d59e5",
+        "scopeId": "SMS-MD-CAH",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "82484749-9eda-3f67-84d1-7e4a3f3faf71",
+          "990e6538-a3ed-3c16-8612-f64a8782fd86"
+        ],
+        "coverageId": "7eb20980c18b99a0b21c0c2bfba4b195206d5adf6dc913b7a688505f8bd61994",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3387,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6935,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 85,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6935,
+          3387,
+          0,
+          0,
+          -0.36363636363635976,
+          85
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "22b441e9d6d35cbae7fe37d463333f5b61bf8e9511b9253a8224348bae669b77",
+        "scopeId": "SMS-MD-CHI",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "4655886b-d3f7-30ec-bc58-0ffb6b91ef86",
+          "f80521a7-86d3-3e45-8095-b2a2a4e5fa8a"
+        ],
+        "coverageId": "7bede643a1d071641eaa43c80fb0ff9a87fd89ada7fcae387e0d06e7676fcec9",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3405,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7025,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 108,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.7025,
+          3405,
+          0,
+          0,
+          -0.470588235294116,
+          108
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "31f52ac3de6e87b04256b9129d86b02bb4e55a270a3954b450f9bbef52ca4b6f",
+        "scopeId": "SMS-MD-COM",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "152190aa-cff4-3f75-b63b-73cb9a6c8d1a",
+          "2f9647c5-0767-3e94-9a11-d51da81624d3"
+        ],
+        "coverageId": "285bddc28ce3bcd832e868a70bc7005125b6bc65ae55f47a2ce02b331a6f192c",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3340,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.67,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 118,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.67,
+          3340,
+          0,
+          0,
+          -0.36986301369863384,
+          118
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "4d30eb0907ba97d6511081c151883c3e63939a9c97eaf089712c4ed30d423b31",
+        "scopeId": "SMS-MD-EDI",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "a92b080e-db72-327b-b306-c05a74813989",
+          "f2fc226c-03e4-3ebc-8049-a948ed263ed4"
+        ],
+        "coverageId": "3539c6c9e4dcbf9491f31b10a89a0ffc12a40f6e437859fdf6726b6c8f0b940c",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3453,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7265,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 94,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.7265,
+          3453,
+          0,
+          0,
+          -1.0202020202020208,
+          94
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "71a07498309b01d3cd2b5ad3cd3d1fb3faa012e3af37e0d4996eb6de9e814700",
+        "scopeId": "SMS-MD-ORH",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "3f2c7ce7-388a-3540-bdfd-fe5cddb3a42f",
+          "e1ef20a5-a1ad-31a1-9e4c-3fb57452cb8d"
+        ],
+        "coverageId": "dee3a226252ebef280bf06ccaa928339ce56382b406050f6f5709fa3770be434",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3401,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7005,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 101,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.7005,
+          3401,
+          0,
+          0,
+          -0.025641025641021997,
+          101
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "e98e650b5458a80246fcd4758ffe9b624f7ab5c3de2124504bec61bd0e1f4641",
+        "scopeId": "SMS-MD-RIB",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "5ce665da-e808-3114-9f38-bddaad7dc8df",
+          "f6f1269f-4664-3c99-8e97-b71a842fd9bc"
+        ],
+        "coverageId": "d21d7bf2f5b78039fee37232acce42100e08964c508943d048a7b7608bacd850",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3369,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6845,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 109,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6845,
+          3369,
+          0,
+          0,
+          1.0,
+          109
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "cce244db2c16d0451509353c2495afc55c970f674fd86261c4ec812c84baaf62",
+        "scopeId": "SMS-MD-SOR",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "6f7c891b-eccd-393d-8840-e75f1082dea8",
+          "bfcc420c-bb75-3d44-b958-46e06f923258"
+        ],
+        "coverageId": "9c6d8048d9f706a0ebaba18d7f93509745285b1cd09e98308d66d29c260ebb49",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3406,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.703,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 81,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.703,
+          3406,
+          0,
+          0,
+          -0.4423076923076934,
+          81
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "5dd124b48fec88ba3e47f24743a60232989ea457e1c9d60ef3a97cec3f6783a7",
+        "scopeId": "SMS-MD-TIR",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "b5513a12-6d07-3df3-963e-695952d6391c",
+          "de4907b8-8ca1-3d34-a5a6-703e51673e13"
+        ],
+        "coverageId": "5bfc9769d6ae19506e45c81327be776a159b77f9ec8fef416877d848dab3be68",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3433,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7165,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 111,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.7165,
+          3433,
+          0,
+          0,
+          0.4505494505494454,
+          111
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "a8264a0a77a8eff2a5107bcea6a658f14c72f805b4bc42d85db29ff2565daab3",
+        "scopeId": "SMS-MD-UNG",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "8ce29dec-0b20-374f-93d5-e636884e0f04",
+          "d15ca41f-b590-34e1-b64c-d9e2871d9471"
+        ],
+        "coverageId": "8a2ad99609dff0d7cef24d0a0213216d06022f3bb6c9970d54e311df9e9785ab",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3393,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6965,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 108,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6965,
+          3393,
+          0,
+          0,
+          0.08256880733945593,
+          108
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "e323171c3da8cb503f3df92902fe0ccc74735429c8f0aa216993b806d65aaa5c",
+        "scopeId": "VOLTE-MD-BAL",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "4b8ce72c-5221-30de-ad31-cce6d8b1b5fa",
+          "868ed8e5-7682-3a3f-abea-cf49bcae2df0",
+          "dae41e22-69e6-30a9-96a1-af02b6777fb9"
+        ],
+        "coverageId": "456740d168fe6de441bd478d854b855c3ca6de6ee4544c7a5ec51f961a7a3fb5",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.36479128856624,
+          "baseline": 99.3,
+          "deltaPp": 0.06479128856624,
+          "delayRatio": null,
+          "numerator": 1095,
+          "denominator": 1102,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.06479128856624072,
+          0.0018148820326678765,
+          0.0,
+          0.5454545454545467,
+          0.0007852197413256718,
+          39
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "9fe307fda777e62ff10a2abb2255a97c2329b1fd186d622af5bec597c66c8917",
+        "scopeId": "VOLTE-MD-CAH",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "2dd5810b-46a3-3bb0-9d67-e275d91ec93c",
+          "2e31a159-008d-3afc-b13d-2832cd7be724",
+          "4065d544-5ccb-391a-b43c-548ac44702cf"
+        ],
+        "coverageId": "50fdd7923581647d14451fb3a1f970b6f1b36be93ebbf7350aad121612ad778a",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.3322203672788,
+          "baseline": 99.3,
+          "deltaPp": 0.0322203672788,
+          "delayRatio": null,
+          "numerator": 1190,
+          "denominator": 1198,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.0322203672787964,
+          0.001669449081803005,
+          0.0,
+          0.5454545454545467,
+          0.0012307295609388948,
+          35
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "7db2d36aef9d28f73ea8bf4c37ee82e86889cc502703a102c848b98824b6d138",
+        "scopeId": "VOLTE-MD-CHI",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "7fe78078-3791-334d-9205-058b88e83a2b",
+          "a1699855-6745-3acb-875d-937858b41799",
+          "ebc562c1-e8c6-375f-8171-c1f28eb2cc4e"
+        ],
+        "coverageId": "7bcd7a2514efdc8931c58b72952b20d581bcafff1322f178b268f1c61889a7d9",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.27404718693285,
+          "baseline": 99.3,
+          "deltaPp": -0.02595281306715,
+          "delayRatio": null,
+          "numerator": 1094,
+          "denominator": 1102,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.025952813067149805,
+          0.0018148820326678765,
+          0.0,
+          0.5454545454545467,
+          0.0006210028644464942,
+          32
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "8bb86e58ff81a3e87eae41e10c58eb2f24d7e5e46d4d63a93ba8b055d3296c5e",
+        "scopeId": "VOLTE-MD-COM",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "24f59667-18fb-323e-b7be-795d2c1b07d1",
+          "3636ff9a-906b-3a31-b3be-356b2f3b6955",
+          "cd890829-edd7-39c1-b2cc-a15e27e0f3d6"
+        ],
+        "coverageId": "930ad8812445cc72371f68cddf9ab5ebdf415443d38de146b0459775aead5c61",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.23922231614539,
+          "baseline": 99.3,
+          "deltaPp": -0.06077768385461,
+          "delayRatio": null,
+          "numerator": 1174,
+          "denominator": 1183,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.06077768385461013,
+          0.0016906170752324597,
+          0.0,
+          0.5454545454545467,
+          0.0009720898468562297,
+          32
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "8dd3fff41ae9de4b9e7e34e4ab2a6496012db8ed9ccfe738170ce104f220ce5f",
+        "scopeId": "VOLTE-MD-EDI",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "2dabebd4-d0ed-3ecb-a5c4-d54b96c9df7c",
+          "91513702-0916-3f86-8a26-9b6d41c2d974",
+          "ec0db6c3-a82a-3420-ac4b-2703fb43f3c0"
+        ],
+        "coverageId": "f5adbeaacadf1602cb67ef2319914266ca04d8a73690bb62ed68759883964959",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.2194275802255,
+          "baseline": 99.3,
+          "deltaPp": -0.0805724197745,
+          "delayRatio": null,
+          "numerator": 1144,
+          "denominator": 1153,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.08057241977449792,
+          0.0017346053772766695,
+          0.0,
+          0.5454545454545467,
+          0.0008150299436187934,
+          35
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "c6cd7d474abb88bcdc4f2fc19a3d3914a929acf89c4f0c97220cdc89096fccbf",
+        "scopeId": "VOLTE-MD-ORH",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "44f3a940-27dd-3a04-8717-e2b7896c7370",
+          "574d9a47-4774-3c55-a2a5-5642d0c2c9ab",
+          "7a588e46-9abd-3f17-9016-f326c46b4cde"
+        ],
+        "coverageId": "14a5e6b01b22fd9e1b2fa147193be5bd01106e4e0cbdfb1a39c69c38c575d3b5",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.3322203672788,
+          "baseline": 99.3,
+          "deltaPp": 0.0322203672788,
+          "delayRatio": null,
+          "numerator": 1190,
+          "denominator": 1198,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.0322203672787964,
+          0.001669449081803005,
+          0.0,
+          0.5454545454545467,
+          0.0012024376095694737,
+          32
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "7df316159871eb563136d28e390c3fcfd239fc266d7b07cbabfd3df3439313e0",
+        "scopeId": "VOLTE-MD-RIB",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "7138f219-c7b3-3971-b7d2-7c30acaedf42",
+          "d3ee61e4-40d4-37b9-a2b4-c4340070bc25",
+          "ff92096c-d97f-3d34-bc44-97fbcaf96453"
+        ],
+        "coverageId": "af35335b86aa26ddd2366fb3798c63727a6b720c975deaa445d0f04d56181aae",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22413793103448,
+          "baseline": 99.3,
+          "deltaPp": -0.07586206896552,
+          "delayRatio": null,
+          "numerator": 1151,
+          "denominator": 1160,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.07586206896552028,
+          0.0017241379310344827,
+          0.0,
+          0.5454545454545467,
+          0.0007522717753640925,
+          39
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "0f4d6d64112354abe2505c4cdb0826e0b95b39505144180df9bf6a1af8aad931",
+        "scopeId": "VOLTE-MD-SOR",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "1843d68a-59fd-3160-9b62-4e28ac30bb52",
+          "cf0376a6-2dc2-3374-a5c4-e2ebe17e6e8a",
+          "eb9d4326-5f5c-3b33-b180-f47261291d4c"
+        ],
+        "coverageId": "1248e90f6aa59a307d0c041888c9b105a04542ae6e2860e4fa356f24114078c5",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38488576449912,
+          "baseline": 99.3,
+          "deltaPp": 0.08488576449912,
+          "delayRatio": null,
+          "numerator": 1131,
+          "denominator": 1138,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.08488576449911989,
+          0.0017574692442882249,
+          0.0,
+          0.5454545454545467,
+          0.0009541974083077404,
+          42
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "98967be81c57e97aad18f28e26a734ea7214b6bd45eab46876d2ad84a81a7371",
+        "scopeId": "VOLTE-MD-TIR",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "5a2a9321-2602-309c-b9b9-846615968179",
+          "b8784a31-d4d0-325f-b79d-d0216383ecbd",
+          "c46a9e7d-03cd-30b9-b3dc-d221648775b6"
+        ],
+        "coverageId": "3923c5c0235b8a32a3b276627077fb30899406b03200682bda8b644dae227eb0",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.23011120615911,
+          "baseline": 99.3,
+          "deltaPp": -0.06988879384089,
+          "delayRatio": null,
+          "numerator": 1160,
+          "denominator": 1169,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.06988879384088875,
+          0.001710863986313088,
+          0.0,
+          0.5454545454545467,
+          0.0005755724724100942,
+          43
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "0da1f06ba44036c6041be4d0ab4fd313034b037367dfeade4a39c694dd933eb9",
+        "scopeId": "VOLTE-MD-UNG",
+        "windowStart": "2026-10-06T19:46:00Z",
+        "windowEnd": "2026-10-06T19:47:00Z",
+        "sourceEventIds": [
+          "43f70c8f-d1d5-3b63-99ee-0cb0c2a68066",
+          "acadafd5-ea88-3456-9a2c-110a9365fc91",
+          "ebeebcdc-3338-3309-baad-db07bbcb64c6"
+        ],
+        "coverageId": "fcf8d78a98a85ed631017eece1c8b1fa86ef71335f4e4c3339c204d777d4e207",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.32318104906938,
+          "baseline": 99.3,
+          "deltaPp": 0.02318104906938,
+          "delayRatio": null,
+          "numerator": 1174,
+          "denominator": 1182,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.0231810490693789,
+          0.001692047377326565,
+          0.0,
+          0.5454545454545467,
+          0.0005863303199384334,
+          36
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "5a50780fb8c9a2af39ad97924bfe741bbddb31f27d38b1ae97a5026566fc3688",
+        "scopeId": "SMS-MD-BAL",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "0e1301ec-f512-3e4e-bbb0-1576cb943492",
+          "256cc2be-479d-3c40-b12c-c566a30cd8e0"
+        ],
+        "coverageId": "5d833a85bc5c97ea80b8a7edc5a9e67440ee2a5d4a4899f8ff904844f490e6d3",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3373,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6865,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 96,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6865,
+          3373,
+          0,
+          0,
+          -0.8779342723004646,
+          96
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "9383a9b66e53e156c8fd989a587c62470fec3077b0fe437fc9060f3f531d36cf",
+        "scopeId": "SMS-MD-CAH",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "5c287cc7-cce4-344e-b509-6d2ff5ad64be",
+          "e215daea-b97c-3db3-94d0-f219c8c1e39d"
+        ],
+        "coverageId": "6ff76110c3a3c469f730b0ceb4baf3e19ea14dbce06bb7ae41005000790c548d",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3373,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6865,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 81,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6865,
+          3373,
+          0,
+          0,
+          -0.5,
+          81
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "0076671227ef1c54fd8e5c5b4422b8c3b63feac69b485d221d5bd43f45d6a32b",
+        "scopeId": "SMS-MD-CHI",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "85082688-d4cd-31c3-bdd8-23d50198604e",
+          "d1670a11-6824-3b8b-a54c-30ac399816fc"
+        ],
+        "coverageId": "e1a9aa74a3b11671c42bd67548717d7f869ec0867127f1a0798aa7f2ce67148c",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3429,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7145,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 91,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.7145,
+          3429,
+          0,
+          0,
+          0.5073891625615801,
+          91
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "a012cb61ad94eb9560032948e0de21fe72661d3d7c1fd85761f821f16d841d15",
+        "scopeId": "SMS-MD-COM",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "43ce2831-781e-3fcc-b88c-308e34ad894f",
+          "67db2e04-7756-3271-b3fb-734412cf2710"
+        ],
+        "coverageId": "8714790e433703e76d9516da264cdde3a0d2c92ad865a876776ae0cdc1ace63f",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3240,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.62,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 83,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.62,
+          3240,
+          0,
+          0,
+          1.0,
+          83
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "beaff676b4903feed7f3685f456d2c831ccd052f134fb33114e1730925984276",
+        "scopeId": "SMS-MD-EDI",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "4e930585-964b-3506-b90f-acd312f1a417",
+          "b1d6821c-c6bf-3e5d-9a73-58727b61a9ba"
+        ],
+        "coverageId": "d5c80366c0350237688ca9ecce8ea38cd1f393050c2bcda3fc107183823ee6d5",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3312,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.656,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 119,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.656,
+          3312,
+          0,
+          0,
+          -0.5228426395939039,
+          119
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "1fe7e58ccdebb207d929ca4c78b2a21bb97f19415cdcda726b163dead5adf8d5",
+        "scopeId": "SMS-MD-ORH",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "1835938d-3429-30ff-bd07-d4516f6b7ecc",
+          "e7bf5f26-e4d3-3aaa-9122-f4931e1d3cea"
+        ],
+        "coverageId": "ee7b397246540d008ad3d8958031a750114bd7c3801d47a33969b8759fbbca6d",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3340,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.67,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 118,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.67,
+          3340,
+          0,
+          0,
+          1.0,
+          118
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "daf601e423fda27a95a54407c6864b2de9377ccada3024922fc2649aeab9fbc5",
+        "scopeId": "SMS-MD-RIB",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "2876c8b2-022a-358c-a11d-8101fbe8353a",
+          "3487a11c-a6c8-37f4-b41a-4d09f977a3ab"
+        ],
+        "coverageId": "670613e9a446cd656812505ab44faa98d47d436dcbc26660896533aec7c51b3b",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3334,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.667,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 96,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.667,
+          3334,
+          0,
+          0,
+          -0.4925373134328339,
+          96
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "983700746998df35ea7d04cbb61a79fc3e34931d67bbf1082b3649ff4e713900",
+        "scopeId": "SMS-MD-SOR",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "4bebf293-6fb1-371e-ac8c-816a394bec30",
+          "cc5a9664-f9c1-3334-a08a-ad5eea4062e9"
+        ],
+        "coverageId": "3ff87d7e295a4b850897b344d72fdb0f26c2bb1222966fd9ca7037f00862862a",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3295,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6475,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 85,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.6475,
+          3295,
+          0,
+          0,
+          -0.07526881720430367,
+          85
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "6a514f8cb069a30be08559b5186e00f8b9bc8ec493303ac16c46a746a265d350",
+        "scopeId": "SMS-MD-TIR",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "14db8358-54ec-34bc-a556-4fe78f01f08b",
+          "d5c6d729-142f-321e-8baf-eb81c35b5380"
+        ],
+        "coverageId": "c57c181d4a01901c069a7dccd0906b07f7444855f2a7699905dd0ff9253fe51e",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3308,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.654,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 82,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.654,
+          3308,
+          0,
+          0,
+          0.46808510638297207,
+          82
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "91782783fb81ac4a70096e0ced6968894751ae0d857174c2f60ac2a36192f85c",
+        "scopeId": "SMS-MD-UNG",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "1c7dd540-1b0a-305a-ad34-204293e797f2",
+          "6aed5f8c-2aa5-3861-acab-96d2daecfee5"
+        ],
+        "coverageId": "354e05c8afc868db6634c70aa15949678281d4774142b519f0dc30b2eed5b8fa",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3414,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.707,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 118,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "SMS-MD-ROUTE-A",
+        "featureValues": [
+          1.707,
+          3414,
+          0,
+          0,
+          -0.4563106796116472,
+          118
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "474db0ce982dca597ce3f60cddcd04fb6ffdc155af462f43380d100ab3f76eac",
+        "scopeId": "VOLTE-MD-BAL",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "04241fc5-7354-3ed2-9064-5eaf08f8a71d",
+          "cb136c64-16c7-3fa1-aa5b-33de3d23ff0d",
+          "fd57bec7-5ce3-37f8-bb50-b07145935261"
+        ],
+        "coverageId": "f42b159de0cd8221cc6f3704fbf21f785ff235d2a3d4e378eebb2940d944546f",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38650306748467,
+          "baseline": 99.3,
+          "deltaPp": 0.08650306748467,
+          "delayRatio": null,
+          "numerator": 1134,
+          "denominator": 1141,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.08650306748467074,
+          0.0017528483786152498,
+          0.0,
+          0.5454545454545467,
+          0.0011996782931221381,
+          37
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "9bc6423423ba152f29a342d63f0bb830e793dd8432ee8d7b5aa82c5dc3b6ec4e",
+        "scopeId": "VOLTE-MD-CAH",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "175a6cc1-4b17-3587-8dd9-99d52fd07d64",
+          "2648f0d2-55e7-35b5-917f-ebcbc04579be",
+          "39b425f7-30fa-3537-87c9-14d0ddf30147"
+        ],
+        "coverageId": "a5c329b811bee3a1657215dd153b7074c3555f196f823252ee0bb379f97834c8",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.1971454058876,
+          "baseline": 99.3,
+          "deltaPp": -0.1028545941124,
+          "delayRatio": null,
+          "numerator": 1112,
+          "denominator": 1121,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.10285459411240083,
+          0.001784121320249777,
+          0.0,
+          0.5454545454545467,
+          0.0009990801943774506,
+          42
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "b0846696c9f5837a12ba11931bf1c54946663344c81b99ee458086d325187a5a",
+        "scopeId": "VOLTE-MD-CHI",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "00412148-220b-3bee-8081-8f01f06b19a6",
+          "76dbce88-301a-3d86-8c3b-ee933feddf06",
+          "89cb374d-4b19-39f8-a4bf-351ec43467c6"
+        ],
+        "coverageId": "589b1b5fb064bcf9233468b100afb3f5bf3c1d02b927dedac1098fd947a78a2e",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.29762949956101,
+          "baseline": 99.3,
+          "deltaPp": -0.00237050043899,
+          "delayRatio": null,
+          "numerator": 1131,
+          "denominator": 1139,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.0023705004389853457,
+          0.001755926251097454,
+          0.0,
+          0.5454545454545467,
+          0.0014058727295238956,
+          45
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "9daac418993875d213c0acc05e50037297658065957624b70cdc15da7a742a4e",
+        "scopeId": "VOLTE-MD-COM",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "233ec453-9340-3890-8423-af6bce1cf892",
+          "b8d68cc8-d6a3-3f6a-a464-a5a3d335862e",
+          "c6bb519c-aeff-3011-8249-52be2d5cb33a"
+        ],
+        "coverageId": "4e0a318a7082b042112c85e6f97d25a30c32160746ea716303d994521bb396a5",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.32318104906938,
+          "baseline": 99.3,
+          "deltaPp": 0.02318104906938,
+          "delayRatio": null,
+          "numerator": 1174,
+          "denominator": 1182,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.0231810490693789,
+          0.001692047377326565,
+          0.0,
+          0.5454545454545467,
+          0.0005796433415923312,
+          41
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "1a29cfbf314f105b4311624a2f7b23564c1b5354b895bf37b8b371fbd6705750",
+        "scopeId": "VOLTE-MD-EDI",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "06b2fb7c-e5f6-318d-9eab-7de1440d9f40",
+          "280a90ce-c4d4-3991-a1a4-cdedde4abbae",
+          "6fa3f071-5932-3fc0-9a09-59849e363115"
+        ],
+        "coverageId": "b72c7d83a85d9df4c48fac2aa0cdcafa8010966563791b097de743c16eafaa24",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.40425531914893,
+          "baseline": 99.3,
+          "deltaPp": 0.10425531914893,
+          "delayRatio": null,
+          "numerator": 1168,
+          "denominator": 1175,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.10425531914893327,
+          0.001702127659574468,
+          0.0,
+          0.5454545454545467,
+          0.0008838396360404863,
+          39
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "250d8c54a37c1bd16ed542d6780d3190f1a90fb869fba2a352492ce3e4c7d99b",
+        "scopeId": "VOLTE-MD-ORH",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "7aaa6ad5-ca7e-3cc7-8c6c-1227d6a098c4",
+          "ea7c48e8-ddd0-3499-8805-8fc26d723ce0",
+          "fe2a2f20-d696-3b94-b182-e62b5007c9dd"
+        ],
+        "coverageId": "22226fe8ade502f3ddea3dbf98a9018aec741cf851977a4b071c90e0d142c50c",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.28507596067918,
+          "baseline": 99.3,
+          "deltaPp": -0.01492403932082,
+          "delayRatio": null,
+          "numerator": 1111,
+          "denominator": 1119,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.014924039320817428,
+          0.0017873100983020554,
+          0.0,
+          0.5454545454545467,
+          0.0005825855622018265,
+          37
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "35df4b7a454dc2c227c4a9d02d7f14e0daa3529df06867332124dca085444f48",
+        "scopeId": "VOLTE-MD-RIB",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "37c11a21-7541-32ca-a914-9bf64a8c7f42",
+          "4c64c20a-1cec-3193-8ca9-afbe090c7453",
+          "70997db6-8fd3-328c-9d70-40fcaf4b8998"
+        ],
+        "coverageId": "bf01671b8e54490a1b61458c3204982e5660603ff88549ecbae5c29ed104d7f6",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.32318104906938,
+          "baseline": 99.3,
+          "deltaPp": 0.02318104906938,
+          "delayRatio": null,
+          "numerator": 1174,
+          "denominator": 1182,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.0231810490693789,
+          0.001692047377326565,
+          0.0,
+          0.5454545454545467,
+          0.0006524225223929869,
+          30
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "5c21f2279041971b633a055a3972075acaaf5e2dc63a0a9d531cc49bea5cecb7",
+        "scopeId": "VOLTE-MD-SOR",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "55ee3195-fded-39f8-b3a8-aac27c68052c",
+          "8a4b4033-37f8-34ef-bc6e-3b16d0d2c39d",
+          "a908bd86-4928-37cb-8408-57a6115fcdc1"
+        ],
+        "coverageId": "afa6b3adf18b1d5c5880135cd04aee5980ef45c603cdaa46c5e857ec2a7cc924",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.36708860759494,
+          "baseline": 99.3,
+          "deltaPp": 0.06708860759494,
+          "delayRatio": null,
+          "numerator": 1099,
+          "denominator": 1106,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.06708860759493973,
+          0.0018083182640144665,
+          0.0,
+          0.5454545454545467,
+          0.0010069384111217657,
+          42
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "e87a5efd5f159de7c3c06caf659c7f6eea2e03d46e92b7a945f06a3c3f155d9a",
+        "scopeId": "VOLTE-MD-TIR",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "27c70114-35ac-36b9-b42e-9ab2d812da43",
+          "3a886291-b5aa-3483-9523-9a485a0cd328",
+          "3f8ce282-e2db-3055-88de-8be3d3bcf093"
+        ],
+        "coverageId": "5af5f821360dd6adc024bb2f3662c1288c79c1512ccc007c7167b66d3aa44531",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.31856899488926,
+          "baseline": 99.3,
+          "deltaPp": 0.01856899488926,
+          "delayRatio": null,
+          "numerator": 1166,
+          "denominator": 1174,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          0.018568994889264445,
+          0.0017035775127768314,
+          0.0,
+          0.5454545454545467,
+          0.0012563249162255347,
+          37
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      },
+      {
+        "windowId": "8be26f5835be8ca647ba192b76d8ca83d4dd5160d57c02155cbe63c7c9b66579",
+        "scopeId": "VOLTE-MD-UNG",
+        "windowStart": "2026-10-06T19:47:00Z",
+        "windowEnd": "2026-10-06T19:48:00Z",
+        "sourceEventIds": [
+          "2de31735-76e4-34a0-b029-9910686f15e9",
+          "4409d8d1-6e30-32e3-a276-44260ec57cf6",
+          "9b9bfb5f-0269-3cad-9a5c-3a42f53feafd"
+        ],
+        "coverageId": "c0cf55c06c72c3cbb9f1bdb4ecb7919857babd70b520b71d624d1df5b90ce1c8",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        },
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.29824561403508,
+          "baseline": 99.3,
+          "deltaPp": -0.00175438596492,
+          "delayRatio": null,
+          "numerator": 1132,
+          "denominator": 1140,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "baselineStatus": "PEER",
+        "baselineSourceScope": "VOLTE-MD-CENTRAL",
+        "featureValues": [
+          -0.0017543859649151727,
+          0.0017543859649122807,
+          0.0,
+          0.5454545454545467,
+          0.0009708335856318769,
+          40
+        ],
+        "mlEligible": true,
+        "evaluated": true,
+        "publishedFacts": 2
+      }
+    ]
+  },
+  "ui": {
+    "authenticated": true,
+    "consoleErrors": [],
+    "serviceFilters": [
+      "VOLTE",
+      "SMS",
+      "ALL"
+    ],
+    "cities": [
+      {
+        "cityId": "BAL",
+        "name": "Bălți",
+        "disposition": "MAPPING_PENDING",
+        "details": "Bălți service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "CAH",
+        "name": "Cahul",
+        "disposition": "MAPPING_PENDING",
+        "details": "Cahul service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "CHI",
+        "name": "Chișinău",
+        "disposition": "MAPPING_PENDING",
+        "details": "Chișinău service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "COM",
+        "name": "Comrat",
+        "disposition": "MAPPING_PENDING",
+        "details": "Comrat service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "EDI",
+        "name": "Edineț",
+        "disposition": "MAPPING_PENDING",
+        "details": "Edineț service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "ORH",
+        "name": "Orhei",
+        "disposition": "MAPPING_PENDING",
+        "details": "Orhei service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "RIB",
+        "name": "Rîbnița",
+        "disposition": "MAPPING_PENDING",
+        "details": "Rîbnița service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "SOR",
+        "name": "Soroca",
+        "disposition": "MAPPING_PENDING",
+        "details": "Soroca service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "TIR",
+        "name": "Tiraspol",
+        "disposition": "MAPPING_PENDING",
+        "details": "Tiraspol service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      },
+      {
+        "cityId": "UNG",
+        "name": "Ungheni",
+        "disposition": "MAPPING_PENDING",
+        "details": "Ungheni service detail\nClear city selection\n\nMapping pending. No city values are inferred from regional scopes."
+      }
+    ],
+    "acceptance": "PENDING_FRONTEND_INTEGRATION: existing dashboard live bindings are empty; no false healthy city values."
+  },
+  "ownerReview": {
+    "Ion": "PENDING",
+    "Denis": "PENDING",
+    "David": "PENDING",
+    "Stanislav": "PENDING"
+  }
+}

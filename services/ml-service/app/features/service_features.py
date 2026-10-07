@@ -1,6 +1,8 @@
 """Pure version-2 features from canonical observations; no training or inference."""
 
-from datetime import datetime
+import copy
+from datetime import datetime, timedelta
+from functools import lru_cache
 from hashlib import sha256
 import json
 import math
@@ -10,7 +12,10 @@ import sys
 ROOT = Path(__file__).resolve().parents[4]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+if str(ROOT / 'scripts') not in sys.path:
+    sys.path.insert(0, str(ROOT / 'scripts'))
 from scripts.observation_contract import ObservationBatch, SCOPES, read_json
+from scripts.geography_contract import authority_scopes, resolve, validate_catalogue
 from jsonschema import Draft202012Validator, FormatChecker
 
 ORDER = read_json(ROOT / 'contracts/features/feature-order-v2.json')
@@ -18,6 +23,30 @@ TOPOLOGY = read_json(ROOT / 'contracts/topology/demo-scopes-v2.json')
 OUTPUT = Draft202012Validator(
     read_json(ROOT / 'contracts/features/service-feature-window-v2.schema.json'),
     format_checker=FormatChecker())
+
+
+class FeatureContext:
+    """A captured authority snapshot; callers opt into city inputs explicitly."""
+    def __init__(self, topology=TOPOLOGY, catalogue=None):
+        self._topology = copy.deepcopy(topology)
+        self._catalogue = copy.deepcopy(catalogue if catalogue is not None else read_json(
+            ROOT / 'contracts/geography/demo-geography-v1.json'))
+        self._geographic = read_json(ROOT / 'contracts/topology/geographic-scopes-v2.json')
+        validate_catalogue(self._catalogue, self._geographic)
+        if self._topology not in (TOPOLOGY, self._geographic):
+            raise ValueError('Unreviewed feature topology')
+        self.scopes = authority_scopes(self._topology)
+        self.topology_version = self._topology['topologyVersion']
+
+    @lru_cache(maxsize=64)
+    def role_node(self, scope, role):
+        target = resolve(self._catalogue, self._geographic, scope, role)
+        if target not in self.scopes[scope]['nodes']:
+            raise ValueError('Feature role/source authority mismatch')
+        return target['nodeId']
+
+
+DEFAULT_CONTEXT = FeatureContext()
 
 
 def _ratio(numerator, denominator, scale=1):
@@ -28,7 +57,7 @@ def _delta(observed, baseline):
     return observed - baseline if observed is not None and baseline is not None else None
 
 
-def _baseline_values(context, raw):
+def _baseline_values(context, raw, scopes):
     start = datetime.fromisoformat(raw['windowStart'])
     if (context['scopeId'] != raw['scopeId'] or context['service'] != raw['service']
             or context['hourOfWeek'] != start.weekday() * 24 + start.hour):
@@ -45,7 +74,7 @@ def _baseline_values(context, raw):
     if context['status'] == 'DIRECT' and context['sourceScopeId'] != raw['scopeId']:
         raise ValueError('Direct baseline must belong to this scope')
     if context['status'] == 'PEER':
-        peer = SCOPES.get(context['sourceScopeId'])
+        peer = scopes.get(context['sourceScopeId'])
         if peer is None or peer['service'] != raw['service'] or context['sourceScopeId'] == raw['scopeId']:
             raise ValueError('Peer baseline must identify another scope of the same service')
     expected = {'cssrPct', 'rrcSrPct', 'bearerSrPct'} if raw['service'] == 'VOLTE' else {'p95DeliveryMs', 'deliverySrPct'}
@@ -58,20 +87,35 @@ def _baseline_values(context, raw):
     return values
 
 
-def build_features(observation, node_observations, baseline):
+def build_features(observation, node_observations, baseline, *, context=DEFAULT_CONTEXT):
     """Return a canonical window from a resolved BaselineRegistry context.
 
     Valid but unaligned node intervals are ignored, unauthorized input is rejected.
     COMPLETE describes service coverage; missing nodes independently disable ML.
     """
     json.dumps([observation, node_observations, baseline], allow_nan=False)
-    batch = ObservationBatch()
+    batch = ObservationBatch(context.scopes)
     batch.accept(observation)
     if observation['kind'] != 'SERVICE':
         raise ValueError('Expected SERVICE observation')
-    values = _baseline_values(baseline, observation)
+    return _build(observation, node_observations, baseline, context, batch, {observation['eventId']})
+
+
+def build_missing_features(scope, start, end, node_observations, baseline, *, context=DEFAULT_CONTEXT):
+    """Inferred SERVICE absence: no fabricated observation or service event ID."""
+    beginning, ending = datetime.fromisoformat(start), datetime.fromisoformat(end)
+    if (beginning.utcoffset() != timedelta(0) or beginning.second or beginning.microsecond
+            or ending - beginning != timedelta(minutes=1)):
+        raise ValueError('Expected one aligned UTC minute')
+    service = context.scopes[scope]['service']
+    envelope = dict(scopeId=scope, service=service, windowStart=start, windowEnd=end, quality='MISSING')
+    json.dumps([envelope, node_observations, baseline], allow_nan=False)
+    return _build(envelope, node_observations, baseline, context, ObservationBatch(context.scopes), set())
+
+
+def _build(observation, node_observations, baseline, context, batch, source_ids):
+    values = _baseline_values(baseline, observation, context.scopes)
     nodes = {}
-    source_ids = {observation['eventId']}
     for node in node_observations:
         batch.accept(node)
         if node['kind'] != 'NODE':
@@ -109,9 +153,8 @@ def build_features(observation, node_observations, baseline):
         kpi('sip503Count', m.get('sip503Count'), 'COUNT')
         rrc = rate('rrcSrPct', 'rrcSuccesses', 'rrcAttempts')
         bearer = rate('bearerSrPct', 'bearerSuccesses', 'bearerAttempts')
-        # ponytail: fixed demo node roles; add inventory role metadata before supporting other node layouts.
-        loss = kpi('packetLossRatio', node_metric('TRANSPORT-A', 'packetLossRatio'), 'RATIO')
-        cpu = kpi('imsCpuPct', node_metric('IMS-A', 'cpuPct'), 'PERCENT')
+        loss = kpi('packetLossRatio', node_metric(context.role_node(observation['scopeId'], 'VOLTE_TRANSPORT'), 'packetLossRatio'), 'RATIO')
+        cpu = kpi('imsCpuPct', node_metric(context.role_node(observation['scopeId'], 'VOLTE_IMS'), 'cpuPct'), 'PERCENT')
         vector = [_delta(cssr, values.get('cssrPct')), sip, _delta(rrc, values.get('rrcSrPct')),
                   _delta(bearer, values.get('bearerSrPct')), loss, cpu]
     else:
@@ -121,8 +164,9 @@ def build_features(observation, node_observations, baseline):
                   'MILLISECONDS')
         sr = rate('deliverySrPct', 'deliverySuccesses', 'deliveryAttempts')
         delivered = kpi('deliveredMessages', m.get('deliveredMessages'), 'COUNT')
-        depth = kpi('queueDepth', node_metric('SMSC-A', 'queueDepth'), 'COUNT')
-        age = kpi('oldestPendingAgeSec', node_metric('SMSC-A', 'oldestPendingAgeSeconds'), 'SECONDS')
+        smsc = context.role_node(observation['scopeId'], 'SMS_SMSC')
+        depth = kpi('queueDepth', node_metric(smsc, 'queueDepth'), 'COUNT')
+        age = kpi('oldestPendingAgeSec', node_metric(smsc, 'oldestPendingAgeSeconds'), 'SECONDS')
         ratio = _ratio(p95, values.get('p95DeliveryMs')) if p95 is not None else None
         vector = [ratio, p95, depth, age, _delta(sr, values.get('deliverySrPct')), delivered]
     bounds = OUTPUT.schema['properties']['featureValues']['items']
@@ -132,7 +176,7 @@ def build_features(observation, node_observations, baseline):
     result = {key: observation[key] for key in ('scopeId', 'service', 'windowStart', 'windowEnd', 'quality')}
     result.update(schemaVersion=2, featureVersion=ORDER['featureVersion'],
                   windowId=sha256(json.dumps(identity, separators=(',', ':')).encode()).hexdigest(),
-                  baselineVersion=baseline['baselineVersion'], topologyVersion=TOPOLOGY['topologyVersion'],
+                  baselineVersion=baseline['baselineVersion'], topologyVersion=context.topology_version,
                   kpis=kpis, featureNames=ORDER['models'][observation['service']][:] if eligible else [],
                   featureValues=vector if eligible else [], mlEligible=eligible,
                   sourceEventIds=sorted(source_ids))

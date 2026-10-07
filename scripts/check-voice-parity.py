@@ -28,6 +28,9 @@ def compare(expected, actual, path=''):
         error = abs(expected - actual)
         assert error <= 1e-9, (path, expected, actual)
         return error
+    if type(expected) is int:
+        assert type(actual) in (int, float) and expected == actual, (path, expected, actual)
+        return 0
     assert expected == actual and (type(expected) is not bool or type(actual) is bool), (path, expected, actual)
     return 0
 
@@ -65,8 +68,14 @@ def reference_cases():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--java-output', default='services/processor/target/voice-parity-java.json')
+    parser.add_argument('--geographic', action='store_true', help='Compare the frozen city input matrix')
     args = parser.parse_args()
-    expected, actual = reference_cases(), read(args.java_output)
+    if args.geographic:
+        from geographic_feature_parity import reference_cases as geographic_cases
+        expected = geographic_cases('VOLTE')
+    else:
+        expected = reference_cases()
+    actual = read(args.java_output)
     assert expected.keys() == actual.keys()
     for name, reference in expected.items():
         error = compare(reference, actual[name], name)

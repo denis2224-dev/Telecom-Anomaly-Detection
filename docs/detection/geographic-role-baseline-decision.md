@@ -81,3 +81,25 @@ for semantic alignment, not a merged runtime consumer or a signature on Sergiu's
 Compatible readers precede city producers. Freeze effective UTC activation and keep old versions for historical evidence. Drain baseline work or
 prove version-aware reads before switching authority. Feature-off stops city production while compatible readers drain pending facts;
 do not downgrade to baseline-only processor code while city facts are queued. Stanislav records the combined integration/rollback gate and owner reviews.
+
+## Day 2 implementation on 6 October
+
+Main `cd5b013` includes Ion's activated authority/feature builder/monitoring changes
+and Denis's KPI/coverage geography projection. BaselineRegistry now selects the
+published peer candidate when an ACTIVE GeographyCatalog bean is present; geography
+remains opt-in and the no-argument registry retains legacy defaults. The original
+direct values, baseline-v2 label and candidate file bytes are unchanged.
+
+DetectionAuthority captures the published legacy and geographic topology snapshots.
+It selects them using the saved feature topologyVersion and verifies the resolved
+node/reporter against that snapshot. Historical accepted receipts are not filtered
+again by a later activation timestamp. DetectionWorker and both service rules use
+this authority and retain alignment, COMPLETE and event-contribution checks.
+
+Python's explicit FeatureContext uses the canonical catalogue resolver and preserves
+legacy callers. Fresh PostgreSQL exports match Python for all 62 geographic cases.
+All twenty city scopes also pass the real pinned HTTP scorer and changed-baseline
+rejection with deterministic fallback. This establishes contract compatibility,
+not geographic model generalization. Live city APIs have three consecutive complete
+minutes; the dashboard still has pending live bindings. Evidence and owner review
+disposition are in [the Day 2 record](../evidence/2026-10-06-sergiu-day2-role-aware-parity.md).
