@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests/e2e/specs', testMatch: 'demo-live.spec.ts',
+  testDir: './tests/e2e/specs', testMatch: ['demo-live.spec.ts', 'release-workflows.spec.ts'],
   outputDir: './test-results/demo-live', workers: 1, retries: 0, timeout: 12 * 60_000,
   expect: { timeout: 20_000 },
   use: {

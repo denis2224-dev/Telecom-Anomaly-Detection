@@ -190,6 +190,10 @@ for (const width of [1366, 768, 390]) {
     await expect(page).toHaveURL(/\/dashboard$/);
     await page.locator('dialog a[href="/incidents/00000000-0000-4000-8000-000000000001"]').click();
     await expect(page).toHaveURL(/\/incidents\/00000000-0000-4000-8000-000000000001$/);
+    await page.getByRole('button', { name: 'Details & workflow', exact: true }).click();
+    await expect(page.locator('app-incident-actions')).toContainText('Actions are unavailable in the fixture preview.');
+    await expect(page.locator('app-incident-actions button, app-incident-actions textarea, app-incident-actions select')).toHaveCount(0);
+    await page.keyboard.press('Escape');
     await page.goto('/dashboard');
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
     await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);
