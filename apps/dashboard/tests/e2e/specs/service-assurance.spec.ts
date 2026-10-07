@@ -39,7 +39,8 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     if (trajectory.service === 'SMS') await expect(page.locator('[data-node-id="TRANSPORT-A"]')).toContainText('NO CURRENT MEASUREMENT');
     if (latest) {
       await page.getByText('View incident evidence', { exact: true }).click();
-      await expect(page.locator('.incident-story')).toContainText(latest.probableCause);
+      await expect(page.locator('.incident-story')).toContainText(latest.phase === 'UNKNOWN' ? 'Cause undetermined' : latest.probableCause);
+      if (latest.phase === 'UNKNOWN') await expect(page.locator('.incident-story')).not.toContainText(latest.probableCause);
       await expect(page.locator('.incident-story')).not.toContainText('Supporting evidence');
       await expect(page.locator('.incident-story')).not.toContainText('Unique subscribers:');
       await expect(page.locator(`.incident-story[data-phase="${latest.phase}"]`)).toBeVisible();
