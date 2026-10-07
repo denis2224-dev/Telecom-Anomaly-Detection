@@ -1,0 +1,11 @@
+{
+  "accepted" : 500,
+  "dynamicScopes" : 250,
+  "meterIdentitiesAfter" : 18,
+  "deliveries" : 750,
+  "windows" : 250,
+  "successfulFinalizations" : 500,
+  "meterIdentitiesBefore" : 18,
+  "invalid" : 250,
+  "meterIds" : [ "MeterId{name='telecom.processor.finalizer.delay', tags=[]}", "MeterId{name='telecom.processor.finalizer.delay.histogram', tags=[tag(le=10)]}", "MeterId{name='telecom.processor.finalizer.delay.histogram', tags=[tag(le=30)]}", "MeterId{name='telecom.processor.finalizer.delay.histogram', tags=[tag(le=300)]}", "MeterId{name='telecom.processor.finalizer.delay.histogram', tags=[tag(le=3600)]}", "MeterId{name='telecom.processor.finalizer.delay.histogram', tags=[tag(le=60)]}", "MeterId{name='telecom.processor.finalizer.delay.histogram', tags=[tag(le=86400)]}", "MeterId{name='telecom.processor.finalizer.delay.histogram', tags=[tag(le=900)]}", "MeterId{name='telecom.processor.metrics.snapshot.age', tags=[]}", "MeterId{name='telecom.processor.observations', tags=[tag(outcome=accepted)]}", "MeterId{name='telecom.processor.observations', tags=[tag(outcome=duplicate)]}", "MeterId{name='telecom.processor.observations', tags=[tag(outcome=invalid)]}", "MeterId{name='telecom.processor.observations', tags=[tag(outcome=late)]}", "MeterId{name='telecom.processor.outbox.oldest.age', tags=[tag(queue=delivery)]}", "MeterId{name='telecom.processor.outbox.oldest.age', tags=[tag(queue=rejection)]}", "MeterId{name='telecom.processor.sources', tags=[tag(state=fresh)]}", "MeterId{name='telecom.processor.sources', tags=[tag(state=never_seen)]}", "MeterId{name='telecom.processor.sources', tags=[tag(state=stale)]}" ]
+}

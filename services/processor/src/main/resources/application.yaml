@@ -69,5 +69,7 @@ telecom:
     timeout: ${KAFKA_READINESS_TIMEOUT:2s}
     poll-interval: ${KAFKA_READINESS_POLL_INTERVAL:1s}
 logging:
+  pattern:
+    level: "%5p %kvp"
   level:
     org.apache.kafka: ERROR
