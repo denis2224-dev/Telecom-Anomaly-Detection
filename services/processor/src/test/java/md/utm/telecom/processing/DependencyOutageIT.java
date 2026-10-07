@@ -436,8 +436,10 @@ class DependencyOutageIT extends ReplayTestSupport {
         @Override @Bean TopologyCatalog topology() throws Exception { return geography().authority(); }
     }
     @Test void recordsDeliveryFairnessForAnUnavailableOutputStream() throws Exception {
-        // The first committed legacy KPI is older than the independent city coverage row.
-        seedOutputs(1);
+        // Both legacy windows precede the city row; the second must stay behind its failed head.
+        var legacyInputs = seedOutputs(2);
+        var legacy = rows("SELECT id,topic,kafka_key,payload FROM app.voice_delivery WHERE kafka_key=? ORDER BY (payload->>'windowStart')::timestamptz", scope("VOLTE"));
+        assertEquals(2, legacy.size());
         try (var geographic = new AnnotationConfigApplicationContext(GeographicConfig.class)) {
             var geography = geographic.getBean(GeographyCatalog.class);
             var generator = new VoiceScenario(JSON, new ObservationValidator(geography.authority()));
@@ -453,9 +455,13 @@ class DependencyOutageIT extends ReplayTestSupport {
                     .finalizeWindow("VOLTE-MD-CHI", START));
             geographic.getBean(md.utm.telecom.processing.detection.VoiceDeliveryService.class).evaluate("VOLTE-MD-CHI");
         }
-        assertEquals(3, pending());
+        assertEquals(4, pending());
         var coverage = rows("SELECT id,topic,kafka_key,payload FROM app.voice_delivery WHERE topic=?", COVERAGE);
         assertEquals(1, coverage.size());
+        var durable = rows("SELECT id,topic,kafka_key,payload FROM app.voice_delivery ORDER BY id");
+        var features = rows("SELECT * FROM app.feature_outbox ORDER BY window_id");
+        var jobs = rows("SELECT * FROM app.detection_job ORDER BY window_id");
+        var evaluated = rows("SELECT * FROM app.voice_evaluated_window ORDER BY window_id");
         // A real broker topic size constraint fails KPI sends; coverage and rejection topics stay available.
         var rejectedInputs = new ArrayList<Map<String, Object>>();
         try (var session = new Session()) {
@@ -466,34 +472,82 @@ class DependencyOutageIT extends ReplayTestSupport {
             assertEquals(2, session.acknowledgments.get());
         }
         var before = counts(); var scheduler = new VoiceDeliveryScheduler(delivery, jdbc, output);
-        try (var consumer = outputConsumer(INVALID)) {
+        try (var consumer = outputConsumer(INVALID);
+             var coverageConsumer = outputConsumer(COVERAGE);
+             var kpiConsumer = outputConsumer(KPIS)) {
             int originalMaximum = broker.getKafkaServer(0).logManager().getLog(new TopicPartition(KPIS, 0), false).get().config().maxMessageSize();
             Instant started = Instant.now(); Instant restoreRequested; Instant restored;
             topicMaximumBytes("128");
             var proof = new LinkedHashMap<String, Object>();
             try {
-                for (int attempt = 0; attempt < 3; attempt++) scheduler.poll();
-                assertEquals(3, pending()); noStuckClaim(); assertEquals(3, output.attempts.size());
-                assertFalse(output.failures.isEmpty());
-                assertTrue(output.attempts.stream().allMatch(row -> row.get("key").equals(scope("VOLTE"))));
-                assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE topic=? AND published_at IS NULL", Integer.class, COVERAGE));
+                var polls = new ArrayList<Map<String, Object>>();
+                for (int poll = 1; poll <= 3; poll++) {
+                    int previous = output.attempts.size(); scheduler.poll();
+                    var attempts = List.copyOf(output.attempts.subList(previous, output.attempts.size()));
+                    assertEquals(poll == 1 ? 3 : 2, attempts.size());
+                    assertEquals(1, attempts.stream().filter(row -> row.get("topic").equals(KPIS)
+                            && row.get("key").equals(scope("VOLTE"))).count(), "Failed legacy head gets one attempt per poll");
+                    assertFalse(attempts.stream().anyMatch(row -> row.get("payload")
+                            .equals(legacy.get(1).get("payload"))), "Same-stream tail must not bypass its failed head");
+                    assertEquals(attempts.size(), attempts.stream().map(row -> row.get("payload")).distinct().count());
+                    assertEquals(3, pending()); noStuckClaim();
+                    assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE topic=? AND published_at IS NULL", Integer.class, COVERAGE));
+                    polls.add(Map.of("poll", poll, "attempts", attempts, "counts", counts(), "claimsReleased", true));
+                    if (poll == 1) {
+                        var wire = KafkaTestUtils.getSingleRecord(coverageConsumer, COVERAGE, Duration.ofSeconds(10));
+                        assertEquals(coverage.getFirst().get("kafka_key"), wire.key());
+                        assertEquals(JSON.readTree((String) coverage.getFirst().get("payload")), JSON.readTree(wire.value()));
+                    }
+                }
+                assertEquals(6, output.failures.size());
+                assertTrue(output.failures.stream().allMatch(name -> name.equals("org.apache.kafka.common.errors.RecordTooLargeException")));
+                assertEquals(0, kpiConsumer.poll(Duration.ofMillis(300)).count(), "No constrained KPI was published");
+                assertEquals(0, coverageConsumer.poll(Duration.ofMillis(300)).count(), "Coverage is not republished on later polls");
                 assertEquals(1, new RejectionPublisher(jdbc, output, clock, INVALID, LATE, 1).poll());
                 assertEquals(1, pendingRejections(), "Real batch-size=1 must leave the second acknowledged rejection pending");
                 assertEquals("MALFORMED_JSON", JSON.readTree(KafkaTestUtils.getSingleRecord(consumer, INVALID).value()).path("reasonCode").asText());
-                proof.put("status", "DAY 17 EXTERNAL BLOCKER — F3 delivery fairness");
+                proof.put("status", "PASS — F3 delivery fairness repaired");
+                proof.put("mainFixCommit", "7e46521de1c12ed0a7431092b49cda315cd3c0c9");
                 proof.put("mechanism", "Real broker max.message.bytes=128 on telecom.kpis.v2; coverage/rejection topics unchanged");
                 proof.put("before", before); proof.put("afterThreePolls", counts());
+                proof.put("polls", polls); proof.put("sameStreamHeadAndTail", legacy);
+                proof.put("storedOutputs", durable);
                 proof.put("attempts", List.copyOf(output.attempts)); proof.put("failures", List.copyOf(output.failures));
-                proof.put("independentRejectionPublished", 1); proof.put("starvedCoverage", coverage);
-                proof.put("receivingOwner", "Sergiu"); proof.put("rejectedInputCoordinates", rejectedInputs);
+                proof.put("independentRejectionPublished", 1); proof.put("coveragePublishedInFirstPoll", coverage);
+                proof.put("productionFixOwner", "Sergiu"); proof.put("rejectedInputCoordinates", rejectedInputs);
             } finally {
                 restoreRequested = Instant.now(); topicMaximumBytes(Integer.toString(originalMaximum)); restored = Instant.now();
             }
+            int successesBeforeRestore = output.successfulSends.size();
             scheduler.poll(); assertEquals(0, pending()); noStuckClaim();
-            Instant firstRetry = output.successfulSends.get(1); // The earlier success was the independent rejection.
+            Instant firstRetry = output.successfulSends.get(successesBeforeRestore);
+            var wire = KafkaTestUtils.getRecords(kpiConsumer, Duration.ofSeconds(10), 3);
+            assertEquals(3, wire.count());
+            var ids = new java.util.HashSet<String>();
+            var legacyWire = new ArrayList<String>();
+            for (var record : wire) {
+                var value = JSON.readTree(record.value()); String id = value.required("windowId").asText();
+                assertTrue(ids.add(id), "Restoration must not duplicate a feature identity");
+                var committed = durable.stream().filter(row -> row.get("id").equals(id)).findFirst().orElseThrow();
+                assertEquals(committed.get("kafka_key"), record.key());
+                assertEquals(JSON.readTree((String) committed.get("payload")), value);
+                if (record.key().equals(scope("VOLTE"))) legacyWire.add(id);
+            }
+            assertEquals(legacy.stream().map(row -> (String) row.get("id")).toList(), legacyWire, "Kafka wire order follows windowStart within the stream");
             assertEquals(1, new RejectionPublisher(jdbc, output, clock, INVALID, LATE, 1).poll());
             assertEquals(0, pendingRejections());
             assertEquals("MALFORMED_JSON", JSON.readTree(KafkaTestUtils.getSingleRecord(consumer, INVALID).value()).path("reasonCode").asText());
+            for (var record : legacyInputs) assertEquals(DUPLICATE, ingestion.ingest(deliveryOf(record)).status());
+            int attemptsBeforeIdlePoll = output.attempts.size(); scheduler.poll();
+            assertEquals(attemptsBeforeIdlePoll, output.attempts.size());
+            assertEquals(0, kpiConsumer.poll(Duration.ofMillis(300)).count());
+            assertEquals(0, coverageConsumer.poll(Duration.ofMillis(300)).count());
+            assertEquals(durable, rows("SELECT id,topic,kafka_key,payload FROM app.voice_delivery ORDER BY id"));
+            assertEquals(features, rows("SELECT * FROM app.feature_outbox ORDER BY window_id"));
+            assertEquals(jobs, rows("SELECT * FROM app.detection_job ORDER BY window_id"));
+            assertEquals(evaluated, rows("SELECT * FROM app.voice_evaluated_window ORDER BY window_id"));
+            proof.put("restoredKpiWireRecords", wire.count()); proof.put("distinctFeatureIdentities", ids.size());
+            proof.put("legacyWireOrder", legacyWire); proof.put("identitiesAndPayloadsUnchanged", true);
             proof.put("afterRestore", counts());
             proof.put("timing", timings(started, restoreRequested, restored, firstRetry, Instant.now()));
             EVIDENCE.put("f3", proof);
