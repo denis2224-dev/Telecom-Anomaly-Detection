@@ -72,14 +72,20 @@ public final class SmsDeliveryRule {
         if (p95 != null) require(p95.signum() >= 0, "Negative p95 delay");
         if (delivered != null && delivered.signum() == 0) require(p95 == null, "Zero completions cannot have p95");
         BigDecimal expected = baseline.values().get("p95DeliveryMs");
+        boolean delayBaselineMissing = baseline.status().equals("BASELINE_MISSING");
         var p95Kpi = kpis.get("p95DeliveryMs");
         if (p95Kpi != null) {
             var supplied = p95Kpi.required("baseline");
             if (supplied.isNull() && "baseline-v2".equals(window.path("baselineVersion").asText())
-                    && "2-geography-g1".equals(window.path("topologyVersion").asText()))
-                return unavailable("BASELINE_MISSING", window);
-            require(expected == null ? supplied.isNull() : !supplied.isNull()
-                    && number(supplied).compareTo(expected) == 0, "SMS p95 baseline mismatch");
+                    && "2-geography-g1".equals(window.path("topologyVersion").asText())) {
+                // Preserve the saved window's missing delay context across peer activation.
+                // Independent aligned queue evidence can still establish a backlog breach.
+                expected = null;
+                delayBaselineMissing = true;
+            } else {
+                require(expected == null ? supplied.isNull() : !supplied.isNull()
+                        && number(supplied).compareTo(expected) == 0, "SMS p95 baseline mismatch");
+            }
         }
 
         boolean freshQueue = false;
@@ -108,7 +114,7 @@ public final class SmsDeliveryRule {
         boolean backlogBreach = freshQueue && depth.compareTo(policy.sms("queueDepthAtLeast")) >= 0
                 && age.compareTo(policy.sms("oldestPendingSecStrictlyGreaterThan")) > 0;
         if (!delayReady && !freshQueue)
-            return unavailable(baseline.status().equals("BASELINE_MISSING") ? "BASELINE_MISSING" : "INSUFFICIENT_DATA", window);
+            return unavailable(delayBaselineMissing ? "BASELINE_MISSING" : "INSUFFICIENT_DATA", window);
         boolean breached = delayBreach || backlogBreach;
         boolean healthy = serviceComplete && freshQueue && age.compareTo(policy.sms("recoveryOldestPendingSecAtMost")) <= 0
                 && ((delayReady && p95.compareTo(policy.sms("recoveryP95DelayMsAtMost")) <= 0
