@@ -58,7 +58,7 @@
           </tr>
         }</tbody>
       </table></div>
-      <button type="button" class="panel-navigation" [routerLink]="investigationTarget() ? ['/incidents', investigationTarget()!.id] : null" [disabled]="!investigationTarget()">Open incident investigation <app-icon name="right" /></button>
+      <button type="button" class="panel-navigation" (click)="queueDialog.open()" aria-haspopup="dialog" aria-controls="incident-queue">Open incident investigation <app-icon name="right" /></button>
     </section>
     <section class="service-panel" aria-labelledby="sms-panel-title">
       <h2 id="sms-panel-title">SMS delivery <span>Success rate %</span></h2>

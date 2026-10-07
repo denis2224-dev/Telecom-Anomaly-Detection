@@ -175,6 +175,11 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByLabel('From (UTC)', { exact: true })).toHaveValue('2026-09-14T10:00');
     expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
     await investigation.click();
+    const queue = page.getByRole('dialog', { name: /^Incident queue/ });
+    await expect(queue).toBeVisible();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await queue.getByRole('button', { name: 'Next', exact: true }).click();
+    await queue.locator(`a[href="/incidents/${orhei.id}"]`).click();
     await expect(page).toHaveURL(new RegExp(`/incidents/${orhei.id}$`));
     await expect(page.locator('.incident-summary-bar')).toContainText('Awaiting analyst resolution');
     await expect(page.locator('[aria-label="Current incident times"]')).toContainText('Updated (UTC)');
