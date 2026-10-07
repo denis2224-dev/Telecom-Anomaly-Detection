@@ -123,6 +123,7 @@ for (const width of [1366, 768, 390]) {
     test.skip(process.env.E2E_CITY_FIXTURE !== '1', 'Run explicitly against the fixture server');
     await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
     await page.goto('/dashboard');
+    await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toBeVisible();
     await expect(page.locator('.city-marker')).toHaveCount(9);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);

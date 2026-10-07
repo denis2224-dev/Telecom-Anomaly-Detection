@@ -1,0 +1,207 @@
+{
+  "branch": "feature/demo-verification",
+  "baseRevision": "7e46521de1c12ed0a7431092b49cda315cd3c0c9",
+  "trackedPatchSha256AtLiveVerification": "d7ee5686d041e1990fa61c3f8a2b0ee87a7ea5abf9b8ae058ba416e9b104f29c",
+  "liveAuditStartedAtUTC": "2026-10-07T17:26:29.256Z",
+  "productionAssetSha256": {
+    "chunk-YKFWRELO.js": "ce565f8616fcffb4794c7e595df72ea78486a117a0278ee81c285a0e2df5e917",
+    "styles-SNZ3XGVC.css": "68d1216294dcc88cbfabb108109068b9907ba92be47e8683021dfcdf8c203a4e",
+    "chunk-2IWTDNBC.js": "b37a258da902ef339e34f087e1a9b4a6847996563a8ea265a1dde506b85cc8fa",
+    "main-IYVNINQZ.js": "dd46940b567c313aec2786597b27732d91374ac34076e820dff28e625e450758"
+  },
+  "checks": [
+    {
+      "command": "npm --prefix apps/dashboard run test",
+      "result": "113 passed / 23 files"
+    },
+    {
+      "command": "./mvnw -q -Dtest=IncidentStreamTest,SessionSecurityTest,AuthSecurityTest test (incident-service, Java 21)",
+      "result": "25 passed"
+    },
+    {
+      "command": "npm --prefix apps/dashboard run test:e2e",
+      "result": "125 passed / 11 opt-in skipped; before final CSS-only breakpoint correction"
+    },
+    {
+      "command": "npm --prefix apps/dashboard run test:e2e -- --grep '200% zoom|scope fallback and reversible'",
+      "result": "4 passed after final CSS correction"
+    },
+    {
+      "command": "E2E_REAL_LOGIN=1 E2E_CITY_FIXTURE=1 E2E_BASE_URL=http://127.0.0.1:4201 npm --prefix apps/dashboard run test:e2e -- --grep 'fixture city selection'",
+      "result": "3 passed after final CSS correction; explicit fixture mode"
+    },
+    {
+      "command": "npm --prefix apps/dashboard run test:branding",
+      "result": "1 passed"
+    },
+    {
+      "command": "npm --prefix apps/dashboard run check:fixtures",
+      "result": "4 valid datasets"
+    },
+    {
+      "command": "npm --prefix apps/dashboard run build",
+      "result": "passed; initial 499.12 kB"
+    },
+    {
+      "command": "./scripts/verify",
+      "result": "passed with Compose backend"
+    },
+    {
+      "command": "E2E_DEMO_LIVE=1 DEMO_RESUME_RESULTS=<successful real run metadata> npm --prefix apps/dashboard run test:e2e -- --config playwright.demo.config.ts",
+      "result": "1 passed / 1.2 minutes; rechecked actually completed profiles, no interception or fixture fallback"
+    }
+  ],
+  "captures": [
+    {
+      "file": "login-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:26:32.756Z"
+    },
+    {
+      "file": "orhei-overview-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:26:33.482Z"
+    },
+    {
+      "file": "orhei-overview-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T17:26:33.570Z"
+    },
+    {
+      "file": "orhei-overview-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T17:26:33.656Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:26:39.393Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T17:26:39.464Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T17:26:39.510Z"
+    },
+    {
+      "file": "SMS-MD-ORH-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:26:39.857Z"
+    },
+    {
+      "file": "SMS-MD-ORH-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T17:26:39.932Z"
+    },
+    {
+      "file": "SMS-MD-ORH-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T17:26:39.975Z"
+    },
+    {
+      "file": "live-scope-fallback-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:27:34.582Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:27:40.990Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-viewport-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:27:41.024Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T17:27:41.144Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-viewport-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T17:27:41.169Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T17:27:41.260Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-viewport-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T17:27:41.281Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:27:41.654Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-viewport-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T17:27:41.692Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T17:27:41.817Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-viewport-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T17:27:41.835Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T17:27:41.937Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-viewport-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T17:27:41.976Z"
+    }
+  ],
+  "evidenceSha256": {
+    "README.md": "32371d32b810649b869d18c15bb87912fe236de091822d1cdcf7a96124d38b39",
+    "scenario-results.json": "e19df25b51130c4b9dcf5ed83c91c20b5ec1249da49ae64d198824b7494aec91",
+    "live-results.json": "d85375ad4d6d16d8634cb06b35ed68f27099d925b326ed95655e633567c0073b",
+    "controlled/scope-fallback-1366.png": "3b894c80c083791b5c628df63460f46277a522562693056c4a2106ff9f6d2fab",
+    "controlled/service-zoom.png": "fb1c67c5432aec7bf060c3a8c91675a9e348ad7d20a908294000bdc0d5ba12c9",
+    "controlled/overview-zoom.png": "b441eb8379326559c888928e003aff6273aa7603b8ff6ec8136e58a5cb50a00c",
+    "controlled/scope-fallback-390.png": "1951abc418ad7f8a69ec74774562a5e012fbb4ca344da6253875181770537b3f",
+    "controlled/scope-fallback-768.png": "1f1a94f4163d2e3f7ae37286054e93dcd3a04c8c61f501875d51b3520afaf2f9",
+    "live/orhei-overview-1366.png": "ee65caafce878854c39b9f8a37737321b1573068e75e654d4ee769e0050e6d75",
+    "live/recovery-SMS_QUEUE_DELAY-viewport-768.png": "9ba68b2ff8c07bb777027541553b6806dbfe76d139c3836c053f6944c0494a26",
+    "live/recovery-SMS_QUEUE_DELAY-viewport-390.png": "f8bde44ba9ea8341b2544654017a87595897ee0a9d2d8db69eac48a87b2b1906",
+    "live/recovery-SMS_QUEUE_DELAY-viewport-1366.png": "446b8d1ca63f4a25bfcf61001e2613e69adb475f2f71b253e7ab3b0e94d8526b",
+    "live/SMS-MD-ORH-1366.png": "3f09d89f0cf73811e68bd92ad36de3cbf700dedfad14e9c352354eacde45d9cb",
+    "live/recovery-VOLTE_IMS_OVERLOAD-viewport-1366.png": "dbfa94baed45fbd2e2fbd9a28d091f949601b7d6242c730401d37eec84a8101f",
+    "live/recovery-VOLTE_IMS_OVERLOAD-viewport-768.png": "3273d5a313cf989cf9e4b2cdcc982a66d717cfc7d6d0d2e1ecb080d00ca3a11d",
+    "live/recovery-VOLTE_IMS_OVERLOAD-viewport-390.png": "c78129e83407531cf9caa9a528b8514b7c32202c6a00d880a21b7f27b1a8ac50",
+    "live/orhei-overview-768.png": "b898029d5e27de3946087f36b64dcb6ff26171caba5804597f282d96fb164af2",
+    "live/orhei-overview-390.png": "066aeb620920b31a2494421a495753fea5a0c6010b40899744ab747755e584e0",
+    "live/recovery-SMS_QUEUE_DELAY-768.png": "b847bc680f2641ba895fc67418d42a174e8751778e0766ffac26f6d8964dd4b8",
+    "live/recovery-SMS_QUEUE_DELAY-1366.png": "7958881e9f59859231b38b1a6e0f139e54bf87e5756ee209b01d0f09fe526e6a",
+    "live/recovery-SMS_QUEUE_DELAY-390.png": "d4a31c066ef6a68fe393012fff23049dc12f29a51b08cc0814eec9c624f8f9d0",
+    "live/live-scope-fallback-1366.png": "736a6396defe555814725be19d5ac9e8d9fac77449319faedac19b086789a16a",
+    "live/recovery-VOLTE_IMS_OVERLOAD-1366.png": "959dbccd6c922ab20f259800bc73be45989a132e0fbdca5f714a0dd1f2e61a25",
+    "live/VOLTE-MD-ORH-768.png": "dbbf5873fc5d7f63b45f6e1d5f86097fa2fa1cb1e6e8567726f4e4621cd560e7",
+    "live/VOLTE-MD-ORH-1366.png": "8fdffe8f1ff07c50a07b6178009bca185fb009c6d8b3569d3ae48ecf4a9fad23",
+    "live/login-1366.png": "3abc8287e6900cbf4b0e68e584c2f63acf6d2b6150b71554092487fa621493b9",
+    "live/SMS-MD-ORH-768.png": "1d3b3e1f9eaddb132da06965d1d48700643e72939bdc29503f070ae08bdb43ad",
+    "live/recovery-VOLTE_IMS_OVERLOAD-768.png": "e2e0750c6c5af54d70be1052c80b6955c0c37be2183864b0439372506e8ecfa1",
+    "live/VOLTE-MD-ORH-390.png": "800eae87b8d7d16520d5e8388d7cc99fa921d7c05b7287219f012b3a286df128",
+    "live/recovery-VOLTE_IMS_OVERLOAD-390.png": "0d37fac78e57ffc407f2162478ca21f7d347ec87cdaef394cccde94fa984afc0",
+    "live/SMS-MD-ORH-390.png": "1911ceaa3e47793d604b21d438c25cbd6b722bb43e05530cdd64105604644d7b",
+    "fixtures/three-panels-fixture-1366.png": "d30e1ad13c00131e7f8208eed1f9acb9302c596ed33993b530d6c28cf2e9a08a",
+    "fixtures/three-panels-fixture-390.png": "7eeb5ed0ce828d5292a3b20dbad4fd1b6b2813f9abf4f9ed61a042bc4399b889",
+    "fixtures/three-panels-fixture-768.png": "9e4355a3e7954bb4a29ed5b125e06fa90f737b1d62671470240fb50338b675ad"
+  }
+}

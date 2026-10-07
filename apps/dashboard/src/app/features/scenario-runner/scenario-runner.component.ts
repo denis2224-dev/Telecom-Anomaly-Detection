@@ -81,6 +81,7 @@ import { RunStore } from './run.store';
         />
 
         </div></div>
+        <details class="evidence-disclosure"><summary>Supported scenario scopes</summary><p>VoLTE central and SMS route A are supported. Geographic city scenarios, including Orhei: Unavailable.</p></details>
         @if (store.command(); as command) {
           <p>
             Saved command: <code>{{ command.requestId }}</code>
@@ -208,6 +209,8 @@ export class ScenarioRunnerComponent implements OnDestroy {
 
   readonly availableScopes = computed(() =>
     this.scopes().filter(service => {
+      // These are the scopes accepted by ScenarioCommandService.validate.
+      if (!['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A'].includes(service.scope.scopeId)) return false;
       if (
         this.type() === 'VOLTE_IMS_OVERLOAD'
         && service.scope.service !== 'VOLTE'

@@ -155,9 +155,12 @@ echo "Checking application readiness..."
 docker compose exec -T event-generator curl --fail --silent --show-error --max-time 5 \
   http://localhost:8081/actuator/health/readiness
 
-echo "Checking host access to the Scenario Runner generator..."
+echo "Checking backend access to the Scenario Runner generator..."
 generator_base_url="${GENERATOR_BASE_URL:-http://127.0.0.1:${GENERATOR_HOST_PORT:-8081}}"
-if ! curl --noproxy '*' --fail --silent --max-time 5 \
+if docker compose --profile app ps --status running --services | grep -Fxq incident-service; then
+  docker compose exec -T incident-service sh -c \
+    'curl --fail --silent --show-error --max-time 5 "${GENERATOR_BASE_URL%/}/actuator/health/readiness" >/dev/null'
+elif ! curl --noproxy '*' --fail --silent --max-time 5 \
   "${generator_base_url%/}/actuator/health/readiness" >/dev/null; then
   echo "The host cannot reach the Scenario Runner generator. Set GENERATOR_BASE_URL to http://127.0.0.1:<GENERATOR_HOST_PORT> in local .env, recreate event-generator, and restart host incident-service. See docs/runbooks/local-dev.md." >&2
   exit 1

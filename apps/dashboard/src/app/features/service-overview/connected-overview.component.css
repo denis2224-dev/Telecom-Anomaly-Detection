@@ -1,4 +1,4 @@
-:host { display: block; min-width: 0; }
+:host { display: block; min-width: 0; container-type: inline-size; }
 .controls { display: grid; grid-template-columns: 1.2fr 1.1fr 1.1fr .9fr .7fr 1fr 1fr; align-items: start; gap: 4px 8px; padding: 8px; margin: 8px 0 6px; background: var(--surface); border-radius: var(--radius-control); }
 .controls label, .period-field { display: grid; gap: 4px; min-width: 0; color: var(--text-muted); font-size: 10px; line-height: 14px; }
 .controls label > span, .period-field > span { line-height: 14px; }
@@ -71,14 +71,14 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .queue-item h4 { margin: 0 0 6px; color: var(--text); font-size: 14px; text-transform: none; letter-spacing: normal; }
 .queue-item p { margin: 4px 0; overflow-wrap: anywhere; }
 .queue-item .button-row { margin-top: 10px; }
-@media (max-width: 1100px) {
+@container (max-width: 1100px) {
   .controls { grid-template-columns: 1.2fr 1fr 1fr; }
   .region-field { grid-column: 2; }
   .apply-field { grid-column: 3; }
   .queue-toggle { grid-column: 3; grid-row: auto; }
   .overview-panels { grid-template-columns: 1fr; }
 }
-@media (max-width: 600px) {
+@container (max-width: 600px) {
   .controls { grid-template-columns: 1fr 1fr; }
   .period-field { grid-column: 1 / -1; }
   .region-field { grid-column: auto; }

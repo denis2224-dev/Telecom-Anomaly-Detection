@@ -73,7 +73,10 @@ public final class SessionDeadlineFilter extends OncePerRequestFilter {
                     synchronized (session) {
                         Instant now = clock.instant();
                         if (!expired(session, now)) {
-                            session.setAttribute(LAST_ACTIVITY_AT, now);
+                            // Transport reconnects are not analyst activity.
+                            if (!"/api/incidents/stream".equals(request.getRequestURI())) {
+                                session.setAttribute(LAST_ACTIVITY_AT, now);
+                            }
                             allowed = true;
                         }
                     }

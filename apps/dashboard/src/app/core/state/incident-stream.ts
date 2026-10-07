@@ -47,7 +47,8 @@ export class IncidentStream {
     }
 
     const revision = this.session.revision;
-    const source = new EventSource('/api/incidents/stream');
+    let source = new EventSource('/api/incidents/stream');
+    let reconnectTimer: ReturnType<typeof setTimeout> | undefined;
     const stopProbe = new Subject<void>();
     let closed = false;
     let checkingSession = false;
@@ -60,6 +61,7 @@ export class IncidentStream {
     const close = () => {
       if (closed) return;
       closed = true;
+      clearTimeout(reconnectTimer);
       stopProbe.next();
       stopProbe.complete();
       source.close();
@@ -70,7 +72,7 @@ export class IncidentStream {
 
     // `open` fires on the first connection and on each healthy reconnect.
     // The stream has no durable replay, so both cases require a REST snapshot.
-    source.onopen = () => {
+    const onOpen = () => {
       if (!active()) return close();
       connected();
       refresh();
@@ -90,13 +92,12 @@ export class IncidentStream {
       }
     };
 
-    source.addEventListener('incident-upsert', upsert);
-    // The server sends ready after registration; refresh to close the initial snapshot race.
-    source.addEventListener('ready', () => { if (active()) refresh(); });
-
-    source.onerror = () => {
+    const onError = () => {
       if (!active()) return close();
       interrupted();
+      // A normal server lease ending uses native retry. Only a terminal failure
+      // needs a session probe; routine reconnects must not extend idle activity.
+      if (source.readyState === 0 /* CONNECTING */) return;
       if (checkingSession) return;
       checkingSession = true;
 
@@ -110,8 +111,30 @@ export class IncidentStream {
           && error.status === 401) {
           this.session.expire(); // ended$ closes the EventSource.
         }
-      }).finally(() => { checkingSession = false; });
+      }).finally(() => {
+        checkingSession = false;
+        // HTTP 503 can permanently close EventSource instead of triggering its
+        // native retry. Reopen only that terminal state after checking the session.
+        if (active() && source.readyState === 2 /* CLOSED */) {
+          clearTimeout(reconnectTimer);
+          reconnectTimer = setTimeout(() => {
+            if (!active()) return;
+            source.close();
+            source = new EventSource('/api/incidents/stream');
+            attach();
+          }, 3000);
+        }
+      });
     };
+
+    const attach = () => {
+      source.onopen = onOpen;
+      source.onerror = onError;
+      source.addEventListener('incident-upsert', upsert);
+      // Registration closes the initial snapshot race; the stream has no replay.
+      source.addEventListener('ready', () => { if (active()) refresh(); });
+    };
+    attach();
 
     return close;
   }
