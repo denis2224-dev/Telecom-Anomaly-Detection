@@ -1,0 +1,2531 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-07",
+  "branch": "feature/sergiu-day3-geographic-explanations",
+  "baseSha": "6800e9479385eca7b8fa356ac6504625cc031144",
+  "implementationSha": "a119bec0939ee723e4a3b27de873dccefad5071d",
+  "java": {
+    "streaming-support": {
+      "tests": 111,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "event-generator": {
+      "tests": 75,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "processor": {
+      "tests": 575,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4
+    }
+  },
+  "python": {
+    "root": 49,
+    "ml": 54,
+    "failures": 0
+  },
+  "contracts": "PASS: fourteen explanation trajectories and all existing checks",
+  "legacyExplanationCasesPreserved": 12,
+  "immutableInputs": {
+    "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+    "contracts/features/feature-order-v2.json": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+    "contracts/baselines/demo-baseline-v2.json": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
+    "contracts/baselines/geographic-peer-baseline-v2.json": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+    "services/ml-service/models/manifest.json": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711",
+    "services/ml-service/models/VOLTE.joblib": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd",
+    "services/ml-service/models/SMS.joblib": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307",
+    "services/ml-service/models/VOLTE-calibration.json": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
+    "services/ml-service/models/SMS-calibration.json": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b"
+  },
+  "sourceHashes": {
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicExplanationTest.java": "10c5c07fc4eaf50df3141220790ade64933c34d55d2d05c90527fc33c797db5a",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicReplayTest.java": "df1b04c932fdf6db1ff93ba5c9ca218afa39464774afd07a6a58609b4db00df8",
+    "services/processor/src/test/java/md/utm/telecom/processing/ExplanationCasesTest.java": "1a443a2389ee73ffac8245d583b4010f2f787840349e5db01d3f27164a0a9650",
+    "contracts/fixtures/detections/service-explanation-cases.json": "59acc1ee72807e0f3f5dc271e16a8f94a386d50b9c0e01c659616189500c6c84",
+    "contracts/fixtures/geography/day3-queue-display-cases.json": "22eacba83c739410e06544f9bd4ac93cac4acdbffca977d4f96e7b7587ab4319",
+    "scripts/check-contracts.py": "e5e892e152b5eab971c050155ed269ae8bcbcd0723c29fd0c4c18300c85f3e0b",
+    "scripts/day3-geographic-live.cjs": "1ed49ef749a04df440c508520e2e7d12863b49573e2ad64a7086a2304585d904",
+    "tests/test_detection_contracts.py": "3a6ab33889c446d324d6af68ca7ad729529db725ade156aadee250d6e06fc474",
+    "tests/test_day3_queue_display_cases.py": "0d3004fbe409c3b87612283833bafdf9f6488eb271c98327c50afeda115bef59",
+    "docs/runbooks/sergiu-day3-explanation-handoff.md": "c9470b66c3e31e296771b396c5a8e280c909df70a94c4f9f455efd3a43facb6c"
+  },
+  "runtime": {
+    "project": "telecom-day3-validation",
+    "status": "NORMAL_READ_PATH_PASSED_PUBLIC_CITY_SCENARIO_BLOCKED",
+    "authenticated": true,
+    "browserErrors": [],
+    "publicScenarioBlockers": [
+      "POST /api/simulator/scenarios/VOLTE_IMS_OVERLOAD: HTTP 400 {\"code\":\"INVALID_SCOPE\",\"message\":\"Scenario type and scope do not match the demo topology.\",\"requestId\":\"d19af4f7-c557-489a-a594-e2f5d426014e\"}"
+    ],
+    "matrix": [
+      {
+        "windowId": "e229d8dd66034c48324e00b4393b93c80e56ac482da2ea3a0d3e195222f0b18c",
+        "scopeId": "VOLTE-MD-BAL",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "b4503321-2331-3586-a416-7b6bbc025702",
+          "b49f5298-6bf8-3899-80a0-4ff52651ba57",
+          "c11a973e-7fea-36fa-9b5b-f283280024b0"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.23404255319149,
+          "baseline": 99.3,
+          "deltaPp": -0.06595744680851,
+          "delayRatio": null,
+          "numerator": 1166,
+          "denominator": 1175,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "3f7967aa40fca3f5e615baa5f4a28ab9278a503f12599e8353808362564a9d80",
+        "scopeId": "VOLTE-MD-BAL",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "08e6dbd8-ab86-3074-946a-56e0183731bf",
+          "a4561385-fa4e-3e3a-a56a-3982a1b1f805",
+          "f0937ca7-c786-39bd-b11a-3e16c6b6a7ec"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22212618841833,
+          "baseline": 99.3,
+          "deltaPp": -0.07787381158167,
+          "delayRatio": null,
+          "numerator": 1148,
+          "denominator": 1157,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "68e00b0521ab7adf57952bf054caf9cb4f94272677aedfdba71fc8a6c6d4d151",
+        "scopeId": "VOLTE-MD-BAL",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "93e895df-0c04-307a-bafc-8942bfd0d22a",
+          "b45f72cb-ff73-3aca-a9b2-6330584f46c2",
+          "fe96809b-2c98-3db2-b93b-dc8d849f188f"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.2194275802255,
+          "baseline": 99.3,
+          "deltaPp": -0.0805724197745,
+          "delayRatio": null,
+          "numerator": 1144,
+          "denominator": 1153,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "2802f4061ef127b2fdea5f454c0e5ca77d636f4fa8fd762a6a2f6fc77ec584e1",
+        "scopeId": "VOLTE-MD-BAL",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "092c97cf-45eb-3e59-a20f-a2acedce053b",
+          "95eae2e4-70e9-3b34-8bd0-0e0669d24523",
+          "a11f5714-e3e1-30a6-ac38-65ee0a373078"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.37275985663082,
+          "baseline": 99.3,
+          "deltaPp": 0.07275985663082,
+          "delayRatio": null,
+          "numerator": 1109,
+          "denominator": 1116,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "2e6dcf43b6799261baefe5f80c35de55745cb6dcc6829ec3737563ca733d718e",
+        "scopeId": "SMS-MD-BAL",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "0bf6b5de-4465-3e2c-912b-558a491778ae",
+          "60e5c59d-2240-3fd6-b88d-f7f38a3e6afd"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3414,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.707,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 111,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "b62604ddc4206e8a80049f73dcecb68fef5f2235740f4286124756082c48b766",
+        "scopeId": "SMS-MD-BAL",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "be9939f1-e2c0-3ea3-b456-6b670d5d1610",
+          "c10fd3ab-1e01-3440-b849-5db9b8643274"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3357,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6785,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 84,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "b932855ce3ed13dde89d6b8cecfdeffe5ede17412a36e5f75b83316efe6879e7",
+        "scopeId": "SMS-MD-BAL",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "7298162c-e754-3d7d-b4c5-85e2d65eb002",
+          "864f4a89-e3d8-3cc3-ae66-93d4399cabdd"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3335,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6675,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 120,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "7774dd15d4baca6c924e560d8d233e09d0731ba8f0f274a5d6791e3e1f3aaaa8",
+        "scopeId": "SMS-MD-BAL",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "6c4eb645-256d-3492-b883-4a8e43a146b5",
+          "9c7ff9ea-52ac-3bdd-baaa-f1bef387647c"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3368,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.684,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 119,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "98a51f0b7f7569d47103a3971f0eb0cca8e92c79aad1ad1a40e6cc8441c4ed01",
+        "scopeId": "VOLTE-MD-CAH",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "7f66035b-d9e6-3ac7-a5e5-79b63d9c8b45",
+          "80aebebc-0034-3c95-86bd-8151d8f1d30c",
+          "ce703fe7-30f5-3fde-a00a-052d359f6dee"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.23728813559322,
+          "baseline": 99.3,
+          "deltaPp": -0.06271186440678,
+          "delayRatio": null,
+          "numerator": 1171,
+          "denominator": 1180,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "4a156f3c65db54ff21d95be294b171a963bff86acfbca9c0b7e9fb74cd8e60f7",
+        "scopeId": "VOLTE-MD-CAH",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "1be9c10a-5c59-3523-9f89-d965114a9a8e",
+          "32e862b8-dfa4-3fcd-9a53-bcecbe7bbd80",
+          "6be66f1c-78ad-3757-ac4a-5914f8cf3857"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.2831541218638,
+          "baseline": 99.3,
+          "deltaPp": -0.0168458781362,
+          "delayRatio": null,
+          "numerator": 1108,
+          "denominator": 1116,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "f26ea4546cfcdf10d6b80fe090d365348c0c4fed08344e0bfc6e430e91da8fc3",
+        "scopeId": "VOLTE-MD-CAH",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "678a5d96-d29b-3072-b405-ea0d0b734d78",
+          "b4c700c0-a08f-35f3-a336-913dfb17b53b",
+          "e2b785f2-b64a-3f48-8c1d-3dacc2ddd6d9"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.19857524487979,
+          "baseline": 99.3,
+          "deltaPp": -0.10142475512021,
+          "delayRatio": null,
+          "numerator": 1114,
+          "denominator": 1123,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "b17712112652454fc5869f8e4b14547f7cc6cb4223fb42bde3a502e42a644bdf",
+        "scopeId": "VOLTE-MD-CAH",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "99f742ee-7725-38e0-9ed7-9b9b538a7523",
+          "f63bfb6c-323f-36f5-b92e-fa213282428d",
+          "fe0ceeee-6a18-3cb7-9547-05f267c1a5ec"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.2234685073339,
+          "baseline": 99.3,
+          "deltaPp": -0.0765314926661,
+          "delayRatio": null,
+          "numerator": 1150,
+          "denominator": 1159,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "8a710e2d2d76400f9ba81ea1d3e30b2afe19ce66e3a05b857923a946f015c765",
+        "scopeId": "SMS-MD-CAH",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "511d16fd-31db-3540-b801-44ee93ef5b60",
+          "912beea3-9c0c-33c7-bc8c-3535c722f756"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3429,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7145,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 117,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "ef1108e114f25425e603a02f3ee073c4d3933d64ef205175fdb2760890a17ae3",
+        "scopeId": "SMS-MD-CAH",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "60b363a4-d2df-3600-bf53-7763ef41b448",
+          "6a70595b-0cfe-3513-b401-2a53cf9cca70"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3356,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.678,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 105,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "4c9ac6474ecb487ec7d7e9c05b1b1ea3579dc02cebfbc6d1e085440cac395cb5",
+        "scopeId": "SMS-MD-CAH",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "9e9ac7be-0e54-340e-a5b7-41a589795f0c",
+          "ecb4b66b-57dc-3c1e-9099-5e0a6f173513"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3276,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.638,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 103,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "3689465999deeec6e077296e83be8292873ee5a58888caddd9ac9f2762f93f90",
+        "scopeId": "SMS-MD-CAH",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "25d6d385-073e-340d-86b5-fe72f850413b",
+          "58c68cd8-148c-33ff-9b8e-a59805469963"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3344,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.672,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 114,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "08a66fb26bed1059479d3c9879c252ee4ed3ce97c3565180dcd48de6aa926318",
+        "scopeId": "VOLTE-MD-CHI",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "97d325a2-6f15-38ce-960c-7fd27ac9e3c5",
+          "fb7622fc-e52b-39bf-84f4-0af2129fd883",
+          "fe65eb2e-2e74-3de6-b892-9bdad1f2c58e"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22145328719724,
+          "baseline": 99.3,
+          "deltaPp": -0.07854671280276,
+          "delayRatio": null,
+          "numerator": 1147,
+          "denominator": 1156,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "8e18ef5882d5645b6d19cb3b5a826b4421a81f51901096061b53d22597a13a6a",
+        "scopeId": "VOLTE-MD-CHI",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "180023d9-ee72-348f-b92a-fe19d57f26b2",
+          "633a640c-1181-3d40-9d02-38c82f25e8f9",
+          "87d0a10c-f6b7-3f16-af47-ba32f1b0ba95"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.4052676295667,
+          "baseline": 99.3,
+          "deltaPp": 0.1052676295667,
+          "delayRatio": null,
+          "numerator": 1170,
+          "denominator": 1177,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "860fed445f16f9b0cc255204275eec98db1ce8b28667b422e877dfa81dabd8fa",
+        "scopeId": "VOLTE-MD-CHI",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "3a18807a-cfaa-3987-b5f1-a203774244cb",
+          "7c0aac5f-c92b-3c5d-b9c8-8199dfc56d23",
+          "a43d4a52-1e39-33cc-9a14-561757219ae3"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38864628820961,
+          "baseline": 99.3,
+          "deltaPp": 0.08864628820961,
+          "delayRatio": null,
+          "numerator": 1138,
+          "denominator": 1145,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "f99575f72cf0542b4a94ab137ee5b34012b061046e3dd9207d98781057509b44",
+        "scopeId": "VOLTE-MD-CHI",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "0ca99f4d-f2be-3697-8d87-2da08cdc4a57",
+          "485ccc98-102e-33ba-a048-a180f919ba39",
+          "7f63623d-d267-3893-bdc2-de0eb0193206"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38380281690141,
+          "baseline": 99.3,
+          "deltaPp": 0.08380281690141,
+          "delayRatio": null,
+          "numerator": 1129,
+          "denominator": 1136,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "b9b79633b2c546ae7427f792fc4725581c376550bd4abbea8926d6818c98b6ce",
+        "scopeId": "SMS-MD-CHI",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "12340ffd-a0ee-3c70-9095-789c9035eb1f",
+          "b2758ebe-5004-315a-a1c7-de5299ec0234"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3351,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6755,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 99,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "185e0f22fd240fbfcde344e6643c4cc332847672dcc0b745125320b238b300b7",
+        "scopeId": "SMS-MD-CHI",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "9d9aeeeb-0731-31b1-88d9-d29ca12f1ac5",
+          "fcf5a25c-f188-37b7-af92-48c1a3275403"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3348,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.674,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 85,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "29e89953d477d385ab91f4418a134944410bd7d44caa60783cfe5e471162af19",
+        "scopeId": "SMS-MD-CHI",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "6808e71c-4268-35a1-852f-782ce4778225",
+          "7b5a4af3-4060-3e60-bde7-e409dd3e553c"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3335,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6675,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 110,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "e33cac3ba438a849cf060aecce1e8a835c33df72e5679c9efdba710f7a8ed30a",
+        "scopeId": "SMS-MD-CHI",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "b077b006-9390-3777-81c2-3e1f716b938d",
+          "f94a511e-1809-31f9-b3d6-9fa761f32dc5"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3457,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7285,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 82,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "ef61db1b6274403da2575f149deac26133de734523db75095eb5b9dd0f7371de",
+        "scopeId": "VOLTE-MD-COM",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "6bba901e-8f32-3345-99a6-5ee409c33b09",
+          "8202372f-0e33-3312-b798-54d1ebd13600",
+          "a8435c08-c474-372e-bb2c-61ad44db3591"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.30675909878683,
+          "baseline": 99.3,
+          "deltaPp": 0.00675909878683,
+          "delayRatio": null,
+          "numerator": 1146,
+          "denominator": 1154,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "b6b3919d95a25847a7c80bd2376e7cbde077e4c4bf99a4219fe8219eca2d0cf6",
+        "scopeId": "VOLTE-MD-COM",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "1a3f9dc8-b92c-3939-bba5-96f0b3ae9469",
+          "99bab42f-a273-3595-a650-4aff4ca94c20",
+          "ffbd38ad-0014-3950-9b0b-76613a266940"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.30008748906387,
+          "baseline": 99.3,
+          "deltaPp": 8.748906387e-05,
+          "delayRatio": null,
+          "numerator": 1135,
+          "denominator": 1143,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "cb30ef5667608a59283482002b5b4738b55ad71f6d8405c2aef3a8334fd98322",
+        "scopeId": "VOLTE-MD-COM",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "5c8cdd67-88f2-3c18-b3ef-4f2110c635fd",
+          "a23da69c-d7ed-3fbb-820e-0e0d234f4ad7",
+          "ce902ba0-d7b5-3922-ae60-d1d00ff6e99f"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22547332185886,
+          "baseline": 99.3,
+          "deltaPp": -0.07452667814114,
+          "delayRatio": null,
+          "numerator": 1153,
+          "denominator": 1162,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "ca1a39a40340a9db7fbac42d6cd3d58d2775febc3df12062dc7bf59aeb0b22ef",
+        "scopeId": "VOLTE-MD-COM",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "188134c0-5bd0-352d-a4ba-6c5fa19940ae",
+          "4c42389b-0dbc-3443-81e5-385cbe6087f8",
+          "fc492537-baa4-3e13-986a-f8945f8152de"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.40878378378379,
+          "baseline": 99.3,
+          "deltaPp": 0.10878378378379,
+          "delayRatio": null,
+          "numerator": 1177,
+          "denominator": 1184,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "6d960c5b660675defc7486c9e2b4c47b72016619100ad7574a3e5aa9b2bc1dcb",
+        "scopeId": "SMS-MD-COM",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "15066f69-5a7b-38a0-9b5a-21e1fd1d9b07",
+          "fb2a8fab-3d08-3364-a633-282e575be357"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3291,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6455,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 101,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "5f8467790411eecb9b24f50d3f365476b748ce4001caaca3bcee0599aa2e65cf",
+        "scopeId": "SMS-MD-COM",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "22d4de8d-a04a-3889-a83d-48e89b38ec91",
+          "3f956148-489d-323a-b831-59c4aa397d50"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3380,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.69,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 89,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "a9321bed67d67e6e8d8c14a16e5ec613ce9c57e8b725a596fd7bcffb5ca9d141",
+        "scopeId": "SMS-MD-COM",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "13b10b43-a811-3b26-86de-bdaa4d0ca3b8",
+          "8df5394b-fe9a-35a7-a6ee-d37aaa992060"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3421,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7105,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 89,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "e549fa88a1472f68b34322cacf921f2f4b96b72741e179501b77846379ba56a0",
+        "scopeId": "SMS-MD-COM",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "257e6cab-f1ba-3745-8283-9b213ef05042",
+          "cf0e7d01-5ef9-32c3-83bd-96f6fa110fae"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3338,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.669,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 84,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "478929ed8b08c3b1365936cc8368009a8cc1744c13052703ed8ec3c78e7f9850",
+        "scopeId": "VOLTE-MD-EDI",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "028580d2-16e7-3b94-b40f-ac762f9488c1",
+          "0dd49a48-c927-3b62-95b3-c1a0ef00cee9",
+          "e4049b30-680b-3adb-a39c-ba1c3048efc4"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.24559932942162,
+          "baseline": 99.3,
+          "deltaPp": -0.05440067057838,
+          "delayRatio": null,
+          "numerator": 1184,
+          "denominator": 1193,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "9a5b1ea71ba065e23073ab29d8dcff0d357f5b4d8a02eea3e06c56fee74f68fe",
+        "scopeId": "VOLTE-MD-EDI",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "52ceb3b4-3c57-3d32-9f28-53bbdc5aaac9",
+          "c7b2129f-fcce-32cc-9e73-09aaeae1742a",
+          "fea2184c-970f-3e28-a795-3fff1d0a24eb"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.27862939585212,
+          "baseline": 99.3,
+          "deltaPp": -0.02137060414788,
+          "delayRatio": null,
+          "numerator": 1101,
+          "denominator": 1109,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "fd09df6a31f854497b2b94a3abba41ef3d9a6a585a14671c7e5d651150ac10dc",
+        "scopeId": "VOLTE-MD-EDI",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "545c1220-1290-3b80-81bb-ef8560afc119",
+          "598fdabe-c0f4-388e-b695-7559e517b271",
+          "7e6e0cca-06ba-3f14-87a4-7e25f27a7030"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38162544169612,
+          "baseline": 99.3,
+          "deltaPp": 0.08162544169612,
+          "delayRatio": null,
+          "numerator": 1125,
+          "denominator": 1132,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "29377bbcbe996a1d947756d1376052356c7b3be5e77f011ff8c97bb221f73d3f",
+        "scopeId": "VOLTE-MD-EDI",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "0cc80996-2217-3597-bc85-d13a70cccecc",
+          "4dd11ccd-6942-3640-8bae-953e294f22ec",
+          "961a8566-704c-3753-a1a8-65e8c0f304ab"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.31972789115646,
+          "baseline": 99.3,
+          "deltaPp": 0.01972789115646,
+          "delayRatio": null,
+          "numerator": 1168,
+          "denominator": 1176,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "0b199fff8a506ada8c80cf04ea5cdbc7a37689ac2c8f9c80092720e07d9ae39a",
+        "scopeId": "SMS-MD-EDI",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "0c7f1460-aee5-37ca-a1e7-cd20b3ec75ea",
+          "eb6ea36b-ae3f-34c0-9523-2eeb5cc394b8"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3363,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6815,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 105,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "8dd9f62005399f141cef55525bd9599831d82a6c6eef8aa33d49e91f8f13b426",
+        "scopeId": "SMS-MD-EDI",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "49438e4f-73da-3ca0-b914-3412f08b826a",
+          "fa3d1e5b-e0a8-354b-9cdb-da9026ddd2d6"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3418,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.709,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 117,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "54cebee62ff81285cbd11c39660590c1f21971f88432f41461d72aa15e1d1e8a",
+        "scopeId": "SMS-MD-EDI",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "9e049b5c-b13e-383b-8a82-74f756b2e530",
+          "a6641bbb-e0c3-3699-94b1-c4cf7855cc51"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3277,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6385,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 113,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "758732090ad26d977bb1b3525ba823b155190fabefe566cc49606115162b0644",
+        "scopeId": "SMS-MD-EDI",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "7bc0c7c7-41fc-3f50-b886-801920a8c70f",
+          "cf1f3249-a765-3297-8168-6aa1f538b522"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3321,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6605,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 108,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "568248113bd9b30896e879130164c27c93859bfbd9cf24d607b6b3c46e05daa1",
+        "scopeId": "VOLTE-MD-ORH",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "26eb2c1e-953a-37b4-8e2e-3b266269ab7d",
+          "79e103b9-42f2-3ec2-8d32-437fdb2f7504",
+          "f890e389-ffc7-3b5b-b374-08b61141f97e"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.3214588634436,
+          "baseline": 99.3,
+          "deltaPp": 0.0214588634436,
+          "delayRatio": null,
+          "numerator": 1171,
+          "denominator": 1179,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "2d2360400bee536daa254b5c8e6bc8c0ae2f64969cd98e35850eac765721a124",
+        "scopeId": "VOLTE-MD-ORH",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "75b0990f-5fc4-3391-8b80-faec150638b7",
+          "8062057c-754e-35eb-9a4b-8abdf6e59006",
+          "caf6d46d-d40e-308d-8a5e-9cabfdf66963"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.31212381771282,
+          "baseline": 99.3,
+          "deltaPp": 0.01212381771282,
+          "delayRatio": null,
+          "numerator": 1155,
+          "denominator": 1163,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "11dff6a420ff33d4141e4dcb4dfd996b8806174058755c36e58ffcade47852a4",
+        "scopeId": "VOLTE-MD-ORH",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "00e6e1e9-3884-3649-a426-93ad3f3a8416",
+          "2272af8b-39fc-3f69-8cd5-a56e23921a64",
+          "88eb4463-66a9-32b3-8787-bdea38c49bc2"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.36651583710407,
+          "baseline": 99.3,
+          "deltaPp": 0.06651583710407,
+          "delayRatio": null,
+          "numerator": 1098,
+          "denominator": 1105,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "9b4e2a58d8e488ac122164229949f1e661af1a398089ed9b57d2752f5ab3c92b",
+        "scopeId": "VOLTE-MD-ORH",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "1a20f0aa-64ca-37eb-8bc1-f5225ccbd9d0",
+          "5793c4a7-06db-3723-96ff-bac5bee18078",
+          "eae9311a-dcc7-30e4-8c33-a3917ab3926e"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.18845807033364,
+          "baseline": 99.3,
+          "deltaPp": -0.11154192966636,
+          "delayRatio": null,
+          "numerator": 1100,
+          "denominator": 1109,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "a407473c3550ffd336b02cdb1f39e9f291daff6b0c64b600a3d672d2dd65523e",
+        "scopeId": "SMS-MD-ORH",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "06b5817c-6d97-3822-9f84-ba578c035732",
+          "e49d2388-3245-38b3-a361-fd23c0be3df6"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3331,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6655,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 107,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "159ad7765718c87f06401a7a0bfa5d3bdc0de90dab506f9389f85c300d75f462",
+        "scopeId": "SMS-MD-ORH",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "1c76da09-cf98-3404-8309-15f963eea749",
+          "7acfa735-8057-364f-ac62-060fee3ac394"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3312,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.656,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 91,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "1bc2ce9fb1fce94e36929c519be35873cd8a5e6515d141629e21d6442caf1d5c",
+        "scopeId": "SMS-MD-ORH",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "8aa4431b-0534-3661-b83b-c19d75c25a02",
+          "bd4f56db-081d-3ea5-adfe-129cf2ca7a07"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3433,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7165,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 97,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "271d622ee4e1364304e1d8983a25252070aec997c0c1c488c5063b573eddb9fc",
+        "scopeId": "SMS-MD-ORH",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "13c8475c-6da0-3c77-9c95-c1deb656ec96",
+          "ace8d471-7cff-3e3b-8847-fa45b65bc9d7"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3395,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6975,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 95,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "a7e5f49cfde550436e678d8ec2dba0fa7510304152660e3cbf68e81984d727ee",
+        "scopeId": "VOLTE-MD-RIB",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "643efa28-bcc1-34ec-bc10-e2ab3dd62677",
+          "84f08f19-282f-3e45-b676-0f18c6fee478",
+          "867cf83f-2105-39f3-babe-c919a9c3b714"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.20353982300885,
+          "baseline": 99.3,
+          "deltaPp": -0.09646017699115,
+          "delayRatio": null,
+          "numerator": 1121,
+          "denominator": 1130,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "7e4df255beed547662d0a2a428d64d233f3aff6b5f632f98dd783e39271bbb83",
+        "scopeId": "VOLTE-MD-RIB",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "0beda6c5-47eb-3cba-84d0-75d9ee21dcae",
+          "0d5fc19c-3f84-3de2-8a47-c125622111c4",
+          "9f123b93-90b1-3eb9-b0b3-fc0bfdf843e6"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38053097345133,
+          "baseline": 99.3,
+          "deltaPp": 0.08053097345133,
+          "delayRatio": null,
+          "numerator": 1123,
+          "denominator": 1130,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "0500c090a78a096f0805804c608f4ac67335fed491323907d8f04bb3f999c8c7",
+        "scopeId": "VOLTE-MD-RIB",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "3060ec9d-c423-33aa-b6f0-07a2d896f9a0",
+          "abfefe36-c029-39d0-82f8-7800cfa071f7",
+          "b2ac1517-e6eb-3ec2-a353-4789d0052752"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.3766696349065,
+          "baseline": 99.3,
+          "deltaPp": 0.0766696349065,
+          "delayRatio": null,
+          "numerator": 1116,
+          "denominator": 1123,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "ac2b62e7b8628ef84cdd83b5b3a13b18d2127a9260ba865bd2a3f82136fc0371",
+        "scopeId": "VOLTE-MD-RIB",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "0227d3df-808f-35f5-9a84-7957c549ac36",
+          "0b75f8da-e496-3ef1-8f04-ca18d19fa691",
+          "30a60ae3-b3fd-3071-be5a-15e793c59ef2"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.37833037300177,
+          "baseline": 99.3,
+          "deltaPp": 0.07833037300177,
+          "delayRatio": null,
+          "numerator": 1119,
+          "denominator": 1126,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "3415783edc920de94081261ad7c8a875341109720cd3ae3b6a046c02a906ff19",
+        "scopeId": "SMS-MD-RIB",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "03ce5d51-f64e-3ab7-a995-ff7e6592c8f7",
+          "5ce33953-f246-3199-8c61-90719e0cd196"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3340,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.67,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 87,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "9ee1d6bd4b43ab96114d11043b616105e4026aab51446a451557380951511d21",
+        "scopeId": "SMS-MD-RIB",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "658071f3-fe29-3e74-abd4-b24b21e96c69",
+          "db7d7d61-f876-384a-afb6-c457fca954f3"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3313,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6565,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 95,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "43730a5075f6f875f75048e248954eddc50c0cf33083133e7647a696fb0a46d1",
+        "scopeId": "SMS-MD-RIB",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "33a8ff02-37c4-3993-b8cc-922944faccbe",
+          "7da0203e-ce0c-3010-a872-a4e16046038f"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3397,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6985,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 100,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "217ce75e92685f7bcacba9132856ef149d68cf1b1837a7645e5ee222e3888750",
+        "scopeId": "SMS-MD-RIB",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "2fccbc3d-71b3-37dd-86b2-9b1a8db66d16",
+          "723787cf-c75e-3e71-98b5-daa46f79ad22"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3418,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.709,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 102,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "a8120cc0506f0fbcdef791e82c850dfcb68cece9e6e02eb27309be2f2b670ab8",
+        "scopeId": "VOLTE-MD-SOR",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "33dcd36d-0a62-3545-82cf-9bcb5b859b09",
+          "7470d5f9-2602-3d5e-a2d9-8f70700c5d1a",
+          "817aa73e-88cc-3478-9a5c-4c7be83df01a"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.38162544169612,
+          "baseline": 99.3,
+          "deltaPp": 0.08162544169612,
+          "delayRatio": null,
+          "numerator": 1125,
+          "denominator": 1132,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "0af507ef2dd302ea433e9c744d4bfd2d9ad28bbe78713b7171941d1dd9661950",
+        "scopeId": "VOLTE-MD-SOR",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "6f4a1f1b-091c-366d-bc64-7155697dc0cd",
+          "a6039ef3-5c81-3d47-ac00-57138a6a0025",
+          "b94efa52-5bdf-398f-badf-8d6623df84cd"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.1891891891892,
+          "baseline": 99.3,
+          "deltaPp": -0.1108108108108,
+          "delayRatio": null,
+          "numerator": 1101,
+          "denominator": 1110,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "cca60ee8f9c2f620d05e8f46498459fbd11a9a1d2641b33566f62dabea44bb92",
+        "scopeId": "VOLTE-MD-SOR",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "2c9327ba-c62a-365e-8b61-1b4d276d947a",
+          "71a12b57-d790-32f0-85a6-a5893b460b82",
+          "81fbbe28-ba47-39be-aa16-763cecae651f"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.32885906040268,
+          "baseline": 99.3,
+          "deltaPp": 0.02885906040268,
+          "delayRatio": null,
+          "numerator": 1184,
+          "denominator": 1192,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "03ae451c1807b9bcf5fbf29b0646d323c8d1adca60bd9b11ca5cad75ddb7e56c",
+        "scopeId": "VOLTE-MD-SOR",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "477e70a8-0fac-39d6-89e0-4a9e8db52471",
+          "e962fa2b-8cac-39ab-806b-f4747449a65a",
+          "fe87c4c1-7b3c-35fa-b2a6-5844082bafd4"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.31330472103004,
+          "baseline": 99.3,
+          "deltaPp": 0.01330472103004,
+          "delayRatio": null,
+          "numerator": 1157,
+          "denominator": 1165,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "d72be52f9077c256c6d76530ea661e0bd5f6492e8b98fd2b3dac566c5a282f5b",
+        "scopeId": "SMS-MD-SOR",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "0de720e3-8309-3df9-9e64-83799a5d25db",
+          "96f9ec37-f26f-3b44-9f02-c449b7a603b8"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3434,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.717,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 98,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "2518354c0b41b98e427be2ffd414df74290c010a6a3af73963403b71670e4a0d",
+        "scopeId": "SMS-MD-SOR",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "0ec25663-df16-3801-81f7-e634bafc89fa",
+          "d2351d03-e07d-3959-8f27-f6566acab0f3"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3460,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.73,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 107,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "6d4c92f16e639c4a2f1878b916642e58a2783ce8f2d2fcca0643cf4bc776d5d0",
+        "scopeId": "SMS-MD-SOR",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "143bf3be-6f38-3d87-a0ec-feb62d659409",
+          "e403775e-0852-39c7-8393-e934198ebcbc"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3064,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.532,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 89,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "3f1e6ec62b7644a76a84959148043f8c7a873cc7014f691d0448803e33caa73c",
+        "scopeId": "SMS-MD-SOR",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "b0af091d-b862-31b5-8076-58701a52255b",
+          "d20b3de8-dadf-36a8-85a9-1d9b4990b2c8"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3409,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7045,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 120,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "dd3c6c620656321f6675e74ff08a9c80488fb6c94c6e4aa81e574ae7ae649320",
+        "scopeId": "VOLTE-MD-TIR",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "093e43d8-3002-36c4-b0d7-00219897042b",
+          "25d1c50d-3a58-3a06-b96a-60cdbbd255dc",
+          "ab38492a-5470-32a1-a6ea-8b1a88bbb5a5"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22945205479452,
+          "baseline": 99.3,
+          "deltaPp": -0.07054794520548,
+          "delayRatio": null,
+          "numerator": 1159,
+          "denominator": 1168,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "17a44cade01f91dabb694f50fb8581364fc110505686947e96f1b1460cbf17e3",
+        "scopeId": "VOLTE-MD-TIR",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "2f082440-7915-317a-983f-8331ed3312d5",
+          "8289d2d9-28a5-337b-8843-fea16250e94c",
+          "8be92fe9-7b54-3dfe-9014-2a01a689b1b6"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22613929492691,
+          "baseline": 99.3,
+          "deltaPp": -0.07386070507309,
+          "delayRatio": null,
+          "numerator": 1154,
+          "denominator": 1163,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "7e4532ae0bccec6f60ba33f9dcd544744004b261af175dfa3a34697ab0f7a502",
+        "scopeId": "VOLTE-MD-TIR",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "0238c7ca-2a29-3c2c-b14d-301cccd134a3",
+          "347263f7-f2eb-312e-9e0b-6c5ebcd7f25c",
+          "9d735f5f-c9be-3405-9656-83d38b5bb9f0"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.29947460595447,
+          "baseline": 99.3,
+          "deltaPp": -0.00052539404553,
+          "delayRatio": null,
+          "numerator": 1134,
+          "denominator": 1142,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "5b92b04cd5b9b9100281fdb2cb8c705cebc9760ac775f14928abc43cca5bbaa0",
+        "scopeId": "VOLTE-MD-TIR",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "4a22b055-79af-32bf-90a5-44d8f9e06c31",
+          "4d6c8e56-f863-3a49-931b-66465f93dcf8",
+          "649b6739-97f5-320e-ad00-8f8398fe0184"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22945205479452,
+          "baseline": 99.3,
+          "deltaPp": -0.07054794520548,
+          "delayRatio": null,
+          "numerator": 1159,
+          "denominator": 1168,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "b3a35a05f2dbe722505f075a7833d196fbf5c1b64e1e2ace1170bb1decb06241",
+        "scopeId": "SMS-MD-TIR",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "0e6042f8-abb8-3963-96de-2ff4cfed4a0b",
+          "d4c83b43-4eca-32ec-82f8-d630b3b71ef7"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3450,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.725,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 95,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "33267bc6f9e18a2aaf1ef7cb6b89f679842bd56a2d9c355c62e8228b2d9a17a5",
+        "scopeId": "SMS-MD-TIR",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "39c46209-c778-30a1-a534-a456addacc76",
+          "945966c6-39e9-3123-a6b4-116af771976b"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3372,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.686,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 87,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "2b9e67cfc0bc25d8e5cf6d510952bb27bab6c9917c850adabb0752987e60aad3",
+        "scopeId": "SMS-MD-TIR",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "1d5795e9-7727-3bde-8bdd-44068c372a1f",
+          "2736390b-a533-3bab-bd7f-acbc54a79db5"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3332,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.666,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 95,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "3390710fb7456e1fb0e5629a12ef6f6cbb6f4632ed23aa18de04e7ac8c21ea35",
+        "scopeId": "SMS-MD-TIR",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "a048aa96-a311-3d62-9b41-3b59b0230667",
+          "c5fe1b1f-97b7-3f44-99b9-f7596cbaf466"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3346,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.673,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 83,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "9ce42ecd6ba3d7ea10b386843cc378b24ff9e71614da06ccf8b8202b69366cb4",
+        "scopeId": "VOLTE-MD-UNG",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "77b9fd97-28a8-3f7e-b37d-415549d79019",
+          "93fb8b94-7064-3ddb-bd37-7cef1d3f6c36",
+          "f0b4daf6-3d3b-3c1a-a28e-c4d7a1e89747"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.31506849315069,
+          "baseline": 99.3,
+          "deltaPp": 0.01506849315069,
+          "delayRatio": null,
+          "numerator": 1160,
+          "denominator": 1168,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "e40c4080b604a985ae554133ab06236397635e7139cb960871dc4cb6efe22cc0",
+        "scopeId": "VOLTE-MD-UNG",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "8319e1b7-5061-3629-bac6-0537486bac7a",
+          "b42767f5-b1d8-31cb-8b14-8c711712bf9b",
+          "ec84ba9b-1acf-3824-ac25-aadd88ba782d"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.29947460595447,
+          "baseline": 99.3,
+          "deltaPp": -0.00052539404553,
+          "delayRatio": null,
+          "numerator": 1134,
+          "denominator": 1142,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "9de2de649a32a8e1bc905a18c8a225f49e3ae739a30af536c3f9c0b543bfa194",
+        "scopeId": "VOLTE-MD-UNG",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "c59c9f70-61b7-3524-8038-a97e5b7f36df",
+          "dc167818-1783-3982-9943-2f9dd57e3ceb",
+          "de84339a-4fdc-3f74-b88a-5ad891e91280"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.39914163090128,
+          "baseline": 99.3,
+          "deltaPp": 0.09914163090128,
+          "delayRatio": null,
+          "numerator": 1158,
+          "denominator": 1165,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "e7fc48b76c0cca56588bbec97fc8ec796a2afdf84dcf92ef0c91873045ef1d1c",
+        "scopeId": "VOLTE-MD-UNG",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "3473495d-2a33-3171-8017-df2429f013e3",
+          "af64eee4-fd1b-3ef4-bd95-3dc54746a35d",
+          "d4b75f2b-166d-3bd1-be5f-e1d81a55bc0c"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "TECHNICAL_CSSR",
+          "unit": "PERCENT",
+          "observed": 99.22010398613519,
+          "baseline": 99.3,
+          "deltaPp": -0.07989601386481,
+          "delayRatio": null,
+          "numerator": 1145,
+          "denominator": 1154,
+          "sampleCount": null,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 3,
+          "receivedSources": 3,
+          "usableSources": 3
+        }
+      },
+      {
+        "windowId": "aeeda744778ba24f965e0ed303b17aa7e26dd063e6e3d67b3a3938117cf9c90c",
+        "scopeId": "SMS-MD-UNG",
+        "windowStart": "2026-10-07T19:48:00Z",
+        "windowEnd": "2026-10-07T19:49:00Z",
+        "sourceEventIds": [
+          "8d59d4d8-71ce-3d26-b18a-65bbcab7f57f",
+          "9a357428-d8c3-31dd-8071-72196a9ed1a4"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3315,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6575,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 88,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "8f0d8d9b2c17e2be6876b663b6e0e59bd4dbceca9af6fcd07c9a9ca9073d094e",
+        "scopeId": "SMS-MD-UNG",
+        "windowStart": "2026-10-07T19:49:00Z",
+        "windowEnd": "2026-10-07T19:50:00Z",
+        "sourceEventIds": [
+          "686f78a8-4554-363d-a33f-c1cb1749038d",
+          "fe570c9b-12e7-3120-a360-164896bba2ec"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3330,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.665,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 95,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "9146012af597fb7cfffc13478aa08116bc7eef9f10f42ca40bfc149ff0caab5d",
+        "scopeId": "SMS-MD-UNG",
+        "windowStart": "2026-10-07T19:50:00Z",
+        "windowEnd": "2026-10-07T19:51:00Z",
+        "sourceEventIds": [
+          "81a42a62-7e55-3f40-9fae-91ed186f8fd7",
+          "ae0cdaf6-c12b-3d01-b731-022ad4f427d3"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3381,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6905,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 116,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      },
+      {
+        "windowId": "affdef855c5a6f033da383e955cb4790e3f112a6de0093fde08362b73c225f50",
+        "scopeId": "SMS-MD-UNG",
+        "windowStart": "2026-10-07T19:51:00Z",
+        "windowEnd": "2026-10-07T19:52:00Z",
+        "sourceEventIds": [
+          "54391efd-077d-392b-af67-6fcaeff06177",
+          "5fe84ab7-a7e2-36f2-b8be-44b21800e956"
+        ],
+        "catalogueVersion": "2-geography-day2-d88efcaf9cb71e87af3765493ad52c509cda2ab561df4054e07d8a8e76ae1ac3",
+        "topologyVersion": "2-geography-g1",
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3317,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6585,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 99,
+          "nullReason": null
+        },
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        }
+      }
+    ],
+    "sharedG3Accepted": false,
+    "stackStopped": true
+  },
+  "review": [
+    "Worker A reviewed B geographic goldens and controls",
+    "Worker B reviewed C numeric and queue handoff",
+    "Worker C reviewed A durable replay and coordinator saved-topology validator; improvements applied"
+  ],
+  "pendingOwnerHandoffs": [
+    "Ion and Denis: geographic public and private scenario targeting",
+    "Denis: server priority endpoint and original historical impact provenance",
+    "David: SMS delay ratio display and connected fault investigation",
+    "All owners: shared G3 review"
+  ],
+  "verificationSequence": {
+    "fullCleanVerify": "one geographic SMS fixture representation failure; all other suites passed",
+    "correctedReactorVerify": "PASS: ExplanationCasesTest rerun and reactor packaging; retained reports aggregate all suites",
+    "skippedPrerequisites": [
+      "geographic HTTP scorer",
+      "existing live VoLTE HTTP model",
+      "existing live SMS HTTP model",
+      "SMS shadow replay"
+    ]
+  }
+}
