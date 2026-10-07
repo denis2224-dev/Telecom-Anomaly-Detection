@@ -1,0 +1,24 @@
+[ {
+  "phase" : "kafka_received",
+  "sourceId" : "VOLTE-ADAPTER",
+  "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
+  "kafkaPartition" : "0",
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "windowStart" : "2026-09-15T08:00:00Z",
+  "kafkaOffset" : "1"
+}, {
+  "phase" : "ingestion_committed",
+  "sourceId" : "VOLTE-ADAPTER",
+  "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
+  "kafkaPartition" : "0",
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "windowStart" : "2026-09-15T08:00:00Z",
+  "kafkaOffset" : "1",
+  "outcome" : "accepted"
+}, {
+  "phase" : "feature_finalized",
+  "scopeId" : "VOLTE-MD-CENTRAL",
+  "sourceEventIds" : "[879adeeb-7816-3394-80aa-753dbd80f27e]",
+  "windowStart" : "2026-09-15T08:00:00Z",
+  "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc"
+} ]

@@ -1,0 +1,7 @@
+{
+  "freshAtExactBoundary" : 1,
+  "expectedPairs" : 6.0,
+  "neverSeen" : 5.0,
+  "staleOneNanosecondLater" : 1,
+  "staleAfterSec" : 90
+}
