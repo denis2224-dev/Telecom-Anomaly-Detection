@@ -156,3 +156,49 @@ Full log: `tmp/pr66-scheduler-verify.log`.
 The updated integration YAML parses and contains the complete focused selection.
 `git diff --check` passed. Independent review found no blocking production,
 regression-test, or CI defects.
+
+## Dashboard CI cleanup follow-up
+
+The [dashboard CI run](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37641053729)
+failed at `resource-bounds.spec.ts:254`: zero active SSE connections expected,
+one received. This was a test synchronization issue. `page.goto('/login')`
+reloaded the document and reset the mock counter. The fixture still returned an
+authenticated session, so `AppComponent` redirected to `/dashboard` and opened
+a new stream. The assertion could observe zero before that redirect or one
+afterward; it did not verify teardown of the previous screen.
+
+A temporary diagnostic that waited for the redirect reproduced the failure
+locally: pathname `/dashboard`, active `1`, closed `0` in the new mock state.
+Production stream cleanup was not changed.
+
+Both resource tests now navigate through the browser history API and Angular's
+`popstate` listener within the same document. They retain the original mock
+state and stream, require one active connection before navigation, wait for
+the login heading and URL, and verify state identity, exactly zero active
+connections, and closure of the original stream. Polling only synchronizes
+the zero assertion with router teardown; the expected value stays unchanged.
+
+Mutation verification removed only the service-detail destroy callback's
+`this.closeStream?.()` call. The retained-heap test reached `/login` and failed
+at the zero-connection assertion after five seconds, receiving one. The source
+was restored byte-for-byte in a `finally` block. The temporary diagnostic and
+mutation are not part of the committed change.
+
+Validation on Windows with Node 24.13.1 and Playwright Chromium, from
+`apps/dashboard`:
+
+```powershell
+npm.cmd run test:e2e -- resource-bounds.spec.ts --workers=2
+npm.cmd run test:e2e -- --workers=2
+npm.cmd run build
+```
+
+The focused selection passed both tests without skips. The final full browser
+run passed 120 tests with zero failures and 10 existing environment-gated skips.
+Both resource tests executed. Build and `git diff --check` passed.
+
+The first full run passed both resource tests but hit a separate minute-boundary
+race in `geography-live.spec.ts:105`: three catalogue requests instead of two.
+That fixture's SSE mock never opens, enabling the scheduled REST fallback.
+The geography case passed in isolation, and the complete suite then passed
+without further code changes. Its assertions and fixture were left unchanged.
