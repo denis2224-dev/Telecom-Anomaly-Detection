@@ -40,11 +40,58 @@ public class ContinuousTelemetryService implements SmartLifecycle {
     private static final int GEOGRAPHIC_CONCURRENCY = 20;
     private volatile ThreadPoolExecutor submissions;
     private final Map<String, GeographicChain> chains = new HashMap<>();
+    private static final int RETAINED_GEOGRAPHIC_MINUTES = 2;
+    private final Map<Instant, WindowAccounting> accounting = new java.util.LinkedHashMap<>();
+
+    // Mutated only under the service monitor, including ACK callbacks and lifecycle cancellation.
+    private static final class WindowAccounting {
+        final Instant start;
+        final int expected;
+        int offered, acknowledged, failed, cancelled, attempts, failedAttempts, timeouts;
+        boolean sealed, logged;
+        WindowAccounting(Instant start, int expected) { this.start = start; this.expected = expected; }
+        GeographicPublicationResult snapshot() {
+            return new GeographicPublicationResult(start, expected, offered, acknowledged, failed, cancelled,
+                    attempts, failedAttempts, timeouts, sealed && offered == acknowledged + failed + cancelled);
+        }
+    }
+
+    /** At most the two most recent minute results; callers never receive mutable runtime state. */
+    public synchronized List<GeographicPublicationResult> geographicPublicationResults() {
+        return accounting.values().stream().map(WindowAccounting::snapshot).toList();
+    }
+    private synchronized WindowAccounting beginAccounting(Instant start) {
+        var window = new WindowAccounting(start, healthy.expectedGeographicObservations(start));
+        if (window.expected > 0) {
+            // A lifecycle restart can revisit a minute with an injected clock. Keep one result per minute.
+            accounting.remove(start);
+            accounting.put(start, window);
+            while (accounting.size() > RETAINED_GEOGRAPHIC_MINUTES)
+                accounting.remove(accounting.keySet().iterator().next());
+        }
+        return window;
+    }
+    private synchronized void sealAccounting(WindowAccounting window) {
+        window.sealed = true;
+        logAccounting(window);
+    }
+    private void logAccounting(WindowAccounting window) {
+        var result = window.snapshot();
+        if (window.expected == 0 || !result.complete() || window.logged) return;
+        window.logged = true;
+        LOG.info("Geographic publication windowStart={} expectedObservations={} offeredObservations={} "
+                        + "acknowledgedObservations={} failedObservations={} expiredOrCancelledObservations={} "
+                        + "sendAttempts={} failedSendAttempts={} timedOutSendAttempts={}",
+                result.windowStart(), result.expectedObservations(), result.offeredObservations(),
+                result.acknowledgedObservations(), result.failedObservations(), result.expiredOrCancelledObservations(),
+                result.sendAttempts(), result.failedSendAttempts(), result.timedOutSendAttempts());
+    }
 
     private static final class GeographicChain {
         final String scope;
         final Instant start;
         final List<String> payloads;
+        final WindowAccounting accounting;
         int index;
         int attempt;
         boolean submitting;
@@ -53,8 +100,9 @@ public class ContinuousTelemetryService implements SmartLifecycle {
         CompletableFuture<?> ack;
         ScheduledFuture<?> expiry;
         ScheduledFuture<?> retry;
-        GeographicChain(String scope, Instant start, List<String> payloads) {
+        GeographicChain(String scope, Instant start, List<String> payloads, WindowAccounting accounting) {
             this.scope = scope; this.start = start; this.payloads = List.copyOf(payloads);
+            this.accounting = accounting;
         }
     }
 
@@ -91,6 +139,7 @@ public class ContinuousTelemetryService implements SmartLifecycle {
     }
     private void tick(Instant start) {
         if (!running) return;
+        var window = beginAccounting(start);
         try {
             for (String scope : healthy.scopes(start)) {
                 try {
@@ -100,7 +149,7 @@ public class ContinuousTelemetryService implements SmartLifecycle {
                     }
                     if (!clock.instant().isBefore(start.plusSeconds(67))) continue;
                     var payloads = healthy.window(scope, start, properties.seed());
-                    if (healthy.geographic(scope)) publishAsync(scope, start, payloads);
+                    if (healthy.geographic(scope)) publishAsync(scope, start, payloads, window);
                     else publish(scope, start, payloads, 0);
                 } catch (RuntimeException failure) {
                     LOG.warn("Continuous scopeId={} windowStart={} result=MISSING", scope, start);
@@ -109,6 +158,7 @@ public class ContinuousTelemetryService implements SmartLifecycle {
         } catch (RuntimeException failure) {
             LOG.error("Continuous windowStart={} result=FAILED", start);
         } finally {
+            sealAccounting(window);
             // A delayed callback must skip missed intervals, never manufacture downtime history.
             Instant following = start.plusSeconds(60);
             Instant now = clock.instant();
@@ -117,11 +167,12 @@ public class ContinuousTelemetryService implements SmartLifecycle {
         }
     }
     /** One ordered chain per scope, including across ticks; Kafka submission itself may block. */
-    private synchronized void publishAsync(String scope, Instant start, List<String> payloads) {
+    private synchronized void publishAsync(String scope, Instant start, List<String> payloads, WindowAccounting window) {
         if (!running || !clock.instant().isBefore(start.plusSeconds(67)) || payloads.isEmpty()
                 || chains.containsKey(scope) || chains.size() >= GEOGRAPHIC_CONCURRENCY) return;
-        var chain = new GeographicChain(scope, start, payloads);
+        var chain = new GeographicChain(scope, start, payloads, window);
         chains.put(scope, chain);
+        window.offered += chain.payloads.size();
         try { chain.expiry = scheduler.schedule(() -> expire(chain), start.plusSeconds(67)); }
         catch (RuntimeException unavailable) { finish(chain, true); throw unavailable; }
         if (chain.expiry == null) { finish(chain, true); return; }
@@ -147,6 +198,7 @@ public class ContinuousTelemetryService implements SmartLifecycle {
             if (remaining <= 0) { finish(chain, true); return; }
             payload = chain.payloads.get(chain.index);
             chain.submitting = true;
+            chain.accounting.attempts++;
         }
         boolean released = false;
         try {
@@ -172,22 +224,45 @@ public class ContinuousTelemetryService implements SmartLifecycle {
     }
     private synchronized void completed(GeographicChain chain, Throwable failure) {
         if (!current(chain)) return;
+        if (!clock.instant().isBefore(chain.start.plusSeconds(67))) { finish(chain, true); return; }
         if (failure == null) {
+            chain.accounting.acknowledged++;
             if (++chain.index == chain.payloads.size()) finish(chain, false);
             else submit(chain); // Never call blocking Kafka code on the ACK callback thread.
             return;
+        }
+        chain.accounting.failedAttempts++;
+        for (Throwable cause = failure; cause != null; cause = cause.getCause()) {
+            if (cause instanceof java.util.concurrent.TimeoutException
+                    || cause instanceof org.apache.kafka.common.errors.TimeoutException) {
+                chain.accounting.timeouts++;
+                break;
+            }
         }
         Instant at = clock.instant().plusMillis(250);
         if (++chain.attempt < 3 && at.isBefore(chain.start.plusSeconds(67))) {
             chain.retry = scheduler.schedule(() -> submit(chain), at);
             if (chain.retry == null) finish(chain, true);
-        } else finish(chain, true);
+        } else {
+            // Exhausted ACK failures terminate the current logical record. Later records were offered
+            // with the chain but are cancelled without being sent. An uncertain ACK may still persist.
+            finish(chain, true, chain.attempt >= 3 ? 1 : 0);
+        }
     }
     private synchronized void expire(GeographicChain chain) {
         if (chains.get(chain.scope) == chain) finish(chain, true);
     }
     private void finish(GeographicChain chain, boolean cancel) {
+        finish(chain, cancel, 0);
+    }
+    private void finish(GeographicChain chain, boolean cancel, int failed) {
+        if (chain.finished) return;
         chain.finished = true;
+        chain.accounting.failed += failed;
+        if (cancel) {
+            // A terminal failure above accounts for exactly the current record, never its retry attempts.
+            chain.accounting.cancelled += chain.payloads.size() - chain.index - failed;
+        }
         // Interruption is cooperative. Do not let a new minute overtake a send still inside Kafka.
         if (!chain.submitting) chains.remove(chain.scope, chain);
         if (chain.expiry != null) chain.expiry.cancel(false);
@@ -198,6 +273,7 @@ public class ContinuousTelemetryService implements SmartLifecycle {
             LOG.warn("Continuous scopeId={} windowStart={} pendingRecords={} result=MISSING",
                     chain.scope, chain.start, chain.payloads.size() - chain.index);
         }
+        logAccounting(chain.accounting);
     }
     private void publish(String scope, Instant start, List<String> payloads, int attempt) {
         Instant deadline = start.plusSeconds(67); // transport/consumer margin before +10s closure
