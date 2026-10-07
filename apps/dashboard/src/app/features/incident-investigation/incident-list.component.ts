@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DrawerComponent } from '../../shared/drawer.component';
 import { episodes, type Incident } from '../service-kpi-history/voice-model';
+import { workflowLabel, probableCause } from '../../shared/metric-presentation';
 @Component({
   selector: 'app-incident-list', imports: [DatePipe, RouterLink, IconComponent, DrawerComponent],
   template: `<section class="detail-panel" aria-labelledby="incidents-title">
@@ -16,7 +17,7 @@ import { episodes, type Incident } from '../service-kpi-history/voice-model';
     </div><div class="episode-scroll">
     @for (item of rows(); track item.episodeId) {
       <article class="episode-card" [class.is-highlighted]="highlighted().includes(item.episodeId)" [attr.data-severity]="item.severity" [attr.data-episode-id]="item.episodeId" [attr.data-highlighted]="highlighted().includes(item.episodeId)">
-        <div class="episode-summary"><p class="episode-info"><span class="sr-only">{{ item.severity }} severity · </span>{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ duration(item) }} observed@if (impact(item); as estimate) { · {{ estimate }} } · Assignee: {{ item.assigneeId ?? 'Unassigned' }} · {{ item.status }}</p>
+        <div class="episode-summary"><p class="episode-info"><span class="sr-only">{{ item.severity }} severity · </span>{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ duration(item) }} observed@if (impact(item); as estimate) { · {{ estimate }} } · Assignee: {{ item.assigneeId ?? 'Unassigned' }} · {{ workflowState(item) }}</p>
         <p class="episode-time">{{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · {{ item.technicalState }}</p>
         <button class="ghost evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)">View incident evidence<app-icon name="right" /></button></div>
         <a class="button primary" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a>
@@ -27,9 +28,9 @@ import { episodes, type Incident } from '../service-kpi-history/voice-model';
     @if (selectedEpisode(); as item) { <section class="incident-story" [attr.data-phase]="item.latestDetection.phase" [attr.data-episode-id]="item.episodeId">
       <h4 class="episode-title">{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ item.latestDetection.anomalyType }}</h4>
       <p>{{ item.scopeId }}</p>
-      <dl><div><dt>Technical state</dt><dd>{{ item.technicalState }}</dd></div><div><dt>Workflow state</dt><dd>{{ item.status }}</dd></div></dl>
+      <dl><div><dt>Technical state</dt><dd>{{ item.technicalState }}</dd></div><div><dt>Workflow state</dt><dd>{{ workflowState(item) }}</dd></div></dl>
       <dl class="evidence-times"><div><dt>First observed (UTC)</dt><dd>{{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div><div><dt>Last observed (UTC)</dt><dd>{{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div><div><dt>Detected (UTC)</dt><dd>{{ item.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div></dl>
-      <h4>Probable cause</h4><p>{{ item.latestDetection.probableCause }}</p>
+      <h4>Probable cause</h4><p>{{ cause(item.latestDetection) }}</p>
     </section> }
   </app-drawer>`,
   styles: [`
@@ -64,6 +65,8 @@ import { episodes, type Incident } from '../service-kpi-history/voice-model';
   `],
 })
 export class IncidentListComponent {
+  readonly workflowState = workflowLabel;
+  readonly cause = probableCause;
   readonly incidents = input<Incident[]>([]);
   readonly total = input<number>();
   readonly highlighted = input<string[]>([]);

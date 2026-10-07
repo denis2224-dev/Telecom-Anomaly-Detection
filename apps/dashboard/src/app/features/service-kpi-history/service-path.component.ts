@@ -13,9 +13,10 @@ import { Detection, formatMetric, metricValue } from './assurance-model';
       <span class="dependency-arrow" aria-hidden="true">→</span>
       @for (node of service().scope.dependencyIds; track node) {
         <article class="dependency-node" [attr.data-node-id]="node" [class.no-measurement]="!measured(node)">
-          <h3>{{ node }}</h3><strong>{{ measured(node) ? 'OBSERVED CONTEXT' : 'UNKNOWN / NO CURRENT MEASUREMENT' }}</strong>
+          <h3>{{ node }}</h3><strong>{{ measured(node) ? 'INHERITED SERVICE CONTEXT' : 'UNKNOWN / NO CURRENT MEASUREMENT' }}</strong>
+          <p>Local device measurement: Unavailable</p>
           @for (name of metrics(node); track name) { <p>{{ name }}: {{ format(value(name), unit(name)) }}</p> }
-          @for (item of evidence(node); track $index) { <p class="evidence-summary">Supporting evidence ({{ item.windowStart }}): {{ item.summary }}</p> }
+          @for (item of evidence(node); track $index) { <p class="evidence-summary">Recorded source evidence ({{ item.windowStart }}): {{ item.summary }}</p> }
           @if (!measured(node)) { <p>Dependency membership does not demonstrate current health.</p> }
         </article>
       }

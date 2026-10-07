@@ -64,11 +64,19 @@ test.describe('Controlled historical evidence', () => {
       await expect(page.getByRole('link', { name: 'Back to service' })).toHaveAttribute('href', `/services/${incident.scopeId}`);
       for (let index = 0; index < 3; index++) {
         const update = updates.nth(index);
-        await expect(update).toContainText(`Source scope: ${incident.scopeId}`);
+        const scope = update.getByText(incident.scopeId, { exact: true });
+        await expect(scope).toBeHidden();
+        await update.getByText('Troubleshooting', { exact: true }).click();
+        await expect(scope).toBeVisible();
         await expect(update.locator('[data-kpi] td').nth(1)).toHaveText('99.3');
         await expect(update.locator('[data-kpi] td').nth(2)).toHaveText('PERCENT');
         await update.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
-        await expect(update.getByRole('region', { name: 'Cause hypothesis' })).toContainText(`Window ${index + 1} capacity hypothesis`);
+        const cause = update.getByRole('region', { name: 'Cause hypothesis' });
+        await expect(cause).toContainText(index === 1 ? 'Cause undetermined' : `Window ${index + 1} capacity hypothesis`);
+        if (index === 1) {
+          await expect(cause).not.toContainText(history[index].probableCause);
+          await expect(update).toContainText(`Recorded hypothesis (not confirmed): ${history[index].probableCause}`);
+        }
         await expect(update).toContainText(`Inspect source window ${index + 1}`);
         await expect(update).toContainText('Unique customers: Unavailable');
         await update.getByText('Source evidence', { exact: true }).click();

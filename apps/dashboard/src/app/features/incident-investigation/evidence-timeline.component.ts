@@ -5,7 +5,7 @@ import type { components } from '../../core/api/schema';
 import { CauseEvidenceComponent } from './cause-evidence.component';
 import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
 import { SampleVolumeComponent } from '../service-kpi-history/sample-volume.component';
-import { metricLabel, primaryMetric, supportedValue, type Kpi } from '../../shared/metric-presentation';
+import { deviation, relativeChange, probableCause, metricLabel, primaryMetric, supportedValue, type Kpi } from '../../shared/metric-presentation';
 
 type Detection = components['schemas']['ServiceDetection'];
 
@@ -34,7 +34,7 @@ type Detection = components['schemas']['ServiceDetection'];
           </div>
           <div class="badge-row"><span class="badge" [attr.data-state]="detection.severity"><span class="sr-only">Severity: </span>{{ detection.severity }}</span><span class="badge" [attr.data-state]="detection.technicalState"><span class="sr-only">Technical state: </span>{{ detection.technicalState }}</span><span class="badge">{{ detection.phase }}</span></div>
         </header>
-        <p class="evidence-meta">Server detected at <time [attr.datetime]="detection.detectedAt">{{ detection.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</time> UTC · Source scope: {{ detection.scopeId }} · Service: {{ detection.service }}</p>
+        <p class="evidence-meta">Server detected at <time [attr.datetime]="detection.detectedAt">{{ detection.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</time> UTC · Service: {{ detection.service }}</p>
 
         @if (detection.phase === 'UNKNOWN') {
           <p class="notice">
@@ -69,6 +69,8 @@ type Detection = components['schemas']['ServiceDetection'];
                 <th scope="col">Actual</th>
                 <th scope="col">Baseline</th>
                 <th scope="col">Unit</th>
+                <th scope="col">Change</th>
+                <th scope="col">Relative change</th>
                 <th scope="col">Numerator</th>
                 <th scope="col">Denominator</th>
               </tr>
@@ -81,6 +83,8 @@ type Detection = components['schemas']['ServiceDetection'];
                   <td>{{ observedFor(detection, kpi) ?? 'Unavailable' }}</td>
                   <td>{{ kpi.baseline ?? 'Unavailable' }}</td>
                   <td>{{ kpi.unit }}</td>
+                  <td>{{ change(kpi, observedFor(detection, kpi)) }}</td>
+                  <td>{{ relative(kpi, observedFor(detection, kpi)) }}</td>
                   <td>{{ kpi.numerator ?? 'Unavailable' }}</td>
                   <td>{{ kpi.denominator ?? 'Unavailable' }}</td>
                 </tr>
@@ -99,7 +103,6 @@ type Detection = components['schemas']['ServiceDetection'];
         @if (detection.service === 'VOLTE') {
           <app-metric-explanation topic="failed-attempts" />
         }
-        <p class="evidence-meta">Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
 
         <details>
           <summary>Source evidence</summary>
@@ -107,21 +110,19 @@ type Detection = components['schemas']['ServiceDetection'];
           @for (evidence of detection.evidence; track $index) {
             <p>{{ evidence.summary }}</p>
 
-            <p>
-              Evidence code: {{ evidence.code }}
-              · Node: {{ evidence.nodeId ?? 'Unavailable' }}
-            </p>
-
-            <ul>
-              @for (id of evidence.sourceEventIds; track id) {
-                <li><code>{{ id }}</code></li>
-              } @empty {
-                <li>No source event IDs supplied.</li>
-              }
-            </ul>
           } @empty {
             <p>No source evidence supplied.</p>
           }
+        </details>
+
+        <details class="evidence-disclosure"><summary>Troubleshooting</summary>
+          <p>Detection: <code>{{ detection.detectionId }}</code> · Scope: <code>{{ detection.scopeId }}</code></p>
+          <p>Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
+          @for (evidence of detection.evidence; track $index) {
+            <p>Evidence code: {{ evidence.code }} · Node: {{ evidence.nodeId ?? 'Unavailable' }}</p>
+            <ul>@for (id of evidence.sourceEventIds; track id) { <li><code>{{ id }}</code></li> } @empty { <li>No source event IDs supplied.</li> }</ul>
+          }
+          @if (cause(detection) !== detection.probableCause) { <p>Recorded hypothesis (not confirmed): {{ detection.probableCause || 'Unavailable' }}</p> }
         </details>
 
         <details class="cause-details"><summary>Cause hypothesis &amp; recommended checks</summary><app-cause-evidence [detection]="detection" /></details>
@@ -134,6 +135,9 @@ type Detection = components['schemas']['ServiceDetection'];
 export class EvidenceTimelineComponent {
   readonly detections = input<Detection[]>([]);
   readonly label = metricLabel;
+  readonly change = deviation;
+  readonly relative = relativeChange;
+  readonly cause = probableCause;
 
   observedFor(detection: Detection, kpi: Kpi): number | null {
     return supportedValue(kpi, detection.kpis, detection.phase === 'UNKNOWN' ? 'MISSING' : 'COMPLETE');

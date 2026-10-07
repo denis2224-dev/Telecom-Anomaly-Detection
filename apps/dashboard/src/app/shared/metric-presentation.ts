@@ -4,6 +4,10 @@ type Window = components['schemas']['ServiceKpiWindow'];
 type Detection = components['schemas']['ServiceDetection'];
 export type Kpi = Window['kpis'][number];
 
+export function workflowLabel(item: components['schemas']['Incident']): string {
+  return item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED' ? `${item.status} · Awaiting analyst resolution` : item.status;
+}
+
 export function primaryMetric(service: 'VOLTE' | 'SMS', kpis: Kpi[]): Kpi | undefined {
   const name = service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs';
   return kpis.find(kpi => kpi.name === name)
@@ -34,6 +38,20 @@ export function deviation(kpi: Kpi | undefined, observed: number | null): string
     COUNT: 'count', RATIO: 'ratio', MBPS: 'Mbps',
   };
   return `${change > 0 ? '+' : ''}${change} ${units[kpi.unit] ?? kpi.unit}`;
+}
+
+export function relativeChange(kpi: Kpi, observed: number | null): string {
+  if (observed === null || kpi.baseline === null || !Number.isFinite(kpi.baseline) || kpi.baseline === 0) return 'Unavailable';
+  const change = Math.round((observed - kpi.baseline) / Math.abs(kpi.baseline) * 10000) / 100;
+  return `${change > 0 ? '+' : ''}${change}%`;
+}
+
+export function probableCause(detection: Detection): string {
+  // V2 carries neutral evidence records, not the proposed causal projection.
+  if (detection.phase === 'UNKNOWN' || supportedValue(primaryMetric(detection.service, detection.kpis), detection.kpis) === null
+    || !detection.evidence.length || !detection.probableCause.trim()
+    || detection.evidence.every(item => ['PING_RESULT', 'PROBE_WORKER_HEALTH'].includes(item.code))) return 'Cause undetermined';
+  return detection.probableCause;
 }
 
 export function metricLabel(name: string): string {

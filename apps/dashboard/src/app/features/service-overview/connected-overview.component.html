@@ -58,7 +58,7 @@
           </tr>
         }</tbody>
       </table></div>
-      <button type="button" class="panel-navigation" [routerLink]="visibleIncidents()[0] ? ['/incidents', visibleIncidents()[0].id] : null" [disabled]="!visibleIncidents().length">Open incident investigation <app-icon name="right" /></button>
+      <button type="button" class="panel-navigation" [routerLink]="investigationTarget() ? ['/incidents', investigationTarget()!.id] : null" [disabled]="!investigationTarget()">Open incident investigation <app-icon name="right" /></button>
     </section>
     <section class="service-panel" aria-labelledby="sms-panel-title">
       <h2 id="sms-panel-title">SMS delivery <span>Success rate %</span></h2>
@@ -81,7 +81,7 @@
     </section>
   </div>
   @if (!fixture && selectedCity()?.geography) {
-    <app-city-evidence [city]="selectedCity()!" [filter]="serviceFilter()" [from]="chartFrom()" [to]="chartTo()" [updatedAt]="geographyUpdatedAt()" />
+    <app-city-evidence [city]="selectedCity()!" [filter]="serviceFilter()" [from]="chartFrom()" [to]="chartTo()" [updatedAt]="geographyUpdatedAt()" [catalogueError]="geographyError()" />
   }
 </section>
 
@@ -94,11 +94,11 @@
             @for (incident of visibleIncidents(); track incident.id) {
               <article class="queue-item">
                 <h4>{{ cityLabel(catalogue(), incident.scopeId) }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</h4>
-                <p>{{ incident.severity }} severity · Technical: {{ incident.technicalState }} · Workflow: {{ incident.status }}</p>
+                <p>{{ incident.severity }} severity · Technical: {{ incident.technicalState }} · Workflow: {{ workflowState(incident) }}</p>
                 <p class="queue-meta">First observed: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-meta">Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p>{{ deviation(detectionWindow(incident), incident.service) }}</p>
-                <p class="queue-meta">{{ incident.latestDetection.probableCause }}</p>
+                <p class="queue-meta">{{ cause(incident.latestDetection) }}</p>
                 <div class="button-row">
                   @if (cityForScope(catalogue(), incident.scopeId); as city) {
                     <button type="button" (click)="select(city.id)">Show {{ city.name }}</button>

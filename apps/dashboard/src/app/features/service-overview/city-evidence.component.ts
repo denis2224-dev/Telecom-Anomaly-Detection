@@ -1,5 +1,6 @@
 import { Component, DestroyRef, computed, effect, inject, input, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient } from '../../core/api/telecom-client';
 import type { components } from '../../core/api/schema';
@@ -9,15 +10,31 @@ import { type City, type Filter, type Service, number } from './dashboard-geogra
 type Page = components['schemas']['GeographyKpiPage'];
 
 @Component({
-  selector: 'app-city-evidence', imports: [DatePipe],
-  template: `<details class="evidence-disclosure city-evidence"><summary>{{ city().name }} · City coverage and history</summary>
+  selector: 'app-city-evidence', imports: [DatePipe, RouterLink],
+  template: `<section class="detail-panel" aria-label="Selected city investigation">
+    <h2>{{ city().name }} investigation</h2>
+    @if (catalogueError()) { <p role="status">City catalogue unavailable; these retained observations may be stale.</p> }
+    @if (city().geography?.synthetic) { <p class="muted">Configured synthetic footprint · backend observations</p> }
+    @for (state of city().geography?.services ?? []; track state.scopeId) {
+      <p>{{ state.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · City/service impact: {{ state.technicalActiveCount }} ongoing · {{ state.analystOpenCount }} analyst open · {{ state.freshness }} · Latest: {{ state.latestWindowEnd ? (state.latestWindowEnd | date:'dd MMM HH:mm:ss':'UTC') + ' UTC' : 'Unavailable' }}</p>
+    }
+    <div class="button-row">@for (state of city().geography?.services ?? []; track state.scopeId) {
+      <a class="button" [routerLink]="['/services', state.scopeId]">Open {{ city().name }} {{ state.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }} →</a>
+    }</div>
+    <details class="evidence-disclosure"><summary>Device measurements and topology</summary>
+      <p>City → aggregation → site/eNodeB → cell navigation: Unavailable</p>
+      <p>Local device measurements: Unavailable. City/service impact is inherited context, not a device measurement.</p>
+    </details>
+  </section>
+  <details class="evidence-disclosure city-evidence"><summary>{{ city().name }} · City coverage and history</summary>
     @if (error()) { <p role="alert">{{ error() }} No substitute city measurements are used.</p> }
     @if (detail(); as item) {
-      <p>{{ item.catalogueVersion }} · {{ item.topologyVersion }} · {{ item.synthetic ? 'Configured synthetic footprint' : '' }}</p>
       <p>Catalogue response: {{ item.generatedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
-      <p>Footprint: {{ item.footprintNodeIds.join(', ') || 'Unavailable' }}</p>
+      <details class="evidence-disclosure"><summary>Troubleshooting</summary><p>Catalogue: {{ item.catalogueVersion }} · Topology: {{ item.topologyVersion }}</p><p>Footprint references: {{ item.footprintNodeIds.join(', ') || 'Unavailable' }}</p>
+        @for (state of item.services; track state.scopeId) { <p>{{ state.service }} scope: {{ state.scopeId }}</p> }
+      </details>
       @for (state of item.services; track state.scopeId) {
-        <p>{{ state.service }} · {{ state.scopeId }} · {{ state.freshness }} · {{ state.technicalActiveCount }} ongoing / {{ state.analystOpenCount }} analyst open · Latest: {{ state.latestWindowEnd ? (state.latestWindowEnd | date:'dd MMM HH:mm:ss':'UTC') + ' UTC' : 'Unavailable' }}</p>
+        <p>{{ state.service }} · {{ state.freshness }} · {{ state.technicalActiveCount }} ongoing / {{ state.analystOpenCount }} analyst open · Latest: {{ state.latestWindowEnd ? (state.latestWindowEnd | date:'dd MMM HH:mm:ss':'UTC') + ' UTC' : 'Unavailable' }}</p>
         <p>Coverage: {{ state.coverage.state }} · {{ value(state.coverage.usableSources) }} usable / {{ value(state.coverage.receivedSources) }} received / {{ value(state.coverage.expectedSources) }} expected · {{ state.metric.nullReason ?? 'Measured' }}</p>
       }
     }
@@ -40,6 +57,7 @@ export class CityEvidenceComponent {
   readonly from = input.required<string>();
   readonly to = input.required<string>();
   readonly updatedAt = input.required<string>();
+  readonly catalogueError = input('');
   readonly selectedServices = computed<readonly Service[]>(() => this.filter() === 'ALL' ? ['VOLTE', 'SMS'] : [this.filter() as Service]);
   readonly detail = signal<components['schemas']['GeographyCityDetail'] | null>(null);
   readonly histories = signal<Partial<Record<Service, Page>>>({});
