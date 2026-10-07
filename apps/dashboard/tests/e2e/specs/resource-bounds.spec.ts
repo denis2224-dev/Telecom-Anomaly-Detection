@@ -134,6 +134,25 @@ async function paint(page: Page) {
     requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 
+async function navigateToLoginAndExpectCleanup(page: Page) {
+  const retained = await page.evaluateHandle(() => ({
+    state: (window as any).__day15, stream: (window as any).__day15.stream,
+  }));
+  expect(await retained.evaluate(({ state }) => state.active)).toBe(1);
+  // Stay in the same document: goto resets the mock, then the authenticated
+  // session redirects from /login to /dashboard and opens a new stream.
+  await page.evaluate(() => {
+    history.pushState(null, '', '/login');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  });
+  await expect(page.getByRole('heading', { name: 'Sign in to investigate service issues' })).toBeVisible();
+  await expect(page).toHaveURL(/\/login$/);
+  expect(await retained.evaluate(({ state }) => state === (window as any).__day15)).toBe(true);
+  await expect.poll(() => retained.evaluate(({ state }) => state.active)).toBe(0);
+  expect(await retained.evaluate(({ stream }) => stream.closed)).toBe(true);
+  await retained.dispose();
+}
+
 test.describe('Browser resource bounds', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled dataset; use real login separately for backend evidence');
 
@@ -187,8 +206,7 @@ test.describe('Browser resource bounds', () => {
     await expect(page).toHaveURL(/\/dashboard$/);
     expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(true);
     expect(await page.evaluate(() => (window as any).__day15.active)).toBe(1);
-    await page.goto('/login');
-    expect(await page.evaluate(() => (window as any).__day15.active)).toBe(0);
+    await navigateToLoginAndExpectCleanup(page);
   });
 
   test('records retained heap and render time as fresh windows replace old ones', async ({ page, context, browserName }, testInfo) => {
@@ -250,8 +268,7 @@ test.describe('Browser resource bounds', () => {
       await page.getByRole('link', { name: SCOPE, exact: true }).click();
       await expect(page.locator('.episode-card')).toHaveCount(20);
     }
-    await page.goto('/login');
-    expect(await page.evaluate(() => (window as any).__day15.active)).toBe(0);
+    await navigateToLoginAndExpectCleanup(page);
     const report = {
       mode: 'synthetic routed REST; mock SSE', browser: browserName,
       scopeCount, incidentTotal: 1000, evidenceTotal: 1000,
