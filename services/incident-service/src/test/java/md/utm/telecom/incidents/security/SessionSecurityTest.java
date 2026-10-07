@@ -62,6 +62,16 @@ class SessionSecurityTest {
         assertThat(SessionDeadlineFilter.expired(session, LOGIN.plusSeconds(900))).isTrue();
     }
 
+    @Test
+    void reconnectingStreamsCannotExtendTheIdleDeadline() throws Exception {
+        var session = initialized();
+        assertThat(call(session, LOGIN.plusSeconds(600), "/api/incidents/stream")).isTrue();
+        assertThat(call(session, LOGIN.plusSeconds(899), "/api/incidents/stream")).isTrue();
+        assertThat(session.getAttribute(SessionDeadlineFilter.LAST_ACTIVITY_AT)).isEqualTo(LOGIN);
+        assertThat(call(session, LOGIN.plusSeconds(900), "/api/incidents/stream")).isFalse();
+        assertThat(session.isInvalid()).isTrue();
+    }
+
     private MockHttpSession initialized() {
         var session = new MockHttpSession();
         SessionDeadlineFilter.initialize(session, LOGIN);
@@ -69,10 +79,14 @@ class SessionSecurityTest {
     }
 
     private boolean call(MockHttpSession session, Instant now) throws Exception {
+        return call(session, now, "/api/incidents");
+    }
+
+    private boolean call(MockHttpSession session, Instant now, String path) throws Exception {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken("analyst", "unused",
                         AuthorityUtils.createAuthorityList("ROLE_ANALYST")));
-        var request = new MockHttpServletRequest("GET", "/api/incidents");
+        var request = new MockHttpServletRequest("GET", path);
         request.setSession(session);
         var authenticatedDownstream = new AtomicBoolean();
         new SessionDeadlineFilter(Clock.fixed(now, ZoneOffset.UTC)).doFilter(

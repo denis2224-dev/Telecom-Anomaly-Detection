@@ -1,0 +1,1711 @@
+{
+  "startedAtUTC": "2026-10-07T18:56:50.822Z",
+  "revision": "a0fa2161ae021317012635ac86b81d669dd10f50",
+  "patchSha256": "9a150e8c32f042ec435bdc8c9c531b2b31b548d60ed67668401eefcef455b0c2",
+  "mode": "Authenticated local backend; synthetic telemetry; no interception or fixture fallback",
+  "checks": [
+    "Resuming actual profiles started by the audit at 2026-10-07T18:52:49.254Z",
+    "ANALYST: real OIDC login, protected geography, rotated session/CSRF, token-free browser storage",
+    "SUPERVISOR: real OIDC login, protected geography, rotated session/CSRF, token-free browser storage",
+    "ANALYST cannot start scenarios in the UI or protected API",
+    "Orhei real city/service histories and actual SSE reconnect REST refresh with selection/focus preserved",
+    "ANALYST: real assignment/investigation/comment, second-session updates, comment idempotency, stale version and premature resolution rejection",
+    "SUPERVISOR: real assignment/investigation/comment, second-session updates, comment idempotency, stale version and premature resolution rejection",
+    "Both real fault profiles completed and recovered; ANALYST/SUPERVISOR resolved only after technical recovery",
+    "Real generator 503 shows uncertainty, retries identical command, rejects a conflicting run and stops telemetry without claiming recovery",
+    "ANALYST: real logout ends protected REST and stream access",
+    "SUPERVISOR: real logout ends protected REST and stream access"
+  ],
+  "requests": [
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T17:56:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?scopeId=VOLTE-MD-ORH&service=VOLTE&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T17:56:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?scopeId=SMS-MD-ORH&service=SMS&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T18:41:00.000Z&to=2026-10-07T18:56:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T18:42:00.000Z&to=2026-10-07T18:57:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T18:43:00.000Z&to=2026-10-07T18:58:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T18:43:00.000Z&to=2026-10-07T18:58:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T18:43:00.000Z&to=2026-10-07T18:58:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T18:43:00.000Z&to=2026-10-07T18:58:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T18:43:00.000Z&to=2026-10-07T18:58:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T18:43:00.000Z&to=2026-10-07T18:58:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/assignment",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/status",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/comments",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/assignment",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/assignment",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/assignment",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/status",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/comments",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/status",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/analysts?enabled=true",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/status",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    }
+  ],
+  "runs": [
+    {
+      "type": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "runId": "f3805e22-bb8b-42f5-b77b-c53d5e9a9f7d",
+      "status": "COMPLETED",
+      "scheduledStartAt": "2026-10-07T18:54:00Z",
+      "scheduledEndAt": "2026-10-07T19:02:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "incidentId": "d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "technicalState": "RECOVERED",
+      "workflowState": "RESOLVED"
+    },
+    {
+      "type": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "runId": "8a6ccea0-f054-4736-ae91-a25d34541bdf",
+      "status": "COMPLETED",
+      "scheduledStartAt": "2026-10-07T18:54:00Z",
+      "scheduledEndAt": "2026-10-07T19:02:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "incidentId": "9fbde580-4990-48ef-91bb-5d640f892976",
+      "technicalState": "RECOVERED",
+      "workflowState": "RESOLVED"
+    }
+  ],
+  "captures": [
+    {
+      "file": "orhei-release-1366.png",
+      "capturedAtUTC": "2026-10-07T18:57:16.492Z"
+    },
+    {
+      "file": "orhei-release-768.png",
+      "capturedAtUTC": "2026-10-07T18:57:16.647Z"
+    },
+    {
+      "file": "orhei-release-390.png",
+      "capturedAtUTC": "2026-10-07T18:57:16.756Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-1366.png",
+      "capturedAtUTC": "2026-10-07T18:57:18.526Z"
+    },
+    {
+      "file": "SMS-MD-ORH-1366.png",
+      "capturedAtUTC": "2026-10-07T18:57:22.546Z"
+    },
+    {
+      "file": "resolved-ANALYST-1366.png",
+      "capturedAtUTC": "2026-10-07T19:02:15.552Z"
+    },
+    {
+      "file": "resolved-ANALYST-390.png",
+      "capturedAtUTC": "2026-10-07T19:02:15.650Z"
+    },
+    {
+      "file": "resolved-SUPERVISOR-1366.png",
+      "capturedAtUTC": "2026-10-07T19:02:16.373Z"
+    },
+    {
+      "file": "resolved-SUPERVISOR-390.png",
+      "capturedAtUTC": "2026-10-07T19:02:16.476Z"
+    }
+  ],
+  "passed": true
+}

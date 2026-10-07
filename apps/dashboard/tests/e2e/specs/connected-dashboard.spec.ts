@@ -97,8 +97,14 @@ for (const width of [1366, 768, 390]) {
     expect(toggle.y).toBeGreaterThan(apply.y);
     expect(toggle.x + toggle.width).toBeCloseTo(apply.x + apply.width, 0);
     expect(toggle.height).toBe(apply.height);
-    await queueToggle.click();
     const drawer = page.getByRole('dialog');
+    const investigation = page.getByRole('button', { name: 'Open incident investigation', exact: true });
+    await investigation.click();
+    await expect(drawer).toBeVisible();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await page.keyboard.press('Escape');
+    await expect(investigation).toBeFocused();
+    await queueToggle.click();
     await expect(drawer).toBeVisible();
     await expect(drawer.locator(':scope > .helper')).toHaveCount(0);
     const close = drawer.getByRole('button', { name: 'Close incidents', exact: true });
@@ -123,6 +129,7 @@ for (const width of [1366, 768, 390]) {
     test.skip(process.env.E2E_CITY_FIXTURE !== '1', 'Run explicitly against the fixture server');
     await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
     await page.goto('/dashboard');
+    await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toBeVisible();
     await expect(page.locator('.city-marker')).toHaveCount(9);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
@@ -179,7 +186,14 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByRole('dialog')).toBeVisible();
     await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Open incident investigation', exact: true }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await page.locator('dialog a[href="/incidents/00000000-0000-4000-8000-000000000001"]').click();
     await expect(page).toHaveURL(/\/incidents\/00000000-0000-4000-8000-000000000001$/);
+    await page.getByRole('button', { name: 'Details & workflow', exact: true }).click();
+    await expect(page.locator('app-incident-actions')).toContainText('Actions are unavailable in the fixture preview.');
+    await expect(page.locator('app-incident-actions button, app-incident-actions textarea, app-incident-actions select')).toHaveCount(0);
+    await page.keyboard.press('Escape');
     await page.goto('/dashboard');
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
     await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);

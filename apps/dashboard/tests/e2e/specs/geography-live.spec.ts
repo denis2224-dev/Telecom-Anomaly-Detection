@@ -93,7 +93,9 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('.map-table')).not.toContainText('Mapping pending');
     await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
     await page.locator('.map-table').getByRole('button', { name: 'Chișinău', exact: true }).click();
-    await expect(page.locator('.chart-scope')).toHaveText(['VOLTE-MD-CHI', 'SMS-MD-CHI']);
+    await expect(page.locator('.chart-scope')).toContainText(['Chișinău', 'Chișinău']);
+    await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-CHI');
+    await expect(page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', 'SMS-MD-CHI');
     await expect.poll(() => state.requests.filter(path => path.startsWith('/api/geography/cities/CHI/kpis')).length).toBeGreaterThanOrEqual(2);
     await expect(page.locator('[data-chart=cssrPct] .actual-line')).not.toHaveAttribute('d', '');
     await page.getByText('Chișinău · City coverage and history', { exact: true }).click();
@@ -129,7 +131,9 @@ test('LIVE geography outages and missing history never substitute fixture values
   await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
   state.historyStatus = 503;
   await page.getByLabel('Region', { exact: true }).fill('Orhei');
-  await expect(page.locator('.chart-scope')).toHaveText(['VOLTE-MD-ORH', 'SMS-MD-ORH']);
+  await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);
+  await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-ORH');
+  await expect(page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', 'SMS-MD-ORH');
   await page.getByText('Orhei · City coverage and history', { exact: true }).click();
   await expect(page.locator('app-city-evidence [role=alert]')).toContainText('No substitute');
   await expect(page.locator('[data-city-window]')).toHaveCount(0);
@@ -150,7 +154,9 @@ for (const width of [1366, 768, 390]) {
     state.incidents.push(orhei);
     await page.goto('/dashboard');
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
-    await expect(page.locator('.chart-scope')).toHaveText(['VOLTE-MD-ORH', 'SMS-MD-ORH']);
+    await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);
+    await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-ORH');
+    await expect(page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', 'SMS-MD-ORH');
     await expect(page.getByRole('link', { name: 'Open Orhei VoLTE setup', exact: false })).toHaveAttribute('href', '/services/VOLTE-MD-ORH');
     await expect(page.getByRole('link', { name: 'Open Orhei SMS delivery', exact: false })).toHaveAttribute('href', '/services/SMS-MD-ORH');
     await page.getByLabel('From (UTC)', { exact: true }).fill('2026-09-14T10:00');
@@ -169,6 +175,11 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByLabel('From (UTC)', { exact: true })).toHaveValue('2026-09-14T10:00');
     expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
     await investigation.click();
+    const queue = page.getByRole('dialog', { name: /^Incident queue/ });
+    await expect(queue).toBeVisible();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await queue.getByRole('button', { name: 'Next', exact: true }).click();
+    await queue.locator(`a[href="/incidents/${orhei.id}"]`).click();
     await expect(page).toHaveURL(new RegExp(`/incidents/${orhei.id}$`));
     await expect(page.locator('.incident-summary-bar')).toContainText('Awaiting analyst resolution');
     await expect(page.locator('[aria-label="Current incident times"]')).toContainText('Updated (UTC)');

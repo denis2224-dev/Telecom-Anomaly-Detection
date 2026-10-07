@@ -1,0 +1,596 @@
+{
+  "startedAt": "2026-10-07T16:23:05.675Z",
+  "revision": "7e46521de1c12ed0a7431092b49cda315cd3c0c9",
+  "patchHash": "2377c6456b23882a870e595d2badf55944bf21258c9136ed9ed545aef8dec479",
+  "mode": "Authenticated LIVE; no request interception or fixture fallback",
+  "requests": [
+    {
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/simulator/scenarios/VOLTE_IMS_OVERLOAD",
+      "status": 202
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/simulator/scenarios/SMS_QUEUE_DELAY",
+      "status": 202
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T16:07:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T15:22:00.000Z&to=2026-10-07T16:22:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?scopeId=VOLTE-MD-ORH&service=VOLTE&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?scopeId=VOLTE-MD-ORH&service=VOLTE&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?scopeId=SMS-MD-ORH&service=SMS&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T15:23:00.000Z&to=2026-10-07T16:23:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?scopeId=SMS-MD-ORH&service=SMS&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:08:00.000Z&to=2026-10-07T16:23:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:08:00.000Z&to=2026-10-07T16:23:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:13:00.000Z&to=2026-10-07T16:28:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:13:00.000Z&to=2026-10-07T16:28:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:14:00.000Z&to=2026-10-07T16:29:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:14:00.000Z&to=2026-10-07T16:29:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:15:00.000Z&to=2026-10-07T16:30:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:15:00.000Z&to=2026-10-07T16:30:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:16:00.000Z&to=2026-10-07T16:31:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:16:00.000Z&to=2026-10-07T16:31:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-07T16:17:00.000Z&to=2026-10-07T16:32:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-07T16:17:00.000Z&to=2026-10-07T16:32:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301/timeline?page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301/detections?page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301/timeline?page=0&size=100",
+      "status": 200
+    }
+  ],
+  "captures": [
+    {
+      "file": "login-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:23:09.578Z"
+    },
+    {
+      "file": "scenario-VOLTE_IMS_OVERLOAD-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:23:11.567Z"
+    },
+    {
+      "file": "scenario-SMS_QUEUE_DELAY-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:23:11.899Z"
+    },
+    {
+      "file": "orhei-overview-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:23:12.038Z"
+    },
+    {
+      "file": "orhei-overview-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T16:23:12.129Z"
+    },
+    {
+      "file": "orhei-overview-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T16:23:12.211Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:23:13.237Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T16:23:13.312Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T16:23:13.364Z"
+    },
+    {
+      "file": "SMS-MD-ORH-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:23:13.678Z"
+    },
+    {
+      "file": "SMS-MD-ORH-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T16:23:13.740Z"
+    },
+    {
+      "file": "SMS-MD-ORH-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T16:23:13.781Z"
+    },
+    {
+      "file": "live-scope-fallback-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:23:14.115Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:32:13.083Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T16:32:13.220Z"
+    },
+    {
+      "file": "recovery-VOLTE_IMS_OVERLOAD-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T16:32:13.337Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-1366.png",
+      "width": 1366,
+      "capturedAt": "2026-10-07T16:32:13.571Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-768.png",
+      "width": 768,
+      "capturedAt": "2026-10-07T16:32:13.693Z"
+    },
+    {
+      "file": "recovery-SMS_QUEUE_DELAY-390.png",
+      "width": 390,
+      "capturedAt": "2026-10-07T16:32:13.785Z"
+    }
+  ],
+  "runs": [
+    {
+      "type": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "runId": "31ab7872-40d4-4bdc-8a27-cffd1a5fc50a",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-07T16:24:00Z",
+      "scheduledEndAt": "2026-10-07T16:32:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "incidentId": "5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "technicalState": "RECOVERED",
+      "workflowState": "OPEN"
+    },
+    {
+      "type": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "runId": "e97f0e44-91f3-4828-8c68-d2a287ef8760",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-07T16:24:00Z",
+      "scheduledEndAt": "2026-10-07T16:32:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "incidentId": "f13ee44e-7385-4605-9e8f-9b4163864301",
+      "technicalState": "RECOVERED",
+      "workflowState": "OPEN"
+    }
+  ],
+  "checks": [
+    "Protected catalogue: 10 cities, authoritative Orhei scopes",
+    "Real selected-city geography history, selection retained on refresh, synthetic footprint labeled",
+    "Authenticated fallback and return to connected overview",
+    "Both approved scenarios completed; real recovery retained unresolved analyst workflow",
+    "Real sign-in and logout; geography remains protected"
+  ],
+  "blockers": [
+    "Orhei scenarios: backend accepts only VOLTE-MD-CENTRAL and SMS-MD-ROUTE-A.",
+    "Device topology and local measurements are not implemented by the backend.",
+    "Teammate review and handoff require the named teammates."
+  ],
+  "passed": true
+}

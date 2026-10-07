@@ -53,6 +53,7 @@ export class ServiceOverviewComponent {
   readonly loading = this.store.loading;
   readonly error = this.store.error;
   readonly serviceFilter = signal<Filter>('ALL');
+  readonly connected = signal(true);
   private readonly router = inject(Router);
   setService(service: Filter): void {
     void this.router.navigate(['/dashboard'], { queryParams: { service: service === 'ALL' ? null : service }, queryParamsHandling: 'merge' });
@@ -83,6 +84,7 @@ export class ServiceOverviewComponent {
     inject(ActivatedRoute).queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       const service = params.get('service');
       this.serviceFilter.set(service === 'VOLTE' || service === 'SMS' ? service : 'ALL');
+      this.connected.set(params.get('view') !== 'scopes');
     });
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed(this.destroyRef))

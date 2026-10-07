@@ -8,12 +8,14 @@ import { IncidentStream, mergeIncidentPage } from './incident-stream';
 describe('Bounded incident stream', () => {
   class FakeSource extends EventTarget {
     static latest: FakeSource;
+    readyState = 2;
     onopen: ((event: Event) => void) | null = null;
     onerror: ((event: Event) => void) | null = null;
     close = vi.fn();
     constructor() { super(); FakeSource.latest = this; }
   }
   afterEach(() => {
+    vi.useRealTimers();
     vi.unstubAllGlobals();
     TestBed.resetTestingModule();
   });
@@ -79,10 +81,56 @@ describe('Bounded incident stream', () => {
     session.phase.set('authenticated');
     const http = TestBed.inject(HttpTestingController);
     TestBed.inject(IncidentStream).connect(vi.fn(), vi.fn());
+    FakeSource.latest.readyState = 2;
     FakeSource.latest.onerror?.(new Event('error'));
     http.expectOne('/api/auth/me').flush({}, { status: 401, statusText: 'Unauthorized' });
     await vi.waitFor(() => expect(session.phase()).toBe('expired'));
     expect(FakeSource.latest.close).toHaveBeenCalledTimes(1);
+    http.verify();
+  });
+
+  it('reopens a terminal transport failure and cancels its retry when closed', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('EventSource', FakeSource);
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.inject(SessionStore).phase.set('authenticated');
+    const http = TestBed.inject(HttpTestingController);
+    const refresh = vi.fn();
+    const close = TestBed.inject(IncidentStream).connect(refresh, vi.fn());
+    const first = FakeSource.latest;
+    first.readyState = 2;
+    first.onerror?.(new Event('error'));
+    http.expectOne('/api/auth/me').flush({});
+    await vi.advanceTimersByTimeAsync(3000);
+    const second = FakeSource.latest;
+    expect(second).not.toBe(first);
+    expect(first.close).toHaveBeenCalledTimes(1);
+    second.onopen?.(new Event('open'));
+    expect(refresh).toHaveBeenCalledTimes(1);
+    second.readyState = 2;
+    second.onerror?.(new Event('error'));
+    http.expectOne('/api/auth/me').flush({});
+    await vi.advanceTimersByTimeAsync(0);
+    close();
+    await vi.advanceTimersByTimeAsync(3000);
+    expect(FakeSource.latest).toBe(second);
+    http.verify();
+  });
+
+  it('leaves a reconnecting transport to native EventSource retries', async () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('EventSource', FakeSource);
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.inject(SessionStore).phase.set('authenticated');
+    const http = TestBed.inject(HttpTestingController);
+    const close = TestBed.inject(IncidentStream).connect(vi.fn(), vi.fn());
+    const first = FakeSource.latest;
+    first.readyState = 0;
+    first.onerror?.(new Event('error'));
+    http.expectNone('/api/auth/me');
+    await vi.advanceTimersByTimeAsync(3000);
+    expect(FakeSource.latest).toBe(first);
+    close();
     http.verify();
   });
 });

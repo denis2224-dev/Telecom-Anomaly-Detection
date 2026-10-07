@@ -54,7 +54,9 @@ public class IncidentStreamRegistry {
                         new ArrayBlockingQueue<>(256),
                         Thread.ofPlatform().daemon().name("incident-sse-", 0).factory(),
                         new ThreadPoolExecutor.AbortPolicy()),
-                () -> new SseEmitter(1_800_000L));
+                // Bound abandoned transport slots; reconnect always fetches REST
+                // because this stream does not provide durable event replay.
+                () -> new SseEmitter(60_000L));
     }
 
     // Package-private injection point for deterministic lifecycle tests.

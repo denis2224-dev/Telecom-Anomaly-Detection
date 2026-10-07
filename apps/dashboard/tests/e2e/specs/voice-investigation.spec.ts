@@ -32,7 +32,8 @@ test.describe('Voice investigation', () => {
     await expect(page.getByText('8,000 recorded attempts', { exact: false }).last()).toBeVisible();
     await expect(page.locator('.episode-card')).toHaveCount(1);
     await expect(page.locator('.episode-card')).toContainText('RECOVERED');
-    await expect(page.locator('.episode-card')).toContainText('OPEN');
+    await expect(page.locator('.episode-card')).toContainText('Awaiting analyst resolution');
+    await expect(page.locator('.episode-info span[title="OPEN · Awaiting analyst resolution"]')).toBeVisible();
     expect((await page.locator('.service-hero .actual-line').getAttribute('d'))?.match(/M/g)).toHaveLength(3);
     await expect(page.locator('.incident-band')).toHaveCount(1);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

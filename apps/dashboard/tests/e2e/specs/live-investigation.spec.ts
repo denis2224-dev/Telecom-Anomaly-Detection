@@ -1,28 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { execFileSync } from 'node:child_process';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
-const root = resolve(__dirname, '../../../../..');
-function command(file: string, args: string[], input?: string) {
-  try { return execFileSync(file, args, { cwd: root, input, encoding: 'utf8', timeout: 60000,
-    stdio: ['pipe', 'pipe', 'pipe'] }).trim(); }
-  catch { throw new Error(`Local live-test prerequisite failed (${file}); sensitive output omitted.`); }
-}
-function admin(args: string[], input?: string) {
-  return command('docker', ['compose', 'exec', '-T', 'keycloak', 'bash', '-ec', `
-    config=$(mktemp)
-    trap 'rm -f "$config"' EXIT
-    /opt/keycloak/bin/kcadm.sh config credentials --config "$config" --server http://localhost:8080/auth \
-      --realm master --user "$KC_BOOTSTRAP_ADMIN_USERNAME" --password "$KC_BOOTSTRAP_ADMIN_PASSWORD" >/dev/null
-    /opt/keycloak/bin/kcadm.sh "$@" --config "$config"
-  `, '--', ...args], input);
-}
-function sql(query: string) {
-  return command('docker', ['compose', 'exec', '-T', 'postgres', 'bash', '-ec',
-    'exec psql -X -q -tA -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d incidents_db'], query);
-}
+import { root, command, admin, sql } from '../helpers/live-stack';
 
 test('real session-bound investigation and logout', async ({ page, context, browser }) => {
   const username = 'live-check-' + randomBytes(6).toString('hex');

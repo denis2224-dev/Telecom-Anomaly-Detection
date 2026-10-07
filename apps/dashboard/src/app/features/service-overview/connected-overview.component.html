@@ -23,7 +23,7 @@
     <section class="service-panel" aria-labelledby="volte-panel-title">
       <h2 id="volte-panel-title">VoLTE setup <span>CSSR %</span></h2>
       <div class="panel-visual">
-        <p class="chart-scope">{{ chartScope('VOLTE')?.scope?.scopeId ?? 'Unavailable' }}</p>
+        <p class="chart-scope" [attr.data-scope]="chartScope('VOLTE')?.scope?.scopeId" [title]="chartScope('VOLTE')?.scope?.scopeId ?? ''">@if (chartScope('VOLTE'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
         <app-metric-chart view="chart" [hero]="true" [compact]="true" name="cssrPct" title="VoLTE setup CSSR %" unit="PERCENT" [loading]="historyLoading()" [windows]="chartRows('VOLTE')" [incidents]="chartIncidents('VOLTE')" [detections]="chartDetections('VOLTE')" [from]="chartFrom()" [to]="chartTo()" />
         @if (chartHistory('VOLTE')?.error) { <span class="chart-error" role="alert">History unavailable</span> }
       </div>
@@ -58,12 +58,12 @@
           </tr>
         }</tbody>
       </table></div>
-      <button type="button" class="panel-navigation" [routerLink]="investigationTarget() ? ['/incidents', investigationTarget()!.id] : null" [disabled]="!investigationTarget()">Open incident investigation <app-icon name="right" /></button>
+      <button type="button" class="panel-navigation" (click)="queueDialog.open()" aria-haspopup="dialog" aria-controls="incident-queue">Open incident investigation <app-icon name="right" /></button>
     </section>
     <section class="service-panel" aria-labelledby="sms-panel-title">
       <h2 id="sms-panel-title">SMS delivery <span>Success rate %</span></h2>
       <div class="panel-visual">
-        <p class="chart-scope">{{ chartScope('SMS')?.scope?.scopeId ?? 'Unavailable' }}</p>
+        <p class="chart-scope" [attr.data-scope]="chartScope('SMS')?.scope?.scopeId" [title]="chartScope('SMS')?.scope?.scopeId ?? ''">@if (chartScope('SMS'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
         <app-metric-chart view="chart" [hero]="true" [compact]="true" name="deliverySrPct" title="SMS delivery success rate %" unit="PERCENT" [loading]="historyLoading()" [windows]="chartRows('SMS')" [incidents]="chartIncidents('SMS')" [detections]="chartDetections('SMS')" [from]="chartFrom()" [to]="chartTo()" />
         @if (chartHistory('SMS')?.error) { <span class="chart-error" role="alert">History unavailable</span> }
       </div>
