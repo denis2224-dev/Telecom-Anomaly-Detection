@@ -12,4 +12,9 @@ public class VoiceDeliveryService extends DetectionWorker {
                                 PlatformTransactionManager manager) {
         super(jdbc, episodes, ml, clock, manager);
     }
+    @org.springframework.beans.factory.annotation.Autowired
+    public VoiceDeliveryService(JdbcTemplate jdbc, VoiceEpisode episodes, MlClient ml, Clock clock,
+                                PlatformTransactionManager manager, java.util.Optional<DetectionAuthority> authority) {
+        super(jdbc, episodes, ml, clock, manager, authority.orElseGet(DetectionAuthority::load));
+    }
 }

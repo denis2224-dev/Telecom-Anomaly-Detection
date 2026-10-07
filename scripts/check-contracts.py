@@ -14,7 +14,7 @@ def validate_detection_contracts():
         ('baselines/baseline-catalogue-v2.schema.json', ['baselines/demo-baseline-v2.json', 'baselines/geographic-peer-baseline-v2.json']),
         ('features/service-feature-window-v2.schema.json',
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/features').glob('*.json')
-          if p.name not in ('parity-v2.json', 'voice-parity-v2.json', 'sms-parity-v2.json')]),
+          if p.name not in ('parity-v2.json', 'voice-parity-v2.json', 'sms-parity-v2.json', 'geographic-parity-v2.json')]),
         ('detections/service-detection-v2.schema.json',
          [str(p.relative_to(ROOT / 'contracts')) for p in (ROOT / 'contracts/fixtures/detections').glob('*.json')
           if p.name != 'service-explanation-cases.json']),
@@ -42,6 +42,12 @@ def validate_detection_contracts():
     sms_parity = importlib.util.module_from_spec(spec_sms)
     spec_sms.loader.exec_module(sms_parity)
     print(f'PASS: {len(sms_parity.reference_cases())} SMS parity cases with unchanged shared expectations')
+    from geographic_feature_parity import reference_cases as geographic_cases
+    city = {**geographic_cases('VOLTE'), **geographic_cases('SMS')}
+    scopes = {w['scopeId'] for w in city.values()}
+    if len(scopes) != 20 or len(city) != 62:
+        raise ValueError('Geographic parity matrix must cover twenty scopes and all 62 frozen cases')
+    print(f'PASS: {len(city)} geographic raw-input/reference cases across {len(scopes)} scopes; not fresh Java parity')
 
 
 def validate_explanation_cases(suite):

@@ -39,6 +39,20 @@ public final class BaselineRegistry {
                 ObservationValidator.resource("topology/demo-scopes-v2.json", new ObjectMapper()));
     }
 
+    @org.springframework.beans.factory.annotation.Autowired
+    public BaselineRegistry(java.util.Optional<GeographyCatalog> geography) throws IOException {
+        this(ObservationValidator.resource(geography.isPresent()
+                        ? "baselines/geographic-peer-baseline-v2.json" : "baselines/demo-baseline-v2.json", new ObjectMapper()),
+                runtimeTopology(geography));
+    }
+
+    private static JsonNode runtimeTopology(java.util.Optional<GeographyCatalog> geography) throws IOException {
+        if (geography.isPresent() && !geography.get().activation().status().equals("ACTIVE"))
+            throw new IllegalArgumentException("Geographic baselines require activated authority");
+        return ObservationValidator.resource(geography.isPresent()
+                ? "topology/geographic-scopes-v2.json" : "topology/demo-scopes-v2.json", new ObjectMapper());
+    }
+
     public BaselineRegistry(JsonNode catalog, JsonNode topology) throws IOException {
         var schema = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012).getSchema(
                 ObservationValidator.resource("baselines/baseline-catalogue-v2.schema.json", new ObjectMapper()));
@@ -78,10 +92,13 @@ public final class BaselineRegistry {
         var historical = TopologyCatalog.load();
         var geographic = GeographyCatalog.load();
         var supplied = TopologyCatalog.fromJson(topology);
-        legacyCompatibleTopologyVersion = geographic.authority().topologyVersion();
-        legacyCompatibleScopes = topologyVersion.equals(historical.topologyVersion())
+        legacyCompatibleTopologyVersion = topologyVersion.equals(historical.topologyVersion())
+                ? geographic.authority().topologyVersion() : historical.topologyVersion();
+        legacyCompatibleScopes = (topologyVersion.equals(historical.topologyVersion())
+                || topologyVersion.equals(geographic.authority().topologyVersion()))
                 ? historical.scopes().values().stream()
                     .filter(scope -> scope.equals(supplied.scopes().get(scope.scopeId())))
+                    .filter(scope -> scope.equals(geographic.authority().scopes().get(scope.scopeId())))
                     .filter(scope -> geographic.bindings().get(scope.scopeId()).legacy())
                     .map(TopologyCatalog.Scope::scopeId).collect(java.util.stream.Collectors.toUnmodifiableSet())
                 : Set.of();

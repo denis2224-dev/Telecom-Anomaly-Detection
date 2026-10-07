@@ -19,12 +19,18 @@ public class DetectionWorker {
     private final VoiceEpisode episodes;
     private final MlClient ml;
     private final Clock clock;
+    private final DetectionAuthority authority;
     private final TransactionTemplate transaction;
     private final ObjectMapper json = new ObjectMapper();
 
     public DetectionWorker(JdbcTemplate jdbc, VoiceEpisode episodes, MlClient ml, Clock clock,
                            PlatformTransactionManager manager) {
+        this(jdbc, episodes, ml, clock, manager, DetectionAuthority.load());
+    }
+    public DetectionWorker(JdbcTemplate jdbc, VoiceEpisode episodes, MlClient ml, Clock clock,
+                           PlatformTransactionManager manager, DetectionAuthority authority) {
         this.jdbc = jdbc; this.episodes = episodes; this.ml = ml; this.clock = clock;
+        this.authority = authority;
         transaction = new TransactionTemplate(manager);
         transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
@@ -86,12 +92,19 @@ public class DetectionWorker {
                         ORDER BY window_start, window_id LIMIT 1
                         """, String.class, scope);
                 if (!job.windowId().equals(next)) throw new IllegalStateException("Earlier detector window is unfinished");
+                var target = authority.nodeFor(window);
                 var nodes = jdbc.queryForList("""
                         SELECT payload::text FROM app.observation_receipt
-                        WHERE scope_id=? AND window_start=? AND kind='NODE' AND source_id=? ORDER BY event_id LIMIT 1
+                        WHERE scope_id=? AND window_start=? AND window_end=? AND kind='NODE'
+                        AND payload->>'nodeId'=? AND source_id=? AND quality='COMPLETE' ORDER BY event_id LIMIT 1
                         """, String.class, scope, Timestamp.from(Instant.parse(window.required("windowStart").asText())),
-                        window.path("service").asText().equals("SMS") ? "SMSC-A" : "IMS-A");
+                        Timestamp.from(Instant.parse(window.required("windowEnd").asText())), target.nodeId(), target.sourceId());
                 JsonNode node = nodes.isEmpty() ? null : json.readTree(nodes.getFirst());
+                if (node != null) {
+                    boolean contributes = false;
+                    for (var id : window.required("sourceEventIds")) if (id.equals(node.get("eventId"))) contributes = true;
+                    if (!contributes) node = null;
+                }
                 enqueue(job.windowId(), "telecom.kpis.v2", scope, window.toString());
                 var detection = episodes.advance(state, window, node, result, clock.instant());
                 if (detection != null) enqueue(detection.required("detectionId").asText(), "telecom.detections.v2",

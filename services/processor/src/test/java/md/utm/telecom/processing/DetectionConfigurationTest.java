@@ -13,6 +13,34 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DetectionConfigurationTest {
+    @Test void geographicActivationLoadsReviewedPeersAndKeepsPendingLegacyWindows() {
+        new ApplicationContextRunner().withUserConfiguration(BaselineRegistry.class,
+                md.utm.telecom.observation.GeographicRuntimeConfiguration.class)
+                .withPropertyValues("telecom.geography.enabled=true",
+                        "telecom.geography.effective-from=2026-10-06T00:00:00Z")
+                .run(context -> {
+                    assertNull(context.getStartupFailure());
+                    var registry = context.getBean(BaselineRegistry.class);
+                    var geography = context.getBean(md.utm.telecom.observation.GeographyCatalog.class);
+                    for (var binding : geography.bindings().values()) {
+                        var result = registry.lookup(binding.scopeId(), java.time.Instant.parse("2026-10-06T00:00:00Z"));
+                        assertEquals(binding.legacy() ? "DIRECT" : "PEER", result.status());
+                        assertTrue(registry.acceptsTopology(binding.scopeId(), "2-geography-g1"));
+                        assertEquals(binding.legacy(), registry.acceptsTopology(binding.scopeId(), "2-baseline"));
+                    }
+                });
+    }
+
+    @Test void disabledGeographyDoesNotActivateCityBaselines() {
+        new ApplicationContextRunner().withUserConfiguration(BaselineRegistry.class,
+                md.utm.telecom.observation.GeographicRuntimeConfiguration.class)
+                .withPropertyValues("telecom.geography.enabled=false")
+                .run(context -> {
+                    assertNull(context.getStartupFailure());
+                    assertThrows(IllegalArgumentException.class, () -> context.getBean(BaselineRegistry.class)
+                            .lookup("VOLTE-MD-CHI", java.time.Instant.EPOCH));
+                });
+    }
     @Test
     void startupLoadsBothContractVersions() {
         new ApplicationContextRunner().withUserConfiguration(BaselineRegistry.class, DetectionPolicy.class)
