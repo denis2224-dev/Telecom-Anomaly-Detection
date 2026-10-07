@@ -79,7 +79,9 @@ describe('VoLTE and SMS assurance rendering', () => {
     const fixture = TestBed.createComponent(ServicePathComponent);
     fixture.componentRef.setInput('service', { ...services[1], latestWindow: smsWindows[0] }); await fixture.whenStable();
     expect(fixture.nativeElement.textContent).toContain('SMS-ADAPTER');
-    expect(fixture.nativeElement.querySelector('[data-node-id="SMSC-A"]').textContent).toContain('OBSERVED CONTEXT');
+    const smsc = fixture.nativeElement.querySelector('[data-node-id="SMSC-A"]');
+    expect(smsc.textContent).toContain('INHERITED SERVICE CONTEXT');
+    expect(smsc.textContent).toContain('Local device measurement: Unavailable');
     expect(fixture.nativeElement.querySelector('[data-node-id="TRANSPORT-A"]').textContent).toContain('UNKNOWN / NO CURRENT MEASUREMENT');
   });
 });
