@@ -66,6 +66,16 @@ jobs:
           cache: maven
       - name: Install geographic parity dependencies
         run: python -m pip install -r requirements-dev.txt -r services/ml-service/requirements-ml.txt
+      - name: Verify processor dependency outages and replay boundaries
+        run: ./mvnw --batch-mode --no-transfer-progress -pl services/processor -am verify
+      - name: Save processor outage evidence and test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: processor-dependency-outage-evidence
+          path: |
+            services/processor/target/day17-dependency-outages.json
+            services/processor/target/surefire-reports/
       - name: Start private ML inference
         run: |
           docker build -f services/ml-service/Dockerfile -t telecom-ml-integration .
