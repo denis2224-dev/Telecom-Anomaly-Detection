@@ -24,7 +24,7 @@ public class VoiceDeliveryScheduler {
     public VoiceDeliveryScheduler(VoiceDeliveryService service, JdbcTemplate jdbc, KafkaTemplate<String, String> kafka) {
         this.service = service; this.jdbc = jdbc; this.kafka = kafka;
     }
-    @Scheduled(fixedDelayString="${telecom.voice-delivery.poll-interval:1000}")
+    @Scheduled(fixedDelayString="${telecom.voice-delivery.poll-interval:1000}",scheduler="deliveryTaskScheduler")
     public void poll() {
         try {
             for (String scope : jdbc.queryForList("""
