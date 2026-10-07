@@ -51,9 +51,18 @@ public class VoiceScenario {
         return generateWindows(start, seed, profile).stream().flatMap(List::stream).toList();
     }
 
+    public List<String> generate(Instant start, long seed, Profile profile, GenerationContext context) {
+        return generateWindows(start, seed, profile, context).stream().flatMap(List::stream).toList();
+    }
+
     /** Eight explicit minute windows; the legacy generate method is unchanged. */
     public List<List<String>> generateWindows(Instant start, long seed, Profile profile) {
         return generateWindows(start, seed, profile, 8);
+    }
+
+    public List<List<String>> generateWindows(Instant start, long seed, Profile profile,
+                                              GenerationContext context) {
+        return generateWindows(start, seed, profile, 8, context);
     }
 
     private List<List<String>> generateWindows(Instant start, long seed, Profile profile, int minutes) {

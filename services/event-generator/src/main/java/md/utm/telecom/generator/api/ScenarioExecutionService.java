@@ -11,8 +11,10 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import md.utm.telecom.generator.GenerationContext;
 import md.utm.telecom.generator.VoiceScenario;
 import md.utm.telecom.generator.scenarios.SmsQueueScenario;
+import md.utm.telecom.observation.GeographyCatalog;
 import md.utm.telecom.observation.TopologyCatalog;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -49,16 +51,31 @@ public class ScenarioExecutionService {
     private final VoiceScenario voice;
     private final SmsQueueScenario sms;
     private final TopologyCatalog topology;
+    private final GeographyCatalog geography;
 
     public ScenarioExecutionService(@Qualifier("clock") Clock clock, @Qualifier("scenarioTaskScheduler") TaskScheduler scheduler,
             KafkaTemplate<String, String> kafka, VoiceScenario voice, SmsQueueScenario sms,
             TopologyCatalog topology) {
+        this(clock, scheduler, kafka, voice, sms, topology, null);
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public ScenarioExecutionService(@Qualifier("clock") Clock clock, @Qualifier("scenarioTaskScheduler") TaskScheduler scheduler,
+            KafkaTemplate<String, String> kafka, VoiceScenario voice, SmsQueueScenario sms,
+            TopologyCatalog topology,
+            @org.springframework.beans.factory.annotation.Autowired(required = false) GeographyCatalog geography) {
         this.clock = clock;
         this.scheduler = scheduler;
         this.kafka = kafka;
         this.voice = voice;
         this.sms = sms;
-        this.topology = topology;
+        GeographyCatalog geo = geography;
+        if (geo == null) {
+            try { geo = GeographyCatalog.load(); }
+            catch (java.io.IOException ex) { throw new IllegalStateException("Failed to load geography catalog", ex); }
+        }
+        this.geography = geo;
+        this.topology = topology != null ? topology : geo.authority();
     }
 
     /** The entire check/create/schedule sequence is atomic across concurrent HTTP deliveries. */
@@ -177,12 +194,13 @@ public class ScenarioExecutionService {
             throw new ApiFailure(HttpStatus.BAD_REQUEST, "UNSUPPORTED_SCENARIO", "Unsupported scenario type");
         }
         TopologyCatalog.Scope scope;
-        // Legacy scenario payloads require their matching legacy Kafka key.
-        if (!java.util.List.of("VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A").contains(command.scopeId()))
-            throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Scenario targeting requires a legacy scope");
-        try { scope = topology.requireScope(command.scopeId()); }
-        catch (IllegalArgumentException invalid) {
-            throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Unknown scenario scope");
+        if (!geography.bindings().containsKey(command.scopeId())) {
+            throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Unknown scenario scope: " + command.scopeId());
+        }
+        try {
+            scope = geography.authority().requireScope(command.scopeId());
+        } catch (IllegalArgumentException invalid) {
+            throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Unknown scenario scope: " + command.scopeId());
         }
         if (command.scenarioType().equals("VOLTE_IMS_OVERLOAD") && !scope.service().equals("VOLTE")
                 || command.scenarioType().equals("SMS_QUEUE_DELAY") && !scope.service().equals("SMS")) {
@@ -193,15 +211,30 @@ public class ScenarioExecutionService {
     private List<List<String>> generate(Command command) {
         var start = command.scheduledStartAt();
         var seed = command.seed();
+        var context = GenerationContext.forScope(geography, command.scopeId());
+        boolean legacy = geography.bindings().get(command.scopeId()).legacy();
+        if (legacy) {
+            return switch (command.scenarioType()) {
+                case "VOLTE_IMS_OVERLOAD" -> voice.generateWindows(start, seed, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
+                case "SMS_QUEUE_DELAY" -> sms.generateWindows(start, seed);
+                case "NORMAL_CONTROL" -> context.scope().service().equals("VOLTE")
+                        ? voice.generateWindows(start, seed, VoiceScenario.Profile.NORMAL_CONTROL)
+                        : sms.generateHealthyWindows(start, seed);
+                case "TELEMETRY_GAP" -> context.scope().service().equals("VOLTE")
+                        ? voice.generateWindows(start, seed, VoiceScenario.Profile.TELEMETRY_GAP)
+                        : sms.generateTelemetryGapWindows(start, seed);
+                default -> throw new IllegalStateException("Validated scenario missing implementation");
+            };
+        }
         return switch (command.scenarioType()) {
-            case "VOLTE_IMS_OVERLOAD" -> voice.generateWindows(start, seed, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
-            case "SMS_QUEUE_DELAY" -> sms.generateWindows(start, seed);
-            case "NORMAL_CONTROL" -> topology.requireScope(command.scopeId()).service().equals("VOLTE")
-                    ? voice.generateWindows(start, seed, VoiceScenario.Profile.NORMAL_CONTROL)
-                    : sms.generateHealthyWindows(start, seed);
-            case "TELEMETRY_GAP" -> topology.requireScope(command.scopeId()).service().equals("VOLTE")
-                    ? voice.generateWindows(start, seed, VoiceScenario.Profile.TELEMETRY_GAP)
-                    : sms.generateTelemetryGapWindows(start, seed);
+            case "VOLTE_IMS_OVERLOAD" -> voice.generateWindows(start, seed, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD, context);
+            case "SMS_QUEUE_DELAY" -> sms.generateWindows(start, seed, context);
+            case "NORMAL_CONTROL" -> context.scope().service().equals("VOLTE")
+                    ? voice.generateWindows(start, seed, VoiceScenario.Profile.NORMAL_CONTROL, context)
+                    : sms.generateHealthyWindows(start, seed, context);
+            case "TELEMETRY_GAP" -> context.scope().service().equals("VOLTE")
+                    ? voice.generateWindows(start, seed, VoiceScenario.Profile.TELEMETRY_GAP, context)
+                    : sms.generateTelemetryGapWindows(start, seed, context);
             default -> throw new IllegalStateException("Validated scenario missing implementation");
         };
     }

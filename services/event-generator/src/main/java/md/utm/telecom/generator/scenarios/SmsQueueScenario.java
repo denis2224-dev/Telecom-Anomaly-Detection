@@ -48,31 +48,49 @@ public class SmsQueueScenario {
      * preserve these phases and event identity; seed is excluded from the identity.
      */
     public List<String> generate(Instant start, long seed) {
-        return generateWindows(start, seed).stream().flatMap(List::stream).toList();
+        return generate(start, seed, null);
+    }
+
+    public List<String> generate(Instant start, long seed, GenerationContext context) {
+        return generateWindows(start, seed, context).stream().flatMap(List::stream).toList();
     }
 
     /** Eight explicit minute windows for scheduled publication. */
     public List<List<String>> generateWindows(Instant start, long seed) {
+        return generateWindows(start, seed, null);
+    }
+
+    public List<List<String>> generateWindows(Instant start, long seed, GenerationContext context) {
         validateMinuteAlignment(start);
+        if (context != null) context.requireService(SERVICE);
         var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             Phase phase = (minute < 2) ? Phase.NORMAL : (minute < 5) ? Phase.SLOW_DELIVERY : Phase.RECOVERY;
-            result.add(generateSeededWindow(from, phase, seed));
+            result.add(generateSeededWindow(from, phase, seed, context));
         }
         return List.copyOf(result);
     }
 
     /** Healthy control uses the same seeded observation path as the SMS fault profile. */
     public List<String> generateHealthy(Instant start, long seed) {
-        return generateHealthyWindows(start, seed).stream().flatMap(List::stream).toList();
+        return generateHealthy(start, seed, null);
+    }
+
+    public List<String> generateHealthy(Instant start, long seed, GenerationContext context) {
+        return generateHealthyWindows(start, seed, context).stream().flatMap(List::stream).toList();
     }
 
     public List<List<String>> generateHealthyWindows(Instant start, long seed) {
+        return generateHealthyWindows(start, seed, null);
+    }
+
+    public List<List<String>> generateHealthyWindows(Instant start, long seed, GenerationContext context) {
         validateMinuteAlignment(start);
+        if (context != null) context.requireService(SERVICE);
         var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
-            result.add(generateSeededWindow(start.plusSeconds(minute * 60L), Phase.NORMAL, seed));
+            result.add(generateSeededWindow(start.plusSeconds(minute * 60L), Phase.NORMAL, seed, context));
         }
         return List.copyOf(result);
     }
@@ -90,19 +108,28 @@ public class SmsQueueScenario {
 
     /** Flat compatibility view of the telemetry gap profile. */
     public List<String> generateTelemetryGap(Instant start, long seed) {
-        return generateTelemetryGapWindows(start, seed).stream().flatMap(List::stream).toList();
+        return generateTelemetryGap(start, seed, null);
+    }
+
+    public List<String> generateTelemetryGap(Instant start, long seed, GenerationContext context) {
+        return generateTelemetryGapWindows(start, seed, context).stream().flatMap(List::stream).toList();
     }
 
     /** Withhold unmeasured SERVICE and NODE sources for minutes 2-4. */
     public List<List<String>> generateTelemetryGapWindows(Instant start, long seed) {
+        return generateTelemetryGapWindows(start, seed, null);
+    }
+
+    public List<List<String>> generateTelemetryGapWindows(Instant start, long seed, GenerationContext context) {
         validateMinuteAlignment(start);
+        if (context != null) context.requireService(SERVICE);
         var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             if (minute >= 2 && minute < 5) {
                 result.add(List.of());
             } else {
-                result.add(generateSeededWindow(from, Phase.NORMAL, seed));
+                result.add(generateSeededWindow(from, Phase.NORMAL, seed, context));
             }
         }
         return List.copyOf(result);
