@@ -10,6 +10,7 @@ import { MetricChartComponent } from '../service-kpi-history/metric-chart.compon
 import { IconComponent } from '../../shared/icon.component';
 import { DrawerComponent } from '../../shared/drawer.component';
 import { CityEvidenceComponent } from './city-evidence.component';
+import { workflowLabel, probableCause } from '../../shared/metric-presentation';
 import { allPages, metricValue, formatMetric } from '../service-kpi-history/assurance-model';
 import { moldovaOutline } from './moldova-map';
 import {
@@ -101,6 +102,15 @@ export class ConnectedOverviewComponent {
       && (!this.queueStateFilter() || item.technicalState === this.queueStateFilter()))
       .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
+  readonly investigationTarget = computed(() => {
+    const city = this.selectedCity(), service = this.serviceFilter();
+    return this.store.incidents().filter(item => (!city || city.scopeIds.includes(item.scopeId))
+      && (service === 'ALL' || item.service === service))
+      .sort((a, b) => Number(b.technicalState === 'ONGOING') - Number(a.technicalState === 'ONGOING')
+        || Date.parse(b.updatedAt) - Date.parse(a.updatedAt))[0];
+  });
+  readonly workflowState = workflowLabel;
+  readonly cause = probableCause;
   readonly cityServices = cityServices;
   readonly cityForScope = cityForScope;
   readonly cityLabel = cityLabel;

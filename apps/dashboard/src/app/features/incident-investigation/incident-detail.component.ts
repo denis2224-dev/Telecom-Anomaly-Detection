@@ -12,7 +12,7 @@ import { dataSource } from '../../core/api/data-source';
 import { IncidentStream } from '../../core/state/incident-stream';
 import { EvidenceTimelineComponent } from './evidence-timeline.component';
 import { IncidentActionsComponent } from './incident-actions.component';
-import { deviation, metricLabel, primaryMetric, supportedValue } from '../../shared/metric-presentation';
+import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, probableCause } from '../../shared/metric-presentation';
 
 @Component({
   selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
@@ -20,7 +20,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
     @if (incident(); as item) { <app-service-context [current]="item.service" /> }
     @if (!loading() && !error()) {
-      <button type="button" class="ghost" (click)="load()"><app-icon name="refresh" />Refresh incident</button>
+      <button type="button" class="ghost" (click)="load(page(), true)"><app-icon name="refresh" />Refresh incident</button>
     }
     </div>
     @if (connectionInterrupted()) {
@@ -35,15 +35,15 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
         (click)="$event.target === detailsDrawer && detailsDrawer.close()">
         <div class="drawer-heading"><h2 id="details-title" tabindex="-1" autofocus>Details &amp; workflow</h2><button type="button" class="drawer-close primary" aria-label="Close details and workflow" (click)="detailsDrawer.close()">Close</button></div>
         <section class="detail-panel incident-summary">
-          <h2>{{ item.scopeId }}</h2>
+          <h2>{{ item.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</h2>
           <div class="badge-row"><span class="sr-only">Technical state: </span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span><span class="sr-only">Workflow state: </span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></div>
-          <p>Episode: <code>{{ item.episodeId }}</code></p>
+          <details class="evidence-disclosure"><summary>Troubleshooting</summary><p>Incident: <code>{{ item.id }}</code></p><p>Episode: <code>{{ item.episodeId }}</code></p><p>Scope: <code>{{ item.scopeId }}</code></p></details>
           <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
           <p>{{ fixture ? 'Synthetic preview: sample detection history only.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
           @if (!fixture) { <p class="muted">Synthetic telecom demo · measurements processed by the running backend.</p> }
           <p>Severity: <strong>{{ item.severity }}</strong>. This is the rule's service-impact priority, not a probability.</p>
           @if (item.technicalState === 'RECOVERED') {
-            <p>The service has recovered. The analyst investigation stays open until someone resolves it.</p>
+            <p>The service has recovered. {{ workflowState(item) }}</p>
           } @else if (item.technicalState === 'UNKNOWN') {
             <p>Technical state is unknown because evidence is incomplete. Do not treat this as recovery.</p>
           } @else {
@@ -62,15 +62,25 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
         </section>
       </dialog>
       <header class="incident-summary-bar">
-        <div class="incident-summary-title"><p class="eyebrow">Incident episode</p><h2>{{ item.scopeId }}</h2></div>
+        <div class="incident-summary-title"><p class="eyebrow">Incident episode</p><h2>{{ item.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</h2></div>
         <div class="incident-at-a-glance">
           <span><small>Severity</small><strong class="badge" [attr.data-state]="item.severity">{{ item.severity }}</strong></span>
           <span><small>Technical state</small><strong class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</strong></span>
+          <span><small>Analyst workflow</small><strong>{{ workflowState(item) }}</strong></span>
           <span><small>Assignee</small><strong>{{ workflow.assigneeName() }}</strong></span>
           <span><small>Latest KPI deviation</small><strong class="mono">{{ latestDeviation() }}</strong></span>
         </div>
         <button type="button" class="primary" (click)="detailsDrawer.showModal()"><app-icon name="user" />Details &amp; workflow</button>
       </header>
+      <section class="detail-panel" aria-label="Current incident times">
+        <dl class="investigation-times">
+          <div><dt>First observed (UTC)</dt><dd>{{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
+          <div><dt>Detected (UTC)</dt><dd>{{ item.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
+          <div><dt>Last observed (UTC)</dt><dd>{{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
+          <div><dt>Updated (UTC)</dt><dd>{{ item.updatedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
+          <div><dt>Recovery detected (UTC)</dt><dd>{{ recoveryDetectedAt() ? (recoveryDetectedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC') : 'Unavailable' }}</dd></div>
+        </dl>
+      </section>
       <div class="evidence-column">
       <p class="muted">
         Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
@@ -91,7 +101,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
               @else { {{ impact.affectedDeliveredMessages }} affected delivered messages · {{ impact.pendingMessages }} pending messages }
               · Unique subscribers: {{ impact.uniqueSubscribers ?? 'Unavailable' }}</p>
           } @else { <p>Impact: Unavailable</p> }
-          <p>{{ presentation.probableCause }} · Confidence: {{ presentation.causeConfidence }}</p>
+          <p>{{ cause(item.latestDetection) }} · Confidence: {{ presentation.causeConfidence }}</p>
         </details>
       }
       @if (!fixture && item.service === 'SMS') { <app-sms-shadow [scopeId]="item.scopeId" [incidentId]="item.id" [revision]="item.updatedAt" /> }
@@ -101,6 +111,8 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
 })
 export class IncidentDetailComponent {
   readonly Math = Math;
+  readonly workflowState = workflowLabel;
+  readonly cause = probableCause;
   private readonly api = inject(TelecomClient);
   private readonly stream = inject(IncidentStream);
   private closeStream?: () => void;
@@ -120,6 +132,11 @@ export class IncidentDetailComponent {
   readonly error = signal('');
   readonly incident = signal<Incident | null>(null);
   readonly detections = signal<components['schemas']['ServiceDetection'][]>([]);
+  readonly recoveryDetectedAt = computed(() => {
+    const item = this.incident();
+    // A RECOVERY detection records a transition; lastObservedAt is not a recovery timestamp.
+    return item?.technicalState === 'RECOVERED' && item.latestDetection.phase === 'RECOVERY' ? item.latestDetection.detectedAt : null;
+  });
   readonly latestDeviation = computed(() => {
     const detection = this.incident()?.latestDetection;
     if (!detection || detection.phase === 'UNKNOWN') return 'Comparison unavailable';
