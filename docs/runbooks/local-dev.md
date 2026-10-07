@@ -54,6 +54,18 @@ host port 8082; `./scripts/up` does not start that host process.
 the database provisioner, starts Keycloak and imports the local realm, synchronizes
 the backend client secret into `.env`, then starts the proxy. After successful
 topic initialization, it builds and starts the event-generator, processor and private ML service.
+Before startup and verification, it checks that the generator and processor have
+matching geography enabled state and effective-from timestamps:
+
+```bash
+./scripts/check_geography_alignment.py --env-file .env
+docker compose config --format json \
+  | ./scripts/check_geography_alignment.py --compose-json
+```
+
+The check rejects generator-only or processor-only activation, mismatched or
+missing effective-from values, malformed timestamps, and timestamps without a
+timezone.
 Both Java applications must pass `/actuator/health/readiness` and the ML service must pass
 `/health/ready`; a running container alone is insufficient. Startup
 health waits are bounded to 120 seconds per phase, or 180 seconds for Keycloak's

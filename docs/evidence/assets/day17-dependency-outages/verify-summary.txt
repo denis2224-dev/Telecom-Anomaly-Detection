@@ -1,0 +1,30 @@
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.383 s -- in md.utm.telecom.processing.VoiceDeliverySchedulingTest
+[INFO] Running md.utm.telecom.processing.VoiceEpisodeTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in md.utm.telecom.processing.VoiceEpisodeTest
+[INFO] Running md.utm.telecom.processing.VoiceRuleTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in md.utm.telecom.processing.VoiceRuleTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 419, Failures: 0, Errors: 0, Skipped: 4
+[INFO]
+[INFO]
+[INFO] --- jar:3.4.2:jar (default-jar) @ processor ---
+[INFO] Building jar: C:\OrangeSystems\Program\ion-day17-dependency-outages\services\processor\target\processor-0.3.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- spring-boot:3.5.16:repackage (repackage) @ processor ---
+[INFO] Replacing main artifact C:\OrangeSystems\Program\ion-day17-dependency-outages\services\processor\target\processor-0.3.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\OrangeSystems\Program\ion-day17-dependency-outages\services\processor\target\processor-0.3.0-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for telecom-anomaly-detection 0.3.0-SNAPSHOT:
+[INFO]
+[INFO] telecom-anomaly-detection .......................... SUCCESS [  0.004 s]
+[INFO] streaming-support .................................. SUCCESS [  3.999 s]
+[INFO] event-generator .................................... SUCCESS [ 17.200 s]
+[INFO] processor .......................................... SUCCESS [05:09 min]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  05:30 min
+[INFO] Finished at: 2026-10-07T19:08:09+03:00
+[INFO] ------------------------------------------------------------------------

@@ -20,6 +20,8 @@ docker info >/dev/null
 
 echo "Validating Compose configuration..."
 docker compose config --quiet
+./scripts/check_geography_alignment.py --env-file "${ROOT_DIR}/.env"
+docker compose config --format json | ./scripts/check_geography_alignment.py --compose-json
 
 echo "Checking PostgreSQL readiness..."
 docker compose exec -T postgres pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
