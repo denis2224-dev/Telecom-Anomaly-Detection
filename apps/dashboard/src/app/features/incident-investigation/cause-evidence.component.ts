@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import type { components } from '../../core/api/schema';
 import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
-import { modelStatusLabel, rankValue } from '../../shared/metric-presentation';
+import { modelStatusLabel, rankValue, probableCause } from '../../shared/metric-presentation';
 
 type Detection = components['schemas']['ServiceDetection'];
 
@@ -11,9 +11,12 @@ type Detection = components['schemas']['ServiceDetection'];
   template: `
     <section aria-label="Cause hypothesis">
       <h4>Probable cause</h4>
-      <p>{{ detection().probableCause }}</p>
+      <p>{{ cause(detection()) }}</p>
       <p>Cause confidence: {{ detection().causeConfidence }}</p>
       <p>This is a probable explanation, not a confirmed root cause.</p>
+      @if (cause(detection()) === 'Cause undetermined') { <p>Missing evidence or a failed ping alone cannot confirm power loss.</p> }
+      <p>Affected paths: Unavailable</p>
+      <p>Supporting / contradicting classification: Unavailable. Recorded source evidence is shown separately.</p>
       <app-metric-explanation topic="confidence" />
       <p>ML result: {{ statusLabel(detection().mlStatus) }}</p>
       <p>Model anomaly rank: {{ rank(detection()) }}</p>
@@ -33,4 +36,5 @@ export class CauseEvidenceComponent {
   readonly detection = input.required<Detection>();
   readonly statusLabel = modelStatusLabel;
   readonly rank = rankValue;
+  readonly cause = probableCause;
 }

@@ -107,4 +107,21 @@ describe('Scenario command retry', () => {
     store.newCommand();
     expect(sessionStorage.getItem('telecom.scenario-runner:unknown')).toBeNull();
   });
+
+  it('distinguishes a definite conflict from an unavailable generator with an uncertain outcome', async () => {
+    const startScenario = vi.fn().mockRejectedValueOnce(new ApiFailure(409)).mockRejectedValueOnce(new ApiFailure(503));
+    TestBed.configureTestingModule({ providers: [
+      { provide: TelecomClient, useValue: { startScenario } },
+      { provide: SessionStore, useValue: { actor: () => null, phase: () => 'authenticated' } },
+    ] });
+    const store = TestBed.inject(RunStore);
+    await store.start('VOLTE_IMS_OVERLOAD', 42, 'VOLTE-MD-ORH');
+    expect(store.error()).toContain('conflicts');
+    expect(store.canAbandon()).toBe(true);
+    store.newCommand();
+    await store.start('VOLTE_IMS_OVERLOAD', 42, 'VOLTE-MD-ORH');
+    expect(store.error()).toContain('outcome is uncertain');
+    expect(store.canAbandon()).toBe(false);
+    expect(store.run()).toBeNull();
+  });
 });

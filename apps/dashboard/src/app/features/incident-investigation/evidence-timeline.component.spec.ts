@@ -58,13 +58,14 @@ describe('Historical detection evidence', () => {
     const articles = fixture.nativeElement.querySelectorAll('article');
     const cells = (article: HTMLElement) => Array.from(article.querySelectorAll('[data-kpi] td')).map(cell => cell.textContent?.trim());
 
-    expect(cells(articles[0])).toEqual(['0', '99.3', 'PERCENT', '0', '100']);
-    expect(cells(articles[1])).toEqual(['Unavailable', 'Unavailable', 'PERCENT', 'Unavailable', 'Unavailable']);
-    expect(articles[0].textContent).toContain(`Source scope: ${bad.scopeId}`);
+    expect(cells(articles[0])).toEqual(['0', '99.3', 'PERCENT', '-99.3 pp', '-100%', '0', '100']);
+    expect(cells(articles[1])).toEqual(['Unavailable', 'Unavailable', 'PERCENT', 'Comparison unavailable', 'Unavailable', 'Unavailable', 'Unavailable']);
+    expect(articles[0].textContent).toContain(`Scope: ${bad.scopeId}`);
     expect(articles[0].textContent).toContain('EARLIER_SOURCE');
     expect(articles[0].textContent).toContain('IMS-A');
     const source = Array.from<HTMLDetailsElement>(articles[0].querySelectorAll('details'))
-      .find(details => details.querySelector('summary')?.textContent === 'Source evidence');
+      .find(details => details.querySelector('summary')?.textContent === 'Troubleshooting');
+    expect(source?.open).toBe(false);
     expect(source?.textContent).toContain('earlier-event');
     const hypothesis = articles[0].querySelector('[aria-label="Cause hypothesis"]');
     expect(hypothesis.textContent).toContain('Earlier capacity hypothesis');
@@ -114,6 +115,37 @@ describe('Historical detection evidence', () => {
     const fixture = render([]);
     expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('No evidence updates available');
     expect(fixture.nativeElement.querySelectorAll('article')).toHaveLength(0);
+  });
+
+  it('withholds unsupported causes and never promotes a ping failure to confirmed power loss', () => {
+    for (const evidence of [[], [{ code: 'PING_RESULT', summary: 'Ping failed', nodeId: 'SITE-ORH', sourceEventIds: [] }]]) {
+      const record = detection(1, 'OPEN');
+      record.probableCause = 'Confirmed power loss';
+      record.evidence = evidence;
+      const fixture = render([record]);
+      const hypothesis = fixture.nativeElement.querySelector('[aria-label="Cause hypothesis"]');
+      expect(hypothesis.textContent).toContain('Cause undetermined');
+      expect(hypothesis.textContent).not.toContain('Confirmed power loss');
+      expect(hypothesis.textContent).toContain('classification: Unavailable');
+      expect(hypothesis.textContent).toContain('Affected paths: Unavailable');
+    }
+  });
+
+  it('does not invent relative change against a zero baseline', () => {
+    const record = detection(1, 'OPEN');
+    record.kpis = [{ name: 'sip503Count', observed: 5, baseline: 0, unit: 'COUNT', numerator: null, denominator: null }];
+    const cells = render([record]).nativeElement.querySelectorAll('[data-kpi] td');
+    expect(cells[3].textContent).toBe('+5 count');
+    expect(cells[4].textContent).toBe('Unavailable');
+  });
+
+  it('keeps a retained hypothesis out of the current cause when measurements are unavailable', () => {
+    const record = detection(1, 'UPDATE');
+    record.kpis = record.kpis.map(kpi => ({ ...kpi, observed: null }));
+    record.probableCause = 'Retained IMS capacity hypothesis';
+    const hypothesis = render([record]).nativeElement.querySelector('[aria-label="Cause hypothesis"]');
+    expect(hypothesis.textContent).toContain('Cause undetermined');
+    expect(hypothesis.textContent).not.toContain('Retained IMS capacity hypothesis');
   });
 
   it('distinguishes calibrated rank from severity and cause confidence and preserves a real zero rank', () => {

@@ -199,6 +199,6 @@ html:has(.drawer-panel[open]) { overflow: hidden; }
 .drawer-panel .pagination { margin: 0; flex-shrink: 0; }
 .drawer-panel .pagination > span { font-family: var(--font-family); font-size: 12px; }
 @media (max-width: 768px) { .drawer-panel { width: 100%; } }
-.drawer-panel.episode-evidence { inset: 16px 16px auto auto; width: min(480px, calc(100vw - 32px)); height: auto; max-height: calc(100dvh - 32px); padding: 20px; border-radius: var(--radius); }
-.episode-evidence .drawer-content { padding-bottom: 8px; }
-@media (max-width: 600px) { .drawer-panel.episode-evidence { inset: 12px 12px auto auto; width: calc(100vw - 24px); max-height: calc(100dvh - 24px); padding: 16px; } }
+.drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 16px 16px auto auto; width: min(480px, calc(100vw - 32px)); height: auto; max-height: calc(100dvh - 32px); padding: 20px; border-radius: var(--radius); }
+.episode-evidence .drawer-content, .queue-panel .drawer-content { padding-bottom: 8px; }
+@media (max-width: 600px) { .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 12px 12px auto auto; width: calc(100vw - 24px); max-height: calc(100dvh - 24px); padding: 16px; } }
