@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e/specs',
-  testMatch: 'service-scenarios.spec.ts',
+  testMatch: ['service-scenarios.spec.ts', 'geography-integration.spec.ts'],
   outputDir: './test-results/g2',
   workers: 1,
   retries: 0,

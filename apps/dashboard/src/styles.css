@@ -41,8 +41,8 @@ app-metric-chart { display: block; min-width: 0; }
 }
 
 /* Compact diagnostic views share the same chart and evidence components. */
-.exact-values { margin: 12px 0; background: var(--surface); padding: 10px; border-radius: var(--radius); }
-.exact-values .chart-scroll { max-height: 320px; overflow: auto; }
+.exact-values, .evidence-disclosure { margin: 12px 0; background: var(--surface); padding: 10px; border-radius: var(--radius); }
+.exact-values .chart-scroll, .evidence-disclosure .chart-scroll { max-height: 320px; overflow: auto; }
 main:has(app-connected-overview) { padding-top: 8px; }
 main:has(app-connected-overview) .preview-label { margin-bottom: 8px; padding: 5px 10px; }
 @media (min-width: 1101px) {

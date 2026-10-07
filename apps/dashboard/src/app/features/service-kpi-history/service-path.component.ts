@@ -1,6 +1,8 @@
 import { Component, input } from '@angular/core';
 import type { ServiceSummary } from '../../core/api/telecom-client';
 import topology from '../../../../../../contracts/topology/demo-scopes-v2.json';
+import geographicTopology from '../../../../../../contracts/topology/geographic-scopes-v2.json';
+import geography from '../../../../../../contracts/geography/demo-geography-v1.json';
 import { Detection, formatMetric, metricValue } from './assurance-model';
 @Component({
   selector: 'app-service-path',
@@ -23,8 +25,16 @@ import { Detection, formatMetric, metricValue } from './assurance-model';
 export class ServicePathComponent {
   readonly service = input.required<ServiceSummary>(); readonly detections = input<Detection[]>([]);
   readonly format = formatMetric;
-  source() { return topology.scopes.find(item => item.scopeId === this.service().scope.scopeId)?.serviceSourceId ?? 'Service source unavailable'; }
+  source() {
+    const authority = this.service().latestWindow?.topologyVersion === geographicTopology.topologyVersion ? geographicTopology : topology;
+    return authority.scopes.find(item => item.scopeId === this.service().scope.scopeId)?.serviceSourceId ?? 'Service source unavailable';
+  }
   metrics(node: string): string[] {
+    if (this.service().latestWindow?.topologyVersion === geography.topologyVersion) {
+      const role = geography.scopes.find(item => item.scopeId === this.service().scope.scopeId)?.roles.find(item => item.nodeId === node)?.role;
+      return role === 'VOLTE_IMS' ? ['imsCpuPct'] : role === 'VOLTE_TRANSPORT' ? ['packetLossRatio']
+        : role === 'SMS_SMSC' ? ['queueDepth', 'oldestPendingAgeSec'] : [];
+    }
     if (this.service().scope.service === 'VOLTE') return node === 'IMS-A' ? ['imsCpuPct'] : node === 'TRANSPORT-A' ? ['packetLossRatio'] : [];
     return node === 'SMSC-A' ? ['queueDepth', 'oldestPendingAgeSec'] : [];
   }
