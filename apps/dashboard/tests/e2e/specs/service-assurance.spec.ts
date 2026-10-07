@@ -17,6 +17,7 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     const incident = latest ? { ...voiceIncidents[0], scopeId: feature.scopeId, service: trajectory.service, episodeId: latest.episodeId, firstObservedAt: latest.firstObservedAt, lastObservedAt: latest.windowEnd, technicalState: latest.technicalState, severity: latest.severity, latestSequence: latest.sequence, latestDetection: latest } : null;
     summary.openIncidents = incident ? 1 : 0;
     const requests: { from: string; to: string }[] = [];
+    await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
     await page.route('**/api/services', route => route.fulfill({ json: [summary] }));
     await page.route('**/api/services/*/kpis?**', route => {
       const query = new URL(route.request().url()).searchParams;

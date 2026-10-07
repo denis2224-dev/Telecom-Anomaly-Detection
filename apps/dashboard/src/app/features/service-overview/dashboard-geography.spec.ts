@@ -1,8 +1,33 @@
-import { baseline, cities, cityForScope, cityServices, deviation, measured } from './dashboard-geography';
+import { baseline, bindGeography, cities, cityForScope, cityServices, deviation, measured, geographyValue } from './dashboard-geography';
+import type { GeographyCatalogue } from '../../core/api/telecom-client';
 import { moldovaOutline, projectCity } from './moldova-map';
 import { cityIncidents, citySummaries, cityWindows, fixtureCities } from '../../../fixtures/connected-dashboard';
 
 describe('Connected dashboard contract', () => {
+  it('joins only authoritative city memberships and preserves missing values and coverage', () => {
+    const response: GeographyCatalogue = {
+      generatedAt: '2026-10-06T12:00:00Z', catalogueVersion: 'active-catalogue', topologyVersion: 'active-topology',
+      cities: [{ cityId: 'CHI', displayName: 'Chișinău', synthetic: true,
+        catalogueVersion: 'active-catalogue', topologyVersion: 'active-topology',
+        services: (['VOLTE', 'SMS'] as const).map(service => ({ service, scopeId: `${service}-MD-CHI`, latestWindowEnd: null,
+          freshness: 'NEVER_SEEN', technicalActiveCount: 0, analystOpenCount: 0,
+          coverage: { state: 'UNKNOWN', expectedSources: null, receivedSources: null, usableSources: null },
+          metric: { name: service === 'VOLTE' ? 'TECHNICAL_CSSR' : 'SMS_DELIVERY_P95', unit: service === 'VOLTE' ? 'PERCENT' : 'MILLISECONDS', observed: null, baseline: null, deltaPp: null, delayRatio: null, nullReason: 'NEVER_SEEN' } })) }],
+    };
+    response.cities = cities.map(city => ({ ...response.cities[0], cityId: city.id, displayName: city.name,
+      services: response.cities[0].services.map(state => ({ ...state, scopeId: `${state.service}-MD-${city.id}` })) }));
+    const mapped = bindGeography(response);
+    expect(mapped[0].scopeIds).toEqual(['VOLTE-MD-CHI', 'SMS-MD-CHI']);
+    expect(mapped[0].geography?.services[0].coverage.state).toBe('UNKNOWN');
+    expect(geographyValue(mapped[0].geography!.services[0])).toBeNull();
+    expect(cityForScope(mapped, 'VOLTE-MD-CENTRAL')).toBeUndefined();
+    expect(() => bindGeography({ ...response, cities: [] })).toThrow('Incomplete');
+    const duplicate = structuredClone(response);
+    duplicate.cities[0].services[1].scopeId = 'VOLTE-MD-CHI';
+    expect(() => bindGeography(duplicate)).toThrow('Ambiguous');
+    duplicate.cities[0].services[1].scopeId = 'SMS-MD-ROUTE-A';
+    expect(() => bindGeography(duplicate)).toThrow('Ambiguous');
+  });
   it('uses the real outline and the same geographic projection for city markers', () => {
     expect((moldovaOutline.match(/L/g) ?? []).length).toBe(720);
     const city = cities.find(item => item.id === 'CHI')!;

@@ -18,6 +18,7 @@
   </form>
   @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
   @if (statusMessage()) { <p role="alert">{{ statusMessage() }}</p> }
+  @if (geographyError()) { <p role="status">City catalogue unavailable: {{ geographyError() }} Existing city evidence may be stale.</p> }
   <div class="overview-panels">
     <section class="service-panel" aria-labelledby="volte-panel-title">
       <h2 id="volte-panel-title">VoLTE setup <span>CSSR %</span></h2>
@@ -53,8 +54,7 @@
         <thead><tr><th>City</th><th>Observed</th><th>Baseline change</th><th>State</th></tr></thead>
         <tbody>@for (city of featuredCities(); track city.id) {
           <tr [class.selected-city]="selectedId() === city.id" (click)="select(city.id)"><th scope="row"><button type="button" [attr.aria-pressed]="selectedId() === city.id" (click)="select(city.id); $event.stopPropagation()">{{ city.name }}</button></th>
-            @if (cityServices(city, services(), tableService())[0]; as item) { <td>{{ metric(item.latestWindow, item.scope.service).replace('Unavailable', '—') }}</td><td>{{ cityDelta(item) }}</td><td>{{ scopeHealth(item) }}</td> }
-            @else { <td>—</td><td>—</td><td>{{ city.scopeIds.length ? 'Unavailable' : 'Mapping pending' }}</td> }
+            <td>{{ cityObservation(city, tableService()).replace('Unavailable', '—') }}</td><td>{{ cityChange(city, tableService()) }}</td><td>{{ cityHealth(city).replace('MAPPING PENDING', 'Mapping pending') }}</td>
           </tr>
         }</tbody>
       </table></div>
@@ -80,6 +80,9 @@
       <button type="button" class="panel-navigation" [routerLink]="serviceTarget('SMS') ? ['/services', serviceTarget('SMS')!.scope.scopeId] : null" [disabled]="!serviceTarget('SMS')">Open SMS delivery <app-icon name="right" /></button>
     </section>
   </div>
+  @if (!fixture && selectedCity()?.geography) {
+    <app-city-evidence [city]="selectedCity()!" [filter]="serviceFilter()" [from]="chartFrom()" [to]="chartTo()" [updatedAt]="geographyUpdatedAt()" />
+  }
 </section>
 
 <app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" [title]="'Incident queue (' + queueTotal() + ')'" closeLabel="Close incidents" (closed)="clearQueueFragment()">

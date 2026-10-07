@@ -9,6 +9,7 @@ const csrf = {
 test.describe("Frontend login behavior (mocked API)", () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, "Run separately from real backend verification");
   test.beforeEach(async ({ page }) => {
+    await page.route("**/api/geography/cities", route => route.fulfill({ status: 503, json: {} }));
     await page.route("**/api/auth/csrf", route => route.fulfill({ json: csrf }));
   });
 
