@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BooleanSupplier;
 import md.utm.telecom.processing.detection.VoiceDeliveryScheduler;
 import md.utm.telecom.processing.ingestion.ObservationDelivery;
 import md.utm.telecom.processing.ingestion.ObservationListener;
@@ -35,6 +36,7 @@ import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.awaitility.core.ConditionTimeoutException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,6 +76,7 @@ class DependencyOutageIT extends ReplayTestSupport {
     static final String LATE = "day17.late";
     static final String COVERAGE = "telecom.coverage.v1";
     static final String DETECTIONS = "telecom.detections.v2";
+    static final Duration RECOVERY_BOUND = Duration.ofSeconds(30);
     static final TopicPartition INPUT_PARTITION = new TopicPartition(INPUT, 0);
     static final Map<String, Object> EVIDENCE = new LinkedHashMap<>();
     @Autowired EmbeddedKafkaZKBroker broker;
@@ -208,8 +211,37 @@ class DependencyOutageIT extends ReplayTestSupport {
                 "pendingOutputs", pending(), "publishedOutputs", count("voice_delivery") - pending(),
                 "rejections", count("rejection_outbox"), "pendingRejections", pendingRejections());
     }
+    int activeClaims() {
+        return jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE claim_token IS NOT NULL OR lease_until IS NOT NULL", Integer.class);
+    }
     void noStuckClaim() {
-        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.voice_delivery WHERE claim_token IS NOT NULL OR lease_until IS NOT NULL", Integer.class));
+        assertEquals(0, activeClaims());
+    }
+    Map<String, Object> deliveryEvidence() {
+        return Map.of("outputs", rows("SELECT id,topic,kafka_key,payload FROM app.voice_delivery ORDER BY id"),
+                "features", rows("SELECT * FROM app.feature_outbox ORDER BY window_id"),
+                "jobs", rows("SELECT * FROM app.detection_job ORDER BY window_id"),
+                "evaluated", rows("SELECT * FROM app.voice_evaluated_window ORDER BY window_id"));
+    }
+    void recoverWithinBound(String description, Runnable poll, BooleanSupplier recovered, Runnable afterPoll) {
+        long started = System.nanoTime();
+        try {
+            // Broker/admin readiness does not imply that the existing producer is ready.
+            // Assert invariants immediately; only the recovery condition may wait/retry.
+            await().pollInSameThread().pollDelay(Duration.ZERO).pollInterval(Duration.ofMillis(100))
+                    .atMost(RECOVERY_BOUND).until(() -> {
+                        poll.run();
+                        afterPoll.run();
+                        return recovered.getAsBoolean();
+                    });
+            assertTrue(System.nanoTime() - started <= RECOVERY_BOUND.toNanos(), "Recovery exceeded its deadline");
+        } catch (ConditionTimeoutException | AssertionError failure) {
+            throw new AssertionError(description + ": pendingDeliveries=" + pending()
+                    + ", pendingRejections=" + pendingRejections() + ", sendAttempts=" + output.attempts.size()
+                    + ", successfulSends=" + output.successfulSends.size() + ", failureClasses=" + output.failures
+                    + ", activeClaims=" + activeClaims()
+                    + ", elapsedRecoveryMs=" + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started), failure);
+        }
     }
 
     /** Freeze/unfreeze the real disposable server; keep its data volume and mapped endpoint. */
@@ -316,10 +348,12 @@ class DependencyOutageIT extends ReplayTestSupport {
         var durable = rows("SELECT id,topic,kafka_key,payload FROM app.voice_delivery ORDER BY id");
         var features = rows("SELECT * FROM app.feature_outbox ORDER BY window_id");
         var jobs = rows("SELECT * FROM app.detection_job ORDER BY window_id");
+        var immutable = deliveryEvidence();
         var before = counts();
         var scheduler = new VoiceDeliveryScheduler(delivery, jdbc, output);
         try (var consumer = outputConsumer(KPIS)) {
             var outage = new KafkaOutage();
+            int successesBeforeRestore;
             try (outage) {
                 for (int attempt = 0; attempt < 3; attempt++) {
                     int sends = output.attempts.size(); scheduler.poll();
@@ -329,23 +363,52 @@ class DependencyOutageIT extends ReplayTestSupport {
                 }
                 assertFalse(output.failures.isEmpty());
                 assertEquals(durable, rows("SELECT id,topic,kafka_key,payload FROM app.voice_delivery ORDER BY id"));
+                successesBeforeRestore = output.successfulSends.size();
             }
-            scheduler.poll(); Instant firstRetry = output.successfulSends.getFirst();
+            recoverWithinBound("Kafka output recovery", scheduler::poll,
+                    () -> output.successfulSends.size() > successesBeforeRestore, () -> {
+                        noStuckClaim();
+                        assertEquals(0, output.active.get());
+                        assertTrue(immutable.equals(deliveryEvidence()), "Recovery changed durable identity or payload");
+                        if (output.successfulSends.size() == successesBeforeRestore)
+                            assertEquals(windows, pending(), "Unacknowledged output must remain pending");
+                    });
+            Instant firstRetry = output.successfulSends.get(successesBeforeRestore);
             assertEquals(Math.max(0, windows - 100), pending(), "Recovery poll must honor the existing 100-row loop bound");
-            if (pending() > 0) scheduler.poll();
+            assertEquals(Math.min(100, windows), output.successfulSends.size() - successesBeforeRestore);
+            if (pending() > 0) {
+                long remaining = pending();
+                int successesBeforeDrain = output.successfulSends.size();
+                recoverWithinBound("Remaining Kafka output recovery", scheduler::poll, () -> pending() == 0, () -> {
+                    noStuckClaim();
+                    assertTrue(immutable.equals(deliveryEvidence()), "Drain changed durable identity or payload");
+                    assertEquals(remaining - (output.successfulSends.size() - successesBeforeDrain), pending(),
+                            "Pending rows may disappear only after an acknowledged send");
+                });
+            }
             assertEquals(0, pending()); noStuckClaim();
             Instant steady = Instant.now();
             var wire = KafkaTestUtils.getRecords(consumer, Duration.ofSeconds(10), windows);
             assertEquals(windows, wire.count());
             var ids = new java.util.HashSet<String>();
+            var wireOrder = new ArrayList<String>();
             for (var record : wire) {
                 var value = JSON.readTree(record.value()); assertTrue(ids.add(value.path("windowId").asText()));
+                wireOrder.add(value.required("windowStart").asText());
                 var committed = durable.stream().filter(row -> row.get("id").equals(value.path("windowId").asText())).findFirst().orElseThrow();
                 assertEquals(committed.get("kafka_key"), record.key());
                 assertEquals(JSON.readTree((String) committed.get("payload")), value);
             }
+            assertEquals(inputs.stream().map(record -> {
+                try { return JSON.readTree(record.value()).required("windowStart").asText(); }
+                catch (Exception e) { throw new IllegalStateException(e); }
+            }).toList(), wireOrder, "Recovery must preserve same-stream window order");
             for (var record : inputs) assertEquals(DUPLICATE, ingestion.ingest(deliveryOf(record)).status());
-            scheduler.poll(); assertEquals(windows + 3, output.attempts.size());
+            int attemptsBeforeIdlePoll = output.attempts.size(); scheduler.poll();
+            assertEquals(attemptsBeforeIdlePoll, output.attempts.size());
+            assertEquals(windows, output.successfulSends.size() - successesBeforeRestore);
+            assertEquals(output.successfulSends.size() + output.failures.size(), output.attempts.size(),
+                    "Every retry attempt must finish as either an ACK or a recorded failure");
             assertEquals(0, consumer.poll(Duration.ofMillis(300)).count());
             assertEquals(features, rows("SELECT * FROM app.feature_outbox ORDER BY window_id"));
             assertEquals(jobs, rows("SELECT * FROM app.detection_job ORDER BY window_id"));
@@ -462,6 +525,7 @@ class DependencyOutageIT extends ReplayTestSupport {
         var features = rows("SELECT * FROM app.feature_outbox ORDER BY window_id");
         var jobs = rows("SELECT * FROM app.detection_job ORDER BY window_id");
         var evaluated = rows("SELECT * FROM app.voice_evaluated_window ORDER BY window_id");
+        var immutable = deliveryEvidence();
         // A real broker topic size constraint fails KPI sends; coverage and rejection topics stay available.
         var rejectedInputs = new ArrayList<Map<String, Object>>();
         try (var session = new Session()) {
@@ -472,6 +536,8 @@ class DependencyOutageIT extends ReplayTestSupport {
             assertEquals(2, session.acknowledgments.get());
         }
         var before = counts(); var scheduler = new VoiceDeliveryScheduler(delivery, jdbc, output);
+        var rejectionEvidence = rows("SELECT to_jsonb(r)-'published_at' AS evidence FROM app.rejection_outbox r ORDER BY outbox_id");
+        var rejectionIds = new java.util.HashSet<String>();
         try (var consumer = outputConsumer(INVALID);
              var coverageConsumer = outputConsumer(COVERAGE);
              var kpiConsumer = outputConsumer(KPIS)) {
@@ -505,7 +571,9 @@ class DependencyOutageIT extends ReplayTestSupport {
                 assertEquals(0, coverageConsumer.poll(Duration.ofMillis(300)).count(), "Coverage is not republished on later polls");
                 assertEquals(1, new RejectionPublisher(jdbc, output, clock, INVALID, LATE, 1).poll());
                 assertEquals(1, pendingRejections(), "Real batch-size=1 must leave the second acknowledged rejection pending");
-                assertEquals("MALFORMED_JSON", JSON.readTree(KafkaTestUtils.getSingleRecord(consumer, INVALID).value()).path("reasonCode").asText());
+                var rejection = JSON.readTree(KafkaTestUtils.getSingleRecord(consumer, INVALID).value());
+                assertEquals("MALFORMED_JSON", rejection.path("reasonCode").asText());
+                assertTrue(rejectionIds.add(rejection.required("rejectionId").asText()));
                 proof.put("status", "PASS — F3 delivery fairness repaired");
                 proof.put("mainFixCommit", "7e46521de1c12ed0a7431092b49cda315cd3c0c9");
                 proof.put("mechanism", "Real broker max.message.bytes=128 on telecom.kpis.v2; coverage/rejection topics unchanged");
@@ -519,7 +587,13 @@ class DependencyOutageIT extends ReplayTestSupport {
                 restoreRequested = Instant.now(); topicMaximumBytes(Integer.toString(originalMaximum)); restored = Instant.now();
             }
             int successesBeforeRestore = output.successfulSends.size();
-            scheduler.poll(); assertEquals(0, pending()); noStuckClaim();
+            recoverWithinBound("Fairness output recovery", scheduler::poll, () -> pending() == 0, () -> {
+                noStuckClaim();
+                assertEquals(0, output.active.get());
+                assertTrue(immutable.equals(deliveryEvidence()), "Recovery changed durable identity or payload");
+                assertEquals(3 - (output.successfulSends.size() - successesBeforeRestore), pending(),
+                        "Pending rows may disappear only after an acknowledged send");
+            });
             Instant firstRetry = output.successfulSends.get(successesBeforeRestore);
             var wire = KafkaTestUtils.getRecords(kpiConsumer, Duration.ofSeconds(10), 3);
             assertEquals(3, wire.count());
@@ -534,9 +608,34 @@ class DependencyOutageIT extends ReplayTestSupport {
                 if (record.key().equals(scope("VOLTE"))) legacyWire.add(id);
             }
             assertEquals(legacy.stream().map(row -> (String) row.get("id")).toList(), legacyWire, "Kafka wire order follows windowStart within the stream");
-            assertEquals(1, new RejectionPublisher(jdbc, output, clock, INVALID, LATE, 1).poll());
-            assertEquals(0, pendingRejections());
-            assertEquals("MALFORMED_JSON", JSON.readTree(KafkaTestUtils.getSingleRecord(consumer, INVALID).value()).path("reasonCode").asText());
+            assertEquals(1, pendingRejections(), "The remaining rejection must start pending");
+            int rejectionAttemptsBeforeRestore = output.attempts.size();
+            var publisher = new RejectionPublisher(jdbc, output, clock, INVALID, LATE, 1);
+            var publishedRejections = new AtomicInteger();
+            recoverWithinBound("Remaining rejection recovery", () -> {
+                int published = publisher.poll();
+                assertTrue(published == 0 || published == 1, "Batch-size=1 may publish only its remaining row");
+                publishedRejections.addAndGet(published);
+            }, () -> publishedRejections.get() == 1, () -> {
+                assertEquals(1 - publishedRejections.get(), pendingRejections(),
+                        "A failed rejection poll must leave the rejection pending");
+                noStuckClaim(); assertEquals(0, output.active.get());
+                assertTrue(rejectionEvidence.equals(rows("SELECT to_jsonb(r)-'published_at' AS evidence FROM app.rejection_outbox r ORDER BY outbox_id")),
+                        "Retry changed or lost a logical rejection identity/payload");
+                var attempts = output.attempts.subList(rejectionAttemptsBeforeRestore, output.attempts.size());
+                assertFalse(attempts.isEmpty(), "Rejection recovery must attempt the pending send");
+                assertTrue(attempts.stream().allMatch(attempts.getFirst()::equals),
+                        "Rejection retries must send the same topic, key and payload");
+            });
+            assertEquals(1, publishedRejections.get()); assertEquals(0, pendingRejections());
+            var rejection = JSON.readTree(KafkaTestUtils.getSingleRecord(consumer, INVALID).value());
+            assertEquals("MALFORMED_JSON", rejection.path("reasonCode").asText());
+            assertTrue(rejectionIds.add(rejection.required("rejectionId").asText()), "Recovery must not duplicate a logical rejection");
+            assertEquals(rejectedInputs.stream().map(row -> "delivery:" + INPUT.length() + ":" + INPUT
+                    + ":" + row.get("partition") + ":" + row.get("offset")).collect(java.util.stream.Collectors.toSet()), rejectionIds);
+            int attemptsBeforeRejectionIdlePoll = output.attempts.size(); assertEquals(0, publisher.poll());
+            assertEquals(attemptsBeforeRejectionIdlePoll, output.attempts.size());
+            assertEquals(0, consumer.poll(Duration.ofMillis(300)).count(), "Published rejections must not be sent again");
             for (var record : legacyInputs) assertEquals(DUPLICATE, ingestion.ingest(deliveryOf(record)).status());
             int attemptsBeforeIdlePoll = output.attempts.size(); scheduler.poll();
             assertEquals(attemptsBeforeIdlePoll, output.attempts.size());
