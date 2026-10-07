@@ -1,654 +1,44 @@
 {
   "boundedRecovery" : {
-    "distinctFeatureIdentities" : 103,
-    "timing" : {
-      "restoreRequested" : "2026-10-07T15:27:22.368903200Z",
-      "dependencyReady" : "2026-10-07T15:27:22.784212900Z",
-      "firstSuccessfulRetry" : "2026-10-07T15:27:23.094845300Z",
-      "outageStarted" : "2026-10-07T15:27:18.905230Z",
-      "steadyState" : "2026-10-07T15:27:26.402512500Z",
-      "outageToReadyMs" : 3878,
-      "restoreToReadyMs" : 415,
-      "readyToFirstRetryMs" : 310,
-      "readyToSteadyMs" : 3618
-    },
     "bounds" : {
       "producerBufferBytes" : 32768,
-      "recoveryPollPublishedRows" : [ 100, 3 ],
+      "maximumInFlightSends" : 1,
       "finalizationBatchRows" : 2,
-      "maximumInFlightSends" : 1
+      "recoveryPollPublishedRows" : [ 100, 3 ]
     },
-    "inputs" : [ {
-      "offset" : 0,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 1,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6ee0022e-6ea6-32f8-af63-d81a850da286",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 2,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "28fbd7b5-61b9-32f8-beb2-828aaf1922e3",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 3,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e319c997-0458-3f6f-b680-12caecdb086b",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 4,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "a15ddab1-b602-3351-849b-bb25cb072da2",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 5,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "f810b6c0-2dfd-3170-815a-eef8c70b4cf8",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 6,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "80fd0be1-8ece-3737-8b6b-ab6b70770de7",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 7,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "11674620-de25-31d3-bc92-6cbbf6635def",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 8,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "511aab8f-e491-38c5-a745-9f8941e62260",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 9,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "268fdbeb-cb8e-3cba-90b7-b98e7545fa56",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 10,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "5a80ac80-f516-3453-bc25-917c889bde42",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 11,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "3cf8cb3c-5549-3bc1-9826-890081d06098",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 12,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "f3e0320e-2588-3f6a-8c18-1ea1282251bd",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 13,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "06cc7475-93d3-3f80-8f16-a63c51ff8cd1",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 14,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "81ee7dd1-f743-3172-bfad-b7a7c8802835",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 15,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "181396f3-2430-3d56-96f7-4f61f9c6b3d1",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 16,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "d2e5b61a-7403-3344-8a5e-ae4375bf046b",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 17,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "3aaf74ed-782b-33a5-9b47-431c1d350660",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 18,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "bffeb7fd-afc5-3c6a-92a6-457b917f8ce6",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 19,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "3004c38e-122d-3d75-9005-68de475f0e73",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 20,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "4fe3d7f6-1ab3-3884-8109-9df2ec1ac01f",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 21,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "8fd8a3b5-0dc8-3aa5-adfa-8863b322afc8",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 22,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "19162448-4277-37cf-958c-236b2cdc7411",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 23,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e3097981-b321-3e1b-8c99-a0fa3ebec36a",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 24,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "f1b9acd1-cc0e-350f-8b3a-2384d1bb1392",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 25,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "030480cc-36af-38a9-9888-0083313c5f8e",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 26,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6c434a6b-96a9-34b8-8f57-719d52dda598",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 27,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "1292218e-67da-3961-860c-5fe3dd683546",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 28,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "c8f36f67-c60b-3a4d-9942-633380a851e5",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 29,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "9314da0a-b358-3ec8-bc2f-60c7a5acd68d",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 30,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "09bb465c-4ee0-325c-8252-07a4f329030a",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 31,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "cd686935-b547-336f-a320-639b27957971",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 32,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "67cba310-ccb9-361f-acea-82cb7a0851b7",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 33,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "4a61ecec-ce88-3cce-9bd5-604bb0806204",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 34,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "34faaf8d-904c-37ef-ad40-f18cd664d317",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 35,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "c9c1da05-1568-337b-8a2b-16482fb09c8c",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 36,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "61228c83-1072-3983-bb7d-cfaf86f8c604",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 37,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "37516c81-6b60-3545-9101-dd4edcb554af",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 38,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "3d630242-40a6-3b06-91c3-6fe7b63f1b30",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 39,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "a85858e5-c660-3296-aad8-afe1a216ba5b",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 40,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "a9e8cd07-d483-3e47-94c6-3a66c35cbc2a",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 41,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "678871a2-ef43-3e64-8b82-3b711d2ab6a5",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 42,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "3f705e36-83fb-3d9e-8348-951b71756ac7",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 43,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6de3c8c3-af8e-39c7-8335-80fd9adfc93e",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 44,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "89a1ffe5-cf21-3b1f-9a42-139401f5273c",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 45,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "2aa7ffa6-2826-39fb-87ad-6eb293f7fa43",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 46,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "3797bad4-7778-3184-b7f6-8ea7887d029b",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 47,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "159e0bc3-0eda-3d25-8d38-ca3efbac5217",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 48,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6b108512-b641-3013-aa05-ff8623f4dcb0",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 49,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "1f17003c-d866-3c97-a792-55a94d345507",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 50,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "c2674933-1610-3654-b8dc-713468350724",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 51,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "9eb6bb2b-57a8-3103-8c17-be83eab310c3",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 52,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "9f6af198-504f-3d43-9ca0-823ba562f419",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 53,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "2539ef40-9203-3cbf-bbef-9c202d3ce673",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 54,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "2f63763f-15f7-3be8-8cd4-a3b6fba74646",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 55,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6c00a2e6-c643-3849-8efe-8f413b52734e",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 56,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "53aba385-d621-346c-b2d2-6455942b0cd0",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 57,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "c4414344-e7cd-3984-a9a4-49bba610e2c6",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 58,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "1931d9af-db10-39d2-9213-9790c6c4a68a",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 59,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "5ccaa0d6-7911-32e8-954d-2cdc5077e486",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 60,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "1fc4feeb-d641-3ab8-ab34-eebec5664f7f",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 61,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "d984e8ad-10b6-3f81-ad42-2f64f6094d9d",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 62,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "86891aa3-6481-361d-8191-55b14c3b0597",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 63,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e4fccf39-793a-3f05-85c2-da35a02ec761",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 64,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "0c75ad67-1731-357a-8b80-35151cfdb2a3",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 65,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "b0f56549-2021-355a-8e11-f8b512aab0ca",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 66,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "eaf5f9cc-ed8a-3fe0-bed7-da832dffb286",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 67,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "b68d8253-57eb-3d86-882a-689e1219f092",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 68,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "24dce933-f12b-3ba3-8706-778d006a1d00",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 69,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e610b012-3f60-35fa-ac1b-4ce538ad0297",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 70,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "b267b32e-0466-30fd-a837-3aaafb614cb8",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 71,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "f497c7a7-5264-300f-83e8-0506048b1ec1",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 72,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e8b444b8-6707-3a32-8f5a-7c499916f174",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 73,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "f25d6e43-5396-3817-b24d-702b2c88d96f",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 74,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "794fc9bb-74a3-30d8-9c9c-b26739e67cf3",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 75,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "497d5547-0511-3108-b1d0-e92529d37737",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 76,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "f4c833b3-e4be-3d6b-b509-058f1fb5ce5a",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 77,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e691c404-ad06-381d-b6ce-54070af21208",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 78,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "70397783-f0e8-379f-9ee0-b488d90d89aa",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 79,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "20c14682-5492-3b2d-b5ee-5a2baab54f2b",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 80,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "f010dce2-9b75-3b69-8084-84576e8ef5b0",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 81,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "d1a84ad4-ba63-3a15-8570-a0ec0ee06ad1",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 82,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "8a14350d-1cd2-3f93-8b5e-b3b2c7a4361a",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 83,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "c2f26880-2ee4-3a71-b75b-caf9e461dcb2",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 84,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "1b990498-79f8-323b-ae45-4a8fd3ae7a8d",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 85,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "666df666-e0a6-3dcd-82b8-cf794eb843e6",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 86,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e2616285-dbe0-3453-8f93-cc632110d8b3",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 87,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "dbede364-4c34-390c-9f02-3b8269a4c247",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 88,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "c04da113-9c0a-3e5e-900a-dd5d959080c4",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 89,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "d2c8da02-6c86-39f6-88b8-908055cf14f2",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 90,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "e1c6ab6c-b886-3842-bb48-2a81edafb7a1",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 91,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "4b285077-097c-3af8-848d-95b86cf15e2c",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 92,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "654524f1-4116-38b4-a47a-51b2e81fdad5",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 93,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "886c345f-a2a1-33d0-b450-f242feb41e76",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 94,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "5c879d7d-d492-3f2c-a7fe-716bc389ec1d",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 95,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "96f08bdd-b567-393d-8da7-06e51a667685",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 96,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6fad0f61-385d-3257-9705-9d21bbdb56e9",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 97,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "24035c6c-483c-303a-8d89-8604534a3dff",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 98,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "8fc65904-89e6-3da9-af24-12ed41dbea5d",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 99,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "b890a533-af8f-3e3c-b0ec-701653548ede",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 100,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "ed1b5b7d-2d2a-35e5-ab7d-c53efbdd9ced",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 101,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "b37c3ece-fd45-3c2e-b15e-3b4801ed276c",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 102,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "7727d674-a711-30e0-9d57-0a33768a5410",
-      "key" : "VOLTE-MD-CENTRAL"
-    } ],
+    "timing" : {
+      "restoreRequested" : "2026-10-07T16:03:38.519935700Z",
+      "readyToSteadyMs" : 4410,
+      "readyToFirstRetryMs" : 1123,
+      "restoreToReadyMs" : 238,
+      "outageToReadyMs" : 3785,
+      "steadyState" : "2026-10-07T16:03:43.169495100Z",
+      "outageStarted" : "2026-10-07T16:03:34.973254200Z",
+      "firstSuccessfulRetry" : "2026-10-07T16:03:39.882476Z",
+      "dependencyReady" : "2026-10-07T16:03:38.758683100Z"
+    },
+    "distinctFeatureIdentities" : 103,
+    "maximumPendingRows" : 103,
+    "after" : {
+      "publishedOutputs" : 103,
+      "pendingRejections" : 0,
+      "pendingOutputs" : 0,
+      "features" : 103,
+      "acceptedIncrements" : 103,
+      "receipts" : 103,
+      "rejections" : 0,
+      "buckets" : 103
+    },
+    "wireRecords" : 103,
+    "acknowledgedInputs" : 103,
+    "during" : {
+      "leasesReleased" : true,
+      "pendingRows" : 103,
+      "failedPolls" : 3,
+      "maximumInFlightSends" : 1,
+      "failures" : [ "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException" ]
+    },
     "before" : {
-      "completedDetectorJobs" : 103,
-      "counts" : {
-        "publishedOutputs" : 0,
-        "buckets" : 103,
-        "rejections" : 0,
-        "receipts" : 103,
-        "acceptedIncrements" : 103,
-        "features" : 103,
-        "pendingOutputs" : 103,
-        "pendingRejections" : 0
-      },
       "outputs" : [ {
         "id" : "0014be8c16ebfce00d4d5eff86241b0be43876082d3940eb8484e217c3d381b7",
         "topic" : "telecom.kpis.v2",
@@ -1164,187 +554,787 @@
         "topic" : "telecom.kpis.v2",
         "kafka_key" : "VOLTE-MD-CENTRAL",
         "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"ff91daa9fe5a6a8ff2e38cd466a42a852a4d25c8c7d1c92328ccf3dee2a55fbe\", \"windowEnd\": \"2026-09-15T09:03:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T09:02:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"86891aa3-6481-361d-8191-55b14c3b0597\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
-      } ]
+      } ],
+      "counts" : {
+        "publishedOutputs" : 0,
+        "pendingRejections" : 0,
+        "pendingOutputs" : 103,
+        "features" : 103,
+        "acceptedIncrements" : 103,
+        "receipts" : 103,
+        "rejections" : 0,
+        "buckets" : 103
+      },
+      "completedDetectorJobs" : 103
     },
-    "during" : {
-      "failedPolls" : 3,
-      "pendingRows" : 103,
-      "leasesReleased" : true,
-      "failures" : [ "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException" ],
-      "maximumInFlightSends" : 1
-    },
-    "acknowledgedInputs" : 103,
-    "wireRecords" : 103,
-    "after" : {
-      "publishedOutputs" : 103,
-      "buckets" : 103,
-      "rejections" : 0,
-      "receipts" : 103,
-      "acceptedIncrements" : 103,
-      "features" : 103,
-      "pendingOutputs" : 0,
-      "pendingRejections" : 0
-    },
-    "maximumPendingRows" : 103
+    "inputs" : [ {
+      "topic" : "day17.observations",
+      "offset" : 0,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 1,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6ee0022e-6ea6-32f8-af63-d81a850da286",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 2,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "28fbd7b5-61b9-32f8-beb2-828aaf1922e3",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 3,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e319c997-0458-3f6f-b680-12caecdb086b",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 4,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "a15ddab1-b602-3351-849b-bb25cb072da2",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 5,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "f810b6c0-2dfd-3170-815a-eef8c70b4cf8",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 6,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "80fd0be1-8ece-3737-8b6b-ab6b70770de7",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 7,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "11674620-de25-31d3-bc92-6cbbf6635def",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 8,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "511aab8f-e491-38c5-a745-9f8941e62260",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 9,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "268fdbeb-cb8e-3cba-90b7-b98e7545fa56",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 10,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "5a80ac80-f516-3453-bc25-917c889bde42",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 11,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "3cf8cb3c-5549-3bc1-9826-890081d06098",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 12,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "f3e0320e-2588-3f6a-8c18-1ea1282251bd",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 13,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "06cc7475-93d3-3f80-8f16-a63c51ff8cd1",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 14,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "81ee7dd1-f743-3172-bfad-b7a7c8802835",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 15,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "181396f3-2430-3d56-96f7-4f61f9c6b3d1",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 16,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "d2e5b61a-7403-3344-8a5e-ae4375bf046b",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 17,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "3aaf74ed-782b-33a5-9b47-431c1d350660",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 18,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "bffeb7fd-afc5-3c6a-92a6-457b917f8ce6",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 19,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "3004c38e-122d-3d75-9005-68de475f0e73",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 20,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "4fe3d7f6-1ab3-3884-8109-9df2ec1ac01f",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 21,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "8fd8a3b5-0dc8-3aa5-adfa-8863b322afc8",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 22,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "19162448-4277-37cf-958c-236b2cdc7411",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 23,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e3097981-b321-3e1b-8c99-a0fa3ebec36a",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 24,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "f1b9acd1-cc0e-350f-8b3a-2384d1bb1392",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 25,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "030480cc-36af-38a9-9888-0083313c5f8e",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 26,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6c434a6b-96a9-34b8-8f57-719d52dda598",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 27,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "1292218e-67da-3961-860c-5fe3dd683546",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 28,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "c8f36f67-c60b-3a4d-9942-633380a851e5",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 29,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "9314da0a-b358-3ec8-bc2f-60c7a5acd68d",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 30,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "09bb465c-4ee0-325c-8252-07a4f329030a",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 31,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "cd686935-b547-336f-a320-639b27957971",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 32,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "67cba310-ccb9-361f-acea-82cb7a0851b7",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 33,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "4a61ecec-ce88-3cce-9bd5-604bb0806204",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 34,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "34faaf8d-904c-37ef-ad40-f18cd664d317",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 35,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "c9c1da05-1568-337b-8a2b-16482fb09c8c",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 36,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "61228c83-1072-3983-bb7d-cfaf86f8c604",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 37,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "37516c81-6b60-3545-9101-dd4edcb554af",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 38,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "3d630242-40a6-3b06-91c3-6fe7b63f1b30",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 39,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "a85858e5-c660-3296-aad8-afe1a216ba5b",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 40,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "a9e8cd07-d483-3e47-94c6-3a66c35cbc2a",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 41,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "678871a2-ef43-3e64-8b82-3b711d2ab6a5",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 42,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "3f705e36-83fb-3d9e-8348-951b71756ac7",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 43,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6de3c8c3-af8e-39c7-8335-80fd9adfc93e",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 44,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "89a1ffe5-cf21-3b1f-9a42-139401f5273c",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 45,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "2aa7ffa6-2826-39fb-87ad-6eb293f7fa43",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 46,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "3797bad4-7778-3184-b7f6-8ea7887d029b",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 47,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "159e0bc3-0eda-3d25-8d38-ca3efbac5217",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 48,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6b108512-b641-3013-aa05-ff8623f4dcb0",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 49,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "1f17003c-d866-3c97-a792-55a94d345507",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 50,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "c2674933-1610-3654-b8dc-713468350724",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 51,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "9eb6bb2b-57a8-3103-8c17-be83eab310c3",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 52,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "9f6af198-504f-3d43-9ca0-823ba562f419",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 53,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "2539ef40-9203-3cbf-bbef-9c202d3ce673",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 54,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "2f63763f-15f7-3be8-8cd4-a3b6fba74646",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 55,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6c00a2e6-c643-3849-8efe-8f413b52734e",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 56,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "53aba385-d621-346c-b2d2-6455942b0cd0",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 57,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "c4414344-e7cd-3984-a9a4-49bba610e2c6",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 58,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "1931d9af-db10-39d2-9213-9790c6c4a68a",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 59,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "5ccaa0d6-7911-32e8-954d-2cdc5077e486",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 60,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "1fc4feeb-d641-3ab8-ab34-eebec5664f7f",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 61,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "d984e8ad-10b6-3f81-ad42-2f64f6094d9d",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 62,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "86891aa3-6481-361d-8191-55b14c3b0597",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 63,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e4fccf39-793a-3f05-85c2-da35a02ec761",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 64,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "0c75ad67-1731-357a-8b80-35151cfdb2a3",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 65,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "b0f56549-2021-355a-8e11-f8b512aab0ca",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 66,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "eaf5f9cc-ed8a-3fe0-bed7-da832dffb286",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 67,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "b68d8253-57eb-3d86-882a-689e1219f092",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 68,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "24dce933-f12b-3ba3-8706-778d006a1d00",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 69,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e610b012-3f60-35fa-ac1b-4ce538ad0297",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 70,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "b267b32e-0466-30fd-a837-3aaafb614cb8",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 71,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "f497c7a7-5264-300f-83e8-0506048b1ec1",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 72,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e8b444b8-6707-3a32-8f5a-7c499916f174",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 73,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "f25d6e43-5396-3817-b24d-702b2c88d96f",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 74,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "794fc9bb-74a3-30d8-9c9c-b26739e67cf3",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 75,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "497d5547-0511-3108-b1d0-e92529d37737",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 76,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "f4c833b3-e4be-3d6b-b509-058f1fb5ce5a",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 77,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e691c404-ad06-381d-b6ce-54070af21208",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 78,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "70397783-f0e8-379f-9ee0-b488d90d89aa",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 79,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "20c14682-5492-3b2d-b5ee-5a2baab54f2b",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 80,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "f010dce2-9b75-3b69-8084-84576e8ef5b0",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 81,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "d1a84ad4-ba63-3a15-8570-a0ec0ee06ad1",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 82,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "8a14350d-1cd2-3f93-8b5e-b3b2c7a4361a",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 83,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "c2f26880-2ee4-3a71-b75b-caf9e461dcb2",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 84,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "1b990498-79f8-323b-ae45-4a8fd3ae7a8d",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 85,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "666df666-e0a6-3dcd-82b8-cf794eb843e6",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 86,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e2616285-dbe0-3453-8f93-cc632110d8b3",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 87,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "dbede364-4c34-390c-9f02-3b8269a4c247",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 88,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "c04da113-9c0a-3e5e-900a-dd5d959080c4",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 89,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "d2c8da02-6c86-39f6-88b8-908055cf14f2",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 90,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "e1c6ab6c-b886-3842-bb48-2a81edafb7a1",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 91,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "4b285077-097c-3af8-848d-95b86cf15e2c",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 92,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "654524f1-4116-38b4-a47a-51b2e81fdad5",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 93,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "886c345f-a2a1-33d0-b450-f242feb41e76",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 94,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "5c879d7d-d492-3f2c-a7fe-716bc389ec1d",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 95,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "96f08bdd-b567-393d-8da7-06e51a667685",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 96,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6fad0f61-385d-3257-9705-9d21bbdb56e9",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 97,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "24035c6c-483c-303a-8d89-8604534a3dff",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 98,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "8fc65904-89e6-3da9-af24-12ed41dbea5d",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 99,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "b890a533-af8f-3e3c-b0ec-701653548ede",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 100,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "ed1b5b7d-2d2a-35e5-ab7d-c53efbdd9ced",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 101,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "b37c3ece-fd45-3c2e-b15e-3b4801ed276c",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 102,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "7727d674-a711-30e0-9d57-0a33768a5410",
+      "partition" : 0
+    } ]
   },
   "closure" : {
-    "timing" : {
-      "restoreRequested" : "2026-10-07T15:27:33.911521700Z",
-      "dependencyReady" : "2026-10-07T15:27:34.047736100Z",
-      "firstSuccessfulRetry" : "2026-10-07T15:27:34.184239700Z",
-      "outageStarted" : "2026-10-07T15:27:29.706056600Z",
-      "steadyState" : "2026-10-07T15:27:36.864621400Z",
-      "outageToReadyMs" : 4341,
-      "restoreToReadyMs" : 136,
-      "readyToFirstRetryMs" : 136,
-      "readyToSteadyMs" : 2816
-    },
     "domainBefore" : "2026-09-15T08:01:08Z",
-    "input" : {
-      "offset" : 108,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
-      "key" : "VOLTE-MD-CENTRAL"
+    "timing" : {
+      "restoreRequested" : "2026-10-07T16:03:50.571348800Z",
+      "readyToSteadyMs" : 2800,
+      "readyToFirstRetryMs" : 124,
+      "restoreToReadyMs" : 131,
+      "outageToReadyMs" : 4337,
+      "steadyState" : "2026-10-07T16:03:53.502705800Z",
+      "outageStarted" : "2026-10-07T16:03:46.364902400Z",
+      "firstSuccessfulRetry" : "2026-10-07T16:03:50.827108700Z",
+      "dependencyReady" : "2026-10-07T16:03:50.702600100Z"
     },
-    "before" : {
-      "publishedOutputs" : 0,
-      "buckets" : 3,
-      "rejections" : 0,
-      "receipts" : 5,
-      "acceptedIncrements" : 5,
-      "features" : 2,
-      "pendingOutputs" : 3,
-      "pendingRejections" : 0
-    },
-    "domainAfter" : "2026-09-15T08:01:12.341679500Z",
-    "during" : {
-      "retryableInputs" : 1,
-      "committedOffset" : 108,
-      "acknowledgments" : 1
-    },
-    "acknowledgments" : 2,
-    "outcome" : "LATE_OBSERVATION; immutable MISSING; service KPIs null; OPEN -> UNKNOWN; no RECOVERY",
-    "closure" : "2026-09-15T08:01:10Z",
     "after" : {
       "publishedOutputs" : 5,
-      "buckets" : 3,
-      "rejections" : 1,
-      "receipts" : 5,
-      "acceptedIncrements" : 5,
-      "features" : 3,
+      "pendingRejections" : 0,
       "pendingOutputs" : 0,
-      "pendingRejections" : 0
+      "features" : 3,
+      "acceptedIncrements" : 5,
+      "receipts" : 5,
+      "rejections" : 1,
+      "buckets" : 3
+    },
+    "closure" : "2026-09-15T08:01:10Z",
+    "outcome" : "LATE_OBSERVATION; immutable MISSING; service KPIs null; OPEN -> UNKNOWN; no RECOVERY",
+    "acknowledgments" : 2,
+    "during" : {
+      "retryableInputs" : 1,
+      "acknowledgments" : 1,
+      "committedOffset" : 108
+    },
+    "domainAfter" : "2026-09-15T08:01:12.337697700Z",
+    "before" : {
+      "publishedOutputs" : 0,
+      "pendingRejections" : 0,
+      "pendingOutputs" : 3,
+      "features" : 2,
+      "acceptedIncrements" : 5,
+      "receipts" : 5,
+      "rejections" : 0,
+      "buckets" : 3
+    },
+    "input" : {
+      "topic" : "day17.observations",
+      "offset" : 108,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
+      "partition" : 0
     }
   },
   "postgres" : {
+    "exactReplay" : "DUPLICATE",
+    "acknowledgments" : 2,
     "after" : {
       "publishedOutputs" : 0,
-      "buckets" : 1,
-      "rejections" : 0,
-      "receipts" : 2,
-      "acceptedIncrements" : 2,
-      "features" : 1,
+      "pendingRejections" : 0,
       "pendingOutputs" : 0,
-      "pendingRejections" : 0
+      "features" : 1,
+      "acceptedIncrements" : 2,
+      "receipts" : 2,
+      "rejections" : 0,
+      "buckets" : 1
     },
-    "acknowledgments" : 2,
-    "exactReplay" : "DUPLICATE",
-    "control" : {
-      "offset" : 109,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6e28c287-4df5-3200-8eb5-7a9a1429b9bb",
-      "key" : "VOLTE-MD-CENTRAL"
+    "timing" : {
+      "restoreRequested" : "2026-10-07T16:03:58.050834300Z",
+      "readyToSteadyMs" : 442,
+      "readyToFirstRetryMs" : 169,
+      "restoreToReadyMs" : 130,
+      "outageToReadyMs" : 4218,
+      "steadyState" : "2026-10-07T16:03:58.623035300Z",
+      "outageStarted" : "2026-10-07T16:03:53.962773200Z",
+      "firstSuccessfulRetry" : "2026-10-07T16:03:58.350293500Z",
+      "dependencyReady" : "2026-10-07T16:03:58.180977300Z"
     },
-    "input" : {
-      "offset" : 110,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
-      "key" : "VOLTE-MD-CENTRAL"
+    "maximumRetryableInputs" : 1,
+    "before" : {
+      "publishedOutputs" : 0,
+      "pendingRejections" : 0,
+      "pendingOutputs" : 0,
+      "features" : 0,
+      "acceptedIncrements" : 1,
+      "receipts" : 1,
+      "rejections" : 0,
+      "buckets" : 1
     },
     "during" : {
       "acknowledgments" : 1,
-      "committedOffset" : 110,
-      "sqlState" : "08001",
-      "retryableInputs" : 1,
+      "failureType" : "org.springframework.transaction.CannotCreateTransactionException",
       "databaseCounts" : "UNAVAILABLE; verified unchanged after restore",
-      "failureType" : "org.springframework.transaction.CannotCreateTransactionException"
+      "retryableInputs" : 1,
+      "sqlState" : "08001",
+      "committedOffset" : 110
     },
-    "before" : {
-      "publishedOutputs" : 0,
-      "buckets" : 1,
-      "rejections" : 0,
-      "receipts" : 1,
-      "acceptedIncrements" : 1,
-      "features" : 0,
-      "pendingOutputs" : 0,
-      "pendingRejections" : 0
+    "input" : {
+      "topic" : "day17.observations",
+      "offset" : 110,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
+      "partition" : 0
     },
-    "maximumRetryableInputs" : 1,
-    "timing" : {
-      "restoreRequested" : "2026-10-07T15:27:39.397199700Z",
-      "dependencyReady" : "2026-10-07T15:27:39.529450200Z",
-      "firstSuccessfulRetry" : "2026-10-07T15:27:39.702770300Z",
-      "outageStarted" : "2026-10-07T15:27:37.321966400Z",
-      "steadyState" : "2026-10-07T15:27:39.915692700Z",
-      "outageToReadyMs" : 2207,
-      "restoreToReadyMs" : 132,
-      "readyToFirstRetryMs" : 173,
-      "readyToSteadyMs" : 386
+    "control" : {
+      "topic" : "day17.observations",
+      "offset" : 109,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6e28c287-4df5-3200-8eb5-7a9a1429b9bb",
+      "partition" : 0
     }
   },
   "kafka" : {
-    "distinctFeatureIdentities" : 3,
-    "timing" : {
-      "restoreRequested" : "2026-10-07T15:27:44.861769100Z",
-      "dependencyReady" : "2026-10-07T15:27:45.148072100Z",
-      "firstSuccessfulRetry" : "2026-10-07T15:27:45.387898800Z",
-      "outageStarted" : "2026-10-07T15:27:41.445951900Z",
-      "steadyState" : "2026-10-07T15:27:45.518830Z",
-      "outageToReadyMs" : 3702,
-      "restoreToReadyMs" : 286,
-      "readyToFirstRetryMs" : 239,
-      "readyToSteadyMs" : 370
-    },
     "bounds" : {
       "producerBufferBytes" : 32768,
-      "recoveryPollPublishedRows" : [ 3 ],
+      "maximumInFlightSends" : 1,
       "finalizationBatchRows" : 2,
-      "maximumInFlightSends" : 1
+      "recoveryPollPublishedRows" : [ 3 ]
     },
-    "inputs" : [ {
-      "offset" : 111,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 112,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "6ee0022e-6ea6-32f8-af63-d81a850da286",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "offset" : 113,
-      "topic" : "day17.observations",
-      "partition" : 0,
-      "eventId" : "28fbd7b5-61b9-32f8-beb2-828aaf1922e3",
-      "key" : "VOLTE-MD-CENTRAL"
-    } ],
+    "timing" : {
+      "restoreRequested" : "2026-10-07T16:04:03.921478700Z",
+      "readyToSteadyMs" : 412,
+      "readyToFirstRetryMs" : 242,
+      "restoreToReadyMs" : 400,
+      "outageToReadyMs" : 3883,
+      "steadyState" : "2026-10-07T16:04:04.734279900Z",
+      "outageStarted" : "2026-10-07T16:04:00.438415400Z",
+      "firstSuccessfulRetry" : "2026-10-07T16:04:04.564444300Z",
+      "dependencyReady" : "2026-10-07T16:04:04.321515300Z"
+    },
+    "distinctFeatureIdentities" : 3,
+    "maximumPendingRows" : 3,
+    "after" : {
+      "publishedOutputs" : 3,
+      "pendingRejections" : 0,
+      "pendingOutputs" : 0,
+      "features" : 3,
+      "acceptedIncrements" : 3,
+      "receipts" : 3,
+      "rejections" : 0,
+      "buckets" : 3
+    },
+    "wireRecords" : 3,
+    "acknowledgedInputs" : 3,
+    "during" : {
+      "leasesReleased" : true,
+      "pendingRows" : 3,
+      "failedPolls" : 3,
+      "maximumInFlightSends" : 1,
+      "failures" : [ "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException" ]
+    },
     "before" : {
-      "completedDetectorJobs" : 3,
-      "counts" : {
-        "publishedOutputs" : 0,
-        "buckets" : 3,
-        "rejections" : 0,
-        "receipts" : 3,
-        "acceptedIncrements" : 3,
-        "features" : 3,
-        "pendingOutputs" : 3,
-        "pendingRejections" : 0
-      },
       "outputs" : [ {
         "id" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
         "topic" : "telecom.kpis.v2",
@@ -1360,109 +1350,243 @@
         "topic" : "telecom.kpis.v2",
         "kafka_key" : "VOLTE-MD-CENTRAL",
         "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"8838ea459a9c01e3462317870f8b2754706059d5f463955c7728933b9dc02566\", \"windowEnd\": \"2026-09-15T08:03:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:02:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"28fbd7b5-61b9-32f8-beb2-828aaf1922e3\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
-      } ]
+      } ],
+      "counts" : {
+        "publishedOutputs" : 0,
+        "pendingRejections" : 0,
+        "pendingOutputs" : 3,
+        "features" : 3,
+        "acceptedIncrements" : 3,
+        "receipts" : 3,
+        "rejections" : 0,
+        "buckets" : 3
+      },
+      "completedDetectorJobs" : 3
     },
-    "during" : {
-      "failedPolls" : 3,
-      "pendingRows" : 3,
-      "leasesReleased" : true,
-      "failures" : [ "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException", "org.apache.kafka.common.errors.TimeoutException" ],
-      "maximumInFlightSends" : 1
-    },
-    "acknowledgedInputs" : 3,
-    "wireRecords" : 3,
-    "after" : {
-      "publishedOutputs" : 3,
-      "buckets" : 3,
-      "rejections" : 0,
-      "receipts" : 3,
-      "acceptedIncrements" : 3,
-      "features" : 3,
-      "pendingOutputs" : 0,
-      "pendingRejections" : 0
-    },
-    "maximumPendingRows" : 3
+    "inputs" : [ {
+      "topic" : "day17.observations",
+      "offset" : 111,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "879adeeb-7816-3394-80aa-753dbd80f27e",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 112,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "6ee0022e-6ea6-32f8-af63-d81a850da286",
+      "partition" : 0
+    }, {
+      "topic" : "day17.observations",
+      "offset" : 113,
+      "key" : "VOLTE-MD-CENTRAL",
+      "eventId" : "28fbd7b5-61b9-32f8-beb2-828aaf1922e3",
+      "partition" : 0
+    } ]
   },
   "f3" : {
-    "status" : "DAY 17 EXTERNAL BLOCKER — F3 delivery fairness",
+    "status" : "PASS — F3 delivery fairness repaired",
+    "mainFixCommit" : "7e46521de1c12ed0a7431092b49cda315cd3c0c9",
     "mechanism" : "Real broker max.message.bytes=128 on telecom.kpis.v2; coverage/rejection topics unchanged",
     "before" : {
       "publishedOutputs" : 0,
-      "buckets" : 2,
+      "pendingRejections" : 2,
+      "pendingOutputs" : 4,
+      "features" : 3,
+      "acceptedIncrements" : 2,
+      "receipts" : 5,
       "rejections" : 2,
-      "receipts" : 4,
-      "acceptedIncrements" : 1,
-      "features" : 2,
-      "pendingOutputs" : 3,
-      "pendingRejections" : 2
+      "buckets" : 3
     },
     "afterThreePolls" : {
-      "publishedOutputs" : 0,
-      "buckets" : 2,
-      "rejections" : 2,
-      "receipts" : 4,
-      "acceptedIncrements" : 1,
-      "features" : 2,
+      "publishedOutputs" : 1,
+      "pendingRejections" : 1,
       "pendingOutputs" : 3,
-      "pendingRejections" : 1
+      "features" : 3,
+      "acceptedIncrements" : 2,
+      "receipts" : 5,
+      "rejections" : 2,
+      "buckets" : 3
     },
-    "attempts" : [ {
-      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}",
-      "topic" : "telecom.kpis.v2",
-      "key" : "VOLTE-MD-CENTRAL"
+    "polls" : [ {
+      "poll" : 1,
+      "attempts" : [ {
+        "key" : "VOLTE-MD-CENTRAL",
+        "topic" : "telecom.kpis.v2",
+        "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+      }, {
+        "key" : "VOLTE-MD-CHI",
+        "topic" : "telecom.coverage.v1",
+        "payload" : "{\"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"synthetic\": true, \"windowEnd\": \"2026-09-15T08:01:00Z\", \"coverageId\": \"890fea177bf85aae63194d0b0e9004de5420e5f2060cf85c19000542c4f1da8c\", \"windowStart\": \"2026-09-15T08:00:00Z\", \"sourceIssues\": [], \"schemaVersion\": 1, \"topologyVersion\": \"2-geography-g1\", \"usableSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"catalogueVersion\": \"2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223\", \"expectedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"receivedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"]}"
+      }, {
+        "key" : "VOLTE-MD-CHI",
+        "topic" : "telecom.kpis.v2",
+        "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.29577464788733, \"numerator\": 1128, \"denominator\": 1136}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1136, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0017605633802816902, \"numerator\": 2, \"denominator\": 1136}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0014912672851944762, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": 40, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": true, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [\"cssrDeltaPp\", \"sip503Ratio\", \"rrcDeltaPp\", \"bearerDeltaPp\", \"packetLossRatio\", \"imsCpuPct\"], \"featureValues\": [-0.004225352112669611, 0.0017605633802816902, 0.0, 0.5454545454545467, 0.0014912672851944762, 40], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"1976a3a3-e2b2-3d2c-a480-f7fa455b453b\", \"6186a13f-3e74-3044-bfa1-ae333a851881\", \"ecfba212-2ac1-3774-b7fb-12d7627a0827\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-geography-g1\"}"
+      } ],
+      "claimsReleased" : true,
+      "counts" : {
+        "publishedOutputs" : 1,
+        "pendingRejections" : 2,
+        "pendingOutputs" : 3,
+        "features" : 3,
+        "acceptedIncrements" : 2,
+        "receipts" : 5,
+        "rejections" : 2,
+        "buckets" : 3
+      }
     }, {
-      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}",
-      "topic" : "telecom.kpis.v2",
-      "key" : "VOLTE-MD-CENTRAL"
+      "poll" : 2,
+      "attempts" : [ {
+        "key" : "VOLTE-MD-CENTRAL",
+        "topic" : "telecom.kpis.v2",
+        "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+      }, {
+        "key" : "VOLTE-MD-CHI",
+        "topic" : "telecom.kpis.v2",
+        "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.29577464788733, \"numerator\": 1128, \"denominator\": 1136}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1136, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0017605633802816902, \"numerator\": 2, \"denominator\": 1136}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0014912672851944762, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": 40, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": true, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [\"cssrDeltaPp\", \"sip503Ratio\", \"rrcDeltaPp\", \"bearerDeltaPp\", \"packetLossRatio\", \"imsCpuPct\"], \"featureValues\": [-0.004225352112669611, 0.0017605633802816902, 0.0, 0.5454545454545467, 0.0014912672851944762, 40], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"1976a3a3-e2b2-3d2c-a480-f7fa455b453b\", \"6186a13f-3e74-3044-bfa1-ae333a851881\", \"ecfba212-2ac1-3774-b7fb-12d7627a0827\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-geography-g1\"}"
+      } ],
+      "claimsReleased" : true,
+      "counts" : {
+        "publishedOutputs" : 1,
+        "pendingRejections" : 2,
+        "pendingOutputs" : 3,
+        "features" : 3,
+        "acceptedIncrements" : 2,
+        "receipts" : 5,
+        "rejections" : 2,
+        "buckets" : 3
+      }
     }, {
-      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}",
-      "topic" : "telecom.kpis.v2",
-      "key" : "VOLTE-MD-CENTRAL"
-    }, {
-      "payload" : "{\"rejectionId\":\"delivery:18:day17.observations:0:118\",\"reasonCode\":\"MALFORMED_JSON\",\"reasonDetail\":\"Payload is not a single unambiguous JSON document\",\"eventId\":null,\"payloadHash\":\"17eed55d881c0dd5fe0935a98d89dd9e52d62aed941f3fb7d17bd490e5aa3e8f\",\"kafkaTopic\":\"day17.observations\",\"kafkaPartition\":0,\"kafkaOffset\":118,\"kafkaKey\":\"day17-f3-0\",\"payloadSize\":4,\"payloadTruncated\":false,\"rawPayloadBase64\":\"e2JhZA==\",\"createdAt\":\"2026-09-15T08:01:10Z\"}",
-      "topic" : "day17.invalid",
-      "key" : "delivery:18:day17.observations:0:118"
+      "poll" : 3,
+      "attempts" : [ {
+        "key" : "VOLTE-MD-CENTRAL",
+        "topic" : "telecom.kpis.v2",
+        "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+      }, {
+        "key" : "VOLTE-MD-CHI",
+        "topic" : "telecom.kpis.v2",
+        "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.29577464788733, \"numerator\": 1128, \"denominator\": 1136}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1136, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0017605633802816902, \"numerator\": 2, \"denominator\": 1136}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0014912672851944762, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": 40, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": true, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [\"cssrDeltaPp\", \"sip503Ratio\", \"rrcDeltaPp\", \"bearerDeltaPp\", \"packetLossRatio\", \"imsCpuPct\"], \"featureValues\": [-0.004225352112669611, 0.0017605633802816902, 0.0, 0.5454545454545467, 0.0014912672851944762, 40], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"1976a3a3-e2b2-3d2c-a480-f7fa455b453b\", \"6186a13f-3e74-3044-bfa1-ae333a851881\", \"ecfba212-2ac1-3774-b7fb-12d7627a0827\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-geography-g1\"}"
+      } ],
+      "claimsReleased" : true,
+      "counts" : {
+        "publishedOutputs" : 1,
+        "pendingRejections" : 2,
+        "pendingOutputs" : 3,
+        "features" : 3,
+        "acceptedIncrements" : 2,
+        "receipts" : 5,
+        "rejections" : 2,
+        "buckets" : 3
+      }
     } ],
-    "failures" : [ "org.apache.kafka.common.errors.RecordTooLargeException", "org.apache.kafka.common.errors.RecordTooLargeException", "org.apache.kafka.common.errors.RecordTooLargeException" ],
+    "sameStreamHeadAndTail" : [ {
+      "id" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+      "topic" : "telecom.kpis.v2",
+      "kafka_key" : "VOLTE-MD-CENTRAL",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+    }, {
+      "id" : "5162dda76c4793de17120abe7c57e143abd379562af34d06f397720122a6e46f",
+      "topic" : "telecom.kpis.v2",
+      "kafka_key" : "VOLTE-MD-CENTRAL",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"5162dda76c4793de17120abe7c57e143abd379562af34d06f397720122a6e46f\", \"windowEnd\": \"2026-09-15T08:02:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:01:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"6ee0022e-6ea6-32f8-af63-d81a850da286\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+    } ],
+    "storedOutputs" : [ {
+      "id" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+      "topic" : "telecom.kpis.v2",
+      "kafka_key" : "VOLTE-MD-CENTRAL",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+    }, {
+      "id" : "5162dda76c4793de17120abe7c57e143abd379562af34d06f397720122a6e46f",
+      "topic" : "telecom.kpis.v2",
+      "kafka_key" : "VOLTE-MD-CENTRAL",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"5162dda76c4793de17120abe7c57e143abd379562af34d06f397720122a6e46f\", \"windowEnd\": \"2026-09-15T08:02:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:01:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"6ee0022e-6ea6-32f8-af63-d81a850da286\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+    }, {
+      "id" : "890fea177bf85aae63194d0b0e9004de5420e5f2060cf85c19000542c4f1da8c",
+      "topic" : "telecom.coverage.v1",
+      "kafka_key" : "VOLTE-MD-CHI",
+      "payload" : "{\"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"synthetic\": true, \"windowEnd\": \"2026-09-15T08:01:00Z\", \"coverageId\": \"890fea177bf85aae63194d0b0e9004de5420e5f2060cf85c19000542c4f1da8c\", \"windowStart\": \"2026-09-15T08:00:00Z\", \"sourceIssues\": [], \"schemaVersion\": 1, \"topologyVersion\": \"2-geography-g1\", \"usableSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"catalogueVersion\": \"2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223\", \"expectedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"receivedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"]}"
+    }, {
+      "id" : "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+      "topic" : "telecom.kpis.v2",
+      "kafka_key" : "VOLTE-MD-CHI",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.29577464788733, \"numerator\": 1128, \"denominator\": 1136}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1136, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0017605633802816902, \"numerator\": 2, \"denominator\": 1136}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0014912672851944762, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": 40, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": true, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [\"cssrDeltaPp\", \"sip503Ratio\", \"rrcDeltaPp\", \"bearerDeltaPp\", \"packetLossRatio\", \"imsCpuPct\"], \"featureValues\": [-0.004225352112669611, 0.0017605633802816902, 0.0, 0.5454545454545467, 0.0014912672851944762, 40], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"1976a3a3-e2b2-3d2c-a480-f7fa455b453b\", \"6186a13f-3e74-3044-bfa1-ae333a851881\", \"ecfba212-2ac1-3774-b7fb-12d7627a0827\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-geography-g1\"}"
+    } ],
+    "attempts" : [ {
+      "key" : "VOLTE-MD-CENTRAL",
+      "topic" : "telecom.kpis.v2",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+    }, {
+      "key" : "VOLTE-MD-CHI",
+      "topic" : "telecom.coverage.v1",
+      "payload" : "{\"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"synthetic\": true, \"windowEnd\": \"2026-09-15T08:01:00Z\", \"coverageId\": \"890fea177bf85aae63194d0b0e9004de5420e5f2060cf85c19000542c4f1da8c\", \"windowStart\": \"2026-09-15T08:00:00Z\", \"sourceIssues\": [], \"schemaVersion\": 1, \"topologyVersion\": \"2-geography-g1\", \"usableSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"catalogueVersion\": \"2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223\", \"expectedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"receivedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"]}"
+    }, {
+      "key" : "VOLTE-MD-CHI",
+      "topic" : "telecom.kpis.v2",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.29577464788733, \"numerator\": 1128, \"denominator\": 1136}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1136, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0017605633802816902, \"numerator\": 2, \"denominator\": 1136}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0014912672851944762, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": 40, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": true, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [\"cssrDeltaPp\", \"sip503Ratio\", \"rrcDeltaPp\", \"bearerDeltaPp\", \"packetLossRatio\", \"imsCpuPct\"], \"featureValues\": [-0.004225352112669611, 0.0017605633802816902, 0.0, 0.5454545454545467, 0.0014912672851944762, 40], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"1976a3a3-e2b2-3d2c-a480-f7fa455b453b\", \"6186a13f-3e74-3044-bfa1-ae333a851881\", \"ecfba212-2ac1-3774-b7fb-12d7627a0827\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-geography-g1\"}"
+    }, {
+      "key" : "VOLTE-MD-CENTRAL",
+      "topic" : "telecom.kpis.v2",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+    }, {
+      "key" : "VOLTE-MD-CHI",
+      "topic" : "telecom.kpis.v2",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.29577464788733, \"numerator\": 1128, \"denominator\": 1136}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1136, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0017605633802816902, \"numerator\": 2, \"denominator\": 1136}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0014912672851944762, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": 40, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": true, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [\"cssrDeltaPp\", \"sip503Ratio\", \"rrcDeltaPp\", \"bearerDeltaPp\", \"packetLossRatio\", \"imsCpuPct\"], \"featureValues\": [-0.004225352112669611, 0.0017605633802816902, 0.0, 0.5454545454545467, 0.0014912672851944762, 40], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"1976a3a3-e2b2-3d2c-a480-f7fa455b453b\", \"6186a13f-3e74-3044-bfa1-ae333a851881\", \"ecfba212-2ac1-3774-b7fb-12d7627a0827\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-geography-g1\"}"
+    }, {
+      "key" : "VOLTE-MD-CENTRAL",
+      "topic" : "telecom.kpis.v2",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.5, \"numerator\": 995, \"denominator\": 1000}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1000, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.002, \"numerator\": 2, \"denominator\": 1000}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": null, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CENTRAL\", \"service\": \"VOLTE\", \"windowId\": \"513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": false, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [], \"featureValues\": [], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"879adeeb-7816-3394-80aa-753dbd80f27e\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-baseline\"}"
+    }, {
+      "key" : "VOLTE-MD-CHI",
+      "topic" : "telecom.kpis.v2",
+      "payload" : "{\"kpis\": [{\"name\": \"cssrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.3, \"observed\": 99.29577464788733, \"numerator\": 1128, \"denominator\": 1136}, {\"name\": \"eligibleAttempts\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 1136, \"numerator\": null, \"denominator\": null}, {\"name\": \"sip503Ratio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0017605633802816902, \"numerator\": 2, \"denominator\": 1136}, {\"name\": \"sip503Count\", \"unit\": \"COUNT\", \"baseline\": null, \"observed\": 2, \"numerator\": null, \"denominator\": null}, {\"name\": \"rrcSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99.5, \"observed\": 99.5, \"numerator\": 1194, \"denominator\": 1200}, {\"name\": \"bearerSrPct\", \"unit\": \"PERCENT\", \"baseline\": 99, \"observed\": 99.54545454545455, \"numerator\": 1095, \"denominator\": 1100}, {\"name\": \"packetLossRatio\", \"unit\": \"RATIO\", \"baseline\": null, \"observed\": 0.0014912672851944762, \"numerator\": null, \"denominator\": null}, {\"name\": \"imsCpuPct\", \"unit\": \"PERCENT\", \"baseline\": null, \"observed\": 40, \"numerator\": null, \"denominator\": null}], \"quality\": \"COMPLETE\", \"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"windowEnd\": \"2026-09-15T08:01:00Z\", \"mlEligible\": true, \"windowStart\": \"2026-09-15T08:00:00Z\", \"featureNames\": [\"cssrDeltaPp\", \"sip503Ratio\", \"rrcDeltaPp\", \"bearerDeltaPp\", \"packetLossRatio\", \"imsCpuPct\"], \"featureValues\": [-0.004225352112669611, 0.0017605633802816902, 0.0, 0.5454545454545467, 0.0014912672851944762, 40], \"schemaVersion\": 2, \"featureVersion\": 2, \"sourceEventIds\": [\"1976a3a3-e2b2-3d2c-a480-f7fa455b453b\", \"6186a13f-3e74-3044-bfa1-ae333a851881\", \"ecfba212-2ac1-3774-b7fb-12d7627a0827\"], \"baselineVersion\": \"baseline-v2\", \"topologyVersion\": \"2-geography-g1\"}"
+    }, {
+      "key" : "delivery:18:day17.observations:0:119",
+      "topic" : "day17.invalid",
+      "payload" : "{\"rejectionId\":\"delivery:18:day17.observations:0:119\",\"reasonCode\":\"MALFORMED_JSON\",\"reasonDetail\":\"Payload is not a single unambiguous JSON document\",\"eventId\":null,\"payloadHash\":\"17eed55d881c0dd5fe0935a98d89dd9e52d62aed941f3fb7d17bd490e5aa3e8f\",\"kafkaTopic\":\"day17.observations\",\"kafkaPartition\":0,\"kafkaOffset\":119,\"kafkaKey\":\"day17-f3-0\",\"payloadSize\":4,\"payloadTruncated\":false,\"rawPayloadBase64\":\"e2JhZA==\",\"createdAt\":\"2026-09-15T08:02:10Z\"}"
+    } ],
+    "failures" : [ "org.apache.kafka.common.errors.RecordTooLargeException", "org.apache.kafka.common.errors.RecordTooLargeException", "org.apache.kafka.common.errors.RecordTooLargeException", "org.apache.kafka.common.errors.RecordTooLargeException", "org.apache.kafka.common.errors.RecordTooLargeException", "org.apache.kafka.common.errors.RecordTooLargeException" ],
     "independentRejectionPublished" : 1,
-    "starvedCoverage" : [ {
+    "coveragePublishedInFirstPoll" : [ {
       "id" : "890fea177bf85aae63194d0b0e9004de5420e5f2060cf85c19000542c4f1da8c",
       "topic" : "telecom.coverage.v1",
       "kafka_key" : "VOLTE-MD-CHI",
       "payload" : "{\"scopeId\": \"VOLTE-MD-CHI\", \"service\": \"VOLTE\", \"windowId\": \"a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e\", \"synthetic\": true, \"windowEnd\": \"2026-09-15T08:01:00Z\", \"coverageId\": \"890fea177bf85aae63194d0b0e9004de5420e5f2060cf85c19000542c4f1da8c\", \"windowStart\": \"2026-09-15T08:00:00Z\", \"sourceIssues\": [], \"schemaVersion\": 1, \"topologyVersion\": \"2-geography-g1\", \"usableSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"catalogueVersion\": \"2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223\", \"expectedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"], \"receivedSourceIds\": [\"IMS-MD-CHI-01\", \"TRANSPORT-MD-CHI-01\", \"VOLTE-SRC-CHI\"]}"
     } ],
-    "receivingOwner" : "Sergiu",
+    "productionFixOwner" : "Sergiu",
     "rejectedInputCoordinates" : [ {
       "partition" : 0,
-      "offset" : 118,
+      "key" : "day17-f3-0",
       "topic" : "day17.observations",
-      "key" : "day17-f3-0"
+      "offset" : 119
     }, {
       "partition" : 0,
-      "offset" : 119,
+      "key" : "day17-f3-1",
       "topic" : "day17.observations",
-      "key" : "day17-f3-1"
+      "offset" : 120
     } ],
+    "restoredKpiWireRecords" : 3,
+    "distinctFeatureIdentities" : 3,
+    "legacyWireOrder" : [ "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc", "5162dda76c4793de17120abe7c57e143abd379562af34d06f397720122a6e46f" ],
+    "identitiesAndPayloadsUnchanged" : true,
     "afterRestore" : {
-      "publishedOutputs" : 3,
-      "buckets" : 2,
-      "rejections" : 2,
-      "receipts" : 4,
-      "acceptedIncrements" : 1,
-      "features" : 2,
+      "publishedOutputs" : 4,
+      "pendingRejections" : 0,
       "pendingOutputs" : 0,
-      "pendingRejections" : 0
+      "features" : 3,
+      "acceptedIncrements" : 2,
+      "receipts" : 5,
+      "rejections" : 2,
+      "buckets" : 3
     },
     "timing" : {
-      "restoreRequested" : "2026-10-07T15:27:48.700048Z",
-      "dependencyReady" : "2026-10-07T15:27:48.816905600Z",
-      "firstSuccessfulRetry" : "2026-10-07T15:27:48.849725100Z",
-      "outageStarted" : "2026-10-07T15:27:48.203904300Z",
-      "steadyState" : "2026-10-07T15:27:49.177167900Z",
-      "outageToReadyMs" : 613,
-      "restoreToReadyMs" : 116,
-      "readyToFirstRetryMs" : 32,
-      "readyToSteadyMs" : 360
+      "restoreRequested" : "2026-10-07T16:04:10.543344300Z",
+      "readyToSteadyMs" : 1041,
+      "readyToFirstRetryMs" : 34,
+      "restoreToReadyMs" : 113,
+      "outageToReadyMs" : 1833,
+      "steadyState" : "2026-10-07T16:04:11.697648100Z",
+      "outageStarted" : "2026-10-07T16:04:08.822652900Z",
+      "firstSuccessfulRetry" : "2026-10-07T16:04:10.691351100Z",
+      "dependencyReady" : "2026-10-07T16:04:10.656575300Z"
     }
   }
 }

@@ -1,12 +1,12 @@
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.383 s -- in md.utm.telecom.processing.VoiceDeliverySchedulingTest
+[INFO] Tests run: 30, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.155 s -- in md.utm.telecom.processing.topology.ScopeRegistryTest
 [INFO] Running md.utm.telecom.processing.VoiceEpisodeTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in md.utm.telecom.processing.VoiceEpisodeTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in md.utm.telecom.processing.VoiceEpisodeTest
 [INFO] Running md.utm.telecom.processing.VoiceRuleTest
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in md.utm.telecom.processing.VoiceRuleTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.085 s -- in md.utm.telecom.processing.VoiceRuleTest
 [INFO]
 [INFO] Results:
 [INFO]
-[INFO] Tests run: 419, Failures: 0, Errors: 0, Skipped: 4
+[INFO] Tests run: 410, Failures: 0, Errors: 0, Skipped: 4
 [INFO]
 [INFO]
 [INFO] --- jar:3.4.2:jar (default-jar) @ processor ---
@@ -18,13 +18,13 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for telecom-anomaly-detection 0.3.0-SNAPSHOT:
 [INFO]
-[INFO] telecom-anomaly-detection .......................... SUCCESS [  0.004 s]
-[INFO] streaming-support .................................. SUCCESS [  3.999 s]
-[INFO] event-generator .................................... SUCCESS [ 17.200 s]
-[INFO] processor .......................................... SUCCESS [05:09 min]
+[INFO] telecom-anomaly-detection .......................... SUCCESS [  0.008 s]
+[INFO] streaming-support .................................. SUCCESS [  3.530 s]
+[INFO] event-generator .................................... SUCCESS [ 19.955 s]
+[INFO] processor .......................................... SUCCESS [04:55 min]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  05:30 min
-[INFO] Finished at: 2026-10-07T19:08:09+03:00
+[INFO] Total time:  05:18 min
+[INFO] Finished at: 2026-10-07T18:31:37+03:00
 [INFO] ------------------------------------------------------------------------

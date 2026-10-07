@@ -1,125 +1,39 @@
 {
-  "baseSha": "7e46521de1c12ed0a7431092b49cda315cd3c0c9",
-  "implementationSha": "af285048fb32b63a1f5ba1b007093530dd2008d1",
-  "status": "DAY 17 COMPLETE — READY FOR REVIEW",
-  "productionFixOwner": "Sergiu",
-  "afterMergeStaleAssertion": {
-    "purpose": "Show that the historical starvation assertion is stale after integrating Sergiu's independent repair; this is not a remaining production failure.",
-    "mainFixCommit": "7e46521de1c12ed0a7431092b49cda315cd3c0c9",
-    "combinedMergeCommit": "e54283e5f86320d995cf34b2575b977849095224",
-    "test": "DependencyOutageIT#recordsDeliveryFairnessForAnUnavailableOutputStream",
-    "command": "mvn -pl services/processor -am test -Dtest=GeographyCatalogTest,VoiceScenarioTest,DependencyOutageIT#recordsDeliveryFairnessForAnUnavailableOutputStream",
-    "processorResult": {
-      "tests": 1,
-      "failures": 1,
-      "errors": 0,
-      "skipped": 0
-    },
-    "assertion": "DependencyOutageIT.recordsDeliveryFairnessForAnUnavailableOutputStream:476 expected: <3> but was: <2>",
-    "interpretation": "Independent city coverage published while both KPI heads remained pending; the updated regression asserts that repaired behavior and adds a same-stream tail.",
-    "runFinished": "2026-10-07T18:57:14+03:00"
-  },
-  "beforeFixEvidenceSha256": "a800423c0734a616ac7d964aaafa747bc53a4caea3c76cbc091e0acc43936bda",
-  "outageEvidenceSha256": "1ecd3c065d725a0a19c0fb54a9cb9bedfcf56a217e97f210e8429f7cbb5e2051",
+  "baseSha": "5d2d09ec54ffcf381c6bae42c927e5bc378d75d6",
+  "implementationSha": "6814a5c93bb29fe188befcc722bae38c6cef2325",
+  "outageEvidenceSha256": "4b86eddf4e6ffb732daa2153094f322845073ee3aa43bad343886c7b3a588e0a",
   "focused": [
     {
-      "name": "VoiceScenarioTest",
-      "module": "event-generator",
-      "tests": 5,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 0.739
-    },
-    {
       "name": "DependencyOutageIT",
-      "module": "processor",
-      "tests": 5,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 82.266
-    },
-    {
-      "name": "DetectionReplayIT",
-      "module": "processor",
-      "tests": 16,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 15.869
-    },
-    {
-      "name": "FinalizerRaceIT",
-      "module": "processor",
-      "tests": 11,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 10.975
-    },
-    {
-      "name": "LateInputIT",
-      "module": "processor",
-      "tests": 20,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 13.884
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "64.185"
     },
     {
       "name": "ReplayIT",
-      "module": "processor",
-      "tests": 7,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 25.114
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "24.031"
     },
     {
-      "name": "SmsDeliveryTest",
-      "module": "processor",
-      "tests": 3,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 1,
-      "seconds": 2.717
+      "name": "FinalizerRaceIT",
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "10.538"
     },
     {
-      "name": "SmsKpiDeliveryTest",
-      "module": "processor",
-      "tests": 2,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 4.013
-    },
-    {
-      "name": "VoiceDeliverySchedulingTest",
-      "module": "processor",
-      "tests": 1,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 1.794
-    },
-    {
-      "name": "VoiceDeliveryTest",
-      "module": "processor",
-      "tests": 2,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 1,
-      "seconds": 1.75
-    },
-    {
-      "name": "GeographyCatalogTest",
-      "module": "streaming-support",
-      "tests": 15,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "seconds": 1.576
+      "name": "LateInputIT",
+      "tests": "20",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "12.262"
     }
   ],
   "modules": {
@@ -138,7 +52,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.884
+          "seconds": 0.78
         },
         {
           "name": "md.utm.telecom.observation.GeographyCatalogTest",
@@ -146,7 +60,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.29
+          "seconds": 0.26
         },
         {
           "name": "md.utm.telecom.observation.ObservationValidatorTest",
@@ -154,7 +68,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.167
+          "seconds": 0.147
         },
         {
           "name": "md.utm.telecom.observation.TopologyCatalogTest",
@@ -162,7 +76,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.073
+          "seconds": 0.063
         }
       ]
     },
@@ -181,7 +95,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 2.74
+          "seconds": 2.456
         },
         {
           "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
@@ -189,7 +103,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 1.049
+          "seconds": 1.005
         },
         {
           "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
@@ -197,7 +111,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.366
+          "seconds": 0.477
         },
         {
           "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
@@ -205,7 +119,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 4.379
+          "seconds": 4.084
         },
         {
           "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
@@ -213,7 +127,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.097
+          "seconds": 0.042
         },
         {
           "name": "md.utm.telecom.generator.GeographicRuntimeTest",
@@ -221,7 +135,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.346
+          "seconds": 0.269
         },
         {
           "name": "md.utm.telecom.generator.HealthProbeTest",
@@ -229,7 +143,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 5.534
+          "seconds": 5.373
         },
         {
           "name": "md.utm.telecom.generator.ObservationGeneratorTest",
@@ -237,7 +151,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.074
+          "seconds": 0.091
         },
         {
           "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
@@ -245,7 +159,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.091
+          "seconds": 0.115
         },
         {
           "name": "md.utm.telecom.generator.VoiceScenarioTest",
@@ -253,17 +167,17 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.057
+          "seconds": 0.055
         }
       ]
     },
     "processor": {
       "totals": {
-        "tests": 419,
+        "tests": 410,
         "failures": 0,
         "errors": 0,
         "skipped": 4,
-        "passed": 415
+        "passed": 406
       },
       "suites": [
         {
@@ -272,7 +186,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.691
+          "seconds": 0.57
         },
         {
           "name": "md.utm.telecom.processing.DependencyOutageIT",
@@ -280,7 +194,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 69.664
+          "seconds": 60.923
         },
         {
           "name": "md.utm.telecom.processing.DetectionConfigurationTest",
@@ -288,7 +202,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.087
+          "seconds": 0.127
         },
         {
           "name": "md.utm.telecom.processing.DetectionMigrationTest",
@@ -296,15 +210,15 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.901
+          "seconds": 1.936
         },
         {
           "name": "md.utm.telecom.processing.DetectionReplayIT",
-          "tests": 16,
+          "tests": 8,
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 14.364
+          "seconds": 8.857
         },
         {
           "name": "md.utm.telecom.processing.EpisodeStateTest",
@@ -312,7 +226,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.009
+          "seconds": 0.008
         },
         {
           "name": "md.utm.telecom.processing.ExplanationCasesTest",
@@ -320,7 +234,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.078
+          "seconds": 0.114
         },
         {
           "name": "md.utm.telecom.processing.FinalizerRaceIT",
@@ -328,7 +242,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 10.096
+          "seconds": 10.941
         },
         {
           "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
@@ -336,7 +250,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.008
+          "seconds": 0.009
         },
         {
           "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
@@ -344,7 +258,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.038
+          "seconds": 0.05
         },
         {
           "name": "md.utm.telecom.processing.GeographicDetectionTest",
@@ -352,7 +266,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 1,
-          "seconds": 1.797
+          "seconds": 1.927
         },
         {
           "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
@@ -360,7 +274,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.168
+          "seconds": 0.197
         },
         {
           "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
@@ -368,7 +282,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 2.864
+          "seconds": 3.678
         },
         {
           "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
@@ -376,7 +290,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 8.06
+          "seconds": 7.623
         },
         {
           "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
@@ -384,7 +298,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.91
+          "seconds": 0.757
         },
         {
           "name": "md.utm.telecom.processing.GeographicMonitoringTest",
@@ -392,7 +306,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 31.861
+          "seconds": 32.191
         },
         {
           "name": "md.utm.telecom.processing.GeographicParityTest",
@@ -400,7 +314,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 14.508
+          "seconds": 14.631
         },
         {
           "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
@@ -408,7 +322,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.319
+          "seconds": 0.318
         },
         {
           "name": "md.utm.telecom.processing.GeographicWorkerTest",
@@ -416,7 +330,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 12.926
+          "seconds": 13.209
         },
         {
           "name": "md.utm.telecom.processing.HealthProbeTest",
@@ -424,7 +338,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 7.503
+          "seconds": 7.433
         },
         {
           "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
@@ -432,7 +346,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.254
+          "seconds": 0.271
         },
         {
           "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
@@ -440,7 +354,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 6.282
+          "seconds": 6.598
         },
         {
           "name": "md.utm.telecom.processing.history.HistoryRangeTest",
@@ -456,7 +370,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 16.172
+          "seconds": 16.16
         },
         {
           "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
@@ -464,7 +378,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.011
+          "seconds": 0.013
         },
         {
           "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
@@ -472,7 +386,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 2.489
+          "seconds": 2.499
         },
         {
           "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
@@ -480,7 +394,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.04
+          "seconds": 0.044
         },
         {
           "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
@@ -488,7 +402,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 5.362
+          "seconds": 5.651
         },
         {
           "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
@@ -496,7 +410,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.09
+          "seconds": 0.123
         },
         {
           "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
@@ -504,7 +418,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 1,
-          "seconds": 2.224
+          "seconds": 2.551
         },
         {
           "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
@@ -512,7 +426,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 3.808
+          "seconds": 3.94
         },
         {
           "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
@@ -520,7 +434,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 1,
-          "seconds": 0.0
+          "seconds": 0.001
         },
         {
           "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
@@ -528,7 +442,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 1.317
+          "seconds": 1.451
         },
         {
           "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
@@ -536,7 +450,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 1,
-          "seconds": 1.436
+          "seconds": 1.681
         },
         {
           "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
@@ -544,7 +458,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 6.053
+          "seconds": 6.57
         },
         {
           "name": "md.utm.telecom.processing.LateInputIT",
@@ -552,7 +466,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 10.524
+          "seconds": 11.78
         },
         {
           "name": "md.utm.telecom.processing.MlClientTest",
@@ -560,7 +474,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.665
+          "seconds": 0.662
         },
         {
           "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
@@ -568,7 +482,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.085
+          "seconds": 0.137
         },
         {
           "name": "md.utm.telecom.processing.ObservationInputTest",
@@ -584,7 +498,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.01
+          "seconds": 0.026
         },
         {
           "name": "md.utm.telecom.processing.ReplayIT",
@@ -592,7 +506,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 23.177
+          "seconds": 22.609
         },
         {
           "name": "md.utm.telecom.processing.SmsEpisodeTest",
@@ -600,7 +514,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.047
+          "seconds": 0.041
         },
         {
           "name": "md.utm.telecom.processing.SmsRuleTest",
@@ -608,7 +522,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.119
+          "seconds": 0.091
         },
         {
           "name": "md.utm.telecom.processing.SmsShadowClientTest",
@@ -616,7 +530,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.913
+          "seconds": 0.909
         },
         {
           "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
@@ -624,7 +538,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.097
+          "seconds": 0.09
         },
         {
           "name": "md.utm.telecom.processing.StreamingMetricsTest",
@@ -632,7 +546,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 46.291
+          "seconds": 38.639
         },
         {
           "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
@@ -640,7 +554,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.051
+          "seconds": 0.047
         },
         {
           "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
@@ -648,15 +562,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.096
-        },
-        {
-          "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
-          "tests": 1,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0,
-          "seconds": 1.383
+          "seconds": 0.155
         },
         {
           "name": "md.utm.telecom.processing.VoiceEpisodeTest",
@@ -664,7 +570,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.04
+          "seconds": 0.05
         },
         {
           "name": "md.utm.telecom.processing.VoiceRuleTest",
@@ -672,7 +578,7 @@
           "failures": 0,
           "errors": 0,
           "skipped": 0,
-          "seconds": 0.069
+          "seconds": 0.085
         }
       ]
     }
@@ -680,27 +586,27 @@
   "outageCasesInUnfilteredVerify": [
     {
       "name": "recoveryDoesNotDuplicateFeatureIdentity",
-      "seconds": 34.486,
+      "seconds": 32.095,
       "result": "PASS"
     },
     {
       "name": "outageCrossingClosureReportsLateInputHonestly",
-      "seconds": 8.103,
+      "seconds": 8.162,
       "result": "PASS"
     },
     {
       "name": "postgresOutageLeavesInputUnacknowledgedAndRetryable",
-      "seconds": 5.12,
+      "seconds": 3.046,
       "result": "PASS"
     },
     {
       "name": "kafkaOutageRetainsCommittedOutputAndPublishesAfterRestore",
-      "seconds": 6.732,
+      "seconds": 6.255,
       "result": "PASS"
     },
     {
       "name": "recordsDeliveryFairnessForAnUnavailableOutputStream",
-      "seconds": 6.396,
+      "seconds": 3.407,
       "result": "PASS"
     }
   ],
@@ -741,6 +647,6 @@
   "countSemantics": {
     "acceptedIncrements": "Sum for VOLTE-MD-CENTRAL only; receipts, buckets and features are global within each reset drill.",
     "closureAcknowledgments": "2 closure-session ACKs plus 4 acknowledged inputs in the preceding episode windows = 6 total logical inputs.",
-    "f3Acknowledgments": "5 accepted inputs (2 legacy + 3 city), plus 2 durable malformed rejections = 7 total logical inputs."
+    "f3Acknowledgments": "4 accepted inputs (1 legacy + 3 city), plus 2 durable malformed rejections = 6 total logical inputs."
   }
 }
