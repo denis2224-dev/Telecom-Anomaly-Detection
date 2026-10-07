@@ -210,20 +210,87 @@ after it are late and cannot change finalized evidence. Finalizer retries preser
 the full stored payload, original payload hash, metadata, and `sourceEventIds`.
 
 Raw observations default to 24-hour Kafka retention
-(`KAFKA_RAW_RETENTION_MS=86400000`). No processor receipt/outbox cleanup job exists
-yet: receipts and unpublished `feature_outbox`, `voice_delivery`, and
-`rejection_outbox` work remain retained without expiry. A future retention job
-must start with a **minimum 48-hour receipt horizon**, longer than configured raw
-retention, and must never delete pending output. This is an application invariant,
-not a claim that the runtime role cannot manually delete any table: its existing
-receipt/rejection permissions are unchanged.
+(`KAFKA_RAW_RETENTION_MS=86400000`). `RetentionJob` now performs conservative
+processor cleanup using **at least 48 hours** for both receipts and published
+rejections. Processor state retention is independent of Kafka retention.
+
+Only these rows can be deleted:
+
+- `observation_receipt`: first accepted `received_at` and interval `finalized_at`
+  are strictly older than the receipt horizon; the exact interval is finalized;
+  its immutable feature has a `voice_evaluated_window` completion marker and a
+  published, unclaimed KPI delivery; no `source_state.last_event_id` references
+  the receipt. Pending detector/shadow work, pending or claimed delivery in the
+  scope, pending rejection referring to that scope/event, active or unclassified
+  episode state, unresolved monitoring participation, and any saved historical
+  bootstrap range block receipt deletion. The completion marker also protects
+  windows not yet discovered by the detector: absence of a job is not completion.
+- `rejection_outbox`: `published_at IS NOT NULL`, with both `created_at` and
+  `published_at` strictly older than the rejection horizon. Old rows ACKed recently
+  remain retained. ACK-before-mark failures leave `published_at IS NULL` and are
+  never eligible for cleanup.
+
+Before each receipt batch, `RawRetentionGuard` reads the live observation topic's
+`retention.ms` with a two-second Kafka Admin timeout. Missing, unavailable,
+unbounded, zero, or equal/longer raw retention retains receipts. A declared
+24-hour default alone does not authorize deletion. The live `cleanup.policy`
+must include `delete`; compact-only topics do not prove time-based expiry.
+Broker configuration changes
+must continue to respect the processor horizon; the cross-system check and SQL
+DELETE are not an atomic configuration fence.
+Only receipts carrying that exact verified `kafka_topic` are considered; receipts
+from an older or unknown topic are retained.
+
+The job intentionally never deletes `interval_bucket`, `source_state`,
+`feature_outbox`, `voice_delivery` (including published rows), `voice_episode_state`,
+`voice_evaluated_window`, `detection_job`, `sms_shadow_job`, `sms_shadow_result`,
+`geographic_monitoring_range`, `geographic_monitoring_cursor`, or
+`historical_bootstrap`. Saved features, detector evidence, active episodes, leases,
+unpublished KPI/detection/coverage output and monitoring cursors survive unchanged.
+Historical bootstrap receipts remain retained even after bootstrap completion;
+no raw-history lifecycle has been authorized.
+
+Each poll examines at most `batch-size` expired receipt candidates in deterministic
+`(received_at,event_id)` order and deletes at most that many safe receipts. Each
+rejection batch selects at most `batch-size` expired published rows in
+`(published_at,outbox_id)` order. Protected receipt candidates consume the scan
+budget, so a protected oldest cohort can defer later cleanup. This conservative
+job does **not** solve unlimited storage growth of retained evidence or guarantee
+draining every safe receipt. `V012__processor_retention.sql` adds three lookup
+indexes and revokes inherited runtime DELETE on retained delivery, episode,
+evaluated-window and bootstrap tables. Existing receipt/rejection DELETE suffices;
+no new DELETE, schema CREATE, ALTER or DROP privileges are granted.
+
+Receipt and rejection deletion each execute as one separate autocommit statement
+with a two-second JDBC query timeout and `FOR UPDATE SKIP LOCKED`. A failing
+category rolls back completely; the other category may commit only safe rows.
+The next poll can retry. One application UTC clock sample supplies both cutoffs,
+rounded down to PostgreSQL microsecond precision. A dedicated single-thread
+`retentionTaskScheduler` and an instance guard prevent overlapping polls;
+independent processors skip each other's locked candidates. Shutdown interruption
+prevents new category work. Failures are logged and do not crash the processor.
+
+| Processor property | Default | Environment override / validation |
+| --- | --- | --- |
+| `telecom.retention.enabled` | `true` | `PROCESSOR_RETENTION_ENABLED` |
+| `telecom.retention.receipt-horizon` | `48h` | `PROCESSOR_RECEIPT_HORIZON`; minimum 48h |
+| `telecom.retention.rejection-horizon` | `48h` | `PROCESSOR_REJECTION_HORIZON`; minimum 48h from ACK mark |
+| `telecom.retention.raw-kafka-horizon` | `24h` | `${KAFKA_RAW_RETENTION_MS:86400000}ms`; positive and shorter than receipt horizon; live topic checked too |
+| `telecom.retention.batch-size` | `100` | `PROCESSOR_RETENTION_BATCH_SIZE`; 1..1000 |
+| `telecom.retention.poll-interval` | `60s` | `PROCESSOR_RETENTION_POLL_INTERVAL`; positive duration of at least 1ms |
+
+Malformed, overflowing or unsafe configuration fails startup, including when
+cleanup is disabled. The first scheduled poll waits one poll interval. The offline
+history-bootstrap application does not load this scheduler.
 
 Run `ReplayIT` and `FinalizerRaceIT` explicitly or through the normal processor
 suite; both are included in Surefire defaults. Their generated
 `target/day13-replay.json` and `target/day13-finalizer-races.json` contain exact
-before/after snapshots. The retention test deletes actual raw Kafka records and
+before/after snapshots. The Day 13 replay test deletes actual raw Kafka records and
 advances an injected application clock by 49 hours; it does not claim a physical
-49-hour soak or test a cleanup job that has not been implemented.
+49-hour soak. Day 18 adds actual `RetentionJob` cleanup, rollback, runtime-role,
+live-topic horizon and migration-upgrade checks with independent before/after
+snapshots. See [Day 18 boundary and retention evidence](../evidence/2026-10-08-day18-boundary-retention.md).
 
 See [Replay and finalizer evidence](../evidence/2026-09-30-day13-replay-finalizer.md) for commands,
 counts, feature/episode identities, and the Denis/Sergiu downstream handoff.
@@ -248,6 +315,7 @@ saved payload, ID, topic, or key. Another scope/stream can progress independentl
 Delivery remains at least once. A failed mark can replay the same payload; an
 already in-flight Kafka send cannot be revoked by a database lease. Consumers must
 still deduplicate identities and reconcile sequence gaps. Rejection publication
-uses the separate existing publisher and has no new lease. There is no cleanup job.
+uses the separate existing publisher and has no new lease. Retention only removes
+its expired ACK-marked rows; detector/delivery/episode evidence remains retained.
 `DetectionReplayIT` and `DetectionMigrationTest` verify these boundaries with real
 PostgreSQL runtime permissions. See the [Sergiu handoff](../evidence/2026-10-01-sergiu-days-13-14.md).

@@ -49,6 +49,7 @@ class GeographicMonitoringMigrationTest {
                         .defaultSchema("app")
                         .schemas("app")
                         .createSchemas(false)
+                        .target("11") // This regression isolates V011; RetentionMigrationTest covers V011 -> V012.
                         .load();
         flyway.migrate();
         flyway.validate();
