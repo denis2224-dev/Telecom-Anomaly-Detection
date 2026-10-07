@@ -92,6 +92,8 @@ for (const width of [1366, 1024, 390, 320]) {
     await update.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
     await update.getByText('Source evidence', { exact: true }).click();
     await expect(update).toContainText(explanation);
+    await expect(update.getByText(source, { exact: true })).toBeHidden();
+    await update.getByText('Troubleshooting', { exact: true }).click();
     await expect(update.getByText(source, { exact: true })).toBeVisible();
     await expect(page.locator('.incident-summary-bar')).toContainText(state.incident.severity);
     await expect(page.locator('.incident-summary-bar')).toContainText('ONGOING');
