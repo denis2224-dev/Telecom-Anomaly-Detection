@@ -79,6 +79,11 @@ jobs:
           ./mvnw -pl services/processor -am test
           -Dtest=VoiceDeliveryTest#committedWindowsProduceOneDurableEpisodeAndIdenticalReplayProducesNothing,SmsDeliveryTest#completeSmsWindowsProduceOneRecoveredEpisodeWithoutMlService
           -Dsurefire.failIfNoSpecifiedTests=false
+      - name: Verify processor delivery fairness, scheduling isolation, and replay ordering
+        run: >
+          ./mvnw -pl services/processor -am test
+          -Dtest=VoiceDeliverySchedulingTest,DetectionReplayIT,ReplayIT#producerAckWithoutPublishedMarkRetriesIdenticalKpiAndDetectionWireIdentity
+          -Dsurefire.failIfNoSpecifiedTests=false
       - name: Replay both service profiles with packaged model
         env:
           ML_SERVICE_URL: http://127.0.0.1:8090
