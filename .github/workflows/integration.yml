@@ -87,9 +87,11 @@ jobs:
           -Dtest=VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode,SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode
           -Dsurefire.failIfNoSpecifiedTests=false
       - name: Run geographic processor and parity verification
+        env:
+          ML_SERVICE_URL: http://127.0.0.1:8090
         run: |
           ./mvnw -pl services/processor -am test \
-            -Dtest=GeographicDetectionTest,GeographicWorkerTest,GeographicParityTest \
+            -Dtest=GeographicDetectionTest,GeographicWorkerTest,GeographicParityTest,GeographicSmsBaselineTest \
             -Dsurefire.failIfNoSpecifiedTests=false
           python scripts/check-voice-parity.py --geographic \
             --java-output services/processor/target/geographic-voice-parity-java.json
