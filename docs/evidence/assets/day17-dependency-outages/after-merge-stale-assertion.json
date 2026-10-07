@@ -1,0 +1,11 @@
+{
+  "purpose": "Show that the historical starvation assertion is stale after integrating Sergiu's independent repair; this is not a remaining production failure.",
+  "mainFixCommit": "7e46521de1c12ed0a7431092b49cda315cd3c0c9",
+  "combinedMergeCommit": "e54283e5f86320d995cf34b2575b977849095224",
+  "test": "DependencyOutageIT#recordsDeliveryFairnessForAnUnavailableOutputStream",
+  "command": "mvn -pl services/processor -am test -Dtest=GeographyCatalogTest,VoiceScenarioTest,DependencyOutageIT#recordsDeliveryFairnessForAnUnavailableOutputStream",
+  "processorResult": {"tests": 1, "failures": 1, "errors": 0, "skipped": 0},
+  "assertion": "DependencyOutageIT.recordsDeliveryFairnessForAnUnavailableOutputStream:476 expected: <3> but was: <2>",
+  "interpretation": "Independent city coverage published while both KPI heads remained pending; the updated regression asserts that repaired behavior and adds a same-stream tail.",
+  "runFinished": "2026-10-07T18:57:14+03:00"
+}

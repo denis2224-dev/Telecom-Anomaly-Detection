@@ -25,18 +25,21 @@ import type { Filter } from './dashboard-geography';
     .page-heading p:not(.eyebrow) { display: none; }
     .page-heading .heading-copy { flex: 1; }
     .page-heading button { min-height: 36px; }
-    .kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding: 3px 12px; background: var(--surface); border-radius: var(--radius-control); }
-    .kpi-strip > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
-    .kpi-strip span { color: var(--text-muted); font-size: 11px; }
-    .kpi-strip strong { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 0; background: var(--surface); border-radius: var(--radius-control); }
+    .kpi-strip > div { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-width: 0; min-height: 32px; padding: 4px 16px; }
+    .kpi-strip > div + div::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: color-mix(in srgb, var(--text-muted) 35%, var(--transparent)); }
+    .kpi-strip span { color: var(--text-muted); font-size: 12px; line-height: 1.35; }
+    .kpi-strip strong { min-width: 2ch; text-align: right; font-size: 20px; line-height: 1.2; font-weight: 600; font-variant-numeric: tabular-nums; }
     @media (max-width: 600px) {
       .page-heading { flex-wrap: nowrap; gap: 8px; align-items: center; }
       .page-heading h1 { font-size: 18px; }
       .page-heading button { padding: 8px; }
       .refresh-copy { display: none; }
-      .kpi-strip { gap: 8px; padding: 8px; }
-      .kpi-strip > div { display: grid; gap: 2px; }
-      .kpi-strip span { font-size: 9px; }
+      .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 4px 0; }
+      .kpi-strip > div { gap: 8px; padding: 10px 12px; }
+      .kpi-strip > div:nth-child(odd)::before { content: none; }
+      .kpi-strip > div:nth-child(n + 3)::after { content: ''; position: absolute; top: 0; left: 12px; right: 12px; height: 1px; background: color-mix(in srgb, var(--text-muted) 35%, var(--transparent)); }
+      .kpi-strip span { font-size: 11px; }
     }
     .source-inventory { margin-top: 14px; }
     .source-inventory > summary { padding: 10px; cursor: pointer; color: var(--text-muted); }

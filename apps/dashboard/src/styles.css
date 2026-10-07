@@ -41,8 +41,8 @@ app-metric-chart { display: block; min-width: 0; }
 }
 
 /* Compact diagnostic views share the same chart and evidence components. */
-.exact-values { margin: 12px 0; background: var(--surface); padding: 10px; border-radius: var(--radius); }
-.exact-values .chart-scroll { max-height: 320px; overflow: auto; }
+.exact-values, .evidence-disclosure { margin: 12px 0; background: var(--surface); padding: 10px; border-radius: var(--radius); }
+.exact-values .chart-scroll, .evidence-disclosure .chart-scroll { max-height: 320px; overflow: auto; }
 main:has(app-connected-overview) { padding-top: 8px; }
 main:has(app-connected-overview) .preview-label { margin-bottom: 8px; padding: 5px 10px; }
 @media (min-width: 1101px) {
@@ -199,6 +199,6 @@ html:has(.drawer-panel[open]) { overflow: hidden; }
 .drawer-panel .pagination { margin: 0; flex-shrink: 0; }
 .drawer-panel .pagination > span { font-family: var(--font-family); font-size: 12px; }
 @media (max-width: 768px) { .drawer-panel { width: 100%; } }
-.drawer-panel.episode-evidence { inset: 16px 16px auto auto; width: min(480px, calc(100vw - 32px)); height: auto; max-height: calc(100dvh - 32px); padding: 20px; border-radius: var(--radius); }
-.episode-evidence .drawer-content { padding-bottom: 8px; }
-@media (max-width: 600px) { .drawer-panel.episode-evidence { inset: 12px 12px auto auto; width: calc(100vw - 24px); max-height: calc(100dvh - 24px); padding: 16px; } }
+.drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 16px 16px auto auto; width: min(480px, calc(100vw - 32px)); height: auto; max-height: calc(100dvh - 32px); padding: 20px; border-radius: var(--radius); }
+.episode-evidence .drawer-content, .queue-panel .drawer-content { padding-bottom: 8px; }
+@media (max-width: 600px) { .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 12px 12px auto auto; width: calc(100vw - 24px); max-height: calc(100dvh - 24px); padding: 16px; } }

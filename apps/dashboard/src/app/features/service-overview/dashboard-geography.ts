@@ -1,5 +1,6 @@
 import type { components } from '../../core/api/schema';
 import { projectCity } from './moldova-map';
+import type { GeographyCatalogue } from '../../core/api/telecom-client';
 
 export type Summary = components['schemas']['ServiceSummary'];
 export type Window = components['schemas']['ServiceKpiWindow'];
@@ -17,12 +18,10 @@ export interface City {
   featured: boolean;
   // Populate only with approved exact backend scope IDs in live mode.
   scopeIds: readonly string[];
+  geography?: components['schemas']['GeographyCitySummary'];
 }
 
-export const geographyVersion = 'connected-dashboard-design-v2';
-export const membershipStatus = 'PENDING_OWNER_REVIEW';
-
-// Reference city names verified; backend membership and featured choices still need owner review.
+// Geographic coordinates and display choices only; LIVE membership is supplied by the backend.
 export const cities: readonly City[] = [
   { id: 'CHI', name: 'Chișinău', marker: projectCity(28.85938, 47.00902), location: { latitude: 47.00902, longitude: 28.85938, geonamesId: 618426 }, labelSide: 'left', featured: true, scopeIds: [] },
   { id: 'BAL', name: 'Bălți', marker: projectCity(27.92854, 47.76291), location: { latitude: 47.76291, longitude: 27.92854, geonamesId: 618605 }, labelSide: 'left', featured: true, scopeIds: [] },
@@ -43,6 +42,37 @@ export interface ApprovedConnection {
   toCityId: string;
 }
 export const approvedConnections: readonly ApprovedConnection[] = [];
+
+// Static data supplies coordinates only. Membership and measurements come from protected reads.
+export function bindGeography(response: GeographyCatalogue): readonly City[] {
+  if (response.cities.length !== cities.length || !response.catalogueVersion || !response.topologyVersion
+    || !Number.isFinite(Date.parse(response.generatedAt))) throw new Error('Incomplete city catalogue.');
+  const ids = new Set<string>(), scopes = new Set<string>();
+  return response.cities.map(item => {
+    const city = cities.find(city => city.id === item.cityId);
+    if (!city || ids.has(item.cityId) || item.catalogueVersion !== response.catalogueVersion
+      || item.topologyVersion !== response.topologyVersion || item.services.length !== 2
+      || new Set(item.services.map(state => state.service)).size !== 2) throw new Error('Invalid city catalogue.');
+    ids.add(item.cityId);
+    for (const state of item.services) {
+      if (!state.scopeId || scopes.has(state.scopeId)
+        || state.scopeId === 'VOLTE-MD-CENTRAL' || state.scopeId === 'SMS-MD-ROUTE-A') throw new Error('Ambiguous city membership.');
+      scopes.add(state.scopeId);
+    }
+    return { ...city, name: item.displayName, scopeIds: item.services.map(state => state.scopeId), geography: item };
+  });
+}
+
+export function geographyState(city: City, filter: Filter) {
+  return city.geography?.services.filter(state => filter === 'ALL' || state.service === filter) ?? [];
+}
+
+export function geographyValue(state: components['schemas']['GeographyServiceState']): number | null {
+  const value = state.metric.observed;
+  if (state.freshness === 'MISSING' || state.freshness === 'NEVER_SEEN' || value === null || !Number.isFinite(value)) return null;
+  const volume = state.service === 'VOLTE' ? state.metric.denominator : state.metric.sampleCount;
+  return volume != null && volume > 0 ? value : null;
+}
 
 export function cityServices(city: City, summaries: readonly Summary[], filter: Filter): Summary[] {
   return summaries.filter(item => city.scopeIds.includes(item.scope.scopeId)

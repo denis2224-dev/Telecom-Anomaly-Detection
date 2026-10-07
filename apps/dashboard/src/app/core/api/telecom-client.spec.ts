@@ -103,4 +103,26 @@ describe("TelecomClient", () => {
     request.flush({ items: [], total: 40, page: 2, size: 20 });
     expect(await response).toEqual({ items: [], total: 40, page: 2, size: 20 });
   });
+
+  it('uses the protected geography catalogue and UTC city history endpoints', async () => {
+    const catalogue = client.listGeographyCities();
+    http.expectOne('/api/geography/cities').flush({ cities: [], generatedAt: '2026-10-06T12:00:00Z' });
+    expect((await catalogue).cities).toEqual([]);
+    const history = client.getGeographyCityKpis('CHI', { service: 'SMS', from: '2026-10-06T11:00:00Z', to: '2026-10-06T12:00:00Z', page: 2, size: 20 });
+    const request = http.expectOne(request => request.url === '/api/geography/cities/CHI/kpis');
+    expect(request.request.params.get('service')).toBe('SMS');
+    expect(request.request.params.get('from')).toBe('2026-10-06T11:00:00Z');
+    expect(request.request.params.get('page')).toBe('2');
+    request.flush({ cityId: 'CHI', service: 'SMS', page: 2, size: 20, hasNext: false, points: [] });
+    expect((await history).points).toEqual([]);
+  });
+
+  it('never falls back to fixtures when geography is unavailable or forbidden', async () => {
+    for (const status of [503, 403]) {
+      const result = client.listGeographyCities();
+      const failure = expect(result).rejects.toMatchObject({ status });
+      http.expectOne('/api/geography/cities').flush({}, { status, statusText: 'Unavailable' });
+      await failure;
+    }
+  });
 });

@@ -10,6 +10,17 @@ import services from '../../../fixtures/services.json';
 
 describe('VoLTE and SMS assurance rendering', () => {
   beforeEach(() => TestBed.configureTestingModule({ providers: [provideRouter([])] }));
+  it('uses the captured geographic source and roles without inventing dependency measurements', async () => {
+    const fixture = TestBed.createComponent(ServicePathComponent);
+    const service = { ...services[0], scope: { ...services[0].scope, scopeId: 'VOLTE-MD-CHI', dependencyIds: ['IMS-MD-CHI-01', 'TRANSPORT-MD-CHI-01'] },
+      latestWindow: { ...voiceWindows[0], scopeId: 'VOLTE-MD-CHI', topologyVersion: '2-geography-g1' } };
+    fixture.componentRef.setInput('service', service);
+    await fixture.whenStable();
+    expect(fixture.nativeElement.textContent).toContain('VOLTE-SRC-CHI');
+    expect(fixture.componentInstance.metrics('IMS-MD-CHI-01')).toEqual(['imsCpuPct']);
+    expect(fixture.componentInstance.metrics('TRANSPORT-MD-CHI-01')).toEqual(['packetLossRatio']);
+    expect(fixture.componentInstance.measured('IMS-MD-CHI-01')).toBe(false);
+  });
   it('renders observed VoLTE KPIs and CSSR baseline/delta without inventing absent metrics', async () => {
     const fixture = TestBed.createComponent(KpiCardsComponent);
     fixture.componentRef.setInput('service', { ...services[0], latestWindow: voiceWindows[0] });
@@ -68,7 +79,9 @@ describe('VoLTE and SMS assurance rendering', () => {
     const fixture = TestBed.createComponent(ServicePathComponent);
     fixture.componentRef.setInput('service', { ...services[1], latestWindow: smsWindows[0] }); await fixture.whenStable();
     expect(fixture.nativeElement.textContent).toContain('SMS-ADAPTER');
-    expect(fixture.nativeElement.querySelector('[data-node-id="SMSC-A"]').textContent).toContain('OBSERVED CONTEXT');
+    const smsc = fixture.nativeElement.querySelector('[data-node-id="SMSC-A"]');
+    expect(smsc.textContent).toContain('INHERITED SERVICE CONTEXT');
+    expect(smsc.textContent).toContain('Local device measurement: Unavailable');
     expect(fixture.nativeElement.querySelector('[data-node-id="TRANSPORT-A"]').textContent).toContain('UNKNOWN / NO CURRENT MEASUREMENT');
   });
 });

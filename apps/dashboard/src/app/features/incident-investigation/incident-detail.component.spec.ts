@@ -109,6 +109,8 @@ describe('Paged incident evidence', () => {
     expect(text).toContain('Workflow state: OPEN');
     expect(text).toContain(`Severity: ${incident.severity}`);
     expect(text).toContain('The service has recovered.');
+    expect(text).toContain('Awaiting analyst resolution');
+    expect(fixture.componentInstance.recoveryDetectedAt()).toBe(latest.detectedAt);
     expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe(`/services/${incident.scopeId}`);
   });
 
@@ -125,6 +127,13 @@ describe('Paged incident evidence', () => {
     await vi.waitFor(() => expect(fixture.componentInstance.incident()?.technicalState).toBe('RECOVERED'));
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).toContain('The service has recovered.');
+  });
+
+  it('does not manufacture a recovery timestamp from the last observed time', async () => {
+    api.getIncident.mockResolvedValue({ ...incident, latestDetection: { ...latest, phase: 'UNKNOWN' } });
+    const fixture = await open();
+    expect(fixture.componentInstance.recoveryDetectedAt()).toBeNull();
+    expect(fixture.nativeElement.querySelector('[aria-label="Current incident times"]').textContent).toContain('Recovery detected (UTC)Unavailable');
   });
 
   it('refreshes an equal-version comment without hiding the selected evidence page', async () => {

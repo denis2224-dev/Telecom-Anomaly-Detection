@@ -66,6 +66,110 @@ class GeographicPublicationTest {
         assertTrue(clock.now.isBefore(Instant.parse(json.readTree(payload).path("windowStart").asText()).plusSeconds(67)));
         sent.add(payload);
     }
+    GeographicPublicationResult result() { return service.geographicPublicationResults().getLast(); }
+    void assertCounts(int acknowledged, int failed, int cancelled, boolean complete) {
+        var result = result();
+        assertEquals(START, result.windowStart());
+        assertEquals(50, result.expectedObservations());
+        assertEquals(50, result.offeredObservations());
+        assertEquals(acknowledged, result.acknowledgedObservations());
+        assertEquals(failed, result.failedObservations());
+        assertEquals(cancelled, result.expiredOrCancelledObservations());
+        assertEquals(50 - acknowledged - failed - cancelled, result.pendingObservations());
+        assertEquals(0, result.unofferedObservations());
+        assertEquals(complete, result.complete());
+    }
+    @Test void successfulMinuteReportsFiftyLogicalOffersAndAcknowledgements() throws Exception {
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call); return CompletableFuture.completedFuture(null);
+        });
+        service.start(); fire();
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> assertCounts(50, 0, 0, true));
+        assertEquals(50, sent.size());
+        assertEquals(50, result().sendAttempts());
+        assertEquals(0, result().failedSendAttempts());
+        assertEquals(0, result().timedOutSendAttempts());
+    }
+    @Test void snapshotsDoNotAcknowledgeHeldFuturesAndRemainImmutable() throws Exception {
+        String last = healthy.window(healthy.scopes(START).getFirst(), START, 42).getLast();
+        var held = new CompletableFuture<SendResult<String,String>>();
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call); return last.equals(call.getArgument(2)) ? held : CompletableFuture.completedFuture(null);
+        });
+        service.start(); fire();
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> assertCounts(49, 0, 0, false));
+        var snapshots = service.geographicPublicationResults();
+        assertThrows(UnsupportedOperationException.class, snapshots::clear);
+        held.complete(null);
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> assertCounts(50, 0, 0, true));
+        assertEquals(49, snapshots.getFirst().acknowledgedObservations());
+    }
+    @Test void oneTerminalFailedAckIsVisibleWithoutIncreasingLogicalOffers() throws Exception {
+        String last = healthy.window(healthy.scopes(START).getFirst(), START, 42).getLast();
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call); return last.equals(call.getArgument(2))
+                    ? CompletableFuture.failedFuture(new IllegalStateException("failed ACK")) : CompletableFuture.completedFuture(null);
+        });
+        service.start(); fire();
+        for (int attempt = 1; attempt <= 3; attempt++) {
+            int failures = attempt;
+            await().atMost(Duration.ofSeconds(5)).until(() -> result().failedSendAttempts() == failures);
+            if (attempt < 3) fire();
+        }
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> assertCounts(49, 1, 0, true));
+        assertEquals(52, result().sendAttempts());
+        assertEquals(3, sent.stream().filter(last::equals).count());
+    }
+    @Test void uncertainTimeoutRetryReusesPayloadAndEventIdWithOneLogicalOffer() throws Exception {
+        String last = healthy.window(healthy.scopes(START).getFirst(), START, 42).getLast();
+        var attempts = new java.util.concurrent.atomic.AtomicInteger();
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call);
+            return last.equals(call.getArgument(2)) && attempts.getAndIncrement() == 0
+                    ? CompletableFuture.failedFuture(new CompletionException(new TimeoutException("uncertain ACK")))
+                    : CompletableFuture.completedFuture(null);
+        });
+        service.start(); fire();
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+            assertCounts(49, 0, 0, false); assertEquals(1, result().timedOutSendAttempts());
+        });
+        fire();
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> assertCounts(50, 0, 0, true));
+        assertEquals(51, result().sendAttempts());
+        assertEquals(1, result().failedSendAttempts());
+        assertEquals(1, result().timedOutSendAttempts());
+        var repeated = sent.stream().filter(last::equals).toList();
+        assertEquals(2, repeated.size());
+        assertEquals(json.readTree(repeated.getFirst()).path("eventId"), json.readTree(repeated.getLast()).path("eventId"));
+    }
+    @Test void stopCancelsOfferedRecordsWithoutAcknowledgingLateSuccess() throws Exception {
+        List<CompletableFuture<SendResult<String,String>>> held = new CopyOnWriteArrayList<>();
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call); var future = new CompletableFuture<SendResult<String,String>>(); held.add(future); return future;
+        });
+        service.start(); fire();
+        await().atMost(Duration.ofSeconds(5)).until(() -> held.size() == 20);
+        service.stop();
+        assertCounts(0, 0, 50, true);
+        held.forEach(future -> future.complete(null));
+        assertCounts(0, 0, 50, true);
+    }
+    @Test void resultsRetainOnlyTwoUtcMinutes() throws Exception {
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call); return CompletableFuture.completedFuture(null);
+        });
+        service.start();
+        for (int minute = 0; minute < 3; minute++) {
+            fire();
+            await().atMost(Duration.ofSeconds(5)).until(() -> result().complete());
+        }
+        var results = service.geographicPublicationResults();
+        assertEquals(List.of(START.plusSeconds(60), START.plusSeconds(120)), results.stream()
+                .map(GeographicPublicationResult::windowStart).toList());
+        for (var result : results) {
+            assertEquals(50, result.offeredObservations()); assertEquals(50, result.acknowledgedObservations());
+        }
+    }
     @Test void blockingKafkaSubmissionDoesNotSerializeOtherNineteenScopes() throws Exception {
         String blocked = healthy.scopes(START).getFirst();
         var entered = new CountDownLatch(1);
@@ -88,8 +192,10 @@ class GeographicPublicationTest {
             assertTrue(entered.await(5, TimeUnit.SECONDS));
             assertTrue(progressed.await(1, TimeUnit.SECONDS), "Synchronous kafka.send blocked the other 19 scopes");
             assertEquals(49, sent.size());
+            await().atMost(Duration.ofSeconds(1)).untilAsserted(() -> assertCounts(48, 0, 0, false));
             assertEquals(20, sent.stream().map(p -> assertDoesNotThrow(() -> json.readTree(p)).path("scopeId").asText()).distinct().count());
             service.stop();
+            assertCounts(48, 0, 2, true);
             assertTrue(interrupted.await(1, TimeUnit.SECONDS), "Shutdown interrupts owned blocking submission");
             assertTrue(service.awaitSubmissionTermination(1, TimeUnit.SECONDS), "Shutdown must stay bounded");
         } finally {
@@ -198,6 +304,9 @@ class GeographicPublicationTest {
             }
         }
         assertEquals(20, sent.stream().distinct().count());
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> assertCounts(0, 20, 30, true));
+        assertEquals(60, result().sendAttempts());
+        assertEquals(60, result().failedSendAttempts());
         for (String scope : healthy.scopes(START)) {
             var expected = healthy.window(scope, START, 42).getFirst();
             assertEquals(3, sent.stream().filter(expected::equals).count());
@@ -216,9 +325,11 @@ class GeographicPublicationTest {
         // Each scope has an owned deadline task; all unresolved chains are canceled at +67s.
         for (int scope = 0; scope < 20; scope++) fire();
         assertEquals(START.plusSeconds(67), clock.now);
+        assertCounts(0, 0, 50, true);
         clock.now = START.plusSeconds(200); held.forEach(ack -> ack.complete(null));
         assertTrue(held.stream().allMatch(CompletableFuture::isCancelled));
         assertEquals(20, sent.size());
+        assertCounts(0, 0, 50, true);
         service.stop(); assertTrue(service.awaitSubmissionTermination(1, TimeUnit.SECONDS));
         var nextAck = new CompletableFuture<SendResult<String,String>>();
         doReturn(nextAck).when(kafka).send(anyString(), anyString(), anyString());
@@ -244,6 +355,8 @@ class GeographicPublicationTest {
         }
         var both = new HealthyTelemetry(new VoiceScenario(json,validator),new SmsQueueScenario(json,validator),geography,true);
         assertEquals(22, both.scopes(START).size());
+        assertEquals(50, both.expectedGeographicObservations(START));
+        assertEquals(0, both.expectedGeographicObservations(START.minusSeconds(60)));
         assertEquals(HealthyTelemetry.SCOPES, both.scopes(START.minusSeconds(60)));
         assertTrue(healthy.scopes(START.minusSeconds(60)).isEmpty());
         assertThrows(IllegalArgumentException.class, () -> new HealthyTelemetry(new VoiceScenario(json,validator),
@@ -299,6 +412,11 @@ class GeographicPublicationTest {
             fire(); assertEquals(START.plusSeconds(67), clock.now); // Expire the sole remaining chain.
             fire(); assertEquals(START.plusSeconds(121), clock.now); // Next minute may skip the held scope.
             await().atMost(Duration.ofSeconds(5)).until(() -> sent.size() == 97);
+            await().atMost(Duration.ofSeconds(5)).until(() -> result().complete());
+            assertEquals(50, result().expectedObservations());
+            assertEquals(48, result().offeredObservations());
+            assertEquals(48, result().acknowledgedObservations());
+            assertEquals(2, result().unofferedObservations(), "A held prior chain remains an explicit gap");
             assertEquals(1, sent.stream().filter(p -> assertDoesNotThrow(() -> json.readTree(p))
                     .path("scopeId").asText().equals(blocked)).count(), "Do not overlap same-scope sends across expiry");
         } finally {

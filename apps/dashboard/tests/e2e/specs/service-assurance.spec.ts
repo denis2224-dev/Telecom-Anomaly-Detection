@@ -17,6 +17,7 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     const incident = latest ? { ...voiceIncidents[0], scopeId: feature.scopeId, service: trajectory.service, episodeId: latest.episodeId, firstObservedAt: latest.firstObservedAt, lastObservedAt: latest.windowEnd, technicalState: latest.technicalState, severity: latest.severity, latestSequence: latest.sequence, latestDetection: latest } : null;
     summary.openIncidents = incident ? 1 : 0;
     const requests: { from: string; to: string }[] = [];
+    await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
     await page.route('**/api/services', route => route.fulfill({ json: [summary] }));
     await page.route('**/api/services/*/kpis?**', route => {
       const query = new URL(route.request().url()).searchParams;
@@ -38,7 +39,8 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     if (trajectory.service === 'SMS') await expect(page.locator('[data-node-id="TRANSPORT-A"]')).toContainText('NO CURRENT MEASUREMENT');
     if (latest) {
       await page.getByText('View incident evidence', { exact: true }).click();
-      await expect(page.locator('.incident-story')).toContainText(latest.probableCause);
+      await expect(page.locator('.incident-story')).toContainText(latest.phase === 'UNKNOWN' ? 'Cause undetermined' : latest.probableCause);
+      if (latest.phase === 'UNKNOWN') await expect(page.locator('.incident-story')).not.toContainText(latest.probableCause);
       await expect(page.locator('.incident-story')).not.toContainText('Supporting evidence');
       await expect(page.locator('.incident-story')).not.toContainText('Unique subscribers:');
       await expect(page.locator(`.incident-story[data-phase="${latest.phase}"]`)).toBeVisible();

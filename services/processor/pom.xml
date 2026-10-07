@@ -38,6 +38,7 @@
           <include>**/*TestCase.java</include><include>**/LateInputIT.java</include>
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
           <include>**/DetectionReplayIT.java</include>
+          <include>**/DependencyOutageIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

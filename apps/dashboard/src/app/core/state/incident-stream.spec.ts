@@ -60,6 +60,18 @@ describe('Bounded incident stream', () => {
     expect(refresh).toHaveBeenCalledTimes(3);
   });
 
+  it('invalidates authoritative REST data on initial open and reconnect', () => {
+    vi.stubGlobal('EventSource', FakeSource);
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.inject(SessionStore).phase.set('authenticated');
+    const refresh = vi.fn();
+    const close = TestBed.inject(IncidentStream).connect(refresh, vi.fn());
+    FakeSource.latest.onopen?.(new Event('open'));
+    FakeSource.latest.onopen?.(new Event('open'));
+    expect(refresh).toHaveBeenCalledTimes(2);
+    close();
+  });
+
   it('expires an unauthorized session and closes the stream', async () => {
     vi.stubGlobal('EventSource', FakeSource);
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });

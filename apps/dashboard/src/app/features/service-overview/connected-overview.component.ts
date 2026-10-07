@@ -9,10 +9,12 @@ import { ServiceStore } from './service.store';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
 import { IconComponent } from '../../shared/icon.component';
 import { DrawerComponent } from '../../shared/drawer.component';
+import { CityEvidenceComponent } from './city-evidence.component';
+import { workflowLabel, probableCause } from '../../shared/metric-presentation';
 import { allPages, metricValue, formatMetric } from '../service-kpi-history/assurance-model';
 import { moldovaOutline } from './moldova-map';
 import {
-  baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number,
+  baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
   type City, type Episode, type Filter, type Service, type Summary, type Window,
 } from './dashboard-geography';
 
@@ -27,7 +29,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent],
+  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -48,7 +50,10 @@ export class ConnectedOverviewComponent {
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 }];
   readonly selectedScopes = signal({ VOLTE: '', SMS: '' });
   readonly pageSize = 20;
-  readonly catalogue = signal<readonly City[]>(cities);
+  private readonly fixtureCatalogue = signal<readonly City[]>(cities);
+  readonly catalogue = computed(() => this.fixture ? this.fixtureCatalogue() : this.store.cities());
+  readonly geographyError = this.store.geographyError;
+  readonly geographyUpdatedAt = this.store.geographyUpdatedAt;
   readonly selectedId = signal<string | null>(null);
   readonly search = signal('');
   readonly minutes = signal(15);
@@ -97,6 +102,15 @@ export class ConnectedOverviewComponent {
       && (!this.queueStateFilter() || item.technicalState === this.queueStateFilter()))
       .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
+  readonly investigationTarget = computed(() => {
+    const city = this.selectedCity(), service = this.serviceFilter();
+    return this.store.incidents().filter(item => (!city || city.scopeIds.includes(item.scopeId))
+      && (service === 'ALL' || item.service === service))
+      .sort((a, b) => Number(b.technicalState === 'ONGOING') - Number(a.technicalState === 'ONGOING')
+        || Date.parse(b.updatedAt) - Date.parse(a.updatedAt))[0];
+  });
+  readonly workflowState = workflowLabel;
+  readonly cause = probableCause;
   readonly cityServices = cityServices;
   readonly cityForScope = cityForScope;
   readonly cityLabel = cityLabel;
@@ -115,7 +129,8 @@ export class ConnectedOverviewComponent {
   }
   chartScope(service: Service): Summary | undefined {
     const rows = this.tableScopes(service);
-    return rows.find(item => item.scope.scopeId === this.selectedScopes()[service]) ?? rows[0];
+    return rows.find(item => item.scope.scopeId === this.selectedScopes()[service])
+      ?? rows.find(item => item.latestWindow !== null) ?? rows[0];
   }
   selectScope(service: Service, scopeId: string): void {
     this.selectedScopes.update(previous => ({ ...previous, [service]: scopeId }));
@@ -143,7 +158,10 @@ export class ConnectedOverviewComponent {
   }
   tableState(item: Summary): string {
     const health = this.scopeHealth(item);
-    return health === 'DEGRADED' && this.store.incidents().some(incident => incident.scopeId === item.scope.scopeId && incident.technicalState === 'ONGOING')
+    const city = cityForScope(this.catalogue(), item.scope.scopeId);
+    const state = city?.geography?.services.find(state => state.scopeId === item.scope.scopeId);
+    return health === 'DEGRADED' && ((state?.technicalActiveCount ?? 0) > 0
+      || this.store.incidents().some(incident => incident.scopeId === item.scope.scopeId && incident.technicalState === 'ONGOING'))
       ? 'INCIDENT' : health;
   }
   cityDelta(item: Summary): string {
@@ -166,7 +184,7 @@ export class ConnectedOverviewComponent {
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
     if (this.fixture) {
       void dataSource.loadConnectedDashboard().then(data => {
-        if (!this.stopped) this.catalogue.set(data.fixtureCities);
+        if (!this.stopped) this.fixtureCatalogue.set(data.fixtureCities);
       }).catch(() => { if (!this.stopped) this.statusMessage.set('City design fixture could not be loaded.'); });
     }
     // Reset pagination when the service filter changes.
@@ -219,10 +237,30 @@ export class ConnectedOverviewComponent {
   }
 
   nodeValue(city: City): string {
+    if (city.geography) return this.cityObservation(city, this.tableService());
     const items = cityServices(city, this.services(), this.serviceFilter());
     if (!items.length) return 'Unavailable';
     if (this.serviceFilter() === 'ALL') return metric(items.find(item => item.scope.service === 'VOLTE')?.latestWindow ?? null, 'VOLTE');
     return metric(items[0].latestWindow, items[0].scope.service);
+  }
+
+  cityObservation(city: City, service: Service): string {
+    const state = geographyState(city, service)[0];
+    if (!state) return metric(cityServices(city, this.services(), service)[0]?.latestWindow ?? null, service);
+    const value = geographyValue(state);
+    return value === null ? 'Unavailable' : `${number(value)} ${state.metric.unit === 'PERCENT' ? '%' : 'ms'}`;
+  }
+
+  cityChange(city: City, service: Service): string {
+    const state = geographyState(city, service)[0];
+    if (!state) {
+      const item = cityServices(city, this.services(), service)[0];
+      return item ? this.cityDelta(item) : '—';
+    }
+    const actual = geographyValue(state), expected = state.metric.baseline;
+    if (actual === null || expected === null) return '—';
+    const change = service === 'VOLTE' ? state.metric.deltaPp : actual - expected;
+    return change === null ? '—' : `${change > 0 ? '+' : ''}${number(change)} ${service === 'VOLTE' ? 'pp' : 'ms'}`;
   }
 
   scopeHealth(item: Summary): string {
@@ -234,6 +272,14 @@ export class ConnectedOverviewComponent {
   }
 
   cityHealth(city: City): string {
+    if (city.geography) {
+      if (this.geographyError()) return 'STALE';
+      const states = geographyState(city, this.serviceFilter());
+      if (states.some(state => state.freshness === 'STALE' || state.coverage.state === 'STALE')) return 'STALE';
+      if (states.some(state => geographyValue(state) === null || state.coverage.state !== 'COMPLETE'
+        || state.metric.baseline === null)) return 'UNKNOWN';
+      return states.some(state => state.technicalActiveCount > 0) ? 'DEGRADED' : 'NORMAL';
+    }
     if (city.scopeIds.length === 0) return 'MAPPING PENDING';
     const items = cityServices(city, this.services(), this.serviceFilter());
     if (items.length === 0) return 'UNAVAILABLE';

@@ -66,6 +66,8 @@
 .incident-at-a-glance strong:not(.badge) { font-size: 12px; font-weight: 600; overflow-wrap: anywhere; }
 .incident-at-a-glance .mono { color: var(--accent); }
 .incident-summary-bar > button { margin-left: auto; white-space: nowrap; }
+.investigation-times { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: 0; gap: 12px; }
+.investigation-times dd { font-size: 12px; font-variant-numeric: tabular-nums; }
 .workflow-drawer { position: fixed; inset: 0 0 0 auto; width: min(440px, 100vw); max-width: none; height: 100dvh; max-height: 100dvh; margin: 0; padding: 20px; overflow-y: auto; color: var(--text); background: var(--surface); border: 0; box-shadow: var(--shadow-raised); }
 .workflow-drawer::backdrop { background: var(--glass); backdrop-filter: blur(3px); }
 .drawer-heading { position: sticky; top: -20px; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 10px 0; background: var(--surface); }
