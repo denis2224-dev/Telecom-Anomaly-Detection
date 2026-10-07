@@ -26,11 +26,11 @@
 .sidebar-collapsed .nav-link { padding: 13px 15px; }
 .workspace-layout { margin-left: var(--sidebar-width); min-width: 0; }
 .access-shell .workspace-layout { margin-left: 0; }
-.app-header { height: 78px; padding: 0 36px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: var(--bg); }
+.app-header { min-height: 78px; padding: 10px 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; background: var(--bg); }
 .header-location { display: flex; align-items: center; gap: 13px; font-size: 12px; min-width: 0; }
 .header-location strong { font-weight: 500; }
 .breadcrumb-root, .breadcrumb-divider { color: var(--text-muted); }
-.header-tools { display: flex; gap: 23px; align-items: center; }
+.header-tools { display: flex; flex-wrap: wrap; gap: 8px 23px; align-items: center; min-width: 0; }
 .connection-status { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--text-muted); white-space: nowrap; }
 .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 10px var(--success-soft); flex-shrink: 0; margin-top: 5px; }
 .connection-status .status-dot { margin: 0; }
@@ -70,7 +70,7 @@ footer span { margin-left: auto; }
   .sidebar-collapse { display: none !important; }
   .sidebar-collapsed .brand-copy, .sidebar-collapsed .sidebar-section-label, .sidebar-collapsed .nav-link span, .sidebar-collapsed .sidebar-context, .sidebar-collapsed .system-note { display: block; }
   .sidebar-collapsed .sidebar-nav, .sidebar-collapsed .sidebar-context { margin-top: 0; }
-  .app-header { height: 64px; padding: 0 16px; gap: 8px; }
+  .app-header { min-height: 64px; padding: 8px 16px; gap: 8px; }
   .header-tools { gap: 8px; }
   .breadcrumb-root, .breadcrumb-divider, .connection-status, .identity { display: none; }
   .connection-status.live-status { display: flex; flex-wrap: wrap; gap: 4px 6px; min-width: 0; max-width: 112px; font-size: 9px; }
