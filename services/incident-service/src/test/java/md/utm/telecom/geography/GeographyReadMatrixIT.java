@@ -64,6 +64,8 @@ class GeographyReadMatrixIT extends IncidentServiceIntegrationTestSupport {
         mvc.perform(get("/api/geography/cities").session(authenticatedSession()).with(login))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.cities.length()").value(10))
                 .andExpect(jsonPath("$.cities[0].services.length()").value(2));
+        mvc.perform(get("/api/services").session(authenticatedSession()).with(login))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(22));
 
         for (Binding binding : bindings) {
             mvc.perform(get("/api/geography/cities/{cityId}/kpis", binding.city())

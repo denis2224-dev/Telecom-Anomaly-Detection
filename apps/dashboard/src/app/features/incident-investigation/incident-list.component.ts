@@ -78,8 +78,12 @@ export class IncidentListComponent {
     return seconds < 60 ? `${seconds}s` : `${Math.floor(seconds / 60)}m${seconds % 60 ? ` ${seconds % 60}s` : ''}`;
   }
   impact(item: Incident): string {
-    const count = item.service === 'VOLTE' ? item.latestDetection.impact.extraFailedAttempts : item.latestDetection.impact.affectedDeliveredMessages;
-    return Number.isFinite(count) && count >= 0 ? `${count.toLocaleString('en')} ${item.service === 'VOLTE' ? 'estimated extra failed attempts' : 'affected delivered messages'}` : '';
+    const presentation = item.presentation;
+    const impact = presentation ? presentation.currentImpact ?? presentation.retainedImpact : item.latestDetection.impact;
+    if (!impact) return '';
+    const count = item.service === 'VOLTE' ? impact.extraFailedAttempts : impact.affectedDeliveredMessages;
+    const label = presentation?.impactState === 'STALE' ? 'retained estimate: ' : presentation?.impactState === 'RECOVERED' ? 'recovery window: ' : '';
+    return Number.isFinite(count) && count >= 0 ? `${label}${count.toLocaleString('en')} ${item.service === 'VOLTE' ? 'estimated extra failed attempts' : 'affected delivered messages'}` : '';
   }
   readonly severity = signal(''); readonly state = signal(''); readonly service = signal('');
   readonly rows = computed(() => episodes(this.incidents()).filter(item =>

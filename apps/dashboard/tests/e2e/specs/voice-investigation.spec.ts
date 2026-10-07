@@ -8,6 +8,7 @@ test.describe('Voice investigation', () => {
     await page.route('**/api/incidents/stream', route => route.fulfill({ contentType: 'text/event-stream', body: ': controlled UI fixture\n\n' }));
     await page.route('**/api/auth/me', route => route.fulfill({ json: { analystId: 'voice-test', displayName: 'Voice tester', roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600000).toISOString() } }));
     await page.route('**/api/auth/csrf', route => route.fulfill({ json: { token: 'test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' } }));
+    await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
     await page.route('**/api/services', route => route.fulfill({ json: services.map((item, i) => i === 0 ? { ...item, latestWindow: voiceWindows[9] } : item) }));
     await page.route('**/api/services/*/kpis?**', route => route.fulfill({ json: {
       items: voiceWindows, total: 10, page: 0, size: 100, observedAt: '2026-09-15T10:10:00Z',

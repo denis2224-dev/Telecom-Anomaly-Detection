@@ -13,11 +13,36 @@ export type ScenarioType = ScenarioRun["scenarioType"];
 export type StartScenarioRequest = components["schemas"]["StartScenarioRequest"];
 type IncidentQuery = operations["listIncidents"]["parameters"]["query"];
 type KpiQuery = operations["getServiceKpis"]["parameters"]["query"];
+export type GeographyCatalogue = operations['listGeographyCities']['responses'][200]['content']['application/json'];
 
 @Injectable({ providedIn: "root" })
 export class TelecomClient {
   private readonly http = inject(HttpClient);
   private readonly session = inject(SessionStore);
+
+  listGeographyCities(signal?: AbortSignal) {
+    return this.request<GeographyCatalogue>('GET', '/api/geography/cities', undefined, undefined, signal);
+  }
+
+  getGeographyCity(cityId: string, signal?: AbortSignal) {
+    return this.request<components['schemas']['GeographyCityDetail']>('GET',
+      `/api/geography/cities/${encodeURIComponent(cityId)}`, undefined, undefined, signal);
+  }
+
+  getGeographyCityKpis(cityId: string, query: operations['getGeographyCityKpis']['parameters']['query'], signal?: AbortSignal) {
+    return this.request<components['schemas']['GeographyKpiPage']>('GET',
+      `/api/geography/cities/${encodeURIComponent(cityId)}/kpis`, undefined, query, signal);
+  }
+
+  getSmsShadow(scopeId: string, query: KpiQuery, signal?: AbortSignal) {
+    return this.request<components['schemas']['MlShadowPage']>('GET',
+      `/api/services/${encodeURIComponent(scopeId)}/ml-shadow`, undefined, query, signal);
+  }
+
+  getIncidentSmsShadow(id: string, page = 0, signal?: AbortSignal) {
+    return this.request<components['schemas']['MlShadowPage']>('GET',
+      `/api/incidents/${encodeURIComponent(id)}/ml-shadow`, undefined, { page, size: 20 }, signal);
+  }
 
   async listServices(signal?: AbortSignal): Promise<ServiceSummary[]> {
     if (dataSource.fixture)

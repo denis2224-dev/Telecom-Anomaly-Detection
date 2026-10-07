@@ -1,4 +1,5 @@
 import { ServiceContextComponent } from '../../shared/service-context.component';
+import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -28,7 +29,7 @@ const MAX_WINDOWS = 1440;
 
 @Component({
   selector: 'app-service-detail',
-  imports: [ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
+  imports: [SmsShadowComponent, ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a><div class="heading-copy"><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
@@ -75,6 +76,7 @@ const MAX_WINDOWS = 1440;
         <app-service-path [service]="item" [detections]="detections()" />
         @if (item.scope.service === 'SMS') { <app-sms-quality [window]="item.latestWindow" [freshness]="item.freshness" /> }
       </details>
+      @if (!fixture && item.scope.service === 'SMS') { <app-sms-shadow [scopeId]="scopeId()" [from]="from()" [to]="to()" [revision]="observedAt()" /> }
       <details class="exact-values"><summary>Exact values ({{ windows().length }} windows)</summary>
         @if (item.scope.service === 'VOLTE') {
           <app-kpi-chart view="table" [windows]="windows()" [incidents]="incidents()" [from]="from()" [to]="to()" />

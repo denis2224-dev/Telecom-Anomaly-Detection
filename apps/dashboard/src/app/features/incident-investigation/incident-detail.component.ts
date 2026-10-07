@@ -1,4 +1,5 @@
 import { ServiceContextComponent } from '../../shared/service-context.component';
+import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { StatusBannerComponent } from '../../shared/status-banner.component';
 import { IconComponent } from '../../shared/icon.component';
@@ -14,7 +15,7 @@ import { IncidentActionsComponent } from './incident-actions.component';
 import { deviation, metricLabel, primaryMetric, supportedValue } from '../../shared/metric-presentation';
 
 @Component({
-  selector: 'app-incident-detail', imports: [StatusBannerComponent, ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
     @if (incident(); as item) { <app-service-context [current]="item.service" /> }
@@ -81,6 +82,19 @@ import { deviation, metricLabel, primaryMetric, supportedValue } from '../../sha
           [disabled]="(page() + 1) * pageSize >= total()">Next evidence<app-icon name="right" /></button>
       </nav>
       <app-evidence-timeline [detections]="detections()" />
+      @if (item.presentation; as presentation) {
+        <details class="evidence-disclosure"><summary>Current impact and cause</summary>
+          <p>{{ presentation.impactState }} · Evidence window ended {{ presentation.impactWindowEnd | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
+          @if (presentation.currentImpact ?? presentation.retainedImpact; as impact) {
+            <p>{{ presentation.retainedImpact && !presentation.currentImpact ? 'Retained estimate, not current impact' : 'Latest evaluated impact' }}:
+              @if (item.service === 'VOLTE') { {{ impact.extraFailedAttempts }} extra failed attempts }
+              @else { {{ impact.affectedDeliveredMessages }} affected delivered messages · {{ impact.pendingMessages }} pending messages }
+              · Unique subscribers: {{ impact.uniqueSubscribers ?? 'Unavailable' }}</p>
+          } @else { <p>Impact: Unavailable</p> }
+          <p>{{ presentation.probableCause }} · Confidence: {{ presentation.causeConfidence }}</p>
+        </details>
+      }
+      @if (!fixture && item.service === 'SMS') { <app-sms-shadow [scopeId]="item.scopeId" [incidentId]="item.id" [revision]="item.updatedAt" /> }
       </div>
     }
   `,

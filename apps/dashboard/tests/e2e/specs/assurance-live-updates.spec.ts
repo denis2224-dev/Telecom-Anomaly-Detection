@@ -14,6 +14,7 @@ test('incident notifications and reconnect reload REST; expiry stops refresh', a
     token: 'controlled-test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf',
   } }));
   let degraded = false, requests = 0;
+  await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
   await page.route('**/api/services', route => {
     requests++;
     return route.fulfill({ json: [{ ...services[0], latestWindow: voiceWindows[0] }] });
