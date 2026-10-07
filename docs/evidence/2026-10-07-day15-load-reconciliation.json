@@ -1,0 +1,83 @@
+{
+  "normal" : {
+    "beforeRetry" : {
+      "producer" : {
+        "windowStart" : "2026-10-07T08:00:00Z",
+        "expectedObservations" : 50,
+        "offeredObservations" : 50,
+        "acknowledgedObservations" : 50,
+        "failedObservations" : 0,
+        "expiredOrCancelledObservations" : 0,
+        "sendAttempts" : 50,
+        "failedSendAttempts" : 0,
+        "timedOutSendAttempts" : 0,
+        "complete" : true
+      },
+      "persistedReceipts" : 50
+    },
+    "measuredAtUtc" : "2026-10-07T10:40:39.932916300Z",
+    "windowStart" : "2026-10-07T08:00:00Z",
+    "scopes" : [ "SMS-MD-BAL", "SMS-MD-CAH", "SMS-MD-CHI", "SMS-MD-COM", "SMS-MD-EDI", "SMS-MD-ORH", "SMS-MD-RIB", "SMS-MD-SOR", "SMS-MD-TIR", "SMS-MD-UNG", "VOLTE-MD-BAL", "VOLTE-MD-CAH", "VOLTE-MD-CHI", "VOLTE-MD-COM", "VOLTE-MD-EDI", "VOLTE-MD-ORH", "VOLTE-MD-RIB", "VOLTE-MD-SOR", "VOLTE-MD-TIR", "VOLTE-MD-UNG" ],
+    "producer" : {
+      "windowStart" : "2026-10-07T08:00:00Z",
+      "expectedObservations" : 50,
+      "offeredObservations" : 50,
+      "acknowledgedObservations" : 50,
+      "failedObservations" : 0,
+      "expiredOrCancelledObservations" : 0,
+      "sendAttempts" : 50,
+      "failedSendAttempts" : 0,
+      "timedOutSendAttempts" : 0,
+      "complete" : true
+    },
+    "persistedReceipts" : 50,
+    "finalizedFeatures" : 20,
+    "wireRecords" : 50,
+    "wallDurationMs" : 3403.0399,
+    "testJvmCpuMs" : 3890.625,
+    "testJvmHeapBeforeBytes" : 64061608,
+    "testJvmHeapAfterBytes" : 87105344,
+    "availableProcessors" : 8
+  },
+  "uncertainAckRetry" : {
+    "beforeRetry" : {
+      "producer" : {
+        "windowStart" : "2026-10-07T08:01:00Z",
+        "expectedObservations" : 50,
+        "offeredObservations" : 50,
+        "acknowledgedObservations" : 49,
+        "failedObservations" : 0,
+        "expiredOrCancelledObservations" : 0,
+        "sendAttempts" : 50,
+        "failedSendAttempts" : 1,
+        "timedOutSendAttempts" : 1,
+        "complete" : false
+      },
+      "persistedReceipts" : 50
+    },
+    "duplicateDeliveries" : 1,
+    "measuredAtUtc" : "2026-10-07T10:40:43.569387900Z",
+    "windowStart" : "2026-10-07T08:01:00Z",
+    "scopes" : [ "SMS-MD-BAL", "SMS-MD-CAH", "SMS-MD-CHI", "SMS-MD-COM", "SMS-MD-EDI", "SMS-MD-ORH", "SMS-MD-RIB", "SMS-MD-SOR", "SMS-MD-TIR", "SMS-MD-UNG", "VOLTE-MD-BAL", "VOLTE-MD-CAH", "VOLTE-MD-CHI", "VOLTE-MD-COM", "VOLTE-MD-EDI", "VOLTE-MD-ORH", "VOLTE-MD-RIB", "VOLTE-MD-SOR", "VOLTE-MD-TIR", "VOLTE-MD-UNG" ],
+    "producer" : {
+      "windowStart" : "2026-10-07T08:01:00Z",
+      "expectedObservations" : 50,
+      "offeredObservations" : 50,
+      "acknowledgedObservations" : 50,
+      "failedObservations" : 0,
+      "expiredOrCancelledObservations" : 0,
+      "sendAttempts" : 51,
+      "failedSendAttempts" : 1,
+      "timedOutSendAttempts" : 1,
+      "complete" : true
+    },
+    "persistedReceipts" : 50,
+    "finalizedFeatures" : 20,
+    "wireRecords" : 51,
+    "wallDurationMs" : 2692.7232,
+    "testJvmCpuMs" : 1640.625,
+    "testJvmHeapBeforeBytes" : 95493952,
+    "testJvmHeapAfterBytes" : 71121432,
+    "availableProcessors" : 8
+  }
+}

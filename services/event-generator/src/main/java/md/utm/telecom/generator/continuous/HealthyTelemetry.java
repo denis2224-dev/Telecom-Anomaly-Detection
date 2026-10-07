@@ -40,6 +40,11 @@ public class HealthyTelemetry {
     public boolean geographic(String scope) {
         return geography != null && geography.bindings().containsKey(scope) && !geography.bindings().get(scope).legacy();
     }
+    /** Reuse the activated catalogue's required sources; optional legacy traffic is excluded. */
+    public int expectedGeographicObservations(Instant start) {
+        return scopes(start).stream().filter(this::geographic)
+                .mapToInt(scope -> geography.expectedSourceIds(scope).size()).sum();
+    }
     public List<String> window(String scope, Instant start, long seed) {
         if (geography != null && geography.bindings().containsKey(scope)
                 && !geography.bindings().get(scope).legacy()) {
