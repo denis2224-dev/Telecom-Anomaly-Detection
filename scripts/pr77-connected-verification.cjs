@@ -85,9 +85,14 @@ function run(command, args, { cwd = ROOT, env = process.env, input, logFile, tim
     child.on('error', () => { clearTimeout(timer); log?.end(); reject(Error(`Could not start ${path.basename(command)}.`)); });
     const timer = setTimeout(() => child.kill(), timeout);
     child.on('close', code => {
-      clearTimeout(timer); log?.end();
-      if (code !== 0) reject(Error(`${path.basename(command)} failed (exit ${code}); diagnostic output is private.`));
-      else resolve(stdout.trim());
+      clearTimeout(timer);
+      // Flush private writes before finally redacts the shared log.
+      const finish = () => {
+        if (code !== 0) reject(Error(`${path.basename(command)} failed (exit ${code}); diagnostic output is private.`));
+        else resolve(stdout.trim());
+      };
+      if (log) log.end(finish);
+      else finish();
     });
     child.stdin.end(input);
   });
