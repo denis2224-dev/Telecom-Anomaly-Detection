@@ -1,0 +1,37 @@
+Pager usage is off.
+   database   | ledger_reader
+--------------+---------------
+ incidents_db | telecom_admin
+(1 row)
+
+ version |            script             |  checksum   | success
+---------+-------------------------------+-------------+---------
+ 001     | V001__service_incidents.sql   |  -790652993 | t
+ 002     | V002__service_kpi_indexes.sql | -1858666212 | t
+ 003     | V003__sms_ml_shadow.sql       |  -532951723 | t
+ 004     | V004__geography_coverage.sql  |  -382064674 | t
+(4 rows)
+
+        relation        |  rows
+------------------------+--------
+ detection_evidence     |     82
+ geo_catalogue_versions |      2
+ geo_cities             |     20
+ geo_scope_bindings     |     44
+ incident_audit         |     93
+ incidents              |     16
+ scope_window_coverage  |   8579
+ service_kpi_windows    | 110083
+(8 rows)
+
+        relation        |       owner        | can_select | can_insert | can_update | can_delete | can_truncate
+------------------------+--------------------+------------+------------+------------+------------+--------------
+ flyway_schema_history  | incidents_migrator | f          | f          | f          | f          | f
+ geo_catalogue_versions | incidents_migrator | t          | t          | f          | f          | f
+ geo_cities             | incidents_migrator | t          | t          | f          | f          | f
+ geo_configured_links   | incidents_migrator | t          | t          | f          | f          | f
+ geo_nodes              | incidents_migrator | t          | t          | f          | f          | f
+ geo_scope_bindings     | incidents_migrator | t          | t          | f          | f          | f
+ geo_scope_roles        | incidents_migrator | t          | t          | f          | f          | f
+ scope_window_coverage  | incidents_migrator | t          | t          | f          | f          | f
+(8 rows)

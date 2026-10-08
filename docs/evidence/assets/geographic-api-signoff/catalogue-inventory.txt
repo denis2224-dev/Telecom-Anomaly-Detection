@@ -1,0 +1,20 @@
+Pager usage is off.
+ activation_status | cities | city_scopes | legacy_scopes
+-------------------+--------+-------------+---------------
+ ACTIVE            |     10 |          20 |             2
+ CONTRACT_ONLY     |     10 |          20 |             2
+(2 rows)
+
+ city_id | service_bindings
+---------+------------------
+ BAL     |                2
+ CAH     |                2
+ CHI     |                2
+ COM     |                2
+ EDI     |                2
+ ORH     |                2
+ RIB     |                2
+ SOR     |                2
+ TIR     |                2
+ UNG     |                2
+(10 rows)
