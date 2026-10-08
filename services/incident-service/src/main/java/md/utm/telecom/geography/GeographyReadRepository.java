@@ -112,11 +112,12 @@ public class GeographyReadRepository {
                   AND c.window_end = w.window_end AND c.topology_version = w.topology_version
                   AND c.catalogue_version = ?
                 WHERE w.scope_id = ? AND w.service = ? AND w.topology_version = ?
+                  AND w.window_end <= ?
                 ORDER BY w.window_start DESC, w.received_at DESC, w.window_id DESC LIMIT 1
                 """, (rs, n) -> new WindowRow(rs.getString(1), rs.getString(2), rs.getString(3),
                 rs.getTimestamp(4).toInstant(), rs.getTimestamp(5).toInstant(), rs.getString(6),
                 rs.getString(7), rs.getString(8)), catalogue.version(), scope, service,
-                catalogue.topologyVersion());
+                catalogue.topologyVersion(), java.sql.Timestamp.from(now));
         long technical = jdbc.queryForObject("""
                 SELECT count(*) FROM app.incidents WHERE scope_id = ? AND service = ?
                     AND technical_state = 'ONGOING'

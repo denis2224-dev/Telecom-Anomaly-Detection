@@ -10,11 +10,12 @@ def values(enabled="false", effective_from="2026-01-01T00:00:00Z"):
     }
 
 
-def compose(generator=None, processor=None):
+def compose(generator=None, processor=None, incident=None):
     return {
         "services": {
             "event-generator": {"environment": generator or values()},
             "processor": {"environment": processor or values()},
+            "incident-service": {"environment": incident or values()},
         }
     }
 
@@ -42,6 +43,14 @@ class GeographyAlignmentTest(unittest.TestCase):
 
     def test_compose_accepts_matching_values(self):
         self.assertEqual([], validate_compose(compose()))
+
+    def test_compose_rejects_public_api_activation_drift(self):
+        self.assertTrue(validate_compose(compose(incident=values(enabled="true"))))
+
+    def test_base_compose_without_optional_api_still_validates(self):
+        config = compose()
+        del config["services"]["incident-service"]
+        self.assertEqual([], validate_compose(config))
 
 
 if __name__ == "__main__":

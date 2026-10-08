@@ -147,8 +147,8 @@
       "pendingMessages": 0,
       "uniqueSubscribers": null
     },
-    "impactSourceDetectionId": "8fe864b02951426472911794a5cefb32491fc403867e8a0e1adb80620ce1cd23",
-    "impactWindowEnd": "2026-09-15T08:03:00Z",
+    "impactSourceDetectionId": null,
+    "impactWindowEnd": null,
     "probableCause": "Service telemetry is missing or incomplete; this window cannot establish a cause or recovery.",
     "causeConfidence": "LOW",
     "evidenceHistoryPath": "/api/incidents/22bbfbd8-91e5-5c46-b7be-85b8a54330e9/detections"

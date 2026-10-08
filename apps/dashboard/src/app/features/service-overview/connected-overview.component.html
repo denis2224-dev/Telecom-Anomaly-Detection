@@ -88,13 +88,18 @@
 <app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" [title]="'Incident queue (' + queueTotal() + ')'" closeLabel="Close incidents" (closed)="clearQueueFragment()">
           <div class="queue-filters" drawer-controls><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label></div>
           <div class="queue-scroll" [attr.aria-busy]="queueLoading()">
+          @if (queueSeverityFilter() && !fixture) { <p class="queue-refresh">Severity filters this priority page only.</p> }
           @if (queueLoading()) { <p class="queue-refresh" role="status">Refreshing incidents…</p> }
           @if (queueError()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
           @else {
             @for (incident of visibleIncidents(); track incident.id) {
               <article class="queue-item">
-                <h4>{{ cityLabel(catalogue(), incident.scopeId) }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</h4>
+                <h4>{{ priorityFor(incident.id)?.cityId ? cityById(priorityFor(incident.id)!.cityId!)?.name : cityLabel(catalogue(), incident.scopeId) }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</h4>
                 <p>{{ incident.severity }} severity · Technical: {{ incident.technicalState }} · Workflow: {{ workflowState(incident) }}</p>
+                @if (priorityFor(incident.id); as priority) {
+                  <p class="queue-meta">{{ priority.priorityBand }} · {{ priority.freshness }}{{ priority.severityHistorical ? ' · Historical severity' : '' }} · {{ priority.comparableImpact ?? 'Impact unavailable' }} {{ priority.impactUnit ?? '' }}</p>
+                  @if (priority.cityNullReason) { <p class="queue-meta">City unavailable: {{ priority.cityNullReason }}</p> }
+                }
                 <p class="queue-meta">First observed: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-meta">Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p>{{ deviation(detectionWindow(incident), incident.service) }}</p>
@@ -107,13 +112,13 @@
                 </div>
               </article>
             } @empty {
-              <p>{{ selectedCity() ? 'No selected-city incidents on this page. Other pages may contain matches.' : 'No incidents returned on this page.' }}</p>
+              <p>{{ queueSeverityFilter() ? 'No incidents with that severity on this page.' : 'No incidents returned for these filters.' }}</p>
             }
           }
           </div>
           <nav class="pagination" drawer-footer aria-label="Overview incident pages">
             <button type="button" (click)="queuePage.update(previous)" [disabled]="queueLoading() || queuePage() === 0">Previous</button>
-            <span>Page {{ queuePage() + 1 }} · {{ visibleIncidents().length }} shown · {{ queueTotal() }} total</span>
-            <button type="button" (click)="queuePage.update(next)" [disabled]="queueLoading() || (queuePage() + 1) * pageSize >= queueTotal()">Next</button>
+            <span>Page {{ queuePage() + 1 }} · {{ visibleIncidents().length }} shown · {{ queueTotal() }}{{ queueHasNext() && !fixture ? '+' : '' }} {{ fixture ? 'total' : 'at least' }}</span>
+            <button type="button" (click)="queuePage.update(next)" [disabled]="queueLoading() || !queueHasNext()">Next</button>
           </nav>
 </app-drawer>

@@ -46,7 +46,8 @@ def validate_compose(config: Mapping[str, object]) -> list[str]:
 
     environments: dict[str, Mapping[str, object]] = {}
     errors: list[str] = []
-    for service in SERVICES:
+    included = SERVICES + (("incident-service",) if "incident-service" in services else ())
+    for service in included:
         definition = services.get(service)
         environment = definition.get("environment") if isinstance(definition, Mapping) else None
         if not isinstance(environment, Mapping):
@@ -55,23 +56,14 @@ def validate_compose(config: Mapping[str, object]) -> list[str]:
         environments[service] = environment
         errors.extend(_validate_values(environment, f"Compose service {service}"))
 
-    if len(environments) == len(SERVICES):
-        generator = {
-            key: str(environments["event-generator"].get(key, "")).strip().lower()
-            if key == ENABLED
-            else str(environments["event-generator"].get(key, "")).strip()
+    if len(environments) == len(included):
+        normalized = [{
+            key: str(environments[service].get(key, "")).strip().lower()
+            if key == ENABLED else str(environments[service].get(key, "")).strip()
             for key in (ENABLED, EFFECTIVE_FROM)
-        }
-        processor = {
-            key: str(environments["processor"].get(key, "")).strip().lower()
-            if key == ENABLED
-            else str(environments["processor"].get(key, "")).strip()
-            for key in (ENABLED, EFFECTIVE_FROM)
-        }
-        if generator != processor:
-            errors.append(
-                "Compose event-generator and processor geography settings must match"
-            )
+        } for service in included]
+        if any(values != normalized[0] for values in normalized[1:]):
+            errors.append("Compose geographic service settings must match")
     return errors
 
 

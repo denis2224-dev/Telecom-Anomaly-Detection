@@ -223,6 +223,18 @@ class ReplayOrderingIT {
     }
 
     @Test
+    void malformedPayloadAndWrongKafkaKeyLeaveNoEvidenceOrIncident() {
+        assertThrows(RuntimeException.class, () -> ingestRaw("{not-json"));
+        assertThrows(IllegalArgumentException.class, () -> transactions.executeWithoutResult(status -> {
+            jdbc.execute("SET LOCAL ROLE incidents_app");
+            service.ingest("unrelated-episode", records.get(0).toString());
+        }));
+        assertThat(count("incidents")).isZero();
+        assertThat(count("detection_evidence")).isZero();
+        assertThat(count("incident_audit")).isZero();
+    }
+
+    @Test
     void postRecoveryEvidenceIsRejectedWithoutReopening() {
         for (int sequence = 1; sequence <= 5; sequence++) ingest(sequence);
         ObjectNode late = (ObjectNode) records.get(4).deepCopy();

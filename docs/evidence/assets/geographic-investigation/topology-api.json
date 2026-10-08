@@ -1,0 +1,445 @@
+{
+  "evidenceKind" : "PostgreSQL + MockMvc; test OIDC principal, not live login",
+  "executedAt" : "2026-10-07T21:02:31.625662Z",
+  "responses" : [ {
+    "route" : "/api/geography/cities/CHI/topology",
+    "body" : {
+      "cityId" : "CHI",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.628568Z",
+      "parentId" : "CITY-MD-CHI",
+      "footprintNodeIds" : [ "CELL-MD-CHI-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-CHI-01",
+        "parentId" : "CITY-MD-CHI",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-CHI",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-CHI-01",
+        "sourceId" : "SMSC-MD-CHI-01"
+      }, {
+        "scopeId" : "SMS-MD-CHI",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-CHI-01",
+        "sourceId" : "TRANSPORT-MD-CHI-01"
+      }, {
+        "scopeId" : "VOLTE-MD-CHI",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-CHI-01",
+        "sourceId" : "IMS-MD-CHI-01"
+      }, {
+        "scopeId" : "VOLTE-MD-CHI",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-CHI-01",
+        "sourceId" : "TRANSPORT-MD-CHI-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/BAL/topology",
+    "body" : {
+      "cityId" : "BAL",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.682046Z",
+      "parentId" : "CITY-MD-BAL",
+      "footprintNodeIds" : [ "CELL-MD-BAL-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-BAL-01",
+        "parentId" : "CITY-MD-BAL",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-BAL",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-BAL-01",
+        "sourceId" : "SMSC-MD-BAL-01"
+      }, {
+        "scopeId" : "SMS-MD-BAL",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-BAL-01",
+        "sourceId" : "TRANSPORT-MD-BAL-01"
+      }, {
+        "scopeId" : "VOLTE-MD-BAL",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-BAL-01",
+        "sourceId" : "IMS-MD-BAL-01"
+      }, {
+        "scopeId" : "VOLTE-MD-BAL",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-BAL-01",
+        "sourceId" : "TRANSPORT-MD-BAL-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/EDI/topology",
+    "body" : {
+      "cityId" : "EDI",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.718812Z",
+      "parentId" : "CITY-MD-EDI",
+      "footprintNodeIds" : [ "CELL-MD-EDI-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-EDI-01",
+        "parentId" : "CITY-MD-EDI",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-EDI",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-EDI-01",
+        "sourceId" : "SMSC-MD-EDI-01"
+      }, {
+        "scopeId" : "SMS-MD-EDI",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-EDI-01",
+        "sourceId" : "TRANSPORT-MD-EDI-01"
+      }, {
+        "scopeId" : "VOLTE-MD-EDI",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-EDI-01",
+        "sourceId" : "IMS-MD-EDI-01"
+      }, {
+        "scopeId" : "VOLTE-MD-EDI",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-EDI-01",
+        "sourceId" : "TRANSPORT-MD-EDI-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/SOR/topology",
+    "body" : {
+      "cityId" : "SOR",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.753587Z",
+      "parentId" : "CITY-MD-SOR",
+      "footprintNodeIds" : [ "CELL-MD-SOR-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-SOR-01",
+        "parentId" : "CITY-MD-SOR",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-SOR",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-SOR-01",
+        "sourceId" : "SMSC-MD-SOR-01"
+      }, {
+        "scopeId" : "SMS-MD-SOR",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-SOR-01",
+        "sourceId" : "TRANSPORT-MD-SOR-01"
+      }, {
+        "scopeId" : "VOLTE-MD-SOR",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-SOR-01",
+        "sourceId" : "IMS-MD-SOR-01"
+      }, {
+        "scopeId" : "VOLTE-MD-SOR",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-SOR-01",
+        "sourceId" : "TRANSPORT-MD-SOR-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/RIB/topology",
+    "body" : {
+      "cityId" : "RIB",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.775905Z",
+      "parentId" : "CITY-MD-RIB",
+      "footprintNodeIds" : [ "CELL-MD-RIB-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-RIB-01",
+        "parentId" : "CITY-MD-RIB",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-RIB",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-RIB-01",
+        "sourceId" : "SMSC-MD-RIB-01"
+      }, {
+        "scopeId" : "SMS-MD-RIB",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-RIB-01",
+        "sourceId" : "TRANSPORT-MD-RIB-01"
+      }, {
+        "scopeId" : "VOLTE-MD-RIB",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-RIB-01",
+        "sourceId" : "IMS-MD-RIB-01"
+      }, {
+        "scopeId" : "VOLTE-MD-RIB",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-RIB-01",
+        "sourceId" : "TRANSPORT-MD-RIB-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/UNG/topology",
+    "body" : {
+      "cityId" : "UNG",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.795494Z",
+      "parentId" : "CITY-MD-UNG",
+      "footprintNodeIds" : [ "CELL-MD-UNG-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-UNG-01",
+        "parentId" : "CITY-MD-UNG",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-UNG",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-UNG-01",
+        "sourceId" : "SMSC-MD-UNG-01"
+      }, {
+        "scopeId" : "SMS-MD-UNG",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-UNG-01",
+        "sourceId" : "TRANSPORT-MD-UNG-01"
+      }, {
+        "scopeId" : "VOLTE-MD-UNG",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-UNG-01",
+        "sourceId" : "IMS-MD-UNG-01"
+      }, {
+        "scopeId" : "VOLTE-MD-UNG",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-UNG-01",
+        "sourceId" : "TRANSPORT-MD-UNG-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/TIR/topology",
+    "body" : {
+      "cityId" : "TIR",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.817637Z",
+      "parentId" : "CITY-MD-TIR",
+      "footprintNodeIds" : [ "CELL-MD-TIR-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-TIR-01",
+        "parentId" : "CITY-MD-TIR",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-TIR",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-TIR-01",
+        "sourceId" : "SMSC-MD-TIR-01"
+      }, {
+        "scopeId" : "SMS-MD-TIR",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-TIR-01",
+        "sourceId" : "TRANSPORT-MD-TIR-01"
+      }, {
+        "scopeId" : "VOLTE-MD-TIR",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-TIR-01",
+        "sourceId" : "IMS-MD-TIR-01"
+      }, {
+        "scopeId" : "VOLTE-MD-TIR",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-TIR-01",
+        "sourceId" : "TRANSPORT-MD-TIR-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/COM/topology",
+    "body" : {
+      "cityId" : "COM",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.838819Z",
+      "parentId" : "CITY-MD-COM",
+      "footprintNodeIds" : [ "CELL-MD-COM-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-COM-01",
+        "parentId" : "CITY-MD-COM",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-COM",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-COM-01",
+        "sourceId" : "SMSC-MD-COM-01"
+      }, {
+        "scopeId" : "SMS-MD-COM",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-COM-01",
+        "sourceId" : "TRANSPORT-MD-COM-01"
+      }, {
+        "scopeId" : "VOLTE-MD-COM",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-COM-01",
+        "sourceId" : "IMS-MD-COM-01"
+      }, {
+        "scopeId" : "VOLTE-MD-COM",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-COM-01",
+        "sourceId" : "TRANSPORT-MD-COM-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/CAH/topology",
+    "body" : {
+      "cityId" : "CAH",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.856179Z",
+      "parentId" : "CITY-MD-CAH",
+      "footprintNodeIds" : [ "CELL-MD-CAH-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-CAH-01",
+        "parentId" : "CITY-MD-CAH",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-CAH",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-CAH-01",
+        "sourceId" : "SMSC-MD-CAH-01"
+      }, {
+        "scopeId" : "SMS-MD-CAH",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-CAH-01",
+        "sourceId" : "TRANSPORT-MD-CAH-01"
+      }, {
+        "scopeId" : "VOLTE-MD-CAH",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-CAH-01",
+        "sourceId" : "IMS-MD-CAH-01"
+      }, {
+        "scopeId" : "VOLTE-MD-CAH",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-CAH-01",
+        "sourceId" : "TRANSPORT-MD-CAH-01"
+      } ]
+    }
+  }, {
+    "route" : "/api/geography/cities/ORH/topology",
+    "body" : {
+      "cityId" : "ORH",
+      "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+      "topologyVersion" : "2-geography-g1",
+      "generatedAt" : "2026-10-07T21:02:31.874667Z",
+      "parentId" : "CITY-MD-ORH",
+      "footprintNodeIds" : [ "CELL-MD-ORH-01" ],
+      "page" : 0,
+      "size" : 50,
+      "hasNext" : false,
+      "nodes" : [ {
+        "nodeId" : "AGG-MD-ORH-01",
+        "parentId" : "CITY-MD-ORH",
+        "kind" : "AGGREGATION",
+        "measured" : false
+      } ],
+      "dependencies" : [ {
+        "scopeId" : "SMS-MD-ORH",
+        "service" : "SMS",
+        "role" : "SMS_SMSC",
+        "nodeId" : "SMSC-MD-ORH-01",
+        "sourceId" : "SMSC-MD-ORH-01"
+      }, {
+        "scopeId" : "SMS-MD-ORH",
+        "service" : "SMS",
+        "role" : "SMS_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-ORH-01",
+        "sourceId" : "TRANSPORT-MD-ORH-01"
+      }, {
+        "scopeId" : "VOLTE-MD-ORH",
+        "service" : "VOLTE",
+        "role" : "VOLTE_IMS",
+        "nodeId" : "IMS-MD-ORH-01",
+        "sourceId" : "IMS-MD-ORH-01"
+      }, {
+        "scopeId" : "VOLTE-MD-ORH",
+        "service" : "VOLTE",
+        "role" : "VOLTE_TRANSPORT",
+        "nodeId" : "TRANSPORT-MD-ORH-01",
+        "sourceId" : "TRANSPORT-MD-ORH-01"
+      } ]
+    }
+  } ]
+}

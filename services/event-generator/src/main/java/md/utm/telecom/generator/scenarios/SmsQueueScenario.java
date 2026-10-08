@@ -53,12 +53,17 @@ public class SmsQueueScenario {
 
     /** Eight explicit minute windows for scheduled publication. */
     public List<List<String>> generateWindows(Instant start, long seed) {
+        return generateWindows(start, seed, null);
+    }
+
+    public List<List<String>> generateWindows(Instant start, long seed, GenerationContext context) {
+        if (context != null) context.requireService(SERVICE);
         validateMinuteAlignment(start);
         var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
             Instant from = start.plusSeconds(minute * 60L);
             Phase phase = (minute < 2) ? Phase.NORMAL : (minute < 5) ? Phase.SLOW_DELIVERY : Phase.RECOVERY;
-            result.add(generateSeededWindow(from, phase, seed));
+            result.add(generateSeededWindow(from, phase, seed, context));
         }
         return List.copyOf(result);
     }
@@ -69,10 +74,15 @@ public class SmsQueueScenario {
     }
 
     public List<List<String>> generateHealthyWindows(Instant start, long seed) {
+        return generateHealthyWindows(start, seed, null);
+    }
+
+    public List<List<String>> generateHealthyWindows(Instant start, long seed, GenerationContext context) {
+        if (context != null) context.requireService(SERVICE);
         validateMinuteAlignment(start);
         var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
-            result.add(generateSeededWindow(start.plusSeconds(minute * 60L), Phase.NORMAL, seed));
+            result.add(generateSeededWindow(start.plusSeconds(minute * 60L), Phase.NORMAL, seed, context));
         }
         return List.copyOf(result);
     }
@@ -95,6 +105,12 @@ public class SmsQueueScenario {
 
     /** Withhold unmeasured SERVICE and NODE sources for minutes 2-4. */
     public List<List<String>> generateTelemetryGapWindows(Instant start, long seed) {
+        return generateTelemetryGapWindows(start, seed, null);
+    }
+
+    public List<List<String>> generateTelemetryGapWindows(Instant start, long seed,
+                                                           GenerationContext context) {
+        if (context != null) context.requireService(SERVICE);
         validateMinuteAlignment(start);
         var result = new ArrayList<List<String>>();
         for (int minute = 0; minute < 8; minute++) {
@@ -102,7 +118,7 @@ public class SmsQueueScenario {
             if (minute >= 2 && minute < 5) {
                 result.add(List.of());
             } else {
-                result.add(generateSeededWindow(from, Phase.NORMAL, seed));
+                result.add(generateSeededWindow(from, Phase.NORMAL, seed, context));
             }
         }
         return List.copyOf(result);

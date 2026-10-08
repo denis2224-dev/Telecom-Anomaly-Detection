@@ -52,6 +52,7 @@ export class ServiceOverviewComponent {
   readonly fixture = dataSource.fixture;
   readonly loading = this.store.loading;
   readonly error = this.store.error;
+  readonly incidentError = this.store.incidentError;
   readonly serviceFilter = signal<Filter>('ALL');
   readonly connected = signal(true);
   private readonly router = inject(Router);

@@ -1,0 +1,420 @@
+{
+  "recordedAt": "2026-10-08T07:37:23.991856+00:00",
+  "baseRevision": "a00f61df79d1a0daed8ff9045a2a9347feb437a7",
+  "branch": "feature/geographic-investigation",
+  "uncommitted": true,
+  "g3": "COMPLETE locally: full clean suites, authenticated public-to-Kafka smoke and protected persisted incident trace pass; technical self-review pending commit/merge",
+  "g4": "NOT_STARTED; focused 44-test baseline passed; G3 commit/merge prerequisite unmet",
+  "optionalAuxiliary": "PLANNED",
+  "verification": {
+    "command": "cd services/incident-service && ./mvnw -q clean verify",
+    "reported": 200,
+    "executed": 199,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "skipReason": "SmsShadowReplayTest requires SMS_SHADOW_REPLAY_DIR",
+    "suites": [
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.analysts.AnalystControllerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.evidence.DetectionEvidenceRepositoryTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.evidence.EvidenceServiceTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.evidence.messaging.DetectionConsumerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.geography.CoverageFactTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.geography.GeographyBoundsTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.geography.GeographyCatalogueTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.geography.GeographyControllerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.DatabaseMigrationTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.IncidentAuditRepositoryTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.IncidentServiceApplicationTests",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.SergiuDetectionKafkaTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.WorkflowTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.controller.IncidentControllerTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.controller.IncidentStreamControllerTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.evidence.IncidentProjectionTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.security.AppRoleMapperTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.security.AuthSecurityTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.security.SessionSecurityTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.incidents.stream.IncidentStreamTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.services.ServiceKpiWindowIngestionTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.services.ServiceKpiWindowRepositoryTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.services.controller.ServiceControllerTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.services.controller.ServiceOverviewControllerTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.shadow.SmsShadowReplayTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.shadow.SmsShadowStoreTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "surefire",
+        "suite": "md.utm.telecom.simulator.ScenarioCommandRepositoryTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.geography.GeographyProjectionIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.geography.GeographyReadMatrixIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.geography.GeographyTopologyIT",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.geography.IncidentLocationProjectionIT",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.geography.PriorityProjectionIT",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.incidents.CommentConcurrencyIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.incidents.FirstSliceIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.incidents.IncidentStreamIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.incidents.ReplayOrderingIT",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.incidents.ServiceScenariosIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "runner": "failsafe",
+        "suite": "md.utm.telecom.simulator.ScenarioControllerIT",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "additionalFocused": {
+      "command": "./mvnw -q -Dtest=GeographyBoundsTest,GeographyTopologyIT,IncidentLocationProjectionIT test",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "newUniqueTests": 2
+    },
+    "contracts": "PASS using .venv/bin/python scripts/check-contracts.py",
+    "openapi": "PASS canonical structure and openapi-typescript; dashboard copy/generated schema synchronized; production build and 113 units passed",
+    "priorityFocused": {
+      "command": "./mvnw -q -Dtest=PriorityProjectionIT test",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "evidenceFocused": {
+      "command": "./mvnw -q -Dtest=EvidenceServiceTest,DetectionEvidenceRepositoryTest,DetectionConsumerTest,ReplayOrderingIT,GeographyProjectionIT,IncidentStreamIT,SessionSecurityTest,AuthSecurityTest,GeographyBoundsTest test",
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "generatorAndSupport": {
+      "command": "./mvnw -q -pl services/event-generator -am clean test",
+      "generatorTests": 83,
+      "supportTests": 111,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "scopeMatrix": {
+        "cases": 88,
+        "accepted": 66,
+        "rejected": 22
+      }
+    },
+    "localStack": "PASS ./scripts/verify with active geography in ignored local .env",
+    "dashboard": {
+      "productionBuild": "PASS",
+      "unitTests": 113,
+      "failures": 0
+    },
+    "liveCitySmoke": {
+      "artifact": "geographic-live-smoke.json",
+      "status": "PASS for 30 routes, priority, protected commands and processor receipts; incident delivery trace pending"
+    },
+    "liveIncidentTrace": {
+      "result": "PASS",
+      "artifact": "geographic-incident-trace.json",
+      "checks": "Real OIDC, protected incident and city priority APIs, both Orhei incidents, immutable opening evidence and persisted city path"
+    }
+  },
+  "evidenceKind": "PostgreSQL/Testcontainers, MockMvc test OIDC, generator Java tests and authenticated local Compose browser/API/Kafka/processor smoke. Project priority policy v1 accepted by task owner without Rusu signoff. The live smoke does not prove incident delivery or recovery; local delivery backlog remains. No secrets or session values are stored.",
+  "sourceSha256": {
+    "apps/dashboard/api/incident-api.yaml": "a3fb80d0f2791965ec5846b4dea80c53bf237e6ba8f1cbd54eae6519a9ccd014",
+    "apps/dashboard/playwright.geographic-live.config.ts": "349cb919010771fe33a372aaf91094a5c8a53fda731d655445de9e81d98d96db",
+    "apps/dashboard/src/app/core/api/schema.ts": "abca6f9faa5ece97511ecacd9ed653c893780c7f02d8a418c1fa77d3306496bc",
+    "apps/dashboard/tests/e2e/specs/geographic-acceptance.spec.ts": "ee60449ea0f615e10d79645a1731c97f06591587a8294fde2a7e02ec940c5090",
+    "contracts/openapi/incident-api.yaml": "a3fb80d0f2791965ec5846b4dea80c53bf237e6ba8f1cbd54eae6519a9ccd014",
+    "docs/detection/geographic-priority-policy.md": "b91b00fdd4cfc2adb4198d6412b57c801472af5c2e1a5471f1af0903169ac4ab",
+    "services/event-generator/src/main/java/md/utm/telecom/generator/VoiceScenario.java": "75ead6a31b14012cd5570eedc3df40e9773384c6fe53117fdfb21d2f613cdf97",
+    "services/event-generator/src/main/java/md/utm/telecom/generator/api/ScenarioExecutionService.java": "7cb603fd354985ec3387e1c28ba6d3a0a1fb3a4d3eb3807f0d7fd1c52abecfa6",
+    "services/event-generator/src/main/java/md/utm/telecom/generator/scenarios/SmsQueueScenario.java": "804dc53f9d8e51b5c0868e63af928883e586679021950fe04e14410aa1885c1e",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/api/ScenarioExecutionServiceTest.java": "ac50737feaa87745e32813fda9cf0dc2ca1172957806ad69d49b87e3cb6d1e77",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/GeographyCatalogue.java": "d15242888275d2243f49bd078b67ab15c00eeb43b6147d5d5ace68be20a3fa36",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/GeographyController.java": "40298c1446a67602e42b7d6d7cd3cabf7355b8066abffb063bc7c7a9b847bce4",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/GeographyTopologyController.java": "67acba88bdf84b7f8b97aa5d6e0646b5510283e5a3e6bc169078e32ea8946970",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/GeographyTopologyRepository.java": "4aa7fa4b590eda18d779bd25f600fb8132036528999c5f5060bddb02077a3311",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/GeographyTopologyResponses.java": "f91021e9917b17b0fa4de8479f5de56621d2013353a7377ef6d9c23348933c26",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/IncidentLocationProjection.java": "c756dae84f33673fa4c9098657abeca1ab9fe93922e1eedd8f966a43b0879101",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/PriorityController.java": "160249091d8b857bef0fd14ec812d0841be6124b7d57c1f61479bbf210e9b74d",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/PriorityProjectionRepository.java": "fb574e0f7d915b3d5ac71ffe1cb66fc9ff670e0a536130c4f466c045f7a3610e",
+    "services/incident-service/src/main/java/md/utm/telecom/geography/PriorityResponses.java": "b8dee16d0ce08e5ad43e056b81d2316667824caf3fc76216a47db995464518cb",
+    "services/incident-service/src/main/java/md/utm/telecom/incidents/controller/IncidentController.java": "5bb5201e2d7b2c93c557cf5663516285c93747e3849ba1a217a25a92d991acd2",
+    "services/incident-service/src/main/java/md/utm/telecom/incidents/controller/IncidentResponse.java": "a7bf64f064975b2b8a974a3052d366b8ad537bdd931e493287504efffd9d156b",
+    "services/incident-service/src/main/java/md/utm/telecom/incidents/exception/WorkflowErrors.java": "cd3d809b9b2b9b272afc7ab729565eafd932b31db470f5fe9c9b99a11da8b487",
+    "services/incident-service/src/main/java/md/utm/telecom/simulator/service/ScenarioCommandService.java": "d4c1c7f5cf19ccd5abc3c3cd40387f63bd444fd79b624239093c4f59e7acfcad",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/CatalogueTestCopies.java": "51dcbe0be574233711b0d3fc5019f1f41ae9b2d7c4bb79f325eb54213562d5f5",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/GeographicEvidenceArtifacts.java": "502c169b54c177d023c8427c2c3acd27b2bd2abc8d91313fc5ef4e6ecf1dc907",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/GeographyBoundsTest.java": "af493da8a3a1dfe22a0c5c1996cf69dc786be9eed02e1185cbcafb0a21d92640",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/GeographyCatalogueTest.java": "f0a1655840018201b729eedeb63f5298d4328934976ffe8d675b718f4e931d55",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/GeographyReadMatrixIT.java": "82baf1da57c5686e9c44a6c3a7cac2024bb24d1dba87b3447259daeae2b520d9",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/GeographyTopologyIT.java": "181b4978a8fc8c37abcafbe53f95b7c8fdec43a444c4024e329261b8c78140f9",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/IncidentLocationProjectionIT.java": "0c8980b9c4328034eebc4dcf33697b0259572f7da70795c7a36c906e08d1741a",
+    "services/incident-service/src/test/java/md/utm/telecom/geography/PriorityProjectionIT.java": "4c2b18ac9832e5111f1301fbd805d7190974462eacb13ce4e908c2c596072333",
+    "services/incident-service/src/test/java/md/utm/telecom/simulator/ScenarioControllerIT.java": "2d03adbf80a92cb89c971dbbf706a6a17a45ab781ef54914cd6e3ddb865f95f3",
+    "apps/dashboard/tests/e2e/specs/geographic-incident-trace.spec.ts": "dc6934aab7731854b1d4188b659a423ac59ffe468e72d7de2a985caf8611e40a"
+  }
+}
