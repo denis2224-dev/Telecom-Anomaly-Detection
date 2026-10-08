@@ -21,6 +21,7 @@ import java.time.Duration;
 import md.utm.telecom.generator.VoiceScenario;
 import md.utm.telecom.generator.scenarios.SmsQueueScenario;
 import md.utm.telecom.observation.ObservationValidator;
+import md.utm.telecom.observation.GeographyCatalog;
 import md.utm.telecom.observation.TopologyCatalog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ import org.springframework.scheduling.TaskScheduler;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import org.mockito.ArgumentCaptor;
 import static org.awaitility.Awaitility.await;
 
 class ScenarioExecutionServiceTest {
@@ -156,6 +158,71 @@ class ScenarioExecutionServiceTest {
             assertEquals(400, failure.status().value());
         }
         assertTrue(tasks.isEmpty());
+    }
+
+    @Test void activeCatalogueAcceptsAllCompatibleCityAndLegacyScenarios() throws Exception {
+        var geography = GeographyCatalog.activate(START.minusSeconds(3600));
+        var authority = geography.authority();
+        var validator = new ObservationValidator(geography);
+        var geographic = new ScenarioExecutionService(clock, scheduler, kafka,
+                new VoiceScenario(json, validator), new SmsQueueScenario(json, validator),
+                authority, geography);
+        List<String> types = List.of("NORMAL_CONTROL", "TELEMETRY_GAP",
+                "VOLTE_IMS_OVERLOAD", "SMS_QUEUE_DELAY");
+        int accepted = 0;
+        int rejected = 0;
+        for (var scope : authority.scopes().values()) {
+            for (int index = 0; index < types.size(); index++) {
+                String type = types.get(index);
+                Instant start = START.plusSeconds(index * 600L);
+                var command = commandAt(type, scope.scopeId(), start);
+                boolean compatible = type.equals("NORMAL_CONTROL") || type.equals("TELEMETRY_GAP")
+                        || type.equals("VOLTE_IMS_OVERLOAD") && scope.service().equals("VOLTE")
+                        || type.equals("SMS_QUEUE_DELAY") && scope.service().equals("SMS");
+                if (compatible) {
+                    assertEquals("SCHEDULED", geographic.start(UUID.randomUUID(), command).status());
+                    accepted++;
+                } else {
+                    var failure = assertThrows(ScenarioExecutionService.ApiFailure.class,
+                            () -> geographic.start(UUID.randomUUID(), command));
+                    assertEquals("INVALID_SCOPE", failure.code());
+                    rejected++;
+                }
+            }
+        }
+        assertEquals(22, authority.scopes().size());
+        assertEquals(66, accepted);
+        assertEquals(22, rejected);
+        var beforeActivation = commandAt("NORMAL_CONTROL", "VOLTE-MD-CHI",
+                START.minusSeconds(7200));
+        assertEquals("INVALID_SCOPE", assertThrows(ScenarioExecutionService.ApiFailure.class,
+                () -> geographic.start(UUID.randomUUID(), beforeActivation)).code());
+    }
+
+    @Test void cityRunsPublishMatchingPayloadScopeAndKeepRetryReservationSemantics() throws Exception {
+        var geography = GeographyCatalog.activate(START.minusSeconds(3600));
+        var validator = new ObservationValidator(geography);
+        var geographic = new ScenarioExecutionService(clock, scheduler, kafka,
+                new VoiceScenario(json, validator), new SmsQueueScenario(json, validator),
+                geography.authority(), geography);
+        var voiceCommand = command("VOLTE_IMS_OVERLOAD", "VOLTE-MD-CHI");
+        var smsCommand = command("SMS_QUEUE_DELAY", "SMS-MD-BAL");
+        UUID voiceId = UUID.randomUUID();
+        UUID smsId = UUID.randomUUID();
+        assertEquals("SCHEDULED", geographic.start(voiceId, voiceCommand).status());
+        assertEquals("SCHEDULED", geographic.start(smsId, smsCommand).status());
+        assertEquals(geographic.status(voiceId), geographic.start(voiceId, voiceCommand));
+        assertEquals("SCOPE_WINDOW_CONFLICT", assertThrows(ScenarioExecutionService.ApiFailure.class,
+                () -> geographic.start(UUID.randomUUID(), voiceCommand)).code());
+        advance(START.plusSeconds(60));
+        var keys = ArgumentCaptor.forClass(String.class);
+        var payloads = ArgumentCaptor.forClass(String.class);
+        verify(kafka, atLeastOnce()).send(eq("telecom.observations.v2"), keys.capture(), payloads.capture());
+        assertTrue(keys.getAllValues().contains("VOLTE-MD-CHI"));
+        assertTrue(keys.getAllValues().contains("SMS-MD-BAL"));
+        for (int index = 0; index < keys.getAllValues().size(); index++)
+            assertEquals(keys.getAllValues().get(index),
+                    json.readTree(payloads.getAllValues().get(index)).path("scopeId").asText());
     }
 
     @Test void exactRetryReturnsSameProgressAndSchedulesOnce() {

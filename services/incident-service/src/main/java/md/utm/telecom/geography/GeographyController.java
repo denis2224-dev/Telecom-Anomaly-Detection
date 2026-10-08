@@ -53,7 +53,7 @@ public class GeographyController {
         cityId(cityId);
         if (!service.equals("VOLTE") && !service.equals("SMS"))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid service");
-        if (page < 0 || size < 1 || size > 100)
+        if (page < 0 || size < 1 || size > 100 || (long) page * size > Integer.MAX_VALUE)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid page or size");
         Instant start = utc(from), end = utc(to);
         if (!end.isAfter(start) || Duration.between(start, end).compareTo(Duration.ofHours(24)) > 0)

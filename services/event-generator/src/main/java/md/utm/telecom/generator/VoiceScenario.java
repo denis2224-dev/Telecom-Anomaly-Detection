@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 import md.utm.telecom.observation.ObservationValidator;
@@ -54,6 +55,11 @@ public class VoiceScenario {
     /** Eight explicit minute windows; the legacy generate method is unchanged. */
     public List<List<String>> generateWindows(Instant start, long seed, Profile profile) {
         return generateWindows(start, seed, profile, 8);
+    }
+
+    public List<List<String>> generateWindows(Instant start, long seed, Profile profile,
+                                              GenerationContext context) {
+        return generateWindows(start, seed, profile, 8, Objects.requireNonNull(context, "context"));
     }
 
     private List<List<String>> generateWindows(Instant start, long seed, Profile profile, int minutes) {
