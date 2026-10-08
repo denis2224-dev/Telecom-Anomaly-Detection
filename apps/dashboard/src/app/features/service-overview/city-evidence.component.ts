@@ -93,10 +93,12 @@ export class CityEvidenceComponent {
   readonly intervalIndex = signal(0);
   readonly historyInterval = computed(() => this.intervals()[this.intervalIndex()] ?? this.intervals()[0]);
   private readonly historySelection = computed(() => `${this.city().id}/${this.filter()}/${this.from()}/${this.to()}`);
+  private readonly topologySelection = computed(() => `${this.city().id}/${this.city().geography?.catalogueVersion}/${this.city().geography?.topologyVersion}`);
   private readonly api = inject(TelecomClient);
   private stopped = false;
   private controller?: AbortController;
   private evidenceIdentity = '';
+  private topologyIdentity = '';
   value(value: number | null | undefined): string { return value == null || !Number.isFinite(value) ? 'Unavailable' : number(value); }
   changePage(service: Service, change: number): void { this.pages.update(pages => ({ ...pages, [service]: Math.max(0, pages[service] + change) })); }
   changeInterval(change: number): void {
@@ -112,12 +114,18 @@ export class CityEvidenceComponent {
     const stop = () => { this.stopped = true; this.controller?.abort(); this.detail.set(null); this.histories.set({}); this.topology.set(null); };
     destroy.onDestroy(stop);
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
-    effect(() => { this.historySelection(); this.intervalIndex.set(0); this.pages.set({ VOLTE: 0, SMS: 0 }); this.topologyPath.set([]); this.topologyPage.set(0); });
+    effect(() => { this.historySelection(); this.intervalIndex.set(0); this.pages.set({ VOLTE: 0, SMS: 0 }); });
+    effect(() => { this.topologySelection(); this.topologyPath.set([]); this.topologyPage.set(0); });
     effect(cleanup => {
       const city = this.city(), path = this.topologyPath(), page = this.topologyPage();
       this.updatedAt();
       const controller = new AbortController();
       cleanup(() => controller.abort());
+      const identity = `${city.id}/${city.geography?.catalogueVersion}/${city.geography?.topologyVersion}/${path.join('/')}/${page}`;
+      if (identity !== this.topologyIdentity) {
+        this.topologyIdentity = identity;
+        this.topology.set(null);
+      }
       if (!city.geography || this.stopped) return;
       this.topologyLoading.set(true); this.topologyError.set('');
       void this.api.getGeographyTopology(city.id, { catalogueVersion: city.geography.catalogueVersion,
@@ -135,7 +143,7 @@ export class CityEvidenceComponent {
       this.updatedAt();
       const controller = this.controller = new AbortController();
       cleanup(() => controller.abort());
-      const identity = `${city.id}/${city.geography?.catalogueVersion}/${city.scopeIds.join(',')}`;
+      const identity = `${city.id}/${city.geography?.catalogueVersion}/${city.geography?.topologyVersion}/${city.scopeIds.join(',')}/${from}/${to}/${services.map(service => `${service}:${pages[service]}`).join(',')}`;
       if (identity !== this.evidenceIdentity) {
         this.evidenceIdentity = identity;
         this.detail.set(null); this.histories.set({});

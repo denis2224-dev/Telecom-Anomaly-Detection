@@ -168,6 +168,74 @@ test('LIVE geography outages and missing history never substitute fixture values
   await expect(page.locator('[data-city-window]')).toHaveCount(0);
 });
 
+test('changing city clears unrelated topology when the new city read fails', async ({ page }, info) => {
+  await liveApi(page);
+  await page.goto('/dashboard');
+  await page.getByLabel('Region', { exact: true }).fill('Chișinău');
+  await page.getByText('Containment and dependencies', { exact: true }).click();
+  const topology = page.locator('app-city-evidence details').filter({ has: page.locator('summary', { hasText: 'Containment and dependencies' }) }).first();
+  await expect(topology).toContainText('CELL-MD-CHI-01');
+  await page.route('**/api/geography/cities/ORH/topology?**', route => route.fulfill({ status: 503, json: {} }));
+  await page.getByLabel('Region', { exact: true }).fill('Orhei');
+  await expect(page.getByRole('heading', { name: 'Orhei investigation', exact: true })).toBeVisible();
+  await expect(topology.getByRole('alert')).toBeVisible();
+  await page.screenshot({ path: info.outputPath('city-topology-unavailable.png'), fullPage: true });
+  await expect(topology).not.toContainText('CELL-MD-CHI-01');
+  await expect(topology).not.toContainText('CITY-MD-CHI');
+});
+
+test('city history failure does not label previous rows as the new page', async ({ page }) => {
+  const state = await liveApi(page);
+  await page.goto('/dashboard');
+  await page.getByLabel('Region', { exact: true }).fill('Chișinău');
+  await page.getByText('Chișinău · City coverage and history', { exact: true }).click();
+  await expect(page.locator('[data-city-window]')).toHaveCount(4);
+  state.historyStatus = 503;
+  await page.getByRole('navigation', { name: 'VOLTE city history pages' }).getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(page.locator('app-city-evidence [role=alert]')).toBeVisible();
+  await expect(page.locator('[data-city-window]')).toHaveCount(0);
+});
+
+test('a new observed minute preserves the selected topology parent', async ({ page }) => {
+  const state = await liveApi(page);
+  await page.route('**/api/geography/cities/CHI/topology?**', route => {
+    const url = new URL(route.request().url());
+    state.requests.push(url.pathname + url.search);
+    const query = url.searchParams;
+    const parentId = query.get('parentId') ?? 'CITY-MD-CHI';
+    return route.fulfill({ json: { cityId: 'CHI', catalogueVersion: pairs.catalogueVersion,
+      topologyVersion: pairs.topologyVersion, generatedAt: state.catalogue.generatedAt,
+      parentId, footprintNodeIds: [], dependencies: [], page: 0, size: 20, hasNext: false,
+      nodes: [{ nodeId: parentId === 'CITY-MD-CHI' ? 'AGG-MD-CHI-01' : 'CELL-MD-CHI-01',
+        parentId, kind: parentId === 'CITY-MD-CHI' ? 'AGGREGATION' : 'CELL', measured: false }] } });
+  });
+  await page.goto('/dashboard');
+  await page.getByLabel('Region', { exact: true }).fill('Chișinău');
+  await page.getByText('Containment and dependencies', { exact: true }).click();
+  await page.getByRole('button', { name: 'AGGREGATION AGG-MD-CHI-01', exact: true }).click();
+  await expect(page.locator('app-city-evidence')).toContainText('Parent AGG-MD-CHI-01');
+  const topologyReads = () => state.requests.filter(path => path.startsWith('/api/geography/cities/CHI/topology?'));
+  const before = topologyReads().length;
+  for (const summary of state.summaries) if (summary.latestWindow)
+    summary.latestWindow.windowEnd = new Date(Date.parse(summary.latestWindow.windowEnd) + 60_000).toISOString();
+  state.catalogue.generatedAt = new Date(Date.parse(state.catalogue.generatedAt) + 60_000).toISOString();
+  await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
+  await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+  await expect.poll(() => topologyReads().length).toBeGreaterThan(before);
+  await expect.poll(() => topologyReads().at(-1)).toContain('parentId=AGG-MD-CHI-01');
+  await expect(page.locator('app-city-evidence')).toContainText('Parent AGG-MD-CHI-01');
+});
+
+test('an existing SMS service without classifier records reports unavailable evidence', async ({ page }) => {
+  await liveApi(page);
+  await page.route('**/api/services/SMS-MD-CHI/ml-shadow?**', route => route.fulfill({ status: 404, json: {} }));
+  await page.goto('/services/SMS-MD-CHI');
+  await page.locator('app-sms-shadow summary').click();
+  await expect(page.locator('app-sms-shadow [role=status]')).toHaveText('SMS classifier evidence is unavailable for this scope.');
+  await expect(page.locator('[data-shadow-id]')).toHaveCount(0);
+  await expect(page.locator('.service-hero svg')).toBeVisible();
+});
+
 for (const width of [1366, 768, 390]) {
   test(`connected Orhei investigation across queue pages and historical filters at ${width}px`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 900 });
