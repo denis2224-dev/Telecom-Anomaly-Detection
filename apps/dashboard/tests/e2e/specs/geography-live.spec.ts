@@ -185,8 +185,8 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('[aria-label="Current incident times"]')).toContainText('Updated (UTC)');
     await page.locator('.cause-details > summary').click();
     await expect(page.locator('app-cause-evidence')).toContainText('Cause undetermined');
-    await expect(page.locator('app-cause-evidence')).toContainText('Affected paths: Unavailable');
-    await expect(page.locator('app-cause-evidence')).toContainText('classification: Unavailable');
+    await expect(page.locator('app-cause-evidence [data-fact=paths] dd')).toHaveText('Unavailable');
+    await expect(page.locator('app-cause-evidence [data-fact=classification] dd')).toHaveText('Unavailable');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: info.outputPath(`connected-orhei-${width}.png`), fullPage: true });

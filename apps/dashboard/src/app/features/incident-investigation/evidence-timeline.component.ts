@@ -49,7 +49,6 @@ type Detection = components['schemas']['ServiceDetection'];
         }
         @if (detection.service === 'SMS') {
           <app-sample-volume [count]="completedSamples(detection)" />
-          <app-metric-explanation topic="p95" />
         }
 
         <div
@@ -96,24 +95,7 @@ type Detection = components['schemas']['ServiceDetection'];
         <p class="evidence-impact"><strong>Estimated impact</strong> ·
           @if (detection.service === 'VOLTE') { Estimated extra failed attempts: {{ detection.impact.extraFailedAttempts }} }
           @else { Affected delivered messages: {{ detection.impact.affectedDeliveredMessages }} · Pending messages: {{ detection.impact.pendingMessages }} }
-          · Unique customers: {{ detection.impact.uniqueSubscribers ?? 'Unavailable' }}
         </p>
-        <p class="helper">Unique subscribers: not available in aggregate demo</p>
-        <p class="helper">Attempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.</p>
-        @if (detection.service === 'VOLTE') {
-          <app-metric-explanation topic="failed-attempts" />
-        }
-
-        <details>
-          <summary>Source evidence</summary>
-
-          @for (evidence of detection.evidence; track $index) {
-            <p>{{ evidence.summary }}</p>
-
-          } @empty {
-            <p>No source evidence supplied.</p>
-          }
-        </details>
 
         <details class="evidence-disclosure"><summary>Troubleshooting</summary>
           <p>Detection: <code>{{ detection.detectionId }}</code> · Scope: <code>{{ detection.scopeId }}</code></p>

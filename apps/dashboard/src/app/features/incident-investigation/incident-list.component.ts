@@ -12,13 +12,12 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
     <div class="incident-filters">
       <label>Severity<select [value]="severity()" (change)="severity.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label>
       <label>State<select [value]="state()" (change)="state.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label>
-      <label>Service<select [value]="service()" (change)="service.set($any($event.target).value)"><option value="">All services</option><option>VOLTE</option><option>SMS</option></select></label>
       <p>{{ rows().length }} on this page</p>
-    </div><div class="episode-scroll">
+    </div><div class="episode-list">
     @for (item of rows(); track item.episodeId) {
       <article class="episode-card" [class.is-highlighted]="highlighted().includes(item.episodeId)" [attr.data-severity]="item.severity" [attr.data-episode-id]="item.episodeId" [attr.data-highlighted]="highlighted().includes(item.episodeId)">
-        <div class="episode-summary"><p class="episode-info"><span class="sr-only">{{ item.severity }} severity · </span>{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ duration(item) }}@if (impact(item); as estimate) { · {{ estimate }} } · <span [title]="item.assigneeId ?? ''">{{ item.assigneeId ? 'Assigned' : 'Unassigned' }}</span> · <span [title]="workflowState(item)">{{ summaryWorkflow(item) }}</span></p>
-        <p class="episode-time">{{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · {{ item.technicalState }}</p>
+        <div class="episode-summary"><p class="episode-info"><span class="sr-only">{{ item.severity }} severity · </span>{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ duration(item) }}@if (impact(item); as estimate) { · {{ estimate }} } · <span [title]="item.assigneeId ?? ''">{{ item.assigneeId ? 'Assigned' : 'Unassigned' }}</span> · <span class="episode-workflow" [attr.data-state]="item.status" [class.awaiting-resolution]="item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED'" [title]="workflowState(item)">{{ summaryWorkflow(item) }}</span></p>
+        <p class="episode-time">{{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · <span class="episode-state" [attr.data-state]="item.technicalState"><span class="sr-only">Technical state: </span>{{ item.technicalState }}</span></p>
         <button class="ghost evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button></div>
         <a class="button primary" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a>
       </article>
@@ -26,11 +25,18 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
   </div></section>
   <app-drawer #evidenceDrawer panelClass="episode-evidence" [drawerId]="'episode-evidence-' + (expanded() ?? '')" title="Incident evidence" closeLabel="Close incident evidence" (closed)="expanded.set(null)">
     @if (selectedEpisode(); as item) { <section class="incident-story" [attr.data-phase]="item.latestDetection.phase" [attr.data-episode-id]="item.episodeId">
-      <h4 class="episode-title">{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ item.latestDetection.anomalyType }}</h4>
-      <p>{{ item.scopeId }}</p>
-      <dl><div><dt>Technical state</dt><dd>{{ item.technicalState }}</dd></div><div><dt>Workflow state</dt><dd>{{ workflowState(item) }}</dd></div></dl>
+      <h4 class="episode-title incident-behavior">{{ item.latestDetection.anomalyType === 'VOLTE_SETUP_DEGRADATION' ? 'Call setup degradation' : 'SMS delivery delay' }}</h4>
+      <p class="incident-context">{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ item.scopeId }}</p>
+      <div class="incident-states" aria-label="Incident severity and state">
+        <span class="incident-state"><span class="incident-state-label">Severity</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></span>
+        <span class="incident-state"><span class="incident-state-label">Technical state</span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span></span>
+        <span class="incident-state"><span class="incident-state-label">Workflow state</span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span></span>
+      </div>
+      @if (item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED') {
+        <p class="analyst-pending">Awaiting analyst resolution</p>
+      }
       <dl class="evidence-times"><div><dt>First observed (UTC)</dt><dd>{{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div><div><dt>Last observed (UTC)</dt><dd>{{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div><div><dt>Detected (UTC)</dt><dd>{{ item.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div></dl>
-      <h4>Probable cause</h4><p>{{ cause(item.latestDetection) }}</p>
+      <section class="evidence-cause" aria-label="Probable cause"><h4>Probable cause</h4><p>{{ cause(item.latestDetection) }}</p></section>
     </section> }
   </app-drawer>`,
   styles: [`
@@ -42,7 +48,6 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
     label { display: grid; gap: 4px; font-size: 12px; }
     select { min-height: 34px; padding: 6px 10px; font-size: 12px; }
     .incident-filters p { margin: 0 0 8px auto; font-size: 12px; color: var(--text-muted); }
-    .episode-scroll { height: 240px; overflow: auto; scrollbar-gutter: stable; }
     .episode-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 8px 10px; margin: 0 0 6px; }
     .episode-card { box-shadow: inset 2px 0 var(--warning); }
     .episode-card[data-severity=HIGH], .episode-card[data-severity=CRITICAL] { box-shadow: inset 2px 0 var(--danger); }
@@ -50,6 +55,12 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
     .episode-summary { min-width: 0; padding-inline-start: 8px; }
     .episode-card p { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
     .episode-card .episode-info { color: var(--text); }
+    .episode-workflow { font-weight: 600; color: var(--info); }
+    .episode-workflow[data-state=RESOLVED] { color: var(--success); }
+    .episode-workflow[data-state=OPEN], .episode-workflow.awaiting-resolution { color: var(--warning); }
+    .episode-state { padding: 2px 6px; border-radius: 6px; color: var(--text-muted); background: var(--surface-raised); font-weight: 600; }
+    .episode-state[data-state=RECOVERED] { color: var(--success); background: var(--success-soft); }
+    .episode-state[data-state=ONGOING] { color: var(--danger); background: var(--danger-soft); }
     .episode-card .episode-time { margin-top: 3px; font-size: 11px; }
     .episode-card > a { margin: 0; min-height: 36px; padding: 7px 12px; font-size: 12px; white-space: nowrap; align-self: center; }
     .evidence-toggle { min-height: 28px; margin-top: 2px; padding: 3px 0; font-size: 12px; width: max-content; white-space: nowrap; flex-wrap: nowrap; }
@@ -59,8 +70,11 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
     .incident-story .episode-title { margin-top: 0; }
     .incident-story dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
     .incident-story dt { font-size: 12px; }
-    .incident-story dd { font-size: 14px; font-family: var(--font-family); }
+    .incident-story dd { font-size: 13px; font-family: var(--font-family); }
     .incident-story .evidence-times { grid-template-columns: 1fr; }
+    .evidence-cause { padding: 12px; background: var(--field); border-radius: var(--radius-control); }
+    .evidence-cause h4 { margin-top: 0; }
+    .evidence-cause p { margin: 0; }
     @media (max-width: 600px) { .episode-card { grid-template-columns: minmax(0, 1fr); } .episode-card > a { justify-self: center; } .incident-filters label { flex: 1; min-width: 80px; } .incident-filters p { flex-basis: 100%; margin: 0; } }
   `],
 })
@@ -91,9 +105,8 @@ export class IncidentListComponent {
     const label = presentation?.impactState === 'STALE' ? 'Retained est.' : presentation?.impactState === 'RECOVERED' ? 'Recovery est.' : 'Est.';
     return Number.isFinite(count) && count > 0 ? `${label} ${count.toLocaleString('en')} ${item.service === 'VOLTE' ? 'extra failures' : 'affected messages'}` : '';
   }
-  readonly severity = signal(''); readonly state = signal(''); readonly service = signal('');
+  readonly severity = signal(''); readonly state = signal('');
   readonly rows = computed(() => episodes(this.incidents()).filter(item =>
-    (!this.severity() || item.severity === this.severity()) && (!this.state() || item.technicalState === this.state())
-    && (!this.service() || item.service === this.service()))
+    (!this.severity() || item.severity === this.severity()) && (!this.state() || item.technicalState === this.state()))
     .sort((a,b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt)));
 }

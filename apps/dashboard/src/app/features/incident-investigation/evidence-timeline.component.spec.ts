@@ -69,19 +69,20 @@ describe('Historical detection evidence', () => {
     expect(source?.textContent).toContain('earlier-event');
     const hypothesis = articles[0].querySelector('[aria-label="Cause hypothesis"]');
     expect(hypothesis.textContent).toContain('Earlier capacity hypothesis');
-    expect(hypothesis.textContent).toContain('Cause confidence: LOW');
-    expect(hypothesis.textContent).toContain('ML result: Model service unavailable');
-    expect(hypothesis.textContent).toContain('not a confirmed root cause');
+    expect(hypothesis.querySelector('[data-fact="confidence"] dd').textContent).toBe('LOW');
+    expect(hypothesis.querySelector('[data-fact="model"] dd').textContent).toBe('Unavailable');
+    expect(hypothesis.querySelector('[data-confidence]').title).toContain('not a confirmed root cause');
     expect(hypothesis.textContent).toContain('Inspect IMS load');
     expect(articles[1].textContent).not.toContain('Earlier capacity hypothesis');
     expect(articles[1].textContent).toContain('Estimated extra failed attempts: 0');
-    expect(articles[1].textContent).toContain('Unique customers: Unavailable');
+    expect(articles[1].textContent).not.toContain('Unique customers');
     expect(articles[1].textContent).toContain('does not prove recovery');
-    expect(articles[1].textContent).toContain('No checks supplied for this update');
-    expect(articles[1].textContent).toContain('No source evidence supplied');
+    expect(articles[1].textContent).toContain('No checks supplied.');
+    expect(articles[0].textContent).not.toContain('Earlier observed CPU');
+    expect(articles[0].querySelector('app-cause-evidence details')).toBeNull();
   });
 
-  it('shows SMS message impact separately from unique customers and missing source IDs', () => {
+  it('shows SMS message impact and missing source IDs without subscriber explanations', () => {
     const sms = detection(1, 'OPEN');
     sms.service = 'SMS';
     sms.impact = { extraFailedAttempts: 0, affectedDeliveredMessages: 0, pendingMessages: 250, uniqueSubscribers: null };
@@ -89,7 +90,7 @@ describe('Historical detection evidence', () => {
     const text = render([sms]).nativeElement.textContent as string;
     expect(text).toContain('Affected delivered messages: 0');
     expect(text).toContain('Pending messages: 250');
-    expect(text).toContain('Unique customers: Unavailable');
+    expect(text).not.toContain('Unique customers');
     expect(text).not.toContain('Estimated extra failed attempts');
     expect(text).toContain('Node: Unavailable');
     expect(text).toContain('No source event IDs supplied');
@@ -126,8 +127,8 @@ describe('Historical detection evidence', () => {
       const hypothesis = fixture.nativeElement.querySelector('[aria-label="Cause hypothesis"]');
       expect(hypothesis.textContent).toContain('Cause undetermined');
       expect(hypothesis.textContent).not.toContain('Confirmed power loss');
-      expect(hypothesis.textContent).toContain('classification: Unavailable');
-      expect(hypothesis.textContent).toContain('Affected paths: Unavailable');
+      expect(hypothesis.querySelector('[data-fact="classification"] dd').textContent).toBe('Unavailable');
+      expect(hypothesis.querySelector('[data-fact="paths"] dd').textContent).toBe('Unavailable');
     }
   });
 
@@ -154,10 +155,11 @@ describe('Historical detection evidence', () => {
     record.severity = 'HIGH'; record.causeConfidence = 'MEDIUM';
     const text = render([record]).nativeElement.textContent as string;
     expect(text).toContain('Severity: HIGH');
-    expect(text).toContain('Cause confidence: MEDIUM');
-    expect(text).toContain('Model anomaly rank: 0');
-    expect(text).toContain('not a failure probability');
+    const hypothesis = render([record]).nativeElement.querySelector('app-cause-evidence');
+    expect(hypothesis.querySelector('[data-fact="confidence"] dd').textContent).toBe('MEDIUM');
+    expect(hypothesis.querySelector('[data-fact="rank"] dd').textContent).toBe('0');
+    expect(hypothesis.querySelector('[data-fact="rank"] dd').title).toContain('not a failure probability');
     const timeout: Detection = { ...record, mlStatus: 'TIMEOUT', modelVersion: null, anomalyRank: null };
-    expect(render([timeout]).nativeElement.textContent).toContain('Model anomaly rank: Unavailable');
+    expect(render([timeout]).nativeElement.querySelector('[data-fact="rank"] dd').textContent).toBe('Unavailable');
   });
 });

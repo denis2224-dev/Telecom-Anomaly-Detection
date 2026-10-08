@@ -110,8 +110,8 @@ for (const status of ['UNAVAILABLE', 'TIMEOUT'] as const) {
     await page.goto(`/incidents/${state.incident.id}`);
     await page.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
     const cause = page.getByRole('region', { name: 'Cause hypothesis' });
-    await expect(cause).toContainText('Model anomaly rank: Unavailable');
-    await expect(cause.locator('[data-topic="ml-unavailable"]')).toContainText('rule-based severity');
+    await expect(cause.locator('[data-fact=rank] dd')).toHaveText('Unavailable');
+    await expect(cause.locator('[data-fact=model] .badge')).toHaveAttribute('title', status === 'TIMEOUT' ? 'Model response timed out' : 'Model service unavailable');
     await expect(page.locator('[data-kpi="cssrPct"] td').first()).not.toHaveText('Unavailable');
     await expect(page.locator('.incident-summary-bar')).toContainText(state.incident.severity);
     await expect(page.locator('.incident-summary-bar')).toContainText('ONGOING');

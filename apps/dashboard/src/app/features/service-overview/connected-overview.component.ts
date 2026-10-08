@@ -10,7 +10,7 @@ import { MetricChartComponent } from '../service-kpi-history/metric-chart.compon
 import { IconComponent } from '../../shared/icon.component';
 import { DrawerComponent } from '../../shared/drawer.component';
 import { CityEvidenceComponent } from './city-evidence.component';
-import { workflowLabel, probableCause } from '../../shared/metric-presentation';
+import { probableCause } from '../../shared/metric-presentation';
 import { allPages, metricValue, formatMetric } from '../service-kpi-history/assurance-model';
 import { moldovaOutline } from './moldova-map';
 import {
@@ -102,7 +102,6 @@ export class ConnectedOverviewComponent {
       && (!this.queueStateFilter() || item.technicalState === this.queueStateFilter()))
       .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
-  readonly workflowState = workflowLabel;
   readonly cause = probableCause;
   readonly cityServices = cityServices;
   readonly cityForScope = cityForScope;

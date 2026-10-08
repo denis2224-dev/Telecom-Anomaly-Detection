@@ -93,8 +93,8 @@ test.describe('Dashboard terminology', () => {
       }
       if (scenario.modelTimeout) {
         await page.locator('.cause-details > summary').click();
-        await expect(page.locator('[aria-label="Cause hypothesis"]')).toContainText('Model response timed out');
-        await expect(page.locator('[aria-label="Cause hypothesis"]')).toContainText('Model anomaly rank: Unavailable');
+        await expect(page.locator('[data-fact=model] dd')).toHaveText('Timed out');
+        await expect(page.locator('[data-fact=rank] dd')).toHaveText('Unavailable');
       }
       const content = scenario.modelTimeout
         ? page.locator('app-incident-detail')
@@ -104,28 +104,27 @@ test.describe('Dashboard terminology', () => {
         await content.locator(':scope > summary').click();
         await expect(content).toHaveAttribute('open', '');
       }
-      const state = content.locator(`aside[data-topic="${scenario.topic}"]`).first();
-      await expect(state).toBeVisible();
-      await expect(state.locator('strong')).not.toBeEmpty();
-      await expect(state.locator('p').last()).not.toBeEmpty();
+      if (scenario.modelTimeout) {
+        await expect(content.locator('app-cause-evidence li').first()).not.toBeEmpty();
+      } else {
+        const state = content.locator(`aside[data-topic="${scenario.topic}"]`).first();
+        await expect(state).toBeVisible();
+        await expect(state.locator('strong')).not.toBeEmpty();
+        await expect(state.locator('p').last()).not.toBeEmpty();
+      }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
   }
 
-  test('preserves zero rank and provides help through the keyboard', async ({ page }) => {
+  test('preserves zero rank without question disclosures', async ({ page }) => {
     const { item } = await setup(page, { id: 'zero-rank', service: 'VOLTE', topic: 'rank' });
     await page.goto(`/incidents/${item.id}`);
     await page.locator('.cause-details > summary').click();
     const cause = page.locator('[aria-label="Cause hypothesis"]');
-    await expect(cause).toContainText('Model anomaly rank: 0');
-    await expect(cause).not.toContainText('Model anomaly rank: 0%');
-    const details = cause.locator('details[data-topic="rank"]');
-    await details.locator('summary').focus();
-    await page.keyboard.press('Enter');
-    await expect(details).toHaveAttribute('open', '');
-    await expect(details).toContainText('not a failure probability');
-    await page.keyboard.press('Enter');
-    await expect(details).not.toHaveAttribute('open');
+    const rank = cause.locator('[data-fact=rank] dd');
+    await expect(rank).toHaveText('0');
+    await expect(rank).toHaveAttribute('title', 'Model anomaly rank: 0; not a failure probability.');
+    await expect(cause.locator('details')).toHaveCount(0);
   });
 
   test('keeps queue evidence visible when no messages completed', async ({ page }) => {

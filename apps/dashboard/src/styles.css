@@ -87,8 +87,6 @@ app-service-detail .heading-copy .eyebrow { display: none; }
 app-service-detail .heading-copy h1 { font-size: 24px; margin: 0; }
 app-service-detail .heading-copy p { font-size: 11px; margin: 0; }
 .service-toolbar { display: flex; align-items: end; gap: 12px; padding: 10px 12px; background: var(--surface); border-radius: var(--radius); }
-.service-selection { flex: 0 0 145px; }
-.service-selection app-service-context { width: 100%; }
 .service-toolbar app-history-range { flex: 1; min-width: 0; container-type: inline-size; }
 .compact-range.range-toolbar { margin: 0; padding: 0; position: relative; }
 .compact-range .time-filter { display: grid; grid-template-columns: repeat(2, minmax(140px, 1fr)) auto; gap: 8px; align-items: end; }
@@ -202,6 +200,15 @@ html:has(.drawer-panel[open]) { overflow: hidden; }
 .drawer-panel button:focus-visible, .drawer-panel .button:focus-visible, .drawer-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; box-shadow: none; }
 .drawer-panel .pagination { margin: 0; flex-shrink: 0; }
 .drawer-panel .pagination > span { font-family: var(--font-family); font-size: 12px; }
+.drawer-panel .incident-behavior { color: var(--text); font-size: 16px; font-weight: 650; line-height: 1.35; text-transform: none; letter-spacing: normal; }
+.drawer-panel .incident-context { color: var(--text-muted); font-size: 12px; }
+.drawer-panel .incident-states { display: flex; flex-wrap: wrap; gap: 8px 12px; margin: 10px 0; }
+.drawer-panel .incident-state { display: inline-flex; align-items: center; gap: 6px; }
+.drawer-panel .incident-state-label { color: var(--text-muted); font-size: 11px; }
+.drawer-panel .incident-states .badge { font-size: 12px; padding: 4px 8px; letter-spacing: .2px; }
+.drawer-panel .badge[data-state=MEDIUM] { color: var(--warning); background: var(--warning-soft); }
+.drawer-panel .badge[data-state=UNKNOWN] { color: var(--text-muted); background: var(--surface-raised); }
+.drawer-panel .analyst-pending { margin: 8px 0; padding: 7px 9px; color: var(--warning); background: var(--warning-soft); border-radius: var(--radius-control); font-size: 13px; font-weight: 550; }
 @media (max-width: 768px) { .drawer-panel { width: 100%; } }
 .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 16px 16px auto auto; width: min(480px, calc(100vw - 32px)); height: auto; max-height: calc(100dvh - 32px); padding: 20px; border-radius: var(--radius); }
 .episode-evidence .drawer-content, .queue-panel .drawer-content { padding-bottom: 8px; }

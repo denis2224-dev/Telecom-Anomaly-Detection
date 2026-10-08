@@ -93,11 +93,19 @@
           @else {
             @for (incident of visibleIncidents(); track incident.id) {
               <article class="queue-item">
-                <h4>{{ cityLabel(catalogue(), incident.scopeId) }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</h4>
-                <p>{{ incident.severity }} severity · Technical: {{ incident.technicalState }} · Workflow: {{ workflowState(incident) }}</p>
+                <h4 class="incident-behavior">{{ incident.latestDetection.anomalyType === 'VOLTE_SETUP_DEGRADATION' ? 'Call setup degradation' : 'SMS delivery delay' }}</h4>
+                <p class="incident-context">{{ cityLabel(catalogue(), incident.scopeId) }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</p>
+                <div class="incident-states" aria-label="Incident severity and state">
+                  <span class="incident-state"><span class="incident-state-label">Severity</span><span class="badge" [attr.data-state]="incident.severity">{{ incident.severity }}</span></span>
+                  <span class="incident-state"><span class="incident-state-label">Technical state</span><span class="badge" [attr.data-state]="incident.technicalState">{{ incident.technicalState }}</span></span>
+                  <span class="incident-state"><span class="incident-state-label">Workflow state</span><span class="badge" [attr.data-state]="incident.status">{{ incident.status }}</span></span>
+                </div>
+                @if (incident.technicalState === 'RECOVERED' && incident.status !== 'RESOLVED') {
+                  <p class="analyst-pending">Awaiting analyst resolution</p>
+                }
                 <p class="queue-meta">First observed: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-meta">Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
-                <p>{{ deviation(detectionWindow(incident), incident.service) }}</p>
+                <p class="queue-impact">{{ deviation(detectionWindow(incident), incident.service) }}</p>
                 <p class="queue-meta">{{ cause(incident.latestDetection) }}</p>
                 <div class="button-row">
                   @if (cityForScope(catalogue(), incident.scopeId); as city) {

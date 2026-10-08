@@ -63,7 +63,7 @@ describe('VoLTE and SMS assurance rendering', () => {
     const fixture = TestBed.createComponent(IncidentStoryComponent);
     fixture.componentRef.setInput('incident', voiceIncidents[0]); await fixture.whenStable();
     expect(fixture.nativeElement.textContent).toContain(voiceIncidents[0].latestDetection.probableCause);
-    expect(fixture.nativeElement.textContent).toContain(`Cause confidence: ${voiceIncidents[0].latestDetection.causeConfidence}`);
+    expect(fixture.nativeElement.querySelector('[data-fact="confidence"] dd').textContent).toBe(voiceIncidents[0].latestDetection.causeConfidence);
     expect(fixture.nativeElement.textContent).toContain(`Estimated extra failed attempts: ${voiceIncidents[0].latestDetection.impact.extraFailedAttempts}`);
     fixture.componentRef.setInput('incident', smsIncidents[0]); await fixture.whenStable();
     const detection = smsIncidents[0].latestDetection;
@@ -71,7 +71,7 @@ describe('VoLTE and SMS assurance rendering', () => {
     for (const check of detection.recommendedChecks) expect(fixture.nativeElement.textContent).toContain(check);
     expect(fixture.nativeElement.textContent).toContain(`Affected delivered messages: ${detection.impact.affectedDeliveredMessages}`);
     expect(fixture.nativeElement.textContent).toContain(`Pending messages: ${detection.impact.pendingMessages}`);
-    expect(fixture.nativeElement.textContent).toContain('Unique subscribers: not available in aggregate demo');
+    expect(fixture.nativeElement.textContent).not.toContain('Unique subscribers');
     expect(fixture.nativeElement.getAttribute('data-phase')).toBeNull();
     expect(fixture.nativeElement.querySelector('[data-phase="RECOVERY"]')).not.toBeNull();
   });

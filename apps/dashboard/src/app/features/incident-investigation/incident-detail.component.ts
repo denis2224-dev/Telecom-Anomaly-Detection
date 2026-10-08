@@ -1,4 +1,3 @@
-import { ServiceContextComponent } from '../../shared/service-context.component';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { StatusBannerComponent } from '../../shared/status-banner.component';
@@ -15,10 +14,9 @@ import { IncidentActionsComponent } from './incident-actions.component';
 import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, probableCause } from '../../shared/metric-presentation';
 
 @Component({
-  selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
-    @if (incident(); as item) { <app-service-context [current]="item.service" /> }
     @if (!loading() && !error()) {
       <button type="button" class="ghost" (click)="load(page(), true)"><app-icon name="refresh" />Refresh incident</button>
     }
@@ -99,7 +97,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
             <p>{{ presentation.retainedImpact && !presentation.currentImpact ? 'Retained estimate, not current impact' : 'Latest evaluated impact' }}:
               @if (item.service === 'VOLTE') { {{ impact.extraFailedAttempts }} extra failed attempts }
               @else { {{ impact.affectedDeliveredMessages }} affected delivered messages · {{ impact.pendingMessages }} pending messages }
-              · Unique subscribers: {{ impact.uniqueSubscribers ?? 'Unavailable' }}</p>
+              </p>
           } @else { <p>Impact: Unavailable</p> }
           <p>{{ cause(item.latestDetection) }} · Confidence: {{ presentation.causeConfidence }}</p>
         </details>

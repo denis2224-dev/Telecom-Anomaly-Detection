@@ -87,7 +87,10 @@
   @if (connected()) {
     <app-connected-overview [services]="services()" [serviceFilter]="serviceFilter()" (filterChanged)="setService($event)" />
   } @else {
-    <div class="button-row"><label>Service<select aria-label="Service" [value]="serviceFilter()" (change)="setService($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE setup</option><option value="SMS">SMS delivery</option></select></label><a class="button" routerLink="/dashboard" [queryParams]="{view: 'connected'}" queryParamsHandling="merge">Open connected overview</a></div>
+    <div class="scope-toolbar">
+      <a class="button" routerLink="/dashboard" [queryParams]="{view: 'connected'}" queryParamsHandling="merge">Open connected overview</a>
+      <label class="scope-service">Service<select aria-label="Service" [value]="serviceFilter()" (change)="setService($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE setup</option><option value="SMS">SMS delivery</option></select></label>
+    </div>
   }
   @if (streamError()) { <app-status-banner [compact]="true" [message]="streamError()" [busy]="loading()" (retry)="load()" /> }
   @if (error()) { <p role="alert">{{ error() }} Existing evidence is still shown.</p> }

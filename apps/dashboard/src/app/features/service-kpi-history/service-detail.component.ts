@@ -1,4 +1,3 @@
-import { ServiceContextComponent } from '../../shared/service-context.component';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -29,7 +28,7 @@ const MAX_WINDOWS = 1440;
 
 @Component({
   selector: 'app-service-detail',
-  imports: [SmsShadowComponent, ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
+  imports: [SmsShadowComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a><div class="heading-copy"><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
@@ -38,7 +37,6 @@ const MAX_WINDOWS = 1440;
     @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()"><app-icon name="refresh" />Retry</button></section> }
     @if (!error() && displayedService(); as item) {
       <div class="service-toolbar">
-        <div class="service-selection"><app-service-context [current]="item.scope.service" /></div>
         <app-history-range [compact]="true" [from]="from()" [to]="to()" (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
       </div>
       <section class="service-hero" aria-label="Service KPI history">

@@ -45,7 +45,7 @@ describe('Paged incident evidence', () => {
     expect(api.getDetections).toHaveBeenCalledTimes(1);
     expect(api.getDetections).toHaveBeenLastCalledWith(incident.id, 0, 20, expect.any(AbortSignal));
     expect(fixture.nativeElement.textContent).toContain('does not prove recovery');
-    expect(fixture.nativeElement.textContent).toContain('not a confirmed root cause');
+    expect(fixture.nativeElement.querySelector('[data-confidence]').title).toContain('not a confirmed root cause');
     await fixture.componentInstance.load(1);
     fixture.detectChanges();
     expect(fixture.componentInstance.page()).toBe(1);

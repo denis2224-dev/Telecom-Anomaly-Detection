@@ -31,7 +31,7 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     await expect(hero.locator('path.traffic-success, path.traffic-failed')).toHaveCount(0);
     await expect(hero.locator('.actual-line')).not.toHaveAttribute('d', '');
     await expect(hero.locator('.expected-line')).not.toHaveAttribute('d', '');
-    await expect(page.locator('.service-selection .badge')).toHaveCount(0);
+    await expect(page.locator('app-service-context')).toHaveCount(0);
     await expect(page.locator('.service-toolbar')).not.toContainText('Source:');
     await expect(page.locator('.exact-values')).not.toHaveAttribute('open');
     const requestsBefore = state.requests.length;
@@ -126,8 +126,8 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
   await expect(rows.locator('.badge')).toHaveCount(0);
   await expect(page.getByText('Percent or percentage points?', { exact: true })).toHaveCount(0);
   await toggles.nth(7).scrollIntoViewIfNeeded();
-  const snapshot = () => page.evaluate(() => ({ page: scrollY, list: document.querySelector('.episode-scroll')!.scrollTop,
-    width: document.querySelector('.episode-scroll')!.clientWidth, height: document.querySelector('.episode-scroll')!.clientHeight }));
+  const snapshot = () => page.evaluate(() => ({ page: scrollY, list: document.querySelector('.episode-list')!.scrollTop,
+    width: document.querySelector('.episode-list')!.clientWidth, height: document.querySelector('.episode-list')!.clientHeight }));
   const before = await snapshot();
   await toggles.nth(7).click();
   const drawer = page.getByRole('dialog', { name: 'Incident evidence', exact: true });

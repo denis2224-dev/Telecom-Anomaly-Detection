@@ -65,8 +65,8 @@ test('G3 real analyst investigation from login to logout', async ({ page, contex
     `Severity: ${incident.severity}`,
   );
   await expect(page.getByText('The issue is still ongoing', { exact: false })).toBeVisible();
-  await expect(page.getByText('Cause confidence:', { exact: false }).first()).toBeVisible();
-  await expect(page.getByText('Model anomaly rank:', { exact: false }).first()).toBeVisible();
+  await expect(page.locator('[data-fact=confidence]').first()).toBeVisible();
+  await expect(page.locator('[data-fact=rank]').first()).toBeVisible();
 
   await expect(page.getByRole('button', { name: 'Add comment' })).toHaveCount(0);
   await expect(page.getByLabel('Assign to enabled analyst')).toHaveCount(0);

@@ -49,11 +49,14 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
       await expect(page.locator('[data-detection-id]')).toHaveCount(detections.length);
       for (const detection of detections) {
         const article = page.locator(`[data-detection-id="${detection.detectionId}"]`);
-        await expect(article).toContainText(detection.probableCause);
-        await expect(article).toContainText(`Cause confidence: ${detection.causeConfidence}`);
-        await expect(article).toContainText(`Model anomaly rank: ${detection.anomalyRank ?? 'Unavailable'}`);
-        await expect(article).toContainText('not a failure probability');
-        await expect(article).toContainText('Unique customers: Unavailable');
+        const cause = /^(Cause undetermined\b|No cause established\b)/i.test(detection.probableCause)
+          ? 'Cause undetermined' : detection.probableCause;
+        await expect(article).toContainText(cause);
+        await expect(article.locator('[data-fact=confidence] dd')).toHaveText(detection.causeConfidence);
+        const rank = article.locator('[data-fact=rank] dd');
+        await expect(rank).toHaveAttribute('title', `Model anomaly rank: ${detection.anomalyRank ?? 'Unavailable'}; not a failure probability.`);
+        await expect(article.locator('app-cause-evidence details')).toHaveCount(0);
+        await expect(article).not.toContainText('Unique customers');
         for (const check of detection.recommendedChecks) await expect(article).toContainText(check);
         for (const kpi of detection.kpis) {
           const unsupportedRate = (kpi.unit === 'PERCENT' || kpi.unit === 'RATIO') && kpi.denominator === 0;
