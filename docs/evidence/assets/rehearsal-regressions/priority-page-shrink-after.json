@@ -1,0 +1,13 @@
+{
+  "mode": "Controlled API reproduction, not live acceptance",
+  "defect": "priority-page-shrink",
+  "stage": "after",
+  "capturedAtUTC": "2026-10-08T19:03:18.208Z",
+  "state": {
+    "incidentVersion": 4,
+    "incidentId": "81205a34-116c-5d90-ae54-d80e0dee4fb1",
+    "authoritativeRows": 20,
+    "renderedRows": 20,
+    "pagination": "Previous\nPage 1 · 20 shown · 20 at least\nNext"
+  }
+}

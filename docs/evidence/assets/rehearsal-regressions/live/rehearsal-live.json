@@ -1,0 +1,1571 @@
+{
+  "startedAtUTC": "2026-10-08T19:08:56.905Z",
+  "revision": "a06841f9612d60ddaf37c9152f684f9ba0b08164",
+  "patchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "mode": "Real OIDC, REST, native SSE, generator and detector; synthetic local telemetry; no interception or fixture fallback",
+  "runs": [
+    {
+      "runId": "1aa74377-76c9-43c3-8ff9-bc632f787b5e",
+      "status": "COMPLETED",
+      "scheduledStartAt": "2026-10-08T19:10:00Z",
+      "scheduledEndAt": "2026-10-08T19:18:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-ORH"
+    },
+    {
+      "runId": "0358f8da-c8f3-4e6e-af5d-987b3bf58346",
+      "status": "COMPLETED",
+      "scheduledStartAt": "2026-10-08T19:10:00Z",
+      "scheduledEndAt": "2026-10-08T19:18:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-ORH"
+    }
+  ],
+  "incidentStates": [
+    {
+      "capturedAtUTC": "2026-10-08T19:14:16.607Z",
+      "stage": "detected",
+      "id": "96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "version": 0,
+      "technicalState": "ONGOING",
+      "workflowState": "OPEN",
+      "runId": "1aa74377-76c9-43c3-8ff9-bc632f787b5e",
+      "latestDetectionId": "53a273c8837a81fe5f42c2572a0424e032597acad342df476194cc02078c8f5d",
+      "phase": "OPEN"
+    },
+    {
+      "capturedAtUTC": "2026-10-08T19:14:17.103Z",
+      "stage": "detected",
+      "id": "8b980d05-50b2-456a-b778-c6138719a513",
+      "version": 0,
+      "technicalState": "ONGOING",
+      "workflowState": "OPEN",
+      "runId": "0358f8da-c8f3-4e6e-af5d-987b3bf58346",
+      "latestDetectionId": "68c1cd07f5ce4f80c1bc3d271cbd9bcba0a554126d477c5528cff98047e7da87",
+      "phase": "OPEN"
+    },
+    {
+      "capturedAtUTC": "2026-10-08T19:18:13.345Z",
+      "stage": "recovered-open",
+      "id": "96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "version": 4,
+      "technicalState": "RECOVERED",
+      "workflowState": "OPEN",
+      "runId": "1aa74377-76c9-43c3-8ff9-bc632f787b5e",
+      "latestDetectionId": "e5cac3b26cfc5f28b5dfb9ce2b7e6383af45f8e78f20c9b74674e9bd7c59f3a2",
+      "sequences": [
+        {
+          "sequence": 1,
+          "phase": "OPEN",
+          "detectedAt": "2026-10-08T19:14:12.774665089Z"
+        },
+        {
+          "sequence": 2,
+          "phase": "UPDATE",
+          "detectedAt": "2026-10-08T19:15:12.492764172Z"
+        },
+        {
+          "sequence": 3,
+          "phase": "UPDATE",
+          "detectedAt": "2026-10-08T19:16:12.304017047Z"
+        },
+        {
+          "sequence": 4,
+          "phase": "UPDATE",
+          "detectedAt": "2026-10-08T19:17:12.145586005Z"
+        },
+        {
+          "sequence": 5,
+          "phase": "RECOVERY",
+          "detectedAt": "2026-10-08T19:18:12.009721130Z"
+        }
+      ]
+    },
+    {
+      "capturedAtUTC": "2026-10-08T19:18:13.894Z",
+      "stage": "recovered-open",
+      "id": "8b980d05-50b2-456a-b778-c6138719a513",
+      "version": 4,
+      "technicalState": "RECOVERED",
+      "workflowState": "OPEN",
+      "runId": "0358f8da-c8f3-4e6e-af5d-987b3bf58346",
+      "latestDetectionId": "d8061e670dde99a92e48dc501b9e7103009cdcf759d14176ebec25dbc5c8cc7a",
+      "sequences": [
+        {
+          "sequence": 1,
+          "phase": "OPEN",
+          "detectedAt": "2026-10-08T19:14:12.168619089Z"
+        },
+        {
+          "sequence": 2,
+          "phase": "UPDATE",
+          "detectedAt": "2026-10-08T19:15:11.921873130Z"
+        },
+        {
+          "sequence": 3,
+          "phase": "UPDATE",
+          "detectedAt": "2026-10-08T19:16:11.747958297Z"
+        },
+        {
+          "sequence": 4,
+          "phase": "UPDATE",
+          "detectedAt": "2026-10-08T19:17:11.570505422Z"
+        },
+        {
+          "sequence": 5,
+          "phase": "RECOVERY",
+          "detectedAt": "2026-10-08T19:18:11.458805755Z"
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:00.883Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.075Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.171Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.193Z"
+    },
+    {
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.247Z"
+    },
+    {
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.262Z"
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.264Z"
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.274Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.276Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.277Z"
+    },
+    {
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.278Z"
+    },
+    {
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.290Z"
+    },
+    {
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.291Z"
+    },
+    {
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.293Z"
+    },
+    {
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.293Z"
+    },
+    {
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.297Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.362Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.515Z"
+    },
+    {
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.527Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.533Z"
+    },
+    {
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.536Z"
+    },
+    {
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.537Z"
+    },
+    {
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.542Z"
+    },
+    {
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.546Z"
+    },
+    {
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.546Z"
+    },
+    {
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.550Z"
+    },
+    {
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.556Z"
+    },
+    {
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.556Z"
+    },
+    {
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.559Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.567Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:01.572Z"
+    },
+    {
+      "path": "/api/geography/cities/BAL/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.904Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-BAL/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.904Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-BAL/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.907Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=BAL&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.913Z"
+    },
+    {
+      "path": "/api/geography/cities/BAL",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.913Z"
+    },
+    {
+      "path": "/api/geography/cities/BAL/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.925Z"
+    },
+    {
+      "path": "/api/geography/cities/BAL/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.926Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CAH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.946Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=CAH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.946Z"
+    },
+    {
+      "path": "/api/geography/cities/CAH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.946Z"
+    },
+    {
+      "path": "/api/geography/cities/CAH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.946Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-CAH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.948Z"
+    },
+    {
+      "path": "/api/geography/cities/CAH/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.954Z"
+    },
+    {
+      "path": "/api/geography/cities/CAH/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.955Z"
+    },
+    {
+      "path": "/api/geography/cities/CHI/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.970Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=CHI&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.970Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-CHI/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.970Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CHI/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.973Z"
+    },
+    {
+      "path": "/api/geography/cities/CHI",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.979Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=COM&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.995Z"
+    },
+    {
+      "path": "/api/geography/cities/COM/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.995Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-COM/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.995Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-COM/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.996Z"
+    },
+    {
+      "path": "/api/geography/cities/COM",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:02.998Z"
+    },
+    {
+      "path": "/api/geography/cities/COM/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.005Z"
+    },
+    {
+      "path": "/api/geography/cities/COM/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.005Z"
+    },
+    {
+      "path": "/api/geography/cities/EDI/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.024Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=EDI&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.024Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-EDI/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.024Z"
+    },
+    {
+      "path": "/api/geography/cities/EDI",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.030Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-EDI/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.031Z"
+    },
+    {
+      "path": "/api/geography/cities/EDI/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.032Z"
+    },
+    {
+      "path": "/api/geography/cities/EDI/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.032Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.150Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.150Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.150Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.150Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.150Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.158Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.158Z"
+    },
+    {
+      "path": "/api/geography/cities/RIB",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.176Z"
+    },
+    {
+      "path": "/api/geography/cities/RIB/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.176Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=RIB&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.178Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-RIB/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.178Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-RIB/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.189Z"
+    },
+    {
+      "path": "/api/geography/cities/RIB/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.189Z"
+    },
+    {
+      "path": "/api/geography/cities/RIB/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.189Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-SOR/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.304Z"
+    },
+    {
+      "path": "/api/geography/cities/SOR/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.304Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=SOR&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.304Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-SOR/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.305Z"
+    },
+    {
+      "path": "/api/geography/cities/SOR",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.305Z"
+    },
+    {
+      "path": "/api/geography/cities/SOR/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.323Z"
+    },
+    {
+      "path": "/api/geography/cities/SOR/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.323Z"
+    },
+    {
+      "path": "/api/geography/cities/TIR/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.331Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=TIR&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.331Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-TIR/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.331Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-TIR/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.332Z"
+    },
+    {
+      "path": "/api/geography/cities/TIR",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.332Z"
+    },
+    {
+      "path": "/api/geography/cities/TIR/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.339Z"
+    },
+    {
+      "path": "/api/geography/cities/TIR/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.339Z"
+    },
+    {
+      "path": "/api/geography/cities/UNG/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.355Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-UNG/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.355Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-UNG/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.355Z"
+    },
+    {
+      "path": "/api/geography/cities/UNG",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.357Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=UNG&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.357Z"
+    },
+    {
+      "path": "/api/geography/cities/UNG/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.362Z"
+    },
+    {
+      "path": "/api/geography/cities/UNG/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.362Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.375Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.376Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.376Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.376Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.376Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.382Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.382Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&parentId=AGG-MD-ORH-01&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.455Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&parentId=SITE-MD-ORH-01&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:09:03.522Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.772Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.791Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.795Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.803Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.806Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.813Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:53:00.000Z&to=2026-10-08T19:08:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.813Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.968Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.996Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.998Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:04.999Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:05.000Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:05.008Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:05.009Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:05.009Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:10:05.013Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.780Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.796Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.796Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.796Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.797Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.805Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:54:00.000Z&to=2026-10-08T19:09:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.805Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.898Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.907Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.911Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.911Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.911Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.914Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.915Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.915Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:11:08.917Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.784Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.803Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.804Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.805Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.806Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.812Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:55:00.000Z&to=2026-10-08T19:10:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.812Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.915Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.932Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.932Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.932Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.932Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.936Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.937Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.937Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:12:12.937Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.781Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.795Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.797Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.798Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.803Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.806Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:57:00.000Z&to=2026-10-08T19:12:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.809Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.895Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.910Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.911Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.911Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.911Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.911Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.911Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.911Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:13:16.911Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.104Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.121Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.122Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.125Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.126Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.132Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:58:00.000Z&to=2026-10-08T19:13:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.133Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.222Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.231Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.232Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.232Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.233Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.239Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.239Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.239Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.245Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.245Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:14.248Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.167Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.228Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.308Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.320Z"
+    },
+    {
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.337Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.383Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.391Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.393Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.397Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.418Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.419Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.419Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.429Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.429Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.484Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.490Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.491Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.492Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.493Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.497Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.497Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.552Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.561Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.577Z"
+    },
+    {
+      "path": "/api/analysts?enabled=true",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.586Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.739Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.804Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.882Z"
+    },
+    {
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.892Z"
+    },
+    {
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.904Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.928Z"
+    },
+    {
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.928Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.931Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.934Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.937Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.938Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-08T18:59:00.000Z&to=2026-10-08T19:14:00.000Z&page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.938Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.944Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:16.962Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:17.044Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:17.044Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:17.051Z"
+    },
+    {
+      "path": "/api/analysts?enabled=true",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:17.057Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:17.216Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:17.218Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:14:17.225Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:15:13.715Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:15:13.716Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:15:13.723Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:15:20.758Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:15:20.761Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:15:20.775Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:16:13.517Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:16:13.517Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:16:13.523Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:16:24.767Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:16:24.769Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:16:24.778Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:17:13.359Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:17:13.361Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:17:13.365Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:17:28.760Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:17:28.766Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:17:28.776Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.220Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.223Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.227Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.308Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.308Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.314Z"
+    },
+    {
+      "path": "/api/analysts?enabled=true",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.334Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.541Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.541Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.541Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.547Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.805Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.805Z"
+    },
+    {
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.813Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.865Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.865Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.873Z"
+    },
+    {
+      "path": "/api/analysts?enabled=true",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:13.887Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:14.101Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:14.101Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:14.131Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:14.170Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=20",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:14.385Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:14.385Z"
+    },
+    {
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/timeline?page=0&size=100",
+      "status": 200,
+      "receivedAtUTC": "2026-10-08T19:18:14.391Z"
+    }
+  ],
+  "captures": [
+    {
+      "file": "scheduled-VOLTE_IMS_OVERLOAD.png",
+      "capturedAtUTC": "2026-10-08T19:09:01.872Z"
+    },
+    {
+      "file": "scheduled-SMS_QUEUE_DELAY.png",
+      "capturedAtUTC": "2026-10-08T19:09:02.860Z"
+    },
+    {
+      "file": "orhei-connected.png",
+      "capturedAtUTC": "2026-10-08T19:10:04.958Z"
+    },
+    {
+      "file": "detected-VOLTE_IMS_OVERLOAD.png",
+      "capturedAtUTC": "2026-10-08T19:14:16.685Z"
+    },
+    {
+      "file": "detected-SMS_QUEUE_DELAY.png",
+      "capturedAtUTC": "2026-10-08T19:14:17.159Z"
+    },
+    {
+      "file": "recovered-VOLTE_IMS_OVERLOAD-1366.png",
+      "capturedAtUTC": "2026-10-08T19:18:13.542Z"
+    },
+    {
+      "file": "recovered-VOLTE_IMS_OVERLOAD-768.png",
+      "capturedAtUTC": "2026-10-08T19:18:13.667Z"
+    },
+    {
+      "file": "recovered-VOLTE_IMS_OVERLOAD-390.png",
+      "capturedAtUTC": "2026-10-08T19:18:13.748Z"
+    },
+    {
+      "file": "recovered-SMS_QUEUE_DELAY-1366.png",
+      "capturedAtUTC": "2026-10-08T19:18:14.102Z"
+    },
+    {
+      "file": "recovered-SMS_QUEUE_DELAY-768.png",
+      "capturedAtUTC": "2026-10-08T19:18:14.252Z"
+    },
+    {
+      "file": "recovered-SMS_QUEUE_DELAY-390.png",
+      "capturedAtUTC": "2026-10-08T19:18:14.331Z"
+    }
+  ],
+  "checks": [
+    "All ten city selections connect both authoritative service scopes, histories and implemented topology",
+    "Native SSE lease reconnect refetches REST and preserves Orhei, focus and scroll",
+    "VoLTE/SMS actual scenario completion, persisted recovery, unresolved analyst workflow, refresh and three viewport sizes"
+  ],
+  "passed": true
+}
