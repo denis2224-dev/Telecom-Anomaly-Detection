@@ -3,9 +3,9 @@
   [class.access-shell]="isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')">
   @if (!isAccessPage() && (session.phase() === 'authenticated' || session.phase() === 'fixture')) {
     <aside class="sidebar" id="workspace-navigation">
-      <a class="brand" routerLink="/dashboard" (click)="mobileOpen.set(false)">
-        <span class="brand-symbol"><app-icon name="signal" /></span>
-        <span class="brand-copy">telecom<span>NETWORK OPERATIONS</span></span>
+      <a class="brand" routerLink="/dashboard" aria-label="TraceLink — Service overview" title="TraceLink" (click)="mobileOpen.set(false)">
+        <span class="brand-symbol" aria-hidden="true"></span>
+        <span class="brand-copy">TraceLink<span>Follow service evidence</span></span>
       </a>
       <div class="sidebar-section-label">WORKSPACE</div>
       <nav aria-label="Workspace" class="sidebar-nav">
@@ -21,7 +21,7 @@
         <a class="nav-link" routerLink="/dashboard" fragment="incident-queue" aria-label="Incident investigation" title="Incident investigation" (click)="mobileOpen.set(false)"><app-icon name="shield" /><span>Incident investigation</span></a>
       </div>
       <div class="sidebar-bottom">
-        <div class="system-note"><span class="status-dot"></span><span>{{ fixture ? 'Sample workspace' : 'Protected workspace' }}<small>Telecom service assurance</small></span></div>
+        <div class="system-note"><span class="status-dot"></span><span>{{ fixture ? 'Sample workspace' : 'Protected workspace' }}<small>TraceLink</small></span></div>
         <button class="ghost sidebar-collapse" (click)="toggleSidebar()" [attr.aria-expanded]="!collapsed()" aria-controls="workspace-navigation" [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'" [title]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"><app-icon [name]="collapsed() ? 'right' : 'left'" /><span>Collapse sidebar</span></button>
       </div>
     </aside>
@@ -30,7 +30,7 @@
   <div class="workspace-layout">
     <header class="app-header">
       @if (isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')) {
-        <a class="brand" routerLink="/dashboard"><span class="brand-symbol"><app-icon name="signal" /></span><span class="brand-copy">telecom<span>SERVICE ASSURANCE</span></span></a>
+        <a class="brand" routerLink="/dashboard" aria-label="TraceLink — Service overview"><span class="brand-symbol" aria-hidden="true"></span><span class="brand-copy">TraceLink<span>Follow service evidence</span></span></a>
       } @else {
         <div class="header-location">
           <button class="ghost mobile-menu icon-button" aria-label="Open navigation" [attr.aria-expanded]="mobileOpen()" aria-controls="workspace-navigation" (click)="mobileOpen.set(!mobileOpen())"><app-icon name="menu" /></button>
@@ -57,7 +57,7 @@
         @case ('fixture') { <router-outlet /> }
         @default { <app-login /> }
       }
-      <footer><app-icon name="signal" /> Telecom service assurance <span>Service health and analyst workflow are separate states.</span></footer>
+      <footer><span class="footer-brand-symbol" aria-hidden="true"></span> TraceLink <span>Service health and analyst workflow are separate states.</span></footer>
     </main>
   </div>
 </div>

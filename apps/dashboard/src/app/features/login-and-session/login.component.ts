@@ -8,7 +8,7 @@ import { SessionStore } from "./session.store";
   template: `
     <section class="login-layout" aria-labelledby="login-title">
       <div class="login-intro">
-        <p class="eyebrow">Telecom service assurance</p>
+        <p class="eyebrow">TraceLink</p>
         <h1 id="login-title">{{ title() }}</h1>
         <p>Understand service health. Investigate the evidence. Keep track of your next action.</p>
         <div class="login-capabilities">

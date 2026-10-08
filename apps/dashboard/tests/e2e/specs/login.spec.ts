@@ -55,7 +55,7 @@ test.describe("Frontend login behavior (mocked API)", () => {
     await expect(page).toHaveURL(/\/login$/);
     await expect(page.getByRole("button", { name: "Continue to sign in", exact: true })).toBeVisible();
     await expect(page.locator("input")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: /telecom service assurance/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: "TraceLink — Service overview" })).toBeVisible();
   });
 
   test("expiry removes the signed-in identity and protected screen", async ({ page }) => {
