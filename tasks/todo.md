@@ -30,3 +30,17 @@ Results: [Day 2 evidence](../docs/evidence/2026-10-06-sergiu-day2-role-aware-par
 - [ ] Shared G3 acceptance: owner review and connected map/queue/detail agreement.
 
 Results: [Day 3 evidence](../docs/evidence/2026-10-07-sergiu-day3-geographic-explanations.md).
+
+## Sergiu Day 4 — cause controls
+
+- [x] Pin the Day 3 base, create the branch and assign exclusive worker ownership.
+- [x] Cause controls: all-city paired observations and explicit hypothesis guards.
+- [x] ML controls: HTTP/input failures, deterministic saturation/release and null model evidence.
+- [x] Replay controls: persisted fallback/restoration, cause withdrawal and all-city isolation.
+- [x] Boundary controls: failed ping/probe remain separate PLANNED contracts and are rejected by V2 ingestion.
+- [x] Integrate CI selections and independently review the combined changes.
+- [x] Run focused/reactor/Python/contracts and isolated packaged-model verification.
+- [x] Publish actual counts, hashes, payload differences, limitations and owner handoffs.
+- [ ] Shared G4 acceptance: connected city fault path and owner review remain prerequisites.
+
+Results: [Day 4 evidence](../docs/evidence/2026-10-08-sergiu-day4-cause-controls.md).
