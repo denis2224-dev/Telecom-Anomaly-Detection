@@ -5125,11 +5125,20 @@
       }
     }
   ],
+  "postIntegrationReview": {
+    "verifiedCodeSha": "978c81b3655add76dc0368164b7d16dbe62c86f9",
+    "mergedMainSha": "1b675c64938474e74c79efcecb6e051c4d460943",
+    "ciResult": "SUCCESS",
+    "cityTargetingBlocker": "RESOLVED_BY_PR74",
+    "sharedG4Accepted": false,
+    "evidence": "2026-10-08-sergiu-day4-integration-review.json",
+    "note": "Original local counts, timestamps and implementationSha above remain historical; 195 includes three GeographicReplayTest cases excluded from the later 192-test audit."
+  },
   "limits": [
     "Auxiliary failed-ping/probe coverage is schema and strict ingestion boundary only.",
     "Controlled HTTP responses are not packaged-model scores.",
     "Reported-MISSING city receipts do not prove inference of unrepresented geographic intervals.",
-    "City fault simulator still rejects city scopes in both public/private owner layers; no connected G4 acceptance.",
+    "Historical city-targeting blocker resolved by PR74 at integrated code SHA 978c81b; final-revision shared G4 acceptance remains pending.",
     "Owner reviews/sign-offs are external and were not fabricated."
   ]
 }

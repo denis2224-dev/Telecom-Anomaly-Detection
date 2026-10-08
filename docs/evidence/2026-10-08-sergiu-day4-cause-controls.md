@@ -1,6 +1,8 @@
 # Sergiu Day 4 — cause controls, ML fallback and immutable replay
 
-Branch: `feature/sergiu-day4-cause-controls`; base `ee52b9e`; implementation/CI SHA `626721b`.
+Branch: `feature/sergiu-day4-cause-controls`; original base `ee52b9e`; original local verification SHA `626721b`.
+Post-integration code/CI SHA: `978c81b3655add76dc0368164b7d16dbe62c86f9`, which merges
+PR #74's remote main `1b675c64938474e74c79efcecb6e051c4d460943`.
 Source: Rusu Serghei Day 4 in the October five-day planning pack. The user selected
 core controls with optional power correlation NOT_IN_SCOPE. Three workers implemented
 cause controls, ML failures and durable replay; the coordinator integrated, reviewed and verified.
@@ -33,7 +35,10 @@ accepted receipts/features/detections/jobs remain unchanged. Their separate sche
 are PLANNED and establish contract/ingestion-boundary coverage only. No auxiliary runtime,
 power diagnosis, new cause code, API, migration or episode state machine was introduced.
 
-## Actual verification
+## Original pre-integration local verification
+
+The following counts describe the original local run at `626721b`, not a new full-reactor
+run at the integrated PR head. The original manifest and case outputs are retained.
 
 | Check | Result |
 | --- | --- |
@@ -50,6 +55,50 @@ power diagnosis, new cause code, API, migration or episode state machine was int
 | Packaged-model HTTP checks | 20 city compatibility cases + VoLTE/SMS delivery methods executed, zero skips |
 | Contracts / workflow YAML / whitespace | Passed |
 | Frozen contracts/model artifacts | 16 normalized/binary hashes match the Day 3 base |
+
+### Focused count reconciliation
+
+The original nine-suite run executed **195** tests. The later independent eight-suite
+audit executed **192** tests, with zero failures/errors/skips, because it omitted the
+three `GeographicReplayTest` invocations. Both selections included `DetectionReplayIT`.
+The runs are separate and must not be added together or described as identical selections.
+
+| Suite | Original run | Independent audit |
+| --- | --- | --- |
+| GeographicCauseControlsTest | 80 | 80 |
+| GeographicCauseReplayTest | 2 | 2 |
+| GeographicMlFallbackReplayTest | 8 | 8 |
+| GeographicAuxiliaryBoundaryTest | 2 | 2 |
+| MlClientTest / MlClientFailureTest | 6 / 14 | 6 / 14 |
+| ExplanationCasesTest / DetectionReplayIT | 64 / 16 | 64 / 16 |
+| GeographicReplayTest | 3 | Not selected |
+| Total executed | **195** | **192** |
+
+## Post-integration GitHub verification
+
+Checked through GitHub Actions on 8 October 2026 at 14:19 UTC. All four workflows
+associated with integrated code SHA `978c81b` completed successfully:
+
+| Workflow | Result / evidence |
+| --- | --- |
+| incident-runtime-image | [SUCCESS](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788623949) |
+| dashboard | [SUCCESS](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788624095): unit, production build and controlled browser steps |
+| incident-service | [SUCCESS](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788624071): PostgreSQL/Kafka backend verification |
+| service-integration | [SUCCESS](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788624124): deployment-config, model-evaluation and processor-evaluation jobs |
+
+The model job passed contract/model validation, deterministic evaluation and private HTTP
+inference evaluation. The downstream processor job passed reactor verification, ML-unavailable
+replay, delivery/replay ordering, packaged-model delivery, cause/ML/geographic replay controls,
+and fresh geographic parity. Its cause-control step selects 179 tests (the original 195
+selection without `DetectionReplayIT`); replay ordering is exercised in a separate CI step.
+This describes successful CI jobs/steps, not an independently extracted CI test-count manifest.
+
+The [integration review snapshot](2026-10-08-sergiu-day4-integration-review.json) records
+the workflow/job/step results and the remaining acceptance obligations. The documentation
+correction commit changes no production, test, workflow, deployment or contract code;
+its newly triggered PR checks must also pass before merge.
+
+## Original local runtime and verification limits
 
 The new injected-transport test was compiled against the original MlClient first: compilation
 failed specifically because the two-argument constructor did not exist. The seam was restored,
@@ -77,13 +126,23 @@ were exercised, so they are not included in that skip.
 | ML failure and version incompatibility | Real client/worker failure matrix plus actual pinned geographic scorer rejection; deterministic incident behavior preserved |
 | No duplicate logical incidents on replay | Exact committed SQL/job snapshots, stable IDs and zero rescoring after restoration/restart |
 | Optional alarm/no-alarm power correlation | **NOT_IN_SCOPE**; no G2 publisher/consumer/storage/authority readiness |
-| Connected city fault and shared G4 | **PENDING OWNER DEPENDENCY**; current public/private simulator source still restricts targeting to legacy scopes |
+| City scenario targeting | **RESOLVED** by merged PR #74 and included in `978c81b`; no current legacy-only targeting blocker |
+| Shared G4 on the integrated revision | **PENDING**: authenticated scenario and map/queue/detail review, live reconnect/security/rollback evidence and required reviewer/owner acceptance |
 
-This Day 4 run did not repeat authenticated city simulator dispatch. The recorded Day 3
-INVALID_SCOPE result and fresh static inspection identify the unresolved Ion/Denis dependency.
-No fixture or PostgreSQL test is presented as an authenticated map/queue/detail demonstration.
+The original Day 4 run did not repeat authenticated city simulator dispatch. Its recorded Day 3
+INVALID_SCOPE limitation is historical and was resolved by PR #74. The imported
+[geographic completion record](2026-10-08-geographic-completion.md) supplies earlier authenticated
+fault, normal, gap and recovery evidence, including exactly one episode per fault scope.
+That record concerns the PR #74 candidate, not a rerun at `978c81b`, and retains
+`SCENARIO_TIMELINES_PASSED_RECEIPT_AND_DISPLAY_REVIEW_PENDING`. It cannot establish final
+map/queue/detail or shared G4 acceptance for this integrated PR. Earlier dashboard reconnect
+and security evidence likewise belongs to its own revision, and no final-revision feature-off
+rollback result is recorded here. No fixture or PostgreSQL test is presented as that live demonstration.
 Reported-MISSING receipts do not establish inferred gaps for unrepresented geographic intervals.
-Owner sign-offs and shared G3/G4 acceptance remain pending.
+Required reviewer/owner acceptance and shared G4 remain pending. The supplied colleague review
+finds no blocking technical defect but explicitly withholds approval pending integration acceptance.
+The local Compose check during this correction found only an incident-service container, restarting;
+there was no complete authenticated stack available for a fresh shared acceptance run.
 
 The [manifest](2026-10-08-sergiu-day4-manifest.json) records actual suite/case results, image ID,
 code/config hashes, per-scope paired payload differences, authority/node/window/receipt references,

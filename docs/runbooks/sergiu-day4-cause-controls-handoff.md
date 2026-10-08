@@ -50,10 +50,18 @@ not inference of unrepresented geographic intervals.
 
 ## Shared gates and reproduction
 
-The city simulator still limits scope targeting to legacy scopes in both public
-ScenarioCommandService and private ScenarioExecutionService. Ion/Denis must integrate
-city targeting before the authenticated city fault path can establish shared G3/G4.
-Day 4 does not bypass those boundaries or alter their APIs.
+PR #74 is merged at `1b675c6`; integrated Day 4 code SHA `978c81b` includes its
+public/private city-targeting fix. The earlier legacy-only INVALID_SCOPE blocker is resolved.
+Its authenticated fault/normal/gap/recovery evidence is linked in
+the [Day 4 verification report](../evidence/2026-10-08-sergiu-day4-cause-controls.md),
+with its original revision and pending receipt/display review preserved.
+
+All four GitHub workflows passed at `978c81b`, including model and downstream processor
+evaluation. The original local count is 195; the independent 192-test audit omitted the
+three GeographicReplayTest cases. These are separate runs, not conflicting totals.
+Before merging, check the latest PR head's CI and complete final-revision authenticated
+map/queue/detail, reconnect/security and feature-off rollback evidence plus required review.
+Neither prior live traces nor controlled tests supply that shared G4 sign-off.
 
 Use JDK 21, Docker, and the project Python environment. Focused Java suites are selected
 in `.github/workflows/integration.yml`; full verification is `./mvnw.cmd -q clean verify`.

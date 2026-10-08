@@ -41,6 +41,8 @@ Results: [Day 3 evidence](../docs/evidence/2026-10-07-sergiu-day3-geographic-exp
 - [x] Integrate CI selections and independently review the combined changes.
 - [x] Run focused/reactor/Python/contracts and isolated packaged-model verification.
 - [x] Publish actual counts, hashes, payload differences, limitations and owner handoffs.
-- [ ] Shared G4 acceptance: connected city fault path and owner review remain prerequisites.
+- [x] Integrate PR #74 city-targeting changes; all four GitHub workflows pass at code SHA 978c81b.
+- [x] Reconcile 195 original focused tests with the 192-test audit (three GeographicReplayTest cases omitted).
+- [ ] Shared G4 acceptance: final-revision authenticated map/queue/detail, reconnect/security/rollback evidence and required review remain pending.
 
 Results: [Day 4 evidence](../docs/evidence/2026-10-08-sergiu-day4-cause-controls.md).
