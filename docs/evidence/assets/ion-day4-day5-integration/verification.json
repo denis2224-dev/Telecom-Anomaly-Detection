@@ -1512,10 +1512,12 @@
         "decision": "INCLUDED",
         "addedMethodsAndHelpers": [
           "synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute",
-          "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute",
-          "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption"
+          "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute"
         ],
-        "historicalBaselineEqualsMain": true
+        "historicalBaselineEqualsMain": true,
+        "reusedExistingMethods": [
+          "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption"
+        ]
       },
       {
         "path": "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java",
@@ -1523,21 +1525,26 @@
         "decision": "INCLUDED",
         "addedMethodsAndHelpers": [
           "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements",
-          "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation",
-          "competingFinalizersCommitOneMatchingWinningSnapshot"
+          "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation"
         ],
-        "historicalBaselineEqualsMain": true
+        "historicalBaselineEqualsMain": true,
+        "reusedExistingMethods": [
+          "competingFinalizersCommitOneMatchingWinningSnapshot"
+        ]
       },
       {
         "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicLoadAccountingTest.java",
         "classification": "REQUIRED_UNIQUE_CHANGE",
         "decision": "INCLUDED",
         "addedMethodsAndHelpers": [
-          "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts",
           "threeConsecutiveMinutesReconcileOneProducerWithSameWindowKpiAndCoverageFacts",
-          "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres"
+          "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres",
+          "scheduler"
         ],
-        "historicalBaselineEqualsMain": true
+        "historicalBaselineEqualsMain": true,
+        "reusedExistingMethods": [
+          "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts"
+        ]
       },
       {
         "candidate": "Merged PR #73/#74 implementation",
@@ -1572,6 +1579,7 @@
         "actualSourceMethod": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements",
         "invocations": 10
       }
-    ]
+    ],
+    "inventoryInterpretation": "Corrected PR-base method classification; addedMethodsAndHelpers includes the extracted scheduler helper, which adds no test invocation. Six new test methods retain twenty invocations. Historical capture time and execution records are unchanged."
   }
 }

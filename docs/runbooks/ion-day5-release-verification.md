@@ -23,7 +23,7 @@ Prepared 2026-10-08 for Bradu Stanislav. This runbook is executable preparation,
 
 ## Release prerequisites and configuration ledger
 
-Stanislav records the approved SHA, image digests, Java/Maven versions, resource budget, migration ledger, recoverable backup and disposable restore proof. Integrate current main and PR #73/#74 deliberately; review the reconciliation preservation choices. Denis must resolve public/private activation agreement and accept geographic-history provenance/projection behavior. David and Denis supply the actual protected API/UI environment and accounts through the existing login flow. No credentials or session/CSRF material belong in this runbook or evidence.
+Stanislav records the approved SHA, image digests, Java/Maven versions, resource budget, migration ledger, recoverable backup and disposable restore proof. Integrate current main and PR #73/#74 deliberately; review the reconciliation preservation choices. Current main rejects disabled geography and checks scheduled activation through `activeAt(startAt)`. Denis must verify this existing fix through the authenticated public-to-private scenario path on the final release candidate and accept geographic-history provenance/projection behavior. David and Denis supply the actual protected API/UI environment and accounts through the existing login flow. No credentials or session/CSRF material belong in this runbook or evidence.
 
 These properties and mappings come from the actual source. Geography and geographic-history environment names are tested by `HistoryBootstrapApplicationTest.canonicalSpringEnvironmentVariablesActivateTheSameJobAndAuthority`. Continuous mappings are explicit YAML placeholders. Values below are a bounded example, not an instruction to backdate a live deployment.
 
@@ -48,7 +48,7 @@ These properties and mappings come from the actual source. Geography and geograp
 
 Use `GEOGRAPHICHISTORY` and `JOBID`, as verified by Spring binding; do not invent `GEOGRAPHIC_HISTORY` or `JOB_ID` aliases. Do not use obsolete `HISTORY_BOOTSTRAP_TARGET` or `telecom.history.geographic.enabled`. The latter aliases and conflicting legacy/geographic targets fail startup.
 
-Current `compose.yaml` forwards shared geography into generator/processor, but not history-bootstrap. Its history service forwards only legacy history selection/duration/seed. It also defaults legacy history to enabled. Stanislav must wire canonical geographic settings and one aligned activation into his owned deployment and test the startup barrier; merely setting these names in a host environment does not prove Compose forwarded them. No Compose patch was made here. Incident-service currently derives ACTIVE solely from effective-from and does not enforce the disabled switch; its fix is a prerequisite, not a configuration workaround.
+Current `compose.yaml` forwards shared geography into generator/processor, but not history-bootstrap. Its history service forwards only legacy history selection/duration/seed. It also defaults legacy history to enabled. Stanislav must wire canonical geographic settings and one aligned activation into his owned deployment and test the startup barrier; merely setting these names in a host environment does not prove Compose forwarded them. No Compose patch was made here. Incident-service already rejects disabled geography and checks `activeAt(startAt)` for the scheduled start. Verify these validations through the authenticated public-to-private scenario path on the final release candidate; authenticated acceptance remains pending.
 
 ## Startup and immutable history resume
 
@@ -125,7 +125,7 @@ Controlled delayed-ACK fairness tests show that one stalled scope does not seria
 
 ## Authenticated mentor scenario flow
 
-Use the approved integrated application and existing protected UI, session, roles and CSRF behavior. These steps were prepared, not executed. The current public activation defect blocks city command acceptance. Record only redacted responses/screenshots with city, UTC and synthetic labels; never record session IDs, cookies, authorization or CSRF values.
+Use the approved integrated application and existing protected UI, session, roles and CSRF behavior. These steps were prepared, not executed. Current main contains the disabled-geography and scheduled-activation fix; city command acceptance remains pending verification through the authenticated public-to-private scenario path on the final release candidate. Record only redacted responses/screenshots with city, UTC and synthetic labels; never record session IDs, cookies, authorization or CSRF values.
 
 1. Log in through the existing application as an authorized enabled scenario operator. Confirm all ten cities and independent VoLTE/SMS scopes. Select ORH: the current dashboard catalogue marks it outside Featured 5. Verify baseline/denominator/freshness, current state and a bounded historical range. Verify CHI and BAL independently before the scenario.
 2. Start a VoLTE overload with seed 42 on `VOLTE-MD-ORH`, using the UI's existing command flow. The existing endpoint is `POST /api/simulator/scenarios/VOLTE_IMS_OVERLOAD`; body is `{ "requestId": "<new-UUID>", "seed": 42, "scopeId": "VOLTE-MD-ORH" }`. Expected response 202 with run ID, scope, scheduled start/end. Record those returned times; public scheduling starts at the next whole UTC minute. Keep the same requestId/body/actor for uncertain public retries.
@@ -142,7 +142,7 @@ David's response semantics follow `GeographyResponses`: service state carries `l
 
 ## Non-destructive feature-off / rollback rehearsal
 
-REL-02 is BLOCKED until Stanislav executes this in an authorized disposable copy of the integrated deployment and verifies retained data/authentication. The current public switch defect must be fixed first. There is no verified dashboard city feature switch in this candidate; David must specify and review the actual UI/control fallback mechanism. Do not invent a flag name or silently substitute an API bypass.
+REL-02 is BLOCKED until Stanislav executes this in an authorized disposable copy of the integrated deployment and verifies retained data/authentication. Verify the existing disabled-geography rejection through the authenticated public-to-private scenario path on the final release candidate before the rehearsal. There is no verified dashboard city feature switch in this candidate; David must specify and review the actual UI/control fallback mechanism. Do not invent a flag name or silently substitute an API bypass.
 
 1. Save the same-SHA release manifest, projection/count fingerprints, queue offsets and publication state; verify a recoverable backup on a disposable copy.
 2. Disable new city UI/control entrypoints through the reviewed owner mechanism. Stop new geographic dispatch and production. `CONTINUOUS_TELEMETRY_ENABLED=false` stops all continuous generation, so it is an interim stop, not proof that legacy scenarios stopped working. Allow existing reservations and committed deliveries to drain with compatible readers.

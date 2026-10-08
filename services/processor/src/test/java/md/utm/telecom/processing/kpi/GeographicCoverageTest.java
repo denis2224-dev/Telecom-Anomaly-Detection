@@ -271,11 +271,17 @@ class GeographicCoverageTest {
         var events = generate(scope, start);
         var service = events.stream().filter(e -> e.path("kind").asText().equals("SERVICE")).findFirst().orElseThrow();
         var metrics = (ObjectNode) service.path("metrics");
+        double expectedServiceRate;
         if (scope.startsWith("VOLTE")) {
             long eligible = metrics.path("attempts").asLong() - metrics.path("userOutcomes").asLong();
+            assertTrue(eligible > 0, "Technical CSSR requires eligible SERVICE attempts");
             metrics.put("technicalFailures", 100).put("technicalSuccesses", eligible - 100).put("sip503Count", 80);
+            expectedServiceRate = 100.0 * metrics.path("technicalSuccesses").asLong() / eligible;
         } else {
             metrics.put("deliveryAttempts", metrics.path("deliverySuccesses").asLong() * 2);
+            long deliveryAttempts = metrics.path("deliveryAttempts").asLong();
+            assertTrue(deliveryAttempts > 0, "Delivery success rate requires SERVICE attempts");
+            expectedServiceRate = 100.0 * metrics.path("deliverySuccesses").asLong() / deliveryAttempts;
         }
         for (var event : events) if (!event.path("sourceId").asText().equals(missingNode.sourceId())) ingest(event);
         clock.now = start.plusSeconds(70);
@@ -293,7 +299,11 @@ class GeographicCoverageTest {
         };
         assertTrue(kpi(result, absentMetric).path("observed").isNull());
         if (role == GeographyCatalog.Role.SMS_SMSC) assertTrue(kpi(result, "oldestPendingAgeSec").path("observed").isNull());
-        assertTrue(kpi(result, scope.startsWith("VOLTE") ? "cssrPct" : "deliverySrPct").path("observed").asDouble() < 95);
+        var serviceObserved = kpi(result, scope.startsWith("VOLTE") ? "cssrPct" : "deliverySrPct").path("observed");
+        assertTrue(serviceObserved.isNumber(), "Measured SERVICE degradation must remain a JSON number");
+        // Rates are serialized as doubles without decimal-place rounding.
+        assertEquals(expectedServiceRate, serviceObserved.doubleValue(), 1e-9, "Rate must match accepted SERVICE counters");
+        assertTrue(serviceObserved.doubleValue() < 95);
         assertEquals("COMPLETE", result.path("quality").asText(), "Measured SERVICE quality is retained without claiming healthy dependencies");
         assertFalse(result.path("mlEligible").asBoolean());
         assertEquals(stale ? SourceFreshness.ActivityFreshness.STALE : SourceFreshness.ActivityFreshness.NEVER_SEEN,
