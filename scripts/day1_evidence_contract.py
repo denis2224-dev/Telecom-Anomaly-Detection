@@ -62,3 +62,12 @@ def validate_day1_evidence_contracts():
     for sample in samples['cases']:
         auxiliary.validate(sample)
     print(f'PASS: {len(ids)} cause DTO examples and {len(samples["cases"])} PLANNED auxiliary shape samples; no runtime correlation claim')
+    controls = read('contracts/fixtures/geography/day4-auxiliary-boundary-cases.json')
+    require(controls['status'] == 'PLANNED'
+            and controls['coverage'] == 'CONTRACT_AND_INGESTION_BOUNDARY_ONLY', 'Auxiliary control status changed')
+    require(len(controls['cases']) == 2 and {c['type'] for c in controls['cases']}
+            == {'PING_RESULT', 'PROBE_WORKER_HEALTH'}, 'Missing ping/probe boundary control')
+    for sample in controls['cases']:
+        auxiliary.validate(sample)
+        require(sample['status'] == 'FAILURE', 'Boundary examples must represent failures')
+    print('PASS: 2 PLANNED failed-ping/probe schema examples; ingestion-boundary coverage only')

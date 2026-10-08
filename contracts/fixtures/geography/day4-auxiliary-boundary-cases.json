@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "status": "PLANNED",
+  "coverage": "CONTRACT_AND_INGESTION_BOUNDARY_ONLY",
+  "cases": [
+    {
+      "schemaVersion": 1,
+      "evidenceId": "day4-failed-ping-chi",
+      "type": "PING_RESULT",
+      "sourceId": "PROBE-CHI",
+      "targetNodeId": "SITE-MD-CHI-01",
+      "topologyVersion": "2-geography-g1",
+      "observedAt": "2026-09-15T08:00:30Z",
+      "emittedAt": "2026-09-15T08:00:31Z",
+      "status": "FAILURE",
+      "synthetic": true,
+      "vantagePoint": "synthetic-lab",
+      "latencyMs": null,
+      "detail": "Offline schema example; publisher and source authority are not activated. Failed ping cannot establish power loss."
+    },
+    {
+      "schemaVersion": 1,
+      "evidenceId": "day4-failed-probe-worker-chi",
+      "type": "PROBE_WORKER_HEALTH",
+      "sourceId": "PROBE-CHI",
+      "targetNodeId": "SITE-MD-CHI-01",
+      "topologyVersion": "2-geography-g1",
+      "observedAt": "2026-09-15T08:00:30Z",
+      "emittedAt": "2026-09-15T08:00:31Z",
+      "status": "FAILURE",
+      "synthetic": true,
+      "detail": "Offline schema example; worker failure says nothing about target power. No runtime correlation exists."
+    }
+  ]
+}
