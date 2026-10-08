@@ -1,0 +1,67 @@
+{
+  "evidenceKind" : "Transactional PostgreSQL and protected MockMvc; not live browser acceptance",
+  "kpiRowsAfterDuplicateConflictAndLateArrival" : 4,
+  "coverageRowsAfterDuplicateConflictAndWrongCity" : 3,
+  "partialCoverageId" : "a8822e942b47d547299dc4064e1474550cb17a9a25b8ab265b00c45de1cd7533",
+  "partialCoverageSha256" : "6779cba5daffebf83d5df695737d89635fa046152ca5ff8cdbf8ca6164e16b09",
+  "orheiApi" : {
+    "cityId" : "ORH",
+    "displayName" : "Orhei",
+    "synthetic" : true,
+    "catalogueVersion" : "2-geography-day2-6a9d85d0c657daccb24f8e8d31737458c6e2a21869870d9cdcdf5574bc1d3223",
+    "topologyVersion" : "2-geography-g1",
+    "services" : [ {
+      "service" : "VOLTE",
+      "scopeId" : "VOLTE-MD-ORH",
+      "latestWindowEnd" : "2026-09-15T08:12:00Z",
+      "freshness" : "STALE",
+      "technicalActiveCount" : 0,
+      "analystOpenCount" : 0,
+      "coverage" : {
+        "state" : "STALE",
+        "expectedSources" : 3,
+        "receivedSources" : 1,
+        "usableSources" : 1
+      },
+      "metric" : {
+        "name" : "TECHNICAL_CSSR",
+        "unit" : "PERCENT",
+        "observed" : 90.0,
+        "baseline" : null,
+        "deltaPp" : null,
+        "delayRatio" : null,
+        "numerator" : 900,
+        "denominator" : 1000,
+        "sampleCount" : null,
+        "nullReason" : "BASELINE_MISSING"
+      }
+    }, {
+      "service" : "SMS",
+      "scopeId" : "SMS-MD-ORH",
+      "latestWindowEnd" : null,
+      "freshness" : "NEVER_SEEN",
+      "technicalActiveCount" : 0,
+      "analystOpenCount" : 0,
+      "coverage" : {
+        "state" : "UNKNOWN",
+        "expectedSources" : null,
+        "receivedSources" : null,
+        "usableSources" : null
+      },
+      "metric" : {
+        "name" : "SMS_DELIVERY_P95",
+        "unit" : "MILLISECONDS",
+        "observed" : null,
+        "baseline" : null,
+        "deltaPp" : null,
+        "delayRatio" : null,
+        "numerator" : null,
+        "denominator" : null,
+        "sampleCount" : null,
+        "nullReason" : "NEVER_SEEN"
+      }
+    } ],
+    "generatedAt" : "2026-10-08T07:47:07.943382Z",
+    "footprintNodeIds" : [ "CELL-MD-ORH-01" ]
+  }
+}
