@@ -39,4 +39,10 @@ class HistoryRangeTest {
         assertThrows(IllegalArgumentException.class, () -> new GeographicHistoryProperties(true, 3, 42L, "job"));
         assertThrows(IllegalArgumentException.class, () -> new GeographicHistoryProperties(true, 2, -1L, "job"));
     }
+
+    @Test void emptyAndFractionalMinuteRangesRejectedBeforeAnyWrite() {
+        var start = Instant.parse("2026-10-01T09:34:00Z");
+        assertThrows(IllegalArgumentException.class, () -> new GeographicHistoricalBootstrap.Range(start, start));
+        assertThrows(IllegalArgumentException.class, () -> new GeographicHistoricalBootstrap.Range(start.plusSeconds(1), start.plusSeconds(61)));
+    }
 }

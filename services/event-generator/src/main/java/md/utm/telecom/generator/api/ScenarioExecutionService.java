@@ -69,13 +69,12 @@ public class ScenarioExecutionService {
         this.kafka = kafka;
         this.voice = voice;
         this.sms = sms;
-        GeographyCatalog geo = geography;
-        if (geo == null) {
-            try { geo = GeographyCatalog.load(); }
-            catch (java.io.IOException ex) { throw new IllegalStateException("Failed to load geography catalog", ex); }
+        this.geography = geography != null && "ACTIVE".equals(geography.activation().status()) ? geography : null;
+        this.topology = Objects.requireNonNull(topology, "topology");
+        if (this.geography != null && (!topology.topologyVersion().equals(geography.authority().topologyVersion())
+                || !topology.scopes().equals(geography.authority().scopes()))) {
+            throw new IllegalStateException("Scenario topology differs from active geographic authority");
         }
-        this.geography = geo;
-        this.topology = topology != null ? topology : geo.authority();
     }
 
     /** The entire check/create/schedule sequence is atomic across concurrent HTTP deliveries. */
@@ -194,11 +193,13 @@ public class ScenarioExecutionService {
             throw new ApiFailure(HttpStatus.BAD_REQUEST, "UNSUPPORTED_SCENARIO", "Unsupported scenario type");
         }
         TopologyCatalog.Scope scope;
-        if (!geography.bindings().containsKey(command.scopeId())) {
+        boolean legacy = List.of("VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A").contains(command.scopeId());
+        if (!legacy && (geography == null || !geography.bindings().containsKey(command.scopeId())
+                || command.scheduledStartAt().isBefore(geography.activation().effectiveFrom()))) {
             throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Unknown scenario scope: " + command.scopeId());
         }
         try {
-            scope = geography.authority().requireScope(command.scopeId());
+            scope = topology.requireScope(command.scopeId());
         } catch (IllegalArgumentException invalid) {
             throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE", "Unknown scenario scope: " + command.scopeId());
         }
@@ -211,21 +212,21 @@ public class ScenarioExecutionService {
     private List<List<String>> generate(Command command) {
         var start = command.scheduledStartAt();
         var seed = command.seed();
-        var context = GenerationContext.forScope(geography, command.scopeId());
-        boolean legacy = geography.bindings().get(command.scopeId()).legacy();
+        boolean legacy = List.of("VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A").contains(command.scopeId());
         if (legacy) {
             return switch (command.scenarioType()) {
                 case "VOLTE_IMS_OVERLOAD" -> voice.generateWindows(start, seed, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD);
                 case "SMS_QUEUE_DELAY" -> sms.generateWindows(start, seed);
-                case "NORMAL_CONTROL" -> context.scope().service().equals("VOLTE")
+                case "NORMAL_CONTROL" -> topology.requireScope(command.scopeId()).service().equals("VOLTE")
                         ? voice.generateWindows(start, seed, VoiceScenario.Profile.NORMAL_CONTROL)
                         : sms.generateHealthyWindows(start, seed);
-                case "TELEMETRY_GAP" -> context.scope().service().equals("VOLTE")
+                case "TELEMETRY_GAP" -> topology.requireScope(command.scopeId()).service().equals("VOLTE")
                         ? voice.generateWindows(start, seed, VoiceScenario.Profile.TELEMETRY_GAP)
                         : sms.generateTelemetryGapWindows(start, seed);
                 default -> throw new IllegalStateException("Validated scenario missing implementation");
             };
         }
+        var context = GenerationContext.forScope(geography, command.scopeId());
         return switch (command.scenarioType()) {
             case "VOLTE_IMS_OVERLOAD" -> voice.generateWindows(start, seed, VoiceScenario.Profile.VOLTE_IMS_OVERLOAD, context);
             case "SMS_QUEUE_DELAY" -> sms.generateWindows(start, seed, context);

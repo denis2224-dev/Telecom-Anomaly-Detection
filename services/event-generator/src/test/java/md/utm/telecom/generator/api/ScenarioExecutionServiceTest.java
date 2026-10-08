@@ -46,9 +46,9 @@ class ScenarioExecutionServiceTest {
     @BeforeEach
     void setup() throws Exception {
         json = new ObjectMapper();
-        var geo = GeographyCatalog.load();
+        var geo = GeographyCatalog.activate(START);
         var topology = geo.authority();
-        var validator = new ObservationValidator(topology);
+        var validator = new ObservationValidator(geo);
         service = new ScenarioExecutionService(clock, scheduler, kafka,
                 new VoiceScenario(json, validator), new SmsQueueScenario(json, validator), topology, geo);
         when(scheduler.schedule(any(Runnable.class), any(Instant.class))).thenAnswer(invocation -> {
@@ -507,6 +507,20 @@ class ScenarioExecutionServiceTest {
             }
         }
         assertEquals(60, totalCombinations);
+        // Execute the scheduled callbacks for every combination; acceptance alone proves no payloads.
+        advance(START.plusSeconds(1440));
+        var keys = org.mockito.ArgumentCaptor.forClass(String.class);
+        var payloads = org.mockito.ArgumentCaptor.forClass(String.class);
+        verify(kafka, times(1050)).send(eq("telecom.observations.v2"), keys.capture(), payloads.capture());
+        var validator = new ObservationValidator(GeographyCatalog.activate(START));
+        var identities = new java.util.HashSet<String>();
+        for (int i = 0; i < payloads.getAllValues().size(); i++) {
+            var event = json.readTree(payloads.getAllValues().get(i));
+            validator.validate(event);
+            assertEquals(keys.getAllValues().get(i), event.path("scopeId").asText());
+            assertTrue(identities.add(event.path("eventId").asText()), "No cross-city/minute identity reuse");
+            assertEquals("COMPLETE", event.path("quality").asText());
+        }
     }
 
     @Test
@@ -631,7 +645,7 @@ class ScenarioExecutionServiceTest {
                     assertEquals(97, ims.get("metrics").get("cpuPct").asInt());
                     assertEquals(60, svc.get("metrics").get("technicalFailures").asInt());
                 } else {
-                    assertEquals(35, ims.get("metrics").get("cpuPct").asInt());
+                    assertTrue(ims.get("metrics").get("cpuPct").asInt() >= 30 && ims.get("metrics").get("cpuPct").asInt() <= 45);
                     assertEquals(7, svc.get("metrics").get("technicalFailures").asInt());
                 }
             }

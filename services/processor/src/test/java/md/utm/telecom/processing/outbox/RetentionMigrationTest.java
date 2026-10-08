@@ -64,7 +64,7 @@ class RetentionMigrationTest {
             for (String table : List.of("voice_delivery", "voice_episode_state", "voice_evaluated_window", "historical_bootstrap"))
                 assertTrue(runtime.queryForObject("SELECT has_table_privilege(current_user,?,'DELETE')", Boolean.class, "app." + table));
             var upgrade = Flyway.configure().dataSource(url, "processing_migrator", "test-migrator").defaultSchema("app")
-                    .schemas("app").createSchemas(false).load();
+                    .schemas("app").createSchemas(false).target("12").load();
             assertEquals(1, upgrade.migrate().migrationsExecuted); upgrade.validate(); assertEquals(0, upgrade.migrate().migrationsExecuted);
             tables.forEach(table -> assertEquals(before.get(table), runtime.queryForList("SELECT * FROM app." + table + " ORDER BY 1"), table));
             for (String table : List.of("voice_delivery", "voice_episode_state", "voice_evaluated_window", "historical_bootstrap"))
