@@ -2,7 +2,7 @@
 
 ## 1. FINAL RELEASE CANDIDATE
 
-SHA: `4d56c67dc6c0f18fdf73d6390d4540258557291c` (source revision before this evidence package)
+SHA: `4d56c67dc6c0f18fdf73d6390d4540258557291c` (application candidate; this branch adds documentation only)
 
 Branch: `devops-release-candidate`
 
