@@ -59,6 +59,7 @@ main:has(app-connected-overview) .preview-label { margin-bottom: 0; padding: 5px
   min-width: 0;
 }
 .evidence-entry p, .evidence-entry li,
+.evidence-column > .evidence-disclosure p,
 .incident-summary-bar h2, .workflow-card p,
 .workflow-card strong, .workflow-card textarea {
   overflow-wrap: anywhere;

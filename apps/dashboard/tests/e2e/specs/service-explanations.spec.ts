@@ -82,3 +82,34 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
     await page.screenshot({ path: info.outputPath(`${trajectory.id}-${width}.png`), fullPage: true });
   });
 }
+
+test('captured catalogue provenance stays readable at mobile width', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const catalogueVersion = `2-geography-day2-${'a'.repeat(64)}`;
+  const incident = { ...structuredClone(voiceIncidents[0]), location: {
+    cityId: 'CHI', measuredScopeId: 'VOLTE-MD-CHI', catalogueVersion,
+    topologyVersion: '2-geography-g1', containmentPath: ['CITY-MD-CHI', 'CELL-MD-CHI-01'],
+    dependencyNodeIds: ['IMS-MD-CHI-01'], nullReason: null,
+  } };
+  await page.route('**/api/**', async route => {
+    const path = new URL(route.request().url()).pathname;
+    if (path === '/api/incidents/stream') return route.fulfill({ contentType: 'text/event-stream', body: ': controlled layout fixture\n\n' });
+    const json = path === '/api/auth/me'
+      ? { analystId: 'layout-review', displayName: 'Layout reviewer', roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600_000).toISOString() }
+      : path === '/api/auth/csrf'
+        ? { token: 'controlled-test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' }
+        : path === '/api/services' ? services
+          : path === '/api/analysts' ? []
+            : path.endsWith('/detections') ? { items: [incident.latestDetection], total: 1, page: 0, size: 20 }
+              : path.endsWith('/timeline') ? { items: [], total: 0, page: 0, size: 100 }
+                : path === `/api/incidents/${incident.id}` ? incident : {};
+    await route.fulfill({ json });
+  });
+  await page.goto(`/incidents/${incident.id}`);
+  const disclosure = page.locator('.evidence-column > .evidence-disclosure');
+  await disclosure.getByText('Current impact and cause', { exact: true }).click();
+  const provenance = disclosure.locator('p').filter({ hasText: 'Captured catalogue:' });
+  await expect(provenance).toContainText(catalogueVersion);
+  expect(await provenance.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+});
