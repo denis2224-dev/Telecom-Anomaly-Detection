@@ -18,3 +18,15 @@
 - [ ] Shared G2 acceptance: owner reviews and frontend live city binding integration remain pending.
 
 Results: [Day 2 evidence](../docs/evidence/2026-10-06-sergiu-day2-role-aware-parity.md).
+## Sergiu Day 3 — explainable geographic incidents
+
+- [x] Create dedicated branch from current checkout and freeze agent file ownership.
+- [x] Add all-city episode identity, timing, authority and UNKNOWN/recovery invariants.
+- [x] Extend geographic explanation goldens while preserving legacy trajectories.
+- [x] Freeze numeric display and queue-order handoff cases for Denis/David.
+- [x] Verify geographic durable replay without duplicate logical incidents.
+- [x] Run automated verification and independent review.
+- [x] Attempt isolated live city scenarios; publish normal-path evidence and the INVALID_SCOPE blocker.
+- [ ] Shared G3 acceptance: owner review and connected map/queue/detail agreement.
+
+Results: [Day 3 evidence](../docs/evidence/2026-10-07-sergiu-day3-geographic-explanations.md).
