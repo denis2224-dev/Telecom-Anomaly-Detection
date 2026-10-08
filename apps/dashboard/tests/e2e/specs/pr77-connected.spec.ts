@@ -1,6 +1,7 @@
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import { createHash, randomUUID } from 'node:crypto';
 import { writeFileSync } from 'node:fs';
+import { performance } from 'node:perf_hooks';
 import topology from '../../../../../contracts/topology/geographic-scopes-v2.json';
 import type { components } from '../../../src/app/core/api/schema';
 import { probableCause } from '../../../src/app/shared/metric-presentation';
@@ -47,8 +48,12 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
     await analyst.page.goto('/dashboard');
     await analyst.page.getByLabel('Region', { exact: true }).fill('Chișinău');
     await analyst.page.getByLabel('Service', { exact: true }).selectOption('SMS');
-    const from = await analyst.page.getByLabel('From (UTC)', { exact: true }).inputValue();
-    const to = await analyst.page.getByLabel('To (UTC, exclusive)', { exact: true }).inputValue();
+    // A completed historical range cannot roll forward during an ordinary live refresh.
+    const historicalEnd = Math.floor(Date.now() / 60_000) * 60_000 - 2 * 60_000;
+    const from = new Date(historicalEnd - 15 * 60_000).toISOString().slice(0, 16);
+    const to = new Date(historicalEnd).toISOString().slice(0, 16);
+    await analyst.page.getByLabel('From (UTC)', { exact: true }).fill(from);
+    await analyst.page.getByLabel('To (UTC, exclusive)', { exact: true }).fill(to);
     await analyst.page.getByRole('button', { name: 'Apply', exact: true }).click();
     await analyst.page.getByLabel('Region', { exact: true }).focus();
     const reads = () => analyst.network.responses.filter(r => r.path === '/api/geography/cities' && r.status === 200).length;
@@ -73,6 +78,8 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
       const response = await post(supervisor, `/api/simulator/scenarios/${type}`, body);
       expect(response.status()).toBe(202);
       const run = await response.json() as Run;
+      expect(run.scopeId).toBe(scopeId);
+      expect(run.scenarioType).toBe(type);
       const retry = await post(supervisor, `/api/simulator/scenarios/${type}`, body);
       expect(retry.status()).toBe(202);
       expect(await retry.json()).toEqual(run);
@@ -272,11 +279,32 @@ test('open inactive dashboard expires at real fifteen-minute idle deadline', asy
     result.clock = await clockPreflight(actor);
     await actor.page.getByLabel('Region', { exact: true }).click();
     const idleStart = Date.now();
+    const monotonicStart = performance.now();
+    const browserMonotonicStart = await actor.page.evaluate(() => performance.now());
     result.lastTrustedInputUTC = new Date(idleStart).toISOString();
     const beforeBackground = actor.network.protectedRequests.length;
     // No test API polling, navigation or input during inactivity. DOM observation does not reset activity.
-    await actor.page.waitForTimeout(15 * 60_000 + 5_000);
+    await actor.page.waitForTimeout(14 * 60_000 + 45_000);
+    await expect(actor.page.getByText('Session connected', { exact: true })).toBeVisible();
     expect(actor.network.protectedRequests.length).toBeGreaterThan(beforeBackground);
+    expect(actor.network.activeStreams.size).toBeGreaterThan(0);
+    const beforeDeadlineElapsedMs = performance.now() - monotonicStart;
+    const beforeDeadlineWallMs = Date.now() - idleStart;
+    expect(beforeDeadlineElapsedMs).toBeGreaterThanOrEqual(14 * 60_000 + 45_000);
+    expect(beforeDeadlineElapsedMs).toBeLessThan(14 * 60_000 + 55_000);
+    expect(Math.abs(beforeDeadlineWallMs - beforeDeadlineElapsedMs), 'Idle timing clock discontinuity').toBeLessThan(2_000);
+    result.beforeDeadline = { checkedAtUTC: new Date().toISOString(), monotonicElapsedMs: beforeDeadlineElapsedMs,
+      wallElapsedMs: beforeDeadlineWallMs, backgroundRequests: actor.network.protectedRequests.length - beforeBackground,
+      activeStreams: actor.network.activeStreams.size, sessionConnected: true };
+    await actor.page.waitForTimeout(20_000);
+    const monotonicElapsedMs = performance.now() - monotonicStart;
+    const browserMonotonicElapsedMs = await actor.page.evaluate(start => performance.now() - start, browserMonotonicStart);
+    const wallElapsedMs = Date.now() - idleStart;
+    expect(monotonicElapsedMs).toBeGreaterThanOrEqual(15 * 60_000 + 5_000);
+    expect(monotonicElapsedMs).toBeLessThan(15 * 60_000 + 15_000);
+    expect(Math.abs(wallElapsedMs - monotonicElapsedMs), 'Idle timing clock discontinuity').toBeLessThan(2_000);
+    expect(Math.abs(browserMonotonicElapsedMs - monotonicElapsedMs), 'Idle browser timing discontinuity').toBeLessThan(2_000);
+    result.deadlineObservation = { observedAtUTC: new Date().toISOString(), monotonicElapsedMs, browserMonotonicElapsedMs, wallElapsedMs };
     result.expiry = await expectExpired(actor);
     result.elapsedMs = Date.now() - idleStart;
     result.status = 'PASSED';
