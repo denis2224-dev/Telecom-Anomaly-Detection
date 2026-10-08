@@ -1,0 +1,12 @@
+Pager usage is off.
+   scope_id   |  status   |   scheduled_start_at   |    scheduled_end_at
+--------------+-----------+------------------------+------------------------
+ SMS-MD-ORH   | COMPLETED | 2026-10-08 18:48:00+00 | 2026-10-08 18:56:00+00
+ VOLTE-MD-ORH | COMPLETED | 2026-10-08 18:48:00+00 | 2026-10-08 18:56:00+00
+(2 rows)
+
+   scope_id   | technical_state | analyst_status | latest_sequence |               phases
+--------------+-----------------+----------------+-----------------+------------------------------------
+ SMS-MD-ORH   | RECOVERED       | OPEN           |               5 | OPEN,UPDATE,UPDATE,UPDATE,RECOVERY
+ VOLTE-MD-ORH | RECOVERED       | OPEN           |               5 | OPEN,UPDATE,UPDATE,UPDATE,RECOVERY
+(2 rows)
