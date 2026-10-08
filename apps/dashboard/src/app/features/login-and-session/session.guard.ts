@@ -6,6 +6,7 @@ export const sessionGuard: CanActivateFn = async () => {
   const session = inject(SessionStore);
   const router = inject(Router);
   if (session.phase() === "loading") await session.initialize();
+  session.checkIdle();
   return session.phase() === "authenticated" || session.phase() === "fixture"
     ? true
     : router.createUrlTree(["/login"]);

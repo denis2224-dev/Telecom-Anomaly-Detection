@@ -16,6 +16,9 @@ type Phase =
   | "forbidden"
   | "fixture";
 
+const IDLE_LIMIT = 15 * 60_000;
+const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'input', 'wheel'] as const;
+
 @Injectable({ providedIn: "root" })
 export class SessionStore implements OnDestroy {
   private readonly http = inject(HttpClient);
@@ -27,6 +30,8 @@ export class SessionStore implements OnDestroy {
   private readonly endedSubject = new Subject<void>();
   readonly ended$ = this.endedSubject.asObservable();
   private expiryTimer?: ReturnType<typeof setTimeout>;
+  private idleTimer?: ReturnType<typeof setTimeout>;
+  private idleDeadline?: number;
   private pending?: Promise<void>;
   private generation = 0;
   private loggingOut = false;
@@ -82,6 +87,9 @@ export class SessionStore implements OnDestroy {
       }
       this.actor.set(actor);
       this.phase.set("authenticated");
+      this.recordActivity();
+      for (const name of ACTIVITY_EVENTS) this.document.addEventListener(name, this.activity, { passive: true });
+      this.document.addEventListener('visibilitychange', this.checkIdle);
       this.expiryTimer = setTimeout(
         () => this.expire(),
         Math.min(deadline - Date.now(), 2_147_483_647),
@@ -169,10 +177,41 @@ export class SessionStore implements OnDestroy {
     this.message.set("Your session has expired. Sign in again to continue.");
   }
 
+  // REST snapshots, SSE leases and server notifications are not analyst input.
+  readonly checkIdle = (): void => {
+    if (this.phase() !== 'authenticated' || this.idleDeadline === undefined || Date.now() < this.idleDeadline) return;
+    const csrf = this.csrf();
+    this.expire();
+    void (async () => {
+      const protection: Csrf = csrf ?? await (await fetch('/api/auth/csrf', { credentials: 'same-origin' })).json();
+      if (protection.headerName !== 'X-CSRF-TOKEN' || !protection.token) return;
+      // Invalidate the backend session without following the provider redirect
+      // (which carries logout protocol material) or navigating away from expiry.
+      await fetch('/logout', { method: 'POST', credentials: 'same-origin', redirect: 'manual',
+        headers: { [protection.headerName]: protection.token } });
+    })().catch(() => {});
+  };
+
+  private readonly activity = (event: Event): void => {
+    if (!event.isTrusted) return;
+    this.checkIdle(); // A delayed timer or returning hidden tab cannot revive idle access.
+    if (this.phase() === 'authenticated') this.recordActivity();
+  };
+
+  private recordActivity(): void {
+    clearTimeout(this.idleTimer);
+    this.idleDeadline = Date.now() + IDLE_LIMIT;
+    this.idleTimer = setTimeout(this.checkIdle, IDLE_LIMIT);
+  }
+
   private clear(): void {
     this.generation++;
     this.endedSubject.next();
     clearTimeout(this.expiryTimer);
+    clearTimeout(this.idleTimer);
+    this.idleDeadline = undefined;
+    for (const name of ACTIVITY_EVENTS) this.document.removeEventListener(name, this.activity);
+    this.document.removeEventListener('visibilitychange', this.checkIdle);
     this.actor.set(null);
     this.csrf.set(null);
   }
