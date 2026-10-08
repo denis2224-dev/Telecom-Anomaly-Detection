@@ -264,9 +264,9 @@ No production capacity conclusion is drawn from this result.
 
 ## 21. FILES CHANGED
 
-- `docs/evidence/2026-10-08-release-environment-evidence.md` — records controlled
+- `docs/evidence/release-environment-evidence.md` — records controlled
   environment checks and blockers.
-- `docs/evidence/2026-10-08-release-verification-report.md` — records the
+- `docs/evidence/release-verification-report.md` — records the
   candidate, acceptance matrix, evidence manifest and release decision.
 
 ## 22. FILES PRESERVED

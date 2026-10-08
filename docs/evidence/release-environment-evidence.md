@@ -1,4 +1,4 @@
-# Release environment and acceptance evidence — 2026-10-08
+# Release environment and acceptance evidence
 
 **Owner:** Stanislav  
 **Scope:** environment, runbook validation and release evidence only. No feature
