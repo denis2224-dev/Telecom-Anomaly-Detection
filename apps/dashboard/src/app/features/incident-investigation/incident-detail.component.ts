@@ -196,11 +196,19 @@ export class IncidentDetailComponent {
       this.timeline.set([]);
     }
     try {
-      const [item, result] = await Promise.all([
+      let [item, result] = await Promise.all([
         this.api.getIncident(id, controller.signal),
         this.api.getDetections(id, page, this.pageSize, controller.signal),
       ]);
       if (generation !== this.generation) return;
+      // A shrinking history can remove the selected page between refreshes.
+      // Reconcile from a valid page before publishing the current incident.
+      if (Number.isInteger(result.total) && result.total >= 0 && page > 0
+        && page * this.pageSize >= result.total) {
+        page = 0;
+        result = await this.api.getDetections(id, page, this.pageSize, controller.signal);
+        if (generation !== this.generation) return;
+      }
       if (!Number.isInteger(result.total) || result.total < 0
         || result.items.length > this.pageSize || result.items.length > result.total
         || (result.total > 0 && !result.items.length)) {

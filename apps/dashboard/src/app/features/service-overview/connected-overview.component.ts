@@ -188,8 +188,8 @@ export class ConnectedOverviewComponent {
         if (!this.stopped) this.fixtureCatalogue.set(data.fixtureCities);
       }).catch(() => { if (!this.stopped) this.statusMessage.set('City design fixture could not be loaded.'); });
     }
-    // Reset pagination when the service filter changes.
-    effect(() => { this.serviceFilter(); this.queuePage.set(0); });
+    // A new server filter starts at its first priority page.
+    effect(() => { this.serviceFilter(); this.queueStateFilter(); this.queuePage.set(0); });
     effect(() => {
       this.services(); // Parent REST refresh follows the existing incident stream.
       const filter = this.serviceFilter(), page = this.queuePage();
@@ -325,6 +325,11 @@ export class ConnectedOverviewComponent {
           technicalState: this.queueStateFilter() ? this.queueStateFilter() as 'ONGOING' | 'UNKNOWN' | 'RECOVERED' : undefined,
           page, size: this.pageSize,
         }, controller.signal);
+        if (controller.signal.aborted || this.stopped) return;
+        if (page > 0 && !result.items.length && !result.hasNext) {
+          this.queuePage.set(0);
+          return;
+        }
         const details = await Promise.all(result.items.map(item => this.api.getIncident(item.incidentId, controller.signal)));
         if (controller.signal.aborted || this.stopped) return;
         if (details.some((detail, index) => detail.id !== result.items[index].incidentId
