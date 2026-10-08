@@ -1,5 +1,7 @@
 # Ion Day 4/5 post-merge selective integration
 
+> **PR #78 review remediation.** The original integration record below remains associated with its original source SHAs. The dependency-matrix assertion and inventory metadata were subsequently corrected; the runbook now requires authenticated verification of the existing activation fix. See [fresh remediation and mutation evidence](2026-10-08-pr78-review-remediation.md). Final publication and exact-head CI are recorded in the PR description. Shared G5 remains BLOCKED.
+
 **Verdict: READY_FOR_REVIEW for this test/evidence PR. Shared G5: BLOCKED.**
 
 Current remote main was refreshed and verified as `1b675c64938474e74c79efcecb6e051c4d460943`. Branch `devops/day4-day5-verification` starts directly from it in `C:/OrangeSystems/Program/ion-day4-day5-pr`. The fully tested source commit is `7fb812b1a094428595744d8f28844c3437abcc0b`. The subsequent evidence commit contains documentation/assets only; the final pushed HEAD, final-head focused results and exact-head CI state are recorded in the PR description and final local publication record. No final release candidate, merge or deployment is authorized by this evidence.
