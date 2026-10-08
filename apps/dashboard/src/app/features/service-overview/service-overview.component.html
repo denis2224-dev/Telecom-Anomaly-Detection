@@ -91,6 +91,7 @@
   }
   @if (streamError()) { <app-status-banner [compact]="true" [message]="streamError()" [busy]="loading()" (retry)="load()" /> }
   @if (error()) { <p role="alert">{{ error() }} Existing evidence is still shown.</p> }
+  @if (incidentError()) { <p role="alert">Incident context unavailable: {{ incidentError() }} Service measurements remain visible.</p> }
   <details class="source-inventory" [open]="!connected()"><summary>Service scopes and definitions</summary>
   @if (connected()) { <a class="button" routerLink="/dashboard" [queryParams]="{view: 'scopes'}" queryParamsHandling="merge">Open scope overview</a> }
   <section class="scope-section" aria-labelledby="scopes-heading">

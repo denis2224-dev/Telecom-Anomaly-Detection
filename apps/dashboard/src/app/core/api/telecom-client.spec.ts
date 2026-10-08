@@ -117,6 +117,23 @@ describe("TelecomClient", () => {
     expect((await history).points).toEqual([]);
   });
 
+  it('sends city and technical filters to priority before paging and pins topology version', async () => {
+    const priority = client.getOperationalPriority({ cityId: 'ORH', service: 'SMS', technicalState: 'UNKNOWN', page: 2, size: 20 });
+    const priorityRequest = http.expectOne('/api/operations/priority?cityId=ORH&service=SMS&technicalState=UNKNOWN&page=2&size=20');
+    expect(priorityRequest.request.method).toBe('GET');
+    priorityRequest.flush({ generatedAt: '2026-10-08T08:00:00Z', policyVersion: 'geographic-priority-v1',
+      policyStatus: 'ACTIVE', page: 2, size: 20, hasNext: false, items: [] });
+    expect((await priority).items).toEqual([]);
+
+    const topology = client.getGeographyTopology('ORH', { catalogueVersion: 'captured-v2', parentId: 'SITE-MD-ORH-01', page: 1, size: 20 });
+    const topologyRequest = http.expectOne('/api/geography/cities/ORH/topology?catalogueVersion=captured-v2&parentId=SITE-MD-ORH-01&page=1&size=20');
+    expect(topologyRequest.request.method).toBe('GET');
+    topologyRequest.flush({ cityId: 'ORH', catalogueVersion: 'captured-v2', topologyVersion: 'topology-v2',
+      generatedAt: '2026-10-08T08:00:00Z', parentId: 'SITE-MD-ORH-01', footprintNodeIds: [],
+      dependencies: [], page: 1, size: 20, hasNext: false, nodes: [] });
+    expect((await topology).catalogueVersion).toBe('captured-v2');
+  });
+
   it('never falls back to fixtures when geography is unavailable or forbidden', async () => {
     for (const status of [503, 403]) {
       const result = client.listGeographyCities();
