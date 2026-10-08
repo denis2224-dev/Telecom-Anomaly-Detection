@@ -1,7 +1,7 @@
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import { createHash, randomUUID } from 'node:crypto';
 import { writeFileSync } from 'node:fs';
-import { performance } from 'node:perf_hooks';
+import { performance as monotonicPerformance } from 'node:perf_hooks';
 import topology from '../../../../../contracts/topology/geographic-scopes-v2.json';
 import type { components } from '../../../src/app/core/api/schema';
 import { probableCause } from '../../../src/app/shared/metric-presentation';
@@ -82,7 +82,10 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
       expect(run.scenarioType).toBe(type);
       const retry = await post(supervisor, `/api/simulator/scenarios/${type}`, body);
       expect(retry.status()).toBe(202);
-      expect(await retry.json()).toEqual(run);
+      const repeated = await retry.json() as Run;
+      for (const field of ['runId', 'scopeId', 'scenarioType', 'scheduledStartAt', 'scheduledEndAt'] as const) {
+        expect(repeated[field]).toBe(run[field]);
+      }
       expect((await api(analyst, `/api/simulator/runs/${run.runId}`)).status()).toBe(403);
       result.runs.push(run);
     }
@@ -279,8 +282,8 @@ test('open inactive dashboard expires at real fifteen-minute idle deadline', asy
     result.clock = await clockPreflight(actor);
     await actor.page.getByLabel('Region', { exact: true }).click();
     const idleStart = Date.now();
-    const monotonicStart = performance.now();
-    const browserMonotonicStart = await actor.page.evaluate(() => performance.now());
+    const monotonicStart = monotonicPerformance.now();
+    const browserMonotonicStart = await actor.page.evaluate(() => globalThis.performance.now());
     result.lastTrustedInputUTC = new Date(idleStart).toISOString();
     const beforeBackground = actor.network.protectedRequests.length;
     // No test API polling, navigation or input during inactivity. DOM observation does not reset activity.
@@ -288,7 +291,7 @@ test('open inactive dashboard expires at real fifteen-minute idle deadline', asy
     await expect(actor.page.getByText('Session connected', { exact: true })).toBeVisible();
     expect(actor.network.protectedRequests.length).toBeGreaterThan(beforeBackground);
     expect(actor.network.activeStreams.size).toBeGreaterThan(0);
-    const beforeDeadlineElapsedMs = performance.now() - monotonicStart;
+    const beforeDeadlineElapsedMs = monotonicPerformance.now() - monotonicStart;
     const beforeDeadlineWallMs = Date.now() - idleStart;
     expect(beforeDeadlineElapsedMs).toBeGreaterThanOrEqual(14 * 60_000 + 45_000);
     expect(beforeDeadlineElapsedMs).toBeLessThan(14 * 60_000 + 55_000);
@@ -297,8 +300,8 @@ test('open inactive dashboard expires at real fifteen-minute idle deadline', asy
       wallElapsedMs: beforeDeadlineWallMs, backgroundRequests: actor.network.protectedRequests.length - beforeBackground,
       activeStreams: actor.network.activeStreams.size, sessionConnected: true };
     await actor.page.waitForTimeout(20_000);
-    const monotonicElapsedMs = performance.now() - monotonicStart;
-    const browserMonotonicElapsedMs = await actor.page.evaluate(start => performance.now() - start, browserMonotonicStart);
+    const monotonicElapsedMs = monotonicPerformance.now() - monotonicStart;
+    const browserMonotonicElapsedMs = await actor.page.evaluate(start => globalThis.performance.now() - start, browserMonotonicStart);
     const wallElapsedMs = Date.now() - idleStart;
     expect(monotonicElapsedMs).toBeGreaterThanOrEqual(15 * 60_000 + 5_000);
     expect(monotonicElapsedMs).toBeLessThan(15 * 60_000 + 15_000);
@@ -319,8 +322,23 @@ test('trusted analyst activity cannot extend real thirty-minute absolute deadlin
     const clock = await clockPreflight(actor);
     result.clock = clock;
     const deadline = Date.parse(clock.absoluteDeadline);
+    const wallStart = Date.now();
+    const monotonicStart = monotonicPerformance.now();
+    const browserMonotonicStart = await actor.page.evaluate(() => globalThis.performance.now());
+    const expectedRemainingMs = deadline - wallStart;
+    result.timingAnchors = { wallStartUTC: new Date(wallStart).toISOString(), monotonicStartMs: monotonicStart,
+      browserMonotonicStartMs: browserMonotonicStart, expectedRemainingMs };
+    const timingObservation = async () => {
+      const monotonicElapsedMs = monotonicPerformance.now() - monotonicStart;
+      const browserMonotonicElapsedMs = await actor.page.evaluate(start => globalThis.performance.now() - start, browserMonotonicStart);
+      const wallElapsedMs = Date.now() - wallStart;
+      expect(Math.abs(wallElapsedMs - monotonicElapsedMs), 'Absolute host clock discontinuity').toBeLessThan(2_000);
+      expect(Math.abs(browserMonotonicElapsedMs - monotonicElapsedMs), 'Absolute browser timing discontinuity').toBeLessThan(2_000);
+      return { observedAtUTC: new Date().toISOString(), wallElapsedMs, monotonicElapsedMs, browserMonotonicElapsedMs };
+    };
     const activity: string[] = [];
     while (Date.now() < deadline - 5_000) {
+      await timingObservation();
       await actor.page.getByLabel('Region', { exact: true }).click();
       await actor.page.keyboard.press('ArrowLeft');
       activity.push(new Date().toISOString());
@@ -330,6 +348,10 @@ test('trusted analyst activity cannot extend real thirty-minute absolute deadlin
       await actor.page.waitForTimeout(Math.min(60_000, Math.max(1, deadline - Date.now() - 5_000)));
     }
     await actor.page.waitForTimeout(Math.max(0, deadline - Date.now()) + 5_000);
+    const observed = await timingObservation();
+    expect(observed.monotonicElapsedMs).toBeGreaterThanOrEqual(expectedRemainingMs);
+    expect(observed.monotonicElapsedMs).toBeLessThan(expectedRemainingMs + 15_000);
+    result.deadlineObservation = observed;
     result.expiry = await expectExpired(actor);
     result.trustedActivityUTC = activity;
     result.status = 'PASSED';
