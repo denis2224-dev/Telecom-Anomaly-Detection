@@ -940,9 +940,9 @@ export interface components {
                     /** @enum {string|null} */
                     uniqueSubscribers: null;
                 } | null;
-                impactSourceDetectionId: string;
+                impactSourceDetectionId: string | null;
                 /** Format: date-time */
-                impactWindowEnd: string;
+                impactWindowEnd: string | null;
                 probableCause: string;
                 /** @enum {string} */
                 causeConfidence: "LOW" | "MEDIUM" | "HIGH";

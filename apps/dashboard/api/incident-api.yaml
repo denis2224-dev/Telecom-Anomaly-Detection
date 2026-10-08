@@ -974,7 +974,7 @@ components:
         nullReason:
           type: string
           nullable: true
-          enum: [UNKNOWN, NEVER_SEEN, MISSING, STALE, BASELINE_MISSING, INSUFFICIENT_DATA, NOT_AGGREGATABLE, UNSUPPORTED]
+          enum: [UNKNOWN, NEVER_SEEN, MISSING, STALE, BASELINE_MISSING, INSUFFICIENT_DATA, NOT_AGGREGATABLE, UNSUPPORTED, null]
     GeographyCoverage:
       type: object
       required: [state, expectedSources, receivedSources, usableSources]
@@ -1077,7 +1077,7 @@ components:
         nullReason:
           type: string
           nullable: true
-          enum: [UNALLOCATED, CAPTURED_VERSION_MISSING, BINDING_NOT_FOUND, AMBIGUOUS_CATALOGUE_VERSION, INVALID_CONTAINMENT]
+          enum: [UNALLOCATED, CAPTURED_VERSION_MISSING, BINDING_NOT_FOUND, AMBIGUOUS_CATALOGUE_VERSION, INVALID_CONTAINMENT, null]
     GeographyKpiPage:
       type: object
       required: [cityId, service, page, size, hasNext, points]
@@ -1119,7 +1119,7 @@ components:
             properties:
               incidentId: {type: string, format: uuid}
               cityId: {type: string, nullable: true, description: Null for legacy or unresolved captured topology.}
-              cityNullReason: {type: string, nullable: true, enum: [UNALLOCATED, CAPTURED_VERSION_MISSING, BINDING_NOT_FOUND, AMBIGUOUS_CATALOGUE_VERSION]}
+              cityNullReason: {type: string, nullable: true, enum: [UNALLOCATED, CAPTURED_VERSION_MISSING, BINDING_NOT_FOUND, AMBIGUOUS_CATALOGUE_VERSION, null]}
               service: {type: string, enum: [VOLTE, SMS]}
               scopeId: {type: string}
               technicalState: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
@@ -1129,7 +1129,7 @@ components:
               freshness: {type: string, enum: [FRESH, STALE, UNKNOWN, RECOVERED]}
               priorityBand: {type: string, enum: [FRESH_ONGOING, UNCERTAIN, RECOVERED]}
               comparableImpact: {type: number, nullable: true, minimum: 0, description: Latest immutable detection's service-specific impact only for fresh ongoing incidents; null for missing or historical impact.}
-              impactUnit: {type: string, nullable: true, enum: [EXTRA_FAILED_ATTEMPTS, AFFECTED_DELIVERED_MESSAGES], description: Service-specific metric identity; null outside the fresh ongoing band.}
+              impactUnit: {type: string, nullable: true, enum: [EXTRA_FAILED_ATTEMPTS, AFFECTED_DELIVERED_MESSAGES, null], description: Service-specific metric identity; null outside the fresh ongoing band.}
               firstObservedAt: {type: string, format: date-time}
               detectedAt: {type: string, format: date-time}
               latestWindowEnd: {type: string, format: date-time}
@@ -1864,9 +1864,11 @@ components:
               required: [extraFailedAttempts, affectedDeliveredMessages, pendingMessages, uniqueSubscribers]
             impactSourceDetectionId:
               type: string
+              nullable: true
             impactWindowEnd:
               type: string
               format: date-time
+              nullable: true
             probableCause:
               type: string
             causeConfidence:

@@ -36,16 +36,25 @@ public final class GeographyCatalogue {
     private final String digest;
 
     @Autowired
-    public GeographyCatalogue(@Value("${telecom.geography.effective-from:}") String effectiveFrom) throws IOException {
-        this(effectiveFrom, (ObjectNode) resource("geography/demo-geography-v1.json"),
+    public GeographyCatalogue(@Value("${telecom.geography.effective-from:}") String effectiveFrom,
+            @Value("${telecom.geography.enabled:true}") boolean enabled) throws IOException {
+        this(effectiveFrom, enabled, (ObjectNode) resource("geography/demo-geography-v1.json"),
                 resource("topology/geographic-scopes-v2.json"));
     }
 
+    public GeographyCatalogue(String effectiveFrom) throws IOException {
+        this(effectiveFrom, true);
+    }
+
     GeographyCatalogue(String effectiveFrom, ObjectNode document, JsonNode strictTopology) throws IOException {
+        this(effectiveFrom, true, document, strictTopology);
+    }
+
+    GeographyCatalogue(String effectiveFrom, boolean enabled, ObjectNode document, JsonNode strictTopology) throws IOException {
         root = document.deepCopy();
         topology = strictTopology.deepCopy();
         validateSchema(root, resource("geography/geography-catalogue-v1.schema.json"));
-        if (!effectiveFrom.isBlank()) {
+        if (enabled && !effectiveFrom.isBlank()) {
             Instant activation = Instant.parse(effectiveFrom);
             require(activation.getNano() == 0 && Math.floorMod(activation.getEpochSecond(), 60) == 0,
                     "Geography activation must be a whole UTC minute");
@@ -176,6 +185,10 @@ public final class GeographyCatalogue {
     public String topologyVersion() { return root.path("topologyVersion").asText(); }
     public String digest() { return digest; }
     public boolean active() { return root.path("activation").path("status").asText().equals("ACTIVE"); }
+    public boolean activeAt(Instant scheduledStart) {
+        return active() && !scheduledStart.isBefore(
+                Instant.parse(root.path("activation").path("effectiveFrom").asText()));
+    }
     public JsonNode scope(String scopeId) { return scopes.containsKey(scopeId) ? scopes.get(scopeId).deepCopy() : null; }
     public JsonNode strictScope(String scopeId) { return authority.containsKey(scopeId) ? authority.get(scopeId).deepCopy() : null; }
     public Set<String> expected(String scopeId) {

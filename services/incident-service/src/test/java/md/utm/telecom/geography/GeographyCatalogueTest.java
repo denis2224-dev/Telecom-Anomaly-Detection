@@ -6,6 +6,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GeographyCatalogueTest {
     @Test
+    void cityActivationRequiresEnabledCatalogueAndScheduledMinute() throws Exception {
+        var activation = java.time.Instant.parse("2026-09-15T08:00:00Z");
+        var enabled = new GeographyCatalogue(activation.toString(), true);
+        assertFalse(enabled.activeAt(activation.minusSeconds(60)));
+        assertTrue(enabled.activeAt(activation));
+
+        var disabled = new GeographyCatalogue(activation.toString(), false);
+        assertFalse(disabled.active());
+        assertFalse(disabled.activeAt(activation.plusSeconds(60)));
+        assertEquals("CONTRACT_ONLY", disabled.root().path("activation").path("status").asText());
+    }
+
+    @Test
     void rejectsCyclesDanglingAndCrossCityParentsBeforeImport() throws Exception {
         var valid = new GeographyCatalogue("");
         for (String parent : new String[]{"CELL-MD-CHI-01", "SITE-MD-UNKNOWN", "SITE-MD-BAL-01"}) {

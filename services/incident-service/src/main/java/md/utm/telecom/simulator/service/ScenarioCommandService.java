@@ -81,8 +81,6 @@ public class ScenarioCommandService {
                 Analyst actor = actor(authentication);
                 Optional<ScenarioCommand> prior = commands.findByRequestId(requestId);
                 if (prior.isPresent()) return sameRequest(prior.orElseThrow(), hash, actor);
-                validate(type, scopeId);
-
                 // Serializes the empty-table check across application instances.
                 jdbc.execute((ConnectionCallback<Void>) connection -> {
                     try (PreparedStatement statement = connection.prepareStatement(
@@ -95,8 +93,11 @@ public class ScenarioCommandService {
                 prior = commands.findByRequestId(requestId);
                 if (prior.isPresent()) return sameRequest(prior.orElseThrow(), hash, actor);
 
+                // Use the minute after the scope lock, as before, so contention cannot
+                // turn a valid scheduled start into a minute that has already passed.
                 Instant startAt = clock.instant().truncatedTo(ChronoUnit.MINUTES)
                         .plus(1, ChronoUnit.MINUTES);
+                validate(type, scopeId, startAt);
                 Instant endAt = startAt.plus(8, ChronoUnit.MINUTES);
                 if (commands.existsOverlapping(scopeId, startAt, endAt)) {
                     throw problem(HttpStatus.CONFLICT, "SCOPE_WINDOW_CONFLICT",
@@ -275,12 +276,12 @@ public class ScenarioCommandService {
         }
     }
 
-    private void validate(ScenarioType type, String scopeId) {
+    private void validate(ScenarioType type, String scopeId, Instant startAt) {
         var binding = catalogue.scope(scopeId);
         var authority = catalogue.strictScope(scopeId);
         String service = authority == null ? null : authority.path("service").asText();
         if (binding == null || !("VOLTE".equals(service) || "SMS".equals(service))
-                || (!binding.path("legacy").asBoolean() && !catalogue.active())
+                || (!binding.path("legacy").asBoolean() && !catalogue.activeAt(startAt))
                 || (type == ScenarioType.VOLTE_IMS_OVERLOAD && !"VOLTE".equals(service))
                 || (type == ScenarioType.SMS_QUEUE_DELAY && !"SMS".equals(service))) {
             throw problem(HttpStatus.BAD_REQUEST, "INVALID_SCOPE",

@@ -328,6 +328,30 @@ class ScenarioControllerIT {
     }
 
     @Test
+    void cityStartBeforeEffectiveMinuteDoesNotReserveButBoundaryAndRetrySucceed() throws Exception {
+        CLOCK.set(Instant.parse("2026-09-15T07:58:20Z"));
+        UUID requestId = UUID.randomUUID();
+        String body = body(requestId, 42, "VOLTE-MD-CHI");
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_SCOPE"));
+        assertEquals(0, commands.count());
+        assertEquals(0, START_CALLS.get());
+
+        CLOCK.set(Instant.parse("2026-09-15T07:59:20Z"));
+        String accepted = mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.scheduledStartAt").value("2026-09-15T08:00:00Z"))
+                .andReturn().getResponse().getContentAsString();
+        CLOCK.set(Instant.parse("2026-09-15T07:58:20Z"));
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.runId").value(json.readTree(accepted).path("runId").asText()));
+        assertEquals(1, commands.count());
+        assertEquals(1, START_CALLS.get());
+    }
+
+    @Test
     void uncertainStartKeepsLedgerAndRetryFindsTheAcceptedRun() throws Exception {
         UUID requestId = UUID.randomUUID();
         FAIL_AFTER_ACCEPT.set(true);

@@ -164,6 +164,11 @@ public class IncidentController {
         UUID assigneeId = incident.getAssignee() == null
                 ? null : incident.getAssignee().getId();
         var latestDetection = json.readTree(latest.getPayload());
+        var impactOriginStart = IncidentProjection.historicalImpactWindowStart(latestDetection);
+        var impactOrigin = impactOriginStart == null ? null : evidence
+                .findFirstByEpisodeIdAndWindowStartAndSequenceLessThanOrderBySequenceDesc(
+                        incident.getEpisodeId(), impactOriginStart, incident.getLatestSequence())
+                .map(value -> json.readTree(value.getPayload())).orElse(null);
         return new IncidentResponse(
                 incident.getId(),
                 incident.getEpisodeId(),
@@ -182,7 +187,7 @@ public class IncidentController {
                 incident.getVersion(),
                 incident.getLatestSequence(),
                 latestDetection,
-                IncidentProjection.from(incident.getId(), latestDetection), location);
+                IncidentProjection.from(incident.getId(), latestDetection, impactOrigin), location);
     }
 
     private static void validatePage(int page, int size) {

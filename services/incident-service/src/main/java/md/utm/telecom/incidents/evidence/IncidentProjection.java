@@ -1,5 +1,7 @@
 package md.utm.telecom.incidents.evidence;
 
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.UUID;
 import tools.jackson.databind.JsonNode;
 
@@ -15,6 +17,10 @@ public record IncidentProjection(
         String evidenceHistoryPath
 ) {
     public static IncidentProjection from(UUID incidentId, JsonNode detection) {
+        return from(incidentId, detection, null);
+    }
+
+    public static IncidentProjection from(UUID incidentId, JsonNode detection, JsonNode impactOrigin) {
         String phase = required(detection, "phase");
         if (!phase.equals("OPEN") && !phase.equals("UPDATE")
                 && !phase.equals("UNKNOWN") && !phase.equals("RECOVERY")) {
@@ -28,17 +34,40 @@ public record IncidentProjection(
         }
 
         boolean unknown = phase.equals("UNKNOWN");
+        Instant originStart = historicalImpactWindowStart(detection);
+        boolean originMatches = unknown && impactOrigin != null && originStart != null
+                && !"UNKNOWN".equals(impactOrigin.path("phase").asText())
+                && detection.path("episodeId").equals(impactOrigin.path("episodeId"))
+                && originStart.toString().equals(impactOrigin.path("windowStart").asText())
+                && impact.equals(impactOrigin.path("impact"));
         String state = unknown ? "STALE" : phase.equals("RECOVERY")
                 ? "RECOVERED" : "CURRENT";
         return new IncidentProjection(
                 state,
                 unknown ? null : impact,
                 unknown ? impact : null,
-                required(detection, "detectionId"),
-                required(detection, "windowEnd"),
+                originMatches ? required(impactOrigin, "detectionId")
+                        : unknown ? null : required(detection, "detectionId"),
+                originMatches ? required(impactOrigin, "windowEnd")
+                        : unknown ? null : required(detection, "windowEnd"),
                 required(detection, "probableCause"),
                 required(detection, "causeConfidence"),
                 "/api/incidents/" + incidentId + "/detections");
+    }
+
+    /** The detector records the original evaluated minute in immutable UNKNOWN evidence. */
+    public static Instant historicalImpactWindowStart(JsonNode detection) {
+        if (!"UNKNOWN".equals(detection.path("phase").asText())) return null;
+        for (JsonNode item : detection.path("evidence")) {
+            if (!"HISTORICAL_IMPACT".equals(item.path("code").asText())) continue;
+            String summary = item.path("summary").asText();
+            String prefix = "Historical value from ";
+            int end = summary.indexOf(';');
+            if (!summary.startsWith(prefix) || end < prefix.length()) return null;
+            try { return Instant.parse(summary.substring(prefix.length(), end)); }
+            catch (DateTimeParseException invalid) { return null; }
+        }
+        return null;
     }
 
     private static String required(JsonNode node, String key) {
