@@ -19,6 +19,7 @@ export class ServiceStore {
   readonly previous = signal<ServiceSummary[]>([]);
   readonly loading = signal(true);
   readonly error = signal("");
+  readonly incidentError = signal('');
   readonly cities = signal<readonly City[]>(cities);
   readonly geographyError = signal('');
   readonly geographyUpdatedAt = signal('');
@@ -35,7 +36,6 @@ export class ServiceStore {
         this.api.listServices(controller.signal),
         this.loadGeography(requestId, controller.signal),
       ]);
-      const incidentPage = await allPages(page => this.api.listIncidents({ page, size: 100 }, controller.signal), () => requestId === this.requestId);
       if (requestId === this.requestId) {
         const old = new Map(this.services().map(item => [item.scope.scopeId, item]));
         // Keep the prior completed window until a genuinely new minute arrives.
@@ -48,7 +48,17 @@ export class ServiceStore {
             return item ? [item] : [];
           });
         });
-        this.services.set(services); this.incidents.set(mergeIncidentPage(this.incidents(), incidentPage.items));
+        this.services.set(services);
+      }
+      try {
+        const incidentPage = await allPages(page => this.api.listIncidents({ page, size: 100 }, controller.signal), () => requestId === this.requestId);
+        if (requestId === this.requestId) {
+          this.incidents.set(mergeIncidentPage(this.incidents(), incidentPage.items));
+          this.incidentError.set('');
+        }
+      } catch (error) {
+        if (requestId === this.requestId && !controller.signal.aborted)
+          this.incidentError.set(error instanceof Error ? error.message : 'Incident context unavailable.');
       }
     } catch (error) {
       if (requestId === this.requestId) {

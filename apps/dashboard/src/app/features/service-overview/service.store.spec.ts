@@ -86,4 +86,16 @@ describe("ServiceStore", () => {
     await store.load();
     expect(store.incidents()).toEqual([]);
   });
+
+  it('retains service measurements when incident context fails to load', async () => {
+    TestBed.configureTestingModule({ providers: [{ provide: TelecomClient, useValue: {
+      listServices: async () => services,
+      listIncidents: async () => { throw new Error('Incident API unavailable'); },
+    } }] });
+    const store = TestBed.inject(ServiceStore);
+    await store.load();
+    expect(store.services()).toHaveLength(services.length);
+    expect(store.error()).toBe('');
+    expect(store.incidentError()).toBe('Incident API unavailable');
+  });
 });

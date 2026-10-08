@@ -75,6 +75,15 @@ class SharedContractTests(unittest.TestCase):
                 for example in node["examples"].values():
                     self.api_validator(node["schema"]).validate(example["value"])
 
+    def test_geographic_nullable_response_enums_accept_null(self):
+        metric = self.schemas["GeographyMetric"]["properties"]["nullReason"]
+        location = self.schemas["IncidentLocation"]["properties"]["nullReason"]
+        priority = self.schemas["GeographyPriorityPage"]["properties"]["items"]["items"]["properties"]
+        for field in (metric, location, priority["cityNullReason"], priority["impactUnit"]):
+            with self.subTest(field=field):
+                self.api_validator(field).validate(None)
+                self.assertIn(None, field["enum"])
+
     def test_service_assurance_routes_use_current_schemas(self):
         route_schemas = {
             "/api/incidents": "IncidentPage",

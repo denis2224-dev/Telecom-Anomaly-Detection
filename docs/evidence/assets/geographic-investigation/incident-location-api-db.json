@@ -1,0 +1,73 @@
+{
+  "evidenceKind" : "PostgreSQL + MockMvc; test OIDC principal, not live login",
+  "executedAt" : "2026-10-07T21:02:32.718889Z",
+  "route" : "/api/incidents/44d35b10-e755-4452-9d2f-fdd5bdc29fd9",
+  "body" : {
+    "id" : "44d35b10-e755-4452-9d2f-fdd5bdc29fd9",
+    "episodeId" : "fcb29fc3-bb6e-49a6-b7f6-4900cff1da2f",
+    "service" : "VOLTE",
+    "scopeId" : "VOLTE-MD-CHI",
+    "status" : "OPEN",
+    "technicalState" : "RECOVERED",
+    "severity" : "HIGH",
+    "assigneeId" : null,
+    "resolutionNote" : null,
+    "firstObservedAt" : "2026-09-15T08:00:00Z",
+    "detectedAt" : "2026-09-15T08:01:10Z",
+    "lastObservedAt" : "2026-09-15T08:02:00Z",
+    "createdAt" : "2026-10-07T21:02:32.702366Z",
+    "updatedAt" : "2026-10-07T21:02:32.706661Z",
+    "version" : 1,
+    "latestSequence" : 2,
+    "latestDetection" : {
+      "schemaVersion" : 2,
+      "episodeId" : "fcb29fc3-bb6e-49a6-b7f6-4900cff1da2f",
+      "detectionId" : "fcb29fc3-bb6e-49a6-b7f6-4900cff1da2f-2",
+      "sequence" : 2,
+      "phase" : "RECOVERY",
+      "scopeId" : "VOLTE-MD-CHI",
+      "service" : "VOLTE",
+      "windowEnd" : "2026-09-15T08:02:00Z",
+      "topologyVersion" : "2-geography-g1",
+      "probableCause" : "Cause undetermined",
+      "causeConfidence" : "LOW",
+      "impact" : {
+        "extraFailedAttempts" : 0,
+        "affectedDeliveredMessages" : 0,
+        "pendingMessages" : 0,
+        "uniqueSubscribers" : null
+      }
+    },
+    "presentation" : {
+      "impactState" : "RECOVERED",
+      "currentImpact" : {
+        "extraFailedAttempts" : 0,
+        "affectedDeliveredMessages" : 0,
+        "pendingMessages" : 0,
+        "uniqueSubscribers" : null
+      },
+      "retainedImpact" : null,
+      "impactSourceDetectionId" : "fcb29fc3-bb6e-49a6-b7f6-4900cff1da2f-2",
+      "impactWindowEnd" : "2026-09-15T08:02:00Z",
+      "probableCause" : "Cause undetermined",
+      "causeConfidence" : "LOW",
+      "evidenceHistoryPath" : "/api/incidents/44d35b10-e755-4452-9d2f-fdd5bdc29fd9/detections"
+    },
+    "location" : {
+      "cityId" : "CHI",
+      "catalogueVersion" : "archived",
+      "topologyVersion" : "old-topology",
+      "measuredScopeId" : "VOLTE-MD-CHI",
+      "containmentPath" : [ "MD", "CITY-MD-CHI", "AGG-MD-CHI-99", "SITE-MD-CHI-99", "CELL-MD-CHI-99" ],
+      "dependencyNodeIds" : [ "IMS-MD-CHI-99", "TRANSPORT-MD-CHI-99" ],
+      "nullReason" : null
+    }
+  },
+  "openingEvidence" : {
+    "detectionId" : "fcb29fc3-bb6e-49a6-b7f6-4900cff1da2f-1",
+    "episodeId" : "fcb29fc3-bb6e-49a6-b7f6-4900cff1da2f",
+    "sequence" : 1,
+    "payloadSha256" : "8d023e20a603dd6ae4014232f1b1b64da79cc64bd702f7fe8fcabdb71d5291cc",
+    "payloadUnchangedAfterRecovery" : true
+  }
+}

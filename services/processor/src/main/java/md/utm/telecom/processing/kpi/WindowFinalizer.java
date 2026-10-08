@@ -82,6 +82,16 @@ public class WindowFinalizer {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public Result finalizeWindow(String scopeId, Instant windowStart) {
+        return finalizeLockedWindow(scopeId, windowStart);
+    }
+
+    /** Offline history joins the receipt/ownership transaction; live callers keep REQUIRES_NEW. */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Result finalizeBootstrapWindow(String scopeId, Instant windowStart) {
+        return finalizeLockedWindow(scopeId, windowStart);
+    }
+
+    private Result finalizeLockedWindow(String scopeId, Instant windowStart) {
         String serviceName = scopes.serviceFor(scopeId);
         if (!serviceName.equals("VOLTE") && !serviceName.equals("SMS")) return Result.UNSUPPORTED_SERVICE;
         decisionLock.acquire(scopeId, windowStart);

@@ -73,13 +73,20 @@ def validate_explanation_cases(suite):
     feature_validator = Draft202012Validator(read_json(ROOT / 'contracts/features/service-feature-window-v2.schema.json'), format_checker=FormatChecker())
     detection_validator = Draft202012Validator(read_json(ROOT / 'contracts/detections/service-detection-v2.schema.json'), format_checker=FormatChecker())
     ids = set()
+    topologies = {}
+    for name in ('demo-scopes-v2.json', 'geographic-scopes-v2.json'):
+        topology = read_json(ROOT / 'contracts/topology' / name)
+        topologies[topology['topologyVersion']] = {scope['scopeId']: scope for scope in topology['scopes']}
     for case in suite['cases']:
         if case['id'] in ids:
             raise ValueError('Duplicate explanation case: ' + case['id'])
         ids.add(case['id'])
         for step in case['windows']:
             feature_validator.validate(step['feature'])
-            validate_observation(step['node'])
+            version = step['feature']['topologyVersion']
+            if version not in topologies:
+                raise ValueError('Unknown explanation topology version: ' + version)
+            validate_observation(step['node'], scopes=topologies[version])
             if step['feature']['service'] != case['service']:
                 raise ValueError('Explanation case service mismatch')
         for detection in case['detections']:

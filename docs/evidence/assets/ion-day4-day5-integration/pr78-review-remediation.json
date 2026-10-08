@@ -1,0 +1,2128 @@
+{
+  "schemaVersion": 1,
+  "kind": "PR78_REVIEW_REMEDIATION",
+  "createdAtUtc": "2026-10-08T15:01:38.729515+00:00",
+  "prUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/78",
+  "reviewedHead": "38dd434754605ed05c5313ffd1a8d6b5034d6fee",
+  "verifiedPrBase": "1b675c64938474e74c79efcecb6e051c4d460943",
+  "verifiedRegressionSourceSha": "825df4c11a263fedafc7e1f4b4ea5ef14c860d0a",
+  "finalHeadBoundary": "Following evidence commit changes documentation/assets only; exact final-head focused execution, publication and CI are recorded in the PR description and local publication-final.json.",
+  "reviewFindingsProvenance": "User-supplied Sergiu review and controlled-mutation findings; GitHub reviews/comments APIs returned empty before editing.",
+  "verdict": "READY_FOR_REREVIEW subject to exact-head publication/CI recorded externally",
+  "sharedG5": "BLOCKED",
+  "changedFiles": [
+    "docs/evidence/2026-10-08-ion-day4-day5-post-merge-integration.md",
+    "docs/evidence/2026-10-08-pr78-review-remediation.md",
+    "docs/evidence/assets/ion-day4-day5-integration/pr78-review-remediation.json",
+    "docs/evidence/assets/ion-day4-day5-integration/selective-inventory.json",
+    "docs/evidence/assets/ion-day4-day5-integration/verification.json",
+    "docs/runbooks/ion-day5-release-verification.md",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java"
+  ],
+  "formulas": {
+    "VoLTE": "eligibleAttempts = attempts - userOutcomes; expectedCssrPct = 100.0 * technicalSuccesses / eligibleAttempts; eligibleAttempts > 0",
+    "SMS": "expectedDeliverySrPct = 100.0 * deliverySuccesses / deliveryAttempts; deliveryAttempts > 0",
+    "assertions": [
+      "expected KPI exists via kpi helper",
+      "observed.isNumber()",
+      "equality to independent input-derived rate within 1e-9",
+      "observed < 95",
+      "existing SOURCE coverage/quality, null dependency KPI, stale/never-seen activity, ML ineligibility and no POWER_OFF retained"
+    ]
+  },
+  "sixDependencyCases": [
+    {
+      "invocation": 1,
+      "service": "VoLTE",
+      "dependency": "IMS",
+      "evidence": "missing",
+      "expectedRatePct": 91.07142857142857,
+      "absoluteTolerance": 1e-09,
+      "outcomes": {
+        "mutation-original": "PASS",
+        "mutation-corrected": "FAIL",
+        "mutation-zero": "FAIL",
+        "coverage": "PASS",
+        "focused": "PASS"
+      }
+    },
+    {
+      "invocation": 2,
+      "service": "VoLTE",
+      "dependency": "IMS",
+      "evidence": "stale",
+      "expectedRatePct": 91.07142857142857,
+      "absoluteTolerance": 1e-09,
+      "outcomes": {
+        "mutation-original": "PASS",
+        "mutation-corrected": "FAIL",
+        "mutation-zero": "FAIL",
+        "coverage": "PASS",
+        "focused": "PASS"
+      }
+    },
+    {
+      "invocation": 3,
+      "service": "VoLTE",
+      "dependency": "transport",
+      "evidence": "missing",
+      "expectedRatePct": 91.07142857142857,
+      "absoluteTolerance": 1e-09,
+      "outcomes": {
+        "mutation-original": "PASS",
+        "mutation-corrected": "FAIL",
+        "mutation-zero": "FAIL",
+        "coverage": "PASS",
+        "focused": "PASS"
+      }
+    },
+    {
+      "invocation": 4,
+      "service": "VoLTE",
+      "dependency": "transport",
+      "evidence": "stale",
+      "expectedRatePct": 91.07142857142857,
+      "absoluteTolerance": 1e-09,
+      "outcomes": {
+        "mutation-original": "PASS",
+        "mutation-corrected": "FAIL",
+        "mutation-zero": "FAIL",
+        "coverage": "PASS",
+        "focused": "PASS"
+      }
+    },
+    {
+      "invocation": 5,
+      "service": "SMS",
+      "dependency": "SMSC",
+      "evidence": "missing",
+      "expectedRatePct": 50.0,
+      "absoluteTolerance": 1e-09,
+      "outcomes": {
+        "mutation-original": "PASS",
+        "mutation-corrected": "FAIL",
+        "mutation-zero": "FAIL",
+        "coverage": "PASS",
+        "focused": "PASS"
+      }
+    },
+    {
+      "invocation": 6,
+      "service": "SMS",
+      "dependency": "SMSC",
+      "evidence": "stale",
+      "expectedRatePct": 50.0,
+      "absoluteTolerance": 1e-09,
+      "outcomes": {
+        "mutation-original": "PASS",
+        "mutation-corrected": "FAIL",
+        "mutation-zero": "FAIL",
+        "coverage": "PASS",
+        "focused": "PASS"
+      }
+    }
+  ],
+  "executions": [
+    {
+      "name": "mutation-original",
+      "sourceSha": "38dd434754605ed05c5313ffd1a8d6b5034d6fee",
+      "workingTree": "TEMPORARY_MUTATION",
+      "startedAtUtc": "2026-10-08T14:45:23.672528+00:00",
+      "finishedAtUtc": "2026-10-08T14:46:09.334244+00:00",
+      "cwd": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-checkout",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=GeographicCoverageTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-original.log",
+      "logSha256": "c011690de74254cac4e17a57d4a9363b436b834b28ecb98744ba0899d4ce5ec0",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "0027954a71f0f1ebc687ea5532fb8baa192efc902a74a43172675755a3513f82",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "af4abdf9007d0473cc0bb0f36c3d91a96301b58939d7e581fc25001ca721eea4"
+      },
+      "environment": {
+        "postgres": "real disposable Testcontainers PostgreSQL 16.4-alpine",
+        "kafka": "real embedded Kafka for focused load tests; dedicated Kafka in outage/history reactor tests",
+        "scheduling": "controlled scheduler/clock in reconciliation",
+        "producerFailureAcks": "controlled futures",
+        "ML_SERVICE_URL_present": false,
+        "SMS_SHADOW_REPLAY_DIR_present": false
+      },
+      "suites": [
+        {
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-original-results/processor/TEST-md.utm.telecom.processing.kpi.GeographicCoverageTest.xml",
+          "xmlSha256": "c73a2a257f129a3af42e60c0b6db3afea0aff20368551516c34fd62d144d2bff",
+          "cases": [
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[1]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[2]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[3]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[4]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[5]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[6]",
+              "outcome": "PASS"
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "tests": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 23
+      },
+      "mutation": {
+        "kind": "DISCARD_SERVICE_WITH_MISSING_REQUIRED_NODE",
+        "assertion": "ORIGINAL_WEAK_THRESHOLD_ONLY",
+        "expectedResult": "PASS exposes original weakness"
+      }
+    },
+    {
+      "name": "mutation-corrected",
+      "sourceSha": "38dd434754605ed05c5313ffd1a8d6b5034d6fee",
+      "workingTree": "TEMPORARY_MUTATION",
+      "startedAtUtc": "2026-10-08T14:46:35.571525+00:00",
+      "finishedAtUtc": "2026-10-08T14:47:12.820996+00:00",
+      "cwd": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-checkout",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=GeographicCoverageTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "exitCode": 1,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-corrected.log",
+      "logSha256": "59b43d197fbb60d6e50c067de306aff6a806f2fec2b01509b8368bac69b6761b",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "af4abdf9007d0473cc0bb0f36c3d91a96301b58939d7e581fc25001ca721eea4"
+      },
+      "environment": {
+        "postgres": "real disposable Testcontainers PostgreSQL 16.4-alpine",
+        "kafka": "real embedded Kafka for focused load tests; dedicated Kafka in outage/history reactor tests",
+        "scheduling": "controlled scheduler/clock in reconciliation",
+        "producerFailureAcks": "controlled futures",
+        "ML_SERVICE_URL_present": false,
+        "SMS_SHADOW_REPLAY_DIR_present": false
+      },
+      "suites": [
+        {
+          "tests": 23,
+          "failures": 6,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-corrected-results/processor/TEST-md.utm.telecom.processing.kpi.GeographicCoverageTest.xml",
+          "xmlSha256": "b3f20f82c57f0d5c0ae85cf606e594173e0d5870d02ff84ad71d3e80224d09c8",
+          "cases": [
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[1]",
+              "outcome": "FAIL",
+              "reason": "Measured SERVICE degradation must remain a JSON number ==> expected: <true> but was: <false>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[2]",
+              "outcome": "FAIL",
+              "reason": "Measured SERVICE degradation must remain a JSON number ==> expected: <true> but was: <false>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[3]",
+              "outcome": "FAIL",
+              "reason": "Measured SERVICE degradation must remain a JSON number ==> expected: <true> but was: <false>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[4]",
+              "outcome": "FAIL",
+              "reason": "Measured SERVICE degradation must remain a JSON number ==> expected: <true> but was: <false>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[5]",
+              "outcome": "FAIL",
+              "reason": "Measured SERVICE degradation must remain a JSON number ==> expected: <true> but was: <false>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[6]",
+              "outcome": "FAIL",
+              "reason": "Measured SERVICE degradation must remain a JSON number ==> expected: <true> but was: <false>"
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "tests": 23,
+        "failures": 6,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 17
+      },
+      "mutation": {
+        "kind": "DISCARD_SERVICE_WITH_MISSING_REQUIRED_NODE",
+        "assertion": "CORRECTED_NUMERIC_AND_EXPECTED_RATE",
+        "expectedResult": "6 FAIL proves detection; not successful normal output"
+      }
+    },
+    {
+      "name": "mutation-zero",
+      "sourceSha": "38dd434754605ed05c5313ffd1a8d6b5034d6fee",
+      "workingTree": "TEMPORARY_MUTATION",
+      "startedAtUtc": "2026-10-08T14:47:45.655479+00:00",
+      "finishedAtUtc": "2026-10-08T14:48:24.260696+00:00",
+      "cwd": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-checkout",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=GeographicCoverageTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "exitCode": 1,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-zero.log",
+      "logSha256": "afd627433b667800bdcb1f83f7032694dc11c882ad01f6773da11150c265901f",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "a8c1773d40c78a14d345fe303c196ba1d41a7c17ced64007319640fb45591e26"
+      },
+      "environment": {
+        "postgres": "real disposable Testcontainers PostgreSQL 16.4-alpine",
+        "kafka": "real embedded Kafka for focused load tests; dedicated Kafka in outage/history reactor tests",
+        "scheduling": "controlled scheduler/clock in reconciliation",
+        "producerFailureAcks": "controlled futures",
+        "ML_SERVICE_URL_present": false,
+        "SMS_SHADOW_REPLAY_DIR_present": false
+      },
+      "suites": [
+        {
+          "tests": 23,
+          "failures": 6,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/mutation-zero-results/processor/TEST-md.utm.telecom.processing.kpi.GeographicCoverageTest.xml",
+          "xmlSha256": "ff90a20916cdc9637466fe3a1d7b0c2f6a6ce0b11289ebe173746ae9155dce3f",
+          "cases": [
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[1]",
+              "outcome": "FAIL",
+              "reason": "Rate must match accepted SERVICE counters ==> expected: <91.07142857142857> but was: <0.0>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[2]",
+              "outcome": "FAIL",
+              "reason": "Rate must match accepted SERVICE counters ==> expected: <91.07142857142857> but was: <0.0>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[3]",
+              "outcome": "FAIL",
+              "reason": "Rate must match accepted SERVICE counters ==> expected: <91.07142857142857> but was: <0.0>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[4]",
+              "outcome": "FAIL",
+              "reason": "Rate must match accepted SERVICE counters ==> expected: <91.07142857142857> but was: <0.0>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[5]",
+              "outcome": "FAIL",
+              "reason": "Rate must match accepted SERVICE counters ==> expected: <50.0> but was: <0.0>"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[6]",
+              "outcome": "FAIL",
+              "reason": "Rate must match accepted SERVICE counters ==> expected: <50.0> but was: <0.0>"
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "tests": 23,
+        "failures": 6,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 17
+      },
+      "mutation": {
+        "kind": "REPLACE_MEASURED_SERVICE_RATE_WITH_NUMERIC_ZERO",
+        "assertion": "CORRECTED_NUMERIC_AND_EXPECTED_RATE",
+        "expectedResult": "6 equality FAIL proves numeric type alone is insufficient"
+      }
+    },
+    {
+      "name": "coverage",
+      "sourceSha": "38dd434754605ed05c5313ffd1a8d6b5034d6fee",
+      "workingTree": "WORKING_TREE_PATCH",
+      "startedAtUtc": "2026-10-08T14:49:50.612733+00:00",
+      "finishedAtUtc": "2026-10-08T14:50:29.451456+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=GeographicCoverageTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/coverage.log",
+      "logSha256": "a7eeb00361e2ab25beddc8579c93bb4ab8716d1f3699908da38bacb89e619957",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+      },
+      "environment": {
+        "postgres": "real disposable Testcontainers PostgreSQL 16.4-alpine",
+        "kafka": "real embedded Kafka for focused load tests; dedicated Kafka in outage/history reactor tests",
+        "scheduling": "controlled scheduler/clock in reconciliation",
+        "producerFailureAcks": "controlled futures",
+        "ML_SERVICE_URL_present": false,
+        "SMS_SHADOW_REPLAY_DIR_present": false
+      },
+      "sourcePatch": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/coverage-source.patch",
+      "sourcePatchSha256": "f842a7d1892fc857b87ef587d7bc70e872e0efd2c9024ed8d743ad4183a9efa5",
+      "suites": [
+        {
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/coverage-results/processor/TEST-md.utm.telecom.processing.kpi.GeographicCoverageTest.xml",
+          "xmlSha256": "733dcfb849e12827d4cfb0e101127ec1473206cd62ddfcf34b64f03550cf6426",
+          "cases": [
+            {
+              "name": "failureAfterCoverageInsertRollsBackCoverageFeatureAndMarker",
+              "outcome": "PASS"
+            },
+            {
+              "name": "optionalSmsTransportAbsentAndDuplicateFinalizationAreIdempotent",
+              "outcome": "PASS"
+            },
+            {
+              "name": "existingGenericPublisherRetriesStableCoverageAndMarksOnlyAfterAck",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentServiceFinalizationUsesOnlyRealNodeReceipts",
+              "outcome": "PASS"
+            },
+            {
+              "name": "competingFinalizersCommitOneMatchingWinningSnapshot",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[1]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[2]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[3]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[4]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[5]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[6]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "reportedMissingAndHeartbeatAreReceivedTruthWithoutCrossCityContamination",
+              "outcome": "PASS"
+            },
+            {
+              "name": "fiftyGeneratedReceiptsFinalizeTwentyIndependentFeatureAndCoverageFacts",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[1]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[2]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[3]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[4]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[5]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[6]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[7]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[8]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[9]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[10]",
+              "outcome": "PASS"
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "tests": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 23
+      }
+    },
+    {
+      "name": "focused",
+      "sourceSha": "38dd434754605ed05c5313ffd1a8d6b5034d6fee",
+      "workingTree": "WORKING_TREE_PATCH",
+      "startedAtUtc": "2026-10-08T14:50:29.652709+00:00",
+      "finishedAtUtc": "2026-10-08T14:51:36.548760+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=GeographicPublicationTest,GeographicCoverageTest,GeographicLoadAccountingTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/focused.log",
+      "logSha256": "4e535042784656bc6900243ad71fc0eb2bd70908119af4448378f70f1a4a51a6",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+      },
+      "environment": {
+        "postgres": "real disposable Testcontainers PostgreSQL 16.4-alpine",
+        "kafka": "real embedded Kafka for focused load tests; dedicated Kafka in outage/history reactor tests",
+        "scheduling": "controlled scheduler/clock in reconciliation",
+        "producerFailureAcks": "controlled futures",
+        "ML_SERVICE_URL_present": false,
+        "SMS_SHADOW_REPLAY_DIR_present": false
+      },
+      "sourcePatch": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/focused-source.patch",
+      "sourcePatchSha256": "f842a7d1892fc857b87ef587d7bc70e872e0efd2c9024ed8d743ad4183a9efa5",
+      "suites": [
+        {
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/focused-results/event-generator/TEST-md.utm.telecom.generator.continuous.GeographicPublicationTest.xml",
+          "xmlSha256": "acfb58c99f06c09f6ba02f7b706ecdb8d4b7f91b53f133584bda2ca814ac0adf",
+          "cases": [
+            {
+              "name": "stopCancelsOfferedRecordsWithoutAcknowledgingLateSuccess",
+              "outcome": "PASS"
+            },
+            {
+              "name": "ackCallbackDoesNotExecuteTheNextBlockingSend",
+              "outcome": "PASS"
+            },
+            {
+              "name": "stalledAckLeavesOtherNineteenScopesIndependentAndPreservesOrder",
+              "outcome": "PASS"
+            },
+            {
+              "name": "synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute",
+              "outcome": "PASS"
+            },
+            {
+              "name": "expiredBlockingSendRetainsScopeOrderAcrossMinutesWithoutBlockingOtherScopes",
+              "outcome": "PASS"
+            },
+            {
+              "name": "minimumGeographicInventoryAndLegacyConfigurationRemainExplicit",
+              "outcome": "PASS"
+            },
+            {
+              "name": "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute",
+              "outcome": "PASS"
+            },
+            {
+              "name": "resultsRetainOnlyTwoUtcMinutes",
+              "outcome": "PASS"
+            },
+            {
+              "name": "deadlineAndStopRejectLateCallbacksAndRestartRetainsNoOldChains",
+              "outcome": "PASS"
+            },
+            {
+              "name": "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption",
+              "outcome": "PASS"
+            },
+            {
+              "name": "uncertainTimeoutRetryReusesPayloadAndEventIdWithOneLogicalOffer",
+              "outcome": "PASS"
+            },
+            {
+              "name": "allTwentyGeographicScopesFitPublicationDeadlineWithReal150msAckLatency",
+              "outcome": "PASS"
+            },
+            {
+              "name": "oneTerminalFailedAckIsVisibleWithoutIncreasingLogicalOffers",
+              "outcome": "PASS"
+            },
+            {
+              "name": "blockingKafkaSubmissionDoesNotSerializeOtherNineteenScopes",
+              "outcome": "PASS"
+            },
+            {
+              "name": "geographicRetriesReuseOriginalBytesAndKeepThreeAttemptLimit",
+              "outcome": "PASS"
+            },
+            {
+              "name": "successfulMinuteReportsFiftyLogicalOffersAndAcknowledgements",
+              "outcome": "PASS"
+            },
+            {
+              "name": "snapshotsDoNotAcknowledgeHeldFuturesAndRemainImmutable",
+              "outcome": "PASS"
+            }
+          ]
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/focused-results/processor/TEST-md.utm.telecom.processing.GeographicLoadAccountingTest.xml",
+          "xmlSha256": "ade5047860a41661047f7596119071cee40f5cef3a37120f8373eec858f105e5",
+          "cases": [
+            {
+              "name": "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres",
+              "outcome": "PASS"
+            },
+            {
+              "name": "threeConsecutiveMinutesReconcileOneProducerWithSameWindowKpiAndCoverageFacts",
+              "outcome": "PASS"
+            },
+            {
+              "name": "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts",
+              "outcome": "PASS"
+            },
+            {
+              "name": "persistedReceiptCanPrecedeUncertainAckAndRetryDoesNotInflateIt",
+              "outcome": "PASS"
+            }
+          ]
+        },
+        {
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/focused-results/processor/TEST-md.utm.telecom.processing.kpi.GeographicCoverageTest.xml",
+          "xmlSha256": "27ee243cc6bf2ee2dab0fec036fe1196b5dd325cce3e35c9fb64c84116f8f133",
+          "cases": [
+            {
+              "name": "failureAfterCoverageInsertRollsBackCoverageFeatureAndMarker",
+              "outcome": "PASS"
+            },
+            {
+              "name": "optionalSmsTransportAbsentAndDuplicateFinalizationAreIdempotent",
+              "outcome": "PASS"
+            },
+            {
+              "name": "existingGenericPublisherRetriesStableCoverageAndMarksOnlyAfterAck",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentServiceFinalizationUsesOnlyRealNodeReceipts",
+              "outcome": "PASS"
+            },
+            {
+              "name": "competingFinalizersCommitOneMatchingWinningSnapshot",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[1]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[2]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[3]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[4]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[5]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[6]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "reportedMissingAndHeartbeatAreReceivedTruthWithoutCrossCityContamination",
+              "outcome": "PASS"
+            },
+            {
+              "name": "fiftyGeneratedReceiptsFinalizeTwentyIndependentFeatureAndCoverageFacts",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[1]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[2]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[3]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[4]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[5]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[6]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[7]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[8]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[9]",
+              "outcome": "PASS"
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[10]",
+              "outcome": "PASS"
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "tests": 44,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 44
+      }
+    },
+    {
+      "name": "processor",
+      "sourceSha": "825df4c11a263fedafc7e1f4b4ea5ef14c860d0a",
+      "workingTree": "COMMITTED_SOURCE",
+      "startedAtUtc": "2026-10-08T14:52:26.656330+00:00",
+      "finishedAtUtc": "2026-10-08T15:00:54.466979+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor.log",
+      "logSha256": "e3596d0ebfd50cca5e3f439bf5cb23d6a2143917b314fdae076b26fe0f1cf19f",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+      },
+      "environment": {
+        "postgres": "real disposable Testcontainers PostgreSQL 16.4-alpine",
+        "kafka": "real embedded Kafka for focused load tests; dedicated Kafka in outage/history reactor tests",
+        "scheduling": "controlled scheduler/clock in reconciliation",
+        "producerFailureAcks": "controlled futures",
+        "ML_SERVICE_URL_present": false,
+        "SMS_SHADOW_REPLAY_DIR_present": false
+      },
+      "suites": [
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.api.ScenarioAuthorityContextTest.xml",
+          "xmlSha256": "194dd63fa520c6fec66b262122cbfd081cf665cca08cdfc0073af7e424a66e34",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioControllerTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.api.ScenarioControllerTest.xml",
+          "xmlSha256": "6942b424f5b2d1ddcb370ca1cf81dafe4377a9320c15b795932b559c6ce65cd4",
+          "cases": []
+        },
+        {
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.api.ScenarioExecutionServiceTest.xml",
+          "xmlSha256": "93a4e8db579a767e31d83d558ec7cb333ec0c7d63e1877385b04122452bc5a2f",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.CityVoiceSeedTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.CityVoiceSeedTest.xml",
+          "xmlSha256": "7e85e711a1e20d3c3adc45a7f501064b18d11783966609f3a4e1095c3dc6119c",
+          "cases": []
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest.xml",
+          "xmlSha256": "47c931d94adbb6713e55bd210dca348a65d3754fa43e15bbc4d9731e76189fe4",
+          "cases": []
+        },
+        {
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.continuous.GeographicPublicationTest.xml",
+          "xmlSha256": "8250629b8ce664e64351afde8ecf4774a5a0608ed16b44d8024be7fbedf713b6",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.G2ServiceSuiteTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.G2ServiceSuiteTest.xml",
+          "xmlSha256": "ad86895d319e4a4c4b97342dc9e00d410440d276dd1b72c66022507903085c77",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.GeographicRuntimeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.GeographicRuntimeTest.xml",
+          "xmlSha256": "29128dc8b591c2889f19248e1e9a35ac7c4dd843ca8db22f7ef270fb6654f717",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.HealthProbeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.HealthProbeTest.xml",
+          "xmlSha256": "5e0801a1ea1d8e322d62feb5b661289464f7a742608c725ee66da39017fea8ba",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.ObservationGeneratorTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.ObservationGeneratorTest.xml",
+          "xmlSha256": "75271bacd23eaa7d0d4efa6ee8a46ff953788c1fcff0a2a64d0c4cb8256b6afe",
+          "cases": []
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.scenarios.SmsQueueScenarioTest.xml",
+          "xmlSha256": "2447fe5025a2d5d96fd831d1e60d53768e4e7fd456d64c03c20a51697d15b7d4",
+          "cases": []
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.VoiceScenarioTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/event-generator/TEST-md.utm.telecom.generator.VoiceScenarioTest.xml",
+          "xmlSha256": "bb7fce507356cf67ce36963efb383d1af57353f3c10291005756a4a15b7f0d99",
+          "cases": []
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.BaselineRegistryTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.BaselineRegistryTest.xml",
+          "xmlSha256": "49f52568b85671707a55b912a626b3502bf7cdf3615eca1f9da1063ebe503709",
+          "cases": []
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DependencyOutageIT",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.DependencyOutageIT.xml",
+          "xmlSha256": "e780a87aa74dd9d7c2470b329baff8a639454bf93bf3aa830fac47c3b02488c7",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DetectionConfigurationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.DetectionConfigurationTest.xml",
+          "xmlSha256": "cf83655a582719380e148c055c81cc1402a394afb90b6be0284cb4a59c14e67e",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DetectionMigrationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.DetectionMigrationTest.xml",
+          "xmlSha256": "7ce43eb02df9e7b256c0283feda58481eb8e6b3222fe978fb76ac8e5e6a4e253",
+          "cases": []
+        },
+        {
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DetectionReplayIT",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.DetectionReplayIT.xml",
+          "xmlSha256": "6343fa7b0495357e1e4327aa5d177a58a1c858d0d03286f7117c764906135d63",
+          "cases": []
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.EpisodeStateTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.EpisodeStateTest.xml",
+          "xmlSha256": "c68e3ed75315e9a97623129ce7d1cbe317c09cafc520e47a65bd47d7519acba2",
+          "cases": []
+        },
+        {
+          "tests": 64,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ExplanationCasesTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.ExplanationCasesTest.xml",
+          "xmlSha256": "cf59621fc7f37326952ce2225edcb7aa641bccdd4914678223f07faac03e9c50",
+          "cases": []
+        },
+        {
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.FinalizerRaceIT",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.FinalizerRaceIT.xml",
+          "xmlSha256": "7cfbdb21e005c1eab4dc11af4edafac8954afcaa0741131031174c0476a2ec8b",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicAggregationCasesTest.xml",
+          "xmlSha256": "adfc96907db2f81a2260a0c57bd4042335f70e69405dcb5f56f9c3ddd451752d",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicBaselineContractTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicBaselineContractTest.xml",
+          "xmlSha256": "09ab8bc6f4a3a6fc28ff41e0bcd384d72d4547ea88df30b3605623a2501a8dff",
+          "cases": []
+        },
+        {
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicDetectionTest.xml",
+          "xmlSha256": "614a8f053e60f17e03c1ff49077d91ad88d81981691a5c3f639940f8c2488ea1",
+          "cases": [
+            {
+              "name": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+              "outcome": "SKIP",
+              "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+            }
+          ]
+        },
+        {
+          "tests": 121,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicExplanationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicExplanationTest.xml",
+          "xmlSha256": "f51a17c3aa108d08624cf47f788ccc21bc7fe08640b154345a6791778642b1e8",
+          "cases": []
+        },
+        {
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicLegacyDetectionTest.xml",
+          "xmlSha256": "d569ea1eba46b3a3ced7c84e892a6e9acfb8e629f74a25727b59c031981f9fda",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicLegacyWorkerTest.xml",
+          "xmlSha256": "f9fc1d9bbb64bb4f02907df5746532336995320d9c1ac497f0b71960cbf4821f",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicLoadAccountingTest.xml",
+          "xmlSha256": "9e7c173f9b8a02cf16e14ec7ce7ca36d62014b266dba082d3785a82e111754cb",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicMonitoringMigrationTest.xml",
+          "xmlSha256": "60c203afc2f3ff89a1e53740f834a917dff089c84411b3cc2ad17a6572e48673",
+          "cases": []
+        },
+        {
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicMonitoringTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicMonitoringTest.xml",
+          "xmlSha256": "b10a2298cee17f82cac44a09c5356c4442fa206d2d8ff3070c020996cfe6e903",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicParityTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicParityTest.xml",
+          "xmlSha256": "2fe46d0d28b27d9e85d80f11c9a0b64017015f6b2603009c5c3875cbd2f2195b",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicReplayTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicReplayTest.xml",
+          "xmlSha256": "c10b6d6ae015c51a6d3fe481376d080f8c4a5987520db287a6cbc0e4ee322fb4",
+          "cases": []
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicSmsBaselineTest.xml",
+          "xmlSha256": "381cb5f0379b1eb44a73d37eb506d6008c8e5de7c943d98947ca0efa1f99b163",
+          "cases": []
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicWorkerTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.GeographicWorkerTest.xml",
+          "xmlSha256": "c12b7201c100c8ff0eff157ef9a034cc83ae2b2a383f51814f347b594b7474a3",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.HealthProbeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.HealthProbeTest.xml",
+          "xmlSha256": "012d406655228187d81eb56d0e5ce48a2fc04a35ff0a028b4aaf60071643e004",
+          "cases": []
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest.xml",
+          "xmlSha256": "dea094ada3a46d2d010c30495f5e4416066adea37b4d18bfbfeffa8fc7e3d81b",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.history.GeographicHistoryMigrationTest.xml",
+          "xmlSha256": "978ca2249726af7d3b118dfdc469a902c664ae685e88ed11e0aecb898b20b61a",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HealthyHistoryTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.history.HealthyHistoryTest.xml",
+          "xmlSha256": "ce8b168e21ba0be42b4e1405c987318fe4847620d3942347110b01e96058be8b",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest.xml",
+          "xmlSha256": "6b7f12bf99f8aa31ca4d2c369e71c6a0e7264a79141a1da35a48797418828a93",
+          "cases": []
+        },
+        {
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.history.HistoryBootstrapApplicationTest.xml",
+          "xmlSha256": "bdd8eda7e7385fc1a73432afe44a887787cce7c9d11984d4b066c9acc7c4b48c",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest.xml",
+          "xmlSha256": "4c664713d653139c5273e59e716d184f92c59c05ef5c4ca694b06655b106abdb",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoryRangeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.history.HistoryRangeTest.xml",
+          "xmlSha256": "7473f44a72cb0523cdaf1d93574c3b35489430ddeac756490a7283304cdd9fd7",
+          "cases": []
+        },
+        {
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.ingestion.IngestionIntegrationTest.xml",
+          "xmlSha256": "a2a20ac48a1b5184e6add5ed0b04372dbe8fc9f5e8d5c6b8d8f265d887bc0419",
+          "cases": []
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.ingestion.PayloadCodecTest.xml",
+          "xmlSha256": "4c5aeeb921e00c8f0704b456a87a79e71497a26e049779952103235c9b7b1ff3",
+          "cases": []
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.ingestion.SourceFreshnessTest.xml",
+          "xmlSha256": "ccdc717677c64c5b7dc3d737a408624abb4f38dc0add32a2a9c9e0f9b995b4bd",
+          "cases": []
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.CoverageSnapshotTest.xml",
+          "xmlSha256": "7667b23d549e206336aaef81d8746bfae23df7012492cb9c4b8060ec47c8b1aa",
+          "cases": []
+        },
+        {
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.GeographicCoverageTest.xml",
+          "xmlSha256": "5f5e9d65b6b25c7a35beb559440d02ffb6c5ecbf255236db9de1f324799e96f8",
+          "cases": []
+        },
+        {
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest.xml",
+          "xmlSha256": "65f4716a54038df45925a6e29e567fa986a18352455af25a0c8acb65ad6a8b78",
+          "cases": []
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.SmsDeliveryTest.xml",
+          "xmlSha256": "3b182b8a02f541666598a1f2b75040a3a08921f7651ca5c9d9f001587c7b2ca3",
+          "cases": [
+            {
+              "name": "livePackagedModelEnrichesRecoveredSmsEpisode",
+              "outcome": "SKIP",
+              "reason": ""
+            }
+          ]
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.SmsKpiDeliveryTest.xml",
+          "xmlSha256": "86e0fee6f92359a7aba8e18c9b5cf01c0357c6a6b1089f1f7bf77125ff84a1a2",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.SmsShadowReplayTest.xml",
+          "xmlSha256": "3c834f0520b84bddc354cff6980b4e1bfb9517234687fa67d36f7f4da1708646",
+          "cases": [
+            {
+              "name": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+              "outcome": "SKIP",
+              "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+            }
+          ]
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.SmsShadowWorkerTest.xml",
+          "xmlSha256": "612db1517624035dbd02ac7ba6ded2b5ca3498a557f97f82ebafab00a0a757ab",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.VoiceDeliveryTest.xml",
+          "xmlSha256": "b2b66019846da3d86aced721a9402c079b624442bdc62f64099879a13c4e5d78",
+          "cases": [
+            {
+              "name": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+              "outcome": "SKIP",
+              "reason": ""
+            }
+          ]
+        },
+        {
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.kpi.WindowFinalizerTest.xml",
+          "xmlSha256": "8135406bfa388f0879822be86a0d03dca361d97e22257785355606c9e405bf17",
+          "cases": []
+        },
+        {
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.LateInputIT",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.LateInputIT.xml",
+          "xmlSha256": "f020a6ca07a44306b474562697398d4bf5221aaa0da6434f786805551308ffe2",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.MlClientTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.MlClientTest.xml",
+          "xmlSha256": "58b29d5a1224d648805200dfba2d7b8bddbc20c367b92f67cdb91427c401d0fb",
+          "cases": []
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.MonitoringLifecycleTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.MonitoringLifecycleTest.xml",
+          "xmlSha256": "1ae04177842318b91d56a64d8058bbd5b2af0b0dcca3d58c5ddf3832d7faee03",
+          "cases": []
+        },
+        {
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ObservationInputTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.ObservationInputTest.xml",
+          "xmlSha256": "4dca6006fceb431a47c90ea8970356cae12145c0aabf3d5c0ea9183a8c70f8dc",
+          "cases": []
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.outbox.RejectionPublisherTest.xml",
+          "xmlSha256": "a92a243152ee29f4413f938aaf9bd25f68a02e2469ac5a83356896d69c7f860d",
+          "cases": []
+        },
+        {
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.outbox.RetentionConfigurationTest.xml",
+          "xmlSha256": "dbe9962b68cd0dd095c09cdcb1cc26bd9f0af6e20fb50f2776672da42fbc30b9",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.outbox.RetentionMigrationTest.xml",
+          "xmlSha256": "dc6504e0819e9b9c0b7aeb02ba69ccea1f8ca8e4080edc15a9edb3926672123d",
+          "cases": []
+        },
+        {
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ReplayIT",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.ReplayIT.xml",
+          "xmlSha256": "7836eb1b367ad77a03adeca18b6a2f665ded4db6cb2d5099573a147bdbf70b77",
+          "cases": []
+        },
+        {
+          "tests": 31,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.RetentionJobTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.RetentionJobTest.xml",
+          "xmlSha256": "a23de337878f9ac2c2eed6edf17caa201d7fc33e863a7c6abbecabd8fa546a45",
+          "cases": []
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsEpisodeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.SmsEpisodeTest.xml",
+          "xmlSha256": "a217a701be609362e603dda4049898a209f5b2504df43d2c96afbfe931c1101c",
+          "cases": []
+        },
+        {
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsRuleTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.SmsRuleTest.xml",
+          "xmlSha256": "d4eb028b2f0f21cb54ea101a6cc12e0b72547ccf57ef7e2ea3a052eaa4447115",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsShadowClientTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.SmsShadowClientTest.xml",
+          "xmlSha256": "8e7569a403be5ab383e06256ab133140f8805aaea606e9536924381ef1e00039",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.SmsShadowConfigurationTest.xml",
+          "xmlSha256": "aceac0d97cfd2d313873e4346f67928fad1efde6dea920d246d951f112c0ed0f",
+          "cases": []
+        },
+        {
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.StreamingMetricsTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.StreamingMetricsTest.xml",
+          "xmlSha256": "415e51567849379177c13643e58ca236f704a2d5063e05fbe91132003df67b7a",
+          "cases": []
+        },
+        {
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.topology.EvidenceJoinerTest.xml",
+          "xmlSha256": "41e6ddaf12c68ae35a7f39a223a92bcab2b85a19f07e19f6ce6189353631480d",
+          "cases": []
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.topology.ScopeRegistryTest.xml",
+          "xmlSha256": "060cb4b20ba57f9ac755d8ebbfa451f4a94adaa88dd25148d29b53e1febd0e9d",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.VoiceDeliverySchedulingTest.xml",
+          "xmlSha256": "8666840b37de84ce192f4e50cb42fa09af2bb57f01ce59492c4efa7b70b2af61",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.VoiceEpisodeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.VoiceEpisodeTest.xml",
+          "xmlSha256": "7f188e748d2f73515e4df1e6c4a69982acbe3d9e70b3818a0284a175af160e80",
+          "cases": []
+        },
+        {
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.VoiceRuleTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.VoiceRuleTest.xml",
+          "xmlSha256": "acc8cc4d7a82b11af89b06608184cb590792881e974c994fa7c268893af12253",
+          "cases": []
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.WindowBoundaryTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/processor/TEST-md.utm.telecom.processing.WindowBoundaryTest.xml",
+          "xmlSha256": "fa9a04aec2464aca2a0b1c8bc03332008cb16aa95a9783986c10e66e08c9bc51",
+          "cases": []
+        },
+        {
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.CoverageContractTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/streaming-support/TEST-md.utm.telecom.observation.CoverageContractTest.xml",
+          "xmlSha256": "2b151cd4378275c51f559e9bc7785657621e31ddc60cb09271fbc196a26a8647",
+          "cases": []
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.GeographyCatalogTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/streaming-support/TEST-md.utm.telecom.observation.GeographyCatalogTest.xml",
+          "xmlSha256": "3ae1a1d2452c23c4c444704ac62c37a3f79d4ff9e7901c352e93c4b83ad006ef",
+          "cases": []
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.ObservationValidatorTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/streaming-support/TEST-md.utm.telecom.observation.ObservationValidatorTest.xml",
+          "xmlSha256": "14a293dcf9d537c68f1a09758319c4fb448ac72e6edcc1b65aa7f1c77f336773",
+          "cases": []
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.TopologyCatalogTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/processor-results/streaming-support/TEST-md.utm.telecom.observation.TopologyCatalogTest.xml",
+          "xmlSha256": "2e6cea3c6a5cfc45e20983fcd7e347aeca3618b4633e183af3ddd2dc3eedd709",
+          "cases": []
+        }
+      ],
+      "counts": {
+        "tests": 919,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 4,
+        "passed": 915
+      }
+    },
+    {
+      "name": "generator",
+      "sourceSha": "825df4c11a263fedafc7e1f4b4ea5ef14c860d0a",
+      "workingTree": "COMMITTED_SOURCE",
+      "startedAtUtc": "2026-10-08T15:01:10.647116+00:00",
+      "finishedAtUtc": "2026-10-08T15:01:38.525183+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/event-generator",
+        "-am",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator.log",
+      "logSha256": "0534951457198bffdb170573d070e50daf567a777f7b77a3ddcb6c3178fb8cf5",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+      },
+      "environment": {
+        "postgres": "real disposable Testcontainers PostgreSQL 16.4-alpine",
+        "kafka": "real embedded Kafka for focused load tests; dedicated Kafka in outage/history reactor tests",
+        "scheduling": "controlled scheduler/clock in reconciliation",
+        "producerFailureAcks": "controlled futures",
+        "ML_SERVICE_URL_present": false,
+        "SMS_SHADOW_REPLAY_DIR_present": false
+      },
+      "suites": [
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.api.ScenarioAuthorityContextTest.xml",
+          "xmlSha256": "c07fefea8504b4b05338c0dc5bca17cbf4d6e6e8016abb190a367430973e6101",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioControllerTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.api.ScenarioControllerTest.xml",
+          "xmlSha256": "5537f5199b9f555458f7845544c2e84a349ae3239a557cb0b894eba141d8a36c",
+          "cases": []
+        },
+        {
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.api.ScenarioExecutionServiceTest.xml",
+          "xmlSha256": "7f8f92a5163095a741c9eaaa0deb8512a6f6841ef50246912bbc6a4b7bb27176",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.CityVoiceSeedTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.CityVoiceSeedTest.xml",
+          "xmlSha256": "1e517fea4691663ca83d8f1494beb393aa5922b3bad0f0c6380900437cbda4d4",
+          "cases": []
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest.xml",
+          "xmlSha256": "d58e3c66008d7f620f08124681a4f2c2d778047ee7a6d846440501d6c26bd650",
+          "cases": []
+        },
+        {
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.continuous.GeographicPublicationTest.xml",
+          "xmlSha256": "0f351812724a830a5a8371d4c3d27567550538293f48f4fca42112e652ccbdf9",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.G2ServiceSuiteTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.G2ServiceSuiteTest.xml",
+          "xmlSha256": "74dd61c3364917651024f69fe6e446373dc6a2dd4778546b1fc1cbd8f44b1b2f",
+          "cases": []
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.GeographicRuntimeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.GeographicRuntimeTest.xml",
+          "xmlSha256": "e3e392cbb0703429b8ece8ce56c683d529f391611089565b2d82270d3c047ec1",
+          "cases": []
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.HealthProbeTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.HealthProbeTest.xml",
+          "xmlSha256": "bdf63f22df484511c01a5306c8f1de9695678142ddfcd2add4d2c1eb449678cd",
+          "cases": []
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.ObservationGeneratorTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.ObservationGeneratorTest.xml",
+          "xmlSha256": "27d04176d11037f818a1299f17823e9fb67ee64d0dd84bc32985ca67af2abd15",
+          "cases": []
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.scenarios.SmsQueueScenarioTest.xml",
+          "xmlSha256": "248a3fa817633a2093d59a3ce6a3815b19be06d9bcea65fb1a4408a60aec5c5a",
+          "cases": []
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.VoiceScenarioTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/event-generator/TEST-md.utm.telecom.generator.VoiceScenarioTest.xml",
+          "xmlSha256": "9970e4c03d9cc5699c0b4ead3b0bb0020171d9bdde0b5f91697df92683046388",
+          "cases": []
+        },
+        {
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.CoverageContractTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/streaming-support/TEST-md.utm.telecom.observation.CoverageContractTest.xml",
+          "xmlSha256": "125567603b7802ad654b96ec5e686e8d1a2ebd34516f15e598d16e4664f0f8c9",
+          "cases": []
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.GeographyCatalogTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/streaming-support/TEST-md.utm.telecom.observation.GeographyCatalogTest.xml",
+          "xmlSha256": "326e7e63740e7f55b062d4c1a1f2e315bd2273244569f08418884025b5ce78a0",
+          "cases": []
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.ObservationValidatorTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/streaming-support/TEST-md.utm.telecom.observation.ObservationValidatorTest.xml",
+          "xmlSha256": "676ce5c98090ecd5e5664c637b45c885e68fc319dc78a1e7cef7e155ffeef24b",
+          "cases": []
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.TopologyCatalogTest",
+          "xml": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/generator-results/streaming-support/TEST-md.utm.telecom.observation.TopologyCatalogTest.xml",
+          "xmlSha256": "705b536769efa7f37ddd66de144f3726e319a95ab4c027d373eab7460cfe8f3e",
+          "cases": []
+        }
+      ],
+      "counts": {
+        "tests": 206,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 206
+      }
+    },
+    {
+      "name": "contracts",
+      "sourceSha": "825df4c11a263fedafc7e1f4b4ea5ef14c860d0a",
+      "workingTree": "COMMITTED_SOURCE",
+      "startedAtUtc": "2026-10-08T14:53:19.461507+00:00",
+      "finishedAtUtc": "2026-10-08T14:53:24.206965+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:\\OrangeSystems\\Program\\Telecom-Anomaly-Detection\\.venv\\Scripts\\python.exe",
+        "-B",
+        "scripts/check-contracts.py"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/contracts.log",
+      "logSha256": "dfb927f6ef60eb174f1caa3c4b42911cd63e5116571e222f214c7b251079e850",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+      },
+      "environment": {
+        "dependencies": "repository Python environment; no PostgreSQL/Kafka path exercised by this command"
+      },
+      "resultSummary": [
+        "PASS: v2 schema and 13 independent observation fixtures",
+        "PASS: detection schemas, policy, baseline and 6 payloads",
+        "PASS: 14 explanation trajectories with validated nested features, nodes and detections",
+        "PASS: 7 voice parity cases with unchanged shared expectations",
+        "PASS: 12 SMS parity cases with unchanged shared expectations",
+        "PASS: 62 geographic raw-input/reference cases across 20 scopes; not fresh Java parity",
+        "PASS: 10 cities, 20 geographic scopes + 2 legacy, 50 observations, 12 rejected catalogues, 30 coverage cases",
+        "PASS: 8 geographic voice and 7 SMS numeric reference cases",
+        "PASS: 7 cause DTO examples and 1 PLANNED auxiliary shape samples; no runtime correlation claim"
+      ]
+    },
+    {
+      "name": "python-root",
+      "sourceSha": "825df4c11a263fedafc7e1f4b4ea5ef14c860d0a",
+      "workingTree": "COMMITTED_SOURCE",
+      "startedAtUtc": "2026-10-08T14:53:24.414294+00:00",
+      "finishedAtUtc": "2026-10-08T14:53:32.261325+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:\\OrangeSystems\\Program\\Telecom-Anomaly-Detection\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008/python-root.log",
+      "logSha256": "1d4b93ea5325485d3f030eb23b924e2997e739d4b864bd40ce42dd3e2f9f1d40",
+      "javaVersion": "21.0.12.1",
+      "mavenVersion": "3.9.16",
+      "pythonVersion": "3.13.7",
+      "inputFileSha256": {
+        "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "8aa68b907cbdfa4cb468dc5bdcde192a4b73044ee6bb22a4df89b63fdb76d0eb",
+        "services/processor/src/main/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilder.java": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+      },
+      "environment": {
+        "dependencies": "repository Python environment; no PostgreSQL/Kafka path exercised by this command"
+      },
+      "counts": {
+        "tests": 57,
+        "passed": 57,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "resultSummary": [
+        "test_service_assurance_routes_use_current_schemas (test_shared_contract.SharedContractTests.test_service_assurance_routes_use_current_schemas) ... ok",
+        "test_cutoff_is_inclusive_and_decision_matches_score (test_sms_shadow_contract.ShadowContractTests.test_cutoff_is_inclusive_and_decision_matches_score) ... ok",
+        "test_ok_and_failures_are_distinct_and_labels_are_excluded (test_sms_shadow_contract.ShadowContractTests.test_ok_and_failures_are_distinct_and_labels_are_excluded) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 57 tests in 6.474s",
+        "",
+        "OK",
+        "PASS: 7 cause DTO examples and 1 PLANNED auxiliary shape samples; no runtime correlation claim",
+        "PASS: 14 explanation trajectories with validated nested features, nodes and detections",
+        "PASS: 8 geographic voice and 7 SMS numeric reference cases",
+        "PASS: 10 cities, 20 geographic scopes + 2 legacy, 50 observations, 12 rejected catalogues, 30 coverage cases"
+      ]
+    }
+  ],
+  "mutationRestoration": [
+    {
+      "restoredAtUtc": "2026-10-08T14:47:12.865836+00:00",
+      "result": "PASS",
+      "originalProductionNeverModified": true,
+      "isolatedProductionRestored": true,
+      "originalSha256": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7",
+      "restoredSha256": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+    },
+    {
+      "restoredAtUtc": "2026-10-08T14:48:24.292126+00:00",
+      "result": "PASS",
+      "originalProductionNeverModified": true,
+      "isolatedProductionRestored": true,
+      "originalSha256": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7",
+      "restoredSha256": "2f77a8342c729452cd44d3c65f2229360a354061b6e2d3cf8f7455ad724291a7"
+    }
+  ],
+  "conditionalSkips": [
+    {
+      "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+      "name": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+      "outcome": "SKIP",
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "name": "livePackagedModelEnrichesRecoveredSmsEpisode",
+      "outcome": "SKIP",
+      "reason": ""
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "name": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+      "outcome": "SKIP",
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "name": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+      "outcome": "SKIP",
+      "reason": ""
+    }
+  ],
+  "historicalValidation": {
+    "result": "PASS",
+    "historicalFieldsUnchanged": true,
+    "acceptanceCaseCount": 38,
+    "caseIdsMatchAuthoritativeSharedPdf": true,
+    "caseStatusCounts": {
+      "PASS": 6,
+      "BLOCKED": 31,
+      "NOT_IN_SCOPE": 1
+    },
+    "mandatoryFinalReleaseStatuses": "BLOCKED",
+    "artifactHashesVerified": 6,
+    "caseEvidenceReferencesVerified": 40,
+    "historicalSourceHashesVerified": 78,
+    "historicParityExportsVerified": 4,
+    "historicalCommandLogHashesVerified": 10,
+    "parameterizedInvocations": {
+      "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements": 10,
+      "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation": 6
+    },
+    "separateGeminiAudit": "No independent Gemini attachment/file found; the supplied findings were verified against Git/source."
+  },
+  "inventoryCorrection": {
+    "reusedExistingMethods": {
+      "services/event-generator/src/test/java/md/utm/telecom/generator/continuous/GeographicPublicationTest.java": [
+        "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption"
+      ],
+      "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": [
+        "competingFinalizersCommitOneMatchingWinningSnapshot"
+      ],
+      "services/processor/src/test/java/md/utm/telecom/processing/GeographicLoadAccountingTest.java": [
+        "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts"
+      ]
+    },
+    "newMethods": 6,
+    "newInvocations": 20,
+    "extractedHelper": "scheduler; no added invocation"
+  },
+  "parity": "No feature-construction/production/fixture change; no fresh parity run required or claimed. Contract reference checks are not fresh Java/Python parity. Historical exports and hashes remain tied to their original source.",
+  "testBoundary": "Real disposable PostgreSQL 16.4-alpine. Real embedded Kafka for load tests and dedicated Kafka in outage/history runtime reactor suites. Scheduler/clock and producer failure futures are controlled where applicable. No shared/deployed/API/UI/performance acceptance.",
+  "rawEvidenceArchive": "C:/OrangeSystems/Program/pr78-remediation-evidence-20261008"
+}

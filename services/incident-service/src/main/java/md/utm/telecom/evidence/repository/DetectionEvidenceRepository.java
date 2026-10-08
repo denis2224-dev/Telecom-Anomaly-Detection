@@ -19,6 +19,9 @@ public interface DetectionEvidenceRepository
 
     Optional<DetectionEvidence> findByEpisodeIdAndSequence(String episodeId, long sequence);
 
+    Optional<DetectionEvidence> findFirstByEpisodeIdAndWindowStartAndSequenceLessThanOrderBySequenceDesc(
+            String episodeId, Instant windowStart, long sequence);
+
     @Modifying
     @Query(value = """
             INSERT INTO app.detection_evidence (

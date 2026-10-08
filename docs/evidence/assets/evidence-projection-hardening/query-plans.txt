@@ -1,0 +1,95 @@
+                                                           context
+------------------------------------------------------------------------------------------------------------------------------
+ Live local data: 92,780 KPI windows, 1,501 coverage facts, 12 incidents; small incident set limits priority-plan conclusions
+(1 row)
+
+                           query
+-----------------------------------------------------------
+ Bounded ORH VoLTE history: exact catalogue and 24h window
+(1 row)
+
+                                                                                                                                      QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=16.80..16.85 rows=2 width=138) (actual time=0.228..0.230 rows=11 loops=1)
+   Buffers: shared hit=37 read=18
+   ->  Incremental Sort  (cost=16.80..16.85 rows=2 width=138) (actual time=0.228..0.229 rows=11 loops=1)
+         Sort Key: w.window_start, w.window_id
+         Presorted Key: w.window_start
+         Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+         Buffers: shared hit=37 read=18
+         ->  Nested Loop Left Join  (cost=8.63..16.79 rows=1 width=138) (actual time=0.125..0.210 rows=11 loops=1)
+               Buffers: shared hit=31 read=18
+               ->  Subquery Scan on w  (cost=8.35..8.47 rows=1 width=111) (actual time=0.106..0.113 rows=11 loops=1)
+                     Filter: ((w.rank = 1) AND ((w.topology_version)::text = '2-geography-g1'::text))
+                     Buffers: shared hit=10 read=6
+                     ->  WindowAgg  (cost=8.35..8.44 rows=2 width=551) (actual time=0.105..0.111 rows=11 loops=1)
+                           Run Condition: (row_number() OVER (?) <= 1)
+                           Buffers: shared hit=10 read=6
+                           ->  Incremental Sort  (cost=8.35..8.39 rows=2 width=119) (actual time=0.098..0.099 rows=11 loops=1)
+                                 Sort Key: w_1.window_start, w_1.received_at DESC, w_1.window_id DESC
+                                 Presorted Key: w_1.window_start
+                                 Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
+                                 Buffers: shared hit=10 read=6
+                                 ->  Index Scan Backward using service_kpi_scope_history_idx on service_kpi_windows w_1  (cost=0.42..8.34 rows=1 width=119) (actual time=0.028..0.089 rows=11 loops=1)
+                                       Index Cond: (((scope_id)::text = 'VOLTE-MD-ORH'::text) AND ((service)::text = 'VOLTE'::text) AND (window_start >= '2026-10-07 00:00:00+00'::timestamp with time zone) AND (window_start < '2026-10-08 00:00:00+00'::timestamp with time zone))
+                                       Buffers: shared hit=10 read=6
+               ->  Index Scan using scope_window_coverage_lookup_idx on scope_window_coverage c  (cost=0.28..8.31 rows=1 width=181) (actual time=0.008..0.008 rows=1 loops=11)
+                     Index Cond: (((service)::text = (w.service)::text) AND ((scope_id)::text = (w.scope_id)::text) AND (window_start = w.window_start))
+                     Filter: (((catalogue_version)::text = '2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473'::text) AND ((topology_version)::text = '2-geography-g1'::text) AND (window_id = (w.window_id)::bpchar) AND (window_end = w.window_end))
+                     Buffers: shared hit=21 read=12
+ Planning:
+   Buffers: shared hit=450 read=33
+ Planning Time: 1.291 ms
+ Execution Time: 0.277 ms
+(31 rows)
+
+                                    query
+-----------------------------------------------------------------------------
+ ORH priority city candidate: exact opening-window coverage and bounded page
+(1 row)
+
+                                                                                                                             QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=28.22..28.22 rows=1 width=24) (actual time=0.243..0.244 rows=2 loops=1)
+   Buffers: shared hit=61 read=6
+   ->  Sort  (cost=28.22..28.22 rows=1 width=24) (actual time=0.242..0.243 rows=2 loops=1)
+         Sort Key: i.first_observed_at, i.id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=61 read=6
+         ->  Nested Loop  (cost=8.60..28.21 rows=1 width=24) (actual time=0.212..0.222 rows=2 loops=1)
+               Join Filter: (((v.catalogue_version)::text = (b.catalogue_version)::text) AND (((count(DISTINCT w.catalogue_version)) = 0) OR (((count(DISTINCT w.catalogue_version)) = 1) AND ((v.catalogue_version)::text = (min((w.catalogue_version)::text))))))
+               Rows Removed by Join Filter: 6
+               Buffers: shared hit=58 read=6
+               ->  Nested Loop  (cost=8.45..24.36 rows=1 width=1250) (actual time=0.142..0.184 rows=4 loops=1)
+                     Buffers: shared hit=46 read=6
+                     ->  Nested Loop  (cost=0.00..12.25 rows=1 width=384) (actual time=0.015..0.024 rows=4 loops=1)
+                           Join Filter: (((b.scope_id)::text = (i.scope_id)::text) AND ((b.service)::text = (i.service)::text))
+                           Rows Removed by Join Filter: 44
+                           Buffers: shared hit=5
+                           ->  Seq Scan on geo_scope_bindings b  (cost=0.00..11.00 rows=1 width=518) (actual time=0.007..0.009 rows=4 loops=1)
+                                 Filter: ((NOT legacy) AND (city_id = 'ORH'::bpchar))
+                                 Rows Removed by Filter: 40
+                                 Buffers: shared hit=1
+                           ->  Seq Scan on incidents i  (cost=0.00..1.10 rows=10 width=110) (actual time=0.002..0.002 rows=12 loops=4)
+                                 Buffers: shared hit=4
+                     ->  Nested Loop  (cost=8.45..12.10 rows=1 width=1017) (actual time=0.039..0.040 rows=1 loops=4)
+                           Buffers: shared hit=41 read=6
+                           ->  Index Scan using detection_episode_sequence_uk on detection_evidence d  (cost=0.14..3.76 rows=1 width=985) (actual time=0.004..0.005 rows=1 loops=4)
+                                 Index Cond: (((episode_id)::text = (i.episode_id)::text) AND (sequence = 1))
+                                 Buffers: shared hit=10 read=1
+                           ->  Aggregate  (cost=8.31..8.33 rows=1 width=40) (actual time=0.034..0.034 rows=1 loops=4)
+                                 Filter: ((count(DISTINCT w.catalogue_version) = 0) OR (count(DISTINCT w.catalogue_version) = 1))
+                                 Buffers: shared hit=31 read=5
+                                 ->  Index Only Scan using scope_window_coverage_scope_id_service_window_start_topolog_key on scope_window_coverage w  (cost=0.28..8.30 rows=1 width=82) (actual time=0.008..0.008 rows=1 loops=4)
+                                       Index Cond: ((scope_id = (i.scope_id)::text) AND (service = (i.service)::text) AND (window_start = d.window_start) AND (topology_version = (d.payload ->> 'topologyVersion'::text)))
+                                       Heap Fetches: 0
+                                       Buffers: shared hit=7 read=2
+               ->  Index Only Scan using geo_catalogue_versions_catalogue_version_topology_version_key on geo_catalogue_versions v  (cost=0.14..3.83 rows=1 width=612) (actual time=0.004..0.004 rows=2 loops=4)
+                     Index Cond: (topology_version = (d.payload ->> 'topologyVersion'::text))
+                     Heap Fetches: 8
+                     Buffers: shared hit=8
+ Planning:
+   Buffers: shared hit=350 read=20
+ Planning Time: 1.197 ms
+ Execution Time: 0.286 ms
+(42 rows)

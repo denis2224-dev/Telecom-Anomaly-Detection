@@ -92,7 +92,12 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
       <app-evidence-timeline [detections]="detections()" />
       @if (item.presentation; as presentation) {
         <details class="evidence-disclosure"><summary>Current impact and cause</summary>
-          <p>{{ presentation.impactState }} · Evidence window ended {{ presentation.impactWindowEnd | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
+          <p>{{ presentation.impactState }} · Impact source window: {{ presentation.impactWindowEnd ? (presentation.impactWindowEnd | date:'dd MMM HH:mm:ss':'UTC') + ' UTC' : 'Unavailable' }}</p>
+          @if (item.technicalState === 'UNKNOWN') { <p>Current comparison unavailable. Severity and retained impact are historical.</p> }
+          @if (item.location; as location) {
+            <p>Opening city: {{ location.cityId ?? 'Unavailable (' + (location.nullReason ?? 'unallocated') + ')' }} · Captured catalogue: {{ location.catalogueVersion ?? 'Unavailable' }} · Topology: {{ location.topologyVersion ?? 'Unavailable' }}</p>
+            <p>Captured path: {{ location.containmentPath.join(' → ') || 'Unavailable' }} · Dependencies: {{ location.dependencyNodeIds.join(', ') || 'Unavailable' }}</p>
+          }
           @if (presentation.currentImpact ?? presentation.retainedImpact; as impact) {
             <p>{{ presentation.retainedImpact && !presentation.currentImpact ? 'Retained estimate, not current impact' : 'Latest evaluated impact' }}:
               @if (item.service === 'VOLTE') { {{ impact.extraFailedAttempts }} extra failed attempts }

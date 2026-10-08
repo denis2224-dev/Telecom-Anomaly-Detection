@@ -49,6 +49,18 @@ for (const width of [1366, 768, 390]) {
       if (path === '/api/auth/me') json = { analystId: 'design-review', displayName: 'Design reviewer', roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600000).toISOString() };
       else if (path === '/api/auth/csrf') json = { token: 'controlled-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' };
       else if (path === '/api/services') json = citySummaries;
+      else if (path === '/api/operations/priority') json = {
+        generatedAt: fixtureRange.to, policyVersion: 'geographic-priority-v1', policyStatus: 'ACTIVE',
+        page: 0, size: 20, hasNext: false, items: [{
+          incidentId: cityIncidents[0].id, cityId: null, cityNullReason: 'UNALLOCATED',
+          service: cityIncidents[0].service, scopeId: cityIncidents[0].scopeId,
+          technicalState: cityIncidents[0].technicalState, analystStatus: cityIncidents[0].status,
+          severity: cityIncidents[0].severity, severityHistorical: false, freshness: 'FRESH',
+          priorityBand: 'FRESH_ONGOING', comparableImpact: null, impactUnit: null,
+          firstObservedAt: cityIncidents[0].firstObservedAt, detectedAt: cityIncidents[0].detectedAt,
+          latestWindowEnd: cityIncidents[0].latestDetection.windowEnd,
+        }],
+      };
       else if (path.endsWith('/kpis')) {
         const scopeId = decodeURIComponent(path.split('/')[3]);
         const from = url.searchParams.get('from')!, to = url.searchParams.get('to')!;
@@ -61,7 +73,10 @@ for (const width of [1366, 768, 390]) {
         json = { items, total: items.length, page: 0, size: 20 };
       } else if (path.endsWith('/detections')) json = { items: [cityIncidents[0].latestDetection], total: 1, page: 0, size: 20 };
       else if (path.endsWith('/timeline')) json = { items: [], total: 0, page: 0, size: 100 };
-      else if (path.startsWith('/api/incidents/')) json = cityIncidents[0];
+      else if (path.startsWith('/api/incidents/')) json = { ...cityIncidents[0], location: {
+        cityId: null, catalogueVersion: null, topologyVersion: null, measuredScopeId: cityIncidents[0].scopeId,
+        containmentPath: [], dependencyNodeIds: [], nullReason: 'UNALLOCATED',
+      } };
       else return route.fulfill({ status: 404, json: { code: 'NOT_FOUND' } });
       await route.fulfill({ json });
     });

@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import md.utm.telecom.analysts.model.Analyst;
 import md.utm.telecom.analysts.repository.AnalystRepository;
+import md.utm.telecom.geography.GeographyCatalogue;
 import md.utm.telecom.incidents.security.OidcTestConfiguration;
 import md.utm.telecom.incidents.security.SessionDeadlineFilter;
 import md.utm.telecom.simulator.repository.ScenarioCommandRepository;
@@ -55,6 +56,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(properties = {
         "app.public-origin=http://telecom.test:8080",
         "app.simulator.reconcile-ms=3600000",
+        "telecom.geography.effective-from=2026-09-15T08:00:00Z",
         "spring.kafka.listener.auto-startup=false"
 })
 @AutoConfigureMockMvc
@@ -107,6 +109,7 @@ class ScenarioControllerIT {
     @Autowired ObjectMapper json;
     @Autowired AnalystRepository analysts;
     @Autowired ScenarioCommandRepository commands;
+    @org.springframework.test.context.bean.override.mockito.MockitoSpyBean GeographyCatalogue catalogue;
 
     @TestConfiguration(proxyBeanMethods = false)
     static class ClockConfiguration {
@@ -160,6 +163,10 @@ class ScenarioControllerIT {
                         body(requestId, 43)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value("REQUEST_ID_CONFLICT"));
+        mvc.perform(supervisorPost("/api/simulator/scenarios/VOLTE_IMS_OVERLOAD",
+                        body(requestId, 42, "SMS-MD-UNKNOWN")))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("REQUEST_ID_CONFLICT"));
         assertEquals(1, commands.count());
     }
 
@@ -210,6 +217,138 @@ class ScenarioControllerIT {
         mvc.perform(supervisorPost("/api/simulator/scenarios/VOLTE_IMS_OVERLOAD", body))
                 .andExpect(status().isBadRequest());
         assertEquals(0, commands.count());
+    }
+
+    @Test
+    void acceptsEveryCatalogueCityScopeForNormalControl() throws Exception {
+        int accepted = 0;
+        for (var scope : catalogue.root().path("scopes")) {
+            if (scope.path("legacy").asBoolean()) continue;
+            String scopeId = scope.path("scopeId").asText();
+            mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL",
+                            body(UUID.randomUUID(), 1, scopeId)))
+                    .andExpect(status().isAccepted())
+                    .andExpect(jsonPath("$.scopeId").value(scopeId));
+            accepted++;
+        }
+        assertEquals(20, accepted);
+        assertEquals(20, commands.count());
+    }
+
+    @Test
+    void allowsCompatibleCityScenariosAndRejectsCrossServiceOrUnknownScopes() throws Exception {
+        String[] compatible = {
+                "TELEMETRY_GAP|VOLTE-MD-BAL", "TELEMETRY_GAP|SMS-MD-EDI",
+                "VOLTE_IMS_OVERLOAD|VOLTE-MD-CHI", "SMS_QUEUE_DELAY|SMS-MD-ORH"
+        };
+        for (String caseValue : compatible) {
+            String[] parts = caseValue.split("\\|");
+            mvc.perform(supervisorPost("/api/simulator/scenarios/" + parts[0],
+                            body(UUID.randomUUID(), 1, parts[1])))
+                    .andExpect(status().isAccepted())
+                    .andExpect(jsonPath("$.scopeId").value(parts[1]));
+        }
+        String[] invalid = {
+                "VOLTE_IMS_OVERLOAD|SMS-MD-BAL", "SMS_QUEUE_DELAY|VOLTE-MD-EDI",
+                "NORMAL_CONTROL|VOLTE-MD-UNKNOWN", "TELEMETRY_GAP|SMS-MD-UNKNOWN"
+        };
+        for (String caseValue : invalid) {
+            String[] parts = caseValue.split("\\|");
+            mvc.perform(supervisorPost("/api/simulator/scenarios/" + parts[0],
+                            body(UUID.randomUUID(), 1, parts[1])))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(jsonPath("$.code").value("INVALID_SCOPE"));
+        }
+        assertEquals(4, commands.count());
+        assertEquals(4, START_CALLS.get());
+    }
+
+    @Test
+    void normalAndGapRemainAvailableOnBothLegacyScopes() throws Exception {
+        String[] legacyScopes = {"VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A"};
+        for (String type : new String[] {"NORMAL_CONTROL", "TELEMETRY_GAP"}) {
+            for (String scopeId : legacyScopes) {
+                mvc.perform(supervisorPost("/api/simulator/scenarios/" + type,
+                                body(UUID.randomUUID(), 1, scopeId)))
+                        .andExpect(status().isAccepted())
+                        .andExpect(jsonPath("$.scopeId").value(scopeId));
+            }
+            commands.deleteAll(); // A fresh reservation window for the next scenario type.
+        }
+        assertEquals(4, START_CALLS.get());
+    }
+
+    @Test
+    void completeFourScenarioByTwentyTwoScopeCompatibilityMatrix() throws Exception {
+        int accepted = 0;
+        for (String type : new String[]{"NORMAL_CONTROL", "TELEMETRY_GAP", "VOLTE_IMS_OVERLOAD", "SMS_QUEUE_DELAY"}) {
+            commands.deleteAll();
+            for (var binding : catalogue.root().path("scopes")) {
+                String scope = binding.path("scopeId").asText();
+                String service = catalogue.strictScope(scope).path("service").asText();
+                boolean allowed = !type.equals("VOLTE_IMS_OVERLOAD") && !type.equals("SMS_QUEUE_DELAY")
+                        || type.equals("VOLTE_IMS_OVERLOAD") && service.equals("VOLTE")
+                        || type.equals("SMS_QUEUE_DELAY") && service.equals("SMS");
+                var result = mvc.perform(supervisorPost("/api/simulator/scenarios/" + type,
+                        body(UUID.randomUUID(), 7, scope)));
+                if (allowed) {
+                    result.andExpect(status().isAccepted()).andExpect(jsonPath("$.scopeId").value(scope));
+                    accepted++;
+                } else result.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("INVALID_SCOPE"));
+            }
+        }
+        assertEquals(66, accepted);
+        assertEquals(66, START_CALLS.get());
+    }
+
+    @Test
+    void cityRetrySurvivesDeactivationAndOverlapRemainsScopeLocal() throws Exception {
+        UUID request = UUID.randomUUID();
+        String payload = body(request, 42, "VOLTE-MD-CHI");
+        String first = mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", payload))
+                .andExpect(status().isAccepted()).andReturn().getResponse().getContentAsString();
+        mvc.perform(supervisorPost("/api/simulator/scenarios/TELEMETRY_GAP",
+                        body(UUID.randomUUID(), 42, "VOLTE-MD-CHI")))
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("SCOPE_WINDOW_CONFLICT"));
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL",
+                        body(UUID.randomUUID(), 42, "VOLTE-MD-BAL"))).andExpect(status().isAccepted());
+        org.mockito.Mockito.doReturn(false).when(catalogue).active();
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", payload))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.runId").value(json.readTree(first).path("runId").asText()));
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body(request, 43, "VOLTE-MD-CHI")))
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("REQUEST_ID_CONFLICT"));
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body(UUID.randomUUID(), 42, "SMS-MD-CHI")))
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("INVALID_SCOPE"));
+        for (String legacy : new String[]{"VOLTE-MD-CENTRAL", "SMS-MD-ROUTE-A"})
+            mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body(UUID.randomUUID(), 42, legacy)))
+                    .andExpect(status().isAccepted());
+        assertEquals(4, commands.count());
+        assertEquals(4, START_CALLS.get());
+    }
+
+    @Test
+    void cityStartBeforeEffectiveMinuteDoesNotReserveButBoundaryAndRetrySucceed() throws Exception {
+        CLOCK.set(Instant.parse("2026-09-15T07:58:20Z"));
+        UUID requestId = UUID.randomUUID();
+        String body = body(requestId, 42, "VOLTE-MD-CHI");
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_SCOPE"));
+        assertEquals(0, commands.count());
+        assertEquals(0, START_CALLS.get());
+
+        CLOCK.set(Instant.parse("2026-09-15T07:59:20Z"));
+        String accepted = mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.scheduledStartAt").value("2026-09-15T08:00:00Z"))
+                .andReturn().getResponse().getContentAsString();
+        CLOCK.set(Instant.parse("2026-09-15T07:58:20Z"));
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", body))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.runId").value(json.readTree(accepted).path("runId").asText()));
+        assertEquals(1, commands.count());
+        assertEquals(1, START_CALLS.get());
     }
 
     @Test
@@ -289,8 +428,12 @@ class ScenarioControllerIT {
     }
 
     private static String body(UUID requestId, long seed) {
+        return body(requestId, seed, "VOLTE-MD-CENTRAL");
+    }
+
+    private static String body(UUID requestId, long seed, String scopeId) {
         return "{\"requestId\":\"" + requestId + "\",\"seed\":" + seed
-                + ",\"scopeId\":\"VOLTE-MD-CENTRAL\"}";
+                + ",\"scopeId\":\"" + scopeId + "\"}";
     }
 
     private org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder

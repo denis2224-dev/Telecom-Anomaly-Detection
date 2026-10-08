@@ -81,7 +81,7 @@ import { RunStore } from './run.store';
         />
 
         </div></div>
-        <details class="evidence-disclosure"><summary>Supported scenario scopes</summary><p>VoLTE central and SMS route A are supported. Geographic city scenarios, including Orhei: Unavailable.</p></details>
+        <details class="evidence-disclosure"><summary>Supported scenario scopes</summary><p>Legacy scopes are always available. {{ cityScopesAvailable() ? 'Active catalogue city scopes are available for the selected service.' : 'City scopes are unavailable until the catalogue is active.' }}</p></details>
         @if (store.command(); as command) {
           <p>
             Saved command: <code>{{ command.requestId }}</code>
@@ -194,6 +194,8 @@ export class ScenarioRunnerComponent implements OnDestroy {
   private timer?: ReturnType<typeof setInterval>;
 
   readonly scopes = signal<ServiceSummary[]>([]);
+  readonly catalogueScopes = signal<ReadonlySet<string>>(new Set(['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A']));
+  readonly cityScopesAvailable = computed(() => this.catalogueScopes().size > 2);
   readonly scopeError = signal('');
   readonly type = signal<ScenarioType>('VOLTE_IMS_OVERLOAD');
   readonly scopeId = signal('');
@@ -209,8 +211,7 @@ export class ScenarioRunnerComponent implements OnDestroy {
 
   readonly availableScopes = computed(() =>
     this.scopes().filter(service => {
-      // These are the scopes accepted by ScenarioCommandService.validate.
-      if (!['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A'].includes(service.scope.scopeId)) return false;
+      if (!this.catalogueScopes().has(service.scope.scopeId)) return false;
       if (
         this.type() === 'VOLTE_IMS_OVERLOAD'
         && service.scope.service !== 'VOLTE'
@@ -277,7 +278,30 @@ export class ScenarioRunnerComponent implements OnDestroy {
     this.scopeError.set('');
 
     try {
-      this.scopes.set(await this.api.listServices());
+      const services = await this.api.listServices();
+      this.scopes.set(services);
+      this.catalogueScopes.set(new Set(['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A']));
+      try {
+        const catalogue = await this.api.listGeographyCities();
+        if (!catalogue.catalogueVersion || !catalogue.topologyVersion || catalogue.cities.length !== 10)
+          throw new Error('Incomplete city catalogue.');
+        const authorized = new Set(['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A']);
+        for (const city of catalogue.cities) {
+          if (city.catalogueVersion !== catalogue.catalogueVersion
+            || city.topologyVersion !== catalogue.topologyVersion || city.services.length !== 2)
+            throw new Error('Inconsistent city catalogue.');
+          for (const state of city.services) {
+            if (authorized.has(state.scopeId) || !services.some(item =>
+              item.scope.scopeId === state.scopeId && item.scope.service === state.service))
+              throw new Error('Inconsistent city scenario scope.');
+            authorized.add(state.scopeId);
+          }
+        }
+        if (authorized.size !== 22) throw new Error('Incomplete city scenario scopes.');
+        this.catalogueScopes.set(authorized);
+      } catch {
+        // The public catalogue is the authority for city commands; retain legacy controls.
+      }
     } catch {
       this.scopeError.set(
         'Service scopes could not be loaded. Try again.',

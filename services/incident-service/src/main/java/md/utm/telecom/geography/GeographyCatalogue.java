@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /** The same pinned catalogue and strict source authority used by geographic producers. */
@@ -34,11 +35,26 @@ public final class GeographyCatalogue {
     private final Map<String, JsonNode> nodes = new HashMap<>();
     private final String digest;
 
-    public GeographyCatalogue(@Value("${telecom.geography.effective-from:}") String effectiveFrom) throws IOException {
-        root = (ObjectNode) resource("geography/demo-geography-v1.json");
-        topology = resource("topology/geographic-scopes-v2.json");
+    @Autowired
+    public GeographyCatalogue(@Value("${telecom.geography.effective-from:}") String effectiveFrom,
+            @Value("${telecom.geography.enabled:true}") boolean enabled) throws IOException {
+        this(effectiveFrom, enabled, (ObjectNode) resource("geography/demo-geography-v1.json"),
+                resource("topology/geographic-scopes-v2.json"));
+    }
+
+    public GeographyCatalogue(String effectiveFrom) throws IOException {
+        this(effectiveFrom, true);
+    }
+
+    GeographyCatalogue(String effectiveFrom, ObjectNode document, JsonNode strictTopology) throws IOException {
+        this(effectiveFrom, true, document, strictTopology);
+    }
+
+    GeographyCatalogue(String effectiveFrom, boolean enabled, ObjectNode document, JsonNode strictTopology) throws IOException {
+        root = document.deepCopy();
+        topology = strictTopology.deepCopy();
         validateSchema(root, resource("geography/geography-catalogue-v1.schema.json"));
-        if (!effectiveFrom.isBlank()) {
+        if (enabled && !effectiveFrom.isBlank()) {
             Instant activation = Instant.parse(effectiveFrom);
             require(activation.getNano() == 0 && Math.floorMod(activation.getEpochSecond(), 60) == 0,
                     "Geography activation must be a whole UTC minute");
@@ -50,10 +66,10 @@ public final class GeographyCatalogue {
         validateMappings();
     }
 
-    private JsonNode resource(String path) throws IOException {
+    private static JsonNode resource(String path) throws IOException {
         try (InputStream input = GeographyCatalogue.class.getResourceAsStream("/contracts/" + path)) {
             if (input == null) throw new IllegalStateException("Missing pinned contract: " + path);
-            return json.readTree(input);
+            return new ObjectMapper().readTree(input);
         }
     }
 
@@ -163,14 +179,18 @@ public final class GeographyCatalogue {
         } catch (IOException | NoSuchAlgorithmException impossible) { throw new IllegalStateException(impossible); }
     }
 
-    public JsonNode root() { return root; }
-    public JsonNode topology() { return topology; }
+    public JsonNode root() { return root.deepCopy(); }
+    public JsonNode topology() { return topology.deepCopy(); }
     public String version() { return root.path("catalogueVersion").asText(); }
     public String topologyVersion() { return root.path("topologyVersion").asText(); }
     public String digest() { return digest; }
     public boolean active() { return root.path("activation").path("status").asText().equals("ACTIVE"); }
-    public JsonNode scope(String scopeId) { return scopes.get(scopeId); }
-    public JsonNode strictScope(String scopeId) { return authority.get(scopeId); }
+    public boolean activeAt(Instant scheduledStart) {
+        return active() && !scheduledStart.isBefore(
+                Instant.parse(root.path("activation").path("effectiveFrom").asText()));
+    }
+    public JsonNode scope(String scopeId) { return scopes.containsKey(scopeId) ? scopes.get(scopeId).deepCopy() : null; }
+    public JsonNode strictScope(String scopeId) { return authority.containsKey(scopeId) ? authority.get(scopeId).deepCopy() : null; }
     public Set<String> expected(String scopeId) {
         var expected = new TreeSet<String>();
         var strict = authority.get(scopeId);

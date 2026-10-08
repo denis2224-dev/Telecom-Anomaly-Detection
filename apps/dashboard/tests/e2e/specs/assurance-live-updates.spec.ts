@@ -15,6 +15,10 @@ test('incident notifications and reconnect reload REST; expiry stops refresh', a
   } }));
   let degraded = false, requests = 0;
   await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
+  await page.route('**/api/operations/priority?**', route => route.fulfill({ json: {
+    generatedAt: new Date().toISOString(), policyVersion: 'geographic-priority-v1', policyStatus: 'ACTIVE',
+    page: 0, size: 20, hasNext: false, items: [],
+  } }));
   await page.route('**/api/services', route => {
     requests++;
     return route.fulfill({ json: [{ ...services[0], latestWindow: voiceWindows[0] }] });

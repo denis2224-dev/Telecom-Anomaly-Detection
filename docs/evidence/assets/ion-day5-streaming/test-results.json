@@ -1,0 +1,4550 @@
+{
+  "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+  "fullRootStreamingReactor": {
+    "streaming-support": {
+      "tests": 111,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 111,
+      "suites": [
+        {
+          "name": "md.utm.telecom.observation.CoverageContractTest",
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "rejectsInconsistentIdentityVersionsSourceSetsAndReasons",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWindowIdentityFromAnotherMinute",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "windowIdentityMatchesExistingFinalizedFeatureFixture",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[12]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[13]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[14]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[15]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[16]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[17]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[18]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[19]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[20]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[21]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[22]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[23]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[24]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[25]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[26]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[27]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[28]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[29]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedCoverageIdentitiesAndAuthority()[30]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWindowIdentityFromAnotherScope",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsValidLookingHashForWrongFeatureWindowIdentity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWindowIdentityFromAnotherFeatureVersion",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.observation.GeographyCatalogTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "activationHasDistinctImmutableVersionAndDigestWithoutMutatingDayOne",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "immutableCatalogueAndStrictActivationVersions",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allCitiesHaveEqualFootprintsBothServicesAndLegacyAliases",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedMalformedMappings()[12]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.observation.ObservationValidatorTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "duplicateConflictsAndDefensiveReceiptCopy",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allNormalDegradedMissingAndHeartbeatFixtures",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "smsSamplesAreBoundedEvenWhenCountsMatch",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicSourcesAreExplicitAndChangedContentStillConflicts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[12]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[13]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[14]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[15]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[16]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[17]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[18]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[19]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[20]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[21]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[22]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[23]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[24]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[25]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sharedReferenceCases()[26]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.observation.TopologyCatalogTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "rejectsMalformedInventory()[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[12]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[13]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[14]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[15]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[16]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[17]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[18]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[19]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[20]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[21]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[22]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[23]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[24]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[25]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMalformedInventory()[26]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "copiesJsonAndRecordCollections",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsMissingResourceAndInvalidRoot",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "validatorUsesInjectedOpaqueMappingInsteadOfNamesOrDefaultInventory",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "candidateAuthorityAddsCitiesWithoutChangingOrWeakeningBaseline",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        }
+      ]
+    },
+    "event-generator": {
+      "tests": 95,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 95,
+      "suites": [
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "featureOnAcceptsAllSixtyCompatibleCommandsAndRejectsMismatches",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "scheduleBeforeActivationIsRejectedBeforeGeneration",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "packagedContractCatalogueDoesNotAuthorizeCityCommands",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "featureOffAllowsLegacyAndRejectsAllCityScopesWithoutReservationOrHttp500",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "privateRoutesBindExecutionOnlyBodyAndReturnSchedule",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unknownAndConflictHaveStableErrorCodes",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "rejectsInvalidStartDurationScenarioScopeAndSeed",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "cityScheduledExecutionVerifiesTransitionsKafkaKeyAndPayloadScopeMatch",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "perScopeReservationAllowsConcurrentDifferentCitiesAndRejectsOverlappingSameScope",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactRetryReturnsSameProgressAndSchedulesOnce",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentConflictingStartsAcceptOneBody",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentExactRetriesCreateOneExecution",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unknownStatusAndStopAreExplicit",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activeCatalogueAcceptsAllCompatibleCityAndLegacyScenarios",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectedPartialScheduleCannotPublishEvenIfCallbackWasDequeued",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "partialForwardBackwardAndLastMinuteOverlapConflict",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "restartReconciliationRejectsReplayAfterStart",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "emptyLogicalMinuteCanStillComplete",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "stoppedRunStillReservesItsAuthoritativeInterval",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "stopScheduledAndRepeatedStopPreventAllPublication",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "differentRunIdSameScopeAndScheduleConflictsWithoutChangingReservation",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "adjacentSameScopeAndConcurrentDifferentScopeAreAllowed",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "telemetryGapProcessesEightWindowsWithoutInventingSourceMeasurements",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failedSendCannotCompleteAndErrorIsSafe",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "conflictingRetriesNeverMutateAcceptedRun",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "stopRunningPreservesPublishedObservationsAndCompletedIsImmutable",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAlignedEightMinuteRunAndTransitionsToCompletion",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "cityRunsPublishMatchingPayloadScopeAndKeepRetryReservationSemantics",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentStopCannotRelabelFailedKafkaWindow",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentDifferentRunIdsCannotReserveOverlappingScope",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "deterministicReproductionAndSeedMeasurementsAcrossAllProfiles",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allSixtyCityCombinationsAcceptedWithCorrectScopeKafkaKeyAndEightWindows",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "incompatibleServiceTargetsAndUnknownScopesRejected",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "restartBeforeStartCanReinstallFutureRun",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "stopWaitsForInFlightKafkaAckThenPreventsFutureWindows",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.CityVoiceSeedTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "cityAndSeedChangeScenarioMeasurementsButNeverNaturalObservationIdentity",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "stopCancelsNextAndPreventsPublication",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "healthyDeterminismAndIdentityIndependentOfSeed",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "stoppedRunSuppressesUntilEnd",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "delayedCallbackSkipsDowntimeAndDeadline",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "alignedWholeMinutesAndCanonicalCounts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failedRunRetainsReservation",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "transientFailureRetryKeepsPayload",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "reservationsIncludeGapAndOnlySuppressOwnedScope(String, String, int)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "reservationsIncludeGapAndOnlySuppressOwnedScope(String, String, int)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "reservationsIncludeGapAndOnlySuppressOwnedScope(String, String, int)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "reservationsIncludeGapAndOnlySuppressOwnedScope(String, String, int)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "reservationsIncludeGapAndOnlySuppressOwnedScope(String, String, int)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "reservationsIncludeGapAndOnlySuppressOwnedScope(String, String, int)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "permanentFailureRetriesIdenticalPayloadAndIsBounded",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactStartupBoundaryDoesNotSkip",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "stopCancelsOfferedRecordsWithoutAcknowledgingLateSuccess",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "ackCallbackDoesNotExecuteTheNextBlockingSend",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "stalledAckLeavesOtherNineteenScopesIndependentAndPreservesOrder",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "expiredBlockingSendRetainsScopeOrderAcrossMinutesWithoutBlockingOtherScopes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "minimumGeographicInventoryAndLegacyConfigurationRemainExplicit",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "resultsRetainOnlyTwoUtcMinutes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "deadlineAndStopRejectLateCallbacksAndRestartRetainsNoOldChains",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "uncertainTimeoutRetryReusesPayloadAndEventIdWithOneLogicalOffer",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allTwentyGeographicScopesFitPublicationDeadlineWithReal150msAckLatency",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "oneTerminalFailedAckIsVisibleWithoutIncreasingLogicalOffers",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "blockingKafkaSubmissionDoesNotSerializeOtherNineteenScopes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicRetriesReuseOriginalBytesAndKeepThreeAttemptLimit",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "successfulMinuteReportsFiftyLogicalOffersAndAcknowledgements",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "snapshotsDoNotAcknowledgeHeldFuturesAndRemainImmutable",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "suiteProducesUniqueAuthorizedEightMinuteProfilesForEverySeed",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "defaultRuntimeRetainsLegacyAuthorityAndMissingActivationFailsClosed",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "enabledRuntimeUsesSameActivatedCatalogueForValidatorAndTwentyScopeGeneration",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.HealthProbeTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "realHttpProbesDistinguishKafkaAvailabilityAndOutage",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "completePlanIncludesMissingnessHeartbeatAndRepeatsWithoutDuplicateIntervals",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "legacyFixtureBytesMatchSnapshotTakenFromIntegratedMain",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "seedChangesMeasurementsWhileIdentityRemainsLogicalAndMinuteChangesIdentity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "tenPayloadsReproduceBytesOrderAndIdsWithSameSeedAndInjectedClock",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "differentSeedsChangeMeasurementsButPreserveIdentity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "slowDeliveryPhaseProducesCanonicalDegradedMetrics",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityHasDeterministicIndependentSmsMeasurementsAndSeedIndependentIdentity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "queueEvidenceRequiresBothDepthAndAgeOrBothAbsent",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "technicalReplayPreservesLogicalEventIdentityWhileRetryAttemptsAreSummarized",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "minuteAlignmentEnforcesUtcMinuteBoundary",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "controlStaysHealthyAndGapOmitsUnmeasuredSourcesWithoutFakeZeroSamples",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "nearestRankCalculatesMathematicallyExactP95OnNonIdenticalDelays",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "zeroCompletionsPreservesAgingQueueWithoutDeliveredSamples",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "legacyBytesMatchSnapshotTakenFromIntegratedMain",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingQueueEvidenceDoesNotFabricateHealthyZero",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "authorizedSourceAndScopeSemantics",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sameSeedReproducesExactBytesAcrossInvocations",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "canonical8MinuteProfileGeneratesDeterministicValidatedSequence",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.generator.VoiceScenarioTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "deterministicValidatedMeasurementsIncludeDegradationGapAndRecovery",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "legacyBytesMatchSnapshotTakenFromIntegratedMain",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "controlIsHealthyAndTelemetryGapOmitsAllUnmeasuredSources",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityHasDeterministicIndependentVoiceMeasurementsAndSeedIndependentIdentity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "canonicalOverloadHasTwoHealthyThreeFaultThreeRecoveryMinutes",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        }
+      ]
+    },
+    "processor": {
+      "tests": 533,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 529,
+      "suites": [
+        {
+          "name": "md.utm.telecom.processing.BaselineRegistryTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "policyIsVersionedAndRejectsInconsistentThresholds",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "explicitPeerOnlyAndDirectCoverageWins",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "malformedAndCrossServiceConfigurationFails",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactUtcHoursAndAllDemoCoverage",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicCompatibilityRequiresTheExactHistoricalScopeAuthority",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.DependencyOutageIT",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "recoveryDoesNotDuplicateFeatureIdentity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "outageCrossingClosureReportsLateInputHonestly",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "postgresOutageLeavesInputUnacknowledgedAndRetryable",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "kafkaOutageRetainsCommittedOutputAndPublishesAfterRestore",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "recordsDeliveryFairnessForAnUnavailableOutputStream",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "disabledGeographyDoesNotActivateCityBaselines",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicActivationLoadsReviewedPeersAndKeepsPendingLegacyWindows",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidPolicyPreventsStartup",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "startupLoadsBothContractVersions",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "upgradeBackfillsJobsWithoutChangingExistingEpisodeOrEvidence",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionReplayIT",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "concurrentDeliveryClaimsOnlyTheHeadAndAdvancesEachWindowOnce(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentDeliveryClaimsOnlyTheHeadAndAdvancesEachWindowOnce(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "severalSynchronousFailuresCountOnceEachTowardTheHundredAttemptLimit",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "interruptedSendReleasesItsClaimAndStopsThePollWithInterruptRestored",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "obsoletePublisherCannotMarkOrReleaseAnotherOwnersClaim(boolean)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "obsoletePublisherCannotMarkOrReleaseAnotherOwnersClaim(boolean)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "databaseBookkeepingFailureStopsThePollAndLeaseExpiryAllowsRecovery(boolean)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "databaseBookkeepingFailureStopsThePollAndLeaseExpiryAllowsRecovery(boolean)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "expiredClaimIsReclaimedAndStaleWorkerCannotCommit",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "claimedScopeDoesNotBlockAnotherService",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentCoveragePublishersAllowUnrelatedDeliveryButHoldTheFailingStreamsTail",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failingCoverageHeadDoesNotStarveUnrelatedStreamsAndRecoversInOrder",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentPublishersHoldLaterSequencesUntilTheHeadIsAcknowledged",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "timedOutHeadRetainsEvidenceWhileUnrelatedRowsPublish",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "episodeWriteAndDeferredCommitFailuresRollBackCompletion(boolean)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "episodeWriteAndDeferredCommitFailuresRollBackCompletion(boolean)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.EpisodeStateTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "missingEvidenceResetsPendingOpening",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "grayAndMissingWindowsResetThreeHealthyWindowRecovery",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "gapDoesNotCompleteRecoveryAndRecurrenceGetsNewAnchor",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.ExplanationCasesTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "imsHypothesisRequiresAlignedMeasurementsAndHealthyAccess",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "bothServicesPreserveExplanationsAcrossAllSixTrajectories",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.FinalizerRaceIT",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "missingWinnerSerializesMultipleNormalAndMissingWorkersWithoutBucket(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingWinnerSerializesMultipleNormalAndMissingWorkersWithoutBucket(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "timelyNodeReceiptWinsNormalFinalizerAtClosure",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "closingNormalFeatureExcludesLateNodeAtAndAfterClosure(long)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "closingNormalFeatureExcludesLateNodeAtAndAfterClosure(long)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "timelyServiceWinsMissingAndNormalFinalizers(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "timelyServiceWinsMissingAndNormalFinalizers(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingWinnerExcludesLateServiceAndNormalFinalizer(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingWinnerExcludesLateServiceAndNormalFinalizer(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "normalWinnerSerializesMultipleNormalAndMissingWorkers(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "normalWinnerSerializesMultipleNormalAndMissingWorkers(String)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "nearestRankRawMergeAndUnmergeableScalarExpectations",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactCounterWeightedValuesAndUnavailableReasons",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "twentyCityPeersResolveEveryUtcHourWithoutChangingTheNumericRegime",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingDonorHourIsUnavailableAndCrossServicePeerIsRejected",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicDetectionTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "cases": [
+            {
+              "name": "absentCityServiceIsUnknownAndCannotCountAsRecovery(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentCityServiceIsUnknownAndCannotCountAsRecovery(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "wrongCityTimeAndNoncontributingNodesCannotExplainOrRecover(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "wrongCityTimeAndNoncontributingNodesCannotExplainOrRecover(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "cityQueueOnlyBreachDoesNotNeedServiceSamplesOrAnMlVector",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+              "status": "skipped",
+              "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[12]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[13]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[14]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[15]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[16]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[17]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[18]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[19]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyCityOpensAndRecoversUsingMappedEvidenceWithoutMl(String)[20]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "cityBaselineRemainsMissingAndMlIneligible(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "cityBaselineRemainsMissingAndMlIneligible(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activatedGeographyLegacyRuleKeepsProvenanceAndBaselineValues(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activatedGeographyLegacyRuleKeepsProvenanceAndBaselineValues(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unrelatedTopologyVersionsStillFail(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unrelatedTopologyVersionsStillFail(String)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "pendingBaselineThenGeographicFeatureCompletesWithoutRewritingHistory(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "pendingBaselineThenGeographicFeatureCompletesWithoutRewritingHistory(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activatedGeographyWorkerCompletesKpiAndEpisodeTransaction(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activatedGeographyWorkerCompletesKpiAndEpisodeTransaction(String)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "threeConsecutiveMinutesReconcileOneProducerWithSameWindowKpiAndCoverageFacts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "persistedReceiptCanPrecedeUncertainAckAndRetryDoesNotInflateIt",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "upgradeFromCurrentMainPreservesHistoryAndGrantsOnlyOperationalUpdates",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "timelyReceiptWinsMissingFinalizationRace",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "restartCreatesSeparateMonitoringRangeWithoutMissingDowntime",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "batchFairnessAllowsUnrelatedScopesToAdvance",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "staleLeaseOwnerCannotExtendRange",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "crashAfterFinalizationBeforeCursorAdvanceIsIdempotent",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "firstReceiptInSecondMinutePreservesInitialMissingMinute",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "databaseSealsPinsAndScopeMembership",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failingScopeDoesNotPreventOtherScopesFromFinalizing",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "processorStartupAfterActivationDoesNotBackfillDowntime",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "finalizationFailureDoesNotAdvanceCursor",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "duplicateDiscoveryCreatesOneLogicalOutcome",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "oneInitiallySilentScopeIsNotLostAmongNineteenObservedScopes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "resumedOwnerDoesNotBridgeContinuityGap",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "legacyScopesDoNotReceiveMonitoringCursorRows",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "expiredLeaseCanBeTakenOver",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acknowledgmentRejectsMissingOrForeignCoverage",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allTwentyInitiallySilentScopesProduceMissingCoverageAfterClosure",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "receiptAtAndAfterClosureCannotChangeMissingOutcome",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingGeographicMinuteOutsideMonitoringIsNotDue",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactContinuityGapBoundaryDoesNotExtendLeaseAcrossLostContinuity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "pinnedHistoricalAuthorityIsNotReinterpreted",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "finalizerRaceCreatesOneFeatureAndCoverageFact",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "monitoringCursorAdvancesAfterVerifiedFinalization",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactActivationBoundaryIsRespected",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "twoRecordersCannotOwnSameOpenRange",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicParityTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "frozenCityInputsExportFreshPersistedJavaFeaturesAndBaselineContexts",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "unalignedNoncontributingIncompleteOrWrongRoleEvidenceCannotBreach(BaselineMode)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unalignedNoncontributingIncompleteOrWrongRoleEvidenceCannotBreach(BaselineMode)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "nonnullMismatchedDelayBaselineIsStillRejected(BaselineMode)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "nonnullMismatchedDelayBaselineIsStillRejected(BaselineMode)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "freshBacklogBreachesWithoutHistoricalDelayBaselineAndLeavesPayloadUnchanged(BaselineMode)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "freshBacklogBreachesWithoutHistoricalDelayBaselineAndLeavesPayloadUnchanged(BaselineMode)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "forgedReporterAndQueueKpiDisagreementRemainRejected(BaselineMode)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "forgedReporterAndQueueKpiDisagreementRemainRejected(BaselineMode)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "twoAdjacentQueueOnlyWindowsOpenAHighEpisode(BaselineMode)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "twoAdjacentQueueOnlyWindowsOpenAHighEpisode(BaselineMode)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingHistoricalBaselineCannotBeReplacedByCurrentDelayBaseline(BaselineMode)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingHistoricalBaselineCannotBeReplacedByCurrentDelayBaseline(BaselineMode)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "measuredZeroDeliveriesCanRecoverButMissingServiceAndUnbaselinedDelayCannot(BaselineMode)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "measuredZeroDeliveriesCanRecoverButMissingServiceAndUnbaselinedDelayCannot(BaselineMode)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicWorkerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "twentyScopesFinalizeThreeMinutesWithIndependentKpisAndCoverage",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "mappedReceiptIsSelectedAndReplayIsIdempotent(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "mappedReceiptIsSelectedAndReplayIsIdempotent(String)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.HealthProbeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "applicationWiresCanonicalCatalogIntoProcessorBoundary",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "realHttpProbesDistinguishKafkaAvailabilityAndOutage",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "processorRegistersBoundedMetricsWhileHttpExposureRemainsHealthOnly",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "consoleRendersStructuredTraceFields(CapturedOutput)",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "synchronousProducerFailureReleasesClaimAndKeepsCommittedWorkForRetry",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "coexistsWithCompletedLegacyBootstrapWithoutReset",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "expiredSameTokenAtAckCannotMarkOrCompleteAndRetriesIdenticalOutput",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "partialHealthyReceiptsAreCompletedWithoutRewritingAndRawFaultFailsClosed",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "membershipFailureRollsBackReceiptsFeatureCoverageAndEvaluationTogether",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unrelatedPendingHealthyOutputInsideRangeIsNotAdoptedOrPublished",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "deliveryDrainDoesNotConsumeUnrelatedLiveOutboxRow",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "canonicalBootstrapAcrossAllTwentyCityScopesDrainsKpiAndCoverageAndIsIdempotent",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "configuredRestartReusesPersistedRangeAfterWallClockAdvances",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "interruptedDeliveryResumesWithoutDuplicateEvidence",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "oldJobWithoutOwnershipFailsClosedAndIsNeverRetagged",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "preExistingFaultWindowPreservedByteForByteWithoutAdvancingLiveEpisodeState",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "drainDoesNotStealNormalPublisherLease",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "lostLeaseAfterUncertainAckCannotMarkAndExpiredLeaseRetriesIdenticalPayload",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "delayedAckFailureAfterPartialPublicationResumesFromANewInstance",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "earlierUnrelatedHeadBlocksSuccessorWithoutFalseCompletionAndKeepsStreamOrder",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "simultaneousBootstrapAttemptsAreRejectedBySessionLock",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "changedConfigurationUnderSameJobIdentityThrowsConflict",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "v012UpgradePreservesHistoryAndDeliveryAndGrantsOnlyImmutableMembershipDml",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "healthyGeographicHistoryAcrossAllTwentyCityScopes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "healthyContextAcrossEveryUtcHourOfWeek",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "outstandingKafkaDeliveryIsBoundedToOneHundredRecords",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "interruptedDeliveryResumesWithoutDuplicateEvidence",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "existingFaultFeatureKeepsItsPendingLiveDetectionHandoff",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "canonicalIngestionFinalizationAndIdempotentRestart",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "missingMalformedAndUnalignedActivationFailStartup",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "canonicalSpringEnvironmentVariablesActivateTheSameJobAndAuthority",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "canonicalSwitchInjectsSharedActiveAuthorityValidatorAndTwentyScopes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activationChangeChangesVersionAndDigest",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "disabledHistoryKeepsLegacyAuthorityAndBootstrap",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "obsoleteSwitchAndConflictingTargetsFailClearly",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "malformedGeographicPropertiesFailStartup",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicHistoryWithoutRuntimeGeographyFailsClosed",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "actualBrokerOutageAfterPartialPublicationResumesCommittedHistoryAfterRestore",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "realBrokerPersistenceWithSimulatedLostAckRetriesSameOutputAcrossRestart",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failedConfiguredStartupResumesAfterFiveMinuteClockAdvanceAndRejectsOperatorChanges",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "actualEntrypointPublishesOneMinuteToRealKafkaAndRetainsPinnedIdentity",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "geographicHistoryRangeIsBoundedToAtMostTwoDays",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactThirtyDaysAndIncompleteMinuteExcluded",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "emptyAndFractionalMinuteRangesRejectedBeforeAnyWrite",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicHistoryPropertiesBoundedAndDisabledByDefault",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "malformedDocumentRetainsIdentifierParsedBeforeSyntaxFailure",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "boundsRejectionEvidenceAndHandlesNullPayload",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsVolteAndExactReorderedRetryWithoutDoubleCounting",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentIdenticalReceiptsHaveExactlyOneWinner",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentNaturalKeyConflictHasOneAcceptedMutation",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "migrationOwnershipRuntimeDmlAndIsolation",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "outboxDatabaseFailureDoesNotAckOrDisappear",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "realKafkaRetriesPastDefaultBudgetThenCommitsAndAdvancesOffset",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidInputsPreserveExtractableEventIdAndDoNotMutateAcceptedState(String, RejectionReason)[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "malformedRejectionRetainsBytesHashIdentityAndDeduplicates",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "olderAcceptedEventsCannotMoveSourceStateBackwards",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "eventAndNaturalKeyConflictsLeaveAcceptedStateUnchanged",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "databaseEnforcesAllLogicalUniqueKeys",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "listenerSeesCommittedRowsFromIndependentConnectionBeforeEveryAck",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "commitTimeFailureRollsBackAndNeverAcknowledges",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "laterDatabaseFailureRollsBackReceiptAndBucketAndDoesNotAck",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllExistingObservationKinds(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllExistingObservationKinds(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllExistingObservationKinds(String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllExistingObservationKinds(String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllExistingObservationKinds(String)[5]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "hashesExactMalformedBytes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "deliveryDefensivelyCopiesBytes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsExcessiveNestingBeforeCanonicalRecursion",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sortsNestedObjectsButPreservesArrayOrder",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsAmbiguousAndTrailingDocuments",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "futureEmissionCannotProveCurrentActivity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "observedIncompleteDiffersFromPendingAbsence",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "recentHeartbeatIsFreshActivity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "replayOldActivityCannotMoveFreshnessForwardIncorrectly",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "noObservationForExpectedIntervalByEndPlusLatenessIsMissing",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "heartbeatAloneDoesNotMakeExpectedIntervalCoverageComplete",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "recentNodeActivityIsFresh",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "explicitlyReportedMissingDiffersFromAbsentReceipt",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activityExactlyAtStaleBoundaryIsFresh",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "beforeEndPlusAllowedLatenessMustNotPrematurelyMarkMissing",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "recentServiceActivityIsFresh",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "activityJustBeyondStaleAfterSecIsStale",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "cityHeartbeatAndReportedMissingDoNotCreateCompleteCoverageInEitherCity",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "expectedSourceWithNoKnownActivityIsNeverSeen",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "allFrozenReceiptTruthCases()[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[12]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[13]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[14]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[15]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[16]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[17]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[18]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[19]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[20]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[21]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[22]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[23]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[24]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[25]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[26]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[27]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[28]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[29]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allFrozenReceiptTruthCases()[30]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "failureAfterCoverageInsertRollsBackCoverageFeatureAndMarker",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "optionalSmsTransportAbsentAndDuplicateFinalizationAreIdempotent",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "existingGenericPublisherRetriesStableCoverageAndMarksOnlyAfterAck",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentServiceFinalizationUsesOnlyRealNodeReceipts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "competingFinalizersCommitOneMatchingWinningSnapshot",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "reportedMissingAndHeartbeatAreReceivedTruthWithoutCrossCityContamination",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "fiftyGeneratedReceiptsFinalizeTwentyIndependentFeatureAndCoverageFacts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[10]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "wrongWindowUnrelatedAndIncompleteSmscCannotContribute",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "smsNodeProvenanceRequiresContributingMeasurements",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allSmsCasesExportCompletePayloadsForPythonComparison",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicFeatureOrderAndFormulasEqualLegacyWithExplicitTestOnlyReferenceValues",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "geographicRolesPreserveObservedKpisWithoutInventingCityBaselinesAndExportHandoff",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentSmsBaselineKeepsObservedKpisAndDisablesMl",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "schemaMaximumCountsDoNotOverflowPercentage",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "cases": [
+            {
+              "name": "livePackagedModelEnrichesRecoveredSmsEpisode",
+              "status": "skipped",
+              "reason": null
+            },
+            {
+              "name": "completeSmsWindowsProduceOneRecoveredEpisodeWithoutMlService",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "eligibleFeaturesStillOpenRuleEpisodeWhenMlHttpIsUnavailable",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "bothServicesPublishOneKpiThroughTheSharedOutbox",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failedSmsSendRetainsOutboxForRetryWithoutReevaluation",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "cases": [
+            {
+              "name": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+              "status": "skipped",
+              "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "leaseRecoveryFencesStaleResultsAndSurvivesWorkerRestart",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "inferenceRunsOutsideTransactionAndStoresHealthyAndClassifierOnlyPositive",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "outboxFailureRollsBackResultAndLeavesRecoverableClaim",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "cases": [
+            {
+              "name": "committedWindowsProduceOneDurableEpisodeAndIdenticalReplayProducesNothing",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+              "status": "skipped",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "schemaValidationFailureLeavesNoFinalizedState",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unrelatedWrongWindowAndIncompleteNodesCannotContribute",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unavailableBaselinePreservesKnownKpisAndDisablesMl",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "twoConcurrentFinalizersCommitExactlyOneOutput",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "nodeOnlyAndSmsBucketsAreFinalizedAndPollingIsBounded",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "runtimeCannotMutateOutputAndDatabaseEnforcesBothIdentities",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allSevenSharedVoiceCasesPersistAndExportForIndependentPythonComparison",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "absentSmsIntervalPersistsMissingFeatureWithoutInventedMeasurements",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "commitFailureRollsBackOutputAndFinalizedFlag",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "eligibilityIsRecheckedAfterObtainingTheBucketLock",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "schedulerContinuesAfterOneWindowFails",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "versionedLatenessControlsNormalAndMissingDecisions",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "repeatIsImmutableAndNeverRecalculatesWithLaterBaselineOrClock",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "outboxInsertFailureRollsBackAndCanRetry",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "legacyDefaultDoesNotActivateContractOnlyCoverageProduction",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failureAfterOutboxInsertRollsBackBothChanges",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactTimingAndSixtySecondBounds",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingNodeQualityAndAbsentRelevantMeasurementAreUnknown",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.LateInputIT",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "brokerAckThenDatabaseMarkFailureResendsSameLogicalRejection",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "duplicateThenEventAndNaturalConflictsPrecedeLateWithoutMutatingKpis",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "finalizationAtClosureHoldsSharedLockAgainstLateIngestion",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "finalizedFeatureAndEpisodeEvidenceRemainImmutableAndReplayRemainsDuplicate",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "publisherCannotRunInsideWindowTransaction",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "databaseConnectionOutageNeverAcknowledgesOrCreatesInvalidEvidence",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "lateServiceCannotRewriteFinalizedMissingWindow",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "databaseWriteOutageRollsBackReceiptAndNeverBecomesMalformed",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactClosureIsLateForEveryObservationKind(String, long)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactClosureIsLateForEveryObservationKind(String, long)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactClosureIsLateForEveryObservationKind(String, long)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactClosureIsLateForEveryObservationKind(String, long)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactClosureIsLateForEveryObservationKind(String, long)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactClosureIsLateForEveryObservationKind(String, long)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactClosureIsLateForEveryObservationKind(String, long)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sourceIntervalCounterResetIsValidAndWindowOrderControlsState",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "usesVersionedAllowedLateness",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "malformedAndLateEvidenceStayBoundedOnDatabaseAndWireAndRouteToConfiguredTopics(String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "malformedAndLateEvidenceStayBoundedOnDatabaseAndWireAndRouteToConfiguredTopics(String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sendFailureAndUnacknowledgedSendRemainPendingAndBatchIsBounded",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.MlClientTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "checksInputAndMapsSuccessTimeoutAndUnavailable",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "configurationBindsSafeDefaultsAndRejectsUnsafeLease",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "historyBootstrapProfileDoesNotStartLiveRecorder",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "recorderWaitsForRuntimeReadiness",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.ObservationInputTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "validatesAtTheProcessingBoundaryWithoutPretendingToPersist",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllDeclaredHeartbeatSources(String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllDeclaredHeartbeatSources(String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllDeclaredHeartbeatSources(String, String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllDeclaredHeartbeatSources(String, String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllDeclaredHeartbeatSources(String, String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsAllDeclaredHeartbeatSources(String, String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWrongServiceEvenWhenItsMetricShapeIsValid",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[12]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[13]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[14]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[15]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsStructurallyValidAuthorityMutations(String, String, String)[16]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "g0ServiceAndNodeEvidenceHaveMatchingScopeAndMinute(String, String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "g0ServiceAndNodeEvidenceHaveMatchingScopeAndMinute(String, String, String)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "rejectsEmptyOrSharedRoutingTopics(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsEmptyOrSharedRoutingTopics(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnboundedBatchConfiguration(int)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnboundedBatchConfiguration(int)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnboundedBatchConfiguration(int)[3]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "defaultsKeep48HourHorizonAndUseSeparateSingleThreadScheduler",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[10]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[11]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[12]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[13]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unsafeOrMalformedConfigurationFailsStartupEvenWhenDisabled(String)[14]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactBatchBoundsAndLongerConfiguredRawHorizonAreAccepted",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "upgradeFromV011PreservesAllRowsAndNarrowsOnlyUnusedDeletePrivileges",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.ReplayIT",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "sameDeliverySurvivesFailureAndReplaysThroughOneFeatureAndEpisode(String, Crash)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sameDeliverySurvivesFailureAndReplaysThroughOneFeatureAndEpisode(String, Crash)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sameDeliverySurvivesFailureAndReplaysThroughOneFeatureAndEpisode(String, Crash)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sameDeliverySurvivesFailureAndReplaysThroughOneFeatureAndEpisode(String, Crash)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "receiptsAndPendingOutboxesSurviveRawKafkaDeletionAndBeyondFortyEightHours",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "producerAckWithoutPublishedMarkRetriesIdenticalKpiAndDetectionWireIdentity(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "producerAckWithoutPublishedMarkRetriesIdenticalKpiAndDetectionWireIdentity(String)[2]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.RetentionJobTest",
+          "tests": 31,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "unavailableRawTopicRetainsReceiptsButAckedRejectionsCanStillBeCleaned",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "disabledInterruptedAndAmbientTransactionNeverDelete",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "liveRawRetentionOverridesDeclaredDefaultAndFailsClosed(long)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "liveRawRetentionOverridesDeclaredDefaultAndFailsClosed(long)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "liveRawRetentionOverridesDeclaredDefaultAndFailsClosed(long)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "eachCategoryHonorsOldestFirstBatchLimitAndRerunIsIdempotent",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "liveRawCleanupPolicyMustActuallyExpireRecords(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "liveRawCleanupPolicyMustActuallyExpireRecords(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "migrationsValidateRuntimeCleanupPrivilegesWithoutEvidenceOrDdlGrants",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "expiredCompletedReceiptIsCleanedWithoutLosingPendingWindow",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "receiptsFromAnUnverifiedOldTopicAreRetained",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sameJobCannotOverlapAndSeparateWorkersSkipLockedCandidates",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unresolvedWorkBlocksReceiptCleanupAndAllStateSurvives(String)[9]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "deleteFailureRollsBackWholeCategoryThenNextPollRetries",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectionFailureAfterReceiptCommitRetainsPendingOutputAndCanRetry",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "onlyOldPublishedRejectionsAreEligibleAndAgeBeginsAtAckMark",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "protectedOldestCandidatesConsumeScanBudgetWithoutScanningLaterHistory",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "receiptCutoffIsStrictAndYoungReceiptsSurvive(long)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "receiptCutoffIsStrictAndYoungReceiptsSurvive(long)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "receiptCutoffIsStrictAndYoungReceiptsSurvive(long)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "cleanupPreservesExactReplayInsideGuaranteedHorizon",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unfinalizedWorkSurvivesAtAnyAge",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sourceLastEventSurvivesAtAnyAge",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsEpisodeTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "telemetryGapCannotRecoverActiveSmsEpisode",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "freshQueueBreachesWithoutServiceButHealthyNodeDoesNotProveRecovery",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "faultOpensOnceAndRecoversDespiteSubthresholdModelRank",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsRuleTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "queueMustAgreeWithTheAlignedReceipt",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "delayNeedsSamplesAndBothStrictLimits",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "exactRatioAndAbsoluteRecoveryBoundariesRemainIndependent",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "backlogStillBreachesWithoutDelayBaseline",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "recoveryNeedsFreshQueueAndInclusiveDelayLimits",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "staleQueueCannotBreachOrRecover",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "delayMustAlsoExceedThreeTimesItsBaseline",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "oldQueueBreachesWithNoCompletedSamples",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "queueAgeIsStrictButCriticalLimitsAreInclusive",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "completeLowVolumeIsGrayButCannotProveRecovery",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "incompleteServiceStillEvaluatesFreshSMSCBacklogButNotDelayOrRecovery",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "backlogAndSeverityRequireEveryInclusiveOrStrictBoundary",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsShadowClientTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "failuresAreNullAndResponsesMustMatchFrozenPackageAndInclusiveCutoff",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "noMoreThanEightRequestsReachTheServerAtOnce",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "defaultOffDoesNoInferenceAndEnabledShadowCannotBlockRuleScheduler",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.StreamingMetricsTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "failedFinalizerCommitAndRepeatedOrNotDueResultsDoNotRecordDelay",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptedReceiptMapsToFinalizedFeatureSourceEventIds",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "everyRejectionReasonMapsToInvalidExceptLate(RejectionReason)[8]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptedAndExactRetryHaveSeparateCommittedCounters",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "queueAgeUsesOnlyPendingRowsAndDatabaseTime",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "structuredLogsConnectReceiptCommittedIngestionAndFeature",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "postgresStatementFailureIsRetryableWithoutAnyOutcomeOrAcknowledgment",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "largerAuthoritativeInventoryDoesNotAddMeterIdentities",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "aggregatesAuthoritativeSourcesAtExactFreshnessBoundary",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingServiceFinalizationAlsoRecordsCommittedDelay",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "dynamicEventScopeOffsetAndWindowIdsKeepMeterIdentitiesBounded",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "ingestionCommitFailureCannotCountAcceptedOrAcknowledge",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failedRefreshIsUnknownAndCannotInterruptProcessing",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "canonicalSmsNodeKeepsObservationAgeWithoutFeatureExtraction",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "allCityDependenciesJoinOnlyTheirOwnAlignedCompleteEvidence",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "foreignCitySourceCannotJoinEvenWithClaimedLocalScopeAndMissingMeasurementsStayMissing",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "approvedDependencyFromPreviousMinuteIsIgnoredAsWrongInterval",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "sameTimeNodeFromAnotherScopeIsIgnoredWithReason",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "noNumericMeasurementIsIgnoredWithAnObservableBoundedReason",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "incompleteOrMissingNodeMustNotProvideHealthyMeasurement",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingRelevantMetricRemainsAbsentForTheFeatureBuilder",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "approvedDependencyWithExactIntervalIsAccepted",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "resultOrderingIsDeterministicRegardlessOfInputOrder",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "matchingValidNodesRetainRealSourceEventIds",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "unrelatedOrUnapprovedNodeDependencyIsIgnoredWithReason",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "nonNodeKindIsIgnoredWithReason",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "unknownScopesAndNodesFailClosed",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "injectedGeographicAuthorityResolvesAllScopesWithoutDefaultFallback",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "doesNotExposeMutableInventory",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "pinnedRolesResolveCitiesAndLegacyAndFailClosedOnWrongRoleOrChangedSource",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWrongServiceAuthority(String, String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWrongServiceAuthority(String, String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWrongServiceAuthority(String, String, String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWrongServiceAuthority(String, String, String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsWrongServiceAuthority(String, String, String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "loadsVersionAndExactlyTheTwoExpectedScopes",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnrelatedUnknownAndMismatchedNodes(String, String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnrelatedUnknownAndMismatchedNodes(String, String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnrelatedUnknownAndMismatchedNodes(String, String, String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnrelatedUnknownAndMismatchedNodes(String, String, String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnrelatedUnknownAndMismatchedNodes(String, String, String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnrelatedUnknownAndMismatchedNodes(String, String, String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnrelatedUnknownAndMismatchedNodes(String, String, String)[7]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "loadsAuthoritativeServiceAndDependencies(String, String, String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "loadsAuthoritativeServiceAndDependencies(String, String, String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsEveryDeclaredHeartbeatSource(String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsEveryDeclaredHeartbeatSource(String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsEveryDeclaredHeartbeatSource(String, String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsEveryDeclaredHeartbeatSource(String, String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsEveryDeclaredHeartbeatSource(String, String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "acceptsEveryDeclaredHeartbeatSource(String, String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnknownAndOtherScopeHeartbeatSources(String, String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnknownAndOtherScopeHeartbeatSources(String, String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnknownAndOtherScopeHeartbeatSources(String, String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnknownAndOtherScopeHeartbeatSources(String, String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "rejectsUnknownAndOtherScopeHeartbeatSources(String, String)[5]",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "coverageTimeoutsDoNotStarveScheduledMonitoringOrBreakItsRange",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "legacyActiveEpisodeCanBecomeUnknownWithoutInventedProvenance",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "nonAdjacentBreachesCannotOpenAndGapCannotRecover",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "oneEpisodeWithGapRecoveryAndReplay",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "canonicalEightMinuteFaultOpensOnceAndRecoversOnThirdHealthyWindow",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceRuleTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "rejectsInconsistentCounterEvidenceVersionAndTime",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "strictDropAndInclusiveVolumeBoundaries",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "impactBoundariesUseExactArithmetic",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "changingPolicyActuallyChangesTheDecision",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingNodeEvidenceDoesNotSuppressVoiceRule",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "assignmentExampleHas53ExtraFailuresAndHonestMlStatus",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingBaselineAndIncompleteDataAreNotHealthy",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.WindowBoundaryTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "nodeOnlyCannotAuthorizeAServiceObservation",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidMinuteNeverCreatesAcceptedState(String)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidMinuteNeverCreatesAcceptedState(String)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidMinuteNeverCreatesAcceptedState(String)[3]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidMinuteNeverCreatesAcceptedState(String)[4]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidMinuteNeverCreatesAcceptedState(String)[5]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "invalidMinuteNeverCreatesAcceptedState(String)[6]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "zeroEligibleAttemptsKeepNullRatiosAndObservedCounts(int)[1]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "zeroEligibleAttemptsKeepNullRatiosAndObservedCounts(int)[2]",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "adjacentMinuteEdgesHaveSeparateIdentityAndReceiptCounts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "maximumSmsSamplePersistsAndFinalizesWithExactNearestRankP95",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "nanosecondAdmissionAndClosurePreserveWinnerAcrossReplayAndConflicts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "serviceWithoutNodesDoesNotBorrowStaleOrForeignReceipts",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "aboveMaximumSmsSampleRejectsBeforeReceiptOrBucketMutation",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "explicitMissingWindowIT": {
+    "streaming-support": {
+      "tests": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 0,
+      "suites": []
+    },
+    "event-generator": {
+      "tests": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 0,
+      "suites": []
+    },
+    "processor": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 9,
+      "suites": [
+        {
+          "name": "md.utm.telecom.processing.kpi.MissingWindowDecisionIT",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "missingOutboxFailureRollsBackNewBucketAndOutput",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "failureAfterMissingOutboxInsertRollsBackEverything",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "missingBucketStartsAtZeroAndRealIngestionIncrementsIt",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "longOutageDiscoveryStopsAtRequestedLimit",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "newServiceAfterClosureCannotReplaceDiscoveredMissingInterval",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "discoveryIsReadOnlyAndFindsInternalGap",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "concurrentIngestionCommitWinsAfterMissingFinalizerWaitsForSharedLock",
+              "status": "pass",
+              "reason": null
+            },
+            {
+              "name": "olderSmsBucketsCannotHideVoiceMissingBatch",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.MissingWindowHandoffIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "cases": [
+            {
+              "name": "missingWindowClosesWithoutHealthyValuesAndHandsOffAsUnknownEpisodeEvidence",
+              "status": "pass",
+              "reason": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "publicDisabledReproduction": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 12,
+    "cases": [
+      {
+        "name": "completeFourScenarioByTwentyTwoScopeCompatibilityMatrix",
+        "status": "pass"
+      },
+      {
+        "name": "cityRetrySurvivesDeactivationAndOverlapRemainsScopeLocal",
+        "status": "pass"
+      },
+      {
+        "name": "roleAndCsrfBlockMutationBeforeSaving",
+        "status": "pass"
+      },
+      {
+        "name": "rejectsClientControlledScheduleAndRateFields",
+        "status": "pass"
+      },
+      {
+        "name": "stopIsIdempotentAndDoesNotClaimRecovery",
+        "status": "pass"
+      },
+      {
+        "name": "uncertainStartKeepsLedgerAndRetryFindsTheAcceptedRun",
+        "status": "pass"
+      },
+      {
+        "name": "allowsCompatibleCityScenariosAndRejectsCrossServiceOrUnknownScopes",
+        "status": "pass"
+      },
+      {
+        "name": "normalAndGapRemainAvailableOnBothLegacyScopes",
+        "status": "pass"
+      },
+      {
+        "name": "concurrentOverlappingStartsReserveOnlyOneRun",
+        "status": "pass"
+      },
+      {
+        "name": "exactRetryKeepsSavedRunAndChangedPayloadConflicts",
+        "status": "pass"
+      },
+      {
+        "name": "vanishedRunRedeliversBeforeStartAndFailsAfterStart",
+        "status": "pass"
+      },
+      {
+        "name": "acceptsEveryCatalogueCityScopeForNormalControl",
+        "status": "pass"
+      }
+    ]
+  },
+  "countingPolicy": "Separate invocations. Inventories filter executed Maven classes; no stale XML or additive run totals."
+}
