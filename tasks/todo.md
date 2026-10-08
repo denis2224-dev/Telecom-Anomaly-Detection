@@ -46,3 +46,15 @@ Results: [Day 3 evidence](../docs/evidence/2026-10-07-sergiu-day3-geographic-exp
 - [ ] Shared G4 acceptance: final-revision authenticated map/queue/detail, reconnect/security/rollback evidence and required review remain pending.
 
 Results: [Day 4 evidence](../docs/evidence/2026-10-08-sergiu-day4-cause-controls.md).
+## PR #77 review remediation — 9 October 2026
+
+- [x] Integrate current main a52cc85 without rewriting PR history.
+- [ ] Label historical non-executable audit archives and publish supported runbook.
+- [ ] Implement isolated runtime targeting and refusal/cleanup safety checks.
+- [ ] Implement focused combined-revision browser acceptance.
+- [ ] Review worker changes and verify all 55 historical artifact hashes unchanged.
+- [ ] Build candidate and run real authentication/session, reconnect and geography checks.
+- [ ] Publish compact fresh evidence with honest runtime/publication SHA attribution.
+- [ ] Verify all six CI jobs on published candidate and prepare reviewer response.
+
+Shared G5 approval remains BLOCKED; prior incomplete shared gates below are preserved.

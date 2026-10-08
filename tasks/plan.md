@@ -92,3 +92,20 @@ Day 4 core implementation and verification are complete: focused195, Java891 exe
 shadow opt-in skip, Python51/54, packaged HTTP22 and fresh parity62 passed. Sixteen frozen
 contract/model files match the base. The evidence/manifest and handoff record paired results
 and remaining owner dependencies. Shared G4 remains pending; optional power stays NOT_IN_SCOPE.
+# PR #77 review remediation — 9 October 2026
+
+Integrate current main without rewriting PR history. Preserve the sealed historical
+G4 bundle byte-for-byte, explicitly label its archived drivers non-executable, and
+provide a separate supported isolated verification workflow. Fresh connected checks
+cover real authentication, open-dashboard 15-minute idle and 30-minute absolute
+expiry, actual proxy/SSE reconnect, and geographic map/queue/detail agreement.
+
+Three isolated workers own evidence documentation, focused browser checks, and the
+portable runtime runner. The coordinator integrates commits and operates acceptance;
+workers never operate the user's Docker projects. Runtime checks use freshly built
+production source/assets, explicit Compose targeting and temporary identities.
+
+Record tested runtime SHA, integrated main, image/asset/configuration hashes and actual
+CI checkout SHAs separately from evidence-only publication. All six existing CI jobs
+must pass after publication. Historical acceptance is never relabelled current-SHA
+acceptance. Failed attempts remain separately recorded. Shared G5 stays BLOCKED.
