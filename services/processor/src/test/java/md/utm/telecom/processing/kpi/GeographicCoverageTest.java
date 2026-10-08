@@ -26,10 +26,13 @@ import md.utm.telecom.processing.detection.VoiceDeliveryService;
 import md.utm.telecom.processing.ingestion.IngestionResult;
 import md.utm.telecom.processing.ingestion.IngestionService;
 import md.utm.telecom.processing.ingestion.ObservationDelivery;
+import md.utm.telecom.processing.ingestion.SourceFreshness;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,6 +73,7 @@ class GeographicCoverageTest {
     @Autowired GeographyCatalog geography;
     @Autowired WindowFinalizerTest.TestClock clock;
     @Autowired md.utm.telecom.processing.monitoring.GeographicMonitoringCheckpoint monitoring;
+    @Autowired SourceFreshness freshness;
     int offset;
 
     JdbcTemplate owner() {
@@ -87,20 +91,24 @@ class GeographicCoverageTest {
         jdbc.update("DELETE FROM app.rejection_outbox");
     }
     List<ObjectNode> generate(String scope) throws Exception {
+        return generate(scope, START);
+    }
+    List<ObjectNode> generate(String scope, Instant start) throws Exception {
         var validator = new ObservationValidator(geography.authority());
         var context = GenerationContext.forScope(geography,scope);
-        var raw = scope.startsWith("VOLTE") ? new VoiceScenario(JSON,validator).generateHealthyWindow(START,42,context)
-                : new SmsQueueScenario(JSON,validator).generateHealthyWindow(START,42,context);
+        var raw = scope.startsWith("VOLTE") ? new VoiceScenario(JSON,validator).generateHealthyWindow(start,42,context)
+                : new SmsQueueScenario(JSON,validator).generateHealthyWindow(start,42,context);
         var result = new ArrayList<ObjectNode>();
         for (String payload : raw) result.add((ObjectNode) JSON.readTree(payload));
         return result;
     }
     void ingest(JsonNode event) {
-        clock.now=START.plusSeconds(65);
+        var start = Instant.parse(event.path("windowStart").asText());
+        clock.now=start.plusSeconds(65);
         var result = ingestion.ingest(new ObservationDelivery(event.toString().getBytes(StandardCharsets.UTF_8),
                 event.path("scopeId").asText(),"telecom.observations.v2",0,++offset));
         assertEquals(IngestionResult.Status.ACCEPTED,result.status());
-        clock.now=START.plusSeconds(70);
+        clock.now=start.plusSeconds(70);
     }
     void input(String scope) throws Exception { for (var event : generate(scope)) ingest(event); }
     JsonNode coverage(String scope) throws Exception {
@@ -167,6 +175,145 @@ class GeographicCoverageTest {
         assertEquals("NOT_RECEIVED",fact.path("sourceIssues").get(0).path("reason").asText());
         assertEquals(feature("SMS-MD-CHI").get("windowId"),fact.get("windowId"));
         assertEquals("MISSING",feature("SMS-MD-CHI").path("quality").asText());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"VOLTE-MD-CHI,ABSENT", "SMS-MD-CHI,ABSENT",
+            "VOLTE-MD-CHI,REPORTED_MISSING", "SMS-MD-CHI,REPORTED_MISSING",
+            "VOLTE-MD-CHI,HEARTBEAT_ONLY", "SMS-MD-CHI,HEARTBEAT_ONLY",
+            "VOLTE-MD-CHI,STALE", "SMS-MD-CHI,STALE",
+            "VOLTE-MD-CHI,COMPLETE_ZERO", "SMS-MD-CHI,COMPLETE_ZERO"})
+    void serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String scope, String mode) throws Exception {
+        Instant start = mode.equals("STALE") ? START.plusSeconds(180) : START;
+        for (int second = 0; second <= 60; second += 10) {
+            clock.now = start.plusSeconds(second); monitoring.tick("day4-source-truth");
+        }
+        var events = generate(scope, start);
+        var service = events.stream().filter(e -> e.path("kind").asText().equals("SERVICE")).findFirst().orElseThrow();
+        var nodes = events.stream().filter(e -> e.path("kind").asText().equals("NODE")).toList();
+        for (var node : nodes) ingest(node);
+        switch (mode) {
+            case "REPORTED_MISSING" -> {
+                service.put("quality", "MISSING"); service.remove("metrics"); ingest(service);
+            }
+            case "HEARTBEAT_ONLY" -> {
+                var heartbeat = service.deepCopy().put("kind", "HEARTBEAT")
+                        .put("eventId", UUID.nameUUIDFromBytes(("day4-heartbeat:" + scope).getBytes(StandardCharsets.UTF_8)).toString());
+                heartbeat.remove(List.of("service", "metrics")); ingest(heartbeat);
+            }
+            case "STALE" -> ingest(generate(scope, START).stream()
+                    .filter(e -> e.path("kind").asText().equals("SERVICE")).findFirst().orElseThrow());
+            case "COMPLETE_ZERO" -> {
+                var metrics = (ObjectNode) service.path("metrics");
+                var names = new ArrayList<String>(); metrics.fieldNames().forEachRemaining(names::add);
+                for (String name : names) {
+                    if (metrics.path(name).isArray()) metrics.putArray(name);
+                    else metrics.put(name, 0);
+                }
+                ingest(service);
+            }
+            case "ABSENT" -> { }
+            default -> throw new IllegalArgumentException(mode);
+        }
+        clock.now = start.plusSeconds(70);
+        boolean hasService = mode.equals("REPORTED_MISSING") || mode.equals("COMPLETE_ZERO");
+        assertEquals(FINALIZED, hasService ? finalizer.finalizeWindow(scope, start) : finalizer.finalizeMissingWindow(scope, start));
+        var fact = coverage(scope);
+        var result = feature(scope);
+        String serviceSource = service.path("sourceId").asText();
+        assertEquals(geography.expectedSourceIds(scope).size(), fact.path("expectedSourceIds").size());
+        assertEquals(nodes.size() + (hasService ? 1 : 0), fact.path("receivedSourceIds").size());
+        assertEquals(nodes.size() + (mode.equals("COMPLETE_ZERO") ? 1 : 0), fact.path("usableSourceIds").size());
+        assertEquals(mode.equals("COMPLETE_ZERO") ? "COMPLETE" : "MISSING", result.path("quality").asText());
+        assertFalse(result.path("mlEligible").asBoolean());
+        var nodeIds = JSON.createArrayNode(); nodes.forEach(n -> nodeIds.add(n.path("eventId")));
+        for (var id : nodeIds) assertTrue(result.path("sourceEventIds").toString().contains(id.asText()));
+        if (scope.startsWith("VOLTE")) {
+            assertEquals(nodes.getFirst().path("metrics").path("cpuPct"), kpi(result, "imsCpuPct").path("observed"));
+            assertTrue(kpi(result, "cssrPct").path("observed").isNull());
+            assertEquals(mode.equals("COMPLETE_ZERO") ? JSON.getNodeFactory().numberNode(0) : JSON.getNodeFactory().nullNode(), kpi(result, "eligibleAttempts").path("observed"));
+        } else {
+            assertEquals(nodes.getFirst().path("metrics").path("queueDepth"), kpi(result, "queueDepth").path("observed"));
+            assertTrue(kpi(result, "deliverySrPct").path("observed").isNull());
+            assertTrue(kpi(result, "p95DeliveryMs").path("observed").isNull());
+            assertEquals(mode.equals("COMPLETE_ZERO") ? JSON.getNodeFactory().numberNode(0) : JSON.getNodeFactory().nullNode(), kpi(result, "deliveredMessages").path("observed"));
+        }
+        assertEquals(switch (mode) {
+            case "STALE" -> SourceFreshness.ActivityFreshness.STALE;
+            case "ABSENT" -> SourceFreshness.ActivityFreshness.NEVER_SEEN;
+            default -> SourceFreshness.ActivityFreshness.FRESH;
+        }, freshness.activityFreshness(scope, serviceSource));
+        assertEquals(mode.equals("COMPLETE_ZERO") ? SourceFreshness.IntervalCoverage.COMPLETE
+                : mode.equals("REPORTED_MISSING") ? SourceFreshness.IntervalCoverage.REPORTED_MISSING
+                : SourceFreshness.IntervalCoverage.MISSING, freshness.intervalCoverage(scope, serviceSource, start, start.plusSeconds(60)));
+        if (mode.equals("COMPLETE_ZERO")) assertTrue(fact.path("sourceIssues").isEmpty());
+        else {
+            assertEquals(1, fact.path("sourceIssues").size());
+            assertEquals(serviceSource, fact.path("sourceIssues").get(0).path("sourceId").asText());
+            assertEquals(mode.equals("REPORTED_MISSING") ? "REPORTED_MISSING" : "NOT_RECEIVED",
+                    fact.path("sourceIssues").get(0).path("reason").asText());
+        }
+        assertFalse(result.toString().contains("POWER_OFF"));
+        var original = jdbc.queryForList("SELECT * FROM app.feature_outbox ORDER BY window_id");
+        assertEquals(ALREADY_FINALIZED, finalizer.finalizeWindow(scope, start));
+        assertEquals(original, jdbc.queryForList("SELECT * FROM app.feature_outbox ORDER BY window_id"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"VOLTE-MD-CHI,VOLTE_IMS,false", "VOLTE-MD-CHI,VOLTE_IMS,true",
+            "VOLTE-MD-CHI,VOLTE_TRANSPORT,false", "VOLTE-MD-CHI,VOLTE_TRANSPORT,true",
+            "SMS-MD-CHI,SMS_SMSC,false", "SMS-MD-CHI,SMS_SMSC,true"})
+    void absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String scope, GeographyCatalog.Role role, boolean stale) throws Exception {
+        Instant start = START.plusSeconds(180);
+        var missingNode = geography.resolve(scope, role);
+        if (stale) for (var event : generate(scope, START))
+            if (event.path("sourceId").asText().equals(missingNode.sourceId())) ingest(event);
+        var events = generate(scope, start);
+        var service = events.stream().filter(e -> e.path("kind").asText().equals("SERVICE")).findFirst().orElseThrow();
+        var metrics = (ObjectNode) service.path("metrics");
+        double expectedServiceRate;
+        if (scope.startsWith("VOLTE")) {
+            long eligible = metrics.path("attempts").asLong() - metrics.path("userOutcomes").asLong();
+            assertTrue(eligible > 0, "Technical CSSR requires eligible SERVICE attempts");
+            metrics.put("technicalFailures", 100).put("technicalSuccesses", eligible - 100).put("sip503Count", 80);
+            expectedServiceRate = 100.0 * metrics.path("technicalSuccesses").asLong() / eligible;
+        } else {
+            metrics.put("deliveryAttempts", metrics.path("deliverySuccesses").asLong() * 2);
+            long deliveryAttempts = metrics.path("deliveryAttempts").asLong();
+            assertTrue(deliveryAttempts > 0, "Delivery success rate requires SERVICE attempts");
+            expectedServiceRate = 100.0 * metrics.path("deliverySuccesses").asLong() / deliveryAttempts;
+        }
+        for (var event : events) if (!event.path("sourceId").asText().equals(missingNode.sourceId())) ingest(event);
+        clock.now = start.plusSeconds(70);
+        assertEquals(FINALIZED, finalizer.finalizeWindow(scope, start));
+        var fact = coverage(scope); var result = feature(scope);
+        assertEquals(events.size() - 1, fact.path("receivedSourceIds").size());
+        assertEquals(fact.path("receivedSourceIds"), fact.path("usableSourceIds"));
+        assertEquals(missingNode.sourceId(), fact.path("sourceIssues").get(0).path("sourceId").asText());
+        assertEquals("NOT_RECEIVED", fact.path("sourceIssues").get(0).path("reason").asText());
+        String absentMetric = switch (role) {
+            case VOLTE_IMS -> "imsCpuPct";
+            case VOLTE_TRANSPORT -> "packetLossRatio";
+            case SMS_SMSC -> "queueDepth";
+            default -> throw new IllegalArgumentException(role.toString());
+        };
+        assertTrue(kpi(result, absentMetric).path("observed").isNull());
+        if (role == GeographyCatalog.Role.SMS_SMSC) assertTrue(kpi(result, "oldestPendingAgeSec").path("observed").isNull());
+        var serviceObserved = kpi(result, scope.startsWith("VOLTE") ? "cssrPct" : "deliverySrPct").path("observed");
+        assertTrue(serviceObserved.isNumber(), "Measured SERVICE degradation must remain a JSON number");
+        // Rates are serialized as doubles without decimal-place rounding.
+        assertEquals(expectedServiceRate, serviceObserved.doubleValue(), 1e-9, "Rate must match accepted SERVICE counters");
+        assertTrue(serviceObserved.doubleValue() < 95);
+        assertEquals("COMPLETE", result.path("quality").asText(), "Measured SERVICE quality is retained without claiming healthy dependencies");
+        assertFalse(result.path("mlEligible").asBoolean());
+        assertEquals(stale ? SourceFreshness.ActivityFreshness.STALE : SourceFreshness.ActivityFreshness.NEVER_SEEN,
+                freshness.activityFreshness(scope, missingNode.sourceId()));
+        assertFalse(result.toString().contains("POWER_OFF"));
+    }
+
+    JsonNode kpi(JsonNode feature, String name) {
+        for (var kpi : feature.path("kpis")) if (kpi.path("name").asText().equals(name)) return kpi;
+        throw new AssertionError("Missing KPI " + name);
     }
 
     @Test void competingFinalizersCommitOneMatchingWinningSnapshot() throws Exception {
