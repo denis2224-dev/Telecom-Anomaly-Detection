@@ -59,9 +59,15 @@ telecom:
     enabled: ${ML_SMS_SHADOW_ENABLED:false}
     poll-interval: ${ML_SMS_SHADOW_POLL_INTERVAL:1000}
   history:
-    enabled: ${HISTORICAL_BOOTSTRAP_ENABLED:false}
-    days: ${HISTORICAL_BOOTSTRAP_DAYS:30}
-    seed: ${HISTORICAL_BOOTSTRAP_SEED:42}
+    enabled: ${TELECOM_HISTORY_ENABLED:${HISTORICAL_BOOTSTRAP_ENABLED:false}}
+    days: ${TELECOM_HISTORY_DAYS:${HISTORICAL_BOOTSTRAP_DAYS:30}}
+    seed: ${TELECOM_HISTORY_SEED:${HISTORICAL_BOOTSTRAP_SEED:42}}
+  geographic-history:
+    enabled: ${TELECOM_GEOGRAPHICHISTORY_ENABLED:false}
+    days: ${TELECOM_GEOGRAPHICHISTORY_DAYS:2}
+    seed: ${TELECOM_GEOGRAPHICHISTORY_SEED:42}
+    job-id: ${TELECOM_GEOGRAPHICHISTORY_JOBID:geographic-demo-v1}
+    minutes: ${TELECOM_GEOGRAPHICHISTORY_MINUTES:}
   rejection-delivery:
     enabled: ${REJECTION_DELIVERY_ENABLED:true}
     invalid-topic: ${KAFKA_V2_INVALID_TOPIC:telecom.observations.invalid.v2}
