@@ -5,6 +5,24 @@ import services from "../../../fixtures/services.json";
 import { voiceIncidents } from "../../../fixtures/voice";
 
 describe("ServiceStore", () => {
+  it('retains only the preceding completed window per current scope across repeated refreshes', async () => {
+    let snapshot = structuredClone(services) as ServiceSummary[];
+    TestBed.configureTestingModule({ providers: [{ provide: TelecomClient, useValue: {
+      listServices: async () => snapshot, listIncidents: async () => ({ items: [], total: 0 }),
+    } }] });
+    const store = TestBed.inject(ServiceStore);
+    await store.load();
+    const original = store.services()[0];
+    snapshot = structuredClone(snapshot);
+    snapshot[0].latestWindow!.windowId = 'next-completed-window';
+    await store.load(true);
+    expect(store.previous()).toEqual([original]);
+    await store.load(true);
+    expect(store.previous()).toEqual([original]);
+    snapshot = [];
+    await store.load(true);
+    expect(store.previous()).toEqual([]);
+  });
   it("derives normal, degraded, stale, and unknown labels from fixture evidence", () => {
     TestBed.configureTestingModule({
       providers: [{ provide: TelecomClient, useValue: {} }],

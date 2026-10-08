@@ -18,6 +18,8 @@
     "generate:api": "openapi-typescript api/incident-api.yaml -o src/app/core/api/schema.ts",
     "test": "ng test --watch=false",
     "test:e2e": "playwright test",
+    "test:performance": "playwright test tests/e2e/specs/resource-bounds.spec.ts --workers=1",
+    "test:performance:live": "playwright test --config playwright.performance.config.ts",
     "test:g1": "playwright test --config playwright.g1.config.ts",
     "test:theme": "node ../../scripts/run-theme-tests.mjs",
     "test:auth": "playwright test --config playwright.auth.config.ts",

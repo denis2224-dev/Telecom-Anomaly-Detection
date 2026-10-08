@@ -1,0 +1,276 @@
+{
+  "mode": "Authenticated LIVE production build; native EventSource; no request interception",
+  "startedAt": "2026-10-08T18:28:21.366Z",
+  "revision": "091e695521e34b92d8da0b599fe49e43085697be",
+  "trackedPatchHash": "eefe5848e0329c2b51f788cf3abd973d0e93f28db17c70b12d4fd5085ad07707",
+  "browser": "153.0.8010.12",
+  "passed": true,
+  "scopes": 22,
+  "cities": 10,
+  "requests": [
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "durationMs": 30.574,
+      "receivedAt": "2026-10-08T18:28:25.314Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 176.866,
+      "receivedAt": "2026-10-08T18:28:25.455Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 258.502,
+      "receivedAt": "2026-10-08T18:28:25.541Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 14.532,
+      "receivedAt": "2026-10-08T18:28:25.560Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 16.372,
+      "receivedAt": "2026-10-08T18:28:25.608Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis",
+      "status": 200,
+      "durationMs": 59.676,
+      "receivedAt": "2026-10-08T18:28:25.626Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+      "status": 200,
+      "durationMs": 66.143,
+      "receivedAt": "2026-10-08T18:28:25.632Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "durationMs": 11.953,
+      "receivedAt": "2026-10-08T18:28:25.720Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 85.499,
+      "receivedAt": "2026-10-08T18:28:25.726Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 15.515,
+      "receivedAt": "2026-10-08T18:28:25.742Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 16.837,
+      "receivedAt": "2026-10-08T18:28:25.759Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis",
+      "status": 200,
+      "durationMs": 47.168,
+      "receivedAt": "2026-10-08T18:28:25.790Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+      "status": 200,
+      "durationMs": 47.817,
+      "receivedAt": "2026-10-08T18:28:25.790Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 11.34,
+      "receivedAt": "2026-10-08T18:28:26.133Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 12.091,
+      "receivedAt": "2026-10-08T18:28:26.133Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis",
+      "status": 200,
+      "durationMs": 11.995,
+      "receivedAt": "2026-10-08T18:28:26.136Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis",
+      "status": 200,
+      "durationMs": 12.492,
+      "receivedAt": "2026-10-08T18:28:26.136Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "durationMs": 15.248,
+      "receivedAt": "2026-10-08T18:28:26.137Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 95.001,
+      "receivedAt": "2026-10-08T18:28:26.585Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 6.979,
+      "receivedAt": "2026-10-08T18:28:26.594Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 7.574,
+      "receivedAt": "2026-10-08T18:28:26.594Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 6.057,
+      "receivedAt": "2026-10-08T18:28:26.657Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 76.4,
+      "receivedAt": "2026-10-08T18:28:26.728Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 32.926,
+      "receivedAt": "2026-10-08T18:29:30.524Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 140.126,
+      "receivedAt": "2026-10-08T18:29:30.632Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 6.152,
+      "receivedAt": "2026-10-08T18:29:30.639Z"
+    }
+  ],
+  "pipelineSamples": [
+    {
+      "receivedAt": "2026-10-08T18:28:25.456Z",
+      "windowEnd": "2026-10-08T18:28:00Z",
+      "ageMs": 25456
+    },
+    {
+      "receivedAt": "2026-10-08T18:28:25.542Z",
+      "windowEnd": "2026-10-08T18:28:00Z",
+      "ageMs": 25542
+    },
+    {
+      "receivedAt": "2026-10-08T18:28:25.727Z",
+      "windowEnd": "2026-10-08T18:28:00Z",
+      "ageMs": 25727
+    },
+    {
+      "receivedAt": "2026-10-08T18:28:26.593Z",
+      "windowEnd": "2026-10-08T18:28:00Z",
+      "ageMs": 26593
+    },
+    {
+      "receivedAt": "2026-10-08T18:28:26.730Z",
+      "windowEnd": "2026-10-08T18:28:00Z",
+      "ageMs": 26730
+    },
+    {
+      "receivedAt": "2026-10-08T18:29:30.634Z",
+      "windowEnd": "2026-10-08T18:29:00Z",
+      "ageMs": 30634
+    }
+  ],
+  "memory": [
+    {
+      "Nodes": 1840,
+      "TaskDuration": 0.035202,
+      "JSHeapUsedSize": 6237832
+    },
+    {
+      "Nodes": 1842,
+      "TaskDuration": 0.225986,
+      "JSHeapUsedSize": 6255628
+    },
+    {
+      "Nodes": 1842,
+      "TaskDuration": 0.418195,
+      "JSHeapUsedSize": 6274628
+    },
+    {
+      "Nodes": 1842,
+      "TaskDuration": 0.604587,
+      "JSHeapUsedSize": 6301500
+    },
+    {
+      "Nodes": 1842,
+      "TaskDuration": 0.766513,
+      "JSHeapUsedSize": 6302468
+    },
+    {
+      "Nodes": 1851,
+      "TaskDuration": 0.929682,
+      "JSHeapUsedSize": 6331404
+    },
+    {
+      "Nodes": 1934,
+      "TaskDuration": 1.128208,
+      "JSHeapUsedSize": 6452204
+    }
+  ],
+  "inputPaintMs": [
+    71.28858299999774,
+    48.387666999999055,
+    43.53270799999882,
+    48.72845799999777,
+    38.653332999994745,
+    37.434416000003694
+  ],
+  "captures": [
+    "overview-1366.png",
+    "overview-768.png",
+    "overview-390.png",
+    "service-1366.png",
+    "service-768.png",
+    "service-390.png"
+  ],
+  "observation": {
+    "durationMs": 72401.19999998808,
+    "frameGapP95Ms": 17.5,
+    "maxFrameGapMs": 25.5,
+    "longTasksMs": [],
+    "stream": {
+      "active": 1,
+      "opened": 3,
+      "interrupted": 1,
+      "hints": 0,
+      "ready": 3
+    },
+    "startedAt": "2026-10-08T18:28:28.688Z",
+    "initialStream": {
+      "active": 1,
+      "opened": 2,
+      "interrupted": 0,
+      "hints": 0,
+      "ready": 2
+    },
+    "initialEnd": "2026-10-08T18:28",
+    "finalEnd": "2026-10-08T18:29"
+  }
+}
