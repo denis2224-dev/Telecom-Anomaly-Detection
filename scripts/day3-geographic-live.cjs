@@ -25,7 +25,13 @@ async function main() {
     await page.getByLabel(/username|email/i).fill(env.DAY3_USERNAME);
     await page.getByLabel('Password', { exact: true }).fill(env.DAY3_PASSWORD);
     await page.getByRole('button', { name: /sign in/i }).click();
-    await page.waitForURL('**/dashboard', { timeout: 60000 });
+    try {
+      await page.waitForURL('**/dashboard', { timeout: 60000, waitUntil: 'domcontentloaded' });
+    } catch {
+      const current = new URL(page.url());
+      const headings = await page.getByRole('heading').allTextContents();
+      throw Error(`Login did not reach dashboard; path=${current.pathname}; headings=${headings.join(' | ').slice(0, 200)}`);
+    }
     const request = async (method, url, data, csrf) => {
       const response = await page.request.fetch(base + url, {
         method, data, headers: csrf ? { 'X-CSRF-TOKEN': csrf } : {},
@@ -42,6 +48,8 @@ async function main() {
       result.initialHistories.push(await request('GET', `/api/geography/cities/${city.cityId}/kpis?` +
         new URLSearchParams({ service, from: initialFrom, to: initialTo, size: '100' })));
     }
+    await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
+    await expect(page.locator('.city-marker')).toHaveCount(9);
     await page.screenshot({ path: path.join(outputDir, 'dashboard.png'), fullPage: true });
     save('live.json', result);
     const csrf = (await request('GET', '/api/auth/csrf')).token;
@@ -117,6 +125,8 @@ async function main() {
       result.histories.push(history);
     }
     await page.goto(base + '/dashboard');
+    await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
+    await expect(page.locator('.city-marker')).toHaveCount(9);
     await page.screenshot({ path: path.join(outputDir, 'dashboard.png'), fullPage: true });
     expect(result.browserErrors).toEqual([]);
     result.acceptance = 'SCENARIO_TIMELINES_PASSED_RECEIPT_AND_DISPLAY_REVIEW_PENDING';

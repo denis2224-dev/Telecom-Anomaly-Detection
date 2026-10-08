@@ -48,6 +48,24 @@ async function liveApi(page: Page) {
     else if (path === '/api/auth/csrf') json = { token: 'controlled-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' };
     else if (path === '/api/geography/cities') return route.fulfill({ status: state.geographyStatus, json: state.geographyStatus === 200 ? catalogue : {} });
     else if (path === '/api/services') json = summaries;
+    else if (path === '/api/operations/priority') {
+      const pageNumber = Number(url.searchParams.get('page') ?? 0), size = Number(url.searchParams.get('size') ?? 20);
+      const cityId = url.searchParams.get('cityId'), service = url.searchParams.get('service');
+      const technicalState = url.searchParams.get('technicalState');
+      const incidents = state.incidents.filter(item => (!cityId || item.scopeId.endsWith(`-${cityId}`))
+        && (!service || item.service === service) && (!technicalState || item.technicalState === technicalState));
+      json = { generatedAt: fixtureRange.to, policyVersion: 'geographic-priority-v1', policyStatus: 'ACTIVE',
+        page: pageNumber, size, hasNext: (pageNumber + 1) * size < incidents.length,
+        items: incidents.slice(pageNumber * size, (pageNumber + 1) * size).map(item => ({
+          incidentId: item.id, cityId: item.scopeId.split('-').at(-1), cityNullReason: null,
+          service: item.service, scopeId: item.scopeId, technicalState: item.technicalState,
+          analystStatus: item.status, severity: item.severity, severityHistorical: item.technicalState !== 'ONGOING',
+          freshness: item.technicalState === 'RECOVERED' ? 'RECOVERED' : 'FRESH',
+          priorityBand: item.technicalState === 'RECOVERED' ? 'RECOVERED' : 'FRESH_ONGOING',
+          comparableImpact: null, impactUnit: null, firstObservedAt: item.firstObservedAt,
+          detectedAt: item.detectedAt, latestWindowEnd: item.latestDetection.windowEnd,
+        })) };
+    }
     else if (path === '/api/incidents') {
       const pageNumber = Number(url.searchParams.get('page') ?? 0), size = Number(url.searchParams.get('size') ?? 20);
       const items = state.incidents.filter(item => !url.searchParams.get('service') || item.service === url.searchParams.get('service'));
@@ -58,11 +76,21 @@ async function liveApi(page: Page) {
       const incident = state.incidents.find(item => item.id === path.split('/')[3]);
       if (!incident) return route.fulfill({ status: 404, json: {} });
       json = path.endsWith('/detections') ? { items: [incident.latestDetection], total: 1, page: 0, size: 20 }
-        : path.endsWith('/timeline') ? { items: [], total: 0, page: 0, size: 100 } : incident;
+        : path.endsWith('/timeline') ? { items: [], total: 0, page: 0, size: 100 }
+          : { ...incident, location: { cityId: incident.scopeId.split('-').at(-1), catalogueVersion: pairs.catalogueVersion,
+            topologyVersion: pairs.topologyVersion, measuredScopeId: incident.scopeId, containmentPath: [],
+            dependencyNodeIds: [], nullReason: null } };
     }
     else if (path.startsWith('/api/geography/cities/')) {
       const city = catalogue.cities.find(city => city.cityId === path.split('/')[4])!;
-      if (path.endsWith('/kpis')) {
+      if (path.endsWith('/topology')) {
+        json = { cityId: city.cityId, catalogueVersion: city.catalogueVersion,
+          topologyVersion: city.topologyVersion, generatedAt: catalogue.generatedAt,
+          parentId: `CITY-MD-${city.cityId}`, footprintNodeIds: [`CELL-MD-${city.cityId}-01`],
+          dependencies: [], page: Number(url.searchParams.get('page') ?? 0), size: 20, hasNext: false,
+          nodes: [{ nodeId: `CELL-MD-${city.cityId}-01`, parentId: `CITY-MD-${city.cityId}`,
+            kind: 'CELL', measured: true }] };
+      } else if (path.endsWith('/kpis')) {
         if (state.historyStatus !== 200) return route.fulfill({ status: state.historyStatus, json: {} });
         const service = url.searchParams.get('service') as 'VOLTE' | 'SMS';
         const scope = city.services.find(state => state.service === service)!;
@@ -93,7 +121,9 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('.map-table')).not.toContainText('Mapping pending');
     await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
     await page.locator('.map-table').getByRole('button', { name: 'Chișinău', exact: true }).click();
-    await expect(page.locator('.chart-scope')).toHaveText(['VOLTE-MD-CHI', 'SMS-MD-CHI']);
+    await expect(page.locator('.chart-scope')).toContainText(['Chișinău', 'Chișinău']);
+    await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-CHI');
+    await expect(page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', 'SMS-MD-CHI');
     await expect.poll(() => state.requests.filter(path => path.startsWith('/api/geography/cities/CHI/kpis')).length).toBeGreaterThanOrEqual(2);
     await expect(page.locator('[data-chart=cssrPct] .actual-line')).not.toHaveAttribute('d', '');
     await page.getByText('Chișinău · City coverage and history', { exact: true }).click();
@@ -129,7 +159,9 @@ test('LIVE geography outages and missing history never substitute fixture values
   await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
   state.historyStatus = 503;
   await page.getByLabel('Region', { exact: true }).fill('Orhei');
-  await expect(page.locator('.chart-scope')).toHaveText(['VOLTE-MD-ORH', 'SMS-MD-ORH']);
+  await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);
+  await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-ORH');
+  await expect(page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', 'SMS-MD-ORH');
   await page.getByText('Orhei · City coverage and history', { exact: true }).click();
   await expect(page.locator('app-city-evidence [role=alert]')).toContainText('No substitute');
   await expect(page.locator('[data-city-window]')).toHaveCount(0);
@@ -150,7 +182,9 @@ for (const width of [1366, 768, 390]) {
     state.incidents.push(orhei);
     await page.goto('/dashboard');
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
-    await expect(page.locator('.chart-scope')).toHaveText(['VOLTE-MD-ORH', 'SMS-MD-ORH']);
+    await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);
+    await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-ORH');
+    await expect(page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', 'SMS-MD-ORH');
     await expect(page.getByRole('link', { name: 'Open Orhei VoLTE setup', exact: false })).toHaveAttribute('href', '/services/VOLTE-MD-ORH');
     await expect(page.getByRole('link', { name: 'Open Orhei SMS delivery', exact: false })).toHaveAttribute('href', '/services/SMS-MD-ORH');
     await page.getByLabel('From (UTC)', { exact: true }).fill('2026-09-14T10:00');
@@ -169,6 +203,12 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByLabel('From (UTC)', { exact: true })).toHaveValue('2026-09-14T10:00');
     expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
     await investigation.click();
+    const queue = page.getByRole('dialog', { name: /^Incident queue/ });
+    await expect(queue).toBeVisible();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await expect(queue.getByRole('button', { name: 'Next', exact: true })).toBeDisabled();
+    expect(state.requests.some(path => path.startsWith('/api/operations/priority?') && path.includes('cityId=ORH'))).toBe(true);
+    await queue.locator(`a[href="/incidents/${orhei.id}"]`).click();
     await expect(page).toHaveURL(new RegExp(`/incidents/${orhei.id}$`));
     await expect(page.locator('.incident-summary-bar')).toContainText('Awaiting analyst resolution');
     await expect(page.locator('[aria-label="Current incident times"]')).toContainText('Updated (UTC)');

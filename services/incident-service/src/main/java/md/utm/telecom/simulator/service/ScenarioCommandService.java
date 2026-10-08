@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import md.utm.telecom.analysts.model.Analyst;
 import md.utm.telecom.analysts.repository.AnalystRepository;
+import md.utm.telecom.geography.GeographyCatalogue;
 import md.utm.telecom.incidents.exception.WorkflowProblem;
 import md.utm.telecom.simulator.model.ScenarioCommand;
 import md.utm.telecom.simulator.model.ScenarioStatus;
@@ -54,22 +55,25 @@ public class ScenarioCommandService {
     private final TransactionTemplate tx;
     private final GeneratorScenarioClient generator;
     private final Clock clock;
+    private final GeographyCatalogue catalogue;
 
     public ScenarioCommandService(ScenarioCommandRepository commands,
             AnalystRepository analysts, JdbcTemplate jdbc,
             PlatformTransactionManager transactionManager, ObjectMapper json,
-            Clock clock, @Value("${app.simulator.generator-base-url}") String generatorUrl) {
+            Clock clock, GeographyCatalogue catalogue,
+            @Value("${app.simulator.generator-base-url}") String generatorUrl) {
         this.commands = commands;
         this.analysts = analysts;
         this.jdbc = jdbc;
         this.tx = new TransactionTemplate(transactionManager);
         this.generator = new GeneratorScenarioClient(generatorUrl, json);
         this.clock = clock;
+        this.catalogue = catalogue;
     }
 
     public Run start(ScenarioType type, UUID requestId, long seed,
                      String scopeId, Authentication authentication) {
-        validate(type, requestId, seed, scopeId);
+        validateCommand(type, requestId, seed, scopeId);
         String hash = bodyHash(type, scopeId, seed);
         Saved saved;
         try {
@@ -77,7 +81,6 @@ public class ScenarioCommandService {
                 Analyst actor = actor(authentication);
                 Optional<ScenarioCommand> prior = commands.findByRequestId(requestId);
                 if (prior.isPresent()) return sameRequest(prior.orElseThrow(), hash, actor);
-
                 // Serializes the empty-table check across application instances.
                 jdbc.execute((ConnectionCallback<Void>) connection -> {
                     try (PreparedStatement statement = connection.prepareStatement(
@@ -90,8 +93,11 @@ public class ScenarioCommandService {
                 prior = commands.findByRequestId(requestId);
                 if (prior.isPresent()) return sameRequest(prior.orElseThrow(), hash, actor);
 
+                // Use the minute after the scope lock, as before, so contention cannot
+                // turn a valid scheduled start into a minute that has already passed.
                 Instant startAt = clock.instant().truncatedTo(ChronoUnit.MINUTES)
                         .plus(1, ChronoUnit.MINUTES);
+                validate(type, scopeId, startAt);
                 Instant endAt = startAt.plus(8, ChronoUnit.MINUTES);
                 if (commands.existsOverlapping(scopeId, startAt, endAt)) {
                     throw problem(HttpStatus.CONFLICT, "SCOPE_WINDOW_CONFLICT",
@@ -263,17 +269,23 @@ public class ScenarioCommandService {
                         "This account has no enabled analyst profile."));
     }
 
-    private static void validate(ScenarioType type, UUID requestId,
-                                 long seed, String scopeId) {
+    private static void validateCommand(ScenarioType type, UUID requestId,
+                                        long seed, String scopeId) {
         if (type == null || requestId == null || seed < 0 || scopeId == null) {
             throw problem(HttpStatus.BAD_REQUEST, "INVALID_COMMAND", "Invalid scenario request.");
         }
-        boolean voice = "VOLTE-MD-CENTRAL".equals(scopeId);
-        boolean sms = "SMS-MD-ROUTE-A".equals(scopeId);
-        if ((!voice && !sms) || (type == ScenarioType.VOLTE_IMS_OVERLOAD && !voice)
-                || (type == ScenarioType.SMS_QUEUE_DELAY && !sms)) {
+    }
+
+    private void validate(ScenarioType type, String scopeId, Instant startAt) {
+        var binding = catalogue.scope(scopeId);
+        var authority = catalogue.strictScope(scopeId);
+        String service = authority == null ? null : authority.path("service").asText();
+        if (binding == null || !("VOLTE".equals(service) || "SMS".equals(service))
+                || (!binding.path("legacy").asBoolean() && !catalogue.activeAt(startAt))
+                || (type == ScenarioType.VOLTE_IMS_OVERLOAD && !"VOLTE".equals(service))
+                || (type == ScenarioType.SMS_QUEUE_DELAY && !"SMS".equals(service))) {
             throw problem(HttpStatus.BAD_REQUEST, "INVALID_SCOPE",
-                    "Scenario type and scope do not match the demo topology.");
+                    "Scenario type and scope do not match the service catalogue.");
         }
     }
 

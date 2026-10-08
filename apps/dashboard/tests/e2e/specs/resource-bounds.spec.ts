@@ -64,6 +64,7 @@ async function setup(page: Page) {
   await page.route('**/api/auth/csrf', route => route.fulfill({ json: {
     token: 'test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf',
   } }));
+  await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
   await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
   await page.route('**/api/services', route => route.fulfill({ json:
     Array.from({ length: scopeCount }, (_, index) => ({

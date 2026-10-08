@@ -1,5 +1,5 @@
 <div class="page-heading">
-  <div class="heading-copy"><p class="eyebrow">Network operations</p><h1>{{ scopeId() ? 'Service scope' : 'Network overview' }}</h1><p>Monitor service quality, track incidents, and investigate the evidence.</p></div>
+  <div class="heading-copy"><p class="eyebrow">Network operations</p><h1>{{ scopeId() ? 'Service scope' : connected() ? 'Network overview' : 'Service overview' }}</h1><p>Monitor service quality, track incidents, and investigate the evidence.</p></div>
   <span class="connection-status live-status" [class.stale]="!fixture && live.stale()" aria-label="Live data status"><span class="status-dot"></span><strong>{{ fixture ? 'Preview' : live.stale() ? 'Stale' : 'Live' }}</strong><span>{{ fixture || live.lastUpdated() === null ? 'Unavailable' : (live.lastUpdated() | date:'HH:mm:ss':'UTC') + ' UTC' }}</span></span>
   <button class="ghost" aria-label="Refresh overview" (click)="load()" [disabled]="loading()" [attr.aria-busy]="loading()"><app-icon name="refresh" /><span class="refresh-copy">Refresh overview</span></button>
 </div>
@@ -84,10 +84,16 @@
     <div><span>Open incidents</span><strong>{{ openCount() }}</strong></div>
     <div><span>Observed scopes</span><strong>{{ observedCount() }}</strong></div>
   </div>
-  <app-connected-overview [services]="services()" [serviceFilter]="serviceFilter()" (filterChanged)="setService($event)" />
+  @if (connected()) {
+    <app-connected-overview [services]="services()" [serviceFilter]="serviceFilter()" (filterChanged)="setService($event)" />
+  } @else {
+    <div class="button-row"><label>Service<select aria-label="Service" [value]="serviceFilter()" (change)="setService($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE setup</option><option value="SMS">SMS delivery</option></select></label><a class="button" routerLink="/dashboard" [queryParams]="{view: 'connected'}" queryParamsHandling="merge">Open connected overview</a></div>
+  }
   @if (streamError()) { <app-status-banner [compact]="true" [message]="streamError()" [busy]="loading()" (retry)="load()" /> }
   @if (error()) { <p role="alert">{{ error() }} Existing evidence is still shown.</p> }
-  <details class="source-inventory"><summary>Service scopes and definitions</summary>
+  @if (incidentError()) { <p role="alert">Incident context unavailable: {{ incidentError() }} Service measurements remain visible.</p> }
+  <details class="source-inventory" [open]="!connected()"><summary>Service scopes and definitions</summary>
+  @if (connected()) { <a class="button" routerLink="/dashboard" [queryParams]="{view: 'scopes'}" queryParamsHandling="merge">Open scope overview</a> }
   <section class="scope-section" aria-labelledby="scopes-heading">
     <div class="section-heading"><div><h2 id="scopes-heading">Monitored scopes</h2><p>Latest service evidence · observation times in Europe/Chisinau</p></div>
 

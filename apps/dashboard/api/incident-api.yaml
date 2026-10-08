@@ -69,7 +69,8 @@ paths:
       operationId: getGeographyTopology
       summary: Page through contained nodes and separate dependency references
       tags: [Geography]
-      x-implementation-status: proposed
+      x-implementation-status: backend-implemented
+      description: Containment children are ordered by kind then nodeId. IMS/SMSC/transport dependencies are separate references, never child measurements. The default parent is the city's CITY node. Unknown city/version returns 404; invalid or cross-city parent returns 400. Page offsets must fit a signed 32-bit integer. Without an explicit archived version the catalogue must be active.
       parameters:
       - {$ref: '#/components/parameters/GeographyCityId'}
       - name: parentId
@@ -94,6 +95,7 @@ paths:
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+        '503': {$ref: '#/components/responses/Unavailable'}
   /api/geography/cities/{cityId}/kpis:
     get:
       operationId: getGeographyCityKpis
@@ -133,8 +135,8 @@ paths:
       operationId: listOperationalPriority
       summary: Page through a stable view of persisted technical incidents
       tags: [Operations]
-      x-implementation-status: proposed
-      description: Fresh ongoing incidents lead. Uncertain and recovered items retain distinct states. Do not compare VoLTE percentage points with SMS milliseconds.
+      x-implementation-status: backend-implemented
+      description: Project policy version geographic-priority-v1 follows Serghei's handoff, accepted for implementation by the task owner without Rusu signoff. City identity uses the opening detection's topology and exact-window coverage catalogue when unique. Fresh ongoing incidents lead by severity; equal severity uses fixed SMS-then-VOLTE grouping, then service-specific comparable impact descending with missing impact last, age and incident ID. Uncertain/stale and recovered use age and ID only. VoLTE extra failed attempts and SMS affected delivered messages are never compared across services.
       parameters:
       - name: cityId
         in: query
@@ -740,7 +742,10 @@ paths:
       description: 'Supervisor/admin only. Server schedules the next full minute: two normal, three degraded,
         three recovery windows (8 minutes). Rate/duration are fixed by versioned scenario profile, not arbitrary
         request fields. Persist requestId/body hash/runId in incidents_db; retries reuse the saved command
-        and generator runId. Same ID with different body returns 409.'
+        and generator runId. Same ID with different body returns 409. NORMAL_CONTROL and TELEMETRY_GAP
+        accept catalogue VoLTE or SMS city scopes and the two legacy scopes; VOLTE_IMS_OVERLOAD accepts
+        VoLTE scopes only, and SMS_QUEUE_DELAY accepts SMS scopes only. Unknown or incompatible scopes
+        return INVALID_SCOPE. An overlapping reservation on the same scope returns 409.'
       responses:
         '202':
           description: Scenario accepted and durably scheduled. An exact retry returns the same run and schedule.
@@ -969,7 +974,7 @@ components:
         nullReason:
           type: string
           nullable: true
-          enum: [UNKNOWN, NEVER_SEEN, MISSING, STALE, BASELINE_MISSING, INSUFFICIENT_DATA, NOT_AGGREGATABLE, UNSUPPORTED]
+          enum: [UNKNOWN, NEVER_SEEN, MISSING, STALE, BASELINE_MISSING, INSUFFICIENT_DATA, NOT_AGGREGATABLE, UNSUPPORTED, null]
     GeographyCoverage:
       type: object
       required: [state, expectedSources, receivedSources, usableSources]
@@ -1016,26 +1021,63 @@ components:
             items: {type: string}
     GeographyTopologyPage:
       type: object
-      required: [cityId, catalogueVersion, page, size, hasNext, nodes]
+      required: [cityId, catalogueVersion, topologyVersion, generatedAt, parentId, footprintNodeIds, dependencies, page, size, hasNext, nodes]
       properties:
         cityId: {type: string}
         catalogueVersion: {type: string}
+        topologyVersion: {type: string}
+        generatedAt: {type: string, format: date-time}
+        parentId: {type: string}
+        footprintNodeIds:
+          type: array
+          items: {type: string}
+        dependencies:
+          type: array
+          items: {$ref: '#/components/schemas/GeographyDependency'}
         page: {type: integer, minimum: 0}
         size: {type: integer, minimum: 1, maximum: 100}
         hasNext: {type: boolean}
         nodes:
           type: array
+          maxItems: 100
           items:
             type: object
-            required: [nodeId, parentId, kind, measured, dependencyNodeIds]
+            required: [nodeId, parentId, kind, measured]
             properties:
               nodeId: {type: string}
               parentId: {type: string, nullable: true}
-              kind: {type: string, enum: [COUNTRY, CITY, AGGREGATION, SITE, CELL, IMS, SMSC, TRANSPORT]}
-              measured: {type: boolean, description: True only when this node has its own authoritative measurement.}
-              dependencyNodeIds:
-                type: array
-                items: {type: string}
+              kind: {type: string, enum: [AGGREGATION, SITE, CELL]}
+              measured: {type: boolean, description: Configured measured scope footprint membership; does not assert current measurements exist or copy a scope KPI to this node.}
+    GeographyDependency:
+      type: object
+      required: [scopeId, service, role, nodeId, sourceId]
+      properties:
+        scopeId: {type: string}
+        service: {type: string, enum: [VOLTE, SMS]}
+        role: {type: string}
+        nodeId: {type: string}
+        sourceId: {type: string}
+    IncidentLocation:
+      type: object
+      additionalProperties: false
+      description: Resolved from the opening detection's captured topology and its exact source-window coverage catalogue when unique; otherwise requires a unique historical topology binding. Multiple matching coverage catalogues remain ambiguous. Today's mapping never replaces opening evidence, and legacy scopes stay unallocated.
+      required: [cityId, catalogueVersion, topologyVersion, measuredScopeId, containmentPath, dependencyNodeIds, nullReason]
+      properties:
+        cityId: {type: string, nullable: true}
+        catalogueVersion: {type: string, nullable: true}
+        topologyVersion: {type: string, nullable: true}
+        measuredScopeId: {type: string}
+        containmentPath:
+          type: array
+          maxItems: 5
+          items: {type: string}
+        dependencyNodeIds:
+          type: array
+          items: {type: string}
+        nullReason:
+          type: string
+          nullable: true
+          enum: [UNALLOCATED, CAPTURED_VERSION_MISSING, BINDING_NOT_FOUND, AMBIGUOUS_CATALOGUE_VERSION, INVALID_CONTAINMENT, null]
     GeographyKpiPage:
       type: object
       required: [cityId, service, page, size, hasNext, points]
@@ -1061,9 +1103,11 @@ components:
               metric: {$ref: '#/components/schemas/GeographyMetric'}
     GeographyPriorityPage:
       type: object
-      required: [generatedAt, page, size, hasNext, items]
+      required: [generatedAt, policyVersion, policyStatus, page, size, hasNext, items]
       properties:
         generatedAt: {type: string, format: date-time}
+        policyVersion: {type: string}
+        policyStatus: {type: string, enum: [ACTIVE]}
         page: {type: integer, minimum: 0}
         size: {type: integer, minimum: 1, maximum: 100}
         hasNext: {type: boolean}
@@ -1071,16 +1115,24 @@ components:
           type: array
           items:
             type: object
-            required: [incidentId, cityId, service, technicalState, analystStatus, severity, firstObservedAt, detectedAt]
+            required: [incidentId, cityId, cityNullReason, service, scopeId, technicalState, analystStatus, severity, severityHistorical, freshness, priorityBand, comparableImpact, impactUnit, firstObservedAt, detectedAt, latestWindowEnd]
             properties:
               incidentId: {type: string, format: uuid}
-              cityId: {type: string}
+              cityId: {type: string, nullable: true, description: Null for legacy or unresolved captured topology.}
+              cityNullReason: {type: string, nullable: true, enum: [UNALLOCATED, CAPTURED_VERSION_MISSING, BINDING_NOT_FOUND, AMBIGUOUS_CATALOGUE_VERSION, null]}
               service: {type: string, enum: [VOLTE, SMS]}
+              scopeId: {type: string}
               technicalState: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
               analystStatus: {type: string, enum: [OPEN, INVESTIGATING, RESOLVED]}
               severity: {type: string, enum: [MEDIUM, HIGH, CRITICAL]}
+              severityHistorical: {type: boolean}
+              freshness: {type: string, enum: [FRESH, STALE, UNKNOWN, RECOVERED]}
+              priorityBand: {type: string, enum: [FRESH_ONGOING, UNCERTAIN, RECOVERED]}
+              comparableImpact: {type: number, nullable: true, minimum: 0, description: Latest immutable detection's service-specific impact only for fresh ongoing incidents; null for missing or historical impact.}
+              impactUnit: {type: string, nullable: true, enum: [EXTRA_FAILED_ATTEMPTS, AFFECTED_DELIVERED_MESSAGES, null], description: Service-specific metric identity; null outside the fresh ongoing band.}
               firstObservedAt: {type: string, format: date-time}
               detectedAt: {type: string, format: date-time}
+              latestWindowEnd: {type: string, format: date-time}
     Sha256Id:
       type: string
       pattern: ^[a-f0-9]{64}$
@@ -1779,6 +1831,8 @@ components:
           minimum: 1
         latestDetection:
           $ref: '#/components/schemas/ServiceDetection'
+        location:
+          $ref: '#/components/schemas/IncidentLocation'
         presentation:
           type: object
           additionalProperties: false
@@ -1810,9 +1864,11 @@ components:
               required: [extraFailedAttempts, affectedDeliveredMessages, pendingMessages, uniqueSubscribers]
             impactSourceDetectionId:
               type: string
+              nullable: true
             impactWindowEnd:
               type: string
               format: date-time
+              nullable: true
             probableCause:
               type: string
             causeConfidence:

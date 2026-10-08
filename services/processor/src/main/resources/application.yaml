@@ -48,6 +48,13 @@ management:
         readiness:
           include: readinessState,kafka,db
 telecom:
+  retention:
+    enabled: ${PROCESSOR_RETENTION_ENABLED:true}
+    receipt-horizon: ${PROCESSOR_RECEIPT_HORIZON:48h}
+    rejection-horizon: ${PROCESSOR_REJECTION_HORIZON:48h}
+    raw-kafka-horizon: ${KAFKA_RAW_RETENTION_MS:86400000}ms
+    batch-size: ${PROCESSOR_RETENTION_BATCH_SIZE:100}
+    poll-interval: ${PROCESSOR_RETENTION_POLL_INTERVAL:60s}
   sms-shadow:
     enabled: ${ML_SMS_SHADOW_ENABLED:false}
     poll-interval: ${ML_SMS_SHADOW_POLL_INTERVAL:1000}
@@ -69,5 +76,7 @@ telecom:
     timeout: ${KAFKA_READINESS_TIMEOUT:2s}
     poll-interval: ${KAFKA_READINESS_POLL_INTERVAL:1s}
 logging:
+  pattern:
+    level: "%5p %kvp"
   level:
     org.apache.kafka: ERROR

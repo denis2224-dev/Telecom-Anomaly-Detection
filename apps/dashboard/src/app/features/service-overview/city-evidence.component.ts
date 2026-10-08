@@ -8,6 +8,7 @@ import { SessionStore } from '../login-and-session/session.store';
 import { type City, type Filter, type Service, number } from './dashboard-geography';
 
 type Page = components['schemas']['GeographyKpiPage'];
+type TopologyPage = components['schemas']['GeographyTopologyPage'];
 
 @Component({
   selector: 'app-city-evidence', imports: [DatePipe, RouterLink],
@@ -21,9 +22,20 @@ type Page = components['schemas']['GeographyKpiPage'];
     <div class="button-row">@for (state of city().geography?.services ?? []; track state.scopeId) {
       <a class="button" [routerLink]="['/services', state.scopeId]">Open {{ city().name }} {{ state.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }} →</a>
     }</div>
-    <details class="evidence-disclosure"><summary>Device measurements and topology</summary>
-      <p>City → aggregation → site/eNodeB → cell navigation: Unavailable</p>
-      <p>Local device measurements: Unavailable. City/service impact is inherited context, not a device measurement.</p>
+    <details class="evidence-disclosure"><summary>Containment and dependencies</summary>
+      @if (topologyError()) { <p role="alert">{{ topologyError() }}</p> }
+      @if (topology(); as tree) {
+        <p>Catalogue {{ tree.catalogueVersion }} · Parent {{ tree.parentId }} · {{ tree.nodes.length }} children on this page</p>
+        <div class="button-row">
+          @if (topologyPath().length) { <button type="button" (click)="backTopology()">Back to parent</button> }
+          @for (node of tree.nodes; track node.nodeId) {
+            <button type="button" (click)="openTopology(node.nodeId)" [disabled]="node.kind === 'CELL'">{{ node.kind }} {{ node.nodeId }}{{ node.measured ? ' · measured footprint' : '' }}</button>
+          }
+        </div>
+        <nav class="pagination" aria-label="Topology pages"><button type="button" (click)="changeTopologyPage(-1)" [disabled]="topologyPage() === 0 || topologyLoading()">Previous</button><span>Page {{ topologyPage() + 1 }}</span><button type="button" (click)="changeTopologyPage(1)" [disabled]="!tree.hasNext || topologyLoading()">Next</button></nav>
+        <p>Dependencies: @for (dependency of tree.dependencies; track dependency.scopeId + dependency.role) { {{ dependency.service }} {{ dependency.role }} → {{ dependency.nodeId }}; }</p>
+      } @else { <p>{{ topologyLoading() ? 'Loading containment…' : 'Containment unavailable.' }}</p> }
+      <p>Local device measurements: Unavailable. City/service impact is context for this footprint.</p>
     </details>
   </section>
   <details class="evidence-disclosure city-evidence"><summary>{{ city().name }} · City coverage and history</summary>
@@ -61,6 +73,11 @@ export class CityEvidenceComponent {
   readonly selectedServices = computed<readonly Service[]>(() => this.filter() === 'ALL' ? ['VOLTE', 'SMS'] : [this.filter() as Service]);
   readonly detail = signal<components['schemas']['GeographyCityDetail'] | null>(null);
   readonly histories = signal<Partial<Record<Service, Page>>>({});
+  readonly topology = signal<TopologyPage | null>(null);
+  readonly topologyPath = signal<string[]>([]);
+  readonly topologyPage = signal(0);
+  readonly topologyError = signal('');
+  readonly topologyLoading = signal(false);
   readonly pages = signal({ VOLTE: 0, SMS: 0 });
   readonly error = signal('');
   readonly loading = signal(false);
@@ -70,13 +87,33 @@ export class CityEvidenceComponent {
   private evidenceIdentity = '';
   value(value: number | null | undefined): string { return value == null || !Number.isFinite(value) ? 'Unavailable' : number(value); }
   changePage(service: Service, change: number): void { this.pages.update(pages => ({ ...pages, [service]: Math.max(0, pages[service] + change) })); }
+  openTopology(nodeId: string): void { this.topologyPath.update(path => [...path, nodeId]); this.topologyPage.set(0); }
+  backTopology(): void { this.topologyPath.update(path => path.slice(0, -1)); this.topologyPage.set(0); }
+  changeTopologyPage(delta: number): void { this.topologyPage.update(page => Math.max(0, page + delta)); }
 
   constructor() {
     const destroy = inject(DestroyRef);
-    const stop = () => { this.stopped = true; this.controller?.abort(); this.detail.set(null); this.histories.set({}); };
+    const stop = () => { this.stopped = true; this.controller?.abort(); this.detail.set(null); this.histories.set({}); this.topology.set(null); };
     destroy.onDestroy(stop);
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
-    effect(() => { this.city().id; this.filter(); this.from(); this.to(); this.pages.set({ VOLTE: 0, SMS: 0 }); });
+    effect(() => { this.city().id; this.filter(); this.from(); this.to(); this.pages.set({ VOLTE: 0, SMS: 0 }); this.topologyPath.set([]); this.topologyPage.set(0); });
+    effect(cleanup => {
+      const city = this.city(), path = this.topologyPath(), page = this.topologyPage();
+      this.updatedAt();
+      const controller = new AbortController();
+      cleanup(() => controller.abort());
+      if (!city.geography || this.stopped) return;
+      this.topologyLoading.set(true); this.topologyError.set('');
+      void this.api.getGeographyTopology(city.id, { catalogueVersion: city.geography.catalogueVersion,
+        parentId: path.at(-1), page, size: 20 }, controller.signal).then(tree => {
+        if (controller.signal.aborted || this.stopped) return;
+        if (tree.cityId !== city.id || tree.catalogueVersion !== city.geography?.catalogueVersion
+          || tree.topologyVersion !== city.geography?.topologyVersion) throw new Error('Unexpected topology version.');
+        this.topology.set(tree);
+      }).catch(error => {
+        if (!controller.signal.aborted && !this.stopped) this.topologyError.set(error instanceof Error ? error.message : 'Topology unavailable.');
+      }).finally(() => { if (!controller.signal.aborted && !this.stopped) this.topologyLoading.set(false); });
+    });
     effect(cleanup => {
       const city = this.city(), from = this.from(), to = this.to(), services = this.selectedServices(), pages = this.pages();
       this.updatedAt();

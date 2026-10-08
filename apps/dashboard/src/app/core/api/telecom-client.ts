@@ -14,6 +14,7 @@ export type StartScenarioRequest = components["schemas"]["StartScenarioRequest"]
 type IncidentQuery = operations["listIncidents"]["parameters"]["query"];
 type KpiQuery = operations["getServiceKpis"]["parameters"]["query"];
 export type GeographyCatalogue = operations['listGeographyCities']['responses'][200]['content']['application/json'];
+export type PriorityPage = components['schemas']['GeographyPriorityPage'];
 
 @Injectable({ providedIn: "root" })
 export class TelecomClient {
@@ -32,6 +33,15 @@ export class TelecomClient {
   getGeographyCityKpis(cityId: string, query: operations['getGeographyCityKpis']['parameters']['query'], signal?: AbortSignal) {
     return this.request<components['schemas']['GeographyKpiPage']>('GET',
       `/api/geography/cities/${encodeURIComponent(cityId)}/kpis`, undefined, query, signal);
+  }
+
+  getGeographyTopology(cityId: string, query: operations['getGeographyTopology']['parameters']['query'], signal?: AbortSignal) {
+    return this.request<components['schemas']['GeographyTopologyPage']>('GET',
+      `/api/geography/cities/${encodeURIComponent(cityId)}/topology`, undefined, query, signal);
+  }
+
+  getOperationalPriority(query: operations['listOperationalPriority']['parameters']['query'] = {}, signal?: AbortSignal) {
+    return this.request<PriorityPage>('GET', '/api/operations/priority', undefined, query, signal);
   }
 
   getSmsShadow(scopeId: string, query: KpiQuery, signal?: AbortSignal) {

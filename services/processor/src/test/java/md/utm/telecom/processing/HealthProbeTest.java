@@ -11,6 +11,9 @@ import md.utm.telecom.observation.TopologyCatalog;
 import md.utm.telecom.processing.topology.ScopeRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
         properties = {"telecom.kafka-readiness.timeout=500ms", "telecom.kafka-readiness.poll-interval=100ms",
                 "spring.kafka.listener.auto-startup=false", "debug=false", "logging.level.root=WARN", "logging.level.kafka=ERROR"})
 @DirtiesContext
+@ExtendWith(OutputCaptureExtension.class)
 class HealthProbeTest {
     private static final EmbeddedKafkaKraftBroker BROKER = new EmbeddedKafkaKraftBroker(1, 1);
     @LocalServerPort int port;
@@ -33,6 +37,8 @@ class HealthProbeTest {
     @Autowired javax.sql.DataSource datasource;
     @Autowired ScopeRegistry scopes;
     @Autowired TopologyCatalog topology;
+    @Autowired io.micrometer.core.instrument.MeterRegistry metrics;
+    @Autowired md.utm.telecom.processing.ingestion.ProcessingMetrics processingMetrics;
     private final HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(2)).build();
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -56,6 +62,29 @@ class HealthProbeTest {
         var observation = ObservationValidator.resource("fixtures/observations/normal-volte.json", mapper);
         assertSame(topology.requireScope("VOLTE-MD-CENTRAL"), scopes.requireScope("VOLTE-MD-CENTRAL"));
         assertSame(scopes.requireScope("VOLTE-MD-CENTRAL"), input.validate(observation));
+    }
+
+    @Test void processorRegistersBoundedMetricsWhileHttpExposureRemainsHealthOnly() throws Exception {
+        assertNotNull(metrics.get("telecom.processor.observations").tag("outcome", "accepted").counter());
+        assertNotNull(metrics.get("telecom.processor.finalizer.delay").timer());
+        var request = HttpRequest.newBuilder(URI.create("http://127.0.0.1:" + port + "/actuator/metrics"))
+                .timeout(Duration.ofSeconds(5)).GET().build();
+        assertEquals(404, client.send(request, HttpResponse.BodyHandlers.ofString()).statusCode());
+    }
+
+    @Test void consoleRendersStructuredTraceFields(CapturedOutput output) throws Exception {
+        var event = ObservationValidator.resource("fixtures/observations/normal-volte.json", mapper);
+        var logger = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(
+                md.utm.telecom.processing.ingestion.ProcessingMetrics.class);
+        var level = logger.getLevel();
+        logger.setLevel(ch.qos.logback.classic.Level.INFO);
+        try {
+            processingMetrics.received(new md.utm.telecom.processing.ingestion.ObservationDelivery(
+                    mapper.writeValueAsBytes(event), event.path("scopeId").asText(), "day16.console", 0, 42));
+            assertTrue(output.getOut().contains("phase=\"kafka_received\""), output.getOut());
+            assertTrue(output.getOut().contains("eventId=\"" + event.path("eventId").asText() + "\""));
+            assertTrue(output.getOut().contains("scopeId=\"VOLTE-MD-CENTRAL\""));
+        } finally { logger.setLevel(level); }
     }
 
     @Test

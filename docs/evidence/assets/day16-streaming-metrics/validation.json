@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-07",
+  "baseSha": "d00f74ece253a88b103bb12a36a35b15ca6c08af",
+  "implementationSha": "55c6663e0120d41cedb8f10882b0f934aacf3830",
+  "java": "21.0.12.1",
+  "maven": "3.9.16",
+  "command": "mvn -Dmaven.repo.local=C:\\OrangeSystems\\Program\\.tools\\m2 -pl services/processor -am verify",
+  "modules": [
+    {
+      "module": "streaming-support",
+      "tests": 111,
+      "passed": 111,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "module": "event-generator",
+      "tests": 81,
+      "passed": 81,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skippedCases": []
+    },
+    {
+      "module": "processor",
+      "tests": 405,
+      "passed": 401,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "skippedCases": [
+        {
+          "class": "md.utm.telecom.processing.GeographicDetectionTest",
+          "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+          "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+        },
+        {
+          "class": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+          "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+          "reason": "Existing test assumption requires ML_SERVICE_URL"
+        },
+        {
+          "class": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+          "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+          "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+        },
+        {
+          "class": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+          "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+          "reason": "Existing test assumption requires ML_SERVICE_URL"
+        }
+      ]
+    }
+  ]
+}

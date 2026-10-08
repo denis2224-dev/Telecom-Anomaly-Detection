@@ -7,6 +7,7 @@ import md.utm.telecom.evidence.repository.DetectionEvidenceRepository;
 import md.utm.telecom.incidents.AuditService;
 import md.utm.telecom.incidents.IncidentWorkflow;
 import md.utm.telecom.incidents.evidence.IncidentProjection;
+import md.utm.telecom.geography.IncidentLocationProjection;
 import md.utm.telecom.incidents.model.Incident;
 import md.utm.telecom.incidents.model.IncidentStatus;
 import md.utm.telecom.incidents.model.TechnicalState;
@@ -47,19 +48,22 @@ public class IncidentController {
     private final ObjectMapper json;
     private final IncidentWorkflow workflow;
     private final AuditService auditService;
+    private final IncidentLocationProjection locations;
 
     public IncidentController(
             IncidentRepository incidents,
             DetectionEvidenceRepository evidence,
             ObjectMapper json,
             IncidentWorkflow workflow,
-            AuditService auditService
+            AuditService auditService,
+            IncidentLocationProjection locations
     ) {
         this.incidents = incidents;
         this.evidence = evidence;
         this.json = json;
         this.workflow = workflow;
         this.auditService = auditService;
+        this.locations = locations;
     }
 
     @GetMapping
@@ -96,8 +100,9 @@ public class IncidentController {
                 Sort.Order.desc("detectedAt"),
                 Sort.Order.desc("id")));
         Page<Incident> result = incidents.findAll(filters, request);
+        var projectedLocations = locations.project(result.getContent().stream().map(Incident::getId).toList());
         return new IncidentPage(
-                result.getContent().stream().map(this::toResponse).toList(),
+                result.getContent().stream().map(i -> toResponse(i, projectedLocations.get(i.getId()))).toList(),
                 result.getTotalElements(), page, size);
     }
 
@@ -147,6 +152,10 @@ public class IncidentController {
     }
 
     private IncidentResponse toResponse(Incident incident) {
+        return toResponse(incident, locations.project(List.of(incident.getId())).get(incident.getId()));
+    }
+
+    private IncidentResponse toResponse(Incident incident, IncidentLocationProjection.Location location) {
         DetectionEvidence latest = evidence
                 .findByEpisodeIdAndSequence(
                         incident.getEpisodeId(), incident.getLatestSequence())
@@ -155,6 +164,11 @@ public class IncidentController {
         UUID assigneeId = incident.getAssignee() == null
                 ? null : incident.getAssignee().getId();
         var latestDetection = json.readTree(latest.getPayload());
+        var impactOriginStart = IncidentProjection.historicalImpactWindowStart(latestDetection);
+        var impactOrigin = impactOriginStart == null ? null : evidence
+                .findFirstByEpisodeIdAndWindowStartAndSequenceLessThanOrderBySequenceDesc(
+                        incident.getEpisodeId(), impactOriginStart, incident.getLatestSequence())
+                .map(value -> json.readTree(value.getPayload())).orElse(null);
         return new IncidentResponse(
                 incident.getId(),
                 incident.getEpisodeId(),
@@ -173,11 +187,11 @@ public class IncidentController {
                 incident.getVersion(),
                 incident.getLatestSequence(),
                 latestDetection,
-                IncidentProjection.from(incident.getId(), latestDetection));
+                IncidentProjection.from(incident.getId(), latestDetection, impactOrigin), location);
     }
 
     private static void validatePage(int page, int size) {
-        if (page < 0 || size < 1 || size > MAX_PAGE_SIZE) {
+        if (page < 0 || size < 1 || size > MAX_PAGE_SIZE || (long) page * size > Integer.MAX_VALUE) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "page must be >= 0 and size must be between 1 and 100");

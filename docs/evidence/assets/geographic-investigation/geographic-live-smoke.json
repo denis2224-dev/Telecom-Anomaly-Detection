@@ -1,0 +1,33 @@
+{
+  "startedAt": "2026-10-08T07:22:35.073Z",
+  "revision": "50a0b0acd197978d6fbc832b4d09c13df122a9b3",
+  "patchSha256": "00bdc2423f2ffeecfe0a11f9d7a24a5e5b14a4a44a6876fb3ecff6bd89827b95",
+  "mode": "Authenticated live API, generator, Kafka, processor and UI; no intercepted responses or fixture fallback",
+  "routeChecks": 30,
+  "checks": [
+    "Real authenticated Orhei dashboard shows persisted history or an explicit missing state",
+    "Ten live topology routes, twenty bounded histories and active priority queue",
+    "Real public command, private generator delivery, idempotency, CSRF and scope reservations",
+    "VOLTE-MD-ORH: published city observations reached processor receipt table",
+    "SMS-MD-ORH: published city observations reached processor receipt table"
+  ],
+  "runs": [
+    {
+      "runId": "ebb463e1-4ea7-42b0-8935-7729bfe8bd2f",
+      "status": "RUNNING",
+      "scheduledStartAt": "2026-10-08T07:23:00Z",
+      "scheduledEndAt": "2026-10-08T07:31:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-ORH"
+    },
+    {
+      "runId": "a5348ee1-93b8-48b7-9e05-8261d05b73c4",
+      "status": "RUNNING",
+      "scheduledStartAt": "2026-10-08T07:23:00Z",
+      "scheduledEndAt": "2026-10-08T07:31:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-ORH"
+    }
+  ],
+  "passed": true
+}

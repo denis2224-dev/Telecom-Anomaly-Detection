@@ -1,0 +1,68 @@
+{
+  "verifiedProductionRevision": "a0fa2161ae021317012635ac86b81d669dd10f50",
+  "apiVersion": "0.3.0",
+  "executedOn": "2026-10-07",
+  "releaseTestSha256": "a7914e934064470948d78eec1c07e209288ae172dc0fc4374c3e8c7003131894",
+  "files": [
+    {
+      "file": "controlled/overview-zoom.png",
+      "sha256": "8e495f133a624ba4077ae4e3489ffd17148aec14f8dfa1a44124457220f9b3a9"
+    },
+    {
+      "file": "controlled/scope-fallback-1366.png",
+      "sha256": "423dddb169cb863e214c88a3744a1032b7bdb8be91498d4196a5014663ceccf0"
+    },
+    {
+      "file": "controlled/scope-fallback-390.png",
+      "sha256": "6cc69ef74dc97f8b6845cdff9e92f853d361b4a3ddff46783e3b68863e4316a8"
+    },
+    {
+      "file": "controlled/scope-fallback-768.png",
+      "sha256": "da3cffb44f31b8018e5ba058dd8fc84b250ebe058a47e5e96d56177966a178b6"
+    },
+    {
+      "file": "controlled/service-zoom.png",
+      "sha256": "4e726fa46b0ca5e5b566d80824e5426c7978e0faa681a8ac34a83e2e7ebbf55d"
+    },
+    {
+      "file": "live/SMS-MD-ORH-1366.png",
+      "sha256": "55286d5f776b59a3a11d0466aff7df5737bf09364895da64d4e66260886def5f"
+    },
+    {
+      "file": "live/VOLTE-MD-ORH-1366.png",
+      "sha256": "804d2c83dd75d430958124e864d6f710cab552947f31d1d9a91836b7ccdf55fe"
+    },
+    {
+      "file": "live/orhei-release-1366.png",
+      "sha256": "5773cd6d8df1c406ff662a806448029613943576cbfb141d7442ac987f6682f6"
+    },
+    {
+      "file": "live/orhei-release-390.png",
+      "sha256": "827dd3954d070efb291241ab6a6725e83ed4749b3206a2a6947308f2a8c17969"
+    },
+    {
+      "file": "live/orhei-release-768.png",
+      "sha256": "cdab7de3dfee6222cb4bd14647685b2e5ef132800865b3b21eadfbeb1f44e791"
+    },
+    {
+      "file": "live/release-results.json",
+      "sha256": "dbb5df3aa72743a7b148eec76eb2567d5f333e997e4c70599ed886bd7ad0c5bf"
+    },
+    {
+      "file": "live/resolved-ANALYST-1366.png",
+      "sha256": "7290f050eac44c832d69e4b640942beb3de13ec0f68b01f0cb3f0b4f83bf5031"
+    },
+    {
+      "file": "live/resolved-ANALYST-390.png",
+      "sha256": "ef916df2ac93492e422a85ac0cb494227c11052b0e7649f1b752f9ce4a4afc52"
+    },
+    {
+      "file": "live/resolved-SUPERVISOR-1366.png",
+      "sha256": "91a05a7c8f331e8335703ebb6da135b8a95d4ddd2f7f3045192aca84d042c3c2"
+    },
+    {
+      "file": "live/resolved-SUPERVISOR-390.png",
+      "sha256": "32e8af797ce71b2343f1521bf70aa19c9550a664f59e4431ab17cddbab516d72"
+    }
+  ]
+}

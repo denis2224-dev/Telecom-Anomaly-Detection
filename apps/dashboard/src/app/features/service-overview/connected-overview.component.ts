@@ -3,7 +3,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SessionStore } from '../login-and-session/session.store';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { TelecomClient } from '../../core/api/telecom-client';
+import { TelecomClient, type PriorityPage } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
 import { ServiceStore } from './service.store';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
@@ -83,6 +83,8 @@ export class ConnectedOverviewComponent {
   readonly queueSeverity = computed(() => ['CRITICAL', 'HIGH', 'MEDIUM'].find(level => this.incidents().some(item => item.severity === level)) ?? 'NONE');
   readonly queuePage = signal(0);
   readonly queueTotal = signal(0);
+  readonly queueHasNext = signal(false);
+  readonly priorityItems = signal<PriorityPage['items']>([]);
   readonly queueLoading = signal(false);
   readonly queueError = signal('');
   readonly incidents = signal<Episode[]>([]);
@@ -97,18 +99,17 @@ export class ConnectedOverviewComponent {
   readonly selectedCity = computed(() => this.catalogue().find(city => city.id === this.selectedId()));
   readonly visibleIncidents = computed(() => {
     const city = this.selectedCity();
-    return this.incidents().filter(item => (!city || city.scopeIds.includes(item.scopeId))
+    const details = this.incidents();
+    if (!this.fixture) return this.priorityItems()
+      .map(item => details.find(detail => detail.id === item.incidentId))
+      .filter((item): item is Episode => !!item)
+      .filter(item => !this.queueSeverityFilter() || item.severity === this.queueSeverityFilter());
+    return details.filter(item => (!city || city.scopeIds.includes(item.scopeId))
       && (!this.queueSeverityFilter() || item.severity === this.queueSeverityFilter())
       && (!this.queueStateFilter() || item.technicalState === this.queueStateFilter()))
       .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
-  readonly investigationTarget = computed(() => {
-    const city = this.selectedCity(), service = this.serviceFilter();
-    return this.store.incidents().filter(item => (!city || city.scopeIds.includes(item.scopeId))
-      && (service === 'ALL' || item.service === service))
-      .sort((a, b) => Number(b.technicalState === 'ONGOING') - Number(a.technicalState === 'ONGOING')
-        || Date.parse(b.updatedAt) - Date.parse(a.updatedAt))[0];
-  });
+  priorityFor(id: string) { return this.priorityItems().find(item => item.incidentId === id); }
   readonly workflowState = workflowLabel;
   readonly cause = probableCause;
   readonly cityServices = cityServices;
@@ -178,6 +179,7 @@ export class ConnectedOverviewComponent {
       this.queueController?.abort();
       this.historyController?.abort();
       this.incidents.set([]);
+      this.priorityItems.set([]);
       this.histories.set({});
     };
     destroy.onDestroy(stop);
@@ -192,6 +194,7 @@ export class ConnectedOverviewComponent {
     effect(() => {
       this.services(); // Parent REST refresh follows the existing incident stream.
       const filter = this.serviceFilter(), page = this.queuePage();
+      this.selectedId(); this.queueStateFilter();
       this.refresh();
       void this.loadIncidents(filter, page);
     });
@@ -203,13 +206,14 @@ export class ConnectedOverviewComponent {
     });
   }
 
-  select(id: string): void { this.selectedId.set(id); this.search.set(this.cityById(id)?.name ?? ''); }
+  select(id: string): void { this.queuePage.set(0); this.selectedId.set(id); this.search.set(this.cityById(id)?.name ?? ''); }
 
   cityById(id: string): City | undefined { return this.catalogue().find(city => city.id === id); }
 
   setRegion(value: string): void {
     this.search.set(value);
     const normalize = (text: string) => text.normalize('NFD').replace(/\p{Diacritic}/gu, '').trim().toLowerCase();
+    this.queuePage.set(0);
     this.selectedId.set(this.catalogue().find(city => normalize(city.name) === normalize(value))?.id ?? null);
   }
 
@@ -315,9 +319,27 @@ export class ConnectedOverviewComponent {
     this.queueLoading.set(true);
     this.queueError.set('');
     try {
+      if (!this.fixture) {
+        const result = await this.api.getOperationalPriority({
+          cityId: this.selectedId() ?? undefined,
+          service: filter === 'ALL' ? undefined : filter,
+          technicalState: this.queueStateFilter() ? this.queueStateFilter() as 'ONGOING' | 'UNKNOWN' | 'RECOVERED' : undefined,
+          page, size: this.pageSize,
+        }, controller.signal);
+        const details = await Promise.all(result.items.map(item => this.api.getIncident(item.incidentId, controller.signal)));
+        if (controller.signal.aborted || this.stopped) return;
+        if (details.some((detail, index) => detail.id !== result.items[index].incidentId
+          || detail.location?.cityId !== result.items[index].cityId)) throw new Error('Priority and incident evidence disagree. Refresh the queue.');
+        this.priorityItems.set(result.items);
+        this.incidents.set(details);
+        this.queueHasNext.set(result.hasNext);
+        this.queueTotal.set(page * this.pageSize + result.items.length + (result.hasNext ? 1 : 0));
+        return;
+      }
       const result = await this.api.listIncidents({ service: filter === 'ALL' ? undefined : filter, page, size: this.pageSize }, controller.signal);
       if (controller.signal.aborted || this.stopped) return;
       this.incidents.set(result.items);
+      this.queueHasNext.set((page + 1) * this.pageSize < result.total);
       this.queueTotal.set(result.total);
     } catch (error) {
       if (!controller.signal.aborted && !this.stopped) {

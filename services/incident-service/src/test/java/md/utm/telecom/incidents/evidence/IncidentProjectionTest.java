@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
+import tools.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -52,6 +53,26 @@ class IncidentProjectionTest {
         assertEquals(detection.path("causeConfidence").asText(),
                 projection.causeConfidence());
         assertEquals(fixture.path("presentation"), json.valueToTree(projection));
+    }
+
+    @Test
+    void unknownUsesVerifiedOriginalImpactDetectionAndNeverClaimsItsOwnWindow() throws Exception {
+        JsonNode fixture = read("incident-unknown.json");
+        JsonNode unknown = fixture.path("latestDetection");
+        assertEquals(java.time.Instant.parse("2026-09-15T08:01:00Z"),
+                IncidentProjection.historicalImpactWindowStart(unknown));
+        ObjectNode origin = (ObjectNode) unknown.deepCopy();
+        origin.put("detectionId", "original-impact-detection");
+        origin.put("phase", "UPDATE");
+        origin.put("windowStart", "2026-09-15T08:01:00Z");
+        origin.put("windowEnd", "2026-09-15T08:02:00Z");
+        var projection = IncidentProjection.from(UUID.fromString(fixture.path("id").asText()), unknown, origin);
+        assertEquals("original-impact-detection", projection.impactSourceDetectionId());
+        assertEquals("2026-09-15T08:02:00Z", projection.impactWindowEnd());
+        origin.put("windowStart", "2026-09-15T08:02:00Z");
+        var mismatched = IncidentProjection.from(UUID.fromString(fixture.path("id").asText()), unknown, origin);
+        assertNull(mismatched.impactSourceDetectionId());
+        assertNull(mismatched.impactWindowEnd());
     }
 
     private IncidentProjection project(JsonNode fixture) {

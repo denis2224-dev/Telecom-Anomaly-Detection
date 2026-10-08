@@ -49,6 +49,18 @@ for (const width of [1366, 768, 390]) {
       if (path === '/api/auth/me') json = { analystId: 'design-review', displayName: 'Design reviewer', roles: ['ANALYST'], expiresAt: new Date(Date.now() + 600000).toISOString() };
       else if (path === '/api/auth/csrf') json = { token: 'controlled-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' };
       else if (path === '/api/services') json = citySummaries;
+      else if (path === '/api/operations/priority') json = {
+        generatedAt: fixtureRange.to, policyVersion: 'geographic-priority-v1', policyStatus: 'ACTIVE',
+        page: 0, size: 20, hasNext: false, items: [{
+          incidentId: cityIncidents[0].id, cityId: null, cityNullReason: 'UNALLOCATED',
+          service: cityIncidents[0].service, scopeId: cityIncidents[0].scopeId,
+          technicalState: cityIncidents[0].technicalState, analystStatus: cityIncidents[0].status,
+          severity: cityIncidents[0].severity, severityHistorical: false, freshness: 'FRESH',
+          priorityBand: 'FRESH_ONGOING', comparableImpact: null, impactUnit: null,
+          firstObservedAt: cityIncidents[0].firstObservedAt, detectedAt: cityIncidents[0].detectedAt,
+          latestWindowEnd: cityIncidents[0].latestDetection.windowEnd,
+        }],
+      };
       else if (path.endsWith('/kpis')) {
         const scopeId = decodeURIComponent(path.split('/')[3]);
         const from = url.searchParams.get('from')!, to = url.searchParams.get('to')!;
@@ -61,7 +73,10 @@ for (const width of [1366, 768, 390]) {
         json = { items, total: items.length, page: 0, size: 20 };
       } else if (path.endsWith('/detections')) json = { items: [cityIncidents[0].latestDetection], total: 1, page: 0, size: 20 };
       else if (path.endsWith('/timeline')) json = { items: [], total: 0, page: 0, size: 100 };
-      else if (path.startsWith('/api/incidents/')) json = cityIncidents[0];
+      else if (path.startsWith('/api/incidents/')) json = { ...cityIncidents[0], location: {
+        cityId: null, catalogueVersion: null, topologyVersion: null, measuredScopeId: cityIncidents[0].scopeId,
+        containmentPath: [], dependencyNodeIds: [], nullReason: 'UNALLOCATED',
+      } };
       else return route.fulfill({ status: 404, json: { code: 'NOT_FOUND' } });
       await route.fulfill({ json });
     });
@@ -97,8 +112,14 @@ for (const width of [1366, 768, 390]) {
     expect(toggle.y).toBeGreaterThan(apply.y);
     expect(toggle.x + toggle.width).toBeCloseTo(apply.x + apply.width, 0);
     expect(toggle.height).toBe(apply.height);
-    await queueToggle.click();
     const drawer = page.getByRole('dialog');
+    const investigation = page.getByRole('button', { name: 'Open incident investigation', exact: true });
+    await investigation.click();
+    await expect(drawer).toBeVisible();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await page.keyboard.press('Escape');
+    await expect(investigation).toBeFocused();
+    await queueToggle.click();
     await expect(drawer).toBeVisible();
     await expect(drawer.locator(':scope > .helper')).toHaveCount(0);
     const close = drawer.getByRole('button', { name: 'Close incidents', exact: true });
@@ -123,6 +144,7 @@ for (const width of [1366, 768, 390]) {
     test.skip(process.env.E2E_CITY_FIXTURE !== '1', 'Run explicitly against the fixture server');
     await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
     await page.goto('/dashboard');
+    await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toBeVisible();
     await expect(page.locator('.city-marker')).toHaveCount(9);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
@@ -179,7 +201,14 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByRole('dialog')).toBeVisible();
     await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Open incident investigation', exact: true }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page).toHaveURL(/\/dashboard$/);
+    await page.locator('dialog a[href="/incidents/00000000-0000-4000-8000-000000000001"]').click();
     await expect(page).toHaveURL(/\/incidents\/00000000-0000-4000-8000-000000000001$/);
+    await page.getByRole('button', { name: 'Details & workflow', exact: true }).click();
+    await expect(page.locator('app-incident-actions')).toContainText('Actions are unavailable in the fixture preview.');
+    await expect(page.locator('app-incident-actions button, app-incident-actions textarea, app-incident-actions select')).toHaveCount(0);
+    await page.keyboard.press('Escape');
     await page.goto('/dashboard');
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
     await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);
