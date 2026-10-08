@@ -142,6 +142,42 @@ class GeographicPublicationTest {
         assertEquals(2, repeated.size());
         assertEquals(json.readTree(repeated.getFirst()).path("eventId"), json.readTree(repeated.getLast()).path("eventId"));
     }
+    @Test void synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute() throws Exception {
+        String failingScope = "VOLTE-MD-ORH";
+        String original = healthy.window(failingScope, START, 42).getFirst();
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call);
+            if (original.equals(call.getArgument(2))) throw new IllegalStateException("controlled synchronous send failure");
+            return CompletableFuture.completedFuture(null);
+        });
+        service.start(); fire();
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+            assertCounts(47, 0, 0, false);
+            assertEquals(1, result().failedSendAttempts());
+        });
+        for (int attempt = 2; attempt <= 3; attempt++) {
+            int expectedFailures = attempt;
+            fire();
+            await().atMost(Duration.ofSeconds(5)).until(() -> result().failedSendAttempts() == expectedFailures);
+        }
+        assertCounts(47, 1, 2, true);
+        assertEquals(50, result().sendAttempts());
+        assertEquals(0, result().timedOutSendAttempts());
+        assertEquals(List.of(original, original, original), sent.stream()
+                .filter(p -> assertDoesNotThrow(() -> json.readTree(p)).path("scopeId").asText().equals(failingScope)).toList());
+        for (String scope : healthy.scopes(START)) if (!scope.equals(failingScope))
+            assertEquals(healthy.window(scope, START, 42), sent.stream()
+                    .filter(p -> assertDoesNotThrow(() -> json.readTree(p)).path("scopeId").asText().equals(scope)).toList());
+        assertEquals(1, tasks.stream().filter(t -> !t.future().isCancelled()).count(), "Only the next minute remains scheduled");
+        fire();
+        await().atMost(Duration.ofSeconds(5)).until(() -> result().complete());
+        assertEquals(START.plusSeconds(60), result().windowStart());
+        assertEquals(50, result().acknowledgedObservations());
+        assertEquals(0, result().failedObservations());
+        assertEquals(healthy.window(failingScope, START.plusSeconds(60), 42), sent.stream()
+                .filter(p -> assertDoesNotThrow(() -> json.readTree(p)).path("scopeId").asText().equals(failingScope))
+                .skip(3).toList(), "A terminated failed chain must release its scope for the following whole minute");
+    }
     @Test void stopCancelsOfferedRecordsWithoutAcknowledgingLateSuccess() throws Exception {
         List<CompletableFuture<SendResult<String,String>>> held = new CopyOnWriteArrayList<>();
         when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
@@ -361,6 +397,29 @@ class GeographicPublicationTest {
         assertTrue(healthy.scopes(START.minusSeconds(60)).isEmpty());
         assertThrows(IllegalArgumentException.class, () -> new HealthyTelemetry(new VoiceScenario(json,validator),
                 new SmsQueueScenario(json,validator),GeographyCatalog.load(),false));
+    }
+
+    @Test void geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute() throws Exception {
+        when(kafka.send(anyString(), anyString(), anyString())).thenAnswer(call -> {
+            capture(call); return CompletableFuture.completedFuture(null);
+        });
+        service.start(); fire();
+        await().atMost(Duration.ofSeconds(5)).until(() -> result().complete());
+        assertEquals(50, sent.size());
+        service.stop(); assertTrue(service.awaitSubmissionTermination(5, TimeUnit.SECONDS));
+        clock.now = START.plusSeconds(370); // Restart ten seconds into a minute after six minutes of downtime.
+        service.start();
+        assertEquals(List.of(START.plusSeconds(481)), tasks.stream().filter(t -> !t.future().isCancelled()).map(Task::at).toList());
+        assertEquals(50, sent.size());
+        fire();
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+            assertEquals(START.plusSeconds(420), result().windowStart());
+            assertEquals(50, result().acknowledgedObservations());
+            assertTrue(result().complete());
+        });
+        assertEquals(100, sent.size());
+        for (String payload : sent.subList(50, 100))
+            assertEquals(START.plusSeconds(420).toString(), json.readTree(payload).path("windowStart").asText());
     }
 
     @Test void restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption() throws Exception {

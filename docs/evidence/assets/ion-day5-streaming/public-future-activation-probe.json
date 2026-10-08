@@ -1,0 +1,10 @@
+{
+  "scheduledStart": "2026-10-08T10:01:00Z",
+  "catalogueActive": true,
+  "now": "2026-10-08T10:00:20Z",
+  "effectiveFrom": "2026-10-08T10:10:00Z",
+  "probe": "existing public validator via reflection; no HTTP or OIDC claim",
+  "publicCityValidation": "ACCEPTED",
+  "executedAtUtc": "2026-10-08T12:07:55.792455+00:00",
+  "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50"
+}
