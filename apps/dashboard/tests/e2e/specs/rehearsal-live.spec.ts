@@ -180,3 +180,63 @@ test('replays connected city, evidence, recovery and reconnect with authoritativ
     }
   }
 });
+
+test('extended history uses real protected requests up to 30 periods', async ({ page, context }, info) => {
+  let userId = '';
+  const requests: { path: string; status: number }[] = [];
+  try {
+    const username = 'history-check-' + randomBytes(6).toString('hex');
+    const password = randomBytes(24).toString('base64url') + '!Aa1';
+    userId = admin(['create', 'users', '-r', 'telecom', '-i', '-f', '/dev/stdin'], JSON.stringify({
+      username, enabled: true, firstName: 'History', lastName: 'Verification', emailVerified: true,
+      email: `${username}@example.invalid`, credentials: [{ type: 'password', value: password, temporary: false }],
+    })).replaceAll('"', '');
+    if (!/^[0-9a-f-]{36}$/.test(userId)) throw new Error('Temporary identity creation failed.');
+    admin(['add-roles', '-r', 'telecom', '--uid', userId, '--rolename', 'ANALYST']);
+    command('./scripts/provision-analyst', ['--username', username, '--display-name', 'History verification']);
+    page.on('response', response => {
+      const url = new URL(response.url());
+      if (url.pathname.endsWith('/kpis')) requests.push({ path: url.pathname + url.search, status: response.status() });
+    });
+    await page.goto('/login');
+    await page.getByRole('button', { name: 'Continue to sign in', exact: true }).click();
+    try {
+      await page.getByLabel(/username|email/i).fill(username);
+      await page.getByLabel('Password', { exact: true }).fill(password);
+      await page.getByRole('button', { name: /sign in/i }).click();
+      await expect(page).toHaveURL(/\/dashboard$/);
+    } catch { throw new Error('Authenticated history sign-in failed; credentials omitted.'); }
+    await page.getByLabel('Region', { exact: true }).fill('Orhei');
+    await page.getByRole('button', { name: '30d', exact: true }).click();
+    await expect.poll(() => requests.filter(row => row.path.startsWith('/api/services/')).length).toBeGreaterThanOrEqual(60);
+    await expect(page.locator('[data-chart=cssrPct] .actual-line')).not.toHaveAttribute('d', '');
+    await expect(page.locator('.chart-error')).toHaveCount(0);
+    await page.getByText('Orhei · City coverage and history', { exact: true }).click();
+    const intervals = page.getByRole('navigation', { name: 'City history intervals', exact: true });
+    await expect(intervals).toContainText('1/30');
+    await intervals.getByRole('button', { name: 'Later interval', exact: true }).click();
+    await expect(intervals).toContainText('2/30');
+    for (const width of [1366, 768, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.evaluate(() => window.scrollTo(0, 0));
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+      await page.screenshot({ path: info.outputPath(`history-periods-live-${width}.png`), animations: 'disabled' });
+    }
+    expect(requests.every(row => row.status === 200)).toBe(true);
+    for (const row of requests) {
+      const query = new URL(row.path, 'http://test.invalid').searchParams;
+      expect(Date.parse(query.get('to')!) - Date.parse(query.get('from')!)).toBeLessThanOrEqual(86_400_000);
+      expect(Number(query.get('size'))).toBeLessThanOrEqual(100);
+    }
+    writeFileSync(info.outputPath('extended-history-live.json'), JSON.stringify({ capturedAtUTC: new Date().toISOString(),
+      mode: 'Real OIDC and protected REST; no interception or fixture fallback', requests, passed: true }, null, 2));
+    await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await expect(page).toHaveURL(/\/signed-out$/);
+    expect((await context.request.get('/api/geography/cities')).status()).toBe(401);
+  } finally {
+    if (/^[0-9a-f-]{36}$/.test(userId)) {
+      admin(['delete', `users/${userId}`, '-r', 'telecom']);
+      sql(`UPDATE app.analysts SET enabled=false WHERE subject='${userId}' AND display_name='History verification';`);
+    }
+  }
+});

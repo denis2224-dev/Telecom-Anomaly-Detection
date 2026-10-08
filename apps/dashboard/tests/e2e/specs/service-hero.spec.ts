@@ -19,6 +19,8 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     state.incident.lastObservedAt = state.windows.at(-1)!.windowEnd;
     state.incident.latestDetection = structuredClone(trajectory.detections.at(-1)!) as typeof state.incident.latestDetection;
     await page.setViewportSize({ width, height: 900 });
+    // Keep the minute-aligned fallback outside this interaction-only check.
+    await page.clock.setFixedTime(new Date('2026-10-08T12:00:10Z'));
     await page.goto(`/services/${state.summary.scope.scopeId}`);
     const hero = page.locator('.service-hero');
     const chart = hero.locator('[data-chart]');

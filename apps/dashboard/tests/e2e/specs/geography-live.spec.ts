@@ -95,8 +95,9 @@ async function liveApi(page: Page) {
         const service = url.searchParams.get('service') as 'VOLTE' | 'SMS';
         const scope = city.services.find(state => state.service === service)!;
         const pageNumber = Number(url.searchParams.get('page'));
-        const rows = windows.filter(row => row.scopeId === scope.scopeId);
-        json = { cityId: city.cityId, service, page: pageNumber, size: 20, hasNext: pageNumber === 0,
+        const from = Date.parse(url.searchParams.get('from')!), to = Date.parse(url.searchParams.get('to')!);
+        const rows = windows.filter(row => row.scopeId === scope.scopeId && Date.parse(row.windowStart) >= from && Date.parse(row.windowStart) < to);
+        json = { cityId: city.cityId, service, page: pageNumber, size: 20, hasNext: (pageNumber + 1) * 2 < rows.length,
           points: rows.slice(pageNumber * 2, pageNumber * 2 + 2).map(row => ({ windowId: row.windowId, scopeId: row.scopeId,
             catalogueVersion: city.catalogueVersion, topologyVersion: row.topologyVersion,
             windowStart: row.windowStart, windowEnd: row.windowEnd, coverage: scope.coverage, metric: scope.metric })) };
@@ -224,5 +225,48 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('.cause-details')).toHaveAttribute('open', '');
     expect(state.requests.some(path => path.includes('/api/geography/cities/ORH/kpis'))).toBe(true);
     expect(state.requests.some(path => path.includes('fixture-'))).toBe(false);
+  });
+}
+
+for (const width of [1366, 768, 390]) {
+  test(`extended overview periods load legal slices and navigate city intervals at ${width}px`, async ({ page }, info) => {
+    await page.setViewportSize({ width, height: 900 });
+    const state = await liveApi(page);
+    await page.goto('/dashboard');
+    await page.getByLabel('Region', { exact: true }).fill('Orhei');
+    await page.getByRole('button', { name: '30d', exact: true }).click();
+    await expect(page.getByRole('button', { name: '30d', exact: true })).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-chart=cssrPct] .actual-line')).not.toHaveAttribute('d', '');
+    const start = await page.getByLabel('From (UTC)', { exact: true }).inputValue();
+    const end = await page.getByLabel('To (UTC, exclusive)', { exact: true }).inputValue();
+    expect(Date.parse(end + 'Z') - Date.parse(start + 'Z')).toBe(30 * 86_400_000);
+    expect((await page.locator('[data-chart=cssrPct] svg text').allTextContents()).filter(text => /\d{2} [A-Z][a-z]{2}/.test(text))).toHaveLength(2);
+    const first = (await page.getByRole('button', { name: '15m', exact: true }).boundingBox())!;
+    const second = (await page.getByRole('button', { name: '3d', exact: true }).boundingBox())!;
+    expect(second.y).toBeGreaterThan(first.y + first.height - 1);
+    expect(second.x).toBeCloseTo(first.x, 0);
+    await page.getByText('Orhei · City coverage and history', { exact: true }).click();
+    const intervals = page.getByRole('navigation', { name: 'City history intervals', exact: true });
+    await expect(intervals).toContainText('1/30');
+    await expect(page.locator('app-city-evidence [data-city-window]')).toHaveCount(0);
+    await intervals.getByRole('button', { name: 'Later interval', exact: true }).click();
+    await expect(intervals).toContainText('2/30');
+    await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
+    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+    await expect(intervals).toContainText('2/30');
+    const histories = state.requests.filter(path => path.includes('/kpis?'));
+    expect(histories.length).toBeGreaterThanOrEqual(60);
+    for (const path of histories) {
+      const query = new URL(path, 'http://test.invalid').searchParams;
+      expect(Date.parse(query.get('to')!) - Date.parse(query.get('from')!)).toBeLessThanOrEqual(86_400_000);
+      expect(Number(query.get('size'))).toBeLessThanOrEqual(100);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    await page.screenshot({ path: info.outputPath(`extended-periods-${width}.png`), animations: 'disabled' });
+    await page.getByRole('button', { name: '7d', exact: true }).click();
+    await expect(intervals).toContainText('1/7');
+    await page.getByRole('button', { name: '15m', exact: true }).click();
+    await expect(intervals).toHaveCount(0);
+    await expect(page.locator('[data-chart=cssrPct] .actual-line')).not.toHaveAttribute('d', '');
   });
 }
