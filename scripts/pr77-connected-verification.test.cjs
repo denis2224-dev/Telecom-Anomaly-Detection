@@ -66,6 +66,9 @@ test('credential cleanup checks directory and nonce before unlinking only genera
     assert.equal(fs.existsSync(path.join(real, 'stack.env')), true);
     write('ownership.json', JSON.stringify({ directory: real, owner: 'nonce', project: 'pr77-unit' }));
     assert.throws(() => removeCredentials({ ...context, privateDir: path.dirname(real) }, real, ['private-password']));
+    removeCredentials(context, real, ['private-password'], { retainCredentials: true });
+    assert.equal(fs.existsSync(path.join(real, 'stack.env')), true);
+    assert.equal(fs.readFileSync(path.join(real, 'commands.log'), 'utf8').includes('private-password'), false);
     removeCredentials(context, real, ['private-password']);
     for (const name of ['stack.env', 'realm.json', 'stack-context.json']) assert.equal(fs.existsSync(path.join(real, name)), false);
     assert.equal(fs.readFileSync(path.join(real, 'keep.txt'), 'utf8'), 'diagnostics');

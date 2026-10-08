@@ -117,8 +117,8 @@ async function resources(context, env, logFile) {
 
 function writePrivate(filename, value) { fs.writeFileSync(filename, typeof value === 'string' ? value : JSON.stringify(value, null, 2) + '\n', { mode: 0o600, flag: 'wx' }); }
 
-function removeCredentials(context, expectedDirectory, secrets) {
-  if (path.resolve(context.privateDir) !== expectedDirectory || fs.realpathSync(context.privateDir) !== expectedDirectory || !fs.lstatSync(context.privateDir).isDirectory()) throw Error('Private directory identity changed; credential cleanup refused.');
+function removeCredentials(context, expectedDirectory, secrets, { retainCredentials = false } = {}) {
+  if (fs.realpathSync(context.privateDir) !== expectedDirectory || !fs.lstatSync(context.privateDir).isDirectory()) throw Error('Private directory identity changed; credential cleanup refused.');
   const marker = JSON.parse(fs.readFileSync(path.join(expectedDirectory, 'ownership.json'), 'utf8'));
   if (marker.directory !== expectedDirectory || marker.owner !== context.ownerLabelValue || marker.project !== context.projectName) throw Error('Private directory ownership mismatch; credential cleanup refused.');
   const logFile = path.join(expectedDirectory, 'commands.log');
@@ -130,6 +130,7 @@ function removeCredentials(context, expectedDirectory, secrets) {
       .replace(/\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)?\b/g, '[REDACTED]');
     fs.writeFileSync(logFile, log, { mode: 0o600 });
   }
+  if (retainCredentials) return;
   // Explicit names only; do not recurse or follow a supplied deletion target.
   for (const filename of ['stack.env', 'realm.json', 'stack-context.json']) {
     const target = path.join(expectedDirectory, filename);
@@ -258,8 +259,9 @@ async function main(args) {
       } catch { report.cleanup = 'BLOCKED_OWNERSHIP_OR_DOCKER_FAILURE'; report.status = 'FAILED'; }
     }
     try {
-      removeCredentials(context, privateDirectoryIdentity, [...Object.values(secrets), context.analyst?.password, context.supervisor?.password]);
-      report.credentialCleanup = 'PASSED';
+      const retainCredentials = report.cleanup === 'BLOCKED_OWNERSHIP_OR_DOCKER_FAILURE';
+      removeCredentials(context, privateDirectoryIdentity, [...Object.values(secrets), context.analyst?.password, context.supervisor?.password], { retainCredentials });
+      report.credentialCleanup = retainCredentials ? 'RETAINED_FOR_OWNED_STACK_RECOVERY' : 'PASSED';
     } catch { report.credentialCleanup = 'BLOCKED_DIRECTORY_OWNERSHIP'; report.status = 'FAILED'; }
     report.finishedAt = new Date().toISOString();
     fs.writeFileSync(path.join(context.outputDir, 'runtime.json'), JSON.stringify(report, null, 2) + '\n');
