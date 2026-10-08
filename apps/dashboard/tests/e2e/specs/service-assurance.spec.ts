@@ -18,6 +18,10 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     summary.openIncidents = incident ? 1 : 0;
     const requests: { from: string; to: string }[] = [];
     await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
+    await page.route('**/api/operations/priority?**', route => route.fulfill({ json: {
+      generatedAt: feature.windowEnd, policyVersion: 'geographic-priority-v1', policyStatus: 'ACTIVE',
+      page: 0, size: 20, hasNext: false, items: [],
+    } }));
     await page.route('**/api/services', route => route.fulfill({ json: [summary] }));
     await page.route('**/api/services/*/kpis?**', route => {
       const query = new URL(route.request().url()).searchParams;

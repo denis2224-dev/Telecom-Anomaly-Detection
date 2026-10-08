@@ -1,0 +1,617 @@
+{
+  "generatedAt": "2026-10-08T12:36:05.820938721Z",
+  "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+  "topologyVersion": "2-geography-g1",
+  "cities": [
+    {
+      "cityId": "BAL",
+      "displayName": "Bălți",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-BAL",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.3688007213706,
+            "baseline": 99.3,
+            "deltaPp": 0.0688007213706,
+            "delayRatio": null,
+            "numerator": 1102,
+            "denominator": 1109,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-BAL",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3248,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.624,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 117,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "CAH",
+      "displayName": "Cahul",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-CAH",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.30313588850174,
+            "baseline": 99.3,
+            "deltaPp": 0.00313588850174,
+            "delayRatio": null,
+            "numerator": 1140,
+            "denominator": 1148,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-CAH",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3299,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.6495,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 118,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "CHI",
+      "displayName": "Chișinău",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-CHI",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.40068493150685,
+            "baseline": 99.3,
+            "deltaPp": 0.10068493150685,
+            "delayRatio": null,
+            "numerator": 1161,
+            "denominator": 1168,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-CHI",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3358,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.679,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 96,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "COM",
+      "displayName": "Comrat",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-COM",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.27470534904805,
+            "baseline": 99.3,
+            "deltaPp": -0.02529465095195,
+            "delayRatio": null,
+            "numerator": 1095,
+            "denominator": 1103,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-COM",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3310,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.655,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 112,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "EDI",
+      "displayName": "Edineț",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-EDI",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.33166248955723,
+            "baseline": 99.3,
+            "deltaPp": 0.03166248955723,
+            "delayRatio": null,
+            "numerator": 1189,
+            "denominator": 1197,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-EDI",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3431,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.7155,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 84,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "ORH",
+      "displayName": "Orhei",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-ORH",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 2,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.18478260869566,
+            "baseline": 99.3,
+            "deltaPp": -0.11521739130434,
+            "delayRatio": null,
+            "numerator": 1095,
+            "denominator": 1104,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-ORH",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 2,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3334,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.667,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 107,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "RIB",
+      "displayName": "Rîbnița",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-RIB",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.32318104906938,
+            "baseline": 99.3,
+            "deltaPp": 0.02318104906938,
+            "delayRatio": null,
+            "numerator": 1174,
+            "denominator": 1182,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-RIB",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3458,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.729,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 113,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "SOR",
+      "displayName": "Soroca",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-SOR",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.32773109243698,
+            "baseline": 99.3,
+            "deltaPp": 0.02773109243698,
+            "delayRatio": null,
+            "numerator": 1182,
+            "denominator": 1190,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-SOR",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3429,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.7145,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 87,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "TIR",
+      "displayName": "Tiraspol",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-TIR",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.39707149009475,
+            "baseline": 99.3,
+            "deltaPp": 0.09707149009475,
+            "delayRatio": null,
+            "numerator": 1154,
+            "denominator": 1161,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-TIR",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3312,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.656,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 97,
+            "nullReason": null
+          }
+        }
+      ]
+    },
+    {
+      "cityId": "UNG",
+      "displayName": "Ungheni",
+      "synthetic": true,
+      "catalogueVersion": "2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473",
+      "topologyVersion": "2-geography-g1",
+      "services": [
+        {
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-UNG",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 3,
+            "receivedSources": 3,
+            "usableSources": 3
+          },
+          "metric": {
+            "name": "TECHNICAL_CSSR",
+            "unit": "PERCENT",
+            "observed": 99.29577464788733,
+            "baseline": 99.3,
+            "deltaPp": -0.00422535211267,
+            "delayRatio": null,
+            "numerator": 1128,
+            "denominator": 1136,
+            "sampleCount": null,
+            "nullReason": null
+          }
+        },
+        {
+          "service": "SMS",
+          "scopeId": "SMS-MD-UNG",
+          "latestWindowEnd": "2026-10-08T12:35:00Z",
+          "freshness": "FRESH",
+          "technicalActiveCount": 0,
+          "analystOpenCount": 0,
+          "coverage": {
+            "state": "COMPLETE",
+            "expectedSources": 2,
+            "receivedSources": 2,
+            "usableSources": 2
+          },
+          "metric": {
+            "name": "SMS_DELIVERY_P95",
+            "unit": "MILLISECONDS",
+            "observed": 3342,
+            "baseline": 2000,
+            "deltaPp": null,
+            "delayRatio": 1.671,
+            "numerator": null,
+            "denominator": null,
+            "sampleCount": 98,
+            "nullReason": null
+          }
+        }
+      ]
+    }
+  ]
+}
