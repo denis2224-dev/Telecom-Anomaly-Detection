@@ -68,6 +68,7 @@ async function setup(page: Page) {
     token: 'test-only', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf',
   } }));
   await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
+  await page.route('**/api/operations/priority?**', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
   await page.route('**/api/analysts?**', route => route.fulfill({ json: [] }));
   await page.route('**/api/services', async route => {
     serviceReads++;
