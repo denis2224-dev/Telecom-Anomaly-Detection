@@ -12,7 +12,7 @@ The downloadable logo SVG includes the glow and works without the app’s CSS.
 
 - [Download the logo SVG](../assets/tracelink-logo.svg): wordmark and symbol on navy, suitable for documentation and presentations.
 - [Symbol SVG](../../apps/dashboard/src/branding/mark.svg): transparent, single-color mark used in the sidebar and sign-in header.
-- [Browser icon SVG](../../apps/dashboard/src/branding/favicon.svg): compact symbol with a navy background.
+- Browser icons: [SVG source](../../apps/dashboard/src/branding/favicon.svg), [PNG tab icon](../../apps/dashboard/src/branding/tracelink-icon.png), [ICO favicon](../../apps/dashboard/src/branding/favicon.ico) and [Apple touch icon](../../apps/dashboard/src/branding/apple-touch-icon.png), with the same glowing symbol on navy.
 
 Keep the logo’s proportions and enough clear space to distinguish it from nearby
 text. The mark is decorative beside the TraceLink name; icon-only navigation
@@ -25,4 +25,11 @@ documentation assets with:
 ```sh
 node scripts/sync-branding.mjs
 node scripts/sync-branding.mjs --check
+```
+
+After changing the browser icon, export its PNG, ICO and Apple touch assets with the existing installed
+Playwright browser:
+
+```sh
+node scripts/render-browser-icon.mjs
 ```

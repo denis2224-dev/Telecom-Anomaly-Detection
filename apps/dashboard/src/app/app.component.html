@@ -21,7 +21,6 @@
         <a class="nav-link" routerLink="/dashboard" fragment="incident-queue" aria-label="Incident investigation" title="Incident investigation" (click)="mobileOpen.set(false)"><app-icon name="shield" /><span>Incident investigation</span></a>
       </div>
       <div class="sidebar-bottom">
-        <div class="system-note"><span class="status-dot"></span><span>{{ fixture ? 'Sample workspace' : 'Protected workspace' }}<small>TraceLink</small></span></div>
         <button class="ghost sidebar-collapse" (click)="toggleSidebar()" [attr.aria-expanded]="!collapsed()" aria-controls="workspace-navigation" [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'" [title]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"><app-icon [name]="collapsed() ? 'right' : 'left'" /><span>Collapse sidebar</span></button>
       </div>
     </aside>
@@ -57,7 +56,6 @@
         @case ('fixture') { <router-outlet /> }
         @default { <app-login /> }
       }
-      <footer><span class="footer-brand-symbol" aria-hidden="true"></span> TraceLink <span>Service health and analyst workflow are separate states.</span></footer>
     </main>
   </div>
 </div>
