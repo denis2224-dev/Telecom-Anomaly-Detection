@@ -91,6 +91,11 @@ jobs:
           ./mvnw -pl services/processor -am test
           -Dtest=VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode,SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode
           -Dsurefire.failIfNoSpecifiedTests=false
+      - name: Verify cause controls, bounded ML failures, and durable geographic replay
+        run: >
+          ./mvnw -pl services/processor -am test
+          -Dtest=GeographicCauseControlsTest,MlClientTest,MlClientFailureTest,GeographicAuxiliaryBoundaryTest,GeographicMlFallbackReplayTest,GeographicCauseReplayTest,GeographicReplayTest,ExplanationCasesTest
+          -Dsurefire.failIfNoSpecifiedTests=false
       - name: Run geographic processor and parity verification
         env:
           ML_SERVICE_URL: http://127.0.0.1:8090
