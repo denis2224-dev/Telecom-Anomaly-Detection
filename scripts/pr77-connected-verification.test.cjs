@@ -3,7 +3,18 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const fs = require('node:fs');
 const os = require('node:os');
-const { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials } = require('./pr77-connected-verification.cjs');
+const { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials, geographyEffectiveFrom } = require('./pr77-connected-verification.cjs');
+
+test('geography activation always aligns complete UTC minute boundaries', () => {
+  const inputs = ['2026-10-10T16:37:59.999Z', '2026-01-01T00:00:00.001Z', '2026-06-07T03:42:17.123Z'];
+  for (const input of inputs) {
+    const now = Date.parse(input), effective = geographyEffectiveFrom(now);
+    assert.match(effective, /:00\.000Z$/);
+    assert.equal(Date.parse(effective) % 60000, 0);
+    assert.equal(Date.parse(effective), Math.floor(now / 60000) * 60000 - 15 * 60000);
+  }
+  assert.throws(() => geographyEffectiveFrom(NaN));
+});
 
 test('requires explicit fresh absolute directories and a bounded project name', () => {
   assert.throws(() => parseArgs([]));

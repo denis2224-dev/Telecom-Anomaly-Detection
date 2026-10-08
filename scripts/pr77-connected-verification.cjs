@@ -8,6 +8,11 @@ const ROOT = path.resolve(__dirname, '..');
 const PORTS = { proxy: 18080, postgres: 25432, kafka: 29094, generator: 18081, incident: 18082 };
 const OWNER = 'io.telecom.pr77.owner';
 const sha256 = value => crypto.createHash('sha256').update(value).digest('hex');
+function geographyEffectiveFrom(now = Date.now()) {
+  if (!Number.isFinite(now)) throw Error('Geography activation requires a valid timestamp.');
+  // GeographyCatalog accepts only complete UTC minute boundaries.
+  return new Date(Math.floor(now / 60000) * 60000 - 15 * 60000).toISOString();
+}
 
 function parseArgs(args) {
   const values = {};
@@ -165,7 +170,7 @@ async function main(args) {
   context.scenarioResultFile = path.join(context.outputDir, 'scenarios.json');
   const secrets = Object.fromEntries(['POSTGRES_PASSWORD', 'PROCESSING_DB_PASSWORD', 'PROCESSING_MIGRATOR_PASSWORD', 'INCIDENT_DB_PASSWORD', 'INCIDENT_MIGRATOR_PASSWORD', 'KEYCLOAK_DB_PASSWORD', 'KEYCLOAK_ADMIN_PASSWORD', 'KEYCLOAK_CLIENT_SECRET'].map(key => [key, crypto.randomBytes(24).toString('hex')]));
   const variables = { ...secrets, POSTGRES_PORT: PORTS.postgres, KAFKA_HOST_PORT: PORTS.kafka, GENERATOR_HOST_PORT: PORTS.generator,
-    TELECOM_GEOGRAPHY_ENABLED: 'true', TELECOM_GEOGRAPHY_EFFECTIVE_FROM: new Date(Date.now() - 15 * 60000).toISOString(),
+    TELECOM_GEOGRAPHY_ENABLED: 'true', TELECOM_GEOGRAPHY_EFFECTIVE_FROM: geographyEffectiveFrom(),
     HISTORICAL_BOOTSTRAP_ENABLED: 'false', CONTINUOUS_TELEMETRY_ENABLED: 'true', ML_SMS_SHADOW_ENABLED: 'true' };
   const composeText = fs.readFileSync(path.join(ROOT, 'compose.yaml'), 'utf8');
   // Host environment must not override --env-file or enable unrelated Compose files.
@@ -249,7 +254,17 @@ async function main(args) {
     if ((await run('git', ['rev-parse', 'HEAD'])) !== context.sourceSha || await run('git', ['status', '--porcelain', '--untracked-files=no'])) throw Error('Tracked source changed during verification; candidate acceptance is invalid.');
     report.status = 'PASSED';
     report.verificationSha256 = sha256(fs.readFileSync(path.join(context.outputDir, 'verification.json')));
-  } catch (error) { report.status = 'FAILED'; report.failure = error.message; }
+  } catch (error) {
+    report.status = 'FAILED'; report.failure = error.message;
+    if (stackAttempted) {
+      try {
+        const owned = await resources(context, env, logFile);
+        owned.forEach(item => assertOwned(item.labels, context));
+        await run('docker', composeArgs(context, ['logs', '--no-color', '--timestamps', '--tail', '200']), { env, logFile });
+        report.privateFailureLogsCollected = true;
+      } catch { report.privateFailureLogsCollected = false; }
+    }
+  }
   finally {
     if (stackAttempted) {
       try {
@@ -275,5 +290,5 @@ async function main(args) {
   if (report.status !== 'PASSED') throw Error('Connected verification failed; retain this attempt and inspect private diagnostics.');
 }
 
-module.exports = { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials };
+module.exports = { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials, geographyEffectiveFrom };
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(error.message); process.exitCode = 1; });
