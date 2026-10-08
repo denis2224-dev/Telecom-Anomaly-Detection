@@ -42,3 +42,23 @@ Implementation and local verification are complete. The protected API matrix has
 three live minutes across all twenty city scopes; existing frontend live bindings
 still show Mapping pending. Shared G2 acceptance remains pending owner/UI review.
 See [the evidence and manifest](../docs/evidence/2026-10-06-sergiu-day2-role-aware-parity.md).
+# Sergiu Day 3 — explainable geographic incidents (7 October 2026)
+
+Implementation base: `6800e94`, retaining delivery fairness and connected investigation fixes.
+One coordinator integrates three independent workers: geographic episode invariants,
+city explanation goldens, and queue/display acceptance handoffs. Preserve prior plans below.
+
+1. Freeze pinned catalogue context, ID/timestamp expectations and exclusive file ownership.
+2. In parallel extend all-city episode tests, legacy-preserving explanation fixtures,
+   and independently calculated queue/display acceptance examples.
+3. Integrate geographic durable replay checks; make production changes only for proven defects.
+4. Run focused and full Java/Python/contract checks; review changes across worker boundaries.
+5. Validate isolated live city scenarios through receipts, incidents, protected API and browser;
+   record actual results and external blockers without claiming shared G3 acceptance.
+
+Denis owns projection/queue implementation; David owns UI implementation. No model,
+threshold, schema migration, optional power correlation or analyst workflow changes.
+
+Day 3 result: local implementation and verification complete; eighty live normal points validated.
+City fault dispatch returns INVALID_SCOPE in both owner layers; shared G3 remains pending.
+See docs/evidence/2026-10-07-sergiu-day3-geographic-explanations.md.
