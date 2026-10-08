@@ -287,20 +287,16 @@ for (const scenario of cases) {
         ).toBe(true);
 
         await page.goto('/dashboard');
+        await page.locator('details.source-inventory > summary').click();
 
         const card = page.locator('article.service-row')
           .filter({ hasText: scenario.scopeId });
 
         await expect(card).toHaveCount(1);
 
-        const health = card.locator('strong')
-          .filter({ hasText: 'Current health:' });
-
-        await expect(health).toHaveText(
-          /Current health: (UNKNOWN|STALE)/,
-        );
-
-        gapHealth = await health.textContent();
+        await expect(card).toHaveAttribute('data-health', 'UNKNOWN');
+        await expect(card.locator('.badge[data-state="UNKNOWN"]')).toBeVisible();
+        gapHealth = await card.getAttribute('data-health');
       }
 
       await expect.poll(
@@ -407,16 +403,10 @@ for (const scenario of cases) {
         run.scheduledEndAt,
       );
 
-      if (scenario.service === 'VOLTE') {
-        await page.getByText(
-          /^Show exact values and attempt counts/,
-        ).click();
-      } else {
-        await page.getByText('Delivery quality and exact SMS history', { exact: true }).click();
-      }
+      await page.locator('.exact-values > summary').click();
 
       for (const window of windows) {
-        const row = page.locator(
+        const row = page.locator(scenario.service === 'VOLTE' ? 'app-kpi-chart' : 'app-sms-history').locator(
           `[data-window-id="${window.windowId}"]`,
         );
 
@@ -471,9 +461,16 @@ for (const scenario of cases) {
         }
       }
 
-      await expect(
-        page.locator('.episode-card'),
-      ).toHaveCount(scenario.faultRun ? 1 : 0);
+      // History filters do not filter the current incident queue. Compare that
+      // queue with its own authoritative page, including pre-existing episodes.
+      const currentPage = await get<{ items: Incident[] }>(context.request,
+        `/api/incidents?scopeId=${scenario.scopeId}&service=${scenario.service}&page=0&size=20`);
+      await expect(page.locator('.episode-card')).toHaveCount(new Set(currentPage.items.map(item => item.episodeId)).size);
+      for (const item of currentPage.items) {
+        const card = page.locator(`.episode-card[data-episode-id="${item.episodeId}"]`);
+        await expect(card).toHaveCount(1);
+        await expect(card).toContainText(item.technicalState);
+      }
 
       await page.screenshot({
         path: info.outputPath('service-history.png'),
@@ -525,19 +522,29 @@ for (const scenario of cases) {
           );
 
           await expect(article).toBeVisible();
+          await article.locator('.cause-details > summary').click();
           await expect(article).toContainText(
-            `ML status: ${detection.mlStatus}`,
+            'ML result: Model result available',
           );
+          await expect(article.locator('app-cause-evidence')).toContainText(`Model anomaly rank: ${detection.anomalyRank}`);
 
           for (const metric of detection.kpis) {
             const cells = article.locator(
               `[data-kpi="${metric.name}"] td`,
             );
 
+            const delta = metric.observed === null || metric.baseline === null ? null
+              : Math.round((metric.observed - metric.baseline) * 100) / 100;
+            const relative = delta === null || metric.baseline === 0 ? null
+              : Math.round((metric.observed! - metric.baseline!) / Math.abs(metric.baseline!) * 10000) / 100;
+            const signed = (value: number) => `${value > 0 ? '+' : ''}${value}`;
+            const changeUnit: Record<string, string> = { PERCENT: 'pp', PERCENTAGE_POINTS: 'pp', MILLISECONDS: 'ms', SECONDS: 's', COUNT: 'count', RATIO: 'ratio', MBPS: 'Mbps' };
             const expected = [
               shown(metric.observed),
               shown(metric.baseline),
               metric.unit,
+              delta === null ? 'Comparison unavailable' : `${signed(delta)} ${changeUnit[metric.unit] ?? metric.unit}`,
+              relative === null ? 'Unavailable' : `${signed(relative)}%`,
               shown(metric.numerator),
               shown(metric.denominator),
             ];
@@ -561,9 +568,11 @@ for (const scenario of cases) {
           }
         }
 
-        await expect(
-          page.getByText(/Workflow state:/).first(),
-        ).toContainText('OPEN');
+        await expect(page.locator('.incident-summary-bar')).toContainText('OPEN · Awaiting analyst resolution');
+        await expect(page.locator('.incident-summary-bar [data-state="RECOVERED"]')).toBeVisible();
+        await page.getByRole('button', { name: 'Details & workflow', exact: true }).click();
+        await expect(page.getByRole('dialog', { name: 'Details & workflow', exact: true })
+          .locator('.incident-summary .badge[data-state="OPEN"]')).toHaveText('OPEN');
 
         await page.screenshot({
           path: info.outputPath('incident-evidence.png'),

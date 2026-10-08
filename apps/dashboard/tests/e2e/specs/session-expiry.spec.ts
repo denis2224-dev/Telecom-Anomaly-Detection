@@ -78,7 +78,7 @@ test('real logout refreshes CSRF and ends protected access', async ({
   await login(page);
 
   await expect(page.locator('.identity')).toContainText(
-    'Session ends',
+    '· until',
   );
 
   expect(await storageContainsSecrets(page)).toBe(false);
@@ -136,6 +136,11 @@ test('frontend stops work after a protected API returns 401', async ({
 }) => {
   await login(page);
 
+  // Login navigation finishes before the overview's initial reads. Inject the
+  // rejection only once the workspace is ready, then trigger a protected read.
+  await expect(page.locator('details.source-inventory > summary')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Refresh overview' })).toBeEnabled();
+
   let calls = 0;
 
   await page.route('**/api/services', async route => {
@@ -151,8 +156,7 @@ test('frontend stops work after a protected API returns 401', async ({
     });
   });
 
-  await page.locator('details.source-inventory > summary').click();
-  await page.locator('a[href^="/services/"]').first().click();
+  await page.getByRole('button', { name: 'Refresh overview' }).click();
 
   await expect(page.getByRole('heading', {
     name: 'Your session has expired',
@@ -163,10 +167,39 @@ test('frontend stops work after a protected API returns 401', async ({
   expect(calls).toBe(1);
 });
 
+test('real protected 401 ends browser work without interception', async ({ page, context }) => {
+  await login(page);
+  await page.getByRole('link', { name: 'Scenario runner', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Scenario runner', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'VoLTE setup', exact: true })).toBeVisible();
+  let calls = 0;
+  page.on('request', request => {
+    if (new URL(request.url()).pathname.startsWith('/api/')) calls++;
+  });
+  const rejected = page.waitForResponse(response =>
+    new URL(response.url()).pathname.startsWith('/api/') && response.status() === 401);
+  const csrf = await (await context.request.get('/api/auth/csrf')).json();
+  const logout = await context.request.post('/logout', {
+    headers: { [csrf.headerName]: csrf.token }, maxRedirects: 0,
+  }).catch(() => { throw new Error('Session invalidation failed; sensitive details omitted.'); });
+  expect(logout.status()).toBe(302);
+  // Logout can race a real background read that expires the page first. In
+  // either order require a real browser 401, expiry, and no subsequent work.
+  await page.evaluate(() => document.querySelector<HTMLAnchorElement>('a[href="/services/VOLTE-MD-CENTRAL"]')?.click());
+  await rejected;
+  await expect(page.getByRole('heading', { name: 'Your session has expired', exact: true })).toBeVisible();
+  await expect(page.getByText('Session connected', { exact: true })).toHaveCount(0);
+  const stoppedAt = calls;
+  await page.waitForTimeout(6000);
+  expect(calls).toBe(stoppedAt);
+  expect((await context.request.get('/api/auth/me')).status()).toBe(401);
+  expect(await storageContainsSecrets(page)).toBe(false);
+});
+
 test('real 15-minute idle expiry', async ({
   page,
   context,
-}) => {
+}, info) => {
   test.skip(
     process.env.SESSION_LONG_TESTS !== '1',
     'Enable SESSION_LONG_TESTS for real timeout checks.',
@@ -175,22 +208,20 @@ test('real 15-minute idle expiry', async ({
 
   await login(page);
 
-  const link = page.locator(
-    'a[href^="/services/"]',
-  ).first();
+  await expect(page.getByRole('heading', { name: 'Network overview', exact: true })).toBeVisible();
+  const startedAt = Date.now();
 
-  await expect(link).toBeVisible();
-
-  // No requests or polling during this wait. Browser timer
-  // acceleration would not prove the server's idle timeout.
+  // No analyst input or test API polling. The actual dashboard/SSE refreshes
+  // stay running: background transport must not keep an idle analyst signed in.
+  // Browser timer acceleration would not prove this real timeout.
   await page.waitForTimeout(15 * 60_000 + 5000);
-
-  await link.click();
 
   await expect(page.getByRole('heading', {
     name: 'Your session has expired',
     exact: true,
   })).toBeVisible();
+  await expect(page.getByText('Session connected', { exact: true })).toHaveCount(0);
+  expect(Date.now() - startedAt).toBeGreaterThanOrEqual(15 * 60_000);
 
   expect(
     (await context.request.get(
@@ -198,6 +229,12 @@ test('real 15-minute idle expiry', async ({
       { maxRedirects: 0 },
     )).status(),
   ).toBe(401);
+  expect(await storageContainsSecrets(page)).toBe(false);
+  await info.attach('idle-expiry-public-result', {
+    body: Buffer.from(JSON.stringify({ startedAtUTC: new Date(startedAt).toISOString(),
+      checkedAtUTC: new Date().toISOString(), protectedSessionStatus: 401, expiredHeadingVisible: true })),
+    contentType: 'application/json',
+  });
 });
 
 test('real 30-minute absolute expiry despite activity', async ({
@@ -232,6 +269,8 @@ test('real 30-minute absolute expiry despite activity', async ({
     );
 
     if (Date.now() < deadline) {
+      // Actual analyst input keeps the browser idle deadline alive as well.
+      await page.getByRole('button', { name: 'Refresh overview' }).click();
       const active = await context.request.get('/api/auth/me');
       expect(active.status()).toBe(200);
     }

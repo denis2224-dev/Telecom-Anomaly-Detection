@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { provideHttpClient } from "@angular/common/http";
+import { HttpClient, provideHttpClient } from "@angular/common/http";
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -20,6 +20,77 @@ describe("SessionStore", () => {
     http.verify();
     TestBed.resetTestingModule();
     vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  async function authenticate(): Promise<void> {
+    const pending = store.initialize();
+    http.expectOne('/api/auth/me').flush({ analystId: 'analyst', displayName: 'Analyst', roles: ['ANALYST'],
+      expiresAt: new Date(Date.now() + 30 * 60_000).toISOString() });
+    await Promise.resolve();
+    http.expectOne('/api/auth/csrf').flush({ token: 'test-csrf', headerName: 'X-CSRF-TOKEN', parameterName: '_csrf' });
+    await pending;
+  }
+
+  it('expires idle access despite background reads and revokes the server session without provider redirects', async () => {
+    vi.useFakeTimers();
+    const logout = vi.fn().mockResolvedValue({});
+    vi.stubGlobal('fetch', logout);
+    await authenticate();
+    const ended = vi.fn(); store.ended$.subscribe(ended);
+    await vi.advanceTimersByTimeAsync(14 * 60_000);
+    const background = TestBed.inject(HttpClient).get('/api/services').subscribe();
+    http.expectOne('/api/services').flush([]);
+    document.dispatchEvent(new Event('input')); // Synthetic events do not extend activity.
+    await vi.advanceTimersByTimeAsync(60_000);
+    expect(store.phase()).toBe('expired');
+    expect(store.actor()).toBeNull(); expect(store.csrf()).toBeNull();
+    expect(ended).toHaveBeenCalledOnce();
+    expect(logout).toHaveBeenCalledExactlyOnceWith('/logout', { method: 'POST', credentials: 'same-origin',
+      redirect: 'manual', headers: { 'X-CSRF-TOKEN': 'test-csrf' } });
+    await vi.advanceTimersByTimeAsync(30 * 60_000);
+    expect(logout).toHaveBeenCalledOnce();
+    background.unsubscribe();
+  });
+
+  it('extends idle access only for trusted analyst input and retains the absolute deadline', async () => {
+    vi.useFakeTimers();
+    const logout = vi.fn(); vi.stubGlobal('fetch', logout);
+    await authenticate();
+    await vi.advanceTimersByTimeAsync(14 * 60_000);
+    // jsdom cannot create trusted input; exercise the registered handler's trusted branch.
+    store['activity']({ isTrusted: true } as Event);
+    await vi.advanceTimersByTimeAsync(14 * 60_000);
+    expect(store.phase()).toBe('authenticated');
+    store['activity']({ isTrusted: true } as Event);
+    await vi.advanceTimersByTimeAsync(2 * 60_000);
+    expect(store.phase()).toBe('expired'); expect(logout).not.toHaveBeenCalled();
+  });
+
+  it('does not revive idle access when browser timers were suspended', async () => {
+    vi.useFakeTimers();
+    const logout = vi.fn().mockRejectedValue(new Error('offline')); vi.stubGlobal('fetch', logout);
+    await authenticate();
+    vi.setSystemTime(Date.now() + 15 * 60_000 + 1);
+    store['activity']({ isTrusted: true } as Event);
+    expect(store.phase()).toBe('expired');
+    await Promise.resolve();
+    expect(logout).toHaveBeenCalledOnce();
+    document.dispatchEvent(new Event('visibilitychange'));
+    expect(logout).toHaveBeenCalledOnce();
+  });
+
+  it('obtains fresh CSRF for idle revocation when a rejected write cleared the token', async () => {
+    vi.useFakeTimers();
+    const revoke = vi.fn().mockResolvedValue({ json: async () => ({ token: 'fresh-csrf', headerName: 'X-CSRF-TOKEN' }) });
+    vi.stubGlobal('fetch', revoke);
+    await authenticate(); store.csrf.set(null);
+    await vi.advanceTimersByTimeAsync(15 * 60_000);
+    expect(store.phase()).toBe('expired');
+    expect(revoke).toHaveBeenNthCalledWith(1, '/api/auth/csrf', { credentials: 'same-origin' });
+    expect(revoke).toHaveBeenNthCalledWith(2, '/logout', { method: 'POST', credentials: 'same-origin',
+      redirect: 'manual', headers: { 'X-CSRF-TOKEN': 'fresh-csrf' } });
+    expect(store.csrf()).toBeNull();
   });
 
   it("discovers identity then CSRF before enabling the workspace and clears both on expiry", async () => {

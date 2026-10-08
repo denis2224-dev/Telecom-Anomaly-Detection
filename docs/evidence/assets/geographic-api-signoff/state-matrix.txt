@@ -1,0 +1,18 @@
+Pager usage is off.
+ quality  | windows
+----------+---------
+ COMPLETE |   83418
+ MISSING  |   27265
+(2 rows)
+
+ technical_state | analyst_status | incidents
+-----------------+----------------+-----------
+ ONGOING         | OPEN           |         1
+ RECOVERED       | OPEN           |        13
+ RECOVERED       | RESOLVED       |         2
+(3 rows)
+
+ no_usable_sources | partial_or_missing | coverage_facts
+-------------------+--------------------+----------------
+              2046 |               2046 |           8991
+(1 row)

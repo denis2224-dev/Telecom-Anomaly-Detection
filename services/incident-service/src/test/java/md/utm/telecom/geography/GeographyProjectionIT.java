@@ -13,6 +13,7 @@ class GeographyProjectionIT extends IncidentServiceIntegrationTestSupport {
     @Autowired JdbcTemplate jdbc;
     @Autowired CoverageProjectionService coverage;
     @Autowired GeographyCatalogue catalogue;
+    @Autowired CatalogueImporter importer;
     private final ObjectMapper json = new ObjectMapper();
 
     @Test
@@ -26,6 +27,22 @@ class GeographyProjectionIT extends IncidentServiceIntegrationTestSupport {
                 SELECT count(*) FROM app.geo_scope_bindings
                 WHERE catalogue_version = ? AND legacy AND city_id IS NULL
                 """));
+    }
+
+    @Test
+    void repeatedCatalogueImportKeepsTheSameVersionAndBindings() {
+        int versions = jdbc.queryForObject(
+                "SELECT count(*) FROM app.geo_catalogue_versions", Integer.class);
+        int cities = count("SELECT count(*) FROM app.geo_cities WHERE catalogue_version = ?");
+        int bindings = count("SELECT count(*) FROM app.geo_scope_bindings WHERE catalogue_version = ?");
+        int nodes = count("SELECT count(*) FROM app.geo_nodes WHERE catalogue_version = ?");
+        importer.importCatalogue();
+        importer.importCatalogue();
+        assertEquals(versions, jdbc.queryForObject(
+                "SELECT count(*) FROM app.geo_catalogue_versions", Integer.class));
+        assertEquals(cities, count("SELECT count(*) FROM app.geo_cities WHERE catalogue_version = ?"));
+        assertEquals(bindings, count("SELECT count(*) FROM app.geo_scope_bindings WHERE catalogue_version = ?"));
+        assertEquals(nodes, count("SELECT count(*) FROM app.geo_nodes WHERE catalogue_version = ?"));
     }
 
     @Test
