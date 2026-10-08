@@ -1,0 +1,2239 @@
+{
+  "schemaVersion": 1,
+  "preparedDate": "2026-10-08",
+  "timezone": "Europe/Chisinau",
+  "generatedAtUtc": "2026-10-08T12:29:51.048532+00:00",
+  "outcomes": {
+    "day5Preparation": "READY",
+    "ionFinalStreamingAcceptance": "BLOCKED",
+    "sharedG5": "BLOCKED"
+  },
+  "branch": "feature/ion-day5-streaming-release-verification",
+  "testedSourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+  "sourceTreeSha": "e103110270fba916c1fc7735a36556fb40189f01",
+  "baseSha": "6433e793a99b5eac92157aa498db31cdbeb40164",
+  "reconciliationSha": "d7bbaece74e9019841c615115a6178a2bee7716f",
+  "approvedIntegratedReleaseSha": null,
+  "remoteMainSha": "cfd119c02e0d41784a6d24c1bef2801496a31eb5",
+  "localMainSha": "55e373a2a18eac56f9726c8f7b0ea307bde0a9ce",
+  "pr73": {
+    "baseRefOid": "cfd119c02e0d41784a6d24c1bef2801496a31eb5",
+    "headRefOid": "05f4f088244d3728e15cc18c233b67f3b45def5d",
+    "mergeStateStatus": "CLEAN",
+    "number": 73,
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:10:09Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37754480830/job/113235528101",
+        "name": "dashboard-verification",
+        "startedAt": "2026-10-08T09:07:41Z",
+        "status": "COMPLETED",
+        "workflowName": "dashboard"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:08:15Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37754480941/job/113235528488",
+        "name": "build",
+        "startedAt": "2026-10-08T09:07:41Z",
+        "status": "COMPLETED",
+        "workflowName": "incident-runtime-image"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:09:26Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37754480805/job/113235528733",
+        "name": "backend-verification",
+        "startedAt": "2026-10-08T09:07:41Z",
+        "status": "COMPLETED",
+        "workflowName": "incident-service"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:07:54Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37754480867/job/113235529458",
+        "name": "deployment-config",
+        "startedAt": "2026-10-08T09:07:41Z",
+        "status": "COMPLETED",
+        "workflowName": "service-integration"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:13:08Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37754480867/job/113235529019",
+        "name": "model-evaluation",
+        "startedAt": "2026-10-08T09:07:41Z",
+        "status": "COMPLETED",
+        "workflowName": "service-integration"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T09:20:52Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37754480867/job/113237650505",
+        "name": "processor-evaluation",
+        "startedAt": "2026-10-08T09:13:11Z",
+        "status": "COMPLETED",
+        "workflowName": "service-integration"
+      }
+    ]
+  },
+  "pr74": {
+    "baseRefOid": "cfd119c02e0d41784a6d24c1bef2801496a31eb5",
+    "headRefOid": "cd0f98d24bb97d08be838bfa6d4fa5ea86b4dd28",
+    "mergeStateStatus": "CLEAN",
+    "number": 74,
+    "state": "OPEN",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T08:30:30Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37749973439/job/113220526212",
+        "name": "dashboard-verification",
+        "startedAt": "2026-10-08T08:27:39Z",
+        "status": "COMPLETED",
+        "workflowName": "dashboard"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T08:28:13Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37749973450/job/113220526032",
+        "name": "build",
+        "startedAt": "2026-10-08T08:27:39Z",
+        "status": "COMPLETED",
+        "workflowName": "incident-runtime-image"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T08:29:53Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37749973461/job/113220526364",
+        "name": "backend-verification",
+        "startedAt": "2026-10-08T08:27:40Z",
+        "status": "COMPLETED",
+        "workflowName": "incident-service"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T08:27:48Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37749973511/job/113220526796",
+        "name": "deployment-config",
+        "startedAt": "2026-10-08T08:27:40Z",
+        "status": "COMPLETED",
+        "workflowName": "service-integration"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T08:33:03Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37749973511/job/113220527158",
+        "name": "model-evaluation",
+        "startedAt": "2026-10-08T08:27:40Z",
+        "status": "COMPLETED",
+        "workflowName": "service-integration"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-08T08:41:03Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37749973511/job/113222501715",
+        "name": "processor-evaluation",
+        "startedAt": "2026-10-08T08:33:06Z",
+        "status": "COMPLETED",
+        "workflowName": "service-integration"
+      }
+    ]
+  },
+  "environment": {
+    "java": "21.0.12.1",
+    "maven": "3.9.16",
+    "springBootStreaming": "3.5.16",
+    "springBootIncidentService": "4.0.8",
+    "python": "3.13.7",
+    "dockerServer": "29.3.1",
+    "postgresTestImage": "postgres:16.4-alpine",
+    "historyKafkaTestImage": "apache/kafka:3.9.1",
+    "liveMl": "UNAVAILABLE at localhost:8000 and source-configured localhost:8090; no service started",
+    "deployment": "Not executed"
+  },
+  "priorEvidence": {
+    "day4Source": "6b830fd616c0a5da1a644bd9a14a0cd157c95a92",
+    "day4Head": "6433e793a99b5eac92157aa498db31cdbeb40164",
+    "use": "Coverage/history only; not fresh Day 5 or final-SHA proof"
+  },
+  "executions": [
+    {
+      "name": "missing-it",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=MissingWindowDecisionIT,MissingWindowHandoffIT",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "test"
+      ],
+      "cwd": "C:/OrangeSystems/Program/ion-day5-streaming-release",
+      "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "startedAtUtc": "2026-10-08T12:18:54.470696+00:00",
+      "finishedAtUtc": "2026-10-08T12:19:19.924591+00:00",
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/missing-it.log",
+      "logSha256": "b24aaecb0d8697e1e9e043e5fe378ebde8ea2f96354287ca6ccf5d9d61f7b1ee"
+    },
+    {
+      "name": "parity-geographic-sms",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-sms-parity.py",
+        "--geographic",
+        "--java-output",
+        "services/processor/target/geographic-sms-parity-java.json"
+      ],
+      "cwd": "C:/OrangeSystems/Program/ion-day5-streaming-release",
+      "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "startedAtUtc": "2026-10-08T12:19:22.712749+00:00",
+      "finishedAtUtc": "2026-10-08T12:19:23.489007+00:00",
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-geographic-sms.log",
+      "logSha256": "19107b800e53b931902dd27a42f71398435c32d214e2a9a066ecb0eef72ae0e3"
+    },
+    {
+      "name": "parity-geographic-voice",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-voice-parity.py",
+        "--geographic",
+        "--java-output",
+        "services/processor/target/geographic-voice-parity-java.json"
+      ],
+      "cwd": "C:/OrangeSystems/Program/ion-day5-streaming-release",
+      "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "startedAtUtc": "2026-10-08T12:19:21.614415+00:00",
+      "finishedAtUtc": "2026-10-08T12:19:22.629337+00:00",
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-geographic-voice.log",
+      "logSha256": "6ffd7926f6f616cb57b534f9dc13007a1c24109be8105c15bbae5096a36ec658"
+    },
+    {
+      "name": "parity-sms",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-sms-parity.py",
+        "--java-output",
+        "services/processor/target/sms-parity-java.json"
+      ],
+      "cwd": "C:/OrangeSystems/Program/ion-day5-streaming-release",
+      "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "startedAtUtc": "2026-10-08T12:19:21.140627+00:00",
+      "finishedAtUtc": "2026-10-08T12:19:21.544364+00:00",
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-sms.log",
+      "logSha256": "1e55c68bd2390068181749912bdb368a1099c7d1269a4615ef3a5628a85ef438"
+    },
+    {
+      "name": "parity-voice",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-voice-parity.py",
+        "--java-output",
+        "services/processor/target/voice-parity-java.json"
+      ],
+      "cwd": "C:/OrangeSystems/Program/ion-day5-streaming-release",
+      "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "startedAtUtc": "2026-10-08T12:19:20.334277+00:00",
+      "finishedAtUtc": "2026-10-08T12:19:21.056426+00:00",
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-voice.log",
+      "logSha256": "68b9560eccf8de14471760307fbbb4c28733fa0fd9e0de32da2a7fcef91225db"
+    },
+    {
+      "name": "reactor",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "cwd": "C:/OrangeSystems/Program/ion-day5-streaming-release",
+      "sourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "startedAtUtc": "2026-10-08T12:08:17.687592+00:00",
+      "finishedAtUtc": "2026-10-08T12:17:22.631063+00:00",
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/reactor.log",
+      "logSha256": "67cd2c7bb1ef6d5b48f636dc142fe434818e33da23296d082d73bd965884955d"
+    }
+  ],
+  "configurationFileSha256": {
+    "contracts/geography/demo-geography-v1.json": "5721ac8d7726b443893161d4b5c39634327cf098b6525efdd2289c55204d1cbb",
+    "contracts/topology/geographic-scopes-v2.json": "34e3ba5803841ece9e5ba74bb0383799d7e685c3450eb866b4d6eed1b800d06a",
+    "contracts/topology/demo-scopes-v2.json": "9f782d69e36d38abe9e3e2b0adfcc03f00025138fd5c54a0edaecb2c5e8cc98e",
+    "contracts/observations/telecom-observation-v2.schema.json": "ce55995cbe96bf81e4388ae6f4015fbacca0688908ddbbdcb1da0d1f10cfb24e",
+    "contracts/coverage/scope-window-coverage-v1.schema.json": "4698a059a6f325349293438b4836e49917695f5711a9b33aff45a316a02df9c5",
+    "contracts/policies/service-rules-v2.json": "3028f9c2f8cc5d93ce860b26ba4098bc7c0c65fb370de060e09672764488ab96",
+    "contracts/baselines/geographic-peer-baseline-v2.json": "dcbff55676ff79a3ca91dd9d8b8343e2e4f495e09795b569e1590ba9e788704a",
+    "contracts/baselines/demo-baseline-v2.json": "553da97113a9a1832fa8a9ceaee576b7531ede9c4b0cc4e1701c6d37707e8daf",
+    "contracts/features/feature-order-v2.json": "bee443349bb3ba73dd58d2b38684f051a6fb0c2cd29bbd484518ecd046d9a263",
+    "compose.yaml": "8af4d6f6871a8829f7b6ad7e8948617af89b00f33b0aea152a6fb4954be40cbb",
+    "services/processor/src/main/resources/application.yaml": "b097f4289878f08a7c553001b5f3615fa3e34f5abad1861b6db88d7aad460ba8",
+    "services/event-generator/src/main/resources/application.yaml": "667ddf04d9e8d3121594bd2125231a746f8e8d0df65820f01287a129b9b4259d",
+    "services/processor/src/main/resources/db/migration/V013__geographic_history_ownership.sql": "43b13b8aabefe0c7af13e9fbeae0136cfa4bb555b11466ba91b91ca279a4265e",
+    "services/ml-service/models/manifest.json": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711",
+    "services/ml-service/candidate-models/sms-supervised-v1-2/manifest.json": "70cb86f074786dec5f8923ef058e35b827c15b7e417bb881e3f90ef597134ee8",
+    "services/ml-service/models/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "services/ml-service/models/SMS-calibration.json": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b",
+    "services/ml-service/models/SMS.joblib": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307",
+    "services/ml-service/models/VOLTE-calibration.json": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
+    "services/ml-service/models/VOLTE.joblib": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd"
+  },
+  "testedSourceFileSha256": {
+    "services/event-generator/src/test/java/md/utm/telecom/generator/CityVoiceSeedTest.java": "cd5e9f4877d0cdfb5931579a65efaa8d6f0ba798f12b0861a9a6c45a63fbc6a4",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/G2ServiceSuiteTest.java": "dcef90dfbfa3f2bb579084a2c3e6ee3242162a9720947a7e2fa7df4200fd8233",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/GeographicRuntimeTest.java": "49e48f1803ccf4e4a55edb527acc30352c6519e5951a46581368e2a1b5c29775",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/HealthProbeTest.java": "5367f475ffc0dcc27ee23e75dc07777ab53484b020160c3a906931e16de83701",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/ObservationGeneratorTest.java": "396e8033543f5f7c59364cdb1709672512ee01e0ec346e89a51c53d11a3ec9a8",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/VoiceScenarioTest.java": "8be275950fc2b4f626e6007d8982bd8fb1f22ae8adc35bdd8f46ff7015fbae24",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/api/ScenarioAuthorityContextTest.java": "6542a047226b8e78ef057fc50bf26f22c4a1197f17327b59fef89cdec0b884d8",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/api/ScenarioControllerTest.java": "03b8ebc1a09e2284f3586ea71e1797666a87099b9b63d745d339735cea1f7eb1",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/api/ScenarioExecutionServiceTest.java": "172abae1f5b29b61c7fae57c9db70c810ec51bce26227fbe444e9af34aec0a23",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/continuous/ContinuousTelemetryServiceTest.java": "79614c5aca61f7edb35bad4227c789469a1861aa48b44ca0aede7457a27a5e22",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/continuous/GeographicPublicationTest.java": "4d71d4ebc0f58ab58f02c036a0c05da28b335157132643a45d8b0b898c36fd8c",
+    "services/event-generator/src/test/java/md/utm/telecom/generator/scenarios/SmsQueueScenarioTest.java": "9fdb112b8c82dffd88ac8cc08a1021a45ae482938b7864c381d34d1f94c94d6c",
+    "services/incident-service/src/test/java/md/utm/telecom/shadow/SmsShadowReplayTest.java": "a6bd706b38af5beaede2acc2cc64c24c5af70d2fd74435a41c33c0fd38c167dd",
+    "services/processor/src/test/java/md/utm/telecom/processing/BaselineRegistryTest.java": "bdcc867231313e58aa18a7f4749954232472c94c775ac098defed87d8d68745e",
+    "services/processor/src/test/java/md/utm/telecom/processing/DependencyOutageIT.java": "d68e7c6cdda22ef0ae80bddd8cebad0307c3d1f90a724af91868e9a41e9cdf4d",
+    "services/processor/src/test/java/md/utm/telecom/processing/DetectionConfigurationTest.java": "523b4314e3fa84e95a8db7d4f89c3bbcd16c75859dba5379561a66e37ca02646",
+    "services/processor/src/test/java/md/utm/telecom/processing/DetectionMigrationTest.java": "288bfce1bf9e8d00dddc341698a8e3a7b2385ea68fa5407a0de33b9aa7003a18",
+    "services/processor/src/test/java/md/utm/telecom/processing/DetectionReplayIT.java": "dfcb2293394984cb0936fa3ed0ac611818503ef5592c3c368d8cdc146aa8745c",
+    "services/processor/src/test/java/md/utm/telecom/processing/EpisodeStateTest.java": "96fae5836630fb34cc1a370e3e3ba85756550c7ca12d34a4e87efc49feec7154",
+    "services/processor/src/test/java/md/utm/telecom/processing/ExplanationCasesTest.java": "342d9f4b60a6dcdcb2b15b090f68a00863209a279eee722ee4775e3fcff88517",
+    "services/processor/src/test/java/md/utm/telecom/processing/FinalizerRaceIT.java": "8a7a4dddd45a076a42cd91741ca33d099b50de2e59b1ff176928ea7d3266d3b1",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicAggregationCasesTest.java": "be6f282dd90048377dba377dce68e7190d0a5f5bfdf031a54f0b211c9ea36fd0",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicBaselineContractTest.java": "662ae3a57992f57a0bf67c38bc13a9bdffafd9ef124b9c1431cb4c741c9d64bc",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicDetectionTest.java": "9ae954409d41b5d71e05a16651947689367a65d8da78483cd1614c852c2a42d5",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicLegacyDetectionTest.java": "1a4c46c63daf7d730e9e0857b86e38ffec17cb6f16dada3462cbe0d2c90a4f4f",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicLegacyWorkerTest.java": "81aa12cc7a05e3d15d54da77c1478d5037c511d9ce9f9acda9b518628b51859b",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicLoadAccountingTest.java": "287782f3186ee51830b9dcc5cd6ebbaafca9e5c3a9d5546c685adbb8d3bb402b",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicMonitoringMigrationTest.java": "140702b87192d4b1f1ab72e0834de2de3ac50d88cad0b71df2fa09085c0c2c13",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicMonitoringTest.java": "bf7900f713f32eb57fb052366cd9a0147920e30f1a69caaf2d14a53250a76576",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicParityTest.java": "86e4518505c7e9b9d6810ccd4f3a393589dcae3251602da385f834f3ee4f7f2e",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicSmsBaselineTest.java": "b42f0d5e0bb8231bdcb2ac4225028fdf3cc8079f7d468e41da9ad9bc25de387f",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicWorkerTest.java": "ec780064759bd90156f2c5ae60eabac5b26a2d049ae696a8c8500b9666aafdfb",
+    "services/processor/src/test/java/md/utm/telecom/processing/HealthProbeTest.java": "865cdae035bef02ec36984f1d0ad385a6ff392741585140c876d220487311393",
+    "services/processor/src/test/java/md/utm/telecom/processing/LateInputIT.java": "742e7d0b84b0c245491d12290c1bde68147cc9c6fb78033d0bbc04b5c82ad2ee",
+    "services/processor/src/test/java/md/utm/telecom/processing/MlClientTest.java": "37737ef97a056e187c385da9835c8d66fb55d8fc13cd899b76c093bb7b847bfe",
+    "services/processor/src/test/java/md/utm/telecom/processing/MonitoringLifecycleTest.java": "f0ecc03f6f9af1f0718053f1913b90d8004b1f7bfeb504558559d8508ef9c357",
+    "services/processor/src/test/java/md/utm/telecom/processing/ObservationInputTest.java": "9daf2e464b4593b5b69ef07e090f6cf94a722ecedf41fc35f4015eb0e1917310",
+    "services/processor/src/test/java/md/utm/telecom/processing/ReplayIT.java": "4236c8b3795f6225ab4c9446535577141fd2127c862feb6523a6dea9b8baffc2",
+    "services/processor/src/test/java/md/utm/telecom/processing/RetentionJobTest.java": "0876299f229b183ec364c73e4bda297716a3cab5cef71011229faea876c8697d",
+    "services/processor/src/test/java/md/utm/telecom/processing/SmsEpisodeTest.java": "5ca9af51006ca132e43b8569c546e99a06548e0fc9a9edb7f955c7adaccb1094",
+    "services/processor/src/test/java/md/utm/telecom/processing/SmsRuleTest.java": "66e8b949e70b4f3f2ac3aea20a2858cd58e45cf05ad1e167b1d4d9ed89f8a637",
+    "services/processor/src/test/java/md/utm/telecom/processing/SmsShadowClientTest.java": "c65bf8720dffa9840685940db4d7e5ddb154c7684a4a88d10ca02d029d02b67c",
+    "services/processor/src/test/java/md/utm/telecom/processing/SmsShadowConfigurationTest.java": "297cb51f83187120962a6aeb3841b06fee326d8a187575452e53be11f4926809",
+    "services/processor/src/test/java/md/utm/telecom/processing/StreamingMetricsTest.java": "dd37e3045024d1e1c99f114b3ea1bd4f98169cc70d5aa551aba83ad0f8bf9bdc",
+    "services/processor/src/test/java/md/utm/telecom/processing/VoiceDeliverySchedulingTest.java": "490b838e1c7b87329e9ff5e2d61e813c7b9fb1b58b3072cde55f53701de166ad",
+    "services/processor/src/test/java/md/utm/telecom/processing/VoiceEpisodeTest.java": "b1db89c3f2d8c19c0f505cc3dcd47864c7d86c91d753dec98ee64cf1696a8bf5",
+    "services/processor/src/test/java/md/utm/telecom/processing/VoiceRuleTest.java": "96d06cd45088473ae7c4d3838ec752255cf9ad70dfebac7bf20ffd2ed9278d98",
+    "services/processor/src/test/java/md/utm/telecom/processing/WindowBoundaryTest.java": "a8b7c77db48c3fe7804c822e353f1110b8531154c1bcaba6a0268c57407457ae",
+    "services/processor/src/test/java/md/utm/telecom/processing/history/GeographicHistoricalBootstrapTest.java": "43587eb3db3c02a9e856d58d7d9d843a6c018b592b3ba051024f39ed47cee707",
+    "services/processor/src/test/java/md/utm/telecom/processing/history/GeographicHistoryMigrationTest.java": "5316fcd1f37f46e25fb580e7aef4cc98a5745cba7e5cf775b19d8723d1538bee",
+    "services/processor/src/test/java/md/utm/telecom/processing/history/HealthyHistoryTest.java": "b4cfbcc79cb89bfe39d5bb061bef65bbd43c152b3c373687d0ab376fb0ab2404",
+    "services/processor/src/test/java/md/utm/telecom/processing/history/HistoricalTelemetryBootstrapTest.java": "435cedd2371b1eea88cf99e3d72792601049e32f7534d23abdd60813178c341b",
+    "services/processor/src/test/java/md/utm/telecom/processing/history/HistoryBootstrapApplicationTest.java": "20e7cfcefc804ecd7c5def69688ec7ff0d655a189ec40ff4cbbca87c9e494b4c",
+    "services/processor/src/test/java/md/utm/telecom/processing/history/HistoryBootstrapRuntimeTest.java": "5cb099c3ad1a37f071a0f68146d7ad9ea19690d3385af784f2ab1fc6441675ff",
+    "services/processor/src/test/java/md/utm/telecom/processing/history/HistoryRangeTest.java": "c135ac24932975d506d554882db779aad2bd5d2e1533d5ed8fe400e2a5aab71a",
+    "services/processor/src/test/java/md/utm/telecom/processing/ingestion/IngestionIntegrationTest.java": "035f1fdefd5b4fcd02201585fede02132782406b018df2eb19839d94d4572679",
+    "services/processor/src/test/java/md/utm/telecom/processing/ingestion/PayloadCodecTest.java": "7e9e893578256a572ebeb413f4eff8a97966290faf8145159e1fe13ce1cfd5e1",
+    "services/processor/src/test/java/md/utm/telecom/processing/ingestion/SourceFreshnessTest.java": "4e6c25bfb01a87312d216b20da4b4d0693c2a9707b3ea890595b361a6aca5cc1",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/CoverageSnapshotTest.java": "a59da59e069da9af28a89f7d3363bb2a9aebc2f7df48862d04ff38b8120894b0",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java": "0027954a71f0f1ebc687ea5532fb8baa192efc902a74a43172675755a3513f82",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/MissingWindowDecisionIT.java": "37032d196a92bb8f8aa2f25f946bc35424ea73073f3cf423913510dc73e0053e",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/MissingWindowHandoffIT.java": "442d3ca4e31ceb05d724a380563178456fe0c7fa160c88b701df314dbe07ddca",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/ServiceFeatureBuilderTest.java": "d42d0fb29e1bd948317214c2190ec8c6007933fe32b5651dd8d5d27e54334e4c",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/SmsDeliveryTest.java": "ea9113a4cccef56acc50ff769ac73a01d4d7480a5c5e6b6543f55974234423e8",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/SmsKpiDeliveryTest.java": "f276fe65b9324fbcff1970d43e391df02fee3c01ad8fe26232f8c42ada9f4697",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/SmsShadowReplayTest.java": "0c62abadc76521df78bcb0f6d39e48e32b48b822aff5581d588b3ec25b03b881",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/SmsShadowWorkerTest.java": "6b63e8dfe3ecc4371de3ccfa650c3807a17ad31b8132d3c0352998bca8755867",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/VoiceDeliveryTest.java": "7a539cd8434ec22e1ec568e3e6ac9823377daf7323d2d372dd0e37fa5b40d545",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/WindowFinalizerTest.java": "74e8830177fa8217109ac8bed8934e856dc3ff19b0f87d2965592db62d1107fd",
+    "services/processor/src/test/java/md/utm/telecom/processing/outbox/RejectionPublisherTest.java": "ca3ce17d9642a73fe69cc1023c61b2cd0a641876a7d20c204d5c7481f82599ca",
+    "services/processor/src/test/java/md/utm/telecom/processing/outbox/RetentionConfigurationTest.java": "92eb78770781a5d99c1dda309a858a07a336b3a92789ccb7939df0138988ef28",
+    "services/processor/src/test/java/md/utm/telecom/processing/outbox/RetentionMigrationTest.java": "60ade8ebfda77b753279bfcb4eedafe97f82dc9d61cb4ab77ea0534b92b878f8",
+    "services/processor/src/test/java/md/utm/telecom/processing/topology/EvidenceJoinerTest.java": "440f88c0e85c45d8f72618e4a6d404c09fdf701005ffa7250db3ec47305a3b93",
+    "services/processor/src/test/java/md/utm/telecom/processing/topology/ScopeRegistryTest.java": "4fd0ed5a7dbf77bdd21c4649a1d30bd449a4fee63a81bb72f8f0171b1242d50c",
+    "services/streaming-support/src/test/java/md/utm/telecom/observation/CoverageContractTest.java": "f2991c3c507a418fdb86b424b8f42339f7f10c45bcc0f5062453b7245d3043fe",
+    "services/streaming-support/src/test/java/md/utm/telecom/observation/GeographyCatalogTest.java": "84c88c08d6330f76bcb0d20ea2d09544efdd8bcb9b3937316a6f2d5a68b9c440",
+    "services/streaming-support/src/test/java/md/utm/telecom/observation/ObservationValidatorTest.java": "cf5de86c97afd0670de6d3305ca0b85dd849e79f25d84ba12b50b63e3e8816c7",
+    "services/streaming-support/src/test/java/md/utm/telecom/observation/TopologyCatalogTest.java": "2fd5d5b68313f179dabdfc86399d9b7118362cb9fef82f1ed623fe526ec85279"
+  },
+  "freshJavaParityExports": {
+    "geographic-sms-parity-java.json": {
+      "sha256": "2b0a1af3fc34970a679da288e73615a7625241e32f38d217a0a2bde02c0b36b0",
+      "rawArtifact": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-exports/geographic-sms-parity-java.json",
+      "producedAtUtc": "2026-10-08T12:12:26.873286+00:00"
+    },
+    "geographic-voice-parity-java.json": {
+      "sha256": "18d0834049c1c240d9714f06174995c565597dd3ce59e1f7fbbb4d2b4109c0c6",
+      "rawArtifact": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-exports/geographic-voice-parity-java.json",
+      "producedAtUtc": "2026-10-08T12:12:26.871223+00:00"
+    },
+    "sms-parity-java.json": {
+      "sha256": "31a8c5e0ff4db90e374497590d0dd57c7861daee76cd7443ee262b54ecdd81a5",
+      "rawArtifact": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-exports/sms-parity-java.json",
+      "producedAtUtc": "2026-10-08T12:14:34.946276+00:00"
+    },
+    "voice-parity-java.json": {
+      "sha256": "4d97c395fe88b794eadb5d8066de4eb249e19de8f6426079dc041da9f1ee9f6b",
+      "rawArtifact": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/parity-exports/voice-parity-java.json",
+      "producedAtUtc": "2026-10-08T12:14:51.361242+00:00"
+    }
+  },
+  "versions": {
+    "ruleset": "service-rules-v2",
+    "baseline": "baseline-v2",
+    "model": "isoforest-v2-synthetic-1",
+    "feature": 2,
+    "observation": 2,
+    "coverage": 1,
+    "topology": "2-geography-g1",
+    "activeCatalogue": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694"
+  },
+  "modelArtifactVerification": "PASS: frozen default model and calibration file digests match their manifest; no model loading/retraining or live scorer claim.",
+  "goldenFixtures": {
+    "fullPayloadArtifact": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/geographic-golden-fixtures.json",
+    "sha256": "e6d71800625010d915ea0dc6eef369cc7abdf00aad422d628babf8657e512a76",
+    "rawObservations": 150,
+    "uniqueLogicalWindowIds": 60,
+    "seed": 42,
+    "threeMinuteActiveCatalogue": {
+      "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+      "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+      "effectiveFrom": "2026-10-07T08:00:00Z",
+      "topologyVersion": "2-geography-g1"
+    }
+  },
+  "artifactSha256": {
+    "docs/evidence/assets/ion-day5-streaming/golden-identities.json": "50754e368eb8ee4c7ca7b636edda5e499f4c8cfb3b4e142750f6212d1429edf6",
+    "docs/evidence/assets/ion-day5-streaming/history-producer-recovery.json": "6d7d1f61fcea6ee26868426fc13872cea8e3c72f10011b8ae223eb0246e89a7e",
+    "docs/evidence/assets/ion-day5-streaming/pre-edit-gap-audit.md": "6a21c5bfd226ab55d349286aa92845da3cfdbdf37a5e4d20f72cf2ec0f71f8cd",
+    "docs/evidence/assets/ion-day5-streaming/public-future-activation-probe.json": "84a711696444c74b81dd8205aa451fceb570f4ce657c943555488c52ec3bef97",
+    "docs/evidence/assets/ion-day5-streaming/streaming-reconciliation.json": "04208d2830f15b904936037d01456fe190c99b8c9fa73ccc20ffe26623ce348c",
+    "docs/evidence/assets/ion-day5-streaming/test-results.json": "28048e41325f98c4c792f68c2aaa04b888b1dd0b782d0c6e3ed1915d449bd0c7"
+  },
+  "rawLocalEvidence": "C:/OrangeSystems/Program/ion-day5-evidence-20261008",
+  "cases": [
+    {
+      "caseId": "GEO-01",
+      "owner": "Ion / Denis",
+      "required": true,
+      "status": "PASS",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "contract/fixture validation"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.observation.GeographyCatalogTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.generator.GeographicRuntimeTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Exactly ten cities and twenty city/service scopes with two legacy scopes separate, no duplicate IDs and pinned versions.",
+      "observedResult": "Ten cities / 20 city scopes, two separate legacy scopes, exact equal footprints and role authority.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Source catalogue verified; protected catalogue response awaits final integration.",
+      "nextAction": {
+        "owner": "Ion / Denis",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "GEO-02",
+      "owner": "Ion",
+      "required": true,
+      "status": "PASS",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "contract/fixture validation"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.observation.GeographyCatalogTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.observation.ObservationValidatorTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.observation.TopologyCatalogTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Reject duplicate/dangling/cyclic/cross-city hierarchy, ambiguous roles and unauthorized sources; equal city depth.",
+      "observedResult": "Malformed scope/source/role/hierarchy catalogues rejected; equal city hierarchy preserved.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Contract/source authority only; no fabricated independent leaf measurements.",
+      "nextAction": {
+        "owner": "Ion",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "GEO-03",
+      "owner": "Ion / Denis / David / Rusu",
+      "required": true,
+      "status": "BLOCKED",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration",
+        "Kafka integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.generator.CityVoiceSeedTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Independent city payload/status; one fault leaves at least two cities unchanged through receipts/API; Featured 5 does not limit monitoring.",
+      "observedResult": "ORH fault / EDI SERVICE gap with independent CHI and BAL measurements and exact unaffected bytes.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json",
+        "docs/evidence/assets/ion-day5-streaming/streaming-reconciliation.json"
+      ],
+      "limitation": "Kafka/PG component PASS; API/UI independence and featured-five navigation pending.",
+      "nextAction": {
+        "owner": "Ion / Denis / David / Rusu",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "STR-01",
+      "owner": "Ion",
+      "required": true,
+      "status": "PASS",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.generator.CityVoiceSeedTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Same start/seed/scope gives identical bytes and IDs; seed affects measurements but never natural identity; changed content conflicts.",
+      "observedResult": "Same scope/start/seed reproduces bytes; seed changes measurements only; logical identity/conflict preserved.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "No seed added to event identity.",
+      "nextAction": {
+        "owner": "Ion",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "STR-02",
+      "owner": "Ion / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration",
+        "Kafka integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.LateInputIT",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.ReplayIT",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Exact duplicate adds no receipt/KPI/logical incident; changed event ID body and conflicting same natural key use authoritative conflict codes.",
+      "observedResult": "Exact duplicate preserves receipts/features/episodes; EVENT_ID_CONFLICT and NATURAL_KEY_CONFLICT leave evidence unchanged.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Processor PASS; persisted incident-service logical incident counts require owner acceptance.",
+      "nextAction": {
+        "owner": "Ion / Denis",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "STR-03",
+      "owner": "Ion",
+      "required": true,
+      "status": "PASS",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.processing.FinalizerRaceIT",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.LateInputIT",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Before end+10s admitted; at/after late; committed identical replay duplicate; concurrency produces one finalized window/outbox.",
+      "observedResult": "Before closure admitted, at/after late; identical committed retry still duplicate; one race winner.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Real PostgreSQL locks/transactions; closure remains windowEnd+10s.",
+      "nextAction": {
+        "owner": "Ion",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "STR-04",
+      "owner": "Ion / Stanislav",
+      "required": true,
+      "status": "PASS",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration",
+        "Kafka integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.DependencyOutageIT",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.ReplayIT",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Restart produces only future whole minutes with no backfill; uncertain ACK reuses exact identity/payload and pending work survives.",
+      "observedResult": "Whole-minute restart, no invented backfill, identical uncertain-ACK retry, durable pending work.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Injected ACK losses are labeled; runtime process/deployment restart acceptance remains separate.",
+      "nextAction": {
+        "owner": "Ion / Stanislav",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "STR-05",
+      "owner": "Ion / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Per-scope overlap conflict and independent city/service concurrency; failed/stopped reservations retain semantics; telemetry resumes at end.",
+      "observedResult": "Private per-scope reservations, overlap/adjacency, FAILED/STOPPED semantics and continuous end-boundary release PASS.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Public disabled and future activation mismatch freshly reproduced; real protected public-to-private interaction pending.",
+      "nextAction": {
+        "owner": "Ion / Denis",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "STR-06",
+      "owner": "Ion / Stanislav",
+      "required": true,
+      "status": "BLOCKED",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration",
+        "Kafka integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": {
+        "seed": 42,
+        "scopes": [
+          "SMS-MD-BAL",
+          "SMS-MD-CAH",
+          "SMS-MD-CHI",
+          "SMS-MD-COM",
+          "SMS-MD-EDI",
+          "SMS-MD-ORH",
+          "SMS-MD-RIB",
+          "SMS-MD-SOR",
+          "SMS-MD-TIR",
+          "SMS-MD-UNG",
+          "VOLTE-MD-BAL",
+          "VOLTE-MD-CAH",
+          "VOLTE-MD-CHI",
+          "VOLTE-MD-COM",
+          "VOLTE-MD-EDI",
+          "VOLTE-MD-ORH",
+          "VOLTE-MD-RIB",
+          "VOLTE-MD-SOR",
+          "VOLTE-MD-TIR",
+          "VOLTE-MD-UNG"
+        ],
+        "startUtc": "2026-10-07T08:00:00Z",
+        "endUtc": "2026-10-07T08:03:00Z"
+      },
+      "expectedResult": "Three consecutive live geographic minutes give 150 logical receipts / 60 KPIs / 60 coverage; legacy separate and delayed ACK fairly bounded.",
+      "observedResult": "One producer / three consecutive controlled minutes: 150 wire/ACK/logical receipts, 60 KPIs, 60 coverage, zero legacy.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json",
+        "docs/evidence/assets/ion-day5-streaming/streaming-reconciliation.json"
+      ],
+      "limitation": "Real Kafka/PG component PASS; controlled clock/scheduler cannot prove deployed live counts, projections or sustained fairness.",
+      "nextAction": {
+        "owner": "Ion / Stanislav",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "HIS-01",
+      "owner": "Ion / Denis / Stanislav",
+      "required": true,
+      "status": "PASS",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration",
+        "Kafka integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.history.HealthyHistoryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.history.HistoryRangeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Legacy initial-demo-v1 intact; separate immutable geographic job resumes/idempotently completes without rewriting faults or adopting unrelated output.",
+      "observedResult": "Pinned job/range, immutable ownership/resume, fault/unrelated outputs preserved, rollback and leases, legacy intact.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": null,
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Bounded component cases only; two-day capacity, Compose startup and geographic consumer provenance/projections pending.",
+      "nextAction": {
+        "owner": "Ion / Denis / Stanislav",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "COV-01",
+      "owner": "Ion / Denis / David",
+      "required": true,
+      "status": "BLOCKED",
+      "componentStatus": "PASS",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "unit test",
+        "PostgreSQL integration"
+      ],
+      "executionTimeUtc": {
+        "start": "2026-10-08T12:08:17.687592+00:00",
+        "end": "2026-10-08T12:17:22.631063+00:00"
+      },
+      "testSuites": [
+        {
+          "suite": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.kpi.MissingWindowDecisionIT",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "suite": "md.utm.telecom.processing.kpi.MissingWindowHandoffIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ],
+      "contractVersions": {
+        "observation": 2,
+        "feature": 2,
+        "coverage": 1,
+        "topology": "2-geography-g1"
+      },
+      "geographicConfiguration": {
+        "threeMinuteLoad": {
+          "catalogueVersion": "2-geography-day2-ed4d77fd2612a418e7cb9f0c0f4208edca5bc07fa722fb96f410a4ff2de66694",
+          "catalogueDigest": "a5da34093810f108109f8a8b1d8aed72633b2a9144227d7f4daf6aecea8e9f5e",
+          "effectiveFrom": "2026-10-07T08:00:00Z",
+          "seed": 42
+        },
+        "otherMethods": "Method-specific configurations are in hashed test sources and executed inventory; no uniform activation inferred."
+      },
+      "scenario": null,
+      "expectedResult": "Expected/received/usable truth; reported MISSING differs from usable; missing projection UNKNOWN; optional SMS transport not required.",
+      "observedResult": "Expected/received/usable truth, independent nodes, absent/MISSING/heartbeat/stale/zero and optional SMS transport verified.",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "additionalCommand": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=MissingWindowDecisionIT,MissingWindowHandoffIT",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "test"
+      ],
+      "artifactPaths": [
+        "docs/evidence/assets/ion-day5-streaming/test-results.json"
+      ],
+      "limitation": "Processor PASS; missing-projection UNKNOWN is source-derived public expectation, not authenticated live proof.",
+      "nextAction": {
+        "owner": "Ion / Denis / David",
+        "action": "Rerun required behavior on approved integrated SHA and complete the named owner boundary."
+      }
+    },
+    {
+      "caseId": "REL-01",
+      "owner": "Stanislav / all",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Record approved final SHA/config/catalogue/model/policy digests with no mandatory blocked rows.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Stanislav / all",
+        "action": "Record approved final SHA/config/catalogue/model/policy digests with no mandatory blocked rows."
+      }
+    },
+    {
+      "caseId": "REL-02",
+      "owner": "Stanislav / David / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Rehearse non-destructive feature-off, legacy protected workflows and retained data/auth on disposable integrated environment.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Stanislav / David / Denis",
+        "action": "Rehearse non-destructive feature-off, legacy protected workflows and retained data/auth on disposable integrated environment."
+      }
+    },
+    {
+      "caseId": "REL-03",
+      "owner": "All / Stanislav",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Two real mentor flows, one teammate reproduction from runbook, recorded owner reviews.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "All / Stanislav",
+        "action": "Two real mentor flows, one teammate reproduction from runbook, recorded owner reviews."
+      }
+    },
+    {
+      "caseId": "API-01",
+      "owner": "Denis / David",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Real login, expired/anonymous denial, role/CSRF security and SSE session lifecycle.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Denis / David",
+        "action": "Real login, expired/anonymous denial, role/CSRF security and SSE session lifecycle."
+      }
+    },
+    {
+      "caseId": "API-03",
+      "owner": "Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Persisted geographic detection/coverage/history replay idempotency and consumer provenance policy.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Denis",
+        "action": "Persisted geographic detection/coverage/history replay idempotency and consumer provenance policy."
+      }
+    },
+    {
+      "caseId": "UI-02",
+      "owner": "David",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "All ten cities and equal drill-down including city outside Featured 5.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "David",
+        "action": "All ten cities and equal drill-down including city outside Featured 5."
+      }
+    },
+    {
+      "caseId": "UI-05",
+      "owner": "David / Stanislav",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Authenticated refresh/reconnect/expiry/logout with authoritative REST and cancellation.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "David / Stanislav",
+        "action": "Authenticated refresh/reconnect/expiry/logout with authoritative REST and cancellation."
+      }
+    },
+    {
+      "caseId": "DET-01",
+      "owner": "Rusu / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Real scenario onset and no extra incident; one breach then two adjacent breaches.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Rusu / Denis",
+        "action": "Real scenario onset and no extra incident; one breach then two adjacent breaches."
+      }
+    },
+    {
+      "caseId": "DET-02",
+      "owner": "Rusu / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Three eligible healthy windows recover technically without analyst auto-resolution; gaps never healthy.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Rusu / Denis",
+        "action": "Three eligible healthy windows recover technically without analyst auto-resolution; gaps never healthy."
+      }
+    },
+    {
+      "caseId": "DET-04",
+      "owner": "Rusu",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Optional scorer outage compatibility/fallback and unchanged model/feature order.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Rusu",
+        "action": "Optional scorer outage compatibility/fallback and unchanged model/feature order."
+      }
+    },
+    {
+      "caseId": "DB-01",
+      "owner": "Denis / Stanislav",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Final processing and incidents database fresh/upgrade/privilege ledger and startup.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Denis / Stanislav",
+        "action": "Final processing and incidents database fresh/upgrade/privilege ledger and startup."
+      }
+    },
+    {
+      "caseId": "BND-01",
+      "owner": "Stanislav",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "prepared runbook / source audit"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Agreed 22-scope sustained CPU/heap/DB/lag/API latency with hardware and accepted resource budget.",
+      "observedResult": "Prepared handoff only; no same-SHA integrated acceptance recorded.",
+      "command": "Follow docs/runbooks/ion-day5-release-verification.md in the approved integrated environment.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Owner/environment/final-candidate dependency.",
+      "nextAction": {
+        "owner": "Stanislav",
+        "action": "Agreed 22-scope sustained CPU/heap/DB/lag/API latency with hardware and accepted resource budget."
+      }
+    },
+    {
+      "caseId": "AGG-01",
+      "owner": "Rusu / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Weighted ratio/denominator, percentage-point deviation and estimated failures from compatible observed counts.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Rusu / Denis",
+        "action": "Weighted ratio/denominator, percentage-point deviation and estimated failures from compatible observed counts."
+      }
+    },
+    {
+      "caseId": "AGG-02",
+      "owner": "Rusu",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Zero denominator/missing baseline null; partial child coverage explicitly partial; incompatible footprints rejected.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Rusu",
+        "action": "Zero denominator/missing baseline null; partial child coverage explicitly partial; incompatible footprints rejected."
+      }
+    },
+    {
+      "caseId": "AGG-03",
+      "owner": "Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Nearest-rank p95 19 for 1..20; do not aggregate child scalar p95 without distributions.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Denis",
+        "action": "Nearest-rank p95 19 for 1..20; do not aggregate child scalar p95 without distributions."
+      }
+    },
+    {
+      "caseId": "DET-03",
+      "owner": "Rusu",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Strict thresholds, low volume/missing baseline and independent fresh SMS backlog match current policy.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Rusu",
+        "action": "Strict thresholds, low volume/missing baseline and independent fresh SMS backlog match current policy."
+      }
+    },
+    {
+      "caseId": "DET-05",
+      "owner": "Rusu / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Mandatory mismatched/stale/gap/failed-probe cause controls and no false POWER_OFF; core controls retained when optional slice excluded.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Rusu / Denis",
+        "action": "Mandatory mismatched/stale/gap/failed-probe cause controls and no false POWER_OFF; core controls retained when optional slice excluded."
+      }
+    },
+    {
+      "caseId": "API-02",
+      "owner": "Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Bounds, pagination, service/scope, UTC/range validation and stable ordering on final candidate.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Denis",
+        "action": "Bounds, pagination, service/scope, UTC/range validation and stable ordering on final candidate."
+      }
+    },
+    {
+      "caseId": "API-04",
+      "owner": "Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Technical recovery never automatically resolves analyst status; unknown/no-incident is not healthy.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Denis",
+        "action": "Technical recovery never automatically resolves analyst status; unknown/no-incident is not healthy."
+      }
+    },
+    {
+      "caseId": "API-05",
+      "owner": "Denis / David",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Post-commit hint/REST reload, no rollback phantom, reconnect retains highest committed version.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Denis / David",
+        "action": "Post-commit hint/REST reload, no rollback phantom, reconnect retains highest committed version."
+      }
+    },
+    {
+      "caseId": "DB-02",
+      "owner": "Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Historical captured topology remains fixed; mapping changes never move old incidents to another city.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "Denis",
+        "action": "Historical captured topology remains fixed; mapping changes never move old incidents to another city."
+      }
+    },
+    {
+      "caseId": "UI-01",
+      "owner": "David",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Distinct truthful loading/health/degradation/unknown/stale/missing/partial/recovered states without fixture fallback.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "David",
+        "action": "Distinct truthful loading/health/degradation/unknown/stale/missing/partial/recovered states without fixture fallback."
+      }
+    },
+    {
+      "caseId": "UI-03",
+      "owner": "David",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Five charts have KPI/unit/time/baseline/denominator, honest gaps, no averaged p95 and historical/current separation.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "David",
+        "action": "Five charts have KPI/unit/time/baseline/denominator, honest gaps, no averaged p95 and historical/current separation."
+      }
+    },
+    {
+      "caseId": "UI-04",
+      "owner": "David",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Cancel obsolete rapid city/range reads; late replies cannot overwrite current view; accessible loading/error/empty controls.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "David",
+        "action": "Cancel obsolete rapid city/range reads; late replies cannot overwrite current view; accessible loading/error/empty controls."
+      }
+    },
+    {
+      "caseId": "UI-06",
+      "owner": "David",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Mobile 390px, desktop, keyboard, 200 percent zoom and visible non-color-only focus/meaning.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "David",
+        "action": "Mobile 390px, desktop, keyboard, 200 percent zoom and visible non-color-only focus/meaning."
+      }
+    },
+    {
+      "caseId": "UI-07",
+      "owner": "David / Denis",
+      "required": true,
+      "status": "BLOCKED",
+      "finalReleaseStatus": "BLOCKED",
+      "testedSha": null,
+      "approvedIntegratedSha": null,
+      "evidenceLevel": [
+        "owner handoff only"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Map/queue/detail agree on scope/window/versions; no gap represented as zero, healthy or POWER_OFF.",
+      "observedResult": "No final-SHA owner acceptance performed by Ion; local regression passes do not discharge this shared row.",
+      "command": "Owner executes approved shared FINAL acceptance case on integrated candidate; see handoff runbook.",
+      "artifactPaths": [
+        "docs/runbooks/ion-day5-release-verification.md"
+      ],
+      "limitation": "Outside Ion-owned implementation; no changes made.",
+      "nextAction": {
+        "owner": "David / Denis",
+        "action": "Map/queue/detail agree on scope/window/versions; no gap represented as zero, healthy or POWER_OFF."
+      }
+    },
+    {
+      "caseId": "DET-06",
+      "owner": "Rusu / Denis",
+      "required": false,
+      "conditional": "Approved auxiliary runtime slice at G2",
+      "status": "NOT_IN_SCOPE",
+      "testedSha": null,
+      "evidenceLevel": [
+        "scope decision"
+      ],
+      "executionTimeUtc": null,
+      "contractVersions": null,
+      "geographicConfiguration": null,
+      "scenario": null,
+      "expectedResult": "Only required after approved optional G2 enablement.",
+      "observedResult": "No approved complete auxiliary runtime chain evidenced; no implementation.",
+      "command": null,
+      "artifactPaths": [
+        "docs/evidence/2026-10-08-ion-day4-negative-controls-reliability.md"
+      ],
+      "limitation": "Does not exclude mandatory core no-fabricated-cause controls.",
+      "nextAction": {
+        "owner": "Team / Stanislav",
+        "action": "Keep optional slice explicitly excluded unless separately approved."
+      }
+    }
+  ],
+  "readiness": {
+    "localReview": "READY",
+    "coordinatedIntegration": "BLOCKED pending owner fixes and deliberate current-main synchronization",
+    "prMerge": "BLOCKED",
+    "sharedRelease": "BLOCKED"
+  },
+  "publication": {
+    "push": false,
+    "prCreation": false,
+    "merge": false,
+    "deploy": false,
+    "teammateOwnedSourceModified": false
+  },
+  "sourceContentVerification": {
+    "productionUnchangedFromDay4": true,
+    "firstFocusedPublicPythonContractRuns": "Before e68381c commit with identical content subsequently committed; full reactor/missing IT/parity explicitly execute e68381c.",
+    "reportCommitScope": "Documentation/evidence only; no tested source changes after e68381c."
+  },
+  "initialVerificationCommands": [
+    {
+      "name": "load-focused",
+      "sourceContentEquivalentToSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "headAtExecution": "6433e793a99b5eac92157aa498db31cdbeb40164",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=GeographicLoadAccountingTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/load-focused.log",
+      "logSha256": "e635ea4c39147319f9ad4309104b9e38bfb2afef28acc10b408ef76ae0c09a05",
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "public-disabled",
+      "sourceContentEquivalentToSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "headAtExecution": "6433e793a99b5eac92157aa498db31cdbeb40164",
+      "cwd": "C:/OrangeSystems/Program/ion-day5-streaming-release/services/incident-service",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-Dtest=ScenarioControllerIT",
+        "-Dtelecom.geography.enabled=false",
+        "-DfailIfNoTests=true",
+        "test"
+      ],
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/public-disabled.log",
+      "logSha256": "fbe7bda8b1f9003bc19b8ab800eabd1b9a10cdef04b5bdb81ff0141964accb75",
+      "tests": 12,
+      "passed": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "requirementResult": "FAIL activation agreement; HTTP generator double, no deployed authentication"
+    },
+    {
+      "name": "contracts",
+      "sourceContentEquivalentToSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-contracts.py"
+      ],
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/contracts.log",
+      "logSha256": "94855783b3d5f23f5612e0a42f46362a55a53c99bf0c38074c4c755047b31605",
+      "result": "PASS nine contract/reference suites"
+    },
+    {
+      "name": "python-root",
+      "sourceContentEquivalentToSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "log": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/python-root.log",
+      "logSha256": "e69d7bec16036e98c05c289acce9bab9b0b7ceb54f88b061783a1c75dea76e57",
+      "tests": 51,
+      "passed": 51,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "preservation": {
+    "status": "PASS",
+    "originalWorktrees": 25,
+    "changedOriginalWorktrees": [],
+    "baselineSha256": "acac62cbc34cc73727a03fcb0493aed5a5fa0b89ad960182bea2fb124ad7bca1",
+    "afterSha256": "f23d4f604aa3bd2012de5380a0cc14016c8222b51812c531c77a94c12d90c4e6",
+    "boundary": "HEAD, branch, full status/untracked lists and all 53 initially hashed dirty tracked-file values unchanged.",
+    "hashCoverage": {
+      "initialHashedDirtyFileCount": 53,
+      "statusOnlyDirtyPathsWithoutInitialByteHashes": {
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection": [
+          "apps/dashboard/src/branding/mark.svg",
+          "apps/dashboard/src/branding/tokens.css",
+          "infra/keycloak/themes/telecom/login/resources/css/tokens.css",
+          "infra/keycloak/themes/telecom/login/resources/img/mark.svg"
+        ],
+        "C:/OrangeSystems/Program/g1-ion-acceptance": [
+          "apps/dashboard/src/branding/mark.svg",
+          "apps/dashboard/src/branding/tokens.css",
+          "infra/keycloak/themes/telecom/login/resources/css/tokens.css",
+          "infra/keycloak/themes/telecom/login/resources/img/mark.svg"
+        ]
+      },
+      "supplementalCurrentByteHashes": {
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection": {
+          "apps/dashboard/src/branding/mark.svg": "ab241819c879ccb8f10739f5b8cc2b8e8d7f53bae940fca5fbd5cf208a57a528",
+          "apps/dashboard/src/branding/tokens.css": "b706a60c1eb63c8c2415724d7842d4b9db5a1bf6c46bbbdfd424d2befa1fbee9",
+          "infra/keycloak/themes/telecom/login/resources/css/tokens.css": "b706a60c1eb63c8c2415724d7842d4b9db5a1bf6c46bbbdfd424d2befa1fbee9",
+          "infra/keycloak/themes/telecom/login/resources/img/mark.svg": "ab241819c879ccb8f10739f5b8cc2b8e8d7f53bae940fca5fbd5cf208a57a528"
+        },
+        "C:/OrangeSystems/Program/g1-ion-acceptance": {
+          "apps/dashboard/src/branding/mark.svg": "ab241819c879ccb8f10739f5b8cc2b8e8d7f53bae940fca5fbd5cf208a57a528",
+          "apps/dashboard/src/branding/tokens.css": "b706a60c1eb63c8c2415724d7842d4b9db5a1bf6c46bbbdfd424d2befa1fbee9",
+          "infra/keycloak/themes/telecom/login/resources/css/tokens.css": "b706a60c1eb63c8c2415724d7842d4b9db5a1bf6c46bbbdfd424d2befa1fbee9",
+          "infra/keycloak/themes/telecom/login/resources/img/mark.svg": "ab241819c879ccb8f10739f5b8cc2b8e8d7f53bae940fca5fbd5cf208a57a528"
+        }
+      },
+      "initialSnapshotUnchanged": true,
+      "limitation": "Eight branding paths reported dirty by status have no initial raw byte hashes because Git diff reports no content change. Status is unchanged and no agent write targeted them. Current supplemental hashes are not retroactive initial proof. Rename destinations were included in initial hashes."
+    },
+    "hashCoverageArtifact": "C:/OrangeSystems/Program/ion-day5-evidence-20261008/preservation-hash-coverage.json"
+  },
+  "evidenceContext": {
+    "kind": "HISTORICAL_ARCHIVE",
+    "originalDocumentCommit": "25a5278793bb5da0b96d95974a861f3f0b5945e9",
+    "originalTestedSourceSha": "e68381c1de8f074c83dadefb44a83763aa976d50",
+    "meaning": "All original execution times, test results, owner findings and case statuses describe the original source. They are not fresh PR-head or final-release acceptance.",
+    "currentMainAtIntegration": "1b675c64938474e74c79efcecb6e051c4d460943",
+    "historicalPublicActivationFinding": "SUPERSEDED at source level: current GeographyCatalogue respects enabled and ScenarioCommandService validates scheduled start. Live acceptance remains owner-controlled.",
+    "rawAbsolutePaths": "Environment-specific historical archive. Portable sanitized artifacts retain repository-relative paths in artifactSha256 and case artifactPaths.",
+    "portableFreshVerification": "docs/evidence/assets/ion-day4-day5-integration/verification.json",
+    "integrationReport": "docs/evidence/2026-10-08-ion-day4-day5-post-merge-integration.md",
+    "historicalHashByteConvention": "Original Windows working-file bytes; JSON assets use CRLF. Original artifactSha256 and testedSourceFileSha256 are retained. Git stores normalized LF. Use importedRepositoryAssetSha256 for canonical Git bytes on any platform.",
+    "importedRepositoryAssetSha256": {
+      "docs/evidence/assets/ion-day5-streaming/golden-identities.json": "ede3845f552ddc3e47a63e65813cb37a8153c9ed84f5c0eae9c9cefcdaeea004",
+      "docs/evidence/assets/ion-day5-streaming/history-producer-recovery.json": "c2c1ba6c8b2eb57646e6dc316a44af028607e7e65317cbaef5db714680a0b669",
+      "docs/evidence/assets/ion-day5-streaming/pre-edit-gap-audit.md": "6a21c5bfd226ab55d349286aa92845da3cfdbdf37a5e4d20f72cf2ec0f71f8cd",
+      "docs/evidence/assets/ion-day5-streaming/public-future-activation-probe.json": "382aa1d2d68f89ca4521530b0bd6760cb343afd008a5c5bf2556958db4fe367a",
+      "docs/evidence/assets/ion-day5-streaming/streaming-reconciliation.json": "78838cd5d2eae759fe2ffba2d15216db83a1967fc3ba6f9a832697113357abc8",
+      "docs/evidence/assets/ion-day5-streaming/test-results.json": "731abddd2c3919cd5c3cf2fddec7d4533f12c6a1ef6680d5e1033e826a0e9af5"
+    }
+  }
+}

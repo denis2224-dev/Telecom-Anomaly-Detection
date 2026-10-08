@@ -1,0 +1,72 @@
+{
+  "mainSha": "1b675c64938474e74c79efcecb6e051c4d460943",
+  "capturedAtUtc": "2026-10-08T13:53:08.902362+00:00",
+  "candidates": [
+    {
+      "path": "services/event-generator/src/test/java/md/utm/telecom/generator/continuous/GeographicPublicationTest.java",
+      "classification": "REQUIRED_UNIQUE_CHANGE",
+      "decision": "INCLUDED",
+      "addedMethodsAndHelpers": [
+        "synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute",
+        "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute",
+        "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption"
+      ],
+      "historicalBaselineEqualsMain": true
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java",
+      "classification": "REQUIRED_UNIQUE_CHANGE",
+      "decision": "INCLUDED",
+      "addedMethodsAndHelpers": [
+        "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements",
+        "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation",
+        "competingFinalizersCommitOneMatchingWinningSnapshot"
+      ],
+      "historicalBaselineEqualsMain": true
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicLoadAccountingTest.java",
+      "classification": "REQUIRED_UNIQUE_CHANGE",
+      "decision": "INCLUDED",
+      "addedMethodsAndHelpers": [
+        "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts",
+        "threeConsecutiveMinutesReconcileOneProducerWithSameWindowKpiAndCoverageFacts",
+        "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres"
+      ],
+      "historicalBaselineEqualsMain": true
+    },
+    {
+      "candidate": "Merged PR #73/#74 implementation",
+      "classification": "ALREADY_IN_MAIN",
+      "decision": "ALREADY_IN_MAIN"
+    },
+    {
+      "candidate": "Reconciliation d7bbaec ancestry / outdated production and unrelated tree diff",
+      "classification": "SUPERSEDED",
+      "decision": "SUPERSEDED"
+    },
+    {
+      "candidate": "Existing uncertain ACK, optional SMS transport, fairness, deadline, replay, race, history and outage suites",
+      "classification": "ALREADY_IN_MAIN",
+      "decision": "ALREADY_IN_MAIN"
+    },
+    {
+      "candidate": "Day 4/5 reports, 38-case manifest, runbook and six sanitized Day 5 assets",
+      "classification": "DOCUMENTATION_ONLY",
+      "decision": "INCLUDED"
+    },
+    {
+      "candidate": "DEF-01 provenance, DEF-02 command latency/pool, DEF-03 Compose, DEF-06 PR #76, DEF-07 branding; detector/auth/UI acceptance",
+      "classification": "OUT_OF_SCOPE",
+      "decision": "OUT_OF_SCOPE",
+      "result": "OWNER_HANDOFF"
+    },
+    {
+      "candidate": "Gemini SERVICE method label degradedMissingOrStaleTelemetryPreservesTruthWithoutFabricatedPowerOff",
+      "classification": "SUPERSEDED",
+      "decision": "SUPERSEDED",
+      "actualSourceMethod": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements",
+      "invocations": 10
+    }
+  ]
+}

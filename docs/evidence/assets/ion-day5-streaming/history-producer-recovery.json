@@ -1,0 +1,23 @@
+{
+  "broker-outage": {
+    "ackBeforeOutage": 3,
+    "ownedOutputs": 40,
+    "transport": "real Kafka pause/unpause",
+    "committedEvidenceUnchanged": true,
+    "pendingDuringOutage": 37,
+    "pinnedRange": true,
+    "receipts": 50,
+    "distinctOutputs": 40,
+    "wireRecords": 41
+  },
+  "lost-ack": {
+    "transport": "real Kafka; ACK loss deliberately simulated after broker ACK",
+    "committedEvidenceUnchanged": true,
+    "distinctOutputs": 40,
+    "duplicateWireRecords": 1,
+    "ackBeforeFailure": 3,
+    "wireRecords": 41,
+    "receipts": 50,
+    "deliverySemantics": "at least once"
+  }
+}

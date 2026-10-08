@@ -1,0 +1,1577 @@
+{
+  "schemaVersion": 1,
+  "kind": "FRESH_SELECTIVE_INTEGRATION",
+  "mainSha": "1b675c64938474e74c79efcecb6e051c4d460943",
+  "verifiedSourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+  "branch": "devops/day4-day5-verification",
+  "releaseG5": "BLOCKED",
+  "executionInterpretation": "Commands are separate executions; their overlapping counts must not be summed. Evidence/report commit follows this tested source without source changes. Final PR-head focused execution is recorded in the PR description and raw local final-head record.",
+  "executions": [
+    {
+      "name": "compile",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T13:55:00.939335+00:00",
+      "finishedAtUtc": "2026-10-08T13:55:26.039101+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-DskipTests",
+        "test-compile"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/compile.log",
+      "logSha256": "ac968ab7d0cf48fa91e01c15a798be856c441145c506707a1655b00eeda5885a",
+      "suites": [],
+      "counts": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 0
+      }
+    },
+    {
+      "name": "focused",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T13:55:45.336850+00:00",
+      "finishedAtUtc": "2026-10-08T13:57:00.056575+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=GeographicPublicationTest,GeographicCoverageTest,GeographicLoadAccountingTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/focused.log",
+      "logSha256": "d8ec85f584436eba704e61fb7d4b175b5cd83c6898dd5068757cfaa58f372399",
+      "suites": [
+        {
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest"
+        },
+        {
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest"
+        }
+      ],
+      "counts": {
+        "tests": 44,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 44
+      }
+    },
+    {
+      "name": "generator",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T13:58:53.529783+00:00",
+      "finishedAtUtc": "2026-10-08T13:59:19.278361+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/event-generator",
+        "-am",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/generator.log",
+      "logSha256": "8e72ed5b0a60bcec404048fd8c18741495bd122d6c71bc04205b3fa92fee3bb0",
+      "suites": [
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioControllerTest"
+        },
+        {
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.CityVoiceSeedTest"
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest"
+        },
+        {
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.G2ServiceSuiteTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.GeographicRuntimeTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.HealthProbeTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.ObservationGeneratorTest"
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.VoiceScenarioTest"
+        },
+        {
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.CoverageContractTest"
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.GeographyCatalogTest"
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.ObservationValidatorTest"
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.TopologyCatalogTest"
+        }
+      ],
+      "counts": {
+        "tests": 206,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 206
+      }
+    },
+    {
+      "name": "processor",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T13:59:57.250956+00:00",
+      "finishedAtUtc": "2026-10-08T14:08:28.272910+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "verify"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/processor.log",
+      "logSha256": "487b823882166178976fae2b78007ab531afeab83b67a541f857ddd6677fbd81",
+      "suites": [
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioControllerTest"
+        },
+        {
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.CityVoiceSeedTest"
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest"
+        },
+        {
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.G2ServiceSuiteTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.GeographicRuntimeTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.HealthProbeTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.ObservationGeneratorTest"
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "event-generator",
+          "suite": "md.utm.telecom.generator.VoiceScenarioTest"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.BaselineRegistryTest"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DependencyOutageIT"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DetectionConfigurationTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DetectionMigrationTest"
+        },
+        {
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.DetectionReplayIT"
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.EpisodeStateTest"
+        },
+        {
+          "tests": 64,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ExplanationCasesTest"
+        },
+        {
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.FinalizerRaceIT"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicAggregationCasesTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicBaselineContractTest"
+        },
+        {
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicDetectionTest"
+        },
+        {
+          "tests": 121,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicExplanationTest"
+        },
+        {
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLegacyDetectionTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLegacyWorkerTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicMonitoringMigrationTest"
+        },
+        {
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicMonitoringTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicParityTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicReplayTest"
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicSmsBaselineTest"
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.GeographicWorkerTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.HealthProbeTest"
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HealthyHistoryTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest"
+        },
+        {
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.history.HistoryRangeTest"
+        },
+        {
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ingestion.PayloadCodecTest"
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ingestion.SourceFreshnessTest"
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.CoverageSnapshotTest"
+        },
+        {
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest"
+        },
+        {
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest"
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest"
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest"
+        },
+        {
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.WindowFinalizerTest"
+        },
+        {
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.LateInputIT"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.MlClientTest"
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.MonitoringLifecycleTest"
+        },
+        {
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ObservationInputTest"
+        },
+        {
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.outbox.RejectionPublisherTest"
+        },
+        {
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.outbox.RetentionConfigurationTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.outbox.RetentionMigrationTest"
+        },
+        {
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.ReplayIT"
+        },
+        {
+          "tests": 31,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.RetentionJobTest"
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsEpisodeTest"
+        },
+        {
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsRuleTest"
+        },
+        {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsShadowClientTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.SmsShadowConfigurationTest"
+        },
+        {
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.StreamingMetricsTest"
+        },
+        {
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.topology.EvidenceJoinerTest"
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.topology.ScopeRegistryTest"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.VoiceDeliverySchedulingTest"
+        },
+        {
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.VoiceEpisodeTest"
+        },
+        {
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.VoiceRuleTest"
+        },
+        {
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.WindowBoundaryTest"
+        },
+        {
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.CoverageContractTest"
+        },
+        {
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.GeographyCatalogTest"
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.ObservationValidatorTest"
+        },
+        {
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "streaming-support",
+          "suite": "md.utm.telecom.observation.TopologyCatalogTest"
+        }
+      ],
+      "counts": {
+        "tests": 919,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 4,
+        "passed": 915
+      }
+    },
+    {
+      "name": "missing-it",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T14:09:03.828867+00:00",
+      "finishedAtUtc": "2026-10-08T14:09:24.585826+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=MissingWindowDecisionIT,MissingWindowHandoffIT",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "test"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/missing-it.log",
+      "logSha256": "c2efc2b89a230b298b1f04e087910c23c1418551f9edb7d664712e93166f0cdd",
+      "suites": [
+        {
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.MissingWindowDecisionIT"
+        },
+        {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "module": "processor",
+          "suite": "md.utm.telecom.processing.kpi.MissingWindowHandoffIT"
+        }
+      ],
+      "counts": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 9
+      }
+    },
+    {
+      "name": "contracts",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T13:59:24.939147+00:00",
+      "finishedAtUtc": "2026-10-08T13:59:28.706889+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-contracts.py"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/contracts.log",
+      "logSha256": "dfb927f6ef60eb174f1caa3c4b42911cd63e5116571e222f214c7b251079e850"
+    },
+    {
+      "name": "python-root",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T13:59:28.817962+00:00",
+      "finishedAtUtc": "2026-10-08T13:59:35.075436+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/python-root.log",
+      "logSha256": "a028e6c281b068751cb747437da14ab5331e38e5273d197bd69df3f26ce12786",
+      "counts": {
+        "tests": 57,
+        "passed": 57,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "voice-parity",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T14:09:02.106430+00:00",
+      "finishedAtUtc": "2026-10-08T14:09:03.483021+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-voice-parity.py",
+        "--java-output",
+        "services/processor/target/voice-parity-java.json"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/voice-parity.log",
+      "logSha256": "68b9560eccf8de14471760307fbbb4c28733fa0fd9e0de32da2a7fcef91225db",
+      "resultSummary": [
+        "PASS voice-normal: integers exact; maximum absolute float difference=0",
+        "PASS voice-fault: integers exact; maximum absolute float difference=0",
+        "PASS voice-worked-53: integers exact; maximum absolute float difference=0",
+        "PASS voice-no-nodes: integers exact; maximum absolute float difference=0",
+        "PASS voice-zero: integers exact; maximum absolute float difference=0",
+        "PASS voice-incomplete: integers exact; maximum absolute float difference=0",
+        "PASS voice-missing: integers exact; maximum absolute float difference=0",
+        "PASS: 7 persisted Java/Python payloads, all fields compared"
+      ]
+    },
+    {
+      "name": "sms-parity",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T14:09:03.828947+00:00",
+      "finishedAtUtc": "2026-10-08T14:09:04.422987+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-sms-parity.py",
+        "--java-output",
+        "services/processor/target/sms-parity-java.json"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/sms-parity.log",
+      "logSha256": "1e55c68bd2390068181749912bdb368a1099c7d1269a4615ef3a5628a85ef438",
+      "resultSummary": [
+        "PASS sms-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-unused-transport-provenance: integers exact; maximum absolute float difference=0",
+        "PASS sms-fault: integers exact; maximum absolute float difference=0",
+        "PASS sms-zero-completions: integers exact; maximum absolute float difference=0",
+        "PASS sms-incomplete: integers exact; maximum absolute float difference=0",
+        "PASS sms-no-node: integers exact; maximum absolute float difference=0",
+        "PASS sms-canonical-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-canonical-slow-delivery: integers exact; maximum absolute float difference=0",
+        "PASS sms-nearest-rank-30: integers exact; maximum absolute float difference=0",
+        "PASS sms-fractional-delay: integers exact; maximum absolute float difference=0",
+        "PASS sms-fractional-sort: integers exact; maximum absolute float difference=0",
+        "PASS sms-fractional-over-feature-bound: integers exact; maximum absolute float difference=0",
+        "PASS: 12 persisted Java/Python payloads, all fields compared"
+      ]
+    },
+    {
+      "name": "geographic-voice-parity",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T14:09:03.933191+00:00",
+      "finishedAtUtc": "2026-10-08T14:09:05.243351+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-voice-parity.py",
+        "--geographic",
+        "--java-output",
+        "services/processor/target/geographic-voice-parity-java.json"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/geographic-voice-parity.log",
+      "logSha256": "6ffd7926f6f616cb57b534f9dc13007a1c24109be8105c15bbae5096a36ec658",
+      "resultSummary": [
+        "PASS volte-md-chi-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-edi-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-sor-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-rib-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-ung-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-tir-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-com-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-cah-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-orh-normal: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-zero: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-low-volume: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-missing-baseline: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-missing-node: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-missing-service: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-missing-all: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-incomplete: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-breach: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-stale-node: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-chi-unequal-volume: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-zero: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-low-volume: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-missing-baseline: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-missing-node: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-missing-service: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-missing-all: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-incomplete: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-breach: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-stale-node: integers exact; maximum absolute float difference=0",
+        "PASS volte-md-bal-unequal-volume: integers exact; maximum absolute float difference=0",
+        "PASS: 30 persisted Java/Python payloads, all fields compared"
+      ]
+    },
+    {
+      "name": "geographic-sms-parity",
+      "sourceSha": "7fb812b1a094428595744d8f28844c3437abcc0b",
+      "sourceTreeSha": "b43e8039cea7102d4668c7fdf7bf2317b7b01429",
+      "startedAtUtc": "2026-10-08T14:09:04.092157+00:00",
+      "finishedAtUtc": "2026-10-08T14:09:05.014454+00:00",
+      "cwd": "C:/OrangeSystems/Program/ion-day4-day5-pr",
+      "commandArgv": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-B",
+        "scripts/check-sms-parity.py",
+        "--geographic",
+        "--java-output",
+        "services/processor/target/geographic-sms-parity-java.json"
+      ],
+      "exitCode": 0,
+      "log": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/geographic-sms-parity.log",
+      "logSha256": "19107b800e53b931902dd27a42f71398435c32d214e2a9a066ecb0eef72ae0e3",
+      "resultSummary": [
+        "PASS sms-md-chi-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-edi-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-sor-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-rib-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-ung-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-tir-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-com-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-cah-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-orh-normal: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-zero: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-low-volume: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-missing-baseline: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-missing-node: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-missing-service: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-missing-all: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-incomplete: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-breach: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-stale-node: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-fractional: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-chi-queue-only: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-zero: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-low-volume: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-missing-baseline: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-missing-node: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-missing-service: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-missing-all: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-incomplete: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-breach: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-stale-node: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-fractional: integers exact; maximum absolute float difference=0",
+        "PASS sms-md-bal-queue-only: integers exact; maximum absolute float difference=0",
+        "PASS: 32 persisted Java/Python payloads, all fields compared"
+      ]
+    }
+  ],
+  "focusedPerInvocation": [
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "stopCancelsOfferedRecordsWithoutAcknowledgingLateSuccess",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "ackCallbackDoesNotExecuteTheNextBlockingSend",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "stalledAckLeavesOtherNineteenScopesIndependentAndPreservesOrder",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "expiredBlockingSendRetainsScopeOrderAcrossMinutesWithoutBlockingOtherScopes",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "minimumGeographicInventoryAndLegacyConfigurationRemainExplicit",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "resultsRetainOnlyTwoUtcMinutes",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "deadlineAndStopRejectLateCallbacksAndRestartRetainsNoOldChains",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "uncertainTimeoutRetryReusesPayloadAndEventIdWithOneLogicalOffer",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "allTwentyGeographicScopesFitPublicationDeadlineWithReal150msAckLatency",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "oneTerminalFailedAckIsVisibleWithoutIncreasingLogicalOffers",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "blockingKafkaSubmissionDoesNotSerializeOtherNineteenScopes",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "geographicRetriesReuseOriginalBytesAndKeepThreeAttemptLimit",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "successfulMinuteReportsFiftyLogicalOffersAndAcknowledgements",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "name": "snapshotsDoNotAcknowledgeHeldFuturesAndRemainImmutable",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "name": "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "name": "threeConsecutiveMinutesReconcileOneProducerWithSameWindowKpiAndCoverageFacts",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "name": "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "name": "persistedReceiptCanPrecedeUncertainAckAndRetryDoesNotInflateIt",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "failureAfterCoverageInsertRollsBackCoverageFeatureAndMarker",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "optionalSmsTransportAbsentAndDuplicateFinalizationAreIdempotent",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "existingGenericPublisherRetriesStableCoverageAndMarksOnlyAfterAck",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "absentServiceFinalizationUsesOnlyRealNodeReceipts",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "competingFinalizersCommitOneMatchingWinningSnapshot",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[1]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[2]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[3]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[4]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[5]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation(String, Role, boolean)[6]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "reportedMissingAndHeartbeatAreReceivedTruthWithoutCrossCityContamination",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "fiftyGeneratedReceiptsFinalizeTwentyIndependentFeatureAndCoverageFacts",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[1]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[2]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[3]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[4]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[5]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[6]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[7]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[8]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[9]",
+      "outcome": "PASS"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "name": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements(String, String)[10]",
+      "outcome": "PASS"
+    }
+  ],
+  "conditionalSkips": [
+    {
+      "execution": "processor",
+      "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+      "name": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+      "outcome": "SKIP",
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+    },
+    {
+      "execution": "processor",
+      "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "name": "livePackagedModelEnrichesRecoveredSmsEpisode",
+      "outcome": "SKIP",
+      "reason": ""
+    },
+    {
+      "execution": "processor",
+      "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "name": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+      "outcome": "SKIP",
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+    },
+    {
+      "execution": "processor",
+      "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "name": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+      "outcome": "SKIP",
+      "reason": ""
+    }
+  ],
+  "portedMethods": [
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java",
+      "method": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements",
+      "invocations": 10,
+      "sourceCommit": "6b830fd616c0a5da1a644bd9a14a0cd157c95a92"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java",
+      "method": "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation",
+      "invocations": 6,
+      "sourceCommit": "6b830fd616c0a5da1a644bd9a14a0cd157c95a92"
+    },
+    {
+      "path": "services/event-generator/src/test/java/md/utm/telecom/generator/continuous/GeographicPublicationTest.java",
+      "method": "synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute",
+      "invocations": 1,
+      "sourceCommit": "6b830fd616c0a5da1a644bd9a14a0cd157c95a92"
+    },
+    {
+      "path": "services/event-generator/src/test/java/md/utm/telecom/generator/continuous/GeographicPublicationTest.java",
+      "method": "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute",
+      "invocations": 1,
+      "sourceCommit": "6b830fd616c0a5da1a644bd9a14a0cd157c95a92"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicLoadAccountingTest.java",
+      "method": "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres",
+      "invocations": 1,
+      "sourceCommit": "6b830fd616c0a5da1a644bd9a14a0cd157c95a92"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicLoadAccountingTest.java",
+      "method": "threeConsecutiveMinutesReconcileOneProducerWithSameWindowKpiAndCoverageFacts",
+      "invocations": 1,
+      "sourceCommit": "e68381c1de8f074c83dadefb44a83763aa976d50"
+    }
+  ],
+  "freshJavaParityExports": {
+    "voice-parity-java.json": {
+      "sha256": "4d97c395fe88b794eadb5d8066de4eb249e19de8f6426079dc041da9f1ee9f6b",
+      "producedAtUtc": "2026-10-08T14:05:51.532827+00:00",
+      "rawLocalArchive": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/parity-exports/voice-parity-java.json",
+      "javaOutputPath": "services/processor/target/voice-parity-java.json"
+    },
+    "sms-parity-java.json": {
+      "sha256": "31a8c5e0ff4db90e374497590d0dd57c7861daee76cd7443ee262b54ecdd81a5",
+      "producedAtUtc": "2026-10-08T14:05:38.730501+00:00",
+      "rawLocalArchive": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/parity-exports/sms-parity-java.json",
+      "javaOutputPath": "services/processor/target/sms-parity-java.json"
+    },
+    "geographic-voice-parity-java.json": {
+      "sha256": "18d0834049c1c240d9714f06174995c565597dd3ce59e1f7fbbb4d2b4109c0c6",
+      "producedAtUtc": "2026-10-08T14:03:53.505514+00:00",
+      "rawLocalArchive": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/parity-exports/geographic-voice-parity-java.json",
+      "javaOutputPath": "services/processor/target/geographic-voice-parity-java.json"
+    },
+    "geographic-sms-parity-java.json": {
+      "sha256": "2b0a1af3fc34970a679da288e73615a7625241e32f38d217a0a2bde02c0b36b0",
+      "producedAtUtc": "2026-10-08T14:03:53.507088+00:00",
+      "rawLocalArchive": "C:/OrangeSystems/Program/ion-day4-day5-integration-evidence-20261008/parity-exports/geographic-sms-parity-java.json",
+      "javaOutputPath": "services/processor/target/geographic-sms-parity-java.json"
+    }
+  },
+  "testEvidenceBoundary": "PostgreSQL Testcontainers 16.4-alpine; real embedded Kafka in load/replay tests; dedicated Kafka 3.9.1 in outage/history runtime suites. Controlled scheduler/clock in three-minute reconciliation. Producer failure tests use controlled sender futures. No deployed API/UI/performance acceptance.",
+  "historicalManifestValidation": {
+    "result": "PASS",
+    "historicalFieldsUnchanged": true,
+    "acceptanceCaseCount": 38,
+    "caseIdsMatchAuthoritativeSharedPdf": true,
+    "caseStatusCounts": {
+      "PASS": 6,
+      "BLOCKED": 31,
+      "NOT_IN_SCOPE": 1
+    },
+    "mandatoryFinalReleaseStatuses": "BLOCKED",
+    "artifactHashesVerified": 6,
+    "caseEvidenceReferencesVerified": 40,
+    "historicalSourceHashesVerified": 78,
+    "historicParityExportsVerified": 4,
+    "historicalCommandLogHashesVerified": 10,
+    "parameterizedInvocations": {
+      "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements": 10,
+      "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation": 6
+    },
+    "separateGeminiAudit": "No independent Gemini attachment/file found; the supplied findings were verified against Git/source."
+  },
+  "preservation": {
+    "result": "PASS",
+    "originalWorktrees": 26,
+    "changed": [],
+    "boundary": "HEAD, branch, complete tracked/untracked status lists and dirty tracked-file byte hashes"
+  },
+  "selectiveInventory": {
+    "mainSha": "1b675c64938474e74c79efcecb6e051c4d460943",
+    "capturedAtUtc": "2026-10-08T13:53:08.902362+00:00",
+    "candidates": [
+      {
+        "path": "services/event-generator/src/test/java/md/utm/telecom/generator/continuous/GeographicPublicationTest.java",
+        "classification": "REQUIRED_UNIQUE_CHANGE",
+        "decision": "INCLUDED",
+        "addedMethodsAndHelpers": [
+          "synchronousFailureInOrheiIsBoundedAndDoesNotStarveOtherCitiesOrTheNextMinute",
+          "geographicRestartAfterDowntimePublishesOnlyTheNextWholeUtcMinute",
+          "restartCannotMultiplyWorkersWhileOldSubmissionIgnoresInterruption"
+        ],
+        "historicalBaselineEqualsMain": true
+      },
+      {
+        "path": "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicCoverageTest.java",
+        "classification": "REQUIRED_UNIQUE_CHANGE",
+        "decision": "INCLUDED",
+        "addedMethodsAndHelpers": [
+          "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements",
+          "absentOrStaleRequiredNodeCannotReplaceMeasuredServiceDegradation",
+          "competingFinalizersCommitOneMatchingWinningSnapshot"
+        ],
+        "historicalBaselineEqualsMain": true
+      },
+      {
+        "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicLoadAccountingTest.java",
+        "classification": "REQUIRED_UNIQUE_CHANGE",
+        "decision": "INCLUDED",
+        "addedMethodsAndHelpers": [
+          "normalMinuteReconcilesFiftyOffersAcksAndDurableReceipts",
+          "threeConsecutiveMinutesReconcileOneProducerWithSameWindowKpiAndCoverageFacts",
+          "mixedOrheiFaultAndEdinetServiceGapKeepAllTenCitiesIndependentOnKafkaAndPostgres"
+        ],
+        "historicalBaselineEqualsMain": true
+      },
+      {
+        "candidate": "Merged PR #73/#74 implementation",
+        "classification": "ALREADY_IN_MAIN",
+        "decision": "ALREADY_IN_MAIN"
+      },
+      {
+        "candidate": "Reconciliation d7bbaec ancestry / outdated production and unrelated tree diff",
+        "classification": "SUPERSEDED",
+        "decision": "SUPERSEDED"
+      },
+      {
+        "candidate": "Existing uncertain ACK, optional SMS transport, fairness, deadline, replay, race, history and outage suites",
+        "classification": "ALREADY_IN_MAIN",
+        "decision": "ALREADY_IN_MAIN"
+      },
+      {
+        "candidate": "Day 4/5 reports, 38-case manifest, runbook and six sanitized Day 5 assets",
+        "classification": "DOCUMENTATION_ONLY",
+        "decision": "INCLUDED"
+      },
+      {
+        "candidate": "DEF-01 provenance, DEF-02 command latency/pool, DEF-03 Compose, DEF-06 PR #76, DEF-07 branding; detector/auth/UI acceptance",
+        "classification": "OUT_OF_SCOPE",
+        "decision": "OUT_OF_SCOPE",
+        "result": "OWNER_HANDOFF"
+      },
+      {
+        "candidate": "Gemini SERVICE method label degradedMissingOrStaleTelemetryPreservesTruthWithoutFabricatedPowerOff",
+        "classification": "SUPERSEDED",
+        "decision": "SUPERSEDED",
+        "actualSourceMethod": "serviceTruthPreservesIndependentNodesAndDistinguishesActivityFromMeasurements",
+        "invocations": 10
+      }
+    ]
+  }
+}
