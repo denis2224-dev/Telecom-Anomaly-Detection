@@ -1,17 +1,27 @@
-# PR #77 final-revision connected G4 acceptance
+# PR #77 historical connected G4 acceptance (2026-10-08)
 
-**Technical acceptance: PASS. Human reviewer approval and shared owner sign-offs: PENDING.**
+**Historical technical acceptance: PASS for the runtime identified below.**
+This sealed capture is not acceptance of current main or a later PR/final-candidate
+SHA. Human reviewer approval and shared owner sign-offs were **PENDING** at capture.
+G5 release approval remains **BLOCKED** until the shared final-candidate gates pass.
 No PR merge or approval was performed. Optional power correlation remains **NOT_IN_SCOPE**.
+
+For fresh combined-revision verification, follow the
+[supported isolated workflow](../runbooks/pr77-connected-verification.md). Its new
+results must identify their own tested runtime and must not relabel this capture.
 
 ## Candidate and environment
 
 Application images were built from `f3e83b157af134c8138354340717e7e3df946768`.
-The integrated revision `b6969f404119aa5a6805c7d3a6db72a4854c5311` includes current main
-`5475867`; the intervening changes contain only documentation and Java tests.
+The historical integrated revision `b6969f404119aa5a6805c7d3a6db72a4854c5311` includes
+main as it stood at `5475867`; the intervening changes contain only documentation
+and Java tests. This equivalence does not cover main `a52cc85`, subsequent main
+revisions, or the current PR publication head.
 The [source-equivalence proof](assets/sergiu-g4-pr77/source-equivalence.json) verifies
 identical application source/configuration and records per-file SHA-256 hashes.
-Publication adds evidence only; these immutable image identities and source hashes
-remain the tested runtime. Latest published-head CI is checked separately on GitHub.
+The historical evidence publication added evidence only; these immutable image
+identities and source hashes identify its tested runtime. CI results for later
+publication heads must be checked separately on GitHub.
 
 The isolated project was `telecom-g4-pr77`, with fresh PostgreSQL/Kafka volumes,
 random temporary credentials and a separate OIDC realm database. The existing
@@ -34,7 +44,7 @@ The [cleanup record](assets/sergiu-g4-pr77/cleanup.json) confirms restored readi
 removal of temporary identities and the isolated stack/volumes/credential files,
 and retention of the original user container.
 
-## Executed acceptance
+## Historical executed acceptance
 
 | Check | Expected and actual result | Evidence |
 | --- | --- | --- |
@@ -104,16 +114,34 @@ CI's original focused cause selection was **179**, with 16 DetectionReplayIT cas
 separate step. These counts are not totals for this connected audit or new CI runs.
 All four workflows passed at `f3e83b1` and at integrated `b6969f4`; the latter
 [full CI record](assets/sergiu-g4-pr77/ci-integrated.json) includes model evaluation
-and downstream processor verification. Final publication-head CI is checked
-separately after push and is not inferred from those earlier runs.
+and downstream processor verification. CI for later publication heads must be checked
+separately and is not inferred from those earlier runs.
 
-The [audit drivers](assets/sergiu-g4-pr77/audit-drivers/) preserve executed run-specific
-checks and are not a generic one-click installer. They rely on isolated configuration
-and recorded source timestamps. For a fresh rerun, use the tracked
-`scripts/day3-geographic-live.cjs` with newly provisioned temporary identities, then
-derive additional controls from that run's actual receipts. Never run failure rehearsal
-against unrelated services. Credential files and temporary identities are not published.
+## Reproduction contract and archived drivers
 
-Technical acceptance is complete. Required reviewer/owner approval is not supplied by
-automation. Check the current PR head's successful workflows before merging; this audit
-does not merge the PR or submit an approval.
+The [audit drivers](assets/sergiu-g4-pr77/audit-drivers/) are **historical,
+non-executable archives from their committed paths**. They preserve the original
+run-specific checks, configuration and timestamps for inspection, not a supported
+installer or fresh-run entrypoint. In particular, `prepare.cjs` and `lib.cjs` use
+`path.resolve(__dirname, '../..')`: here that resolves to `docs/evidence/assets`,
+not the repository root. Their relative dashboard imports have the same relocation
+problem. The archived configuration also depends on the original machine, ports,
+private identities and recorded source timestamps. Do not invoke or repair these
+sealed files in place.
+
+Use the [supported isolated workflow](../runbooks/pr77-connected-verification.md)
+to build and verify a fresh integrated candidate with temporary identities and
+owned resources. The tracked `scripts/day3-geographic-live.cjs` covers geographic
+scenario timelines and identities; alone it does not reproduce receipt tracing,
+all presentation/security assertions, controlled ML outages or durable replay in
+this historical bundle. The supported focused workflow documents its own coverage
+and exclusions. Never run a failure rehearsal against unrelated services.
+
+All 55 artifacts listed by the [bundle index](assets/sergiu-g4-pr77/index.json)
+remain byte-for-byte unchanged, including archived drivers and configuration. The
+index's PASS statuses describe only this historical runtime. Keep new compact
+verification evidence separate from these bulky historical captures, record failed
+attempts independently, and publish neither credential files nor temporary identities.
+
+Historical technical acceptance does not supply required reviewer/owner approval,
+current-main compatibility, final-SHA acceptance or G5 release authorization.
