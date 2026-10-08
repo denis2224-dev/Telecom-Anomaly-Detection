@@ -22,16 +22,18 @@ are historical, non-executable from their committed paths; do not modify them.
 - Install dashboard dependencies and Chromium using the tracked lockfile:
 
 ```powershell
-npm --prefix apps/dashboard ci
+npm.cmd --prefix apps/dashboard ci
 Push-Location apps/dashboard
-npx playwright install chromium
+npx.cmd playwright install chromium
 Pop-Location
 ```
 
 On Linux, install the browser's system dependencies with
 `npx playwright install --with-deps chromium` from `apps/dashboard`.
 The browser runs against built production assets, without response interception or
-fixture fallback. Do not substitute fixture-mode dashboard or auth tests for these
+fixture fallback. Authenticated assertions use native same-origin browser fetch;
+Chromium hostname mapping handles the test origin without changing the system hosts
+file. Do not substitute fixture-mode dashboard or auth tests for these
 connected checks.
 
 ## Isolated run
@@ -66,16 +68,25 @@ never replace these with unqualified `docker compose stop` or `down` commands.
 The runner invokes the required browser suite automatically and, on success or
 failure, removes only the owned stack with `down --volumes --remove-orphans` after
 checking ownership. Temporary users disappear with its isolated database volume.
+Credential cleanup verifies the real private-directory identity and its
+`ownership.json` project/nonce marker. On normal stack cleanup, or setup failure
+before a stack exists, it removes `stack.env`, `realm.json` and `stack-context.json`.
+It keeps sanitized `commands.log`, `compose.json`, `nginx.conf` and `ownership.json`;
+it does not recursively delete the private directory. Generated credentials, JWTs
+and cookies are redacted from the command log.
+
 The runner returns nonzero on failure; retain that attempt and retry with a fresh
-project and paths. If cleanup fails, preserve its private ownership/configuration
-files and resolve the reported problem before retrying cleanup; do not target
-unrelated resources. Public failure results remain available.
+project and paths. If Docker ownership checks or stack teardown fail, it retains
+private credentials/configuration for owned-stack recovery and records
+`credentialCleanup: RETAINED_FOR_OWNED_STACK_RECOVERY`; it still redacts the log.
+Keep that directory private and resolve the reported problem before retrying cleanup;
+do not target unrelated resources. Public failure results remain available.
 
 Image builds may reuse source-keyed Docker cache; recorded image IDs and source
 SHA identify the built runtime. Dashboard production assets are rebuilt each run.
 
 Private files include `stack.env`, `realm.json`, `nginx.conf`, `compose.json`,
-`stack-context.json`, and `commands.log`. These contain credentials or sensitive
+`stack-context.json`, `ownership.json`, and `commands.log`. These contain credentials or sensitive
 runtime details; keep the private directory access restricted and do not commit,
 attach or publish it. Public `runtime.json` records runtime provenance alongside
 sanitized browser `verification.json` and `scenarios.json`. Acceptance requires browser status
