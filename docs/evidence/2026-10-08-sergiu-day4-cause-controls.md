@@ -166,3 +166,13 @@ $env:ML_SERVICE_URL = 'http://127.0.0.1:18094'
 & '.venv/Scripts/python.exe' scripts/check-sms-parity.py --geographic --java-output services/processor/target/geographic-sms-parity-java.json
 git diff --check
 ```
+
+## Final connected G4 technical acceptance
+
+The [final connected audit](2026-10-08-sergiu-g4-connected-acceptance.md) executes authenticated city scenarios,
+receipt/API/display parity, duplicate replay, real reconnect, security/expiry and
+safe feature-off/restoration against the pinned application images. Technical
+acceptance is **PASS**; reviewer approval and shared owner sign-offs remain
+**PENDING**. Earlier pending statements above describe their historical runs.
+The original 195 tests, independent 192-test audit and CI selections remain separate.
+No PR merge or fabricated approval was performed. Optional power remains NOT_IN_SCOPE.

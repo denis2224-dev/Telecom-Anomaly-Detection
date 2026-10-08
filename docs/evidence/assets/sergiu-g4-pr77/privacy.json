@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-08T16:53:51.656Z",
+  "status": "PASS",
+  "textArtifactsChecked": 47,
+  "privateTaskValuesChecked": 17,
+  "checks": [
+    "Known private credential/session/account values absent from published text",
+    "No JWT or raw session cookie found",
+    "Published screenshots use native account/session masking; visual QA recorded separately"
+  ]
+}

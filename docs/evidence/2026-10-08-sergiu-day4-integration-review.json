@@ -249,5 +249,14 @@
     "Documentation correction has no code/config changes; check its new head's CI before merging.",
     "Green controlled/DB/HTTP tests are not a final-revision authenticated live G4 demonstration.",
     "Original local verification evidence is preserved separately."
-  ]
+  ],
+  "finalConnectedG4": {
+    "technicalAcceptance": "PASS",
+    "humanReviewerApproval": "PENDING",
+    "sharedOwnerSignOff": "PENDING",
+    "evidence": "2026-10-08-sergiu-g4-connected-acceptance.md",
+    "applicationBuildSha": "f3e83b157af134c8138354340717e7e3df946768",
+    "runtimeEquivalentIntegratedSha": "b6969f404119aa5a6805c7d3a6db72a4854c5311",
+    "note": "The earlier result/sharedG4Accepted fields above are the historical automated-only review; this executed connected technical audit does not supply human acceptance."
+  }
 }

@@ -64,8 +64,9 @@ scenario IDs and screenshots are written to `apps/dashboard/test-results/demo-li
 4. Open **Details & workflow**. ANALYST claims an unassigned incident; SUPERVISOR
    can assign/reassign an enabled analyst. Start investigation and add a comment.
    A non-assignee analyst cannot comment. Inspect source evidence and Troubleshooting.
-5. As SUPERVISOR, start `VOLTE_IMS_OVERLOAD` on `VOLTE-MD-CENTRAL`, or
-   `SMS_QUEUE_DELAY` on `SMS-MD-ROUTE-A`, seed 42. Follow the real server status.
+5. As SUPERVISOR, start `VOLTE_IMS_OVERLOAD` on an active city VoLTE scope, or
+   `SMS_QUEUE_DELAY` on its SMS scope, using a recorded seed. Legacy scopes also work.
+   Follow the real server status.
    Wait for completion and technical recovery; unresolved work must still say
    **Awaiting analyst resolution**. Resolve explicitly with a note.
 6. Sign out and confirm protected screens require sign-in again.
@@ -87,9 +88,24 @@ the normal review process if code rollback is needed; do not reset data volumes.
   from inherited city/service impact. Proposed topology contracts are not endpoints.
 - The configured geographic footprint and generated telemetry are synthetic,
   not real subscriber counts or municipal coverage measurements.
-- Scenario commands accept the two legacy scopes above. Orhei history/navigation
-  works, but an Orhei scenario is not supported by the current command API.
+- Scenario commands accept legacy and active catalogue city/service scopes; the
+  earlier legacy-only targeting limitation was resolved by merged PR #74.
 - Stanislav receives this checklist, the production build command and the
   [release evidence](../evidence/2026-10-09-g4-ui.md). Denis's integration review
   and another teammate's unaided navigation check remain human handoff steps;
   automated checks do not claim their approval.
+
+## PR #77 final G4 gate
+
+- [x] Authenticated city fault, independent normal and telemetry-gap scenarios.
+- [x] Two breaches open; UNKNOWN never proves recovery; three healthy windows recover.
+- [x] Receipt → feature → detection → API → dashboard parity and actual impact origin.
+- [x] Separate VoLTE/SMS episodes and null unique subscribers.
+- [x] Actual ML outage, immutable restoration and duplicate/restart replay.
+- [x] Real SSE interruption/reload, CSRF/roles/logout, idle and absolute expiry.
+- [x] Geographic producer feature-off with compatible readers, retained data/auth and restoration.
+- [ ] Human reviewer approval and required shared owner sign-offs.
+
+[Final evidence](../evidence/2026-10-08-sergiu-g4-connected-acceptance.md) pins the runtime source/configuration and
+separates excluded harness/environment failures from successful fresh executions.
+Latest publication-head CI must pass; automation does not supply human approval.

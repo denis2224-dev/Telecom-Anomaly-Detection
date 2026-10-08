@@ -1,0 +1,11 @@
+{
+  "startedAt": "2026-10-08T15:25:11.618Z",
+  "completedChecks": [
+    "SUPERVISOR: real OIDC rotates session, rejects pre-login CSRF and stores no browser tokens",
+    "ANALYST: real OIDC rotates session, rejects pre-login CSRF and stores no browser tokens",
+    "Actual UI/provider logout reaches signed-out and closes protected REST/SSE"
+  ],
+  "laterSeparateAbsoluteCheck": "FAIL",
+  "laterFailure": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 401\nReceived: 200",
+  "note": "Only the already-executed OIDC rotation, pre-login CSRF, token-free storage and UI/provider logout assertions are claimed here. The host-deadline expiry assertion failed and was superseded by the independently executed backend-UTC expiry test."
+}

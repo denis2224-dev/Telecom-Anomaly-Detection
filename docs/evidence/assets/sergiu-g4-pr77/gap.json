@@ -1,0 +1,411 @@
+{
+  "checkedAt": "2026-10-08T16:20:22.395Z",
+  "run": {
+    "runId": "2f0f97c4-e4ab-4a25-90ae-88aab91a71cb",
+    "status": "SCHEDULED",
+    "scheduledStartAt": "2026-10-08T15:06:00Z",
+    "scheduledEndAt": "2026-10-08T15:14:00Z",
+    "scenarioType": "TELEMETRY_GAP",
+    "scopeId": "SMS-MD-CAH",
+    "requestId": "9a68685f-42c6-4f4d-bad6-6f322cb53275"
+  },
+  "expectedMissingWindows": [
+    "2026-10-08T15:08:00Z",
+    "2026-10-08T15:09:00Z",
+    "2026-10-08T15:10:00Z"
+  ],
+  "history": {
+    "cityId": "CAH",
+    "service": "SMS",
+    "page": 0,
+    "size": 100,
+    "hasNext": false,
+    "points": [
+      {
+        "windowId": "8fe1ebe3a7dc55fc140df4342e6893098535f2c354504ce7d2cb005210b5c728",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:06:00Z",
+        "windowEnd": "2026-10-08T15:07:00Z",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3269,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6345,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 107,
+          "nullReason": null
+        }
+      },
+      {
+        "windowId": "e94c8cca52c8af727f9ca462120124e5bb5fd56b046531f0f74ac739d922bd23",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:07:00Z",
+        "windowEnd": "2026-10-08T15:08:00Z",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3401,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7005,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 98,
+          "nullReason": null
+        }
+      },
+      {
+        "windowId": "91ccce3d040f0e16b2153558305a97c62768017bd5d02650778abc6598d21838",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:08:00Z",
+        "windowEnd": "2026-10-08T15:09:00Z",
+        "coverage": {
+          "state": "MISSING",
+          "expectedSources": 2,
+          "receivedSources": 0,
+          "usableSources": 0
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": null,
+          "baseline": null,
+          "deltaPp": null,
+          "delayRatio": null,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": null,
+          "nullReason": "MISSING"
+        }
+      },
+      {
+        "windowId": "bf362c42c2d23445ad0643ca0c2e32503ca867ec2046089839e66724bab94d0d",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:09:00Z",
+        "windowEnd": "2026-10-08T15:10:00Z",
+        "coverage": {
+          "state": "MISSING",
+          "expectedSources": 2,
+          "receivedSources": 0,
+          "usableSources": 0
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": null,
+          "baseline": null,
+          "deltaPp": null,
+          "delayRatio": null,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": null,
+          "nullReason": "MISSING"
+        }
+      },
+      {
+        "windowId": "83d360b9beeb94502997eda1f5db2e8584d6a191e0316071789ab54271be6f5d",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:10:00Z",
+        "windowEnd": "2026-10-08T15:11:00Z",
+        "coverage": {
+          "state": "MISSING",
+          "expectedSources": 2,
+          "receivedSources": 0,
+          "usableSources": 0
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": null,
+          "baseline": null,
+          "deltaPp": null,
+          "delayRatio": null,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": null,
+          "nullReason": "MISSING"
+        }
+      },
+      {
+        "windowId": "d4e7ec363e00fdc192e856e7da3cd1cdad186d8ca00e74afa35a7179710ceebe",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:11:00Z",
+        "windowEnd": "2026-10-08T15:12:00Z",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3344,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.672,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 90,
+          "nullReason": null
+        }
+      },
+      {
+        "windowId": "d061965777fee26c6855baac30f01ad57f76954011add6bd9ce4d42398444d29",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:12:00Z",
+        "windowEnd": "2026-10-08T15:13:00Z",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3327,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.6635,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 109,
+          "nullReason": null
+        }
+      },
+      {
+        "windowId": "fce1c050c7e9e74cb6dc6647993dfc4f2644dae916c6bb56db8052893d3a3ab4",
+        "scopeId": "SMS-MD-CAH",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "windowStart": "2026-10-08T15:13:00Z",
+        "windowEnd": "2026-10-08T15:14:00Z",
+        "coverage": {
+          "state": "COMPLETE",
+          "expectedSources": 2,
+          "receivedSources": 2,
+          "usableSources": 2
+        },
+        "metric": {
+          "name": "SMS_DELIVERY_P95",
+          "unit": "MILLISECONDS",
+          "observed": 3419,
+          "baseline": 2000,
+          "deltaPp": null,
+          "delayRatio": 1.7095,
+          "numerator": null,
+          "denominator": null,
+          "sampleCount": 96,
+          "nullReason": null
+        }
+      }
+    ]
+  },
+  "features": [
+    {
+      "kpis": [
+        {
+          "name": "p95DeliveryMs",
+          "unit": "MILLISECONDS",
+          "baseline": 2000,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "deliverySrPct",
+          "unit": "PERCENT",
+          "baseline": 99,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "deliveredMessages",
+          "unit": "COUNT",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "queueDepth",
+          "unit": "COUNT",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "oldestPendingAgeSec",
+          "unit": "SECONDS",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        }
+      ],
+      "quality": "MISSING",
+      "scopeId": "SMS-MD-CAH",
+      "service": "SMS",
+      "windowId": "91ccce3d040f0e16b2153558305a97c62768017bd5d02650778abc6598d21838",
+      "windowEnd": "2026-10-08T15:09:00Z",
+      "mlEligible": false,
+      "windowStart": "2026-10-08T15:08:00Z",
+      "featureNames": [],
+      "featureValues": [],
+      "schemaVersion": 2,
+      "featureVersion": 2,
+      "sourceEventIds": [],
+      "baselineVersion": "baseline-v2",
+      "topologyVersion": "2-geography-g1"
+    },
+    {
+      "kpis": [
+        {
+          "name": "p95DeliveryMs",
+          "unit": "MILLISECONDS",
+          "baseline": 2000,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "deliverySrPct",
+          "unit": "PERCENT",
+          "baseline": 99,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "deliveredMessages",
+          "unit": "COUNT",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "queueDepth",
+          "unit": "COUNT",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "oldestPendingAgeSec",
+          "unit": "SECONDS",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        }
+      ],
+      "quality": "MISSING",
+      "scopeId": "SMS-MD-CAH",
+      "service": "SMS",
+      "windowId": "bf362c42c2d23445ad0643ca0c2e32503ca867ec2046089839e66724bab94d0d",
+      "windowEnd": "2026-10-08T15:10:00Z",
+      "mlEligible": false,
+      "windowStart": "2026-10-08T15:09:00Z",
+      "featureNames": [],
+      "featureValues": [],
+      "schemaVersion": 2,
+      "featureVersion": 2,
+      "sourceEventIds": [],
+      "baselineVersion": "baseline-v2",
+      "topologyVersion": "2-geography-g1"
+    },
+    {
+      "kpis": [
+        {
+          "name": "p95DeliveryMs",
+          "unit": "MILLISECONDS",
+          "baseline": 2000,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "deliverySrPct",
+          "unit": "PERCENT",
+          "baseline": 99,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "deliveredMessages",
+          "unit": "COUNT",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "queueDepth",
+          "unit": "COUNT",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        },
+        {
+          "name": "oldestPendingAgeSec",
+          "unit": "SECONDS",
+          "baseline": null,
+          "observed": null,
+          "numerator": null,
+          "denominator": null
+        }
+      ],
+      "quality": "MISSING",
+      "scopeId": "SMS-MD-CAH",
+      "service": "SMS",
+      "windowId": "83d360b9beeb94502997eda1f5db2e8584d6a191e0316071789ab54271be6f5d",
+      "windowEnd": "2026-10-08T15:11:00Z",
+      "mlEligible": false,
+      "windowStart": "2026-10-08T15:10:00Z",
+      "featureNames": [],
+      "featureValues": [],
+      "schemaVersion": 2,
+      "featureVersion": 2,
+      "sourceEventIds": [],
+      "baselineVersion": "baseline-v2",
+      "topologyVersion": "2-geography-g1"
+    }
+  ],
+  "status": "PASS"
+}

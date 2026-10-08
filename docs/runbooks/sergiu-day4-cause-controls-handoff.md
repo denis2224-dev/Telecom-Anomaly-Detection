@@ -69,3 +69,13 @@ Set `ML_SERVICE_URL` to an isolated ready model service for packaged-model deliv
 geographic compatibility tests. The existing SMS shadow-replay opt-in requires its own
 evidence directory and is outside this core scope. Exact executed counts, hashes and
 limits are recorded in the Day 4 evidence and manifest; skips are not runtime acceptance.
+
+## Final technical acceptance
+
+[Authenticated connected G4 acceptance](../evidence/2026-10-08-sergiu-g4-connected-acceptance.md) passed against
+images built at f3e83b1; integrated revision b6969f4 has identical application
+source/configuration and includes main 5475867. Real city faults/controls,
+measurement-origin retention through UNKNOWN, deterministic ML-outage recovery,
+exact replay, SSE interruption, security/expiry and feature-off/restoration were executed.
+See the sealed bundle for source/image identities, UTC times, run IDs and masked captures.
+Required reviewer/owner approvals remain human gates. No approval or merge is claimed.

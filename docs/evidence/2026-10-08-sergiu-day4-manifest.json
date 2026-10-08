@@ -5140,5 +5140,16 @@
     "Reported-MISSING city receipts do not prove inference of unrepresented geographic intervals.",
     "Historical city-targeting blocker resolved by PR74 at integrated code SHA 978c81b; final-revision shared G4 acceptance remains pending.",
     "Owner reviews/sign-offs are external and were not fabricated."
-  ]
+  ],
+  "finalConnectedG4": {
+    "applicationBuildSha": "f3e83b157af134c8138354340717e7e3df946768",
+    "runtimeEquivalentIntegratedSha": "b6969f404119aa5a6805c7d3a6db72a4854c5311",
+    "technicalAcceptance": "PASS",
+    "humanApproval": "PENDING",
+    "sharedOwnerSignOff": "PENDING",
+    "optionalPower": "NOT_IN_SCOPE",
+    "evidence": "2026-10-08-sergiu-g4-connected-acceptance.md",
+    "bundle": "assets/sergiu-g4-pr77/index.json",
+    "note": "Actual connected runs; earlier local and CI counts are preserved as historical verification. Final publication-head CI is checked after pushing."
+  }
 }
