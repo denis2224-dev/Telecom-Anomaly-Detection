@@ -1,0 +1,465 @@
+{
+  "schemaVersion": 1,
+  "status": "OFFLINE_ACCEPTANCE_HANDOFF_REVIEW_REQUIRED",
+  "description": "Synthetic acceptance examples, not ServiceDetectionV2 payloads, live receipts or owner approval.",
+  "catalogueVersion": "1-geography-g1",
+  "topologyVersion": "2-geography-g1",
+  "queuePolicy": {
+    "buckets": [
+      "FRESH_ONGOING",
+      "UNCERTAIN_OR_STALE",
+      "RECOVERED"
+    ],
+    "freshOngoingKeys": [
+      "severity descending",
+      "service ascending (SMS then VOLTE)",
+      "comparableImpact descending within service",
+      "firstObservedAt ascending",
+      "incidentId ascending"
+    ],
+    "otherBucketKeys": [
+      "firstObservedAt ascending",
+      "incidentId ascending"
+    ],
+    "comparableImpact": {
+      "VOLTE": "extraFailedAttempts",
+      "SMS": "affectedDeliveredMessages"
+    },
+    "nullImpact": "Sort behind measured impact inside its service group; never substitute pendingMessages or KPI deviation.",
+    "freshness": "Use the authoritative read-model freshness, not a new detector threshold.",
+    "mixedServiceDefault": "Fixed service grouping avoids an inconsistent pairwise comparator. Proposed tie policy for Denis review, not business priority of SMS over VOLTE."
+  },
+  "queueCases": [
+    {
+      "id": "Q1-voice-severity-impact-age-id",
+      "items": [
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000001",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 80,
+          "firstObservedAt": "2026-10-07T08:03:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000002",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 150,
+          "firstObservedAt": "2026-10-07T08:05:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000003",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "CRITICAL",
+          "comparableImpact": 220,
+          "firstObservedAt": "2026-10-07T08:06:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000004",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 80,
+          "firstObservedAt": "2026-10-07T08:01:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000005",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 80,
+          "firstObservedAt": "2026-10-07T08:01:00Z",
+          "analystStatus": "OPEN"
+        }
+      ],
+      "expectedIds": [
+        "00000000-0000-4000-8000-000000000003",
+        "00000000-0000-4000-8000-000000000002",
+        "00000000-0000-4000-8000-000000000004",
+        "00000000-0000-4000-8000-000000000005",
+        "00000000-0000-4000-8000-000000000001"
+      ]
+    },
+    {
+      "id": "Q2-mixed-service-no-raw-impact-comparison",
+      "items": [
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000011",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 999,
+          "firstObservedAt": "2026-10-07T08:00:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000012",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 30,
+          "firstObservedAt": "2026-10-07T08:05:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000013",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "CRITICAL",
+          "comparableImpact": 220,
+          "firstObservedAt": "2026-10-07T08:06:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000014",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "CRITICAL",
+          "comparableImpact": 31,
+          "firstObservedAt": "2026-10-07T08:07:00Z",
+          "analystStatus": "OPEN"
+        }
+      ],
+      "expectedIds": [
+        "00000000-0000-4000-8000-000000000014",
+        "00000000-0000-4000-8000-000000000013",
+        "00000000-0000-4000-8000-000000000012",
+        "00000000-0000-4000-8000-000000000011"
+      ]
+    },
+    {
+      "id": "Q3-state-before-historical-severity-and-workflow",
+      "items": [
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000021",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "RECOVERED",
+          "freshness": "FRESH",
+          "severity": "CRITICAL",
+          "comparableImpact": 80,
+          "firstObservedAt": "2026-10-07T08:00:00Z",
+          "analystStatus": "INVESTIGATING"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000022",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "UNKNOWN",
+          "freshness": "FRESH",
+          "severity": "CRITICAL",
+          "comparableImpact": null,
+          "firstObservedAt": "2026-10-07T08:01:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000023",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "STALE",
+          "severity": "CRITICAL",
+          "comparableImpact": 80,
+          "firstObservedAt": "2026-10-07T08:02:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000024",
+          "cityId": "CHI",
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "MEDIUM",
+          "comparableImpact": 2,
+          "firstObservedAt": "2026-10-07T08:09:00Z",
+          "analystStatus": "RESOLVED"
+        }
+      ],
+      "expectedIds": [
+        "00000000-0000-4000-8000-000000000024",
+        "00000000-0000-4000-8000-000000000022",
+        "00000000-0000-4000-8000-000000000023",
+        "00000000-0000-4000-8000-000000000021"
+      ]
+    },
+    {
+      "id": "Q4-sms-comparable-impact-null-and-stable-ties",
+      "items": [
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000031",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 30,
+          "firstObservedAt": "2026-10-07T08:04:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000032",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 50,
+          "firstObservedAt": "2026-10-07T08:05:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000033",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": null,
+          "firstObservedAt": "2026-10-07T08:00:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000034",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 30,
+          "firstObservedAt": "2026-10-07T08:02:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000035",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 30,
+          "firstObservedAt": "2026-10-07T08:02:00Z",
+          "analystStatus": "OPEN"
+        },
+        {
+          "incidentId": "00000000-0000-4000-8000-000000000036",
+          "cityId": "BAL",
+          "scopeId": "SMS-MD-BAL",
+          "service": "SMS",
+          "technicalState": "ONGOING",
+          "freshness": "FRESH",
+          "severity": "HIGH",
+          "comparableImpact": 0,
+          "firstObservedAt": "2026-10-07T08:06:00Z",
+          "analystStatus": "OPEN"
+        }
+      ],
+      "expectedIds": [
+        "00000000-0000-4000-8000-000000000032",
+        "00000000-0000-4000-8000-000000000034",
+        "00000000-0000-4000-8000-000000000035",
+        "00000000-0000-4000-8000-000000000031",
+        "00000000-0000-4000-8000-000000000036",
+        "00000000-0000-4000-8000-000000000033"
+      ]
+    }
+  ],
+  "displayCases": [
+    {
+      "id": "D1-voice-failure-estimate",
+      "input": {
+        "service": "VOLTE",
+        "attempts": 1100,
+        "userOutcomes": 100,
+        "technicalSuccesses": 900,
+        "baseline": 98
+      },
+      "expected": {
+        "observed": 90,
+        "baseline": 98,
+        "deltaPp": -8,
+        "denominator": 1000,
+        "numerator": 900,
+        "extraFailedAttempts": 80,
+        "uniqueSubscribers": null,
+        "display": "90% observed; 98% baseline; -8 pp; 900/1000 eligible technical attempts; estimated 80 extra failed attempts; unique subscribers unavailable"
+      }
+    },
+    {
+      "id": "D2-voice-improvement",
+      "input": {
+        "service": "VOLTE",
+        "attempts": 100,
+        "userOutcomes": 0,
+        "technicalSuccesses": 99,
+        "baseline": 98
+      },
+      "expected": {
+        "observed": 99,
+        "baseline": 98,
+        "deltaPp": 1,
+        "denominator": 100,
+        "numerator": 99,
+        "extraFailedAttempts": 0,
+        "uniqueSubscribers": null,
+        "display": "99% observed; 98% baseline; +1 pp; 99/100; estimated 0 extra failed attempts"
+      }
+    },
+    {
+      "id": "D3-missing-baseline-partial-evidence",
+      "coverage": "PARTIAL",
+      "input": {
+        "service": "VOLTE",
+        "attempts": 100,
+        "userOutcomes": 0,
+        "technicalSuccesses": 90,
+        "baseline": null
+      },
+      "expected": {
+        "observed": 90,
+        "baseline": null,
+        "deltaPp": null,
+        "denominator": 100,
+        "numerator": 90,
+        "extraFailedAttempts": null,
+        "uniqueSubscribers": null,
+        "nullReason": "BASELINE_MISSING",
+        "display": "Observed subset: 90%, 90/100; baseline and comparison unavailable; partial coverage does not establish full-city health"
+      }
+    },
+    {
+      "id": "D4-sms-delay-ratio",
+      "input": {
+        "service": "SMS",
+        "completedDelaySamplesMs": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          30000,
+          40000
+        ],
+        "baseline": 5000
+      },
+      "expected": {
+        "observed": 30000,
+        "baseline": 5000,
+        "delayRatio": 6,
+        "sampleCount": 30,
+        "uniqueSubscribers": null,
+        "display": "30,000 ms p95 observed; 5,000 ms baseline; 6x baseline; 30 completed samples; unique subscribers unavailable"
+      }
+    }
+  ],
+  "unknownCase": {
+    "lastEvaluated": {
+      "detectionId": "offline-origin-detection",
+      "windowEnd": "2026-10-07T08:02:00Z",
+      "sourceEventIds": [
+        "offline-service-receipt-CHI-0801"
+      ],
+      "severity": "HIGH",
+      "impact": {
+        "extraFailedAttempts": 80,
+        "uniqueSubscribers": null
+      }
+    },
+    "unknownDecision": {
+      "detectionId": "offline-unknown-detection",
+      "windowEnd": "2026-10-07T08:03:00Z"
+    },
+    "expected": {
+      "currentImpact": null,
+      "currentSeverity": null,
+      "technicalState": "UNKNOWN",
+      "analystStatus": "INVESTIGATING",
+      "historicalImpact": {
+        "value": {
+          "extraFailedAttempts": 80,
+          "uniqueSubscribers": null
+        },
+        "sourceDetectionId": "offline-origin-detection",
+        "sourceWindowEnd": "2026-10-07T08:02:00Z",
+        "sourceEventIds": [
+          "offline-service-receipt-CHI-0801"
+        ],
+        "label": "Historical; not measured for this UNKNOWN decision"
+      },
+      "historicalSeverity": {
+        "value": "HIGH",
+        "sourceDetectionId": "offline-origin-detection",
+        "sourceWindowEnd": "2026-10-07T08:02:00Z",
+        "sourceEventIds": [
+          "offline-service-receipt-CHI-0801"
+        ],
+        "label": "Historical; not measured for this UNKNOWN decision"
+      }
+    }
+  }
+}

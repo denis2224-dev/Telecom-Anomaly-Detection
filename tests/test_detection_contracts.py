@@ -20,8 +20,13 @@ class DetectionContractTests(unittest.TestCase):
         spec.loader.exec_module(checks)
         suite = read_json(ROOT / 'contracts/fixtures/detections/service-explanation-cases.json')
         checks.validate_explanation_cases(suite)
-        self.assertEqual(len(suite['cases']), 12)
-        for defect in ('feature_order', 'fake_subscribers', 'invalid_node', 'duplicate_case'):
+        expected_ids = {f'{service}-{trajectory}' for service in ('volte', 'sms')
+                        for trajectory in ('normal', 'fault', 'gray-zone', 'low-volume', 'missing-source', 'recovered')}
+        expected_ids.update(('volte-chi-mapped-recovery', 'sms-bal-mapped-recovery'))
+        self.assertEqual({case['id'] for case in suite['cases']}, expected_ids)
+        self.assertEqual(len(suite['cases']), 14)
+        for defect in ('feature_order', 'fake_subscribers', 'invalid_node', 'duplicate_case',
+                       'unknown_topology', 'geographic_reporter', 'wrong_saved_authority'):
             with self.subTest(defect=defect):
                 broken = copy.deepcopy(suite)
                 if defect == 'feature_order':
@@ -30,6 +35,12 @@ class DetectionContractTests(unittest.TestCase):
                     broken['cases'][1]['detections'][0]['impact']['uniqueSubscribers'] = 0
                 elif defect == 'invalid_node':
                     del broken['cases'][0]['windows'][0]['node']['sourceId']
+                elif defect == 'unknown_topology':
+                    broken['cases'][-1]['windows'][0]['feature']['topologyVersion'] = 'unreviewed'
+                elif defect == 'geographic_reporter':
+                    broken['cases'][-1]['windows'][0]['node']['sourceId'] = 'UNREVIEWED-REPORTER'
+                elif defect == 'wrong_saved_authority':
+                    broken['cases'][-1]['windows'][0]['feature']['topologyVersion'] = '2-baseline'
                 else:
                     broken['cases'].append(copy.deepcopy(broken['cases'][0]))
                 with self.assertRaises((ValueError, __import__('jsonschema').ValidationError)):

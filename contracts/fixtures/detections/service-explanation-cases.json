@@ -6743,6 +6743,2186 @@
           "anomalyRank": 0.99
         }
       ]
+    },
+{
+      "id": "volte-chi-mapped-recovery",
+      "service": "VOLTE",
+      "windows": [
+        {
+          "feature": {
+            "scopeId": "VOLTE-MD-CHI",
+            "service": "VOLTE",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "a9e77220927f6e2e65aa3c7446c99e1e6c6dcc7fd34423acf860d54b53dbe01e",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "cssrPct",
+                "observed": 90.0,
+                "baseline": 99.3,
+                "unit": "PERCENT",
+                "numerator": 900,
+                "denominator": 1000
+              },
+              {
+                "name": "eligibleAttempts",
+                "observed": 1000,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "sip503Ratio",
+                "observed": 0.08,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": 80,
+                "denominator": 1000
+              },
+              {
+                "name": "sip503Count",
+                "observed": 80,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "rrcSrPct",
+                "observed": 99.5,
+                "baseline": 99.5,
+                "unit": "PERCENT",
+                "numerator": 1194,
+                "denominator": 1200
+              },
+              {
+                "name": "bearerSrPct",
+                "observed": 99.54545454545455,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 1095,
+                "denominator": 1100
+              },
+              {
+                "name": "packetLossRatio",
+                "observed": 0.001,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "imsCpuPct",
+                "observed": 95,
+                "baseline": null,
+                "unit": "PERCENT",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "cssrDeltaPp",
+              "sip503Ratio",
+              "rrcDeltaPp",
+              "bearerDeltaPp",
+              "packetLossRatio",
+              "imsCpuPct"
+            ],
+            "featureValues": [
+              -9.299999999999997,
+              0.08,
+              0.0,
+              0.5454545454545467,
+              0.001,
+              95
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "3f380eeb-9873-39d1-bc3c-ceb323b5c53e",
+              "689ac20e-1dc2-3599-9381-3a009d75df37",
+              "8429aa37-0d84-349d-845d-f053cdf269c9"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "8429aa37-0d84-349d-845d-f053cdf269c9",
+            "sourceId": "IMS-MD-CHI-01",
+            "scopeId": "VOLTE-MD-CHI",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "emittedAt": "2026-09-15T08:01:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "IMS-MD-CHI-01",
+            "metrics": {
+              "cpuPct": 95
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": true,
+            "confidence": "MEDIUM",
+            "phase": null
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "VOLTE-MD-CHI",
+            "service": "VOLTE",
+            "windowStart": "2026-09-15T08:01:00Z",
+            "windowEnd": "2026-09-15T08:02:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "b7f475793615654aa14c69aef523882bce805100bc399ef2aa5238f02c74096e",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "cssrPct",
+                "observed": 90.0,
+                "baseline": 99.3,
+                "unit": "PERCENT",
+                "numerator": 900,
+                "denominator": 1000
+              },
+              {
+                "name": "eligibleAttempts",
+                "observed": 1000,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "sip503Ratio",
+                "observed": 0.08,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": 80,
+                "denominator": 1000
+              },
+              {
+                "name": "sip503Count",
+                "observed": 80,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "rrcSrPct",
+                "observed": 99.5,
+                "baseline": 99.5,
+                "unit": "PERCENT",
+                "numerator": 1194,
+                "denominator": 1200
+              },
+              {
+                "name": "bearerSrPct",
+                "observed": 99.54545454545455,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 1095,
+                "denominator": 1100
+              },
+              {
+                "name": "packetLossRatio",
+                "observed": 0.001,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "imsCpuPct",
+                "observed": 95,
+                "baseline": null,
+                "unit": "PERCENT",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "cssrDeltaPp",
+              "sip503Ratio",
+              "rrcDeltaPp",
+              "bearerDeltaPp",
+              "packetLossRatio",
+              "imsCpuPct"
+            ],
+            "featureValues": [
+              -9.299999999999997,
+              0.08,
+              0.0,
+              0.5454545454545467,
+              0.001,
+              95
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "09a77166-777b-3074-82d5-848f847d621d",
+              "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+              "e9c8d014-4874-3f22-8e10-8eeee0860707"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "e9c8d014-4874-3f22-8e10-8eeee0860707",
+            "sourceId": "IMS-MD-CHI-01",
+            "scopeId": "VOLTE-MD-CHI",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:01:00Z",
+            "windowEnd": "2026-09-15T08:02:00Z",
+            "emittedAt": "2026-09-15T08:02:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "IMS-MD-CHI-01",
+            "metrics": {
+              "cpuPct": 95
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": true,
+            "confidence": "MEDIUM",
+            "phase": "OPEN"
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "VOLTE-MD-CHI",
+            "service": "VOLTE",
+            "windowStart": "2026-09-15T08:02:00Z",
+            "windowEnd": "2026-09-15T08:03:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "56a46641d8c225c864d7511414ac9a9169d4b46d9b0a092fe66e32eb8b6e8728",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "cssrPct",
+                "observed": 99.5,
+                "baseline": 99.3,
+                "unit": "PERCENT",
+                "numerator": 995,
+                "denominator": 1000
+              },
+              {
+                "name": "eligibleAttempts",
+                "observed": 1000,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "sip503Ratio",
+                "observed": 0.002,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": 2,
+                "denominator": 1000
+              },
+              {
+                "name": "sip503Count",
+                "observed": 2,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "rrcSrPct",
+                "observed": 99.5,
+                "baseline": 99.5,
+                "unit": "PERCENT",
+                "numerator": 1194,
+                "denominator": 1200
+              },
+              {
+                "name": "bearerSrPct",
+                "observed": 99.54545454545455,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 1095,
+                "denominator": 1100
+              },
+              {
+                "name": "packetLossRatio",
+                "observed": 0.001,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "imsCpuPct",
+                "observed": 35,
+                "baseline": null,
+                "unit": "PERCENT",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "cssrDeltaPp",
+              "sip503Ratio",
+              "rrcDeltaPp",
+              "bearerDeltaPp",
+              "packetLossRatio",
+              "imsCpuPct"
+            ],
+            "featureValues": [
+              0.20000000000000284,
+              0.002,
+              0.0,
+              0.5454545454545467,
+              0.001,
+              35
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "07ebd316-55d7-300f-99c3-c184d5e0c203",
+              "42a47e58-f6d2-3507-a69b-7e625b3de89e",
+              "926d098a-fc97-3d53-a6e1-67e123723e98"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "926d098a-fc97-3d53-a6e1-67e123723e98",
+            "sourceId": "IMS-MD-CHI-01",
+            "scopeId": "VOLTE-MD-CHI",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:02:00Z",
+            "windowEnd": "2026-09-15T08:03:00Z",
+            "emittedAt": "2026-09-15T08:03:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "IMS-MD-CHI-01",
+            "metrics": {
+              "cpuPct": 35
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": false,
+            "confidence": "LOW",
+            "phase": "UPDATE"
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "VOLTE-MD-CHI",
+            "service": "VOLTE",
+            "windowStart": "2026-09-15T08:03:00Z",
+            "windowEnd": "2026-09-15T08:04:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "950d00528069619657f346ea7a775f69ff651584ac0eed55bd6669a01238409c",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "cssrPct",
+                "observed": 99.5,
+                "baseline": 99.3,
+                "unit": "PERCENT",
+                "numerator": 995,
+                "denominator": 1000
+              },
+              {
+                "name": "eligibleAttempts",
+                "observed": 1000,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "sip503Ratio",
+                "observed": 0.002,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": 2,
+                "denominator": 1000
+              },
+              {
+                "name": "sip503Count",
+                "observed": 2,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "rrcSrPct",
+                "observed": 99.5,
+                "baseline": 99.5,
+                "unit": "PERCENT",
+                "numerator": 1194,
+                "denominator": 1200
+              },
+              {
+                "name": "bearerSrPct",
+                "observed": 99.54545454545455,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 1095,
+                "denominator": 1100
+              },
+              {
+                "name": "packetLossRatio",
+                "observed": 0.001,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "imsCpuPct",
+                "observed": 35,
+                "baseline": null,
+                "unit": "PERCENT",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "cssrDeltaPp",
+              "sip503Ratio",
+              "rrcDeltaPp",
+              "bearerDeltaPp",
+              "packetLossRatio",
+              "imsCpuPct"
+            ],
+            "featureValues": [
+              0.20000000000000284,
+              0.002,
+              0.0,
+              0.5454545454545467,
+              0.001,
+              35
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "173563fa-2de2-382a-b921-05934a0f049c",
+              "330fd295-d904-3a4a-95ba-03a17374b508",
+              "d75164b9-7ea4-3b12-ba77-89658364031a"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "d75164b9-7ea4-3b12-ba77-89658364031a",
+            "sourceId": "IMS-MD-CHI-01",
+            "scopeId": "VOLTE-MD-CHI",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:03:00Z",
+            "windowEnd": "2026-09-15T08:04:00Z",
+            "emittedAt": "2026-09-15T08:04:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "IMS-MD-CHI-01",
+            "metrics": {
+              "cpuPct": 35
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": false,
+            "confidence": "LOW",
+            "phase": "UPDATE"
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "VOLTE-MD-CHI",
+            "service": "VOLTE",
+            "windowStart": "2026-09-15T08:04:00Z",
+            "windowEnd": "2026-09-15T08:05:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "7a8909a5eb54e67a6f01002c8a73feafbd2d9d7b08e287622c41f70d6efa3624",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "cssrPct",
+                "observed": 99.5,
+                "baseline": 99.3,
+                "unit": "PERCENT",
+                "numerator": 995,
+                "denominator": 1000
+              },
+              {
+                "name": "eligibleAttempts",
+                "observed": 1000,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "sip503Ratio",
+                "observed": 0.002,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": 2,
+                "denominator": 1000
+              },
+              {
+                "name": "sip503Count",
+                "observed": 2,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "rrcSrPct",
+                "observed": 99.5,
+                "baseline": 99.5,
+                "unit": "PERCENT",
+                "numerator": 1194,
+                "denominator": 1200
+              },
+              {
+                "name": "bearerSrPct",
+                "observed": 99.54545454545455,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 1095,
+                "denominator": 1100
+              },
+              {
+                "name": "packetLossRatio",
+                "observed": 0.001,
+                "baseline": null,
+                "unit": "RATIO",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "imsCpuPct",
+                "observed": 35,
+                "baseline": null,
+                "unit": "PERCENT",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "cssrDeltaPp",
+              "sip503Ratio",
+              "rrcDeltaPp",
+              "bearerDeltaPp",
+              "packetLossRatio",
+              "imsCpuPct"
+            ],
+            "featureValues": [
+              0.20000000000000284,
+              0.002,
+              0.0,
+              0.5454545454545467,
+              0.001,
+              35
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "0feb31b4-62b2-340a-83db-07cdcacced88",
+              "2730307d-2d7d-3a6f-8f40-7d12ce94cf46",
+              "7230d05c-1252-39ec-b8dd-d958b05fcd99"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "7230d05c-1252-39ec-b8dd-d958b05fcd99",
+            "sourceId": "IMS-MD-CHI-01",
+            "scopeId": "VOLTE-MD-CHI",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:04:00Z",
+            "windowEnd": "2026-09-15T08:05:00Z",
+            "emittedAt": "2026-09-15T08:05:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "IMS-MD-CHI-01",
+            "metrics": {
+              "cpuPct": 35
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": false,
+            "confidence": "LOW",
+            "phase": "RECOVERY"
+          },
+          "mlStatus": "OK"
+        }
+      ],
+      "detections": [
+        {
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "episodeId": "4bb692a8fa7b5a0e762ce6dcdaf9bdede382a924f70b56ccb0e2e6bac4a214c2",
+          "detectionId": "b7158c21607b9d47e2d7969731564aa6e757f6f539106086ef309273f4e56e37",
+          "sequence": 1,
+          "phase": "OPEN",
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-CHI",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:01:00Z",
+          "windowEnd": "2026-09-15T08:02:00Z",
+          "detectedAt": "2026-09-15T08:02:10Z",
+          "severity": "HIGH",
+          "technicalState": "ONGOING",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "observed": 90.0,
+              "baseline": 99.3,
+              "unit": "PERCENT",
+              "numerator": 900,
+              "denominator": 1000
+            },
+            {
+              "name": "eligibleAttempts",
+              "observed": 1000,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "observed": 0.08,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": 80,
+              "denominator": 1000
+            },
+            {
+              "name": "sip503Count",
+              "observed": 80,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "observed": 99.5,
+              "baseline": 99.5,
+              "unit": "PERCENT",
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "observed": 99.54545454545455,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "observed": 0.001,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "observed": 95,
+              "baseline": null,
+              "unit": "PERCENT",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "cssrPct=90.0 PERCENT; baseline=99.3; numerator=900; denominator=1000",
+              "nodeId": null,
+              "sourceEventIds": [
+                "09a77166-777b-3074-82d5-848f847d621d",
+                "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+                "e9c8d014-4874-3f22-8e10-8eeee0860707"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "sip503Count=80 COUNT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "09a77166-777b-3074-82d5-848f847d621d",
+                "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+                "e9c8d014-4874-3f22-8e10-8eeee0860707"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "nodeId": null,
+              "sourceEventIds": [
+                "09a77166-777b-3074-82d5-848f847d621d",
+                "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+                "e9c8d014-4874-3f22-8e10-8eeee0860707"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "09a77166-777b-3074-82d5-848f847d621d",
+                "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+                "e9c8d014-4874-3f22-8e10-8eeee0860707"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "imsCpuPct=95 PERCENT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "09a77166-777b-3074-82d5-848f847d621d",
+                "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+                "e9c8d014-4874-3f22-8e10-8eeee0860707"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "09a77166-777b-3074-82d5-848f847d621d",
+                "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+                "e9c8d014-4874-3f22-8e10-8eeee0860707"
+              ]
+            },
+            {
+              "code": "IMS_CAPACITY_HYPOTHESIS",
+              "summary": "Aligned IMS CPU=95%; SIP 503=80; RRC/bearer within 0.5 pp of baseline. Supports a capacity hypothesis, not a confirmed diagnosis.",
+              "nodeId": "IMS-MD-CHI-01",
+              "sourceEventIds": [
+                "e9c8d014-4874-3f22-8e10-8eeee0860707"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Inspect SIP 503 traces and IMS capacity",
+            "Check downstream routing and transport before confirming the cause"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        },
+        {
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "episodeId": "4bb692a8fa7b5a0e762ce6dcdaf9bdede382a924f70b56ccb0e2e6bac4a214c2",
+          "detectionId": "a56e6a8042c58022730de3ee0aabb2b34fb91e3acc00e17b143b839783cbb5e6",
+          "sequence": 2,
+          "phase": "UPDATE",
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-CHI",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:02:00Z",
+          "windowEnd": "2026-09-15T08:03:00Z",
+          "detectedAt": "2026-09-15T08:03:10Z",
+          "severity": "HIGH",
+          "technicalState": "ONGOING",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "observed": 99.5,
+              "baseline": 99.3,
+              "unit": "PERCENT",
+              "numerator": 995,
+              "denominator": 1000
+            },
+            {
+              "name": "eligibleAttempts",
+              "observed": 1000,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "observed": 0.002,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": 2,
+              "denominator": 1000
+            },
+            {
+              "name": "sip503Count",
+              "observed": 2,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "observed": 99.5,
+              "baseline": 99.5,
+              "unit": "PERCENT",
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "observed": 99.54545454545455,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "observed": 0.001,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "observed": 35,
+              "baseline": null,
+              "unit": "PERCENT",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+              "nodeId": null,
+              "sourceEventIds": [
+                "07ebd316-55d7-300f-99c3-c184d5e0c203",
+                "42a47e58-f6d2-3507-a69b-7e625b3de89e",
+                "926d098a-fc97-3d53-a6e1-67e123723e98"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "07ebd316-55d7-300f-99c3-c184d5e0c203",
+                "42a47e58-f6d2-3507-a69b-7e625b3de89e",
+                "926d098a-fc97-3d53-a6e1-67e123723e98"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "nodeId": null,
+              "sourceEventIds": [
+                "07ebd316-55d7-300f-99c3-c184d5e0c203",
+                "42a47e58-f6d2-3507-a69b-7e625b3de89e",
+                "926d098a-fc97-3d53-a6e1-67e123723e98"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "07ebd316-55d7-300f-99c3-c184d5e0c203",
+                "42a47e58-f6d2-3507-a69b-7e625b3de89e",
+                "926d098a-fc97-3d53-a6e1-67e123723e98"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "07ebd316-55d7-300f-99c3-c184d5e0c203",
+                "42a47e58-f6d2-3507-a69b-7e625b3de89e",
+                "926d098a-fc97-3d53-a6e1-67e123723e98"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "07ebd316-55d7-300f-99c3-c184d5e0c203",
+                "42a47e58-f6d2-3507-a69b-7e625b3de89e",
+                "926d098a-fc97-3d53-a6e1-67e123723e98"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Verify source freshness and baseline coverage",
+            "Inspect SIP 503 traces and IMS/transport health"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        },
+        {
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "episodeId": "4bb692a8fa7b5a0e762ce6dcdaf9bdede382a924f70b56ccb0e2e6bac4a214c2",
+          "detectionId": "e52b536c03fb52f601035b7f0f38d572c813650840d507f19246f3a577b3213c",
+          "sequence": 3,
+          "phase": "UPDATE",
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-CHI",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:03:00Z",
+          "windowEnd": "2026-09-15T08:04:00Z",
+          "detectedAt": "2026-09-15T08:04:10Z",
+          "severity": "HIGH",
+          "technicalState": "ONGOING",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "observed": 99.5,
+              "baseline": 99.3,
+              "unit": "PERCENT",
+              "numerator": 995,
+              "denominator": 1000
+            },
+            {
+              "name": "eligibleAttempts",
+              "observed": 1000,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "observed": 0.002,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": 2,
+              "denominator": 1000
+            },
+            {
+              "name": "sip503Count",
+              "observed": 2,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "observed": 99.5,
+              "baseline": 99.5,
+              "unit": "PERCENT",
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "observed": 99.54545454545455,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "observed": 0.001,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "observed": 35,
+              "baseline": null,
+              "unit": "PERCENT",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+              "nodeId": null,
+              "sourceEventIds": [
+                "173563fa-2de2-382a-b921-05934a0f049c",
+                "330fd295-d904-3a4a-95ba-03a17374b508",
+                "d75164b9-7ea4-3b12-ba77-89658364031a"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "173563fa-2de2-382a-b921-05934a0f049c",
+                "330fd295-d904-3a4a-95ba-03a17374b508",
+                "d75164b9-7ea4-3b12-ba77-89658364031a"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "nodeId": null,
+              "sourceEventIds": [
+                "173563fa-2de2-382a-b921-05934a0f049c",
+                "330fd295-d904-3a4a-95ba-03a17374b508",
+                "d75164b9-7ea4-3b12-ba77-89658364031a"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "173563fa-2de2-382a-b921-05934a0f049c",
+                "330fd295-d904-3a4a-95ba-03a17374b508",
+                "d75164b9-7ea4-3b12-ba77-89658364031a"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "173563fa-2de2-382a-b921-05934a0f049c",
+                "330fd295-d904-3a4a-95ba-03a17374b508",
+                "d75164b9-7ea4-3b12-ba77-89658364031a"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "173563fa-2de2-382a-b921-05934a0f049c",
+                "330fd295-d904-3a4a-95ba-03a17374b508",
+                "d75164b9-7ea4-3b12-ba77-89658364031a"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Verify source freshness and baseline coverage",
+            "Inspect SIP 503 traces and IMS/transport health"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        },
+        {
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "episodeId": "4bb692a8fa7b5a0e762ce6dcdaf9bdede382a924f70b56ccb0e2e6bac4a214c2",
+          "detectionId": "d98c987d1dba80203b5f4884c85f19d8de3f06052c7dbc18545cf5d1dda983fa",
+          "sequence": 4,
+          "phase": "RECOVERY",
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-CHI",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:04:00Z",
+          "windowEnd": "2026-09-15T08:05:00Z",
+          "detectedAt": "2026-09-15T08:05:10Z",
+          "severity": "HIGH",
+          "technicalState": "RECOVERED",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "observed": 99.5,
+              "baseline": 99.3,
+              "unit": "PERCENT",
+              "numerator": 995,
+              "denominator": 1000
+            },
+            {
+              "name": "eligibleAttempts",
+              "observed": 1000,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "observed": 0.002,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": 2,
+              "denominator": 1000
+            },
+            {
+              "name": "sip503Count",
+              "observed": 2,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "observed": 99.5,
+              "baseline": 99.5,
+              "unit": "PERCENT",
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "observed": 99.54545454545455,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "observed": 0.001,
+              "baseline": null,
+              "unit": "RATIO",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "observed": 35,
+              "baseline": null,
+              "unit": "PERCENT",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "cssrPct=99.5 PERCENT; baseline=99.3; numerator=995; denominator=1000",
+              "nodeId": null,
+              "sourceEventIds": [
+                "0feb31b4-62b2-340a-83db-07cdcacced88",
+                "2730307d-2d7d-3a6f-8f40-7d12ce94cf46",
+                "7230d05c-1252-39ec-b8dd-d958b05fcd99"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "0feb31b4-62b2-340a-83db-07cdcacced88",
+                "2730307d-2d7d-3a6f-8f40-7d12ce94cf46",
+                "7230d05c-1252-39ec-b8dd-d958b05fcd99"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "nodeId": null,
+              "sourceEventIds": [
+                "0feb31b4-62b2-340a-83db-07cdcacced88",
+                "2730307d-2d7d-3a6f-8f40-7d12ce94cf46",
+                "7230d05c-1252-39ec-b8dd-d958b05fcd99"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "0feb31b4-62b2-340a-83db-07cdcacced88",
+                "2730307d-2d7d-3a6f-8f40-7d12ce94cf46",
+                "7230d05c-1252-39ec-b8dd-d958b05fcd99"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "imsCpuPct=35 PERCENT; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "0feb31b4-62b2-340a-83db-07cdcacced88",
+                "2730307d-2d7d-3a6f-8f40-7d12ce94cf46",
+                "7230d05c-1252-39ec-b8dd-d958b05fcd99"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "summary": "packetLossRatio=0.001 RATIO; baseline=null; numerator=null; denominator=null",
+              "nodeId": null,
+              "sourceEventIds": [
+                "0feb31b4-62b2-340a-83db-07cdcacced88",
+                "2730307d-2d7d-3a6f-8f40-7d12ce94cf46",
+                "7230d05c-1252-39ec-b8dd-d958b05fcd99"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Verify source freshness and baseline coverage",
+            "Inspect SIP 503 traces and IMS/transport health"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        }
+      ]
+    },
+{
+      "id": "sms-bal-mapped-recovery",
+      "service": "SMS",
+      "windows": [
+        {
+          "feature": {
+            "scopeId": "SMS-MD-BAL",
+            "service": "SMS",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "78f217e981d225d41b77fca41e658f69a36268e64cae2ee03e8f41801815e259",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "p95DeliveryMs",
+                "observed": 45000.0,
+                "baseline": 2000.0,
+                "unit": "MILLISECONDS",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "deliverySrPct",
+                "observed": 83.33333333333333,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 100,
+                "denominator": 120
+              },
+              {
+                "name": "deliveredMessages",
+                "observed": 100,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "queueDepth",
+                "observed": 250,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "oldestPendingAgeSec",
+                "observed": 90,
+                "baseline": null,
+                "unit": "SECONDS",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "p95DelayRatio",
+              "p95DeliveryMs",
+              "queueDepth",
+              "oldestPendingAgeSec",
+              "deliverySrDeltaPp",
+              "deliveredMessages"
+            ],
+            "featureValues": [
+              22.5,
+              45000.0,
+              250,
+              90,
+              -15.666666666666671,
+              100
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "387d1240-00cd-3ae4-85b3-e2a8d2520d03",
+              "c57273fa-2964-35c7-ab5b-2e4838f2c7db"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "387d1240-00cd-3ae4-85b3-e2a8d2520d03",
+            "sourceId": "SMSC-MD-BAL-01",
+            "scopeId": "SMS-MD-BAL",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:00:00Z",
+            "windowEnd": "2026-09-15T08:01:00Z",
+            "emittedAt": "2026-09-15T08:01:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "SMSC-MD-BAL-01",
+            "metrics": {
+              "queueDepth": 250,
+              "oldestPendingAgeSeconds": 90
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": true,
+            "confidence": "MEDIUM",
+            "phase": null
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "SMS-MD-BAL",
+            "service": "SMS",
+            "windowStart": "2026-09-15T08:01:00Z",
+            "windowEnd": "2026-09-15T08:02:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "12ba76c91a0f2d2dd5dfdad8077739ea38f15072ff95ae1696a60bec346887e2",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "p95DeliveryMs",
+                "observed": 45000.0,
+                "baseline": 2000.0,
+                "unit": "MILLISECONDS",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "deliverySrPct",
+                "observed": 83.33333333333333,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 100,
+                "denominator": 120
+              },
+              {
+                "name": "deliveredMessages",
+                "observed": 100,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "queueDepth",
+                "observed": 250,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "oldestPendingAgeSec",
+                "observed": 90,
+                "baseline": null,
+                "unit": "SECONDS",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "p95DelayRatio",
+              "p95DeliveryMs",
+              "queueDepth",
+              "oldestPendingAgeSec",
+              "deliverySrDeltaPp",
+              "deliveredMessages"
+            ],
+            "featureValues": [
+              22.5,
+              45000.0,
+              250,
+              90,
+              -15.666666666666671,
+              100
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "957b313d-177d-36c9-bb37-f5b64bd27d6d",
+              "b267e38d-59d9-3ecc-a915-98c22728e569"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "957b313d-177d-36c9-bb37-f5b64bd27d6d",
+            "sourceId": "SMSC-MD-BAL-01",
+            "scopeId": "SMS-MD-BAL",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:01:00Z",
+            "windowEnd": "2026-09-15T08:02:00Z",
+            "emittedAt": "2026-09-15T08:02:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "SMSC-MD-BAL-01",
+            "metrics": {
+              "queueDepth": 250,
+              "oldestPendingAgeSeconds": 90
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": true,
+            "confidence": "MEDIUM",
+            "phase": "OPEN"
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "SMS-MD-BAL",
+            "service": "SMS",
+            "windowStart": "2026-09-15T08:02:00Z",
+            "windowEnd": "2026-09-15T08:03:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "014156e1f30e1c6654676e6f31891cdbed17fb6f9491be9f12a88c6a657883d1",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "p95DeliveryMs",
+                "observed": 2000.0,
+                "baseline": 2000.0,
+                "unit": "MILLISECONDS",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "deliverySrPct",
+                "observed": 98.03921568627452,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 100,
+                "denominator": 102
+              },
+              {
+                "name": "deliveredMessages",
+                "observed": 100,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "queueDepth",
+                "observed": 0,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "oldestPendingAgeSec",
+                "observed": 0,
+                "baseline": null,
+                "unit": "SECONDS",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "p95DelayRatio",
+              "p95DeliveryMs",
+              "queueDepth",
+              "oldestPendingAgeSec",
+              "deliverySrDeltaPp",
+              "deliveredMessages"
+            ],
+            "featureValues": [
+              1.0,
+              2000.0,
+              0,
+              0,
+              -0.9607843137254832,
+              100
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "08e93645-a1d2-3e72-844b-80f043801c86",
+              "35fb1568-31d6-336e-8b78-40460307748b"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "08e93645-a1d2-3e72-844b-80f043801c86",
+            "sourceId": "SMSC-MD-BAL-01",
+            "scopeId": "SMS-MD-BAL",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:02:00Z",
+            "windowEnd": "2026-09-15T08:03:00Z",
+            "emittedAt": "2026-09-15T08:03:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "SMSC-MD-BAL-01",
+            "metrics": {
+              "queueDepth": 0,
+              "oldestPendingAgeSeconds": 0
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": false,
+            "confidence": "LOW",
+            "phase": "UPDATE"
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "SMS-MD-BAL",
+            "service": "SMS",
+            "windowStart": "2026-09-15T08:03:00Z",
+            "windowEnd": "2026-09-15T08:04:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "8c2067a535577de5b5b57e57009cf384970921886bbc50ffff96cda06ea8ff67",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "p95DeliveryMs",
+                "observed": 2000.0,
+                "baseline": 2000.0,
+                "unit": "MILLISECONDS",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "deliverySrPct",
+                "observed": 98.03921568627452,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 100,
+                "denominator": 102
+              },
+              {
+                "name": "deliveredMessages",
+                "observed": 100,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "queueDepth",
+                "observed": 0,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "oldestPendingAgeSec",
+                "observed": 0,
+                "baseline": null,
+                "unit": "SECONDS",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "p95DelayRatio",
+              "p95DeliveryMs",
+              "queueDepth",
+              "oldestPendingAgeSec",
+              "deliverySrDeltaPp",
+              "deliveredMessages"
+            ],
+            "featureValues": [
+              1.0,
+              2000.0,
+              0,
+              0,
+              -0.9607843137254832,
+              100
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "484c348a-fd52-3952-939b-27db04fa8239",
+              "cecb409c-6420-387d-a6fd-10cbce0cdb02"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "484c348a-fd52-3952-939b-27db04fa8239",
+            "sourceId": "SMSC-MD-BAL-01",
+            "scopeId": "SMS-MD-BAL",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:03:00Z",
+            "windowEnd": "2026-09-15T08:04:00Z",
+            "emittedAt": "2026-09-15T08:04:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "SMSC-MD-BAL-01",
+            "metrics": {
+              "queueDepth": 0,
+              "oldestPendingAgeSeconds": 0
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": false,
+            "confidence": "LOW",
+            "phase": "UPDATE"
+          },
+          "mlStatus": "OK"
+        },
+        {
+          "feature": {
+            "scopeId": "SMS-MD-BAL",
+            "service": "SMS",
+            "windowStart": "2026-09-15T08:04:00Z",
+            "windowEnd": "2026-09-15T08:05:00Z",
+            "quality": "COMPLETE",
+            "schemaVersion": 2,
+            "featureVersion": 2,
+            "windowId": "fa14a7260a7215003a78b489343bd5e0de9d8abef744688246513ee2af4208b1",
+            "baselineVersion": "baseline-v2",
+            "topologyVersion": "2-geography-g1",
+            "kpis": [
+              {
+                "name": "p95DeliveryMs",
+                "observed": 2000.0,
+                "baseline": 2000.0,
+                "unit": "MILLISECONDS",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "deliverySrPct",
+                "observed": 98.03921568627452,
+                "baseline": 99,
+                "unit": "PERCENT",
+                "numerator": 100,
+                "denominator": 102
+              },
+              {
+                "name": "deliveredMessages",
+                "observed": 100,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "queueDepth",
+                "observed": 0,
+                "baseline": null,
+                "unit": "COUNT",
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "oldestPendingAgeSec",
+                "observed": 0,
+                "baseline": null,
+                "unit": "SECONDS",
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "featureNames": [
+              "p95DelayRatio",
+              "p95DeliveryMs",
+              "queueDepth",
+              "oldestPendingAgeSec",
+              "deliverySrDeltaPp",
+              "deliveredMessages"
+            ],
+            "featureValues": [
+              1.0,
+              2000.0,
+              0,
+              0,
+              -0.9607843137254832,
+              100
+            ],
+            "mlEligible": true,
+            "sourceEventIds": [
+              "390a50f9-9fa6-3376-ad6b-9efddfae84d3",
+              "ec93354e-d207-3368-839b-7075369108a6"
+            ]
+          },
+          "node": {
+            "schemaVersion": 2,
+            "eventId": "ec93354e-d207-3368-839b-7075369108a6",
+            "sourceId": "SMSC-MD-BAL-01",
+            "scopeId": "SMS-MD-BAL",
+            "kind": "NODE",
+            "windowStart": "2026-09-15T08:04:00Z",
+            "windowEnd": "2026-09-15T08:05:00Z",
+            "emittedAt": "2026-09-15T08:05:00Z",
+            "quality": "COMPLETE",
+            "nodeId": "SMSC-MD-BAL-01",
+            "metrics": {
+              "queueDepth": 0,
+              "oldestPendingAgeSeconds": 0
+            }
+          },
+          "expected": {
+            "status": "EVALUATED",
+            "breached": false,
+            "confidence": "LOW",
+            "phase": "RECOVERY"
+          },
+          "mlStatus": "OK"
+        }
+      ],
+      "detections": [
+        {
+          "schemaVersion": 2,
+          "correlationKey": "32f45a0ec9676d553a4c1e5abdbbb2085f21102d295d32e115c91fc6cb1ad62a",
+          "episodeId": "3c726ae470bfed12c57346ecbb7d2014df374f308eb383fda776a6d9c0948796",
+          "detectionId": "6c4c9cb4a74e0c79d27bcc87021676342f1c6c45d283fe230b805baebb479cb8",
+          "sequence": 1,
+          "phase": "OPEN",
+          "anomalyType": "SMS_DELIVERY_DELAY",
+          "service": "SMS",
+          "scopeId": "SMS-MD-BAL",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:01:00Z",
+          "windowEnd": "2026-09-15T08:02:00Z",
+          "detectedAt": "2026-09-15T08:02:10Z",
+          "severity": "HIGH",
+          "technicalState": "ONGOING",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "p95DeliveryMs",
+              "observed": 45000.0,
+              "baseline": 2000.0,
+              "unit": "MILLISECONDS",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "deliverySrPct",
+              "observed": 83.33333333333333,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 100,
+              "denominator": 120
+            },
+            {
+              "name": "deliveredMessages",
+              "observed": 100,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "queueDepth",
+              "observed": 250,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "oldestPendingAgeSec",
+              "observed": 90,
+              "baseline": null,
+              "unit": "SECONDS",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "SMS_DELIVERY_DELAY",
+              "summary": "p95=45000.0 ms; baseline=2000 ms; completed=100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "957b313d-177d-36c9-bb37-f5b64bd27d6d",
+                "b267e38d-59d9-3ecc-a915-98c22728e569"
+              ]
+            },
+            {
+              "code": "SMSC_QUEUE",
+              "summary": "pending=250; oldest=90 s",
+              "nodeId": "SMSC-MD-BAL-01",
+              "sourceEventIds": [
+                "957b313d-177d-36c9-bb37-f5b64bd27d6d"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Verify SMSC queue freshness",
+            "Inspect delivery and routing traces; check recipient unreachability and campaign load"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        },
+        {
+          "schemaVersion": 2,
+          "correlationKey": "32f45a0ec9676d553a4c1e5abdbbb2085f21102d295d32e115c91fc6cb1ad62a",
+          "episodeId": "3c726ae470bfed12c57346ecbb7d2014df374f308eb383fda776a6d9c0948796",
+          "detectionId": "4788a6c8b0139fd759f3bb7b98eb8f26f8b77831121442cee755a729552b09cb",
+          "sequence": 2,
+          "phase": "UPDATE",
+          "anomalyType": "SMS_DELIVERY_DELAY",
+          "service": "SMS",
+          "scopeId": "SMS-MD-BAL",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:02:00Z",
+          "windowEnd": "2026-09-15T08:03:00Z",
+          "detectedAt": "2026-09-15T08:03:10Z",
+          "severity": "HIGH",
+          "technicalState": "ONGOING",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "No cause established from this SMS window.",
+          "causeConfidence": "LOW",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "p95DeliveryMs",
+              "observed": 2000.0,
+              "baseline": 2000.0,
+              "unit": "MILLISECONDS",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "deliverySrPct",
+              "observed": 98.03921568627452,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 100,
+              "denominator": 102
+            },
+            {
+              "name": "deliveredMessages",
+              "observed": 100,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "queueDepth",
+              "observed": 0,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "oldestPendingAgeSec",
+              "observed": 0,
+              "baseline": null,
+              "unit": "SECONDS",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "SMS_DELIVERY_DELAY",
+              "summary": "p95=2000.0 ms; baseline=2000 ms; completed=100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "08e93645-a1d2-3e72-844b-80f043801c86",
+                "35fb1568-31d6-336e-8b78-40460307748b"
+              ]
+            },
+            {
+              "code": "SMSC_QUEUE",
+              "summary": "pending=0; oldest=0 s",
+              "nodeId": "SMSC-MD-BAL-01",
+              "sourceEventIds": [
+                "08e93645-a1d2-3e72-844b-80f043801c86"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Verify SMSC queue freshness",
+            "Inspect delivery and routing traces; check recipient unreachability and campaign load"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        },
+        {
+          "schemaVersion": 2,
+          "correlationKey": "32f45a0ec9676d553a4c1e5abdbbb2085f21102d295d32e115c91fc6cb1ad62a",
+          "episodeId": "3c726ae470bfed12c57346ecbb7d2014df374f308eb383fda776a6d9c0948796",
+          "detectionId": "7bd5abc119d35e34605c055da6a738989970ce39df140dee1b22755acb16ad31",
+          "sequence": 3,
+          "phase": "UPDATE",
+          "anomalyType": "SMS_DELIVERY_DELAY",
+          "service": "SMS",
+          "scopeId": "SMS-MD-BAL",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:03:00Z",
+          "windowEnd": "2026-09-15T08:04:00Z",
+          "detectedAt": "2026-09-15T08:04:10Z",
+          "severity": "HIGH",
+          "technicalState": "ONGOING",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "No cause established from this SMS window.",
+          "causeConfidence": "LOW",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "p95DeliveryMs",
+              "observed": 2000.0,
+              "baseline": 2000.0,
+              "unit": "MILLISECONDS",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "deliverySrPct",
+              "observed": 98.03921568627452,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 100,
+              "denominator": 102
+            },
+            {
+              "name": "deliveredMessages",
+              "observed": 100,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "queueDepth",
+              "observed": 0,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "oldestPendingAgeSec",
+              "observed": 0,
+              "baseline": null,
+              "unit": "SECONDS",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "SMS_DELIVERY_DELAY",
+              "summary": "p95=2000.0 ms; baseline=2000 ms; completed=100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "484c348a-fd52-3952-939b-27db04fa8239",
+                "cecb409c-6420-387d-a6fd-10cbce0cdb02"
+              ]
+            },
+            {
+              "code": "SMSC_QUEUE",
+              "summary": "pending=0; oldest=0 s",
+              "nodeId": "SMSC-MD-BAL-01",
+              "sourceEventIds": [
+                "484c348a-fd52-3952-939b-27db04fa8239"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Verify SMSC queue freshness",
+            "Inspect delivery and routing traces; check recipient unreachability and campaign load"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        },
+        {
+          "schemaVersion": 2,
+          "correlationKey": "32f45a0ec9676d553a4c1e5abdbbb2085f21102d295d32e115c91fc6cb1ad62a",
+          "episodeId": "3c726ae470bfed12c57346ecbb7d2014df374f308eb383fda776a6d9c0948796",
+          "detectionId": "fab45079fce788dd5f6a64eb4770c4dfe6f13c34f4e6d94666ea2e8c9851fae9",
+          "sequence": 4,
+          "phase": "RECOVERY",
+          "anomalyType": "SMS_DELIVERY_DELAY",
+          "service": "SMS",
+          "scopeId": "SMS-MD-BAL",
+          "firstObservedAt": "2026-09-15T08:00:00Z",
+          "windowStart": "2026-09-15T08:04:00Z",
+          "windowEnd": "2026-09-15T08:05:00Z",
+          "detectedAt": "2026-09-15T08:05:10Z",
+          "severity": "HIGH",
+          "technicalState": "RECOVERED",
+          "rulesetVersion": "service-rules-v2",
+          "baselineVersion": "baseline-v2",
+          "topologyVersion": "2-geography-g1",
+          "probableCause": "No cause established from this SMS window.",
+          "causeConfidence": "LOW",
+          "mlStatus": "OK",
+          "kpis": [
+            {
+              "name": "p95DeliveryMs",
+              "observed": 2000.0,
+              "baseline": 2000.0,
+              "unit": "MILLISECONDS",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "deliverySrPct",
+              "observed": 98.03921568627452,
+              "baseline": 99,
+              "unit": "PERCENT",
+              "numerator": 100,
+              "denominator": 102
+            },
+            {
+              "name": "deliveredMessages",
+              "observed": 100,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "queueDepth",
+              "observed": 0,
+              "baseline": null,
+              "unit": "COUNT",
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "oldestPendingAgeSec",
+              "observed": 0,
+              "baseline": null,
+              "unit": "SECONDS",
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "evidence": [
+            {
+              "code": "SMS_DELIVERY_DELAY",
+              "summary": "p95=2000.0 ms; baseline=2000 ms; completed=100",
+              "nodeId": null,
+              "sourceEventIds": [
+                "390a50f9-9fa6-3376-ad6b-9efddfae84d3",
+                "ec93354e-d207-3368-839b-7075369108a6"
+              ]
+            },
+            {
+              "code": "SMSC_QUEUE",
+              "summary": "pending=0; oldest=0 s",
+              "nodeId": "SMSC-MD-BAL-01",
+              "sourceEventIds": [
+                "ec93354e-d207-3368-839b-7075369108a6"
+              ]
+            }
+          ],
+          "recommendedChecks": [
+            "Verify SMSC queue freshness",
+            "Inspect delivery and routing traces; check recipient unreachability and campaign load"
+          ],
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "anomalyRank": 0.99
+        }
+      ]
     }
   ]
 }
