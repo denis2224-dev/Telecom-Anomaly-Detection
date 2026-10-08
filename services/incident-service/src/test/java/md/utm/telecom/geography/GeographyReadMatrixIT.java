@@ -2,6 +2,8 @@ package md.utm.telecom.geography;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -101,6 +103,97 @@ class GeographyReadMatrixIT extends IncidentServiceIntegrationTestSupport {
                             .session(authenticatedSession()).with(login))
                     .andExpect(status().isOk()).andExpect(jsonPath("$.points.length()").value(1));
         }
+    }
+
+    @Test
+    void partialMissingAndLateEvidenceRemainScopedAndUnavailable() throws Exception {
+        Instant older = START.plusSeconds(600);
+        Instant newer = older.plusSeconds(60);
+        Binding orhei = new Binding("ORH", "VOLTE", "VOLTE-MD-ORH");
+        Binding balti = new Binding("BAL", "VOLTE", "VOLTE-MD-BAL");
+        String newestWindow = windowId(orhei.scope(), newer);
+        ObjectNode newest = (ObjectNode) json.readTree(kpi(orhei, newer, newestWindow));
+        ((ObjectNode) newest.withArray("kpis").get(0)).putNull("baseline");
+        assertTrue(kpis.ingest(orhei.scope(), newest.toString()));
+        assertFalse(kpis.ingest(orhei.scope(), newest.toString()));
+        ObjectNode conflicting = newest.deepCopy();
+        ((ObjectNode) conflicting.withArray("kpis").get(0)).put("observed", 99.9);
+        assertThrows(IllegalArgumentException.class,
+                () -> kpis.ingest(orhei.scope(), conflicting.toString()));
+
+        ObjectNode partial = (ObjectNode) json.readTree(coverage(orhei, newer, newestWindow));
+        assertTrue(partial.withArray("expectedSourceIds").size() > 1);
+        String oneSource = partial.withArray("expectedSourceIds").get(0).asText();
+        partial.withArray("receivedSourceIds").removeAll().add(oneSource);
+        partial.withArray("usableSourceIds").removeAll().add(oneSource);
+        for (var source : partial.withArray("expectedSourceIds"))
+            if (!source.asText().equals(oneSource))
+                partial.withArray("sourceIssues").addObject()
+                        .put("sourceId", source.asText()).put("reason", "NOT_RECEIVED");
+        assertTrue(coverage.ingest(orhei.scope(), partial.toString()));
+        assertFalse(coverage.ingest(orhei.scope(), partial.toString()));
+        ObjectNode changedCoverage = partial.deepCopy();
+        changedCoverage.withArray("usableSourceIds").removeAll();
+        changedCoverage.withArray("sourceIssues").insertObject(0)
+                .put("sourceId", oneSource).put("reason", "UNUSABLE");
+        assertThrows(IllegalArgumentException.class,
+                () -> coverage.ingest(orhei.scope(), changedCoverage.toString()));
+        assertThrows(IllegalArgumentException.class,
+                () -> coverage.ingest(balti.scope(), partial.toString()));
+
+        String olderWindow = windowId(orhei.scope(), older);
+        assertTrue(kpis.ingest(orhei.scope(), kpi(orhei, older, olderWindow)));
+        assertTrue(coverage.ingest(orhei.scope(), coverage(orhei, older, olderWindow)));
+        String baltiWindow = windowId(balti.scope(), newer);
+        assertTrue(kpis.ingest(balti.scope(), kpi(balti, newer, baltiWindow)));
+        assertTrue(coverage.ingest(balti.scope(), coverage(balti, newer, baltiWindow)));
+        Instant future = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MINUTES)
+                .plusSeconds(300);
+        String futureWindow = windowId(orhei.scope(), future);
+        assertTrue(kpis.ingest(orhei.scope(), kpi(orhei, future, futureWindow)));
+
+        assertEquals(4, jdbc.queryForObject("SELECT count(*) FROM app.service_kpi_windows", Integer.class));
+        assertEquals(3, jdbc.queryForObject("SELECT count(*) FROM app.scope_window_coverage", Integer.class));
+        jdbc.update("INSERT INTO app.analysts (id, issuer, subject, display_name) VALUES (?, ?, ?, ?)",
+                UUID.randomUUID(), ISSUER, "negative-analyst", "Negative Controls");
+        var login = oidcLogin().idToken(token -> token.issuer(ISSUER).subject("negative-analyst"))
+                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"));
+        String orheiBody = mvc.perform(get("/api/geography/cities/ORH")
+                        .session(authenticatedSession()).with(login))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.services[0].latestWindowEnd").value(newer.plusSeconds(60).toString()))
+                .andExpect(jsonPath("$.services[0].freshness").value("STALE"))
+                .andExpect(jsonPath("$.services[0].coverage.state").value("STALE"))
+                .andExpect(jsonPath("$.services[0].metric.observed").value(90.0))
+                .andExpect(jsonPath("$.services[0].metric.baseline").isEmpty())
+                .andExpect(jsonPath("$.services[0].metric.nullReason").value("BASELINE_MISSING"))
+                .andReturn().getResponse().getContentAsString();
+        mvc.perform(get("/api/geography/cities/ORH/kpis")
+                        .param("service", "VOLTE").param("from", older.toString())
+                        .param("to", newer.plusSeconds(60).toString())
+                        .session(authenticatedSession()).with(login))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.points.length()").value(2))
+                .andExpect(jsonPath("$.points[1].coverage.state").value("PARTIAL"))
+                .andExpect(jsonPath("$.points[1].metric.nullReason").value("BASELINE_MISSING"));
+        mvc.perform(get("/api/geography/cities/BAL/kpis")
+                        .param("service", "VOLTE").param("from", older.toString())
+                        .param("to", newer.plusSeconds(60).toString())
+                        .session(authenticatedSession()).with(login))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.points.length()").value(1))
+                .andExpect(jsonPath("$.points[0].scopeId").value(balti.scope()));
+        ObjectNode artifact = json.createObjectNode();
+        artifact.put("evidenceKind", "Transactional PostgreSQL and protected MockMvc; not live browser acceptance");
+        artifact.put("kpiRowsAfterDuplicateConflictAndLateArrival", 4);
+        artifact.put("coverageRowsAfterDuplicateConflictAndWrongCity", 3);
+        artifact.put("partialCoverageId", partial.path("coverageId").asText());
+        artifact.put("partialCoverageSha256", jdbc.queryForObject(
+                "SELECT payload_sha256 FROM app.scope_window_coverage WHERE coverage_id = ?",
+                String.class, partial.path("coverageId").asText()));
+        artifact.set("orheiApi", json.readTree(orheiBody));
+        Path directory = Path.of("target", "evidence-projection-hardening");
+        Files.createDirectories(directory);
+        Files.writeString(directory.resolve("geographic-negative-controls.json"),
+                json.writerWithDefaultPrettyPrinter().writeValueAsString(artifact) + "\n");
     }
 
     private String kpi(Binding binding, Instant start, String windowId) throws Exception {
