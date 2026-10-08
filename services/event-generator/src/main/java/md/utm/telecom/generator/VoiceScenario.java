@@ -52,6 +52,10 @@ public class VoiceScenario {
         return generateWindows(start, seed, profile).stream().flatMap(List::stream).toList();
     }
 
+    public List<String> generate(Instant start, long seed, Profile profile, GenerationContext context) {
+        return generateWindows(start, seed, profile, context).stream().flatMap(List::stream).toList();
+    }
+
     /** Eight explicit minute windows; the legacy generate method is unchanged. */
     public List<List<String>> generateWindows(Instant start, long seed, Profile profile) {
         return generateWindows(start, seed, profile, 8);
@@ -84,6 +88,10 @@ public class VoiceScenario {
             boolean fault = minute >= 2 && minute < 5;
             boolean gap = profile == Profile.TELEMETRY_GAP && fault;
             boolean overload = profile == Profile.VOLTE_IMS_OVERLOAD && fault;
+            boolean city = context != null && !context.scope().scopeId().equals("VOLTE-MD-CENTRAL");
+            var measurements = city ? new java.util.SplittableRandom(context.measurementSeed(seed) ^ from.getEpochSecond()) : null;
+            int eligible = city ? 1000 + measurements.nextInt(101) : 1000;
+            int healthyCpu = city ? 30 + measurements.nextInt(16) : 35;
             var window = new ArrayList<String>();
             // A telemetry gap has no measured source values for this interval.
             if (gap) {
@@ -92,20 +100,21 @@ public class VoiceScenario {
             }
             ObjectNode node = event(from, ims.sourceId(), "NODE", "COMPLETE", scope);
             node.put("nodeId", ims.nodeId());
-            node.putObject("metrics").put("cpuPct", overload ? 97 : 35);
+            node.putObject("metrics").put("cpuPct", overload ? 97 : healthyCpu);
             validator.validate(node);
             window.add(node.toString());
             ObjectNode transport = event(from, transportNode.sourceId(), "NODE", "COMPLETE", scope);
             transport.put("nodeId", transportNode.nodeId());
-            transport.putObject("metrics").put("packetLossRatio", 0.001).put("throughputMbps", 120);
+            transport.putObject("metrics").put("packetLossRatio", city ? 0.0005 + measurements.nextDouble() * 0.001 : 0.001)
+                    .put("throughputMbps", city ? 100 + measurements.nextInt(41) : 120);
             validator.validate(transport);
             window.add(transport.toString());
 
             ObjectNode service = event(from, serviceSource, "SERVICE", "COMPLETE", scope);
             service.put("service", "VOLTE");
-            // Fixed scenario measurements; seed metadata does not affect observation identity.
-            service.putObject("metrics").put("attempts", 1020).put("userOutcomes", 20)
-                    .put("technicalSuccesses", overload ? 940 : 993)
+            // Legacy bytes and fault severity stay fixed; city seed varies measured load, never identity.
+            service.putObject("metrics").put("attempts", eligible + 20).put("userOutcomes", 20)
+                    .put("technicalSuccesses", eligible - (overload ? 60 : 7))
                     .put("technicalFailures", overload ? 60 : 7)
                     .put("rrcAttempts", 1200).put("rrcSuccesses", 1194)
                     .put("bearerAttempts", 1100).put("bearerSuccesses", 1095)
