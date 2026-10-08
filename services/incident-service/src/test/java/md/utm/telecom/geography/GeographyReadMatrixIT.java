@@ -81,6 +81,25 @@ class GeographyReadMatrixIT extends IncidentServiceIntegrationTestSupport {
                             .value(catalogue.expected(binding.scope()).size()))
                     .andExpect(jsonPath("$.points[2].metric.observed").value(
                             binding.service().equals("VOLTE") ? 90.0 : 250.0));
+            for (int page = 0; page < 3; page++)
+                mvc.perform(get("/api/geography/cities/{cityId}/kpis", binding.city())
+                                .param("service", binding.service()).param("from", START.toString())
+                                .param("to", START.plusSeconds(86400).toString())
+                                .param("page", "" + page).param("size", "1")
+                                .session(authenticatedSession()).with(login))
+                        .andExpect(status().isOk()).andExpect(jsonPath("$.points.length()").value(1))
+                        .andExpect(jsonPath("$.points[0].windowStart").value(START.plusSeconds(page * 60L).toString()))
+                        .andExpect(jsonPath("$.hasNext").value(page < 2));
+            mvc.perform(get("/api/geography/cities/{cityId}/kpis", binding.city())
+                            .param("service", binding.service()).param("from", START.plusSeconds(86400).toString())
+                            .param("to", START.plusSeconds(172800).toString())
+                            .session(authenticatedSession()).with(login))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.points.length()").value(0));
+            mvc.perform(get("/api/geography/cities/{cityId}/kpis", binding.city())
+                            .param("service", binding.service()).param("from", START.toString())
+                            .param("to", START.plusSeconds(60).toString())
+                            .session(authenticatedSession()).with(login))
+                    .andExpect(status().isOk()).andExpect(jsonPath("$.points.length()").value(1));
         }
     }
 

@@ -48,7 +48,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Page through contained nodes and separate dependency references */
+        /**
+         * Page through contained nodes and separate dependency references
+         * @description Containment children are ordered by kind then nodeId. IMS/SMSC/transport dependencies are separate references, never child measurements. The default parent is the city's CITY node. Unknown city/version returns 404; invalid or cross-city parent returns 400. Page offsets must fit a signed 32-bit integer. Without an explicit archived version the catalogue must be active.
+         */
         get: operations["getGeographyTopology"];
         put?: never;
         post?: never;
@@ -87,7 +90,7 @@ export interface paths {
         };
         /**
          * Page through a stable view of persisted technical incidents
-         * @description Fresh ongoing incidents lead. Uncertain and recovered items retain distinct states. Do not compare VoLTE percentage points with SMS milliseconds.
+         * @description Project policy version geographic-priority-v1 follows Serghei's handoff, accepted for implementation by the task owner without Rusu signoff. City identity uses the opening detection's topology and exact-window coverage catalogue when unique. Fresh ongoing incidents lead by severity; equal severity uses fixed SMS-then-VOLTE grouping, then service-specific comparable impact descending with missing impact last, age and incident ID. Uncertain/stale and recovered use age and ID only. VoLTE extra failed attempts and SMS affected delivered messages are never compared across services.
          */
         get: operations["listOperationalPriority"];
         put?: never;
@@ -477,7 +480,7 @@ export interface paths {
         put?: never;
         /**
          * Schedule a synthetic service scenario
-         * @description Supervisor/admin only. Server schedules the next full minute: two normal, three degraded, three recovery windows (8 minutes). Rate/duration are fixed by versioned scenario profile, not arbitrary request fields. Persist requestId/body hash/runId in incidents_db; retries reuse the saved command and generator runId. Same ID with different body returns 409.
+         * @description Supervisor/admin only. Server schedules the next full minute: two normal, three degraded, three recovery windows (8 minutes). Rate/duration are fixed by versioned scenario profile, not arbitrary request fields. Persist requestId/body hash/runId in incidents_db; retries reuse the saved command and generator runId. Same ID with different body returns 409. NORMAL_CONTROL and TELEMETRY_GAP accept catalogue VoLTE or SMS city scopes and the two legacy scopes; VOLTE_IMS_OVERLOAD accepts VoLTE scopes only, and SMS_QUEUE_DELAY accepts SMS scopes only. Unknown or incompatible scopes return INVALID_SCOPE. An overlapping reservation on the same scope returns 409.
          */
         post: operations["startScenario"];
         delete?: never;
@@ -588,6 +591,12 @@ export interface components {
         GeographyTopologyPage: {
             cityId: string;
             catalogueVersion: string;
+            topologyVersion: string;
+            /** Format: date-time */
+            generatedAt: string;
+            parentId: string;
+            footprintNodeIds: string[];
+            dependencies: components["schemas"]["GeographyDependency"][];
             page: number;
             size: number;
             hasNext: boolean;
@@ -595,11 +604,29 @@ export interface components {
                 nodeId: string;
                 parentId: string | null;
                 /** @enum {string} */
-                kind: "COUNTRY" | "CITY" | "AGGREGATION" | "SITE" | "CELL" | "IMS" | "SMSC" | "TRANSPORT";
-                /** @description True only when this node has its own authoritative measurement. */
+                kind: "AGGREGATION" | "SITE" | "CELL";
+                /** @description Configured measured scope footprint membership; does not assert current measurements exist or copy a scope KPI to this node. */
                 measured: boolean;
-                dependencyNodeIds: string[];
             }[];
+        };
+        GeographyDependency: {
+            scopeId: string;
+            /** @enum {string} */
+            service: "VOLTE" | "SMS";
+            role: string;
+            nodeId: string;
+            sourceId: string;
+        };
+        /** @description Resolved from the opening detection's captured topology and its exact source-window coverage catalogue when unique; otherwise requires a unique historical topology binding. Multiple matching coverage catalogues remain ambiguous. Today's mapping never replaces opening evidence, and legacy scopes stay unallocated. */
+        IncidentLocation: {
+            cityId: string | null;
+            catalogueVersion: string | null;
+            topologyVersion: string | null;
+            measuredScopeId: string;
+            containmentPath: string[];
+            dependencyNodeIds: string[];
+            /** @enum {string|null} */
+            nullReason: "UNALLOCATED" | "CAPTURED_VERSION_MISSING" | "BINDING_NOT_FOUND" | "AMBIGUOUS_CATALOGUE_VERSION" | "INVALID_CONTAINMENT" | null;
         };
         GeographyKpiPage: {
             cityId: string;
@@ -624,25 +651,46 @@ export interface components {
         GeographyPriorityPage: {
             /** Format: date-time */
             generatedAt: string;
+            policyVersion: string;
+            /** @enum {string} */
+            policyStatus: "ACTIVE";
             page: number;
             size: number;
             hasNext: boolean;
             items: {
                 /** Format: uuid */
                 incidentId: string;
-                cityId: string;
+                /** @description Null for legacy or unresolved captured topology. */
+                cityId: string | null;
+                /** @enum {string|null} */
+                cityNullReason: "UNALLOCATED" | "CAPTURED_VERSION_MISSING" | "BINDING_NOT_FOUND" | "AMBIGUOUS_CATALOGUE_VERSION" | null;
                 /** @enum {string} */
                 service: "VOLTE" | "SMS";
+                scopeId: string;
                 /** @enum {string} */
                 technicalState: "ONGOING" | "UNKNOWN" | "RECOVERED";
                 /** @enum {string} */
                 analystStatus: "OPEN" | "INVESTIGATING" | "RESOLVED";
                 /** @enum {string} */
                 severity: "MEDIUM" | "HIGH" | "CRITICAL";
+                severityHistorical: boolean;
+                /** @enum {string} */
+                freshness: "FRESH" | "STALE" | "UNKNOWN" | "RECOVERED";
+                /** @enum {string} */
+                priorityBand: "FRESH_ONGOING" | "UNCERTAIN" | "RECOVERED";
+                /** @description Latest immutable detection's service-specific impact only for fresh ongoing incidents; null for missing or historical impact. */
+                comparableImpact: number | null;
+                /**
+                 * @description Service-specific metric identity; null outside the fresh ongoing band.
+                 * @enum {string|null}
+                 */
+                impactUnit: "EXTRA_FAILED_ATTEMPTS" | "AFFECTED_DELIVERED_MESSAGES" | null;
                 /** Format: date-time */
                 firstObservedAt: string;
                 /** Format: date-time */
                 detectedAt: string;
+                /** Format: date-time */
+                latestWindowEnd: string;
             }[];
         };
         /** @description Lowercase SHA-256 hexadecimal identity derived from the canonical episode contract. */
@@ -872,6 +920,7 @@ export interface components {
             version: number;
             latestSequence: number;
             latestDetection: components["schemas"]["ServiceDetection"];
+            location?: components["schemas"]["IncidentLocation"];
             /** @description Impact freshness and explanation copied from latest immutable detection. */
             presentation: {
                 /** @enum {string} */
@@ -1183,6 +1232,7 @@ export interface operations {
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
+            503: components["responses"]["Unavailable"];
         };
     };
     getGeographyCityKpis: {
