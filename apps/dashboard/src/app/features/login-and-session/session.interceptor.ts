@@ -23,6 +23,7 @@ export const sessionInterceptor: HttpInterceptorFn = (
   }
 
   const session = inject(SessionStore);
+  session.checkIdle();
   const actor = session.actor();
 
   if (
