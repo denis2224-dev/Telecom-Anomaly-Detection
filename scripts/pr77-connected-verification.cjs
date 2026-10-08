@@ -54,7 +54,8 @@ function createCandidate(original, context, root) {
       return { type: 'bind', source: path.resolve(root, source), target, read_only: mode === 'ro' };
     });
   }
-  for (const section of ['networks', 'volumes']) for (const item of Object.values(compose[section] || {})) {
+  for (const section of ['networks', 'volumes']) for (const [name, raw] of Object.entries(compose[section] || {})) {
+    const item = compose[section][name] = raw || {};
     if (item.external || item.name) throw Error('Named/external resources are unsupported by the disposable runner.');
     item.labels = { ...item.labels, ...label };
   }
@@ -115,6 +116,26 @@ async function resources(context, env, logFile) {
 }
 
 function writePrivate(filename, value) { fs.writeFileSync(filename, typeof value === 'string' ? value : JSON.stringify(value, null, 2) + '\n', { mode: 0o600, flag: 'wx' }); }
+
+function removeCredentials(context, expectedDirectory, secrets) {
+  if (path.resolve(context.privateDir) !== expectedDirectory || fs.realpathSync(context.privateDir) !== expectedDirectory || !fs.lstatSync(context.privateDir).isDirectory()) throw Error('Private directory identity changed; credential cleanup refused.');
+  const marker = JSON.parse(fs.readFileSync(path.join(expectedDirectory, 'ownership.json'), 'utf8'));
+  if (marker.directory !== expectedDirectory || marker.owner !== context.ownerLabelValue || marker.project !== context.projectName) throw Error('Private directory ownership mismatch; credential cleanup refused.');
+  const logFile = path.join(expectedDirectory, 'commands.log');
+  if (fs.existsSync(logFile)) {
+    let log = fs.readFileSync(logFile, 'utf8');
+    for (const secret of secrets.filter(Boolean).sort((a, b) => b.length - a.length)) log = log.replaceAll(secret, '[REDACTED]');
+    log = log.replace(/(authorization|set-cookie|cookie)(\s*[:=]\s*)[^\r\n]+/gi, '$1$2[REDACTED]')
+      .replace(/("(?:access_token|refresh_token|id_token|token|password|secret|JSESSIONID)"\s*:\s*)"[^"]*"/gi, '$1"[REDACTED]"')
+      .replace(/\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)?\b/g, '[REDACTED]');
+    fs.writeFileSync(logFile, log, { mode: 0o600 });
+  }
+  // Explicit names only; do not recurse or follow a supplied deletion target.
+  for (const filename of ['stack.env', 'realm.json', 'stack-context.json']) {
+    const target = path.join(expectedDirectory, filename);
+    if (fs.existsSync(target)) fs.unlinkSync(target);
+  }
+}
 function assetHashes(directory) {
   const result = {};
   function visit(dir) { for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -156,11 +177,13 @@ async function main(args) {
   }
   fs.mkdirSync(context.privateDir, { mode: 0o700 });
   fs.mkdirSync(context.outputDir, { mode: 0o700 });
+  const privateDirectoryIdentity = fs.realpathSync(context.privateDir);
   const logFile = path.join(context.privateDir, 'commands.log');
   const report = { schemaVersion: 1, sourceSha: context.sourceSha, projectName: context.projectName, baseURL: context.baseURL,
     startedAt: new Date().toISOString(), status: 'INCOMPLETE', configHashes: {}, cleanup: 'NOT_STARTED' };
   let stackAttempted = false;
   try {
+    writePrivate(path.join(context.privateDir, 'ownership.json'), { directory: privateDirectoryIdentity, owner: context.ownerLabelValue, project: context.projectName });
     writePrivate(context.envFile, Object.entries(variables).map(([key, value]) => `${key}=${value}`).join('\n') + '\n');
     const realm = JSON.parse(fs.readFileSync(path.join(ROOT, 'infra/keycloak/telecom-realm.json'), 'utf8'));
     const client = realm.clients.find(item => item.clientId === 'telecom-web');
@@ -234,6 +257,10 @@ async function main(args) {
         report.cleanup = 'PASSED';
       } catch { report.cleanup = 'BLOCKED_OWNERSHIP_OR_DOCKER_FAILURE'; report.status = 'FAILED'; }
     }
+    try {
+      removeCredentials(context, privateDirectoryIdentity, [...Object.values(secrets), context.analyst?.password, context.supervisor?.password]);
+      report.credentialCleanup = 'PASSED';
+    } catch { report.credentialCleanup = 'BLOCKED_DIRECTORY_OWNERSHIP'; report.status = 'FAILED'; }
     report.finishedAt = new Date().toISOString();
     fs.writeFileSync(path.join(context.outputDir, 'runtime.json'), JSON.stringify(report, null, 2) + '\n');
     console.log(`Verification ${report.status}; cleanup ${report.cleanup}. Public result: ${path.join(context.outputDir, 'runtime.json')}`);
@@ -241,5 +268,5 @@ async function main(args) {
   if (report.status !== 'PASSED') throw Error('Connected verification failed; retain this attempt and inspect private diagnostics.');
 }
 
-module.exports = { parseArgs, composeArgs, assertOwned, createCandidate };
+module.exports = { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials };
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(error.message); process.exitCode = 1; });

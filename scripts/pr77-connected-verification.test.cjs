@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const fs = require('node:fs');
 const os = require('node:os');
-const { parseArgs, composeArgs, assertOwned, createCandidate } = require('./pr77-connected-verification.cjs');
+const { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials } = require('./pr77-connected-verification.cjs');
 
 test('requires explicit fresh absolute directories and a bounded project name', () => {
   assert.throws(() => parseArgs([]));
@@ -36,7 +36,7 @@ test('cleanup refuses resources lacking both project and nonce ownership', () =>
 test('candidate rewrites production dependencies and isolated ports consistently', () => {
   const services = Object.fromEntries(['postgres', 'kafka', 'event-generator', 'processor', 'history-bootstrap', 'incident-service', 'ml-service', 'keycloak', 'proxy'].map(name => [name, { environment: {}, volumes: [] }]));
   services.processor.build = { context: '.', dockerfile: 'services/processor/Dockerfile' };
-  const original = { services, networks: { 'telecom-private': {} }, volumes: { 'postgres-data': {} } };
+  const original = { services, networks: { 'telecom-private': {} }, volumes: { 'postgres-data': null } };
   const c = { projectName: 'pr77-unit', privateDir: os.tmpdir(), sourceSha: 'a'.repeat(40), ownerLabelName: 'io.telecom.pr77.owner', ownerLabelValue: 'nonce', baseURL: 'http://telecom.test:18080' };
   const candidate = createCandidate(original, c, '/repo');
   assert.equal(candidate.services.keycloak.environment.KC_HOSTNAME, c.baseURL + '/auth');
@@ -47,4 +47,29 @@ test('candidate rewrites production dependencies and isolated ports consistently
   assert.equal(candidate.networks['telecom-private'].labels[c.ownerLabelName], 'nonce');
   assert.equal(candidate.volumes['postgres-data'].labels[c.ownerLabelName], 'nonce');
   assert.equal(original.services.keycloak.environment.KC_HOSTNAME, undefined);
+});
+
+test('credential cleanup checks directory and nonce before unlinking only generated secrets', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'pr77-private-test-'));
+  const real = fs.realpathSync(directory);
+  const context = { privateDir: real, projectName: 'pr77-unit', ownerLabelValue: 'nonce' };
+  const write = (name, data) => fs.writeFileSync(path.join(real, name), data);
+  try {
+    write('stack.env', 'PASSWORD=private-password');
+    write('realm.json', 'private-password');
+    write('stack-context.json', 'private-password');
+    write('commands.log', 'PASSWORD=private-password\nSet-Cookie: opaque-cookie\n{"token":"opaque-token"}');
+    write('keep.txt', 'diagnostics');
+    assert.throws(() => removeCredentials(context, real, ['private-password']));
+    write('ownership.json', JSON.stringify({ directory: real, owner: 'different-nonce', project: 'pr77-unit' }));
+    assert.throws(() => removeCredentials(context, real, ['private-password']));
+    assert.equal(fs.existsSync(path.join(real, 'stack.env')), true);
+    write('ownership.json', JSON.stringify({ directory: real, owner: 'nonce', project: 'pr77-unit' }));
+    assert.throws(() => removeCredentials({ ...context, privateDir: path.dirname(real) }, real, ['private-password']));
+    removeCredentials(context, real, ['private-password']);
+    for (const name of ['stack.env', 'realm.json', 'stack-context.json']) assert.equal(fs.existsSync(path.join(real, name)), false);
+    assert.equal(fs.readFileSync(path.join(real, 'keep.txt'), 'utf8'), 'diagnostics');
+    const log = fs.readFileSync(path.join(real, 'commands.log'), 'utf8');
+    for (const secret of ['private-password', 'opaque-cookie', 'opaque-token']) assert.equal(log.includes(secret), false);
+  } finally { fs.rmSync(real, { recursive: true }); }
 });
