@@ -15,11 +15,13 @@ import {
 import { SessionStore } from '../login-and-session/session.store';
 import { IconComponent } from '../../shared/icon.component';
 import { ToastService } from '../../shared/toast.service';
+import { ScenarioPreviewComponent } from './scenario-preview.component';
+import { countries, previewScenarios, type PreviewType } from './monitoring-preview';
 import { RunStore } from './run.store';
 
 @Component({
   selector: 'app-scenario-runner',
-  imports: [DatePipe, IconComponent],
+  imports: [DatePipe, IconComponent, ScenarioPreviewComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Controlled simulation</p><h1>Scenario runner</h1><p>Reproduce a service event and follow its recovery.</p></div><span class="badge" [attr.data-state]="store.run()?.status ?? 'IDLE'">{{ store.run()?.status ?? 'IDLE' }}</span></div>
 
@@ -48,10 +50,11 @@ import { RunStore } from './run.store';
           [disabled]="!!store.command()"
           (change)="selectType($event)"
         >
-          <option value="VOLTE_IMS_OVERLOAD">VoLTE IMS overload</option>
+          <option value="VOLTE_IMS_OVERLOAD">VoLTE IMS CPU overload</option>
           <option value="SMS_QUEUE_DELAY">SMS queue delay</option>
-          <option value="NORMAL_CONTROL">Normal control</option>
-          <option value="TELEMETRY_GAP">Telemetry gap</option>
+          <option value="NORMAL_CONTROL">VoLTE / SMS normal control</option>
+          <option value="TELEMETRY_GAP">VoLTE / SMS telemetry gap</option>
+          <optgroup label="Local previews · API support pending">@for (scenario of previews; track scenario.id) { @if (scenario.id !== 'VOLTE_IMS_OVERLOAD') { <option [value]="scenario.id">{{ scenario.label }} · preview</option> } }</optgroup>
         </select>
 
         </div><div class="field"><label for="scenario-scope">Service scope</label>
@@ -64,7 +67,7 @@ import { RunStore } from './run.store';
           <option value="">Choose a scope</option>
           @for (service of availableScopes(); track service.scope.scopeId) {
             <option [value]="service.scope.scopeId">
-              {{ service.scope.scopeId }}
+              {{ service.scope.region }} · {{ service.scope.scopeId }}
             </option>
           }
         </select>
@@ -80,7 +83,8 @@ import { RunStore } from './run.store';
           (input)="editSeed($event)"
         />
 
-        </div></div>
+        </div>@if (type().includes('ROAMING')) { <div class="field"><label for="scenario-country">Country</label><select id="scenario-country" [value]="country()" (change)="country.set($any($event.target).value)">@for (name of countries; track name) { <option>{{ name }}</option> }</select></div> }</div>
+        @if (isPreview()) { <p class="muted">Local deterministic preview only. Backend support is required for persisted runs and incidents.</p> }
         <details class="evidence-disclosure"><summary>Supported scenario scopes</summary><p>Legacy scopes are always available. {{ cityScopesAvailable() ? 'Active catalogue city scopes are available for the selected service.' : 'City scopes are unavailable until the catalogue is active.' }}</p></details>
         @if (store.command(); as command) {
           <p>
@@ -97,10 +101,11 @@ import { RunStore } from './run.store';
             class="primary" [attr.aria-busy]="store.busy()" [disabled]="store.busy() || !canStart()"
             (click)="start()"
           >
-            <app-icon name="play" />{{ store.command() ? 'Retry same command' : 'Start scenario' }}
+            <app-icon name="play" />{{ isPreview() ? 'Generate preview' : store.command() ? 'Retry same command' : 'Start scenario' }}
           </button>
         }
 
+        @if (type() === 'VOLTE_IMS_OVERLOAD' && !store.command()) { <button class="ghost" type="button" [disabled]="!canStart()" (click)="generatePreview()">Preview IMS profile</button> }
         @if (store.canAbandon() && !store.run()) {
           <button type="button" (click)="store.newCommand()">
             Start a different command
@@ -116,6 +121,7 @@ import { RunStore } from './run.store';
         }
       </section>
 
+      @if (preview(); as item) { <app-scenario-preview [type]="item.type" [seed]="item.seed" [scopeId]="item.scopeId" [location]="item.location" [country]="item.country" [startUTC]="item.startUTC" /> }
       <section class="detail-panel" aria-labelledby="profile-title">
         <h2 id="profile-title">Eight-minute profile</h2>
         <p>
@@ -197,7 +203,10 @@ export class ScenarioRunnerComponent implements OnDestroy {
   readonly catalogueScopes = signal<ReadonlySet<string>>(new Set(['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A']));
   readonly cityScopesAvailable = computed(() => this.catalogueScopes().size > 2);
   readonly scopeError = signal('');
-  readonly type = signal<ScenarioType>('VOLTE_IMS_OVERLOAD');
+  readonly type = signal<ScenarioType | PreviewType>('VOLTE_IMS_OVERLOAD');
+  readonly previews = previewScenarios; readonly countries = countries; readonly country = signal('Romania');
+  readonly isPreview = computed(() => !['VOLTE_IMS_OVERLOAD','SMS_QUEUE_DELAY','NORMAL_CONTROL','TELEMETRY_GAP'].includes(this.type()));
+  readonly preview = signal<{ type: PreviewType; seed: number; scopeId: string; country: string; location: string; startUTC: string } | null>(null);
   readonly scopeId = signal('');
   readonly seed = signal(42);
   readonly now = signal(Date.now());
@@ -212,13 +221,14 @@ export class ScenarioRunnerComponent implements OnDestroy {
   readonly availableScopes = computed(() =>
     this.scopes().filter(service => {
       if (!this.catalogueScopes().has(service.scope.scopeId)) return false;
+      if (this.type() === 'VOLTE_CITY_TRANSPORT_OVERLOAD' && ['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A'].includes(service.scope.scopeId)) return false;
       if (
-        this.type() === 'VOLTE_IMS_OVERLOAD'
+        this.type().startsWith('VOLTE_')
         && service.scope.service !== 'VOLTE'
       ) return false;
 
       if (
-        this.type() === 'SMS_QUEUE_DELAY'
+        this.type().startsWith('SMS_')
         && service.scope.service !== 'SMS'
       ) return false;
 
@@ -311,9 +321,10 @@ export class ScenarioRunnerComponent implements OnDestroy {
 
   selectType(event: Event): void {
     this.type.set(
-      (event.target as HTMLSelectElement).value as ScenarioType,
+      (event.target as HTMLSelectElement).value as ScenarioType | PreviewType,
     );
     this.scopeId.set('');
+    this.preview.set(null);
   }
 
   selectScope(event: Event): void {
@@ -328,11 +339,20 @@ export class ScenarioRunnerComponent implements OnDestroy {
     );
   }
 
+  generatePreview(): void {
+    if (!this.canStart()) return;
+    const scope = this.scopes().find(item => item.scope.scopeId === this.scopeId())!;
+    this.preview.set({ type: this.type() as PreviewType, seed: this.seed(), scopeId: this.scopeId(), country: this.country(),
+      location: this.type().includes('ROAMING') ? this.country() : scope.scope.region,
+      startUTC: new Date(Math.ceil(this.now() / 60000) * 60000).toISOString() });
+  }
   async start(): Promise<void> {
+    if (this.isPreview()) { this.generatePreview(); return; }
+    this.preview.set(null);
     const saved = this.store.command();
 
     await this.store.start(
-      saved?.type ?? this.type(),
+      saved?.type ?? this.type() as ScenarioType,
       saved?.seed ?? this.seed(),
       saved?.scopeId ?? this.scopeId(),
     );
@@ -378,7 +398,7 @@ export class ScenarioRunnerComponent implements OnDestroy {
     if (minute <= 5) {
       return type === 'SMS_QUEUE_DELAY'
         ? 'slow delivery and queue backlog'
-        : 'IMS overload';
+        : previewScenarios.find(item => item.id === type)?.target ?? 'IMS overload';
     }
 
     return 'recovery traffic';

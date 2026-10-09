@@ -9,6 +9,7 @@ import { ServiceStore } from './service.store';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
 import { IconComponent } from '../../shared/icon.component';
 import { DrawerComponent } from '../../shared/drawer.component';
+import { RoamingOverviewComponent } from '../roaming/roaming-overview.component';
 import { CityEvidenceComponent } from './city-evidence.component';
 import { probableCause } from '../../shared/metric-presentation';
 import { metricValue, formatMetric } from '../service-kpi-history/assurance-model';
@@ -30,7 +31,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent],
+  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -50,6 +51,7 @@ export class ConnectedOverviewComponent {
   readonly fixture = dataSource.fixture;
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
+  readonly roamingPanel = signal(true);
   readonly selectedScopes = signal({ VOLTE: '', SMS: '' });
   readonly pageSize = 20;
   private readonly fixtureCatalogue = signal<readonly City[]>(cities);

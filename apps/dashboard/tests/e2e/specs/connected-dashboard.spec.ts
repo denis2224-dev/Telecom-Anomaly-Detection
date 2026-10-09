@@ -17,6 +17,7 @@ test('overview SMS chart uses the measured delivery success rate, not delay', as
   state.incident.lastObservedAt = state.windows.at(-1)!.windowEnd;
   state.incident.latestDetection = structuredClone(trajectory.detections.at(-1)!) as typeof state.incident.latestDetection;
   await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
   const chart = page.locator('[data-chart=deliverySrPct]');
   await expect(chart.locator('.actual-line')).not.toHaveAttribute('d', '');
   await expect(chart.locator('.expected-line')).not.toHaveAttribute('d', '');
@@ -82,6 +83,7 @@ for (const width of [1366, 768, 390]) {
     });
 
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
     await expect(page.locator('.city-marker')).toHaveCount(9);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
@@ -144,6 +146,7 @@ for (const width of [1366, 768, 390]) {
     test.skip(process.env.E2E_CITY_FIXTURE !== '1', 'Run explicitly against the fixture server');
     await page.setViewportSize({ width, height: width === 1366 ? 768 : 1000 });
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toBeVisible();
     await expect(page.locator('.city-marker')).toHaveCount(9);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
@@ -210,12 +213,14 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('app-incident-actions button, app-incident-actions textarea, app-incident-actions select')).toHaveCount(0);
     await page.keyboard.press('Escape');
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
     await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);
     await page.getByRole('button', { name: 'Open VoLTE setup', exact: true }).click();
     await expect(page).toHaveURL(/\/services\/fixture-VOLTE-ORH$/);
     await expect(page.locator('app-service-context')).toHaveCount(0);
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await page.getByRole('button', { name: 'Open SMS delivery', exact: true }).click();
     await expect(page).toHaveURL(/\/services\/SMS-MD-ROUTE-A$/);
     await expect(page.locator('app-kpi-cards tbody tr')).toHaveCount(5);

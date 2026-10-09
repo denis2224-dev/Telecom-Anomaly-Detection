@@ -60,7 +60,15 @@
       </table></div>
       <button type="button" class="panel-navigation" (click)="queueDialog.open()" aria-haspopup="dialog" aria-controls="incident-queue">Open incident investigation <app-icon name="right" /></button>
     </section>
+    @if (roamingPanel()) {
+    <section class="service-panel" aria-label="Roaming overview">
+      <button class="ghost" type="button" (click)="roamingPanel.set(false)">Show SMS graph</button>
+      <app-roaming-overview [compact]="true" [from]="chartFrom()" [to]="chartTo()" />
+      <button type="button" class="panel-navigation" [routerLink]="serviceTarget('SMS') ? ['/services', serviceTarget('SMS')!.scope.scopeId] : null" [disabled]="!serviceTarget('SMS')">Open SMS delivery <app-icon name="right" /></button>
+    </section>
+    } @else {
     <section class="service-panel" aria-labelledby="sms-panel-title">
+      <button class="ghost" type="button" (click)="roamingPanel.set(true)">Show roaming preview</button>
       <h2 id="sms-panel-title">SMS delivery <span>Success rate %</span></h2>
       <div class="panel-visual">
         <p class="chart-scope" [attr.data-scope]="chartScope('SMS')?.scope?.scopeId" [title]="chartScope('SMS')?.scope?.scopeId ?? ''">@if (chartScope('SMS'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
@@ -79,6 +87,7 @@
       </table></div>
       <button type="button" class="panel-navigation" [routerLink]="serviceTarget('SMS') ? ['/services', serviceTarget('SMS')!.scope.scopeId] : null" [disabled]="!serviceTarget('SMS')">Open SMS delivery <app-icon name="right" /></button>
     </section>
+    }
   </div>
   @if (!fixture && selectedCity()?.geography) {
     <app-city-evidence [city]="selectedCity()!" [filter]="serviceFilter()" [from]="chartFrom()" [to]="chartTo()" [updatedAt]="geographyUpdatedAt()" [catalogueError]="geographyError()" />

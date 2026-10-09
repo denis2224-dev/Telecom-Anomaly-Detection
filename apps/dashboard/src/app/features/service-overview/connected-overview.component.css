@@ -87,3 +87,8 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
   .queue-toggle { grid-column: 2; }
   .map-legend { gap: 7px; font-size: 8px; }
 }
+
+@container(max-width:600px) {
+  .controls input, .controls select, .controls > button, .controls .apply-field button { min-height: 44px; height: 44px; }
+  .period-chips button { min-height: 44px; }
+}
