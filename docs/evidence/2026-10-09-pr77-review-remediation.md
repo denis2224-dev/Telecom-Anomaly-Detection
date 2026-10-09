@@ -1,106 +1,131 @@
 # PR #77 review remediation (2026-10-09)
 
-**Status: fresh combined-revision acceptance PENDING.**
-The historical archive/reproduction contract is corrected. The previously integrated main was `a52cc85`; remote main has since advanced to
-`0eb9b5b` (PR #79). All six CI jobs for the intermediate source revision below
-passed. Integration and verification of the latest main are being repeated.
-Those CI results do not establish acceptance of the next candidate or final
-publication SHA. G5 release approval remains **BLOCKED** until shared
-final-candidate gates and required owner sign-offs pass.
+**Focused combined-revision technical acceptance: PASSED.** All three required
+connected browser cases passed on source `1c889216dec184120373cfd52355f2b2e8fa4ac6` with retries disabled,
+followed by successful owned-resource and credential cleanup. This establishes
+the focused compatibility checks requested in review. Human PR approval is
+**PENDING** and G5 release approval remains **BLOCKED** until shared final-candidate
+gates and required owner sign-offs pass.
 
-## Review findings and implementation
+## Review findings addressed
 
-- **P2: archived drivers.** The [historical acceptance report](2026-10-08-sergiu-g4-connected-acceptance.md)
-  now labels its audit drivers historical and non-executable from committed paths,
-  explains root/import relocation and original machine/private-configuration limits,
-  and points to the [supported isolated workflow](../runbooks/pr77-connected-verification.md).
-  All 55 indexed historical artifact hashes remain unchanged.
-- **P2: current-main compatibility.** The intermediate candidate integrated main
-  `a52cc85ae46b4d3138dbca505ba80de661fe97d1`, including PR #76 dashboard/session
-  changes. Latest main is `0eb9b5b417b37343e86038cdd84243ce68e17cbe`, including
-  PR #79 generator retry and managed proxy routing changes. Its integration and
-  fresh combined verification remain pending in this report. The supported runner
-  builds a committed candidate with fresh isolated identities and owned resources,
-  then runs real authentication, expiry, SSE reconnect and geographic browser checks.
-  Fresh acceptance is still pending; all required cases must pass on one rebuilt candidate.
-- Fresh compact results and sanitized captures belong in a separate evidence bundle;
-  do not modify or relabel the sealed historical G4 assets. This focused verification
-  does not repeat every historical replay/ML-outage audit or provide release-owner approval.
+- **Archived drivers:** the [historical report](2026-10-08-sergiu-g4-connected-acceptance.md)
+  labels its drivers historical and non-executable from their committed paths,
+  explains relocation/private-configuration assumptions, and links the
+  [supported isolated workflow](../runbooks/pr77-connected-verification.md).
+  All **55** sealed historical artifact hashes remain unchanged.
+- **Current main:** the tested source integrates main `0eb9b5b417b37343e86038cdd84243ce68e17cbe`, including
+  PR #76 session changes and PR #79 generator retry/managed proxy routing changes.
+  Fresh production builds and real OIDC, expiry, SSE reconnect and geographic
+  verification cover their combined behavior.
+- **Evidence size:** runnable material and this compact fresh bundle are separate
+  from bulky historical captures. Private logs, secrets, traces and automatic
+  error-context captures are excluded from publication.
+- **Verified fixes:** the connected run exposed a mobile provenance hash that
+  overflowed its detail card. A scoped wrapping rule and regression test cover it.
+  The SSE observer now discards historical requests on full document replacement;
+  a real HTTP-server regression verifies reload, SPA navigation, reconnect and closure.
 
-## Candidate and provenance
+## Provenance
 
 | Field | Recorded value |
 | --- | --- |
-| Main integrated in intermediate candidate | `a52cc85ae46b4d3138dbca505ba80de661fe97d1` |
-| Latest remote main to integrate and verify | `0eb9b5b417b37343e86038cdd84243ce68e17cbe` |
-| Intermediate runtime/CI source candidate | `7fe593eb0c4eabe4670e2d1c649fc573f3e91a1d` |
-| CI actual checkout for that intermediate candidate | `87dc61bef23817ef675bc710970fd8eeda867685` (synthetic PR merge) |
-| Fresh final runtime-tested source candidate | **PENDING** |
-| Fresh runtime images, asset/configuration hashes and evidence checksums | **PENDING** |
-| Fresh acceptance UTC start/end, run/incident identifiers and artifacts | **PENDING** |
-| Later evidence-only publication head and final-head CI | **PENDING** |
+| Directly runtime-tested source | `1c889216dec184120373cfd52355f2b2e8fa4ac6` |
+| Integrated main | `0eb9b5b417b37343e86038cdd84243ce68e17cbe` |
+| CI actual synthetic PR checkout | `363529482f48c7a848b5358b9c51da7c5cf49992` |
+| Equal source/synthetic Git tree | `a6c9b5e247b24a7d60a674073ccfa8d9917492bc` |
+| Owned project | `pr77-20261009-r6` |
+| Runtime UTC start / finish | `2026-10-09T07:28:01.526Z` / `2026-10-09T08:26:09.001Z` |
+| Evidence-only publication | Commit introducing this report; exact SHA and final six CI links recorded in the PR description |
 
-Each intermediate job's checkout log explicitly says it merged `7fe593eb` into
-main `a52cc85`, then records the full synthetic checkout SHA above. Fresh runtime
-verification must record its own built source SHA and image identities. Committing
-evidence afterward creates a later publication head; do not claim that later SHA was
-directly runtime-tested. Any application/configuration fix requires rebuilding and
-rerunning affected connected checks, and all candidate CI jobs must be green again.
+[Runtime provenance](assets/pr77-review-remediation/runtime.json) records image IDs and source labels,
+dashboard asset hashes, generated configuration hashes and cleanup outcomes.
+[Connected reporter](assets/pr77-review-remediation/verification.json) records all three passing cases.
+CI logs identify the full source/main merge and checkout; both trees are identical.
+[Application/configuration source objects](assets/pr77-review-remediation/runtime-source-objects.json)
+provides the comparison against the later publication head: all root entries
+except docs/tasks must remain identical. The publication commit is evidence-only;
+its SHA is not claimed as directly runtime-tested. Historical G4 evidence keeps
+its original build/source attribution.
 
-## Verification recorded so far
+## Fresh connected results
 
-The following six jobs passed for intermediate source `7fe593eb`, tested as
-synthetic merge `87dc61b`. Their results must not be carried forward as final-head CI.
+| Gate | Result and evidence |
+| --- | --- |
+| Real OIDC roles; session/CSRF rotation; stale CSRF rejection; token-free storage; analyst scenario restrictions | PASSED - [geographic-security-results.json](assets/pr77-review-remediation/geographic-security-results.json) |
+| Owned proxy stop/start; native SSE reconnect and authoritative REST; retained city/filter/range/focus | PASSED - [geographic-security-results.json](assets/pr77-review-remediation/geographic-security-results.json) |
+| CHI faults, BAL normal and CAH UNKNOWN/null gap; API/map/queue/detail agreement and recovery | PASSED - [scenarios.json](assets/pr77-review-remediation/scenarios.json) |
+| Open inactive dashboard at fifteen-minute idle deadline despite ordinary REST/SSE | PASSED - [idle-expiry-results.json](assets/pr77-review-remediation/idle-expiry-results.json) |
+| Original thirty-minute backend absolute deadline despite trusted activity | PASSED - [absolute-expiry-results.json](assets/pr77-review-remediation/absolute-expiry-results.json) |
+| Protected 401 and real UI logout close streams/background work; new protected requests rejected | PASSED - [geographic-security-results.json](assets/pr77-review-remediation/geographic-security-results.json) |
+| Owned-resource cleanup and guarded credential removal | PASSED / PASSED - [runtime.json](assets/pr77-review-remediation/runtime.json) |
+
+Idle session remained connected at **885.025 s**,
+with **117** ordinary background requests
+and **1** active SSE connection(s). Deadline
+observation was **905.042 s** after last trusted input
+`2026-10-09T07:40:00.212Z`. Absolute deadline
+`2026-10-09T08:25:31.033450071Z` was unchanged across
+**30** trusted activity observations; expiry was
+observed at `2026-10-09T08:25:36.047Z`, after
+**1804.861 s** from its timing anchor. Both cases
+record host/browser monotonic consistency, backend clock anchors, zero active
+streams after expiry, a 20-second quiet period and protected statuses 401/401/401.
+No accelerated clock or mocked connected response was used.
+
+Fresh scenarios ran from `2026-10-09T07:31:00Z` to
+`2026-10-09T07:39:00Z`. Run records retain their original creation-time
+status; completed assertions, receipt provenance and recovery are recorded separately.
+
+| Scope / scenario | Run identifier |
+| --- | --- |
+| VOLTE-MD-CHI / VOLTE_IMS_OVERLOAD | `9181745c-a693-4419-99a4-e87d023408d8` |
+| SMS-MD-CHI / SMS_QUEUE_DELAY | `8c7856d2-af71-4ef9-bdb0-3c469ea66b8b` |
+| VOLTE-MD-BAL / NORMAL_CONTROL | `4830ad62-7d75-4425-873f-bd5f8363862d` |
+| SMS-MD-CAH / TELEMETRY_GAP | `6c288f02-423a-42e6-9e62-92bd35001eb3` |
+
+Incident identifiers: `31f0bc9d-b4b9-4f69-96c4-eb8423dca9de`, `fc7c1711-9ce0-4a6b-93ab-184e6eff77a6`.
+The trace verifies **10 immutable detections**, five per fault, against DB/API
+canonical identities and **25 distinct authorized durable source receipts**.
+Normal/gap controls produced no false incident; recovered incidents retained the
+analyst workflow state OPEN. **Nine** explicitly masked desktop/mobile
+[captures](assets/pr77-review-remediation/captures/) cover queue, gap, both service
+details and recovery. [Bundle index](assets/pr77-review-remediation/index.json) seals the published files;
+[historical-seals.json](assets/pr77-review-remediation/historical-seals.json) records the 55 unchanged historical artifacts.
+
+## Candidate CI
+
+All six required candidate jobs passed on the actual synthetic checkout above.
+[ci-runtime-candidate.json](assets/pr77-review-remediation/ci-runtime-candidate.json) includes job URLs, checkout evidence and bounded
+test summaries. Final publication-head CI is recorded separately in the PR description.
 
 | Required job | Result | Evidence |
 | --- | --- | --- |
-| build | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37847468517/job/113551818744) |
-| backend-verification | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37847468482/job/113551819174) |
-| dashboard-verification | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37847468494/job/113551821662) |
-| model-evaluation | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37847468484/job/113552113040) |
-| deployment-config | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37847468484/job/113552113192) |
-| processor-evaluation | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37847468484/job/113553129534) |
+| build | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37899162469/job/113717416682) |
+| backend-verification | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37899162470/job/113717416558) |
+| dashboard-verification | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37899162541/job/113717416621) |
+| deployment-config | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37899162516/job/113717417001) |
+| model-evaluation | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37899162516/job/113717417161) |
+| processor-evaluation | SUCCESS | [Job](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37899162516/job/113719101663) |
 
-Local checks recorded by the coordinator passed: **59** Python contract tests,
-**54** ML tests, **120** dashboard unit tests, and **129** controlled browser tests.
-The controlled browser suite retains **17** existing opt-in skips; it does not prove
-the required connected acceptance suite. Intermediate processor CI reports **825**
-primary Maven tests with zero failures/errors and **4** existing skipped tests;
-its downstream replay/parity/focused verification steps also passed. These are
-individual run/step counts, not a combined acceptance total.
+Dashboard: **120** unit tests; **131** controlled browser passes and **17** existing
+opt-in skips. Backend: **151** unit tests (**1** existing skip), plus **59** integration
+tests. Contracts/ML: **59 / 54** tests; both services' HTTP parity passed. Processor
+primary reactor: **111** streaming, **95** generator and **825** processor tests
+(**4** existing skips), followed by successful selections **2 / 19 / 2 / 179 / 63**
+and **30 + 32** persisted Java/Python parity payloads. These are separate step
+counts with overlapping selections, not a combined acceptance total.
 
-| Fresh connected gate | Result and evidence |
+## Failed and interrupted attempts retained
+
+| Attempt / source | Actual outcome |
 | --- | --- |
-| Real OIDC roles, session/CSRF rotation, token-free storage, logout and protected 401 | **PENDING** |
-| Open idle session expires after 15 minutes plus grace despite ordinary REST/SSE | **PENDING** |
-| Absolute expiry at original 30-minute deadline despite trusted activity | **PENDING** |
-| Owned proxy interruption/recovery: renewed SSE, authoritative REST refresh and retained UI state | **PENDING** |
-| Fresh geographic faults/normal/gap controls: API, map, queue and detail agreement; masked desktop/mobile captures | **PENDING** |
-| Owned cleanup and guarded credential removal | **PENDING** |
+| r1 / `c2a19fb` | Setup FAILED: activation lacked whole-minute alignment. Owned cleanup and credential cleanup PASSED; alignment corrected. |
+| r2 / `7fe593eb` | Mobile-detail overflow and performance-callback binding failures; forcibly interrupted without final runtime/verification reporters. Absolute outcome unavailable. Separate recovery removed 13 owned resources and credentials; original runner teardown is not inferred. |
+| r3 / `a4e8b789` | Harness race after native protected 401 removed the next click target; owned browser child interrupted. Idle/absolute not executed. Runner cleanup and credential cleanup PASSED; native-response assertions and action bounds corrected. |
+| r4 / `df84b682` | FAILED before runtime startup. Runtime cleanup NOT_STARTED; credential cleanup PASSED. No runtime acceptance inferred. |
+| r5 / `df84b682` | Failed historical SSE request-object count after document replacement. Real HTTP diagnostic identified observer accumulation and drove lifecycle correction. Idle interrupted, absolute not executed. Runner cleanup and credential cleanup PASSED. |
 
-Backend time anchors expiry acceptance. All three required connected cases must
-execute and pass with retries disabled. Timing-invalid, failed or interrupted
-attempts remain separate records, not successful checks.
-
-## Retained failures and finalization requirements
-
-- **Attempt r1**, source `c2a19fb`: setup failed because geography activation was not
-  minute-aligned. This was a harness configuration failure. Its cleanup and
-  credential cleanup passed; retain the failed record independently.
-- **Attempt r2**, source `7fe593eb`: identified a 390-pixel mobile incident-detail
-  overflow and a browser performance-callback binding bug. The required connected
-  suite was not fully accepted. The run was forcibly interrupted overnight before
-  final `verification.json` and `runtime.json` were written. Partial scenario output
-  and the geographic/idle failure records survive; the absolute-expiry case has no
-  completed acceptance record. Do not infer a passing absolute-expiry gate or
-  successful runner cleanup from this attempt. Any subsequent owned-resource and
-  credential cleanup must be recorded as a separate recovery action. A corrected
-  candidate must execute all three cases fresh.
-- **Fresh replacement attempt:** pending. Append actual test outcomes and artifact
-  references only after the complete run and owned cleanup finish.
-
-Before reporting ready for re-review, populate pending provenance and every fresh
-gate from actual artifacts, verify all 55 historical seals again, recheck remote
-main, and record six successful CI jobs for the publication candidate with their
-actual checkout SHAs and URLs. Human PR approval/merge and G5 shared release
-sign-off remain separate.
+The [failed-attempt records](assets/pr77-review-remediation/failed-attempts/) remain
+separate from fresh acceptance. This focused run does not repeat every historical
+replay/ML-outage audit or supply release-owner approval. G5 remains **BLOCKED**.

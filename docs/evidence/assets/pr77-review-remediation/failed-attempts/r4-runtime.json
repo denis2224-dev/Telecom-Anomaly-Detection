@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b",
+  "projectName": "pr77-20261009-r4",
+  "baseURL": "http://telecom.test:18080",
+  "startedAt": "2026-10-09T07:04:32.082Z",
+  "status": "FAILED",
+  "configHashes": {
+    "compose.json": "9537d203723bdf697f5ce2fd702a7567d054411ed627d4507c9003929f8b08e8",
+    "nginx.conf": "227dd193455b83de5bcc36658e08b0d84cb50dc8d3851a2fd5d5513b81d985ab",
+    "realm.json": "28901768c9d895d414d81475f331a31882d4b590084f227558027b6edbf772e0",
+    "stack.env": "bac8c0646f3d1bcfddfd38320b3d0a9131a4fa0e134173cb44e73a6e489f1818"
+  },
+  "cleanup": "NOT_STARTED",
+  "failure": "cmd.exe failed (exit 1); diagnostic output is private.",
+  "credentialCleanup": "PASSED",
+  "finishedAt": "2026-10-09T07:04:34.689Z"
+}

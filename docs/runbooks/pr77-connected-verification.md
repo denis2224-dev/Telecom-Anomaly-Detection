@@ -82,6 +82,13 @@ private credentials/configuration for owned-stack recovery and records
 Keep that directory private and resolve the reported problem before retrying cleanup;
 do not target unrelated resources. Public failure results remain available.
 
+Forcibly terminating the runner or its host can bypass its cleanup handler. An
+interrupted run without final reporters is not accepted. Retain its private
+ownership marker and configuration until recovery verifies both the Compose
+project and nonce on every resource, removes only that stack, verifies no owned
+resources remain, and records credential removal separately. Do not infer that
+the original runner completed cleanup from a later successful recovery.
+
 Image builds may reuse source-keyed Docker cache; recorded image IDs and source
 SHA identify the built runtime. Dashboard production assets are rebuilt each run.
 

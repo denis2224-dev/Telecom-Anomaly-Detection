@@ -1,0 +1,38 @@
+{
+  "sourceSha": "1c889216dec184120373cfd52355f2b2e8fa4ac6",
+  "status": "PASSED",
+  "mode": "open-page inactivity; native REST/SSE remain enabled",
+  "clock": {
+    "serverDate": "2026-10-09T07:39:59.000Z",
+    "absoluteDeadline": "2026-10-09T08:09:59.790708913Z",
+    "hostServerSkewMs": 954,
+    "browserHostSkewMs": -6
+  },
+  "lastTrustedInputUTC": "2026-10-09T07:40:00.212Z",
+  "beforeDeadline": {
+    "checkedAtUTC": "2026-10-09T07:54:45.239Z",
+    "monotonicElapsedMs": 885025.1841000001,
+    "wallElapsedMs": 885025,
+    "backgroundRequests": 117,
+    "activeStreams": 1,
+    "sessionConnected": true
+  },
+  "deadlineObservation": {
+    "observedAtUTC": "2026-10-09T07:55:05.258Z",
+    "monotonicElapsedMs": 905041.5099000001,
+    "browserMonotonicElapsedMs": 905039.2000000002,
+    "wallElapsedMs": 905044
+  },
+  "expiry": {
+    "expiredUIAt": "2026-10-09T07:55:05.274Z",
+    "quietStartUTC": "2026-10-09T07:55:10.274Z",
+    "quietDurationMs": 20000,
+    "activeStreams": 0,
+    "protectedStatuses": [
+      401,
+      401,
+      401
+    ]
+  },
+  "elapsedMs": 930106
+}

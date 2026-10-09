@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "a4e8b78906420c0858d469c351da0c73c66db995",
+  "recordedAtUTC": "2026-10-09T07:03:14.695952+00:00",
+  "outcome": "ABORTED_HARNESS_RACE",
+  "description": "Application protected401 handling removed the Refresh overview button before the next test click. The owned Playwright child tree was stopped; runner was left alive to collect diagnostics and perform guarded teardown.",
+  "completeConnectedAcceptance": false,
+  "idleCaseExecuted": false,
+  "absoluteCaseExecuted": false,
+  "sanitizedProxyEvidence": [
+    "2026-10-09T06:54:37Z POST /logout 302",
+    "2026-10-09T06:54:37Z GET /api/services 401 (two responses)",
+    "2026-10-09T06:54:37Z GET /api/geography/cities 401"
+  ],
+  "fix": "Observe native protected401 and expired UI directly; bound browser actions."
+}

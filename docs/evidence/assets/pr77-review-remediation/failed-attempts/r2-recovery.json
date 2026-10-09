@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "7fe593eb0c4eabe4670e2d1c649fc573f3e91a1d",
+  "projectName": "pr77-20261009-r2",
+  "status": "INTERRUPTED",
+  "verifiedAtUTC": "2026-10-09T06:41:21.728Z",
+  "runnerFinalResultAvailable": false,
+  "completeThreeCaseAcceptance": false,
+  "absoluteExpiryOutcome": "UNAVAILABLE",
+  "recoveryResourceCheck": "NO_REMAINING_PROJECT_CONTAINERS_NETWORKS_OR_VOLUMES",
+  "recoveredOwnedResources": 13,
+  "credentialCleanup": "PASSED",
+  "diagnosticCredentialCopyRemoved": true,
+  "note": "Post-resume verification does not infer the interrupted runner teardown or an absolute-expiry pass."
+}

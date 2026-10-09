@@ -109,3 +109,8 @@ Record tested runtime SHA, integrated main, image/asset/configuration hashes and
 CI checkout SHAs separately from evidence-only publication. All six existing CI jobs
 must pass after publication. Historical acceptance is never relabelled current-SHA
 acceptance. Failed attempts remain separately recorded. Shared G5 stays BLOCKED.
+
+Completed focused runtime verification at `1c889216`, integrating main `0eb9b5b`:
+all three real connected cases and guarded cleanup passed. Six candidate CI checks
+passed separately. The evidence-only publication SHA and its subsequent six CI
+results are recorded in the PR description; see the 9 October remediation report.
