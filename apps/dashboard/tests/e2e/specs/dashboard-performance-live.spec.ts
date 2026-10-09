@@ -77,7 +77,7 @@ test('measures authenticated geography, window updates and native SSE leases', a
       await page.getByRole('button', { name: /sign in/i }).click();
       await expect(page).toHaveURL(/\/dashboard$/);
     } catch { throw new Error('Real identity login failed; credentials omitted.'); }
-    await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
+    await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
     await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toHaveCount(0);
     const catalogue = await (await context.request.get('/api/geography/cities')).json();
     report.cities = catalogue.cities.length;

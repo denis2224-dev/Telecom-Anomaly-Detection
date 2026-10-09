@@ -27,12 +27,12 @@ export const cities: readonly City[] = [
   { id: 'BAL', name: 'Bălți', marker: projectCity(27.92854, 47.76291), location: { latitude: 47.76291, longitude: 27.92854, geonamesId: 618605 }, labelSide: 'left', featured: true, scopeIds: [] },
   { id: 'EDI', name: 'Edineț', marker: projectCity(27.30075, 48.17319), location: { latitude: 48.17319, longitude: 27.30075, geonamesId: 617076 }, labelSide: 'left', featured: false, scopeIds: [] },
   { id: 'SOR', name: 'Soroca', marker: projectCity(28.28489, 48.15659), location: { latitude: 48.15659, longitude: 28.28489, geonamesId: 617367 }, labelSide: 'right', featured: true, scopeIds: [] },
-  { id: 'RIB', name: 'Rîbnița', marker: projectCity(29.01, 47.76817), location: { latitude: 47.76817, longitude: 29.01, geonamesId: 617486 }, labelSide: 'right', featured: false, scopeIds: [] },
+  { id: 'RIB', name: 'Rîbnița', marker: null, location: { latitude: 47.76817, longitude: 29.01, geonamesId: 617486 }, labelSide: 'right', featured: false, scopeIds: [] },
   { id: 'UNG', name: 'Ungheni', marker: projectCity(27.80013, 47.21023), location: { latitude: 47.21023, longitude: 27.80013, geonamesId: 617180 }, labelSide: 'right', featured: true, scopeIds: [] },
-  { id: 'TIR', name: 'Tiraspol', marker: projectCity(29.6284, 46.84275), location: { latitude: 46.84275, longitude: 29.6284, geonamesId: 617239 }, labelSide: 'left', featured: false, scopeIds: [] },
+  { id: 'TIR', name: 'Tiraspol', marker: null, location: { latitude: 46.84275, longitude: 29.6284, geonamesId: 617239 }, labelSide: 'left', featured: false, scopeIds: [] },
   { id: 'COM', name: 'Comrat', marker: projectCity(28.65713, 46.29488), location: { latitude: 46.29488, longitude: 28.65713, geonamesId: 618405 }, labelSide: 'right', featured: false, scopeIds: [] },
   { id: 'CAH', name: 'Cahul', marker: projectCity(28.19516, 45.90456), location: { latitude: 45.90456, longitude: 28.19516, geonamesId: 618456 }, labelSide: 'left', featured: true, scopeIds: [] },
-  { id: 'ORH', name: 'Orhei', marker: null, location: { latitude: 47.38503, longitude: 28.82535, geonamesId: 617638 }, labelSide: 'right', featured: false, scopeIds: [] },
+  { id: 'ORH', name: 'Orhei', marker: projectCity(28.82535, 47.38503), location: { latitude: 47.38503, longitude: 28.82535, geonamesId: 617638 }, labelSide: 'right', featured: false, scopeIds: [] },
 ];
 
 // Add only catalogue-approved edges. Empty means no network links are asserted.

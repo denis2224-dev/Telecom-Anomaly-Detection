@@ -57,7 +57,7 @@
       <div class="traffic-controls"><span class="badge" data-state="UNKNOWN">Link traffic preview</span><label><input type="checkbox" [checked]="showTraffic()" (change)="showTraffic.set($any($event.target).checked)" /> Show sample links</label></div>
       <p class="map-note">City status uses service evidence. Links and traffic are illustrative; no live backhaul API.</p>
       <div class="panel-visual map-visual">
-        <div class="city-map" aria-label="Moldova geographic outline and nine city markers">
+        <div class="city-map" aria-label="Moldova geographic outline and city markers">
           <svg viewBox="0 0 600 740" aria-hidden="true"><defs><pattern id="moldova-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" class="grid-line" /></pattern></defs><rect width="600" height="740" fill="url(#moldova-grid)" /><path [attr.d]="moldovaOutline" class="country-outline" />
             @if (showTraffic()) {
               @for (link of transportLinks; track link.id) { <line class="transport-link" [attr.x1]="link.x1" [attr.y1]="link.y1" [attr.x2]="link.x2" [attr.y2]="link.y2" [style.stroke]="link.color" /> }

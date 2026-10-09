@@ -14,11 +14,11 @@ for (const width of [1366, 390]) {
     expect(await page.locator('.compact .country-panels table').evaluateAll(tables => tables.every(table => table.scrollWidth <= table.parentElement!.clientWidth + 1))).toBe(true);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
     await expect(page.getByLabel('Key service information')).toContainText('Backhaul trafficUnavailable');
-    await expect(page.locator('.transport-link')).toHaveCount(8);
+    await expect(page.locator('.transport-link')).toHaveCount(7);
     await expect(page.getByLabel('Illustrative intercity traffic')).toContainText('8.9 Gbps');
     await page.getByRole('checkbox', { name: 'Show sample links' }).uncheck();
     await expect(page.locator('.transport-link')).toHaveCount(0);
-    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await page.getByRole('checkbox', { name: 'Show sample links' }).check();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 1366) {

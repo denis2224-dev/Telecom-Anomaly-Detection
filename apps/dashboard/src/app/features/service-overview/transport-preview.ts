@@ -6,8 +6,7 @@ export const transportPreview = [
   { from: 'BAL', to: 'SOR', capacity: 4, utilization: 28, labelX: 250, labelY: 83 },
   { from: 'BAL', to: 'CHI', capacity: 10, utilization: 89, labelX: 267, labelY: 270 },
   { from: 'UNG', to: 'CHI', capacity: 7, utilization: 51, labelX: 118, labelY: 378 },
-  { from: 'RIB', to: 'CHI', capacity: 4, utilization: 70, labelX: 444, labelY: 265 },
-  { from: 'CHI', to: 'TIR', capacity: 4.5, utilization: 47, labelX: 473, labelY: 454 },
+  { from: 'ORH', to: 'CHI', capacity: 4, utilization: 70, labelX: 450, labelY: 330 },
   { from: 'CHI', to: 'CAH', capacity: 10, utilization: 78, labelX: 258, labelY: 510 },
   { from: 'CAH', to: 'COM', capacity: 4, utilization: 62, labelX: 372, labelY: 637 },
 ].map(link => {

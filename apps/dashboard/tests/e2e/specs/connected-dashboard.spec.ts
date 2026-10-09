@@ -85,7 +85,7 @@ for (const width of [1366, 768, 390]) {
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
-    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
     await expect(page.locator('.featured-city, .featured-sources, .map-notes, .map-source, .search-results')).toHaveCount(0);
@@ -151,7 +151,7 @@ for (const width of [1366, 768, 390]) {
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toBeVisible();
-    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
     await expect(page.locator('.overview-panels [data-chart]')).toHaveCount(2);

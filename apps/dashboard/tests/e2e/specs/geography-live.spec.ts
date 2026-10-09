@@ -119,9 +119,15 @@ for (const width of [1366, 768, 390]) {
     const state = await liveApi(page);
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
-    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await expect(page.locator('.map-table')).not.toContainText('Mapping pending');
-    await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
+    await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
+    await expect(page.locator('.city-marker').filter({ hasText: 'Rîbnița' })).toHaveCount(0);
+    await expect(page.locator('.city-marker').filter({ hasText: 'Tiraspol' })).toHaveCount(0);
+    await page.locator('.city-marker').filter({ hasText: 'Orhei' }).click();
+    await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-ORH');
+    await expect(page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', 'SMS-MD-ORH');
+    await expect.poll(() => state.requests.some(path => path.startsWith('/api/geography/cities/ORH/kpis'))).toBe(true);
     await page.locator('.map-table').getByRole('button', { name: 'Chișinău', exact: true }).click();
     await expect(page.locator('.chart-scope')).toContainText(['Chișinău', 'Chișinău']);
     await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-CHI');
@@ -159,7 +165,7 @@ test('LIVE geography outages and missing history never substitute fixture values
   await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
   state.geographyStatus = 200;
   await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-  await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
+  await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
   state.historyStatus = 503;
   await page.getByLabel('Region', { exact: true }).fill('Orhei');
   await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);

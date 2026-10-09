@@ -12,7 +12,7 @@ The donut shows successful and failed attempts; SIP 503 is a separate recorded c
 failure causes are unavailable until the API supplies them.
 
 Roaming remains a labeled sample preview with a chart, country user bars, population shares and
-country KPI table. Eight illustrative intercity routes show sample Gbps/utilization on the map.
+country KPI table. Seven illustrative intercity routes show sample Gbps/utilization on the map.
 The links can be hidden; their colors are preview thresholds. They do not claim live traffic or
 approved topology membership. City markers still use the existing geography/service evidence.
 Required backend additions are recorded in `monitoring-contract-gaps.md`.
