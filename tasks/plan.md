@@ -116,8 +116,13 @@ passed separately. The evidence-only publication SHA and its subsequent six CI
 results are recorded in the PR description; see the 9 October remediation report.
 
 Latest-main update (9 October): acceptance of main 0eb9b5b is retained separately.
-Main advanced during publication CI to 957876a (material dashboard/session-facing
-changes). Integrate it, review overlapping UI/stream changes, rebuild and rerun all
-three focused connected cases and six CI checks. Publish a separate compact bundle
-at docs/evidence/assets/pr77-review-main-957876a; keep the prior 29 and
-original 55 sealed artifacts unchanged. Do not carry prior-main acceptance forward.
+Main 613661d includes the dashboard layout and viewport-wide mobile drawers.
+Integrate it without rewriting PR history, retain 95e99fc's explicit SMS selection
+and current Troubleshooting assertions, and align the drawer geometry test with
+the viewport. Preserve all durable source/null, security and real expiry checks.
+Rebuild and rerun all three focused connected cases with retries disabled, then
+publish the candidate and require all six CI jobs. Publish compact sanitized
+evidence at docs/evidence/assets/pr77-review-main-613661d and identify the later
+evidence-only publication head separately; verify its six CI jobs too. Keep the
+prior 29 and original 55 sealed artifacts unchanged. Recheck remote main before
+reporting ready for re-review; approval and merge remain outside this task.

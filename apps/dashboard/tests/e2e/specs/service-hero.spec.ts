@@ -145,15 +145,13 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
   expect(await snapshot()).toEqual(before);
   const dialogGeometry = await drawer.evaluate(element => {
     const rect = element.getBoundingClientRect();
-    return { left: rect.left, right: rect.right, width: rect.width, usableWidth: document.body.clientWidth };
+    return { left: rect.left, right: rect.right, width: rect.width, viewportWidth: innerWidth };
   });
   if (width <= 600) {
-    // Stable scrollbar gutters are excluded from the usable content area on Windows.
-    // A full-width mobile dialog spans that area, while the native scrollbar gutter
-    // remains outside the document's content box.
-    expect(dialogGeometry.width).toBeCloseTo(dialogGeometry.usableWidth, 0);
+    // Mobile dialogs span the viewport, including any reserved scrollbar gutter.
+    expect(dialogGeometry.width).toBeCloseTo(dialogGeometry.viewportWidth, 0);
     expect(dialogGeometry.left).toBe(0);
-    expect(dialogGeometry.right).toBe(dialogGeometry.usableWidth);
+    expect(dialogGeometry.right).toBe(dialogGeometry.viewportWidth);
   } else {
     expect(dialogGeometry.width).toBeCloseTo(Math.min(480, width - 32), 0);
   }
