@@ -14,6 +14,13 @@ if [[ ! -f .env ]]; then
   exit 1
 fi
 
+if [[ ${1:-} == "--with-incident-service" ]]; then
+  PROXY_BACKEND_CONFIG=./infra/nginx/backend-container.conf
+else
+  PROXY_BACKEND_CONFIG=./infra/nginx/backend-host.conf
+fi
+export PROXY_BACKEND_CONFIG
+
 docker compose config --quiet
 ./scripts/check_geography_alignment.py --env-file .env
 docker compose config --format json | ./scripts/check_geography_alignment.py --compose-json

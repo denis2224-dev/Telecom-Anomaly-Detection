@@ -1,0 +1,58 @@
+{
+  "startedAtUTC": "2026-10-09T05:51:22.495Z",
+  "sourceRevision": "a52cc85ae46b4d3138dbca505ba80de661fe97d1",
+  "testedPatchSha256": "7a5426bb31e42f8baf3d4aaab6a054d9579fd090b9e814111a46ded5bd0fd74b",
+  "mode": "Authenticated local backend; synthetic telemetry; no interception or fixture fallback",
+  "passed": true,
+  "checks": [
+    "ANALYST: real OIDC login, protected geography, rotated session/CSRF, token-free browser storage",
+    "SUPERVISOR: real OIDC login, protected geography, rotated session/CSRF, token-free browser storage",
+    "ANALYST cannot start scenarios in the UI or protected API",
+    "Orhei real city/service histories and actual SSE reconnect REST refresh with selection/focus preserved",
+    "ANALYST: real assignment/investigation/comment, second-session updates, comment idempotency, stale version and premature resolution rejection",
+    "SUPERVISOR: real assignment/investigation/comment, second-session updates, comment idempotency, stale version and premature resolution rejection",
+    "Both real fault profiles completed and recovered; ANALYST/SUPERVISOR resolved only after technical recovery",
+    "Real generator 503 shows uncertainty, retries identical command, rejects a conflicting run and stops telemetry without claiming recovery",
+    "ANALYST: real logout ends protected REST and stream access",
+    "SUPERVISOR: real logout ends protected REST and stream access"
+  ],
+  "runs": [
+    {
+      "type": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "runId": "8bba413a-6d69-4915-ac67-91a5930a1da5",
+      "status": "COMPLETED",
+      "scheduledStartAt": "2026-10-09T05:52:00Z",
+      "scheduledEndAt": "2026-10-09T06:00:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "incidentId": "34c1b9c9-aba9-43fb-8529-059478cb6002",
+      "technicalState": "RECOVERED",
+      "workflowState": "RESOLVED"
+    },
+    {
+      "type": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "runId": "9628b87f-0307-4dc4-854f-091d06f208ec",
+      "status": "COMPLETED",
+      "scheduledStartAt": "2026-10-09T05:52:00Z",
+      "scheduledEndAt": "2026-10-09T06:00:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "incidentId": "d2036974-f847-4a13-bf0e-b134efb217ce",
+      "technicalState": "RECOVERED",
+      "workflowState": "RESOLVED"
+    }
+  ],
+  "watched5xx": [
+    {
+      "path": "/api/incidents/stream",
+      "status": 503,
+      "count": 4
+    }
+  ],
+  "captureCount": 11,
+  "proxyIncidentAndScenario500Or504Count": 0,
+  "proxyGeneratorRetryStatuses": [
+    503,
+    202
+  ]
+}

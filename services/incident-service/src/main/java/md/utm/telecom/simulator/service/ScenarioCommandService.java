@@ -42,6 +42,7 @@ public class ScenarioCommandService {
     public record Run(UUID runId, ScenarioStatus status, Instant scheduledStartAt,
                       Instant scheduledEndAt, ScenarioType scenarioType, String scopeId) {}
     private record Saved(UUID runId, boolean fresh) {}
+    private record Pending(ScenarioCommand command, boolean stop, boolean terminal) {}
     private record Result(Run run, WorkflowProblem problem) {
         Run get() {
             if (problem != null) throw problem;
@@ -124,18 +125,18 @@ public class ScenarioCommandService {
     }
 
     public Run stop(UUID runId) {
-        Result result = tx.execute(ignored -> {
+        Pending pending = tx.execute(ignored -> {
             ScenarioCommand command = locked(runId);
-            if (command.getStatus() == ScenarioStatus.STOPPED) return ok(command);
+            if (command.getStatus() == ScenarioStatus.STOPPED) return new Pending(command, true, true);
             if (command.getStatus() == ScenarioStatus.COMPLETED
                     || command.getStatus() == ScenarioStatus.FAILED) {
-                return error(HttpStatus.CONFLICT, "RUN_TERMINAL",
-                        "This run has already ended.");
+                throw problem(HttpStatus.CONFLICT, "RUN_TERMINAL", "This run has already ended.");
             }
             command.requestStop(clock.instant());
-            return stopLocked(command);
+            return new Pending(command, true, false);
         });
-        return result.get();
+        if (pending.terminal()) return ok(pending.command()).get();
+        return stopRemote(runId).get();
     }
 
     @Scheduled(fixedDelayString = "${app.simulator.reconcile-ms:5000}")
@@ -154,30 +155,61 @@ public class ScenarioCommandService {
     }
 
     private Result reconcile(UUID runId, boolean fresh) {
-        return tx.execute(ignored -> {
+        Pending pending = tx.execute(ignored -> {
             ScenarioCommand command = locked(runId);
-            if (terminal(command.getStatus())) return ok(command);
-            if (command.getStopRequestedAt() != null) return stopLocked(command);
-            try {
-                GeneratorScenarioClient.Snapshot snapshot;
-                if (fresh) {
-                    snapshot = deliver(command);
-                } else {
-                    try {
-                        snapshot = generator.status(runId);
-                    } catch (GeneratorScenarioClient.Failure missing) {
-                        if (missing.status() != 404
-                                || !"RUN_NOT_FOUND".equals(missing.code())) throw missing;
-                        if (!clock.instant().isBefore(command.getScheduledStartAt())) {
+            if (terminal(command.getStatus())) return new Pending(command, false, true);
+            if (command.getStopRequestedAt() != null) return new Pending(command, true, false);
+            if (fresh) command.recordDispatchAttempt(clock.instant(), null);
+            return new Pending(command, false, false);
+        });
+        if (pending.terminal()) return ok(pending.command());
+        if (pending.stop()) return stopRemote(runId);
+        try {
+            GeneratorScenarioClient.Snapshot snapshot;
+            if (fresh) {
+                snapshot = generator.start(pending.command());
+            } else {
+                try {
+                    snapshot = generator.status(runId);
+                } catch (GeneratorScenarioClient.Failure missing) {
+                    if (missing.status() != 404
+                            || !"RUN_NOT_FOUND".equals(missing.code())) throw missing;
+                    if (!clock.instant().isBefore(pending.command().getScheduledStartAt())) {
+                        return tx.execute(ignored -> {
+                            ScenarioCommand command = locked(runId);
+                            if (terminal(command.getStatus())) return ok(command);
+                            if (command.getStopRequestedAt() != null) return ok(command);
                             command.setStatus(ScenarioStatus.FAILED);
                             command.markDispatchError("GENERATOR_INTERRUPTED");
                             return ok(command);
-                        }
-                        snapshot = deliver(command); // Same runId, same saved schedule.
+                        });
                     }
+                    ScenarioCommand redelivery = tx.execute(ignored -> {
+                        ScenarioCommand command = locked(runId);
+                        if (terminal(command.getStatus()) || command.getStopRequestedAt() != null) return null;
+                        command.recordDispatchAttempt(clock.instant(), null);
+                        return command;
+                    });
+                    if (redelivery == null) return reconcile(runId, false);
+                    snapshot = generator.redeliver(redelivery); // Same runId, same saved schedule.
                 }
-                return accept(command, snapshot);
-            } catch (GeneratorScenarioClient.Failure failure) {
+            }
+            GeneratorScenarioClient.Snapshot accepted = snapshot;
+            return tx.execute(ignored -> {
+                ScenarioCommand command = locked(runId);
+                if (terminal(command.getStatus())) return ok(command);
+                if (command.getStopRequestedAt() != null && accepted.status() != ScenarioStatus.STOPPED
+                        && accepted.status() != ScenarioStatus.COMPLETED) return ok(command);
+                if (command.getStatus() == ScenarioStatus.RUNNING
+                        && accepted.status() == ScenarioStatus.SCHEDULED) return ok(command);
+                return accept(command, accepted);
+            });
+        } catch (GeneratorScenarioClient.Failure failure) {
+            log.warn("Generator reconciliation failed for run {}: upstream status {}, code {}",
+                    runId, failure.status(), failure.code());
+            return tx.execute(ignored -> {
+                ScenarioCommand command = locked(runId);
+                if (terminal(command.getStatus())) return ok(command);
                 command.markDispatchError(failure.code());
                 if (failure.status() == 409) {
                     command.setStatus(ScenarioStatus.FAILED);
@@ -188,39 +220,47 @@ public class ScenarioCommandService {
                 }
                 return error(HttpStatus.SERVICE_UNAVAILABLE, "GENERATOR_UNAVAILABLE",
                         "The generator could not confirm this run. Retry with the same requestId.");
-            }
-        });
+            });
+        }
     }
 
-    private GeneratorScenarioClient.Snapshot deliver(ScenarioCommand command) {
-        command.recordDispatchAttempt(clock.instant(), null);
-        return generator.start(command);
-    }
-
-    private Result stopLocked(ScenarioCommand command) {
+    private Result stopRemote(UUID runId) {
         try {
-            return accept(command, generator.stop(command.getRunId()));
+            GeneratorScenarioClient.Snapshot snapshot = generator.stop(runId);
+            return tx.execute(ignored -> {
+                ScenarioCommand command = locked(runId);
+                if (terminal(command.getStatus())) return ok(command);
+                return accept(command, snapshot);
+            });
         } catch (GeneratorScenarioClient.Failure failure) {
             if (failure.status() == 404 && "RUN_NOT_FOUND".equals(failure.code())) {
-                if (clock.instant().isBefore(command.getScheduledStartAt())) {
-                    command.setStatus(ScenarioStatus.STOPPED);
-                    command.markDispatchError(null);
-                } else {
-                    command.setStatus(ScenarioStatus.FAILED);
-                    command.markDispatchError("GENERATOR_INTERRUPTED");
-                }
-                return ok(command);
+                return tx.execute(ignored -> {
+                    ScenarioCommand command = locked(runId);
+                    if (terminal(command.getStatus())) return ok(command);
+                    if (clock.instant().isBefore(command.getScheduledStartAt())) {
+                        command.setStatus(ScenarioStatus.STOPPED);
+                        command.markDispatchError(null);
+                    } else {
+                        command.setStatus(ScenarioStatus.FAILED);
+                        command.markDispatchError("GENERATOR_INTERRUPTED");
+                    }
+                    return ok(command);
+                });
             }
             if (failure.status() == 409 && "RUN_TERMINAL".equals(failure.code())) {
                 try {
-                    accept(command, generator.status(command.getRunId()));
+                    GeneratorScenarioClient.Snapshot snapshot = generator.status(runId);
+                    tx.executeWithoutResult(ignored -> {
+                        ScenarioCommand command = locked(runId);
+                        if (!terminal(command.getStatus())) accept(command, snapshot);
+                    });
                 } catch (GeneratorScenarioClient.Failure refreshFailure) {
-                    command.markDispatchError(refreshFailure.code());
+                    tx.executeWithoutResult(ignored -> locked(runId).markDispatchError(refreshFailure.code()));
                 }
                 return error(HttpStatus.CONFLICT, "RUN_TERMINAL",
                         "This run has already ended.");
             }
-            command.markDispatchError(failure.code());
+            tx.executeWithoutResult(ignored -> locked(runId).markDispatchError(failure.code()));
             return error(HttpStatus.SERVICE_UNAVAILABLE, "GENERATOR_UNAVAILABLE",
                     "The generator could not confirm the stop. Retry the same stop request.");
         }

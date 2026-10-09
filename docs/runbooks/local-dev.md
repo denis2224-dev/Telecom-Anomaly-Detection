@@ -152,9 +152,12 @@ needed here: a full hostname URL without `/auth` advertises discovery URLs witho
 the prefix. Keycloak accepts `X-Forwarded-*` headers. Only `expose: 8080` is set;
 it does not publish a host port. The NGINX proxy binds `127.0.0.1:8080`, forwards
 `/auth/` to `keycloak:8080` without stripping the prefix, and overwrites forwarded
-headers. Other paths go to `host.docker.internal:8082` for the host incident service.
-This route works with Docker Desktop; native Linux may require the backend to
-listen on an interface reachable from Docker's host gateway.
+headers. With the default host-run backend, other paths go to
+`host.docker.internal:8082`. The managed `./scripts/up --with-incident-service`
+mode mounts the container backend route, `incident-service:8082`, so protected
+requests stay on the Compose network. The host route works with Docker Desktop;
+native Linux may require the backend to listen on an interface reachable from
+Docker's host gateway.
 
 The proxy has the `telecom.test` network alias for containers. The hosts entry
 above is also required for the browser and Java processes on the host. Verify the
@@ -172,7 +175,8 @@ starts independently of the backend to avoid an issuer-discovery startup cycle.
 For a terminal-independent local backend, run `./scripts/up --with-incident-service`
 from the repository root instead of starting the host Maven process. This builds
 and starts the incident service after the proxy and its dependencies are healthy.
-It publishes backend port 8082 to host loopback for the existing proxy route;
+It publishes backend port 8082 to host loopback for direct diagnostics, while
+the managed proxy reaches it through the private Compose network;
 do not run the host backend on that port at the same time. The default
 `./scripts/up` path still supports IntelliJ development. The managed backend
 restarts after an unexpected process exit; `docker compose stop` remains an
