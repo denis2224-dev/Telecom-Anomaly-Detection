@@ -43,7 +43,7 @@ test('overview fallback preserves the workspace and stale status catches missing
   await expect.poll(reads).toBeGreaterThan(before);
   await expect.poll(async () => {
     await page.clock.runFor(50);
-    return page.locator('.kpi-strip > div').filter({ hasText: 'Open incidents' }).textContent();
+    return page.locator('.scope-incidents strong').first().textContent();
   }).toContain('3');
   await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
   await expect(page.getByLabel('Region', { exact: true })).toHaveValue('Orhei');
@@ -58,7 +58,7 @@ test('overview fallback preserves the workspace and stale status catches missing
   await expect.poll(reads).toBeGreaterThan(openingReads);
   await expect.poll(async () => {
     await page.clock.runFor(50);
-    return page.locator('.kpi-strip > div').filter({ hasText: 'Open incidents' }).textContent();
+    return page.locator('.scope-incidents strong').first().textContent();
   }).toContain('4');
   await expect.poll(async () => { await page.clock.runFor(50); return page.locator('.live-status').textContent(); }).not.toBe(previousUpdate);
   const connectedReads = reads();
