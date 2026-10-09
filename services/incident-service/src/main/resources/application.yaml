@@ -7,6 +7,9 @@ spring:
     url: ${INCIDENT_DB_URL:jdbc:postgresql://localhost:5432/incidents_db?currentSchema=app}
     username: ${INCIDENT_DB_USER:incidents_app}
     password: ${INCIDENT_DB_PASSWORD}
+    hikari:
+      connection-timeout: ${INCIDENT_DB_CONNECTION_TIMEOUT_MS:3000}
+      validation-timeout: ${INCIDENT_DB_VALIDATION_TIMEOUT_MS:1000}
   flyway:
     url: ${INCIDENT_DB_URL:jdbc:postgresql://localhost:5432/incidents_db?currentSchema=app}
     user: ${INCIDENT_MIGRATOR_USER:incidents_migrator}
