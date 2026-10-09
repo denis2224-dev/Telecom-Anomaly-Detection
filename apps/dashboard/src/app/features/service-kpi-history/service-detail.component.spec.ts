@@ -23,7 +23,7 @@ describe('Reconciled assurance history and current state', () => {
       }) };
     TestBed.configureTestingModule({ providers: [provideRouter([]), provideHttpClient(), { provide: TelecomClient, useValue: api },
       { provide: IncidentStream, useValue: { connect: (callback: () => void) => { refresh = callback; return close; } } },
-      { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ scopeId: service.scope.scopeId })) } }] });
+      { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ scopeId: service.scope.scopeId })), snapshot: { queryParamMap: convertToParamMap({}) } } }] });
     TestBed.inject(SessionStore).phase.set('authenticated');
   });
   it('preserves the 24h bound and refuses the superseded 48h read', async () => {

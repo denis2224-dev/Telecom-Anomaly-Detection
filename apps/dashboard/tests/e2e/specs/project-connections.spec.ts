@@ -130,6 +130,22 @@ test('every published city, containment node, dependency and service reaches the
     for (const service of inventory) {
       await page.goto(`/services/${service.scope.scopeId}`);
       await expect(page.locator('.heading-copy')).toContainText(service.scope.scopeId);
+      const citySelector = page.getByRole('combobox', { name: 'City', exact: true });
+      await expect(citySelector).toHaveValue(service.scope.scopeId);
+      for (const city of catalogue.cities) {
+        const cityScope = city.services.find(item => item.service === service.scope.service)!;
+        await expect(citySelector.locator(`option[value="${cityScope.scopeId}"]`)).toHaveText(city.displayName);
+      }
+      const incidentPage = await read<components['schemas']['IncidentPage']>(
+        `/api/incidents?scopeId=${service.scope.scopeId}&service=${service.scope.service}&page=0&size=20`);
+      for (const incident of incidentPage.items) {
+        const location = incident.location;
+        if (location?.cityId && !location.nullReason) {
+          const city = catalogue.cities.find(city => city.cityId === location.cityId);
+          await expect(page.locator(`.episode-card[data-episode-id="${incident.episodeId}"] .episode-location`))
+            .toContainText(city?.displayName ?? location.cityId);
+        }
+      }
       const switches = page.getByRole('group', { name: 'Graph KPI' }).getByRole('button');
       await expect(switches).toHaveCount(service.scope.service === 'SMS' ? 5 : 8);
       for (const button of await switches.all()) {

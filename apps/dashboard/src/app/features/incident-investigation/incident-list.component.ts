@@ -1,10 +1,13 @@
-import { Component, computed, input, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DrawerComponent } from '../../shared/drawer.component';
 import { episodes, type Incident } from '../service-kpi-history/voice-model';
 import { workflowLabel, probableCause, primaryMetric, supportedValue } from '../../shared/metric-presentation';
+import { TelecomClient, type ServiceSummary } from '../../core/api/telecom-client';
+import type { City } from '../service-overview/dashboard-geography';
+import { SessionStore } from '../login-and-session/session.store';
 @Component({
   selector: 'app-incident-list', imports: [DatePipe, RouterLink, IconComponent, DrawerComponent],
   template: `<section class="detail-panel" aria-labelledby="incidents-title">
@@ -20,6 +23,7 @@ import { workflowLabel, probableCause, primaryMetric, supportedValue } from '../
           <header class="episode-header"><h3><span class="episode-severity">{{ item.severity }}<span class="sr-only"> severity</span></span>{{ problem(item) }}</h3>
             <p class="episode-time">{{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · {{ duration(item) }}</p>
           </header>
+          <p class="episode-location"><span class="episode-label">Location</span> {{ location(item) }}</p>
           <p class="episode-description">{{ description(item) }}</p>
           <p class="episode-info"><span class="episode-state-group"><span class="episode-label">Technical state</span><span class="episode-state" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span></span>
             <span class="episode-state-group"><span class="episode-label">Workflow</span><span class="episode-workflow" [attr.data-state]="item.status" [class.awaiting-resolution]="item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED'" [title]="workflowState(item)">{{ workflowState(item) }}</span></span>
@@ -35,7 +39,7 @@ import { workflowLabel, probableCause, primaryMetric, supportedValue } from '../
   <app-drawer #evidenceDrawer panelClass="episode-evidence" [drawerId]="'episode-evidence-' + (expanded() ?? '')" title="Incident evidence" closeLabel="Close incident evidence" (closed)="expanded.set(null)">
     @if (selectedEpisode(); as item) { <section class="incident-story" [attr.data-phase]="item.latestDetection.phase" [attr.data-episode-id]="item.episodeId">
       <h4 class="episode-title incident-behavior">{{ problem(item) }}</h4>
-      <p class="incident-context">{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ item.scopeId }}</p>
+      <p class="incident-context">{{ location(item) }} · {{ item.scopeId }}</p>
       <div class="incident-states" aria-label="Incident severity and state">
         <span class="incident-state"><span class="incident-state-label">Severity</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></span>
         <span class="incident-state"><span class="incident-state-label">Technical state</span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span></span>
@@ -68,14 +72,15 @@ import { workflowLabel, probableCause, primaryMetric, supportedValue } from '../
     .episode-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
     .episode-header h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; font-size: 16px; color: var(--text); }
     .episode-severity { padding: 3px 6px; border-radius: 6px; background: var(--surface-raised); color: var(--text-muted); font-size: 10px; letter-spacing: .04em; }
+    .episode-card .episode-location { margin-top: 6px; color: var(--text-muted); font-size: 12px; }
     .episode-card .episode-description { margin: 8px 0; color: var(--text); }
     .episode-card .episode-info { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; color: var(--text-muted); font-size: 12px; }
     .episode-state-group { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
     .episode-label { color: var(--text-muted); font-size: 11px; }
-    .episode-workflow { font-weight: 600; color: var(--info); }
-    .episode-workflow[data-state=RESOLVED] { color: var(--success); }
-    .episode-workflow[data-state=OPEN], .episode-workflow.awaiting-resolution { color: var(--warning); }
-    .episode-state { padding: 2px 6px; border-radius: 6px; color: var(--text-muted); background: var(--surface-raised); font-weight: 600; }
+    .episode-workflow { padding: 3px 8px; border-radius: 6px; font-weight: 650; color: var(--info); background: var(--info-soft); }
+    .episode-workflow[data-state=RESOLVED] { color: var(--success); background: var(--success-soft); }
+    .episode-workflow[data-state=OPEN], .episode-workflow.awaiting-resolution { color: var(--warning); background: var(--warning-soft); }
+    .episode-state { padding: 3px 8px; border-radius: 6px; color: var(--text-muted); background: var(--surface-raised); font-weight: 650; }
     .episode-state[data-state=RECOVERED] { color: var(--success); background: var(--success-soft); }
     .episode-state[data-state=ONGOING] { color: var(--danger); background: var(--danger-soft); }
     .episode-state[data-state=UNKNOWN] { color: var(--warning); background: var(--warning-soft); }
@@ -104,16 +109,53 @@ export class IncidentListComponent {
   readonly total = input<number>();
   readonly highlighted = input<string[]>([]);
   readonly loading = input(false);
+  readonly cities = input<readonly City[]>([]);
+  readonly scope = input<ServiceSummary['scope'] | null>(null);
+  private readonly api = inject(TelecomClient);
+  private readonly session = inject(SessionStore);
+  readonly openingDetections = signal(new Map<string, Incident['latestDetection'] | null>());
   readonly expanded = signal<string | null>(null);
   readonly selectedEpisode = computed(() => episodes(this.incidents()).find(item => item.episodeId === this.expanded()));
   readonly evidenceDrawer = viewChild<DrawerComponent>('evidenceDrawer');
+  constructor() {
+    effect(onCleanup => {
+      const updated = this.session.phase() === 'authenticated'
+        ? episodes(this.incidents()).filter(item => item.latestDetection.phase !== 'OPEN') : [];
+      const retained = new Map([...untracked(this.openingDetections)].filter(([id]) => updated.some(item => item.id === id)));
+      this.openingDetections.set(retained);
+      const controller = new AbortController();
+      onCleanup(() => controller.abort());
+      for (const item of updated.filter(item => !retained.has(item.id))) {
+        void this.api.getDetections(item.id, 0, 1, controller.signal).then(result => {
+          const first = result.items[0];
+          if (controller.signal.aborted) return;
+          const valid = first?.phase === 'OPEN' && first.sequence === 1
+            && first.episodeId === item.episodeId && first.scopeId === item.scopeId && first.service === item.service
+            && supportedValue(primaryMetric(first.service, first.kpis), first.kpis) !== null;
+          this.openingDetections.update(rows => new Map(rows).set(item.id, valid ? first : null));
+        }).catch(() => {
+          // Cache absence on this page so reconnects do not repeatedly request unavailable opening evidence.
+          if (!controller.signal.aborted) this.openingDetections.update(rows => new Map(rows).set(item.id, null));
+        });
+      }
+    });
+  }
   openEvidence(item: Incident): void { this.expanded.set(item.episodeId); this.evidenceDrawer()?.open(); }
+  location(item: Incident): string {
+    const location = item.location;
+    if (location?.cityId && !location.nullReason)
+      return this.cities().find(city => city.id === location.cityId)?.name ?? location.cityId;
+    const scope = this.scope();
+    const region = scope?.scopeId === item.scopeId ? scope.region : item.scopeId;
+    return `${region} · city unavailable`;
+  }
   problem(item: Incident): string {
     return item.latestDetection.anomalyType === 'VOLTE_SETUP_DEGRADATION' ? 'VoLTE setup success drop' : 'SMS delivery delay';
   }
   description(item: Incident): string {
-    const detection = item.latestDetection;
-    if (item.technicalState === 'UNKNOWN' || detection.phase === 'UNKNOWN')
+    const opening = this.openingDetections().get(item.id);
+    const detection = opening ?? item.latestDetection;
+    if (!opening && (item.technicalState === 'UNKNOWN' || detection.phase === 'UNKNOWN'))
       return 'Current evidence is incomplete; recovery is not confirmed.';
     const metric = primaryMetric(item.service, detection.kpis);
     const value = supportedValue(metric, detection.kpis);
@@ -121,9 +163,19 @@ export class IncidentListComponent {
     if (!metric || value === null) return `${label} measurements are unavailable.`;
     const unit = item.service === 'VOLTE' ? '%' : ' ms';
     const format = (number: number) => number.toLocaleString('en', { maximumFractionDigits: 2 });
-    const baseline = metric.baseline !== null && Number.isFinite(metric.baseline)
-      ? ` (baseline ${format(metric.baseline)}${unit})` : '';
-    return `Latest ${label.toLowerCase()}: ${format(value)}${unit}${baseline}.`;
+    let measurement = `${format(value)}${unit}`;
+    if (metric.baseline !== null && Number.isFinite(metric.baseline)) {
+      const change = Math.round((value - metric.baseline) * 100) / 100;
+      measurement += change === 0 ? `, matching the ${format(metric.baseline)}${unit} baseline`
+        : `, ${format(Math.abs(change))} ${item.service === 'VOLTE' ? 'percentage points' : 'ms'} ${change < 0 ? 'below' : 'above'} the ${format(metric.baseline)}${unit} baseline`;
+    }
+    const prefix = opening ? 'At first detection, ' : 'Latest ';
+    const currentMetric = primaryMetric(item.service, item.latestDetection.kpis);
+    const current = supportedValue(currentMetric, item.latestDetection.kpis);
+    const latest = !opening ? '' : item.technicalState === 'UNKNOWN' || item.latestDetection.phase === 'UNKNOWN'
+      ? ' Current evidence is incomplete; recovery is not confirmed.'
+      : current === null ? ' Latest measurement unavailable.' : ` Now ${format(current)}${unit}.`;
+    return `${prefix}${label.toLowerCase()}: ${measurement}.${latest}`;
   }
   duration(item: Incident): string {
     const seconds = Math.floor((Date.parse(item.lastObservedAt) - Date.parse(item.firstObservedAt)) / 1000);

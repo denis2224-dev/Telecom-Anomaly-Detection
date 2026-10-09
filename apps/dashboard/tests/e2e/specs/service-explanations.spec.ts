@@ -9,6 +9,7 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
     await page.setViewportSize({ width, height: 844 });
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.name));
+    await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
     await page.route('**/api/auth/me', route => route.fulfill({ json: {
       analystId: 'g3-review', displayName: 'G3 reviewer', roles: ['ANALYST'],
       expiresAt: new Date(Date.now() + 600000).toISOString(),

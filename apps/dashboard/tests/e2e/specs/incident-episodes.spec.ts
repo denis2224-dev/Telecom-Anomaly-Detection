@@ -34,6 +34,13 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 390]
     else items[5].latestDetection.kpis[1].observed = 0;
     items[6].latestDetection.kpis[0].baseline = null;
     await page.route(/\/api\/incidents\?/, route => route.fulfill({ json: { items, total: items.length, page: 0, size: 20 } }));
+    await page.route(/\/api\/incidents\/[^/]+\/detections\?/, route => {
+      const item = items.find(item => route.request().url().includes(`/incidents/${item.id}/`))!;
+      if (item.technicalState !== 'RECOVERED') return route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } });
+      const first = { ...structuredClone(items[0].latestDetection), episodeId: item.episodeId,
+        phase: 'OPEN', sequence: 1, technicalState: 'ONGOING' };
+      return route.fulfill({ json: { items: [first], total: 1, page: 0, size: 1 } });
+    });
     await page.setViewportSize({ width, height: 900 });
     await page.clock.setFixedTime(new Date('2026-10-08T12:00:10Z'));
     await page.goto(`/services/${state.summary.scope.scopeId}`);
@@ -60,13 +67,23 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 390]
       })).toBe(true);
     }
     await expect(cards.nth(0).locator('.episode-description')).toHaveText(service === 'VOLTE'
-      ? 'Latest call setup success: 96.2% (baseline 99.3%).'
-      : 'Latest delivery delay (p95): 3,400 ms (baseline 2,000 ms).');
+      ? 'Latest call setup success: 96.2%, 3.1 percentage points below the 99.3% baseline.'
+      : 'Latest delivery delay (p95): 3,400 ms, 1,400 ms above the 2,000 ms baseline.');
     await expect(cards.nth(1).locator('.episode-workflow')).toHaveText('OPEN · Awaiting analyst resolution');
+    await expect(cards.nth(1).locator('.episode-description')).toHaveText(service === 'VOLTE'
+      ? 'At first detection, call setup success: 96.2%, 3.1 percentage points below the 99.3% baseline. Now 99.3%.'
+      : 'At first detection, delivery delay (p95): 3,400 ms, 1,400 ms above the 2,000 ms baseline. Now 2,000 ms.');
     await expect(cards.nth(2).locator('.episode-workflow')).toHaveText('RESOLVED');
     await expect(cards.nth(3).locator('.episode-description')).toHaveText('Current evidence is incomplete; recovery is not confirmed.');
     for (const index of [4, 5]) await expect(cards.nth(index).locator('.episode-description')).toContainText('measurements are unavailable');
     await expect(cards.nth(6).locator('.episode-description')).not.toContainText('baseline');
+    await expect(cards.first().locator('.episode-location')).toContainText('city unavailable');
+    const stateColors = await cards.locator('.episode-state').evaluateAll(nodes => nodes.slice(0, 4).map(node => ({
+      foreground: getComputedStyle(node).color, background: getComputedStyle(node).backgroundColor,
+    })));
+    expect(stateColors[0]).not.toEqual(stateColors[1]);
+    expect(stateColors[1]).toEqual(stateColors[2]);
+    expect(stateColors[3]).not.toEqual(stateColors[0]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     await panel.screenshot({ path: info.outputPath(`episodes-${service}-${width}.png`), animations: 'disabled' });
     await cards.first().getByRole('button', { name: 'View incident evidence', exact: true }).click();
