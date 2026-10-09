@@ -48,7 +48,7 @@ Results: [Day 3 evidence](../docs/evidence/2026-10-07-sergiu-day3-geographic-exp
 Results: [Day 4 evidence](../docs/evidence/2026-10-08-sergiu-day4-cause-controls.md).
 ## PR #77 review remediation - 9 October 2026
 
-- [x] Integrate current main 0eb9b5b without rewriting PR history.
+- [x] Integrate accepted baseline main 0eb9b5b without rewriting PR history.
 - [x] Label historical non-executable audit archives and publish supported runbook.
 - [x] Implement isolated runtime targeting and refusal/cleanup safety checks.
 - [x] Implement focused combined-revision browser acceptance.
@@ -59,4 +59,8 @@ Results: [Day 4 evidence](../docs/evidence/2026-10-08-sergiu-day4-cause-controls
 
 Results: [PR #77 review remediation](../docs/evidence/2026-10-09-pr77-review-remediation.md).
 Exact evidence-publication SHA and subsequent six CI results are recorded in PR description.
+- [x] Integrate latest dashboard main 957876a cleanly as merge 4805928.
+- [ ] Rebuild and rerun all three connected cases plus six CI gates against latest main.
+- [ ] Publish separate latest-main evidence without modifying prior sealed bundles.
+
 Shared G5 approval remains BLOCKED; all earlier incomplete shared gates are preserved.

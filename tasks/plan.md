@@ -114,3 +114,10 @@ Completed focused runtime verification at `1c889216`, integrating main `0eb9b5b`
 all three real connected cases and guarded cleanup passed. Six candidate CI checks
 passed separately. The evidence-only publication SHA and its subsequent six CI
 results are recorded in the PR description; see the 9 October remediation report.
+
+Latest-main update (9 October): acceptance of main 0eb9b5b is retained separately.
+Main advanced during publication CI to 957876a (material dashboard/session-facing
+changes). Integrate it, review overlapping UI/stream changes, rebuild and rerun all
+three focused connected cases and six CI checks. Publish a separate compact bundle
+at docs/evidence/assets/pr77-review-main-957876a; keep the prior 29 and
+original 55 sealed artifacts unchanged. Do not carry prior-main acceptance forward.
