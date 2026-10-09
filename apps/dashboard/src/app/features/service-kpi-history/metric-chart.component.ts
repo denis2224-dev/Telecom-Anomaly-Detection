@@ -36,7 +36,7 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
             <line class="chart-crosshair" [attr.x1]="rowX(row)" [attr.x2]="rowX(row)" y1="15" [attr.y2]="plotHeight() - 45" />
             @if (value(row) !== null) { <circle class="actual-dot selected-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="5" /> }
           }
-          <text x="65" [attr.y]="plotHeight() - 15">{{ from() | date:'HH:mm':'UTC' }}</text><text [attr.x]="plotWidth() - plotRight()" [attr.y]="plotHeight() - 15" text-anchor="end">{{ to() | date:'HH:mm':'UTC' }} UTC</text>
+          <text x="65" [attr.y]="plotHeight() - 15">{{ from() | date:axisDateFormat():'UTC' }}</text><text [attr.x]="plotWidth() - plotRight()" [attr.y]="plotHeight() - 15" text-anchor="end">{{ to() | date:axisDateFormat():'UTC' }} UTC</text>
         </svg>
       </div>
       @if (!hasValues() && !trafficRows().length) { <p class="chart-empty" role="status">{{ loading() ? 'Loading KPI history…' : rows().length ? 'No usable observations for this KPI. Gaps are unavailable.' : 'No KPI history in this time range.' }}</p> }
@@ -64,6 +64,7 @@ export class MetricChartComponent {
   readonly windowSelected = output<KpiWindow | null>();
   readonly plotRight = computed(() => this.traffic() ? 65 : 24);
   readonly loading = input(false);
+  readonly axisDateFormat = computed(() => Date.parse(this.to()) - Date.parse(this.from()) > 86_400_000 ? 'dd MMM' : 'HH:mm');
   readonly incidents = input<Incident[]>([]);
   readonly hoveredId = signal<string | null>(null);
   readonly hoveredIndex = computed(() => {

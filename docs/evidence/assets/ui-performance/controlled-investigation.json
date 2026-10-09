@@ -1,0 +1,163 @@
+{
+  "mode": "Controlled REST responses and SSE; not LIVE acceptance",
+  "screen": "investigation",
+  "scopeCount": 100,
+  "incidentTotal": 1000,
+  "responseDelayMs": 400,
+  "records": [
+    {
+      "requestedHintHz": 1,
+      "durationMs": 6000,
+      "events": 6,
+      "snapshotReadsDuringLoad": 2,
+      "incidentPageReads": 0,
+      "frameGapP95Ms": 17.5,
+      "maxFrameGapMs": 22.19999998807907,
+      "longTasksMs": [],
+      "inputPaintMs": 0.003333000000566244,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 1.5
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 2.2000000178813934
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 0.800000011920929
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.699999988079071
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 5.9000000059604645
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 2.4000000059604645
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.5
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 6.5999999940395355
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 2.4000000059604645
+        }
+      ],
+      "before": {
+        "Nodes": 3855,
+        "TaskDuration": 0.11755,
+        "JSHeapUsedSize": 7713540
+      },
+      "after": {
+        "Nodes": 3855,
+        "TaskDuration": 0.229087,
+        "JSHeapUsedSize": 7928616
+      }
+    },
+    {
+      "requestedHintHz": 100,
+      "durationMs": 6000,
+      "events": 600,
+      "snapshotReadsDuringLoad": 5,
+      "incidentPageReads": 0,
+      "frameGapP95Ms": 16.80000001192093,
+      "maxFrameGapMs": 17.399999976158142,
+      "longTasksMs": [],
+      "inputPaintMs": 0.0026250000009895302,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.9000000059604645
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 6.0999999940395355
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 2.600000023841858
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 5
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 6.899999976158142
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 2.899999976158142
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 5.399999976158142
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 6.700000017881393
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 2.2999999821186066
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.0999999940395355
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 5.5
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 3.2000000178813934
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.5
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 6
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 3.0999999940395355
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 2.0999999940395355
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 2.199999988079071
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 0.7999999821186066
+        }
+      ],
+      "before": {
+        "Nodes": 3855,
+        "TaskDuration": 0.237104,
+        "JSHeapUsedSize": 7967100
+      },
+      "after": {
+        "Nodes": 3855,
+        "TaskDuration": 0.396441,
+        "JSHeapUsedSize": 8073672
+      }
+    }
+  ]
+}

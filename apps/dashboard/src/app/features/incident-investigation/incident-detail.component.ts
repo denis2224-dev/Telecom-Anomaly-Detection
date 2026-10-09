@@ -1,4 +1,3 @@
-import { ServiceContextComponent } from '../../shared/service-context.component';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { StatusBannerComponent } from '../../shared/status-banner.component';
@@ -15,10 +14,9 @@ import { IncidentActionsComponent } from './incident-actions.component';
 import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, probableCause } from '../../shared/metric-presentation';
 
 @Component({
-  selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, ServiceContextComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
-    @if (incident(); as item) { <app-service-context [current]="item.service" /> }
     @if (!loading() && !error()) {
       <button type="button" class="ghost" (click)="load(page(), true)"><app-icon name="refresh" />Refresh incident</button>
     }
@@ -104,7 +102,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
             <p>{{ presentation.retainedImpact && !presentation.currentImpact ? 'Retained estimate, not current impact' : 'Latest evaluated impact' }}:
               @if (item.service === 'VOLTE') { {{ impact.extraFailedAttempts }} extra failed attempts }
               @else { {{ impact.affectedDeliveredMessages }} affected delivered messages · {{ impact.pendingMessages }} pending messages }
-              · Unique subscribers: {{ impact.uniqueSubscribers ?? 'Unavailable' }}</p>
+              </p>
           } @else { <p>Impact: Unavailable</p> }
           <p>{{ cause(item.latestDetection) }} · Confidence: {{ presentation.causeConfidence }}</p>
         </details>
@@ -198,11 +196,19 @@ export class IncidentDetailComponent {
       this.timeline.set([]);
     }
     try {
-      const [item, result] = await Promise.all([
+      let [item, result] = await Promise.all([
         this.api.getIncident(id, controller.signal),
         this.api.getDetections(id, page, this.pageSize, controller.signal),
       ]);
       if (generation !== this.generation) return;
+      // A shrinking history can remove the selected page between refreshes.
+      // Reconcile from a valid page before publishing the current incident.
+      if (Number.isInteger(result.total) && result.total >= 0 && page > 0
+        && page * this.pageSize >= result.total) {
+        page = 0;
+        result = await this.api.getDetections(id, page, this.pageSize, controller.signal);
+        if (generation !== this.generation) return;
+      }
       if (!Number.isInteger(result.total) || result.total < 0
         || result.items.length > this.pageSize || result.items.length > result.total
         || (result.total > 0 && !result.items.length)) {

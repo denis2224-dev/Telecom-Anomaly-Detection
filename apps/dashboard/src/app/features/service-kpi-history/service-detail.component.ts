@@ -1,8 +1,7 @@
-import { ServiceContextComponent } from '../../shared/service-context.component';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient, type ServiceSummary } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
@@ -23,24 +22,31 @@ import { SessionStore } from '../login-and-session/session.store';
 
 import { IconComponent } from '../../shared/icon.component';
 import { MetricExplanationComponent } from '../../shared/metric-explanation.component';
+import { bindGeography, type City } from '../service-overview/dashboard-geography';
 
 const PAGE_SIZE = 20;
 const MAX_WINDOWS = 1440;
 
 @Component({
   selector: 'app-service-detail',
-  imports: [SmsShadowComponent, ServiceContextComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
+  imports: [SmsShadowComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
     <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a><div class="heading-copy"><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
     </div>
     @if (loading() && !displayedService()) { <section class="state-panel skeleton-panel service-loading" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
     @if (error()) { <section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{ error() }}</p><button (click)="load()"><app-icon name="refresh" />Retry</button></section> }
-    @if (!error() && displayedService(); as item) {
+    @if (displayedService(); as item) {
       <div class="service-toolbar">
-        <div class="service-selection"><app-service-context [current]="item.scope.service" /></div>
+        <label class="field service-city">City<select aria-label="City" [value]="scopeId()" [disabled]="cityLoading() || loading() || !cityOptions().length" (change)="selectCity($any($event.target).value)">
+          @if (!selectedCity()) { <option [value]="scopeId()" [selected]="true">{{ item.scope.region }} · current scope</option> }
+          @for (city of cityOptions(); track city.id) { <option [value]="city.scopeId" [selected]="city.scopeId === scopeId()">{{ city.name }}</option> }
+        </select></label>
         <app-history-range [compact]="true" [from]="from()" [to]="to()" (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
       </div>
+      @if (cityError()) { <p class="city-error" role="status">City list unavailable <button type="button" (click)="loadCities()">Retry cities</button></p> }
+    }
+    @if (!error() && displayedService(); as item) {
       <section class="service-hero" aria-label="Service KPI history">
         <div class="kpi-switcher" role="group" aria-label="Graph KPI">
           @for (metric of exactMetrics(); track metric.name) {
@@ -54,7 +60,7 @@ const MAX_WINDOWS = 1440;
       <div class="service-alerts" aria-live="polite">
         @if (streamError() || connectionInterrupted()) { <div class="service-connection"><span [title]="streamError() || connectionInterrupted()">{{ streamError() || connectionInterrupted() }}</span><button type="button" (click)="streamError() ? refreshIncidents() : load()" [disabled]="incidentLoading() || loading()"><app-icon name="refresh" />Retry</button>@if (streamError() && incidentPage() > 0) { <button type="button" (click)="refreshIncidents(0)" [disabled]="incidentLoading()"><app-icon name="left" />First incident page</button> }</div> }
       </div>
-      <app-incident-list [incidents]="incidents()" [total]="incidentTotal()" [highlighted]="highlightedEpisodes()" [loading]="incidentLoading()" />
+      <app-incident-list [incidents]="incidents()" [total]="incidentTotal()" [highlighted]="highlightedEpisodes()" [loading]="incidentLoading()" [cities]="cityCatalogue()" [scope]="item.scope" />
       <nav class="pagination" aria-label="Incident pages">
         <button (click)="refreshIncidents(incidentPage() - 1)" [disabled]="incidentLoading() || incidentPage() === 0"><app-icon name="left" />Previous incidents</button>
         <span>Page {{ incidentPage() + 1 }} · {{ incidents().length }} shown · {{ incidentTotal() }} total</span>
@@ -90,6 +96,8 @@ const MAX_WINDOWS = 1440;
 })
 export class ServiceDetailComponent {
   private readonly api = inject(TelecomClient);
+  private readonly router = inject(Router);
+  private cityController?: AbortController;
   private readonly live = inject(LiveUpdates);
   private generation = 0;
   private loadController?: AbortController;
@@ -150,28 +158,65 @@ export class ServiceDetailComponent {
   readonly incidentPage = signal(0);
   readonly incidentTotal = signal(0);
   readonly incidentLoading = signal(false);
+  readonly cityCatalogue = signal<readonly City[]>([]);
+  readonly cityLoading = signal(true);
+  readonly cityError = signal('');
+  readonly cityOptions = computed(() => this.cityCatalogue().flatMap(city => {
+    const service = this.service()?.scope.service;
+    const scopeId = this.fixture ? city.scopeIds.find(id => id.startsWith(`fixture-${service}-`))
+      : city.geography?.services.find(item => item.service === service)?.scopeId;
+    return scopeId ? [{ id: city.id, name: city.name, scopeId }] : [];
+  }));
+  readonly selectedCity = computed(() => this.cityOptions().find(city => city.scopeId === this.scopeId()));
+
+  async loadCities(): Promise<void> {
+    this.cityController?.abort();
+    const controller = this.cityController = new AbortController();
+    this.cityLoading.set(true);
+    this.cityError.set('');
+    try {
+      const cities = this.fixture ? (await dataSource.loadConnectedDashboard()).fixtureCities
+        : bindGeography(await this.api.listGeographyCities(controller.signal));
+      if (!controller.signal.aborted) this.cityCatalogue.set(cities);
+    } catch {
+      if (!controller.signal.aborted) { this.cityCatalogue.set([]); this.cityError.set('City list unavailable'); }
+    } finally {
+      if (!controller.signal.aborted) this.cityLoading.set(false);
+    }
+  }
+
+  selectCity(scopeId: string): void {
+    if (scopeId === this.scopeId() || !this.cityOptions().some(city => city.scopeId === scopeId)) return;
+    void this.router.navigate(['/services', scopeId], { queryParams: {
+      from: this.from(), to: this.to(), follow: this.followingLatest ? 'latest' : 'fixed',
+    } });
+  }
 
   constructor() {
     const destroy = inject(DestroyRef);
+    const route = inject(ActivatedRoute);
     const stop = () => {
       ++this.generation;
+      this.cityController?.abort();
       this.cancelReads();
       this.closeStream?.();
       this.closeStream = undefined;
     };
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
     destroy.onDestroy(stop);
-    inject(ActivatedRoute).paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+    void this.loadCities();
+    route.paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
       this.closeStream?.();
       this.closeStream = undefined;
       this.hoveredWindow.set(null);
       this.selectedKpi.set('');
       this.scopeId.set(params.get('scopeId') ?? '');
-      this.from.set('');
-      this.to.set('');
-      this.followingLatest = true;
+      this.from.set(route.snapshot.queryParamMap.get('from') ?? '');
+      this.to.set(route.snapshot.queryParamMap.get('to') ?? '');
+      this.followingLatest = !this.from() || route.snapshot.queryParamMap.get('follow') === 'latest';
       this.incidents.set([]);
       this.incidentPage.set(0);
+      this.incidentTotal.set(0);
       if (!this.fixture) {
         this.closeStream = this.live.watch(
           () => this.queueIncidentRefresh(),

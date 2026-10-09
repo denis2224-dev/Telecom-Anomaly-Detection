@@ -178,10 +178,10 @@ for (const width of [1366, 768, 390]) {
     await page.screenshot({ path: info.outputPath(`three-panels-fixture-${width}.png`), fullPage: true, animations: 'disabled' });
     await page.getByRole('button', { name: '24h', exact: true }).click();
     await expect(page.getByRole('button', { name: '24h', exact: true })).toHaveAttribute('aria-pressed', 'true');
-    await page.getByLabel('From (UTC)', { exact: true }).fill('2026-10-05T10:00');
+    await page.getByLabel('From (UTC)', { exact: true }).fill('2026-09-05T10:00');
     await page.getByLabel('To (UTC, exclusive)', { exact: true }).fill('2026-10-07T12:00');
     await page.getByRole('button', { name: 'Apply', exact: true }).click();
-    await expect(page.getByRole('alert')).toContainText('at most 24 hours');
+    await expect(page.getByRole('alert')).toContainText('at most 30 days');
     await page.getByRole('button', { name: '1h', exact: true }).click();
     await expect(page.getByLabel('To (UTC, exclusive)', { exact: true })).toHaveValue(fixtureRange.to.slice(0, 16));
     await page.locator('.map-table').getByRole('button', { name: 'Chișinău', exact: true }).click();
@@ -214,7 +214,7 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);
     await page.getByRole('button', { name: 'Open VoLTE setup', exact: true }).click();
     await expect(page).toHaveURL(/\/services\/fixture-VOLTE-ORH$/);
-    await expect(page.getByLabel('Service', { exact: true })).toHaveValue('VOLTE');
+    await expect(page.locator('app-service-context')).toHaveCount(0);
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Open SMS delivery', exact: true }).click();
     await expect(page).toHaveURL(/\/services\/SMS-MD-ROUTE-A$/);

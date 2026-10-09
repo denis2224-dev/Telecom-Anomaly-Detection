@@ -90,7 +90,7 @@ for (const width of [1366, 1024, 390, 320]) {
     await page.goto(`/incidents/${state.incident.id}`);
     const update = page.locator('[data-detection-id]');
     await update.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
-    await update.getByText('Source evidence', { exact: true }).click();
+    await expect(update.getByText('Source evidence', { exact: true })).toHaveCount(0);
     await expect(update).toContainText(explanation);
     await expect(update.getByText(source, { exact: true })).toBeHidden();
     await update.getByText('Troubleshooting', { exact: true }).click();

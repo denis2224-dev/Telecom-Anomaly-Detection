@@ -46,7 +46,8 @@ describe('Bounded incident stream', () => {
     http.verify();
   });
 
-  it('refreshes after registration and every valid upsert', () => {
+  it('refreshes after registration and batches valid upserts without delaying reconnect', () => {
+    vi.useFakeTimers();
     vi.stubGlobal('EventSource', FakeSource);
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
     TestBed.inject(SessionStore).phase.set('authenticated');
@@ -56,10 +57,36 @@ describe('Bounded incident stream', () => {
     source.dispatchEvent(new Event('ready'));
     source.dispatchEvent(new MessageEvent('incident-upsert', { data: '{"id":"a","version":7}' }));
     source.dispatchEvent(new MessageEvent('incident-upsert', { data: '{"id":"a","version":7}' }));
-    expect(refresh).toHaveBeenCalledTimes(3);
+    expect(refresh).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(1000);
+    expect(refresh).toHaveBeenCalledTimes(2);
     close();
     source.dispatchEvent(new Event('ready'));
+    expect(refresh).toHaveBeenCalledTimes(2);
+  });
+
+  it('refreshes throughout sustained bursts and cancels pending work on teardown', () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('EventSource', FakeSource);
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.inject(SessionStore).phase.set('authenticated');
+    const refresh = vi.fn();
+    const close = TestBed.inject(IncidentStream).connect(refresh, vi.fn());
+    const source = FakeSource.latest;
+    for (let index = 0; index < 300; index++) {
+      source.dispatchEvent(new MessageEvent('incident-upsert', { data: JSON.stringify({ id: 'a', version: index }) }));
+      vi.advanceTimersByTime(10);
+    }
     expect(refresh).toHaveBeenCalledTimes(3);
+    source.dispatchEvent(new MessageEvent('incident-upsert', { data: '{"id":"a","version":301}' }));
+    source.onopen?.(new Event('open'));
+    expect(refresh).toHaveBeenCalledTimes(4);
+    vi.advanceTimersByTime(1000);
+    expect(refresh).toHaveBeenCalledTimes(4);
+    source.dispatchEvent(new MessageEvent('incident-upsert', { data: '{"id":"a","version":302}' }));
+    close();
+    vi.advanceTimersByTime(1000);
+    expect(refresh).toHaveBeenCalledTimes(4);
   });
 
   it('invalidates authoritative REST data on initial open and reconnect', () => {

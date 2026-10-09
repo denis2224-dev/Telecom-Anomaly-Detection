@@ -49,6 +49,10 @@ async function mockStream(page: Page): Promise<void> {
 
 test.describe('Incident reconnect', () => {
   test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled stream and REST responses');
+  test.beforeEach(async ({ page }) => {
+    await page.route('**/api/geography/cities', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
+    await page.route('**/api/incidents/*/detections?**', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
+  });
 
   test('deduplicates rows, rejects old versions, and preserves the selected range', async ({ page }) => {
     await mockStream(page);

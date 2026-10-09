@@ -45,6 +45,11 @@ radius and card shadow. The generator writes tracked Angular and Keycloak files:
 - `apps/dashboard/src/branding/mark.svg`
 - `infra/keycloak/themes/telecom/login/resources/css/tokens.css`
 - `infra/keycloak/themes/telecom/login/resources/img/mark.svg`
+- `apps/dashboard/src/branding/favicon.svg`
+- `docs/assets/tracelink-logo.svg`
+
+The app is named TraceLink. See the [branding guide](../ux/branding.md) for the
+downloadable SVG logo; the generator also maintains its bent-path symbol.
 
 After changing the source values, regenerate the outputs from the repository
 root:

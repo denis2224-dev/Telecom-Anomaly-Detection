@@ -37,7 +37,7 @@ test("branded provider form preserves password controls and validation", async (
   expect(await page.locator("#kc-login").evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThanOrEqual(46);
   await expect(page.getByText("Need access? Contact your project administrator.")).toBeVisible();
   // The mark is decorative, while real text retains the brand's accessible name.
-  await expect(page.locator("#kc-header-wrapper")).toContainText("Telecom");
+  await expect(page.locator("#kc-header-wrapper")).toContainText("TraceLink");
   expect(await page.locator("#kc-header-wrapper").evaluate(el => getComputedStyle(el, "::before").maskImage)).toContain("mark.svg");
   await page.locator("#kc-login").hover();
   await expect(page.locator("#kc-login")).toHaveCSS("background-image", "none");

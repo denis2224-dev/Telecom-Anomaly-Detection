@@ -1,0 +1,14 @@
+{
+  "mode": "Controlled API reproduction, not live acceptance",
+  "defect": "missing-evidence",
+  "stage": "after",
+  "capturedAtUTC": "2026-10-08T19:03:18.800Z",
+  "state": {
+    "incidentId": "81205a34-116c-5d90-ae54-d80e0dee4fb1",
+    "version": 4,
+    "evidenceCodes": [
+      "PING_RESULT"
+    ],
+    "renderedCause": "PROBABLE CAUSE\n\nCause undetermined\n\nConfidence\nMEDIUM\nModel result\nAvailable\nAnomaly rank\n0.8\nAffected paths\nUnavailable\nSupporting / contradicting evidence\nUnavailable\nRECOMMENDED CHECKS\nInspect source freshness and affected scope\nInspect dependency traces and recovery"
+  }
+}

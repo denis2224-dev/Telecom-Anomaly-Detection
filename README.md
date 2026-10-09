@@ -1,4 +1,8 @@
-# Telecom Anomaly Detection
+![TraceLink — Follow service evidence](docs/assets/tracelink-logo.svg)
+
+# TraceLink
+
+[Logo SVG and branding guide](docs/ux/branding.md).
 
 A telecom anomaly detection and monitoring platform using synthetic telecom data.
 No real customer data is used. Developed as a UTM internship project at Orange
