@@ -1,0 +1,9 @@
+{
+  "checkedAtUTC": "2026-10-09T20:14:26.324Z",
+  "candidateSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+  "syntheticCheckoutSha": "d03a46e2cbd36009f9ae4da517fdd1dbfd82d691",
+  "candidateTree": "d4d66df7e7e0647c38bceb8a9b06207136a2cf69",
+  "syntheticCheckoutTree": "d4d66df7e7e0647c38bceb8a9b06207136a2cf69",
+  "status": "PASSED",
+  "integratedMainSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3"
+}
