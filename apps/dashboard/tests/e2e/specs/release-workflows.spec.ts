@@ -19,6 +19,7 @@ test('release roles complete authenticated investigation and scenario workflows'
     if (previous.runs?.length !== 2 || previous.runs.some((run: any) => !/^[0-9a-f-]{36}$/.test(run.runId)
       || !['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A'].includes(run.scopeId))) throw new Error('Resume requires recorded real release runs.');
     results.runs = previous.runs;
+    results.checks.push(...(previous.checks ?? []));
     results.checks.push(`Resuming actual profiles started by the audit at ${previous.startedAtUTC}`);
   }
   const capture = async (page: Page, name: string, width = 1366) => {
@@ -154,6 +155,8 @@ test('release roles complete authenticated investigation and scenario workflows'
     const findIncident = async (run: any) => (await read(supervisor, `/api/incidents?scopeId=${run.scopeId}&size=100`)).items.find((item: any) =>
       Date.parse(item.firstObservedAt) >= Date.parse(run.scheduledStartAt) && Date.parse(item.firstObservedAt) < Date.parse(run.scheduledEndAt));
     for (const [index, run] of results.runs.entries()) {
+      if (run.status === 'COMPLETED' && run.technicalState === 'RECOVERED'
+        && run.workflowState === 'RESOLVED' && run.incidentId) continue;
       await expect.poll(async () => Boolean(await findIncident(run)), { timeout: 360_000, intervals: [5000] }).toBe(true);
       const incident = await findIncident(run);
       run.incidentId = incident.id;
@@ -204,6 +207,8 @@ test('release roles complete authenticated investigation and scenario workflows'
     }
     console.log('Release investigations verified; awaiting genuine scenario recovery.');
     for (const [index, run] of results.runs.entries()) {
+      if (run.status === 'COMPLETED' && run.technicalState === 'RECOVERED'
+        && run.workflowState === 'RESOLVED' && run.incidentId) continue;
       await expect.poll(async () => (await findIncident(run))?.technicalState, { timeout: 360_000, intervals: [5000] }).toBe('RECOVERED');
       await expect.poll(async () => (await read(supervisor, `/api/simulator/runs/${run.runId}`)).status, { timeout: 90_000 }).toBe('COMPLETED');
       const actor = index === 0 ? analyst : supervisor;
@@ -241,8 +246,21 @@ test('release roles complete authenticated investigation and scenario workflows'
       try { return command('docker', ['compose', 'exec', '-T', 'event-generator', 'curl', '--silent', '--fail', 'http://localhost:8081/actuator/health/readiness']); }
       catch { return ''; }
     }, { timeout: 60_000 }).toContain('UP');
-    const retry = await clickWrite(unavailable, 'Retry same command', '/api/simulator/scenarios/NORMAL_CONTROL', 202);
-    expect(retry.request().postDataJSON()).toEqual(failed.request().postDataJSON());
+    let retry = failed;
+    for (let attempt = 0; attempt < 15; attempt++) {
+      const button = unavailable.getByRole('button', { name: 'Retry same command', exact: true });
+      await expect(button).toBeEnabled();
+      const response = unavailable.waitForResponse(saved =>
+        new URL(saved.url()).pathname === '/api/simulator/scenarios/NORMAL_CONTROL'
+        && saved.request().method() === 'POST');
+      await button.click();
+      retry = await response;
+      expect(retry.request().postDataJSON()).toEqual(failed.request().postDataJSON());
+      if (retry.status() === 202) break;
+      expect(retry.status()).toBe(503);
+      await unavailable.waitForTimeout(3000);
+    }
+    expect(retry.status()).toBe(202);
     let control = await retry.json();
     const conflict = await supervisor.context.newPage();
     await conflict.goto('/scenarios');
@@ -283,6 +301,84 @@ test('release roles complete authenticated investigation and scenario workflows'
         admin(['delete', `users/${actor.userId}`, '-r', 'telecom']);
         sql(`UPDATE app.analysts SET enabled=false WHERE subject='${actor.userId}' AND display_name='Release ${actor.role}';`);
       }
+    }
+  }
+});
+
+test('matches live incident fields across API, database and browser', async ({ browser }, info) => {
+  const reportPath = process.env.RELEASE_RESUME_RESULTS;
+  if (!reportPath) { test.skip(true, 'Set RELEASE_RESUME_RESULTS to a saved real release report.'); return; }
+  const runs = JSON.parse(readFileSync(reportPath, 'utf8')).runs as { incidentId: string; scopeId: string }[];
+  expect(runs).toHaveLength(2);
+  const username = 'contract-check-' + randomBytes(6).toString('hex');
+  const password = randomBytes(24).toString('base64url') + '!Aa1';
+  let userId = '';
+  const context = await browser.newContext({ baseURL: 'http://telecom.test:8080' });
+  const page = await context.newPage();
+  const comparisons: Record<string, unknown>[] = [];
+  try {
+    userId = admin(['create', 'users', '-r', 'telecom', '-i', '-f', '/dev/stdin'], JSON.stringify({
+      username, enabled: true, firstName: 'Contract', lastName: 'Verification',
+      email: `${username}@example.invalid`, emailVerified: true,
+      credentials: [{ type: 'password', value: password, temporary: false }],
+    })).replaceAll('"', '');
+    expect(userId).toMatch(/^[0-9a-f-]{36}$/);
+    admin(['add-roles', '-r', 'telecom', '--uid', userId, '--rolename', 'ANALYST']);
+    command('./scripts/provision-analyst', ['--username', username, '--display-name', 'Contract verification']);
+    await page.goto('/login');
+    await page.getByRole('button', { name: 'Continue to sign in', exact: true }).click();
+    await page.getByLabel(/username|email/i).fill(username);
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: /sign in/i }).click();
+    await expect(page).toHaveURL(/\/dashboard$/);
+
+    for (const run of runs) {
+      expect(run.incidentId).toMatch(/^[0-9a-f-]{36}$/);
+      const response = await context.request.get(`/api/incidents/${run.incidentId}`);
+      expect(response.status()).toBe(200);
+      const api = await response.json();
+      const database = JSON.parse(sql(`SELECT row_to_json(i) FROM (
+        SELECT id,episode_id,service,scope_id,status,technical_state,severity,
+               first_observed_at,detected_at,last_observed_at,version,latest_sequence
+        FROM app.incidents WHERE id='${run.incidentId}'
+      ) i;`));
+      const evidence = JSON.parse(sql(`SELECT payload FROM app.detection_evidence
+        WHERE episode_id='${database.episode_id}' AND sequence=${database.latest_sequence};`));
+      for (const [apiName, dbName] of Object.entries({
+        id: 'id', episodeId: 'episode_id', service: 'service', scopeId: 'scope_id',
+        status: 'status', technicalState: 'technical_state', severity: 'severity',
+        version: 'version', latestSequence: 'latest_sequence',
+      })) expect(api[apiName], apiName).toEqual(database[dbName]);
+      for (const [apiName, dbName] of Object.entries({
+        firstObservedAt: 'first_observed_at', detectedAt: 'detected_at',
+        lastObservedAt: 'last_observed_at',
+      })) expect(Date.parse(api[apiName]), apiName).toBe(Date.parse(database[dbName]));
+      for (const field of ['detectionId', 'sequence', 'phase', 'technicalState',
+        'severity', 'probableCause', 'causeConfidence']) {
+        expect(api.latestDetection[field], field).toEqual(evidence[field]);
+      }
+      await page.goto(`/incidents/${run.incidentId}`);
+      const summary = page.locator('.incident-summary-bar');
+      await expect(summary).toContainText(api.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery');
+      await expect(summary.locator(`[data-state="${api.severity}"]`)).toBeVisible();
+      await expect(summary.locator(`[data-state="${api.technicalState}"]`)).toBeVisible();
+      await expect(summary).toContainText(api.status);
+      comparisons.push({ incidentId: api.id, service: api.service, scopeId: api.scopeId,
+        status: api.status, technicalState: api.technicalState, severity: api.severity,
+        version: api.version, latestSequence: api.latestSequence,
+        firstObservedAt: api.firstObservedAt, detectedAt: api.detectedAt,
+        lastObservedAt: api.lastObservedAt, latestPhase: api.latestDetection.phase,
+        probableCause: api.latestDetection.probableCause,
+        causeConfidence: api.latestDetection.causeConfidence });
+    }
+  } finally {
+    writeFileSync(info.outputPath('contract-comparison.json'), JSON.stringify({
+      revision: command('git', ['rev-parse', 'HEAD']), comparisons,
+    }, null, 2));
+    await context.close();
+    if (/^[0-9a-f-]{36}$/.test(userId)) {
+      admin(['delete', `users/${userId}`, '-r', 'telecom']);
+      sql(`UPDATE app.analysts SET enabled=false WHERE subject='${userId}' AND display_name='Contract verification';`);
     }
   }
 });

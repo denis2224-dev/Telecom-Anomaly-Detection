@@ -1,0 +1,462 @@
+{
+  "mode": "Authenticated LIVE production build; native EventSource; no request interception",
+  "startedAt": "2026-10-09T16:09:01.189Z",
+  "revision": "914bafffd908338dcbb45a56a7aa67588de1719b",
+  "trackedPatchHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "browser": "153.0.8010.12",
+  "passed": true,
+  "scopes": 22,
+  "cities": 10,
+  "requests": [
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "durationMs": 14.563,
+      "receivedAt": "2026-10-09T16:09:05.350Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 104.907,
+      "receivedAt": "2026-10-09T16:09:05.437Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 182.241,
+      "receivedAt": "2026-10-09T16:09:05.518Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 16.482,
+      "receivedAt": "2026-10-09T16:09:05.535Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis",
+      "status": 200,
+      "durationMs": 56.582,
+      "receivedAt": "2026-10-09T16:09:05.606Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+      "status": 200,
+      "durationMs": 57.969,
+      "receivedAt": "2026-10-09T16:09:05.606Z"
+    },
+    {
+      "path": "/api/incidents/06420254-92ef-4e88-96d1-337dfdf8f83c",
+      "status": 200,
+      "durationMs": 17.565,
+      "receivedAt": "2026-10-09T16:09:05.610Z"
+    },
+    {
+      "path": "/api/incidents/92418948-625b-4e68-a6e8-75ee41f085ff",
+      "status": 200,
+      "durationMs": 17.476,
+      "receivedAt": "2026-10-09T16:09:05.610Z"
+    },
+    {
+      "path": "/api/incidents/1774c62a-3f82-4bd8-b2d0-ac19ecdf74e2",
+      "status": 200,
+      "durationMs": 18.846,
+      "receivedAt": "2026-10-09T16:09:05.610Z"
+    },
+    {
+      "path": "/api/incidents/7ed09ad4-ecbc-4759-ada8-7b42a06de343",
+      "status": 200,
+      "durationMs": 25.245,
+      "receivedAt": "2026-10-09T16:09:05.614Z"
+    },
+    {
+      "path": "/api/incidents/4f6eac8f-d62d-43d8-b63a-9a423a99edd7",
+      "status": 200,
+      "durationMs": 25.656,
+      "receivedAt": "2026-10-09T16:09:05.615Z"
+    },
+    {
+      "path": "/api/incidents/50f55b0b-ff5a-4122-8cd9-85536eab2c89",
+      "status": 200,
+      "durationMs": 25.98,
+      "receivedAt": "2026-10-09T16:09:05.615Z"
+    },
+    {
+      "path": "/api/incidents/6941f908-dd8d-4d57-a29e-fff1fa6e2509",
+      "status": 200,
+      "durationMs": 26.236,
+      "receivedAt": "2026-10-09T16:09:05.615Z"
+    },
+    {
+      "path": "/api/incidents/39fc26ef-e9cd-4ee7-9470-c101f7d5959a",
+      "status": 200,
+      "durationMs": 26.891,
+      "receivedAt": "2026-10-09T16:09:05.617Z"
+    },
+    {
+      "path": "/api/incidents/83c22238-4e73-45ac-8b6b-1b6cd0600273",
+      "status": 200,
+      "durationMs": 33.293,
+      "receivedAt": "2026-10-09T16:09:05.625Z"
+    },
+    {
+      "path": "/api/incidents/20241e49-d271-43f4-bed5-cb0066e1b043",
+      "status": 200,
+      "durationMs": 33.759,
+      "receivedAt": "2026-10-09T16:09:05.625Z"
+    },
+    {
+      "path": "/api/incidents/912cc3a3-9a3a-46e5-a7b3-507192ab20ba",
+      "status": 200,
+      "durationMs": 33.854,
+      "receivedAt": "2026-10-09T16:09:05.626Z"
+    },
+    {
+      "path": "/api/incidents/df6f73ce-1f02-44ba-a732-e52f82725f2b",
+      "status": 200,
+      "durationMs": 35.277,
+      "receivedAt": "2026-10-09T16:09:05.626Z"
+    },
+    {
+      "path": "/api/incidents/6453fc44-5ad0-4fe9-bcb0-a282bbb5001a",
+      "status": 200,
+      "durationMs": 36.496,
+      "receivedAt": "2026-10-09T16:09:05.626Z"
+    },
+    {
+      "path": "/api/incidents/0b12e06c-1fc1-4bce-904e-546ffc9756e7",
+      "status": 200,
+      "durationMs": 41.884,
+      "receivedAt": "2026-10-09T16:09:05.632Z"
+    },
+    {
+      "path": "/api/incidents/c273f7c1-3e4c-4dab-b70f-b418126c8382",
+      "status": 200,
+      "durationMs": 42.421,
+      "receivedAt": "2026-10-09T16:09:05.632Z"
+    },
+    {
+      "path": "/api/incidents/5796e230-c643-464b-80d8-99eeaff53af0",
+      "status": 200,
+      "durationMs": 44.289,
+      "receivedAt": "2026-10-09T16:09:05.634Z"
+    },
+    {
+      "path": "/api/incidents/d96676e7-fb6b-4686-b64a-39d293550fee",
+      "status": 200,
+      "durationMs": 45.075,
+      "receivedAt": "2026-10-09T16:09:05.634Z"
+    },
+    {
+      "path": "/api/incidents/86e15407-9d37-4f69-b2c8-b49ecbed75ca",
+      "status": 200,
+      "durationMs": 46.421,
+      "receivedAt": "2026-10-09T16:09:05.636Z"
+    },
+    {
+      "path": "/api/incidents/b23dc7b7-1c90-41f8-9167-22faa9d769a8",
+      "status": 200,
+      "durationMs": 49.576,
+      "receivedAt": "2026-10-09T16:09:05.640Z"
+    },
+    {
+      "path": "/api/incidents/ef6d15ae-1191-4fc6-9093-87c7466900f6",
+      "status": 200,
+      "durationMs": 49.719,
+      "receivedAt": "2026-10-09T16:09:05.640Z"
+    },
+    {
+      "path": "/api/geography/cities",
+      "status": 200,
+      "durationMs": 14.479,
+      "receivedAt": "2026-10-09T16:09:05.701Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 8.924,
+      "receivedAt": "2026-10-09T16:09:05.775Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 8.684,
+      "receivedAt": "2026-10-09T16:09:05.775Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/topology",
+      "status": 200,
+      "durationMs": 6.937,
+      "receivedAt": "2026-10-09T16:09:05.775Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis",
+      "status": 200,
+      "durationMs": 17.716,
+      "receivedAt": "2026-10-09T16:09:05.783Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis",
+      "status": 200,
+      "durationMs": 17.909,
+      "receivedAt": "2026-10-09T16:09:05.783Z"
+    },
+    {
+      "path": "/api/geography/cities/ORH",
+      "status": 200,
+      "durationMs": 18.893,
+      "receivedAt": "2026-10-09T16:09:05.784Z"
+    },
+    {
+      "path": "/api/incidents/912cc3a3-9a3a-46e5-a7b3-507192ab20ba",
+      "status": 200,
+      "durationMs": 10.473,
+      "receivedAt": "2026-10-09T16:09:05.785Z"
+    },
+    {
+      "path": "/api/incidents/6453fc44-5ad0-4fe9-bcb0-a282bbb5001a",
+      "status": 200,
+      "durationMs": 14.174,
+      "receivedAt": "2026-10-09T16:09:05.789Z"
+    },
+    {
+      "path": "/api/incidents/df6f73ce-1f02-44ba-a732-e52f82725f2b",
+      "status": 200,
+      "durationMs": 14.494,
+      "receivedAt": "2026-10-09T16:09:05.789Z"
+    },
+    {
+      "path": "/api/incidents/d96676e7-fb6b-4686-b64a-39d293550fee",
+      "status": 200,
+      "durationMs": 14.544,
+      "receivedAt": "2026-10-09T16:09:05.789Z"
+    },
+    {
+      "path": "/api/incidents/0b12e06c-1fc1-4bce-904e-546ffc9756e7",
+      "status": 200,
+      "durationMs": 17.006,
+      "receivedAt": "2026-10-09T16:09:05.791Z"
+    },
+    {
+      "path": "/api/incidents/86e15407-9d37-4f69-b2c8-b49ecbed75ca",
+      "status": 200,
+      "durationMs": 18.592,
+      "receivedAt": "2026-10-09T16:09:05.793Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 124.687,
+      "receivedAt": "2026-10-09T16:09:05.820Z"
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 10.996,
+      "receivedAt": "2026-10-09T16:09:05.841Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 11.004,
+      "receivedAt": "2026-10-09T16:09:05.842Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 18.936,
+      "receivedAt": "2026-10-09T16:09:05.843Z"
+    },
+    {
+      "path": "/api/incidents/6453fc44-5ad0-4fe9-bcb0-a282bbb5001a",
+      "status": 200,
+      "durationMs": 9.653,
+      "receivedAt": "2026-10-09T16:09:05.851Z"
+    },
+    {
+      "path": "/api/incidents/0b12e06c-1fc1-4bce-904e-546ffc9756e7",
+      "status": 200,
+      "durationMs": 9.804,
+      "receivedAt": "2026-10-09T16:09:05.851Z"
+    },
+    {
+      "path": "/api/incidents/912cc3a3-9a3a-46e5-a7b3-507192ab20ba",
+      "status": 200,
+      "durationMs": 9.985,
+      "receivedAt": "2026-10-09T16:09:05.851Z"
+    },
+    {
+      "path": "/api/incidents/df6f73ce-1f02-44ba-a732-e52f82725f2b",
+      "status": 200,
+      "durationMs": 10.08,
+      "receivedAt": "2026-10-09T16:09:05.851Z"
+    },
+    {
+      "path": "/api/incidents/d96676e7-fb6b-4686-b64a-39d293550fee",
+      "status": 200,
+      "durationMs": 9.799,
+      "receivedAt": "2026-10-09T16:09:05.851Z"
+    },
+    {
+      "path": "/api/incidents/86e15407-9d37-4f69-b2c8-b49ecbed75ca",
+      "status": 200,
+      "durationMs": 16.59,
+      "receivedAt": "2026-10-09T16:09:05.856Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 82.867,
+      "receivedAt": "2026-10-09T16:09:06.218Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 8.612,
+      "receivedAt": "2026-10-09T16:09:06.226Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 10.878,
+      "receivedAt": "2026-10-09T16:09:06.228Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 8.233,
+      "receivedAt": "2026-10-09T16:09:06.304Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 79.154,
+      "receivedAt": "2026-10-09T16:09:06.375Z"
+    },
+    {
+      "path": "/api/incidents",
+      "status": 200,
+      "durationMs": 23.282,
+      "receivedAt": "2026-10-09T16:10:10.224Z"
+    },
+    {
+      "path": "/api/services",
+      "status": 200,
+      "durationMs": 187.959,
+      "receivedAt": "2026-10-09T16:10:10.392Z"
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis",
+      "status": 200,
+      "durationMs": 5.762,
+      "receivedAt": "2026-10-09T16:10:10.397Z"
+    }
+  ],
+  "pipelineSamples": [
+    {
+      "receivedAt": "2026-10-09T16:09:05.438Z",
+      "windowEnd": "2026-10-09T16:08:00Z",
+      "ageMs": 65438
+    },
+    {
+      "receivedAt": "2026-10-09T16:09:05.519Z",
+      "windowEnd": "2026-10-09T16:08:00Z",
+      "ageMs": 65519
+    },
+    {
+      "receivedAt": "2026-10-09T16:09:05.823Z",
+      "windowEnd": "2026-10-09T16:08:00Z",
+      "ageMs": 65823
+    },
+    {
+      "receivedAt": "2026-10-09T16:09:06.226Z",
+      "windowEnd": "2026-10-09T16:08:00Z",
+      "ageMs": 66226
+    },
+    {
+      "receivedAt": "2026-10-09T16:09:06.378Z",
+      "windowEnd": "2026-10-09T16:08:00Z",
+      "ageMs": 66378
+    },
+    {
+      "receivedAt": "2026-10-09T16:10:10.394Z",
+      "windowEnd": "2026-10-09T16:09:00Z",
+      "ageMs": 70394
+    }
+  ],
+  "memory": [
+    {
+      "Nodes": 3258,
+      "TaskDuration": 0.043142,
+      "JSHeapUsedSize": 6717228
+    },
+    {
+      "Nodes": 3260,
+      "TaskDuration": 0.180267,
+      "JSHeapUsedSize": 6735496
+    },
+    {
+      "Nodes": 3260,
+      "TaskDuration": 0.312665,
+      "JSHeapUsedSize": 6754160
+    },
+    {
+      "Nodes": 3260,
+      "TaskDuration": 0.464523,
+      "JSHeapUsedSize": 6781652
+    },
+    {
+      "Nodes": 3260,
+      "TaskDuration": 0.598552,
+      "JSHeapUsedSize": 6782024
+    },
+    {
+      "Nodes": 3269,
+      "TaskDuration": 0.758953,
+      "JSHeapUsedSize": 6813488
+    },
+    {
+      "Nodes": 3339,
+      "TaskDuration": 0.946395,
+      "JSHeapUsedSize": 6966044
+    }
+  ],
+  "inputPaintMs": [
+    54.93158399999811,
+    47.27241700000013,
+    41.0168330000015,
+    37.152249999999185,
+    36.786999999996624,
+    38.463957999993
+  ],
+  "captures": [
+    "overview-1366.png",
+    "overview-768.png",
+    "overview-390.png",
+    "service-1366.png",
+    "service-768.png",
+    "service-390.png"
+  ],
+  "observation": {
+    "durationMs": 72338.80000001192,
+    "frameGapP95Ms": 18.30000001192093,
+    "maxFrameGapMs": 28.399999976158142,
+    "longTasksMs": [],
+    "stream": {
+      "active": 1,
+      "opened": 3,
+      "interrupted": 1,
+      "hints": 0,
+      "ready": 3
+    },
+    "startedAt": "2026-10-09T16:09:08.340Z",
+    "initialStream": {
+      "active": 1,
+      "opened": 2,
+      "interrupted": 0,
+      "hints": 0,
+      "ready": 2
+    },
+    "initialEnd": "2026-10-09T16:08",
+    "finalEnd": "2026-10-09T16:09"
+  }
+}
