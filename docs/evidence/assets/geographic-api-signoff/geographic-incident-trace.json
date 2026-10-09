@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-10-08T18:49:05.467Z",
+  "revision": "54758678602b518d5d500d357181c7a868e63537",
+  "mode": "Real OIDC login, protected incident/priority API and persisted immutable opening evidence",
+  "incidents": [
+    {
+      "incidentId": "d96676e7-fb6b-4686-b64a-39d293550fee",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-ORH",
+      "technicalState": "RECOVERED",
+      "analystStatus": "OPEN",
+      "cityId": "ORH",
+      "topologyVersion": "2-geography-g1",
+      "openingEvidenceId": "acb60bf6fc99a1260af44340c09c2d94a772f666c3f3a48ed8b4d68751c31973",
+      "openingWindowStart": "2026-10-08 07:26:00+00",
+      "containmentPath": [
+        "MD",
+        "CITY-MD-ORH",
+        "AGG-MD-ORH-01",
+        "SITE-MD-ORH-01",
+        "CELL-MD-ORH-01"
+      ]
+    },
+    {
+      "incidentId": "6453fc44-5ad0-4fe9-bcb0-a282bbb5001a",
+      "service": "SMS",
+      "scopeId": "SMS-MD-ORH",
+      "technicalState": "RECOVERED",
+      "analystStatus": "OPEN",
+      "cityId": "ORH",
+      "topologyVersion": "2-geography-g1",
+      "openingEvidenceId": "ae1a62cb516e520b87feefecfd3bee0ea511b6efbf254f6e44d55aa4ffe22ab3",
+      "openingWindowStart": "2026-10-08 07:26:00+00",
+      "containmentPath": [
+        "MD",
+        "CITY-MD-ORH",
+        "AGG-MD-ORH-01",
+        "SITE-MD-ORH-01",
+        "CELL-MD-ORH-01"
+      ]
+    }
+  ],
+  "passed": true
+}

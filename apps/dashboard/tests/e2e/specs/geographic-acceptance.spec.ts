@@ -54,9 +54,8 @@ test('real city commands reach the processor and protected city routes', async (
     await expect(page.getByRole('heading', { name: 'Orhei investigation' })).toBeVisible();
     await page.getByText('Orhei · City coverage and history', { exact: true }).click();
     await expect(page.locator('app-city-evidence')).toBeVisible();
-    if (await page.locator('app-city-evidence [data-city-window]').count() === 0) {
-      await expect(page.locator('app-city-evidence')).toContainText('No city KPI history in this range.');
-    }
+    await expect(page.locator('app-city-evidence .kpi-table tbody tr').first())
+      .toContainText(/COMPLETE|PARTIAL|MISSING|STALE|UNKNOWN|No city KPI history in this range\./);
     result.checks.push('Real authenticated Orhei dashboard shows persisted history or an explicit missing state');
 
     const catalogue = await read('/api/geography/cities');

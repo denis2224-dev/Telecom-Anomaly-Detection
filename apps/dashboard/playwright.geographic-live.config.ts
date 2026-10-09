@@ -2,7 +2,8 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e/specs',
-  testMatch: ['geographic-acceptance.spec.ts', 'geographic-incident-trace.spec.ts'],
+  testMatch: ['geographic-acceptance.spec.ts', 'geographic-incident-trace.spec.ts',
+    'geographic-feature-off.spec.ts', 'session-expiry-live.spec.ts'],
   outputDir: './test-results/geographic-live',
   workers: 1,
   retries: 0,
