@@ -8,14 +8,25 @@ const ROOT = path.resolve(__dirname, '..');
 const PORTS = { proxy: 18080, postgres: 25432, kafka: 29094, generator: 18081, incident: 18082 };
 const OWNER = 'io.telecom.pr77.owner';
 const sha256 = value => crypto.createHash('sha256').update(value).digest('hex');
+const IGNORED_OUTPUT_DIRECTORIES = [
+  'apps/dashboard/node_modules', 'apps/dashboard/dist', 'apps/dashboard/.angular',
+  'apps/dashboard/coverage', 'apps/dashboard/test-results', 'apps/dashboard/playwright-report',
+  '.venv', 'target', ...['incident-service', 'event-generator', 'processor', 'streaming-support'].map(name => `services/${name}/target`)
+];
+function isWithin(directory, target) {
+  const relative = path.relative(directory, target);
+  return relative === '' || (relative !== '..' && !relative.startsWith('..' + path.sep) && !path.isAbsolute(relative));
+}
 function geographyEffectiveFrom(now = Date.now()) {
   if (!Number.isFinite(now)) throw Error('Geography activation requires a valid timestamp.');
   // GeographyCatalog accepts only complete UTC minute boundaries.
   return new Date(Math.floor(now / 60000) * 60000 - 15 * 60000).toISOString();
 }
 
-function parseArgs(args) {
+function parseArgs(args, root = ROOT) {
   const values = {};
+  const destinations = {};
+  const realRoot = fs.realpathSync(root);
   for (let i = 0; i < args.length; i += 2) {
     if (!['--project', '--private-dir', '--output-dir'].includes(args[i]) || !args[i + 1] || values[args[i]]) throw Error('Use --project, --private-dir and --output-dir once each.');
     values[args[i]] = args[i + 1];
@@ -26,9 +37,12 @@ function parseArgs(args) {
     values[key] = path.resolve(values[key]);
     if (fs.existsSync(values[key])) throw Error(`${key} must be fresh, including on failed-run retry.`);
     if (!fs.statSync(path.dirname(values[key])).isDirectory()) throw Error(`${key} parent must exist.`);
+    // Resolve existing parents so a junction/symlink cannot disguise an in-checkout output.
+    destinations[key] = path.join(fs.realpathSync(path.dirname(values[key])), path.basename(values[key]));
+    if (isWithin(realRoot, destinations[key])) throw Error(`${key} must be outside the repository; generated credentials and evidence cannot enter source inputs.`);
   }
   const privateDir = values['--private-dir'], outputDir = values['--output-dir'];
-  if (privateDir === outputDir || privateDir.startsWith(outputDir + path.sep) || outputDir.startsWith(privateDir + path.sep)) throw Error('Private and public output directories must be separate.');
+  if (isWithin(destinations['--private-dir'], destinations['--output-dir']) || isWithin(destinations['--output-dir'], destinations['--private-dir'])) throw Error('Private and public output directories must be separate.');
   return { projectName: values['--project'], privateDir, outputDir };
 }
 
@@ -85,7 +99,7 @@ function createCandidate(original, context, root) {
   return compose;
 }
 
-function run(command, args, { cwd = ROOT, env = process.env, input, logFile, timeout = 20 * 60000 } = {}) {
+function run(command, args, { cwd = ROOT, env = process.env, input, logFile, timeout = 20 * 60000, preserveOutput = false } = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { cwd, env, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
     const log = logFile ? fs.createWriteStream(logFile, { flags: 'a', mode: 0o600 }) : null;
@@ -99,13 +113,34 @@ function run(command, args, { cwd = ROOT, env = process.env, input, logFile, tim
       // Flush private writes before finally redacts the shared log.
       const finish = () => {
         if (code !== 0) reject(Error(`${path.basename(command)} failed (exit ${code}); diagnostic output is private.`));
-        else resolve(stdout.trim());
+        else resolve(preserveOutput ? stdout : stdout.trim());
       };
       if (log) log.end(finish);
       else finish();
     });
     child.stdin.end(input);
   });
+}
+
+async function assertCandidateSource(root, expectedSha) {
+  const git = args => run('git', args, { cwd: root, preserveOutput: true });
+  const sourceSha = (await git(['rev-parse', 'HEAD'])).trim();
+  if (expectedSha !== undefined && sourceSha !== expectedSha) throw Error('Source HEAD changed during verification; candidate acceptance is invalid.');
+  const status = await git(['status', '--porcelain=v1', '--untracked-files=all', '-z']);
+  if (status) {
+    const entry = status.split('\0')[0];
+    const kind = entry.startsWith('?? ') ? 'Untracked' : 'Tracked modified';
+    throw Error(`${kind} source candidate input ${JSON.stringify(entry.slice(3))}; commit intended source changes and use a clean checkout before verification.`);
+  }
+  // Git ignores (including local/global rules) do not exclude files from application builds.
+  // Exclude approved directories before enumeration; collapsing ignored ancestors
+  // could otherwise conceal unexpected files beside an approved output directory.
+  const ignored = await git(['ls-files', '--others', '--ignored', '--exclude-standard', '-z', '--', '.',
+    ...IGNORED_OUTPUT_DIRECTORIES.map(directory => `:(top,literal,exclude)${directory}/`)]);
+  const ignoredInput = ignored.split('\0').find(Boolean);
+  if (ignoredInput) throw Error(`Ignored untracked source candidate input ${JSON.stringify(ignoredInput)}; move it outside the checkout or commit intended source before verification.`);
+  if ((await git(['rev-parse', 'HEAD'])).trim() !== sourceSha) throw Error('Source HEAD changed during the integrity check; retry from a stable committed candidate.');
+  return sourceSha;
 }
 
 async function checkPorts() {
@@ -165,8 +200,7 @@ function assetHashes(directory) {
 
 async function main(args) {
   const context = parseArgs(args);
-  context.sourceSha = await run('git', ['rev-parse', 'HEAD']);
-  if (await run('git', ['status', '--porcelain', '--untracked-files=no'])) throw Error('Commit tracked source changes before verification.');
+  context.sourceSha = await assertCandidateSource(ROOT);
   context.ownerLabelName = OWNER;
   context.ownerLabelValue = crypto.randomUUID();
   context.baseURL = `http://telecom.test:${PORTS.proxy}`;
@@ -183,14 +217,6 @@ async function main(args) {
   for (const key of [...Object.keys(variables), ...[...composeText.matchAll(/\$\{([A-Z_0-9]+)/g)].map(match => match[1]), 'COMPOSE_FILE', 'COMPOSE_PROJECT_NAME', 'COMPOSE_PROFILES', 'COMPOSE_PATH_SEPARATOR']) delete env[key];
   if ((await resources(context, env)).length) throw Error('Project already owns Docker resources; select a fresh unique name.');
   await checkPorts();
-  // Only ignored repository locations may contain generated credentials/evidence.
-  for (const directory of [context.privateDir, context.outputDir]) {
-    const relative = path.relative(ROOT, directory);
-    if (!relative.startsWith('..') && !path.isAbsolute(relative)) {
-      try { await run('git', ['check-ignore', '--quiet', directory]); }
-      catch { throw Error('Generated directories inside the repository must be gitignored.'); }
-    }
-  }
   fs.mkdirSync(context.privateDir, { mode: 0o700 });
   fs.mkdirSync(context.outputDir, { mode: 0o700 });
   const privateDirectoryIdentity = fs.realpathSync(context.privateDir);
@@ -232,6 +258,7 @@ async function main(args) {
     report.dashboardAssets = assetHashes(path.join(ROOT, 'apps/dashboard/dist/dashboard/browser'));
     console.log('Building every application image from the recorded candidate.');
     await compose(['build']);
+    await assertCandidateSource(ROOT, context.sourceSha);
     // Recheck immediately before creation; cleanup is never allowed to claim a preexisting project.
     if ((await resources(context, env, logFile)).length) throw Error('Project resources appeared during preparation; startup refused.');
     stackAttempted = true;
@@ -256,7 +283,7 @@ async function main(args) {
     // A browser worker must produce machine-readable assertions; no zero-test success.
     const acceptance = JSON.parse(fs.readFileSync(path.join(context.outputDir, 'verification.json'), 'utf8'));
     if (acceptance.status !== 'PASSED' || acceptance.sourceSha !== context.sourceSha) throw Error('Browser verification did not produce candidate-bound PASSED acceptance.');
-    if ((await run('git', ['rev-parse', 'HEAD'])) !== context.sourceSha || await run('git', ['status', '--porcelain', '--untracked-files=no'])) throw Error('Tracked source changed during verification; candidate acceptance is invalid.');
+    await assertCandidateSource(ROOT, context.sourceSha);
     report.status = 'PASSED';
     report.verificationSha256 = sha256(fs.readFileSync(path.join(context.outputDir, 'verification.json')));
   } catch (error) {
@@ -295,5 +322,5 @@ async function main(args) {
   if (report.status !== 'PASSED') throw Error('Connected verification failed; retain this attempt and inspect private diagnostics.');
 }
 
-module.exports = { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials, geographyEffectiveFrom };
+module.exports = { parseArgs, composeArgs, assertOwned, createCandidate, removeCredentials, geographyEffectiveFrom, assertCandidateSource };
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(error.message); process.exitCode = 1; });

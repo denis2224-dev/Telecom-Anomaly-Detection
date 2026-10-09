@@ -9,9 +9,19 @@ are historical, non-executable from their committed paths; do not modify them.
 
 ## Prerequisites and candidate
 
-- Start from a clean tracked checkout of a committed candidate containing current
+- Start from a fresh checkout of a committed candidate containing current
   main. Record the candidate SHA and integrated main SHA before the run. Recheck remote main before publication;
   integrate and rerun required compatibility gates if it advances.
+- Preserve local untracked files and configuration in the original workspace;
+  use a separate checkout rather than deleting them or broadening ignore rules.
+  The runner rejects staged/unstaged tracked changes and all nonignored untracked
+  files, including unrelated notes. It also inspects ignored files, so repository,
+  local and global ignore rules cannot hide extra source or configuration inputs.
+  The only permitted ignored artifact directories are `apps/dashboard/node_modules`,
+  `apps/dashboard/dist`, `apps/dashboard/.angular`, `apps/dashboard/coverage`,
+  `apps/dashboard/test-results`, `apps/dashboard/playwright-report`, root `.venv`
+  and `target`, and `services/{incident-service,event-generator,processor,streaming-support}/target`.
+  These exceptions permit generated artifacts; tracked changes there still fail.
 - Use Node.js 24, Python 3.13, Git, and Docker with Compose v2 and a running Linux
   container daemon. Application images build with Java 21 in Docker; Java 21 is
   also needed locally if running the Maven verification gates outside Docker.
@@ -19,13 +29,20 @@ are historical, non-executable from their committed paths; do not modify them.
   suite. Actual idle expiry takes 15 minutes plus grace; absolute expiry takes 30
   minutes despite continued trusted input. Keep the machine awake and its clock
   stable throughout. A clock discontinuity invalidates timing acceptance.
-- Install dashboard dependencies and Chromium using the tracked lockfile:
+- Create a fresh detached worktree at the complete candidate SHA, then install
+  dashboard dependencies and Chromium using the tracked lockfile. Replace the
+  candidate placeholder and choose an unused checkout path:
 
 ```powershell
+$candidateSha = 'REPLACE_WITH_FULL_CANDIDATE_SHA'
+git worktree add --detach C:/Temp/pr77-candidate-checkout $candidateSha
+Set-Location C:/Temp/pr77-candidate-checkout
+git rev-parse HEAD
 npm.cmd --prefix apps/dashboard ci
 Push-Location apps/dashboard
 npx.cmd playwright install chromium
 Pop-Location
+node --test scripts/pr77-*.test.cjs
 ```
 
 On Linux, install the browser's system dependencies with
@@ -41,8 +58,9 @@ connected checks.
 From the repository root, choose a unique project name and two fresh absolute
 paths outside the repository whose parent directories already exist. Project names
 must start with `pr77-`, use lowercase letters, digits and hyphens, and be at most
-54 characters. If directories are placed inside the checkout they must be ignored
-by Git. The private directory contains generated credentials and configuration; the output directory is for reviewable, sanitized evidence.
+54 characters. Both directories must be outside the checkout, even if an in-checkout
+path is ignored by Git. The private directory contains generated credentials and
+configuration; the output directory is for reviewable, sanitized evidence.
 The paths in this example are Windows examples; substitute fresh absolute paths on
 other hosts.
 
@@ -59,6 +77,12 @@ timeout. Fixed host ports are 18080 (proxy), 25432 (PostgreSQL), 29094 (Kafka),
 18081 (generator) and 18082 (incident service), all bound to loopback. Do not use
 `scripts/up`, default provisioning commands, the historical Compose files, or an
 existing stack for this procedure.
+
+Source validation runs before Docker/resource operations, after builds before stack
+startup, and before accepting the final result. Each later check requires the original
+HEAD SHA and repeats the clean-source policy. A revision label alone is not sufficient:
+unexpected files must not contribute to the dashboard or application build. Keep the
+verification checkout unchanged throughout the run and retain any failed attempt.
 
 The runner refuses existing project resources, reused directories and occupied
 ports. Every Docker operation includes the explicit project, Compose files and
@@ -136,6 +160,11 @@ once its workflow file is on the default branch. PR reviewers can run the CLI no
 from a clean checkout of the candidate; the workflow is not evidence until it has
 actually run against an identified checkout.
 
+The existing dashboard PR CI job also runs `node --test scripts/pr77-*.test.cjs`
+from the repository root immediately after dependency installation. This automatically
+checks runner safety on PR updates; connected runtime acceptance remains the manual
+CLI procedure above or an explicitly dispatched workflow against the candidate.
+
 The existing `scripts/day3-geographic-live.cjs` is a narrower scenario/timeline and
 identity runner. Alone it does not prove receipt-to-feature tracing, controlled ML
 outages, durable duplicate replay, all browser presentation checks or security.
@@ -158,6 +187,9 @@ bundle and provide sanitized downloadable artifacts where available. Preserve al
 - Commit the compact report after runtime verification. Identify a later evidence-only
   publication head separately; it was not directly runtime-tested. An application or
   configuration fix requires fresh builds and rerunning affected connected checks.
+  Compare the tested candidate with that publication head and record that only evidence
+  changed; confirm application source, build configuration and verification code are
+  identical. Do not transfer a passing result to a different runtime candidate.
 - For local Python gates, install the tracked requirements into an isolated
   environment using `python -m pip install -r requirements-dev.txt -r services/ml-service/requirements-ml.txt`.
   Run all six existing candidate CI jobs: `dashboard-verification`, `deployment-config`,
