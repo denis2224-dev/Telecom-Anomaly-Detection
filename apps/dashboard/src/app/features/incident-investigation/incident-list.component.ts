@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DrawerComponent } from '../../shared/drawer.component';
 import { episodes, type Incident } from '../service-kpi-history/voice-model';
-import { workflowLabel, probableCause } from '../../shared/metric-presentation';
+import { workflowLabel, probableCause, primaryMetric, supportedValue } from '../../shared/metric-presentation';
 @Component({
   selector: 'app-incident-list', imports: [DatePipe, RouterLink, IconComponent, DrawerComponent],
   template: `<section class="detail-panel" aria-labelledby="incidents-title">
@@ -15,17 +15,26 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
       <p>{{ rows().length }} on this page</p>
     </div><div class="episode-list">
     @for (item of rows(); track item.episodeId) {
-      <article class="episode-card" [class.is-highlighted]="highlighted().includes(item.episodeId)" [attr.data-severity]="item.severity" [attr.data-episode-id]="item.episodeId" [attr.data-highlighted]="highlighted().includes(item.episodeId)">
-        <div class="episode-summary"><p class="episode-info"><span class="sr-only">{{ item.severity }} severity · </span>{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ duration(item) }}@if (impact(item); as estimate) { · {{ estimate }} } · <span [title]="item.assigneeId ?? ''">{{ item.assigneeId ? 'Assigned' : 'Unassigned' }}</span> · <span class="episode-workflow" [attr.data-state]="item.status" [class.awaiting-resolution]="item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED'" [title]="workflowState(item)">{{ summaryWorkflow(item) }}</span></p>
-        <p class="episode-time">{{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · <span class="episode-state" [attr.data-state]="item.technicalState"><span class="sr-only">Technical state: </span>{{ item.technicalState }}</span></p>
-        <button class="ghost evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button></div>
-        <a class="button primary" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a>
+      <article class="episode-card" [class.is-highlighted]="highlighted().includes(item.episodeId)" [attr.data-severity]="item.severity" [attr.data-technical-state]="item.technicalState" [attr.data-episode-id]="item.episodeId" [attr.data-highlighted]="highlighted().includes(item.episodeId)">
+        <div class="episode-summary">
+          <header class="episode-header"><h3><span class="episode-severity">{{ item.severity }}<span class="sr-only"> severity</span></span>{{ problem(item) }}</h3>
+            <p class="episode-time">{{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · {{ duration(item) }}</p>
+          </header>
+          <p class="episode-description">{{ description(item) }}</p>
+          <p class="episode-info"><span class="episode-state-group"><span class="episode-label">Technical state</span><span class="episode-state" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span></span>
+            <span class="episode-state-group"><span class="episode-label">Workflow</span><span class="episode-workflow" [attr.data-state]="item.status" [class.awaiting-resolution]="item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED'" [title]="workflowState(item)">{{ workflowState(item) }}</span></span>
+            <span [title]="item.assigneeId ?? ''">{{ item.assigneeId ? 'Assigned' : 'Unassigned' }}</span>
+            @if (impact(item); as estimate) { <span>{{ estimate }}</span> }
+          </p>
+        </div>
+        <div class="episode-actions"><button class="ghost evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button>
+          <a class="button primary" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a></div>
       </article>
     } @empty { <div class="empty-state" role="status"><app-icon name="shield" /><p>No incident episodes on this page.</p></div> }
   </div></section>
   <app-drawer #evidenceDrawer panelClass="episode-evidence" [drawerId]="'episode-evidence-' + (expanded() ?? '')" title="Incident evidence" closeLabel="Close incident evidence" (closed)="expanded.set(null)">
     @if (selectedEpisode(); as item) { <section class="incident-story" [attr.data-phase]="item.latestDetection.phase" [attr.data-episode-id]="item.episodeId">
-      <h4 class="episode-title incident-behavior">{{ item.latestDetection.anomalyType === 'VOLTE_SETUP_DEGRADATION' ? 'Call setup degradation' : 'SMS delivery delay' }}</h4>
+      <h4 class="episode-title incident-behavior">{{ problem(item) }}</h4>
       <p class="incident-context">{{ item.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · {{ item.scopeId }}</p>
       <div class="incident-states" aria-label="Incident severity and state">
         <span class="incident-state"><span class="incident-state-label">Severity</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></span>
@@ -48,21 +57,31 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
     label { display: grid; gap: 4px; font-size: 12px; }
     select { min-height: 34px; padding: 6px 10px; font-size: 12px; }
     .incident-filters p { margin: 0 0 8px auto; font-size: 12px; color: var(--text-muted); }
-    .episode-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 8px 10px; margin: 0 0 6px; }
+    .episode-card { display: grid; gap: 10px; padding: 14px 16px; margin: 0 0 8px; }
     .episode-card { box-shadow: inset 2px 0 var(--warning); }
     .episode-card[data-severity=HIGH], .episode-card[data-severity=CRITICAL] { box-shadow: inset 2px 0 var(--danger); }
+    .episode-card[data-technical-state=RECOVERED] { box-shadow: inset 2px 0 var(--success); }
+    .episode-card[data-technical-state=UNKNOWN] { box-shadow: inset 2px 0 var(--warning); }
     .episode-card.is-highlighted { background: var(--accent-soft); }
     .episode-summary { min-width: 0; padding-inline-start: 8px; }
     .episode-card p { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-    .episode-card .episode-info { color: var(--text); }
+    .episode-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+    .episode-header h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; font-size: 16px; color: var(--text); }
+    .episode-severity { padding: 3px 6px; border-radius: 6px; background: var(--surface-raised); color: var(--text-muted); font-size: 10px; letter-spacing: .04em; }
+    .episode-card .episode-description { margin: 8px 0; color: var(--text); }
+    .episode-card .episode-info { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; color: var(--text-muted); font-size: 12px; }
+    .episode-state-group { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+    .episode-label { color: var(--text-muted); font-size: 11px; }
     .episode-workflow { font-weight: 600; color: var(--info); }
     .episode-workflow[data-state=RESOLVED] { color: var(--success); }
     .episode-workflow[data-state=OPEN], .episode-workflow.awaiting-resolution { color: var(--warning); }
     .episode-state { padding: 2px 6px; border-radius: 6px; color: var(--text-muted); background: var(--surface-raised); font-weight: 600; }
     .episode-state[data-state=RECOVERED] { color: var(--success); background: var(--success-soft); }
     .episode-state[data-state=ONGOING] { color: var(--danger); background: var(--danger-soft); }
-    .episode-card .episode-time { margin-top: 3px; font-size: 11px; }
-    .episode-card > a { margin: 0; min-height: 36px; padding: 7px 12px; font-size: 12px; white-space: nowrap; align-self: center; }
+    .episode-state[data-state=UNKNOWN] { color: var(--warning); background: var(--warning-soft); }
+    .episode-card .episode-time { font-size: 11px; }
+    .episode-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding-inline-start: 8px; }
+    .episode-actions > a { display: inline-flex; align-items: center; gap: 6px; margin: 0; min-height: 36px; padding: 7px 12px; font-size: 12px; white-space: nowrap; }
     .evidence-toggle { min-height: 28px; margin-top: 2px; padding: 3px 0; font-size: 12px; width: max-content; white-space: nowrap; flex-wrap: nowrap; }
     .evidence-toggle .icon { width: 12px; height: 12px; }
     .incident-story { font-size: 14px; overflow-wrap: anywhere; }
@@ -75,7 +94,7 @@ import { workflowLabel, probableCause } from '../../shared/metric-presentation';
     .evidence-cause { padding: 12px; background: var(--field); border-radius: var(--radius-control); }
     .evidence-cause h4 { margin-top: 0; }
     .evidence-cause p { margin: 0; }
-    @media (max-width: 600px) { .episode-card { grid-template-columns: minmax(0, 1fr); } .episode-card > a { justify-self: center; } .incident-filters label { flex: 1; min-width: 80px; } .incident-filters p { flex-basis: 100%; margin: 0; } }
+    @media (max-width: 600px) { .episode-actions > a { margin-left: auto; } .incident-filters label { flex: 1; min-width: 80px; } .incident-filters p { flex-basis: 100%; margin: 0; } }
   `],
 })
 export class IncidentListComponent {
@@ -89,8 +108,22 @@ export class IncidentListComponent {
   readonly selectedEpisode = computed(() => episodes(this.incidents()).find(item => item.episodeId === this.expanded()));
   readonly evidenceDrawer = viewChild<DrawerComponent>('evidenceDrawer');
   openEvidence(item: Incident): void { this.expanded.set(item.episodeId); this.evidenceDrawer()?.open(); }
-  summaryWorkflow(item: Incident): string {
-    return item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED' ? 'Awaiting analyst resolution' : item.status;
+  problem(item: Incident): string {
+    return item.latestDetection.anomalyType === 'VOLTE_SETUP_DEGRADATION' ? 'VoLTE setup success drop' : 'SMS delivery delay';
+  }
+  description(item: Incident): string {
+    const detection = item.latestDetection;
+    if (item.technicalState === 'UNKNOWN' || detection.phase === 'UNKNOWN')
+      return 'Current evidence is incomplete; recovery is not confirmed.';
+    const metric = primaryMetric(item.service, detection.kpis);
+    const value = supportedValue(metric, detection.kpis);
+    const label = item.service === 'VOLTE' ? 'Call setup success' : 'Delivery delay (p95)';
+    if (!metric || value === null) return `${label} measurements are unavailable.`;
+    const unit = item.service === 'VOLTE' ? '%' : ' ms';
+    const format = (number: number) => number.toLocaleString('en', { maximumFractionDigits: 2 });
+    const baseline = metric.baseline !== null && Number.isFinite(metric.baseline)
+      ? ` (baseline ${format(metric.baseline)}${unit})` : '';
+    return `Latest ${label.toLowerCase()}: ${format(value)}${unit}${baseline}.`;
   }
   duration(item: Incident): string {
     const seconds = Math.floor((Date.parse(item.lastObservedAt) - Date.parse(item.firstObservedAt)) / 1000);
