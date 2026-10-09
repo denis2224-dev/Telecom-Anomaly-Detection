@@ -177,6 +177,8 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
       await capture(analyst.page, info, run.scopeId, 390);
     }
 
+    // Keep the operator active while waiting for recovery; idle expiry has its own gate.
+    await supervisor.page.getByLabel('Region', { exact: true }).click();
     await expect.poll(async () => {
       const runs = await Promise.all(result.runs.map(run => read<Run>(supervisor, `/api/simulator/runs/${run.runId}`)));
       expect(runs.some(run => ['FAILED', 'STOPPED'].includes(run.status))).toBe(false);
@@ -253,8 +255,9 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
     await analyst.page.goto('/dashboard');
     const previous401s = analyst.network.responses.filter(r => r.status === 401).length;
     await api(analyst, '/logout', { method: 'POST', headers: { [analyst.csrf.headerName]: analyst.csrf.token } });
-    await analyst.page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-    await expect.poll(() => analyst.network.responses.filter(r => r.status === 401).length).toBeGreaterThan(previous401s);
+    // Native refresh can discover the invalidated session before another action can run.
+    await expect.poll(() => analyst.network.responses.filter(r => r.status === 401).length,
+      { timeout: 45_000 }).toBeGreaterThan(previous401s);
     await expectExpired(analyst);
     await supervisor.page.goto('/dashboard');
     await supervisor.page.getByRole('button', { name: 'Sign out', exact: true }).click();

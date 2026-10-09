@@ -11,6 +11,7 @@ export default defineConfig({
   reporter: [['list'], ['./tests/e2e/helpers/pr77-stack.ts']],
   use: {
     baseURL: stack.baseURL, trace: 'off', screenshot: 'off', video: 'off',
+    actionTimeout: 20_000, navigationTimeout: 60_000,
     launchOptions: { args: ['--host-resolver-rules=MAP telecom.test 127.0.0.1', '--no-proxy-server'] },
   },
 });
