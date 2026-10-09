@@ -62,6 +62,7 @@ Exact evidence-publication SHA and subsequent six CI results are recorded in PR 
 - [x] Integrate latest dashboard main 957876a cleanly as merge 4805928.
 - [x] Integrate current main 613661d and retain the unpublished connected UI adaptations.
 - [x] Verify viewport-wide drawer assertions, dashboard unit/build and runner safety checks.
+- [x] Stabilize the controlled geography refresh assertion and prove an omitted refresh fails.
 - [ ] Rebuild and rerun all three connected cases plus six CI gates against latest main.
 - [ ] Publish separate latest-main evidence without modifying prior sealed bundles.
 - [ ] Verify evidence-publication CI and recheck remote main before re-review.

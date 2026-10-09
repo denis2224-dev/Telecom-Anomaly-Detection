@@ -120,6 +120,10 @@ Main 613661d includes the dashboard layout and viewport-wide mobile drawers.
 Integrate it without rewriting PR history, retain 95e99fc's explicit SMS selection
 and current Troubleshooting assertions, and align the drawer geometry test with
 the viewport. Preserve all durable source/null, security and real expiry checks.
+Pin the controlled geography interaction test's clock away from minute boundaries
+so its exact explicit-refresh count cannot race the legitimate REST fallback.
+Retain the exact count and prove omitting the refresh still fails. The connected
+suite continues to use real clocks and real services.
 Rebuild and rerun all three focused connected cases with retries disabled, then
 publish the candidate and require all six CI jobs. Publish compact sanitized
 evidence at docs/evidence/assets/pr77-review-main-613661d and identify the later

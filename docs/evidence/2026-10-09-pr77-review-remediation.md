@@ -74,3 +74,29 @@ All 16 focused service-hero/evidence-timeline browser tests, 131 dashboard unit
 tests, the production build and seven isolated-runner safety tests pass locally.
 All 29 prior focused and 55 original historical artifact hashes match their seals.
 These local checks do not substitute for the pending three-case connected run.
+
+## Current failed and interrupted attempts
+
+Attempt r7 (`be05082`) passed geography/security and real idle expiry, then timed
+out in absolute expiry after Windows Modern Standby interrupted execution from
+10:16 to 10:47 UTC. The attempt remains FAILED. Owned-resource and credential
+cleanup passed. A scoped system/display keep-awake request is used for retries;
+no permanent power settings were changed.
+
+Attempt r8 (same source) passed geography/security before its owned browser child
+was interrupted to address an inherited controlled-test timing race. Its runner
+completed resource/credential cleanup and released the temporary keep-awake request.
+Idle/absolute acceptance was incomplete and is not inferred.
+
+The concurrent full controlled suite recorded 163 passes, one failure and 21 existing
+opt-in skips. A catalogue interaction test expected exactly two reads but correctly
+received a third from minute-boundary fallback. Only that controlled interaction
+test now pins Date.now away from the boundary; all exact assertions remain. The
+three viewport cases pass. Omitting the explicit refresh in an isolated mutation
+still fails (two reads expected, one received). The real connected clocks and
+expiry assertions are unchanged. A complete controlled-suite rerun and fresh
+committed-candidate three-case acceptance are required before publication.
+
+The complete controlled rerun passed **164** tests with **21 existing opt-in
+skips** and no failures. The required real connected suite remains separate,
+with all three cases mandatory and retries disabled.
