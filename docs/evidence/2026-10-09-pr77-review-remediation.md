@@ -1,8 +1,9 @@
 # PR #77 review remediation (2026-10-09)
 
 **Status: fresh combined-revision acceptance PENDING.**
-The historical archive/reproduction contract is corrected. Current main has been
-integrated, and all six CI jobs for the intermediate source revision below passed.
+The historical archive/reproduction contract is corrected. The previously integrated main was `a52cc85`; remote main has since advanced to
+`0eb9b5b` (PR #79). All six CI jobs for the intermediate source revision below
+passed. Integration and verification of the latest main are being repeated.
 Those CI results do not establish acceptance of the next candidate or final
 publication SHA. G5 release approval remains **BLOCKED** until shared
 final-candidate gates and required owner sign-offs pass.
@@ -14,8 +15,11 @@ final-candidate gates and required owner sign-offs pass.
   explains root/import relocation and original machine/private-configuration limits,
   and points to the [supported isolated workflow](../runbooks/pr77-connected-verification.md).
   All 55 indexed historical artifact hashes remain unchanged.
-- **P2: current-main compatibility.** Main `a52cc85ae46b4d3138dbca505ba80de661fe97d1`,
-  including PR #76 dashboard/session changes, is integrated. The supported runner
+- **P2: current-main compatibility.** The intermediate candidate integrated main
+  `a52cc85ae46b4d3138dbca505ba80de661fe97d1`, including PR #76 dashboard/session
+  changes. Latest main is `0eb9b5b417b37343e86038cdd84243ce68e17cbe`, including
+  PR #79 generator retry and managed proxy routing changes. Its integration and
+  fresh combined verification remain pending in this report. The supported runner
   builds a committed candidate with fresh isolated identities and owned resources,
   then runs real authentication, expiry, SSE reconnect and geographic browser checks.
   Fresh acceptance is still pending; all required cases must pass on one rebuilt candidate.
@@ -27,7 +31,8 @@ final-candidate gates and required owner sign-offs pass.
 
 | Field | Recorded value |
 | --- | --- |
-| Integrated main | `a52cc85ae46b4d3138dbca505ba80de661fe97d1` |
+| Main integrated in intermediate candidate | `a52cc85ae46b4d3138dbca505ba80de661fe97d1` |
+| Latest remote main to integrate and verify | `0eb9b5b417b37343e86038cdd84243ce68e17cbe` |
 | Intermediate runtime/CI source candidate | `7fe593eb0c4eabe4670e2d1c649fc573f3e91a1d` |
 | CI actual checkout for that intermediate candidate | `87dc61bef23817ef675bc710970fd8eeda867685` (synthetic PR merge) |
 | Fresh final runtime-tested source candidate | **PENDING** |
@@ -84,8 +89,13 @@ attempts remain separate records, not successful checks.
   credential cleanup passed; retain the failed record independently.
 - **Attempt r2**, source `7fe593eb`: identified a 390-pixel mobile incident-detail
   overflow and a browser performance-callback binding bug. The required connected
-  suite was not fully accepted. Retain this attempt and its eventual timing/cleanup
-  outcomes separately; a corrected candidate must execute all three cases fresh.
+  suite was not fully accepted. The run was forcibly interrupted overnight before
+  final `verification.json` and `runtime.json` were written. Partial scenario output
+  and the geographic/idle failure records survive; the absolute-expiry case has no
+  completed acceptance record. Do not infer a passing absolute-expiry gate or
+  successful runner cleanup from this attempt. Any subsequent owned-resource and
+  credential cleanup must be recorded as a separate recovery action. A corrected
+  candidate must execute all three cases fresh.
 - **Fresh replacement attempt:** pending. Append actual test outcomes and artifact
   references only after the complete run and owned cleanup finish.
 
