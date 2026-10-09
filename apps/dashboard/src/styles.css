@@ -234,7 +234,7 @@ html:has(.drawer-panel[open]) { overflow: hidden; }
 .topology-strip .badge { width: fit-content; }
 @media (max-width: 600px) {
   button, a.button, input, select, .drawer-panel button, .drawer-panel .button { min-height: 44px; }
-  .drawer-panel, .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 0; width: 100%; height: 100dvh; max-height: 100dvh; max-width: 100%; border-radius: 0; padding: 16px; }
+  .drawer-panel, .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 0; width: 100vw; height: 100dvh; max-height: 100dvh; max-width: 100vw; border-radius: 0; padding: 16px; }
   .topology-strip { display: grid; grid-template-columns: 1fr; }
   .topology-strip > span { display: none; }
 }
