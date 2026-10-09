@@ -111,11 +111,20 @@ export function post(actor: Actor, path: string, data: unknown) {
 }
 
 // Observe native network lifetime without replacing EventSource or intercepting responses.
-export function observe(page: Page) {
+export async function observe(page: Page) {
   const activeStreams = new Set<Request>();
   const protectedRequests: { path: string; at: number }[] = [];
   const responses: { path: string; status: number; at: number }[] = [];
   const errors: string[] = [];
+  const session = await page.context().newCDPSession(page);
+  // Chromium does not emit requestfinished/requestfailed for EventSource requests
+  // abandoned by document replacement. Those connections cannot survive their
+  // document; discard historical requests only on a full main-frame navigation.
+  // CDP keeps same-document Angular routing distinct from this event.
+  session.on('Page.frameNavigated', ({ frame }) => {
+    if (!frame.parentId) activeStreams.clear();
+  });
+  await session.send('Page.enable');
   page.on('request', request => {
     const path = new URL(request.url()).pathname;
     if (path.startsWith('/api/') && path !== '/api/auth/csrf') protectedRequests.push({ path, at: Date.now() });
@@ -135,7 +144,7 @@ export function observe(page: Page) {
 export async function login(browser: Browser, stack: StackContext, role: 'analyst' | 'supervisor') {
   const context = await browser.newContext({ baseURL: stack.baseURL, viewport: { width: 1366, height: 900 } });
   const page = await context.newPage();
-  const network = observe(page);
+  const network = await observe(page);
   try {
     await page.goto('/login');
     expect((await api({ page }, '/api/geography/cities')).status()).toBe(401);
@@ -188,7 +197,7 @@ export async function clockPreflight(actor: Actor) {
     hostServerSkewMs: Math.round((before + after) / 2 - server), browserHostSkewMs: browser - Date.now() };
 }
 
-export async function expectExpired(actor: Actor & { network: ReturnType<typeof observe> }) {
+export async function expectExpired(actor: Actor & { network: Awaited<ReturnType<typeof observe>> }) {
   await expect(actor.page.getByRole('heading', { name: 'Your session has expired', exact: true })).toBeVisible();
   await expect(actor.page.getByText('Session connected', { exact: true })).toHaveCount(0);
   await expect.poll(() => actor.network.activeStreams.size, { timeout: 20_000 }).toBe(0);
