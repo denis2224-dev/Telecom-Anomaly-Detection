@@ -19,6 +19,11 @@ incidents or change live service status. Roaming is explicitly illustrative unti
   Received, delivered, pending and lost totals must conserve messages across recovery.
 - Extend detector types and persisted evidence to identify affected nodes, links and countries.
   Healthy KPI points alone must not resolve technical or analyst state.
+- Supply approved intercity link IDs, endpoint city IDs, throughput/capacity units, utilization,
+  UTC observation times, freshness and topology version. The dashboard's eight sample routes
+  are illustrative overlays and are never merged into the approved topology catalogue.
+- Supply separate failure-cause counters before showing a ranked cause breakdown. Current
+  CSSR numerator/denominator describe setup outcomes; SIP 503 is an independent signal.
 
 ## Frontend verification
 

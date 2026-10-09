@@ -10,6 +10,25 @@ for (const width of [1366, 390]) {
     await page.goto('/dashboard');
     await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('not live subscriber counts');
     await expect(page.locator('[data-chart=registrationSrPct] .actual-line')).not.toHaveAttribute('d', '');
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+    expect(await page.locator('.compact .country-panels table').evaluateAll(tables => tables.every(table => table.scrollWidth <= table.parentElement!.clientWidth + 1))).toBe(true);
+    await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
+    await expect(page.getByLabel('Key service information')).toContainText('Backhaul trafficUnavailable');
+    await expect(page.locator('.transport-link')).toHaveCount(8);
+    await expect(page.getByLabel('Illustrative intercity traffic')).toContainText('8.9 Gbps');
+    await page.getByRole('checkbox', { name: 'Show sample links' }).uncheck();
+    await expect(page.locator('.transport-link')).toHaveCount(0);
+    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await page.getByRole('checkbox', { name: 'Show sample links' }).check();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    if (width === 1366) {
+      const boxes = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
+      expect(boxes[1].left).toBeGreaterThan(boxes[0].right);
+      expect(boxes[2].top).toBeGreaterThan(boxes[0].bottom);
+      expect(boxes[1].bottom).toBeCloseTo(boxes[2].bottom, 0);
+      expect((await page.locator('.city-map').boundingBox())!.width).toBeGreaterThan(350);
+    }
+    await page.screenshot({ path: info.outputPath(`overview-traffic-${width}.png`), fullPage: true });
     await page.getByRole('link', { name: 'Open roaming preview', exact: false }).click();
     await expect(page).toHaveURL(/\/roaming$/);
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
@@ -31,6 +50,23 @@ for (const width of [1366, 390]) {
     }
   });
 }
+
+test('overview call results use the loaded window and keep missing evidence unavailable', async ({ page }) => {
+  const state = await controlledApi(page);
+  const last = state.windows.at(-1)!;
+  last.kpis.find(kpi => kpi.name === 'cssrPct')!.numerator = 980;
+  last.kpis.find(kpi => kpi.name === 'cssrPct')!.denominator = 1000;
+  last.kpis.find(kpi => kpi.name === 'cssrPct')!.observed = 98;
+  await page.goto('/dashboard');
+  await expect(page.getByLabel('VoLTE calls by result')).toContainText('980');
+  await expect(page.getByLabel('Key service information')).toContainText('Call setup success98%');
+  await expect(page.getByLabel('Key service information')).toContainText('Failed setup share2%');
+  last.quality = 'INCOMPLETE';
+  await page.reload();
+  await expect(page.getByLabel('VoLTE calls by result')).toContainText('Call result counts unavailable');
+  await expect(page.getByLabel('Key service information')).toContainText('Call setup successUnavailable');
+  await expect(page.locator('.call-donut')).toHaveCount(0);
+});
 
 test('all local scenario controls render seeded evidence without posting unsupported commands', async ({ page }, info) => {
   const state = await controlledApi(page);

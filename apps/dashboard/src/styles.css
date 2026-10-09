@@ -184,7 +184,7 @@ main:has(app-service-detail) { padding-top: 8px; }
 .service-hero .actual-line { animation: none; }
 app-connected-overview .compact-chart { padding: 0 8px; margin: 0; box-shadow: none; background: var(--transparent); }
 app-connected-overview .compact-chart .plot-wrapper { margin: 0; }
-app-connected-overview .compact-chart .chart-scroll { height: 260px; overflow: hidden; }
+app-connected-overview .compact-chart .chart-scroll { height: 200px; overflow: hidden; }
 app-connected-overview .compact-chart svg { min-width: 0; }
 app-connected-overview .compact-chart .actual-line { animation: none; }
 app-connected-overview .compact-chart .chart-tooltip { inset: 4px 8px auto auto; padding: 8px; font-size: 10px; }
@@ -256,6 +256,6 @@ html:has(.drawer-panel[open]) { overflow: hidden; }
 app-roaming-overview .hero-chart { margin: 0; padding: 0; box-shadow: none; background: var(--transparent); }
 app-roaming-overview .plot-wrapper { margin: 0; }
 app-roaming-overview .hero-chart .chart-scroll { height: 260px; }
-app-roaming-overview .compact .hero-chart .chart-scroll { height: 220px; }
+app-roaming-overview .compact .hero-chart .chart-scroll { height: 185px; }
 app-roaming-overview .actual-line, app-scenario-preview .actual-line { animation: none; }
 @media(max-width:600px) { .service-hero .hero-chart .chart-scroll { height: 260px; } }

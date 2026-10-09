@@ -15,6 +15,8 @@ import { probableCause } from '../../shared/metric-presentation';
 import { metricValue, formatMetric } from '../service-kpi-history/assurance-model';
 import { OVERVIEW_RANGE_MS, overviewHistory } from './overview-history';
 import { moldovaOutline } from './moldova-map';
+import { callResults } from './dashboard-results';
+import { transportPreview } from './transport-preview';
 import {
   baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
   type City, type Episode, type Filter, type Service, type Summary, type Window,
@@ -52,6 +54,32 @@ export class ConnectedOverviewComponent {
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
   readonly roamingPanel = signal(true);
+  readonly showTraffic = signal(true);
+  readonly transportLinks = transportPreview;
+  readonly latestVoiceWindow = computed(() => this.chartRows('VOLTE').at(-1));
+  readonly results = computed(() => callResults(this.latestVoiceWindow()));
+  readonly headline = computed(() => {
+    const window = this.latestVoiceWindow(), results = this.results();
+    const cpu = metricValue(window, 'imsCpuPct');
+    const city = this.selectedCity();
+    const scopes = this.services().filter(item => (this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter())
+      && (!city || city.scopeIds.includes(item.scope.scopeId)));
+    return [
+      { label: 'Call attempts', value: results ? number(results.total) : 'Unavailable', note: 'Latest VoLTE window', tone: 'info' },
+      { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
+      { label: 'Failed setup share', value: results ? number(100 - results.rate) + '%' : 'Unavailable', note: 'Setup attempts only', tone: 'danger' },
+      { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
+      { label: 'Backhaul traffic', value: 'Unavailable', note: 'Sample links shown below', tone: 'muted' },
+      { label: 'Roaming status', value: 'Preview', note: 'Country API unavailable', tone: 'info' },
+      { label: 'Open incidents', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Current service / city filter', tone: 'warning' },
+    ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
+  });
+  readonly sipFailures = computed(() => {
+    const window = this.latestVoiceWindow();
+    const value = metricValue(window, 'sip503Count');
+    return window?.quality === 'COMPLETE' && window.kpis.find(kpi => kpi.name === 'sip503Count')?.unit === 'COUNT'
+      && value !== null && Number.isSafeInteger(value) && value >= 0 ? number(value) : 'Unavailable';
+  });
   readonly selectedScopes = signal({ VOLTE: '', SMS: '' });
   readonly pageSize = 20;
   private readonly fixtureCatalogue = signal<readonly City[]>(cities);

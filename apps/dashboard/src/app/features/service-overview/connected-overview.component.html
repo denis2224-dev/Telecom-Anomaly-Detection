@@ -1,4 +1,7 @@
 <section class="connected" aria-label="Connected service overview">
+  <div class="headline-metrics" aria-label="Key service information">
+    @for (kpi of headline(); track kpi.label) { <div [attr.data-tone]="kpi.tone"><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong><small>{{ kpi.note }}</small></div> }
+  </div>
   <form class="controls" (submit)="applyRange($event, fromInput.value, toInput.value)">
     <div class="period-field">
       <span id="period-label">Period</span>
@@ -24,8 +27,18 @@
       <h2 id="volte-panel-title">VoLTE setup <span>CSSR %</span></h2>
       <div class="panel-visual">
         <p class="chart-scope" [attr.data-scope]="chartScope('VOLTE')?.scope?.scopeId" [title]="chartScope('VOLTE')?.scope?.scopeId ?? ''">@if (chartScope('VOLTE'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
-        <app-metric-chart view="chart" [hero]="true" [compact]="true" name="cssrPct" title="VoLTE setup CSSR %" unit="PERCENT" [loading]="historyLoading()" [windows]="chartRows('VOLTE')" [incidents]="chartIncidents('VOLTE')" [detections]="chartDetections('VOLTE')" [from]="chartFrom()" [to]="chartTo()" />
+        <app-metric-chart view="chart" [hero]="true" [compact]="true" [traffic]="true" [trafficBars]="true" name="cssrPct" title="VoLTE setup CSSR %" unit="PERCENT" [loading]="historyLoading()" [windows]="chartRows('VOLTE')" [incidents]="chartIncidents('VOLTE')" [detections]="chartDetections('VOLTE')" [from]="chartFrom()" [to]="chartTo()" />
         @if (chartHistory('VOLTE')?.error) { <span class="chart-error" role="alert">History unavailable</span> }
+      </div>
+      <div class="call-details">
+        <section aria-label="VoLTE calls by result"><h3>Calls by result</h3>
+          @if (results(); as result) {
+            <div class="call-breakdown"><div class="call-donut" role="img" [attr.aria-label]="number(result.successful) + ' successful, ' + number(result.failed) + ' failed setup attempts'" [style.background]="'conic-gradient(var(--success) 0% ' + result.rate + '%, var(--danger) ' + result.rate + '% 100%)'"><div><strong>{{ number(result.total) }}</strong><small>attempts</small></div></div>
+            <dl><div><dt>Successful</dt><dd class="success-value">{{ number(result.successful) }} <small>({{ number(result.rate) }}%)</small></dd></div><div><dt>Failed setup</dt><dd class="failure-value">{{ number(result.failed) }} <small>({{ number(100 - result.rate) }}%)</small></dd></div></dl></div>
+          } @else { <p class="data-note">Call result counts unavailable</p> }
+          <p class="data-note">@if (latestVoiceWindow(); as window) { Latest loaded window · {{ window.windowEnd | date:'dd MMM HH:mm':'UTC' }} UTC } @else { No window available in this range } </p>
+        </section>
+        <section aria-label="Recorded failure signals"><h3>Recorded failure signals</h3><dl><div><dt>SIP 503 responses</dt><dd class="failure-value">{{ sipFailures() }}</dd></div></dl><p class="data-note">Other failure causes are not supplied by the API.</p><p class="data-note">SIP responses are a separate counter, not a breakdown of failed attempts.</p></section>
       </div>
       <div class="panel-table"><table class="overview-table volte-table" aria-label="VoLTE monitored scopes">
         <thead><tr><th>Scope</th><th>Total calls</th><th>CSSR %</th><th>SIP 503 rate</th><th>Status</th></tr></thead>
@@ -41,15 +54,25 @@
     </section>
     <section class="map-panel" aria-labelledby="city-map-title">
       <h2 id="city-map-title">Moldova service map <span>{{ selectedCity()?.name }}</span></h2>
+      <div class="traffic-controls"><span class="badge" data-state="UNKNOWN">Link traffic preview</span><label><input type="checkbox" [checked]="showTraffic()" (change)="showTraffic.set($any($event.target).checked)" /> Show sample links</label></div>
+      <p class="map-note">City status uses service evidence. Links and traffic are illustrative; no live backhaul API.</p>
       <div class="panel-visual map-visual">
         <div class="city-map" aria-label="Moldova geographic outline and nine city markers">
-          <svg viewBox="0 0 600 740" aria-hidden="true"><defs><pattern id="moldova-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" class="grid-line" /></pattern></defs><rect width="600" height="740" fill="url(#moldova-grid)" /><path [attr.d]="moldovaOutline" class="country-outline" /></svg>
+          <svg viewBox="0 0 600 740" aria-hidden="true"><defs><pattern id="moldova-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" class="grid-line" /></pattern></defs><rect width="600" height="740" fill="url(#moldova-grid)" /><path [attr.d]="moldovaOutline" class="country-outline" />
+            @if (showTraffic()) {
+              @for (link of transportLinks; track link.id) { <line class="transport-link" [attr.x1]="link.x1" [attr.y1]="link.y1" [attr.x2]="link.x2" [attr.y2]="link.y2" [style.stroke]="link.color" /> }
+              @for (link of transportLinks; track link.id) { <g class="traffic-label" [attr.transform]="'translate(' + link.labelX + ',' + link.labelY + ')'"><rect x="-52" y="-15" width="104" height="42" rx="8" /><text text-anchor="middle" [style.fill]="link.color">{{ link.traffic }} Gbps<tspan x="0" dy="18">{{ link.utilization }}% · sample</tspan></text></g> }
+            }
+          </svg>
           @for (city of markerCities(); track city.id) {
             <button class="city-marker" type="button" [style.left.%]="city.marker!.x" [style.top.%]="city.marker!.y" [attr.data-label-side]="city.labelSide" [attr.data-state]="cityHealth(city)" [attr.aria-pressed]="selectedId() === city.id" [attr.aria-label]="city.name + ', ' + cityHealth(city)" (click)="select(city.id)"><span class="marker-symbol">{{ symbol(cityHealth(city)) }}</span><span class="node-label">{{ city.name }}@if (city.scopeIds.length > 0) { <small>{{ nodeValue(city) }}</small> }</span></button>
           }
         </div>
         <div class="map-legend" aria-label="Map legend"><span data-state="NORMAL">Normal</span><span data-state="DEGRADED">Degraded</span><span data-state="UNAVAILABLE">Unavailable</span><span data-state="STALE">Stale</span></div>
       </div>
+      @if (showTraffic()) {
+        <section class="transport-summary" aria-label="Illustrative intercity traffic"><h3>Sample intercity traffic</h3><p class="data-note">Utilization colors: below 60% · 60–84% · 85% and above. Preview thresholds only.</p><ul>@for (link of transportLinks; track link.id) { <li><span>{{ link.name }}</span><strong [style.color]="link.color">{{ link.traffic }} Gbps <small>{{ link.utilization }}%</small></strong></li> }</ul></section>
+      }
       <div class="panel-table map-table"><table class="overview-table" aria-label="Featured city observations">
         <thead><tr><th>City</th><th>Observed</th><th>Baseline change</th><th>State</th></tr></thead>
         <tbody>@for (city of featuredCities(); track city.id) {
@@ -63,7 +86,7 @@
     @if (roamingPanel()) {
     <section class="service-panel" aria-label="Roaming overview">
       <button class="ghost" type="button" (click)="roamingPanel.set(false)">Show SMS graph</button>
-      <app-roaming-overview [compact]="true" [from]="chartFrom()" [to]="chartTo()" />
+      <app-roaming-overview [compact]="true" [showCountries]="true" [from]="chartFrom()" [to]="chartTo()" />
       <button type="button" class="panel-navigation" [routerLink]="serviceTarget('SMS') ? ['/services', serviceTarget('SMS')!.scope.scopeId] : null" [disabled]="!serviceTarget('SMS')">Open SMS delivery <app-icon name="right" /></button>
     </section>
     } @else {

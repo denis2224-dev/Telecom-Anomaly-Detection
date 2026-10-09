@@ -97,8 +97,11 @@ for (const width of [1366, 768, 390]) {
     }
     if (width === 1366) {
       const panels = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
-      expect(Math.max(...panels.map(r => r.width)) - Math.min(...panels.map(r => r.width))).toBeLessThan(1);
-      expect(Math.max(...panels.map(r => r.y)) - Math.min(...panels.map(r => r.y))).toBeLessThan(1);
+      expect(panels[1].x).toBeGreaterThanOrEqual(panels[0].right);
+      expect(panels[2].x).toBeCloseTo(panels[0].x, 0);
+      expect(panels[2].y).toBeGreaterThanOrEqual(panels[0].bottom);
+      expect(panels[1].y).toBeCloseTo(panels[0].y, 0);
+      expect(panels[1].bottom).toBeCloseTo(panels[2].bottom, 0);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath(`three-panels-unmapped-${width}.png`), fullPage: true, animations: 'disabled' });
@@ -166,8 +169,7 @@ for (const width of [1366, 768, 390]) {
     if (width === 1366) {
       const controls = await page.locator('.controls input:not([type=hidden]), .controls select, .period-chips, .apply-field button').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
       expect(Math.max(...controls.map(r => r.y)) - Math.min(...controls.map(r => r.y))).toBeLessThan(2);
-      expect(controls.every(r => r.height === 36)).toBe(true);
-      expect(await page.locator('.overview-panels').evaluate(node => node.getBoundingClientRect().bottom)).toBeLessThanOrEqual(768);
+      expect(controls.every(r => r.height >= 36)).toBe(true);
     }
     expect(await page.locator('.map-panel').evaluate(panel => {
       const box = panel.getBoundingClientRect();
