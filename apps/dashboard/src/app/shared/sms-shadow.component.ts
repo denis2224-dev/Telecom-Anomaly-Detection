@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient } from '../core/api/telecom-client';
 import type { components } from '../core/api/schema';
 import { SessionStore } from '../features/login-and-session/session.store';
+import { ApiFailure } from '../core/api/api-errors';
 
 @Component({
   selector: 'app-sms-shadow', imports: [DatePipe],
@@ -50,7 +51,12 @@ export class SmsShadowComponent {
           || result.total < result.items.length || result.items.some(item => item.scopeId !== scope)) throw new Error('Unexpected SMS shadow page.');
         this.result.set(result);
       }).catch(error => {
-        if (!controller.signal.aborted && !this.stopped) { this.result.set(null); this.error.set(error instanceof Error ? error.message : 'SMS shadow evidence unavailable.'); }
+        if (!controller.signal.aborted && !this.stopped) {
+          this.result.set(null);
+          this.error.set(error instanceof ApiFailure && error.status === 404
+            ? 'SMS classifier evidence is unavailable for this scope.'
+            : error instanceof Error ? error.message : 'SMS shadow evidence unavailable.');
+        }
       }).finally(() => { if (!controller.signal.aborted && !this.stopped) this.loading.set(false); });
     });
   }

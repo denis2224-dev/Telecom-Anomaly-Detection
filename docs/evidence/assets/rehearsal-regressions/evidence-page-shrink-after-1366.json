@@ -1,0 +1,20 @@
+{
+  "mode": "Controlled API reproduction, not live acceptance",
+  "defect": "evidence-page-shrink",
+  "stage": "after",
+  "capturedAtUTC": "2026-10-08T19:03:14.844Z",
+  "state": {
+    "incidentId": "81205a34-116c-5d90-ae54-d80e0dee4fb1",
+    "beforeVersion": 7,
+    "authoritativeVersion": 8,
+    "total": 20,
+    "requests": [
+      0,
+      1,
+      1,
+      0
+    ],
+    "renderedSummary": "INCIDENT EPISODE\n\nVoLTE setup\nSeverity\nHIGH\nTechnical state\nRECOVERED\nAnalyst workflow\nINVESTIGATING · Awaiting analyst resolution\nAssignee\nControlled analyst\nLatest KPI deviation\nCall setup success rate: +0.3 pp\nDetails & workflow",
+    "errors": []
+  }
+}

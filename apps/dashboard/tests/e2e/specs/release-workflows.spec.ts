@@ -243,7 +243,7 @@ test('release roles complete authenticated investigation and scenario workflows'
     }, { timeout: 60_000 }).toContain('UP');
     const retry = await clickWrite(unavailable, 'Retry same command', '/api/simulator/scenarios/NORMAL_CONTROL', 202);
     expect(retry.request().postDataJSON()).toEqual(failed.request().postDataJSON());
-    const control = await retry.json();
+    let control = await retry.json();
     const conflict = await supervisor.context.newPage();
     await conflict.goto('/scenarios');
     await conflict.getByLabel('Scenario', { exact: true }).selectOption('NORMAL_CONTROL');
@@ -252,6 +252,14 @@ test('release roles complete authenticated investigation and scenario workflows'
     await expect(conflict.getByRole('alert').first()).toContainText('conflicts');
     await expect(conflict.getByRole('heading', { name: 'Server run' })).toHaveCount(0);
     await conflict.close();
+    const currentControl = await read(supervisor, `/api/simulator/runs/${control.runId}`);
+    if (currentControl.status === 'FAILED') {
+      await expect(unavailable.locator('.server-run')).toContainText('FAILED');
+      await expect(unavailable.getByRole('button', { name: 'Stop telemetry', exact: true })).toHaveCount(0);
+      await unavailable.getByRole('button', { name: 'Prepare another command', exact: true }).click();
+      control = await (await clickWrite(unavailable, 'Start scenario', '/api/simulator/scenarios/NORMAL_CONTROL', 202)).json();
+      results.checks.push('Generator restart failure stays FAILED; the UI requires a fresh command instead of stopping a terminal run');
+    }
     await clickWrite(unavailable, 'Stop telemetry', `/api/simulator/runs/${control.runId}/stop`);
     await expect(unavailable.locator('.server-run')).toContainText('STOPPED');
     results.checks.push('Real generator 503 shows uncertainty, retries identical command, rejects a conflicting run and stops telemetry without claiming recovery');
@@ -267,14 +275,14 @@ test('release roles complete authenticated investigation and scenario workflows'
     }
     results.passed = true;
   } finally {
+    writeFileSync(info.outputPath('release-results.json'), JSON.stringify(results, null, 2));
     if (generatorStopped) command('docker', ['compose', 'start', 'event-generator']);
     for (const actor of actors) {
-      await actor.context.close();
+      try { await actor.context.close(); } catch { /* Preserve the test failure after a browser timeout. */ }
       if (/^[0-9a-f-]{36}$/.test(actor.userId)) {
         admin(['delete', `users/${actor.userId}`, '-r', 'telecom']);
         sql(`UPDATE app.analysts SET enabled=false WHERE subject='${actor.userId}' AND display_name='Release ${actor.role}';`);
       }
     }
-    writeFileSync(info.outputPath('release-results.json'), JSON.stringify(results, null, 2));
   }
 });

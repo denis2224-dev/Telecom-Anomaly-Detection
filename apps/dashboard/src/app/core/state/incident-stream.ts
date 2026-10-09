@@ -49,6 +49,7 @@ export class IncidentStream {
     const revision = this.session.revision;
     let source = new EventSource('/api/incidents/stream');
     let reconnectTimer: ReturnType<typeof setTimeout> | undefined;
+    let refreshTimer: ReturnType<typeof setTimeout> | undefined;
     const stopProbe = new Subject<void>();
     let closed = false;
     let checkingSession = false;
@@ -62,6 +63,7 @@ export class IncidentStream {
       if (closed) return;
       closed = true;
       clearTimeout(reconnectTimer);
+      clearTimeout(refreshTimer);
       stopProbe.next();
       stopProbe.complete();
       source.close();
@@ -74,8 +76,20 @@ export class IncidentStream {
     // The stream has no durable replay, so both cases require a REST snapshot.
     const onOpen = () => {
       if (!active()) return close();
+      clearTimeout(refreshTimer);
+      refreshTimer = undefined;
       connected();
       refresh();
+    };
+
+    // Hints invalidate REST data; one fixed batch per second keeps sustained
+    // bursts responsive without issuing a snapshot request for every event.
+    const queueRefresh = () => {
+      if (refreshTimer !== undefined) return;
+      refreshTimer = setTimeout(() => {
+        refreshTimer = undefined;
+        if (active()) refresh();
+      }, 1000);
     };
 
     const upsert = (event: Event) => {
@@ -85,7 +99,7 @@ export class IncidentStream {
         if (typeof hint.id === 'string'
           && Number.isSafeInteger(hint.version)
           && hint.version >= 0) {
-          refresh();
+          queueRefresh();
         }
       } catch {
         // A malformed event cannot change displayed incident state.

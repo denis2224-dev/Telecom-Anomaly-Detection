@@ -49,7 +49,7 @@ test('200% zoom keeps overview and service graph labels, focus and navigation us
   expect(await page.locator('.period-chips button').evaluateAll(buttons => buttons.every(button => button.scrollWidth <= button.clientWidth + 1))).toBe(true);
   const panels = await page.locator('.overview-panels > section').evaluateAll(panels => panels.map(panel => {
     const rect = panel.getBoundingClientRect();
-    const table = panel.querySelector('table')!.getBoundingClientRect();
+    const table = (panel.querySelector('table') ?? panel.querySelector('.roaming-chart'))!.getBoundingClientRect();
     const navigation = panel.querySelector('.panel-navigation')!.getBoundingClientRect();
     return { left: rect.left, top: rect.top, bottom: rect.bottom, tableBottom: table.bottom, navigationTop: navigation.top };
   }));

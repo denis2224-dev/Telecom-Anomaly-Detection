@@ -1,0 +1,21 @@
+{
+  "mode": "Controlled API reproduction, not live acceptance",
+  "defect": "evidence-page-shrink",
+  "stage": "before",
+  "capturedAtUTC": "2026-10-08T19:00:55.991Z",
+  "state": {
+    "incidentId": "81205a34-116c-5d90-ae54-d80e0dee4fb1",
+    "beforeVersion": 7,
+    "authoritativeVersion": 8,
+    "total": 20,
+    "requests": [
+      0,
+      1,
+      1
+    ],
+    "renderedSummary": "INCIDENT EPISODE\n\nVoLTE setup\nSeverity\nHIGH\nTechnical state\nONGOING\nAnalyst workflow\nINVESTIGATING\nAssignee\nControlled analyst\nLatest KPI deviation\nCall setup success rate: +0.3 pp\nDetails & workflow",
+    "errors": [
+      "This evidence page changed or exceeded its limit. Retry from the first page."
+    ]
+  }
+}

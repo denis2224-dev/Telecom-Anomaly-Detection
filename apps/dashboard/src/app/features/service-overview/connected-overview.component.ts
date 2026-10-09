@@ -1,4 +1,4 @@
-import { Component, DestroyRef, viewChild, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, DestroyRef, viewChild, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SessionStore } from '../login-and-session/session.store';
 import { DatePipe } from '@angular/common';
@@ -9,10 +9,14 @@ import { ServiceStore } from './service.store';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
 import { IconComponent } from '../../shared/icon.component';
 import { DrawerComponent } from '../../shared/drawer.component';
+import { RoamingOverviewComponent } from '../roaming/roaming-overview.component';
 import { CityEvidenceComponent } from './city-evidence.component';
-import { workflowLabel, probableCause } from '../../shared/metric-presentation';
-import { allPages, metricValue, formatMetric } from '../service-kpi-history/assurance-model';
+import { probableCause } from '../../shared/metric-presentation';
+import { metricValue, formatMetric } from '../service-kpi-history/assurance-model';
+import { OVERVIEW_RANGE_MS, overviewHistory } from './overview-history';
 import { moldovaOutline } from './moldova-map';
+import { callResults } from './dashboard-results';
+import { transportPreview } from './transport-preview';
 import {
   baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
   type City, type Episode, type Filter, type Service, type Summary, type Window,
@@ -29,7 +33,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent],
+  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -47,7 +51,35 @@ export class ConnectedOverviewComponent {
   readonly serviceFilter = input<Filter>('ALL');
   readonly filterChanged = output<Filter>();
   readonly fixture = dataSource.fixture;
-  readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 }];
+  readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
+    { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
+  readonly roamingPanel = signal(true);
+  readonly showTraffic = signal(true);
+  readonly transportLinks = transportPreview;
+  readonly latestVoiceWindow = computed(() => this.chartRows('VOLTE').at(-1));
+  readonly results = computed(() => callResults(this.latestVoiceWindow()));
+  readonly headline = computed(() => {
+    const window = this.latestVoiceWindow(), results = this.results();
+    const cpu = metricValue(window, 'imsCpuPct');
+    const city = this.selectedCity();
+    const scopes = this.services().filter(item => (this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter())
+      && (!city || city.scopeIds.includes(item.scope.scopeId)));
+    return [
+      { label: 'Call attempts', value: results ? number(results.total) : 'Unavailable', note: 'Latest VoLTE window', tone: 'info' },
+      { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
+      { label: 'Failed setup share', value: results ? number(100 - results.rate) + '%' : 'Unavailable', note: 'Setup attempts only', tone: 'danger' },
+      { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
+      { label: 'Backhaul traffic', value: 'Unavailable', note: 'Sample links shown below', tone: 'muted' },
+      { label: 'Roaming status', value: 'Preview', note: 'Country API unavailable', tone: 'info' },
+      { label: 'Open incidents', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Current service / city filter', tone: 'warning' },
+    ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
+  });
+  readonly sipFailures = computed(() => {
+    const window = this.latestVoiceWindow();
+    const value = metricValue(window, 'sip503Count');
+    return window?.quality === 'COMPLETE' && window.kpis.find(kpi => kpi.name === 'sip503Count')?.unit === 'COUNT'
+      && value !== null && Number.isSafeInteger(value) && value >= 0 ? number(value) : 'Unavailable';
+  });
   readonly selectedScopes = signal({ VOLTE: '', SMS: '' });
   readonly pageSize = 20;
   private readonly fixtureCatalogue = signal<readonly City[]>(cities);
@@ -92,6 +124,8 @@ export class ConnectedOverviewComponent {
   readonly historyLoading = signal(false);
   private queueController?: AbortController;
   private historyController?: AbortController;
+  private historyRequestKey = '';
+  private historyBusy = false;
   private stopped = false;
 
   readonly markerCities = computed(() => this.catalogue().filter(city => city.marker !== null));
@@ -110,7 +144,6 @@ export class ConnectedOverviewComponent {
       .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
   priorityFor(id: string) { return this.priorityItems().find(item => item.incidentId === id); }
-  readonly workflowState = workflowLabel;
   readonly cause = probableCause;
   readonly cityServices = cityServices;
   readonly cityForScope = cityForScope;
@@ -189,8 +222,8 @@ export class ConnectedOverviewComponent {
         if (!this.stopped) this.fixtureCatalogue.set(data.fixtureCities);
       }).catch(() => { if (!this.stopped) this.statusMessage.set('City design fixture could not be loaded.'); });
     }
-    // Reset pagination when the service filter changes.
-    effect(() => { this.serviceFilter(); this.queuePage.set(0); });
+    // A new server filter starts at its first priority page.
+    effect(() => { this.serviceFilter(); this.queueStateFilter(); this.queuePage.set(0); });
     effect(() => {
       this.services(); // Parent REST refresh follows the existing incident stream.
       const filter = this.serviceFilter(), page = this.queuePage();
@@ -230,8 +263,8 @@ export class ConnectedOverviewComponent {
   applyRange(event: Event, start: string, end: string): void {
     event.preventDefault();
     const from = Date.parse(start + 'Z'), to = Date.parse(end + 'Z');
-    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from || to - from > 86_400_000) {
-      this.rangeError.set('Choose an end after the start, with an overview range of at most 24 hours.');
+    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from || to - from > OVERVIEW_RANGE_MS) {
+      this.rangeError.set('Choose an end after the start, with an overview range of at most 30 days.');
       return;
     }
     this.customRange.set({ from: new Date(from).toISOString(), to: new Date(to).toISOString() });
@@ -326,6 +359,11 @@ export class ConnectedOverviewComponent {
           technicalState: this.queueStateFilter() ? this.queueStateFilter() as 'ONGOING' | 'UNKNOWN' | 'RECOVERED' : undefined,
           page, size: this.pageSize,
         }, controller.signal);
+        if (controller.signal.aborted || this.stopped) return;
+        if (page > 0 && !result.items.length && !result.hasNext) {
+          this.queuePage.set(0);
+          return;
+        }
         const details = await Promise.all(result.items.map(item => this.api.getIncident(item.incidentId, controller.signal)));
         if (controller.signal.aborted || this.stopped) return;
         if (details.some((detail, index) => detail.id !== result.items[index].incidentId
@@ -352,25 +390,19 @@ export class ConnectedOverviewComponent {
 
   private async loadHistories(summaries: Summary[], from: string, to: string): Promise<void> {
     if (this.stopped) return;
+    const key = `${summaries.map(item => item.scope.scopeId).join(',')}/${from}/${to}`;
+    if (this.historyBusy && key === this.historyRequestKey && Date.parse(to) - Date.parse(from) > 86_400_000) return;
+    this.historyRequestKey = key;
+    this.historyBusy = true;
     this.historyController?.abort();
     const controller = this.historyController = new AbortController();
     this.historyLoading.set(true);
     const unique = [...new Map(summaries.map(item => [item.scope.scopeId, item])).values()];
     const entries = await Promise.all(unique.map(async (item): Promise<[string, History]> => {
       try {
-        const result = await allPages(async page => {
-          if (page >= 15) throw new Error('Choose a shorter history range.');
-          const result = await this.api.getServiceKpis(item.scope.scopeId, { from, to, page, size: 100 }, controller.signal);
-          if (result.total > 1440) throw new Error('History exceeded its 24-hour limit.');
-          return result;
-        }, () => !controller.signal.aborted && !this.stopped);
-        const ids = new Set<string>();
-        for (const row of result.items) {
-          const start = Date.parse(row.windowStart);
-          if (ids.has(row.windowId) || row.scopeId !== item.scope.scopeId || !Number.isFinite(start)
-            || start < Date.parse(from) || start >= Date.parse(to)) throw new Error('Unexpected history windows. Retry the range.');
-          ids.add(row.windowId);
-        }
+        const result = await overviewHistory(item.scope.scopeId, from, to,
+          (from, to, page) => this.api.getServiceKpis(item.scope.scopeId, { from, to, page, size: 100 }, controller.signal),
+          () => !controller.signal.aborted && !this.stopped, untracked(() => this.histories()[item.scope.scopeId]));
         return [item.scope.scopeId, { rows: result.items, from, to, observedAt: result.observedAt ?? item.observedAt, total: result.items.length, error: '' }];
       } catch (error) {
         return [item.scope.scopeId, { rows: [], from, to, observedAt: item.observedAt, total: 0,
@@ -378,6 +410,7 @@ export class ConnectedOverviewComponent {
       }
     }));
     if (!controller.signal.aborted && !this.stopped) {
+      this.historyBusy = false;
       this.histories.set(Object.fromEntries(entries));
       this.historyLoading.set(false);
     }

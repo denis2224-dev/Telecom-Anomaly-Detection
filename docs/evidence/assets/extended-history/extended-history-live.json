@@ -1,0 +1,287 @@
+{
+  "capturedAtUTC": "2026-10-08T19:40:43.175Z",
+  "mode": "Real OIDC and protected REST; no interception or fixture fallback",
+  "requests": [
+    {
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-08T19:25:00.000Z&to=2026-10-08T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-08T19:25:00.000Z&to=2026-10-08T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-08T19:40:00.000Z&to=2026-09-09T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-08T19:40:00.000Z&to=2026-09-09T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-09-08T19:40:00.000Z&to=2026-09-09T19:40:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-09-08T19:40:00.000Z&to=2026-09-09T19:40:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-09T19:40:00.000Z&to=2026-09-10T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-09T19:40:00.000Z&to=2026-09-10T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-10T19:40:00.000Z&to=2026-09-11T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-10T19:40:00.000Z&to=2026-09-11T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-11T19:40:00.000Z&to=2026-09-12T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-11T19:40:00.000Z&to=2026-09-12T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-12T19:40:00.000Z&to=2026-09-13T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-12T19:40:00.000Z&to=2026-09-13T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-13T19:40:00.000Z&to=2026-09-14T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-13T19:40:00.000Z&to=2026-09-14T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-14T19:40:00.000Z&to=2026-09-15T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-14T19:40:00.000Z&to=2026-09-15T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-15T19:40:00.000Z&to=2026-09-16T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-15T19:40:00.000Z&to=2026-09-16T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-16T19:40:00.000Z&to=2026-09-17T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-16T19:40:00.000Z&to=2026-09-17T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-17T19:40:00.000Z&to=2026-09-18T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-17T19:40:00.000Z&to=2026-09-18T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-18T19:40:00.000Z&to=2026-09-19T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-18T19:40:00.000Z&to=2026-09-19T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-19T19:40:00.000Z&to=2026-09-20T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-19T19:40:00.000Z&to=2026-09-20T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-20T19:40:00.000Z&to=2026-09-21T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-20T19:40:00.000Z&to=2026-09-21T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-21T19:40:00.000Z&to=2026-09-22T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-21T19:40:00.000Z&to=2026-09-22T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-22T19:40:00.000Z&to=2026-09-23T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-22T19:40:00.000Z&to=2026-09-23T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-23T19:40:00.000Z&to=2026-09-24T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-23T19:40:00.000Z&to=2026-09-24T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-24T19:40:00.000Z&to=2026-09-25T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-24T19:40:00.000Z&to=2026-09-25T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-25T19:40:00.000Z&to=2026-09-26T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-25T19:40:00.000Z&to=2026-09-26T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-26T19:40:00.000Z&to=2026-09-27T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-26T19:40:00.000Z&to=2026-09-27T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-27T19:40:00.000Z&to=2026-09-28T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-27T19:40:00.000Z&to=2026-09-28T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-28T19:40:00.000Z&to=2026-09-29T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-28T19:40:00.000Z&to=2026-09-29T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-29T19:40:00.000Z&to=2026-09-30T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-29T19:40:00.000Z&to=2026-09-30T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-09-30T19:40:00.000Z&to=2026-10-01T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-09-30T19:40:00.000Z&to=2026-10-01T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-01T19:40:00.000Z&to=2026-10-02T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-01T19:40:00.000Z&to=2026-10-02T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-02T19:40:00.000Z&to=2026-10-03T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-02T19:40:00.000Z&to=2026-10-03T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-03T19:40:00.000Z&to=2026-10-04T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-03T19:40:00.000Z&to=2026-10-04T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-04T19:40:00.000Z&to=2026-10-05T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-04T19:40:00.000Z&to=2026-10-05T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-05T19:40:00.000Z&to=2026-10-06T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-05T19:40:00.000Z&to=2026-10-06T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-06T19:40:00.000Z&to=2026-10-07T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-06T19:40:00.000Z&to=2026-10-07T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-06T19:40:00.000Z&to=2026-10-07T19:40:00.000Z&page=1&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-06T19:40:00.000Z&to=2026-10-07T19:40:00.000Z&page=1&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T19:40:00.000Z&to=2026-10-08T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T19:40:00.000Z&to=2026-10-08T19:40:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-07T19:40:00.000Z&to=2026-10-08T19:40:00.000Z&page=1&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-07T19:40:00.000Z&to=2026-10-08T19:40:00.000Z&page=1&size=100",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-09-09T19:40:00.000Z&to=2026-09-10T19:40:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-09-09T19:40:00.000Z&to=2026-09-10T19:40:00.000Z&page=0&size=20",
+      "status": 200
+    }
+  ],
+  "passed": true
+}

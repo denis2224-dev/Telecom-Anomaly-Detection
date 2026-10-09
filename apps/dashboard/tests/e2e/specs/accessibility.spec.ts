@@ -90,7 +90,7 @@ for (const width of [1366, 1024, 390, 320]) {
     await page.goto(`/incidents/${state.incident.id}`);
     const update = page.locator('[data-detection-id]');
     await update.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
-    await update.getByText('Source evidence', { exact: true }).click();
+    await expect(update.getByText('Source evidence', { exact: true })).toHaveCount(0);
     await expect(update).toContainText(explanation);
     await expect(update.getByText(source, { exact: true })).toBeHidden();
     await update.getByText('Troubleshooting', { exact: true }).click();
@@ -122,7 +122,7 @@ test('chart summary, exact values, nulls, measured zero, zero denominator', asyn
   Object.assign(cssr, { observed: 0, numerator: 0, denominator: 1000 });
   await page.goto(`/services/${state.summary.scope.scopeId}`);
   const chart = page.locator('.service-hero svg[role="img"]');
-  await expect(chart).toHaveAccessibleName('Actual and expected voice call setup success');
+  await expect(chart).toHaveAccessibleName(/successful and failed traffic on the left axis, success rate and baseline on the right axis/);
   await expect(chart).toHaveAccessibleDescription(/Blank gaps mean unavailable observations/);
   await page.getByText(/^Exact values \(/).click();
   const table = page.locator('app-kpi-chart').getByRole('table');

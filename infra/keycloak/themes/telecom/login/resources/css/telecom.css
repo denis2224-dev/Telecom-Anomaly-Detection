@@ -6,7 +6,7 @@ html.login-pf, .login-pf body { background: var(--bg); color: var(--text); font-
 .login-pf-page { padding: 0 20px 40px; font-family: var(--font-family); }
 #kc-header { color: var(--accent); margin: 0 -20px 64px; background: var(--surface); border: 0; }
 #kc-header-wrapper { color: var(--accent); padding: 22px 34px 22px 82px; min-height: 78px; text-align: left; font-size: 17px; font-weight: 650; letter-spacing: 1px; line-height: 1.6; white-space: normal; overflow-wrap: anywhere; position: relative; }
-#kc-header-wrapper::before { content: ''; position: absolute; left: 34px; top: 24px; width: 32px; height: 32px; background: var(--accent); mask: url('../img/mark.svg') center / contain no-repeat; }
+#kc-header-wrapper::before { content: ''; position: absolute; left: 34px; top: 24px; width: 32px; height: 32px; background: var(--brand-logo); mask: url('../img/mark.svg') center / contain no-repeat; filter: drop-shadow(0 0 6px var(--brand-logo-glow)); }
 .login-pf-page .card-pf { background: var(--surface); color: var(--text); width: 100%; max-width: 460px; margin: 0 auto; padding: 36px; border: 0; border-radius: var(--radius); box-shadow: var(--shadow-raised), var(--shadow-inner); }
 .login-pf-page .login-pf-header { margin-bottom: 28px; }
 #kc-page-title { color: var(--text); font-size: 27px; font-weight: 650; line-height: 1.25; text-align: left; letter-spacing: -.5px; margin: 0; }

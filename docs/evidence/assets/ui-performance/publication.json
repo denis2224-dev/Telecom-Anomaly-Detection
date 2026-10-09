@@ -1,0 +1,57 @@
+[
+  {
+    "windowStart": "2026-10-08T18:24:00Z",
+    "expectedObservations": 50,
+    "offeredObservations": 50,
+    "acknowledgedObservations": 50,
+    "failedObservations": 0,
+    "expiredOrCancelledObservations": 0,
+    "sendAttempts": 50,
+    "failedSendAttempts": 0,
+    "timedOutSendAttempts": 0
+  },
+  {
+    "windowStart": "2026-10-08T18:25:00Z",
+    "expectedObservations": 50,
+    "offeredObservations": 50,
+    "acknowledgedObservations": 50,
+    "failedObservations": 0,
+    "expiredOrCancelledObservations": 0,
+    "sendAttempts": 50,
+    "failedSendAttempts": 0,
+    "timedOutSendAttempts": 0
+  },
+  {
+    "windowStart": "2026-10-08T18:26:00Z",
+    "expectedObservations": 50,
+    "offeredObservations": 50,
+    "acknowledgedObservations": 50,
+    "failedObservations": 0,
+    "expiredOrCancelledObservations": 0,
+    "sendAttempts": 50,
+    "failedSendAttempts": 0,
+    "timedOutSendAttempts": 0
+  },
+  {
+    "windowStart": "2026-10-08T18:27:00Z",
+    "expectedObservations": 50,
+    "offeredObservations": 50,
+    "acknowledgedObservations": 50,
+    "failedObservations": 0,
+    "expiredOrCancelledObservations": 0,
+    "sendAttempts": 50,
+    "failedSendAttempts": 0,
+    "timedOutSendAttempts": 0
+  },
+  {
+    "windowStart": "2026-10-08T18:28:00Z",
+    "expectedObservations": 50,
+    "offeredObservations": 50,
+    "acknowledgedObservations": 50,
+    "failedObservations": 0,
+    "expiredOrCancelledObservations": 0,
+    "sendAttempts": 50,
+    "failedSendAttempts": 0,
+    "timedOutSendAttempts": 0
+  }
+]

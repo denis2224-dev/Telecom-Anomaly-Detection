@@ -30,6 +30,9 @@ import type { Filter } from './dashboard-geography';
     .kpi-strip > div + div::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: color-mix(in srgb, var(--text-muted) 35%, var(--transparent)); }
     .kpi-strip span { color: var(--text-muted); font-size: 12px; line-height: 1.35; }
     .kpi-strip strong { min-width: 2ch; text-align: right; font-size: 20px; line-height: 1.2; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .scope-toolbar { display: flex; align-items: flex-end; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-3) 0 var(--space-4); }
+    .scope-toolbar .button, .scope-toolbar select { min-height: 44px; }
+    .scope-service { display: grid; gap: var(--space-2); width: 200px; max-width: 100%; color: var(--text-muted); font-size: 12px; }
     @media (max-width: 600px) {
       .page-heading { flex-wrap: nowrap; gap: 8px; align-items: center; }
       .page-heading h1 { font-size: 18px; }
@@ -40,9 +43,12 @@ import type { Filter } from './dashboard-geography';
       .kpi-strip > div:nth-child(odd)::before { content: none; }
       .kpi-strip > div:nth-child(n + 3)::after { content: ''; position: absolute; top: 0; left: 12px; right: 12px; height: 1px; background: color-mix(in srgb, var(--text-muted) 35%, var(--transparent)); }
       .kpi-strip span { font-size: 11px; }
+      .scope-toolbar { display: grid; grid-template-columns: minmax(0, 1fr); }
+      .scope-service { width: 100%; }
     }
     .source-inventory { margin-top: 14px; }
     .source-inventory > summary { padding: 10px; cursor: pointer; color: var(--text-muted); }
+    .source-inventory > .button { margin-bottom: var(--space-3); }
   `],
 })
 export class ServiceOverviewComponent {
@@ -55,6 +61,13 @@ export class ServiceOverviewComponent {
   readonly incidentError = this.store.incidentError;
   readonly serviceFilter = signal<Filter>('ALL');
   readonly connected = signal(true);
+  readonly liveOnly = signal(false);
+  readonly activeIncidents = computed(() => this.store.incidents().filter(item => item.technicalState === 'ONGOING'));
+  serviceState(service: string): string {
+    const states = this.services().filter(item => item.scope.service === service).map(item => this.health(item));
+    return ['DEGRADED','STALE','UNKNOWN','NORMAL'].find(state => states.includes(state as ServiceHealth)) ?? 'UNKNOWN';
+  }
+  serviceTarget(service: string): string | undefined { return this.services().find(item => item.scope.service === service)?.scope.scopeId; }
   private readonly router = inject(Router);
   setService(service: Filter): void {
     void this.router.navigate(['/dashboard'], { queryParams: { service: service === 'ALL' ? null : service }, queryParamsHandling: 'merge' });
@@ -86,6 +99,7 @@ export class ServiceOverviewComponent {
       const service = params.get('service');
       this.serviceFilter.set(service === 'VOLTE' || service === 'SMS' ? service : 'ALL');
       this.connected.set(params.get('view') !== 'scopes');
+      this.liveOnly.set(params.get('view') === 'live');
     });
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed(this.destroyRef))

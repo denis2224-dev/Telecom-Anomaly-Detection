@@ -13,17 +13,17 @@ describe('Reconciled assurance history and current state', () => {
   const service = { ...services[0], latestWindow: voiceWindows.at(-1), observedAt: '2026-09-15T10:10:10Z' };
   let refresh: () => void;
   let close: ReturnType<typeof vi.fn>;
-  let api: { listServices: ReturnType<typeof vi.fn>; listIncidents: ReturnType<typeof vi.fn>; getServiceKpis: ReturnType<typeof vi.fn> };
+  let api: { listServices: ReturnType<typeof vi.fn>; listIncidents: ReturnType<typeof vi.fn>; getServiceKpis: ReturnType<typeof vi.fn>; getDetections: ReturnType<typeof vi.fn> };
   beforeEach(() => {
     close = vi.fn();
-    api = { listServices: vi.fn().mockResolvedValue([service]), listIncidents: vi.fn().mockResolvedValue({ items: [], total: 0 }),
+    api = { getDetections: vi.fn().mockResolvedValue({ items: [], total: 0, page: 0, size: 1 }), listServices: vi.fn().mockResolvedValue([service]), listIncidents: vi.fn().mockResolvedValue({ items: [], total: 0 }),
       getServiceKpis: vi.fn().mockImplementation(async (_id, query) => {
         const items = voiceWindows.filter(row => Date.parse(row.windowStart) >= Date.parse(query.from) && Date.parse(row.windowStart) < Date.parse(query.to));
         return { items, total: items.length, observedAt: service.observedAt };
       }) };
     TestBed.configureTestingModule({ providers: [provideRouter([]), provideHttpClient(), { provide: TelecomClient, useValue: api },
       { provide: IncidentStream, useValue: { connect: (callback: () => void) => { refresh = callback; return close; } } },
-      { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ scopeId: service.scope.scopeId })) } }] });
+      { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ scopeId: service.scope.scopeId })), snapshot: { queryParamMap: convertToParamMap({}) } } }] });
     TestBed.inject(SessionStore).phase.set('authenticated');
   });
   it('preserves the 24h bound and refuses the superseded 48h read', async () => {

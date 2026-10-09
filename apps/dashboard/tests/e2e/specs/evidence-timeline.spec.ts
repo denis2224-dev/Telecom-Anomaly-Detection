@@ -78,8 +78,8 @@ test.describe('Controlled historical evidence', () => {
           await expect(update).toContainText(`Recorded hypothesis (not confirmed): ${history[index].probableCause}`);
         }
         await expect(update).toContainText(`Inspect source window ${index + 1}`);
-        await expect(update).toContainText('Unique customers: Unavailable');
-        await update.getByText('Source evidence', { exact: true }).click();
+        await expect(update).not.toContainText('Unique customers');
+        await expect(update.getByText('Source evidence', { exact: true })).toHaveCount(0);
         await expect(update.getByText(history[index].evidence[0].sourceEventIds[0], { exact: true })).toBeVisible();
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

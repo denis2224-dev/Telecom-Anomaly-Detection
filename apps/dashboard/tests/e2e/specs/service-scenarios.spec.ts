@@ -524,9 +524,10 @@ for (const scenario of cases) {
           await expect(article).toBeVisible();
           await article.locator('.cause-details > summary').click();
           await expect(article).toContainText(
-            'ML result: Model result available',
+            'Model result',
           );
-          await expect(article.locator('app-cause-evidence')).toContainText(`Model anomaly rank: ${detection.anomalyRank}`);
+          await expect(article.locator('[data-fact=model] dd')).toHaveText('Available');
+          await expect(article.locator('[data-fact=rank] dd')).toHaveAttribute('title', `Model anomaly rank: ${detection.anomalyRank}; not a failure probability.`);
 
           for (const metric of detection.kpis) {
             const cells = article.locator(

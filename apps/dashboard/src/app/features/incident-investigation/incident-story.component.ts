@@ -15,7 +15,6 @@ import { CauseEvidenceComponent } from './cause-evidence.component';
       <h3>Estimated service impact</h3>
       @if (incident().service === 'VOLTE') { <p>Estimated extra failed attempts: {{ incident().latestDetection.impact.extraFailedAttempts }}</p> }
       @else { <p>Affected delivered messages: {{ incident().latestDetection.impact.affectedDeliveredMessages }}</p><p>Pending messages: {{ incident().latestDetection.impact.pendingMessages }}</p> }
-      <p>Unique subscribers: not available in aggregate demo</p><p class="muted">Attempts and messages are aggregate service counts, not unique customers. Impact belongs to the latest evaluated detection window.</p>
       @if (incident().latestDetection.phase === 'UNKNOWN') { <p class="notice">Incomplete evidence does not prove recovery. Impact retains the last evaluated estimate.</p> }
     </div></div>
   </section>`,

@@ -6,6 +6,7 @@ import { TelecomClient } from '../../core/api/telecom-client';
 import type { components } from '../../core/api/schema';
 import { SessionStore } from '../login-and-session/session.store';
 import { type City, type Filter, type Service, number } from './dashboard-geography';
+import { historyIntervals } from './overview-history';
 
 type Page = components['schemas']['GeographyKpiPage'];
 type TopologyPage = components['schemas']['GeographyTopologyPage'];
@@ -50,6 +51,13 @@ type TopologyPage = components['schemas']['GeographyTopologyPage'];
         <p>Coverage: {{ state.coverage.state }} · {{ value(state.coverage.usableSources) }} usable / {{ value(state.coverage.receivedSources) }} received / {{ value(state.coverage.expectedSources) }} expected · {{ state.metric.nullReason ?? 'Measured' }}</p>
       }
     }
+    @if (intervals().length > 1) {
+      <nav class="pagination" aria-label="City history intervals">
+        <button type="button" (click)="changeInterval(-1)" [disabled]="intervalIndex() === 0">Earlier interval</button>
+        <span>{{ historyInterval().from | date:'dd MMM yyyy HH:mm':'UTC' }} – {{ historyInterval().to | date:'dd MMM yyyy HH:mm':'UTC' }} UTC · {{ intervalIndex() + 1 }}/{{ intervals().length }}</span>
+        <button type="button" (click)="changeInterval(1)" [disabled]="intervalIndex() + 1 >= intervals().length">Later interval</button>
+      </nav>
+    }
     @for (service of selectedServices(); track service) {
       <h3>{{ service === 'VOLTE' ? 'VoLTE CSSR' : 'SMS delivery p95' }} · UTC history</h3>
       <div class="chart-scroll" tabindex="0" [attr.aria-label]="service + ' city history'" [attr.aria-busy]="loading()">
@@ -81,12 +89,22 @@ export class CityEvidenceComponent {
   readonly pages = signal({ VOLTE: 0, SMS: 0 });
   readonly error = signal('');
   readonly loading = signal(false);
+  readonly intervals = computed(() => historyIntervals(this.from(), this.to()));
+  readonly intervalIndex = signal(0);
+  readonly historyInterval = computed(() => this.intervals()[this.intervalIndex()] ?? this.intervals()[0]);
+  private readonly historySelection = computed(() => `${this.city().id}/${this.filter()}/${this.from()}/${this.to()}`);
+  private readonly topologySelection = computed(() => `${this.city().id}/${this.city().geography?.catalogueVersion}/${this.city().geography?.topologyVersion}`);
   private readonly api = inject(TelecomClient);
   private stopped = false;
   private controller?: AbortController;
   private evidenceIdentity = '';
+  private topologyIdentity = '';
   value(value: number | null | undefined): string { return value == null || !Number.isFinite(value) ? 'Unavailable' : number(value); }
   changePage(service: Service, change: number): void { this.pages.update(pages => ({ ...pages, [service]: Math.max(0, pages[service] + change) })); }
+  changeInterval(change: number): void {
+    this.intervalIndex.update(index => Math.max(0, Math.min(this.intervals().length - 1, index + change)));
+    this.pages.set({ VOLTE: 0, SMS: 0 });
+  }
   openTopology(nodeId: string): void { this.topologyPath.update(path => [...path, nodeId]); this.topologyPage.set(0); }
   backTopology(): void { this.topologyPath.update(path => path.slice(0, -1)); this.topologyPage.set(0); }
   changeTopologyPage(delta: number): void { this.topologyPage.update(page => Math.max(0, page + delta)); }
@@ -96,12 +114,18 @@ export class CityEvidenceComponent {
     const stop = () => { this.stopped = true; this.controller?.abort(); this.detail.set(null); this.histories.set({}); this.topology.set(null); };
     destroy.onDestroy(stop);
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
-    effect(() => { this.city().id; this.filter(); this.from(); this.to(); this.pages.set({ VOLTE: 0, SMS: 0 }); this.topologyPath.set([]); this.topologyPage.set(0); });
+    effect(() => { this.historySelection(); this.intervalIndex.set(0); this.pages.set({ VOLTE: 0, SMS: 0 }); });
+    effect(() => { this.topologySelection(); this.topologyPath.set([]); this.topologyPage.set(0); });
     effect(cleanup => {
       const city = this.city(), path = this.topologyPath(), page = this.topologyPage();
       this.updatedAt();
       const controller = new AbortController();
       cleanup(() => controller.abort());
+      const identity = `${city.id}/${city.geography?.catalogueVersion}/${city.geography?.topologyVersion}/${path.join('/')}/${page}`;
+      if (identity !== this.topologyIdentity) {
+        this.topologyIdentity = identity;
+        this.topology.set(null);
+      }
       if (!city.geography || this.stopped) return;
       this.topologyLoading.set(true); this.topologyError.set('');
       void this.api.getGeographyTopology(city.id, { catalogueVersion: city.geography.catalogueVersion,
@@ -115,11 +139,11 @@ export class CityEvidenceComponent {
       }).finally(() => { if (!controller.signal.aborted && !this.stopped) this.topologyLoading.set(false); });
     });
     effect(cleanup => {
-      const city = this.city(), from = this.from(), to = this.to(), services = this.selectedServices(), pages = this.pages();
+      const city = this.city(), { from, to } = this.historyInterval(), services = this.selectedServices(), pages = this.pages();
       this.updatedAt();
       const controller = this.controller = new AbortController();
       cleanup(() => controller.abort());
-      const identity = `${city.id}/${city.geography?.catalogueVersion}/${city.scopeIds.join(',')}`;
+      const identity = `${city.id}/${city.geography?.catalogueVersion}/${city.geography?.topologyVersion}/${city.scopeIds.join(',')}/${from}/${to}/${services.map(service => `${service}:${pages[service]}`).join(',')}`;
       if (identity !== this.evidenceIdentity) {
         this.evidenceIdentity = identity;
         this.detail.set(null); this.histories.set({});

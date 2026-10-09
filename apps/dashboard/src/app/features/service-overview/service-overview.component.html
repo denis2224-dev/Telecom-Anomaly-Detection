@@ -1,6 +1,7 @@
 <div class="page-heading">
   <div class="heading-copy"><p class="eyebrow">Network operations</p><h1>{{ scopeId() ? 'Service scope' : connected() ? 'Network overview' : 'Service overview' }}</h1><p>Monitor service quality, track incidents, and investigate the evidence.</p></div>
   <span class="connection-status live-status" [class.stale]="!fixture && live.stale()" aria-label="Live data status"><span class="status-dot"></span><strong>{{ fixture ? 'Preview' : live.stale() ? 'Stale' : 'Live' }}</strong><span>{{ fixture || live.lastUpdated() === null ? 'Unavailable' : (live.lastUpdated() | date:'HH:mm:ss':'UTC') + ' UTC' }}</span></span>
+  @if (!liveOnly()) { <a class="button ghost" routerLink="/dashboard" [queryParams]="{view: 'live'}">Live status</a> }
   <button class="ghost" aria-label="Refresh overview" (click)="load()" [disabled]="loading()" [attr.aria-busy]="loading()"><app-icon name="refresh" /><span class="refresh-copy">Refresh overview</span></button>
 </div>
 @if (loading()) {
@@ -84,10 +85,21 @@
     <div><span>Open incidents</span><strong>{{ openCount() }}</strong></div>
     <div><span>Observed scopes</span><strong>{{ observedCount() }}</strong></div>
   </div>
-  @if (connected()) {
+  @if (liveOnly()) { <section class="live-summary detail-panel" aria-label="Live status">
+    <div class="episode-heading"><h2>Live status</h2><a class="button ghost" routerLink="/dashboard" [queryParams]="{view: liveOnly() ? null : 'live'}">{{ liveOnly() ? 'Full overview' : 'Open Live status' }}</a></div>
+    <div class="live-service-chips"><a [routerLink]="serviceTarget('VOLTE') ? ['/services',serviceTarget('VOLTE')] : null"><span>VoLTE</span><span class="badge" [attr.data-state]="serviceState('VOLTE')">{{ serviceState('VOLTE') }}</span></a><a [routerLink]="serviceTarget('SMS') ? ['/services',serviceTarget('SMS')] : null"><span>SMS</span><span class="badge" [attr.data-state]="serviceState('SMS')">{{ serviceState('SMS') }}</span></a><a routerLink="/roaming"><span>Roaming</span><span class="badge" data-state="UNKNOWN">Preview</span></a></div>
+    <p>{{ incidentError() ? 'Active incident count unavailable' : activeIncidents().length + ' active incidents' }}</p>
+    @if (!incidentError()) { @for (incident of activeIncidents().slice(0,5); track incident.id) { <a class="live-incident" [routerLink]="['/incidents',incident.id]"><span class="badge" [attr.data-state]="incident.technicalState">{{ incident.technicalState }}</span><strong>{{ incident.service === 'VOLTE' ? 'VoLTE call setup degradation' : 'SMS delivery delay' }}</strong><small>{{ incident.scopeId }}</small><app-icon name="right" /></a> } }
+    <a class="button ghost" routerLink="/dashboard" fragment="incident-queue">Open incident queue →</a>
+  </section> }
+  @if (liveOnly()) { <p class="muted">Tap a service for its graphs or an incident for its evidence.</p> }
+  @else if (connected()) {
     <app-connected-overview [services]="services()" [serviceFilter]="serviceFilter()" (filterChanged)="setService($event)" />
   } @else {
-    <div class="button-row"><label>Service<select aria-label="Service" [value]="serviceFilter()" (change)="setService($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE setup</option><option value="SMS">SMS delivery</option></select></label><a class="button" routerLink="/dashboard" [queryParams]="{view: 'connected'}" queryParamsHandling="merge">Open connected overview</a></div>
+    <div class="scope-toolbar">
+      <a class="button" routerLink="/dashboard" [queryParams]="{view: 'connected'}" queryParamsHandling="merge">Open connected overview</a>
+      <label class="scope-service">Service<select aria-label="Service" [value]="serviceFilter()" (change)="setService($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE setup</option><option value="SMS">SMS delivery</option></select></label>
+    </div>
   }
   @if (streamError()) { <app-status-banner [compact]="true" [message]="streamError()" [busy]="loading()" (retry)="load()" /> }
   @if (error()) { <p role="alert">{{ error() }} Existing evidence is still shown.</p> }

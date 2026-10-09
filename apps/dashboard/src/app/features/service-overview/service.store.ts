@@ -37,10 +37,17 @@ export class ServiceStore {
         this.loadGeography(requestId, controller.signal),
       ]);
       if (requestId === this.requestId) {
-        const old = this.services();
+        const old = new Map(this.services().map(item => [item.scope.scopeId, item]));
         // Keep the prior completed window until a genuinely new minute arrives.
-        this.previous.update(previous => services.map(service => old.find(item => item.scope.scopeId === service.scope.scopeId && item.latestWindow?.windowId !== service.latestWindow?.windowId)
-          ?? previous.find(item => item.scope.scopeId === service.scope.scopeId)).filter((item): item is ServiceSummary => !!item));
+        this.previous.update(previous => {
+          const retained = new Map(previous.map(item => [item.scope.scopeId, item]));
+          return services.flatMap(service => {
+            const prior = old.get(service.scope.scopeId);
+            const item = prior && prior.latestWindow?.windowId !== service.latestWindow?.windowId
+              ? prior : retained.get(service.scope.scopeId);
+            return item ? [item] : [];
+          });
+        });
         this.services.set(services);
       }
       try {
