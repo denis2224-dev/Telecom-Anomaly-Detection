@@ -1,0 +1,18 @@
+{
+  "release": {
+    "beforeCount": 111126,
+    "afterCount": 111346,
+    "missingEarlierSignatures": 0,
+    "newSignatures": 220,
+    "beforeSha256": "a69a871ad7effebbc6c36f619c8471446a087af9fac72e784ad352c272b3c601",
+    "afterSha256": "8dd84c837af926db0e293ef972db900339773f182b7af50174d5d8dc180dd65f"
+  },
+  "geography": {
+    "beforeCount": 9491,
+    "afterCount": 9711,
+    "missingEarlierSignatures": 0,
+    "newSignatures": 220,
+    "beforeSha256": "233143ee806e0dbfb4a58d4e386ff8300d61dbc359f7a9e9e8e803b8770e29fb",
+    "afterSha256": "65208e030a58d2289ea71d7ee2ee50facd33db5e91510dde709d8aa3f83f6efd"
+  }
+}

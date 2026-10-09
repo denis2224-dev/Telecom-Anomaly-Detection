@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,6 +47,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -56,6 +58,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(properties = {
         "app.public-origin=http://telecom.test:8080",
         "app.simulator.reconcile-ms=3600000",
+        "spring.datasource.hikari.maximum-pool-size=2",
+        "spring.datasource.hikari.connection-timeout=1000",
         "telecom.geography.effective-from=2026-09-15T08:00:00Z",
         "spring.kafka.listener.auto-startup=false"
 })
@@ -69,6 +73,9 @@ class ScenarioControllerIT {
     private static final Map<UUID, String> STATUSES = new ConcurrentHashMap<>();
     private static final AtomicInteger START_CALLS = new AtomicInteger();
     private static final AtomicBoolean FAIL_AFTER_ACCEPT = new AtomicBoolean();
+    private static final AtomicBoolean FAIL_REDELIVERY_ONCE = new AtomicBoolean();
+    private static final AtomicReference<CountDownLatch> HOLD_STATUS = new AtomicReference<>();
+    private static final AtomicReference<CountDownLatch> STATUS_ENTERED = new AtomicReference<>();
     private static final MutableClock CLOCK = new MutableClock();
     private static final PostgreSQLContainer POSTGRES =
             new PostgreSQLContainer("postgres:16.4-alpine")
@@ -81,6 +88,11 @@ class ScenarioControllerIT {
         try {
             GENERATOR = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
             GENERATOR.createContext("/internal/scenario-runs", ScenarioControllerIT::privateApi);
+            GENERATOR.setExecutor(Executors.newCachedThreadPool(task -> {
+                Thread thread = new Thread(task, "scenario-test-generator");
+                thread.setDaemon(true);
+                return thread;
+            }));
             GENERATOR.start();
         } catch (IOException error) {
             throw new ExceptionInInitializerError(error);
@@ -135,6 +147,9 @@ class ScenarioControllerIT {
         STATUSES.clear();
         START_CALLS.set(0);
         FAIL_AFTER_ACCEPT.set(false);
+        FAIL_REDELIVERY_ONCE.set(false);
+        HOLD_STATUS.set(null);
+        STATUS_ENTERED.set(null);
         CLOCK.set(Instant.parse("2026-09-30T12:00:20Z"));
     }
 
@@ -373,6 +388,26 @@ class ScenarioControllerIT {
     }
 
     @Test
+    void retryAfterRestartSurvivesOneTransientGeneratorFailure() throws Exception {
+        UUID requestId = UUID.randomUUID();
+        String payload = body(requestId, 19);
+        FAIL_AFTER_ACCEPT.set(true);
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", payload))
+                .andExpect(status().isServiceUnavailable());
+        UUID runId = commands.findByRequestId(requestId).orElseThrow().getRunId();
+
+        RUNS.clear(); // Restart lost the process-local run, but not the durable command.
+        STATUSES.clear();
+        FAIL_AFTER_ACCEPT.set(false);
+        FAIL_REDELIVERY_ONCE.set(true);
+        mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL", payload))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.runId").value(runId.toString()));
+        assertEquals(3, START_CALLS.get());
+        assertEquals(1, commands.count());
+    }
+
+    @Test
     void vanishedRunRedeliversBeforeStartAndFailsAfterStart() throws Exception {
         String first = mvc.perform(supervisorPost("/api/simulator/scenarios/VOLTE_IMS_OVERLOAD",
                         body(UUID.randomUUID(), 12)))
@@ -427,6 +462,40 @@ class ScenarioControllerIT {
         }
     }
 
+    @Test
+    void stalledGeneratorStatusDoesNotConsumeDatabasePool() throws Exception {
+        String started = mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL",
+                        body(UUID.randomUUID(), 9)))
+                .andExpect(status().isAccepted()).andReturn().getResponse().getContentAsString();
+        UUID runId = UUID.fromString(json.readTree(started).path("runId").asText());
+        CountDownLatch entered = new CountDownLatch(2);
+        CountDownLatch release = new CountDownLatch(1);
+        STATUS_ENTERED.set(entered);
+        HOLD_STATUS.set(release);
+        var executor = Executors.newFixedThreadPool(2);
+        try {
+            Future<Integer> first = executor.submit(() -> mvc.perform(supervisorGet("/api/simulator/runs/" + runId))
+                    .andReturn().getResponse().getStatus());
+            Future<Integer> second = executor.submit(() -> mvc.perform(supervisorGet("/api/simulator/runs/" + runId))
+                    .andReturn().getResponse().getStatus());
+            assertTrue(entered.await(3, TimeUnit.SECONDS));
+            // Two blocked status reads must not starve an unrelated incident-list read.
+            mvc.perform(get("/api/incidents?scopeId=VOLTE-MD-CENTRAL")
+                    .session(session()).with(oidcLogin().idToken(token ->
+                            token.issuer(ISSUER).subject(SUBJECT))
+                            .authorities(new SimpleGrantedAuthority("ROLE_SUPERVISOR"))))
+                    .andExpect(status().isOk());
+            release.countDown();
+            assertEquals(200, first.get(5, TimeUnit.SECONDS));
+            assertEquals(200, second.get(5, TimeUnit.SECONDS));
+        } finally {
+            release.countDown();
+            HOLD_STATUS.set(null);
+            STATUS_ENTERED.set(null);
+            executor.shutdownNow();
+        }
+    }
+
     private static String body(UUID requestId, long seed) {
         return body(requestId, seed, "VOLTE-MD-CENTRAL");
     }
@@ -466,7 +535,7 @@ class ScenarioControllerIT {
                 JsonNode command = JSON.readTree(exchange.getRequestBody().readAllBytes());
                 RUNS.putIfAbsent(runId, command);
                 STATUSES.putIfAbsent(runId, "SCHEDULED");
-                if (FAIL_AFTER_ACCEPT.get()) {
+                if (FAIL_AFTER_ACCEPT.get() || FAIL_REDELIVERY_ONCE.getAndSet(false)) {
                     reply(exchange, 503,
                             "{\"code\":\"SCHEDULING_FAILED\",\"message\":\"Unavailable\"}");
                 } else {
@@ -478,6 +547,16 @@ class ScenarioControllerIT {
                 STATUSES.put(runId, "STOPPED");
                 reply(exchange, 200, snapshot(runId));
             } else {
+                CountDownLatch hold = HOLD_STATUS.get();
+                if (hold != null) {
+                    STATUS_ENTERED.get().countDown();
+                    try {
+                        hold.await(4, TimeUnit.SECONDS);
+                    } catch (InterruptedException interrupted) {
+                        Thread.currentThread().interrupt();
+                        throw new IOException(interrupted);
+                    }
+                }
                 reply(exchange, 200, snapshot(runId));
             }
         } finally {
