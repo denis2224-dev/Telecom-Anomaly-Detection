@@ -73,8 +73,13 @@ function createCandidate(original, context, root) {
   s.keycloak.environment.KC_HOSTNAME = context.baseURL + '/auth';
   s.keycloak.volumes = s.keycloak.volumes.filter(v => v.target !== '/opt/keycloak/data/import/telecom-realm.json');
   s.keycloak.volumes.push({ type: 'bind', source: path.join(context.privateDir, 'realm.json'), target: '/opt/keycloak/data/import/telecom-realm.json', read_only: true });
-  s.proxy.volumes = s.proxy.volumes.filter(v => v.target !== '/etc/nginx/conf.d/default.conf');
+  // Main can select a host backend via an interpolated short-form mount.
+  // Disposable verification always owns its backend and pins the container route.
+  s.proxy.volumes = s.proxy.volumes.filter(v => typeof v === 'string'
+    ? !v.includes(':/etc/nginx/backend.conf:')
+    : !['/etc/nginx/conf.d/default.conf', '/etc/nginx/backend.conf'].includes(v.target));
   s.proxy.volumes.push({ type: 'bind', source: path.join(context.privateDir, 'nginx.conf'), target: '/etc/nginx/conf.d/default.conf', read_only: true });
+  s.proxy.volumes.push({ type: 'bind', source: path.resolve(root, 'infra/nginx/backend-container.conf'), target: '/etc/nginx/backend.conf', read_only: true });
   s.proxy.healthcheck = { test: ['CMD-SHELL', `wget -q -O /dev/null http://127.0.0.1:${PORTS.proxy}/auth/realms/telecom/.well-known/openid-configuration && wget -q -O /dev/null http://127.0.0.1:${PORTS.proxy}/dashboard`], interval: '5s', timeout: '3s', retries: 30 };
   Object.assign(s['incident-service'].environment, { APP_PUBLIC_ORIGIN: context.baseURL, KEYCLOAK_ISSUER: context.baseURL + '/auth/realms/telecom' });
   return compose;

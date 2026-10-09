@@ -60,6 +60,28 @@ test('candidate rewrites production dependencies and isolated ports consistently
   assert.equal(original.services.keycloak.environment.KC_HOSTNAME, undefined);
 });
 
+test('current Compose backend selection cannot route verification into a host stack', () => {
+  const root = path.resolve(__dirname, '..');
+  const yaml = require(path.join(root, 'apps/dashboard/node_modules/yaml'));
+  const original = yaml.parse(fs.readFileSync(path.join(root, 'compose.yaml'), 'utf8'), { merge: true });
+  const context = { projectName: 'pr77-unit', privateDir: os.tmpdir(), sourceSha: 'a'.repeat(40), ownerLabelName: 'io.telecom.pr77.owner', ownerLabelValue: 'nonce', baseURL: 'http://telecom.test:18080' };
+  const oldOverride = process.env.PROXY_BACKEND_CONFIG;
+  process.env.PROXY_BACKEND_CONFIG = '/unrelated/host-backend.conf';
+  try {
+    const candidate = createCandidate(original, context, root);
+    const mounts = candidate.services.proxy.volumes;
+    const backend = mounts.filter(v => typeof v === 'string' ? v.includes(':/etc/nginx/backend.conf') : v.target === '/etc/nginx/backend.conf');
+    assert.deepEqual(backend, [{ type: 'bind', source: path.join(root, 'infra/nginx/backend-container.conf'), target: '/etc/nginx/backend.conf', read_only: true }]);
+    assert.equal(JSON.stringify(mounts).includes('PROXY_BACKEND_CONFIG'), false);
+    assert.equal(JSON.stringify(mounts).includes('/unrelated/host-backend.conf'), false);
+    assert.match(fs.readFileSync(backend[0].source, 'utf8'), /^set \$backend http:\/\/incident-service:8082;\s*$/);
+    assert.match(fs.readFileSync(path.join(root, 'infra/nginx/default.conf'), 'utf8'), /include \/etc\/nginx\/backend\.conf;/);
+  } finally {
+    if (oldOverride === undefined) delete process.env.PROXY_BACKEND_CONFIG;
+    else process.env.PROXY_BACKEND_CONFIG = oldOverride;
+  }
+});
+
 test('credential cleanup checks directory and nonce before unlinking only generated secrets', () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'pr77-private-test-'));
   const real = fs.realpathSync(directory);
