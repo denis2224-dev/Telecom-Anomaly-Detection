@@ -130,3 +130,11 @@ evidence at docs/evidence/assets/pr77-review-main-613661d and identify the later
 evidence-only publication head separately; verify its six CI jobs too. Keep the
 prior 29 and original 55 sealed artifacts unchanged. Recheck remote main before
 reporting ready for re-review; approval and merge remain outside this task.
+
+Current-main runtime acceptance completed on 84477ac, integrating 613661d:
+all three real connected cases, owned-resource/credential cleanup and all six
+candidate CI jobs passed. The new current-main report seals a separate compact
+bundle and retains the failed/interrupted attempts. The later evidence-only
+publication must preserve source/configuration outside docs/tasks; record its
+exact SHA, six subsequent successful CI jobs and final main recheck in the PR
+description after verification, without requiring another bookkeeping commit.

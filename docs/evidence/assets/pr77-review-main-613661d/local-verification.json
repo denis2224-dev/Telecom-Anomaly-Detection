@@ -1,0 +1,46 @@
+{
+  "sourceHeadSha": "84477ac96189f1e147898ed11b8c155c99769d06",
+  "integratedMainSha": "613661dd87b2285ba56c6b9df4c0b181dde9e2bf",
+  "drawerReproduction": {
+    "sourceSha": "d638a71de3cbac1ddcb65236c75c4c01c0989f7a",
+    "passed": 2,
+    "failed": 2,
+    "reason": "The obsolete body-width assertion expected 375px; main's mobile drawer spans the 390px viewport."
+  },
+  "focusedBrowser": {
+    "passed": 16,
+    "failed": 0,
+    "files": [
+      "service-hero.spec.ts",
+      "evidence-timeline.spec.ts"
+    ]
+  },
+  "dashboardUnit": {
+    "passed": 131,
+    "files": 26,
+    "sourceHeadSha": "be05082cda33bbe108c520e866ad65c8d461ba2f"
+  },
+  "productionBuild": "PASSED",
+  "runnerSafety": {
+    "passed": 7
+  },
+  "fullControlledBrowser": {
+    "passed": 164,
+    "failed": 0,
+    "existingOptInSkips": 21,
+    "codeEquivalentToCandidate": true
+  },
+  "initialControlledBrowser": {
+    "passed": 163,
+    "failed": 1,
+    "existingOptInSkips": 21,
+    "reason": "Inherited UTC-minute fallback race: explicit-refresh assertion expected exactly 2 catalogue reads and received 3."
+  },
+  "explicitRefreshMutation": {
+    "outcome": "FAILED_AS_EXPECTED",
+    "expectedReads": 2,
+    "actualReads": 1,
+    "mutation": "Omit the explicit Refresh overview click in an isolated untracked copy of the clock-pinned controlled test."
+  },
+  "note": "Unit/build/safety and the 16 focused checks ran before the controlled-geography-only clock fix; their relevant application/unit/build/runner source is unchanged. The complete controlled rerun ran on final candidate code immediately before its commit. Candidate CI independently reruns its own unit/build/browser gates."
+}

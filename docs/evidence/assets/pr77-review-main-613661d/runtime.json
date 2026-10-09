@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "84477ac96189f1e147898ed11b8c155c99769d06",
+  "projectName": "pr77-20261009-r9",
+  "baseURL": "http://telecom.test:18080",
+  "startedAt": "2026-10-09T11:16:37.679Z",
+  "status": "PASSED",
+  "configHashes": {
+    "compose.json": "983620761f5ad36e6f0fb150bc0987379d2c60b6cbb9a334b49791e2ccf6df3a",
+    "nginx.conf": "227dd193455b83de5bcc36658e08b0d84cb50dc8d3851a2fd5d5513b81d985ab",
+    "realm.json": "41fbd66fed886e083f1cbf0cdc1934cb9c91b981f33490ba910384236e6850f0",
+    "stack.env": "d9c1097fd88b0a7020c2b45cb05b6878f6f979ae1b363cdc8d20eb8655e56f0d"
+  },
+  "cleanup": "PASSED",
+  "dashboardAssets": {
+    "apple-touch-icon.png": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef",
+    "branding/apple-touch-icon.png": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef",
+    "branding/favicon.svg": "af4c646d2deb073ad286b1209223dc0d1e6e80811a942b3abd90e86e82aed847",
+    "branding/mark.svg": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb",
+    "branding/tracelink-icon.png": "6b4cea9115312a2b4d09eac41cb1c5c62fe35578222da4daf81b4e6392a912db",
+    "chunk-36JVBL23.js": "92b570c5ec3a95e0619e70a45be5630dbc9c7d319f426658a0e334020bfac95b",
+    "chunk-4JT2S7SF.js": "0e86b9373f3f07057e05355a06b13e2d56018f0b9db477324aee15c826767622",
+    "chunk-DDSDNLD7.js": "ce0c6713737cdf5ba61fa1e0397149272cda6d4090f01c9349f573fa5bb8560e",
+    "chunk-E4XFZNS6.js": "22f6be26361a7be965959956ab6561981971e65e0813aee891a9674feaf26d5e",
+    "chunk-ON7ZA2CV.js": "4e2fc8e44820cbf35e3be433e8103fa3e630355dcfd3e0547e01d129653d103e",
+    "chunk-OTIHDJML.js": "4fb6e189a07220b87802800fbae80e3e1c701a44cbbf3daa150324023fb70112",
+    "chunk-PPT6LNI2.js": "3f8a9774a32a0710f876731c79528f9e4f4f8cf854a65ff55e8818dbec2742d5",
+    "chunk-QKWXNM2K.js": "29cf9553f900b4c85cd688858cf83b61e04f81eabfa1edbdce1ee2fd1374cdfe",
+    "chunk-QTLR7MPO.js": "88718842a509eee88696479aacb0bf4b059f95df94f4ff4eecf36f3f5ffa002c",
+    "chunk-QWSM62R2.js": "26107bdfe2c32c309e677235bb66772f52fffa61a5106ebc3cb01a32de46c842",
+    "chunk-RI52LQT5.js": "e8a5a09fe702f5c878cee6f7e631e7100e5417ad1424843da62a939dd31967eb",
+    "chunk-RJOADIC6.js": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0",
+    "chunk-RRILKNTH.js": "b8f86d6a9290e07b72b6287e37defef8ed911415989bdb6a14b2a486affe3046",
+    "chunk-U54SGCF4.js": "b7e681f80056e1dd4958d3de12357371b8b92d095ad6c7b51768c3008ef59f20",
+    "chunk-Z2CKSO7J.js": "100ede5f94cde5ed9d4a7866da5026c28c11b392b6d546c761f96d88d9b7ad25",
+    "favicon.ico": "882d5af8bf22fc924c111e1b6c40126fa61f1b82ecca795fdc5c2a9cf272bd40",
+    "index.html": "e3a39e3b9b494817c1ce36086c7a7d41a27f1c1a45b801db6b352dc2f2b3b3d0",
+    "main-77FWP4TZ.js": "435e305db46faa9955c0fec811c6dbdf40337cb3e6a9739658e4e85024579ecc",
+    "media/mark-GSOEEAFK.svg": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb",
+    "styles-RZBO63JC.css": "3799d9bbfec2f42782d0d356b0131e21e4a8c66ebc276f5dfb576eafeffe8404"
+  },
+  "runtime": [
+    {
+      "containerId": "5eac7e226bbe",
+      "imageId": "sha256:22cfdea6c863f102cda99d9ab8c0e0ea6c5f81f348dfe91caeab003ecb8f20a2",
+      "service": "incident-service",
+      "health": "healthy",
+      "sourceSha": "84477ac96189f1e147898ed11b8c155c99769d06"
+    },
+    {
+      "containerId": "f2df218a42b6",
+      "imageId": "sha256:0ffc2d17984687c29a41d72fa2526011ffd491e766eb749ae2f882c4dc432cc5",
+      "service": "event-generator",
+      "health": "healthy",
+      "sourceSha": "84477ac96189f1e147898ed11b8c155c99769d06"
+    },
+    {
+      "containerId": "19404116876e",
+      "imageId": "sha256:d9f2f91fa44cbc8ebd8b1796fa4305efd936b51a6bab9ed5e8fcb8b2cc380860",
+      "service": "processor",
+      "health": "healthy",
+      "sourceSha": "84477ac96189f1e147898ed11b8c155c99769d06"
+    },
+    {
+      "containerId": "019b77d1c430",
+      "imageId": "sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+      "service": "proxy",
+      "health": "healthy"
+    },
+    {
+      "containerId": "c1b45df11e1c",
+      "imageId": "sha256:6bf5b24f8f5fea197355f3160e7a7f1dc3165a1e58c8aa3a8f0b2fc5a71a0cd2",
+      "service": "history-bootstrap",
+      "sourceSha": "84477ac96189f1e147898ed11b8c155c99769d06"
+    },
+    {
+      "containerId": "7305b48251f5",
+      "imageId": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "service": "keycloak",
+      "health": "healthy"
+    },
+    {
+      "containerId": "068fb121de72",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "service": "kafka-init"
+    },
+    {
+      "containerId": "1931ae6775b1",
+      "imageId": "sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c",
+      "service": "postgres",
+      "health": "healthy"
+    },
+    {
+      "containerId": "4b32b172c755",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "service": "kafka",
+      "health": "healthy"
+    },
+    {
+      "containerId": "dbe9d7650e54",
+      "imageId": "sha256:a5156d9ffaccd8f425f4a3cb5b9dc56bec2d32e695a5fb5654a81119a4b2d7f0",
+      "service": "ml-service",
+      "health": "healthy",
+      "sourceSha": "84477ac96189f1e147898ed11b8c155c99769d06"
+    }
+  ],
+  "verificationSha256": "b4020db109f645dc3b7881b7669340c8cfec342a50f2641d6eff499e328ac44c",
+  "credentialCleanup": "PASSED",
+  "finishedAt": "2026-10-09T12:15:07.912Z"
+}

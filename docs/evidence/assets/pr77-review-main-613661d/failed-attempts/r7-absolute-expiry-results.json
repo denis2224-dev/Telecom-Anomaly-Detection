@@ -1,0 +1,17 @@
+{
+  "sourceSha": "be05082cda33bbe108c520e866ad65c8d461ba2f",
+  "status": "FAILED",
+  "mode": "original backend absolute deadline; trusted key input each minute",
+  "clock": {
+    "serverDate": "2026-10-09T10:14:39.000Z",
+    "absoluteDeadline": "2026-10-09T10:44:39.846102855Z",
+    "hostServerSkewMs": 987,
+    "browserHostSkewMs": -2
+  },
+  "timingAnchors": {
+    "wallStartUTC": "2026-10-09T10:14:39.998Z",
+    "monotonicStartMs": 1519883.3149,
+    "browserMonotonicStartMs": 353.30000000074506,
+    "expectedRemainingMs": 1799848
+  }
+}

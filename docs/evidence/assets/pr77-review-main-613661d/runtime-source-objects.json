@@ -1,0 +1,102 @@
+{
+  "runtimeTestedSha": "84477ac96189f1e147898ed11b8c155c99769d06",
+  "integratedMainSha": "613661dd87b2285ba56c6b9df4c0b181dde9e2bf",
+  "comparison": "Compare each root entry with the publication head; only docs/tasks may differ.",
+  "entries": [
+    {
+      "path": ".dockerignore",
+      "kind": "blob",
+      "gitObjectId": "737afd2a552692b8a88645160d7e848cbac31fb6"
+    },
+    {
+      "path": ".env.example",
+      "kind": "blob",
+      "gitObjectId": "93ff6c3d5591069882c7dfafb0f03413f7d5154c"
+    },
+    {
+      "path": ".gitattributes",
+      "kind": "blob",
+      "gitObjectId": "3a9911e6a3ab6f8e6f42716fc5e30bd576eb394a"
+    },
+    {
+      "path": ".github",
+      "kind": "tree",
+      "gitObjectId": "3bf41cc023872ed68907949e6c8cb891e769c6b0"
+    },
+    {
+      "path": ".gitignore",
+      "kind": "blob",
+      "gitObjectId": "c80c85197b456ffbf97ad3ebfa0fb66c34468c29"
+    },
+    {
+      "path": ".mvn",
+      "kind": "tree",
+      "gitObjectId": "282ae9ee2617d45a3fa5c2c7f133ad43071032f3"
+    },
+    {
+      "path": "README.md",
+      "kind": "blob",
+      "gitObjectId": "d0e7101406cb86b7b6c399c2e885cab24f3e16a5"
+    },
+    {
+      "path": "apps",
+      "kind": "tree",
+      "gitObjectId": "e9258cd1a30162e6cecc788c9b5f7d5b51d569f5"
+    },
+    {
+      "path": "compose.yaml",
+      "kind": "blob",
+      "gitObjectId": "916817bc32aa538cb9bfb0eaa428e87cdc63e558"
+    },
+    {
+      "path": "contracts",
+      "kind": "tree",
+      "gitObjectId": "b8a188cf8de68788cc5db75ec36f75152d40f5bc"
+    },
+    {
+      "path": "design",
+      "kind": "tree",
+      "gitObjectId": "f433838a509e89301ae6192a0fff142cbb71418a"
+    },
+    {
+      "path": "infra",
+      "kind": "tree",
+      "gitObjectId": "fdf02b6649c0de9324717a725d2f888112e6021d"
+    },
+    {
+      "path": "mvnw",
+      "kind": "blob",
+      "gitObjectId": "bd8896bf2217b46faa0291585e01ac1a3441a958"
+    },
+    {
+      "path": "mvnw.cmd",
+      "kind": "blob",
+      "gitObjectId": "92450f93273470af42eeee491874afb2039b700a"
+    },
+    {
+      "path": "pom.xml",
+      "kind": "blob",
+      "gitObjectId": "508f84b8cb39781fdeb35146713d952ba3e7f5e6"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "kind": "blob",
+      "gitObjectId": "d482df8b38283e4faaf5dc5129e40d9edb623ba0"
+    },
+    {
+      "path": "scripts",
+      "kind": "tree",
+      "gitObjectId": "81cab607e1d46a60965f4607ecc7efc5a231a3b9"
+    },
+    {
+      "path": "services",
+      "kind": "tree",
+      "gitObjectId": "202bca9ab618816eee35326001da5cfa85404004"
+    },
+    {
+      "path": "tests",
+      "kind": "tree",
+      "gitObjectId": "341c70134c05ac3b59d6cfc62e6885ac08281fc5"
+    }
+  ]
+}
