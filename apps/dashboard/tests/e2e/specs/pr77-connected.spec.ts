@@ -100,6 +100,7 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
 
     // Fresh API values are compared to the actual map, queue and immutable detail rendering.
     await analyst.page.goto('/dashboard');
+    await analyst.page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await analyst.page.getByLabel('Region', { exact: true }).fill('Chișinău');
     await expect(analyst.page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', volte.scopeId);
     await expect(analyst.page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', sms.scopeId);
@@ -113,7 +114,8 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
       expect(item?.scopeId).toBe(run.scopeId);
       expect(item?.cityId).toBe('CHI');
       const card = analyst.page.locator('.queue-item').filter({ has: analyst.page.locator(`a[href="/incidents/${incident.id}"]`) });
-      await expect(card).toContainText(`Technical: ${item!.technicalState}`);
+      await expect(card.locator('.incident-state').filter({ hasText: 'Technical state' })
+        .locator('.badge')).toHaveText(item!.technicalState);
       await expect(card).toContainText(item!.priorityBand);
       await expect(card).toContainText(item!.impactUnit ?? 'Impact unavailable');
     }
@@ -156,16 +158,21 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
         await expect(cells.nth(1)).toHaveText(kpi.baseline === null ? 'Unavailable' : String(kpi.baseline));
         await expect(cells.nth(2)).toHaveText(kpi.unit);
       }
-      await entry.getByText('Source evidence', { exact: true }).click();
-      for (const evidence of d.evidence) await expect(entry).toContainText(evidence.summary);
       await entry.getByText('Troubleshooting', { exact: true }).click();
       await expect(entry).toContainText(run.scopeId);
       await expect(entry).toContainText(d.topologyVersion);
-      for (const evidence of d.evidence) for (const id of evidence.sourceEventIds) await expect(entry).toContainText(id);
+      for (const evidence of d.evidence) {
+        await expect(entry).toContainText(`Evidence code: ${evidence.code} · Node: ${evidence.nodeId ?? 'Unavailable'}`);
+        for (const id of evidence.sourceEventIds) await expect(entry.getByText(id, { exact: true }).first()).toBeVisible();
+      }
       await entry.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
-      await expect(entry.locator('app-cause-evidence')).toContainText(probableCause(d));
+      await expect(entry.locator('app-cause-evidence .cause-summary')).toHaveAttribute('title', probableCause(d));
       await expect(entry.locator('app-cause-evidence')).toContainText(d.causeConfidence);
-      await expect(entry.locator('.evidence-impact')).toContainText('Unique customers: Unavailable');
+      // Current presentation omits unsupported customer counts; durable evidence
+      // below still requires uniqueSubscribers=null for every immutable update.
+      await expect(entry.locator('.evidence-impact')).not.toContainText(/Unique customers|Unique subscribers/);
+      await expect(entry.locator('[data-fact="paths"]')).toContainText('Unavailable');
+      await expect(entry.locator('[data-fact="classification"]')).toContainText('Unavailable');
       if (d.service === 'VOLTE') await expect(entry.locator('.evidence-impact')).toContainText(`Estimated extra failed attempts: ${d.impact.extraFailedAttempts}`);
       else {
         await expect(entry.locator('.evidence-impact')).toContainText(`Affected delivered messages: ${d.impact.affectedDeliveredMessages}`);
