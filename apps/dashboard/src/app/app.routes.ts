@@ -9,6 +9,7 @@ export const routes: Routes = [
   { path: "", pathMatch: "full", redirectTo: "dashboard" },
   { path: "login", component: LoginComponent },
   { path: "dashboard", component: ServiceOverviewComponent, canActivate: [sessionGuard] },
+  { path: 'roaming', loadComponent: () => import('./features/roaming/roaming-overview.component').then(module => module.RoamingOverviewComponent), canActivate: [sessionGuard] },
   { path: "services/:scopeId", loadComponent: () => import('./features/service-kpi-history/service-detail.component').then(module => module.ServiceDetailComponent), canActivate: [sessionGuard] },
   { path: "incidents/:id", loadComponent: () => import('./features/incident-investigation/incident-detail.component').then(module => module.IncidentDetailComponent), canActivate: [sessionGuard] },
   { path: 'scenarios', loadComponent: () => import('./features/scenario-runner/scenario-runner.component').then(module => module.ScenarioRunnerComponent), canActivate: [sessionGuard] },

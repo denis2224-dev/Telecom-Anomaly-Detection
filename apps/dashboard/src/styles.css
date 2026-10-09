@@ -184,7 +184,7 @@ main:has(app-service-detail) { padding-top: 8px; }
 .service-hero .actual-line { animation: none; }
 app-connected-overview .compact-chart { padding: 0 8px; margin: 0; box-shadow: none; background: var(--transparent); }
 app-connected-overview .compact-chart .plot-wrapper { margin: 0; }
-app-connected-overview .compact-chart .chart-scroll { height: 260px; overflow: hidden; }
+app-connected-overview .compact-chart .chart-scroll { height: 200px; overflow: hidden; }
 app-connected-overview .compact-chart svg { min-width: 0; }
 app-connected-overview .compact-chart .actual-line { animation: none; }
 app-connected-overview .compact-chart .chart-tooltip { inset: 4px 8px auto auto; padding: 8px; font-size: 10px; }
@@ -220,3 +220,42 @@ html:has(.drawer-panel[open]) { overflow: hidden; }
 .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 16px 16px auto auto; width: min(480px, calc(100vw - 32px)); height: auto; max-height: calc(100dvh - 32px); padding: 20px; border-radius: var(--radius); }
 .episode-evidence .drawer-content, .queue-panel .drawer-content { padding-bottom: 8px; }
 @media (max-width: 600px) { .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 12px 12px auto auto; width: calc(100vw - 24px); max-height: calc(100dvh - 24px); padding: 16px; } }
+
+/* Shared monitoring views */
+.traffic-success-bar { fill: var(--success); opacity: .28; }
+.traffic-failed-bar { fill: var(--danger); opacity: .7; }
+.secondary-line { fill: none; stroke: var(--info); stroke-width: 2; }
+.threshold-line { stroke: var(--warning); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.secondary-key::before { background: var(--info); }
+.topology-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: var(--surface); padding: 12px; border-radius: var(--radius); margin: 12px 0; }
+.topology-strip > div { display: grid; gap: 6px; flex: 1; min-width: 150px; font-size: 12px; }
+.topology-strip small { color: var(--text-muted); }
+.topology-strip .badge { width: fit-content; }
+@media (max-width: 600px) {
+  button, a.button, input, select, .drawer-panel button, .drawer-panel .button { min-height: 44px; }
+  .drawer-panel, .drawer-panel.episode-evidence, .drawer-panel.queue-panel { inset: 0; width: 100%; height: 100dvh; max-height: 100dvh; max-width: 100%; border-radius: 0; padding: 16px; }
+  .topology-strip { display: grid; grid-template-columns: 1fr; }
+  .topology-strip > span { display: none; }
+}
+
+.live-summary { padding: 14px; margin: 12px 0; }
+.live-summary h2 { font-size: 16px; margin: 0; }
+.live-summary .episode-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.live-service-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.live-service-chips a { display: flex; align-items: center; gap: 12px; padding: 10px; background: var(--field); border-radius: var(--radius-control); }
+.live-summary p { color: var(--text-muted); font-size: 12px; }
+.live-incident { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; margin-bottom: 8px; background: var(--field); border-radius: var(--radius-control); }
+.live-incident small { color: var(--text-muted); }
+@media(max-width:600px) { .live-service-chips { display: grid; grid-template-columns: 1fr; } .live-incident { display: grid; grid-template-columns: auto 1fr; } }
+
+.service-hero .traffic-chart .chart-scroll { height: clamp(260px, 40vh, 430px); }
+@media(max-width:600px) {
+  .service-toolbar input, .service-toolbar select, .service-toolbar button { min-height: 44px; height: auto; }
+}
+
+app-roaming-overview .hero-chart { margin: 0; padding: 0; box-shadow: none; background: var(--transparent); }
+app-roaming-overview .plot-wrapper { margin: 0; }
+app-roaming-overview .hero-chart .chart-scroll { height: 260px; }
+app-roaming-overview .compact .hero-chart .chart-scroll { height: 185px; }
+app-roaming-overview .actual-line, app-scenario-preview .actual-line { animation: none; }
+@media(max-width:600px) { .service-hero .hero-chart .chart-scroll { height: 260px; } }

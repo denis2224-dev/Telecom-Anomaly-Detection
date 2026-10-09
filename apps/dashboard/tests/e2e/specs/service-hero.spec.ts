@@ -143,7 +143,7 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
   await expect(drawer).not.toContainText('Supporting evidence');
   await expect(drawer).not.toContainText('Recommended checks');
   expect(await snapshot()).toEqual(before);
-  expect((await drawer.boundingBox())!.width).toBeCloseTo(Math.min(480, width - (width <= 600 ? 24 : 32)), 0);
+  expect((await drawer.boundingBox())!.width).toBeCloseTo(width <= 600 ? width : Math.min(480, width - 32), 0);
   const close = drawer.getByRole('button', { name: 'Close incident evidence', exact: true });
   await expect(close).not.toBeFocused();
   await expect(close).toHaveCSS('box-shadow', 'none');
@@ -166,8 +166,8 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
   await expect(page.locator('dialog[open]')).toHaveCount(1);
   expect(await body.evaluate(node => node.scrollTop)).toBe(0);
   const compact = (await drawer.boundingBox())!;
-  expect(compact.height).toBeLessThan(850);
-  expect(compact.y).toBe(width <= 600 ? 12 : 16);
+  if (width <= 600) expect(compact.height).toBe(900); else expect(compact.height).toBeLessThan(850);
+  expect(compact.y).toBe(width <= 600 ? 0 : 16);
   await page.screenshot({ path: info.outputPath(`compact-evidence-${service}-${width}.png`), animations: 'disabled' });
   await page.keyboard.press('Escape');
   await expect(rows.nth(8).getByRole('link', { name: 'Open incident detail', exact: true })).toBeVisible();

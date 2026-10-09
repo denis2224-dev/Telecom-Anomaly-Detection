@@ -118,6 +118,7 @@ for (const width of [1366, 768, 390]) {
     await page.setViewportSize({ width, height: 900 });
     const state = await liveApi(page);
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.locator('.city-marker')).toHaveCount(9);
     await expect(page.locator('.map-table')).not.toContainText('Mapping pending');
     await expect(page.locator('.city-marker .node-label small')).toHaveCount(9);
@@ -153,6 +154,7 @@ test('LIVE geography outages and missing history never substitute fixture values
   const state = await liveApi(page);
   state.geographyStatus = 503;
   await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'City catalogue unavailable' })).toBeVisible();
   await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
   state.geographyStatus = 200;
@@ -171,6 +173,7 @@ test('LIVE geography outages and missing history never substitute fixture values
 test('changing city clears unrelated topology when the new city read fails', async ({ page }, info) => {
   await liveApi(page);
   await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
   await page.getByLabel('Region', { exact: true }).fill('Chișinău');
   await page.getByText('Containment and dependencies', { exact: true }).click();
   const topology = page.locator('app-city-evidence details').filter({ has: page.locator('summary', { hasText: 'Containment and dependencies' }) }).first();
@@ -187,6 +190,7 @@ test('changing city clears unrelated topology when the new city read fails', asy
 test('city history failure does not label previous rows as the new page', async ({ page }) => {
   const state = await liveApi(page);
   await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
   await page.getByLabel('Region', { exact: true }).fill('Chișinău');
   await page.getByText('Chișinău · City coverage and history', { exact: true }).click();
   await expect(page.locator('[data-city-window]')).toHaveCount(4);
@@ -210,6 +214,7 @@ test('a new observed minute preserves the selected topology parent', async ({ pa
         parentId, kind: parentId === 'CITY-MD-CHI' ? 'AGGREGATION' : 'CELL', measured: false }] } });
   });
   await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
   await page.getByLabel('Region', { exact: true }).fill('Chișinău');
   await page.getByText('Containment and dependencies', { exact: true }).click();
   await page.getByRole('button', { name: 'AGGREGATION AGG-MD-CHI-01', exact: true }).click();
@@ -250,6 +255,7 @@ for (const width of [1366, 768, 390]) {
     };
     state.incidents.push(orhei);
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
     await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);
     await expect(page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', 'VOLTE-MD-ORH');
@@ -301,6 +307,7 @@ for (const width of [1366, 768, 390]) {
     await page.setViewportSize({ width, height: 900 });
     const state = await liveApi(page);
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await page.getByLabel('Region', { exact: true }).fill('Orhei');
     await page.getByRole('button', { name: '30d', exact: true }).click();
     await expect(page.getByRole('button', { name: '30d', exact: true })).toHaveAttribute('aria-pressed', 'true');

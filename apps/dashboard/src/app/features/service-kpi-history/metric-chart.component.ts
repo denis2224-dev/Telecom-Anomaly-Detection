@@ -13,23 +13,29 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
         <div class="chart-tooltip" [class.tooltip-visible]="hovered() !== null" aria-live="polite">
           @if (hovered(); as row) { <span>{{ row.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} UTC</span><strong>{{ format(value(row), unit()) }}</strong>
             @if (traffic()) { @if (counts(row); as count) { <small>{{ name() === 'cssrPct' ? 'Successful calls' : 'Delivered messages' }}: {{ format(count.success, 'COUNT') }} · Failed: {{ format(count.failed, 'COUNT') }}</small> } @else { <small>Traffic counts: Unavailable</small> } }
+            @if (secondaryName()) { <small>{{ secondaryTitle() }}: {{ format(secondaryValue(row), 'COUNT') }}</small> }
             <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> }
         </div>
         <div class="chart-scroll" tabindex="0" [attr.aria-label]="name() === 'cssrPct' ? 'Scrollable CSSR chart' : title() + ' chart'" (keydown)="navigate($event)" (blur)="hoveredId.set(null)">
 
-        <svg #plot [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="traffic() ? title() + ': successful and failed traffic lines on the left axis, success rate and baseline on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
+        <svg #plot [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="traffic() ? title() + ': successful and failed traffic on the left axis, success rate and baseline on the right axis' : secondaryName() ? title() + ': ' + secondaryTitle() + ' on the left axis, ' + unitLabel() + ' on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
           <title>{{ title() }} · {{ unit() }}</title><desc [id]="chartId + '-description'">Blank gaps mean unavailable observations. Phase bands follow persisted detections; healthy points alone do not prove recovery. Focus the chart and use arrow keys, Home or End to inspect values.</desc>
           @for (interval of incidentBands(); track $index) { <rect class="incident-band" [attr.x]="x(interval.start)" y="15" [attr.width]="Math.max(1, x(interval.end) - x(interval.start))" [attr.height]="plotHeight() - 60"><title>Incident interval {{ interval.start }} – {{ interval.end }}</title></rect> }
           @for (band of bands(); track $index) { <rect [attr.data-phase]="band.phase" [attr.class]="'phase-band ' + band.phase" [attr.x]="x(band.start)" y="15" [attr.width]="Math.max(1, x(band.end) - x(band.start))" [attr.height]="plotHeight() - 60"><title>{{ band.phase }} {{ band.start }} – {{ band.end }}</title></rect> }
-          @for (tick of ticks(); track tick) { <line x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="y(tick)" [attr.y2]="y(tick)" class="chart-grid"/><text [attr.x]="traffic() ? plotWidth() - 55 : 55" [attr.y]="y(tick) + 4" [attr.text-anchor]="traffic() ? 'start' : 'end'">{{ tickFormat(tick) }}{{ traffic() ? '%' : '' }}</text> }
-          @if (traffic()) {
+          @for (tick of ticks(); track tick) { <line x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="y(tick)" [attr.y2]="y(tick)" class="chart-grid"/><text [attr.x]="dualAxis() ? plotWidth() - 55 : 55" [attr.y]="y(tick) + 4" [attr.text-anchor]="dualAxis() ? 'start' : 'end'">{{ tickFormat(tick) }}{{ traffic() ? '%' : '' }}</text> }
+          @if (dualAxis()) {
             @for (tick of countTicks(); track tick) { <text x="55" [attr.y]="countY(tick) + 4" text-anchor="end">{{ tickFormat(tick) }}</text> }
-            <path class="traffic-success" [attr.d]="trafficPath(true)" /><path class="traffic-failed" [attr.d]="trafficPath(false)" />
-            @if (rows().length < 120) { @for (item of trafficRows(); track item.row.windowId) {
+            @if (secondaryName()) { <path class="secondary-line" [attr.d]="secondaryPath()" /> }
+            @if (trafficBars()) { @for (item of trafficRows(); track item.row.windowId) {
+              <rect class="traffic-success-bar" [attr.x]="rowX(item.row) - barWidth() / 2" [attr.y]="countY(item.count.success)" [attr.width]="barWidth()" [attr.height]="countY(0) - countY(item.count.success)"><title>Successful calls: {{ item.count.success }}</title></rect>
+              <rect class="traffic-failed-bar" [attr.x]="rowX(item.row) - barWidth() / 2" [attr.y]="countY(item.count.total)" [attr.width]="barWidth()" [attr.height]="countY(item.count.success) - countY(item.count.total)"><title>Failed calls: {{ item.count.failed }}</title></rect>
+            } } @else if (traffic()) { <path class="traffic-success" [attr.d]="trafficPath(true)" /><path class="traffic-failed" [attr.d]="trafficPath(false)" /> }
+            @if (traffic() && !trafficBars() && rows().length < 120) { @for (item of trafficRows(); track item.row.windowId) {
               <circle class="traffic-success-dot" [attr.cx]="rowX(item.row)" [attr.cy]="countY(item.count.success)" r="2.5" />
               <circle class="traffic-failed-dot" [attr.cx]="rowX(item.row)" [attr.cy]="countY(item.count.failed)" r="2.5" />
             } }
           }
+          @if (threshold() !== null) { <line class="threshold-line" x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="y(threshold()!)" [attr.y2]="y(threshold()!)"><title>Reference threshold {{ threshold() }} {{ unitLabel() }} · display guide, not a detector rule</title></line> }
           <path class="expected-line" [attr.d]="path(true)"/><path class="actual-line" [attr.d]="path(false)"/>
           @if (rows().length < 120) { @for (row of rows(); track row.windowId) { @if (value(row) !== null) { <circle class="actual-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="3"><title>{{ row.windowStart }}: {{ format(value(row), unit()) }} · {{ phase(row) }}</title></circle> } } }
           @if (hovered(); as row) {
@@ -61,8 +67,14 @@ export class MetricChartComponent {
   readonly hero = input(false);
   readonly compact = input(false);
   readonly traffic = input(false);
+  readonly trafficBars = input(false);
+  readonly secondaryName = input('');
+  readonly secondaryTitle = input('Queue depth');
+  readonly threshold = input<number | null>(null);
+  readonly dualAxis = computed(() => this.traffic() || !!this.secondaryName());
+  readonly barWidth = computed(() => Math.max(1, Math.min(18, (this.plotWidth() - 65 - this.plotRight()) / Math.max(1, this.rows().length) * .6)));
   readonly windowSelected = output<KpiWindow | null>();
-  readonly plotRight = computed(() => this.traffic() ? 65 : 24);
+  readonly plotRight = computed(() => this.dualAxis() ? 65 : 24);
   readonly loading = input(false);
   readonly axisDateFormat = computed(() => Date.parse(this.to()) - Date.parse(this.from()) > 86_400_000 ? 'dd MMM' : 'HH:mm');
   readonly incidents = input<Incident[]>([]);
@@ -138,6 +150,7 @@ export class MetricChartComponent {
   }
   readonly bounds = computed(() => {
     const values = this.rows().flatMap(row => [this.value(row), this.baseline(row)]).filter((v): v is number => v != null && Number.isFinite(v));
+    if (this.threshold() !== null && Number.isFinite(this.threshold())) values.push(this.threshold()!);
     if (!values.length) return [0, 1];
     const min = Math.min(...values), max = Math.max(...values), margin = Math.max((max - min) * .1, Math.abs(max) * .001, .000001);
     return [Math.max(0, min - margin), this.traffic() && max <= 100 ? Math.min(100, max + margin) : max + margin];
@@ -175,11 +188,22 @@ export class MetricChartComponent {
     const count = this.counts(row);
     return count ? [{ row, count }] : [];
   }));
-  readonly countMax = computed(() => Math.max(1, ...this.trafficRows().map(item => item.count.total)));
+  readonly countMax = computed(() => Math.max(1, ...this.trafficRows().map(item => item.count.total), ...this.rows().map(row => this.secondaryName() ? metricValue(row, this.secondaryName()) ?? 0 : 0)));
   readonly countTicks = computed(() => [0, this.countMax() / 2, this.countMax()]);
   countY(value: number): number { return this.plotHeight() - 45 - (this.plotHeight() - 60) * value / this.countMax(); }
   rowTime(row: KpiWindow): number { return this.traffic() ? (Date.parse(row.windowStart) + Date.parse(row.windowEnd)) / 2 : Date.parse(row.windowStart); }
   rowX(row: KpiWindow): number { return this.x(new Date(this.rowTime(row)).toISOString()); }
+  secondaryValue(row: KpiWindow) { return metricValue(row, this.secondaryName()); }
+  secondaryPath(): string {
+    let connected = false, previousEnd = '', result = '';
+    for (const row of this.rows()) {
+      const value = metricValue(row, this.secondaryName());
+      if (value === null) { connected = false; continue; }
+      result += `${connected && previousEnd === row.windowStart ? 'L' : 'M'}${this.rowX(row)},${this.countY(value)} `;
+      connected = true; previousEnd = row.windowEnd;
+    }
+    return result.trim();
+  }
   trafficPath(success: boolean): string {
     let connected = false, previousEnd = '', result = '';
     for (const row of this.rows()) {

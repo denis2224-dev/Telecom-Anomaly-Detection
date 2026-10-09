@@ -61,6 +61,13 @@ export class ServiceOverviewComponent {
   readonly incidentError = this.store.incidentError;
   readonly serviceFilter = signal<Filter>('ALL');
   readonly connected = signal(true);
+  readonly liveOnly = signal(false);
+  readonly activeIncidents = computed(() => this.store.incidents().filter(item => item.technicalState === 'ONGOING'));
+  serviceState(service: string): string {
+    const states = this.services().filter(item => item.scope.service === service).map(item => this.health(item));
+    return ['DEGRADED','STALE','UNKNOWN','NORMAL'].find(state => states.includes(state as ServiceHealth)) ?? 'UNKNOWN';
+  }
+  serviceTarget(service: string): string | undefined { return this.services().find(item => item.scope.service === service)?.scope.scopeId; }
   private readonly router = inject(Router);
   setService(service: Filter): void {
     void this.router.navigate(['/dashboard'], { queryParams: { service: service === 'ALL' ? null : service }, queryParamsHandling: 'merge' });
@@ -92,6 +99,7 @@ export class ServiceOverviewComponent {
       const service = params.get('service');
       this.serviceFilter.set(service === 'VOLTE' || service === 'SMS' ? service : 'ALL');
       this.connected.set(params.get('view') !== 'scopes');
+      this.liveOnly.set(params.get('view') === 'live');
     });
     inject(ActivatedRoute)
       .paramMap.pipe(takeUntilDestroyed(this.destroyRef))

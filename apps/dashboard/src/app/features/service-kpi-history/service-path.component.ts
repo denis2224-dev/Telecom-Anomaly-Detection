@@ -6,7 +6,12 @@ import geography from '../../../../../../contracts/geography/demo-geography-v1.j
 import { Detection, formatMetric, metricValue } from './assurance-model';
 @Component({
   selector: 'app-service-path',
-  template: `<section class="detail-panel"><h2>Monitored service dependencies</h2>
+  template: `@if (compact()) { <section class="topology-strip" aria-label="VoLTE IMS architecture">
+    <div><strong>City access / transport</strong><span class="badge" data-state="UNKNOWN">Local status unavailable</span><small>{{ service().scope.region }} · {{ service().scope.scopeId }}</small></div>
+    <span aria-hidden="true">→</span><div><strong>IMS core</strong><span class="badge" data-state="UNKNOWN">Local status unavailable</span><small>Service CPU context: {{ format(value('imsCpuPct'), 'PERCENT') }}</small></div>
+    <span aria-hidden="true">→</span><div><strong>Interconnect</strong><span class="badge" data-state="UNKNOWN">Unavailable</span><small>Other operators</small></div>
+    <div><strong>Roaming</strong><span class="badge" data-state="UNKNOWN">Unavailable</span><small>Country evidence pending</small></div>
+  </section> } @else { <section class="detail-panel"><h2>Monitored service dependencies</h2>
     <p class="muted">{{ service().scope.scopeId }} · {{ service().latestWindow?.topologyVersion ?? 'Topology version unavailable' }} · Logical support relationships</p>
     <div class="dependency-flow" aria-label="Service source and monitored dependencies">
       <article class="dependency-node"><h3>{{ source() }}</h3><strong>{{ service().freshness }} / {{ service().latestWindow?.quality ?? 'MISSING' }}</strong><p>Service observation source</p></article>
@@ -21,10 +26,10 @@ import { Detection, formatMetric, metricValue } from './assurance-model';
         </article>
       }
     </div><p class="muted">No link alarm is required for service degradation. Observations and correlation do not prove causation.</p>
-  </section>`,
+  </section> }`,
 })
 export class ServicePathComponent {
-  readonly service = input.required<ServiceSummary>(); readonly detections = input<Detection[]>([]);
+  readonly compact = input(false); readonly service = input.required<ServiceSummary>(); readonly detections = input<Detection[]>([]);
   readonly format = formatMetric;
   source() {
     const authority = this.service().latestWindow?.topologyVersion === geographicTopology.topologyVersion ? geographicTopology : topology;

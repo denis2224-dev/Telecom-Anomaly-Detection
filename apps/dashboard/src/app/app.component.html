@@ -9,7 +9,7 @@
       </a>
       <div class="sidebar-section-label">WORKSPACE</div>
       <nav aria-label="Workspace" class="sidebar-nav">
-        <a routerLink="/dashboard" routerLinkActive="active" [class.active]="pageTitle() !== 'Scenario runner'" class="nav-link" aria-label="Service overview" title="Service overview" (click)="mobileOpen.set(false)"><app-icon name="grid" /><span>Service overview</span></a>
+        <a routerLink="/dashboard" routerLinkActive="active" [class.active]="pageTitle() === 'Service overview'" class="nav-link" aria-label="Service overview" title="Service overview" (click)="mobileOpen.set(false)"><app-icon name="grid" /><span>Service overview</span></a>
         @if (session.actor()?.roles?.includes('SUPERVISOR') || session.actor()?.roles?.includes('ADMIN')) {
           <a routerLink="/scenarios" routerLinkActive="active" class="nav-link" aria-label="Scenario runner" title="Scenario runner" (click)="mobileOpen.set(false)"><app-icon name="play" /><span>Scenario runner</span></a>
         }
@@ -18,6 +18,7 @@
         <div class="sidebar-section-label">SERVICE ASSURANCE</div>
         <a class="nav-link" [routerLink]="serviceScope('VOLTE') ? ['/services', serviceScope('VOLTE')] : null" [class.active]="serviceActive('VOLTE')" [attr.aria-current]="serviceActive('VOLTE') ? 'page' : null" [attr.aria-disabled]="!serviceScope('VOLTE')" aria-label="VoLTE setup" title="VoLTE setup" (click)="mobileOpen.set(false)"><app-icon name="signal" /><span>VoLTE setup</span></a>
         <a class="nav-link" [routerLink]="serviceScope('SMS') ? ['/services', serviceScope('SMS')] : null" [class.active]="serviceActive('SMS')" [attr.aria-current]="serviceActive('SMS') ? 'page' : null" [attr.aria-disabled]="!serviceScope('SMS')" aria-label="SMS delivery" title="SMS delivery" (click)="mobileOpen.set(false)"><app-icon name="message" /><span>SMS delivery</span></a>
+        <a class="nav-link" routerLink="/roaming" routerLinkActive="active" aria-label="Roaming preview" title="Roaming preview" (click)="mobileOpen.set(false)"><app-icon name="signal" /><span>Roaming preview</span></a>
         <a class="nav-link" routerLink="/dashboard" fragment="incident-queue" aria-label="Incident investigation" title="Incident investigation" (click)="mobileOpen.set(false)"><app-icon name="shield" /><span>Incident investigation</span></a>
       </div>
       <div class="sidebar-bottom">
