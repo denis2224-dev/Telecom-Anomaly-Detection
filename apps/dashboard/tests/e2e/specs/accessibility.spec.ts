@@ -122,7 +122,7 @@ test('chart summary, exact values, nulls, measured zero, zero denominator', asyn
   Object.assign(cssr, { observed: 0, numerator: 0, denominator: 1000 });
   await page.goto(`/services/${state.summary.scope.scopeId}`);
   const chart = page.locator('.service-hero svg[role="img"]');
-  await expect(chart).toHaveAccessibleName('Actual and expected voice call setup success');
+  await expect(chart).toHaveAccessibleName(/successful and failed traffic on the left axis, success rate and baseline on the right axis/);
   await expect(chart).toHaveAccessibleDescription(/Blank gaps mean unavailable observations/);
   await page.getByText(/^Exact values \(/).click();
   const table = page.locator('app-kpi-chart').getByRole('table');
