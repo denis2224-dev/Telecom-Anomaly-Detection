@@ -1,0 +1,204 @@
+Pager usage is off.
+SELECT catalogue_version AS cat, topology_version AS topo
+FROM app.geo_catalogue_versions
+WHERE activation_status = 'ACTIVE'
+ORDER BY effective_from DESC LIMIT 1
+SELECT count(*) AS kpi_rows FROM app.service_kpi_windows;
+ kpi_rows
+----------
+   110573
+(1 row)
+
+SELECT count(*) AS coverage_rows FROM app.scope_window_coverage;
+ coverage_rows
+---------------
+          8881
+(1 row)
+
+SELECT count(*) AS incident_rows FROM app.incidents;
+ incident_rows
+---------------
+            16
+(1 row)
+
+EXPLAIN (ANALYZE, BUFFERS)
+WITH ranked AS (
+  SELECT w.*, row_number() OVER (
+    PARTITION BY w.service, w.scope_id, w.window_start
+    ORDER BY w.received_at DESC, w.window_id DESC
+  ) AS rank
+  FROM app.service_kpi_windows w
+  WHERE w.scope_id = 'VOLTE-MD-ORH' AND w.service = 'VOLTE'
+    AND w.window_start >= now() - interval '24 hours'
+    AND w.window_start < now()
+)
+SELECT w.window_id, w.window_start, c.coverage_id
+FROM ranked w LEFT JOIN app.scope_window_coverage c
+  ON c.window_id = w.window_id AND c.scope_id = w.scope_id
+ AND c.service = w.service AND c.window_start = w.window_start
+ AND c.window_end = w.window_end AND c.topology_version = w.topology_version
+ AND c.catalogue_version = '2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473'
+WHERE w.rank = 1 AND w.topology_version = '2-geography-g1'
+ORDER BY w.window_start, w.window_id LIMIT 101;
+                                                                                                                                      QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=43.98..44.02 rows=2 width=138) (actual time=1.259..2.146 rows=101 loops=1)
+   Buffers: shared hit=308 read=134
+   ->  Incremental Sort  (cost=43.98..44.02 rows=2 width=138) (actual time=1.258..2.141 rows=101 loops=1)
+         Sort Key: w.window_start, w.window_id
+         Presorted Key: w.window_start
+         Full-sort Groups: 4  Sort Method: quicksort  Average Memory: 33kB  Peak Memory: 33kB
+         Buffers: shared hit=308 read=134
+         ->  Nested Loop Left Join  (cost=5.04..43.97 rows=1 width=138) (actual time=0.546..2.112 rows=102 loops=1)
+               Buffers: shared hit=305 read=134
+               ->  Subquery Scan on w  (cost=4.75..35.64 rows=1 width=112) (actual time=0.521..1.819 rows=102 loops=1)
+                     Filter: ((w.rank = 1) AND ((w.topology_version)::text = '2-geography-g1'::text))
+                     Buffers: shared hit=2 read=131
+                     ->  WindowAgg  (cost=4.75..35.52 rows=8 width=552) (actual time=0.520..1.810 rows=102 loops=1)
+                           Run Condition: (row_number() OVER (?) <= 1)
+                           Buffers: shared hit=2 read=131
+                           ->  Incremental Sort  (cost=4.75..35.32 rows=8 width=120) (actual time=0.515..1.768 rows=102 loops=1)
+                                 Sort Key: w_1.window_start, w_1.received_at DESC, w_1.window_id DESC
+                                 Presorted Key: w_1.window_start
+                                 Full-sort Groups: 4  Sort Method: quicksort  Average Memory: 29kB  Peak Memory: 29kB
+                                 Buffers: shared hit=2 read=131
+                                 ->  Index Scan using kpi_scope_window_version_uk on service_kpi_windows w_1  (cost=0.42..34.96 rows=8 width=120) (actual time=0.263..1.723 rows=129 loops=1)
+                                       Index Cond: (((service)::text = 'VOLTE'::text) AND ((scope_id)::text = 'VOLTE-MD-ORH'::text) AND (window_start >= (now() - '24:00:00'::interval)) AND (window_start < now()))
+                                       Buffers: shared hit=2 read=131
+               ->  Index Scan using scope_window_coverage_lookup_idx on scope_window_coverage c  (cost=0.29..8.32 rows=1 width=179) (actual time=0.003..0.003 rows=1 loops=102)
+                     Index Cond: (((service)::text = (w.service)::text) AND ((scope_id)::text = (w.scope_id)::text) AND (window_start = w.window_start))
+                     Filter: (((catalogue_version)::text = '2-geography-day2-e3cd90709894a6bf4eb77de61b1e9e7c6dc00e99687eb19d3dd2de43009d6473'::text) AND ((topology_version)::text = '2-geography-g1'::text) AND (window_id = (w.window_id)::bpchar) AND (window_end = w.window_end))
+                     Buffers: shared hit=303 read=3
+ Planning:
+   Buffers: shared hit=233 read=7
+ Planning Time: 0.702 ms
+ Execution Time: 2.193 ms
+(31 rows)
+
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT c.coverage_id FROM app.scope_window_coverage c
+WHERE c.service = 'VOLTE' AND c.scope_id = 'VOLTE-MD-ORH'
+  AND c.window_start = (
+    SELECT max(w.window_start) FROM app.service_kpi_windows w
+    WHERE w.scope_id = 'VOLTE-MD-ORH' AND w.service = 'VOLTE'
+      AND w.window_end <= now())
+ORDER BY c.coverage_id LIMIT 1;
+                                                                                      QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=12.63..12.64 rows=1 width=65) (actual time=0.036..0.036 rows=1 loops=1)
+   Buffers: shared hit=8 read=2
+   InitPlan 2 (returns $1)
+     ->  Result  (cost=4.30..4.31 rows=1 width=8) (actual time=0.014..0.014 rows=1 loops=1)
+           Buffers: shared hit=3 read=1
+           InitPlan 1 (returns $0)
+             ->  Limit  (cost=0.42..4.30 rows=1 width=8) (actual time=0.013..0.013 rows=1 loops=1)
+                   Buffers: shared hit=3 read=1
+                   ->  Index Scan Backward using kpi_scope_window_version_uk on service_kpi_windows w  (cost=0.42..509.44 rows=131 width=8) (actual time=0.013..0.013 rows=1 loops=1)
+                         Index Cond: (((service)::text = 'VOLTE'::text) AND ((scope_id)::text = 'VOLTE-MD-ORH'::text) AND (window_start IS NOT NULL))
+                         Filter: (window_end <= now())
+                         Buffers: shared hit=3 read=1
+   ->  Sort  (cost=8.32..8.32 rows=1 width=65) (actual time=0.036..0.036 rows=1 loops=1)
+         Sort Key: c.coverage_id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=8 read=2
+         ->  Index Scan using scope_window_coverage_lookup_idx on scope_window_coverage c  (cost=0.29..8.31 rows=1 width=65) (actual time=0.025..0.025 rows=1 loops=1)
+               Index Cond: (((service)::text = 'VOLTE'::text) AND ((scope_id)::text = 'VOLTE-MD-ORH'::text) AND (window_start = $1))
+               Buffers: shared hit=5 read=2
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.071 ms
+ Execution Time: 0.056 ms
+(23 rows)
+
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT i.id, i.first_observed_at
+FROM app.incidents i
+JOIN app.detection_evidence d
+  ON d.episode_id = i.episode_id AND d.sequence = 1
+JOIN app.geo_scope_bindings b
+  ON b.scope_id = i.scope_id AND b.service = i.service
+ AND b.city_id = 'ORH' AND NOT b.legacy
+JOIN app.geo_catalogue_versions v
+  ON v.catalogue_version = b.catalogue_version
+ AND v.topology_version = d.payload->>'topologyVersion'
+LEFT JOIN LATERAL (
+  SELECT count(DISTINCT w.catalogue_version) AS matches,
+         min(w.catalogue_version) AS version
+  FROM app.scope_window_coverage w
+  WHERE w.scope_id = i.scope_id AND w.service = i.service
+    AND w.window_start = d.window_start
+    AND w.topology_version = d.payload->>'topologyVersion'
+) exact ON true
+WHERE exact.matches = 0 OR (exact.matches = 1 AND exact.version = v.catalogue_version)
+ORDER BY i.first_observed_at, i.id LIMIT 21;
+                                                                                                                             QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=27.97..27.97 rows=1 width=24) (actual time=0.360..0.361 rows=4 loops=1)
+   Buffers: shared hit=99 read=7
+   ->  Sort  (cost=27.97..27.97 rows=1 width=24) (actual time=0.359..0.360 rows=4 loops=1)
+         Sort Key: i.first_observed_at, i.id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=99 read=7
+         ->  Nested Loop  (cost=8.62..27.96 rows=1 width=24) (actual time=0.284..0.337 rows=4 loops=1)
+               Join Filter: (((b.catalogue_version)::text = (v.catalogue_version)::text) AND (((count(DISTINCT w.catalogue_version)) = 0) OR (((count(DISTINCT w.catalogue_version)) = 1) AND ((min((w.catalogue_version)::text)) = (v.catalogue_version)::text))))
+               Rows Removed by Join Filter: 12
+               Buffers: shared hit=96 read=7
+               ->  Nested Loop  (cost=8.48..24.78 rows=1 width=1250) (actual time=0.171..0.284 rows=8 loops=1)
+                     Buffers: shared hit=72 read=7
+                     ->  Nested Loop  (cost=0.00..12.25 rows=1 width=384) (actual time=0.014..0.025 rows=8 loops=1)
+                           Join Filter: (((b.scope_id)::text = (i.scope_id)::text) AND ((b.service)::text = (i.service)::text))
+                           Rows Removed by Join Filter: 56
+                           Buffers: shared hit=5
+                           ->  Seq Scan on geo_scope_bindings b  (cost=0.00..11.00 rows=1 width=518) (actual time=0.009..0.011 rows=4 loops=1)
+                                 Filter: ((NOT legacy) AND (city_id = 'ORH'::bpchar))
+                                 Rows Removed by Filter: 40
+                                 Buffers: shared hit=1
+                           ->  Seq Scan on incidents i  (cost=0.00..1.10 rows=10 width=110) (actual time=0.001..0.001 rows=16 loops=4)
+                                 Buffers: shared hit=4
+                     ->  Nested Loop  (cost=8.48..12.52 rows=1 width=1017) (actual time=0.032..0.032 rows=1 loops=8)
+                           Buffers: shared hit=67 read=7
+                           ->  Index Scan using detection_episode_sequence_uk on detection_evidence d  (cost=0.14..4.16 rows=1 width=985) (actual time=0.004..0.004 rows=1 loops=8)
+                                 Index Cond: (((episode_id)::text = (i.episode_id)::text) AND (sequence = 1))
+                                 Buffers: shared hit=18 read=1
+                           ->  Aggregate  (cost=8.33..8.35 rows=1 width=40) (actual time=0.028..0.028 rows=1 loops=8)
+                                 Filter: ((count(DISTINCT w.catalogue_version) = 0) OR (count(DISTINCT w.catalogue_version) = 1))
+                                 Buffers: shared hit=49 read=6
+                                 ->  Sort  (cost=8.32..8.33 rows=1 width=82) (actual time=0.025..0.025 rows=1 loops=8)
+                                       Sort Key: w.catalogue_version
+                                       Sort Method: quicksort  Memory: 25kB
+                                       Buffers: shared hit=49 read=6
+                                       ->  Index Scan using scope_window_coverage_lookup_idx on scope_window_coverage w  (cost=0.29..8.31 rows=1 width=82) (actual time=0.022..0.022 rows=1 loops=8)
+                                             Index Cond: (((service)::text = (i.service)::text) AND ((scope_id)::text = (i.scope_id)::text) AND (window_start = d.window_start))
+                                             Filter: ((topology_version)::text = (d.payload ->> 'topologyVersion'::text))
+                                             Buffers: shared hit=49 read=6
+               ->  Index Only Scan using geo_catalogue_versions_catalogue_version_topology_version_key on geo_catalogue_versions v  (cost=0.14..3.15 rows=1 width=612) (actual time=0.001..0.001 rows=2 loops=8)
+                     Index Cond: (topology_version = (d.payload ->> 'topologyVersion'::text))
+                     Heap Fetches: 16
+                     Buffers: shared hit=16
+ Planning:
+   Buffers: shared hit=225 read=9
+ Planning Time: 0.977 ms
+ Execution Time: 0.411 ms
+(46 rows)
+
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT run_id FROM app.scenario_commands
+WHERE status IN ('SCHEDULED','RUNNING')
+ORDER BY scheduled_start_at, run_id LIMIT 100;
+                                                       QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1.08..1.09 rows=2 width=24) (actual time=0.009..0.010 rows=0 loops=1)
+   Buffers: shared hit=1
+   ->  Sort  (cost=1.08..1.09 rows=2 width=24) (actual time=0.009..0.009 rows=0 loops=1)
+         Sort Key: scheduled_start_at, run_id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=1
+         ->  Seq Scan on scenario_commands  (cost=0.00..1.07 rows=2 width=24) (actual time=0.006..0.006 rows=0 loops=1)
+               Filter: ((status)::text = ANY ('{SCHEDULED,RUNNING}'::text[]))
+               Rows Removed by Filter: 11
+               Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=59 read=5
+ Planning Time: 0.232 ms
+ Execution Time: 0.015 ms
+(14 rows)

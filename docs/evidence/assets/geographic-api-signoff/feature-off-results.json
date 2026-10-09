@@ -1,0 +1,11 @@
+{
+  "revision": "54758678602b518d5d500d357181c7a868e63537",
+  "mode": "Real OIDC and protected APIs with incident and generator geography disabled; processor reader retained",
+  "checks": [
+    "Legacy scope list, incidents and bounded KPI history remain protected and readable; city inventory is inactive",
+    "Missing CSRF and disabled city command denied; legacy protected command accepted",
+    "Legacy command stop completed without deleting its durable receipt"
+  ],
+  "runId": "0e160921-bcd4-45e9-a665-421090741f76",
+  "passed": true
+}

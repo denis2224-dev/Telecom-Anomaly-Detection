@@ -1,0 +1,8 @@
+{
+  "revision": "54758678602b518d5d500d357181c7a868e63537",
+  "mode": "Real OIDC session left idle beyond the 15-minute server deadline",
+  "lastAuthenticatedAt": "2026-10-08T18:53:01.355Z",
+  "checkedAt": "2026-10-08T19:08:06.400Z",
+  "statusAfterIdle": 401,
+  "passed": true
+}
