@@ -122,12 +122,27 @@ jobs:
           ML_SERVICE_URL: http://127.0.0.1:8090
         run: |
           ./mvnw -pl services/processor -am test \
-            -Dtest=GeographicDetectionTest,GeographicWorkerTest,GeographicParityTest,GeographicSmsBaselineTest \
+            -Dtest=GeographicDetectionTest,GeographicWorkerTest,GeographicParityTest,GeographicSmsBaselineTest,DetectionConfigurationTest,GeographicHistoricalBaselineReplayTest,GeographicWorkerReceiptBoundaryTest,GeographicDetectorAcceptanceTest,GeographicEvidenceIsolationTest,Day5GeographicParityTest \
             -Dsurefire.failIfNoSpecifiedTests=false
           python scripts/check-voice-parity.py --geographic \
             --java-output services/processor/target/geographic-voice-parity-java.json
           python scripts/check-sms-parity.py --geographic \
             --java-output services/processor/target/geographic-sms-parity-java.json
+          python scripts/check-voice-parity.py --geographic-persisted \
+            --java-output services/processor/target/day5-geographic-parity-java.json
+          python scripts/check-sms-parity.py --geographic-persisted \
+            --java-output services/processor/target/day5-geographic-parity-java.json
+          python tasks/sergiu-day5-acceptance/check_geographic_http.py
+      - name: Save geographic acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: geographic-acceptance-evidence
+          path: |
+            services/processor/target/geographic-*-java.json
+            services/processor/target/day5-*.json
+            services/processor/target/surefire-reports/
+            output/day5-reconciliation/geographic-ml.json
       - name: Stop private ML inference
         if: always()
         run: docker stop telecom-ml-integration || true
