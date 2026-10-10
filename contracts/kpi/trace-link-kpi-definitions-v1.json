@@ -1,0 +1,1416 @@
+{
+  "schemaVersion": 1,
+  "dictionaryVersion": "trace-link-kpi-v1",
+  "datasetId": "trace-link-md-30d-v1",
+  "activation": "CONTRACT_ONLY",
+  "cityIdMap": [
+    {
+      "runtimeCityId": "CHI",
+      "referenceCityId": "chi",
+      "displayName": "Chișinău"
+    },
+    {
+      "runtimeCityId": "BAL",
+      "referenceCityId": "bal",
+      "displayName": "Bălți"
+    },
+    {
+      "runtimeCityId": "CAH",
+      "referenceCityId": "cah",
+      "displayName": "Cahul"
+    },
+    {
+      "runtimeCityId": "UNG",
+      "referenceCityId": "ung",
+      "displayName": "Ungheni"
+    },
+    {
+      "runtimeCityId": "ORH",
+      "referenceCityId": "orh",
+      "displayName": "Orhei"
+    },
+    {
+      "runtimeCityId": "SOR",
+      "referenceCityId": "sor",
+      "displayName": "Soroca"
+    },
+    {
+      "runtimeCityId": "COM",
+      "referenceCityId": "com",
+      "displayName": "Comrat"
+    },
+    {
+      "runtimeCityId": "EDI",
+      "referenceCityId": "edi",
+      "displayName": "Edineț"
+    },
+    {
+      "runtimeCityId": "HIN",
+      "referenceCityId": "hin",
+      "displayName": "Hîncești"
+    },
+    {
+      "runtimeCityId": "CAU",
+      "referenceCityId": "cau",
+      "displayName": "Căușeni"
+    }
+  ],
+  "metrics": [
+    {
+      "metricId": "volte.attempts",
+      "displayName": "VoLTE call attempts",
+      "domain": "VOLTE",
+      "unit": "COUNT",
+      "population": "Deduplicated eligible originating setup attempts under the declared call/leg policy. Reference cities are disjoint fictional cohorts.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "volte.established",
+      "displayName": "Established VoLTE calls",
+      "domain": "VOLTE",
+      "unit": "COUNT",
+      "population": "Eligible setup attempts reaching established state; same cohort as attempts.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_success"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "volte.setup.success",
+      "displayName": "VoLTE call setup success",
+      "domain": "VOLTE",
+      "unit": "PERCENT",
+      "population": "Established eligible calls / eligible network setup attempts. V2 technical-success/user-outcome eligibility remains separately versioned.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_success",
+          "voice_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "volte.traffic.erlang",
+      "displayName": "VoLTE carried traffic",
+      "domain": "VOLTE",
+      "unit": "ERLANG",
+      "population": "Carried holding seconds across disjoint city cohorts / valid observation seconds; do not sum Erlang through time.",
+      "aggregation": "WEIGHTED_MEAN",
+      "primitiveFields": [
+        "sum",
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "voice_holding_seconds"
+        ],
+        "reason": "Reference assumes each supplied slot has 300 valid seconds; measured validity and call-leg deduplication are absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "volte.setup.mean",
+      "displayName": "VoLTE setup time mean",
+      "domain": "VOLTE",
+      "unit": "SECONDS",
+      "population": "Elapsed successful setup seconds / successful setup observation count; same population as setup histogram.",
+      "aggregation": "WEIGHTED_MEAN",
+      "primitiveFields": [
+        "sum",
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_setup_elapsed_seconds",
+          "voice_success"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "volte.setup.p95",
+      "displayName": "VoLTE setup time p95",
+      "domain": "VOLTE",
+      "unit": "SECONDS",
+      "population": "Successful setup elapsed observations pooled across compatible non-cumulative finite bins.",
+      "aggregation": "HISTOGRAM_P95",
+      "primitiveFields": [
+        "histogram"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "voice_setup_hist"
+        ],
+        "reason": "Interpolated bounded synthetic histogram estimate, not raw-event precision."
+      },
+      "histogramSchema": {
+        "version": "trace-link-voice-histogram-v1",
+        "unit": "SECONDS",
+        "representation": "NON_CUMULATIVE_FINITE_BINS",
+        "edges": [
+          0.5,
+          1,
+          2,
+          3,
+          5,
+          8,
+          15,
+          30,
+          60
+        ]
+      }
+    },
+    {
+      "metricId": "volte.abnormalReleases",
+      "displayName": "Abnormal VoLTE releases",
+      "domain": "VOLTE",
+      "unit": "COUNT",
+      "population": "Established eligible calls with qualifying abnormal release under synthetic policy.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_drops"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "volte.drop.rate",
+      "displayName": "VoLTE call drop rate",
+      "domain": "VOLTE",
+      "unit": "PERCENT",
+      "population": "Abnormal releases / established eligible calls; excludes setup failures.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_drops",
+          "voice_success"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "volte.handover.success",
+      "displayName": "VoLTE handover success",
+      "domain": "VOLTE",
+      "unit": "PERCENT",
+      "population": "Successful eligible handovers / attempted eligible handovers in the generic fictional mobility population.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "ho_success",
+          "ho_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.traffic",
+      "displayName": "Directional carried traffic",
+      "domain": "TRANSPORT",
+      "unit": "GBPS",
+      "population": "Directional carried bits / valid elapsed seconds / 1e9; time-weight each observed rate.",
+      "aggregation": "TIME_WEIGHTED_MEAN",
+      "primitiveFields": [
+        "weightedSum",
+        "validSeconds"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "traffic_gbps"
+        ],
+        "reason": "Reference rate sample assumes 300 valid seconds and A-to-B direction; byte deltas/reset epochs absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.volume",
+      "displayName": "Transferred data volume",
+      "domain": "TRANSPORT",
+      "unit": "BYTES",
+      "population": "Valid byte deltas across time at one directional observation boundary; do not count successive hops as unique traffic.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "traffic_gbps"
+        ],
+        "reason": "Derived estimate traffic_gbps * 1e9 / 8 * 300; measured byte counters and valid-time evidence absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.effectiveCapacity",
+      "displayName": "Effective directional capacity",
+      "domain": "TRANSPORT",
+      "unit": "GBPS",
+      "population": "Operational directional capacity valid at the endpoint; retain changes, never substitute nominal capacity after reduction.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "effective_capacity_gbps"
+        ],
+        "reason": "Slot-level gauge available; exact validity intervals/source authority absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.link.utilization",
+      "displayName": "Link utilization",
+      "domain": "TRANSPORT",
+      "unit": "PERCENT",
+      "population": "100 * directional carried traffic / contemporaneous positive effective capacity, averaged over valid seconds.",
+      "aggregation": "TIME_WEIGHTED_MEAN",
+      "primitiveFields": [
+        "weightedSum",
+        "validSeconds"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "traffic_gbps",
+          "effective_capacity_gbps"
+        ],
+        "reason": "Reference endpoint ratio supported; mean requires explicit 300-second validity assumption. Reference linkSeries displays peak, not mean."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.link.utilization.peak",
+      "displayName": "Peak link utilization",
+      "domain": "TRANSPORT",
+      "unit": "PERCENT",
+      "population": "Maximum of contemporaneous 100 * directional carried traffic / positive effective capacity across valid source slots and selected declared link-direction scopes. This maximum is distinct from temporal mean and never sums link utilizations.",
+      "aggregation": "MAXIMUM",
+      "primitiveFields": [
+        "max"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "traffic_gbps",
+          "effective_capacity_gbps"
+        ],
+        "reason": "Reference linkSeries uses maximum per-slot utilization across selected scoped links. Source validity is assumed for supplied slots; A-to-B only."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.packetLoss",
+      "displayName": "Packet loss",
+      "domain": "TRANSPORT",
+      "unit": "PERCENT",
+      "population": "Lost / expected packets for the same declared probe/path/interface and direction.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "loss_pct"
+        ],
+        "reason": "Only loss percentage exists; lost/expected counts absent. Use separately labelled snapshot/worst-loss reference; never invent counts."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.rtt.mean",
+      "displayName": "Round-trip latency mean",
+      "domain": "TRANSPORT",
+      "unit": "MILLISECONDS",
+      "population": "Qualifying RTT probe elapsed sum / probe count on the same path.",
+      "aggregation": "WEIGHTED_MEAN",
+      "primitiveFields": [
+        "sum",
+        "count"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "rtt_ms"
+        ],
+        "reason": "Scalar RTT only; probe sum/count absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.rtt.snapshot",
+      "displayName": "Round-trip latency snapshot",
+      "domain": "TRANSPORT",
+      "unit": "MILLISECONDS",
+      "population": "Illustrative RTT scalar at selected link endpoint observation.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "rtt_ms"
+        ],
+        "reason": "Probe/path identity absent; series uses worst-scoped RTT, not probe-weighted mean."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.jitter",
+      "displayName": "Packet-delay variation",
+      "domain": "TRANSPORT",
+      "unit": "MILLISECONDS",
+      "population": "Declared delay-variation estimator on a named stream/probe/path at the endpoint.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "jitter_ms"
+        ],
+        "reason": "Synthetic scalar; estimator and probe identity absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.interfaceErrors",
+      "displayName": "Interface error count",
+      "domain": "TRANSPORT",
+      "unit": "COUNT",
+      "population": "Valid nonnegative interface error deltas under declared counter/reset policy.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "interface_errors"
+        ],
+        "reason": "Illustrative per-slot counts; counter identity/reset epoch absent. Error rate requires independent frames/packets denominator."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.queueDrops",
+      "displayName": "Queue drop count",
+      "domain": "TRANSPORT",
+      "unit": "COUNT",
+      "population": "Valid queue/interface directional discard deltas.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "queue_drops"
+        ],
+        "reason": "Illustrative per-slot counts; queue/counter identity absent. Discard ratio needs independent denominator."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.link.state",
+      "displayName": "Link and LAG member state",
+      "domain": "TRANSPORT",
+      "unit": "STATE",
+      "population": "Categorical link/member transitions over valid time; capacity reduction alone does not prove member failure.",
+      "aggregation": "STATE_TIMELINE",
+      "primitiveFields": [
+        "state",
+        "at"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [],
+        "reason": "No operational-state/member timeline; injected scenario cause is forbidden evidence."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.activeOutbound",
+      "displayName": "Active outbound roamers",
+      "domain": "ROAMING",
+      "unit": "COUNT",
+      "population": "Home subscribers with qualifying activity on visited partner; country is visited country; city is home cohort. Same-time snapshots; cross-partner totals require distinct-user deduplication.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "active_users"
+        ],
+        "reason": "Reference direction-specific national counts and demand-share-scaled city estimates; distinct-user and observed city cohorts absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.activeInbound",
+      "displayName": "Active inbound visitors",
+      "domain": "ROAMING",
+      "unit": "COUNT",
+      "population": "Visiting subscribers active on home network; country is home country; city is visited Moldova cohort. Same-time snapshots; cross-partner totals require distinct-user deduplication.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "active_users"
+        ],
+        "reason": "Reference direction-specific national counts and demand-share-scaled city estimates; distinct-user and observed city cohorts absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.registration.success",
+      "displayName": "Roaming registration success",
+      "domain": "ROAMING",
+      "unit": "PERCENT",
+      "population": "Independent qualifying registration procedures successes / attempts, separated by partner, country and direction.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "reg_success",
+          "reg_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.data.success",
+      "displayName": "Roaming data session success",
+      "domain": "ROAMING",
+      "unit": "PERCENT",
+      "population": "Independent qualifying data-session procedures successes / attempts, separated by partner, country and direction.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "data_success",
+          "data_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.voice.success",
+      "displayName": "Roaming voice setup success",
+      "domain": "ROAMING",
+      "unit": "PERCENT",
+      "population": "Independent qualifying voice setup procedures successes / attempts, separated by partner, country and direction.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_success",
+          "voice_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.sms.finalizedSuccess",
+      "displayName": "Roaming SMS finalized delivery success",
+      "domain": "ROAMING",
+      "unit": "PERCENT",
+      "population": "Partner-route delivered messages / finalized delivered + terminal failed + expired messages, by completion time; excludes pending.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "sms_success",
+          "sms_attempts"
+        ],
+        "reason": "Reference SMS procedure attempts/success do not establish finalized completion cohorts or terminal outcomes; retain separate reference-procedure ratio."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.partnerRtt",
+      "displayName": "Partner path RTT",
+      "domain": "ROAMING",
+      "unit": "MILLISECONDS",
+      "population": "Endpoint scalar for a named partner signaling/data probe path.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "rtt_ms"
+        ],
+        "reason": "Synthetic scalar, probe/path identity and sample weighting absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.submitted",
+      "displayName": "Accepted SMS submissions",
+      "domain": "SMS",
+      "unit": "COUNT",
+      "population": "Unique accepted messages by submission time; retries are not new submissions.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "sms_submitted"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.delivered",
+      "displayName": "Final delivered SMS",
+      "domain": "SMS",
+      "unit": "COUNT",
+      "population": "Final delivered messages by completion time; may originate in earlier windows.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "sms_delivered"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.terminalFailed",
+      "displayName": "Terminally failed SMS",
+      "domain": "SMS",
+      "unit": "COUNT",
+      "population": "Unique final failed messages by terminal completion time.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "sms_expired"
+        ],
+        "reason": "Reference sms_expired combines terminal negative outcomes; separate failure/expiry counters are absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.expired",
+      "displayName": "Expired SMS",
+      "domain": "SMS",
+      "unit": "COUNT",
+      "population": "Unique final validity-expired messages by terminal completion time.",
+      "aggregation": "COUNT_SUM",
+      "primitiveFields": [
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "sms_expired"
+        ],
+        "reason": "Reference sms_expired combines terminal negative outcomes; separate failure/expiry counters are absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.finalizedSuccess",
+      "displayName": "SMS finalized delivery success",
+      "domain": "SMS",
+      "unit": "PERCENT",
+      "population": "Delivered / (delivered + terminal failed + expired), by completion time, excluding pending; never same-window delivered/submitted.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "sms_delivered",
+          "sms_expired"
+        ],
+        "reason": "Map sms_expired once to combined terminal negatives, not separately to both failed and expired; lifecycle/cohort event IDs absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.queue",
+      "displayName": "Pending SMS queue",
+      "domain": "SMS",
+      "unit": "COUNT",
+      "population": "Pending unique messages at endpoint; aggregate disjoint city snapshots at same time, never sum through time.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "sms_queue"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.oldestPending",
+      "displayName": "Oldest pending SMS age",
+      "domain": "SMS",
+      "unit": "SECONDS",
+      "population": "Maximum age across current pending messages at endpoint; empty fresh queue is zero.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "sms_oldest_seconds"
+        ],
+        "reason": "Age derived synthetically from queue/submissions; not reconstructed per-message waiting time."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.delay.mean",
+      "displayName": "SMS delivery delay mean",
+      "domain": "SMS",
+      "unit": "MILLISECONDS",
+      "population": "Delivered-message accepted-to-final-delivery elapsed milliseconds / valid delivered observation count.",
+      "aggregation": "WEIGHTED_MEAN",
+      "primitiveFields": [
+        "sum",
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-sms-delay-ms-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "sms_delay_hist"
+        ],
+        "reason": "Elapsed sum absent; a histogram cannot establish exact mean. Target milliseconds are explicitly versioned."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "sms.delay.p95",
+      "displayName": "SMS delivery delay p95",
+      "domain": "SMS",
+      "unit": "MILLISECONDS",
+      "population": "Delivered-message delays; pool compatible seconds histogram bins, interpolate once then multiply by 1000. Excludes pending queue age.",
+      "aggregation": "HISTOGRAM_P95",
+      "primitiveFields": [
+        "histogram"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-sms-delay-ms-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "sms_delay_hist"
+        ],
+        "reason": "Bounded synthetic finite-bin estimate; explicit seconds-to-milliseconds conversion under trace-link-sms-delay-ms-v1."
+      },
+      "histogramSchema": {
+        "version": "trace-link-sms-histogram-v1",
+        "unit": "SECONDS",
+        "representation": "NON_CUMULATIVE_FINITE_BINS",
+        "edges": [
+          1,
+          2,
+          5,
+          10,
+          20,
+          40,
+          80,
+          160,
+          320
+        ]
+      }
+    },
+    {
+      "metricId": "sms.queueGrowth",
+      "displayName": "SMS queue growth",
+      "domain": "SMS",
+      "unit": "COUNT",
+      "population": "End minus start pending queue; equals accepted minus delivered minus combined terminal negatives in one scope/window.",
+      "aggregation": "SNAPSHOT_DIFFERENCE",
+      "primitiveFields": [
+        "start",
+        "end"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "sms_queue",
+          "sms_submitted",
+          "sms_delivered",
+          "sms_expired"
+        ],
+        "reason": "First CSV window lacks opening queue; supply explicit opening snapshot or return unavailable, never assume zero."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "mobileData.activation.success",
+      "displayName": "LTE EPS bearer activation success",
+      "domain": "MOBILE_DATA",
+      "unit": "PERCENT",
+      "population": "Successful selected eligible LTE EPS bearer activations / attempts; attach/default/dedicated procedures must remain distinct.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "data_success",
+          "data_attempts"
+        ],
+        "reason": "Generic fictional activation counters lack access/procedure eligibility evidence."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "mobileData.dns.success",
+      "displayName": "Post-activation DNS success",
+      "domain": "MOBILE_DATA",
+      "unit": "PERCENT",
+      "population": "Successful qualifying DNS responses / DNS requests among established-session probes, independent of activation attempts.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "dns_success",
+          "dns_attempts"
+        ],
+        "reason": "Reference dns_attempts = data_attempts * 8, not successful activations; post-activation eligibility is unproven. Keep reference ratio labelled reference-only."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "mobileData.throughput",
+      "displayName": "Modeled user throughput",
+      "domain": "MOBILE_DATA",
+      "unit": "MBPS",
+      "population": "Declared measurement-method user samples with direction and valid sample weighting; distinct from transferred bytes / active seconds.",
+      "aggregation": "WEIGHTED_MEAN",
+      "primitiveFields": [
+        "sum",
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "user_throughput_mbps"
+        ],
+        "reason": "Reference arithmetic mean of modeled city-slot scalars; user/session weighting and speed-test observations absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "quality.coverage",
+      "displayName": "Measurement coverage",
+      "domain": "QUALITY",
+      "unit": "PERCENT",
+      "population": "Valid received source windows / expected source windows under selected bounds and scope.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "datasetId",
+        "domain",
+        "scopeId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [],
+        "reason": "Importer derives expectations/validity; source rows contain no quality metadata."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "quality.freshness",
+      "displayName": "Source age",
+      "domain": "QUALITY",
+      "unit": "SECONDS",
+      "population": "Selected evaluation UTC time minus last valid source observation time; historical fixture is not live.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "datasetId",
+        "domain",
+        "scopeId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "ts"
+        ],
+        "reason": "Event-time age derivable using explicit asOf; ingest freshness is unavailable."
+      },
+      "histogramSchema": null
+    }
+  ]
+}

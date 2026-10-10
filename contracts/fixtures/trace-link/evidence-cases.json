@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 1,
+  "status": "CONTRACT_ONLY",
+  "cases": [
+    {
+      "id": "retained-rate-primitives",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "tl-evidence-rate-001",
+        "measurementId": "tl-measurement-rate-001",
+        "metricId": "volte.setup.success",
+        "unit": "PERCENT",
+        "policyVersion": "trace-link-kpi-v1",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 980,
+          "denominator": 1000
+        },
+        "actual": 98,
+        "baseline": 99,
+        "baselineVersion": "trace-link-fixture-baseline-v1",
+        "threshold": null,
+        "deviation": -1,
+        "coverage": 1,
+        "freshness": {
+          "state": "FRESH",
+          "observedAt": "2026-10-10T08:40:00Z",
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": 1,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": "ORIGINATING_SETUP"
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "VALID",
+          "reason": null
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    },
+    {
+      "id": "zero-denominator",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "tl-evidence-zero",
+        "measurementId": "tl-measurement-zero",
+        "metricId": "volte.setup.success",
+        "unit": "PERCENT",
+        "policyVersion": "trace-link-kpi-v1",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 0,
+          "denominator": 0
+        },
+        "actual": null,
+        "baseline": null,
+        "baselineVersion": null,
+        "threshold": null,
+        "deviation": null,
+        "coverage": 1,
+        "freshness": {
+          "state": "FRESH",
+          "observedAt": "2026-10-10T08:40:00Z",
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": 1,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": "ORIGINATING_SETUP"
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "INSUFFICIENT_EVIDENCE",
+          "reason": "ZERO_DENOMINATOR"
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    },
+    {
+      "id": "sms-seconds-to-ms",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "tl-evidence-hist",
+        "measurementId": "tl-measurement-hist",
+        "metricId": "sms.delay.p95",
+        "unit": "MILLISECONDS",
+        "policyVersion": "trace-link-sms-delay-ms-v1",
+        "primitives": {
+          "type": "HISTOGRAM",
+          "histogram": {
+            "schemaVersion": "trace-link-sms-histogram-v1",
+            "unit": "SECONDS",
+            "representation": "NON_CUMULATIVE_FINITE_BINS",
+            "edges": [
+              1,
+              2,
+              5,
+              10,
+              20,
+              40,
+              80,
+              160,
+              320
+            ],
+            "counts": [
+              0,
+              0,
+              0,
+              0,
+              100,
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "actual": 19500,
+        "baseline": null,
+        "baselineVersion": null,
+        "threshold": null,
+        "deviation": null,
+        "coverage": 1,
+        "freshness": {
+          "state": "FRESH",
+          "observedAt": "2026-10-10T08:40:00Z",
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": 1,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": "DELIVERED_MESSAGE_DELAY"
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "VALID",
+          "reason": null
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    },
+    {
+      "id": "reference-mean-unavailable",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "tl-evidence-mean-unavailable",
+        "measurementId": "tl-measurement-mean-unavailable",
+        "metricId": "sms.delay.mean",
+        "unit": "MILLISECONDS",
+        "policyVersion": "trace-link-sms-delay-ms-v1",
+        "primitives": null,
+        "actual": null,
+        "baseline": null,
+        "baselineVersion": null,
+        "threshold": null,
+        "deviation": null,
+        "coverage": 1,
+        "freshness": {
+          "state": "FRESH",
+          "observedAt": "2026-10-10T08:40:00Z",
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": 1,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": "DELIVERED_MESSAGE_DELAY"
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "INSUFFICIENT_EVIDENCE",
+          "reason": "MISSING_ELAPSED_SUM"
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    },
+    {
+      "id": "stale-retained-snapshot",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "tl-evidence-queue-stale",
+        "measurementId": "tl-measurement-queue-stale",
+        "metricId": "sms.queue",
+        "unit": "COUNT",
+        "policyVersion": "trace-link-kpi-v1",
+        "primitives": {
+          "type": "SNAPSHOT",
+          "value": 125,
+          "snapshotAt": "2026-10-10T08:35:00Z"
+        },
+        "actual": 125,
+        "baseline": null,
+        "baselineVersion": null,
+        "threshold": null,
+        "deviation": null,
+        "coverage": 1,
+        "freshness": {
+          "state": "STALE",
+          "observedAt": "2026-10-10T08:35:00Z",
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": 301,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": "PENDING_MESSAGE_SNAPSHOT"
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "STALE",
+          "reason": "SOURCE_TOO_OLD"
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    },
+    {
+      "id": "named-utilization-peak",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "tl-evidence-utilization-peak",
+        "measurementId": "tl-measurement-utilization-peak",
+        "metricId": "transport.link.utilization.peak",
+        "unit": "PERCENT",
+        "policyVersion": "trace-link-kpi-v1",
+        "primitives": {
+          "type": "MAXIMUM",
+          "max": 85
+        },
+        "actual": 85,
+        "baseline": null,
+        "baselineVersion": null,
+        "threshold": null,
+        "deviation": null,
+        "coverage": 1,
+        "freshness": {
+          "state": "FRESH",
+          "observedAt": "2026-10-10T08:40:00Z",
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": 1,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "VALID",
+          "reason": null
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    }
+  ]
+}
