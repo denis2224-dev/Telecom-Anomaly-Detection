@@ -1,0 +1,1666 @@
+{
+  "sms-md-chi-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "e2363b24bf86590dfaee046d8d3cbc3c84ba1eb03ad385f2670317fd676e58f5",
+    "windowEnd" : "2026-09-15T08:02:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:01:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "9f43fb76-f76b-34e8-b1f9-0564b58e4cd9", "ad10562c-d1b1-3ff2-b5ba-d8c87f5eac37" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "8c2067a535577de5b5b57e57009cf384970921886bbc50ffff96cda06ea8ff67",
+    "windowEnd" : "2026-09-15T08:04:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:03:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "216259f3-d185-3046-a465-0e885ff4cf44", "84a131a6-2171-3bec-96e1-19beb5cb3c5f" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-edi-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-EDI",
+    "service" : "SMS",
+    "windowId" : "0d57935b3df44913a5bc902a3d3556a28279003f43fe7b52c6ad68a72c0dbc14",
+    "windowEnd" : "2026-09-15T08:06:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:05:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "71eec565-e8ba-3f0e-9a7e-e2840deedab1", "eadedba3-e2e7-347a-91c0-42fd829c8182" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-sor-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-SOR",
+    "service" : "SMS",
+    "windowId" : "163b00cc9fbfd784b012a29d7f1d80167f3138d7c020f9474ad95c1278857ea1",
+    "windowEnd" : "2026-09-15T08:08:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:07:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "821c9619-58e7-33aa-a727-079a72d1ca55", "ce36edff-8f83-3305-8e65-daba01099138" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-rib-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-RIB",
+    "service" : "SMS",
+    "windowId" : "0c48086fa75edee389343af9e4b70bc500e094d8cd7fbf51f0f54a0bc562f291",
+    "windowEnd" : "2026-09-15T08:10:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:09:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "bfe0095d-20ee-3b47-a1a8-696f829a9d2d", "c2a242b4-7249-3f3d-9fa1-f11845c1dfe6" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-ung-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-UNG",
+    "service" : "SMS",
+    "windowId" : "cffc2c09564316656dd0d23a07a7a389603095f671ddc1e616e20789599b9284",
+    "windowEnd" : "2026-09-15T08:12:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:11:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "0f9d12b9-257e-38ac-9ba1-8331bfbdbff4", "8cdf8703-9023-376b-95af-d043df449838" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-tir-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-TIR",
+    "service" : "SMS",
+    "windowId" : "fb6a36352ada29276fa857f361bf5c5683d3be96d178ac3455bb6bbeb49030e5",
+    "windowEnd" : "2026-09-15T08:14:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:13:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "26c44e29-342d-3593-85ab-99f2f4898b65", "454267ec-7d62-3d84-98ae-ade1f2a8b21a" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-com-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-COM",
+    "service" : "SMS",
+    "windowId" : "51410f555b7c4c173d8e01a07eedb8a0d0e28fe10ab4beb287b75fdd50b27bca",
+    "windowEnd" : "2026-09-15T08:16:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:15:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "6b0ce24e-6c50-31ab-bfd4-b440b5ddbb7e", "c9206c0b-4b7d-3d8c-bd7c-81c192ff56fa" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-cah-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CAH",
+    "service" : "SMS",
+    "windowId" : "cc925990d5bca5c19779710064b394d3314146b5bcaa32a832a8ce0c199e05f3",
+    "windowEnd" : "2026-09-15T08:18:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:17:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "b67907ee-0587-36a3-94b6-452ec2f2ea2b", "bb8ede83-ec0f-397c-ba00-a0376d387466" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-orh-normal" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-ORH",
+    "service" : "SMS",
+    "windowId" : "aacf87564a8444bebecaa166bb789749a8330aab06779653086b7389ddff2af8",
+    "windowEnd" : "2026-09-15T08:20:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:19:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, -0.9607843137254832, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "af8b748f-7add-3815-90eb-893d2d1c691a", "ba9d0a20-9692-30e0-a88c-63db87940d6c" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-zero" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : 0,
+      "denominator" : 0
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "65e1d650f4827e3ae117370691a605e68f5b6836274a124492a8d3d17832d93c",
+    "windowEnd" : "2026-09-15T08:31:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:30:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "295c3342-9632-39b1-9c93-407cb1f6d1f4", "3d5db4d3-cace-3fa0-a77d-da322fca3ad5" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-low-volume" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 100.0,
+      "numerator" : 20,
+      "denominator" : 20
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 20,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "24487f3f16567ef3827bca0b7c1fae380cafd170cabe3e9b8fd11bf068b84566",
+    "windowEnd" : "2026-09-15T08:32:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:31:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, 1.0, 20 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "0b06f331-969e-3ce2-8421-a23653e540ae", "c9cbadcf-829f-3aed-9548-57bbbd1c10a2" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-missing-baseline" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : null,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "38a53f428a1af12c51476576fcd166f780ff3f72184fd4bae16f9c8d260e4afb",
+    "windowEnd" : "2026-09-15T08:33:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:32:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "4f36638e-1ab5-3800-b18b-226096fdfb70", "8d730d03-deeb-3e24-94a2-5c491c635ba1" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-missing-node" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "fdfc0fba58f98943233458e631c7490ad7ea1410e7d809dc7416c44aa40fd34b",
+    "windowEnd" : "2026-09-15T08:34:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:33:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "df2178c2-a8f7-39cd-84ca-20c8f98d029c" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-missing-service" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "MISSING",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "80fd5a98d17e754ee9d19695affefc814d126d8809ac570a366140cdc4d7b5b2",
+    "windowEnd" : "2026-09-15T08:35:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:34:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "b513d502-ed49-3ee5-ad16-b37f4b4c429d" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-missing-all" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "MISSING",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "f8f884dc9eaddcfa0d81020c3a63a23257e4f4f05b6b614b728f542c01de4cae",
+    "windowEnd" : "2026-09-15T08:36:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:35:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-incomplete" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "INCOMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "e4ea54c8456f895150ba79e96f2e8553556eb52c7b842ec3e24f675b0bdec6f6",
+    "windowEnd" : "2026-09-15T08:37:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:36:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "56f271a9-d14d-3945-b58d-20fe0318738d", "e4e4ad76-2782-39a3-840e-335144b05112" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-breach" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 45000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 83.33333333333333,
+      "numerator" : 100,
+      "denominator" : 120
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 250,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 90,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "0041009968287648e70ee80b1628e1378b2a97b9f03b35c3019a98003a3d4b94",
+    "windowEnd" : "2026-09-15T08:38:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:37:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 22.5, 45000, 250, 90, -15.666666666666671, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "318e021a-446e-3152-a749-971b02a19939", "a7427cac-a0ec-3765-a0f3-66b572264218" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-stale-node" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "c077b574ee591b4b467ee974648e8fb6a709583939d33d7a9a200eff41f07da2",
+    "windowEnd" : "2026-09-15T08:39:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:38:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "20e70a70-0726-3cb0-a5c2-d8e96423b223" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-fractional" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 23000.75,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 100.0,
+      "numerator" : 30,
+      "denominator" : 30
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 30,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "01e01ddb2a5b0cee420624b9d7f8e73c2ff54d920e3e5753ea42e0110f8243c2",
+    "windowEnd" : "2026-09-15T08:40:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:39:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 11.500375, 23000.75, 0, 0, 1.0, 30 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "4c0de4eb-c4b8-317c-bf57-49d0512cc301", "701bd45c-95af-3fda-a6c4-2d62a658e074" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-chi-queue-only" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 150,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 120,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "MISSING",
+    "scopeId" : "SMS-MD-CHI",
+    "service" : "SMS",
+    "windowId" : "34f4b99ededa0d2f51f19e25ff561f9d43c558cf3be75f0fab666fe32f0cdadf",
+    "windowEnd" : "2026-09-15T08:41:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:40:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "5eddefea-4f3d-3029-ac80-9676c1ff1f1a" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-zero" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : 0,
+      "denominator" : 0
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "61e87a7a11f314223284c277856fc2d0875bad1ab6d25e7ef8d39c9cea143019",
+    "windowEnd" : "2026-09-15T08:52:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:51:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "3d61b0cd-9b38-32a3-9680-e9219508240c", "62a0d53d-1b2b-32da-a7fa-38b9bea347c3" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-low-volume" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 100.0,
+      "numerator" : 20,
+      "denominator" : 20
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 20,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "261402cce0769911dce08f08a96c0e4cd24051506c57247dfd8908f0fbdb3761",
+    "windowEnd" : "2026-09-15T08:53:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:52:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 1.0, 2000, 0, 0, 1.0, 20 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "31201488-fd6f-329b-87c0-7ab01e5b5e1a", "c62ede8a-167f-380f-8c90-3c2ace770fca" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-missing-baseline" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : null,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "d7b2a2be029289ae6f16adcf15f97e4c43767dc05d86315553eaae26129a2665",
+    "windowEnd" : "2026-09-15T08:54:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:53:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "303c1c40-f035-3f90-b8c2-1946a5977dac", "ba4c2980-816b-3303-be0c-b37116b4c9fd" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-missing-node" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "5d9cbac368e26e52afa6d167db1c95bd5bcd80a2f084b18d49768889a83c75a3",
+    "windowEnd" : "2026-09-15T08:55:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:54:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "c55624b9-0e83-3be8-9beb-8ab2776a88c4" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-missing-service" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "MISSING",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "d30f60bca7442161b02c350816617d4f088e7573d1ff9057cc5333449569c870",
+    "windowEnd" : "2026-09-15T08:56:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:55:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "da743a67-ce80-311e-ba59-54eaddfdd395" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-missing-all" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "MISSING",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "b8c62cd1300dcd7d0211ee3d31f6d63e204f75093619553f4ccbff961a1ee87f",
+    "windowEnd" : "2026-09-15T08:57:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:56:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-incomplete" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "INCOMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "3d07b0a54dab99fc3a22b8b129e5a5d5f840cc03679602a92f88f84a51fff26d",
+    "windowEnd" : "2026-09-15T08:58:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:57:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "26578052-3b34-36e8-be04-fcd64574122a", "3f12682a-0175-3e05-a41e-362d50ec055c" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-breach" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 45000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 83.33333333333333,
+      "numerator" : 100,
+      "denominator" : 120
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 250,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 90,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "c49a55bfaf2c325aeffa3a4a9ef6b0024751f908d8187c160bfe012fa17f6993",
+    "windowEnd" : "2026-09-15T08:59:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:58:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 22.5, 45000, 250, 90, -15.666666666666671, 100 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "41d36f75-4045-3d28-a58b-f4b9a6d0977a", "d6a84b79-487a-30b7-9e80-88d77a33894d" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-stale-node" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 2000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 98.03921568627452,
+      "numerator" : 100,
+      "denominator" : 102
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 100,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "908a12643048ef5f7c73313073055872557655084813dcfaeaf60d4c14d0364a",
+    "windowEnd" : "2026-09-15T09:00:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:59:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "9c175bca-3bda-3462-a8d7-167f854fae5e" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-fractional" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : 23000.75,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 100.0,
+      "numerator" : 30,
+      "denominator" : 30
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 30,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "78a1850b46c3bd93b0806c25fe983d9c0dbe6057524bb012b9837b64ea8a81f0",
+    "windowEnd" : "2026-09-15T09:01:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T09:00:00Z",
+    "featureNames" : [ "p95DelayRatio", "p95DeliveryMs", "queueDepth", "oldestPendingAgeSec", "deliverySrDeltaPp", "deliveredMessages" ],
+    "featureValues" : [ 11.500375, 23000.75, 0, 0, 1.0, 30 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "3b3e8945-f0db-3155-a65d-cbdb8158ed35", "9f5d4f9a-b554-3d36-9993-5dd73c2c7dba" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  },
+  "sms-md-bal-queue-only" : {
+    "kpis" : [ {
+      "name" : "p95DeliveryMs",
+      "unit" : "MILLISECONDS",
+      "baseline" : 2000,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliverySrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "deliveredMessages",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "queueDepth",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 150,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "oldestPendingAgeSec",
+      "unit" : "SECONDS",
+      "baseline" : null,
+      "observed" : 120,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "MISSING",
+    "scopeId" : "SMS-MD-BAL",
+    "service" : "SMS",
+    "windowId" : "65df4ee4d34a78c7951c38ec5e77e8b411e8534bee2fc1e933d4679a239c063d",
+    "windowEnd" : "2026-09-15T09:02:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T09:01:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "0135f588-2b3f-3c74-9bc0-a33d5af83b1b" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-geography-g1"
+  }
+}
