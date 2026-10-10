@@ -6,9 +6,9 @@
 - [x] Preserve main authority, historical baseline, FeatureContext, worker fencing and migration safeguards.
 - [x] Add all-city historical DB transition, receipt-boundary and CONTRACT_ONLY startup regressions.
 - [x] Keep canonical parity and add distinct Day 5 persisted parity mode; require explicit geographic Java exports.
-- [ ] Complete focused tests and historical-guard mutation checks.
-- [ ] Run fresh full Java/Python/contracts/parity and packaged-model acceptance at an integrated code SHA.
-- [ ] Publish a new manifest and review resolution report; update the same PR with a guarded push.
+- [x] Complete focused tests and historical-guard mutation checks (both guards caught; restored exactly).
+- [x] Run fresh full Java/Python/contracts/parity and packaged-model acceptance at integrated code SHA `1cac338`.
+- [x] Publish local manifest and review resolution report; prepare the guarded update of the existing PR #86 branch.
 
 ## Original candidate (superseded for integrated acceptance)
 
