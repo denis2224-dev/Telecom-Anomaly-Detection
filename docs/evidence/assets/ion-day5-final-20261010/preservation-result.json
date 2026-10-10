@@ -1,0 +1,5 @@
+{
+  "unchanged": true,
+  "originalWorktrees": 29,
+  "scope": "HEAD, branch status, tracked dirty file hashes, and untracked path inventories from this audit checkpoint; untracked contents are not hashed."
+}

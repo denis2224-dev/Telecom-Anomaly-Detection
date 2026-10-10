@@ -1,0 +1,260 @@
+{
+  "mixedCityNegativeControl" : {
+    "seed" : 42,
+    "scopes" : {
+      "SMS-MD-BAL" : {
+        "windowId" : "bd4bd22f7a9aae002f20665091b9729c114af5bfe37aa12009d2660b4b801a5c",
+        "sourceIds" : [ "SMS-SRC-BAL", "SMSC-MD-BAL-01" ],
+        "observed" : 98.94736842105263
+      },
+      "SMS-MD-CAH" : {
+        "windowId" : "386f223ba50e343d7f077d55e9cfc86af4eb526e4f28fed91f19481d3b6f4892",
+        "sourceIds" : [ "SMS-SRC-CAH", "SMSC-MD-CAH-01" ],
+        "observed" : 98.63013698630137
+      },
+      "SMS-MD-CHI" : {
+        "windowId" : "9412312bb5b5ef20ada7cc7169275ad41a7a7679cc48aacbd70086a32cc49538",
+        "sourceIds" : [ "SMS-SRC-CHI", "SMSC-MD-CHI-01" ],
+        "observed" : 98.01980198019803
+      },
+      "SMS-MD-COM" : {
+        "windowId" : "e475cce6580d91309123543c818b537b4707a83c22cb67ea92b5c73896f4bd5a",
+        "sourceIds" : [ "SMS-SRC-COM", "SMSC-MD-COM-01" ],
+        "observed" : 98.13084112149532
+      },
+      "SMS-MD-EDI" : {
+        "quality" : "MISSING",
+        "windowId" : "119475c657d8953176b350410c4e4ac206b61df70f441555f077a57fb48433b1",
+        "sourceIds" : [ "SMSC-MD-EDI-01" ]
+      },
+      "SMS-MD-ORH" : {
+        "windowId" : "fe48ef564f00462468fcc71d9fb2818fcc8ed88a5ca69d9068b8ae17260d587e",
+        "sourceIds" : [ "SMS-SRC-ORH", "SMSC-MD-ORH-01" ],
+        "observed" : 98.37837837837837
+      },
+      "SMS-MD-RIB" : {
+        "windowId" : "ba52d48dd85c382b6355d02046fadb027f1c7175acdc5595ef8c1a263d361ec4",
+        "sourceIds" : [ "SMS-SRC-RIB", "SMSC-MD-RIB-01" ],
+        "observed" : 99.48979591836735
+      },
+      "SMS-MD-SOR" : {
+        "windowId" : "d021098e581abed651b3d839bde33eea7ad58f4deaa2d2b1dc682d9c48551d38",
+        "sourceIds" : [ "SMS-SRC-SOR", "SMSC-MD-SOR-01" ],
+        "observed" : 98.59813084112149
+      },
+      "SMS-MD-TIR" : {
+        "windowId" : "1102b42dc4e6e0035a8c082d0757988aed46373e29a6dfdeb5051afc7eca2c0a",
+        "sourceIds" : [ "SMS-SRC-TIR", "SMSC-MD-TIR-01" ],
+        "observed" : 100.0
+      },
+      "SMS-MD-UNG" : {
+        "windowId" : "10b04297415121d543d5419e63450ad4e68298fe1e2136d4c0d9cea3f729fb6d",
+        "sourceIds" : [ "SMS-SRC-UNG", "SMSC-MD-UNG-01" ],
+        "observed" : 98.0
+      },
+      "VOLTE-MD-BAL" : {
+        "windowId" : "0fab6e6f3b4d535955274c793504de71dbceae65403897e1fffe43cded16fe36",
+        "sourceIds" : [ "IMS-MD-BAL-01", "TRANSPORT-MD-BAL-01", "VOLTE-SRC-BAL" ],
+        "observed" : 99.40119760479043
+      },
+      "VOLTE-MD-CAH" : {
+        "windowId" : "88844803acfef0b8ee252dc7cf62e3c0fb44d97063c1ff11244960e1e490a44f",
+        "sourceIds" : [ "IMS-MD-CAH-01", "TRANSPORT-MD-CAH-01", "VOLTE-SRC-CAH" ],
+        "observed" : 99.36936936936937
+      },
+      "VOLTE-MD-CHI" : {
+        "windowId" : "6f9e606368806ea8ae0c76478998dbac982fb4ec26346c7b18eee75ed979e923",
+        "sourceIds" : [ "IMS-MD-CHI-01", "TRANSPORT-MD-CHI-01", "VOLTE-SRC-CHI" ],
+        "observed" : 99.20983318700614
+      },
+      "VOLTE-MD-COM" : {
+        "windowId" : "8933fda2d15c09e48756e381201bff3d9fbdca2d4c472205efdbccf296b95093",
+        "sourceIds" : [ "IMS-MD-COM-01", "TRANSPORT-MD-COM-01", "VOLTE-SRC-COM" ],
+        "observed" : 99.39498703543647
+      },
+      "VOLTE-MD-EDI" : {
+        "windowId" : "d97cf2a3ab2e0b984e777b1a9f5080bf6de1f9c7212da35d59ca1be4a1d58451",
+        "sourceIds" : [ "IMS-MD-EDI-01", "TRANSPORT-MD-EDI-01", "VOLTE-SRC-EDI" ],
+        "observed" : 99.31448157669237
+      },
+      "VOLTE-MD-ORH" : {
+        "windowId" : "a10fff77fc05a074de063cbc24de844923c58810b186c85b16489836210f3655",
+        "sourceIds" : [ "IMS-MD-ORH-01", "TRANSPORT-MD-ORH-01", "VOLTE-SRC-ORH" ],
+        "observed" : 94.42896935933148
+      },
+      "VOLTE-MD-RIB" : {
+        "windowId" : "0670b73c504d0bde7e70dcac9149e6a3a338c290485778a2c9085b07c82b3e6b",
+        "sourceIds" : [ "IMS-MD-RIB-01", "TRANSPORT-MD-RIB-01", "VOLTE-SRC-RIB" ],
+        "observed" : 99.22680412371135
+      },
+      "VOLTE-MD-SOR" : {
+        "windowId" : "31fe920ad9ecad6ad23734b9dd6f57c170782f283a6b4e7fe0ce7e6d1820612f",
+        "sourceIds" : [ "IMS-MD-SOR-01", "TRANSPORT-MD-SOR-01", "VOLTE-SRC-SOR" ],
+        "observed" : 99.2153443766347
+      },
+      "VOLTE-MD-TIR" : {
+        "windowId" : "9a662ed83e5858a9de19cfc5e9dc76ae0f24fbaf9de4f43223b029ac0553a42b",
+        "sourceIds" : [ "IMS-MD-TIR-01", "TRANSPORT-MD-TIR-01", "VOLTE-SRC-TIR" ],
+        "observed" : 99.37444146559429
+      },
+      "VOLTE-MD-UNG" : {
+        "windowId" : "f4a62730c1947cdd28ceaa647bb35599c4b12b7a318a19eb2c80d336f229ded0",
+        "sourceIds" : [ "IMS-MD-UNG-01", "TRANSPORT-MD-UNG-01", "VOLTE-SRC-UNG" ],
+        "observed" : 99.2773261065944
+      }
+    },
+    "windowStart" : "2026-10-07T08:02:00Z",
+    "logicalReceipts" : 49,
+    "gapScope" : "SMS-MD-EDI",
+    "wireRecords" : 49
+  },
+  "threeConsecutiveMinutes" : {
+    "scopes" : [ "SMS-MD-BAL", "SMS-MD-CAH", "SMS-MD-CHI", "SMS-MD-COM", "SMS-MD-EDI", "SMS-MD-ORH", "SMS-MD-RIB", "SMS-MD-SOR", "SMS-MD-TIR", "SMS-MD-UNG", "VOLTE-MD-BAL", "VOLTE-MD-CAH", "VOLTE-MD-CHI", "VOLTE-MD-COM", "VOLTE-MD-EDI", "VOLTE-MD-ORH", "VOLTE-MD-RIB", "VOLTE-MD-SOR", "VOLTE-MD-TIR", "VOLTE-MD-UNG" ],
+    "measuredAtUtc" : "2026-10-10T20:44:48.527209300Z",
+    "logicalReceipts" : 150,
+    "windows" : [ {
+      "finalizedKpis" : 20,
+      "windowEnd" : "2026-10-07T08:01:00Z",
+      "logicalReceipts" : 50,
+      "producer" : {
+        "windowStart" : "2026-10-07T08:00:00Z",
+        "expectedObservations" : 50,
+        "offeredObservations" : 50,
+        "acknowledgedObservations" : 50,
+        "failedObservations" : 0,
+        "expiredOrCancelledObservations" : 0,
+        "sendAttempts" : 50,
+        "failedSendAttempts" : 0,
+        "timedOutSendAttempts" : 0,
+        "complete" : true
+      },
+      "windowStart" : "2026-10-07T08:00:00Z",
+      "wireRecords" : 50,
+      "coverageFacts" : 20
+    }, {
+      "finalizedKpis" : 20,
+      "windowEnd" : "2026-10-07T08:02:00Z",
+      "logicalReceipts" : 50,
+      "producer" : {
+        "windowStart" : "2026-10-07T08:01:00Z",
+        "expectedObservations" : 50,
+        "offeredObservations" : 50,
+        "acknowledgedObservations" : 50,
+        "failedObservations" : 0,
+        "expiredOrCancelledObservations" : 0,
+        "sendAttempts" : 50,
+        "failedSendAttempts" : 0,
+        "timedOutSendAttempts" : 0,
+        "complete" : true
+      },
+      "windowStart" : "2026-10-07T08:01:00Z",
+      "wireRecords" : 50,
+      "coverageFacts" : 20
+    }, {
+      "finalizedKpis" : 20,
+      "windowEnd" : "2026-10-07T08:03:00Z",
+      "logicalReceipts" : 50,
+      "producer" : {
+        "windowStart" : "2026-10-07T08:02:00Z",
+        "expectedObservations" : 50,
+        "offeredObservations" : 50,
+        "acknowledgedObservations" : 50,
+        "failedObservations" : 0,
+        "expiredOrCancelledObservations" : 0,
+        "sendAttempts" : 50,
+        "failedSendAttempts" : 0,
+        "timedOutSendAttempts" : 0,
+        "complete" : true
+      },
+      "windowStart" : "2026-10-07T08:02:00Z",
+      "wireRecords" : 50,
+      "coverageFacts" : 20
+    } ],
+    "boundary" : "One continuous producer; controlled scheduler/clock; real Kafka ACK and PostgreSQL. No deployed API/UI claim.",
+    "legacyReceipts" : 0,
+    "coverageFacts" : 60,
+    "seed" : 42,
+    "finalizedKpis" : 60
+  },
+  "normal" : {
+    "beforeRetry" : {
+      "persistedReceipts" : 50,
+      "producer" : {
+        "windowStart" : "2026-10-07T08:00:00Z",
+        "expectedObservations" : 50,
+        "offeredObservations" : 50,
+        "acknowledgedObservations" : 50,
+        "failedObservations" : 0,
+        "expiredOrCancelledObservations" : 0,
+        "sendAttempts" : 50,
+        "failedSendAttempts" : 0,
+        "timedOutSendAttempts" : 0,
+        "complete" : true
+      }
+    },
+    "measuredAtUtc" : "2026-10-10T20:45:04.191685900Z",
+    "windowStart" : "2026-10-07T08:00:00Z",
+    "scopes" : [ "SMS-MD-BAL", "SMS-MD-CAH", "SMS-MD-CHI", "SMS-MD-COM", "SMS-MD-EDI", "SMS-MD-ORH", "SMS-MD-RIB", "SMS-MD-SOR", "SMS-MD-TIR", "SMS-MD-UNG", "VOLTE-MD-BAL", "VOLTE-MD-CAH", "VOLTE-MD-CHI", "VOLTE-MD-COM", "VOLTE-MD-EDI", "VOLTE-MD-ORH", "VOLTE-MD-RIB", "VOLTE-MD-SOR", "VOLTE-MD-TIR", "VOLTE-MD-UNG" ],
+    "producer" : {
+      "windowStart" : "2026-10-07T08:00:00Z",
+      "expectedObservations" : 50,
+      "offeredObservations" : 50,
+      "acknowledgedObservations" : 50,
+      "failedObservations" : 0,
+      "expiredOrCancelledObservations" : 0,
+      "sendAttempts" : 50,
+      "failedSendAttempts" : 0,
+      "timedOutSendAttempts" : 0,
+      "complete" : true
+    },
+    "persistedReceipts" : 50,
+    "finalizedFeatures" : 20,
+    "wireRecords" : 50,
+    "wallDurationMs" : 3832.1927,
+    "testJvmCpuMs" : 1250.0,
+    "testJvmHeapBeforeBytes" : 195826216,
+    "testJvmHeapAfterBytes" : 102531584,
+    "availableProcessors" : 8
+  },
+  "uncertainAckRetry" : {
+    "beforeRetry" : {
+      "persistedReceipts" : 50,
+      "producer" : {
+        "windowStart" : "2026-10-07T08:01:00Z",
+        "expectedObservations" : 50,
+        "offeredObservations" : 50,
+        "acknowledgedObservations" : 49,
+        "failedObservations" : 0,
+        "expiredOrCancelledObservations" : 0,
+        "sendAttempts" : 50,
+        "failedSendAttempts" : 1,
+        "timedOutSendAttempts" : 1,
+        "complete" : false
+      }
+    },
+    "duplicateDeliveries" : 1,
+    "measuredAtUtc" : "2026-10-10T20:45:08.332852700Z",
+    "windowStart" : "2026-10-07T08:01:00Z",
+    "scopes" : [ "SMS-MD-BAL", "SMS-MD-CAH", "SMS-MD-CHI", "SMS-MD-COM", "SMS-MD-EDI", "SMS-MD-ORH", "SMS-MD-RIB", "SMS-MD-SOR", "SMS-MD-TIR", "SMS-MD-UNG", "VOLTE-MD-BAL", "VOLTE-MD-CAH", "VOLTE-MD-CHI", "VOLTE-MD-COM", "VOLTE-MD-EDI", "VOLTE-MD-ORH", "VOLTE-MD-RIB", "VOLTE-MD-SOR", "VOLTE-MD-TIR", "VOLTE-MD-UNG" ],
+    "producer" : {
+      "windowStart" : "2026-10-07T08:01:00Z",
+      "expectedObservations" : 50,
+      "offeredObservations" : 50,
+      "acknowledgedObservations" : 50,
+      "failedObservations" : 0,
+      "expiredOrCancelledObservations" : 0,
+      "sendAttempts" : 51,
+      "failedSendAttempts" : 1,
+      "timedOutSendAttempts" : 1,
+      "complete" : true
+    },
+    "persistedReceipts" : 50,
+    "finalizedFeatures" : 20,
+    "wireRecords" : 51,
+    "wallDurationMs" : 5458.9187,
+    "testJvmCpuMs" : 1343.75,
+    "testJvmHeapBeforeBytes" : 113017344,
+    "testJvmHeapAfterBytes" : 154960384,
+    "availableProcessors" : 8
+  }
+}

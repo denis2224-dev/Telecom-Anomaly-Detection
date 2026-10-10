@@ -1,0 +1,513 @@
+{
+  "voice-normal" : {
+    "kpis" : [ {
+      "name" : "cssrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.3,
+      "observed" : 99.5,
+      "numerator" : 995,
+      "denominator" : 1000
+    }, {
+      "name" : "eligibleAttempts",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 1000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Ratio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.002,
+      "numerator" : 2,
+      "denominator" : 1000
+    }, {
+      "name" : "sip503Count",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 2,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "rrcSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.5,
+      "observed" : 99.5,
+      "numerator" : 1194,
+      "denominator" : 1200
+    }, {
+      "name" : "bearerSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 99.54545454545455,
+      "numerator" : 1095,
+      "denominator" : 1100
+    }, {
+      "name" : "packetLossRatio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.001,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "imsCpuPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : 35,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+    "windowEnd" : "2026-09-15T08:01:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:00:00Z",
+    "featureNames" : [ "cssrDeltaPp", "sip503Ratio", "rrcDeltaPp", "bearerDeltaPp", "packetLossRatio", "imsCpuPct" ],
+    "featureValues" : [ 0.20000000000000284, 0.002, 0.0, 0.5454545454545467, 0.001, 35 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "2e26efef-c876-5ed5-b758-c5ce76d13c30", "c727637d-3729-566a-b338-41927338771e", "de4a242d-9a0b-5e4b-824c-26cd56b71ed5" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-baseline"
+  },
+  "voice-fault" : {
+    "kpis" : [ {
+      "name" : "cssrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.3,
+      "observed" : 90.0,
+      "numerator" : 900,
+      "denominator" : 1000
+    }, {
+      "name" : "eligibleAttempts",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 1000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Ratio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.08,
+      "numerator" : 80,
+      "denominator" : 1000
+    }, {
+      "name" : "sip503Count",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 80,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "rrcSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.5,
+      "observed" : 99.5,
+      "numerator" : 1194,
+      "denominator" : 1200
+    }, {
+      "name" : "bearerSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 99.54545454545455,
+      "numerator" : 1095,
+      "denominator" : 1100
+    }, {
+      "name" : "packetLossRatio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.001,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "imsCpuPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : 95,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+    "windowEnd" : "2026-09-15T08:01:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:00:00Z",
+    "featureNames" : [ "cssrDeltaPp", "sip503Ratio", "rrcDeltaPp", "bearerDeltaPp", "packetLossRatio", "imsCpuPct" ],
+    "featureValues" : [ -9.299999999999997, 0.08, 0.0, 0.5454545454545467, 0.001, 95 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "1a25c9e7-769b-5289-9bd1-f2b371ace9ee", "65e3481b-8b00-5b14-a38a-86f2b8d6ab1e", "c727637d-3729-566a-b338-41927338771e" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-baseline"
+  },
+  "voice-worked-53" : {
+    "kpis" : [ {
+      "name" : "cssrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.3,
+      "observed" : 94.0,
+      "numerator" : 940,
+      "denominator" : 1000
+    }, {
+      "name" : "eligibleAttempts",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 1000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Ratio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.055,
+      "numerator" : 55,
+      "denominator" : 1000
+    }, {
+      "name" : "sip503Count",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 55,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "rrcSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.5,
+      "observed" : 99.5,
+      "numerator" : 1194,
+      "denominator" : 1200
+    }, {
+      "name" : "bearerSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 99.54545454545455,
+      "numerator" : 1095,
+      "denominator" : 1100
+    }, {
+      "name" : "packetLossRatio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.001,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "imsCpuPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : 95,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+    "windowEnd" : "2026-09-15T08:01:00Z",
+    "mlEligible" : true,
+    "windowStart" : "2026-09-15T08:00:00Z",
+    "featureNames" : [ "cssrDeltaPp", "sip503Ratio", "rrcDeltaPp", "bearerDeltaPp", "packetLossRatio", "imsCpuPct" ],
+    "featureValues" : [ -5.299999999999997, 0.055, 0.0, 0.5454545454545467, 0.001, 95 ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "1a25c9e7-769b-5289-9bd1-f2b371ace9ee", "275a8644-90df-5b04-a36d-e48adcaccd92", "c727637d-3729-566a-b338-41927338771e" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-baseline"
+  },
+  "voice-no-nodes" : {
+    "kpis" : [ {
+      "name" : "cssrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.3,
+      "observed" : 99.5,
+      "numerator" : 995,
+      "denominator" : 1000
+    }, {
+      "name" : "eligibleAttempts",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 1000,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Ratio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.002,
+      "numerator" : 2,
+      "denominator" : 1000
+    }, {
+      "name" : "sip503Count",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 2,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "rrcSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.5,
+      "observed" : 99.5,
+      "numerator" : 1194,
+      "denominator" : 1200
+    }, {
+      "name" : "bearerSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : 99.54545454545455,
+      "numerator" : 1095,
+      "denominator" : 1100
+    }, {
+      "name" : "packetLossRatio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "imsCpuPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+    "windowEnd" : "2026-09-15T08:01:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:00:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "de4a242d-9a0b-5e4b-824c-26cd56b71ed5" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-baseline"
+  },
+  "voice-zero" : {
+    "kpis" : [ {
+      "name" : "cssrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.3,
+      "observed" : null,
+      "numerator" : 0,
+      "denominator" : 0
+    }, {
+      "name" : "eligibleAttempts",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Ratio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : 0,
+      "denominator" : 0
+    }, {
+      "name" : "sip503Count",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : 0,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "rrcSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.5,
+      "observed" : null,
+      "numerator" : 0,
+      "denominator" : 0
+    }, {
+      "name" : "bearerSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : 0,
+      "denominator" : 0
+    }, {
+      "name" : "packetLossRatio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "imsCpuPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "COMPLETE",
+    "scopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+    "windowEnd" : "2026-09-15T08:01:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:00:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "de4a242d-9a0b-5e4b-824c-26cd56b71ed5" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-baseline"
+  },
+  "voice-incomplete" : {
+    "kpis" : [ {
+      "name" : "cssrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.3,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "eligibleAttempts",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Ratio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Count",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "rrcSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.5,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "bearerSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "packetLossRatio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : 0.001,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "imsCpuPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : 35,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "INCOMPLETE",
+    "scopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+    "windowEnd" : "2026-09-15T08:01:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:00:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "2e26efef-c876-5ed5-b758-c5ce76d13c30", "c727637d-3729-566a-b338-41927338771e", "de4a242d-9a0b-5e4b-824c-26cd56b71ed5" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-baseline"
+  },
+  "voice-missing" : {
+    "kpis" : [ {
+      "name" : "cssrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.3,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "eligibleAttempts",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Ratio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "sip503Count",
+      "unit" : "COUNT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "rrcSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99.5,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "bearerSrPct",
+      "unit" : "PERCENT",
+      "baseline" : 99,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "packetLossRatio",
+      "unit" : "RATIO",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    }, {
+      "name" : "imsCpuPct",
+      "unit" : "PERCENT",
+      "baseline" : null,
+      "observed" : null,
+      "numerator" : null,
+      "denominator" : null
+    } ],
+    "quality" : "MISSING",
+    "scopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "windowId" : "513f5809a908204afaed14fa0d949759c4bf1abde3df4fe7bd18322693e90fcc",
+    "windowEnd" : "2026-09-15T08:01:00Z",
+    "mlEligible" : false,
+    "windowStart" : "2026-09-15T08:00:00Z",
+    "featureNames" : [ ],
+    "featureValues" : [ ],
+    "schemaVersion" : 2,
+    "featureVersion" : 2,
+    "sourceEventIds" : [ "3af75382-5eba-54e4-ab87-a47fafb7f3b0" ],
+    "baselineVersion" : "baseline-v2",
+    "topologyVersion" : "2-baseline"
+  }
+}

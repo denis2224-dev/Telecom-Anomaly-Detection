@@ -1,0 +1,762 @@
+{
+  "volte-md-chi-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-chi-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-bal-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-bal-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-edi-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-EDI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-edi-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-EDI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-sor-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-SOR",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-sor-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-SOR",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-rib-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-RIB",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-rib-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-RIB",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-ung-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-UNG",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-ung-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-UNG",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-tir-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-TIR",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-tir-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-TIR",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-com-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-COM",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-com-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-COM",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-cah-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CAH",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-cah-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CAH",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-orh-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-ORH",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-orh-normal" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-ORH",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-chi-zero" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-low-volume" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-missing-baseline" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "BASELINE_MISSING",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : null,
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : { }
+  },
+  "volte-md-chi-missing-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-missing-service" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-missing-all" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-incomplete" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-breach" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-stale-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-chi-unequal-volume" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-CHI",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-chi-zero" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-low-volume" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-missing-baseline" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "BASELINE_MISSING",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : null,
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : { }
+  },
+  "sms-md-chi-missing-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-missing-service" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-missing-all" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-incomplete" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-breach" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-stale-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-fractional" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-chi-queue-only" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-CHI",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "volte-md-bal-zero" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-low-volume" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-missing-baseline" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "BASELINE_MISSING",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : null,
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : { }
+  },
+  "volte-md-bal-missing-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-missing-service" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-missing-all" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-incomplete" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-breach" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-stale-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "volte-md-bal-unequal-volume" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "VOLTE-MD-BAL",
+    "sourceScopeId" : "VOLTE-MD-CENTRAL",
+    "service" : "VOLTE",
+    "hourOfWeek" : 32,
+    "values" : {
+      "rrcSrPct" : 99.5,
+      "bearerSrPct" : 99,
+      "cssrPct" : 99.3
+    }
+  },
+  "sms-md-bal-zero" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-low-volume" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-missing-baseline" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "BASELINE_MISSING",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : null,
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : { }
+  },
+  "sms-md-bal-missing-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-missing-service" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-missing-all" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-incomplete" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-breach" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-stale-node" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 32,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-fractional" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 33,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  },
+  "sms-md-bal-queue-only" : {
+    "baselineVersion" : "baseline-v2",
+    "status" : "PEER",
+    "scopeId" : "SMS-MD-BAL",
+    "sourceScopeId" : "SMS-MD-ROUTE-A",
+    "service" : "SMS",
+    "hourOfWeek" : 33,
+    "values" : {
+      "p95DeliveryMs" : 2E+3,
+      "deliverySrPct" : 99
+    }
+  }
+}
