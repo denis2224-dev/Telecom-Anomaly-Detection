@@ -29,6 +29,12 @@
         <includes><include>policies/**</include><include>baselines/**</include><include>features/**</include><include>detections/**</include><include>fixtures/features/**</include><include>fixtures/detections/**</include></includes>
       </resource>
     </resources>
+    <testResources>
+      <testResource><directory>src/test/resources</directory></testResource>
+      <testResource><directory>../../contracts</directory><targetPath>contracts</targetPath>
+        <includes><include>fixtures/trace-link/**</include></includes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin>
       <plugin>

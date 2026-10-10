@@ -1,0 +1,35 @@
+{
+  "suiteVersion": "trace-link-histogram-v1",
+  "sourceSuite": "arithmetic-cases.json",
+  "caseIds": [
+    "histogram-pooled",
+    "histogram-voice",
+    "histogram-empty",
+    "histogram-incompatible",
+    "histogram-late-negative",
+    "histogram-unordered",
+    "histogram-nonfinite"
+  ],
+  "voiceEdgesSeconds": [
+    0.5,
+    1,
+    2,
+    3,
+    5,
+    8,
+    15,
+    30,
+    60
+  ],
+  "smsEdgesSeconds": [
+    1,
+    2,
+    5,
+    10,
+    20,
+    40,
+    80,
+    160,
+    320
+  ]
+}

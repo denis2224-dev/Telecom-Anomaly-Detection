@@ -114,6 +114,10 @@ def main():
     validate_day1_numeric_contracts()
     from day1_evidence_contract import validate_day1_evidence_contracts
     validate_day1_evidence_contracts()
+    from trace_link_contract import validate_trace_link_contracts
+    validate_trace_link_contracts()
+    from trace_link_fixture_contract import validate_trace_link_fixture_contracts
+    validate_trace_link_fixture_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)
