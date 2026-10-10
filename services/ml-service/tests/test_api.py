@@ -25,6 +25,7 @@ class InferenceApiTests(unittest.TestCase):
                 self.assertTrue(math.isfinite(result["anomalyRank"]))
                 self.assertEqual("isoforest-v2-synthetic-1", result["modelVersion"])
                 for bad in (dict(window, featureNames=list(reversed(window["featureNames"]))),
+                            dict(window, baselineVersion='baseline-v2-changed'),
                             dict(window, mlEligible=False, featureNames=[], featureValues=[]),
                             dict(window, service=[service])):
                     response = client.post("/internal/inference", json=bad)
