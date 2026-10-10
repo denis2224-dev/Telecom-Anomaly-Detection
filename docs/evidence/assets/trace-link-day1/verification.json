@@ -1,0 +1,137 @@
+{
+  "assignmentDate": "2026-10-10",
+  "implementationDate": "2026-10-11",
+  "generatedAt": "2026-10-10T22:08:39.791497Z",
+  "localTechnicalStatus": "COMPLETE",
+  "receiverAcceptance": "PENDING_REPRODUCTION_AND_REVIEW",
+  "implementationBaseSha": "30c9a47b7f58d46f7fbfab08f2fa2d5959da5cea",
+  "fixtureSha256": "8fbeebc97c4ee7a2ba21d6ec4db10aac116aa9e031716b8d6191605f195eb357",
+  "caseCount": 54,
+  "maximumAbsoluteFloatError": {
+    "java": 0,
+    "python": 0,
+    "sql": 0,
+    "javascript": 0
+  },
+  "commands": [
+    {
+      "command": "python scripts/check-contracts.py",
+      "status": "PASS",
+      "metrics": 43,
+      "evidenceCases": 6,
+      "arithmeticCases": 54
+    },
+    {
+      "command": "mvnw.cmd -pl services/processor -am --batch-mode --no-transfer-progress verify",
+      "status": "BUILD SUCCESS",
+      "tests": 1165,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "details": "maven-reactor.json; before final additive helper review; final focused rerun below"
+    },
+    {
+      "command": "python -m unittest discover -s services/ml-service/tests -v",
+      "status": "PASS",
+      "tests": 61,
+      "phase": "full ML regression before final helper-only boundary/metadata revisions"
+    },
+    {
+      "command": "./scripts/verify-trace-link-day1.ps1 -Python ./tmp/pr78-review/python/Scripts/python.exe -JavaHome ./tmp/tools/jdk21/jdk-21.0.12.1+1 -Focused",
+      "status": "PASS",
+      "repositoryPythonTests": 97,
+      "finalHelperPythonTests": 9,
+      "finalHelperJavaTests": 3,
+      "freshExports": [
+        "java",
+        "python",
+        "sql",
+        "javascript"
+      ],
+      "isolatedPostgreSqlVersion": "16.4",
+      "postgreSqlNetwork": "none",
+      "frozenInputFiles": 28
+    },
+    {
+      "command": "python scripts/check-voice-parity.py",
+      "status": "PASS",
+      "persistedJavaPythonCases": 7,
+      "maximumAbsoluteFloatError": 0
+    },
+    {
+      "command": "python scripts/check-sms-parity.py --java-output services/processor/target/sms-parity-java.json",
+      "status": "PASS",
+      "persistedJavaPythonCases": 12,
+      "maximumAbsoluteFloatError": 0
+    },
+    {
+      "command": "python scripts/check-voice-parity.py --geographic --java-output services/processor/target/geographic-voice-parity-java.json",
+      "status": "PASS",
+      "persistedJavaPythonCases": 30,
+      "maximumAbsoluteFloatError": 0
+    },
+    {
+      "command": "python scripts/check-sms-parity.py --geographic --java-output services/processor/target/geographic-sms-parity-java.json",
+      "status": "PASS",
+      "persistedJavaPythonCases": 32,
+      "maximumAbsoluteFloatError": 0
+    }
+  ],
+  "environment": {
+    "python": "3.13.9",
+    "node": "24.13.1",
+    "java": "21.0.12.1",
+    "postgresql": "16.4"
+  },
+  "resolvedEnvironmentAttempts": [
+    "System Python lacked existing OpenAPI test dependencies; full repository suite passed with the existing tmp/pr78-review/python environment.",
+    "Default sandbox TestClient/Docker execution was restricted; authorized host execution passed. No test or validation guard was weakened.",
+    "Initial unquoted Maven -D property was parsed by PowerShell; quoted properties passed."
+  ],
+  "review": {
+    "workers": 3,
+    "coordinator": 1,
+    "arithmeticReview": "independent worker review plus hand-derived fixtures",
+    "contractReview": "independent arithmetic worker and coordinator",
+    "mutationDetectedCases": [
+      "city-outside-window",
+      "link-period-exclusive-boundary",
+      "link-stale"
+    ],
+    "truthInputControls": "PASS"
+  },
+  "limitations": [
+    "four existing environment-gated Java skips recorded separately",
+    "DOM shim only, not real browser QA",
+    "CSV comparison samples nine rows",
+    "reference SQL pinned/reviewed; repository-owned SQL independently executed",
+    "no production ingestion/detector/API/UI/model activation",
+    "receiver acceptance pending"
+  ],
+  "artifactSha256": {
+    "boundary-cases.json": "d47f1cb0d7d404fc1a9f79fbe8d7d2539b4b0d6ba60e262e32b04a1ce801f7bb",
+    "input-manifest.json": "f5270ce8a4d3bd9ed07a9385517c11f8ff3e0ae3cc042353ef56a1b99f52af25",
+    "java.json": "119ed09fea4ce05e0002a73a4eb32e4fd0822d3816f0ae0221d3e3819ecdf5ef",
+    "javascript.json": "f7cf75b06458248f66cfbcdcbcf0b160620a34ed0d7acffdd4b4fc02d7e8b5b7",
+    "maven-reactor.json": "3aec3bdb49ed672c7606a40d4cca7024212a3f8206d11d297d1eda490b205c34",
+    "mutation.json": "78dcc549557607d27a60b121429e3c88ed25a042bb8ab4b14d6321cdea8d2760",
+    "python.json": "37581c41511cba64fb4b29397c16a58561890a361a0d2629356b0f27e9f5f69c",
+    "reference-compatibility.json": "5acae632b675456d50aa2bdcb7317d53f2df7d08ae967290096b3173158af827",
+    "reference-engine.json": "250eb6948522964f4fb76391b3fe09def587e17d2000d6ce7ce6ea9f05feb812",
+    "reference-ui-smoke.json": "d23e1b719258710eda942a09e21957d9a68efad370a5101402cf5de35657690f",
+    "sql-boundaries.json": "7647687b6317d0bf61b00c91f607786ace5443874a519b6d0b32ba7bc5d2d3b4",
+    "sql.json": "1f1c4f92979c8fb8e96482706fe31e02e5224caa023cead158ee2d05fa9dc062"
+  },
+  "implementationCommits": {
+    "contracts": "ac3b4aa",
+    "calculatorsAndValidation": "c10db7e9df052244b1a8fa69a7c13032ef641738"
+  },
+  "gitFixtureBytesVerified": true,
+  "supplementalSqlBoundaryCases": {
+    "cases": 7,
+    "maximumAbsoluteError": 0,
+    "fixture": "boundary-cases.json",
+    "export": "sql-boundaries.json"
+  },
+  "disposableSqlContainersStopped": true
+}
