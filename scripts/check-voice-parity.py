@@ -67,15 +67,23 @@ def reference_cases():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--java-output', default='services/processor/target/voice-parity-java.json')
-    parser.add_argument('--geographic', action='store_true', help='Compare the frozen city input matrix')
+    parser.add_argument('--java-output', default=None)
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument('--geographic', action='store_true', help='Compare the frozen city input matrix')
+    modes.add_argument('--geographic-persisted', action='store_true', help='Compare fresh Day 5 raw-input exports')
     args = parser.parse_args()
-    if args.geographic:
+    if (args.geographic or args.geographic_persisted) and not args.java_output:
+        parser.error('Geographic comparison requires an explicit fresh --java-output')
+    if args.geographic_persisted:
+        from geographic_feature_parity import persisted_cases
+        expected, actual = persisted_cases(args.java_output, 'VOLTE')
+    elif args.geographic:
         from geographic_feature_parity import reference_cases as geographic_cases
         expected = geographic_cases('VOLTE')
+        actual = read(args.java_output)
     else:
         expected = reference_cases()
-    actual = read(args.java_output)
+        actual = read(args.java_output or 'services/processor/target/voice-parity-java.json')
     assert expected.keys() == actual.keys()
     for name, reference in expected.items():
         error = compare(reference, actual[name], name)

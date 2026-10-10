@@ -29,9 +29,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Fresh persisted windows through ingestion/finalization, plus durable all-city detection replay. */
-@SpringJUnitConfig(GeographicParityTest.Config.class)
+@SpringJUnitConfig(Day5GeographicParityTest.Config.class)
 @Timeout(300)
-class GeographicParityTest {
+class Day5GeographicParityTest {
     static class Config extends GeographicCoverageTest.Config {
         @Override @org.springframework.context.annotation.Bean
         GeographyCatalog geography() throws Exception { return GeographyCatalog.activate(GeographicDetectionFixtures.START); }
@@ -115,7 +115,7 @@ class GeographicParityTest {
             }
         }
         assertEquals(180,cases.size());
-        JSON.writerWithDefaultPrettyPrinter().writeValue(Path.of("target/geographic-parity-java.json").toFile(),export);
+        JSON.writerWithDefaultPrettyPrinter().writeValue(Path.of("target/day5-geographic-parity-java.json").toFile(),export);
     }
 
     @Test void allTwentyScopesOpenRecoverAndReplayWithoutMl() throws Exception {

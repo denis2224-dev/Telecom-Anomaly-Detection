@@ -1,5 +1,10 @@
 # Rusu Serghei — Day 5 detector acceptance
 
+**Historical candidate evidence, superseded for PR #86 integration.** The results
+below apply only to the original implementation SHA. Reconciliation with main is
+tracked in `tasks/sergiu-day5-acceptance/plan.md`; regenerated results are recorded
+in `2026-10-10-sergiu-pr86-reconciliation.md`. The original manifest is preserved.
+
 Implementation and local verification are recorded separately from shared G5
 release acceptance. The final machine-readable results and content hashes are in
 `2026-10-10-sergiu-day5-manifest.json`. Raw logs and exports are retained locally

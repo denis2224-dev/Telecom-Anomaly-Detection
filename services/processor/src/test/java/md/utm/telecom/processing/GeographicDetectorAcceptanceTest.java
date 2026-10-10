@@ -63,10 +63,9 @@ class GeographicDetectorAcceptanceTest {
         assertEquals("OPEN",opened.path("phase").asText());
         assertEquals(GeographicDetectionFixtures.START.plusSeconds(60).toString(),opened.path("firstObservedAt").asText());
         assertEquals(GeographicDetectionFixtures.START.plusSeconds(190).toString(),opened.path("detectedAt").asText());
-        String service=scope.startsWith("VOLTE") ? "volte" : "sms";
-        var rawMissing=f.raw(scope,"normal-"+service,3).put("quality","MISSING");
-        rawMissing.remove("metrics");
-        var missing=f.builder.build(rawMissing,List.of());
+        var absentAt=GeographicDetectionFixtures.START.plusSeconds(180);
+        var missing=f.builder.buildMissing(scope,absentAt,absentAt.plusSeconds(60),List.of());
+        assertTrue(missing.required("sourceEventIds").isEmpty());
         var unknown=engine.advance(state,missing,null,MlClient.Result.insufficient(),GeographicDetectionFixtures.START.plusSeconds(250));
         assertEquals("UNKNOWN",unknown.path("phase").asText());
         assertTrue(unknown.path("evidence").toString().contains("HISTORICAL_IMPACT"));
@@ -181,9 +180,12 @@ class GeographicDetectorAcceptanceTest {
                 assertEquals(samples>=100 ? "HIGH" : "MEDIUM",rule.evaluate(smsWindow(f,scope,samples,20001,0,0),smsNode(f,scope,0,0)).severity());
             assertTrue(rule.evaluate(smsWindow(f,scope,0,0,0,0),smsNode(f,scope,0,0)).healthy());
             assertFalse(rule.evaluate(smsWindow(f,scope,29,2000,1,0),smsNode(f,scope,1,0)).healthy());
-            var missing=f.raw(scope,"normal-sms",0).put("quality","MISSING"); missing.remove("metrics");
             var queue=smsNode(f,scope,100,61);
-            var backlog=rule.evaluate(f.builder.build(missing,List.of(queue)),queue);
+            var missing=f.builder.buildMissing(scope,GeographicDetectionFixtures.START,
+                    GeographicDetectionFixtures.START.plusSeconds(60),List.of(queue));
+            assertEquals(List.of(queue.path("eventId").asText()),
+                    java.util.stream.StreamSupport.stream(missing.required("sourceEventIds").spliterator(),false).map(JsonNode::asText).toList());
+            var backlog=rule.evaluate(missing,queue);
             assertTrue(backlog.breached()); assertFalse(backlog.healthy());
         }
     }
