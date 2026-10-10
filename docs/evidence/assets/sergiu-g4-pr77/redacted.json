@@ -1,0 +1,369 @@
+{
+  "startedAt": "2026-10-08T16:38:31.823Z",
+  "captures": [
+    {
+      "file": "city-map.png",
+      "at": "2026-10-08T16:43:23.909Z",
+      "path": "/dashboard",
+      "mask": ".identity (account/session information)"
+    },
+    {
+      "file": "priority-queue.png",
+      "at": "2026-10-08T16:43:24.241Z",
+      "path": "/dashboard",
+      "mask": ".identity (account/session information)"
+    },
+    {
+      "file": "VOLTE-incident.png",
+      "at": "2026-10-08T16:43:25.181Z",
+      "path": "/incidents/d4c96940-2511-4d7b-ad48-75bcdea3b762",
+      "mask": ".identity (account/session information)"
+    },
+    {
+      "file": "SMS-incident.png",
+      "at": "2026-10-08T16:43:25.917Z",
+      "path": "/incidents/1724db91-a083-41a2-a4d8-ca40d386618d",
+      "mask": ".identity (account/session information)"
+    },
+    {
+      "file": "scope-fallback.png",
+      "at": "2026-10-08T16:43:26.192Z",
+      "path": "/dashboard",
+      "mask": ".identity (account/session information)"
+    }
+  ],
+  "details": {
+    "VOLTE": {
+      "id": "d4c96940-2511-4d7b-ad48-75bcdea3b762",
+      "episodeId": "2062db2a4477658b8d8034b7575ad602b3d45215f0aa4d299a87481ad9cb7373",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-EDI",
+      "status": "OPEN",
+      "technicalState": "UNKNOWN",
+      "severity": "HIGH",
+      "assigneeId": null,
+      "resolutionNote": null,
+      "firstObservedAt": "2026-10-08T16:40:00Z",
+      "detectedAt": "2026-10-08T16:42:14.883605Z",
+      "lastObservedAt": "2026-10-08T16:43:00Z",
+      "createdAt": "2026-10-08T16:42:15.054266Z",
+      "updatedAt": "2026-10-08T16:43:11.454962Z",
+      "version": 1,
+      "latestSequence": 2,
+      "latestDetection": {
+        "kpis": [
+          {
+            "name": "cssrPct",
+            "unit": "PERCENT",
+            "baseline": 99.3,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "eligibleAttempts",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "sip503Ratio",
+            "unit": "RATIO",
+            "baseline": null,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "sip503Count",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "rrcSrPct",
+            "unit": "PERCENT",
+            "baseline": 99.5,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "bearerSrPct",
+            "unit": "PERCENT",
+            "baseline": 99,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "packetLossRatio",
+            "unit": "RATIO",
+            "baseline": null,
+            "observed": 0.0009008202420223663,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "imsCpuPct",
+            "unit": "PERCENT",
+            "baseline": null,
+            "observed": 36,
+            "numerator": null,
+            "denominator": null
+          }
+        ],
+        "phase": "UNKNOWN",
+        "impact": {
+          "pendingMessages": 0,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 52.741,
+          "affectedDeliveredMessages": 0
+        },
+        "scopeId": "VOLTE-MD-EDI",
+        "service": "VOLTE",
+        "evidence": [
+          {
+            "code": "HISTORICAL_SEVERITY",
+            "nodeId": null,
+            "summary": "Historical value from 2026-10-08T16:41:00Z; not a measurement for this UNKNOWN decision",
+            "sourceEventIds": [
+              "4021f6c3-964f-4566-b786-06aa7f4115bd",
+              "87dd21e7-8de2-4f9b-aef1-e6321f558278",
+              "b9fe68ba-e69a-44a0-ae16-304e414ae3e0"
+            ]
+          },
+          {
+            "code": "HISTORICAL_IMPACT",
+            "nodeId": null,
+            "summary": "Historical value from 2026-10-08T16:41:00Z; not a measurement for this UNKNOWN decision",
+            "sourceEventIds": [
+              "4021f6c3-964f-4566-b786-06aa7f4115bd",
+              "87dd21e7-8de2-4f9b-aef1-e6321f558278",
+              "b9fe68ba-e69a-44a0-ae16-304e414ae3e0"
+            ]
+          }
+        ],
+        "mlStatus": "INSUFFICIENT_DATA",
+        "sequence": 2,
+        "severity": "HIGH",
+        "episodeId": "2062db2a4477658b8d8034b7575ad602b3d45215f0aa4d299a87481ad9cb7373",
+        "windowEnd": "2026-10-08T16:43:00Z",
+        "detectedAt": "2026-10-08T16:43:11.295155746Z",
+        "anomalyRank": null,
+        "anomalyType": "VOLTE_SETUP_DEGRADATION",
+        "detectionId": "8173135efda6892c07cb343299ab883191f0669b9d067ed630cb3bce02f1b960",
+        "windowStart": "2026-10-08T16:42:00Z",
+        "modelVersion": null,
+        "probableCause": "Service telemetry is missing or incomplete; this window cannot establish a cause or recovery.",
+        "schemaVersion": 2,
+        "correlationKey": "59fc5716565d2f8145cefd0a903c3f33f49b2c7b9ef5a6c35dcfb85da5c0b5b5",
+        "rulesetVersion": "service-rules-v2",
+        "technicalState": "UNKNOWN",
+        "baselineVersion": "baseline-v2",
+        "causeConfidence": "LOW",
+        "firstObservedAt": "2026-10-08T16:40:00Z",
+        "topologyVersion": "2-geography-g1",
+        "recommendedChecks": [
+          "Verify source freshness and baseline coverage",
+          "Inspect SIP 503 traces and IMS/transport health"
+        ]
+      },
+      "presentation": {
+        "impactState": "STALE",
+        "currentImpact": null,
+        "retainedImpact": {
+          "pendingMessages": 0,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 52.741,
+          "affectedDeliveredMessages": 0
+        },
+        "impactSourceDetectionId": "f777ed0da8310bbaaae2e827e701e308056aac2dbc91b49150e624b0f3676db9",
+        "impactWindowEnd": "2026-10-08T16:42:00Z",
+        "probableCause": "Service telemetry is missing or incomplete; this window cannot establish a cause or recovery.",
+        "causeConfidence": "LOW",
+        "evidenceHistoryPath": "/api/incidents/d4c96940-2511-4d7b-ad48-75bcdea3b762/detections"
+      },
+      "location": {
+        "cityId": "EDI",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "measuredScopeId": "VOLTE-MD-EDI",
+        "containmentPath": [
+          "MD",
+          "CITY-MD-EDI",
+          "AGG-MD-EDI-01",
+          "SITE-MD-EDI-01",
+          "CELL-MD-EDI-01"
+        ],
+        "dependencyNodeIds": [
+          "IMS-MD-EDI-01",
+          "TRANSPORT-MD-EDI-01"
+        ],
+        "nullReason": null
+      }
+    },
+    "SMS": {
+      "id": "1724db91-a083-41a2-a4d8-ca40d386618d",
+      "episodeId": "a5fd0067a8341747b1638eadb29b3ae4c877d719b658905b680665c149f12d6e",
+      "service": "SMS",
+      "scopeId": "SMS-MD-EDI",
+      "status": "OPEN",
+      "technicalState": "UNKNOWN",
+      "severity": "HIGH",
+      "assigneeId": null,
+      "resolutionNote": null,
+      "firstObservedAt": "2026-10-08T16:40:00Z",
+      "detectedAt": "2026-10-08T16:42:14.815995Z",
+      "lastObservedAt": "2026-10-08T16:43:00Z",
+      "createdAt": "2026-10-08T16:42:15.009235Z",
+      "updatedAt": "2026-10-08T16:43:11.412530Z",
+      "version": 1,
+      "latestSequence": 2,
+      "latestDetection": {
+        "kpis": [
+          {
+            "name": "p95DeliveryMs",
+            "unit": "MILLISECONDS",
+            "baseline": 2000,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "deliverySrPct",
+            "unit": "PERCENT",
+            "baseline": 99,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "deliveredMessages",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": null,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "queueDepth",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": 0,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "oldestPendingAgeSec",
+            "unit": "SECONDS",
+            "baseline": null,
+            "observed": 0,
+            "numerator": null,
+            "denominator": null
+          }
+        ],
+        "phase": "UNKNOWN",
+        "impact": {
+          "pendingMessages": 168,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 0,
+          "affectedDeliveredMessages": 102
+        },
+        "scopeId": "SMS-MD-EDI",
+        "service": "SMS",
+        "evidence": [
+          {
+            "code": "SMSC_QUEUE",
+            "nodeId": "SMSC-MD-EDI-01",
+            "summary": "pending=0; oldest=0 s",
+            "sourceEventIds": [
+              "0a66b3b7-1dd1-4ed2-b4d5-a85f3c820557"
+            ]
+          },
+          {
+            "code": "HISTORICAL_SEVERITY",
+            "nodeId": null,
+            "summary": "Historical value from 2026-10-08T16:41:00Z; not a measurement for this UNKNOWN decision",
+            "sourceEventIds": [
+              "58e7fc08-f1cb-4617-ba0b-c6167059bb66",
+              "823d4d24-7109-46b6-ab17-1e4cbc80a922"
+            ]
+          },
+          {
+            "code": "HISTORICAL_IMPACT",
+            "nodeId": null,
+            "summary": "Historical value from 2026-10-08T16:41:00Z; not a measurement for this UNKNOWN decision",
+            "sourceEventIds": [
+              "58e7fc08-f1cb-4617-ba0b-c6167059bb66",
+              "823d4d24-7109-46b6-ab17-1e4cbc80a922"
+            ]
+          }
+        ],
+        "mlStatus": "INSUFFICIENT_DATA",
+        "sequence": 2,
+        "severity": "HIGH",
+        "episodeId": "a5fd0067a8341747b1638eadb29b3ae4c877d719b658905b680665c149f12d6e",
+        "windowEnd": "2026-10-08T16:43:00Z",
+        "detectedAt": "2026-10-08T16:43:11.234342002Z",
+        "anomalyRank": null,
+        "anomalyType": "SMS_DELIVERY_DELAY",
+        "detectionId": "ad6d8c0edd1e841967c4424770f13041a70aee6874ffc6592fa61ce7c2b3bfa7",
+        "windowStart": "2026-10-08T16:42:00Z",
+        "modelVersion": null,
+        "probableCause": "No cause established from this SMS window.",
+        "schemaVersion": 2,
+        "correlationKey": "c727aba794081b81c641e6add95e3cce09e668f3d991790e332c3cefa99d4051",
+        "rulesetVersion": "service-rules-v2",
+        "technicalState": "UNKNOWN",
+        "baselineVersion": "baseline-v2",
+        "causeConfidence": "LOW",
+        "firstObservedAt": "2026-10-08T16:40:00Z",
+        "topologyVersion": "2-geography-g1",
+        "recommendedChecks": [
+          "Verify SMSC queue freshness",
+          "Inspect delivery and routing traces; check recipient unreachability and campaign load"
+        ]
+      },
+      "presentation": {
+        "impactState": "STALE",
+        "currentImpact": null,
+        "retainedImpact": {
+          "pendingMessages": 168,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 0,
+          "affectedDeliveredMessages": 102
+        },
+        "impactSourceDetectionId": "079a63e3a32087a48a52206ae9aa0d6bc857ad739e3d0900f0a0fe0dbadcdc91",
+        "impactWindowEnd": "2026-10-08T16:42:00Z",
+        "probableCause": "No cause established from this SMS window.",
+        "causeConfidence": "LOW",
+        "evidenceHistoryPath": "/api/incidents/1724db91-a083-41a2-a4d8-ca40d386618d/detections"
+      },
+      "location": {
+        "cityId": "EDI",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "measuredScopeId": "SMS-MD-EDI",
+        "containmentPath": [
+          "MD",
+          "CITY-MD-EDI",
+          "AGG-MD-EDI-01",
+          "SITE-MD-EDI-01",
+          "CELL-MD-EDI-01"
+        ],
+        "dependencyNodeIds": [
+          "SMSC-MD-EDI-01",
+          "TRANSPORT-MD-EDI-01"
+        ],
+        "nullReason": null
+      }
+    }
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-08T16:43:31.402Z"
+}

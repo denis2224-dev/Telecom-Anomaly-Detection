@@ -62,3 +62,79 @@ threshold, schema migration, optional power correlation or analyst workflow chan
 Day 3 result: local implementation and verification complete; eighty live normal points validated.
 City fault dispatch returns INVALID_SCOPE in both owner layers; shared G3 remains pending.
 See docs/evidence/2026-10-07-sergiu-day3-geographic-explanations.md.
+
+# Sergiu Day 4 — cause controls (8 October 2026)
+
+Approved core-controls scope, based on `ee52b9e`; branch `feature/sergiu-day4-cause-controls`.
+Preserve the incomplete shared G2/G3 gates above. Optional power correlation is NOT_IN_SCOPE;
+auxiliary contracts remain PLANNED. No runtime publisher/consumer/storage gate is claimed.
+
+1. Cause worker owns new GeographicCauseControlsTest: paired identical service observations
+   with changed legitimate dependency evidence, precise hypothesis guards, stable IDs and
+   independent SMS backlog semantics across twenty scopes.
+2. ML worker owns MlClient/Test and detection/MlClientFailureTest: response/input failure
+   matrix, null model evidence, eight-permit saturation/release and real HTTP timeout.
+   Only a package-private HttpClient constructor seam changes production code.
+3. Replay worker owns geographic replay/fallback tests and any replay helpers: real SQL
+   worker restart, scorer restoration without rescoring completed windows, cause withdrawal,
+   UNKNOWN provenance and twenty-scope persisted isolation.
+4. Coordinator owns separate ping/probe schema examples and strict ingestion-boundary tests,
+   CI selection, sequential verification, review, evidence manifest and owner handoffs.
+
+Checkpoints: validate boundary fixtures; compile/run focused worker suites; verify reactor,
+Python/contracts and isolated packaged-model delivery with actual report counts. Workers do
+not run Maven concurrently or edit shared ownership. Rules, model bytes, feature order,
+baselines, V2 wire contracts and subscriber nulls remain frozen. No external messages or PR
+publication are part of this task. City fault dispatch remains an Ion/Denis prerequisite;
+offline controls must never be labelled connected G4 acceptance.
+
+Day 4 core implementation and verification are complete: focused195, Java891 executed/1
+shadow opt-in skip, Python51/54, packaged HTTP22 and fresh parity62 passed. Sixteen frozen
+contract/model files match the base. The evidence/manifest and handoff record paired results
+and remaining owner dependencies. Shared G4 remains pending; optional power stays NOT_IN_SCOPE.
+# PR #77 review remediation — 9 October 2026
+
+Integrate current main without rewriting PR history. Preserve the sealed historical
+G4 bundle byte-for-byte, explicitly label its archived drivers non-executable, and
+provide a separate supported isolated verification workflow. Fresh connected checks
+cover real authentication, open-dashboard 15-minute idle and 30-minute absolute
+expiry, actual proxy/SSE reconnect, and geographic map/queue/detail agreement.
+
+Three isolated workers own evidence documentation, focused browser checks, and the
+portable runtime runner. The coordinator integrates commits and operates acceptance;
+workers never operate the user's Docker projects. Runtime checks use freshly built
+production source/assets, explicit Compose targeting and temporary identities.
+
+Record tested runtime SHA, integrated main, image/asset/configuration hashes and actual
+CI checkout SHAs separately from evidence-only publication. All six existing CI jobs
+must pass after publication. Historical acceptance is never relabelled current-SHA
+acceptance. Failed attempts remain separately recorded. Shared G5 stays BLOCKED.
+
+Completed focused runtime verification at `1c889216`, integrating main `0eb9b5b`:
+all three real connected cases and guarded cleanup passed. Six candidate CI checks
+passed separately. The evidence-only publication SHA and its subsequent six CI
+results are recorded in the PR description; see the 9 October remediation report.
+
+Latest-main update (9 October): acceptance of main 0eb9b5b is retained separately.
+Main 613661d includes the dashboard layout and viewport-wide mobile drawers.
+Integrate it without rewriting PR history, retain 95e99fc's explicit SMS selection
+and current Troubleshooting assertions, and align the drawer geometry test with
+the viewport. Preserve all durable source/null, security and real expiry checks.
+Pin the controlled geography interaction test's clock away from minute boundaries
+so its exact explicit-refresh count cannot race the legitimate REST fallback.
+Retain the exact count and prove omitting the refresh still fails. The connected
+suite continues to use real clocks and real services.
+Rebuild and rerun all three focused connected cases with retries disabled, then
+publish the candidate and require all six CI jobs. Publish compact sanitized
+evidence at docs/evidence/assets/pr77-review-main-613661d and identify the later
+evidence-only publication head separately; verify its six CI jobs too. Keep the
+prior 29 and original 55 sealed artifacts unchanged. Recheck remote main before
+reporting ready for re-review; approval and merge remain outside this task.
+
+Current-main runtime acceptance completed on 84477ac, integrating 613661d:
+all three real connected cases, owned-resource/credential cleanup and all six
+candidate CI jobs passed. The new current-main report seals a separate compact
+bundle and retains the failed/interrupted attempts. The later evidence-only
+publication must preserve source/configuration outside docs/tasks; record its
+exact SHA, six subsequent successful CI jobs and final main recheck in the PR
+description after verification, without requiring another bookkeeping commit.

@@ -1,0 +1,34 @@
+{
+  "sourceSha": "be05082cda33bbe108c520e866ad65c8d461ba2f",
+  "outcome": "FAILED / INVALID_TIMING_ACCEPTANCE",
+  "browserOutcome": "Two required cases passed; absolute case timed out at 33 minutes. No full-suite acceptance claimed.",
+  "diagnosis": "Windows Modern Standby interrupted the host and Docker/browser execution across the absolute deadline.",
+  "powerEventsUTC": [
+    {
+      "at": "2026-10-09T10:16:44Z",
+      "id": 506,
+      "reason": "Screen Off Request"
+    },
+    {
+      "at": "2026-10-09T10:27:36Z",
+      "id": 507,
+      "reason": "Austerity Battery Drain Budget Exceeded"
+    },
+    {
+      "at": "2026-10-09T10:27:36Z",
+      "id": 506,
+      "reason": "Austerity Battery Drain Budget Exceeded"
+    },
+    {
+      "at": "2026-10-09T10:47:52Z",
+      "id": 507,
+      "reason": "Power Button"
+    }
+  ],
+  "incidentServiceHealthGapUTC": [
+    "2026-10-09T10:16:47.20206481Z",
+    "2026-10-09T10:47:53.571329696Z"
+  ],
+  "guardForRetry": "Scoped SetThreadExecutionState ES_CONTINUOUS|ES_SYSTEM_REQUIRED|ES_DISPLAY_REQUIRED, released after the runner; no permanent power setting changes.",
+  "reference": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate"
+}

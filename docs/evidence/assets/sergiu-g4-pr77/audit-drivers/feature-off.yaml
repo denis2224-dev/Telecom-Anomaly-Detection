@@ -1,0 +1,5 @@
+services:
+  event-generator:
+    environment:
+      TELECOM_GEOGRAPHY_ENABLED: "false"
+      TELECOM_GEOGRAPHY_EFFECTIVE_FROM: ""

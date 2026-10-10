@@ -1,0 +1,24 @@
+{
+  "status": "FAILED",
+  "sourceSha": "be05082cda33bbe108c520e866ad65c8d461ba2f",
+  "startedAtUTC": "2026-10-09T09:49:19.869Z",
+  "finishedAtUTC": "2026-10-09T10:47:59.052Z",
+  "outcomes": [
+    {
+      "title": "integrated production roles, real SSE reconnect and fresh geographic incidents",
+      "status": "passed",
+      "durationMs": 583733
+    },
+    {
+      "title": "open inactive dashboard expires at real fifteen-minute idle deadline",
+      "status": "passed",
+      "durationMs": 931506
+    },
+    {
+      "title": "trusted analyst activity cannot extend real thirty-minute absolute deadline",
+      "status": "timedOut",
+      "durationMs": 1993423
+    }
+  ],
+  "coverage": "Real OIDC/security, four fresh city scenarios and source trace, proxy reconnect, open-page idle and absolute expiry"
+}

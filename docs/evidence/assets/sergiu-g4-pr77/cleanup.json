@@ -1,0 +1,74 @@
+{
+  "startedAt": "2026-10-08T16:53:19.114Z",
+  "project": "telecom-g4-pr77",
+  "deletedTemporaryIdentities": 5,
+  "verifiedContainers": [
+    {
+      "name": "telecom-g4-pr77-event-generator-1",
+      "service": "event-generator",
+      "health": "healthy",
+      "state": "running"
+    },
+    {
+      "name": "telecom-g4-pr77-history-bootstrap-1",
+      "service": "history-bootstrap",
+      "health": "",
+      "state": "exited"
+    },
+    {
+      "name": "telecom-g4-pr77-incident-service-1",
+      "service": "incident-service",
+      "health": "healthy",
+      "state": "running"
+    },
+    {
+      "name": "telecom-g4-pr77-kafka-1",
+      "service": "kafka",
+      "health": "healthy",
+      "state": "running"
+    },
+    {
+      "name": "telecom-g4-pr77-kafka-init-1",
+      "service": "kafka-init",
+      "health": "",
+      "state": "exited"
+    },
+    {
+      "name": "telecom-g4-pr77-keycloak-1",
+      "service": "keycloak",
+      "health": "healthy",
+      "state": "running"
+    },
+    {
+      "name": "telecom-g4-pr77-ml-service-1",
+      "service": "ml-service",
+      "health": "healthy",
+      "state": "running"
+    },
+    {
+      "name": "telecom-g4-pr77-postgres-1",
+      "service": "postgres",
+      "health": "healthy",
+      "state": "running"
+    },
+    {
+      "name": "telecom-g4-pr77-processor-1",
+      "service": "processor",
+      "health": "healthy",
+      "state": "running"
+    },
+    {
+      "name": "telecom-g4-pr77-proxy-1",
+      "service": "proxy",
+      "health": "healthy",
+      "state": "running"
+    }
+  ],
+  "taskStackRemoved": true,
+  "remainingTaskContainers": "",
+  "originalContainerRetained": true,
+  "originalContainerId": "180474f44a654126b9a33f79cfe0997b80cae83012cd68c0a6240aa92b754cbd",
+  "privateTaskCredentialFilesRemoved": true,
+  "finishedAt": "2026-10-08T16:53:51.026Z",
+  "status": "PASS"
+}

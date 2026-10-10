@@ -30,3 +30,43 @@ Results: [Day 2 evidence](../docs/evidence/2026-10-06-sergiu-day2-role-aware-par
 - [ ] Shared G3 acceptance: owner review and connected map/queue/detail agreement.
 
 Results: [Day 3 evidence](../docs/evidence/2026-10-07-sergiu-day3-geographic-explanations.md).
+
+## Sergiu Day 4 — cause controls
+
+- [x] Pin the Day 3 base, create the branch and assign exclusive worker ownership.
+- [x] Cause controls: all-city paired observations and explicit hypothesis guards.
+- [x] ML controls: HTTP/input failures, deterministic saturation/release and null model evidence.
+- [x] Replay controls: persisted fallback/restoration, cause withdrawal and all-city isolation.
+- [x] Boundary controls: failed ping/probe remain separate PLANNED contracts and are rejected by V2 ingestion.
+- [x] Integrate CI selections and independently review the combined changes.
+- [x] Run focused/reactor/Python/contracts and isolated packaged-model verification.
+- [x] Publish actual counts, hashes, payload differences, limitations and owner handoffs.
+- [x] Integrate PR #74 city-targeting changes; all four GitHub workflows pass at code SHA 978c81b.
+- [x] Reconcile 195 original focused tests with the 192-test audit (three GeographicReplayTest cases omitted).
+- [ ] Shared G4 acceptance: final-revision authenticated map/queue/detail, reconnect/security/rollback evidence and required review remain pending.
+
+Results: [Day 4 evidence](../docs/evidence/2026-10-08-sergiu-day4-cause-controls.md).
+## PR #77 review remediation - 9 October 2026
+
+- [x] Integrate accepted baseline main 0eb9b5b without rewriting PR history.
+- [x] Label historical non-executable audit archives and publish supported runbook.
+- [x] Implement isolated runtime targeting and refusal/cleanup safety checks.
+- [x] Implement focused combined-revision browser acceptance.
+- [x] Review worker changes and verify all 55 historical artifact hashes unchanged.
+- [x] Build candidate and pass real authentication/session, reconnect and geography checks.
+- [x] Publish compact fresh evidence with honest runtime/publication SHA attribution.
+- [x] Verify all six CI jobs on runtime candidate and prepare reviewer response.
+
+Results: [PR #77 review remediation](../docs/evidence/2026-10-09-pr77-review-remediation.md).
+Exact evidence-publication SHA and subsequent six CI results are recorded in PR description.
+- [x] Integrate latest dashboard main 957876a cleanly as merge 4805928.
+- [x] Integrate current main 613661d and retain the unpublished connected UI adaptations.
+- [x] Verify viewport-wide drawer assertions, dashboard unit/build and runner safety checks.
+- [x] Stabilize the controlled geography refresh assertion and prove an omitted refresh fails.
+- [x] Rebuild and rerun all three connected cases plus six CI gates against latest main.
+- [x] Publish separate latest-main evidence without modifying prior sealed bundles.
+- Post-publication requirement: all six CI jobs must pass on the exact evidence head,
+  then recheck remote main before re-review. Record completion and exact job links
+  in the PR description after these checks finish.
+
+Shared G5 approval remains BLOCKED; all earlier incomplete shared gates are preserved.

@@ -143,7 +143,18 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
   await expect(drawer).not.toContainText('Supporting evidence');
   await expect(drawer).not.toContainText('Recommended checks');
   expect(await snapshot()).toEqual(before);
-  expect((await drawer.boundingBox())!.width).toBeCloseTo(width <= 600 ? width : Math.min(480, width - 32), 0);
+  const dialogGeometry = await drawer.evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, width: rect.width, viewportWidth: innerWidth };
+  });
+  if (width <= 600) {
+    // Mobile dialogs span the viewport, including any reserved scrollbar gutter.
+    expect(dialogGeometry.width).toBeCloseTo(dialogGeometry.viewportWidth, 0);
+    expect(dialogGeometry.left).toBe(0);
+    expect(dialogGeometry.right).toBe(dialogGeometry.viewportWidth);
+  } else {
+    expect(dialogGeometry.width).toBeCloseTo(Math.min(480, width - 32), 0);
+  }
   const close = drawer.getByRole('button', { name: 'Close incident evidence', exact: true });
   await expect(close).not.toBeFocused();
   await expect(close).toHaveCSS('box-shadow', 'none');

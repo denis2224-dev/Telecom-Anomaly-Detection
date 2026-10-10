@@ -93,3 +93,11 @@ analyst audit/comment timeline, which is outside this guide's UI scope.
 - **Sergiu — wording approval: pending.** Confirm hypothesis/confidence wording and the distinction between estimated attempts/messages and unavailable unique customers.
 - **Live backend acceptance: pending** because the local stack was unavailable.
 - **Push, PR and merge: not performed**, as requested. Existing commits were not rewritten. The pre-existing service-detail edit and `.vscode/` settings remain outside the evidence timeline commits.
+
+## Current connected acceptance for PR #77
+
+The earlier Docker/live limitation above is historical. The
+[2026-10-08 final connected audit](../../evidence/2026-10-08-sergiu-g4-connected-acceptance.md) verifies actual
+authenticated city history, UNKNOWN measurement origin, recovery, ML outage and
+map/queue/detail consistency. Technical acceptance passed; wording/paging owner
+approvals remain pending. This does not relabel the older fixture-browser run.

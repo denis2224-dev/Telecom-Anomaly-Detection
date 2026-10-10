@@ -1,0 +1,42 @@
+{
+  "sourceSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+  "masked": true,
+  "captures": {
+    "cahul-gap-390.png": {
+      "sha256": "b876ca410fb178f1c0542f7fc396be36038c0e46a5fae607c4f4ad96b7be25f0",
+      "bytes": 268138
+    },
+    "chi-queue-1366.png": {
+      "sha256": "ee64272080b0c52b1811206387259a00dbdc630e73383f09829ba9435381d166",
+      "bytes": 364743
+    },
+    "chi-queue-390.png": {
+      "sha256": "2abbda4e999da335625be1386708417ef307249d7b37ebaeb3f5d576e0f6d1ad",
+      "bytes": 179867
+    },
+    "SMS-MD-CHI-1366.png": {
+      "sha256": "1d77194c9ac1eb0584763dc78cbfeac529df99d9be0ec2da0a4e43b640a6ed86",
+      "bytes": 185529
+    },
+    "SMS-MD-CHI-390.png": {
+      "sha256": "23fdb456d265bd7de1874fb9e09d03214913da46c1e575cbdfd03a959c574fa4",
+      "bytes": 153359
+    },
+    "SMS-MD-CHI-recovered-390.png": {
+      "sha256": "40cc24e26903750353d38e098304190c59e1c93faefd628c904a831dea98b208",
+      "bytes": 250614
+    },
+    "VOLTE-MD-CHI-1366.png": {
+      "sha256": "eacfb07114182a22362487619a5c75462d4aa060ca93d0c31fefbbe82f4563c7",
+      "bytes": 239395
+    },
+    "VOLTE-MD-CHI-390.png": {
+      "sha256": "896d6b09ed1671efb5daac2ed234545522c6d05ad76c0bf1e9a2f99586fc7fec",
+      "bytes": 199452
+    },
+    "VOLTE-MD-CHI-recovered-390.png": {
+      "sha256": "16933bfdbce8813cdfe5bf12b7b3614e78fdad6bbc7845c1dcef9dbe1b80cc8a",
+      "bytes": 254840
+    }
+  }
+}
