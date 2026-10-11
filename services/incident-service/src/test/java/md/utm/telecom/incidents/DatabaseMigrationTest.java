@@ -55,7 +55,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(5, flyway.migrate().migrationsExecuted);
+        assertEquals(7, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -76,7 +76,7 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals("19", scalar("""
+        assertEquals("26", scalar("""
                 SELECT count(*) FROM pg_tables WHERE schemaname = 'app'
                 AND tablename <> 'flyway_schema_history' AND tableowner = 'incidents_migrator'
                 """));
@@ -98,6 +98,9 @@ class DatabaseMigrationTest {
         rejects("42501", "UPDATE app.notification_event SET summary = 'changed' WHERE false");
         rejects("42501", "DELETE FROM app.notification_event");
         rejects("42501", "UPDATE app.notification_recipient SET analyst_id = gen_random_uuid() WHERE false");
+        rejects("42501", "UPDATE app.trace_metric_window SET quality = 'VALID' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_metric_window");
+        rejects("42501", "UPDATE app.trace_inventory_city SET display_name = 'changed' WHERE false");
         for (String db : new String[]{"processing_db", "keycloak_db"}) {
             SQLException failure = assertThrows(SQLException.class, () -> {
                 try (Connection ignored = DriverManager.getConnection(url(db),
@@ -106,6 +109,44 @@ class DatabaseMigrationTest {
                 }
             });
             assertEquals("42501", failure.getSQLState());
+        }
+    }
+
+    @Test
+    void upgradeFromV004MatchesFreshSchemaAndGrants() throws Exception {
+        String database = "incidents_upgrade";
+        try (Connection admin = DriverManager.getConnection(url("bootstrap"),
+                POSTGRES.getUsername(), POSTGRES.getPassword())) {
+            execute(admin, "CREATE DATABASE " + database + " OWNER incidents_migrator");
+            execute(admin, "REVOKE CONNECT ON DATABASE " + database + " FROM PUBLIC");
+            execute(admin, "GRANT CONNECT ON DATABASE " + database + " TO incidents_app, incidents_migrator");
+        }
+        try (Connection admin = DriverManager.getConnection(url(database),
+                POSTGRES.getUsername(), POSTGRES.getPassword())) {
+            execute(admin, "REVOKE CREATE ON SCHEMA public FROM PUBLIC");
+            execute(admin, "CREATE SCHEMA app AUTHORIZATION incidents_migrator");
+            execute(admin, "GRANT USAGE ON SCHEMA app TO incidents_app");
+            execute(admin, """
+                    ALTER DEFAULT PRIVILEGES FOR ROLE incidents_migrator IN SCHEMA app
+                    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO incidents_app
+                    """);
+        }
+        Flyway throughV004 = Flyway.configure()
+                .dataSource(url(database), "incidents_migrator", "test-migrator-only")
+                .defaultSchema("app").schemas("app").createSchemas(false)
+                .locations("classpath:db/migration").target("004").cleanDisabled(true).load();
+        assertEquals(4, throughV004.migrate().migrationsExecuted);
+        Flyway upgrade = Flyway.configure()
+                .dataSource(url(database), "incidents_migrator", "test-migrator-only")
+                .defaultSchema("app").schemas("app").createSchemas(false)
+                .locations("classpath:db/migration").cleanDisabled(true).load();
+        assertEquals(3, upgrade.migrate().migrationsExecuted);
+        assertEquals(0, upgrade.migrate().migrationsExecuted);
+        try (Connection fresh = DriverManager.getConnection(url("incidents_db"),
+                POSTGRES.getUsername(), POSTGRES.getPassword());
+             Connection upgraded = DriverManager.getConnection(url(database),
+                     POSTGRES.getUsername(), POSTGRES.getPassword())) {
+            assertEquals(schemaSnapshot(fresh), schemaSnapshot(upgraded));
         }
     }
 
@@ -289,6 +330,41 @@ class DatabaseMigrationTest {
         try (var statement = connection.createStatement()) {
             statement.execute(sql);
         }
+    }
+
+    private static String schemaSnapshot(Connection connection) throws SQLException {
+        StringBuilder snapshot = new StringBuilder();
+        for (String sql : new String[]{
+                """
+                SELECT table_name, column_name, data_type, is_nullable, COALESCE(column_default, '')
+                FROM information_schema.columns WHERE table_schema = 'app'
+                ORDER BY table_name, ordinal_position
+                """,
+                """
+                SELECT conrelid::regclass::text, conname, pg_get_constraintdef(oid)
+                FROM pg_constraint WHERE connamespace = 'app'::regnamespace
+                ORDER BY conrelid::regclass::text, conname
+                """,
+                """
+                SELECT tablename, indexname, indexdef FROM pg_indexes
+                WHERE schemaname = 'app' ORDER BY tablename, indexname
+                """,
+                """
+                SELECT table_name, grantee, privilege_type FROM information_schema.role_table_grants
+                WHERE table_schema = 'app' ORDER BY table_name, grantee, privilege_type
+                """
+        }) {
+            try (var statement = connection.createStatement(); var rows = statement.executeQuery(sql)) {
+                int columns = rows.getMetaData().getColumnCount();
+                while (rows.next()) {
+                    for (int column = 1; column <= columns; column++) {
+                        snapshot.append(rows.getString(column)).append('|');
+                    }
+                    snapshot.append('\n');
+                }
+            }
+        }
+        return snapshot.toString();
     }
 
     private static String url(String database) {
