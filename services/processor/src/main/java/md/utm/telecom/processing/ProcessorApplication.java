@@ -12,8 +12,13 @@ import org.springframework.context.annotation.Import;
 @ConfigurationPropertiesScan
 @Import(BoundaryConfiguration.class)
 public class ProcessorApplication {
-    public static void main(String[] args) {
-        if ("true".equalsIgnoreCase(System.getenv("HISTORY_BOOTSTRAP_MODE"))) {
+    public static void main(String[] args) throws Exception {
+        boolean traceLink = "true".equalsIgnoreCase(System.getenv("TRACE_LINK_BOOTSTRAP_MODE"));
+        boolean legacy = "true".equalsIgnoreCase(System.getenv("HISTORY_BOOTSTRAP_MODE"));
+        if (traceLink && legacy) throw new IllegalArgumentException("Select only one bootstrap mode");
+        if (traceLink) {
+            md.utm.telecom.processing.history.TraceLinkBootstrapApplication.run(args);
+        } else if (legacy) {
             md.utm.telecom.processing.history.HistoryBootstrapApplication.run(args);
         } else SpringApplication.run(ProcessorApplication.class, args);
     }

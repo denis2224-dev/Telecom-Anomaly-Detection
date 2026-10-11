@@ -100,10 +100,16 @@ class IngestionIntegrationTest {
     @Test void migrationOwnershipRuntimeDmlAndIsolation() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(16, jdbc.queryForObject("""
+        assertEquals(24, jdbc.queryForObject("""
                 SELECT count(*) FROM pg_tables WHERE schemaname='app' AND tableowner='processing_migrator'
                 AND tablename <> 'flyway_schema_history'
                 """, Integer.class));
+        assertEquals(List.of("trace_source_catalogue", "trace_source_city", "trace_source_dataset",
+                "trace_source_import_checkpoint", "trace_source_import_completion", "trace_source_link",
+                "trace_source_link_direction", "trace_source_native_window"), jdbc.queryForList("""
+                SELECT tablename FROM pg_tables WHERE schemaname='app' AND tableowner='processing_migrator'
+                AND tablename LIKE 'trace_source_%' ORDER BY tablename
+                """, String.class));
         assertEquals("processing_app", jdbc.queryForObject("SELECT current_user", String.class));
         for (String sql : List.of("CREATE TABLE app.forbidden(id int)", "CREATE TABLE public.forbidden(id int)",
                 "CREATE SCHEMA forbidden", "DROP TABLE app.interval_bucket", "ALTER TABLE app.source_state ADD COLUMN forbidden int",
