@@ -55,7 +55,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(4, flyway.migrate().migrationsExecuted);
+        assertEquals(5, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -76,7 +76,7 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals("15", scalar("""
+        assertEquals("19", scalar("""
                 SELECT count(*) FROM pg_tables WHERE schemaname = 'app'
                 AND tablename <> 'flyway_schema_history' AND tableowner = 'incidents_migrator'
                 """));
@@ -95,6 +95,9 @@ class DatabaseMigrationTest {
         rejects("42501", "DELETE FROM app.sms_ml_shadow");
         rejects("42501", "UPDATE app.scope_window_coverage SET payload = '{}'::jsonb");
         rejects("42501", "DELETE FROM app.geo_catalogue_versions");
+        rejects("42501", "UPDATE app.notification_event SET summary = 'changed' WHERE false");
+        rejects("42501", "DELETE FROM app.notification_event");
+        rejects("42501", "UPDATE app.notification_recipient SET analyst_id = gen_random_uuid() WHERE false");
         for (String db : new String[]{"processing_db", "keycloak_db"}) {
             SQLException failure = assertThrows(SQLException.class, () -> {
                 try (Connection ignored = DriverManager.getConnection(url(db),
