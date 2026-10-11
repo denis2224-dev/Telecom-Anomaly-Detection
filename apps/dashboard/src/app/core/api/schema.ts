@@ -1363,6 +1363,7 @@ export interface components {
             /** @enum {string} */
             aggregation: "COUNT_SUM" | "RATIO_OF_SUMS" | "WEIGHTED_MEAN" | "TIME_WEIGHTED_MEAN" | "HISTOGRAM_P95" | "SNAPSHOT_LAST" | "STATE_TIMELINE";
             population: string;
+            primitiveFields: string[];
             policyVersion: string;
         };
         TraceMetricSeries: {
