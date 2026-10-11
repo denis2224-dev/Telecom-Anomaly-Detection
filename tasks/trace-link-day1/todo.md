@@ -9,4 +9,5 @@
 - [x] Pass contract/Python/processor and legacy/geographic parity regression (four existing environment-gated Java skips recorded).
 - [x] Review combined changes and prove a deliberate arithmetic mutation fails.
 - [x] Publish evidence, hashes, limitations and owner-specific handoffs.
-- [ ] External receivers independently reproduce and accept (pending actual review).
+- [x] Stanislav independently reproduces and accepts the offline reproduction gate at `aac31d58c032e2203c862bbe08cf84c5bb9e0ab0`.
+- [x] Ion accepts domain, contracts and presentation under Sergiu's delegation at the same reviewed SHA; verbal confirmation reported by Sergiu. See `handoffs.md` for attribution, recording time and limitations.

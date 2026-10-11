@@ -245,3 +245,29 @@ SHA-256: `4d109f9420e900398856ed0800c912bb8994e21430a780b5aa2b6d0afeae6a55`.
 Extraction and reproduction instructions are in
 `tasks/trace-link-day1/reproduction.md`. Distribution and all receiver reviews
 remain pending; no teammate messages or archive publication were performed.
+
+## Receiver acceptance recorded — 11 October 2026
+
+The preceding pending dispositions and machine-readable review-resolution report
+are historical snapshots. Current receiver status is recorded in
+`tasks/trace-link-day1/handoffs.md` without altering earlier execution evidence.
+
+Stanislav explicitly accepted independent offline reproduction in
+[his PR comment](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/88#issuecomment-6110663545),
+including a linked report/log/export bundle. He verified archive delivery, all
+1,166 reactor tests with four disclosed skips, both legacy/geographic parity
+pairs and 54 fresh cases per language with zero numeric difference. His macOS
+equivalent sequence is distinguished from exact PowerShell entrypoint execution.
+
+Ion reviewed both blockers as resolved and all three review areas as ACCEPT.
+Sergiu authorized Ion to cover domain, contracts and presentation and then
+reported Ion's in-person verbal acceptance. This was recorded at
+2026-10-11T19:02:56Z; the actual verbal-confirmation time was not supplied.
+No personal Denis/David approval or formal GitHub approval is inferred.
+Ion's reviewing agent performed a source/JSON audit and inspected CI/Stanislav
+evidence; it did not independently execute the repository Python/Java suites.
+
+Both acceptances cover implementation head
+`aac31d58c032e2203c862bbe08cf84c5bb9e0ab0`. This documentation follow-up changes
+only handoff, delivery and acceptance records. Browser acceptance, runtime
+activation and production deployment remain separate gates.

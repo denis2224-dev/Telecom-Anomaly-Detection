@@ -2,7 +2,9 @@
 
 Obtain `Trace_Link_Integration_Pack.zip` and its `.zip.sha256` sidecar from Sergiu.
 The archive is prepared locally under `output/trace-link-pr88-review-resolution/`;
-it is outside tracked source and has not been published or sent to receivers.
+it is outside tracked source. Delivery to Stanislav is confirmed by his independent
+review and accepted reproduction; public publication and delivery to additional
+receivers are not claimed. His review-evidence bundle is linked in `handoffs.md`.
 It contains all 24 unchanged supplied pack files. The accompanying
 `reference-files.sha256.json` records every original file hash.
 
