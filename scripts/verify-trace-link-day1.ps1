@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory = $true)][string]$Python,
     [Parameter(Mandatory = $true)][string]$JavaHome,
-    [string]$ReferenceRoot,
+    [Parameter(Mandatory = $true)][string]$ReferenceRoot,
     [switch]$Focused
 )
 
@@ -11,9 +11,7 @@ $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $repoRoot
 $Python = (Resolve-Path -LiteralPath $Python).Path
 $env:JAVA_HOME = (Resolve-Path -LiteralPath $JavaHome).Path
-if (-not $ReferenceRoot) {
-    $ReferenceRoot = (Get-Content -Raw docs/evidence/assets/trace-link-day1/input-manifest.json | ConvertFrom-Json).referenceRoot
-}
+$ReferenceRoot = (Resolve-Path -LiteralPath $ReferenceRoot).Path
 $containerName = 'codex-trace-link-' + [guid]::NewGuid().ToString('N').Substring(0, 12)
 $outputDir = Join-Path $repoRoot 'tmp/trace-link-day1-reproduction'
 New-Item -ItemType Directory -Force -Path $outputDir | Out-Null

@@ -86,15 +86,16 @@ All four exports use the final suite SHA above.
 Prerequisites: JDK 21, Maven wrapper dependencies, Python with `requirements-dev.txt`
 and `services/ml-service/requirements-ml.txt`, Node.js, Docker and PostgreSQL
 `postgres:16.4-alpine`. Docker must be usable by the invoking shell. The reference
-root defaults to the pinned local path and can be supplied explicitly.
+root is mandatory. Obtain and verify the portable archive as described in
+`tasks/trace-link-day1/reproduction.md`.
 
 From the repository root, use actual local interpreter/JDK paths:
 
 ```powershell
 ./scripts/verify-trace-link-day1.ps1 `
-  -Python ./tmp/pr78-review/python/Scripts/python.exe `
-  -JavaHome './tmp/tools/jdk21/jdk-21.0.12.1+1' `
-  -ReferenceRoot 'D:/Univer/Anul2/Orange_intership/project/Trace_Link_Integration_Pack'
+  -Python ./.venv/Scripts/python.exe `
+  -JavaHome $env:JAVA_HOME `
+  -ReferenceRoot './reference-input/Trace_Link_Integration_Pack'
 ```
 
 The default runs contracts, repository and ML Python suites, sequential reactor
@@ -117,7 +118,7 @@ python scripts/check-trace-link-parity.py `
   --python-output docs/evidence/assets/trace-link-day1/python.json `
   --sql-output docs/evidence/assets/trace-link-day1/sql.json `
   --javascript-output docs/evidence/assets/trace-link-day1/javascript.json
-python scripts/verify-trace-link-pins.py
+python scripts/verify-trace-link-pins.py --reference-root ./reference-input/Trace_Link_Integration_Pack
 ```
 
 ## Reference adaptations and limitations
