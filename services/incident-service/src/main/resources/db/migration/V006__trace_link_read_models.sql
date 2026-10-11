@@ -6,7 +6,7 @@ CREATE TABLE app.trace_dataset (
     history_from TIMESTAMPTZ NOT NULL,
     history_to_exclusive TIMESTAMPTZ NOT NULL,
     source_resolution_seconds INTEGER NOT NULL CHECK (source_resolution_seconds = 300),
-    timezone VARCHAR(64) NOT NULL CHECK (timezone = 'UTC'),
+    timezone VARCHAR(64) NOT NULL CHECK (length(trim(timezone)) > 0),
     manifest_sha256 CHAR(64) NOT NULL CHECK (manifest_sha256 ~ '^[0-9a-f]{64}$'),
     imported_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CHECK (history_from < history_to_exclusive)
