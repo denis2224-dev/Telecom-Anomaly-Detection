@@ -196,3 +196,52 @@ were changed. These reversible backups remain outside the repository:
 
 Docker engine 29.5.2 subsequently became available. Final SQL results use new
 network-none PostgreSQL containers; the test containers are removed afterward.
+
+## PR #88 review resolution — 11 October 2026
+
+Implementation commit: `7e5af08` (contract fix `1ef38b1`). The evidence-only
+follow-up records these results without changing the verified implementation.
+The historical command results above describe earlier runs and are retained.
+
+P1: the dictionary now uses `contractCityId` and requires
+`scopeNamespace=trace-link-reference-v1`; every evidence scope requires the same
+namespace. HIN/CAU are reference-only, matching CHI codes do not authorize implicit
+runtime conversion, and historical RIB/TIR scopes still resolve. The existing
+catalogue is byte-for-byte unchanged and is now pinned alongside the topology.
+
+P2: the five-state matrix rejects contradictory coverage, freshness, primitives,
+actuals and reserved reasons. The reviewer's exact fully observed MISSING mutation
+is rejected. Eight positive examples cover all five states, preserving partial
+observed values, genuine zero, complete-source unsupported calculations and stale
+historical values. An in-memory disabled reason guard was detected by regression
+tests without modifying source files.
+
+| Fresh verification | Result |
+| --- | --- |
+| Shared contracts | 43 metrics, eight evidence examples, 54 unchanged arithmetic cases |
+| Final repository Python | 107 tests pass, including four portable pin-verification checks |
+| Full ML Python suite | 64 tests pass |
+| Processor dependency reactor | BUILD SUCCESS; 1,166 tests reported, zero failures/errors, four existing conditional skips; 12:22 min |
+| Legacy voice / SMS parity | Seven / 12 persisted cases pass |
+| Geographic voice / SMS parity | 30 / 32 persisted cases pass |
+| Fresh four-language parity | 54 cases per language, exact contexts/hash; maximum numerical difference zero |
+| Clean tracked snapshot | Focused reproduction passes using the extracted archive, fresh Java compilation and fresh four-language exports |
+| Frozen inputs | 18 repository + 11 reference files unchanged; arithmetic suite SHA unchanged |
+
+The full reproduction ran 103 repository tests before the four new portability
+tests were added; the subsequent final repository run and clean snapshot each ran
+all 107. Clean-snapshot reproduction is focused and does not claim another broad
+reactor/ML run. The four Java skips still require the existing live-model/shadow
+environment settings; no live integration acceptance is inferred.
+
+Both fresh four-language runs produced exports byte-identical to the archived
+language JSON files, so those files are reused rather than duplicated. Commands,
+UTC verification time, implementation SHA, export/log hashes, skip details and
+archive metadata are in `assets/trace-link-day1/pr88-review-resolution.json`.
+Remote CI is checked after pushing; the results above are local executions.
+
+The portable archive contains 24 unchanged files and is outside tracked source.
+SHA-256: `4d109f9420e900398856ed0800c912bb8994e21430a780b5aa2b6d0afeae6a55`.
+Extraction and reproduction instructions are in
+`tasks/trace-link-day1/reproduction.md`. Distribution and all receiver reviews
+remain pending; no teammate messages or archive publication were performed.
