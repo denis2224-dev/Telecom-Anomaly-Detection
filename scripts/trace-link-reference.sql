@@ -142,13 +142,14 @@ BEGIN
    row_key:=jsonb_build_array(r->'linkId',extract(epoch FROM row_time))::text; PERFORM tl_parity.require(NOT row_key=ANY(seen)); seen:=array_append(seen,row_key);
    IF r->'linkId'=x->'linkId' AND (x->>'cityId'='all' OR x->'cityId'=r->'a' OR x->'cityId'=r->'b') AND row_time>=data_from AND row_time<data_to AND ((x->'at'='null'::jsonb AND row_time>=f AND row_time<t) OR (x->'at'<>'null'::jsonb AND row_time<=at_time)) AND (selected IS NULL OR row_time>tl_parity.ts(selected->'ts')) THEN selected:=r; END IF;
   END LOOP;
-  p:=jsonb_build_object('trafficGbps',NULL,'effectiveCapacityGbps',NULL); v:=jsonb_build_object('utilizationPct',NULL);
+  p:=jsonb_build_object('trafficGbps',NULL,'effectiveCapacityGbps',NULL); v:=jsonb_build_object('utilizationPct',NULL,'ageSeconds',NULL);
   IF at_time<data_from OR (x->'at'='null'::jsonb AND (f<data_from OR t>data_to)) OR (x->'at'<>'null'::jsonb AND at_time>=data_to) THEN RETURN tl_parity.body(p,v,'MISSING','OUTSIDE_DATASET',0); END IF;
   IF selected IS NULL THEN RETURN tl_parity.body(p,v,'MISSING','NO_OBSERVATIONS',0); END IF;
   p:=jsonb_build_object('trafficGbps',selected->'trafficGbps','effectiveCapacityGbps',selected->'effectiveCapacityGbps'); snapshot:=selected->'ts';
+  v:=v||jsonb_build_object('ageSeconds',extract(epoch FROM at_time-tl_parity.ts(snapshot)));
   IF extract(epoch FROM at_time-tl_parity.ts(snapshot))>(x->>'maxAgeSeconds')::numeric THEN RETURN tl_parity.body(p,v,'STALE','STALE_SOURCE',0,snapshot); END IF;
   IF selected->'effectiveCapacityGbps'='null'::jsonb THEN RETURN tl_parity.body(p,v,'INSUFFICIENT_DATA','MISSING_CAPACITY',0,snapshot); END IF;
-  RETURN tl_parity.body(p,jsonb_build_object('utilizationPct',100*(selected->>'trafficGbps')::numeric/(selected->>'effectiveCapacityGbps')::numeric),'VALID',NULL,1,snapshot);
+  RETURN tl_parity.body(p,v||jsonb_build_object('utilizationPct',100*(selected->>'trafficGbps')::numeric/(selected->>'effectiveCapacityGbps')::numeric),'VALID',NULL,1,snapshot);
  ELSIF op='roaming_summary' THEN
   PERFORM tl_parity.keys(x,'country direction cityShare maxAgeSeconds rows'); PERFORM tl_parity.require(jsonb_typeof(x->'country')='string' AND (x->>'country'='all' OR x->>'country' ~ '^[A-Z]{2}$') AND x->>'direction' IN ('out','in','both') AND jsonb_typeof(x->'rows')='array');
   scale:=tl_parity.num(x->'cityShare',false,true); PERFORM tl_parity.require(scale<=1); PERFORM tl_parity.num(x->'maxAgeSeconds');

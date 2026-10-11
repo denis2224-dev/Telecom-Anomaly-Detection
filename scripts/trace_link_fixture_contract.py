@@ -16,7 +16,7 @@ SHAPES = {
     'city_summary': ('attempts success drops holding setupSum smsSubmitted smsDelivered smsExpired dataAttempts dataSuccess dnsAttempts dnsSuccess hoAttempts hoSuccess voiceCounts smsCounts throughputSum rowCount slotCount queue oldest',
                      'voiceSR dropRate erlang setupMeanSeconds setupP95Seconds smsP95Ms smsSR dataSR dnsSR hoSR throughputMbps',
                      'attempts success drops smsSubmitted smsDelivered smsExpired dataAttempts dataSuccess dnsAttempts dnsSuccess hoAttempts hoSuccess rowCount slotCount queue'),
-    'link_snapshot': ('trafficGbps effectiveCapacityGbps', 'utilizationPct', ''),
+    'link_snapshot': ('trafficGbps effectiveCapacityGbps', 'utilizationPct ageSeconds', ''),
     'roaming_summary': ('regAtt regOk dataAtt dataOk voiceAtt voiceOk smsAtt smsOk users', 'users regSR dataSR voiceSR smsSR', 'regAtt regOk dataAtt dataOk voiceAtt voiceOk smsAtt smsOk users'),
 }
 UNIT_OVERRIDES = {
@@ -25,6 +25,7 @@ UNIT_OVERRIDES = {
     'city_summary': {'erlang': 'ERLANG', 'setupMeanSeconds': 'SECONDS', 'setupP95Seconds': 'SECONDS',
                      'smsP95Ms': 'MILLISECONDS', 'throughputMbps': 'MBPS'},
     'roaming_summary': {'users': 'COUNT'},
+    'link_snapshot': {'ageSeconds': 'SECONDS'},
 }
 
 

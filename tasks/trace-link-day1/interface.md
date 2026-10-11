@@ -52,3 +52,8 @@ without overflowing a safe integer at share1 (round product rather than add .5 f
 Use numeric age strictly greater than threshold as stale. Ratios with zero denominator
 inside summaries are individually null; summary quality stays VALID unless coverage or
 freshness is unavailable. Unsupported primitives are documented rather than inferred.
+
+Link snapshot values also retain `ageSeconds` explicitly: evaluation time minus
+selected observation time, including stale/missing-capacity rows; null when no row
+is available. Its export unit is SECONDS. This final audit correction does not
+change selection, utilization or freshness rules.

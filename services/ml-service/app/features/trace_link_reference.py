@@ -286,16 +286,18 @@ def calc_link(raw, start, end):
     outside = not data_from <= at < data_to if at is not None else start < data_from or end > data_to
     absent = {'trafficGbps': None, 'effectiveCapacityGbps': None}
     if outside:
-        return result(absent, {'utilizationPct': None}, 'MISSING', 'OUTSIDE_DATASET', 0)
+        return result(absent, {'utilizationPct': None, 'ageSeconds': None}, 'MISSING', 'OUTSIDE_DATASET', 0)
     if selected is None:
-        return result(absent, {'utilizationPct': None}, 'MISSING', 'NO_OBSERVATIONS', 0)
+        return result(absent, {'utilizationPct': None, 'ageSeconds': None}, 'MISSING', 'NO_OBSERVATIONS', 0)
     primitives = {key: selected[key] for key in absent}
-    if ((at or end) - selected_ts).total_seconds() > age_limit:
-        return result(primitives, {'utilizationPct': None}, 'STALE', 'STALE_SOURCE', 0, selected['ts'])
+    age = ((at or end) - selected_ts).total_seconds()
+    values = {'utilizationPct': None, 'ageSeconds': age}
+    if age > age_limit:
+        return result(primitives, values, 'STALE', 'STALE_SOURCE', 0, selected['ts'])
     if selected['effectiveCapacityGbps'] is None:
-        return result(primitives, {'utilizationPct': None}, 'INSUFFICIENT_DATA', 'MISSING_CAPACITY', 0, selected['ts'])
-    return result(primitives, {'utilizationPct': 100 * selected['trafficGbps'] / selected['effectiveCapacityGbps']},
-                  snapshot=selected['ts'])
+        return result(primitives, values, 'INSUFFICIENT_DATA', 'MISSING_CAPACITY', 0, selected['ts'])
+    values['utilizationPct'] = 100 * selected['trafficGbps'] / selected['effectiveCapacityGbps']
+    return result(primitives, values, snapshot=selected['ts'])
 
 
 def calc_roaming(raw, start, end):

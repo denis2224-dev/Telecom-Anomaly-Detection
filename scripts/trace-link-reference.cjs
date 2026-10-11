@@ -137,13 +137,14 @@ function calculate(operation, input, window) {
       const key = JSON.stringify([r.linkId, ts]); need(!seen.has(key)); seen.add(key);
       if (r.linkId === input.linkId && (input.cityId === 'all' || [r.a, r.b].includes(input.cityId)) && ts >= dataFrom && ts < dataTo && (input.at === null ? ts >= from && ts < to : ts <= at) && (!selected || ts > timestamp(selected.ts))) selected = r;
     }
-    const empty = reason => result({trafficGbps: null, effectiveCapacityGbps: null}, {utilizationPct: null}, 'MISSING', reason, 0);
+    const empty = reason => result({trafficGbps: null, effectiveCapacityGbps: null}, {utilizationPct: null, ageSeconds: null}, 'MISSING', reason, 0);
     if (at < dataFrom || (input.at === null ? from < dataFrom || to > dataTo : at >= dataTo)) return empty('OUTSIDE_DATASET');
     if (!selected) return empty('NO_OBSERVATIONS');
     const primitives = {trafficGbps: selected.trafficGbps, effectiveCapacityGbps: selected.effectiveCapacityGbps};
-    if ((at - timestamp(selected.ts)) / 1000 > input.maxAgeSeconds) return result(primitives, {utilizationPct: null}, 'STALE', 'STALE_SOURCE', 0, selected.ts);
-    if (selected.effectiveCapacityGbps === null) return result(primitives, {utilizationPct: null}, 'INSUFFICIENT_DATA', 'MISSING_CAPACITY', 0, selected.ts);
-    return result(primitives, {utilizationPct: 100 * selected.trafficGbps / selected.effectiveCapacityGbps}, 'VALID', null, 1, selected.ts);
+    const ageSeconds = (at - timestamp(selected.ts)) / 1000;
+    if (ageSeconds > input.maxAgeSeconds) return result(primitives, {utilizationPct: null, ageSeconds}, 'STALE', 'STALE_SOURCE', 0, selected.ts);
+    if (selected.effectiveCapacityGbps === null) return result(primitives, {utilizationPct: null, ageSeconds}, 'INSUFFICIENT_DATA', 'MISSING_CAPACITY', 0, selected.ts);
+    return result(primitives, {utilizationPct: 100 * selected.trafficGbps / selected.effectiveCapacityGbps, ageSeconds}, 'VALID', null, 1, selected.ts);
   }
   if (operation === 'roaming_summary') {
     need(Array.isArray(input.rows) && (input.country === 'all' || /^[A-Z]{2}$/.test(text(input.country))) && ['out', 'in', 'both'].includes(input.direction)); positive(input.cityShare); need(input.cityShare <= 1); number(input.maxAgeSeconds);

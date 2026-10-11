@@ -2283,7 +2283,8 @@
           "effectiveCapacityGbps": 10.0
         },
         "values": {
-          "utilizationPct": 100.0
+          "utilizationPct": 100.0,
+          "ageSeconds": 300
         },
         "quality": "VALID",
         "nullReason": null,
@@ -2291,7 +2292,8 @@
         "snapshotAt": "2026-10-10T08:05:00Z"
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2346,7 +2348,8 @@
           "effectiveCapacityGbps": 20.0
         },
         "values": {
-          "utilizationPct": 5.0
+          "utilizationPct": 5.0,
+          "ageSeconds": 0
         },
         "quality": "VALID",
         "nullReason": null,
@@ -2354,7 +2357,8 @@
         "snapshotAt": "2026-10-10T08:10:00Z"
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2409,7 +2413,8 @@
           "effectiveCapacityGbps": 10.0
         },
         "values": {
-          "utilizationPct": null
+          "utilizationPct": null,
+          "ageSeconds": 300
         },
         "quality": "STALE",
         "nullReason": "STALE_SOURCE",
@@ -2417,7 +2422,8 @@
         "snapshotAt": "2026-10-10T08:05:00Z"
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2472,7 +2478,8 @@
           "effectiveCapacityGbps": null
         },
         "values": {
-          "utilizationPct": null
+          "utilizationPct": null,
+          "ageSeconds": null
         },
         "quality": "MISSING",
         "nullReason": "NO_OBSERVATIONS",
@@ -2480,7 +2487,8 @@
         "snapshotAt": null
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2535,7 +2543,8 @@
           "effectiveCapacityGbps": null
         },
         "values": {
-          "utilizationPct": null
+          "utilizationPct": null,
+          "ageSeconds": null
         },
         "quality": "MISSING",
         "nullReason": "OUTSIDE_DATASET",
@@ -2543,7 +2552,8 @@
         "snapshotAt": null
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2598,7 +2608,8 @@
           "effectiveCapacityGbps": 10.0
         },
         "values": {
-          "utilizationPct": 100.0
+          "utilizationPct": 100.0,
+          "ageSeconds": 300
         },
         "quality": "VALID",
         "nullReason": null,
@@ -2606,7 +2617,8 @@
         "snapshotAt": "2026-10-10T08:05:00Z"
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2645,7 +2657,8 @@
           "effectiveCapacityGbps": null
         },
         "values": {
-          "utilizationPct": null
+          "utilizationPct": null,
+          "ageSeconds": 300
         },
         "quality": "INSUFFICIENT_DATA",
         "nullReason": "MISSING_CAPACITY",
@@ -2653,7 +2666,8 @@
         "snapshotAt": "2026-10-10T08:05:00Z"
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2688,7 +2702,8 @@
       },
       "expectedError": "INVALID_INPUT",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2723,7 +2738,8 @@
       },
       "expectedError": "INVALID_INPUT",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {
@@ -2762,7 +2778,8 @@
           "effectiveCapacityGbps": null
         },
         "values": {
-          "utilizationPct": null
+          "utilizationPct": null,
+          "ageSeconds": null
         },
         "quality": "MISSING",
         "nullReason": "NO_OBSERVATIONS",
@@ -2770,7 +2787,8 @@
         "snapshotAt": null
       },
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {

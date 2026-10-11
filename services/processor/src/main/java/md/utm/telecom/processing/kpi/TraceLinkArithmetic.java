@@ -252,16 +252,18 @@ public final class TraceLinkArithmetic {
         }
         boolean outside = at == null ? from.isBefore(dataFrom) || to.isAfter(dataTo) : at.isBefore(dataFrom) || !at.isBefore(dataTo);
         Map<String, Object> absent = object("trafficGbps", null, "effectiveCapacityGbps", null);
-        Map<String, Object> unavailable = object("utilizationPct", null);
+        Map<String, Object> unavailable = object("utilizationPct", null, "ageSeconds", null);
         if (outside) return result(absent, unavailable, "MISSING", "OUTSIDE_DATASET", 0, null);
         if (selected == null) return result(absent, unavailable, "MISSING", "NO_OBSERVATIONS", 0, null);
         Double capacity = selected.get("effectiveCapacityGbps").isNull() ? null : number(selected.get("effectiveCapacityGbps"), true);
         Map<String, Object> primitives = object("trafficGbps", number(selected.get("trafficGbps"), false), "effectiveCapacityGbps", capacity);
         String snapshot = selected.get("ts").asText();
-        if (seconds(time(selected.get("ts")), at == null ? to : at) > ageLimit)
+        double age = seconds(time(selected.get("ts")), at == null ? to : at);
+        unavailable.put("ageSeconds", age);
+        if (age > ageLimit)
             return result(primitives, unavailable, "STALE", "STALE_SOURCE", 0, snapshot);
         if (capacity == null) return result(primitives, unavailable, "INSUFFICIENT_DATA", "MISSING_CAPACITY", 0, snapshot);
-        return result(primitives, object("utilizationPct", 100 * number(selected.get("trafficGbps"), false) / capacity),
+        return result(primitives, object("utilizationPct", 100 * number(selected.get("trafficGbps"), false) / capacity, "ageSeconds", age),
                 "VALID", null, 1, snapshot);
     }
 

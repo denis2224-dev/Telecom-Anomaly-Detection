@@ -126,6 +126,23 @@ class TraceLinkReferenceTests(unittest.TestCase):
         result = calculate('link_snapshot', raw, WINDOW)
         self.assertEqual(result['quality'], 'MISSING')
         self.assertEqual(result['nullReason'], 'NO_OBSERVATIONS')
+        self.assertIsNone(result['values']['ageSeconds'])
+
+    def test_link_age_is_explicit_when_stale_or_capacity_missing(self):
+        suite = json.loads((ROOT / 'contracts/fixtures/trace-link/arithmetic-cases.json').read_text(encoding='utf-8'))
+        raw = copy.deepcopy(next(c for c in suite['cases'] if c['id'] == 'link-period-exclusive-boundary')['input'])
+        self.assertEqual(calculate('link_snapshot', raw, WINDOW)['values']['ageSeconds'], 300)
+        raw['maxAgeSeconds'] = 299
+        stale = calculate('link_snapshot', raw, WINDOW)
+        self.assertEqual(stale['quality'], 'STALE')
+        self.assertEqual(stale['values']['ageSeconds'], 300)
+        raw['maxAgeSeconds'] = 300
+        raw['rows'][1]['effectiveCapacityGbps'] = None
+        missing = calculate('link_snapshot', raw, WINDOW)
+        self.assertEqual(missing['nullReason'], 'MISSING_CAPACITY')
+        self.assertEqual(missing['values']['ageSeconds'], 300)
+        raw['at'] = raw['dataTo']
+        self.assertIsNone(calculate('link_snapshot', raw, WINDOW)['values']['ageSeconds'])
 
     def test_mixed_latest_times_and_safe_rounding(self):
         suite = json.loads((ROOT / 'contracts/fixtures/trace-link/arithmetic-cases.json').read_text(encoding='utf-8'))
