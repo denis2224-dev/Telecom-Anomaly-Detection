@@ -92,13 +92,20 @@ schema, topology, duration or unit is rejected before aggregation.
 | Scope | `CITY`, reference ID plus contract ID | `CITY` | Keep city metric scope; do not convert into observation `CITY_SERVICE` or legacy authority |
 | Observation scope | Separate domain-window `CITY_SERVICE` | No native projection ingestion | Producer projection is a separate message type, not an observation alias |
 | Policy | `trace-link-kpi-v1` | `trace-link-md-policy-v1` | Consumer must validate the dictionary policy; never rewrite silently |
-| Quality | Nullable source fields plus reasoned quality object | Text quality and numeric coverage | Preserve unknown quality independently of slot coverage; #90 currently derives VALID from full coverage and misses null quality |
+| Topology | `trace-link-links-v1` | Tests use `trace-link-md-topology-v1` | Register the actual versioned producer topology and validate catalogue agreement; do not rename it |
+| Quality | Nullable source fields plus reasoned quality object | V006 requires coverage and VARCHAR(16) quality in VALID/PARTIAL/MISSING/STALE | Add separate nullable source quality/coverage and support INSUFFICIENT_EVIDENCE; never coerce unknowns into VALID or PARTIAL |
 | Provenance | Full source and manifest identity | Metric payload, dataset and versions | Validate and retain source provenance in the incident-owned immutable read model |
 
 V006/V007 have reusable primitive/read indexes, but their current query model
-does not expose this provenance/quality contract. Any consumer adjustment must
-be additive to applied migrations. The current #90 source-shape check also
-requires explicit catalogue topology agreement before acceptance.
+does not expose this provenance/quality contract. V006 cannot store the
+21-character `INSUFFICIENT_EVIDENCE` state or nullable source coverage; its
+required `coverage` column must be explicitly defined as slot coverage if reused.
+Any consumer adjustment must
+be additive to applied migrations. Current #90 takes the source shape's topology
+without comparing it with the catalogue topology; the approved consumer must
+reject that mismatch. Its zero-denominator test expects quality VALID; this
+producer keeps null value/zero-volume meaning independently and cannot infer
+adequate evidence from a full slot count.
 
 Candidate topic: `telecom.trace-link.metric-projections.v1`; candidate partition
 key: `datasetId|trace-link-reference-v1|VOLTE|CITY|referenceCityId|300`.
