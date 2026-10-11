@@ -346,7 +346,8 @@
       },
       "expectedError": "INVALID_INPUT",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     {

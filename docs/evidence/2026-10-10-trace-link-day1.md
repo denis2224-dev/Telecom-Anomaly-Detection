@@ -39,7 +39,7 @@ The seven reference data files also match their supplied manifest hashes and siz
 
 | Input | SHA-256 |
 | --- | --- |
-| Hand-derived arithmetic suite | `8fbeebc97c4ee7a2ba21d6ec4db10aac116aa9e031716b8d6191605f195eb357` |
+| Hand-derived arithmetic suite | `82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd` |
 | Reference `source/engine.js` | `a150367b50474afaf4d0016dfa467d38140c5216e390ef16d27c5098362f62a9` |
 | Reference `sql/001_schema.sql` | `1376a0842ce74dcb4b92e36621398b88cfc711fd1af17874f47f8c58e222ae2f` |
 | Reference `sql/grafana_queries.sql` | `b4af5cd1bdba806ded200baeabfd6a76d82f72dbff5e767b3e2a86725316c024` |
@@ -76,9 +76,10 @@ reproduction script deletes only its known prior Java export/report and requires
 fresh successful Java tests. An in-memory boundary mutation (`< to` → `<= to`)
 was detected by the golden tests; source files were not mutated.
 
-The final interface audit added explicit per-value unit metadata to fixture and
-export contexts. Numerical expected bodies stayed unchanged; all exports were
-regenerated against the final suite SHA above.
+Export contexts retain exact scope, window, policy and per-value unit metadata.
+Link snapshot values include explicit `ageSeconds`, including stale and
+missing-capacity observations, with hand-derived ages and SECONDS metadata.
+All four exports use the final suite SHA above.
 
 ## Reproduction
 
@@ -162,7 +163,7 @@ topology and controls; schema-valid metadata alone does not establish a cause.
 | Registered contracts | 43 metrics, six evidence examples, 54 goldens pass |
 | Fresh four-language reproduction | 54/54 per language; maximum difference **0** in Java, Python, SQL and JavaScript |
 | Final repository Python suite | **97 tests pass** |
-| Full ML Python regression | **61 tests pass** at the earlier checkpoint; final helper-only changes verified by **nine focused tests** |
+| Full ML Python regression | **61 tests pass** at the earlier checkpoint; final helper-only changes verified by **ten focused tests** |
 | Java reactor | **1,165 tests reported**, zero failures/errors, four existing environment-gated skips; `BUILD SUCCESS` |
 | Final Java arithmetic rerun | **Three tests pass**, all 54 cases exported with final units/hash |
 | Legacy persisted Java/Python parity | Seven voice and 12 SMS cases pass, maximum difference zero |
@@ -180,3 +181,17 @@ Final machine-readable counts, commands, export hashes and statuses are in
 `assets/trace-link-day1/verification.json`. Saved language exports allow audit;
 the reproduction script regenerates them rather than trusting archived results.
 Receiver gates remain explicitly pending in the handoff ledger.
+
+## Local Docker recovery
+
+The resumed verification encountered Docker startup failures on stale Windows
+Unix-socket entries. Only zero-byte socket directories were moved after stopping
+the failed Desktop process; no container/image/database storage or secret values
+were changed. These reversible backups remain outside the repository:
+
+- `C:/Users/Sergiu/AppData/Local/Docker/run.trace-link-20261011.backup`
+- `C:/Users/Sergiu/AppData/Local/Docker/run.trace-link-20261011.backup2`
+- `C:/Users/Sergiu/AppData/Local/docker-secrets-engine.trace-link-20261011.backup`
+
+Docker engine 29.5.2 subsequently became available. Final SQL results use new
+network-none PostgreSQL containers; the test containers are removed afterward.

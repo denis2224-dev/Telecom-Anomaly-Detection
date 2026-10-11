@@ -1,5 +1,5 @@
 {
-  "fixtureSha256": "8fbeebc97c4ee7a2ba21d6ec4db10aac116aa9e031716b8d6191605f195eb357",
+  "fixtureSha256": "82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd",
   "contexts": {
     "ratio-unequal-volume": {
       "scope": {
@@ -595,7 +595,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-explicit-inclusive-boundary": {
@@ -609,7 +610,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-stale": {
@@ -623,7 +625,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-wrong-endpoint": {
@@ -637,7 +640,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-outside-dataset": {
@@ -651,7 +655,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-dataset-end-exclusive": {
@@ -665,7 +670,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-missing-capacity": {
@@ -679,7 +685,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-invalid-capacity": {
@@ -693,7 +700,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-physical-limit": {
@@ -707,7 +715,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-before-dataset": {
@@ -721,7 +730,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "roaming-round-each-and-direction-control": {
@@ -904,6 +914,7 @@
   "results": {
     "link-stale": {
       "values": {
+        "ageSeconds": 300.0,
         "utilizationPct": null
       },
       "quality": "STALE",
@@ -1327,6 +1338,7 @@
     },
     "link-before-dataset": {
       "values": {
+        "ageSeconds": null,
         "utilizationPct": null
       },
       "quality": "MISSING",
@@ -1343,6 +1355,7 @@
     },
     "link-wrong-endpoint": {
       "values": {
+        "ageSeconds": null,
         "utilizationPct": null
       },
       "quality": "MISSING",
@@ -1359,6 +1372,7 @@
     },
     "link-outside-dataset": {
       "values": {
+        "ageSeconds": null,
         "utilizationPct": null
       },
       "quality": "MISSING",
@@ -1394,6 +1408,7 @@
     },
     "link-missing-capacity": {
       "values": {
+        "ageSeconds": 300.0,
         "utilizationPct": null
       },
       "quality": "INSUFFICIENT_DATA",
@@ -1613,6 +1628,7 @@
     },
     "link-dataset-end-exclusive": {
       "values": {
+        "ageSeconds": 300.0,
         "utilizationPct": 100.0
       },
       "quality": "VALID",
@@ -1688,6 +1704,7 @@
     },
     "link-period-exclusive-boundary": {
       "values": {
+        "ageSeconds": 300.0,
         "utilizationPct": 100.0
       },
       "quality": "VALID",
@@ -1725,6 +1742,7 @@
     },
     "link-explicit-inclusive-boundary": {
       "values": {
+        "ageSeconds": 0.0,
         "utilizationPct": 5.0
       },
       "quality": "VALID",

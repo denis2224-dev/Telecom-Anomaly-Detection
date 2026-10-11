@@ -1,5 +1,5 @@
 {
-  "fixtureSha256": "8fbeebc97c4ee7a2ba21d6ec4db10aac116aa9e031716b8d6191605f195eb357",
+  "fixtureSha256": "82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd",
   "contexts": {
     "ratio-unequal-volume": {
       "scope": {
@@ -595,7 +595,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-explicit-inclusive-boundary": {
@@ -609,7 +610,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-stale": {
@@ -623,7 +625,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-wrong-endpoint": {
@@ -637,7 +640,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-outside-dataset": {
@@ -651,7 +655,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-dataset-end-exclusive": {
@@ -665,7 +670,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-missing-capacity": {
@@ -679,7 +685,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-invalid-capacity": {
@@ -693,7 +700,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-physical-limit": {
@@ -707,7 +715,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "link-before-dataset": {
@@ -721,7 +730,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "roaming-round-each-and-direction-control": {
@@ -1506,7 +1516,8 @@
         "effectiveCapacityGbps": 10
       },
       "values": {
-        "utilizationPct": 100
+        "utilizationPct": 100,
+        "ageSeconds": 300
       },
       "quality": "VALID",
       "nullReason": null,
@@ -1519,7 +1530,8 @@
         "effectiveCapacityGbps": 20
       },
       "values": {
-        "utilizationPct": 5
+        "utilizationPct": 5,
+        "ageSeconds": 0
       },
       "quality": "VALID",
       "nullReason": null,
@@ -1532,7 +1544,8 @@
         "effectiveCapacityGbps": 10
       },
       "values": {
-        "utilizationPct": null
+        "utilizationPct": null,
+        "ageSeconds": 300
       },
       "quality": "STALE",
       "nullReason": "STALE_SOURCE",
@@ -1545,7 +1558,8 @@
         "effectiveCapacityGbps": null
       },
       "values": {
-        "utilizationPct": null
+        "utilizationPct": null,
+        "ageSeconds": null
       },
       "quality": "MISSING",
       "nullReason": "NO_OBSERVATIONS",
@@ -1558,7 +1572,8 @@
         "effectiveCapacityGbps": null
       },
       "values": {
-        "utilizationPct": null
+        "utilizationPct": null,
+        "ageSeconds": null
       },
       "quality": "MISSING",
       "nullReason": "OUTSIDE_DATASET",
@@ -1571,7 +1586,8 @@
         "effectiveCapacityGbps": 10
       },
       "values": {
-        "utilizationPct": 100
+        "utilizationPct": 100,
+        "ageSeconds": 300
       },
       "quality": "VALID",
       "nullReason": null,
@@ -1584,7 +1600,8 @@
         "effectiveCapacityGbps": null
       },
       "values": {
-        "utilizationPct": null
+        "utilizationPct": null,
+        "ageSeconds": 300
       },
       "quality": "INSUFFICIENT_DATA",
       "nullReason": "MISSING_CAPACITY",
@@ -1603,7 +1620,8 @@
         "effectiveCapacityGbps": null
       },
       "values": {
-        "utilizationPct": null
+        "utilizationPct": null,
+        "ageSeconds": null
       },
       "quality": "MISSING",
       "nullReason": "NO_OBSERVATIONS",

@@ -1,5 +1,5 @@
 {
-  "fixtureSha256": "d47f1cb0d7d404fc1a9f79fbe8d7d2539b4b0d6ba60e262e32b04a1ce801f7bb",
+  "fixtureSha256": "29d5b339a0c1ceaf171527d056587dd628e47fbd750efe4790e02a27b5c65091",
   "contexts": {
     "boundary-schema-number": {
       "scope": {
@@ -76,7 +76,8 @@
       },
       "policyVersion": "trace-link-metrics-v1",
       "units": {
-        "utilizationPct": "PERCENT"
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
       }
     },
     "boundary-year-zero": {
