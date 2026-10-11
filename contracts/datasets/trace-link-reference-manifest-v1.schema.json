@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dataset_id",
+    "synthetic",
+    "generator_version",
+    "seed",
+    "from",
+    "to_exclusive",
+    "source_resolution_seconds",
+    "slots",
+    "timezone",
+    "voice_histogram_edges_seconds",
+    "sms_histogram_edges_seconds",
+    "histogram_representation",
+    "link_direction",
+    "files"
+  ],
+  "properties": {
+    "dataset_id": {
+      "type": "string",
+      "pattern": "^(trace-link-md-30d-v1|trace-link-bounded-fixture-[a-z0-9-]+)$"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "generator_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "from": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "to_exclusive": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "source_resolution_seconds": {
+      "const": 300
+    },
+    "slots": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8640
+    },
+    "timezone": {
+      "const": "Europe/Chisinau"
+    },
+    "voice_histogram_edges_seconds": {
+      "const": [
+        0.5,
+        1,
+        2,
+        3,
+        5,
+        8,
+        15,
+        30,
+        60
+      ]
+    },
+    "sms_histogram_edges_seconds": {
+      "const": [
+        1,
+        2,
+        5,
+        10,
+        20,
+        40,
+        80,
+        160,
+        320
+      ]
+    },
+    "histogram_representation": {
+      "const": "non-cumulative finite bins"
+    },
+    "link_direction": {
+      "const": "a-to-b only"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "rows",
+          "bytes",
+          "sha256"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "enum": [
+              "cities.csv",
+              "city_kpi_5m.csv",
+              "countries.csv",
+              "links.csv",
+              "link_kpi_5m.csv",
+              "roaming_kpi_5m.csv",
+              "scenario_events.csv"
+            ]
+          },
+          "rows": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 172800
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 64000000
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

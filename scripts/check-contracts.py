@@ -118,6 +118,8 @@ def main():
     validate_trace_link_contracts()
     from trace_link_fixture_contract import validate_trace_link_fixture_contracts
     validate_trace_link_fixture_contracts()
+    from trace_link_domain_contract import validate_domain_contracts
+    validate_domain_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)
