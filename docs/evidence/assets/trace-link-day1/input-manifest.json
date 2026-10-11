@@ -2,7 +2,6 @@
   "baseSha": "30c9a47b7f58d46f7fbfab08f2fa2d5959da5cea",
   "implementationDate": "2026-10-11",
   "assignmentDate": "2026-10-10",
-  "referenceRoot": "D:\\Univer\\Anul2\\Orange_intership\\project\\Trace_Link_Integration_Pack",
   "frozenFiles": {
     "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
     "contracts/policies/service-rules-v2.schema.json": "3fdb4db9fbfd25796b23a0046a4363b7d669e96ec97d3102267b7aed7d97e657",
@@ -20,7 +19,8 @@
     "contracts/observations/telecom-observation-v2.schema.json": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d",
     "contracts/baselines/baseline-catalogue-v2.schema.json": "30f5d415ebedda1fd8c8df2d1ec19aa60abfe0033eac298f02078acaa61ff89f",
     "contracts/topology/demo-scopes-v2.json": "6259e98a2081ba93adc5693126a3b14bd3c7bde890d13e1053bca8a8c7320b3c",
-    "contracts/topology/geographic-scopes-v2.json": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532"
+    "contracts/topology/geographic-scopes-v2.json": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+    "contracts/geography/demo-geography-v1.json": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced"
   },
   "referenceFiles": {
     "source/engine.js": "a150367b50474afaf4d0016dfa467d38140c5216e390ef16d27c5098362f62a9",

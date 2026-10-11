@@ -66,6 +66,7 @@ quantile by 1000 exactly once. Existing V2 raw-millisecond delay samples keep
 their current policy and nearest-rank behavior.
 
 Zero denominator/count/valid time yields null and `INSUFFICIENT_EVIDENCE`.
+When those observations are stale, `STALE` takes precedence and actual remains null.
 Missing, insufficient, partial, stale and valid are distinct states. Stale
 snapshots may retain their actual and observation time; they cannot become a
 fresh zero. A valid evidence item has complete coverage, fresh measurements and
@@ -73,6 +74,28 @@ no quality reason. Baseline/threshold can be null; a supplied baseline requires
 its version. Deviation is observed minus baseline, preserving its sign, and is
 null when either measurement is unavailable. Threshold null means no threshold
 has been supplied; the evidence examples do not create a detection policy.
+
+### Evidence state consistency
+
+Coverage describes observation completeness, independently of computability and age.
+The validator enforces this matrix after checking primitives and their aggregate:
+
+| Quality | Coverage | Freshness | Primitives / actual | Reason |
+| --- | --- | --- | --- | --- |
+| VALID | 1 | FRESH | Present and computable; actual matches | null |
+| PARTIAL | strictly between 0 and 1 | FRESH | Observed subset; actual matches | explicit |
+| MISSING | 0 | UNKNOWN | Both null | explicit |
+| STALE | 0 through 1 | STALE | Retained primitives; actual matches, or null if undefined | explicit |
+| INSUFFICIENT_EVIDENCE | 0 through 1 | FRESH or UNKNOWN | Actual null; primitives absent or aggregate undefined | explicit |
+
+Populated primitives require known freshness. An unsupported calculation can have
+complete fresh source coverage while its target primitives and actual remain null.
+Retained stale snapshots may likewise have complete coverage. `NO_OBSERVATIONS`
+requires MISSING; `ZERO_DENOMINATOR` requires an empty ratio/count/valid-time
+denominator; `EMPTY_HISTOGRAM` requires zero histogram mass. Measured zero is valid
+when its population and primitives support it. Missing never implies healthy zero.
+These rules apply to individual evidence items; the separate multi-value arithmetic
+summary interface retains its existing quality/coverage policies.
 
 ## Evidence interface and validation
 
@@ -117,7 +140,8 @@ seconds rather than a sample count. Count-valued differences may yield signed
 growth. Dictionary validation also checks frozen metric units and that declared
 primitive fields match their aggregation operator.
 
-CITY scopes use uppercase runtime IDs and have null direction/partner fields.
+Every scope requires `namespace=trace-link-reference-v1`, matching the dictionary's
+`scopeNamespace`. CITY scopes use uppercase contract IDs and have null direction/partner fields.
 Directional LINK identities use lowercase reference endpoints plus the explicit
 matching direction suffix, such as `chi-hin:a-to-b`; endpoint city metadata must
 agree, and partner/procedure fields are null. SMS delay examples use
@@ -141,11 +165,20 @@ need a separate quantization allowance, never a weakened arithmetic tolerance.
 
 ## City identifiers and owner handoffs
 
-This explicit target map does not activate or rewrite the old geographic catalogue.
-Historical RIB/TIR evidence remains intact; those identifiers are absent from the
-new active target map.
+This map belongs exclusively to the synthetic `trace-link-reference-v1` namespace.
+Dictionary `cityIdMap[].contractCityId` identifies evidence cities and
+`referenceCityId` identifies the pack's lowercase source cities. HIN/CAU are
+reference-only. Existing geography catalogue `1-geography-g1`, topology
+`2-geography-g1`, and historical RIB/TIR scopes remain authoritative for the
+existing system. Even matching codes such as CHI do not authorize implicit runtime
+scope conversion. No runtime catalogue transition or mapping is approved here.
 
-| Runtime ID | Reference ID | Display name |
+Pre-merge v1 correction: consumers must replace `runtimeCityId` with
+`contractCityId`, read dictionary `scopeNamespace`, and supply evidence
+`scope.namespace`. Unqualified scopes and the old field are rejected. Metric IDs,
+metric policies and the frozen arithmetic/calculator interface are unchanged.
+
+| Contract ID | Reference ID | Display name |
 | --- | --- | --- |
 | CHI | chi | Chișinău |
 | BAL | bal | Bălți |

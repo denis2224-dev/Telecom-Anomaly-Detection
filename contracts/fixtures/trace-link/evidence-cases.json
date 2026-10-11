@@ -37,7 +37,8 @@
           ],
           "directionId": null,
           "partnerId": null,
-          "procedure": "ORIGINATING_SETUP"
+          "procedure": "ORIGINATING_SETUP",
+          "namespace": "trace-link-reference-v1"
         },
         "window": {
           "id": "tl-window-chi-0835",
@@ -99,7 +100,8 @@
           ],
           "directionId": null,
           "partnerId": null,
-          "procedure": "ORIGINATING_SETUP"
+          "procedure": "ORIGINATING_SETUP",
+          "namespace": "trace-link-reference-v1"
         },
         "window": {
           "id": "tl-window-chi-0835",
@@ -186,7 +188,8 @@
           ],
           "directionId": null,
           "partnerId": null,
-          "procedure": "DELIVERED_MESSAGE_DELAY"
+          "procedure": "DELIVERED_MESSAGE_DELAY",
+          "namespace": "trace-link-reference-v1"
         },
         "window": {
           "id": "tl-window-chi-0835",
@@ -244,7 +247,8 @@
           ],
           "directionId": null,
           "partnerId": null,
-          "procedure": "DELIVERED_MESSAGE_DELAY"
+          "procedure": "DELIVERED_MESSAGE_DELAY",
+          "namespace": "trace-link-reference-v1"
         },
         "window": {
           "id": "tl-window-chi-0835",
@@ -306,7 +310,8 @@
           ],
           "directionId": null,
           "partnerId": null,
-          "procedure": "PENDING_MESSAGE_SNAPSHOT"
+          "procedure": "PENDING_MESSAGE_SNAPSHOT",
+          "namespace": "trace-link-reference-v1"
         },
         "window": {
           "id": "tl-window-chi-0835",
@@ -368,7 +373,8 @@
           ],
           "directionId": "a-to-b",
           "partnerId": null,
-          "procedure": null
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
         },
         "window": {
           "id": "tl-window-chi-0835",
@@ -379,6 +385,128 @@
         "quality": {
           "state": "VALID",
           "reason": null
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    },
+    {
+      "id": "partial-observed-subset",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "fixture-partial-observed-subset",
+        "measurementId": "partial-observed-subset",
+        "metricId": "volte.setup.success",
+        "unit": "PERCENT",
+        "policyVersion": "trace-link-kpi-v1",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 980,
+          "denominator": 1000
+        },
+        "actual": 98,
+        "baseline": 99,
+        "baselineVersion": "trace-link-fixture-baseline-v1",
+        "threshold": null,
+        "deviation": -1,
+        "coverage": 0.5,
+        "freshness": {
+          "state": "FRESH",
+          "observedAt": "2026-10-10T08:40:00Z",
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": 1,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": "ORIGINATING_SETUP",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "PARTIAL",
+          "reason": "PARTIAL_COVERAGE"
+        },
+        "dependencyRelationId": null,
+        "dependency": null,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "ruleVersion": null,
+        "modelVersion": null,
+        "provenance": {
+          "datasetId": "trace-link-md-30d-v1",
+          "synthetic": true,
+          "origin": "HAND_CALCULATED",
+          "sourceChecksum": null
+        },
+        "observedRevision": 0,
+        "generatedAt": "2026-10-10T08:40:01Z"
+      }
+    },
+    {
+      "id": "missing-observations",
+      "value": {
+        "schemaVersion": 1,
+        "evidenceId": "fixture-missing-observations",
+        "measurementId": "missing-observations",
+        "metricId": "volte.setup.success",
+        "unit": "PERCENT",
+        "policyVersion": "trace-link-kpi-v1",
+        "primitives": null,
+        "actual": null,
+        "baseline": 99,
+        "baselineVersion": "trace-link-fixture-baseline-v1",
+        "threshold": null,
+        "deviation": null,
+        "coverage": 0,
+        "freshness": {
+          "state": "UNKNOWN",
+          "observedAt": null,
+          "asOf": "2026-10-10T08:40:01Z",
+          "sourceAgeSeconds": null,
+          "maxAgeSeconds": 90
+        },
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": "ORIGINATING_SETUP",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "tl-window-chi-0835",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "quality": {
+          "state": "MISSING",
+          "reason": "NO_OBSERVATIONS"
         },
         "dependencyRelationId": null,
         "dependency": null,

@@ -47,7 +47,7 @@ class TraceLinkContractTests(unittest.TestCase):
         e = copy.deepcopy(self.value)
         e.update(metricId='transport.link.utilization.peak', primitives={'type': 'MAXIMUM', 'max': 85},
                  actual=85, baseline=None, baselineVersion=None, deviation=None)
-        e['scope'] = {'type': 'LINK_DIRECTION', 'id': 'chi-hin:a-to-b', 'cityIds': ['CHI', 'HIN'],
+        e['scope'] = {'namespace': 'trace-link-reference-v1', 'type': 'LINK_DIRECTION', 'id': 'chi-hin:a-to-b', 'cityIds': ['CHI', 'HIN'],
                       'directionId': 'a-to-b', 'partnerId': None, 'procedure': None}
         validate_evidence(e)
         for patch in [{'actual': 84}, {'primitives': {'type': 'TIME_WEIGHTED', 'weightedSum': 25500, 'validSeconds': 300}},
@@ -59,7 +59,7 @@ class TraceLinkContractTests(unittest.TestCase):
 
     def test_dictionary_duplicate_ids_wrong_map_and_false_availability_rejected(self):
         patches = [lambda d: d['metrics'].append(copy.deepcopy(d['metrics'][0])),
-                   lambda d: d['cityIdMap'][0].update(runtimeCityId='RIB'),
+                   lambda d: d['cityIdMap'][0].update(contractCityId='RIB'),
                    lambda d: d['metrics'][0]['reference'].update(availability='SUPPORTED', reason='incompatible')]
         for patch in patches:
             d = copy.deepcopy(self.dictionary)
@@ -209,6 +209,116 @@ class TraceLinkContractTests(unittest.TestCase):
             d['metrics'][0].update(patch)
             with self.subTest(patch=patch), self.assertRaises(ValueError):
                 validate_dictionary(d)
+
+    def test_reference_namespace_is_required_and_old_runtime_name_rejected(self):
+        self.assertEqual(self.dictionary['scopeNamespace'], 'trace-link-reference-v1')
+        for city in self.dictionary['cityIdMap']:
+            self.assertNotIn('runtimeCityId', city)
+            self.assertEqual(city['contractCityId'].lower(), city['referenceCityId'])
+        for namespace in (None, 'runtime-geography-v1', 'unknown'):
+            e = copy.deepcopy(self.value)
+            if namespace is None:
+                e['scope'].pop('namespace', None)
+            else:
+                e['scope']['namespace'] = namespace
+            with self.subTest(namespace=namespace), self.assertRaises(ValueError):
+                validate_evidence(e)
+        d = copy.deepcopy(self.dictionary)
+        d['scopeNamespace'] = 'runtime-geography-v1'
+        with self.assertRaises(ValueError):
+            validate_dictionary(d)
+        d = copy.deepcopy(self.dictionary)
+        d['cityIdMap'][0]['runtimeCityId'] = d['cityIdMap'][0].pop('contractCityId')
+        with self.assertRaises(ValueError):
+            validate_dictionary(d)
+
+    def test_complete_observed_measurement_cannot_claim_missing(self):
+        self.value['quality'] = {'state': 'MISSING', 'reason': 'NO_OBSERVATIONS'}
+        with self.assertRaises(ValueError):
+            validate_evidence(self.value)
+
+    def test_quality_matrix_fixtures_and_forbidden_combinations(self):
+        states = {c['value']['quality']['state'] for c in self.cases}
+        self.assertEqual(states, {'VALID', 'PARTIAL', 'MISSING', 'STALE', 'INSUFFICIENT_EVIDENCE'})
+        for case in self.cases:
+            original = case['value']
+            validate_evidence(original)
+            state = original['quality']['state']
+            allowed_coverage = {'VALID': (1,), 'PARTIAL': (.5,), 'MISSING': (0,),
+                                'STALE': (0, .5, 1), 'INSUFFICIENT_EVIDENCE': (0, .5, 1)}[state]
+            for coverage in (0, .5, 1):
+                if coverage not in allowed_coverage:
+                    candidate = copy.deepcopy(original)
+                    candidate['coverage'] = coverage
+                    with self.subTest(case=case['id'], coverage=coverage), self.assertRaises(ValueError):
+                        validate_evidence(candidate)
+            allowed_freshness = {'VALID': ('FRESH',), 'PARTIAL': ('FRESH',), 'MISSING': ('UNKNOWN',),
+                                 'STALE': ('STALE',), 'INSUFFICIENT_EVIDENCE': ('FRESH', 'UNKNOWN')}[state]
+            for freshness in ('FRESH', 'STALE', 'UNKNOWN'):
+                if freshness not in allowed_freshness:
+                    candidate = copy.deepcopy(original)
+                    candidate['freshness'].update(state=freshness, observedAt=None, sourceAgeSeconds=None)
+                    if freshness != 'UNKNOWN':
+                        age = 1 if freshness == 'FRESH' else 301
+                        candidate['freshness'].update(observedAt='2026-10-10T08:40:00Z' if age == 1 else '2026-10-10T08:35:00Z', sourceAgeSeconds=age)
+                    with self.subTest(case=case['id'], freshness=freshness), self.assertRaises(ValueError):
+                        validate_evidence(candidate)
+
+    def test_unavailable_primitives_and_reserved_reasons(self):
+        for state in ('VALID', 'PARTIAL', 'STALE', 'MISSING', 'INSUFFICIENT_EVIDENCE'):
+            candidate = copy.deepcopy(self.value)
+            candidate.update(primitives=None, quality={'state': state, 'reason': 'UNAVAILABLE'})
+            with self.subTest(state=state), self.assertRaises(ValueError):
+                validate_evidence(candidate)
+        for reason in ('NO_OBSERVATIONS', 'ZERO_DENOMINATOR', 'EMPTY_HISTOGRAM'):
+            candidate = copy.deepcopy(self.value)
+            candidate.update(coverage=.5, quality={'state': 'PARTIAL', 'reason': reason})
+            with self.subTest(reason=reason), self.assertRaises(ValueError):
+                validate_evidence(candidate)
+        candidate = copy.deepcopy(self.value)
+        candidate.update(actual=None, deviation=None, primitives=None,
+                         quality={'state': 'INSUFFICIENT_EVIDENCE', 'reason': 'ZERO_DENOMINATOR'})
+        with self.assertRaises(ValueError):
+            validate_evidence(candidate)
+
+    def test_known_zero_is_valid_and_stale_empty_population_keeps_stale_quality(self):
+        candidate = copy.deepcopy(self.value)
+        candidate['primitives']['numerator'] = 0
+        candidate.update(actual=0, baseline=None, baselineVersion=None, deviation=None)
+        validate_evidence(candidate)
+        candidate['primitives']['denominator'] = 0
+        candidate.update(actual=None, quality={'state': 'STALE', 'reason': 'SOURCE_TOO_OLD'})
+        candidate['freshness'].update(state='STALE', observedAt='2026-10-10T08:35:00Z', sourceAgeSeconds=301)
+        validate_evidence(candidate)
+
+    def test_historical_runtime_geography_and_reference_scopes_remain_independent(self):
+        import sys
+        sys.path.insert(0, str(ROOT / 'scripts'))
+        try:
+            from geography_contract import resolve, validate_catalogue, authority_scopes
+            from observation_contract import validate_observation
+            from jsonschema import ValidationError
+            catalogue = json.loads((ROOT / 'contracts/geography/demo-geography-v1.json').read_text(encoding='utf-8'))
+            authority = json.loads((ROOT / 'contracts/topology/geographic-scopes-v2.json').read_text(encoding='utf-8'))
+            bindings = validate_catalogue(catalogue, authority)
+            for city in ('RIB', 'TIR'):
+                for service, role in (('VOLTE', 'VOLTE_IMS'), ('SMS', 'SMS_SMSC')):
+                    self.assertIn(f'{service}-MD-{city}', bindings)
+                    self.assertTrue(resolve(catalogue, authority, f'{service}-MD-{city}', role))
+            for city in ('HIN', 'CAU'):
+                self.assertNotIn(f'VOLTE-MD-{city}', bindings)
+                with self.assertRaises(KeyError):
+                    resolve(catalogue, authority, f'VOLTE-MD-{city}', 'VOLTE_IMS')
+            # Even an overlapping CHI code does not make a reference scope a runtime payload.
+            with self.assertRaises((ValueError, ValidationError)):
+                validate_observation(self.value['scope'])
+            observation = json.loads((ROOT / 'contracts/fixtures/geography/complete-city-observations-v1.json').read_text(encoding='utf-8'))[0]
+            validate_observation(observation, authority_scopes(authority))
+            observation['scopeId'] = copy.deepcopy(self.value['scope'])
+            with self.assertRaises((ValueError, ValidationError)):
+                validate_observation(observation, authority_scopes(authority))
+        finally:
+            sys.path.pop(0)
 
 
 if __name__ == '__main__':

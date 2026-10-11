@@ -411,6 +411,9 @@
           ],
           "minLength": 1,
           "maxLength": 160
+        },
+        "namespace": {
+          "const": "trace-link-reference-v1"
         }
       },
       "required": [
@@ -419,7 +422,8 @@
         "cityIds",
         "directionId",
         "partnerId",
-        "procedure"
+        "procedure",
+        "namespace"
       ]
     },
     "window": {
@@ -636,5 +640,221 @@
     "generatedAt"
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Trace Link Day 1 evidence v1 (contract only)"
+  "title": "Trace Link Day 1 evidence v1 (contract only)",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "quality": {
+            "properties": {
+              "state": {
+                "const": "VALID"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coverage": {
+            "const": 1
+          },
+          "freshness": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "FRESH"
+                ]
+              }
+            }
+          },
+          "primitives": {
+            "type": "object"
+          },
+          "actual": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "quality": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quality": {
+            "properties": {
+              "state": {
+                "const": "PARTIAL"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coverage": {
+            "exclusiveMinimum": 0,
+            "exclusiveMaximum": 1
+          },
+          "freshness": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "FRESH"
+                ]
+              }
+            }
+          },
+          "primitives": {
+            "type": "object"
+          },
+          "actual": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "quality": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quality": {
+            "properties": {
+              "state": {
+                "const": "MISSING"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coverage": {
+            "const": 0
+          },
+          "freshness": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "UNKNOWN"
+                ]
+              }
+            }
+          },
+          "primitives": {
+            "type": "null"
+          },
+          "actual": {
+            "type": "null"
+          },
+          "quality": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quality": {
+            "properties": {
+              "state": {
+                "const": "STALE"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coverage": {},
+          "freshness": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "STALE"
+                ]
+              }
+            }
+          },
+          "primitives": {
+            "type": "object"
+          },
+          "actual": {},
+          "quality": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quality": {
+            "properties": {
+              "state": {
+                "const": "INSUFFICIENT_EVIDENCE"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coverage": {},
+          "freshness": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "FRESH",
+                  "UNKNOWN"
+                ]
+              }
+            }
+          },
+          "primitives": {},
+          "actual": {
+            "type": "null"
+          },
+          "quality": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

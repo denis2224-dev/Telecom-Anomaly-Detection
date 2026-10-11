@@ -5,54 +5,54 @@
   "activation": "CONTRACT_ONLY",
   "cityIdMap": [
     {
-      "runtimeCityId": "CHI",
       "referenceCityId": "chi",
-      "displayName": "Chișinău"
+      "displayName": "Chișinău",
+      "contractCityId": "CHI"
     },
     {
-      "runtimeCityId": "BAL",
       "referenceCityId": "bal",
-      "displayName": "Bălți"
+      "displayName": "Bălți",
+      "contractCityId": "BAL"
     },
     {
-      "runtimeCityId": "CAH",
       "referenceCityId": "cah",
-      "displayName": "Cahul"
+      "displayName": "Cahul",
+      "contractCityId": "CAH"
     },
     {
-      "runtimeCityId": "UNG",
       "referenceCityId": "ung",
-      "displayName": "Ungheni"
+      "displayName": "Ungheni",
+      "contractCityId": "UNG"
     },
     {
-      "runtimeCityId": "ORH",
       "referenceCityId": "orh",
-      "displayName": "Orhei"
+      "displayName": "Orhei",
+      "contractCityId": "ORH"
     },
     {
-      "runtimeCityId": "SOR",
       "referenceCityId": "sor",
-      "displayName": "Soroca"
+      "displayName": "Soroca",
+      "contractCityId": "SOR"
     },
     {
-      "runtimeCityId": "COM",
       "referenceCityId": "com",
-      "displayName": "Comrat"
+      "displayName": "Comrat",
+      "contractCityId": "COM"
     },
     {
-      "runtimeCityId": "EDI",
       "referenceCityId": "edi",
-      "displayName": "Edineț"
+      "displayName": "Edineț",
+      "contractCityId": "EDI"
     },
     {
-      "runtimeCityId": "HIN",
       "referenceCityId": "hin",
-      "displayName": "Hîncești"
+      "displayName": "Hîncești",
+      "contractCityId": "HIN"
     },
     {
-      "runtimeCityId": "CAU",
       "referenceCityId": "cau",
-      "displayName": "Căușeni"
+      "displayName": "Căușeni",
+      "contractCityId": "CAU"
     }
   ],
   "metrics": [
@@ -1412,5 +1412,6 @@
       },
       "histogramSchema": null
     }
-  ]
+  ],
+  "scopeNamespace": "trace-link-reference-v1"
 }

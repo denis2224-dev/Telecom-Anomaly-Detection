@@ -22,10 +22,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "runtimeCityId": {
-            "type": "string",
-            "minLength": 1
-          },
           "referenceCityId": {
             "type": "string",
             "minLength": 1
@@ -33,10 +29,14 @@
           "displayName": {
             "type": "string",
             "minLength": 1
+          },
+          "contractCityId": {
+            "type": "string",
+            "minLength": 1
           }
         },
         "required": [
-          "runtimeCityId",
+          "contractCityId",
           "referenceCityId",
           "displayName"
         ]
@@ -219,6 +219,9 @@
           "histogramSchema"
         ]
       }
+    },
+    "scopeNamespace": {
+      "const": "trace-link-reference-v1"
     }
   },
   "required": [
@@ -227,7 +230,8 @@
     "datasetId",
     "activation",
     "cityIdMap",
-    "metrics"
+    "metrics",
+    "scopeNamespace"
   ],
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Trace Link KPI dictionary v1"

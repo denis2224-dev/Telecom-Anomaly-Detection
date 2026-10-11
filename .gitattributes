@@ -20,4 +20,5 @@ tasks/sms-ml-shadow-integration/verification.json -text whitespace=trailing-spac
 
 # Day 1 exports identify the exact frozen fixture bytes on every checkout.
 contracts/fixtures/trace-link/arithmetic-cases.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+contracts/geography/demo-geography-v1.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/assets/trace-link-day1/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol

@@ -9,7 +9,8 @@ from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_SAFE = 9_007_199_254_740_991
-CITY_IDS = ('CHI', 'BAL', 'CAH', 'UNG', 'ORH', 'SOR', 'COM', 'EDI', 'HIN', 'CAU')
+REFERENCE_CITY_IDS = ('CHI', 'BAL', 'CAH', 'UNG', 'ORH', 'SOR', 'COM', 'EDI', 'HIN', 'CAU')
+SCOPE_NAMESPACE = 'trace-link-reference-v1'
 VOICE_EDGES = [.5, 1, 2, 3, 5, 8, 15, 30, 60]
 SMS_EDGES = [1, 2, 5, 10, 20, 40, 80, 160, 320]
 REQUIRED_METRICS = {
@@ -108,9 +109,11 @@ def safe_count(value):
 def validate_dictionary(value):
     shape('contracts/kpi/trace-link-kpi-definitions-v1.schema.json', value)
     cities = value['cityIdMap']
-    require({c['runtimeCityId'] for c in cities} == set(CITY_IDS), 'Incorrect runtime city map')
-    require(all(c['referenceCityId'] == c['runtimeCityId'].lower() for c in cities),
-            'Incorrect reference/runtime city mapping')
+    require(value['scopeNamespace'] == SCOPE_NAMESPACE, 'Incorrect reference scope namespace')
+    require(len({c['contractCityId'] for c in cities}) == len(cities)
+            and {c['contractCityId'] for c in cities} == set(REFERENCE_CITY_IDS), 'Incorrect reference city map')
+    require(all(c['referenceCityId'] == c['contractCityId'].lower() for c in cities),
+            'Incorrect reference/contract city mapping')
     metrics = value['metrics']
     require(len({m['metricId'] for m in metrics}) == len(metrics), 'Duplicate metric ID')
     require({m['metricId'] for m in metrics} == REQUIRED_METRICS, 'Incomplete Day 1 metric inventory')
@@ -152,9 +155,41 @@ def _quantile(histogram):
     raise ValueError('Histogram quantile not reachable')
 
 
+def validate_quality(value, expected):
+    """Coverage measures observations independently of computability and age."""
+    state, reason = value['quality']['state'], value['quality']['reason']
+    primitives, freshness = value['primitives'], value['freshness']['state']
+    if primitives is not None:
+        require(freshness != 'UNKNOWN', 'Observed primitives require known freshness')
+    if state in ('VALID', 'PARTIAL'):
+        require(expected is not None, 'Usable evidence requires a computable aggregate')
+        require(freshness == 'FRESH', 'Usable evidence requires fresh observations')
+        require(value['coverage'] == 1 if state == 'VALID' else 0 < value['coverage'] < 1,
+                'Quality/coverage mismatch')
+    elif state == 'MISSING':
+        require(primitives is None and value['actual'] is None and value['coverage'] == 0
+                and freshness == 'UNKNOWN', 'Missing evidence cannot claim observed measurements')
+    elif state == 'STALE':
+        require(primitives is not None and freshness == 'STALE', 'Stale evidence requires retained observations')
+    else:
+        require(expected is None and value['actual'] is None and freshness != 'STALE',
+                'Insufficient evidence cannot claim a computable actual or hide stale observations')
+    require((reason is None) if state == 'VALID' else bool(reason), 'Quality reason/state mismatch')
+    if reason == 'NO_OBSERVATIONS':
+        require(state == 'MISSING', 'NO_OBSERVATIONS requires missing evidence')
+    elif reason == 'ZERO_DENOMINATOR':
+        require(primitives is not None and primitives['type'] in ('RATIO', 'SUM_COUNT', 'TIME_WEIGHTED')
+                and expected is None, 'ZERO_DENOMINATOR requires an empty population')
+    elif reason == 'EMPTY_HISTOGRAM':
+        require(primitives is not None and primitives['type'] == 'HISTOGRAM' and expected is None,
+                'EMPTY_HISTOGRAM requires zero histogram mass')
+
+
 def validate_evidence(value, dictionary=None):
     shape('contracts/evidence/trace-link-evidence-v1.schema.json', value)
     dictionary = dictionary or read('contracts/kpi/trace-link-kpi-definitions-v1.json')
+    validate_dictionary(dictionary)
+    city_ids = {city['contractCityId'] for city in dictionary['cityIdMap']}
     metric = next((m for m in dictionary['metrics'] if m['metricId'] == value['metricId']), None)
     require(metric is not None, 'Unknown metric ID')
     require(value['unit'] == metric['unit'] and value['policyVersion'] == metric['policyVersion'],
@@ -187,17 +222,11 @@ def validate_evidence(value, dictionary=None):
         fresh = age <= freshness['maxAgeSeconds']
         require((freshness['state'] == 'FRESH') == fresh, 'Freshness state/policy mismatch')
     quality = value['quality']
-    if quality['state'] == 'VALID':
-        require(quality['reason'] is None and freshness['state'] == 'FRESH' and value['coverage'] == 1,
-                'Valid evidence requires complete, fresh measurements and no quality reason')
-    else:
-        require(bool(quality['reason']), 'Unavailable/degraded quality needs explicit reason')
-    require(quality['state'] != 'STALE' or freshness['state'] == 'STALE', 'Stale quality/freshness mismatch')
-    require(freshness['state'] != 'STALE' or quality['state'] == 'STALE', 'Stale evidence cannot be healthy')
     scope = value['scope']
-    require(all(c in CITY_IDS for c in scope['cityIds']), 'Unknown runtime city ID')
+    require(scope['namespace'] == dictionary['scopeNamespace'], 'Reference scope namespace mismatch')
+    require(all(c in city_ids for c in scope['cityIds']), 'Unknown reference contract city ID')
     if scope['type'] == 'CITY':
-        require(scope['id'] in CITY_IDS and scope['cityIds'] == [scope['id']], 'City scope mismatch')
+        require(scope['id'] in city_ids and scope['cityIds'] == [scope['id']], 'City scope mismatch')
         require(scope['directionId'] is None and scope['partnerId'] is None,
                 'City measurement has irrelevant direction/partner dimensions')
     if metric['domain'] == 'TRANSPORT':
@@ -207,7 +236,7 @@ def validate_evidence(value, dictionary=None):
         require(len(parts) == 2 and parts[1] == scope['directionId'], 'Link identity/direction mismatch')
         endpoints = parts[0].split('-')
         require(len(endpoints) == 2 and endpoints[0] != endpoints[1]
-                and all(city.upper() in CITY_IDS and city == city.lower() for city in endpoints)
+                and all(city.upper() in city_ids and city == city.lower() for city in endpoints)
                 and scope['cityIds'] == [city.upper() for city in endpoints], 'Link endpoint scope mismatch')
         require(scope['partnerId'] is None and scope['procedure'] is None,
                 'Link measurement has irrelevant partner/procedure dimensions')
@@ -227,6 +256,7 @@ def validate_evidence(value, dictionary=None):
                           if type(value['actual']) in (int, float) and value['baseline'] is not None else None)
     same_number(value['deviation'], expected_deviation)
     primitives = value['primitives']
+    expected = None
     if primitives is None:
         require(value['actual'] is None and quality['state'] in ('MISSING', 'INSUFFICIENT_EVIDENCE'),
                 'Absent primitives require null actual and explicit unavailable quality')
@@ -283,10 +313,9 @@ def validate_evidence(value, dictionary=None):
             require(start <= instant(primitives['at']) < end, 'State event outside half-open window')
             expected = primitives['state']
         same_number(value['actual'], expected)
-        if expected is None:
-            require(quality['state'] == 'INSUFFICIENT_EVIDENCE', 'Zero population requires insufficient evidence')
         if value['unit'] == 'PERCENT' and expected is not None:
             require(0 <= expected <= 100, 'Percentage outside 0..100')
+    validate_quality(value, expected)
     dependency = value['dependency']
     if dependency is None:
         require(value['dependencyRelationId'] is None, 'Unbacked dependency relation')
