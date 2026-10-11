@@ -1,0 +1,14 @@
+{
+  "coreAutocrlf": true,
+  "status": "PASS",
+  "sourceCommit": "5a8e6bec28ab88fbbfe85da2ecca695cdf4aa7a0",
+  "fileSha256": {
+    "cities.csv": "16cc72a82194b1d416d09df55825f806bd6d97a99bb6ed254ff64a915c530cc1",
+    "links.csv": "bbf0d608bebf71939354e3d364cd898f69bc12e23e54db3a29552d79ec3a1c6e",
+    "countries.csv": "23dfc3bc0ef3b2c95d22db3cb1f5bcecba7390ec194225b437ab96d09df3a7d3",
+    "city_kpi_5m.csv": "207e2f86a286cff2b1444f33cf24f1beef291a6a35f83956aabcb0aa728d5304",
+    "link_kpi_5m.csv": "2ee161a32977870b193f8f5d001797414d4fcacc49cea59eab60e48688098ced",
+    "roaming_kpi_5m.csv": "56f286fa0147ed813ac090ad801e8cdd63596b7a44701404708a81571f071892",
+    "scenario_events.csv": "70b87cebbabef71586b5ea4ad25c73634d3ee4dc9eccc654847f36ad51057ae1"
+  }
+}
