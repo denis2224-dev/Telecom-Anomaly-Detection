@@ -49,7 +49,7 @@ class NotificationRepositoryIT extends IncidentServiceIntegrationTestSupport {
                 VALUES (?, 'episode-1', 'VOLTE', 'hin', 'ONGOING', 'HIGH', ?, ?, ?, 1)
                 """, incidentId, Timestamp.from(AT.minusSeconds(60)), Timestamp.from(AT),
                 Timestamp.from(AT));
-        var event = events.saveAndFlush(new NotificationEvent("detection-1:OPEN", incidentId,
+        var event = events.saveAndFlush(new NotificationEvent("OPEN:episode-1", incidentId,
                 "detection-1", null, NotificationKind.OPEN, Severity.HIGH, "VOLTE", "hin",
                 "VoLTE incident", AT, CauseStatus.UNDETERMINED, null, null));
         var recipientA = recipients.saveAndFlush(new NotificationRecipient(event.getId(), analystA, AT));

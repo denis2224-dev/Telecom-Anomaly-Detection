@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Savepoint;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,10 +78,14 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals("26", scalar("""
-                SELECT count(*) FROM pg_tables WHERE schemaname = 'app'
-                AND tablename <> 'flyway_schema_history' AND tableowner = 'incidents_migrator'
-                """));
+        assertEquals(Set.of("analysts", "detection_evidence", "incidents", "incident_audit",
+                "service_kpi_windows", "scenario_commands", "sms_ml_shadow",
+                "geo_catalogue_versions", "geo_cities", "geo_nodes", "geo_scope_bindings",
+                "geo_scope_roles", "geo_configured_links", "scope_window_coverage",
+                "scope_window_coverage_rejection", "notification_event", "notification_recipient",
+                "push_subscription", "push_delivery", "trace_dataset", "trace_catalogue",
+                "trace_inventory_city", "trace_inventory_link", "trace_link_direction",
+                "trace_partner", "trace_metric_window"), tableNames());
         assertEquals("1", scalar("""
                 SELECT count(*) FROM pg_indexes
                 WHERE schemaname = 'app'
@@ -324,6 +330,20 @@ class DatabaseMigrationTest {
             assertTrue(rows.next());
             return rows.getString(1);
         }
+    }
+
+    private Set<String> tableNames() throws SQLException {
+        Set<String> names = new HashSet<>();
+        try (var statement = runtime.createStatement(); var rows = statement.executeQuery("""
+                SELECT tablename, tableowner FROM pg_tables WHERE schemaname = 'app'
+                  AND tablename <> 'flyway_schema_history'
+                """)) {
+            while (rows.next()) {
+                names.add(rows.getString(1));
+                assertEquals("incidents_migrator", rows.getString(2));
+            }
+        }
+        return names;
     }
 
     private static void execute(Connection connection, String sql) throws SQLException {
