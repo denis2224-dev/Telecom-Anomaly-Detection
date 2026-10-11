@@ -1,0 +1,238 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "dictionaryVersion": {
+      "const": "trace-link-kpi-v1"
+    },
+    "datasetId": {
+      "const": "trace-link-md-30d-v1"
+    },
+    "activation": {
+      "const": "CONTRACT_ONLY"
+    },
+    "cityIdMap": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "referenceCityId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contractCityId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "contractCityId",
+          "referenceCityId",
+          "displayName"
+        ]
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 40,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "metricId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain": {
+            "enum": [
+              "VOLTE",
+              "TRANSPORT",
+              "ROAMING",
+              "SMS",
+              "MOBILE_DATA",
+              "QUALITY"
+            ]
+          },
+          "unit": {
+            "enum": [
+              "COUNT",
+              "PERCENT",
+              "ERLANG",
+              "SECONDS",
+              "MILLISECONDS",
+              "GBPS",
+              "BYTES",
+              "MBPS",
+              "STATE"
+            ]
+          },
+          "population": {
+            "type": "string",
+            "minLength": 1
+          },
+          "aggregation": {
+            "enum": [
+              "COUNT_SUM",
+              "RATIO_OF_SUMS",
+              "WEIGHTED_MEAN",
+              "TIME_WEIGHTED_MEAN",
+              "HISTOGRAM_P95",
+              "SNAPSHOT_LAST",
+              "STATE_TIMELINE",
+              "SNAPSHOT_DIFFERENCE",
+              "MAXIMUM"
+            ]
+          },
+          "primitiveFields": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "scopeDimensions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "minimumVolume": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "qualityRequirements": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "policyVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "availability": {
+                "enum": [
+                  "SUPPORTED",
+                  "APPROXIMATION",
+                  "REQUIRES_ADDITIONAL_PRIMITIVES"
+                ]
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1
+              }
+            },
+            "required": [
+              "availability",
+              "fields",
+              "reason"
+            ]
+          },
+          "histogramSchema": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "unit": {
+                "enum": [
+                  "SECONDS"
+                ]
+              },
+              "representation": {
+                "const": "NON_CUMULATIVE_FINITE_BINS"
+              },
+              "edges": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            },
+            "required": [
+              "version",
+              "unit",
+              "representation",
+              "edges"
+            ]
+          }
+        },
+        "required": [
+          "metricId",
+          "displayName",
+          "domain",
+          "unit",
+          "population",
+          "aggregation",
+          "primitiveFields",
+          "scopeDimensions",
+          "minimumVolume",
+          "qualityRequirements",
+          "policyVersion",
+          "reference",
+          "histogramSchema"
+        ]
+      }
+    },
+    "scopeNamespace": {
+      "const": "trace-link-reference-v1"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "dictionaryVersion",
+    "datasetId",
+    "activation",
+    "cityIdMap",
+    "metrics",
+    "scopeNamespace"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trace Link KPI dictionary v1"
+}

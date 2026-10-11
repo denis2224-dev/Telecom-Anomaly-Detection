@@ -1,0 +1,11 @@
+{
+  "mutation": "start <= ts < end -> start <= ts <= end",
+  "inMemoryOnly": true,
+  "detected": true,
+  "caseIds": [
+    "city-outside-window",
+    "link-period-exclusive-boundary",
+    "link-stale"
+  ],
+  "fixtureSha256": "82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd"
+}
