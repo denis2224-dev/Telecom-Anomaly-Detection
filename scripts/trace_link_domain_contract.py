@@ -45,6 +45,12 @@ def validate_domain_contracts():
     schema = read('observations/trace-link-domain-window-v1.schema.json')
     Draft202012Validator.check_schema(schema)
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
+    for metric in read('kpi/trace-link-kpi-definitions-v1.json')['metrics']:
+        if metric['domain'] == 'QUALITY':
+            continue  # Quality metadata is not a sixth observation domain.
+        require(len(metric['population']) <= schema['properties']['population']['maxLength'], 'Dictionary population does not fit producer contract')
+        require(metric['unit'] in schema['properties']['unit']['enum'], 'Dictionary unit does not fit producer contract')
+        require(metric['aggregation'] in schema['properties']['aggregationType']['enum'], 'Dictionary aggregation does not fit producer contract')
     cases = read('fixtures/trace-link/domain-window-cases-v1.json')['cases']
     for case in cases:
         errors = list(validator.iter_errors(case['observation']))

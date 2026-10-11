@@ -81,4 +81,19 @@ class DomainObservationValidatorTest {
         assertEquals("CHI",new TraceLinkCatalog().city("chi").path("contractCityId").asText());
         assertThrows(IllegalArgumentException.class,() -> new TraceLinkCatalog().city("CHI"));
     }
+    @Test void staleSnapshotMissingAndMeasuredZeroStayDistinct() throws Exception {
+        var e = fixture(4); var definition = new TraceLinkCatalog().metric("roaming.activeOutbound");
+        e.put("metricId","roaming.activeOutbound"); e.put("aggregationType","SNAPSHOT_LAST");
+        e.put("unit","COUNT"); e.set("population",definition.path("population")); e.put("procedure","ACTIVE_USERS");
+        e.put("quality","STALE");
+        e.set("primitives",mapper.readTree("{\"value\":100,\"snapshotAt\":\"2026-09-10T08:50:00Z\"}"));
+        e.put("eventId",DomainObservationValidator.identity(e)); validator.validate(e);
+        e.put("quality","VALID"); assertThrows(IllegalArgumentException.class,() -> validator.validate(e));
+        ((ObjectNode)e.path("primitives")).put("snapshotAt","2026-09-10T09:00:00Z").put("value",0);
+        validator.validate(e);
+        e.put("quality","MISSING"); e.put("coverage",0);
+        ((ObjectNode)e.path("primitives")).putNull("snapshotAt").putNull("value"); validator.validate(e);
+        e.put("quality","VALID"); e.put("coverage",1);
+        assertThrows(IllegalArgumentException.class,() -> validator.validate(e));
+    }
 }
