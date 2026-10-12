@@ -30,3 +30,5 @@ docs/evidence/assets/trace-link-ion-native/*.json text eol=lf
 
 # Preserve the raw bytes pinned by the separate receiving reproduction manifest.
 docs/evidence/assets/trace-link-day2-receiving-closure/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+contracts/fixtures/trace-link/domain-primitive-results-v1.json text eol=lf
+docs/evidence/assets/trace-link-domain-producers/*.json text eol=lf
