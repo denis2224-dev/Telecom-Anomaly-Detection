@@ -1,0 +1,410 @@
+{
+  "fixtureVersion": "trace-link-producer-rehearsal-v1",
+  "milestoneDate": "2026-10-15",
+  "executionMode": "OFFLINE_LOGICAL_CLOCK",
+  "seedPurpose": "local synthetic producer verification only",
+  "historicalDataset": {
+    "datasetId": "trace-link-md-30d-v1",
+    "sourceResolutionSeconds": 300,
+    "immutable": true
+  },
+  "liveDataset": {
+    "datasetId": "trace-link-live-synthetic-v1",
+    "sourceResolutionSeconds": 60,
+    "Kafka": "DISABLED",
+    "consumer": "PENDING_REVIEW"
+  },
+  "runOrder": [
+    "transport-fault",
+    "transport-normal",
+    "transport-gap",
+    "roaming-fault",
+    "roaming-normal",
+    "roaming-gap",
+    "mobile-data-fault",
+    "mobile-data-normal",
+    "mobile-data-gap",
+    "transport-opposite",
+    "roaming-opposite",
+    "mobile-data-other-city",
+    "transport-high-utilization-control",
+    "transport-recovery-gap"
+  ],
+  "scenarios": [
+    {
+      "name": "transport-fault",
+      "command": {
+        "type": "TRANSPORT_LINK_OVERLOAD",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:00:00Z",
+        "scope": {
+          "domain": "TRANSPORT",
+          "id": "chi-hin",
+          "direction": "a-to-b",
+          "country": null,
+          "procedure": null,
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "transport-normal",
+      "command": {
+        "type": "NORMAL_CONTROL",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:08:00Z",
+        "scope": {
+          "domain": "TRANSPORT",
+          "id": "chi-hin",
+          "direction": "a-to-b",
+          "country": null,
+          "procedure": null,
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "transport-gap",
+      "command": {
+        "type": "TELEMETRY_GAP",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:16:00Z",
+        "scope": {
+          "domain": "TRANSPORT",
+          "id": "chi-hin",
+          "direction": "a-to-b",
+          "country": null,
+          "procedure": null,
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "roaming-fault",
+      "command": {
+        "type": "ROAMING_REGISTRATION_FAILURE",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:00:00Z",
+        "scope": {
+          "domain": "ROAMING",
+          "id": "RO-DEMO-01",
+          "direction": "out",
+          "country": "RO",
+          "procedure": "REGISTRATION",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "roaming-normal",
+      "command": {
+        "type": "NORMAL_CONTROL",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:08:00Z",
+        "scope": {
+          "domain": "ROAMING",
+          "id": "RO-DEMO-01",
+          "direction": "out",
+          "country": "RO",
+          "procedure": "REGISTRATION",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "roaming-gap",
+      "command": {
+        "type": "TELEMETRY_GAP",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:16:00Z",
+        "scope": {
+          "domain": "ROAMING",
+          "id": "RO-DEMO-01",
+          "direction": "out",
+          "country": "RO",
+          "procedure": "REGISTRATION",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "mobile-data-fault",
+      "command": {
+        "type": "MOBILE_DATA_DNS_FAILURE",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:00:00Z",
+        "scope": {
+          "domain": "MOBILE_DATA",
+          "id": "chi",
+          "direction": null,
+          "country": null,
+          "procedure": "DNS",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "mobile-data-normal",
+      "command": {
+        "type": "NORMAL_CONTROL",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:08:00Z",
+        "scope": {
+          "domain": "MOBILE_DATA",
+          "id": "chi",
+          "direction": null,
+          "country": null,
+          "procedure": "DNS",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "mobile-data-gap",
+      "command": {
+        "type": "TELEMETRY_GAP",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:16:00Z",
+        "scope": {
+          "domain": "MOBILE_DATA",
+          "id": "chi",
+          "direction": null,
+          "country": null,
+          "procedure": "DNS",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "transport-opposite",
+      "command": {
+        "type": "NORMAL_CONTROL",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:00:00Z",
+        "scope": {
+          "domain": "TRANSPORT",
+          "id": "chi-hin",
+          "direction": "b-to-a",
+          "country": null,
+          "procedure": null,
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "roaming-opposite",
+      "command": {
+        "type": "NORMAL_CONTROL",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:00:00Z",
+        "scope": {
+          "domain": "ROAMING",
+          "id": "RO-DEMO-01",
+          "direction": "in",
+          "country": "RO",
+          "procedure": "REGISTRATION",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "mobile-data-other-city",
+      "command": {
+        "type": "NORMAL_CONTROL",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:00:00Z",
+        "scope": {
+          "domain": "MOBILE_DATA",
+          "id": "hin",
+          "direction": null,
+          "country": null,
+          "procedure": "DNS",
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "transport-high-utilization-control",
+      "command": {
+        "type": "NORMAL_CONTROL",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:00:00Z",
+        "scope": {
+          "domain": "TRANSPORT",
+          "id": "chi-orh",
+          "direction": "a-to-b",
+          "country": null,
+          "procedure": null,
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 9600,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": []
+        }
+      }
+    },
+    {
+      "name": "transport-recovery-gap",
+      "command": {
+        "type": "TRANSPORT_LINK_OVERLOAD",
+        "version": "trace-link-scenarios-v1",
+        "seed": 42,
+        "start": "2026-10-12T09:24:00Z",
+        "scope": {
+          "domain": "TRANSPORT",
+          "id": "chi-hin",
+          "direction": "a-to-b",
+          "country": null,
+          "procedure": null,
+          "topologyVersion": "trace-link-links-v1"
+        },
+        "parameters": {
+          "normalUtilizationBp": 5000,
+          "degradedUtilizationBp": 9800,
+          "capacityGbps": 20,
+          "attempts": 1000,
+          "healthySuccessBp": 9900,
+          "degradedSuccessBp": 7000,
+          "missingMinutes": [
+            5,
+            6
+          ]
+        }
+      }
+    }
+  ],
+  "legacy": {
+    "seed": 42,
+    "start": "2026-10-12T10:00:00Z",
+    "voltePath": "VoiceScenario.generateWindows(start,seed,Profile)",
+    "smsPath": "SmsQueueScenario.generateWindows/generateHealthyWindows/generateTelemetryGapWindows",
+    "volteScope": "VOLTE-MD-CENTRAL",
+    "smsScope": "SMS-MD-ROUTE-A"
+  }
+}
