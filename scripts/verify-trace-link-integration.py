@@ -94,18 +94,20 @@ def main():
                ('mobile-data-gap.jsonl', 'mobileData.dns.success', 'MISSING')]
     examples, pins = [], []
     for filename, metric, quality in sources:
+        # The separate gap schedule begins at 09:16; its first missing slot is 09:18.
+        expected_start = '2026-10-12T09:18:00Z' if quality == 'MISSING' else '2026-10-12T09:02:00Z'
         path = ROOT/'docs/evidence/assets/trace-link-day6/run-1'/filename
         for number, line in enumerate(path.read_bytes().splitlines(), 1):
             value = json.loads(line)
             if (value['metricId'] == metric and value['quality'] == quality
-                    and value['windowStart'].endswith('09:02:00Z')):
+                    and value['windowStart'] == expected_start):
                 validator.validate(value)
                 no_truth(value)
                 require(value['eventId'] == identity(value), 'Producer event identity changed')
                 examples.append(line)
                 pins.append(dict(path=path.relative_to(ROOT).as_posix(), line=number,
                                  sourceFileSha256=sha(path.read_bytes()), payloadSha256=sha(line),
-                                 eventId=value['eventId']))
+                                 windowStart=value['windowStart'], eventId=value['eventId']))
                 break
         else:
             raise ValueError('Missing source example: ' + filename)
