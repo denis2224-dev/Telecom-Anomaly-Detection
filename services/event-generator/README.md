@@ -12,3 +12,11 @@ documents the isolated 60-second Transport/Roaming/LTE compiler and pure schedul
 It uses a separate synthetic dataset/source namespace and no archive upsampling.
 Public API changes and Kafka activation remain PENDING_REVIEW; the legacy
 VoLTE/SMS entrypoint is unchanged.
+
+Day 5 adds bounded, immutable local investigation checkpoints through
+`TraceLinkScenarioCheckpoints`. Every status reports publication as
+`UNKNOWN_NOT_TRACKED`; restoring unfinished work interrupts it and emits no
+catch-up or recovery. Exact retries preserve bytes, while conflicting IDs,
+malformed JSON and conflicting output paths fail closed. See the
+[restart procedure](../../docs/runbooks/trace-link-scenarios.md#local-checkpoints-and-safe-restart)
+and [reliability evidence](../../docs/evidence/2026-10-14-trace-link-reliability.md).

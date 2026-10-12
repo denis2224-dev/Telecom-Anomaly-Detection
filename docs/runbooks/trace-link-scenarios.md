@@ -124,6 +124,82 @@ also become INTERRUPTED and release nothing. If a process loses its checkpoint,
 reconcile the external history before a new future run; never restart a past run
 from minute zero or infer recovery from absent output.
 
+## Local checkpoints and safe restart
+
+`TraceLinkScenarioCheckpoints.write(engine.checkpoint(), clock, path)` writes a
+versioned, checksummed local file through a flushed same-directory temporary
+file and atomic no-clobber hard link. Each generation needs a new filename.
+An exact retry preserves the original bytes and modification time. Conflicting
+content fails without replacing evidence. Retain the command, checkpoint,
+measurement JSONL and their SHA-256 hashes together. NTFS/hard-link support is
+required; there is no fallback that overwrites an existing file.
+
+The codec bounds files to 8 MiB, retained runs to 128, histories to eight windows,
+and each window to three observations. It rejects duplicate JSON keys, trailing
+documents, unknown fields, altered checksums, noncanonical run IDs, changed
+parameters, invalid history prefixes, overlapping reservations and future
+history. The checksum detects corruption; it is not a signature or access control.
+
+Restore with `TraceLinkScenarioCheckpoints.restore(path, clock, capacity)` using
+the same injected UTC clock policy as the scheduler. `Snapshot.publicationStatus()`
+and the file envelope always say `UNKNOWN_NOT_TRACKED`. Missing publication
+metadata is rejected. A local history entry establishes generation only. No
+checkpoint establishes Kafka offer, acknowledgement, persistence or incident
+acceptance, even when generation status is COMPLETED.
+
+| Previous state | After file restore | Allowed output |
+| --- | --- | --- |
+| SCHEDULED or RUNNING | INTERRUPTED; retain exact history prefix | None |
+| INTERRUPTED | INTERRUPTED | None |
+| STOPPED before minute 1, in fault, or in recovery | STOPPED | None |
+| COMPLETED | COMPLETED; all eight identities retained | Exact command retry returns existing status; no new windows |
+| Unknown/missing checkpoint or status | Explicit failure; reconcile external history | None |
+
+Stop retains the full reservation even when no window has been released. An
+adjacent `[end,end+480s)` run is independent; overlapping same-scope runs remain
+rejected after stop/completion. Opposite directions reserve separate scopes.
+There is no automatic resume API, background thread, queue or eviction policy.
+Schedule a new future command only after reconciling any external effects of the
+old run. Do not edit a checkpoint to force continuation. Saving after local
+release is not atomic with an external send; power-loss durability, a durable
+command ledger, delivery reconciliation and exactly-once publication require a
+separately approved integration.
+
+`missingMinutes` is zero-based and may include recovery minutes 5 and 6. Such
+windows carry MISSING, zero coverage and null primitives. Only a later new VALID
+measurement supplies recovery evidence; phase names alone never prove recovery.
+PARTIAL is incomplete observed coverage, STALE is retained snapshot evidence,
+and INSUFFICIENT_EVIDENCE cannot be promoted to healthy. Measured numerator zero
+with a positive denominator is a numeric zero; zero denominator yields no rate.
+The native archive's unknown quality remains separate from live measured quality.
+
+Reproduce stop/restart, concurrent replay, byte preservation and recovery-gap
+controls without starting services:
+
+```powershell
+./mvnw.cmd -B -ntp -pl services/event-generator -am '-Dtest=TraceLinkCheckpointTest,TraceLinkReliabilityRegressionTest,TraceLinkScenarioEngineTest' '-Dsurefire.failIfNoSpecifiedTests=false' test
+Get-FileHash -Algorithm SHA256 path/to/checkpoint.json,path/to/observations.jsonl
+```
+
+For a packaged, offline checkpoint rehearsal after `verify`, compile and run the
+checked-in evidence driver. The output directory must be new. Its clock is
+explicit logical time, and its command/checkpoint metadata stays separate from
+measurement JSONL:
+
+```powershell
+javac -cp services/event-generator/target/event-generator-0.3.0-SNAPSHOT-library.jar -d target/checkpoint-classes docs/evidence/assets/trace-link-reliability/CheckpointRehearsal.java
+java '-Dloader.path=target/checkpoint-classes' '-Dloader.main=CheckpointRehearsal' -cp services/event-generator/target/event-generator-0.3.0-SNAPSHOT.jar org.springframework.boot.loader.launch.PropertiesLauncher contracts/fixtures/trace-link/scenario-command-v1.json target/checkpoint-rehearsal
+```
+
+Expect three generated Transport windows/nine observations, exact byte/timestamp
+checkpoint replay, INTERRUPTED restored running history, STOPPED restored stopped
+history, zero new windows after restart, UNKNOWN_NOT_TRACKED publication and
+Kafka DISABLED. The driver fails if any assertion differs.
+
+Use the existing CLI commands above for normal, Transport, Roaming and telemetry
+gap artifacts. A receiving owner must independently reproduce them; author tests
+do not constitute that handoff approval.
+
 ## Controls, evaluator fixtures and verification
 
 Opposite link/roaming directions and other cities/partners are separate generated
