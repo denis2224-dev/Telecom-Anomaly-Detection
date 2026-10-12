@@ -39,3 +39,5 @@ docs/evidence/assets/trace-link-reliability/** -text
 contracts/fixtures/demo/service-seeds.json text eol=lf
 scripts/rehearsal/*.java text eol=lf
 docs/evidence/assets/trace-link-day6/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Unified patches retain significant blank-line context as immutable data.
+docs/evidence/assets/trace-link-day6/preflight/*.patch -whitespace
