@@ -45,6 +45,7 @@
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
           <include>**/DetectionReplayIT.java</include>
           <include>**/DependencyOutageIT.java</include>
+          <include>**/TraceLinkDatasetBootstrapIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>
