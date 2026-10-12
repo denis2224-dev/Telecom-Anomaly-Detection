@@ -2614,17 +2614,43 @@ components:
         points: {type: array, items: {$ref: '#/components/schemas/TraceMetricPoint'}}
     TraceMetricPoint:
       type: object
-      required: [from, to, value, coverage, quality, numerator, denominator, sumValue, sampleCount]
+      required: [from, to, value, coverage, quality, numerator, denominator, sumValue, sampleCount, nullReason, qualityReason, expectedSlots, receivedSlots, sourceQuality, sourceCoverage, projectionIds, provenance]
       properties:
         from: {type: string, format: date-time}
         to: {type: string, format: date-time}
         value: {type: number, nullable: true}
         coverage: {type: number, minimum: 0, maximum: 1}
-        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE]}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE, INSUFFICIENT_EVIDENCE]}
         numerator: {type: number, nullable: true}
         denominator: {type: number, nullable: true}
         sumValue: {type: number, nullable: true}
         sampleCount: {type: integer, format: int64, nullable: true}
+        nullReason: {type: string, nullable: true}
+        qualityReason: {type: string, nullable: true}
+        expectedSlots: {type: integer, nullable: true}
+        receivedSlots: {type: integer, nullable: true}
+        sourceQuality: {type: string, nullable: true}
+        sourceCoverage: {type: number, minimum: 0, maximum: 1, nullable: true}
+        projectionIds: {type: array, items: {type: string}}
+        provenance: {type: array, items: {$ref: '#/components/schemas/TraceProjectionProvenance'}}
+    TraceProjectionProvenance:
+      type: object
+      required: [projectionId, sourceNaturalId, sourceRowNumber, sourceRowSha256, sourceFile, manifestSha256, generatorVersion, seed, catalogueVersion, importPolicyVersion, sourceQuality, sourceCoverage, quality, qualityReason]
+      properties:
+        projectionId: {type: string}
+        sourceNaturalId: {type: string}
+        sourceRowNumber: {type: integer, format: int64}
+        sourceRowSha256: {type: string}
+        sourceFile: {type: string}
+        manifestSha256: {type: string}
+        generatorVersion: {type: string}
+        seed: {type: integer, format: int64}
+        catalogueVersion: {type: string}
+        importPolicyVersion: {type: string}
+        sourceQuality: {type: string, nullable: true}
+        sourceCoverage: {type: number, minimum: 0, maximum: 1, nullable: true}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE, INSUFFICIENT_EVIDENCE]}
+        qualityReason: {type: string, nullable: true}
     TraceOverview:
       type: object
       required: [datasetId, requestedFrom, requestedTo, resolution, synthetic, summaries]
