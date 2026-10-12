@@ -78,8 +78,35 @@ dictionary limitations and identities. Java checks these examples byte-for-byte.
 
 ## Verification record
 
+Tested implementation commit: `2b71f421112f800032a5cf1fbbd06256d2109c53`;
+source tree: `0623889c794a70a9a6a88cef6eda4237dc284d02`. The final delivery
+commit adds evidence and artifact line-ending metadata only.
+
+| Check | Actual result |
+| --- | --- |
+| Final full Java reactor | 1,200 reported; 1,195 passed; zero failures/errors; five skips |
+| Modules | streaming-support 117; event-generator 95; processor 988 |
+| Final focused refinements | 16 tests, zero failures/errors/skips |
+| Repository Python | 115 passed; zero failures/errors/skips |
+| Contract checks | PASS, including 11 native metric mappings and five missing reverse controls |
+| Fresh 30-day import and exact retry | 362,880 native rows; manifest `e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b` |
+| Native producer / PostgreSQL parity | 14 metric/direction rollups, 12 native slots each; maximum difference 0 |
+| Four-language arithmetic | 54 cases per Java/Python/JavaScript/PostgreSQL export; maximum difference 0 |
+| External reference engine | 708,498 checks passed |
+| Reference adapter compatibility | 75 checks passed |
+| V016 coexistence | Exact SQL applied/validated; seeded held VoLTE record unchanged after Transport job |
+| Packaged launcher | Final jar contains PropertiesLauncher and the exact compiled isolated main class |
+
+The five skips are three optional ML HTTP cases without `ML_SERVICE_URL`, one
+SMS shadow replay without `SMS_SHADOW_REPLAY_DIR`, and the existing importer's
+optional full-archive test without `traceLink.referenceRoot`. The new archive
+producer test separately executes full import/retry and SQL parity with its
+explicit `trace.link.archive` property. No skip is counted as passed. See
+[native archive parity](assets/trace-link-domain-producers/native-archive-parity.json)
+and the verification record for all suite names and reasons.
+
 Exact commands, suite counts, skips and artifact hashes are recorded in
-`assets/trace-link-domain-producers/verification.json`. The functional sequence
+[verification.json](assets/trace-link-domain-producers/verification.json). The functional sequence
 was Transport first, then Roaming, then LTE, then isolated entrypoint,
 observability and V016 compatibility, followed by the full reactor and reference
 checks. No test result substitutes for downstream acceptance.
@@ -88,7 +115,9 @@ The frozen V016 SQL is extracted read-only from PR #92's exact head into the
 external evidence directory. Its SHA-256 is
 `bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848`.
 The compatibility test applies/validates V001-V016 in a disposable database and
-verifies empty projection/outbox tables and the `PENDING_REVIEW` constraint.
+verifies initially empty projection/outbox tables and the `PENDING_REVIEW`
+constraint, then seeds one VoLTE held record and proves it remains unchanged
+after the Transport job.
 The SQL is neither copied into this branch nor modified.
 
 Initial Python discovery lacked cached OpenAPI dependencies; its failure is

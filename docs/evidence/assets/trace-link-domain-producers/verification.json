@@ -1,0 +1,891 @@
+{
+  "testedSourceCommit": "2b71f421112f800032a5cf1fbbd06256d2109c53",
+  "testedSourceTree": "0623889c794a70a9a6a88cef6eda4237dc284d02",
+  "localEvidenceDirectory": "C:\\OrangeSystems\\Program\\ion-domain-producer-evidence",
+  "baseCommit": "1e67e61ce3f2c46f26818b42c17fc3d50481aae4",
+  "branch": "feature/ion-tracelink-domain-producers",
+  "reactor": {
+    "streaming-support": {
+      "totals": {
+        "tests": 117,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": [
+        {
+          "name": "md.utm.telecom.observation.CoverageContractTest",
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.DomainObservationValidatorTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.GeographyCatalogTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.ObservationValidatorTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.TopologyCatalogTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "event-generator": {
+      "totals": {
+        "tests": 95,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": [
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.CityVoiceSeedTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.HealthProbeTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.VoiceScenarioTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "processor": {
+      "totals": {
+        "tests": 988,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 5
+      },
+      "suites": [
+        {
+          "name": "md.utm.telecom.processing.BaselineRegistryTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DependencyOutageIT",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionReplayIT",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.EpisodeStateTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ExplanationCasesTest",
+          "tests": 64,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.FinalizerRaceIT",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+          "tests": 80,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicDetectionTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "skips": [
+            {
+              "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+              "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicDetectorAcceptanceTest",
+          "tests": 101,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicEvidenceIsolationTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicExplanationTest",
+          "tests": 121,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicParityTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicReplayTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicWorkerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.HealthProbeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "skips": [
+            {
+              "test": "suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+              "reason": "org.opentest4j.TestAbortedException: Assumption failed: Reference archive must be selected explicitly"
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.Day5GeographicParityTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "skips": [
+            {
+              "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+              "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true"
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "skips": [
+            {
+              "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+              "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkArithmeticTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkDomainProducerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkMobileDataPrimitiveTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkRoamingPrimitiveTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkTransportPrimitiveTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1,
+          "skips": [
+            {
+              "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+              "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true"
+            }
+          ]
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.LateInputIT",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.MlClientTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ObservationInputTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ReplayIT",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.RetentionJobTest",
+          "tests": 31,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsEpisodeTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsRuleTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsShadowClientTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.StreamingMetricsTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceRuleTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.WindowBoundaryTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    }
+  },
+  "total": {
+    "tests": 1200,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 5
+  },
+  "focusedSlices": [
+    {
+      "name": "transport",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "transport_roaming",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "transport_roaming_mobile",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "artifact_metrics",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "entrypoint_v016",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "rollup_provenance_hin_cau_held_record",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "python": {
+    "tests": 115,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "dependencyPath": "C:\\OrangeSystems\\Program\\ion-trace-link-evidence\\python-deps"
+  },
+  "contractChecks": "PASS",
+  "arithmeticParity": {
+    "casesPerLanguage": 54,
+    "languages": [
+      "java",
+      "python",
+      "postgresql",
+      "javascript"
+    ],
+    "maximumAbsoluteError": 0
+  },
+  "referenceEngine": {
+    "status": "PASS",
+    "checks": 708498
+  },
+  "referenceCompatibility": {
+    "status": "PASS",
+    "checks": 75
+  },
+  "frozenPins": {
+    "rawWindowsCheckout": "FAIL: inherited CRLF conversion of contracts/policies/service-rules-v2.json",
+    "committedBlobSnapshot": "PASS: 29 frozen files plus fixture hash"
+  },
+  "firstPythonAttempt": {
+    "testsReported": 104,
+    "importErrors": 3,
+    "reason": "OpenAPI dependency modules unavailable in restricted shell",
+    "resolution": "Existing cached dependencies supplied; 115 tests pass"
+  },
+  "v016": {
+    "sourceCommit": "3f6d485f41a6881fe65e580dfc8854d9ce97a2fe",
+    "sha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+    "status": "PASS: apply/validate exact SQL; seeded held VoLTE row unchanged after Transport job"
+  },
+  "deliveryIntegration": "PENDING_REVIEW",
+  "connectedCapacity": "BLOCKED",
+  "receivingOwnerReproduction": "NOT VERIFIED",
+  "authenticatedApiUiGrafana": "NOT VERIFIED",
+  "sourceNamespace": "trace-link-reference-v1",
+  "datasetId": "trace-link-md-30d-v1",
+  "sourceResolutionSeconds": 300,
+  "commands": [
+    "mvn.cmd --batch-mode --no-transfer-progress '-Dmaven.repo.local=C:\\OrangeSystems\\Program\\.tools\\m2' -pl services/streaming-support,services/event-generator,services/processor -am '-Dlogging.level.org.springframework.jdbc.core=INFO' '-Dtrace.link.archive=C:\\OrangeSystems\\task\\Trace_Link_Integration_Pack\\data' '-Dtrace.link.v016.directory=C:\\OrangeSystems\\Program\\ion-domain-producer-evidence\\v016' '-Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848' verify",
+    "python scripts/check-contracts.py",
+    "python -m unittest discover -s tests -v",
+    "node C:/OrangeSystems/task/Trace_Link_Integration_Pack/tests/engine.test.js",
+    "python services/ml-service/app/features/trace_link_reference.py --fixtures contracts/fixtures/trace-link/arithmetic-cases.json --output <evidence>/parity-python.json",
+    "node scripts/trace-link-reference.cjs --fixtures contracts/fixtures/trace-link/arithmetic-cases.json --output <evidence>/parity-javascript.json --reference-root C:/OrangeSystems/task/Trace_Link_Integration_Pack --reference-report <evidence>/reference-compatibility.json",
+    "python scripts/check-trace-link-parity.py --export-sql --container <labelled-network-none-disposable-postgres> --output <evidence>/parity-sql.json",
+    "python scripts/check-trace-link-parity.py --java-output services/processor/target/trace-link-java.json --python-output <evidence>/parity-python.json --sql-output <evidence>/parity-sql.json --javascript-output <evidence>/parity-javascript.json"
+  ],
+  "javaHome": "C:/OrangeSystems/Program/.tools/jdk21/jdk-21.0.12.1+1",
+  "mavenExecutable": "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+  "hardware": {
+    "cpu": "Intel Core i5-11300H at 3.10 GHz",
+    "physicalCores": 4,
+    "logicalProcessors": 8,
+    "hostMemoryBytes": 16856289280,
+    "dockerMemoryBytes": 8166535168,
+    "dockerCpus": 8,
+    "dockerEngine": "29.3.1"
+  },
+  "artifactHashes": {
+    "arithmetic-java.json": "b408ac7f05d7e0b1d1ddcf8df9169bc47f7ef153e154c9d14e536ed82500004a",
+    "arithmetic-javascript.json": "bfec6d06f4cca9baa1e2589067a5cc579abb19b32bf1d8b782fd044189a703f4",
+    "arithmetic-postgresql.json": "c99a3993af77e1a54ee9fd4c4e2308a29507e7417e44e8ad198788fd3abf525c",
+    "arithmetic-python.json": "d35364bf58e856c1a61a7f6d56fc64c1e213d5d31503b7b9ec5d5d91ead80c26",
+    "native-archive-parity.json": "68fc782d67989d5d184bdb49b394941bd4710ecaa65229248354dcb844505483",
+    "reference-compatibility.json": "5acae632b675456d50aa2bdcb7317d53f2df7d08ae967290096b3173158af827",
+    "protected-pr-state.json": "888c1f6a4fcec7bc481ba502bb15c97421a67c71f73622939114724014c3f381"
+  },
+  "localLogHashes": {
+    "contracts-final.log": "0fcacaad9aafd5d2cc20fe8a0e56792f4217d0f70ac144fb8dc16576213549f0",
+    "contracts.log": "0fcacaad9aafd5d2cc20fe8a0e56792f4217d0f70ac144fb8dc16576213549f0",
+    "graphify-final.log": "779470c43acb0be073d1407ba28553941463bc2072f24875ea4e1b71368835ad",
+    "graphify.log": "26a2a20a9ddc2131d0ce5f8303e368e89be3ca9b36bb34e2564854dcffd27029",
+    "mobile-focused.log": "dece8aa29138baedd3be0a5fceced3865f1f0f43482bc1cef724c96840ab9272",
+    "parity-sql.log": "563ab0fcb9b0abfa823a199825f62ece9d10c9c88cf21ff8fe1e8e7db1204180",
+    "producer-final-focused.log": "f031a1d1819a27775258ff9760d50c2499812fd0b79761adc7fec7ed22ffda31",
+    "producer-focused.log": "8cd280f05c26dde4171aead4397889e30e83bc85aac974bc86b5e5557d8837b5",
+    "producer-refinement-focused.log": "7aae8e7f0a4b4525efe28b7faf4058f08cb3255183fa59e86a9c5b639fd76bf5",
+    "python-committed.log": "314416fa797789b0b07e85aa8fe090c88df1e77857965c96bcaa851c2dc87af8",
+    "python-final.log": "4326ad02bb5af2a9f36ba202e0caea00c4440abcf8d9e89d8493b7869d2fe379",
+    "python.log": "02c42be19ec4e266593b4756e3f35d81b8884fb93c4621477136e072ce2b1fe2",
+    "reactor-final.log": "dc5c220f0569887f1bad8fe5bf5887ee400a595e6b2824cb64d7a5b7ab384c83",
+    "reactor.log": "be1daef172c8b59f072ef9211edd9e013b4157a41eff59c525bd18b8d1b56aa3",
+    "reference-engine.log": "366734346fa1b7c19fbf92ed51dbee3c5dad9fd92a78710bc6aacc50617627ad",
+    "roaming-focused.log": "850c4d8727b922f84a526bce7677f9f600d01da61ddf3ef9e3c1a4fa7e059f55",
+    "transport-focused.log": "0dd76e956a21a6a4c7b2f66787f443f2a67fbeb35ea13169c7bebf538bffbb2e"
+  },
+  "graphify": "AST update completed; optional SQL parser unavailable; generated graph remains untracked",
+  "packagedProcessorSha256": "ed63f7dfe5b454931ddfde76a6e86dad43ffc819720d33c0357cd07745a42f2e",
+  "packagedLauncher": "PropertiesLauncher and compiled isolated application class verified in final jar"
+}
