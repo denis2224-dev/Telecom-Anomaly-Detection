@@ -122,6 +122,10 @@ def main():
     validate_domain_contracts()
     from trace_link_projection_contract import validate_projection_contracts
     validate_projection_contracts()
+    from trace_link_day2_contract import validate_day2_contracts
+    validate_day2_contracts()
+    from trace_link_history_baseline import validate_contracts as validate_seasonal_baseline_contracts
+    validate_seasonal_baseline_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)

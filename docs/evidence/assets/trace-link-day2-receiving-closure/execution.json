@@ -1,0 +1,21 @@
+{
+  "arguments": [
+    "-NoProfile",
+    "-File",
+    "scripts/verify-trace-link-day2.ps1",
+    "-Python",
+    ".\\.venv\\Scripts\\python.exe",
+    "-JavaHome",
+    "tmp\\jdk21-sergiu-days7-8\\jdk-21.0.12.1+1",
+    "-ReferenceRoot",
+    "D:\\Univer\\Anul2\\Orange_intership\\project\\Trace_Link_Integration_Pack",
+    "-EvidenceDirectory",
+    "docs/evidence/assets/trace-link-day2-receiving-closure"
+  ],
+  "cwd": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection",
+  "executable": "C:\\Users\\Sergiu\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+  "exitCode": 0,
+  "finishedAtUtc": "2026-10-12T14:46:53.4153514Z",
+  "head": "11a8dba27c5d5e26fa0d3fe95a06eb32a5f023b4",
+  "startedAtUtc": "2026-10-12T14:25:31.8601875Z"
+}
