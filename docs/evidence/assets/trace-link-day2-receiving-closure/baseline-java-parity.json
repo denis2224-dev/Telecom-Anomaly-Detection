@@ -1,0 +1,348 @@
+{
+  "request" : {
+    "trainingFrom" : "2026-09-14T09:00:00Z",
+    "trainingTo" : "2026-09-18T09:10:00Z",
+    "evaluationFrom" : "2026-09-18T09:10:00Z",
+    "sourceManifestSha256" : "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "topologySnapshotSha256" : "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "exclusions" : [ ],
+    "samples" : [ {
+      "measurementId" : "1400",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-14T09:00:00Z",
+      "to" : "2026-09-14T09:05:00Z",
+      "value" : 97,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1405",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-14T09:05:00Z",
+      "to" : "2026-09-14T09:10:00Z",
+      "value" : 97,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1500",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-15T09:00:00Z",
+      "to" : "2026-09-15T09:05:00Z",
+      "value" : 98,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1505",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-15T09:05:00Z",
+      "to" : "2026-09-15T09:10:00Z",
+      "value" : 98,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1600",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-16T09:00:00Z",
+      "to" : "2026-09-16T09:05:00Z",
+      "value" : 99,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1605",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-16T09:05:00Z",
+      "to" : "2026-09-16T09:10:00Z",
+      "value" : 99,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1700",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-17T09:00:00Z",
+      "to" : "2026-09-17T09:05:00Z",
+      "value" : 100,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1705",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-17T09:05:00Z",
+      "to" : "2026-09-17T09:10:00Z",
+      "value" : 100,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1800",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-18T09:00:00Z",
+      "to" : "2026-09-18T09:05:00Z",
+      "value" : 90,
+      "coverage" : 1,
+      "eligible" : true
+    }, {
+      "measurementId" : "1805",
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "from" : "2026-09-18T09:05:00Z",
+      "to" : "2026-09-18T09:10:00Z",
+      "value" : 90,
+      "coverage" : 1,
+      "eligible" : true
+    } ]
+  },
+  "artifact" : {
+    "schemaVersion" : "trace-link-seasonal-baseline-v1",
+    "estimatorConfiguration" : {
+      "schemaVersion" : "trace-link-baseline-policy-v1",
+      "baselineVersion" : "trace-link-seasonal-v1",
+      "policyVersion" : "trace-link-baseline-policy-v1",
+      "datasetId" : "trace-link-md-30d-v1",
+      "topologyVersion" : "trace-link-md-topology-v1",
+      "timezone" : "Europe/Chisinau",
+      "slotMinutes" : 5,
+      "estimator" : "median_mad",
+      "minimumDistinctDays" : 3,
+      "minimumRateAttempts" : 100,
+      "minimumCoverage" : 0.9,
+      "fallback" : "peer_then_static_then_unavailable",
+      "peerFallbacks" : [ ],
+      "staticCenters" : {
+        "roaming.registration.success" : 99,
+        "roaming.data.success" : 99,
+        "roaming.voice.success" : 99,
+        "mobileData.activation.success" : 99,
+        "mobileData.dns.success" : 99
+      }
+    },
+    "timezoneRulesVersion" : "2026b",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "policyVersion" : "trace-link-baseline-policy-v1",
+    "timezone" : "Europe/Chisinau",
+    "slotMinutes" : 5,
+    "estimator" : "median_mad",
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "trainingFrom" : "2026-09-14T09:00:00Z",
+    "trainingTo" : "2026-09-18T09:10:00Z",
+    "evaluationFrom" : "2026-09-18T09:10:00Z",
+    "sourceManifestSha256" : "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "topologySnapshotSha256" : "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "exclusions" : [ ],
+    "sampleCount" : 10,
+    "expectedCount" : 1154,
+    "acceptedCount" : 10,
+    "excludedCount" : 0,
+    "missingCount" : 1144,
+    "invalidCount" : 0,
+    "cells" : [ {
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "slot" : 144,
+      "weekdayClass" : "WEEKDAY",
+      "center" : 98.0,
+      "mad" : 1.0,
+      "coverage" : 1.0,
+      "sampleCount" : 5,
+      "distinctDays" : 5,
+      "expectedDays" : 5
+    }, {
+      "key" : {
+        "datasetId" : "trace-link-md-30d-v1",
+        "domain" : "ROAMING",
+        "metricId" : "roaming.data.success",
+        "unit" : "PERCENT",
+        "metricPolicyVersion" : "trace-link-kpi-v1",
+        "topologyVersion" : "trace-link-md-topology-v1",
+        "scope" : {
+          "namespace" : "trace-link-reference-v1",
+          "type" : "PARTNER_DIRECTION",
+          "id" : "RO-DEMO-01:out:DATA",
+          "cityIds" : [ ],
+          "directionId" : "out",
+          "partnerId" : "RO-DEMO-01",
+          "procedure" : "DATA"
+        }
+      },
+      "slot" : 145,
+      "weekdayClass" : "WEEKDAY",
+      "center" : 98.0,
+      "mad" : 1.0,
+      "coverage" : 1.0,
+      "sampleCount" : 5,
+      "distinctDays" : 5,
+      "expectedDays" : 5
+    } ]
+  }
+}

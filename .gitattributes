@@ -27,3 +27,6 @@ docs/evidence/assets/trace-link-day1/*.json -text whitespace=trailing-space,spac
 contracts/fixtures/trace-link/native-slice/* text eol=lf
 contracts/datasets/*.manifest.json text eol=lf
 docs/evidence/assets/trace-link-ion-native/*.json text eol=lf
+
+# Preserve the raw bytes pinned by the separate receiving reproduction manifest.
+docs/evidence/assets/trace-link-day2-receiving-closure/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol

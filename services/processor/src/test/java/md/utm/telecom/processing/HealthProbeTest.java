@@ -99,8 +99,15 @@ class HealthProbeTest {
                             PostgresFixture.url("processing_db"), "processing_migrator", "test-migrator"));
             owner.execute("REVOKE CONNECT ON DATABASE processing_db FROM processing_app");
             try {
-                ((com.zaxxer.hikari.HikariDataSource) datasource).getHikariPoolMXBean().softEvictConnections();
-                await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> probe("readiness", 503, "DOWN"));
+                assertFalse(Boolean.TRUE.equals(owner.queryForObject(
+                        "SELECT has_database_privilege('processing_app', 'processing_db', 'CONNECT')", Boolean.class)),
+                        "The outage fixture must deny new runtime database sessions");
+                await().atMost(Duration.ofSeconds(15)).untilAsserted(() -> {
+                    // CONNECT does not close existing sessions. A pool refill already
+                    // in flight can finish after a single soft-eviction snapshot.
+                    ((com.zaxxer.hikari.HikariDataSource) datasource).getHikariPoolMXBean().softEvictConnections();
+                    probe("readiness", 503, "DOWN");
+                });
                 probe("liveness", 200, "UP");
             } finally {
                 owner.execute("GRANT CONNECT ON DATABASE processing_db TO processing_app");

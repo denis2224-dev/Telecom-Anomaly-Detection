@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "datasetId",
+    "namespace",
+    "domain",
+    "scope",
+    "window",
+    "revision",
+    "topologyVersion",
+    "policyVersion",
+    "baselineVersion",
+    "anomalyKind",
+    "verdict",
+    "reason",
+    "severity",
+    "overloadCandidate",
+    "evidenceIds",
+    "anomalyRank",
+    "evaluatedAt"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "trace-link-rule-result-v1"
+    },
+    "datasetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "namespace": {
+      "const": "trace-link-reference-v1"
+    },
+    "domain": {
+      "enum": [
+        "TRANSPORT",
+        "ROAMING",
+        "MOBILE_DATA"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "CITY",
+            "LINK_DIRECTION",
+            "PARTNER_DIRECTION",
+            "DATASET"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cityIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "directionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "partnerId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "procedure": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "namespace": {
+          "const": "trace-link-reference-v1"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "cityIds",
+        "directionId",
+        "partnerId",
+        "procedure",
+        "namespace"
+      ]
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "sourceResolutionSeconds": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "id",
+        "from",
+        "to",
+        "sourceResolutionSeconds"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baselineVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "anomalyKind": {
+      "enum": [
+        "TRANSPORT_PACKET_LOSS",
+        "TRANSPORT_LATENCY",
+        "ROAMING_REGISTRATION",
+        "ROAMING_DATA",
+        "ROAMING_VOICE",
+        "MOBILE_DATA_ACTIVATION",
+        "MOBILE_DATA_DNS",
+        "TRANSPORT_SERVICE_ROAMING_REGISTRATION",
+        "TRANSPORT_SERVICE_ROAMING_DATA",
+        "TRANSPORT_SERVICE_ROAMING_VOICE",
+        "TRANSPORT_SERVICE_MOBILE_DATA_ACTIVATION",
+        "TRANSPORT_SERVICE_MOBILE_DATA_DNS"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "BREACH",
+        "HEALTHY",
+        "GRAY",
+        "UNKNOWN"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "severity": {
+      "enum": [
+        null,
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "overloadCandidate": {
+      "type": "boolean"
+    },
+    "evidenceIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "anomalyRank": {
+      "type": "null"
+    },
+    "baselineDeviation": {
+      "type": ["number", "null"],
+      "description": "Signed actual minus seasonal lookup center in the metric's original unit; never standardized."
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "serviceScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "CITY",
+            "LINK_DIRECTION",
+            "PARTNER_DIRECTION",
+            "DATASET"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cityIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "directionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "partnerId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "procedure": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "namespace": {
+          "const": "trace-link-reference-v1"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "cityIds",
+        "directionId",
+        "partnerId",
+        "procedure",
+        "namespace"
+      ]
+    }
+  }
+}

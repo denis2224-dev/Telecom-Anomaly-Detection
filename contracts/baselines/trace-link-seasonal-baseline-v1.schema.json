@@ -1,0 +1,579 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "trace-link-seasonal-baseline-v1"
+    },
+    "baselineVersion": {
+      "const": "trace-link-seasonal-v1"
+    },
+    "policyVersion": {
+      "const": "trace-link-baseline-policy-v1"
+    },
+    "trainingFrom": {
+      "type": "string",
+      "pattern": "Z$",
+      "format": "date-time"
+    },
+    "trainingTo": {
+      "type": "string",
+      "pattern": "Z$",
+      "format": "date-time"
+    },
+    "evaluationFrom": {
+      "type": "string",
+      "pattern": "Z$",
+      "format": "date-time"
+    },
+    "timezone": {
+      "const": "Europe/Chisinau"
+    },
+    "slotMinutes": {
+      "const": 5
+    },
+    "estimator": {
+      "const": "median_mad"
+    },
+    "topologyVersion": {
+      "const": "trace-link-md-topology-v1"
+    },
+    "sourceManifestSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "topologySnapshotSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "string",
+            "pattern": "Z$",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "pattern": "Z$",
+            "format": "date-time"
+          },
+          "reason": {
+            "enum": [
+              "DECLARED_INJECTION",
+              "MAINTENANCE"
+            ]
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "reason"
+        ]
+      }
+    },
+    "sampleCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "excludedCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "datasetId": {
+                "const": "trace-link-md-30d-v1"
+              },
+              "domain": {
+                "enum": [
+                  "TRANSPORT",
+                  "ROAMING",
+                  "MOBILE_DATA"
+                ]
+              },
+              "metricId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scope": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "namespace": {
+                    "const": "trace-link-reference-v1"
+                  },
+                  "type": {
+                    "enum": [
+                      "CITY",
+                      "LINK_DIRECTION",
+                      "PARTNER_DIRECTION"
+                    ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "cityIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "directionId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "partnerId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "procedure": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "namespace",
+                  "type",
+                  "id",
+                  "cityIds",
+                  "directionId",
+                  "partnerId",
+                  "procedure"
+                ]
+              },
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "metricPolicyVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "topologyVersion": {
+                "const": "trace-link-md-topology-v1"
+              }
+            },
+            "required": [
+              "datasetId",
+              "domain",
+              "metricId",
+              "scope",
+              "unit",
+              "metricPolicyVersion",
+              "topologyVersion"
+            ]
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 287
+          },
+          "weekdayClass": {
+            "enum": [
+              "WEEKDAY",
+              "WEEKEND"
+            ]
+          },
+          "center": {
+            "type": "number"
+          },
+          "mad": {
+            "type": "number",
+            "minimum": 0
+          },
+          "coverage": {
+            "type": "number",
+            "minimum": 0.9,
+            "maximum": 1
+          },
+          "sampleCount": {
+            "type": "integer",
+            "minimum": 3
+          },
+          "distinctDays": {
+            "type": "integer",
+            "minimum": 3
+          },
+          "expectedDays": {
+            "type": "integer",
+            "minimum": 3
+          }
+        },
+        "required": [
+          "key",
+          "slot",
+          "weekdayClass",
+          "center",
+          "mad",
+          "coverage",
+          "sampleCount",
+          "distinctDays",
+          "expectedDays"
+        ]
+      }
+    },
+    "expectedCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "acceptedCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "missingCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "invalidCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "estimatorConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "trace-link-baseline-policy-v1"
+        },
+        "baselineVersion": {
+          "const": "trace-link-seasonal-v1"
+        },
+        "policyVersion": {
+          "const": "trace-link-baseline-policy-v1"
+        },
+        "datasetId": {
+          "const": "trace-link-md-30d-v1"
+        },
+        "topologyVersion": {
+          "const": "trace-link-md-topology-v1"
+        },
+        "timezone": {
+          "const": "Europe/Chisinau"
+        },
+        "slotMinutes": {
+          "const": 5
+        },
+        "estimator": {
+          "const": "median_mad"
+        },
+        "minimumDistinctDays": {
+          "type": "integer",
+          "minimum": 3
+        },
+        "minimumCoverage": {
+          "type": "number",
+          "minimum": 0.9,
+          "maximum": 1
+        },
+        "fallback": {
+          "const": "peer_then_static_then_unavailable"
+        },
+        "peerFallbacks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "datasetId": {
+                    "const": "trace-link-md-30d-v1"
+                  },
+                  "domain": {
+                    "enum": [
+                      "TRANSPORT",
+                      "ROAMING",
+                      "MOBILE_DATA"
+                    ]
+                  },
+                  "metricId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "scope": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "namespace": {
+                        "const": "trace-link-reference-v1"
+                      },
+                      "type": {
+                        "enum": [
+                          "CITY",
+                          "LINK_DIRECTION",
+                          "PARTNER_DIRECTION"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "cityIds": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "directionId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "partnerId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "procedure": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "namespace",
+                      "type",
+                      "id",
+                      "cityIds",
+                      "directionId",
+                      "partnerId",
+                      "procedure"
+                    ]
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "metricPolicyVersion": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "topologyVersion": {
+                    "const": "trace-link-md-topology-v1"
+                  }
+                },
+                "required": [
+                  "datasetId",
+                  "domain",
+                  "metricId",
+                  "scope",
+                  "unit",
+                  "metricPolicyVersion",
+                  "topologyVersion"
+                ]
+              },
+              "peerKey": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "datasetId": {
+                    "const": "trace-link-md-30d-v1"
+                  },
+                  "domain": {
+                    "enum": [
+                      "TRANSPORT",
+                      "ROAMING",
+                      "MOBILE_DATA"
+                    ]
+                  },
+                  "metricId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "scope": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "namespace": {
+                        "const": "trace-link-reference-v1"
+                      },
+                      "type": {
+                        "enum": [
+                          "CITY",
+                          "LINK_DIRECTION",
+                          "PARTNER_DIRECTION"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "cityIds": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "directionId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "partnerId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "procedure": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "namespace",
+                      "type",
+                      "id",
+                      "cityIds",
+                      "directionId",
+                      "partnerId",
+                      "procedure"
+                    ]
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "metricPolicyVersion": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "topologyVersion": {
+                    "const": "trace-link-md-topology-v1"
+                  }
+                },
+                "required": [
+                  "datasetId",
+                  "domain",
+                  "metricId",
+                  "scope",
+                  "unit",
+                  "metricPolicyVersion",
+                  "topologyVersion"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "peerKey"
+            ]
+          }
+        },
+        "staticCenters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "roaming.registration.success": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "roaming.data.success": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "roaming.voice.success": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "mobileData.activation.success": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "mobileData.dns.success": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "minimumRateAttempts": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "baselineVersion",
+        "policyVersion",
+        "datasetId",
+        "topologyVersion",
+        "timezone",
+        "slotMinutes",
+        "estimator",
+        "minimumDistinctDays",
+        "minimumCoverage",
+        "fallback",
+        "peerFallbacks",
+        "staticCenters",
+        "minimumRateAttempts"
+      ]
+    },
+    "timezoneRulesVersion": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "baselineVersion",
+    "policyVersion",
+    "trainingFrom",
+    "trainingTo",
+    "evaluationFrom",
+    "timezone",
+    "slotMinutes",
+    "estimator",
+    "topologyVersion",
+    "sourceManifestSha256",
+    "topologySnapshotSha256",
+    "exclusions",
+    "sampleCount",
+    "excludedCount",
+    "cells",
+    "expectedCount",
+    "acceptedCount",
+    "missingCount",
+    "invalidCount",
+    "estimatorConfiguration",
+    "timezoneRulesVersion"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

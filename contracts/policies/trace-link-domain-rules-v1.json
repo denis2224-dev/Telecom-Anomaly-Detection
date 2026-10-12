@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "trace-link-domain-rules-v1",
+  "activation": "OFFLINE_ONLY",
+  "description": "Demonstration defaults; not operator-approved production thresholds.",
+  "windowSeconds": 300,
+  "openAfterBreachedWindows": 2,
+  "recoverAfterHealthyWindows": 3,
+  "minimumCoverage": 1,
+  "maxSourceAgeSeconds": 600,
+  "baselineVersion": "trace-link-seasonal-v1",
+  "transport": {
+    "overloadCandidatePct": 85,
+    "loss": {
+      "minimumSamples": 1000,
+      "trigger": 2,
+      "recovery": 1,
+      "critical": 4
+    },
+    "rtt": {
+      "minimumSamples": 30,
+      "trigger": 100,
+      "recovery": 80,
+      "critical": 200
+    }
+  },
+  "rates": {
+    "minimumAttempts": 100,
+    "triggerDropPp": 1,
+    "recoveryDropPp": 0.5,
+    "criticalDropPp": 2
+  },
+  "cause": {
+    "policyVersion": "trace-link-cause-v1",
+    "minimumCoverage": 1,
+    "maxSourceAgeSeconds": 600,
+    "supportThresholds": {
+      "transport.packetLoss": {
+        "comparison": "GT",
+        "value": 2,
+        "minimumSamples": 1000
+      },
+      "transport.rtt.mean": {
+        "comparison": "GT",
+        "value": 100,
+        "minimumSamples": 30
+      },
+      "roaming.partnerRtt": {
+        "comparison": "GT",
+        "value": 100,
+        "minimumSamples": 30
+      },
+      "roaming.registration.success": {
+        "comparison": "DROP_PP_GT",
+        "value": 1,
+        "minimumSamples": 100
+      },
+      "roaming.data.success": {
+        "comparison": "DROP_PP_GT",
+        "value": 1,
+        "minimumSamples": 100
+      },
+      "mobileData.activation.success": {
+        "comparison": "DROP_PP_GT",
+        "value": 1,
+        "minimumSamples": 100
+      },
+      "mobileData.dns.success": {
+        "comparison": "DROP_PP_GT",
+        "value": 1,
+        "minimumSamples": 100
+      },
+      "roaming.voice.success": {
+        "comparison": "DROP_PP_GT",
+        "value": 1,
+        "minimumSamples": 100
+      }
+    }
+  }
+}
