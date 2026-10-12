@@ -1,0 +1,235 @@
+From 11a8dba27c5d5e26fa0d3fe95a06eb32a5f023b4 Mon Sep 17 00:00:00 2001
+From: SergiuTOP <serghei.rusu.1999@gmail.com>
+Date: Mon, 12 Oct 2026 17:24:21 +0300
+Subject: [PATCH] fix(trace-link): use native launchers and preserve receiving
+ evidence
+
+Incorporate Ion receiving patch 3b4a4cc; correct the Windows virtualenv fixture and pin verifier inputs in a separate reproduction record.
+---
+ .gitattributes                                |  3 +
+ scripts/publish_trace_link_day2.py            | 40 ++++++++---
+ scripts/verify-trace-link-day1.ps1            |  5 +-
+ scripts/verify-trace-link-day2.ps1            |  5 +-
+ tests/test_trace_link_verifier_portability.py | 69 +++++++++++++++++++
+ 5 files changed, 108 insertions(+), 14 deletions(-)
+ create mode 100644 tests/test_trace_link_verifier_portability.py
+
+diff --git a/.gitattributes b/.gitattributes
+index c8d9955..4be7cec 100644
+--- a/.gitattributes
++++ b/.gitattributes
+@@ -22,3 +22,6 @@ tasks/sms-ml-shadow-integration/verification.json -text whitespace=trailing-spac
+ contracts/fixtures/trace-link/arithmetic-cases.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+ contracts/geography/demo-geography-v1.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+ docs/evidence/assets/trace-link-day1/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
++
++# Preserve the raw bytes pinned by the separate receiving reproduction manifest.
++docs/evidence/assets/trace-link-day2-receiving-closure/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+diff --git a/scripts/publish_trace_link_day2.py b/scripts/publish_trace_link_day2.py
+index 499251b..98e91f5 100644
+--- a/scripts/publish_trace_link_day2.py
++++ b/scripts/publish_trace_link_day2.py
+@@ -24,14 +24,24 @@ def digest(path):
+     return hashlib.sha256(path.read_bytes()).hexdigest()
+ 
+ 
+-def save(name, data):
+-    (OUT / name).write_text(json.dumps(data, indent=2, sort_keys=True) + '\n', encoding='utf-8')
++def java_executable(java_home):
++    """Resolve the native JDK launcher without assuming a Windows checkout."""
++    java = Path(java_home) / 'bin' / ('java.exe' if os.name == 'nt' else 'java')
++    require(java.is_file(), f'Java launcher missing: {java}')
++    return str(java)
++
++
++def save(name, data, directory=OUT):
++    (directory / name).write_text(json.dumps(data, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+ 
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--run', required=True, type=Path)
++    parser.add_argument('--output-dir', type=Path, default=OUT,
++        help='Publish a separate reproduction record without replacing earlier evidence')
+     args = parser.parse_args()
++    destination = args.output_dir.resolve()
+     run = json.loads(args.run.read_text(encoding='utf-8-sig'))
+     require(run['exitCode'] == 0 and run['historyBuilds'] == 2, 'Incomplete reproduction')
+     registry = Registry().with_resources((p.resolve().as_uri(), Resource.from_contents(
+@@ -114,9 +124,16 @@ def main():
+                     'scripts/trace_link_history_baseline.py', 'tests/test_trace_link*.py'):
+         source_files.update(ROOT.glob(pattern))
+     source_files.update(ROOT / p for p in ('requirements-dev.txt', 'services/processor/pom.xml', 'scripts/check-contracts.py',
++        'scripts/verify-trace-link-day1.ps1', 'scripts/verify-trace-link-pins.py',
++        'scripts/check-trace-link-parity.py', 'scripts/trace-link-reference.cjs',
++        'scripts/trace-link-reference.sql', 'scripts/check-voice-parity.py', 'scripts/check-sms-parity.py',
++        'scripts/trace_link_contract.py', 'scripts/trace_link_fixture_contract.py',
++        'scripts/geography_contract.py', 'scripts/geographic_numeric_contract.py',
++        'scripts/geographic_feature_parity.py', '.gitattributes',
++        'mvnw', 'mvnw.cmd', '.mvn/wrapper/maven-wrapper.properties',
+         'services/processor/src/test/java/md/utm/telecom/processing/HealthProbeTest.java'))
+     source_hashes = {p.relative_to(ROOT).as_posix(): digest(p) for p in sorted(source_files) if p.is_file()}
+-    java = str(Path(os.environ['JAVA_HOME']) / 'bin/java.exe')
++    java = java_executable(os.environ['JAVA_HOME'])
+     runtimes = {
+         'python': sys.version, 'tzdata': version('tzdata'),
+         'java': subprocess.check_output([java, '-version'], stderr=subprocess.STDOUT, text=True).strip(),
+@@ -125,11 +142,14 @@ def main():
+         'postgresImage': 'postgres:16.4-alpine',
+     }
+     # Validate every input and external prerequisite before refreshing published files.
+-    OUT.mkdir(parents=True, exist_ok=True)
++    destination.mkdir(parents=True, exist_ok=True)
++    if destination != OUT.resolve():
++        for name in ('seasonal-baseline.json.gz', 'history-fit-report.json'):
++            shutil.copyfile(OUT / name, destination / name)
+     for name, source in exports.items():
+-        shutil.copyfile(TARGET / source, OUT / name)
+-    save('frozen-hashes.json', frozen)
+-    save('fixture-matrix.json', matrix)
++        shutil.copyfile(TARGET / source, destination / name)
++    save('frozen-hashes.json', frozen, destination)
++    save('fixture-matrix.json', matrix, destination)
+     save('manifest.json', {
+         'schemaVersion': 'trace-link-day2-evidence-v1', 'activation': 'OFFLINE_ONLY',
+         'implementationRevision': revision, 'integrationRevision': frozen['integrationSha'],
+@@ -146,12 +166,12 @@ def main():
+         'domainFixtures': len(cases), 'causeFixtures': len(causes),
+         'policies': {p: digest(ROOT / p) for p in [
+             'contracts/policies/trace-link-domain-rules-v1.json', 'contracts/baselines/trace-link-baseline-policy-v1.json']},
+-        'artifacts': {p.name: digest(p) for p in sorted(OUT.iterdir()) if p.is_file() and p.name != 'manifest.json'},
++        'artifacts': {p.name: digest(p) for p in sorted(destination.iterdir()) if p.is_file() and p.name != 'manifest.json'},
+         'limitations': ['Synthetic reference data and hand-calculated target populations',
+             'Historical source freshness remains UNKNOWN', 'No live worker, persisted windows, Kafka or incident-service registration',
+             'Reference EPS, post-activation DNS, packet-loss and mean-RTT populations unavailable',
+-            'Reference eligibility export is a negative eligibility fixture, not a claim of fresh source measurements']})
+-    print(json.dumps({'fixtures': len(cases) + len(causes), 'java': totals, 'manifest': str(OUT / 'manifest.json')}))
++            'Reference eligibility export is a negative eligibility fixture, not a claim of fresh source measurements']}, destination)
++    print(json.dumps({'fixtures': len(cases) + len(causes), 'java': totals, 'manifest': str(destination / 'manifest.json')}))
+ 
+ 
+ if __name__ == '__main__':
+diff --git a/scripts/verify-trace-link-day1.ps1 b/scripts/verify-trace-link-day1.ps1
+index ecdc537..36a4e12 100644
+--- a/scripts/verify-trace-link-day1.ps1
++++ b/scripts/verify-trace-link-day1.ps1
+@@ -12,6 +12,7 @@ Set-Location -LiteralPath $repoRoot
+ $Python = (Resolve-Path -LiteralPath $Python).Path
+ $env:JAVA_HOME = (Resolve-Path -LiteralPath $JavaHome).Path
+ $ReferenceRoot = (Resolve-Path -LiteralPath $ReferenceRoot).Path
++$mavenWrapper = Join-Path $repoRoot $(if ($env:OS -eq 'Windows_NT') { 'mvnw.cmd' } else { 'mvnw' })
+ $containerName = 'codex-trace-link-' + [guid]::NewGuid().ToString('N').Substring(0, 12)
+ $outputDir = Join-Path $repoRoot 'tmp/trace-link-day1-reproduction'
+ New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
+@@ -32,10 +33,10 @@ foreach ($generatedFile in @($javaExport, $javaTestReport)) {
+ }
+ if ($Focused) {
+     Invoke-Checked $Python @('-m', 'unittest', 'discover', '-s', 'services/ml-service/tests', '-p', 'test_trace_link_reference.py', '-v')
+-    Invoke-Checked '.\mvnw.cmd' @('-pl', 'services/processor', '-am', '-Dtest=TraceLinkArithmeticTest', '-Dsurefire.failIfNoSpecifiedTests=false', '--batch-mode', '--no-transfer-progress', 'test')
++    Invoke-Checked $mavenWrapper @('-pl', 'services/processor', '-am', '-Dtest=TraceLinkArithmeticTest', '-Dsurefire.failIfNoSpecifiedTests=false', '--batch-mode', '--no-transfer-progress', 'test')
+ } else {
+     Invoke-Checked $Python @('-m', 'unittest', 'discover', '-s', 'services/ml-service/tests', '-v')
+-    Invoke-Checked '.\mvnw.cmd' @('-pl', 'services/processor', '-am', '--batch-mode', '--no-transfer-progress', 'verify')
++    Invoke-Checked $mavenWrapper @('-pl', 'services/processor', '-am', '--batch-mode', '--no-transfer-progress', 'verify')
+     Invoke-Checked $Python @('scripts/check-voice-parity.py')
+     Invoke-Checked $Python @('scripts/check-sms-parity.py', '--java-output', 'services/processor/target/sms-parity-java.json')
+     Invoke-Checked $Python @('scripts/check-voice-parity.py', '--geographic', '--java-output', 'services/processor/target/geographic-voice-parity-java.json')
+diff --git a/scripts/verify-trace-link-day2.ps1 b/scripts/verify-trace-link-day2.ps1
+index 5eb8b94..01e8f6a 100644
+--- a/scripts/verify-trace-link-day2.ps1
++++ b/scripts/verify-trace-link-day2.ps1
+@@ -1,7 +1,8 @@
+ param(
+     [Parameter(Mandatory = $true)][string]$Python,
+     [Parameter(Mandatory = $true)][string]$JavaHome,
+-    [Parameter(Mandatory = $true)][string]$ReferenceRoot
++    [Parameter(Mandatory = $true)][string]$ReferenceRoot,
++    [string]$EvidenceDirectory = 'docs/evidence/assets/trace-link-day2'
+ )
+ $ErrorActionPreference = 'Stop'
+ Set-Location -LiteralPath (Split-Path -Parent $PSScriptRoot)
+@@ -38,5 +39,5 @@ if ($first -ne $second -or $first -ne $published) { throw 'Historical artifact r
+     historyBuilds = 2; publishedArtifactSha256 = $first.ToLowerInvariant();
+     pythonTests = @{ root = [int]$pythonSummaries[0].Groups[1].Value; ml = [int]$pythonSummaries[1].Groups[1].Value } } |
+     ConvertTo-Json | Set-Content -Encoding utf8 -LiteralPath "$runDir/run.json"
+-Invoke-Checked $Python @('scripts/publish_trace_link_day2.py', '--run', "$runDir/run.json")
++Invoke-Checked $Python @('scripts/publish_trace_link_day2.py', '--run', "$runDir/run.json", '--output-dir', $EvidenceDirectory)
+ Write-Output 'PASS: Day 2 offline reproduction, frozen compatibility and deterministic history'
+diff --git a/tests/test_trace_link_verifier_portability.py b/tests/test_trace_link_verifier_portability.py
+new file mode 100644
+index 0000000..07cf323
+--- /dev/null
++++ b/tests/test_trace_link_verifier_portability.py
+@@ -0,0 +1,69 @@
++"""Exercise native launcher selection and verifier failure propagation."""
++import os
++from pathlib import Path
++import shutil
++import subprocess
++import sys
++import tempfile
++import unittest
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
++from publish_trace_link_day2 import java_executable
++
++
++class VerifierPortabilityTest(unittest.TestCase):
++    def test_resolved_native_launcher_can_execute(self):
++        with tempfile.TemporaryDirectory() as directory:
++            home = Path(directory)
++            (home / 'bin').mkdir()
++            launcher = home / 'bin' / ('java.exe' if os.name == 'nt' else 'java')
++            # A relocated Windows virtualenv Python launcher needs pyvenv.cfg.
++            # Use the platform shell to exercise executable selection independently.
++            native = os.environ['COMSPEC'] if os.name == 'nt' else shutil.which('sh')
++            shutil.copy2(native, launcher)
++            arguments = ['/d', '/c', 'echo native-launcher-ok'] if os.name == 'nt' else [
++                '-c', 'printf native-launcher-ok']
++            output = subprocess.check_output(
++                [java_executable(home), *arguments], text=True)
++            self.assertEqual(output.strip(), 'native-launcher-ok')
++
++    def test_missing_native_launcher_fails_before_publication(self):
++        with tempfile.TemporaryDirectory() as directory:
++            with self.assertRaisesRegex(ValueError, 'Java launcher missing'):
++                java_executable(directory)
++
++    @unittest.skipUnless(shutil.which('pwsh'), 'PowerShell runtime required for wrapper regression')
++    def test_day1_invokes_native_wrapper_and_propagates_failure(self):
++        source = Path(__file__).resolve().parents[1] / 'scripts/verify-trace-link-day1.ps1'
++        with tempfile.TemporaryDirectory() as directory:
++            repo = Path(directory)
++            for name in ('scripts', 'tests', 'services/ml-service/tests', 'jdk', 'reference'):
++                (repo / name).mkdir(parents=True)
++            shutil.copy2(source, repo / 'scripts' / source.name)
++            for name in ('verify-trace-link-pins.py', 'check-contracts.py'):
++                (repo / 'scripts' / name).write_text('# Successful prerequisite stub\n')
++            for name in ('tests', 'services/ml-service/tests'):
++                (repo / name / 'test_prerequisite.py').write_text(
++                    'import unittest\nclass Prerequisite(unittest.TestCase):\n'
++                    '    def test_ready(self):\n        self.assertTrue(True)\n')
++            marker = repo / 'wrapper-invoked'
++            if os.name == 'nt':
++                wrapper = repo / 'mvnw.cmd'
++                wrapper.write_text('@echo off\necho invoked>"%~dp0wrapper-invoked"\nexit /b 27\n')
++            else:
++                wrapper = repo / 'mvnw'
++                wrapper.write_text('#!/bin/sh\nprintf invoked > wrapper-invoked\nexit 27\n')
++                wrapper.chmod(0o755)
++            result = subprocess.run([
++                shutil.which('pwsh'), '-NoProfile', '-File', str(repo / 'scripts' / source.name),
++                '-Python', sys.executable, '-JavaHome', str(repo / 'jdk'),
++                '-ReferenceRoot', str(repo / 'reference')],
++                cwd=repo, capture_output=True, text=True, timeout=30)
++            self.assertTrue(marker.is_file(), result.stdout + result.stderr)
++            self.assertNotEqual(result.returncode, 0)
++            self.assertIn('failed with exit code 27', result.stdout + result.stderr)
++            self.assertFalse((repo / 'services/processor/target/trace-link-java.json').exists())
++
++
++if __name__ == '__main__':
++    unittest.main()
+-- 
+2.51.2.windows.1
+

@@ -1,0 +1,130 @@
+{
+  "artifactBytes": 18164001,
+  "artifactSchemaValidated": true,
+  "artifactSha256": "3bff7c6229a8ec26caa26d68c5c861d6d0b73e3e002b604860d9ae258b68e5d2",
+  "cellCount": 34347,
+  "compression": "gzip-mtime0",
+  "counts": {
+    "acceptedCount": 340143,
+    "excludedCount": 10494,
+    "expectedCount": 610560,
+    "invalidCount": 259923,
+    "missingCount": 0,
+    "sampleCount": 610560
+  },
+  "coverageMinimum": 0.9090909090909091,
+  "estimatorConfiguration": {
+    "baselineVersion": "trace-link-seasonal-v1",
+    "datasetId": "trace-link-md-30d-v1",
+    "estimator": "median_mad",
+    "fallback": "peer_then_static_then_unavailable",
+    "minimumCoverage": 0.9,
+    "minimumDistinctDays": 3,
+    "minimumRateAttempts": 100,
+    "peerFallbacks": [],
+    "policyVersion": "trace-link-baseline-policy-v1",
+    "schemaVersion": "trace-link-baseline-policy-v1",
+    "slotMinutes": 5,
+    "staticCenters": {
+      "mobileData.activation.success": 99,
+      "mobileData.dns.success": 99,
+      "roaming.data.success": 99,
+      "roaming.registration.success": 99,
+      "roaming.voice.success": 99
+    },
+    "timezone": "Europe/Chisinau",
+    "topologyVersion": "trace-link-md-topology-v1"
+  },
+  "exclusionPolicy": "GLOBAL_INTERVAL_OVER_EXCLUSION_NO_GUESSED_TAILS",
+  "fallbackLookupCounts": {
+    "DIRECT": 172880,
+    "STATIC": 132400
+  },
+  "fallbackLookupCountsByMetric": {
+    "mobileData.throughput": {
+      "DIRECT": 28800
+    },
+    "roaming.data.success": {
+      "DIRECT": 17708,
+      "STATIC": 39892
+    },
+    "roaming.registration.success": {
+      "DIRECT": 14479,
+      "STATIC": 43121
+    },
+    "roaming.voice.success": {
+      "DIRECT": 8213,
+      "STATIC": 49387
+    },
+    "transport.link.utilization": {
+      "DIRECT": 34560
+    },
+    "transport.rtt.snapshot": {
+      "DIRECT": 34560
+    },
+    "transport.traffic": {
+      "DIRECT": 34560
+    }
+  },
+  "fallbackLookupInterval": {
+    "from": "2026-09-30T09:00:00Z",
+    "to": "2026-10-10T09:00:00Z"
+  },
+  "fallbackPolicy": "peer_then_static_then_unavailable",
+  "heldOutTo": "2026-10-10T09:00:00Z",
+  "historicalEligibility": "STRUCTURAL_ONLY_NOT_RUNTIME_FRESHNESS",
+  "maintenanceExclusions": [],
+  "omittedMetrics": [
+    "transport.packetLoss",
+    "transport.rtt.mean",
+    "mobileData.activation.success",
+    "mobileData.dns.success"
+  ],
+  "peerMappings": 0,
+  "publishedBytes": 658103,
+  "publishedSha256": "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+  "referenceOnly": true,
+  "reproduction": {
+    "compressedBytesIdentical": true,
+    "independentBuilds": 2,
+    "secondCompressedSha256": "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+    "secondUncompressedSha256": "3bff7c6229a8ec26caa26d68c5c861d6d0b73e3e002b604860d9ae258b68e5d2",
+    "uncompressedBytesIdentical": true
+  },
+  "schemaVersion": "trace-link-history-fit-report-v1",
+  "sourceFiles": {
+    "cities.csv": "16cc72a82194b1d416d09df55825f806bd6d97a99bb6ed254ff64a915c530cc1",
+    "city_kpi_5m.csv": "2eaab7425946d52f2dffa8429dc11d2e315d2bb4e0b0ff95bc977687f4394647",
+    "countries.csv": "23dfc3bc0ef3b2c95d22db3cb1f5bcecba7390ec194225b437ab96d09df3a7d3",
+    "link_kpi_5m.csv": "0da79bde35cc5d141fa00d80e3b19ded3f301eee87b045ef5098cbf3d77d3b0a",
+    "links.csv": "bbf0d608bebf71939354e3d364cd898f69bc12e23e54db3a29552d79ec3a1c6e",
+    "roaming_kpi_5m.csv": "be3f5766bf0bb6167fa174a44dd414de7507afe03b69b0225f9326f252e3e48f",
+    "scenario_events.csv": "fdb4f004b9221fa612e2a55026430bae5fc7b27d0f6b050109cdbd40ff0a894c"
+  },
+  "sourceFreshness": "UNKNOWN",
+  "staticCenters": {
+    "mobileData.activation.success": 99,
+    "mobileData.dns.success": 99,
+    "roaming.data.success": 99,
+    "roaming.registration.success": 99,
+    "roaming.voice.success": 99
+  },
+  "timezoneDataPackageVersion": "2026.2",
+  "timezoneDataSource": "PINNED_TZDATA_PACKAGE_BYTES_NOT_HOST_ZONEINFO",
+  "timezoneRulesVersion": "2026b",
+  "topologySnapshot": {
+    "namespace": "trace-link-reference-v1",
+    "sourceInventory": {
+      "cities.csv": "16cc72a82194b1d416d09df55825f806bd6d97a99bb6ed254ff64a915c530cc1",
+      "countries.csv": "23dfc3bc0ef3b2c95d22db3cb1f5bcecba7390ec194225b437ab96d09df3a7d3",
+      "links.csv": "bbf0d608bebf71939354e3d364cd898f69bc12e23e54db3a29552d79ec3a1c6e"
+    },
+    "synthetic": true,
+    "topologyVersion": "trace-link-md-topology-v1",
+    "validFrom": "2026-09-10T09:00:00.000Z",
+    "validTo": "2026-10-10T09:00:00.000Z"
+  },
+  "trainingFrom": "2026-09-10T09:00:00Z",
+  "trainingTo": "2026-09-30T09:00:00Z",
+  "validationTo": "2026-10-05T09:00:00Z"
+}

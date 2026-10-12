@@ -1,0 +1,25 @@
+{
+  "capturedAtUtc": "2026-10-12T14:47:25.2200529Z",
+  "docker": {
+    "client": "29.5.2",
+    "server": "29.5.2"
+  },
+  "maven": {
+    "executable": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\mvnw.cmd",
+    "exitCode": 0,
+    "versionOutput": "Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5)\r\nMaven home: C:\\Users\\Sergiu\\.m2\\wrapper\\dists\\apache-maven-3.9.16\\0daed3be3ebd1c706f0e69e8b07c6b73f5cc4ea3dfce72a8d0ec2e849ca2ddb0\r\nJava version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\jdk21-sergiu-days7-8\\jdk-21.0.12.1+1\r\nDefault locale: en_US, platform encoding: UTF-8\r\nOS name: \"windows 11\", version: \"10.0\", arch: \"amd64\", family: \"windows\""
+  },
+  "postgresImage": {
+    "architecture": "amd64",
+    "id": "sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c",
+    "os": "linux",
+    "reference": "postgres:16.4-alpine",
+    "repoDigests": [
+      "postgres@sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c"
+    ]
+  },
+  "powerShell": {
+    "executable": "C:\\Users\\Sergiu\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "version": "7.6.5"
+  }
+}
