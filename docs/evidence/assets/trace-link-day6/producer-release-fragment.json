@@ -1,0 +1,59 @@
+{
+  "fragmentVersion": "trace-link-producer-release-fragment-v1",
+  "authoritativeTeamManifest": false,
+  "producerDecision": "PRODUCER_READY_FOR_REVIEW",
+  "overallRelease": "BLOCKED",
+  "executionDate": "2026-10-12",
+  "milestoneDate": "2026-10-15",
+  "parentCommit": "8fb0596b415b4fef137b29b38774948d3112c1a0",
+  "rehearsalSourceCommit": "a4d9351fe92d1021f3fb03d69142f19bbdf9abeb",
+  "rehearsalSourceTree": "a4314b7e995847a3a422717db2671a7a38c8fee6",
+  "configurationSha256": "3d387504a364eb91f5cc3f03b19e5f0e0d69d2fe45f71edead76c7d07e082a51",
+  "sourceGitContentPins": {
+    "contracts/fixtures/demo/service-seeds.json": "3d387504a364eb91f5cc3f03b19e5f0e0d69d2fe45f71edead76c7d07e082a51",
+    "scripts/rehearsal/TraceLinkProducerRehearsal.java": "864fbb95ff799dd8bd9a0e4a841c096b02241b552272e3123f4866740369a4d7",
+    "scripts/rehearse-trace-link-producer.py": "38352006e48bc02154b0d04913db89275d8342c889c0f9484e45a9a24da9e2e2",
+    "contracts/datasets/trace-link-live-synthetic-v1.json": "4accd3317fa6248a68e4b42ba6793ab3cc0f9c5a5a07c019b3846ccbfc90b444",
+    "contracts/datasets/trace-link-md-30d-v1.manifest.json": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+    "contracts/topology/trace-link-links-v1.json": "b418208acd0f2af8cca45df82e2971f59e419cdd910ef4421c2ce34e2fcb1031",
+    "contracts/geography/trace-link-geography-v2.json": "cae4e4911aaf6deb66a8a1e0f8bc6bfc9fd9f7cb2f5d3301d3afe9bf8d1645fc",
+    "contracts/kpi/trace-link-kpi-definitions-v1.json": "cc2a473c380888ba26895134ce608483bb4c2b66511d44a4587ffcc6c2d98c77",
+    "contracts/observations/trace-link-domain-window-v1.schema.json": "66e93a1456c355e1110093e7fadb41f9907174bf1246f1e076e49d5ffd3d58af",
+    "contracts/observations/telecom-observation-v2.schema.json": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d",
+    "contracts/features/feature-order-v2.json": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+    "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c"
+  },
+  "observedPackagedArtifacts": {
+    "event-generator-0.3.0-SNAPSHOT.jar": "70e3ed0378b81417e657315b3c3f5583b99a2ee89cc85598869f2ea84c3586fe",
+    "event-generator-0.3.0-SNAPSHOT-library.jar": "84ecd1ed368162535c1ae185143cb4a39f01017b24ab32c2406035a1faf6e034"
+  },
+  "nativeDataset": {
+    "datasetId": "trace-link-md-30d-v1",
+    "rows": 362880,
+    "sourceResolutionSeconds": 300,
+    "manifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+    "V016Sha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+    "existingDemoDatabasesTouched": false,
+    "existingDockerVolumesReset": false
+  },
+  "liveDataset": {
+    "datasetId": "trace-link-live-synthetic-v1",
+    "sourceResolutionSeconds": 60
+  },
+  "migrations": {
+    "V014": "inventory",
+    "V015": "native history",
+    "V016": "parallel PR92 frozen held projection, tested opt-in only"
+  },
+  "mainPolicyCommit": "bccfd01d20373d71cd6b51f7c102ebde45c884ff",
+  "approvedNewDomainTopics": [],
+  "imageDigests": "NOT_VERIFIED for shared release",
+  "connectedRehearsals": "BLOCKED",
+  "receivingOwners": {
+    "Sergiu": "NOT_VERIFIED",
+    "Denis": "NOT_VERIFIED",
+    "David": "NOT_VERIFIED",
+    "Stanislav": "NOT_VERIFIED"
+  },
+  "fiveOwnerSignoff": "NOT_VERIFIED"
+}

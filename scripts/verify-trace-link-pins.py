@@ -1,4 +1,4 @@
-"""Check immutable V2 and external reference hashes without changing either source."""
+"""Check frozen V2 Git JSON content and exact external/binary reference bytes."""
 import argparse
 import hashlib
 import json
@@ -19,7 +19,13 @@ def verify(reference_root):
             source = base / relative
             if not source.is_file():
                 raise ValueError(f'Required pinned input missing: {source}')
-            actual = hashlib.sha256(source.read_bytes()).hexdigest()
+            raw = source.read_bytes()
+            actual = hashlib.sha256(raw).hexdigest()
+            # Git can check out its LF JSON blobs as CRLF on Windows. Only this
+            # exact newline conversion is allowed for repository-owned frozen
+            # JSON; reference/archive/binary bytes remain strict raw hashes.
+            if actual != expected and name == 'frozenFiles' and relative.endswith('.json'):
+                actual = hashlib.sha256(raw.replace(b'\r\n', b'\n')).hexdigest()
             if actual != expected:
                 raise ValueError(f'Immutable input changed: {relative}')
             checked += 1

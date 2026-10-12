@@ -274,3 +274,41 @@ seconds steady state, then an owner-bounded burst and measured recovery/drain.
 It remains BLOCKED until transport/consumer and disposable environment approval.
 Do not substitute local compilation timing, represented calls/messages, or
 legacy Kafka throughput for new-domain offered/ACK/persisted/finalized rates.
+
+## Trace Link Day 6 rehearsal and release evidence
+
+The [pinned demo script](../demo/ion-script.md) reproduces two packaged producer-only
+rehearsals with injected logical clocks. Use a new output directory:
+
+```powershell
+python scripts/rehearse-trace-link-producer.py --java-home '<Java-21-home>' --output '<new-directory>'
+python scripts/verify-trace-link-day6-evidence.py
+```
+
+Build the producer reactor first. Keep both run directories and their manifest.
+The rehearsal checks measured arithmetic, complete eight-minute schedules,
+concurrent independent scopes, opposite-direction controls, exact replay and
+interrupted restart with zero new output. A missing recovery minute is never
+healthy evidence. The six legacy profiles use the existing V2 generation APIs.
+The thirteen unimplemented new catalogue definitions remain unsupported.
+
+The historical archive remains native 300s and immutable; the minute generator
+uses a separate synthetic source/dataset. Existing demo databases and volumes
+must not be reset to reproduce this verification. Import/checkpoint retries
+preserve identity and bytes; unknown publication requires reconciliation.
+
+Frozen repository JSON pins allow Git's CRLF checkout conversion on Windows,
+while archive/reference/binary and golden-suite hashes stay byte-exact. The
+Day 6 artifact manifest pins raw evidence bytes across checkouts.
+
+The [release preflight](../architecture/trace-link-release-preflight.md) contains
+the reviewed merge graph, #91 resolution patch, parallel #92 compatibility,
+producer/detector mismatches and ordered Denis/Stanislav execution checklist.
+Connected delivery, authenticated reads/UI/Grafana, measured capacity, backup and
+restore, clean install/upgrade and five-owner reproduction remain separate gates.
+Verify backup restoration against a disposable copy before any connected release
+decision; availability of pg_dump/pg_restore alone proves no restore.
+
+See [Day 6 evidence](../evidence/2026-10-15-trace-link-producer-rehearsal.md) for
+actual execution date, source/configuration identity, per-run counts, hashes and
+remaining owner actions. Producer review readiness does not grant release approval.

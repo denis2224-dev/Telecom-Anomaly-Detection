@@ -1,0 +1,78 @@
+{
+  "autoMergeRequest": null,
+  "baseRefName": "main",
+  "baseRefOid": "cbb94d37f7593e99737ee4200e91b14e0512f76f",
+  "comments": [],
+  "headRefName": "feature/ion-trace-link-inventory-bootstrap",
+  "headRefOid": "1e67e61ce3f2c46f26818b42c17fc3d50481aae4",
+  "isDraft": true,
+  "mergeStateStatus": "DIRTY",
+  "number": 91,
+  "reviewDecision": "",
+  "reviews": [],
+  "state": "OPEN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T22:00:09Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38178435000/job/114585667362",
+      "name": "dashboard-verification",
+      "startedAt": "2026-10-11T21:56:58Z",
+      "status": "COMPLETED",
+      "workflowName": "dashboard"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T21:57:35Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38178435378/job/114585669102",
+      "name": "build",
+      "startedAt": "2026-10-11T21:56:58Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-runtime-image"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T21:59:05Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38178434983/job/114585667281",
+      "name": "backend-verification",
+      "startedAt": "2026-10-11T21:56:58Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-service"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T21:57:07Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38178434953/job/114585667448",
+      "name": "deployment-config",
+      "startedAt": "2026-10-11T21:56:58Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T21:59:49Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38178434953/job/114585667550",
+      "name": "model-evaluation",
+      "startedAt": "2026-10-11T21:56:58Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T22:12:36Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38178434953/job/114586223812",
+      "name": "processor-evaluation",
+      "startedAt": "2026-10-11T21:59:52Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    }
+  ],
+  "title": "Add Trace Link reference inventory and checkpointed native history import",
+  "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/91"
+}
