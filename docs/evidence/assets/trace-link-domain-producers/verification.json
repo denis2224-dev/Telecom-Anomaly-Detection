@@ -863,8 +863,8 @@
     "arithmetic-postgresql.json": "c99a3993af77e1a54ee9fd4c4e2308a29507e7417e44e8ad198788fd3abf525c",
     "arithmetic-python.json": "d35364bf58e856c1a61a7f6d56fc64c1e213d5d31503b7b9ec5d5d91ead80c26",
     "native-archive-parity.json": "68fc782d67989d5d184bdb49b394941bd4710ecaa65229248354dcb844505483",
-    "reference-compatibility.json": "5acae632b675456d50aa2bdcb7317d53f2df7d08ae967290096b3173158af827",
-    "protected-pr-state.json": "888c1f6a4fcec7bc481ba502bb15c97421a67c71f73622939114724014c3f381"
+    "protected-pr-state.json": "ba0e27c6ae119c716365136093d6f27f4d017741772d0d91e2e71eb61408d627",
+    "reference-compatibility.json": "5acae632b675456d50aa2bdcb7317d53f2df7d08ae967290096b3173158af827"
   },
   "localLogHashes": {
     "contracts-final.log": "0fcacaad9aafd5d2cc20fe8a0e56792f4217d0f70ac144fb8dc16576213549f0",
