@@ -67,6 +67,15 @@ server:
         path: /
         secure: ${SESSION_COOKIE_SECURE:false}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 app:
   public-origin: ${APP_PUBLIC_ORIGIN:http://telecom.test:8080}
   evidence:

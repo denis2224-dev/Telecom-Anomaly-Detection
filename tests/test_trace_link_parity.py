@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -108,7 +109,7 @@ class TraceLinkParityTests(unittest.TestCase):
                 PARITY.decode(raw)
 
     def test_cli_cannot_report_partial_language_success(self):
-        process = subprocess.run(['python', str(ROOT / 'scripts/check-trace-link-parity.py'), '--java-output', str(self.exports['java'])], capture_output=True, text=True)
+        process = subprocess.run([sys.executable, str(ROOT / 'scripts/check-trace-link-parity.py'), '--java-output', str(self.exports['java'])], capture_output=True, text=True)
         self.assertNotEqual(process.returncode, 0)
         self.assertIn('all four', process.stderr)
 

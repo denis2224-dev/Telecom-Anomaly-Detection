@@ -1,0 +1,51 @@
+groups:
+  - name: trace-link-runtime
+    rules:
+      - alert: TraceLinkSourceStale
+        expr: telecom_processor_sources{state="stale"} > 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "A configured source is stale"
+          description: "Investigate source freshness and upstream publication before restarting services."
+      - alert: TraceLinkFinalizerLag
+        expr: histogram_quantile(0.95, sum by (le) (rate(telecom_processor_finalizer_delay_seconds_bucket[5m]))) > 60
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Window finalization latency is elevated"
+          description: "Check database latency, Kafka lag, and finalizer scheduling."
+      - alert: TraceLinkOutboxAge
+        expr: max(telecom_processor_outbox_oldest_age_seconds) > 300
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "An outbox queue is older than five minutes"
+          description: "Check publisher health and database connectivity; preserve rows for replay."
+      - alert: TraceLinkMlFallbackRate
+        expr: sum(rate(telecom_ml_inference_fallback_total[5m])) / clamp_min(sum(rate(telecom_ml_inference_requests_total[5m])), 1) > 0.25
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "ML fallback rate is elevated"
+          description: "Deterministic detection remains authoritative; inspect model readiness and latency."
+      - alert: TraceLinkApiErrors
+        expr: sum(rate(http_server_requests_seconds_count{status=~"5.."}[5m])) / clamp_min(sum(rate(http_server_requests_seconds_count[5m])), 1) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API error rate is elevated"
+          description: "Check route health, database pools, and dependency availability."
+      - alert: TraceLinkDatasourceUnavailable
+        expr: absent(up{job="processor"}) or absent(up{job="incident-service"})
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "A monitored application is unavailable"
+          description: "Treat platform availability separately from telecom-service impairment."
