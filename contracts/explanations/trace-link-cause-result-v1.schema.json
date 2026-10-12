@@ -1,0 +1,332 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "datasetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "namespace": {
+      "const": "trace-link-reference-v1"
+    },
+    "domain": {
+      "enum": [
+        "TRANSPORT",
+        "ROAMING",
+        "MOBILE_DATA"
+      ]
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "symptomPolicyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baselineVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "probableCauseCode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "probableCause": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "const": "trace-link-cause-result-v1"
+    },
+    "scope": {
+      "$ref": "../evidence/trace-link-evidence-v1.schema.json#/properties/scope"
+    },
+    "window": {
+      "$ref": "../evidence/trace-link-evidence-v1.schema.json#/properties/window"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "status": {
+      "enum": [
+        "SUPPORTED_HYPOTHESIS",
+        "UNDETERMINED"
+      ]
+    },
+    "causeConfidence": {
+      "enum": [
+        null,
+        "MEDIUM"
+      ]
+    },
+    "supportingEvidenceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "contradictoryEvidenceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rejectedEvidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "candidateId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidenceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "enum": [
+              "AMBIGUOUS_CANDIDATES",
+              "AMBIGUOUS_DEPENDENCY",
+              "BASELINE_OUT_OF_RANGE",
+              "BASELINE_UNAVAILABLE",
+              "BASELINE_VERSION_MISMATCH",
+              "BELOW_SUPPORT_THRESHOLD",
+              "CONFLICTING_DUPLICATE",
+              "CONTRADICTORY_CONTROL",
+              "DEPENDENCY_PROVENANCE_MISMATCH",
+              "INSUFFICIENT_SAMPLES",
+              "INVALID_EVIDENCE",
+              "INVALID_QUALITY",
+              "MISSING_REQUIRED_CONTROL",
+              "NO_DEPENDENCY",
+              "NO_EVENT_TIME_DEPENDENCY",
+              "NO_SYMPTOM",
+              "NO_TIME_OVERLAP",
+              "POLICY_VERSION_MISMATCH",
+              "SOURCE_NOT_AUTHORIZED",
+              "STALE_EVIDENCE",
+              "TOPOLOGY_MISMATCH",
+              "UNSUPPORTED_HYPOTHESIS",
+              "UNSUPPORTED_SUPPORT_METRIC",
+              "WRONG_DATASET_OR_NAMESPACE",
+              "WRONG_EVALUATION_TIME",
+              "WRONG_SCOPE_OR_PATH"
+            ]
+          }
+        },
+        "required": [
+          "candidateId",
+          "evidenceId",
+          "reason"
+        ]
+      }
+    },
+    "reasonCodes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "AMBIGUOUS_CANDIDATES",
+          "AMBIGUOUS_DEPENDENCY",
+          "BASELINE_OUT_OF_RANGE",
+          "BASELINE_UNAVAILABLE",
+          "BASELINE_VERSION_MISMATCH",
+          "BELOW_SUPPORT_THRESHOLD",
+          "CONFLICTING_DUPLICATE",
+          "CONTRADICTORY_CONTROL",
+          "DEPENDENCY_PROVENANCE_MISMATCH",
+          "INSUFFICIENT_SAMPLES",
+          "INVALID_EVIDENCE",
+          "INVALID_QUALITY",
+          "MISSING_REQUIRED_CONTROL",
+          "NO_DEPENDENCY",
+          "NO_EVENT_TIME_DEPENDENCY",
+          "NO_SYMPTOM",
+          "NO_TIME_OVERLAP",
+          "POLICY_VERSION_MISMATCH",
+          "SOURCE_NOT_AUTHORIZED",
+          "STALE_EVIDENCE",
+          "TOPOLOGY_MISMATCH",
+          "UNSUPPORTED_HYPOTHESIS",
+          "UNSUPPORTED_SUPPORT_METRIC",
+          "WRONG_DATASET_OR_NAMESPACE",
+          "WRONG_EVALUATION_TIME",
+          "WRONG_SCOPE_OR_PATH"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "dependency": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "relationId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sourceId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "pathId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "topologyVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "from": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "to": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            }
+          },
+          "required": [
+            "relationId",
+            "sourceId",
+            "pathId",
+            "topologyVersion",
+            "from",
+            "to"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "datasetId",
+    "namespace",
+    "domain",
+    "topologyVersion",
+    "policyVersion",
+    "symptomPolicyVersion",
+    "baselineVersion",
+    "probableCauseCode",
+    "probableCause",
+    "schemaVersion",
+    "scope",
+    "window",
+    "revision",
+    "evaluatedAt",
+    "status",
+    "causeConfidence",
+    "supportingEvidenceIds",
+    "contradictoryEvidenceIds",
+    "rejectedEvidence",
+    "reasonCodes",
+    "dependency"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trace Link offline cause result v1",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "UNDETERMINED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "probableCauseCode": {
+            "const": "UNDETERMINED"
+          },
+          "causeConfidence": {
+            "type": "null"
+          },
+          "dependency": {
+            "type": "null"
+          },
+          "supportingEvidenceIds": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "causeConfidence": {
+            "const": "MEDIUM"
+          },
+          "dependency": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "relationId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "pathId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "topologyVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              "to": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              }
+            },
+            "required": [
+              "relationId",
+              "sourceId",
+              "pathId",
+              "topologyVersion",
+              "from",
+              "to"
+            ]
+          },
+          "supportingEvidenceIds": {
+            "minItems": 1,
+            "maxItems": 1
+          },
+          "probableCauseCode": {
+            "enum": [
+              "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+              "ROAMING_DEPENDENCY_HYPOTHESIS",
+              "MOBILE_DATA_DEPENDENCY_HYPOTHESIS"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
