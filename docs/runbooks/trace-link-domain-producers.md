@@ -116,3 +116,7 @@ owns consumer/incident-service mapping, Stanislav owns environment/topic
 coordination. Kafka topic activation, authenticated reads, connected capacity
 and receiving-owner reproduction remain separate handoffs. No approval is
 inferred from local fixture or PostgreSQL parity.
+
+For genuine one-minute synthetic scenarios, use the separate
+[scenario compiler and pure scheduler](trace-link-scenarios.md). Its live-synthetic
+namespace and 60-second windows never substitute for this native 300-second job.

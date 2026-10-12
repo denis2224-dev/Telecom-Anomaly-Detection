@@ -7,5 +7,8 @@ live scenario adapter. The [domain producer runbook](../../docs/runbooks/trace-l
 documents the isolated job and deterministic controls. Test controls use a
 separate dataset identity and never add scenario truth to detector measurements.
 
-Day 4 scenario API changes and unapproved Kafka projection publication remain
-outside this implementation.
+The additive [Trace Link scenario runbook](../../docs/runbooks/trace-link-scenarios.md)
+documents the isolated 60-second Transport/Roaming/LTE compiler and pure scheduler.
+It uses a separate synthetic dataset/source namespace and no archive upsampling.
+Public API changes and Kafka activation remain PENDING_REVIEW; the legacy
+VoLTE/SMS entrypoint is unchanged.
