@@ -858,7 +858,7 @@ paths:
     get:
       operationId: listTraceCities
       tags: [Inventory]
-      x-implementation-status: planned-day-2
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/TraceCatalogueVersion'}
       responses:
@@ -869,7 +869,7 @@ paths:
     get:
       operationId: listTraceLinks
       tags: [Inventory]
-      x-implementation-status: planned-day-2
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/TraceCatalogueVersion'}
       - {name: cityId, in: query, schema: {type: string, maxLength: 32}}
@@ -882,7 +882,7 @@ paths:
     get:
       operationId: listTracePartners
       tags: [Inventory]
-      x-implementation-status: planned-day-2
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/TraceCatalogueVersion'}
       - {name: country, in: query, schema: {type: string, maxLength: 8}}
@@ -895,7 +895,7 @@ paths:
     get:
       operationId: listTraceKpiDefinitions
       tags: [Trace Metrics]
-      x-implementation-status: planned-day-2
+      x-implementation-status: backend-implemented
       parameters:
       - {name: domain, in: query, schema: {type: string, enum: [volte, transport, roaming, sms, mobile-data]}}
       responses:
@@ -906,7 +906,7 @@ paths:
     get:
       operationId: getTraceMetricSeries
       tags: [Trace Metrics]
-      x-implementation-status: planned-day-2
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/TraceDomain'}
       - {$ref: '#/components/parameters/TraceMetric'}
@@ -2579,13 +2579,14 @@ components:
         synthetic: {type: boolean}
     TraceKpiDefinition:
       type: object
-      required: [domain, metric, unit, aggregation, population, policyVersion]
+      required: [domain, metric, unit, aggregation, population, primitiveFields, policyVersion]
       properties:
         domain: {type: string}
         metric: {type: string}
         unit: {type: string}
         aggregation: {type: string, enum: [COUNT_SUM, RATIO_OF_SUMS, WEIGHTED_MEAN, TIME_WEIGHTED_MEAN, HISTOGRAM_P95, SNAPSHOT_LAST, STATE_TIMELINE]}
         population: {type: string}
+        primitiveFields: {type: array, items: {type: string}}
         policyVersion: {type: string}
     TraceMetricSeries:
       type: object
