@@ -1,0 +1,21 @@
+{
+  "name": "combined-full-native-projection",
+  "suites": [
+    {
+      "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT.xml",
+      "sha256": "00aff1b1ec200c401d28cc99ebeb4f2f40f43ee2311df5ef0ba5f4f7a27cf1aa",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    }
+  ],
+  "totals": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

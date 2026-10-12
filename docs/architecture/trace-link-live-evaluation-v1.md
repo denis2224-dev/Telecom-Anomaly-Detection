@@ -4,7 +4,9 @@ Status: **PENDING_REVIEW by Sergiu**. This document proposes an additive interfa
 it does not register a detector, approve a baseline, or change the merged offline
 rules. It was prepared on 12 October 2026, Europe/Chisinau.
 
-The integrated source baseline is `47a2c9236e8ac82351b7fa62ec2264cc8df103c2`.
+The initial integrated source baseline was `47a2c9236e8ac82351b7fa62ec2264cc8df103c2`.
+Main subsequently merged #91/#92 at `ae9a53626ac7ee62efec40a19ebb20c6e2cf7049`;
+the candidate records that ancestry without any tree change.
 The producer input is frozen #97, `5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c`.
 The separate native VoLTE projection is #92,
 `b987aa809101eedc1d40d52c95dff94a1e9e27b8`.
@@ -80,8 +82,8 @@ At logical `[2026-10-12T09:02:00Z,2026-10-12T09:03:00Z)`:
   `5829367256e14ee3ad67218b28709050ca4390d77a8a1f9a7f4b11cbc6e75aca`.
 - The same extraction includes transport overload, healthy high-utilization
   and opposite-direction controls, the opposite roaming direction, independent
-  healthy LTE activation, and an actual MISSING DNS observation with null
-  primitives and zero coverage. The verifier validates each original schema
+  healthy LTE activation, and an actual MISSING DNS observation at 09:18 from
+  the separate gap schedule, with null primitives and zero coverage. The verifier validates each original schema
   and deterministic identity before copying its exact payload bytes.
 
 These are archived logical observations. Replaying their bytes today does not

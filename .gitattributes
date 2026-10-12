@@ -48,7 +48,7 @@ docs/evidence/assets/trace-link-day6/** -text whitespace=trailing-space,space-be
 docs/evidence/assets/trace-link-day6/preflight/*.patch -whitespace
 
 # Integration evidence retains its recorded byte hashes on every checkout.
-docs/evidence/assets/trace-link-integration-20261012/** -text
+docs/evidence/assets/trace-link-integration-20261012/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/assets/trace-link-integration-20261012/*.patch -whitespace
 
 # The held projection migration has approved raw-byte identity in packaged builds.
