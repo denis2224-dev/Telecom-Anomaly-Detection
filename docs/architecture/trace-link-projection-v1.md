@@ -67,9 +67,11 @@ are query results only, with no invented persisted row. Archive checksums are
 integrity evidence; they never establish measured service health.
 
 `sourceQuality` and `sourceCoverage` preserve source-supplied nullable values.
-Unknown quality or source coverage produces `INSUFFICIENT_EVIDENCE`, even when
-the arithmetic value is computable and slot coverage is 1. Known non-VALID
-source quality is retained. Zero denominator produces null value with
+Unknown source quality, or unavailable source coverage under a VALID label,
+produces `INSUFFICIENT_EVIDENCE`, even when the arithmetic value is computable
+and slot coverage is 1. Known PARTIAL, STALE and INSUFFICIENT_EVIDENCE source
+quality is retained; missing coverage remains visible with its unavailable
+reason. Zero denominator produces null value with
 `ZERO_DENOMINATOR`; empty buckets have null primitives/value, coverage 0,
 `MISSING`, and `NO_SOURCE_SLOTS`. No health or recovery state is inferred.
 Historical age does not assert live freshness. The dictionary has no approved
@@ -142,3 +144,7 @@ No authenticated native-source-to-series result, Kafka recovery result, or
 end-to-end acceptance is claimed until the agreed consumer exists and connected
 verification passes. Denis must approve the table above and reproduce imported
 5m, larger native, and rolled-up query examples before this gate closes.
+
+The [exact consumer decision package](trace-link-consumer-handoff-v1.md)
+records the producer source SHA, complete proposed mapping, additive consumer
+requirements, isolated compatibility findings and future acceptance examples.

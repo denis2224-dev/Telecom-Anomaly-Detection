@@ -86,3 +86,8 @@ policy, topology, source quality versus slot coverage, dataset/inventory
 ingestion, immutable revision/content deduplication, topic/key, and read DTOs.
 Then reproduce one actual imported 5m slice, a larger native interval and a
 ratio-of-sums rollup through the authenticated incident API.
+
+Use the [exact consumer decision package](../architecture/trace-link-consumer-handoff-v1.md)
+for the proposed mapping and the [final hardening evidence](../evidence/2026-10-12-trace-link-final-hardening.md)
+for the fresh complete reactor, non-overlapping test totals, artifact hashes and
+read-only consumer compatibility checks. These documents do not authorize delivery.

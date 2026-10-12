@@ -1,5 +1,9 @@
 # Trace Link Phase C producer slice
 
+This is the original implementation evidence, retained for provenance. The
+[final hardening report](2026-10-12-trace-link-final-hardening.md) supersedes its
+combined regression coverage with a fresh complete reactor on committed source.
+
 Disposition: **PARTIAL**. Producer projection/primitive rollups are implemented
 and independently verified. Consumer agreement is **PENDING_REVIEW**; connected
 Kafka ingestion and authenticated historical API acceptance are **BLOCKED**.
