@@ -14,3 +14,9 @@ The source catalogue is `CONTRACT_ONLY`. The job does not activate inventory,
 publish metric projections, or claim authenticated API/UI acceptance. Migrations
 V014–V015 are implemented; V016 remains reserved in the
 [migration ledger](../../docs/architecture/trace-link-migration-ledger.md).
+
+The separate [native domain producer job](../../docs/runbooks/trace-link-domain-producers.md)
+reads completed imports and writes deterministic Transport, Roaming and LTE
+mobile-data primitive artifacts. It runs without Kafka or Flyway and creates no
+delivery intents. Nullable source evidence and reference approximations remain
+explicit; consumer delivery is `PENDING_REVIEW`.

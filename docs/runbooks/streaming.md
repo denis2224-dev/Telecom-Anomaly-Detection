@@ -186,6 +186,11 @@ ingestion endpoint. Finalization and publication are not implemented. See the
 
 ## Durable ingestion
 
+For isolated native Trace Link Transport, Roaming and LTE-data calculation, use
+the [domain producer runbook](trace-link-domain-producers.md). This path reads
+completed processor-owned imports and writes local artifacts; it does not
+activate a Kafka topic or modify the frozen projection outbox.
+
 See [ingestion design and verification](../streaming/ingestion.md). Consume
 `telecom.observations.v2` in group `telecom-processor-v2`, with exact case-sensitive
 UTF-8 `scopeId` keys. Producer generation remains a later task. Flyway V001 uses
