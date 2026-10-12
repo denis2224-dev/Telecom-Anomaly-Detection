@@ -529,6 +529,230 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v2/inventory/cities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTraceCities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/inventory/links": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTraceLinks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/inventory/partners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTracePartners"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/kpi-definitions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTraceKpiDefinitions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/metrics/series": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceMetricSeries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceOverview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/transport/snapshot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceTransportSnapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/roaming/snapshot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceRoamingSnapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/exports/metrics.csv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["exportTraceMetricCsv"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNotifications"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["markNotificationRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/push/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNotificationPushConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/push-subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["upsertPushSubscription"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/push-subscriptions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deletePushSubscription"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1069,6 +1293,193 @@ export interface components {
             page: number;
             size: number;
         };
+        TraceCityList: {
+            catalogueVersion: string;
+            cities: components["schemas"]["TraceCity"][];
+        };
+        TraceCity: {
+            id: string;
+            name: string;
+            latitude: number;
+            longitude: number;
+            demandShare: number;
+            active: boolean;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            validTo: string | null;
+            synthetic: boolean;
+        };
+        TraceLinkList: {
+            catalogueVersion: string;
+            links: components["schemas"]["TraceLink"][];
+        };
+        TraceLink: {
+            id: string;
+            endpointA: string;
+            endpointB: string;
+            linkType: string;
+            nominalCapacityGbps: number;
+            active: boolean;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            validTo: string | null;
+            synthetic: boolean;
+            directions: components["schemas"]["TraceLinkDirection"][];
+        };
+        TraceLinkDirection: {
+            /** @enum {string} */
+            id: "a-to-b" | "b-to-a";
+            sourceInterface?: string | null;
+            destinationInterface?: string | null;
+            effectiveCapacityGbps: number;
+            /** Format: date-time */
+            capacityValidFrom: string;
+            /** Format: date-time */
+            capacityValidTo: string | null;
+            measurementSource: string;
+        };
+        TracePartnerList: {
+            catalogueVersion: string;
+            partners: components["schemas"]["TracePartner"][];
+        };
+        TracePartner: {
+            id: string;
+            country: string;
+            /** @enum {string} */
+            direction: "in" | "out";
+            active: boolean;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            validTo: string | null;
+            synthetic: boolean;
+        };
+        TraceKpiDefinition: {
+            domain: string;
+            metric: string;
+            unit: string;
+            /** @enum {string} */
+            aggregation: "COUNT_SUM" | "RATIO_OF_SUMS" | "WEIGHTED_MEAN" | "TIME_WEIGHTED_MEAN" | "HISTOGRAM_P95" | "SNAPSHOT_LAST" | "STATE_TIMELINE";
+            population: string;
+            policyVersion: string;
+        };
+        TraceMetricSeries: {
+            datasetId: string;
+            domain: string;
+            metric: string;
+            scopeType: string;
+            scopeId: string;
+            resolution: string;
+            /** Format: date-time */
+            requestedFrom: string;
+            /** Format: date-time */
+            requestedTo: string;
+            /** Format: date-time */
+            effectiveFrom: string;
+            /** Format: date-time */
+            effectiveTo: string;
+            partialStart: boolean;
+            partialEnd: boolean;
+            sourceResolutionSeconds: number;
+            unit: string;
+            aggregation: string;
+            policyVersion?: string | null;
+            topologyVersion?: string | null;
+            synthetic: boolean;
+            nextCursor?: string | null;
+            points: components["schemas"]["TraceMetricPoint"][];
+        };
+        TraceMetricPoint: {
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            value: number | null;
+            coverage: number;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE";
+            numerator: number | null;
+            denominator: number | null;
+            sumValue: number | null;
+            /** Format: int64 */
+            sampleCount: number | null;
+        };
+        TraceOverview: {
+            datasetId: string;
+            /** Format: date-time */
+            requestedFrom: string;
+            /** Format: date-time */
+            requestedTo: string;
+            /** @enum {string} */
+            resolution: "5m" | "15m" | "1h" | "6h";
+            synthetic: boolean;
+            summaries: components["schemas"]["TraceSnapshot"][];
+        };
+        TraceSnapshot: {
+            datasetId: string;
+            domain: string;
+            scopeType: string;
+            scopeId: string;
+            /** Format: date-time */
+            at: string;
+            /** Format: date-time */
+            snapshotAt: string | null;
+            /** Format: int64 */
+            sourceAgeSeconds: number | null;
+            value: number | null;
+            unit: string;
+            coverage: number;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE";
+            policyVersion: string | null;
+            topologyVersion: string | null;
+            synthetic: boolean;
+        };
+        NotificationPage: {
+            items: components["schemas"]["NotificationItem"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int64 */
+            unreadCount: number;
+            page: number;
+            size: number;
+        };
+        NotificationItem: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            incidentId: string;
+            /** @enum {string} */
+            kind: "OPEN" | "ESCALATED" | "RECOVERED" | "ASSIGNED";
+            /** @enum {string} */
+            severity: "MEDIUM" | "HIGH" | "CRITICAL";
+            service: string;
+            scopeId: string;
+            summary: string;
+            /** Format: date-time */
+            occurredAt: string;
+            /** Format: date-time */
+            readAt: string | null;
+            /** @enum {string} */
+            causeStatus: "HYPOTHESIS" | "UNDETERMINED";
+            probableCause: string | null;
+            causeConfidence: string | null;
+            incidentUrl: string;
+        };
+        PushConfig: {
+            enabled: boolean;
+            vapidPublicKey: string | null;
+        };
+        PushSubscriptionInput: {
+            /** Format: uri */
+            endpoint: string;
+            p256dh: string;
+            auth: string;
+            /** Format: date-time */
+            expirationTime?: string | null;
+        };
     };
     responses: {
         /** @description Malformed input, an invalid range or invalid request identifier. */
@@ -1138,6 +1549,14 @@ export interface components {
         From: string;
         /** @description Exclusive end instant. Must be later than from. */
         To: string;
+        /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+        TraceCatalogueVersion: string;
+        TraceDomain: "volte" | "transport" | "roaming" | "sms" | "mobile-data";
+        TraceMetric: string;
+        TraceScopeType: "CITY" | "LINK_DIRECTION" | "PARTNER_DIRECTION";
+        TraceScopeId: string;
+        TraceResolution: "5m" | "15m" | "1h" | "6h";
+        TraceDatasetId: string;
     };
     requestBodies: never;
     headers: never;
@@ -1888,6 +2307,371 @@ export interface operations {
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
             503: components["responses"]["Unavailable"];
+        };
+    };
+    listTraceCities: {
+        parameters: {
+            query?: {
+                /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+                catalogueVersion?: components["parameters"]["TraceCatalogueVersion"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Versioned city inventory */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceCityList"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listTraceLinks: {
+        parameters: {
+            query?: {
+                /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+                catalogueVersion?: components["parameters"]["TraceCatalogueVersion"];
+                cityId?: string;
+                at?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Links and both declared directions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceLinkList"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listTracePartners: {
+        parameters: {
+            query?: {
+                /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+                catalogueVersion?: components["parameters"]["TraceCatalogueVersion"];
+                country?: string;
+                direction?: "in" | "out";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Versioned roaming partner inventory */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TracePartnerList"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listTraceKpiDefinitions: {
+        parameters: {
+            query?: {
+                domain?: "volte" | "transport" | "roaming" | "sms" | "mobile-data";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Defined metrics and their arithmetic */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceKpiDefinition"][];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    getTraceMetricSeries: {
+        parameters: {
+            query: {
+                domain: components["parameters"]["TraceDomain"];
+                metric: components["parameters"]["TraceMetric"];
+                scopeType: components["parameters"]["TraceScopeType"];
+                scopeId: components["parameters"]["TraceScopeId"];
+                /** @description Inclusive start instant. */
+                from?: components["parameters"]["From"];
+                /** @description Exclusive end instant. Must be later than from. */
+                to?: components["parameters"]["To"];
+                resolution: components["parameters"]["TraceResolution"];
+                datasetId: components["parameters"]["TraceDatasetId"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Exact bounded bucket series */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceMetricSeries"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getTraceOverview: {
+        parameters: {
+            query: {
+                datasetId: components["parameters"]["TraceDatasetId"];
+                /** @description Inclusive start instant. */
+                from?: components["parameters"]["From"];
+                /** @description Exclusive end instant. Must be later than from. */
+                to?: components["parameters"]["To"];
+                resolution: components["parameters"]["TraceResolution"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded multi-domain overview */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceOverview"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    getTraceTransportSnapshot: {
+        parameters: {
+            query: {
+                datasetId: components["parameters"]["TraceDatasetId"];
+                at: string;
+                cityId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Last valid directional transport snapshot */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceSnapshot"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    getTraceRoamingSnapshot: {
+        parameters: {
+            query: {
+                datasetId: components["parameters"]["TraceDatasetId"];
+                at: string;
+                direction: "in" | "out";
+                country?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Last valid roaming snapshot */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceSnapshot"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    exportTraceMetricCsv: {
+        parameters: {
+            query: {
+                domain: components["parameters"]["TraceDomain"];
+                metric: components["parameters"]["TraceMetric"];
+                scopeType: components["parameters"]["TraceScopeType"];
+                scopeId: components["parameters"]["TraceScopeId"];
+                /** @description Inclusive start instant. */
+                from?: components["parameters"]["From"];
+                /** @description Exclusive end instant. Must be later than from. */
+                to?: components["parameters"]["To"];
+                resolution: components["parameters"]["TraceResolution"];
+                datasetId: components["parameters"]["TraceDatasetId"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Exact buckets with primitive aggregates and provenance */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    listNotifications: {
+        parameters: {
+            query?: {
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recipient-scoped history and unread count */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotificationPage"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    markNotificationRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Marked read, including a repeated request */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getNotificationPushConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Public configuration only */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PushConfig"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    upsertPushSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PushSubscriptionInput"];
+            };
+        };
+        responses: {
+            /** @description Current analyst subscription stored */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    deletePushSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Removed current analyst subscription */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
         };
     };
 }

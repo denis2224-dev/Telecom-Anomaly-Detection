@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Telecom Service Assurance API
-  version: 0.3.0
+  version: 0.4.0
   description: Revision 3 contracts. Service KPI trends and incident episodes replace subscriber risk scoring.
     Application endpoints remain implementation tasks; this document is not evidence of a running API.
 servers:
@@ -17,6 +17,10 @@ tags:
 - name: Simulator
 - name: Geography
 - name: Operations
+- name: Inventory
+- name: Trace Metrics
+- name: Trace Export
+- name: Notifications
 paths:
   /api/geography/cities:
     get:
@@ -850,6 +854,186 @@ paths:
       security:
       - sessionCookie: []
         csrfToken: []
+  /api/v2/inventory/cities:
+    get:
+      operationId: listTraceCities
+      tags: [Inventory]
+      x-implementation-status: planned-day-2
+      parameters:
+      - {$ref: '#/components/parameters/TraceCatalogueVersion'}
+      responses:
+        '200': {description: Versioned city inventory, content: {application/json: {schema: {$ref: '#/components/schemas/TraceCityList'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/inventory/links:
+    get:
+      operationId: listTraceLinks
+      tags: [Inventory]
+      x-implementation-status: planned-day-2
+      parameters:
+      - {$ref: '#/components/parameters/TraceCatalogueVersion'}
+      - {name: cityId, in: query, schema: {type: string, maxLength: 32}}
+      - {name: at, in: query, schema: {type: string, format: date-time}}
+      responses:
+        '200': {description: Links and both declared directions, content: {application/json: {schema: {$ref: '#/components/schemas/TraceLinkList'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/inventory/partners:
+    get:
+      operationId: listTracePartners
+      tags: [Inventory]
+      x-implementation-status: planned-day-2
+      parameters:
+      - {$ref: '#/components/parameters/TraceCatalogueVersion'}
+      - {name: country, in: query, schema: {type: string, maxLength: 8}}
+      - {name: direction, in: query, schema: {type: string, enum: [in, out]}}
+      responses:
+        '200': {description: Versioned roaming partner inventory, content: {application/json: {schema: {$ref: '#/components/schemas/TracePartnerList'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/kpi-definitions:
+    get:
+      operationId: listTraceKpiDefinitions
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-2
+      parameters:
+      - {name: domain, in: query, schema: {type: string, enum: [volte, transport, roaming, sms, mobile-data]}}
+      responses:
+        '200': {description: Defined metrics and their arithmetic, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/TraceKpiDefinition'}}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/metrics/series:
+    get:
+      operationId: getTraceMetricSeries
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-2
+      parameters:
+      - {$ref: '#/components/parameters/TraceDomain'}
+      - {$ref: '#/components/parameters/TraceMetric'}
+      - {$ref: '#/components/parameters/TraceScopeType'}
+      - {$ref: '#/components/parameters/TraceScopeId'}
+      - {$ref: '#/components/parameters/From'}
+      - {$ref: '#/components/parameters/To'}
+      - {$ref: '#/components/parameters/TraceResolution'}
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      responses:
+        '200': {description: Exact bounded bucket series, content: {application/json: {schema: {$ref: '#/components/schemas/TraceMetricSeries'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/v2/overview:
+    get:
+      operationId: getTraceOverview
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-3
+      parameters:
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      - {$ref: '#/components/parameters/From'}
+      - {$ref: '#/components/parameters/To'}
+      - {$ref: '#/components/parameters/TraceResolution'}
+      responses:
+        '200': {description: Bounded multi-domain overview, content: {application/json: {schema: {$ref: '#/components/schemas/TraceOverview'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/v2/transport/snapshot:
+    get:
+      operationId: getTraceTransportSnapshot
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-3
+      parameters:
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      - {name: at, in: query, required: true, schema: {type: string, format: date-time}}
+      - {name: cityId, in: query, schema: {type: string, maxLength: 32}}
+      responses:
+        '200': {description: Last valid directional transport snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshot'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/v2/roaming/snapshot:
+    get:
+      operationId: getTraceRoamingSnapshot
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-3
+      parameters:
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      - {name: at, in: query, required: true, schema: {type: string, format: date-time}}
+      - {name: direction, in: query, required: true, schema: {type: string, enum: [in, out]}}
+      - {name: country, in: query, schema: {type: string, maxLength: 8}}
+      responses:
+        '200': {description: Last valid roaming snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshot'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/v2/exports/metrics.csv:
+    get:
+      operationId: exportTraceMetricCsv
+      tags: [Trace Export]
+      x-implementation-status: planned-day-4
+      parameters:
+      - {$ref: '#/components/parameters/TraceDomain'}
+      - {$ref: '#/components/parameters/TraceMetric'}
+      - {$ref: '#/components/parameters/TraceScopeType'}
+      - {$ref: '#/components/parameters/TraceScopeId'}
+      - {$ref: '#/components/parameters/From'}
+      - {$ref: '#/components/parameters/To'}
+      - {$ref: '#/components/parameters/TraceResolution'}
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      responses:
+        '200': {description: Exact buckets with primitive aggregates and provenance, content: {text/csv: {schema: {type: string}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/notifications:
+    get:
+      operationId: listNotifications
+      tags: [Notifications]
+      x-implementation-status: planned-day-3
+      parameters:
+      - {$ref: '#/components/parameters/Page'}
+      - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {description: Recipient-scoped history and unread count, content: {application/json: {schema: {$ref: '#/components/schemas/NotificationPage'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/notifications/{id}/read:
+    post:
+      operationId: markNotificationRead
+      tags: [Notifications]
+      x-implementation-status: planned-day-3
+      security: [{sessionCookie: [], csrfToken: []}]
+      parameters:
+      - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '204': {description: "Marked read, including a repeated request"}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/notifications/push/config:
+    get:
+      operationId: getNotificationPushConfig
+      tags: [Notifications]
+      x-implementation-status: planned-day-4
+      responses:
+        '200': {description: Public configuration only, content: {application/json: {schema: {$ref: '#/components/schemas/PushConfig'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/notifications/push-subscriptions:
+    post:
+      operationId: upsertPushSubscription
+      tags: [Notifications]
+      x-implementation-status: planned-day-4
+      security: [{sessionCookie: [], csrfToken: []}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/PushSubscriptionInput'}}}}
+      responses:
+        '201': {description: Current analyst subscription stored}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/notifications/push-subscriptions/{id}:
+    delete:
+      operationId: deletePushSubscription
+      tags: [Notifications]
+      x-implementation-status: planned-day-4
+      security: [{sessionCookie: [], csrfToken: []}]
+      parameters:
+      - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '204': {description: Removed current analyst subscription}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
 components:
   securitySchemes:
     sessionCookie:
@@ -916,6 +1100,41 @@ components:
         type: string
         format: date-time
       description: Exclusive end instant. Must be later than from.
+    TraceCatalogueVersion:
+      name: catalogueVersion
+      in: query
+      schema: {type: string, maxLength: 128}
+      description: Omit for active inventory; provide a recorded version for historical evidence.
+    TraceDomain:
+      name: domain
+      in: query
+      required: true
+      schema: {type: string, enum: [volte, transport, roaming, sms, mobile-data]}
+    TraceMetric:
+      name: metric
+      in: query
+      required: true
+      schema: {type: string, maxLength: 96}
+    TraceScopeType:
+      name: scopeType
+      in: query
+      required: true
+      schema: {type: string, enum: [CITY, LINK_DIRECTION, PARTNER_DIRECTION]}
+    TraceScopeId:
+      name: scopeId
+      in: query
+      required: true
+      schema: {type: string, maxLength: 96}
+    TraceResolution:
+      name: resolution
+      in: query
+      required: true
+      schema: {type: string, enum: [5m, 15m, 1h, 6h]}
+    TraceDatasetId:
+      name: datasetId
+      in: query
+      required: true
+      schema: {type: string, maxLength: 128}
   responses:
     BadRequest:
       description: Malformed input, an invalid range or invalid request identifier.
@@ -2291,3 +2510,185 @@ components:
           type: integer
           minimum: 1
           maximum: 100
+    TraceCityList:
+      type: object
+      required: [catalogueVersion, cities]
+      properties:
+        catalogueVersion: {type: string}
+        cities: {type: array, items: {$ref: '#/components/schemas/TraceCity'}}
+    TraceCity:
+      type: object
+      required: [id, name, latitude, longitude, demandShare, active, validFrom, validTo, synthetic]
+      properties:
+        id: {type: string}
+        name: {type: string}
+        latitude: {type: number}
+        longitude: {type: number}
+        demandShare: {type: number, minimum: 0, maximum: 1}
+        active: {type: boolean}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time, nullable: true}
+        synthetic: {type: boolean}
+    TraceLinkList:
+      type: object
+      required: [catalogueVersion, links]
+      properties:
+        catalogueVersion: {type: string}
+        links: {type: array, items: {$ref: '#/components/schemas/TraceLink'}}
+    TraceLink:
+      type: object
+      required: [id, endpointA, endpointB, linkType, nominalCapacityGbps, active, validFrom, validTo, directions, synthetic]
+      properties:
+        id: {type: string}
+        endpointA: {type: string}
+        endpointB: {type: string}
+        linkType: {type: string}
+        nominalCapacityGbps: {type: number, minimum: 0, exclusiveMinimum: true}
+        active: {type: boolean}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time, nullable: true}
+        synthetic: {type: boolean}
+        directions: {type: array, items: {$ref: '#/components/schemas/TraceLinkDirection'}}
+    TraceLinkDirection:
+      type: object
+      required: [id, effectiveCapacityGbps, capacityValidFrom, capacityValidTo, measurementSource]
+      properties:
+        id: {type: string, enum: [a-to-b, b-to-a]}
+        sourceInterface: {type: string, nullable: true}
+        destinationInterface: {type: string, nullable: true}
+        effectiveCapacityGbps: {type: number, minimum: 0, exclusiveMinimum: true}
+        capacityValidFrom: {type: string, format: date-time}
+        capacityValidTo: {type: string, format: date-time, nullable: true}
+        measurementSource: {type: string}
+    TracePartnerList:
+      type: object
+      required: [catalogueVersion, partners]
+      properties:
+        catalogueVersion: {type: string}
+        partners: {type: array, items: {$ref: '#/components/schemas/TracePartner'}}
+    TracePartner:
+      type: object
+      required: [id, country, direction, active, validFrom, validTo, synthetic]
+      properties:
+        id: {type: string}
+        country: {type: string}
+        direction: {type: string, enum: [in, out]}
+        active: {type: boolean}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time, nullable: true}
+        synthetic: {type: boolean}
+    TraceKpiDefinition:
+      type: object
+      required: [domain, metric, unit, aggregation, population, policyVersion]
+      properties:
+        domain: {type: string}
+        metric: {type: string}
+        unit: {type: string}
+        aggregation: {type: string, enum: [COUNT_SUM, RATIO_OF_SUMS, WEIGHTED_MEAN, TIME_WEIGHTED_MEAN, HISTOGRAM_P95, SNAPSHOT_LAST, STATE_TIMELINE]}
+        population: {type: string}
+        policyVersion: {type: string}
+    TraceMetricSeries:
+      type: object
+      required: [datasetId, domain, metric, scopeType, scopeId, resolution, requestedFrom, requestedTo, effectiveFrom, effectiveTo, partialStart, partialEnd, sourceResolutionSeconds, unit, aggregation, synthetic, points]
+      properties:
+        datasetId: {type: string}
+        domain: {type: string}
+        metric: {type: string}
+        scopeType: {type: string}
+        scopeId: {type: string}
+        resolution: {type: string}
+        requestedFrom: {type: string, format: date-time}
+        requestedTo: {type: string, format: date-time}
+        effectiveFrom: {type: string, format: date-time}
+        effectiveTo: {type: string, format: date-time}
+        partialStart: {type: boolean}
+        partialEnd: {type: boolean}
+        sourceResolutionSeconds: {type: integer}
+        unit: {type: string}
+        aggregation: {type: string}
+        policyVersion: {type: string, nullable: true}
+        topologyVersion: {type: string, nullable: true}
+        synthetic: {type: boolean}
+        nextCursor: {type: string, nullable: true}
+        points: {type: array, items: {$ref: '#/components/schemas/TraceMetricPoint'}}
+    TraceMetricPoint:
+      type: object
+      required: [from, to, value, coverage, quality, numerator, denominator, sumValue, sampleCount]
+      properties:
+        from: {type: string, format: date-time}
+        to: {type: string, format: date-time}
+        value: {type: number, nullable: true}
+        coverage: {type: number, minimum: 0, maximum: 1}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE]}
+        numerator: {type: number, nullable: true}
+        denominator: {type: number, nullable: true}
+        sumValue: {type: number, nullable: true}
+        sampleCount: {type: integer, format: int64, nullable: true}
+    TraceOverview:
+      type: object
+      required: [datasetId, requestedFrom, requestedTo, resolution, synthetic, summaries]
+      properties:
+        datasetId: {type: string}
+        requestedFrom: {type: string, format: date-time}
+        requestedTo: {type: string, format: date-time}
+        resolution: {type: string, enum: [5m, 15m, 1h, 6h]}
+        synthetic: {type: boolean}
+        summaries: {type: array, items: {$ref: '#/components/schemas/TraceSnapshot'}}
+    TraceSnapshot:
+      type: object
+      required: [datasetId, domain, scopeType, scopeId, at, snapshotAt, sourceAgeSeconds, value, unit, coverage, quality, policyVersion, topologyVersion, synthetic]
+      properties:
+        datasetId: {type: string}
+        domain: {type: string}
+        scopeType: {type: string}
+        scopeId: {type: string}
+        at: {type: string, format: date-time}
+        snapshotAt: {type: string, format: date-time, nullable: true}
+        sourceAgeSeconds: {type: integer, format: int64, nullable: true}
+        value: {type: number, nullable: true}
+        unit: {type: string}
+        coverage: {type: number, minimum: 0, maximum: 1}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE]}
+        policyVersion: {type: string, nullable: true}
+        topologyVersion: {type: string, nullable: true}
+        synthetic: {type: boolean}
+    NotificationPage:
+      type: object
+      required: [items, total, unreadCount, page, size]
+      properties:
+        items: {type: array, items: {$ref: '#/components/schemas/NotificationItem'}}
+        total: {type: integer, format: int64}
+        unreadCount: {type: integer, format: int64}
+        page: {type: integer}
+        size: {type: integer}
+    NotificationItem:
+      type: object
+      required: [id, incidentId, kind, severity, service, scopeId, summary, occurredAt, readAt, causeStatus, probableCause, causeConfidence, incidentUrl]
+      properties:
+        id: {type: string, format: uuid}
+        incidentId: {type: string, format: uuid}
+        kind: {type: string, enum: [OPEN, ESCALATED, RECOVERED, ASSIGNED]}
+        severity: {type: string, enum: [MEDIUM, HIGH, CRITICAL]}
+        service: {type: string}
+        scopeId: {type: string}
+        summary: {type: string, maxLength: 500}
+        occurredAt: {type: string, format: date-time}
+        readAt: {type: string, format: date-time, nullable: true}
+        causeStatus: {type: string, enum: [HYPOTHESIS, UNDETERMINED]}
+        probableCause: {type: string, nullable: true}
+        causeConfidence: {type: string, nullable: true}
+        incidentUrl: {type: string, pattern: '^/incidents/[0-9a-f-]+$'}
+    PushConfig:
+      type: object
+      required: [enabled, vapidPublicKey]
+      properties:
+        enabled: {type: boolean}
+        vapidPublicKey: {type: string, nullable: true}
+    PushSubscriptionInput:
+      type: object
+      required: [endpoint, p256dh, auth]
+      properties:
+        endpoint: {type: string, format: uri, maxLength: 2048}
+        p256dh: {type: string, maxLength: 256}
+        auth: {type: string, maxLength: 256}
+        expirationTime: {type: string, format: date-time, nullable: true}
