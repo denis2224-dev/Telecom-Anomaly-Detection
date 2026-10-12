@@ -1,0 +1,23 @@
+{
+  "type": "TRANSPORT_LINK_OVERLOAD",
+  "version": "trace-link-scenarios-v1",
+  "seed": 42,
+  "start": "2026-10-13T09:00:00Z",
+  "scope": {
+    "domain": "TRANSPORT",
+    "id": "chi-hin",
+    "direction": "a-to-b",
+    "country": null,
+    "procedure": null,
+    "topologyVersion": "trace-link-links-v1"
+  },
+  "parameters": {
+    "normalUtilizationBp": 5000,
+    "degradedUtilizationBp": 9800,
+    "capacityGbps": 20,
+    "attempts": 1000,
+    "healthySuccessBp": 9900,
+    "degradedSuccessBp": 7000,
+    "missingMinutes": []
+  }
+}
