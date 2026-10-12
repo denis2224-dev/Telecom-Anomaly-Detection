@@ -127,4 +127,30 @@ class TraceLinkWindowAdapterTest {
             Files.deleteIfExists(file);
         }
     }
+
+    @Test void integratedNativeWindowsRetainExactOriginalPopulationAndProducerDigest() throws Exception {
+        var adapter = new TraceLinkWindowAdapter();
+        var originals = fixture("day3-source-observations.json").path("observations");
+        int windows = 0;
+        for (var row : fixture("day3-persisted-windows.json").path("windows")) {
+            var saved = row.path("input");
+            var context = adapter.context(saved);
+            for (var evidence : context.path("evidence")) {
+                if (!evidence.path("provenance").path("origin").asText().equals("NATIVE_OBSERVATION")) continue;
+                JsonNode original = null;
+                for (var source : originals) if (source.path("observation").path("measurementId").equals(evidence.path("measurementId"))) {
+                    original = source; break;
+                }
+                assertNotNull(original, evidence.path("measurementId").asText());
+                assertEquals(original.path("sha256"), evidence.path("provenance").path("sourceChecksum"));
+                for (String name : new String[]{"scope", "window", "metricId", "primitives"})
+                    assertEquals(original.path("observation").path(name), evidence.path(name), name);
+                assertEquals(original.path("observation").path("observedAt"), evidence.path("freshness").path("observedAt"));
+            }
+            for (var result : adapter.evaluate(context)) adapter.cause(context, result, saved);
+            assertEquals(saved.path("context"), context);
+            windows++;
+        }
+        assertEquals(24, windows);
+    }
 }
