@@ -46,6 +46,7 @@
           <include>**/DetectionReplayIT.java</include>
           <include>**/DependencyOutageIT.java</include>
           <include>**/TraceLinkDatasetBootstrapIT.java</include>
+          <include>**/TraceLinkProjectionIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

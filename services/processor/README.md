@@ -12,5 +12,13 @@ for startup, retry, progress queries, provenance limits and integration tests.
 
 The source catalogue is `CONTRACT_ONLY`. The job does not activate inventory,
 publish metric projections, or claim authenticated API/UI acceptance. Migrations
-V014–V015 are implemented; V016 remains reserved in the
+V014–V016 are implemented; consumer activation remains gated in the
 [migration ledger](../../docs/architecture/trace-link-migration-ledger.md).
+
+## Native Trace Link primitive projection
+
+Use [the producer projection runbook](../../docs/runbooks/trace-link-primitive-projection.md)
+for the explicit `TRACE_LINK_PROJECTION_MODE` tool. V016 projects only dictionary
+`VOLTE / volte.setup.success` from completed immutable native imports, preserves
+unknown source quality, and holds delivery intent pending Denis's consumer
+agreement. The tool has no Kafka publisher or public API.
