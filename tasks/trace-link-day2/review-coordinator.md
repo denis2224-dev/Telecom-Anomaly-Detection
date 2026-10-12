@@ -68,3 +68,21 @@ reviewed source or, for the commit pin, by the explicitly required final commit
 and reproduction. Algorithm integration has no additional blocking finding.
 This review does not claim that the in-progress broad run includes source
 changes made after its compilation, and does not replace the final test result.
+
+## Final acceptance — 12 October 2026
+
+An independent publication reviewer approved the final evidence for implementation
+`26bbb1e5ff4b5cba77b4d704306289a7ed3561ad`: 105 source hashes, 12 artifact hashes,
+two policy hashes, all 14 frozen V2/model hashes, both history-build hashes,
+transcript hashes, fresh export modification times and fresh Surefire totals
+were checked. The complete committed-source result is GREEN: 130 root Python,
+64 ML Python, and 1,201 Java tests with zero errors/failures and four disclosed
+environment-dependent skips. The eight Trace Link suites ran 38 tests without
+skips. Exactly 58 rule and 60 cause fixture IDs were published.
+
+The user interruption occurred after full verification, parity and the first
+history build. Only the second build, hash comparison and publication were resumed;
+the manifest documents those execution boundaries and pins unchanged source.
+The initial readiness failure remained unreproduced, and the pool-refill race
+explanation remains a hypothesis. Fixture hardening preserved all assertions and
+deadlines and passed both isolated and broad runs. No blocking finding remains.

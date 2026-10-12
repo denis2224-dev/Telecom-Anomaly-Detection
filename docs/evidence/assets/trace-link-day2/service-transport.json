@@ -1,0 +1,130 @@
+{
+  "schemaVersion" : "trace-link-service-transport-evidence-v1",
+  "results" : [ {
+    "schemaVersion" : "trace-link-rule-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "TRANSPORT",
+    "scope" : {
+      "type" : "LINK_DIRECTION",
+      "id" : "chi-hin:a-to-b",
+      "cityIds" : [ "CHI", "HIN" ],
+      "directionId" : "a-to-b",
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-domain-rules-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "anomalyKind" : "TRANSPORT_SERVICE_MOBILE_DATA_DNS",
+    "verdict" : "BREACH",
+    "reason" : "MAPPED_SERVICE_BREACH",
+    "overloadCandidate" : true,
+    "anomalyRank" : null,
+    "severity" : "HIGH",
+    "evidenceIds" : [ "hand-mobileData.dns.success", "hand-transport.link.utilization", "hand-effective-capacity" ],
+    "baselineDeviation" : -2.0,
+    "serviceScope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    }
+  }, {
+    "schemaVersion" : "trace-link-rule-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "TRANSPORT",
+    "scope" : {
+      "type" : "LINK_DIRECTION",
+      "id" : "chi-hin:a-to-b",
+      "cityIds" : [ "CHI", "HIN" ],
+      "directionId" : "a-to-b",
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835-next",
+      "from" : "2026-10-10T08:40:00Z",
+      "to" : "2026-10-10T08:45:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "evaluatedAt" : "2026-10-10T08:45:01Z",
+    "policyVersion" : "trace-link-domain-rules-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "anomalyKind" : "TRANSPORT_SERVICE_MOBILE_DATA_DNS",
+    "verdict" : "BREACH",
+    "reason" : "MAPPED_SERVICE_BREACH",
+    "overloadCandidate" : true,
+    "anomalyRank" : null,
+    "severity" : "HIGH",
+    "evidenceIds" : [ "hand-mobileData.dns.success-next", "hand-transport.link.utilization-next", "hand-effective-capacity-next" ],
+    "baselineDeviation" : -2.0,
+    "serviceScope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    }
+  }, {
+    "schemaVersion" : "trace-link-rule-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "TRANSPORT",
+    "scope" : {
+      "type" : "LINK_DIRECTION",
+      "id" : "chi-hin:a-to-b",
+      "cityIds" : [ "CHI", "HIN" ],
+      "directionId" : "a-to-b",
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-domain-rules-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "anomalyKind" : "TRANSPORT_SERVICE_MOBILE_DATA_DNS",
+    "verdict" : "HEALTHY",
+    "reason" : "MAPPED_SERVICE_HEALTHY",
+    "overloadCandidate" : true,
+    "anomalyRank" : null,
+    "severity" : null,
+    "evidenceIds" : [ "hand-mobileData.dns.success", "hand-transport.link.utilization", "hand-effective-capacity" ],
+    "baselineDeviation" : 0.0,
+    "serviceScope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    }
+  } ]
+}

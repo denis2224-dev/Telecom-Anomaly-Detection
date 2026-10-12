@@ -1,0 +1,878 @@
+{
+  "activation": "OFFLINE_ONLY",
+  "artifacts": {
+    "cause-controls.json": "df0ab39aed7a2793395739129f5071fd9e84262de7e9b3d89322701390bfdf5b",
+    "domain-rules.json": "22653d78a03cfc8cd2b295eb6013041a520ee0d277b75403b5e842d3de9e81f1",
+    "fixture-matrix.json": "649cd5e604d8764ca8d736f95614b3e96d86b0a15b3793fd96b15d95cf110ee5",
+    "frozen-hashes.json": "413ee43d18ba7d01b7a56e8a4bf828e54a5b52bd4b05df74f105f7ed8beb6103",
+    "history-fit-report.json": "df6b0054e182a7e0eb36373c52d643e12c4a06cb05c7096bdd687012647184d0",
+    "integrated.json": "12820afd501ccf821e42e996543b26f88e19e603e613fe5e6efb55bceed301d0",
+    "lifecycle.json": "1d7dca4e33bbeaa014edb9e70635fe840d736f6d9782efd231f04df07d1d30c7",
+    "loaded-fallbacks.json": "3bf4c404f87a2b79f779c8769cecfcdac6e5f50a3034710d278793a20c4ae490",
+    "reference-eligibility.json": "d23a5338d4ea81cba1008fd6af94768638c3ff6ebfe88acd391b66452cc63a5a",
+    "seasonal-baseline.json.gz": "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+    "service-transport.json": "ab9e9498c59cd08fb1c0339a22d2f13749c76c8b3abc01542847eadb95adde88",
+    "verification-history.json": "baae0291607745b7ff8f9ebc10f824b8f86ed86ceffdcdc089e5d8b4c7ba6382"
+  },
+  "causeFixtures": 60,
+  "commands": [
+    ".\\.venv\\Scripts\\python.exe scripts/check-contracts.py",
+    ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -v",
+    ".\\.venv\\Scripts\\python.exe -m unittest discover -s services/ml-service/tests -v",
+    ".\\mvnw.cmd -pl services/processor -am --batch-mode --no-transfer-progress verify",
+    "scripts/verify-trace-link-day1.ps1 -Python <python> -JavaHome <JDK21> -ReferenceRoot <reference>",
+    "scripts/trace_link_history_baseline.py --reference-root <reference> --output <build-N.json.gz> --report <history-N.json> (N=1,2)",
+    "scripts/publish_trace_link_day2.py --run tmp/trace-link-day2/reproduction/run.json"
+  ],
+  "domainFixtures": 58,
+  "implementationRevision": "26bbb1e5ff4b5cba77b4d704306289a7ed3561ad",
+  "integrationRevision": "99adf9ed32fc80d4bf798789d258a31e588625b0",
+  "javaSkippedTests": [
+    {
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist",
+      "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+      "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)"
+    },
+    {
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode(SmsDeliveryTest.java:80)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/j",
+      "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredSmsEpisode"
+    },
+    {
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist",
+      "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents"
+    },
+    {
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode(VoiceDeliveryTest.java:66)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.",
+      "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredVoiceEpisode"
+    }
+  ],
+  "javaSuites": [
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.observation.CoverageContractTest",
+      "skipped": "0",
+      "tests": "36"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.observation.GeographyCatalogTest",
+      "skipped": "0",
+      "tests": "15"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.observation.ObservationValidatorTest",
+      "skipped": "0",
+      "tests": "30"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.observation.TopologyCatalogTest",
+      "skipped": "0",
+      "tests": "30"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+      "skipped": "0",
+      "tests": "29"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.CityVoiceSeedTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+      "skipped": "0",
+      "tests": "15"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "skipped": "0",
+      "tests": "17"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.HealthProbeTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+      "skipped": "0",
+      "tests": "14"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.generator.VoiceScenarioTest",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.BaselineRegistryTest",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.DependencyOutageIT",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+      "skipped": "0",
+      "tests": "14"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.detection.TraceLinkDomainRulesTest",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.detection.TraceLinkInputsTest",
+      "skipped": "0",
+      "tests": "8"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.detection.TraceLinkServiceTransportTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.DetectionMigrationTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.DetectionReplayIT",
+      "skipped": "0",
+      "tests": "16"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.EpisodeStateTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.ExplanationCasesTest",
+      "skipped": "0",
+      "tests": "64"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.FinalizerRaceIT",
+      "skipped": "0",
+      "tests": "11"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+      "skipped": "0",
+      "tests": "80"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicDetectionTest",
+      "skipped": "1",
+      "tests": "26"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicDetectorAcceptanceTest",
+      "skipped": "0",
+      "tests": "101"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicEvidenceIsolationTest",
+      "skipped": "0",
+      "tests": "20"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicExplanationTest",
+      "skipped": "0",
+      "tests": "121"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+      "skipped": "0",
+      "tests": "6"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+      "skipped": "0",
+      "tests": "8"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+      "skipped": "0",
+      "tests": "25"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicParityTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicReplayTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+      "skipped": "0",
+      "tests": "14"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest",
+      "skipped": "0",
+      "tests": "6"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.GeographicWorkerTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.HealthProbeTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+      "skipped": "0",
+      "tests": "15"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+      "skipped": "0",
+      "tests": "8"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+      "skipped": "0",
+      "tests": "28"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+      "skipped": "0",
+      "tests": "14"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+      "skipped": "0",
+      "tests": "30"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.Day5GeographicParityTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "skipped": "0",
+      "tests": "23"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+      "skipped": "0",
+      "tests": "7"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "skipped": "1",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "skipped": "1",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkArithmeticTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "skipped": "1",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+      "skipped": "0",
+      "tests": "18"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.LateInputIT",
+      "skipped": "0",
+      "tests": "20"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.MlClientTest",
+      "skipped": "0",
+      "tests": "6"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.ObservationInputTest",
+      "skipped": "0",
+      "tests": "26"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+      "skipped": "0",
+      "tests": "5"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+      "skipped": "0",
+      "tests": "16"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.ReplayIT",
+      "skipped": "0",
+      "tests": "7"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.RetentionJobTest",
+      "skipped": "0",
+      "tests": "31"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.SmsEpisodeTest",
+      "skipped": "0",
+      "tests": "3"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.SmsRuleTest",
+      "skipped": "0",
+      "tests": "12"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.SmsShadowClientTest",
+      "skipped": "0",
+      "tests": "2"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.StreamingMetricsTest",
+      "skipped": "0",
+      "tests": "20"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+      "skipped": "0",
+      "tests": "13"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+      "skipped": "0",
+      "tests": "30"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.TraceLinkSeasonalBaselineTest",
+      "skipped": "0",
+      "tests": "8"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+      "skipped": "0",
+      "tests": "1"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+      "skipped": "0",
+      "tests": "4"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.VoiceRuleTest",
+      "skipped": "0",
+      "tests": "7"
+    },
+    {
+      "errors": "0",
+      "failures": "0",
+      "name": "md.utm.telecom.processing.WindowBoundaryTest",
+      "skipped": "0",
+      "tests": "14"
+    }
+  ],
+  "javaTests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 4,
+    "tests": 1201
+  },
+  "limitations": [
+    "Synthetic reference data and hand-calculated target populations",
+    "Historical source freshness remains UNKNOWN",
+    "No live worker, persisted windows, Kafka or incident-service registration",
+    "Reference EPS, post-activation DNS, packet-loss and mean-RTT populations unavailable",
+    "Reference eligibility export is a negative eligibility fixture, not a claim of fresh source measurements"
+  ],
+  "policies": {
+    "contracts/baselines/trace-link-baseline-policy-v1.json": "25ab91191c497fc62c5c6cbd3664509a45940bae86cd3db838322e3ee9d6fb35",
+    "contracts/policies/trace-link-domain-rules-v1.json": "c126af303fdc23cbdf203696d922847ee134f075dd63842c443d63a930fd1231"
+  },
+  "run": {
+    "day1TranscriptSha256": "6958cdc75909378ec9f4bb1ee66277f4fabf1c82e533a05fd1dd2661de3ea56c",
+    "executionNotes": [
+      "User interruption ended the original execution after Day 1 verification, Java/Python baseline parity and the first history build.",
+      "Unchanged committed implementation; resumed only the second history build, hash checks and publication.",
+      "Original startedAt recovered from outer transcript creation time, before all verification output; original script variable was not persisted."
+    ],
+    "exitCode": 0,
+    "finishedAt": "2026-10-12T13:05:25.1613279Z",
+    "historyBuildSha256s": [
+      "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+      "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87"
+    ],
+    "historyBuilds": 2,
+    "javaHome": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\jdk21-sergiu-days7-8\\jdk-21.0.12.1+1",
+    "originalTranscriptSha256": "bd5602cbaf22724f2873421fb364fa348c01fb9a5e82029be3ad9325ad263c4e",
+    "publishedArtifactSha256": "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+    "python": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\.venv\\Scripts\\python.exe",
+    "pythonTests": {
+      "ml": 64,
+      "root": 130
+    },
+    "referenceRoot": "D:\\Univer\\Anul2\\Orange_intership\\project\\Trace_Link_Integration_Pack",
+    "resumedAt": "2026-10-12T13:03:03.4404522Z",
+    "startedAt": "2026-10-12T08:05:35.6474381Z"
+  },
+  "runtimes": {
+    "dockerServer": "29.5.2",
+    "java": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)\nOpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)",
+    "node": "v24.13.1",
+    "postgresImage": "postgres:16.4-alpine",
+    "python": "3.13.9 (tags/v3.13.9:8183fa5, Oct 14 2025, 14:09:13) [MSC v.1944 64 bit (AMD64)]",
+    "tzdata": "2026.2"
+  },
+  "schemaVersion": "trace-link-day2-evidence-v1",
+  "sourceHashes": {
+    "contracts/auxiliary/auxiliary-network-evidence-v1.schema.json": "c6649f706fe80ccb42f799574094d25ccc9580831447ec86c078eaf45cb8cb92",
+    "contracts/baselines/baseline-catalogue-v2.schema.json": "30f5d415ebedda1fd8c8df2d1ec19aa60abfe0033eac298f02078acaa61ff89f",
+    "contracts/baselines/demo-baseline-v2.json": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
+    "contracts/baselines/geographic-peer-baseline-v2.json": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+    "contracts/baselines/trace-link-baseline-policy-v1.json": "25ab91191c497fc62c5c6cbd3664509a45940bae86cd3db838322e3ee9d6fb35",
+    "contracts/baselines/trace-link-baseline-policy-v1.schema.json": "85669b250f6873bb108b1cda613821a221f49c4a786945b57f34105b8e5aa6fe",
+    "contracts/baselines/trace-link-seasonal-baseline-v1.schema.json": "93cc74ec435130fe71812f551b81f69a7815778c07bdc67d85d4dea7eabe5038",
+    "contracts/coverage/scope-window-coverage-v1.schema.json": "67bd4240a8e7e00037f753f5867eb5d6b7b1874f73f7014cc604bcfa2c168866",
+    "contracts/detections/service-detection-v2.schema.json": "20c6bd9664174011fa79653cac8a883394b5713e929286f86a9cfbc04395f679",
+    "contracts/detections/trace-link-evaluation-v1.schema.json": "3e3afa204a7e85fad419acf60b906335e93703ab5b69d39b8b0218cd40abdfa7",
+    "contracts/detections/trace-link-rule-result-v1.schema.json": "219dfa65c27b2f629742bafdb19c54ef5b07768938baa99dbe8c5790aa3b2610",
+    "contracts/evidence/trace-link-evidence-v1.schema.json": "9c6f0e4d9c8d5a2f3c3627c065666c6d8afd4be2d5e20835cc0b0f9308e05ef8",
+    "contracts/explanations/geographic-cause-projection-v1.schema.json": "edccf2245f2d0addeb00f5aa54b187d0bad62b9e51f0e38691307d93ff6cfc36",
+    "contracts/explanations/trace-link-cause-input-v1.schema.json": "7ea307b615f0590d4755437bee5c9b3866a6ee2ad02e548685439d8bfc3e8eab",
+    "contracts/explanations/trace-link-cause-result-v1.schema.json": "53b6faa72032d499c9a1c62a44f3de1bb3f5b2a5bd2782533ffb80aba694b7ae",
+    "contracts/features/feature-order-v2.json": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+    "contracts/features/service-feature-window-v2.schema.json": "42031742005596f3fd2989986d933cf6f7463980375e847f0fe7588e7feb9f8d",
+    "contracts/fixtures/coverage/coverage-cases-v1.json": "9d2eb47d54e3e4e7bb2e344aec3ce24fe80ac53376178d5061debd7f2efd9e1f",
+    "contracts/fixtures/detections/service-explanation-cases.json": "0f0774a873c9e46397930b56cbde3fa1a513d078ad94a194dcca0feefcebfb66",
+    "contracts/fixtures/detections/voice-open-illustrative-v2.json": "49704997c9058033b928680cfd7c8fe472eb16db285605f828757619951059ad",
+    "contracts/fixtures/features/geographic-parity-v2.json": "afbeea21622f09fa52f99e30e706295e2f107289756c48e17f23d4a4ed46dcd8",
+    "contracts/fixtures/features/parity-v2.json": "ebe3e323577286b965d0e2ff88500189dee627d74948c04781aa9a4aa78ef7a2",
+    "contracts/fixtures/features/sms-parity-v2.json": "5a55f356d4dc868acb8ca7551cee3ef5408e7ba020bb71342b8d2b7cb4b7bf56",
+    "contracts/fixtures/features/voice-parity-v2.json": "efc8bc0a4bcabaf636d06a2451a3880600547544722388620c5932d9cb4f619f",
+    "contracts/fixtures/features/voice-worked-v2.json": "63113033de7f4739ea7124615b7d4b0660866ec74dae778d9380dec1db2ad183",
+    "contracts/fixtures/geography/auxiliary-evidence-cases-v1.json": "f2185f9dc4336a15f7da9094d5d706a52a99496d3a20ad09e59a220cdbf31884",
+    "contracts/fixtures/geography/cause-projection-cases-v1.json": "df235705105f1ea913f074bab744cf1e6d166c6c9972fb48b025577c95408d96",
+    "contracts/fixtures/geography/city-detail-unknown.json": "883a8d6962a4a14122206a12b227116505ae66629a6f5af6a7b1fa60e79490dc",
+    "contracts/fixtures/geography/complete-city-observations-v1.json": "78d96fbfdbb3ccaa104c2d7591822defd82f7a48dd4e2c632a133f157d95d0f6",
+    "contracts/fixtures/geography/day3-queue-display-cases.json": "f8ddffc61ac75d4bdb64ebe8e1b13a2294c3821606accf9973492d6a1f049b8f",
+    "contracts/fixtures/geography/day4-auxiliary-boundary-cases.json": "e92015cc2ef82c53e3fab2f3921f1a72f62f987d20751632aaee2d0fd6421670",
+    "contracts/fixtures/geography/invalid-catalogue-cases-v1.json": "19fee89f4db3bb71bc46eab80908a0bf2638b5d28783e0f938f820ac94205b2b",
+    "contracts/fixtures/geography/numeric-cases-v1.json": "a33eb6fa1925627fc66f02c618982f245b995860bb371bc70387a3d32ac964c8",
+    "contracts/fixtures/geography/ten-city-scope-pairs.json": "1cfa96d8f6e4c517a250b339d5137f4953d9d38228b1234dd62a302536971a52",
+    "contracts/fixtures/identity/analyst.json": "4a6c9077ce17af5d66fcd0e2abe595644bfa12321773be3c63417f64103a766e",
+    "contracts/fixtures/incidents/incident-open.json": "d46dca6b6427a9ecfe6bead4240fea03582c65818e47804b133b7287d708f967",
+    "contracts/fixtures/incidents/incident-recovered.json": "55b0c09aabd1b43902232e156d679bf8c7766a2329287e65076be598ed9bfaab",
+    "contracts/fixtures/incidents/incident-unknown.json": "cc41bcf72c502391b45b4357d219367b296eff629533b480b4055cda90c5ab95",
+    "contracts/fixtures/ml-shadow/sms-healthy-v1.json": "5b788d428534980246246d1735ac3da769f33cacbe3ab968b35f7a4067fb574d",
+    "contracts/fixtures/observations/degraded-ims.json": "f3be2d712acfe67ceb392a48465593d57e5fc0c289fba3c0b76ac17ffe28a8df",
+    "contracts/fixtures/observations/degraded-sms.json": "5c3b1a41842d976d57b6c0a2f9ac2c7554b7c135a64fb87f00cff380d0d993ef",
+    "contracts/fixtures/observations/degraded-smsc.json": "d60ae87290fbcfc732db3ff5373a849d33ce1c58658c3b993af9042756d32d91",
+    "contracts/fixtures/observations/degraded-volte.json": "1862fa401d84c9fe06ea62fd365dd41a3211286caf541d2c70a2c80137f93137",
+    "contracts/fixtures/observations/heartbeat.json": "f2e659af7c9acdd1f0c9ede2207465813b6df23b747dfc28a8f279f4471fcbd5",
+    "contracts/fixtures/observations/missing-volte.json": "2d638717bbdf98304647e5a5742e1c92a0e4d470883838f976e5d827a3232e8b",
+    "contracts/fixtures/observations/normal-ims.json": "1f731d17a06a4e2645fd31e0f042c458742db99cc163e529f350b65026950555",
+    "contracts/fixtures/observations/normal-sms-transport.json": "85f128785a86a507d416f68176165cd7f60cd1287889ab7a864956e06ceae161",
+    "contracts/fixtures/observations/normal-sms.json": "4ab6b92e0409e55c16c18e7395786d520b58b21e2a4379c7102d166be42858a6",
+    "contracts/fixtures/observations/normal-smsc.json": "8a1342727644335db41282bf6aae061e2daed552869b547528cd376bd96c0c92",
+    "contracts/fixtures/observations/normal-transport.json": "5e19bb18b8ce3dff92bd636a8bff79608d912bbd310484bfbae7da0779b9431d",
+    "contracts/fixtures/observations/normal-volte.json": "435becf74932fe85ced070772de7b16ddc37645d2ecaf7b9f4f2e8a68a95e596",
+    "contracts/fixtures/observations/sms-no-completions.json": "96259baec368ddfdbd66565fc488642a7038d3c0bdb842c844fde65897ed5ae4",
+    "contracts/fixtures/trace-link/arithmetic-cases.json": "82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd",
+    "contracts/fixtures/trace-link/cause-control-cases.json": "e9a61e0c3778e4809869412ac814d1547f655ee5473403602ccf6fd2ed30d055",
+    "contracts/fixtures/trace-link/detection-cases.json": "0bba791517c19f10f376b896549d8401e54ed05ab1c08179749b8f30e92c84d8",
+    "contracts/fixtures/trace-link/evidence-cases.json": "c09a846a82ea7e61a1357096da8cbadd826cf0bad2fac23ad811f6d27a4b8547",
+    "contracts/fixtures/trace-link/histogram-parity.json": "f8c7b87047b316403e5381e03eee148ac123c6e4b27710798e253a383ce1ada0",
+    "contracts/fixtures/validation/observation-cases-v2.json": "b53b327c9950304fa591656cc89acf16b618484d4f82b313cf582d1e115c533b",
+    "contracts/geography/demo-geography-v1.json": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced",
+    "contracts/geography/geography-catalogue-v1.schema.json": "26ddda289276f10846a5b2011087369bf9593ae0c05a064fe331625fbebc670c",
+    "contracts/identity/analyst-directory.schema.json": "a79b19d367ab154ca89c14c02732834b28c0aef795bebbecad646db3f47b0818",
+    "contracts/kpi/trace-link-kpi-definitions-v1.json": "cc2a473c380888ba26895134ce608483bb4c2b66511d44a4587ffcc6c2d98c77",
+    "contracts/kpi/trace-link-kpi-definitions-v1.schema.json": "3a3a638eec6ddcbb880d3a528f36bf9194abf2549d5f160fb780b56e39aff026",
+    "contracts/ml-shadow/sms-shadow-evidence-v1.schema.json": "9a8ec6f249a7dee095c813839c02e3b5d8448e580a0d2c2310aee2532caf3803",
+    "contracts/observations/telecom-observation-v2.schema.json": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d",
+    "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+    "contracts/policies/service-rules-v2.schema.json": "3fdb4db9fbfd25796b23a0046a4363b7d669e96ec97d3102267b7aed7d97e657",
+    "contracts/policies/trace-link-domain-rules-v1.json": "c126af303fdc23cbdf203696d922847ee134f075dd63842c443d63a930fd1231",
+    "contracts/policies/trace-link-domain-rules-v1.schema.json": "995fdd88052d276001bbefb69afedc274c0401aa94e5a3f1e008394982028a11",
+    "contracts/topology/demo-scopes-v2.json": "6259e98a2081ba93adc5693126a3b14bd3c7bde890d13e1053bca8a8c7320b3c",
+    "contracts/topology/geographic-scopes-v2.json": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+    "requirements-dev.txt": "2ef5a26624571e081ca9cd85408aca935cd1251a1aba88a5d8f40040d40d8f90",
+    "scripts/check-contracts.py": "f402ec0265c4cb293d40b1def4fade07e86b2013acb7ea8d6f1aa158e15f0161",
+    "scripts/publish_trace_link_day2.py": "b4c9388c33c42cbea43e9a144814652bfe57a439047bc238e551ba4f93664a35",
+    "scripts/trace_link_day2_contract.py": "82bea8913d0d6726292559118d42d9ccb5d46c9c8d6484ed6f6311e21131d28b",
+    "scripts/trace_link_history_baseline.py": "f829e6bdf7c95795880dc0717ca58c1cb66a6178c1bfa59877a83799d9a980a8",
+    "scripts/verify-trace-link-day2.ps1": "c3e8630b7da40198fb6c3b96537264bfacaa065b7c5634801f063742b115fce8",
+    "services/processor/pom.xml": "cc70f2ee75ecee8baf47408275c06155d3ffd34da4e2063e3d39a3b2c48d4e04",
+    "services/processor/src/main/java/md/utm/telecom/processing/baseline/SeasonalBaselineEstimator.java": "c29c168053e9dabeb1d6900b4ae0f47607f6f86dd62aaf3f4f178d4c0f0358b9",
+    "services/processor/src/main/java/md/utm/telecom/processing/baseline/TraceLinkBaselineRegistry.java": "4f158f0cf4c85811cc56b89607584190fdbdb42524dc70b6ba681eed9e44b7e8",
+    "services/processor/src/main/java/md/utm/telecom/processing/correlation/TraceLinkCausePolicy.java": "f4ff2b35f652ee21458d84499bda6eeb8ccd1be42850604d5e8c6cd5cbe892c1",
+    "services/processor/src/main/java/md/utm/telecom/processing/correlation/TraceLinkRecoveryPolicy.java": "7213fa875c7f8550bd72ddb58c11332f3a8f205a0c84e3fc4339bb51c491ba22",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/MobileDataRule.java": "330dba2b450dc03cd00b9cbea46feb2e7bcbf748d1aa9768b990dcd62ad3fa2b",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/RoamingRule.java": "7b7e576ed028ce192c21d29b2ab371159f07407fb3a070b6a112c9fd00df542f",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/TraceLinkDomainPolicy.java": "69f28c5f9b7acd070465fc52eed0aefd5f446710b7e688778ce71a8001bf182a",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/TraceLinkInputs.java": "7b3525e1168f3e0b265a30af7626d03f409fdec43a06b42ecd349acdc1cab942",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/TraceLinkRuleSupport.java": "ecaa9f7eec73c5b0d4c976cb5bc083d6dcb4be070242036abd4dffa0275b70b1",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/TransportRule.java": "675b65f1427fb6b589df6ea413f0434e0711284efbdaadd3c9e749efae6b42c8",
+    "services/processor/src/main/java/md/utm/telecom/processing/kpi/TraceLinkArithmetic.java": "39346f632451bf391297eb4ab3c9a0f4f72af0473b57dda0df99b43d7136adca",
+    "services/processor/src/test/java/md/utm/telecom/processing/HealthProbeTest.java": "0d9c77a49cd1c13649ffff3810335d77aeff816f115021e5d667a67271d3cc10",
+    "services/processor/src/test/java/md/utm/telecom/processing/TraceLinkSeasonalBaselineTest.java": "867823d4800f9965f06246bd019eb477b02381b0d0293e2ddf18655530e5b165",
+    "services/processor/src/test/java/md/utm/telecom/processing/correlation/TraceLinkCausePolicyTest.java": "c018fe38a530e5cadb487427dbf4b1d59edfba4609da8f546d0a64930fb90abf",
+    "services/processor/src/test/java/md/utm/telecom/processing/detection/TraceLinkDomainRulesTest.java": "8c401d80409b8b148f8a55db42e581567205466ddf8c203ac131d048c8a058bb",
+    "services/processor/src/test/java/md/utm/telecom/processing/detection/TraceLinkInputsTest.java": "e66f0564923e9c1ae4ef138e7933f54f2a06db2eb62083f97f5f097ee6f73dd1",
+    "services/processor/src/test/java/md/utm/telecom/processing/detection/TraceLinkOfflineIntegrationTest.java": "dd6246616d27a82c3b58e8256111e6ba795820d4716a75845ce1df528b5031f1",
+    "services/processor/src/test/java/md/utm/telecom/processing/detection/TraceLinkRecoveryPolicyTest.java": "35d5cbb964a6e9b4b0523798d8f9a1955e583a18120d5fa7e0f16f271fd71240",
+    "services/processor/src/test/java/md/utm/telecom/processing/detection/TraceLinkServiceTransportTest.java": "b98634879216806a5590539448ab9c4999f315fba949328d856fd18ced807b56",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/TraceLinkArithmeticTest.java": "df6829ab60a9fa3cf8ac4f1e9a5b910dbb561aefb465d28297f2de46f440e0ec",
+    "tests/test_trace_link_cause_contract.py": "780a4c2c6b81b94374a731fddfbce70e5c4019d5253d98e22cb9b7524cf9ea5e",
+    "tests/test_trace_link_contract.py": "55a0ead0b47fe0769c8bcd8b971153a23357b1744784bd6502df4636bc449517",
+    "tests/test_trace_link_day2_contract.py": "d1d25a7e3918518402694a55e106d5a5abd4c523aba9e30781daf06cbb38da30",
+    "tests/test_trace_link_fixture_contract.py": "498b2f3802a1858e94761f8e26f4e64c74536b0c55d04d34aa5274f423a06120",
+    "tests/test_trace_link_history_baseline.py": "006265b05ec8aa884c18b207399750bcee13cb533d8358a5894545af3e93b56d",
+    "tests/test_trace_link_parity.py": "29d0b7ef8ec9258c8ca40160db6c05a35443bcca3fb945edb071c0722869f7b6",
+    "tests/test_trace_link_pins.py": "a859c936a4ab68c29144b2872f73ccf06d80c7087d934908cb402eb7bfb32282"
+  }
+}

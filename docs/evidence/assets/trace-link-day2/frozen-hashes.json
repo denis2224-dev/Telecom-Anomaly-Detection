@@ -1,5 +1,4 @@
 {
-  "integrationSha": "99adf9ed32fc80d4bf798789d258a31e588625b0",
   "files": {
     "contracts/baselines/baseline-catalogue-v2.schema.json": "30f5d415ebedda1fd8c8df2d1ec19aa60abfe0033eac298f02078acaa61ff89f",
     "contracts/baselines/demo-baseline-v2.json": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
@@ -15,5 +14,6 @@
     "services/ml-service/models/VOLTE-calibration.json": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
     "services/ml-service/models/VOLTE.joblib": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd",
     "services/ml-service/models/manifest.json": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711"
-  }
+  },
+  "integrationSha": "99adf9ed32fc80d4bf798789d258a31e588625b0"
 }
