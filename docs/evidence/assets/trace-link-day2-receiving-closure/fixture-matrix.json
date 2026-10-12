@@ -1,0 +1,1570 @@
+{
+  "activation": "OFFLINE_ONLY",
+  "additionalJavaSuites": [
+    "TraceLinkInputsTest",
+    "TraceLinkSeasonalBaselineTest",
+    "TraceLinkRecoveryPolicyTest",
+    "TraceLinkOfflineIntegrationTest",
+    "TraceLinkServiceTransportTest"
+  ],
+  "causes": [
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "transport-supported"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_SYMPTOM",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "transport-healthy-symptom"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_DEPENDENCY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "transport-absent"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "CONTRADICTORY_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "transport-contradictory"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "ROAMING_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "roaming-supported"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_SYMPTOM",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "roaming-healthy-symptom"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_DEPENDENCY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "roaming-absent"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "CONTRADICTORY_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "roaming-contradictory"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "MOBILE_DATA_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mobile_data-supported"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_SYMPTOM",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mobile_data-healthy-symptom"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_DEPENDENCY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mobile_data-absent"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "CONTRADICTORY_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mobile_data-contradictory"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "WRONG_SCOPE_OR_PATH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "city"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "WRONG_SCOPE_OR_PATH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "path"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_TIME_OVERLAP",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "time"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_TIME_OVERLAP",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "touch"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "STALE_EVIDENCE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "stale"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "TOPOLOGY_MISMATCH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "topology"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "SOURCE_NOT_AUTHORIZED",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "source"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_EVENT_TIME_DEPENDENCY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mapping-time"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "INSUFFICIENT_SAMPLES",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "low-count"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BELOW_SUPPORT_THRESHOLD",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "healthy-dependency"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "INVALID_EVIDENCE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "wrong-unit"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "INVALID_EVIDENCE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "truth"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "INVALID_EVIDENCE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "null-actual"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "identical-duplicate"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "AMBIGUOUS_CANDIDATES",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "ambiguous"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "CONFLICTING_DUPLICATE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "conflicting-duplicate"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "MISSING_REQUIRED_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "missing-opposite"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "CONTRADICTORY_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "impaired-opposite"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "freshness-inclusive"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "STALE_EVIDENCE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "freshness-over"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "INVALID_QUALITY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "partial-coverage"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "INVALID_QUALITY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "missing-measurement"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BELOW_SUPPORT_THRESHOLD",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "strict-support-boundary"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "NO_DEPENDENCY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "no-mapping"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "AMBIGUOUS_DEPENDENCY",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "ambiguous-mapping"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "WRONG_EVALUATION_TIME",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "old-evaluation-anchor"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "CONFLICTING_DUPLICATE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "conflicting-evidence-id"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BASELINE_UNAVAILABLE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "missing-rate-baseline"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BASELINE_VERSION_MISMATCH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mismatched-rate-baseline"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BELOW_SUPPORT_THRESHOLD",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "zero-baseline"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BELOW_SUPPORT_THRESHOLD",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "strict-rate-support-boundary"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "MISSING_REQUIRED_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "same-direction-control"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "STALE_EVIDENCE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "fractional-policy-age-over"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "UNSUPPORTED_HYPOTHESIS",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "invented-diagnosis"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "POLICY_VERSION_MISMATCH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "wrong-policy"
+      },
+      "id": "mismatched-symptom-policy"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "INVALID_EVIDENCE",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "baseline-outside-percentage"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "MISSING_REQUIRED_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "disjoint-control-inside-symptom"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mapped-roaming-opposite-present"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "MISSING_REQUIRED_CONTROL",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "mapped-roaming-opposite-absent"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "AMBIGUOUS_CANDIDATES",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "structural-identity-delimiter-control"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "attached-dependency-matching"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "DEPENDENCY_PROVENANCE_MISMATCH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "attached-dependency-wrong-id"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "DEPENDENCY_PROVENANCE_MISMATCH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "attached-dependency-wrong-scope"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "DEPENDENCY_PROVENANCE_MISMATCH",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "attached-dependency-wrong-validity"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BELOW_SUPPORT_THRESHOLD",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "loss-boundary-rounded-above"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "loss-breach-rounded-to-boundary"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": null,
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "UNDETERMINED",
+        "reasonCode": "BELOW_SUPPORT_THRESHOLD",
+        "status": "UNDETERMINED",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "latency-boundary-rounded-above"
+    },
+    {
+      "expected": {
+        "baselineVersion": "trace-link-seasonal-v1",
+        "causeConfidence": "MEDIUM",
+        "policyVersion": "trace-link-cause-v1",
+        "probableCauseCode": "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+        "status": "SUPPORTED_HYPOTHESIS",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1"
+      },
+      "id": "latency-breach-rounded-to-boundary"
+    }
+  ],
+  "rules": [
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "transport-loss-positive"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "GRAY"
+        }
+      ],
+      "id": "transport-loss-trigger-equality"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "transport-loss-recovery-equality"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "transport-loss-critical-equality"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "CRITICAL",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "transport-loss-critical"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "transport-loss-low-volume"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "transport-loss-zero"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_LATENCY",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "transport-rtt-positive"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_LATENCY",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "GRAY"
+        }
+      ],
+      "id": "transport-rtt-trigger-equality"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_LATENCY",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "transport-rtt-recovery-equality"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_LATENCY",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "transport-rtt-critical-equality"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_LATENCY",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "CRITICAL",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "transport-rtt-critical"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_LATENCY",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "transport-rtt-low-volume"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": true,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "healthy-high-utilization-inclusive-candidate"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "ordinary-utilization-loss"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": true,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "effective-capacity-reduction-90pct"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-registration-positive"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "roaming-registration-control"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "GRAY"
+        }
+      ],
+      "id": "roaming-registration-trigger-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "roaming-registration-recovery-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-registration-critical-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "CRITICAL",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-registration-critical"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-registration-low-volume"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-registration-zero"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-data-positive"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "roaming-data-control"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "GRAY"
+        }
+      ],
+      "id": "roaming-data-trigger-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "roaming-data-recovery-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-data-critical-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "CRITICAL",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-data-critical"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-data-low-volume"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-data-zero"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-voice-positive"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "roaming-voice-control"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "GRAY"
+        }
+      ],
+      "id": "roaming-voice-trigger-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "roaming-voice-recovery-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-voice-critical-equality"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "CRITICAL",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "roaming-voice-critical"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-voice-low-volume"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_VOICE",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-voice-zero"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "opposite-roaming-direction-control"
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "expected": [
+        {
+          "anomalyKind": "MOBILE_DATA_ACTIVATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        },
+        {
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "mobile-activation-only"
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "expected": [
+        {
+          "anomalyKind": "MOBILE_DATA_ACTIVATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        },
+        {
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "mobile-dns-only"
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "expected": [
+        {
+          "anomalyKind": "MOBILE_DATA_ACTIVATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        },
+        {
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "mobile-both"
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "expected": [
+        {
+          "anomalyKind": "MOBILE_DATA_ACTIVATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        },
+        {
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "mobile-healthy"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "transport-missing-data"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "transport-stale-data"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "transport-partial-data"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-missing-data"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-stale-data"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_REGISTRATION",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "roaming-partial-data"
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "expected": [
+        {
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "mobile_data-missing-data"
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "expected": [
+        {
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "mobile_data-stale-data"
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "expected": [
+        {
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "mobile_data-partial-data"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "missing-baseline"
+    },
+    {
+      "domain": "ROAMING",
+      "expected": [
+        {
+          "anomalyKind": "ROAMING_DATA",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "HEALTHY"
+        }
+      ],
+      "id": "zero-baseline-no-division"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": "HIGH",
+          "verdict": "BREACH"
+        }
+      ],
+      "id": "transport-age-inclusive-600"
+    },
+    {
+      "domain": "TRANSPORT",
+      "expected": [
+        {
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "overloadCandidate": false,
+          "policyVersion": "trace-link-domain-rules-v1",
+          "severity": null,
+          "verdict": "UNKNOWN"
+        }
+      ],
+      "id": "transport-age-fractional-600.1"
+    }
+  ],
+  "schemaVersion": "trace-link-day2-fixture-matrix-v1"
+}

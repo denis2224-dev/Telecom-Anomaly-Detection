@@ -22,3 +22,6 @@ tasks/sms-ml-shadow-integration/verification.json -text whitespace=trailing-spac
 contracts/fixtures/trace-link/arithmetic-cases.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 contracts/geography/demo-geography-v1.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/assets/trace-link-day1/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# Preserve the raw bytes pinned by the separate receiving reproduction manifest.
+docs/evidence/assets/trace-link-day2-receiving-closure/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol

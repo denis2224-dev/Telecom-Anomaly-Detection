@@ -1,0 +1,206 @@
+{
+  "activation": "OFFLINE_ONLY",
+  "artifactHashes": {
+    ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+    "additional-runtimes.json": "116398702ce1462d3acd759be1ae6ca3d911bda694a64295c50821d1ca3e4b4a",
+    "arithmetic-java.json": "0bf874e30440f40241bc7d9b7abba0b1204f7e75f7b3296b6475d51aafdd44b0",
+    "arithmetic-javascript.json": "bfec6d06f4cca9baa1e2589067a5cc579abb19b32bf1d8b782fd044189a703f4",
+    "arithmetic-python.json": "ec9880bb32a028dad7046f7006c310519028f1904bac8f73fbc9d765dd68b93c",
+    "arithmetic-sql.json": "132e9f74a62a598dbf9f8deed73b948c53cc22bc5d3d437fb657f06f552eff4f",
+    "baseline-java-parity.json": "7713680d20c74753d01855163b7092a37e83e43fe9484ed908d2618ab04bac7a",
+    "cause-controls.json": "df0ab39aed7a2793395739129f5071fd9e84262de7e9b3d89322701390bfdf5b",
+    "complete-entrypoint.log.gz": "89e8aba70556d8304412a06db59e1ce299b47346cc0ff1903350a7d4f3c8d587",
+    "corrected-native-launchers.patch": "6063532d606ccabda5f199774fefd4bc6f33571ee1ffb95c49461f9ef53ecc85",
+    "domain-rules.json": "22653d78a03cfc8cd2b295eb6013041a520ee0d277b75403b5e842d3de9e81f1",
+    "evidence-assembly.py": "73a1a9d2a6e523cc294ee310ec8e4ecc6a5b725b571ff53972a9c126597f875c",
+    "execution.json": "ca3bdca4f78edd92dd091ceac6579e0415e72d062568a26cd254485926aa2378",
+    "fixture-matrix.json": "649cd5e604d8764ca8d736f95614b3e96d86b0a15b3793fd96b15d95cf110ee5",
+    "frozen-hashes.json": "413ee43d18ba7d01b7a56e8a4bf828e54a5b52bd4b05df74f105f7ed8beb6103",
+    "geographic-sms-parity.json": "2b0a1af3fc34970a679da288e73615a7625241e32f38d217a0a2bde02c0b36b0",
+    "geographic-voice-parity.json": "18d0834049c1c240d9714f06174995c565597dd3ce59e1f7fbbb4d2b4109c0c6",
+    "history-1.json": "84353952820760b1b098f4f7f8169bafc016ac30d2f281997b9018d675c1a842",
+    "history-2.json": "84353952820760b1b098f4f7f8169bafc016ac30d2f281997b9018d675c1a842",
+    "history-fit-report.json": "df6b0054e182a7e0eb36373c52d643e12c4a06cb05c7096bdd687012647184d0",
+    "integrated.json": "12820afd501ccf821e42e996543b26f88e19e603e613fe5e6efb55bceed301d0",
+    "ion-native-launchers.patch": "b568a16327e1e51945c4ae6b5868ed416acf3b090586d075f9bc902ab32ac6db",
+    "legacy-sms-parity.json": "31a8c5e0ff4db90e374497590d0dd57c7861daee76cd7443ee262b54ecdd81a5",
+    "legacy-voice-parity.json": "4d97c395fe88b794eadb5d8066de4eb249e19de8f6426079dc041da9f1ee9f6b",
+    "lifecycle.json": "1d7dca4e33bbeaa014edb9e70635fe840d736f6d9782efd231f04df07d1d30c7",
+    "loaded-fallbacks.json": "3bf4c404f87a2b79f779c8769cecfcdac6e5f50a3034710d278793a20c4ae490",
+    "manifest.json": "974d0d32b538ed87c77e4ba25c74caf283ea6ca27fd17e8698768c906f4fdc94",
+    "original-input-hashes.json": "eaeaedb8def137b65c5b6731bf507baac3e8ec6b7b695bb043eb2b12fafd0b93",
+    "reference-eligibility.json": "d23a5338d4ea81cba1008fd6af94768638c3ff6ebfe88acd391b66452cc63a5a",
+    "run.json": "341e058171af4bf9382a186315a3d908fa2252de207e421d21721e09a21dd5f3",
+    "seasonal-baseline.json.gz": "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+    "service-transport.json": "ab9e9498c59cd08fb1c0339a22d2f13749c76c8b3abc01542847eadb95adde88",
+    "source-git-blob-hashes.json": "6ca634ad00656fb626e9c29ace132a8def6e7713f97df57c9216646abd22f1e6",
+    "surefire-reports.zip": "3f14e0a65dd4d97c49763df1cb71835ec9e0bdf78150f25c287feabfbb59ef94"
+  },
+  "execution": {
+    "arguments": [
+      "-NoProfile",
+      "-File",
+      "scripts/verify-trace-link-day2.ps1",
+      "-Python",
+      ".\\.venv\\Scripts\\python.exe",
+      "-JavaHome",
+      "tmp\\jdk21-sergiu-days7-8\\jdk-21.0.12.1+1",
+      "-ReferenceRoot",
+      "D:\\Univer\\Anul2\\Orange_intership\\project\\Trace_Link_Integration_Pack",
+      "-EvidenceDirectory",
+      "docs/evidence/assets/trace-link-day2-receiving-closure"
+    ],
+    "cwd": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection",
+    "executable": "C:\\Users\\Sergiu\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "exitCode": 0,
+    "finishedAtUtc": "2026-10-12T14:46:53.4153514Z",
+    "head": "11a8dba27c5d5e26fa0d3fe95a06eb32a5f023b4",
+    "startedAtUtc": "2026-10-12T14:25:31.8601875Z"
+  },
+  "freshFiles": {
+    "arithmetic-java.json": {
+      "sha256": "0bf874e30440f40241bc7d9b7abba0b1204f7e75f7b3296b6475d51aafdd44b0",
+      "source": "services/processor/target/trace-link-java.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:41:24.138760+00:00"
+    },
+    "arithmetic-javascript.json": {
+      "sha256": "bfec6d06f4cca9baa1e2589067a5cc579abb19b32bf1d8b782fd044189a703f4",
+      "source": "tmp/trace-link-day1-reproduction/javascript.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:44:31.781392+00:00"
+    },
+    "arithmetic-python.json": {
+      "sha256": "ec9880bb32a028dad7046f7006c310519028f1904bac8f73fbc9d765dd68b93c",
+      "source": "tmp/trace-link-day1-reproduction/python.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:44:30.699798+00:00"
+    },
+    "arithmetic-sql.json": {
+      "sha256": "132e9f74a62a598dbf9f8deed73b948c53cc22bc5d3d437fb657f06f552eff4f",
+      "source": "tmp/trace-link-day1-reproduction/sql.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:44:36.313386+00:00"
+    },
+    "baseline-java-parity.json": {
+      "sha256": "7713680d20c74753d01855163b7092a37e83e43fe9484ed908d2618ab04bac7a",
+      "source": "services/processor/target/trace-link-baseline-java-parity.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:44:18.386757+00:00"
+    },
+    "geographic-sms-parity.json": {
+      "sha256": "2b0a1af3fc34970a679da288e73615a7625241e32f38d217a0a2bde02c0b36b0",
+      "source": "services/processor/target/geographic-sms-parity-java.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:36:52.770106+00:00"
+    },
+    "geographic-voice-parity.json": {
+      "sha256": "18d0834049c1c240d9714f06174995c565597dd3ce59e1f7fbbb4d2b4109c0c6",
+      "source": "services/processor/target/geographic-voice-parity-java.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:36:52.767217+00:00"
+    },
+    "history-1.json": {
+      "sha256": "84353952820760b1b098f4f7f8169bafc016ac30d2f281997b9018d675c1a842",
+      "source": "tmp/trace-link-day2/reproduction/history-1.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:45:42.593190+00:00"
+    },
+    "history-2.json": {
+      "sha256": "84353952820760b1b098f4f7f8169bafc016ac30d2f281997b9018d675c1a842",
+      "source": "tmp/trace-link-day2/reproduction/history-2.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:46:47.673980+00:00"
+    },
+    "legacy-sms-parity.json": {
+      "sha256": "31a8c5e0ff4db90e374497590d0dd57c7861daee76cd7443ee262b54ecdd81a5",
+      "source": "services/processor/target/sms-parity-java.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:41:13.956153+00:00"
+    },
+    "legacy-voice-parity.json": {
+      "sha256": "4d97c395fe88b794eadb5d8066de4eb249e19de8f6426079dc041da9f1ee9f6b",
+      "source": "services/processor/target/voice-parity-java.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:41:31.433588+00:00"
+    },
+    "run.json": {
+      "sha256": "341e058171af4bf9382a186315a3d908fa2252de207e421d21721e09a21dd5f3",
+      "source": "tmp/trace-link-day2/reproduction/run.json",
+      "sourceModifiedAtUtc": "2026-10-12T14:46:47.898099+00:00"
+    }
+  },
+  "frozenFilesVerified": 14,
+  "fullLogRawSha256": "6e4c4d3a572e0ed35c8a55b28048f44f9042a373d8764811a9ad1b2194cbfcd0",
+  "historyBuildSha256": [
+    "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+    "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87"
+  ],
+  "ionLocalPatchCommit": "3b4a4cc0dc12f7b67020066c5d49bf02b23e9307",
+  "ionPatchSha256": "b568a16327e1e51945c4ae6b5868ed416acf3b090586d075f9bc902ab32ac6db",
+  "ionReportedMain": "cbb94d37f7593e99737ee4200e91b14e0512f76f",
+  "javaSkippedTests": [
+    {
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist",
+      "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+      "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)"
+    },
+    {
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode(SmsDeliveryTest.java:80)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/j",
+      "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredSmsEpisode"
+    },
+    {
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist",
+      "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents"
+    },
+    {
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode(VoiceDeliveryTest.java:66)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.",
+      "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredVoiceEpisode"
+    }
+  ],
+  "javaTests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 4,
+    "tests": 1201
+  },
+  "limitations": [
+    "Ion receiving report remains BLOCKED pending his review of this new proof",
+    "Local Windows reproduction by a separate execution agent; no independent external receiver acceptance",
+    "Manifest commands are reproduction recipes; execution.json records the actual full command",
+    "Original raw LF/CRLF hash mismatches remain documented; historical manifest unchanged",
+    "Day 3 is unimplemented; no push, PR merge, deployment or live dispatch performed"
+  ],
+  "mandatoryTraceLinkJavaTests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 38
+  },
+  "originalInputHashes": {
+    "originalPublication": {
+      "cause-controls.json": "df0ab39aed7a2793395739129f5071fd9e84262de7e9b3d89322701390bfdf5b",
+      "domain-rules.json": "22653d78a03cfc8cd2b295eb6013041a520ee0d277b75403b5e842d3de9e81f1",
+      "fixture-matrix.json": "649cd5e604d8764ca8d736f95614b3e96d86b0a15b3793fd96b15d95cf110ee5",
+      "frozen-hashes.json": "413ee43d18ba7d01b7a56e8a4bf828e54a5b52bd4b05df74f105f7ed8beb6103",
+      "history-fit-report.json": "df6b0054e182a7e0eb36373c52d643e12c4a06cb05c7096bdd687012647184d0",
+      "integrated.json": "12820afd501ccf821e42e996543b26f88e19e603e613fe5e6efb55bceed301d0",
+      "lifecycle.json": "1d7dca4e33bbeaa014edb9e70635fe840d736f6d9782efd231f04df07d1d30c7",
+      "loaded-fallbacks.json": "3bf4c404f87a2b79f779c8769cecfcdac6e5f50a3034710d278793a20c4ae490",
+      "manifest.json": "546897be77e8f582cfa073a5308d0c6c686666595791fa805adc33ce2017e641",
+      "reference-eligibility.json": "d23a5338d4ea81cba1008fd6af94768638c3ff6ebfe88acd391b66452cc63a5a",
+      "seasonal-baseline.json.gz": "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+      "service-transport.json": "ab9e9498c59cd08fb1c0339a22d2f13749c76c8b3abc01542847eadb95adde88",
+      "verification-history.json": "baae0291607745b7ff8f9ebc10f824b8f86ed86ceffdcdc089e5d8b4c7ba6382"
+    },
+    "receivingAttachments": {
+      "Trace_Link_Day2_Receiving_Acceptance_Report.md": "67eb09ceb6573bc4dbdf86a1828768ac3e12a35d191314e1709fa6c8a291eaef",
+      "Trace_Link_Day2_Receiving_Evidence.zip": "6e64da6b352e9f5538432113355ee5dd63420a1192bdec90be3a1f069b618c18",
+      "Trace_Link_Day3_Implementation_Plan.md": "c1c67c86092132d732fcf4e3e152a2260b1a1bbbe9cf492fcc5924d752f4bfc3"
+    }
+  },
+  "originalPublicationUnchanged": true,
+  "originalReviewedHead": "55bb638dbb2b941e53e13edc068c80f23b3ce7c9",
+  "pythonTests": {
+    "ml": 64,
+    "root": 133
+  },
+  "receivingOwnerDecision": "PENDING_ION_REVIEW",
+  "schemaVersion": "trace-link-day2-receiving-closure-v1",
+  "sourceHashesVerified": 122,
+  "surefireReportCount": 95,
+  "technicalReproduction": "PASSED",
+  "testedRevision": "11a8dba27c5d5e26fa0d3fe95a06eb32a5f023b4"
+}
