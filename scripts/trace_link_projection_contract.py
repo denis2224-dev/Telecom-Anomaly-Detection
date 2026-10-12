@@ -18,6 +18,36 @@ def sha(text):
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
 
 
+def validate_message(message):
+    """Schema plus identities/arithmetic that JSON Schema cannot express."""
+    Draft202012Validator(json.loads(SCHEMA.read_text(encoding='utf-8')),
+                         format_checker=FormatChecker()).validate(message)
+    city = message['scope']['id']
+    if message['scope']['contractCityId'] != city.upper():
+        raise ValueError('Wrong city translation')
+    window = message['window']
+    start, end = (datetime.fromisoformat(window[k]) for k in ('from', 'to'))
+    if start.microsecond or start.timestamp() % 300 or (end - start).total_seconds() != 300:
+        raise ValueError('Unaligned or incompatible native window')
+    canonical = start.astimezone(timezone.utc).isoformat().replace('+00:00', 'Z')
+    prefix = [message['datasetId'], message['sourceNamespace']]
+    natural = sha('|'.join(prefix + ['CITY', city, '', '', '', canonical, '300', 'trace-link-native-source-v1']))
+    projection = sha('|'.join(prefix + ['VOLTE', 'volte.setup.success', 'CITY', city, canonical, '300',
+                                       'trace-link-primitive-projection-v1', 'trace-link-kpi-v1',
+                                       message['topologyVersion'], 'revision=0']))
+    if message['projectionId'] != projection or message['provenance']['sourceNaturalId'] != natural:
+        raise ValueError('Projection or source natural identity mismatch')
+    n, d = (message['primitives'][k] for k in ('numerator', 'denominator'))
+    if n > d:
+        raise ValueError('Success exceeds attempts')
+    with localcontext() as ctx:
+        ctx.prec = 34
+        expected = Decimal(100) * Decimal(n) / Decimal(d) if d else None
+    actual = message['value']
+    if (actual is None) != (expected is None) or (actual is not None and Decimal(str(actual)) != expected):
+        raise ValueError('Computed value differs from primitives')
+
+
 def native_example():
     source = ROOT / 'contracts/fixtures/trace-link/native-slice'
     manifest_bytes = (source / 'manifest.json').read_bytes()
@@ -57,8 +87,7 @@ def validate_projection_contracts():
     fixture = json.loads(FIXTURE.read_text(encoding='utf-8'), parse_float=Decimal)
     if fixture['consumerAgreement'] != 'PENDING_REVIEW':
         raise ValueError('Consumer approval must not be inferred')
-    validator = Draft202012Validator(schema, format_checker=FormatChecker())
-    validator.validate(fixture['nativeExample'])
+    validate_message(fixture['nativeExample'])
     if fixture['nativeExample'] != native_example():
         raise ValueError('Producer fixture differs from actual native CSV primitives/provenance')
     print('PASS: producer projection schema and independent native CSV projection; consumer PENDING_REVIEW')

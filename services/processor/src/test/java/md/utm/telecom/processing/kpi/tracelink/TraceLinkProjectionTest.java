@@ -57,4 +57,31 @@ class TraceLinkProjectionTest {
                 Request.city("dataset|collision","chi",START,valid.to())})
             assertThrows(IllegalArgumentException.class,() -> contract.validate(invalid,true));
     }
+
+    @Test void missingSourceAndZeroCoverageWithObservedPopulationFailClosed() throws Exception {
+        for (String quality : new String[]{null,"VALID","PARTIAL","INSUFFICIENT_EVIDENCE"}) {
+            var s=source("{\"voice_success\":0,\"voice_attempts\":10}",quality,BigDecimal.ZERO);
+            assertThrows(IllegalArgumentException.class,() -> contract.build(s));
+        }
+        for (String p : new String[]{"{\"voice_success\":9,\"voice_attempts\":10}","{\"voice_success\":0,\"voice_attempts\":0}"}) {
+            var s=source(p,"MISSING",BigDecimal.ZERO);
+            assertThrows(IllegalArgumentException.class,() -> contract.build(s));
+        }
+    }
+
+    @Test void measuredZeroUnknownCoverageAndStalePrimitivesArePreserved() throws Exception {
+        var zero=contract.build(source("{\"voice_success\":0,\"voice_attempts\":10}","VALID",BigDecimal.ONE)).json();
+        assertEquals(0,zero.path("value").decimalValue().signum());
+        assertEquals("VALID",zero.path("quality").path("state").asText());
+        var partial=contract.build(source("{\"voice_success\":9,\"voice_attempts\":10}","VALID",new BigDecimal("0.5"))).json();
+        assertEquals("VALID",partial.path("sourceQuality").asText());
+        assertEquals("PARTIAL",partial.path("quality").path("state").asText());
+        var stale=contract.build(source("{\"voice_success\":9,\"voice_attempts\":10}","STALE",BigDecimal.ZERO));
+        assertEquals(90,stale.json().path("value").asInt());
+        assertEquals("STALE",stale.json().path("quality").path("state").asText());
+        assertEquals(stale,contract.build(source("{\"voice_success\":9,\"voice_attempts\":10}","STALE",BigDecimal.ZERO)));
+        var empty=contract.build(source("{\"voice_success\":0,\"voice_attempts\":0}","PARTIAL",new BigDecimal("0.5"))).json();
+        assertTrue(empty.path("value").isNull());
+        assertEquals("INSUFFICIENT_EVIDENCE",empty.path("quality").path("state").asText());
+    }
 }

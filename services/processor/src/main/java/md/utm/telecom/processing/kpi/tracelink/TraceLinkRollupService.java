@@ -72,8 +72,12 @@ public final class TraceLinkRollupService {
             require(received <= expected, "Duplicate native projection slots");
             BigDecimal coverage = BigDecimal.valueOf(received).divide(BigDecimal.valueOf(expected), MathContext.DECIMAL128);
             if (received == 0) { quality = "MISSING"; reason = "NO_SOURCE_SLOTS"; }
-            else if (received < expected && rank(quality) < rank("PARTIAL")) { quality = "PARTIAL"; reason = "MISSING_SOURCE_SLOTS"; }
-            else if (denominator.signum() == 0 && quality.equals("VALID")) { quality = "INSUFFICIENT_EVIDENCE"; reason = "ZERO_DENOMINATOR"; }
+            else {
+                if (received < expected && rank(quality) < rank("PARTIAL")) { quality = "PARTIAL"; reason = "MISSING_SOURCE_SLOTS"; }
+                if (denominator.signum() == 0 && rank(quality) < rank("INSUFFICIENT_EVIDENCE")) {
+                    quality = "INSUFFICIENT_EVIDENCE"; reason = "ZERO_DENOMINATOR";
+                }
+            }
             points.add(new Point(start,end,start.isBefore(request.from()) || end.isAfter(request.to()), numerator,denominator,
                     ratio(numerator,denominator), received == 0 ? "NO_SOURCE_SLOTS" : denominator.signum() == 0 ? "ZERO_DENOMINATOR" : null,
                     expected,received,coverage,quality,reason,List.copyOf(ids)));

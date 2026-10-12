@@ -75,6 +75,23 @@ source quality is retained. Zero denominator produces null value with
 Historical age does not assert live freshness. The dictionary has no approved
 minimum-volume threshold, so none is invented.
 
+The [Day 1 state matrix](../contracts/trace-link-day1.md#evidence-state-consistency)
+defines absence, observed zero and retained stale evidence. This primitive
+message always has measured numerator/denominator, so `sourceQuality=MISSING`
+is rejected; missing slots are represented only in query results. Explicit zero
+source coverage with a positive measured population is rejected, except for
+legitimately retained `STALE` measurements. No source record is rewritten.
+
+Source metadata and effective quality are separate fields: a supplied `VALID`
+label with unavailable coverage remains visible as source metadata but yields
+`INSUFFICIENT_EVIDENCE / SOURCE_COVERAGE_UNAVAILABLE`; partial source coverage
+yields `PARTIAL / SOURCE_COVERAGE_PARTIAL`. Effective `VALID` requires known
+VALID source quality, full source coverage and a computable value. Zero
+denominator cannot remain effective VALID or PARTIAL, even in a partial rollup
+bucket. Unknown source metadata keeps its unavailable reason; `STALE` takes
+precedence and retains primitives, value when computable, and provenance.
+These rules do not turn primitive projections into detector evidence envelopes.
+
 Rollups use sums of primitives for 5m, 15m, 1h and 6h. Buckets are whole UTC
 aligned buckets. For a non-aligned query, only native slots wholly contained
 in `[from,to)` contribute; a partial source interval is excluded, never prorated.

@@ -90,6 +90,11 @@ public final class TraceLinkProjection {
         require(source.sourceQuality() == null || QUALITY.contains(source.sourceQuality()), "Invalid source quality");
         require(source.sourceCoverage() == null || source.sourceCoverage().signum() >= 0
                 && source.sourceCoverage().compareTo(BigDecimal.ONE) <= 0, "Invalid source coverage");
+        // This message always contains measured primitives; absence is a rollup query result.
+        require(!"MISSING".equals(source.sourceQuality()), "Missing source cannot contain measured primitives");
+        require(source.sourceCoverage() == null || source.sourceCoverage().signum() > 0
+                || denominator == 0 || "STALE".equals(source.sourceQuality()),
+                "Zero source coverage contradicts observed measurements");
 
         String id = hash(String.join("|", source.dataset(), source.namespace(), "VOLTE", METRIC, "CITY", source.scope(),
                 source.start().toString(), "300", SCHEMA, POLICY, source.topology(), "revision=0"));
@@ -109,7 +114,9 @@ public final class TraceLinkProjection {
         message.put("sourceCoverage", source.sourceCoverage());
         String quality = quality(source.sourceQuality(), source.sourceCoverage());
         String reason = reason(source.sourceQuality(), source.sourceCoverage());
-        if (denominator == 0 && quality.equals("VALID")) { quality = "INSUFFICIENT_EVIDENCE"; reason = "ZERO_DENOMINATOR"; }
+        if (denominator == 0 && (quality.equals("VALID") || quality.equals("PARTIAL"))) {
+            quality = "INSUFFICIENT_EVIDENCE"; reason = "ZERO_DENOMINATOR";
+        }
         message.putObject("quality").put("state", quality).put("reason", reason);
         message.putObject("provenance").put("sourceNaturalId", source.naturalId()).put("sourceFile", source.file())
                 .put("sourceRowNumber", source.ordinal()).put("sourceRowSha256", source.checksum()).put("manifestSha256", source.manifestHash())

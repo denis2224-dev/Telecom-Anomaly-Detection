@@ -142,6 +142,53 @@ class TraceLinkProjectionIT {
         assertEquals(1,count("trace_metric_projection")); assertEquals(1,count("trace_projection_outbox"));
     }
 
+    @Test void duplicateFinalizedNaturalSlotAndConflictingHeldKeyFailClosed() throws Exception {
+        imported(); projector().project(request(1));
+        // A different digest cannot bypass the finalized natural-slot uniqueness constraint.
+        assertThrows(DataAccessException.class,() -> owner.execute("""
+                INSERT INTO app.trace_metric_projection
+                SELECT (jsonb_populate_record(NULL::app.trace_metric_projection,
+                        to_jsonb(p) || jsonb_build_object('projection_id',repeat('0',64)))).*
+                FROM app.trace_metric_projection p
+                """));
+        var before=jdbc.queryForList("SELECT projection_id,payload_text,payload_sha256 FROM app.trace_metric_projection");
+        owner.execute("UPDATE app.trace_projection_outbox SET partition_key='conflicting-key'");
+        assertThrows(IllegalArgumentException.class,() -> projector().project(request(1)));
+        assertEquals(before,jdbc.queryForList("SELECT projection_id,payload_text,payload_sha256 FROM app.trace_metric_projection"));
+        assertEquals(1,count("trace_projection_outbox"));
+    }
+
+    @Test void partiallyMissingBucketKeepsUnknownQualityAndExactContributingProvenance() throws Exception {
+        twelveSlotArchive(); imported(); projector().project(request(1));
+        var nativePoint=series(1,"5m").points().getFirst();
+        var partial=series(3,"15m").points().getFirst();
+        assertEquals(3,partial.expectedSlots()); assertEquals(1,partial.receivedSlots());
+        assertEquals(1.0/3,partial.coverage().doubleValue(),1e-15);
+        assertEquals("INSUFFICIENT_EVIDENCE",partial.quality());
+        assertEquals("SOURCE_QUALITY_UNAVAILABLE",partial.reason());
+        assertEquals(nativePoint.projectionIds(),partial.projectionIds());
+        assertEquals(nativePoint.numerator(),partial.numerator());
+        assertEquals(nativePoint.denominator(),partial.denominator());
+        assertEquals(nativePoint.value(),partial.value());
+        assertEquals(1,count("trace_metric_projection"));
+    }
+
+    @Test void emptyPopulationInPartialBucketIsInsufficientAndStaleRetentionTakesPrecedence() throws Exception {
+        twelveSlotArchive(); imported();
+        projector().project(Request.city(dataset,"chi",START.plusSeconds(600),START.plusSeconds(900)));
+        // Inject metadata into this disposable projection fixture, without rewriting imported sources.
+        owner.execute("UPDATE app.trace_metric_projection SET source_quality='VALID',source_coverage=1");
+        var empty=series(3,"15m").points().getFirst();
+        assertEquals(1,empty.receivedSlots()); assertEquals(3,empty.expectedSlots());
+        assertNull(empty.value()); assertEquals("ZERO_DENOMINATOR",empty.nullReason());
+        assertEquals("INSUFFICIENT_EVIDENCE",empty.quality());
+        owner.execute("UPDATE app.trace_metric_projection SET source_quality='STALE',source_coverage=0");
+        var stale=series(3,"15m").points().getFirst();
+        assertEquals("STALE",stale.quality()); assertNull(stale.value());
+        assertEquals(empty.projectionIds(),stale.projectionIds());
+        assertEquals(empty.numerator(),stale.numerator()); assertEquals(empty.denominator(),stale.denominator());
+    }
+
     @Test void primitiveRollupsAndWholeUtcBucketsNeverAveragePercentages() throws Exception {
         twelveSlotArchive(); imported(); projector().project(request(12));
         for (String resolution:List.of("5m","15m","1h","6h")) {
