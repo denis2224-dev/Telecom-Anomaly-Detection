@@ -24,14 +24,24 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def save(name, data):
-    (OUT / name).write_text(json.dumps(data, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+def java_executable(java_home):
+    """Resolve the native JDK launcher without assuming a Windows checkout."""
+    java = Path(java_home) / 'bin' / ('java.exe' if os.name == 'nt' else 'java')
+    require(java.is_file(), f'Java launcher missing: {java}')
+    return str(java)
+
+
+def save(name, data, directory=OUT):
+    (directory / name).write_text(json.dumps(data, indent=2, sort_keys=True) + '\n', encoding='utf-8')
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', required=True, type=Path)
+    parser.add_argument('--output-dir', type=Path, default=OUT,
+        help='Publish a separate reproduction record without replacing earlier evidence')
     args = parser.parse_args()
+    destination = args.output_dir.resolve()
     run = json.loads(args.run.read_text(encoding='utf-8-sig'))
     require(run['exitCode'] == 0 and run['historyBuilds'] == 2, 'Incomplete reproduction')
     registry = Registry().with_resources((p.resolve().as_uri(), Resource.from_contents(
@@ -114,9 +124,16 @@ def main():
                     'scripts/trace_link_history_baseline.py', 'tests/test_trace_link*.py'):
         source_files.update(ROOT.glob(pattern))
     source_files.update(ROOT / p for p in ('requirements-dev.txt', 'services/processor/pom.xml', 'scripts/check-contracts.py',
+        'scripts/verify-trace-link-day1.ps1', 'scripts/verify-trace-link-pins.py',
+        'scripts/check-trace-link-parity.py', 'scripts/trace-link-reference.cjs',
+        'scripts/trace-link-reference.sql', 'scripts/check-voice-parity.py', 'scripts/check-sms-parity.py',
+        'scripts/trace_link_contract.py', 'scripts/trace_link_fixture_contract.py',
+        'scripts/geography_contract.py', 'scripts/geographic_numeric_contract.py',
+        'scripts/geographic_feature_parity.py', '.gitattributes',
+        'mvnw', 'mvnw.cmd', '.mvn/wrapper/maven-wrapper.properties',
         'services/processor/src/test/java/md/utm/telecom/processing/HealthProbeTest.java'))
     source_hashes = {p.relative_to(ROOT).as_posix(): digest(p) for p in sorted(source_files) if p.is_file()}
-    java = str(Path(os.environ['JAVA_HOME']) / 'bin/java.exe')
+    java = java_executable(os.environ['JAVA_HOME'])
     runtimes = {
         'python': sys.version, 'tzdata': version('tzdata'),
         'java': subprocess.check_output([java, '-version'], stderr=subprocess.STDOUT, text=True).strip(),
@@ -125,11 +142,14 @@ def main():
         'postgresImage': 'postgres:16.4-alpine',
     }
     # Validate every input and external prerequisite before refreshing published files.
-    OUT.mkdir(parents=True, exist_ok=True)
+    destination.mkdir(parents=True, exist_ok=True)
+    if destination != OUT.resolve():
+        for name in ('seasonal-baseline.json.gz', 'history-fit-report.json'):
+            shutil.copyfile(OUT / name, destination / name)
     for name, source in exports.items():
-        shutil.copyfile(TARGET / source, OUT / name)
-    save('frozen-hashes.json', frozen)
-    save('fixture-matrix.json', matrix)
+        shutil.copyfile(TARGET / source, destination / name)
+    save('frozen-hashes.json', frozen, destination)
+    save('fixture-matrix.json', matrix, destination)
     save('manifest.json', {
         'schemaVersion': 'trace-link-day2-evidence-v1', 'activation': 'OFFLINE_ONLY',
         'implementationRevision': revision, 'integrationRevision': frozen['integrationSha'],
@@ -146,12 +166,12 @@ def main():
         'domainFixtures': len(cases), 'causeFixtures': len(causes),
         'policies': {p: digest(ROOT / p) for p in [
             'contracts/policies/trace-link-domain-rules-v1.json', 'contracts/baselines/trace-link-baseline-policy-v1.json']},
-        'artifacts': {p.name: digest(p) for p in sorted(OUT.iterdir()) if p.is_file() and p.name != 'manifest.json'},
+        'artifacts': {p.name: digest(p) for p in sorted(destination.iterdir()) if p.is_file() and p.name != 'manifest.json'},
         'limitations': ['Synthetic reference data and hand-calculated target populations',
             'Historical source freshness remains UNKNOWN', 'No live worker, persisted windows, Kafka or incident-service registration',
             'Reference EPS, post-activation DNS, packet-loss and mean-RTT populations unavailable',
-            'Reference eligibility export is a negative eligibility fixture, not a claim of fresh source measurements']})
-    print(json.dumps({'fixtures': len(cases) + len(causes), 'java': totals, 'manifest': str(OUT / 'manifest.json')}))
+            'Reference eligibility export is a negative eligibility fixture, not a claim of fresh source measurements']}, destination)
+    print(json.dumps({'fixtures': len(cases) + len(causes), 'java': totals, 'manifest': str(destination / 'manifest.json')}))
 
 
 if __name__ == '__main__':

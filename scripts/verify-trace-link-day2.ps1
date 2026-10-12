@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory = $true)][string]$Python,
     [Parameter(Mandatory = $true)][string]$JavaHome,
-    [Parameter(Mandatory = $true)][string]$ReferenceRoot
+    [Parameter(Mandatory = $true)][string]$ReferenceRoot,
+    [string]$EvidenceDirectory = 'docs/evidence/assets/trace-link-day2'
 )
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath (Split-Path -Parent $PSScriptRoot)
@@ -38,5 +39,5 @@ if ($first -ne $second -or $first -ne $published) { throw 'Historical artifact r
     historyBuilds = 2; publishedArtifactSha256 = $first.ToLowerInvariant();
     pythonTests = @{ root = [int]$pythonSummaries[0].Groups[1].Value; ml = [int]$pythonSummaries[1].Groups[1].Value } } |
     ConvertTo-Json | Set-Content -Encoding utf8 -LiteralPath "$runDir/run.json"
-Invoke-Checked $Python @('scripts/publish_trace_link_day2.py', '--run', "$runDir/run.json")
+Invoke-Checked $Python @('scripts/publish_trace_link_day2.py', '--run', "$runDir/run.json", '--output-dir', $EvidenceDirectory)
 Write-Output 'PASS: Day 2 offline reproduction, frozen compatibility and deterministic history'
