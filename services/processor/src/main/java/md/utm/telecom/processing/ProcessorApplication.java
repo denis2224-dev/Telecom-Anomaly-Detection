@@ -15,8 +15,12 @@ public class ProcessorApplication {
     public static void main(String[] args) throws Exception {
         boolean traceLink = "true".equalsIgnoreCase(System.getenv("TRACE_LINK_BOOTSTRAP_MODE"));
         boolean legacy = "true".equalsIgnoreCase(System.getenv("HISTORY_BOOTSTRAP_MODE"));
-        if (traceLink && legacy) throw new IllegalArgumentException("Select only one bootstrap mode");
-        if (traceLink) {
+        boolean projection = "true".equalsIgnoreCase(System.getenv("TRACE_LINK_PROJECTION_MODE"));
+        if ((traceLink ? 1 : 0) + (legacy ? 1 : 0) + (projection ? 1 : 0) > 1)
+            throw new IllegalArgumentException("Select only one historical mode");
+        if (projection) {
+            md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionApplication.run(args);
+        } else if (traceLink) {
             md.utm.telecom.processing.history.TraceLinkBootstrapApplication.run(args);
         } else if (legacy) {
             md.utm.telecom.processing.history.HistoryBootstrapApplication.run(args);

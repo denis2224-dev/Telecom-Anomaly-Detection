@@ -12,7 +12,7 @@ for startup, retry, progress queries, provenance limits and integration tests.
 
 The source catalogue is `CONTRACT_ONLY`. The job does not activate inventory,
 publish metric projections, or claim authenticated API/UI acceptance. Migrations
-V014–V015 are implemented; V016 remains reserved in the
+V014–V016 are implemented; consumer activation remains gated in the
 [migration ledger](../../docs/architecture/trace-link-migration-ledger.md).
 
 The separate [native domain producer job](../../docs/runbooks/trace-link-domain-producers.md)
@@ -29,3 +29,10 @@ after recovery. Existing retention deletes only eligible legacy receipts and
 ACK-marked rejections; native source/checkpoint/provenance tables and held V016
 outbox rows have no cleanup lifecycle. Connected new-domain delivery and capacity
 remain blocked on consumer and environment approval.
+## Native Trace Link primitive projection
+
+Use [the producer projection runbook](../../docs/runbooks/trace-link-primitive-projection.md)
+for the explicit `TRACE_LINK_PROJECTION_MODE` tool. V016 projects only dictionary
+`VOLTE / volte.setup.success` from completed immutable native imports, preserves
+unknown source quality, and holds delivery intent pending Denis's consumer
+agreement. The tool has no Kafka publisher or public API.

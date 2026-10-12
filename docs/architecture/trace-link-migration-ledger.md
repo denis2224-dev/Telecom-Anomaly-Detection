@@ -8,7 +8,7 @@ This ledger records the supplied reservation, not receiving-owner approval.
 | --- | --- | --- |
 | processing_db / Ion | V014__trace_link_inventory.sql | Reference-only source inventory; implemented here |
 | processing_db / Ion | V015__trace_link_dataset_history.sql | Immutable native source rows and checkpointed import; implemented here |
-| processing_db / Ion | V016__trace_link_domain_windows.sql | Reserved; metric persistence/outbox activation awaits producer/projection agreement |
+| processing_db / Ion | V016__trace_link_domain_windows.sql | Producer-only immutable primitive projections and held outbox; consumer agreement PENDING_REVIEW |
 | incidents_db / Denis | V005__incident_notifications.sql | PR #90; not changed here |
 | incidents_db / Denis | V006__trace_link_read_models.sql | PR #90; not changed here |
 | incidents_db / Denis | V007__trace_link_query_indexes.sql | PR #90; not changed here |
