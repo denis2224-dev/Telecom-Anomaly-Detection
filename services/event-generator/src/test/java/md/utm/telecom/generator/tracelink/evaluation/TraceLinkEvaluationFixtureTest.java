@@ -75,7 +75,8 @@ class TraceLinkEvaluationFixtureTest {
             }
         }
         Files.createDirectories(Path.of("target/trace-link-evaluation"));
-        assertEquals(json.readTree(Files.readString(Path.of("../../tests/evaluation/trace-link/domain-measurements-v1.json"))),suite);
+        // Normalize Java long nodes through the wire representation before comparing parsed JSON.
+        assertEquals(json.readTree(Files.readString(Path.of("../../tests/evaluation/trace-link/domain-measurements-v1.json"))),json.readTree(suite.toString()));
         Files.writeString(Path.of("target/trace-link-evaluation/domain-measurements.json"),json.writerWithDefaultPrettyPrinter().writeValueAsString(suite)+"\n",StandardCharsets.UTF_8);
     }
 }
