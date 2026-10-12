@@ -1,0 +1,70 @@
+{
+  "baseRefName": "feature/ion-tracelink-domain-producers",
+  "headRefName": "feature/ion-tracelink-scoped-scenarios",
+  "headRefOid": "e3d0a41da141f2a836edbd35258ba878efc335dd",
+  "isDraft": true,
+  "number": 95,
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:11:10Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888265/job/114874579777",
+      "name": "dashboard-verification",
+      "startedAt": "2026-10-12T15:07:15Z",
+      "status": "COMPLETED",
+      "workflowName": "dashboard"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:07:59Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888500/job/114874581076",
+      "name": "build",
+      "startedAt": "2026-10-12T15:07:16Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-runtime-image"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:09:21Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888083/job/114874578403",
+      "name": "backend-verification",
+      "startedAt": "2026-10-12T15:07:15Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-service"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:07:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888106/job/114874594619",
+      "name": "deployment-config",
+      "startedAt": "2026-10-12T15:07:18Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:12:16Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888106/job/114874594353",
+      "name": "model-evaluation",
+      "startedAt": "2026-10-12T15:07:18Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:22:49Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888106/job/114876657823",
+      "name": "processor-evaluation",
+      "startedAt": "2026-10-12T15:12:18Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    }
+  ],
+  "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/95"
+}

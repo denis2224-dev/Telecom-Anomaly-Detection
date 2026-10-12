@@ -1,6 +1,8 @@
 package md.utm.telecom.generator.tracelink;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -13,7 +15,9 @@ public final class TraceLinkScenarioArtifacts {
     private TraceLinkScenarioArtifacts() {}
     public static byte[] bytes(List<TraceLinkFixtureGenerator.Window> windows) throws IOException {
         if (windows.size() > 1024) throw new IllegalArgumentException("Artifact window bound exceeded");
-        var json = new ObjectMapper(); var content = new StringBuilder(); var ids = new HashSet<String>();
+        var json = new ObjectMapper().enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
+                .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
+        var content = new StringBuilder(); var ids = new HashSet<String>();
         for (var w : windows) {
             if (w.observations().size() > 3) throw new IllegalArgumentException("Artifact observation bound exceeded");
             var source = new TraceLinkSyntheticSource(Clock.fixed(w.start().plusSeconds(60), ZoneOffset.UTC));
@@ -28,10 +32,14 @@ public final class TraceLinkScenarioArtifacts {
     }
     /** Atomic no-clobber publication on hard-link capable filesystems. Exact replay leaves the target untouched. */
     public static boolean write(List<TraceLinkFixtureGenerator.Window> windows, Path output) throws IOException {
-        byte[] bytes = bytes(windows); var target = output.toAbsolutePath().normalize(); Files.createDirectories(target.getParent());
+        return writeBytes(bytes(windows), output);
+    }
+    static boolean writeBytes(byte[] bytes, Path output) throws IOException {
+        var target = output.toAbsolutePath().normalize(); Files.createDirectories(target.getParent());
         var temporary = Files.createTempFile(target.getParent(), ".trace-link-minute-", ".jsonl");
         try {
             Files.write(temporary, bytes);
+            try (var channel = java.nio.channels.FileChannel.open(temporary, StandardOpenOption.WRITE)) { channel.force(true); }
             try { Files.createLink(target, temporary); return true; }
             catch (FileAlreadyExistsException replay) {
                 if (Files.size(target) != bytes.length || !Arrays.equals(bytes, Files.readAllBytes(target)))

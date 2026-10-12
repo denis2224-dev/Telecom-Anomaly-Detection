@@ -13,6 +13,8 @@ public final class TraceLinkScenarioEngine {
     public record Snapshot(String runId, Command command, Status status, List<TraceLinkFixtureGenerator.Window> history,
                            List<String> expectedWindowIdentities) {
         public Snapshot { history = List.copyOf(history); expectedWindowIdentities = List.copyOf(expectedWindowIdentities); }
+        /** Generation history cannot establish whether an external system received a window. */
+        public String publicationStatus() { return "UNKNOWN_NOT_TRACKED"; }
     }
     private static final class Run {
         final String id; final Command command; final List<TraceLinkFixtureGenerator.Window> expected;
@@ -35,6 +37,7 @@ public final class TraceLinkScenarioEngine {
     public synchronized Snapshot start(Command command) throws IOException { return start(command.runId(), command); }
     public synchronized Snapshot start(String runId, Command command) throws IOException {
         require(runId != null && runId.matches("[0-9a-f]{64}"), "Invalid run identity"); catalogue.validate(command);
+        require(runId.equals(command.runId()), "RUN_IDENTITY_CONFLICT");
         var existing = runs.get(runId);
         if (existing != null) { require(existing.command.equals(command), "RUN_CONFLICT"); return existing.snapshot(); }
         require(runs.size() < capacity, "Retained run capacity reached");

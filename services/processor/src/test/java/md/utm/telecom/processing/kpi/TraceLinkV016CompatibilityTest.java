@@ -55,6 +55,18 @@ class TraceLinkV016CompatibilityTest {
                     new TraceLinkNativeReader.Scope("LINK","chi-orh","a-to-b",""),java.time.Instant.parse("2026-09-10T09:00:00Z"),
                     java.time.Instant.parse("2026-09-10T09:05:00Z"),artifacts.resolve("transport.jsonl"));
         } finally { registry.close(); }
+        // The current cleanup SQL must never touch the frozen held projection or its outbox.
+        var retention = new md.utm.telecom.processing.outbox.RetentionJob(jdbc,
+                java.time.Clock.fixed(java.time.Instant.parse("2026-12-01T00:00:00Z"),java.time.ZoneOffset.UTC),
+                new md.utm.telecom.processing.outbox.RetentionProperties(true,java.time.Duration.ofHours(48),
+                        java.time.Duration.ofHours(48),java.time.Duration.ofHours(24),100,java.time.Duration.ofMinutes(1)),
+                new md.utm.telecom.processing.outbox.RawRetentionGuard(null,"test.retention.raw") {
+                    @Override public boolean permits(java.time.Duration horizon) { return true; }
+                });
+        assertEquals(new md.utm.telecom.processing.outbox.RetentionJob.Result(0,0),retention.poll());
+        for (String table:java.util.List.of("trace_metric_projection","trace_projection_outbox"))
+            for (String privilege:java.util.List.of("UPDATE","DELETE","TRUNCATE"))
+                assertFalse(jdbc.queryForObject("SELECT has_table_privilege(current_user,?,?)",Boolean.class,"app."+table,privilege));
         assertEquals(before,owner.queryForList("SELECT * FROM app.trace_projection_outbox"));
         assertEquals(1,owner.queryForObject("SELECT count(*) FROM app.trace_metric_projection",Integer.class));
         assertEquals(hash,owner.queryForObject("SELECT payload_sha256 FROM app.trace_metric_projection WHERE projection_id=?",String.class,heldId));
