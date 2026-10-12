@@ -46,3 +46,10 @@ scripts/rehearsal/*.java text eol=lf
 docs/evidence/assets/trace-link-day6/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 # Unified patches retain significant blank-line context as immutable data.
 docs/evidence/assets/trace-link-day6/preflight/*.patch -whitespace
+
+# Integration evidence retains its recorded byte hashes on every checkout.
+docs/evidence/assets/trace-link-integration-20261012/** -text
+docs/evidence/assets/trace-link-integration-20261012/*.patch -whitespace
+
+# The held projection migration has approved raw-byte identity in packaged builds.
+services/processor/src/main/resources/db/migration/V016__trace_link_domain_windows.sql text eol=lf
