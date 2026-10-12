@@ -1,0 +1,191 @@
+{
+  "implementationCommit": "5a8e6bec28ab88fbbfe85da2ecca695cdf4aa7a0",
+  "tree": "220c30890e7700068a3dfa1a6d989b96c5cb5607",
+  "files": [
+    {
+      "status": "M",
+      "path": ".gitattributes",
+      "committedSha256": "0dfb8200ce4f3dd08ab632a18b8f2176f63b069ce374c61521baf6616a7fd771"
+    },
+    {
+      "status": "A",
+      "path": "contracts/datasets/trace-link-archive-layout-v1.json",
+      "committedSha256": "f83bb553f64fbc5b0a7d1d743ba38a6b0f6c1d5c8d8ac8bcec0fef6ea5f042cb"
+    },
+    {
+      "status": "A",
+      "path": "contracts/datasets/trace-link-md-30d-v1.manifest.json",
+      "committedSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b"
+    },
+    {
+      "status": "A",
+      "path": "contracts/datasets/trace-link-reference-manifest-v1.schema.json",
+      "committedSha256": "2e345b852f06de11825b82f6785da0389b973e8f5b0ac8d929790c98b54a78bf"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/domain-window-cases-v1.json",
+      "committedSha256": "433dd08282410aa9faa6c28efbb9dc692475074d7f249c55333ab93e3011dff1"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/cities.csv",
+      "committedSha256": "16cc72a82194b1d416d09df55825f806bd6d97a99bb6ed254ff64a915c530cc1"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/city_kpi_5m.csv",
+      "committedSha256": "207e2f86a286cff2b1444f33cf24f1beef291a6a35f83956aabcb0aa728d5304"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/countries.csv",
+      "committedSha256": "23dfc3bc0ef3b2c95d22db3cb1f5bcecba7390ec194225b437ab96d09df3a7d3"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/link_kpi_5m.csv",
+      "committedSha256": "2ee161a32977870b193f8f5d001797414d4fcacc49cea59eab60e48688098ced"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/links.csv",
+      "committedSha256": "bbf0d608bebf71939354e3d364cd898f69bc12e23e54db3a29552d79ec3a1c6e"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/manifest.json",
+      "committedSha256": "48017fa7ccf83883c4975b4a175c6d9f6a9dbb491da8b8faa49c724246e6f775"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/roaming_kpi_5m.csv",
+      "committedSha256": "56f286fa0147ed813ac090ad801e8cdd63596b7a44701404708a81571f071892"
+    },
+    {
+      "status": "A",
+      "path": "contracts/fixtures/trace-link/native-slice/scenario_events.csv",
+      "committedSha256": "70b87cebbabef71586b5ea4ad25c73634d3ee4dc9eccc654847f36ad51057ae1"
+    },
+    {
+      "status": "A",
+      "path": "contracts/geography/trace-link-geography-v2.json",
+      "committedSha256": "cae4e4911aaf6deb66a8a1e0f8bc6bfc9fd9f7cb2f5d3301d3afe9bf8d1645fc"
+    },
+    {
+      "status": "A",
+      "path": "contracts/observations/trace-link-domain-window-v1.schema.json",
+      "committedSha256": "66e93a1456c355e1110093e7fadb41f9907174bf1246f1e076e49d5ffd3d58af"
+    },
+    {
+      "status": "A",
+      "path": "contracts/topology/trace-link-links-v1.json",
+      "committedSha256": "b418208acd0f2af8cca45df82e2971f59e419cdd910ef4421c2ce34e2fcb1031"
+    },
+    {
+      "status": "A",
+      "path": "docs/architecture/trace-link-migration-ledger.md",
+      "committedSha256": "2c583fdb33fb8cd7d5225e3878c8106224dc88fede284255e667670176d9bcef"
+    },
+    {
+      "status": "A",
+      "path": "docs/runbooks/trace-link-native-import.md",
+      "committedSha256": "932caf18e392cf76fce8196f5cde4acc2f28c3e5b4e506dca5244baa510d4dfa"
+    },
+    {
+      "status": "M",
+      "path": "scripts/check-contracts.py",
+      "committedSha256": "357404d9f98c32980c5ab559eca2ff866c7673de666af712371c12919a3fbd1c"
+    },
+    {
+      "status": "A",
+      "path": "scripts/trace_link_domain_contract.py",
+      "committedSha256": "61c19dd73e4edecfc23488b487aa41a35787fc9b8914a7ae7083a4e51d2fbcc5"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/README.md",
+      "committedSha256": "07ea79869ef9a566fc114fa33b03c63666eb0580f77ad010614517c91c8fe98c"
+    },
+    {
+      "status": "M",
+      "path": "services/processor/pom.xml",
+      "committedSha256": "b5283d912c9eae28decbdc84fb991e84a5be7a6895eb1f69e7d0bd1ccb3f31a6"
+    },
+    {
+      "status": "M",
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/ProcessorApplication.java",
+      "committedSha256": "74014699820ee6f76faca085be7dec04eae75824033c3026fcc5901faaefd0a3"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/history/TraceLinkArchive.java",
+      "committedSha256": "8362a864fc1772fa9218830af9a1993f4d145d599d043f1a0adcb7601c2f795a"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/history/TraceLinkBootstrapApplication.java",
+      "committedSha256": "057137972a8e7f34ff16d52de14a359dfcd1e669287f6529b265ebbbd8e8d8c3"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/history/TraceLinkDatasetBootstrap.java",
+      "committedSha256": "1157fd48fd3d86bacba40e0e8b4a29c7dc546181eee74fb7ba641d3495637b33"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/src/main/resources/application-trace-link-bootstrap.yaml",
+      "committedSha256": "548ec0e6798d107d6fdd1271ea15f7ead52464a585cd48f700a425fd33f51329"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/src/main/resources/db/migration/V014__trace_link_inventory.sql",
+      "committedSha256": "6c338d99ea97ff14cbbc20beb5f8b77dea3ddb6574e3c9382ca51c71181ce57e"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/src/main/resources/db/migration/V015__trace_link_dataset_history.sql",
+      "committedSha256": "4d30580bcc0fefc71a4db5d9cbaaecb5e3cffbe451c4f9ade2fbb1711ebbfb48"
+    },
+    {
+      "status": "M",
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/history/GeographicHistoryMigrationTest.java",
+      "committedSha256": "12f528871e4d8ec4e7964521df70e1724e20a8eacf86ddd4df89902348863970"
+    },
+    {
+      "status": "A",
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/history/TraceLinkDatasetBootstrapIT.java",
+      "committedSha256": "96bcafe0d37658214688963294d75d14edb4199744b858dd4d939b5596f0d1ec"
+    },
+    {
+      "status": "M",
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/ingestion/IngestionIntegrationTest.java",
+      "committedSha256": "1f19ceab15750fb81c7965e6e4ee9864d3a83497ea14bfede8a393ffe78e2d99"
+    },
+    {
+      "status": "M",
+      "path": "services/streaming-support/pom.xml",
+      "committedSha256": "4901b008ab668a47838b76eeb8660e7f9180d2d7895e6e4e8620859515545b10"
+    },
+    {
+      "status": "A",
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/observation/DomainObservationValidator.java",
+      "committedSha256": "81b3a725c07bcb82fe96ad02f2f1aa1b3c98a3aa2ddf686a4e32561d3c2fc900"
+    },
+    {
+      "status": "A",
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/observation/TraceLinkCatalog.java",
+      "committedSha256": "a683aa4fc29757ee7850d9e60c0da4ea2e50ca36bbe8eeb48a817fd7dce45187"
+    },
+    {
+      "status": "A",
+      "path": "services/streaming-support/src/test/java/md/utm/telecom/observation/DomainObservationValidatorTest.java",
+      "committedSha256": "a3f630f5f60a85a5cbfe8eebfaa16b5048f0eb4a3349b8a7da3b3787c8b77ea3"
+    },
+    {
+      "status": "A",
+      "path": "tests/test_trace_link_domain_contract.py",
+      "committedSha256": "31bea59a4faae61ccd9bc10ec14670997f867b968ced4873de662cf865b1f439"
+    }
+  ]
+}

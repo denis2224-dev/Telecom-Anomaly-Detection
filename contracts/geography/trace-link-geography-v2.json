@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 2,
+  "catalogueVersion": "trace-link-geography-v2",
+  "scopeNamespace": "trace-link-reference-v1",
+  "synthetic": true,
+  "activation": {
+    "status": "CONTRACT_ONLY",
+    "effectiveFrom": null
+  },
+  "validFrom": "2026-09-10T09:00:00.000Z",
+  "validTo": null,
+  "cities": [
+    {
+      "referenceCityId": "chi",
+      "contractCityId": "CHI",
+      "displayName": "Chișinău",
+      "latitude": 47.01,
+      "longitude": 28.86,
+      "demandShare": 0.4,
+      "active": true
+    },
+    {
+      "referenceCityId": "bal",
+      "contractCityId": "BAL",
+      "displayName": "Bălți",
+      "latitude": 47.76,
+      "longitude": 27.93,
+      "demandShare": 0.15,
+      "active": true
+    },
+    {
+      "referenceCityId": "cah",
+      "contractCityId": "CAH",
+      "displayName": "Cahul",
+      "latitude": 45.9,
+      "longitude": 28.19,
+      "demandShare": 0.07,
+      "active": true
+    },
+    {
+      "referenceCityId": "ung",
+      "contractCityId": "UNG",
+      "displayName": "Ungheni",
+      "latitude": 47.21,
+      "longitude": 27.8,
+      "demandShare": 0.06,
+      "active": true
+    },
+    {
+      "referenceCityId": "orh",
+      "contractCityId": "ORH",
+      "displayName": "Orhei",
+      "latitude": 47.38,
+      "longitude": 28.82,
+      "demandShare": 0.07,
+      "active": true
+    },
+    {
+      "referenceCityId": "sor",
+      "contractCityId": "SOR",
+      "displayName": "Soroca",
+      "latitude": 48.16,
+      "longitude": 28.3,
+      "demandShare": 0.05,
+      "active": true
+    },
+    {
+      "referenceCityId": "com",
+      "contractCityId": "COM",
+      "displayName": "Comrat",
+      "latitude": 46.3,
+      "longitude": 28.66,
+      "demandShare": 0.05,
+      "active": true
+    },
+    {
+      "referenceCityId": "edi",
+      "contractCityId": "EDI",
+      "displayName": "Edineț",
+      "latitude": 48.17,
+      "longitude": 27.3,
+      "demandShare": 0.04,
+      "active": true
+    },
+    {
+      "referenceCityId": "hin",
+      "contractCityId": "HIN",
+      "displayName": "Hîncești",
+      "latitude": 46.83,
+      "longitude": 28.59,
+      "demandShare": 0.06,
+      "active": true
+    },
+    {
+      "referenceCityId": "cau",
+      "contractCityId": "CAU",
+      "displayName": "Căușeni",
+      "latitude": 46.64,
+      "longitude": 29.41,
+      "demandShare": 0.05,
+      "active": true
+    }
+  ]
+}

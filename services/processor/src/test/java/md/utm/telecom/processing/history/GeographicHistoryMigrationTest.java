@@ -35,7 +35,7 @@ class GeographicHistoryMigrationTest {
             var history = runtime.queryForList("SELECT * FROM app.historical_bootstrap ORDER BY bootstrap_id");
             var delivery = runtime.queryForList("SELECT * FROM app.voice_delivery");
             var flyway = Flyway.configure().dataSource(url, "processing_migrator", "test-migrator").defaultSchema("app")
-                    .schemas("app").createSchemas(false).load();
+                    .schemas("app").createSchemas(false).target("13").load();
             assertEquals(1, flyway.migrate().migrationsExecuted);
             flyway.validate();
             assertEquals(0, flyway.migrate().migrationsExecuted);
