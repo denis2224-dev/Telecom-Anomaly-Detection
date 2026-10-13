@@ -22,9 +22,12 @@ final class TraceLinkRuntimeEvaluation {
             for(JsonNode item:derived.path(field)) {
                 JsonNode evidence=item.path("evidence");
                 // Invalid attribution support is retained as a rejected diagnostic, never allowed to suppress the symptom.
-                try {md.utm.telecom.processing.detection.TraceLinkInputs.validateEvidence(evidence);}
+                try {
+                    md.utm.telecom.processing.detection.TraceLinkInputs.validateEvidence(evidence);
+                    ObjectNode scored=evidence.deepCopy();refresh(scored,evaluatedAt);
+                    ((ObjectNode)item).set("evidence",scored);
+                }
                 catch(IllegalArgumentException invalidSupport){continue;}
-                refresh((ObjectNode)evidence,evaluatedAt);
             }
         return derived;
     }

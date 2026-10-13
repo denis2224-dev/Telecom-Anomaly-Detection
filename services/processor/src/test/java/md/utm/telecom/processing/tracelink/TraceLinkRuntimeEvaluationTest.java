@@ -33,4 +33,16 @@ class TraceLinkRuntimeEvaluationTest {
         assertThrows(IllegalArgumentException.class,()->TraceLinkRuntimeEvaluation.at(original,
                 Instant.parse(original.path("context").path("window").path("from").asText()),TraceLinkRuntimeEvaluation.Mode.LIVE));
     }
+    @Test void rejectedFutureCauseSupportCannotSuppressCurrentSymptom() throws Exception {
+        var original=(com.fasterxml.jackson.databind.node.ObjectNode)input();
+        var evidence=(com.fasterxml.jackson.databind.node.ObjectNode)original.path("context").path("evidence").get(0).deepCopy();
+        Instant source=Instant.parse(evidence.path("freshness").path("observedAt").asText());
+        evidence.withObject("freshness").put("observedAt",source.plusSeconds(1000).toString())
+                .put("asOf",source.plusSeconds(1001).toString()).put("sourceAgeSeconds",1);
+        evidence.put("generatedAt",source.plusSeconds(1001).toString());
+        var candidate=original.withArray("candidates").addObject();candidate.set("evidence",evidence);
+        var scored=TraceLinkRuntimeEvaluation.at(original,source.plusSeconds(600),TraceLinkRuntimeEvaluation.Mode.LIVE);
+        assertEquals(candidate,scored.path("candidates").get(0),"Raw rejected support must remain available for diagnostics");
+        assertEquals("FRESH",scored.path("context").path("evidence").get(0).path("freshness").path("state").asText());
+    }
 }
