@@ -30,6 +30,16 @@ describe('Shared Trace Link query context',()=>{
     expect(store.restore({...parameters,token:'not-a-context-field'})).toBe(true);expect(traceContextParameters(store.context())).toEqual(parameters);
     expect(Object.keys(traceContextParameters(store.context()))).not.toContain('token');
   });
+  it('rejects impossible calendar dates and URL-like dataset identifiers',()=>{
+    expect(store.update({from:'2026-02-30T09:00:00Z'})).toBe(false);
+    expect(store.update({datasetId:'data?token=secret'})).toBe(false);
+    expect(store.update({from:'2026-10-09T09:00:00.000Z'})).toBe(true);
+  });
+  it('removes zoom and link parameters when restoring a URL without them',()=>{
+    store.update({linkDirectionId:'chi-orh:a-to-b'});store.zoom('2026-10-09T09:00:00Z','2026-10-10T09:00:00Z');
+    store.restore({datasetId:'recorded',from:'2026-09-10T09:00:00Z',to:'2026-10-10T09:00:00Z'});
+    expect(store.context().linkDirectionId).toBeUndefined();expect(store.context().visibleFrom).toBeUndefined();
+  });
   it('clears the query on session end and changes revision for cancellation guards',()=>{
     const revision=store.revision();ended.next();expect(store.context().datasetId).toBe('');expect(store.revision()).toBeGreaterThan(revision);
   });

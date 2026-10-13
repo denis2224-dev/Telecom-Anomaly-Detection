@@ -69,7 +69,7 @@ export class TraceOverviewComponent {
   readonly definition=computed<TraceKpiDefinition|undefined>(()=>this.availableDefinitions().find(item=>item.metric===this.metric()) ?? this.availableDefinitions()[0]);
   readonly metricQuery=computed<TraceMetricQuery|null>(()=>{
     const context=this.query.context(),definition=this.definition();
-    if(!definition || !context.datasetId.trim() || context.cityId==='all' || context.domain==='transport'||context.domain==='roaming')return null;
+    if(!definition || context.domain==='all' || !context.datasetId.trim() || context.cityId==='all' || context.domain==='transport'||context.domain==='roaming')return null;
     return {datasetId:context.datasetId,domain:context.domain,metric:definition.metric,scopeType:'CITY',scopeId:context.cityId,
       from:context.visibleFrom??context.from,to:context.visibleTo??context.to,resolution:context.resolution};
   });
