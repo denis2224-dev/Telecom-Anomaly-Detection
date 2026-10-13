@@ -49,7 +49,8 @@ public class TraceSnapshotService {
         var args = new java.util.ArrayList<Object>();
         args.add(datasetId);
         Timestamp stamp = Timestamp.from(at);
-        for (int index = 0; index < (transport ? 6 : 4); index++) args.add(stamp);
+        Timestamp inventoryAt = Timestamp.from(at.equals(dataset.from()) ? at : at.minusNanos(1000));
+        for (int index = 0; index < (transport ? 6 : 4); index++) args.add(inventoryAt);
         if (transport) {
             args.add(city); args.add(city); args.add(city);
         } else {

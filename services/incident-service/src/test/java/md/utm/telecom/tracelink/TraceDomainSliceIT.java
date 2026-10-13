@@ -44,9 +44,9 @@ class TraceDomainSliceIT extends IncidentServiceIntegrationTestSupport {
                 """, Timestamp.from(AT));
         for (String direction : List.of("a-to-b", "b-to-a")) jdbc.update("""
                 INSERT INTO app.trace_link_direction (catalogue_version, link_id, direction_id,
-                    effective_capacity_gbps, capacity_valid_from, measurement_source)
-                VALUES ('test-v1', 'chi-hin', ?, 20, ?, 'fixture')
-                """, direction, Timestamp.from(AT));
+                    effective_capacity_gbps, capacity_valid_from, capacity_valid_to, measurement_source)
+                VALUES ('test-v1', 'chi-hin', ?, 20, ?, ?, 'fixture')
+                """, direction, Timestamp.from(AT), Timestamp.from(AT.plusSeconds(86400)));
         jdbc.update("""
                 INSERT INTO app.trace_partner (catalogue_version, partner_id, country_id, direction, active, valid_from, synthetic)
                 VALUES ('test-v1', 'RO-DEMO-01', 'RO', 'out', TRUE, ?, TRUE)
@@ -100,6 +100,13 @@ class TraceDomainSliceIT extends IncidentServiceIntegrationTestSupport {
         assertNull(snapshot.items().get(1).value());
         var stale = snapshots.read(DATASET, "transport", AT.plusSeconds(1500), "hin", null, null);
         assertEquals("STALE", stale.items().getFirst().quality()); assertNull(stale.items().getFirst().value());
+    }
+    @Test
+    void snapshotAtExclusiveHistoryEndRetainsBothDeclaredDirections() {
+        var result = snapshots.read(DATASET, "transport", AT.plusSeconds(86400), "hin", null, null);
+        assertEquals(2, result.items().size());
+        assertEquals("STALE", result.items().getFirst().quality());
+        assertEquals("MISSING", result.items().get(1).quality());
     }
     private TraceDomainDetection detection(String domain, long sequence, String phase) {
         Instant start = AT.plusSeconds((sequence - 1) * 300);
