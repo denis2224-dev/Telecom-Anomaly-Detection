@@ -122,7 +122,9 @@ class TraceLinkLiveContractTest {
     }
     @Test void pinnedConsumerResultsMatchIndependentExecutionByteForByteAfterParsing() throws Exception {
         var cases=JSON.readTree(Files.readAllBytes(ROOT.resolve("contracts/fixtures/trace-link/live-consumer-results-v1.json")));
-        for(var r:cases)assertEquals(r,new TraceLinkLiveDetector(CLOCK).evaluate(r.path("input")));
+        // Compare the wire representation: Jackson's IntNode(99) and DecimalNode(99) are unequal
+        // in memory even though their exact serialized numeric value and source bytes agree.
+        for(var r:cases)assertEquals(r,read(write(new TraceLinkLiveDetector(CLOCK).evaluate(r.path("input")))));
     }
     @Test void consumerAdmissionRejectsForgedRecoveryEvidenceSeverityCauseAndBaseline() throws Exception {
         var good=evaluate("mobile-data-gap",2,"mobileData.dns.success");
