@@ -98,7 +98,8 @@ class MetricQueryServiceIT extends IncidentServiceIntegrationTestSupport {
         assertTrue(first.from().isBefore(second.from()));
         var zero = queries.series(query(FROM.plusSeconds(600), FROM.plusSeconds(900), "5m"));
         assertNull(zero.points().getFirst().value());
-        assertEquals("VALID", zero.points().getFirst().quality());
+        assertEquals("INSUFFICIENT_EVIDENCE", zero.points().getFirst().quality());
+        assertEquals("ZERO_DENOMINATOR", zero.points().getFirst().nullReason());
     }
 
     @Test
@@ -154,7 +155,7 @@ class MetricQueryServiceIT extends IncidentServiceIntegrationTestSupport {
         mvc.perform(get("/api/v2/kpi-definitions"))
                 .andExpect(status().isUnauthorized());
         mvc.perform(get("/api/v2/kpi-definitions").session(authenticatedSession()).with(login))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(1))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].metric").value("voice.success_rate"));
         var request = get("/api/v2/metrics/series").session(authenticatedSession()).with(login)
                 .param("datasetId", "trace-link-md-30d-v1").param("domain", "volte")
