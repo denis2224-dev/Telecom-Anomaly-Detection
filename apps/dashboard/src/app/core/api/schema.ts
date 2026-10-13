@@ -4,6 +4,26 @@
  */
 
 export interface paths {
+    "/api/v2/trace-domain-measurements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Isolated native-domain measurements with complete scope and original source bytes
+         * @description Disabled by default (app.trace-domain-read-model.enabled). Mapping and minute policy PENDING_REVIEW. Uses existing enabled analyst and session security. No Kafka ingestion or connected acceptance is implied. Exact native alignment; up to 30 days and 8640 points. Missing points contain no fabricated observation. No rollup or duration conversion.
+         */
+        get: operations["getTraceDomainNativeMeasurements"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/geography/cities": {
         parameters: {
             query?: never;
@@ -1244,6 +1264,54 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        TraceDomainMeasurementV1: {
+            /** @enum {unknown} */
+            schemaVersion: "trace-link-domain-measurement-v1";
+            /** @enum {unknown} */
+            mappingVersion: "trace-link-domain-mapping-v1";
+            /** @enum {unknown} */
+            sourceKind: "LIVE_60" | "NATIVE_300";
+            sourcePayloadBase64: string;
+            sourcePayloadSha256: string;
+            provenance: {
+                manifestSha256: string;
+                generatorVersion: string;
+                seed: number;
+            };
+        };
+        TraceDomainNativePointV1: {
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            /** @enum {integer} */
+            expectedSlots: 1;
+            /** @enum {integer} */
+            receivedSlots: 0 | 1;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
+            value: number | null;
+            sourceCoverage: number | null;
+            /** @enum {string|null} */
+            nullReason: "NO_SOURCE_SLOT" | "ZERO_DENOMINATOR" | null;
+            measurement: components["schemas"]["TraceDomainMeasurementV1"] | null;
+        };
+        TraceDomainNativeSeriesV1: {
+            schemaVersion: string;
+            mappingVersion: string;
+            datasetId: string;
+            sourceId: string;
+            scopeKey: string;
+            metricId: string;
+            domain: string;
+            unit: string;
+            aggregationType: string;
+            from: string;
+            to: string;
+            /** @enum {integer} */
+            sourceResolutionSeconds: 60 | 300;
+            points: components["schemas"]["TraceDomainNativePointV1"][];
+        };
         /** @description A finalized measurement; null is never silently converted to zero. */
         GeographyMetric: {
             /** @enum {string} */
@@ -2178,6 +2246,61 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getTraceDomainNativeMeasurements: {
+        parameters: {
+            query: {
+                datasetId: string;
+                sourceId: string;
+                scopeKey: string;
+                metric: string;
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native immutable measurements and explicit missing points */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceDomainNativeSeriesV1"];
+                };
+            };
+            /** @description Invalid or incompatible source, scope, metric, alignment or bounds */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Enabled analyst profile and application role required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Feature disabled */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     listGeographyCities: {
         parameters: {
             query?: never;

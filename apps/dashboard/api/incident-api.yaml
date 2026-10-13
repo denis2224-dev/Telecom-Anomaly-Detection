@@ -22,6 +22,62 @@ tags:
 - name: Trace Export
 - name: Notifications
 paths:
+  /api/v2/trace-domain-measurements:
+    get:
+      tags:
+      - Trace Metrics
+      operationId: getTraceDomainNativeMeasurements
+      summary: Isolated native-domain measurements with complete scope and original source bytes
+      description: Disabled by default (app.trace-domain-read-model.enabled). Mapping and minute policy
+        PENDING_REVIEW. Uses existing enabled analyst and session security. No Kafka ingestion or connected
+        acceptance is implied. Exact native alignment; up to 30 days and 8640 points. Missing points contain
+        no fabricated observation. No rollup or duration conversion.
+      parameters:
+      - name: datasetId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: sourceId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: scopeKey
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: metric
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Native immutable measurements and explicit missing points
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceDomainNativeSeriesV1'
+        '400':
+          description: Invalid or incompatible source, scope, metric, alignment or bounds
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Enabled analyst profile and application role required
+        '404':
+          description: Feature disabled
   /api/geography/cities:
     get:
       operationId: listGeographyCities
@@ -1401,6 +1457,157 @@ components:
           schema:
             $ref: '#/components/schemas/ApiError'
   schemas:
+    TraceDomainMeasurementV1:
+      type: object
+      additionalProperties: false
+      required:
+      - schemaVersion
+      - mappingVersion
+      - sourceKind
+      - sourcePayloadBase64
+      - sourcePayloadSha256
+      - provenance
+      properties:
+        schemaVersion:
+          enum:
+          - trace-link-domain-measurement-v1
+        mappingVersion:
+          enum:
+          - trace-link-domain-mapping-v1
+        sourceKind:
+          enum:
+          - LIVE_60
+          - NATIVE_300
+        sourcePayloadBase64:
+          type: string
+          minLength: 1
+          maxLength: 900000
+        sourcePayloadSha256:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        provenance:
+          type: object
+          additionalProperties: false
+          required:
+          - manifestSha256
+          - generatorVersion
+          - seed
+          properties:
+            manifestSha256:
+              type: string
+              pattern: ^[0-9a-f]{64}$
+            generatorVersion:
+              type: string
+              minLength: 1
+              maxLength: 160
+            seed:
+              type: integer
+              minimum: 0
+              maximum: 9223372036854775807
+    TraceDomainNativePointV1:
+      type: object
+      required:
+      - from
+      - to
+      - expectedSlots
+      - receivedSlots
+      - quality
+      - value
+      - sourceCoverage
+      - nullReason
+      - measurement
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        expectedSlots:
+          type: integer
+          enum:
+          - 1
+        receivedSlots:
+          type: integer
+          enum:
+          - 0
+          - 1
+        quality:
+          type: string
+          enum:
+          - VALID
+          - PARTIAL
+          - MISSING
+          - STALE
+          - INSUFFICIENT_EVIDENCE
+        value:
+          type: number
+          nullable: true
+        sourceCoverage:
+          type: number
+          nullable: true
+          minimum: 0
+          maximum: 1
+        nullReason:
+          type: string
+          nullable: true
+          enum:
+          - NO_SOURCE_SLOT
+          - ZERO_DENOMINATOR
+          - null
+        measurement:
+          allOf:
+          - $ref: '#/components/schemas/TraceDomainMeasurementV1'
+          nullable: true
+    TraceDomainNativeSeriesV1:
+      type: object
+      required:
+      - schemaVersion
+      - mappingVersion
+      - datasetId
+      - sourceId
+      - scopeKey
+      - metricId
+      - domain
+      - unit
+      - aggregationType
+      - from
+      - to
+      - sourceResolutionSeconds
+      - points
+      properties:
+        schemaVersion:
+          type: string
+        mappingVersion:
+          type: string
+        datasetId:
+          type: string
+        sourceId:
+          type: string
+        scopeKey:
+          type: string
+        metricId:
+          type: string
+        domain:
+          type: string
+        unit:
+          type: string
+        aggregationType:
+          type: string
+        from:
+          type: string
+        to:
+          type: string
+        sourceResolutionSeconds:
+          type: integer
+          enum:
+          - 60
+          - 300
+        points:
+          type: array
+          maxItems: 8640
+          items:
+            $ref: '#/components/schemas/TraceDomainNativePointV1'
     GeographyMetric:
       type: object
       description: A finalized measurement; null is never silently converted to zero.
