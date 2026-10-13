@@ -60,6 +60,15 @@ class TraceScenarioApiIT {
             if(path.equals("/validate")) {
                 var command=((ObjectNode)body).deepCopy();
                 if(!command.has("parameters")) command.set("parameters",json.readTree("{\"normalUtilizationBp\":5000,\"degradedUtilizationBp\":9800,\"capacityGbps\":20,\"attempts\":1000,\"healthySuccessBp\":9900,\"degradedSuccessBp\":7000,\"missingMinutes\":[]}"));
+                var missing=command.path("parameters").path("missingMinutes");
+                if(missing.isArray()) {
+                    var sorted=new TreeSet<Integer>();
+                    for(var minute:missing) {
+                        if(!minute.isIntegralNumber() || !minute.canConvertToInt() || minute.intValue()<0 || minute.intValue()>7 || !sorted.add(minute.intValue()))
+                            throw new WorkflowProblem(HttpStatus.BAD_REQUEST,"INVALID_COMMAND","Invalid missing minutes");
+                    }
+                    ((ObjectNode)command.path("parameters")).set("missingMinutes",json.valueToTree(sorted));
+                } else throw new WorkflowProblem(HttpStatus.BAD_REQUEST,"INVALID_COMMAND","Invalid missing minutes");
                 String hash=HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256").digest(command.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8)));
                 var result=json.createObjectNode().put("fingerprint",hash);result.set("command",command);return result;
             }
@@ -86,6 +95,55 @@ class TraceScenarioApiIT {
     }
     MockHttpServletRequestBuilder start(JsonNode body) { return auth(post(BASE+"/runs"),"trace-supervisor","SUPERVISOR").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(body.toString()); }
     JsonNode accepted(JsonNode body) throws Exception { return json.readTree(mvc.perform(start(body)).andExpect(status().isAccepted()).andReturn().getResponse().getContentAsString()); }
+    ObjectNode withMissing(String missing) {
+        var body=command();
+        body.set("parameters",json.readTree("{\"normalUtilizationBp\":5000,\"degradedUtilizationBp\":9800,\"capacityGbps\":20,\"attempts\":1000,\"healthySuccessBp\":9900,\"degradedSuccessBp\":7000,\"missingMinutes\":"+missing+"}"));
+        return body;
+    }
+    @Test void unsortedMissingMinutesNormalizeWithoutChangingRequestIdentity() throws Exception {
+        var body=withMissing("[7,5]");String submitted=body.toString();
+        var first=accepted(body);var retry=accepted(body);
+        assertEquals("[5,7]",first.path("command").path("parameters").path("missingMinutes").toString());
+        assertEquals(first.path("runId"),retry.path("runId"));
+        assertEquals(first.path("fingerprint"),retry.path("fingerprint"));
+        assertEquals(submitted,body.toString());
+        assertEquals("[7,5]",json.readTree(jdbc.queryForObject("SELECT request_text FROM app.trace_scenario_command",String.class)).path("parameters").path("missingMinutes").toString());
+        assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM app.trace_scenario_command",Integer.class));
+        verify(gateway,times(1)).call(eq("POST"),eq("/validate"),any());
+        ((ObjectNode)body.path("parameters")).set("missingMinutes",json.readTree("[5,7]"));
+        mvc.perform(start(body)).andExpect(status().isConflict());
+        ((ObjectNode)body.path("parameters")).set("missingMinutes",json.readTree("[7,4]"));
+        mvc.perform(start(body)).andExpect(status().isConflict());
+        body.put("seed",43);mvc.perform(start(body)).andExpect(status().isConflict());
+    }
+    @Test void malformedMissingMinutesRemainBadRequestsWithoutReservingIdentity() throws Exception {
+        for(String missing:List.of("[7,7]","[-1]","[8]","[2147483648]","[1.5]","[\"5\"]","[null]","[true]","{}","null"))
+            mvc.perform(start(withMissing(missing))).andExpect(status().isBadRequest());
+        assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM app.trace_scenario_command",Integer.class));
+        assertTrue(runtime.isEmpty());
+    }
+    @Test void producerCannotChangeOtherParametersOrReorderUnrelatedArrays() throws Exception {
+        when(gateway.call(eq("POST"),eq("/validate"),any())).thenAnswer(invocation->{
+            var command=((ObjectNode)invocation.<JsonNode>getArgument(2)).deepCopy();
+            ((ObjectNode)command.path("parameters")).put("attempts",999);
+            var validated=json.createObjectNode().put("fingerprint","a".repeat(64));validated.set("command",command);return validated;
+        });
+        mvc.perform(start(withMissing("[7,5]"))).andExpect(status().isServiceUnavailable());
+        when(gateway.call(eq("POST"),eq("/validate"),any())).thenAnswer(invocation->{
+            var command=((ObjectNode)invocation.<JsonNode>getArgument(2)).deepCopy();
+            ((ObjectNode)command.path("parameters")).set("orderedControl",json.readTree("[2,1]"));
+            var validated=json.createObjectNode().put("fingerprint","a".repeat(64));validated.set("command",command);return validated;
+        });
+        var body=withMissing("[7,5]");((ObjectNode)body.path("parameters")).set("orderedControl",json.readTree("[1,2]"));
+        mvc.perform(start(body)).andExpect(status().isServiceUnavailable());
+        assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM app.trace_scenario_command",Integer.class));
+    }
+    @Test void runtimeSnapshotCommandStillRequiresExactArrayOrder() throws Exception {
+        var run=accepted(withMissing("[5,7]"));
+        var snapshot=runtime.get(run.path("fingerprint").asText());
+        ((ObjectNode)snapshot.path("command").path("parameters")).set("missingMinutes",json.readTree("[7,5]"));
+        mvc.perform(auth(get(BASE+"/runs/"+run.path("runId").asText()),"trace-supervisor","SUPERVISOR")).andExpect(status().isServiceUnavailable());
+    }
     @Test void stableUuidMappingExactRetryConflictAndPrivateHistory() throws Exception {
         var command=command();var first=accepted(command);var retry=accepted(command);
         assertEquals(first.path("runId"),retry.path("runId"));assertEquals(64,first.path("fingerprint").asText().length());
