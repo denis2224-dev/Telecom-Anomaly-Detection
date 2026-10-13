@@ -126,6 +126,12 @@ def main():
     validate_day2_contracts()
     from trace_link_history_baseline import validate_contracts as validate_seasonal_baseline_contracts
     validate_seasonal_baseline_contracts()
+    from trace_link_producer_contract import validate_producer_contracts
+    validate_producer_contracts()
+    from trace_link_scenario_contract import validate_scenarios, validate_transitions
+    print(f'PASS: {validate_scenarios()} independent synthetic minute measurements; {validate_transitions()} evaluator expectations PENDING')
+    from trace_link_receiving_contract import validate_receiving_contracts
+    validate_receiving_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)

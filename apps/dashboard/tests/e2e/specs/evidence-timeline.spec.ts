@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from '../helpers/test';
 import { voiceIncidents } from '../../../src/fixtures/voice';
 import services from '../../../src/fixtures/services.json';
 import type { components } from '../../../src/app/core/api/schema';
@@ -108,7 +108,7 @@ test.describe('Controlled historical evidence', () => {
     await page.goto(`/incidents/${incident.id}`);
     await expect(page.locator('[data-detection-id]')).toHaveCount(20);
     await page.getByRole('button', { name: 'Next evidence' }).click();
-    await expect(page.getByRole('alert')).toContainText('could not be reached');
+    await expect(page.getByRole('alert')).toContainText('temporarily unavailable');
     await expect(page.locator('[data-detection-id]')).toHaveCount(0);
     failSecondPage = false;
     await page.getByRole('button', { name: 'Retry' }).click();

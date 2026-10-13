@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:telecom:trace-link-domain-primitive-result-v1",
+  "description": "Isolated producer result. No Kafka or durable consumer projection contract. Observation coverage is native slot presence; source coverage remains null.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "calculationVersion",
+    "observation",
+    "availability",
+    "referenceLimitations",
+    "qualification",
+    "sourceQuality",
+    "sourceCoverage",
+    "coverageBasis",
+    "validityAssumption",
+    "referenceOnly",
+    "procedureEligibility",
+    "weightingBasis",
+    "provenance",
+    "value",
+    "nullReason"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "trace-link-domain-primitive-result-v1"
+    },
+    "calculationVersion": {
+      "const": "trace-link-native-primitives-v1"
+    },
+    "observation": {
+      "$ref": "urn:telecom:trace-link-domain-window-v1"
+    },
+    "availability": {
+      "enum": [
+        "SUPPORTED",
+        "APPROXIMATION",
+        "REQUIRES_ADDITIONAL_PRIMITIVES"
+      ]
+    },
+    "referenceLimitations": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "qualification": {
+      "const": "Native arithmetic only; source quality and source coverage are unknown."
+    },
+    "sourceQuality": {
+      "type": "null"
+    },
+    "sourceCoverage": {
+      "type": "null"
+    },
+    "coverageBasis": {
+      "const": "NATIVE_SLOT_PRESENCE; observation.coverage is not source coverage"
+    },
+    "validityAssumption": {
+      "enum": [
+        null,
+        "300 seconds per native slot; not source-provided temporal validity."
+      ]
+    },
+    "referenceOnly": {
+      "type": "boolean"
+    },
+    "procedureEligibility": {
+      "enum": [
+        "UNPROVEN",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "weightingBasis": {
+      "enum": [
+        null,
+        "MODELED_CITY_SLOT; no genuine user/session weighting"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifestSha256",
+        "generatorVersion",
+        "seed",
+        "naturalId",
+        "sourceFile",
+        "sourceRowNumber",
+        "sourceRowSha256"
+      ],
+      "properties": {
+        "manifestSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "generatorVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "naturalId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sourceFile": {
+          "enum": [
+            "link_kpi_5m.csv",
+            "roaming_kpi_5m.csv",
+            "city_kpi_5m.csv",
+            null
+          ]
+        },
+        "sourceRowNumber": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "sourceRowSha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "value": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "nullReason": {
+      "enum": [
+        "NONE",
+        "ZERO_DENOMINATOR",
+        "NO_SOURCE_SLOT"
+      ]
+    }
+  }
+}

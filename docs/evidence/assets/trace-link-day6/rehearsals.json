@@ -1,0 +1,84 @@
+{
+  "executionCompletedAtUtc": "2026-10-12T16:26:56.653049+00:00",
+  "milestoneDate": "2026-10-15",
+  "executionMode": "OFFLINE_LOGICAL_CLOCK",
+  "producerBaseCommit": "8fb0596b415b4fef137b29b38774948d3112c1a0",
+  "rehearsalSourceCommit": "a4d9351fe92d1021f3fb03d69142f19bbdf9abeb",
+  "rehearsalSourceTree": "a4314b7e995847a3a422717db2671a7a38c8fee6",
+  "inputHashBasis": "Raw checked-out bytes; Git content hashes separately identify immutable repository inputs",
+  "configurationSha256": "3d387504a364eb91f5cc3f03b19e5f0e0d69d2fe45f71edead76c7d07e082a51",
+  "pinnedFiles": {
+    "contracts/fixtures/demo/service-seeds.json": "3d387504a364eb91f5cc3f03b19e5f0e0d69d2fe45f71edead76c7d07e082a51",
+    "scripts/rehearsal/TraceLinkProducerRehearsal.java": "864fbb95ff799dd8bd9a0e4a841c096b02241b552272e3123f4866740369a4d7",
+    "scripts/rehearse-trace-link-producer.py": "38352006e48bc02154b0d04913db89275d8342c889c0f9484e45a9a24da9e2e2",
+    "contracts/datasets/trace-link-live-synthetic-v1.json": "d6aa52a7f767e4f764ad4c83690ba695e26cd448796e51cc36f40d7442c8fa9c",
+    "contracts/datasets/trace-link-md-30d-v1.manifest.json": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+    "contracts/topology/trace-link-links-v1.json": "0eebd898e2556de827a24d8a4352bdfa611149cece10827517fe5ce3ddf40371",
+    "contracts/geography/trace-link-geography-v2.json": "92ff7ca7374bea0a7e8f5aa814b7019d307e7dc0333050cff3011058d4415fa8",
+    "contracts/kpi/trace-link-kpi-definitions-v1.json": "af7837c5f10aa037e35cb6dbc6ca8cd613c096381a5dd046b97e0545a85748ce",
+    "contracts/observations/trace-link-domain-window-v1.schema.json": "9d135da5137fecfcc68c508ec178ff72e0f66a67ceb3856b4db135aa905f0e7b",
+    "contracts/observations/telecom-observation-v2.schema.json": "ce55995cbe96bf81e4388ae6f4015fbacca0688908ddbbdcb1da0d1f10cfb24e",
+    "contracts/features/feature-order-v2.json": "bee443349bb3ba73dd58d2b38684f051a6fb0c2cd29bbd484518ecd046d9a263",
+    "contracts/policies/service-rules-v2.json": "3028f9c2f8cc5d93ce860b26ba4098bc7c0c65fb370de060e09672764488ab96"
+  },
+  "gitContentPins": {
+    "contracts/fixtures/demo/service-seeds.json": "3d387504a364eb91f5cc3f03b19e5f0e0d69d2fe45f71edead76c7d07e082a51",
+    "scripts/rehearsal/TraceLinkProducerRehearsal.java": "864fbb95ff799dd8bd9a0e4a841c096b02241b552272e3123f4866740369a4d7",
+    "scripts/rehearse-trace-link-producer.py": "38352006e48bc02154b0d04913db89275d8342c889c0f9484e45a9a24da9e2e2",
+    "contracts/datasets/trace-link-live-synthetic-v1.json": "4accd3317fa6248a68e4b42ba6793ab3cc0f9c5a5a07c019b3846ccbfc90b444",
+    "contracts/datasets/trace-link-md-30d-v1.manifest.json": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+    "contracts/topology/trace-link-links-v1.json": "b418208acd0f2af8cca45df82e2971f59e419cdd910ef4421c2ce34e2fcb1031",
+    "contracts/geography/trace-link-geography-v2.json": "cae4e4911aaf6deb66a8a1e0f8bc6bfc9fd9f7cb2f5d3301d3afe9bf8d1645fc",
+    "contracts/kpi/trace-link-kpi-definitions-v1.json": "cc2a473c380888ba26895134ce608483bb4c2b66511d44a4587ffcc6c2d98c77",
+    "contracts/observations/trace-link-domain-window-v1.schema.json": "66e93a1456c355e1110093e7fadb41f9907174bf1246f1e076e49d5ffd3d58af",
+    "contracts/observations/telecom-observation-v2.schema.json": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d",
+    "contracts/features/feature-order-v2.json": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+    "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c"
+  },
+  "packagedArtifacts": {
+    "event-generator-0.3.0-SNAPSHOT.jar": "70e3ed0378b81417e657315b3c3f5583b99a2ee89cc85598869f2ea84c3586fe",
+    "event-generator-0.3.0-SNAPSHOT-library.jar": "84ecd1ed368162535c1ae185143cb4a39f01017b24ab32c2406035a1faf6e034"
+  },
+  "rehearsalHashesMatch": true,
+  "artifactHashes": {
+    "completed-checkpoint.json": "a5bedef4567d1a8bccdf303636318fa1d7e6b59fba6e63cb726f1d7002a6ac2a",
+    "interrupted-checkpoint.json": "4258e66ca94f9d7717fa23764cf9e0c21a45db23b4707f520c08ebadc42248b8",
+    "legacy-sms-fault.json": "4cde63d45d8722f6d34b2c7ba9c4945d34ffb1de1b79c6982ac5e65f6528d670",
+    "legacy-sms-gap.json": "db00c8c3936985c4e0d02baa71481a2dd04419295eef6973ac2aeeeea640f2c9",
+    "legacy-sms-normal.json": "4339001fd281fd7c8dfa8f9c726d4f0995d3061419e9000b77cdf0459d17ca98",
+    "legacy-volte-normal_control.json": "fd4fc7284371e1c03b840fd8e2ec761a19713709bd423c026793473713c2474d",
+    "legacy-volte-telemetry_gap.json": "53b83c57c2fe6c8cf7b57a739ff828c5af99a4ebc7d2d2491a8c0cdb89be1aa7",
+    "legacy-volte-volte_ims_overload.json": "dd630dfe27abca1c4456a4bed6edf240d0f6833242fcde8138ab95b6da254378",
+    "mobile-data-fault.jsonl": "83c788c4b1581dd9d83a9e678329bd54b9069f6c8d9f571a6a1b00b31279614f",
+    "mobile-data-gap.jsonl": "993a611f0a60a4017fe7bd349881a6794d2f25c607f3583846b30437a843c5d3",
+    "mobile-data-normal.jsonl": "9256c835646e898391c9941aba6961cdd0cc0f614dcbea402692cf3d20e0267a",
+    "mobile-data-other-city.jsonl": "6935ab3711dae51d00084537a950bb6f5d467112f829c1cfbc8fe0268b74c978",
+    "result.json": "4c560d0cc2c8653f5da530d678d7946cca9dcd338eb8235ac135bd3027bb797c",
+    "roaming-fault.jsonl": "885126778ed7a82b9f17e05b98c98d6129e3ca874410833aa9bb1ffcb9b45dd4",
+    "roaming-gap.jsonl": "3959a89b5938bed679af983afc29e3370605939fa37649bf677dfbb5ee0013c1",
+    "roaming-normal.jsonl": "3be0104b0052e61d608c4716784423aee28218f31073aa94fc3288ae33481b67",
+    "roaming-opposite.jsonl": "4f16027498a195498443a802de74cb74eec20192b965602b5ca43acb2f5a5b0b",
+    "transport-fault.jsonl": "98a3c1e3a05d5f78a20d9d66c228fc9730cdd8cbd0b179093d88ba0254f8687e",
+    "transport-gap.jsonl": "17625343ea5ddc18c8d944c64a653e5ef1df32a6f182213f47b4203d83977607",
+    "transport-high-utilization-control.jsonl": "a76b7bb45a0686012c2035a09349202a3d411014fbcd409c7b8263c23dacf2c1",
+    "transport-normal.jsonl": "0a684d5a984fcc3bfad105f54ccb8ac29f50d6f7f71ffe48a55a71ea39bb7e48",
+    "transport-opposite.jsonl": "01aad4e33f2568f9b42c7eb39faeab86228bfb9d444867d47a6e3044b8e824f6",
+    "transport-recovery-gap.jsonl": "8c733f695055bcbe4296ba1c72620932fa949e9005325e2ef1f9d336ee5dc442"
+  },
+  "runs": [
+    {
+      "number": 1,
+      "status": "VERIFIED",
+      "newDomainObservations": 240,
+      "legacyObservations": 105
+    },
+    {
+      "number": 2,
+      "status": "VERIFIED",
+      "newDomainObservations": 240,
+      "legacyObservations": 105
+    }
+  ],
+  "receivingOwnerReproduction": "NOT_VERIFIED",
+  "overallRelease": "BLOCKED"
+}

@@ -179,12 +179,18 @@ and logs are written to ignored `target/streaming-smoke/`.
 
 ## Current Limitations
 
-The generator does not publish observations to Kafka. The processor consumes raw
-observations and commits accepted or rejected state before ACK. It has no HTTP
-ingestion endpoint. Finalization and publication are not implemented. See the
+The legacy generator and processor retain their approved Kafka/outbox paths.
+The processor commits accepted or rejected state before ACK and has no HTTP
+ingestion endpoint. New Trace Link producer entrypoints write local artifacts
+with Kafka disabled and consumer integration pending review. See the
 [Streaming overview](../streaming/README.md#limitations) for the remaining boundaries.
 
 ## Durable ingestion
+
+For isolated native Trace Link Transport, Roaming and LTE-data calculation, use
+the [domain producer runbook](trace-link-domain-producers.md). This path reads
+completed processor-owned imports and writes local artifacts; it does not
+activate a Kafka topic or modify the frozen projection outbox.
 
 See [ingestion design and verification](../streaming/ingestion.md). Consume
 `telecom.observations.v2` in group `telecom-processor-v2`, with exact case-sensitive
@@ -192,3 +198,117 @@ UTF-8 `scopeId` keys. Producer generation remains a later task. Flyway V001 uses
 `processing_migrator`; ordinary JDBC work uses `processing_app`, exclusively in
 `processing_db.app`. Run `./scripts/prepare-databases` before `./scripts/up` to
 upgrade existing volumes without deleting data.
+
+## Trace Link producer reliability
+
+Ion owns immutable native import and local primitive/scenario artifacts in
+`processing_db.app`; Denis owns incident ingestion and the durable public command
+ledger. Runtime accounts use their provisioned database only and have no DDL or
+cross-database access. Native import may insert source/checkpoint rows and advance
+checkpoint counters; the domain producer executes SELECTs only. Do not provide
+migrator credentials to a read-only producer job or put credentials in commands,
+artifacts or logs. Use the established environment/secret mechanism.
+
+Native `trace-link-md-30d-v1` covers
+`[2026-09-10T09:00:00Z,2026-10-10T09:00:00Z)` in 300-second UTC windows. Live
+`trace-link-live-synthetic-v1` uses genuine 60-second windows and seed 42 by
+default. Dataset, source, scope/direction, time, resolution and policy versions
+participate in identity. An archive row is never upsampled or relabelled live.
+The local scenario profile is 2 normal, 3 degraded, 3 recovery minutes; explicit
+gaps remain missing. See the [scenario runbook](trace-link-scenarios.md).
+
+On import failure, keep the source files and manifest unchanged. The archive is
+checksum-verified into a private snapshot before database writes. A committed
+batch advances rows and its checkpoint together. Retry the same explicit import
+command after database availability returns: committed batches are skipped, an
+uncommitted batch is retried, and completion appears only after exact membership
+and bounds validate. Changed manifest under an existing dataset fails. Do not
+reset demo data, delete checkpoints, edit applied migrations or synthesize absent
+archive rows. Missing reverse-direction measurements stay missing.
+
+On producer database failure, retain any earlier artifact and record the safe
+exception category, dataset/scope/bounds and source checksum. The job creates no
+new output if source read/validation fails. Restore database availability, then
+retry the exact request/path. Identical bytes are a duplicate local result;
+conflicting bytes require investigation and a new approved request/path. Neither
+operation offers Kafka messages. Missing measurements produce null values,
+not healthy zeros; archive rows have unknown quality/coverage, even when native
+slot presence is complete. Late/out-of-range sources fail eligibility checks.
+
+The current retention job has an explicit SQL allowlist: completed legacy raw
+receipts older than the proven retention horizon, plus old ACK-marked rejection
+rows. Source-state references, unfinished detection/shadow jobs, active episodes,
+bootstrap ranges, monitoring cursors, pending outputs and unverified Kafka expiry
+fence receipt cleanup. Native `trace_source_*`, V016 `trace_metric_projection` /
+`trace_projection_outbox`, local checkpoints and investigation artifacts are
+retained indefinitely. No new-table cleanup job or schema migration is added.
+Indefinite retention has storage costs and no automatic disk quota: monitor free
+space and fail closed rather than deleting evidence. Future cleanup requires
+owner review, provenance/reference checks, backup/restore verification and an
+explicit completed investigation lifecycle. Current tests do not authorize it.
+
+Approved legacy topics and partition keys stay as configured. Proposed new-domain
+state keys are link+direction, partner+direction+procedure, and city+service;
+topic names and transport mappings remain PENDING_REVIEW. Do not release V016's
+held outbox or send these artifacts to the VoLTE/SMS topic.
+
+Full disposable verification (Java 21, Docker, repository Python dependencies):
+
+```powershell
+python scripts/check-contracts.py
+python -m unittest discover -s tests -v
+./mvnw.cmd -B -ntp -pl services/streaming-support,services/event-generator,services/processor -am clean verify
+```
+
+Select archive inputs explicitly with `'-DtraceLink.referenceRoot=<pack-root>'`
+and `'-Dtrace.link.archive=<pack-root>/data'`. For held-outbox coexistence, also
+select `'-Dtrace.link.v016.directory=<exact-frozen-SQL-directory>'` and its pinned
+`'-Dtrace.link.v016.sha256=<sha256>'`. Omitted optional inputs are skips. Full
+verification includes legacy ReplayIT, FinalizerRaceIT, DependencyOutageIT,
+geographic, retention and VoLTE/SMS tests; their ACK/outage results do not establish
+Trace Link delivery acceptance. See [Day 5 evidence](../evidence/2026-10-14-trace-link-reliability.md)
+for actual commands, source identity, counts and limitations.
+
+Connected capacity uses `scripts/load-profile.json`: 120 seconds warmup, 900
+seconds steady state, then an owner-bounded burst and measured recovery/drain.
+It remains BLOCKED until transport/consumer and disposable environment approval.
+Do not substitute local compilation timing, represented calls/messages, or
+legacy Kafka throughput for new-domain offered/ACK/persisted/finalized rates.
+
+## Trace Link Day 6 rehearsal and release evidence
+
+The [pinned demo script](../demo/ion-script.md) reproduces two packaged producer-only
+rehearsals with injected logical clocks. Use a new output directory:
+
+```powershell
+python scripts/rehearse-trace-link-producer.py --java-home '<Java-21-home>' --output '<new-directory>'
+python scripts/verify-trace-link-day6-evidence.py
+```
+
+Build the producer reactor first. Keep both run directories and their manifest.
+The rehearsal checks measured arithmetic, complete eight-minute schedules,
+concurrent independent scopes, opposite-direction controls, exact replay and
+interrupted restart with zero new output. A missing recovery minute is never
+healthy evidence. The six legacy profiles use the existing V2 generation APIs.
+The thirteen unimplemented new catalogue definitions remain unsupported.
+
+The historical archive remains native 300s and immutable; the minute generator
+uses a separate synthetic source/dataset. Existing demo databases and volumes
+must not be reset to reproduce this verification. Import/checkpoint retries
+preserve identity and bytes; unknown publication requires reconciliation.
+
+Frozen repository JSON pins allow Git's CRLF checkout conversion on Windows,
+while archive/reference/binary and golden-suite hashes stay byte-exact. The
+Day 6 artifact manifest pins raw evidence bytes across checkouts.
+
+The [release preflight](../architecture/trace-link-release-preflight.md) contains
+the reviewed merge graph, #91 resolution patch, parallel #92 compatibility,
+producer/detector mismatches and ordered Denis/Stanislav execution checklist.
+Connected delivery, authenticated reads/UI/Grafana, measured capacity, backup and
+restore, clean install/upgrade and five-owner reproduction remain separate gates.
+Verify backup restoration against a disposable copy before any connected release
+decision; availability of pg_dump/pg_restore alone proves no restore.
+
+See [Day 6 evidence](../evidence/2026-10-15-trace-link-producer-rehearsal.md) for
+actual execution date, source/configuration identity, per-run counts, hashes and
+remaining owner actions. Producer review readiness does not grant release approval.

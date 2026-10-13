@@ -1,0 +1,119 @@
+{
+  "sourceRevision": "aebf6cf35db6b3410e54cd2b21b814006ec36983",
+  "branch": "feature/trace-link-analyst-experience",
+  "schemaVersion": "0.4.0",
+  "schemaSha256": "fccc6496714edb3b928283d031ac393c5067aa5dffe4ab788ad7883dc1caa7ef",
+  "bundleFiles": {
+    "apple-touch-icon.png": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef",
+    "branding/apple-touch-icon.png": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef",
+    "branding/favicon.svg": "af4c646d2deb073ad286b1209223dc0d1e6e80811a942b3abd90e86e82aed847",
+    "branding/mark.svg": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb",
+    "branding/tracelink-icon.png": "6b4cea9115312a2b4d09eac41cb1c5c62fe35578222da4daf81b4e6392a912db",
+    "chunk-26IRQBTO.js": "f214443821dd54648ba62282eb58f7ef187806bf85c8a83b38f36309bcb7ff4d",
+    "chunk-2XUTOQCI.js": "af429b1f8ff9642afa955dcaed240555ab22b66b8eea32c9d727ec70ce1ac90a",
+    "chunk-4TAJJDPD.js": "e20d3983356d336a9bf052119071aba3b960566e5aa9bed15ca9fdaa8b70e633",
+    "chunk-642FCX7C.js": "e0bf739a86b4ac1512e9136113e779215e1b4268ec9ec9a163d9accb4178fbc3",
+    "chunk-6HYHNH47.js": "81b7a75955e6a1c9c39dd9536e7ff62f9c48a349bc735ab057ced51576ef22f7",
+    "chunk-F22J7HFP.js": "9852bd162bcf3a7b99f424fb3ddec4ff4c18ad770aedf8abd68d00a37a183cb5",
+    "chunk-G4PHGNXE.js": "58223e3b95ab3a502d7c6ab3c44d79f227484944548aec98835d6ecf91345470",
+    "chunk-GFSFLUO2.js": "a3a486d7ccca1299d458a02eee8cdf5438e569ff07b0cebc8e9ed6a9a936b7f7",
+    "chunk-GUI6BTYO.js": "812f9b94c29f6098874deecf2895f8697d96d4f4541ac5f7490573e9532758d0",
+    "chunk-IR3WZL5N.js": "e570b3c6b18d6e142ed79af81314456f9fe6f48d9341514c68e73913908d4817",
+    "chunk-K35LEQCK.js": "14e62ad8c9d41c1e06e705aa9cc4b118fd1af2a4d54193f761a466df7276c2d8",
+    "chunk-NQSL7NY7.js": "a9422ba8fe28d26d2e2c72403b394658d945348b11fd570946c7c9e5db860e41",
+    "chunk-OM3UZIIW.js": "98958d9cb6ddd333406c1d7fdf3a3e9e038bd6ec717e5b33e4e2669725953267",
+    "chunk-PG7UUFXO.js": "4c90bfda6bfcc4c6121b9843a83851015d5f9ba0d2e774aee75e64d4c229bf17",
+    "chunk-PVSBY3E2.js": "c30d35db3dc03821302ebcf4d88cd76b02a7fe03c6247df71956b5643d080549",
+    "chunk-REYQONW2.js": "3ce9e3d2c27c02d2a5f3d3efe9198be19439a5d27a8e8efebb55e59029437ab6",
+    "chunk-RJOADIC6.js": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0",
+    "chunk-V2OYXTSE.js": "dd2def757145e982e1d272141eaba7840b4672fe7f3e0ed3546e88124b695efd",
+    "chunk-V6N43NG5.js": "b482072aab36e7cd0200b8d7782690702d9cb01c72d70e226ffd13823f74980b",
+    "chunk-VHNQFJG5.js": "a4b207bacb2205b5bfd8da7d8770c96431321159ef30632ce415b5253fc9dd96",
+    "chunk-YKOU3YCI.js": "90ad87aaaaebe60836e58b2f7a66eec2028120936660587da656843904297123",
+    "favicon.ico": "882d5af8bf22fc924c111e1b6c40126fa61f1b82ecca795fdc5c2a9cf272bd40",
+    "index.html": "27c365bb429473787f1103abb98783e1100f6d91400a87d2ff53ee2c71e8db51",
+    "main-MTF2H3CF.js": "64d4505eb187fde629ea091f11a50602f9f4524f6674f44fc3bd6b62daa0c03a",
+    "media/mark-GSOEEAFK.svg": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb",
+    "push-worker.js": "f0f670854a22b829c49fda10db2df0765a74eb45778aa9e3a6e4c127ae7564d9",
+    "styles-RZBO63JC.css": "3799d9bbfec2f42782d0d356b0131e21e4a8c66ebc276f5dfb576eafeffe8404"
+  },
+  "buildSha256": "6cb738c57c791bbaa8b0bff4d0c116044241a72af2ee6a158c16be04a295d809",
+  "browser": "Chromium 153.0.8010.12",
+  "node": "26.0.0",
+  "python": "3.11",
+  "os": "macOS 26.6.2",
+  "viewports": [
+    [
+      1366,
+      768
+    ],
+    [
+      390,
+      900
+    ]
+  ],
+  "tests": {
+    "unit": {
+      "passed": 181,
+      "failed": 0
+    },
+    "controlledBrowser": {
+      "passed": 172,
+      "failed": 0,
+      "skipped": 25
+    },
+    "fixtureMap": {
+      "passed": 2,
+      "failed": 0
+    },
+    "productionResourceBounds": {
+      "passed": 5,
+      "failed": 0
+    },
+    "alertBrowserAfterTimezoneChange": {
+      "passed": 4,
+      "failed": 0
+    },
+    "historyBrowserAfterUrlRepair": {
+      "passed": 6,
+      "failed": 0
+    },
+    "worker": {
+      "passed": 3,
+      "failed": 0
+    },
+    "apiContract": {
+      "passed": 3,
+      "failed": 0
+    },
+    "authenticatedPerformance": {
+      "passed": 1,
+      "failed": 0
+    },
+    "authenticatedBoundaryRehearsals": {
+      "passed": 1,
+      "iterations": 2,
+      "failed": 0
+    },
+    "authenticatedIncidentLifecycle": {
+      "passed": 0,
+      "failed": 1,
+      "reason": "No committed opening was observed within the scenario interval; six missing source slots per scope."
+    }
+  },
+  "status": "FRONTEND_CHECKS_PASS_RELEASE_ACCEPTANCE_INCOMPLETE",
+  "blocked": [
+    "No registered full Trace Link archive or active catalogue in the local incident database.",
+    "Native-domain and browser-push public APIs remain off.",
+    "Real incident-lifecycle scenario produced no new opening.",
+    "Native rollups/CSV and additional registered domain definitions are not supplied by the current API.",
+    "Guide-only teammate acceptance has not been performed."
+  ],
+  "limits": [
+    "The authenticated performance report predates the small URL/alert presentation repairs; those repairs have focused unit/browser checks.",
+    "Secure push delivery and populated native history are not certified.",
+    "25 opt-in long-duration or dependency-specific functional tests were skipped.",
+    "Hardware model/RAM were not remeasured; the metadata probe approval review timed out.",
+    "The full controlled browser and resource suites preceded the final partner-focus repair; the final repair passed 181 unit checks, six focused history checks, and the production build."
+  ]
+}

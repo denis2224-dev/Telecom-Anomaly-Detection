@@ -1,0 +1,23 @@
+{
+  "name": "four-language-parity",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-trace-link-parity.py",
+    "--java-output",
+    "services/processor/target/trace-link-java.json",
+    "--python-output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-python.json",
+    "--sql-output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-sql.json",
+    "--javascript-output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-javascript.json"
+  ],
+  "startedAt": "2026-10-12T18:58:43.634696+00:00",
+  "finishedAt": "2026-10-12T18:58:43.810953+00:00",
+  "elapsedSeconds": 0.176,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "four-language-parity.log",
+  "logSha256": "04e8d356b2d71608f028d02cbd5d094040f495106431e94d3a96b2db2fe64da6"
+}

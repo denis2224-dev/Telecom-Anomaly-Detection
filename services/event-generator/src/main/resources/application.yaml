@@ -36,6 +36,10 @@ management:
         readiness:
           include: readinessState,kafka
 telecom:
+  trace-link:
+    runtime:
+      enabled: ${TRACE_LINK_RUNTIME_ENABLED:false}
+      directory: ${TRACE_LINK_RUNTIME_DIRECTORY:}
   continuous:
     legacy-enabled: ${CONTINUOUS_LEGACY_ENABLED:true}
     enabled: ${CONTINUOUS_TELEMETRY_ENABLED:false}

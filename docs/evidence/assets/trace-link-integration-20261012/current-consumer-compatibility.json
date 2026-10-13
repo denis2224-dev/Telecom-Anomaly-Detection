@@ -1,0 +1,19 @@
+{
+  "name": "current-consumer-compatibility",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-trace-link-consumer-compatibility.py",
+    "--consumer-ref",
+    "47a2c9236e8ac82351b7fa62ec2264cc8df103c2",
+    "--output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/consumer-compatibility.json"
+  ],
+  "startedAt": "2026-10-12T18:35:38.703424+00:00",
+  "finishedAt": "2026-10-12T18:35:39.502642+00:00",
+  "elapsedSeconds": 0.799,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "current-consumer-compatibility.log",
+  "logSha256": "4cd55e482e925d36ffed3f35cee612f68f71642a6ede841d867b5a4b8c170c4e"
+}

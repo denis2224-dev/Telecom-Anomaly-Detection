@@ -1,0 +1,931 @@
+{
+  "name": "combined-processor",
+  "suites": [
+    {
+      "name": "md.utm.telecom.processing.BaselineRegistryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.BaselineRegistryTest.xml",
+      "sha256": "b9fd4aaa4223bc402478d2c5e7d7982fa8c41e1ce710e247aa4ad42119b37783",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest.xml",
+      "sha256": "3578a71d20ee43cecc95dba251e5a059049842bc88ae955919bd6e22a0331a89",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.DependencyOutageIT",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.DependencyOutageIT.xml",
+      "sha256": "652469ac6e6912ba96674e1817f57501f9d38e1410e530cc31ee8653fca1662e",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.detection.MlClientFailureTest.xml",
+      "sha256": "498d855c0ba8816f20f3287d9f50b81ef1925b66e3b28030660583925cbe7b87",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkDomainRulesTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkDomainRulesTest.xml",
+      "sha256": "30daa84ed4114cb57283f8ca7b8fa8e1d7c2614bc6ebe45e5f1157c12d3281c9",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkInputsTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkInputsTest.xml",
+      "sha256": "96c04cbd87e1cf3c3ab4b49959bf2d714b1e6fd4d8d2ab53be5f008448d7805b",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest.xml",
+      "sha256": "0d52c773eeefacd2aa1c9e77010c4a699f6a86ccd990c8f21f0f70241ef79eed",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest.xml",
+      "sha256": "b371e828ebcf94a5b5f8693e1e7d2ebd047e4a66a24c117d316c835b18035e15",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkServiceTransportTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkServiceTransportTest.xml",
+      "sha256": "3be12269dda76f8c9c26a36c7159173dc93ec512a096d4ef5b1d404ac629399b",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.DetectionConfigurationTest.xml",
+      "sha256": "1ab8dfd9082dbd33816907ca37ae0c6cade8d7298c1e67b5816ec00d48402361",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.DetectionMigrationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.DetectionMigrationTest.xml",
+      "sha256": "86e76d202cfa806dc16932969fd65746fba34304dbc19ab63304bbbf51110cd6",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.DetectionReplayIT",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.DetectionReplayIT.xml",
+      "sha256": "90e6bec150798485d9eb300d333463489b778f2d8e705f676290e3e09abbbb36",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.EpisodeStateTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.EpisodeStateTest.xml",
+      "sha256": "efe9a981694c76bd1bc517fc08539df9666541d0b2ca085b6ae24f969eb31faf",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.ExplanationCasesTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.ExplanationCasesTest.xml",
+      "sha256": "b6191005dd53c53f5be6554d833e2df84ce60cbf5d8159d9174f31b70316cffc",
+      "tests": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.FinalizerRaceIT",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.FinalizerRaceIT.xml",
+      "sha256": "e87854b88c34206068183c9a8bf66a696e1f683ea6faa1a0ecf3617a3b0fbe29",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicAggregationCasesTest.xml",
+      "sha256": "dcf9eb94e9710532f2dccc282c6608bad0be31e0d2f814c9e7bd03fca2379b5b",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest.xml",
+      "sha256": "10b4160b06bb5807d7237e1483293d02a3c7d8800ae6b2a780018fc242137c1b",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicBaselineContractTest.xml",
+      "sha256": "cf9e06b2ccfc2eaa905b9f36b07ea775673a1492dba40916656f3d98dab5037b",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicCauseControlsTest.xml",
+      "sha256": "f3924aa5a2a894843300127ee485bafd5b808f9914013b0e6988eb88dd303781",
+      "tests": 80,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicCauseReplayTest.xml",
+      "sha256": "348e353bb30ceaca9c9d80dd1beba047186dad17f2fac9a07e6883daec8ce8dd",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicDetectionTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicDetectionTest.xml",
+      "sha256": "0f0a49d1d6d05d8d0c65b3b7ac6d018a3c5524e0660547237d7d6e5ed74fcd6b",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skips": [
+        {
+          "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+          "message": "Environment variable [ML_SERVICE_URL] does not exist",
+          "text": null
+        }
+      ]
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicDetectorAcceptanceTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicDetectorAcceptanceTest.xml",
+      "sha256": "f3e5693a30a107c837f73cc0a3c3ed449baf51902e08d27265875db41ee9b492",
+      "tests": 101,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicEvidenceIsolationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicEvidenceIsolationTest.xml",
+      "sha256": "4b18dbec5385879ad336931d7896c50856bb64b80cf3d8e7cc77b9701172bcab",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicExplanationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicExplanationTest.xml",
+      "sha256": "74626b07df23871004471b9a48b7a5dc6d0565b758f0350736268effc557ac8f",
+      "tests": 121,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest.xml",
+      "sha256": "36e357d35c9e9f1350eac5bed98d8330a1f6f34ac080ecb06d8467ae5bf1bca9",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicLegacyDetectionTest.xml",
+      "sha256": "3c2c9b89ff2cd9015c7f0bd3bb52a38210cc2c8e1236c7068c92bd39dfb64c78",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicLegacyWorkerTest.xml",
+      "sha256": "9c1d943135e59c28be8fcc8914d7e8fee7d742e1aadb39ad28f4336f64ed4bdd",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicLoadAccountingTest.xml",
+      "sha256": "d08e0d0f2ded5703c97c798057aa531a34e609e3d52f7ab40d37d847fd7e0170",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicMlFallbackReplayTest.xml",
+      "sha256": "34e7e0c1cc1c092d4014ff3ea4b06224ac18799c7ee8cad9ffe98476c3010132",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicMonitoringMigrationTest.xml",
+      "sha256": "73118a2c0e20c57df62b487c6147c5c0ca01d6af5e2c1fa3103988b64f27fbb0",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicMonitoringTest.xml",
+      "sha256": "b9907e52caf84d65e7381ad21c188209b6d0c9326da28f292959585c853cb057",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicParityTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicParityTest.xml",
+      "sha256": "feb26d80898c8fedfef76b070447d2b7b592d2f6629d17690335da837f8764f9",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicReplayTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicReplayTest.xml",
+      "sha256": "e41ed737a413f53aefc736f549839130169894e0dd56b6618a49469daa3504c9",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicSmsBaselineTest.xml",
+      "sha256": "1269685db2cb55383f0a62d1df9076e67e57da4443f55f7656a4b4a4e5e85c13",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest.xml",
+      "sha256": "b715b9201e0d3539abc3f680923ccac06db2ce619575ab77ffab74c492e4e2ec",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.GeographicWorkerTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.GeographicWorkerTest.xml",
+      "sha256": "1733e0096cd67ac175e20eb10fb4228aa770287d85f2ca069e616c028679c928",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.HealthProbeTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.HealthProbeTest.xml",
+      "sha256": "8873c8d7a3c8e6f686f1b58981ba11c233b8dcf22bb64b35e245945afff73d90",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest.xml",
+      "sha256": "0d5112ee8df1daf6852029af30faed22a3d0e89f709dc9dc71c6e8965bb74ea2",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.GeographicHistoryMigrationTest.xml",
+      "sha256": "52c8f49d6c9099825ba10237d63e593161b3906d50dd1a184bd8d9a07bb0977b",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.HealthyHistoryTest.xml",
+      "sha256": "c1e227ddc98b7d5dd1082d8c1164071b584f69b119bb6fdff5e1407ee52f3f93",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest.xml",
+      "sha256": "d7f2aeaa966b2f8c0e58a1c6dc2196e1a4ca86821fbfcbe7d5a8d7370e3afb2b",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.HistoryBootstrapApplicationTest.xml",
+      "sha256": "d82e6d2ed688f4a35e30f0e5bcbd0b8e17271afe57caa09b8845157f43243984",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest.xml",
+      "sha256": "daa74f1dfff762bfcab4551945c30cbf8536d6f04a09d3e77487ab1ce75cb5f5",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.HistoryRangeTest.xml",
+      "sha256": "27c17c308b1c58eae84fa381c823c01cf300da1a9fa7a061ba747dc7fb158919",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT.xml",
+      "sha256": "dcaff20cf3c1631cb43c6e3d63859450a78befcb22c01e06a053b7129e28d364",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.ingestion.IngestionIntegrationTest.xml",
+      "sha256": "c9b6f0a78597d3cf6bc0e2897c78cd3a31b70b74f227a5f5b8b8099b8ac41c9d",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.ingestion.PayloadCodecTest.xml",
+      "sha256": "3465dd4f5894a06264a66438331bfc0caed74dc92d6af2ffdbbc8993af25ce8e",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.ingestion.SourceFreshnessTest.xml",
+      "sha256": "c1f156f99a3f07f392d3137c1ae922b0acffc29d10bbae73eadb9092add4c3f4",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.CoverageSnapshotTest.xml",
+      "sha256": "cfe56bc433a4a59d4121e52c4b9902226d0e830c75ded3784fc6999a2a18341b",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.Day5GeographicParityTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.Day5GeographicParityTest.xml",
+      "sha256": "433a22679483cce27fde40d29c46a190885c475f4fec156e200b69feb5a6764a",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.GeographicCoverageTest.xml",
+      "sha256": "d083d667f7509eef74f1f039f95930c238a2131a5d2029d84e5a6b9b73b38422",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest.xml",
+      "sha256": "98a39e59e972ff10cbb651262bbf118aa79515f658a1995ed5e568f6cfa85974",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.SmsDeliveryTest.xml",
+      "sha256": "184b504e9ed1d1cd2247f0da9cf06a050eca8a816cba8f5f899b93970f3918a0",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skips": [
+        {
+          "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+          "message": null,
+          "text": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode(SmsDeliveryTest.java:80)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n"
+        }
+      ]
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.SmsKpiDeliveryTest.xml",
+      "sha256": "dbcdaec37bd5e30bd13ae923fb6977c2833cf051428563e6999ca816e0e96a30",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.SmsShadowReplayTest.xml",
+      "sha256": "8d4c99e5e47f070cb0920da149ccfa07328c34e9139545d00fa55bbc7eca8c6b",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skips": [
+        {
+          "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+          "message": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist",
+          "text": null
+        }
+      ]
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.SmsShadowWorkerTest.xml",
+      "sha256": "87641264b49f37bca128255d4fbe9265b0f812c6bb97b96de7d28c5d8059cbc0",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT.xml",
+      "sha256": "4f9d8431b7d089b5b38c7bd3fa92d3c125bce0f7dd369abfe95750e054e6e796",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skips": [
+        {
+          "test": "fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+          "message": null,
+          "text": "org.opentest4j.TestAbortedException: Assumption failed: Full archive must be explicitly selected\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT.fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity(TraceLinkProjectionIT.java:281)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n"
+        }
+      ]
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionTest.xml",
+      "sha256": "e0707984007057619ca7c0055fc2ac8f1ac0a2f536c06a8292115d458bfcfa52",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkArithmeticTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkArithmeticTest.xml",
+      "sha256": "6108ada809caf67cad1c8125920fb16ac0919726511f8b448d4de11d3e638197",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest.xml",
+      "sha256": "e6f14a43c8d0581eb694ba4d2e8a478df3ce04cb66cda106ef2a80ffd30c0b1f",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkDomainProducerTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkDomainProducerTest.xml",
+      "sha256": "7fb9df55f3b372d4c91894e876932f5348bdfeeaf1a7e5e4d992c377b79863b8",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkMobileDataPrimitiveTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkMobileDataPrimitiveTest.xml",
+      "sha256": "d724f6d5038ff3837f64adab9d93c63ee9a5133964d917f5e396887035164607",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkNativeFailureTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkNativeFailureTest.xml",
+      "sha256": "7c011866f4dab811f5106c2bc4ef38d539100503647a8f90ef980a7d54ff5efb",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkRoamingPrimitiveTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkRoamingPrimitiveTest.xml",
+      "sha256": "90edcffa6f0a11ef6d3bad6557f0d0f71da1fe256296a14e856575fd118efa15",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkTransportPrimitiveTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkTransportPrimitiveTest.xml",
+      "sha256": "09f14ea54eac9d7ee380adb7272753fad1b80fdfa83e406caae690f1e04b9556",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest.xml",
+      "sha256": "60cf0cfdd1edacca61a781a085f92fe1607a24cf601b574675ba1a4c7abe7246",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.VoiceDeliveryTest.xml",
+      "sha256": "c360c34abc59f15ec9ce8f8d6115adb68a79243ab5e57a49c56136617e49c42f",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skips": [
+        {
+          "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+          "message": null,
+          "text": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode(VoiceDeliveryTest.java:66)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n"
+        }
+      ]
+    },
+    {
+      "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.kpi.WindowFinalizerTest.xml",
+      "sha256": "81ee6fa0ca30f529c2eccfc3868a06d76b72d9f80f2291ac2658ceb5fb8c334f",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.LateInputIT",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.LateInputIT.xml",
+      "sha256": "4bfeee3f9adec3280a2a51c4a29e3c7226e29f3b18e698282f2d52f77beeafad",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.MlClientTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.MlClientTest.xml",
+      "sha256": "99553306aec63b9900a185cbb0de27197fd594e737c695be85f3ea1717392312",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.MonitoringLifecycleTest.xml",
+      "sha256": "3df1c4d8cf7b9dc3406e5af88709c2c51b8477eb47475236a628b358c2dd15e9",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.ObservationInputTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.ObservationInputTest.xml",
+      "sha256": "84cbd6ee9a78d1afce5512f07c0e089e811e848796e9262df84b4a12aaf58843",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.outbox.RejectionPublisherTest.xml",
+      "sha256": "988efe4747507c9965e0f70bd03d28b74917111c66445cc1c3cd9fe1b46ff799",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.outbox.RetentionConfigurationTest.xml",
+      "sha256": "bcbdb885ccc2f7d0968ee169aa4d347a875fba679249e9873b804944fd934767",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.outbox.RetentionMigrationTest.xml",
+      "sha256": "59c09694fdf8ebd8765341a2226d381cd462540960d450a4c125c4fadcc287eb",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.ReplayIT",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.ReplayIT.xml",
+      "sha256": "1005d5dfc3868a53b28f6f7fb48bec870d53189e58043beaaf4ef74b9dd36cac",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.RetentionJobTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.RetentionJobTest.xml",
+      "sha256": "4bfef6904ecda94ea6bd3c3aad51a9947f30e3b80fc9caec74f8ce350e20f73f",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.SmsEpisodeTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.SmsEpisodeTest.xml",
+      "sha256": "48da07b2fd5ee3f6cb2ac1a5f4df81b42860b50866dae41fd3d91f9f029eb84e",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.SmsRuleTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.SmsRuleTest.xml",
+      "sha256": "b50f938563856a1e602ae3d97e068245d062b3453a837c0c11721509dcda8b69",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.SmsShadowClientTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.SmsShadowClientTest.xml",
+      "sha256": "67cb9a69b1042b5d51a5e4a8050d3fc4f89e4bfa0cb7833cd251c06919be449f",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.SmsShadowConfigurationTest.xml",
+      "sha256": "eaca1b3314483573b3b2e6041d300d567afbf9e77d00871881b1de6ccc44dc4e",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.StreamingMetricsTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.StreamingMetricsTest.xml",
+      "sha256": "d0476d30bb2259fd4c37457c1bb55e9ad7b6c0111130233a7e9a73ac4dde8fef",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.topology.EvidenceJoinerTest.xml",
+      "sha256": "bd964805f1f989a867601976b0913e0d51a3caea4a0569185891281a4d01a5d6",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.topology.ScopeRegistryTest.xml",
+      "sha256": "7eedb81ebfea3fe7100016f4992513a2df2824154dfb16fa39713e67c6151960",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.TraceLinkSeasonalBaselineTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.TraceLinkSeasonalBaselineTest.xml",
+      "sha256": "7f2ef08f3a90251a4672a6f08eec28c9d6850ef9b051e0c30fe556172b8690f2",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.VoiceDeliverySchedulingTest.xml",
+      "sha256": "1e10f18a7db12b63ba32c758498f776d4b65f7d836c59b911f42efadda2f72fa",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.VoiceEpisodeTest.xml",
+      "sha256": "6bb8a39853958f79afb94d569ce9fc06ee24e43f470183a120ac1983776056d2",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.VoiceRuleTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.VoiceRuleTest.xml",
+      "sha256": "a8e5317ace1b426e2141f1330eb5152d9ca6b62ca98bf0884b751cdcb2c6737d",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.WindowBoundaryTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.processing.WindowBoundaryTest.xml",
+      "sha256": "25896af8d455aa82cef34bd8d5b84220754dda01b7117fd8582392aca760af05",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    }
+  ],
+  "totals": {
+    "tests": 1049,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 5
+  }
+}

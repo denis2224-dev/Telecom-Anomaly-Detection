@@ -1,0 +1,78 @@
+{
+  "autoMergeRequest": null,
+  "baseRefName": "main",
+  "baseRefOid": "9067701943acb38cc25965ff89693292fc62766c",
+  "comments": [],
+  "headRefName": "feat/trace-link-backend-contracts",
+  "headRefOid": "fec8905d7ba5563a8ebfe0aa541c16b1cb93b75b",
+  "isDraft": false,
+  "mergeStateStatus": "CLEAN",
+  "number": 89,
+  "reviewDecision": "",
+  "reviews": [],
+  "state": "OPEN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:43:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989555/job/114557414145",
+      "name": "dashboard-verification",
+      "startedAt": "2026-10-11T19:40:10Z",
+      "status": "COMPLETED",
+      "workflowName": "dashboard"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:40:53Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989660/job/114557414537",
+      "name": "build",
+      "startedAt": "2026-10-11T19:40:10Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-runtime-image"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:42:29Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989495/job/114557413783",
+      "name": "backend-verification",
+      "startedAt": "2026-10-11T19:40:10Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-service"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:40:19Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989613/job/114557415012",
+      "name": "deployment-config",
+      "startedAt": "2026-10-11T19:40:11Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:45:48Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989613/job/114557415198",
+      "name": "model-evaluation",
+      "startedAt": "2026-10-11T19:40:10Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:58:00Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989613/job/114558577036",
+      "name": "processor-evaluation",
+      "startedAt": "2026-10-11T19:45:50Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    }
+  ],
+  "title": "Define Trace Link backend contracts",
+  "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/89"
+}

@@ -1,0 +1,119 @@
+{
+  "datasetId": "trace-link-md-30d-v1",
+  "manifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+  "nativeRows": 362880,
+  "parity": [
+    {
+      "metric": "transport.traffic",
+      "scope": "chi-orh",
+      "direction": "a-to-b",
+      "nativeSlots": 12,
+      "java": 11.627534583333333,
+      "postgresql": 11.627534583333333
+    },
+    {
+      "metric": "transport.effectiveCapacity",
+      "scope": "chi-orh",
+      "direction": "a-to-b",
+      "nativeSlots": 12,
+      "java": 20.0,
+      "postgresql": 20.0
+    },
+    {
+      "metric": "transport.link.utilization",
+      "scope": "chi-orh",
+      "direction": "a-to-b",
+      "nativeSlots": 12,
+      "java": 58.137672916666666,
+      "postgresql": 58.137672916666666
+    },
+    {
+      "metric": "transport.rtt.snapshot",
+      "scope": "chi-orh",
+      "direction": "a-to-b",
+      "nativeSlots": 12,
+      "java": 19.046923,
+      "postgresql": 19.046923
+    },
+    {
+      "metric": "transport.jitter",
+      "scope": "chi-orh",
+      "direction": "a-to-b",
+      "nativeSlots": 12,
+      "java": 2.093813,
+      "postgresql": 2.093813
+    },
+    {
+      "metric": "roaming.registration.success",
+      "scope": "RO-DEMO-01",
+      "direction": "out",
+      "nativeSlots": 12,
+      "java": 99.33695552076618,
+      "postgresql": 99.33695552076618
+    },
+    {
+      "metric": "roaming.data.success",
+      "scope": "RO-DEMO-01",
+      "direction": "out",
+      "nativeSlots": 12,
+      "java": 98.88276158418678,
+      "postgresql": 98.88276158418678
+    },
+    {
+      "metric": "roaming.voice.success",
+      "scope": "RO-DEMO-01",
+      "direction": "out",
+      "nativeSlots": 12,
+      "java": 99.03319368353206,
+      "postgresql": 99.03319368353206
+    },
+    {
+      "metric": "roaming.registration.success",
+      "scope": "RO-DEMO-01",
+      "direction": "in",
+      "nativeSlots": 12,
+      "java": 99.26762282575527,
+      "postgresql": 99.26762282575527
+    },
+    {
+      "metric": "roaming.data.success",
+      "scope": "RO-DEMO-01",
+      "direction": "in",
+      "nativeSlots": 12,
+      "java": 98.85958660014255,
+      "postgresql": 98.85958660014255
+    },
+    {
+      "metric": "roaming.voice.success",
+      "scope": "RO-DEMO-01",
+      "direction": "in",
+      "nativeSlots": 12,
+      "java": 99.35897435897436,
+      "postgresql": 99.35897435897436
+    },
+    {
+      "metric": "mobileData.activation.success",
+      "scope": "chi",
+      "direction": "",
+      "nativeSlots": 12,
+      "java": 99.26448053938094,
+      "postgresql": 99.26448053938094
+    },
+    {
+      "metric": "mobileData.dns.success",
+      "scope": "chi",
+      "direction": "",
+      "nativeSlots": 12,
+      "java": 99.79773214832976,
+      "postgresql": 99.79773214832976
+    },
+    {
+      "metric": "mobileData.throughput",
+      "scope": "chi",
+      "direction": "",
+      "nativeSlots": 12,
+      "java": 45.14960025,
+      "postgresql": 45.14960025
+    }
+  ]
+}

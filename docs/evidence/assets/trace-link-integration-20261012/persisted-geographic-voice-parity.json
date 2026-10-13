@@ -1,0 +1,18 @@
+{
+  "name": "persisted-geographic-voice-parity",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-voice-parity.py",
+    "--geographic-persisted",
+    "--java-output",
+    "services/processor/target/day5-geographic-parity-java.json"
+  ],
+  "startedAt": "2026-10-12T19:07:20.803299+00:00",
+  "finishedAt": "2026-10-12T19:07:21.664807+00:00",
+  "elapsedSeconds": 0.862,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "persisted-geographic-voice-parity.log",
+  "logSha256": "babb32d920f3110457b4f69594c696540a9164d60a26658d72f800327c82fab8"
+}

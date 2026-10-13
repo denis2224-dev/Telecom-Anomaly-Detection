@@ -1,0 +1,20 @@
+{
+  "name": "combined-python",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "startedAt": "2026-10-12T18:38:52.880662+00:00",
+  "finishedAt": "2026-10-12T18:39:47.546884+00:00",
+  "elapsedSeconds": 54.666,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "combined-python.log",
+  "logSha256": "9a5fe30b445b3b74c63e68cb9ca9f8aeef1e50b51a305d43403f5980c1405bcf"
+}

@@ -1,0 +1,25 @@
+{
+  "profileVersion": "trace-link-coordinated-capacity-v1",
+  "status": "BLOCKED",
+  "reason": "No approved compatible new-domain Kafka consumer/delivery path; isolated artifacts are not end-to-end capacity.",
+  "warmupSeconds": 120,
+  "steadyStateSeconds": 900,
+  "boundedBurst": {
+    "durationSeconds": null,
+    "maximumOfferedObservationsPerSecond": null,
+    "ownerCoordination": "PENDING_REVIEW"
+  },
+  "recovery": {
+    "maximumSeconds": null,
+    "requireMatchingOfferedAcknowledgedPersistedPublishedIntervals": true
+  },
+  "nativeSourceResolutionSeconds": 300,
+  "availableSourceScopes": {
+    "cities": 10,
+    "measuredLinkDirections": 12,
+    "roamingPartnerDirections": 20
+  },
+  "targetRateObservationsPerSecond": null,
+  "topic": null,
+  "runExecuted": false
+}

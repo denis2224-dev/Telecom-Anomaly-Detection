@@ -1,0 +1,15 @@
+{
+  "name": "frozen-day6-evidence",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/verify-trace-link-day6-evidence.py"
+  ],
+  "startedAt": "2026-10-12T18:35:37.033986+00:00",
+  "finishedAt": "2026-10-12T18:35:38.559927+00:00",
+  "elapsedSeconds": 1.526,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "frozen-day6-evidence.log",
+  "logSha256": "bc9943c52610f3e2b74a692118c35e1e9d8aabda02f3613df8e11ade17f53f7d"
+}
