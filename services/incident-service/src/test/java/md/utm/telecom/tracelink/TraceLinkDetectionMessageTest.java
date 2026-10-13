@@ -64,4 +64,3 @@ class TraceLinkDetectionMessageTest {
         assertThrows(IllegalArgumentException.class, () -> TraceLinkIncidentService.validateSuccessor(reopened,opened));
     }
 }
-

@@ -244,7 +244,3 @@ public final class TraceLinkDetectionMessage {
     }
     private static void require(boolean condition, String message) { if (!condition) throw new IllegalArgumentException(message); }
 }
-
-
-
-

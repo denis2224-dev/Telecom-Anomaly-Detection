@@ -203,4 +203,3 @@ final class TraceLinkEvidenceValidator {
         require(METRICS.get(evidence.required("metricId").asText()).required("domain").asText().equals(domain),"Metric domain mismatch");
     }
 }
-
