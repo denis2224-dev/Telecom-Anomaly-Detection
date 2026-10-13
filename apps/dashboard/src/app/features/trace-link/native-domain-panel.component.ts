@@ -81,7 +81,9 @@ export class NativeDomainPanelComponent {
   });
   readonly ready=computed(()=>{const c=this.query.context();return !!c.datasetId&&!!this.scope()&&c.resolution==='5m'&&[c.visibleFrom??c.from,c.visibleTo??c.to].every(value=>Date.parse(value)%300000===0);});
   readonly chart=computed(()=>this.result()?nativeChartSeries(this.result()!):null);
-  constructor(){effect(cleanup=>{
+  constructor(){
+    effect(()=>{const context=this.query.context(),partner=this.partner();if(context.domain==='roaming'&&partner&&context.partnerDirectionId!==partner.id+':'+partner.direction)this.query.update({partnerDirectionId:partner.id+':'+partner.direction});});
+    effect(cleanup=>{
     const context=this.query.context(),revision=this.query.revision(),sessionRevision=this.session.revision,scope=this.scope(),metric=this.selectedMetric();this.refresh();
     this.result.set(null);this.error.set('');this.busy.set(false);this.sourcePage.set(0);
     if(!this.ready()||!scope||this.session.phase()!=='authenticated')return;

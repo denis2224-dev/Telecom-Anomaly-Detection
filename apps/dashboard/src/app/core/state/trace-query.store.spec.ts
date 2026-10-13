@@ -47,6 +47,12 @@ describe('Shared Trace Link query context',()=>{
   it('rejects ambiguous repeated query parameters',()=>{
     expect(store.restore({from:['2026-10-09T09:00:00Z'] as unknown as string})).toBe(false);
   });
+  it('clears partner focus when its roaming filters change without changing the city',()=>{
+    store.update({countryId:'RO',partnerDirectionId:'RO-DEMO-01:out',cityId:'chi'});
+    store.update({partnerDirectionId:'RO-DEMO-01:out'});
+    store.update({countryId:'IT'});expect(store.context().partnerDirectionId).toBeUndefined();expect(store.context().cityId).toBe('chi');
+    store.update({partnerDirectionId:'IT-DEMO-01:out'});store.update({roamingDirection:'in'});expect(store.context().partnerDirectionId).toBeUndefined();
+  });
   it('clears the query on session end and changes revision for cancellation guards',()=>{
     const revision=store.revision();ended.next();expect(store.context().datasetId).toBe('');expect(store.revision()).toBeGreaterThan(revision);
   });

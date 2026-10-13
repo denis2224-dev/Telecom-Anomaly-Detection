@@ -14,12 +14,16 @@ const links=csvRows('links').map(link=>({...active,id:link.id,endpointA:link.a,e
 const partners=csvRows('countries').flatMap(country=>['in','out'].map(direction=>({...active,id:country.partner_id,country:country.id,direction})));
 const definition={domain:'volte',metric:'voice.success_rate',unit:'PERCENT',aggregation:'RATIO_OF_SUMS',population:'VoLTE call attempts in the selected city',primitiveFields:['numerator','denominator'],policyVersion:'trace-link-md-policy-v1'};
 const queryUrl='/trace-link?datasetId=trace-link-md-30d-v1&from=2026-09-10T09%3A00%3A00Z&to=2026-09-10T09%3A20%3A00Z&resolution=5m&cityId=chi';
-const exactCsv='from,value,numerator,denominator\r\n"2026-09-10T09:00:00Z","0","0","10"\r\n"2026-09-10T09:05:00Z",,"0","0"\r\n';
+const exactCsv='from,to,value,numerator,denominator,quality\r\n'
+  +'"2026-09-10T09:00:00Z","2026-09-10T09:05:00Z","0","0","10","VALID"\r\n'
+  +'"2026-09-10T09:05:00Z","2026-09-10T09:10:00Z",,"0","0","INSUFFICIENT_EVIDENCE"\r\n'
+  +'"2026-09-10T09:10:00Z","2026-09-10T09:15:00Z","50","5","10","VALID"\r\n'
+  +'"2026-09-10T09:15:00Z","2026-09-10T09:20:00Z","45","9","20","STALE"\r\n';
 function series(url:URL){
   const params=Object.fromEntries(url.searchParams),seconds=({'5m':300,'15m':900,'1h':3600,'6h':21600} as Record<string,number>)[params.resolution];
   const from=Math.floor(Date.parse(params.from)/(seconds*1000))*seconds*1000,to=Math.ceil(Date.parse(params.to)/(seconds*1000))*seconds*1000;
   return {...params,requestedFrom:params.from,requestedTo:params.to,effectiveFrom:new Date(from).toISOString(),effectiveTo:new Date(to).toISOString(),partialStart:from!==Date.parse(params.from),partialEnd:to!==Date.parse(params.to),sourceResolutionSeconds:300,unit:'PERCENT',aggregation:'RATIO_OF_SUMS',synthetic:true,policyVersion:definition.policyVersion,topologyVersion:'trace-link-md-topology-v1',nextCursor:null,
-    points:Array.from({length:(to-from)/seconds/1000},(_,index)=>({from:new Date(from+index*seconds*1000).toISOString(),to:new Date(from+(index+1)*seconds*1000).toISOString(),value:[0,null,50,45][index%4],coverage:1,quality:index%4===3?'STALE':index%4===1?'INSUFFICIENT_EVIDENCE':'VALID',numerator:index%4===1?0:[0,0,5,9][index%4],denominator:index%4===1?0:10,sumValue:null,sampleCount:null}))};
+    points:Array.from({length:(to-from)/seconds/1000},(_,index)=>({from:new Date(from+index*seconds*1000).toISOString(),to:new Date(from+(index+1)*seconds*1000).toISOString(),value:[0,null,50,45][index%4],coverage:1,quality:index%4===3?'STALE':index%4===1?'INSUFFICIENT_EVIDENCE':'VALID',numerator:index%4===1?0:[0,0,5,9][index%4],denominator:index%4===1?0:index%4===3?20:10,sumValue:null,sampleCount:null}))};
 }
 async function setup(page:Page){
   await controlledApi(page);const queries:Record<string,string>[]=[];
@@ -59,7 +63,10 @@ for(const width of [1366,390])test(`native history keeps query, inventory, gaps 
   await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
   await expect(page.getByRole('button',{name:'Download exact server CSV'})).toBeEnabled();
   const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download exact server CSV'}).click();
-  const download=await downloadEvent;expect(readFileSync((await download.path())!,'utf8')).toBe(exactCsv);
+  const download=await downloadEvent;const downloadedCsv=readFileSync((await download.path())!,'utf8');expect(downloadedCsv).toBe(exactCsv);
+  const exportedValues=downloadedCsv.trim().split(/\r?\n/).slice(1).map(line=>{const value=line.split(',')[2].replaceAll('"','');return value===''?null:Number(value);});
+  expect(exportedValues).toEqual([0,null,50,45]);
+  await expect(page.getByRole('region',{name:'Persisted metric chart'}).locator('tbody tr td:nth-child(3)')).toHaveText(['0','Unavailable · zero denominator','50','45']);
   expect(queries.at(-1)).toMatchObject({datasetId:'trace-link-md-30d-v1',domain:'volte',metric:'voice.success_rate',scopeType:'CITY',scopeId:'chi',resolution:'5m',from:'2026-09-10T09:00:00Z',to:'2026-09-10T09:20:00Z'});
   await page.getByRole('button',{name:'chi-hin b-to-a',exact:true}).click();await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('Selected chi-hin:b-to-a');
   await expect(page.getByRole('row').filter({has:page.getByRole('button',{name:'chi-hin b-to-a',exact:true})})).toContainText('hin → chi');

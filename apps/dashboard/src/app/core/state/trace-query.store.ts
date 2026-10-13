@@ -53,6 +53,8 @@ export class TraceQueryStore {
       const link=compatibleLinks.find(link=>next.linkDirectionId!.startsWith(link.id+':'));
       if (!link || ![link.endpointA,link.endpointB].includes(next.cityId)) next.linkDirectionId=undefined;
     }
+    if ((patch.countryId!==undefined && patch.countryId!==this.value().countryId)
+      || (patch.roamingDirection!==undefined && patch.roamingDirection!==this.value().roamingDirection)) next.partnerDirectionId=undefined;
     if ((patch.from!==undefined || patch.to!==undefined) && patch.visibleFrom===undefined && patch.visibleTo===undefined) {next.visibleFrom=undefined;next.visibleTo=undefined;}
     if(!validTraceContext(next)) return false;
     if (JSON.stringify(next)===JSON.stringify(this.value())) return true;
