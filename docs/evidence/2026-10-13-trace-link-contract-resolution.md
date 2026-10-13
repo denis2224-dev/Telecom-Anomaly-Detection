@@ -11,10 +11,17 @@ Base: PR #101, `3468ed908bebbe0eae7ced93ef46d56e412c9655`; refreshed main:
 `f7364d35c71ddf865c9f826c41bdf0aac37f473d`. #101 remained open at the same head before delivery.
 It already reconciles merged #98 with #99 and #100. No existing owner branch was modified or merged.
 
+Published as [Draft PR #102](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/102),
+targeting `reconcile/trace-link-pr98-pr99-20261013`. Actual review requests were recorded for
+`SergiuTOP`, `denis2224-dev` and `stasikkk777`; auto-merge is disabled. The initial publication
+snapshot is retained in the assets. These requests are not approvals.
+
 The [mapping and owner decision package](../architecture/trace-link-contract-resolution-v1.md)
 defines the code paths, policies, units, populations, scope dimensions, storage, API and handoffs.
 The [source manifest](assets/trace-link-contract-resolution-20261013/source-manifest.json)
 lists every implementation path and its Git-blob SHA-256. Final delivery adds evidence only.
+The complete delivered path list, including evidence, is
+[final-changed-paths.txt](assets/trace-link-contract-resolution-20261013/final-changed-paths.txt).
 The [verification manifest](assets/trace-link-contract-resolution-20261013/verification.json)
 records individual Java cases, source/fixture assertion locations, revisions, commands, outcomes and skips.
 Compressed original logs, JUnit XML and hashes are retained beside it.

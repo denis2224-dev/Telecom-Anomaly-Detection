@@ -22,6 +22,11 @@
       "sha256": "21784f5c4486d9db7376a7a024d1fc10591f7bf3369d3551bc400bb636542fd8"
     },
     {
+      "path": "final-changed-paths.txt",
+      "bytes": 6973,
+      "sha256": "9601b53d304d6305f8f70bbcac871619fe6d01fd652ac6876b09c38b1ffe1a62"
+    },
+    {
       "path": "final-dashboard.log.gz",
       "bytes": 1179,
       "sha256": "e403aad2da3523e7400fb93725d24aea0f8ab0b522e5db74fad29f33f43965e9"
@@ -210,6 +215,11 @@
       "path": "pr-heads.json",
       "bytes": 5090,
       "sha256": "87c8bb10129b82afd9dd7c4ceef1fce8892ab39954ca2721015481034d462c2e"
+    },
+    {
+      "path": "publication.json",
+      "bytes": 2156,
+      "sha256": "9b127d19251863a489d63983a32d97e4b29ff2bed5b5dd8d44e21a0c3d4502da"
     },
     {
       "path": "reactor-before-focused-rerun.json",
