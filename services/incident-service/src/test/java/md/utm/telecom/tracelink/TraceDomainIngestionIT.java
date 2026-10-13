@@ -138,4 +138,11 @@ class TraceDomainIngestionIT extends IncidentServiceIntegrationTestSupport {
         mvc.perform(get("/api/v2/trace-domain-measurements").session(authenticatedSession()).with(oidcLogin()
                 .authorities(new SimpleGrantedAuthority("ROLE_ANALYST")))).andExpect(status().isNotFound());
     }
+    @Test void liveQueriesRejectMetricsAbsentFromTheirSourceManifest() throws Exception {
+        String line=Files.readAllLines(ROOT.resolve("docs/evidence/assets/trace-link-day6/run-1/transport-fault.jsonl")).get(0);
+        var m=wrap(line.getBytes(java.nio.charset.StandardCharsets.UTF_8),CLOCK);register(m);ingestion.ingest(m.bytes());
+        var o=m.observation();
+        assertThrows(IllegalArgumentException.class,()->queries.nativeWindows(o.path("datasetId").asText(),o.path("sourceId").asText(),m.scopeKey(),
+                "transport.rtt.snapshot",Instant.parse(o.path("windowStart").asText()),Instant.parse(o.path("windowEnd").asText())));
+    }
 }
