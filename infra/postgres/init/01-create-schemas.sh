@@ -8,6 +8,7 @@ set -eu
 : "${INCIDENT_DB_PASSWORD:?}"
 : "${INCIDENT_MIGRATOR_PASSWORD:?}"
 : "${KEYCLOAK_DB_PASSWORD:?}"
+: "${TRACE_LINK_PG_PASSWORD:=trace_link_reader_secret}"
 
 # Create missing roles and databases.
 # Existing role passwords and existing data are preserved.
@@ -18,7 +19,8 @@ psql -X -v ON_ERROR_STOP=1 \
   -v processing_migrator_password="$PROCESSING_MIGRATOR_PASSWORD" \
   -v incidents_password="$INCIDENT_DB_PASSWORD" \
   -v incidents_migrator_password="$INCIDENT_MIGRATOR_PASSWORD" \
-  -v keycloak_password="$KEYCLOAK_DB_PASSWORD" <<'SQL'
+  -v keycloak_password="$KEYCLOAK_DB_PASSWORD" \
+  -v reader_password="$TRACE_LINK_PG_PASSWORD" <<'SQL'
 
 SELECT format('CREATE ROLE %I LOGIN PASSWORD %L', name, password)
 FROM (
@@ -27,7 +29,8 @@ FROM (
         ('processing_migrator', :'processing_migrator_password'),
         ('incidents_app', :'incidents_password'),
         ('incidents_migrator', :'incidents_migrator_password'),
-        ('keycloak_app', :'keycloak_password')
+        ('keycloak_app', :'keycloak_password'),
+        ('trace_link_reader', :'reader_password')
 ) AS requested(name, password)
 WHERE NOT EXISTS (
     SELECT 1 FROM pg_roles WHERE rolname = requested.name
@@ -54,7 +57,7 @@ GRANT CONNECT ON DATABASE processing_db
     TO processing_app, processing_migrator;
 
 GRANT CONNECT ON DATABASE incidents_db
-    TO incidents_app, incidents_migrator;
+    TO incidents_app, incidents_migrator, trace_link_reader;
 
 GRANT CONNECT ON DATABASE keycloak_db
     TO keycloak_app;
@@ -83,3 +86,15 @@ ALTER DEFAULT PRIVILEGES FOR ROLE :"migrator" IN SCHEMA app
     GRANT USAGE, SELECT ON SEQUENCES TO :"runtime";
 SQL
 done
+
+# Provision reporting schema in incidents_db for trace_link_reader
+psql -X -v ON_ERROR_STOP=1 \
+  --username "$POSTGRES_USER" \
+  --dbname "incidents_db" <<'SQL'
+CREATE SCHEMA IF NOT EXISTS reporting AUTHORIZATION incidents_migrator;
+REVOKE ALL ON SCHEMA reporting FROM PUBLIC;
+GRANT USAGE ON SCHEMA reporting TO trace_link_reader;
+ALTER DEFAULT PRIVILEGES FOR ROLE incidents_migrator IN SCHEMA reporting
+    GRANT SELECT ON TABLES TO trace_link_reader;
+REVOKE ALL ON SCHEMA app FROM trace_link_reader;
+SQL

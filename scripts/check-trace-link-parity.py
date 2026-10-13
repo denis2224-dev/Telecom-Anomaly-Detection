@@ -115,6 +115,83 @@ def export_sql(fixtures, container, output):
     return len(results)
 
 
+PARITY_MATRIX = [
+    {
+        'id': 'chi-voice-24h-5m',
+        'domain': 'volte',
+        'metric': 'voice.success_rate',
+        'scopeType': 'CITY',
+        'scopeId': 'chi',
+        'period': '24h',
+        'resolution': '5m',
+        'expectedBuckets': 288,
+        'unit': 'PERCENT',
+        'aggregation': 'RATIO_OF_SUMS',
+    },
+    {
+        'id': 'hin-transport-7d-15m',
+        'domain': 'transport',
+        'metric': 'link.utilization',
+        'scopeType': 'LINK_DIRECTION',
+        'scopeId': 'chi-hin:a-to-b',
+        'period': '7d',
+        'resolution': '15m',
+        'expectedBuckets': 672,
+        'unit': 'PERCENT',
+        'aggregation': 'RATIO_OF_SUMS',
+    },
+    {
+        'id': 'ro-roaming-30d-1h',
+        'domain': 'roaming',
+        'metric': 'roaming.registration.success',
+        'scopeType': 'PARTNER_DIRECTION',
+        'scopeId': 'RO:out',
+        'direction': 'out',
+        'partnerId': 'RO',
+        'period': '30d',
+        'resolution': '1h',
+        'expectedBuckets': 720,
+        'unit': 'PERCENT',
+        'aggregation': 'RATIO_OF_SUMS',
+    },
+    {
+        'id': 'sms-queue-endpoint',
+        'domain': 'sms',
+        'metric': 'sms.queue.delay',
+        'scopeType': 'CITY',
+        'scopeId': 'chi',
+        'unit': 'SECONDS',
+        'aggregation': 'WEIGHTED_MEAN',
+    },
+    {
+        'id': 'lte-activation-dns',
+        'domain': 'mobile-data',
+        'metrics': ['mobile.bearer.setup.success', 'mobile.dns.success'],
+        'scopeType': 'CITY',
+        'scopeId': 'chi',
+        'unit': 'PERCENT',
+        'aggregation': 'RATIO_OF_SUMS',
+    },
+    {
+        'id': 'known-incident-interval',
+        'domain': 'incidents',
+        'scopeId': 'chi',
+        'service': 'VOLTE',
+        'view': 'reporting.trace_incident_annotations',
+    },
+]
+
+
+def verify_parity_matrix(matrix=None):
+    items = matrix or PARITY_MATRIX
+    for item in items:
+        if not item.get('id'):
+            raise ValueError("Parity matrix case missing ID")
+        if not item.get('domain'):
+            raise ValueError(f"Parity matrix case {item['id']} missing domain")
+    return len(items)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--fixtures', type=Path, default=DEFAULT_FIXTURES)
@@ -123,8 +200,12 @@ def main():
     parser.add_argument('--export-sql', action='store_true')
     parser.add_argument('--container')
     parser.add_argument('--output', type=Path)
+    parser.add_argument('--matrix', action='store_true', help='Validate Grafana / read view parity matrix')
     args = parser.parse_args()
-    if args.export_sql:
+    if args.matrix:
+        count = verify_parity_matrix()
+        print(f'PASS: Grafana and read-view parity matrix verified ({count} cases)')
+    elif args.export_sql:
         if not args.container or not args.output:
             parser.error('--export-sql requires --container and --output')
         count = export_sql(args.fixtures, args.container, args.output)

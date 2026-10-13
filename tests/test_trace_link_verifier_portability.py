@@ -17,12 +17,14 @@ class VerifierPortabilityTest(unittest.TestCase):
             home = Path(directory)
             (home / 'bin').mkdir()
             launcher = home / 'bin' / ('java.exe' if os.name == 'nt' else 'java')
-            # A relocated Windows virtualenv Python launcher needs pyvenv.cfg.
-            # Use the platform shell to exercise executable selection independently.
-            native = os.environ['COMSPEC'] if os.name == 'nt' else shutil.which('sh')
-            shutil.copy2(native, launcher)
-            arguments = ['/d', '/c', 'echo native-launcher-ok'] if os.name == 'nt' else [
-                '-c', 'printf native-launcher-ok']
+            if os.name == 'nt':
+                native = os.environ['COMSPEC']
+                shutil.copy(native, launcher)
+                arguments = ['/d', '/c', 'echo native-launcher-ok']
+            else:
+                launcher.write_text('#!/bin/sh\nprintf native-launcher-ok\n')
+                launcher.chmod(0o755)
+                arguments = []
             output = subprocess.check_output(
                 [java_executable(home), *arguments], text=True)
             self.assertEqual(output.strip(), 'native-launcher-ok')

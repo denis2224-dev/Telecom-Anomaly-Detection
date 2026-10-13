@@ -1,0 +1,815 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 0,
+        "datasource": {
+          "type": "postgres",
+          "uid": "trace-link-pg"
+        },
+        "enable": true,
+        "hide": false,
+        "iconColor": "rgba(255, 96, 96, 1)",
+        "name": "Telecom Service Incidents",
+        "rawQuery": "SELECT EXTRACT(EPOCH FROM detected_at)::bigint * 1000 AS time, EXTRACT(EPOCH FROM last_observed_at)::bigint * 1000 AS timeEnd, summary AS text, tags FROM reporting.trace_incident_annotations WHERE $__timeFilter(detected_at);",
+        "showIn": 0,
+        "type": "tags"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 100,
+      "title": "VoLTE Service Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Success Rate (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "#EAB839", "value": 95 },
+              { "color": "green", "value": 98 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 1 },
+      "id": 1,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", value AS \"VoLTE Setup Success Rate (%)\" FROM reporting.trace_metric_series WHERE domain = 'volte' AND metric_id = 'voice.success_rate' AND (scope_id = '$city' OR '$city' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "1. VoLTE Call Setup Success Rate (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Call Attempts / Count",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 1 },
+      "id": 2,
+      "options": {
+        "legend": { "calcs": ["sum", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", numerator AS \"Successful Setup Calls\", denominator AS \"Total Call Attempts\" FROM reporting.trace_metric_series WHERE domain = 'volte' AND metric_id = 'voice.success_rate' AND (scope_id = '$city' OR '$city' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "2. VoLTE Call Volume & Attempts",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+      "id": 200,
+      "title": "Intercity Transport Topology Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Utilization (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "#EAB839", "value": 75 },
+              { "color": "red", "value": 90 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+      "id": 3,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", utilization_percent AS \"Link Utilization (%)\" FROM reporting.trace_link_snapshot WHERE (direction = '$direction' OR '$direction' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "3. Transport Link Utilization (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Bandwidth (Gbps)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "min": 0,
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+      "id": 4,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", traffic_gbps AS \"Traffic (Gbps)\", effective_capacity_gbps AS \"Effective Capacity (Gbps)\" FROM reporting.trace_link_snapshot WHERE (direction = '$direction' OR '$direction' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "4. Transport Traffic vs Effective Capacity (Gbps)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Packet Loss (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "#EAB839", "value": 0.5 },
+              { "color": "red", "value": 2.0 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 18 },
+      "id": 5,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", packet_loss_rate AS \"Packet Loss Rate (%)\" FROM reporting.trace_link_snapshot WHERE (direction = '$direction' OR '$direction' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "5. Transport Link Packet Loss Rate (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Latency (ms)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "min": 0,
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 18 },
+      "id": 6,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", rtt_ms AS \"RTT (ms)\", jitter_ms AS \"Jitter (ms)\" FROM reporting.trace_link_snapshot WHERE (direction = '$direction' OR '$direction' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "6. Transport Round-Trip Time (RTT) & Jitter",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 25 },
+      "id": 300,
+      "title": "International Roaming Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Success Rate (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "#EAB839", "value": 90 },
+              { "color": "green", "value": 95 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 26 },
+      "id": 7,
+      "options": {
+        "legend": { "calcs": ["mean", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", registration_success_rate AS \"Outbound Reg Success (%)\" FROM reporting.trace_roaming_snapshot WHERE direction = 'out' AND (country_id = '$country' OR '$country' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "7. Outbound Roaming Registration Success Rate (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Success Rate (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "#EAB839", "value": 90 },
+              { "color": "green", "value": 95 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 26 },
+      "id": 8,
+      "options": {
+        "legend": { "calcs": ["mean", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", registration_success_rate AS \"Inbound Reg Success (%)\" FROM reporting.trace_roaming_snapshot WHERE direction = 'in' AND (country_id = '$country' OR '$country' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "8. Inbound Roaming Registration Success Rate (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Active Subscribers",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 24, "x": 0, "y": 34 },
+      "id": 9,
+      "options": {
+        "legend": { "calcs": ["max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", active_subscribers AS \"Active Roamers\" FROM reporting.trace_roaming_snapshot WHERE (country_id = '$country' OR '$country' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "9. Roaming Active Subscriber Volume",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 41 },
+      "id": 400,
+      "title": "LTE Mobile Data & Messaging Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Success Rate (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "#EAB839", "value": 95 },
+              { "color": "green", "value": 98 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 42 },
+      "id": 10,
+      "options": {
+        "legend": { "calcs": ["mean", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", value AS \"Bearer Setup Success (%)\" FROM reporting.trace_metric_series WHERE domain = 'mobile-data' AND metric_id = 'mobile.bearer.setup.success' AND (scope_id = '$city' OR '$city' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "10. LTE EPS Bearer Setup Success Rate (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Success Rate (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "#EAB839", "value": 95 },
+              { "color": "green", "value": 98 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 42 },
+      "id": 11,
+      "options": {
+        "legend": { "calcs": ["mean", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", value AS \"DNS Resolution Success (%)\" FROM reporting.trace_metric_series WHERE domain = 'mobile-data' AND metric_id = 'mobile.dns.success' AND (scope_id = '$city' OR '$city' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "11. LTE Mobile Data DNS Resolution Success Rate (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Success Rate (%)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "#EAB839", "value": 95 },
+              { "color": "green", "value": 98 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 50 },
+      "id": 12,
+      "options": {
+        "legend": { "calcs": ["mean", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", value AS \"SMS Delivery Success (%)\" FROM reporting.trace_metric_series WHERE domain = 'sms' AND metric_id = 'sms.delivery.success' AND (scope_id = '$city' OR '$city' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "12. SMS Delivery & Submission Success Rate (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Delay (s)",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "#EAB839", "value": 5.0 },
+              { "color": "red", "value": 15.0 }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 50 },
+      "id": 13,
+      "options": {
+        "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single", "sort": "none" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT bucket_start AS \"time\", value AS \"SMS Queue Delay (s)\" FROM reporting.trace_metric_series WHERE domain = 'sms' AND metric_id = 'sms.queue.delay' AND (scope_id = '$city' OR '$city' = 'all') AND $__timeFilter(bucket_start) ORDER BY 1;",
+          "refId": "A"
+        }
+      ],
+      "title": "13. SMS Mean Queue Delay (s)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 58 },
+      "id": 500,
+      "title": "Operational Incidents & Annotations",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "displayMode": "auto" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null },
+              { "color": "orange", "value": 1 }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Severity" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  { "options": { "CRITICAL": { "color": "red", "index": 0 } }, "type": "value" },
+                  { "options": { "HIGH": { "color": "orange", "index": 1 } }, "type": "value" },
+                  { "options": { "MEDIUM": { "color": "yellow", "index": 2 } }, "type": "value" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 59 },
+      "id": 14,
+      "options": {
+        "footer": { "enablePagination": true, "fields": "", "reducer": ["count"], "show": true },
+        "showHeader": true,
+        "sortBy": [{ "desc": true, "displayName": "Detected At" }]
+      },
+      "targets": [
+        {
+          "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT detected_at AS \"Detected At\", service AS \"Service\", scope_id AS \"Scope\", severity AS \"Severity\", status AS \"Status\", technical_state AS \"Technical State\", last_observed_at AS \"Last Observed At\" FROM reporting.trace_incident_annotations WHERE $__timeFilter(detected_at) ORDER BY detected_at DESC;",
+          "refId": "A"
+        }
+      ],
+      "title": "14. Active Telecom Incidents & Annotations",
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": ["trace-link", "telecom", "service-assurance"],
+  "templating": {
+    "list": [
+      {
+        "current": { "selected": true, "text": "All Cities", "value": "all" },
+        "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+        "definition": "SELECT city_id AS __value, display_name AS __text FROM reporting.trace_inventory_city ORDER BY display_name;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "City Scope",
+        "multi": false,
+        "name": "city",
+        "options": [],
+        "query": "SELECT city_id AS __value, display_name AS __text FROM reporting.trace_inventory_city ORDER BY display_name;",
+        "refresh": 1,
+        "type": "query"
+      },
+      {
+        "current": { "selected": true, "text": "All Countries", "value": "all" },
+        "datasource": { "type": "postgres", "uid": "trace-link-pg" },
+        "definition": "SELECT DISTINCT country_id AS __value, country_id AS __text FROM reporting.trace_roaming_snapshot UNION SELECT 'all', 'All Countries' ORDER BY 1;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Roaming Country",
+        "multi": false,
+        "name": "country",
+        "options": [],
+        "query": "SELECT DISTINCT country_id AS __value, country_id AS __text FROM reporting.trace_roaming_snapshot UNION SELECT 'all', 'All Countries' ORDER BY 1;",
+        "refresh": 1,
+        "type": "query"
+      },
+      {
+        "current": { "selected": true, "text": "All", "value": "all" },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Link Direction",
+        "multi": false,
+        "name": "direction",
+        "options": [
+          { "selected": true, "text": "All", "value": "all" },
+          { "selected": false, "text": "A-to-B", "value": "a-to-b" },
+          { "selected": false, "text": "B-to-A", "value": "b-to-a" },
+          { "selected": false, "text": "Inbound (in)", "value": "in" },
+          { "selected": false, "text": "Outbound (out)", "value": "out" }
+        ],
+        "query": "all, a-to-b, b-to-a, in, out",
+        "type": "custom"
+      },
+      {
+        "current": { "selected": true, "text": "5m", "value": "5m" },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Resolution",
+        "multi": false,
+        "name": "resolution",
+        "options": [
+          { "selected": true, "text": "5m", "value": "5m" },
+          { "selected": false, "text": "15m", "value": "15m" },
+          { "selected": false, "text": "1h", "value": "1h" },
+          { "selected": false, "text": "6h", "value": "6h" }
+        ],
+        "query": "5m, 15m, 1h, 6h",
+        "type": "custom"
+      },
+      {
+        "current": { "selected": true, "text": "trace-link-md-30d-v1 (Synthetic 30-Day)", "value": "trace-link-md-30d-v1" },
+        "hide": 2,
+        "label": "Dataset",
+        "name": "dataset",
+        "options": [
+          { "selected": true, "text": "trace-link-md-30d-v1 (Synthetic 30-Day)", "value": "trace-link-md-30d-v1" }
+        ],
+        "query": "trace-link-md-30d-v1",
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": ["10s", "30s", "1m", "5m", "15m"]
+  },
+  "timezone": "Europe/Chisinau",
+  "title": "Trace Link Overview",
+  "uid": "trace-link-overview",
+  "version": 1
+}

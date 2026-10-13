@@ -357,6 +357,40 @@ services:
     networks:
       - telecom-private
 
+  grafana:
+    profiles: [observability]
+    image: grafana/grafana:11.2.0
+    restart: unless-stopped
+    environment:
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+      GF_SERVER_ROOT_URL: ${GRAFANA_ROOT_URL:-http://telecom.test:8080/grafana/}
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      TRACE_LINK_PG_HOST: ${TRACE_LINK_PG_HOST:-postgres:5432}
+      TRACE_LINK_PG_DATABASE: ${TRACE_LINK_PG_DATABASE:-incidents_db}
+      TRACE_LINK_PG_USER: ${TRACE_LINK_PG_USER:-trace_link_reader}
+      TRACE_LINK_PG_PASSWORD: ${TRACE_LINK_PG_PASSWORD:-trace_link_reader_secret}
+      TRACE_LINK_PG_SSLMODE: ${TRACE_LINK_PG_SSLMODE:-disable}
+    volumes:
+      - ./infra/observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${GRAFANA_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:3000/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    networks:
+      - telecom-private
+
 networks:
   telecom-private:
     driver: bridge
@@ -365,3 +399,4 @@ volumes:
   postgres-data:
   kafka-data:
   apache-kafka-data:
+  grafana-data:

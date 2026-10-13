@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'Trace Link'
+    orgId: 1
+    folder: 'Trace Link'
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

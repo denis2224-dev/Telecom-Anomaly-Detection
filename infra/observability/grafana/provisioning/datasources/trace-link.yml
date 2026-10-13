@@ -1,0 +1,19 @@
+apiVersion: 1
+
+datasources:
+  - name: Trace Link PostgreSQL
+    uid: trace-link-pg
+    type: postgres
+    access: proxy
+    url: ${TRACE_LINK_PG_HOST:-postgres:5432}
+    database: ${TRACE_LINK_PG_DATABASE:-incidents_db}
+    user: ${TRACE_LINK_PG_USER:-trace_link_reader}
+    secureJsonData:
+      password: ${TRACE_LINK_PG_PASSWORD:-trace_link_reader_secret}
+    jsonData:
+      sslmode: ${TRACE_LINK_PG_SSLMODE:-disable}
+      postgresVersion: 1604
+      maxOpenConns: 5
+      maxIdleConns: 2
+      connMaxLifetime: 14400
+      timescaledb: false

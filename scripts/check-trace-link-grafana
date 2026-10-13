@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+"""Validate Grafana datasource, dashboard provisioning, SQL views, and security boundaries."""
+import json
+from pathlib import Path
+import re
+import sys
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+GRAFANA_DIR = ROOT / 'infra/observability/grafana'
+DATASOURCE_FILE = GRAFANA_DIR / 'provisioning/datasources/trace-link.yml'
+DASHBOARD_PROVIDER_FILE = GRAFANA_DIR / 'provisioning/dashboards/trace-link.yml'
+DASHBOARD_FILE = GRAFANA_DIR / 'dashboards/trace-link-overview.json'
+SQL_VIEWS_FILE = GRAFANA_DIR / 'sql/trace-link-views.sql'
+
+REQUIRED_VIEWS = [
+    'reporting.trace_inventory_city',
+    'reporting.trace_inventory_link',
+    'reporting.trace_metric_series',
+    'reporting.trace_link_snapshot',
+    'reporting.trace_roaming_snapshot',
+    'reporting.trace_incident_annotations',
+]
+
+REQUIRED_VARIABLES = ['city', 'country', 'direction', 'resolution', 'dataset']
+
+EXPECTED_PANEL_COUNT = 14
+
+
+def check_datasource():
+    if not DATASOURCE_FILE.is_file():
+        raise FileNotFoundError(f"Missing datasource provisioning file: {DATASOURCE_FILE}")
+    content = yaml.safe_load(DATASOURCE_FILE.read_text(encoding='utf-8'))
+    datasources = content.get('datasources', [])
+    ds = next((d for d in datasources if d.get('uid') == 'trace-link-pg'), None)
+    if not ds:
+        raise ValueError("Missing 'trace-link-pg' PostgreSQL datasource")
+    if ds.get('type') != 'postgres':
+        raise ValueError(f"Datasource type must be 'postgres', got {ds.get('type')}")
+    print("PASS: Datasource provisioning verified (uid=trace-link-pg, type=postgres)")
+
+
+def check_dashboard_provider():
+    if not DASHBOARD_PROVIDER_FILE.is_file():
+        raise FileNotFoundError(f"Missing dashboard provider file: {DASHBOARD_PROVIDER_FILE}")
+    content = yaml.safe_load(DASHBOARD_PROVIDER_FILE.read_text(encoding='utf-8'))
+    providers = content.get('providers', [])
+    if not any(p.get('options', {}).get('path') == '/var/lib/grafana/dashboards' for p in providers):
+        raise ValueError("Dashboard provider path must point to /var/lib/grafana/dashboards")
+    print("PASS: Dashboard provider provisioning verified")
+
+
+def check_dashboard():
+    if not DASHBOARD_FILE.is_file():
+        raise FileNotFoundError(f"Missing dashboard file: {DASHBOARD_FILE}")
+    dashboard = json.loads(DASHBOARD_FILE.read_text(encoding='utf-8'))
+    if dashboard.get('uid') != 'trace-link-overview':
+        raise ValueError(f"Dashboard UID must be 'trace-link-overview', got {dashboard.get('uid')}")
+    if dashboard.get('schemaVersion', 0) < 39:
+        raise ValueError(f"Dashboard schemaVersion must be >= 39, got {dashboard.get('schemaVersion')}")
+
+    # Check panels (excluding row headers)
+    panels = [p for p in dashboard.get('panels', []) if p.get('type') != 'row']
+    if len(panels) < EXPECTED_PANEL_COUNT:
+        raise ValueError(f"Expected at least {EXPECTED_PANEL_COUNT} panels, found {len(panels)}")
+
+    for panel in panels:
+        title = panel.get('title', '')
+        targets = panel.get('targets', [])
+        if not targets:
+            raise ValueError(f"Panel '{title}' has no query targets")
+        raw_sql = targets[0].get('rawSql', '')
+        if 'reporting.' not in raw_sql:
+            raise ValueError(f"Panel '{title}' target query does not use 'reporting.' schema: {raw_sql}")
+
+    # Check variables
+    var_list = dashboard.get('templating', {}).get('list', [])
+    var_names = {v.get('name') for v in var_list}
+    missing_vars = set(REQUIRED_VARIABLES) - var_names
+    if missing_vars:
+        raise ValueError(f"Missing required dashboard variables: {missing_vars}")
+
+    # Check annotations
+    annotations = dashboard.get('annotations', {}).get('list', [])
+    if not any('reporting.trace_incident_annotations' in a.get('rawQuery', '') for a in annotations):
+        raise ValueError("Missing incident annotations query targeting reporting.trace_incident_annotations")
+
+    print(f"PASS: Dashboard '{dashboard.get('title')}' verified ({len(panels)} panels, {len(var_list)} variables)")
+
+
+def check_sql_views():
+    if not SQL_VIEWS_FILE.is_file():
+        raise FileNotFoundError(f"Missing SQL views file: {SQL_VIEWS_FILE}")
+    sql_text = SQL_VIEWS_FILE.read_text(encoding='utf-8')
+
+    for view_name in REQUIRED_VIEWS:
+        pattern = rf'CREATE\s+(?:OR\s+REPLACE\s+)?VIEW\s+{re.escape(view_name)}\b'
+        if not re.search(pattern, sql_text, re.IGNORECASE):
+            raise ValueError(f"Missing required view definition in SQL: {view_name}")
+
+    if 'trace_link_reader' not in sql_text:
+        raise ValueError("Missing 'trace_link_reader' role setup in SQL")
+
+    if not re.search(r'REVOKE\s+ALL\s+ON\s+SCHEMA\s+app\s+FROM\s+trace_link_reader', sql_text, re.IGNORECASE):
+        raise ValueError("Missing security boundary: REVOKE ALL ON SCHEMA app FROM trace_link_reader")
+
+    # Verify no analyst identity, session, or subscription columns leaked in views
+    prohibited_patterns = ['app.analysts', 'app.incident_audit', 'push_subscriptions', 'vapid']
+    for prohibited in prohibited_patterns:
+        if prohibited in sql_text.lower():
+            raise ValueError(f"Prohibited table or secret reference found in reporting SQL views: {prohibited}")
+
+    print("PASS: Reporting SQL views and security boundaries verified")
+
+
+def main():
+    try:
+        check_datasource()
+        check_dashboard_provider()
+        check_dashboard()
+        check_sql_views()
+        print("ALL GRAFANA CHECKS PASSED")
+    except Exception as e:
+        print(f"FAIL: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
