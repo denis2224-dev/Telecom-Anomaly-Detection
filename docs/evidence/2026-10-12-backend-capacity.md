@@ -22,6 +22,8 @@ The proxy access sample included 499 client-closed responses. A subsequent contr
 
 Hardware, actual query plans and memory settings are in assets/backend-transactional-history/query-plans.json and jvm-flags.txt. The load profile used pool maximum 12, minimum idle 4, timeout 3000 ms; the host JVM had its actual default heap settings, rather than the Compose application 384 MiB ceiling. Grafana/check tooling ran alongside portions of the steady phase. Projection receipt-age samples include workflow commits and must not be presented as pure processing latency.
 
-Raw per-route/per-phase p50/p95/p99, request statuses, client queue delays, telemetry, CPU/memory, pool and SSE samples: assets/backend-capacity/capacity.json. Diagnostic and result/limit qualifications: collector-diagnostic.json and summary.json. Source-quality uncertainty, producer delivery, deployment-owner Grafana receipt and frontend sign-off remain open release gates.
+Raw per-route/per-phase p50/p95/p99, request statuses, client queue delays, telemetry, CPU/memory, pool and SSE samples: assets/backend-capacity/capacity.json.gz. Diagnostic and result/limit qualifications: collector-diagnostic.json.gz and summary.json. Source-quality uncertainty, producer delivery, deployment-owner Grafana receipt and frontend sign-off remain open release gates.
 
 No cookies, passwords, OIDC tokens or subscriptions are committed.
+
+Raw traces are archived as lossless gzip with deterministic timestamps; summary.json records compressed/uncompressed SHA-256. Decompress with gzip -dc to inspect the exact original JSON.

@@ -80,5 +80,19 @@
   "harnessRepair": "Telemetry now samples on a separate thread; active OIDC/ADMIN JSON preflight is required; slow telemetry independence is tested",
   "projectionTimerCaveat": "Latest evidence receipt age sampled on incident commits includes workflow commits and is not a pure ingestion SLA",
   "producerSteadyBurstLoad": "NOT_RUN: producer agreement and usable source quality pending",
-  "productionLimitClaim": false
+  "productionLimitClaim": false,
+  "rawTraceHashes": {
+    "capacity.json.gz": {
+      "uncompressedSha256": "a9ea46de88c9ad4649ee5a084d5a271a0f5dcc23f9323f087ae0d7aa736a94f6",
+      "compressedSha256": "f60a0cd0c47f372265d456e2a444d68cfd0bcdc4e4d75bd808c9369bc0ecf05b"
+    },
+    "collector-diagnostic.json.gz": {
+      "uncompressedSha256": "099bc4bf43d891a19da2efcc8e937a4dfd3e34129978354819653814e986fcb4",
+      "compressedSha256": "341b4f5c5776c02a5d9741177c6ef3431631e538be7f9458b325c6828a78ac48"
+    },
+    "expired-session-diagnostic.json.gz": {
+      "uncompressedSha256": "031ecfa3d5e61357e5f874bb92c4f5e432ea10862e93d9caefd028f28d7c1951",
+      "compressedSha256": "981d64d908bc14f55dbb5d3764e757a8f5648c373c418658bc2d4be5212e652c"
+    }
+  }
 }
