@@ -36,6 +36,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({
         EvidenceService.class,
+        md.utm.telecom.notifications.service.NotificationEventService.class,
+        md.utm.telecom.notifications.service.NotificationTransitionClassifier.class,
+        md.utm.telecom.notifications.service.NotificationSummaryFactory.class,
+        md.utm.telecom.notifications.service.CausePresentationPolicy.class,
         EpisodeLock.class,
         PersistenceConfiguration.class,
         EvidenceServiceTest.JacksonConfig.class
