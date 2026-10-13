@@ -28,7 +28,7 @@
     <resources>
       <resource><directory>src/main/resources</directory></resource>
       <resource><directory>../../contracts</directory><targetPath>contracts</targetPath>
-        <includes><include>policies/**</include><include>baselines/**</include><include>features/**</include><include>detections/**</include><include>fixtures/features/**</include><include>fixtures/detections/**</include></includes>
+        <includes><include>policies/**</include><include>baselines/**</include><include>features/**</include><include>detections/**</include><include>evidence/**</include><include>kpi/**</include><include>fixtures/features/**</include><include>fixtures/detections/**</include></includes>
       </resource>
     </resources>
     <testResources>
@@ -47,6 +47,8 @@
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
           <include>**/DetectionReplayIT.java</include>
           <include>**/DependencyOutageIT.java</include>
+          <include>**/TraceLinkDatasetBootstrapIT.java</include>
+          <include>**/TraceLinkProjectionIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

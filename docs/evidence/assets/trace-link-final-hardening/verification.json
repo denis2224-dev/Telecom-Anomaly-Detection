@@ -1,0 +1,1292 @@
+{
+  "producerSourceSha": "bb52660f762ae696c1de37aa400cef589b06e17d",
+  "auditedInitialHead": "25bb17974a5267bd06b2f2d734f813ad2dd86218",
+  "sourceTreeListSha256": "cf406c3acd00a345920cde1ae6edb4047d4c7467c515ebe61fec88ced1436817",
+  "sourceTreePaths": [
+    "services",
+    "contracts",
+    "scripts",
+    "tests",
+    "pom.xml"
+  ],
+  "verificationCheckout": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify",
+  "trackedCheckoutStatusAtStart": "CLEAN",
+  "consumerAgreement": "PENDING_REVIEW",
+  "connectedKafkaDelivery": "BLOCKED",
+  "authenticatedApiAcceptance": "BLOCKED",
+  "ownerApproval": "PENDING_REVIEW",
+  "fullReactor": {
+    "command": "mvn -o --batch-mode --no-transfer-progress -Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2 clean verify",
+    "sourceSha": "bb52660f762ae696c1de37aa400cef589b06e17d",
+    "status": "PASS",
+    "basis": "One fresh complete root reactor; no overlapping invocations added",
+    "log": "C:\\OrangeSystems\\Program\\projection-hardening-reactor.log",
+    "logSha256": "0c4ea1afcfc36bb200db2f10118b699acb4e7930240eaac7cade608215bd4dda",
+    "modules": [
+      {
+        "module": "streaming-support",
+        "tests": 117,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": [
+          {
+            "name": "md.utm.telecom.observation.CoverageContractTest",
+            "sha256": "91e077ccb081f2de3bea497c277d2d942e0594c3e9caf248f89d26c2bb127310",
+            "tests": 36,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.observation.DomainObservationValidatorTest",
+            "sha256": "030cdbba6ba4fc41d498169925728213682cfc4b5c047d501139026f17cef1bd",
+            "tests": 6,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.observation.GeographyCatalogTest",
+            "sha256": "fc7b7628950e0a0179573c99dcd7fc7e53c224aaa7bfb87196a668491b97b4ed",
+            "tests": 15,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.observation.ObservationValidatorTest",
+            "sha256": "1d420a4d45b7def147090f4d944b88677d134346e5e9d0576d95b0f0a5ed930e",
+            "tests": 30,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.observation.TopologyCatalogTest",
+            "sha256": "3adbb2c065df7d39cf1439df288b3314d65a3ffa9454a62103a3e695e5ced405",
+            "tests": 30,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        ],
+        "skippedTests": []
+      },
+      {
+        "module": "event-generator",
+        "tests": 95,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": [
+          {
+            "name": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+            "sha256": "4dd42f75a5e6ead731c770516a7dfd93ec29a00e26f4e2a75b366004a4d79f0f",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+            "sha256": "f63de700309e5db2c40ef61f6543d5fa1af200dc9dde1ee5abbd24240db79992",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+            "sha256": "eabb38abdbfb8bf6c1841183055772ba323de385c75b77f0be857a555d1fed82",
+            "tests": 29,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.CityVoiceSeedTest",
+            "sha256": "28c895a9ae359541dbc1e710b511d965a72ae9adef86aa73f2bdbac09d051a26",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+            "sha256": "b43ec404681798e57eeddd1433993d7892ea2d7611648e83738831af69680d04",
+            "tests": 15,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+            "sha256": "3e2475ad4c8897061a99572f9722874bb127e79308a5b679eefd52a1c3bca89e",
+            "tests": 17,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+            "sha256": "b9bc92110d2994652f96fd3709ba754516d71a5cb2c9b4d0133ea10523f9721a",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+            "sha256": "9462e139b199f4108a816d89fc561af9d288b190f7f42575325dab54bdb72f5a",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.HealthProbeTest",
+            "sha256": "48b0c4b0bd9d3a8245c27523a4b562a581269e4c26720b1f2e412b1b22d58b8a",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+            "sha256": "1f5bbc3e6e8679d69504110c5689171f22498bdfa580d7326e0eb9321d5df95e",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+            "sha256": "1a9ccaa061867ae8f7d33535add05f2356c014c554b551e64261793a07baadcb",
+            "tests": 14,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.generator.VoiceScenarioTest",
+            "sha256": "6ba17028e4cd457a3e80eca25e071cf925dca9148b860a005f0198470a96f899",
+            "tests": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        ],
+        "skippedTests": []
+      },
+      {
+        "module": "processor",
+        "tests": 993,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 6,
+        "suites": [
+          {
+            "name": "md.utm.telecom.processing.BaselineRegistryTest",
+            "sha256": "6e00acac4381f720014e014bba40e8cf714d395884f5777ae76fecf826c40f4e",
+            "tests": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.DependencyOutageIT",
+            "sha256": "0a666475ef9793605edde4aa40fdf1cee3aa76e5c62ee73da92ae1f941b71b6f",
+            "tests": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+            "sha256": "948b4071f189d117ab99e226d0311439574251b3e42b87e97e1d79e2f9dbeacb",
+            "tests": 14,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+            "sha256": "fb8e2490ef3ef7f16470a6f5dfb25d5fe3f3259584d733192d273a5fe05f4e22",
+            "tests": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.DetectionMigrationTest",
+            "sha256": "b4dde6e43880aaa2ae9e8770905b2c3bd79bc6b3b0212a13a79ee8eb8a9b12f5",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.DetectionReplayIT",
+            "sha256": "6517923ba4aeaf48d9de52420b888d4d4c56ee1e42c3c8572fd7eca9ea219cd4",
+            "tests": 16,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.EpisodeStateTest",
+            "sha256": "c0b8e0e91cdf90855183975ca11815a11acbdcc22877d40b5e4a602c05c65df6",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.ExplanationCasesTest",
+            "sha256": "c68470436f47bb570088eeffc653ada56c9d00ca0de71344092e68e621ede386",
+            "tests": 64,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.FinalizerRaceIT",
+            "sha256": "a9892ab1abf903ed0fcaaab1e3825b800b43dd8c440107c3d09c69c756cff3e8",
+            "tests": 11,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+            "sha256": "ee458d3984e842554fc24bdfcb5981b81719e3932737cd88aea68b9a65af5907",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+            "sha256": "f0d5d7a03b46aff63fbbcffd5d12047c2a2596cd491e45ffd91ed3f867ad6ba7",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+            "sha256": "7fcccfde5131f7fe40c66507300a481218b633b5433aa728da237fe8a107b01b",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+            "sha256": "7ff5fe5003d1e1b0b831215b120732dbbfbd97f11c716567be00492905639e5b",
+            "tests": 80,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+            "sha256": "3b1625a2f164ca2857b911afd95969d7e2f80a7ef7ebb95f56e71395ff5e6119",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicDetectionTest",
+            "sha256": "11f40072bedb6ce437ca8de967d50f15f7437f038ec62db98cbcf56a2a6f3d3e",
+            "tests": 26,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 1
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicDetectorAcceptanceTest",
+            "sha256": "b1ddd6938b0adfdc259c86dc84ff1ac606a264a97916d58c7ea21cb3002c949e",
+            "tests": 101,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicEvidenceIsolationTest",
+            "sha256": "634e8183d7aeeafd21464372b5066f52553578f9ee61861162ba8264d181c5a1",
+            "tests": 20,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicExplanationTest",
+            "sha256": "9e678fc52bb976abea7ab62f0ab9f429a7eeabc7066fc19784961a205b515a3a",
+            "tests": 121,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest",
+            "sha256": "c7a68c2a299bb284e45226da18d3266e29e5d651f781895e6456b1d9ca52f277",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+            "sha256": "e73ad0d5c07ff4f0f52c672ff60d1f475596b283ae64c93f1cf2e70b8494094f",
+            "tests": 6,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+            "sha256": "d2c98fc004c712b48151eb90fec6210db7bd42b8ce934e683b56fbadd5a2e1da",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+            "sha256": "624f2de269726b8506b60e38ffa0b50d7a3c25d794d6065c4b36d10bdf1d24c1",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+            "sha256": "641c9ef4ecfd06251aab38d08f86eead30d837d4429c8eb6824fde016cce02f1",
+            "tests": 8,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+            "sha256": "b7f2def00513aaadce579b4e712bf614e8d37c6dead020e4165a4e6053c9bfd2",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+            "sha256": "c1c7d64a5d9238e0f2263997a16bc5dffb60170608c0a7191128c67b4794acee",
+            "tests": 25,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicParityTest",
+            "sha256": "b287e02d9d43bb143d30a2420ce95a3ab06576051d5c16de7ff630e609cf3456",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicReplayTest",
+            "sha256": "5bad61d14f4f71cbe5a3b643bf68097ec5a454560ea02bb7f16ec1c2caf6dfda",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+            "sha256": "671a4fdaf26a2ee042a56efdae3b31d01c844b7d9d1b02fe9d081ac60764c4ea",
+            "tests": 14,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest",
+            "sha256": "d535085a59ce02be41b63644c9e282cf8276b3fdb531c9d4ad73159552367ba8",
+            "tests": 6,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.GeographicWorkerTest",
+            "sha256": "bb9bd2c964325cfaa41818c563247d090249ad958aeaed1f41b1a05a00e148ba",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.HealthProbeTest",
+            "sha256": "5ec26f267550d94bfa570d4245047fa7b54293f25ffcf2676f53245d7998dfb6",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+            "sha256": "7ad8b3ca77a65a4e0434deca8c022c95af9ad1173170f476e6bff9b01ac13aa8",
+            "tests": 15,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+            "sha256": "be1c317de57322639525e983ccdac679bddbf662f237f87043080268e84f87b2",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+            "sha256": "b9455106cc3d3ebc882f08a4181b98eef0f3c2c015bc98864e962c306b477d78",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+            "sha256": "37478223c6aec1afd5e3a09e7052fb4d3294bc0d7b0e2a71ebb95ba8e3c9a194",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+            "sha256": "870a86d82f84c9bc2f262f94ebbf18f04c91fdf0726fbdfddbcca0758e47fcda",
+            "tests": 8,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+            "sha256": "881005bbd5d90d6c497be17bb843cb6f28d04eb36c1bba1655a2dc5f9003b9fc",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+            "sha256": "9cd604754541ed59433f7e3fa72ddc5597a9070ae18b271d12002c66a01d1304",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+            "sha256": "b44c71b23773a4d50554edd0c0a3e9ad54e0578490a0f50beb4f6caab7376557",
+            "tests": 11,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 1
+          },
+          {
+            "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+            "sha256": "74fccb1227fdd64f8dd518440f9e27e8132036d7179def04daf7b28ce9aa8094",
+            "tests": 28,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+            "sha256": "6396657827eb487210a16abe1575d20b19e3ba3e8480ac0b1e4a0df9ef1cb8c1",
+            "tests": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+            "sha256": "86b4538e21163d92087d908cb47d5c7e6880da6f3edc750ad53fa9c9291cd6ca",
+            "tests": 14,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+            "sha256": "d713180e4fe982230bb76a58ac85eed8d71eb8cbd7cf59bf03e3a34872249086",
+            "tests": 30,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.Day5GeographicParityTest",
+            "sha256": "2b1627e1731d4ae59ef69ab8eba6568caacc8c5c97602d4c24c7fe2d71658ed6",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+            "sha256": "7ec4a73b323a8b1d62d1102345838aaeee6f12ab2c6fe8e059a98ee83bb002ac",
+            "tests": 23,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+            "sha256": "38bf3c87a737adae09e5573bc875dbeb393f33b17555a86650cc69e6512f1402",
+            "tests": 7,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+            "sha256": "6dda7c78f52b50fbabfd63821b00862cadec6af636c5433e536cf4022d4f9093",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 1
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+            "sha256": "e0d4181566b6365adadfc1f54b481aaf56d4f71773b61c45dbd728225d38635b",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+            "sha256": "3ce40616845a8b00021f9e979f531d7ba5fe84ddaab307db2a1826375376beb2",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 1
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+            "sha256": "4d52e6cdd357a40a73ce83a8d0b911c7eb74d0bbef54d262391da6e8febedc9c",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+            "sha256": "61266e375f48b91fa97d4f25af7169447587fedcaa875b0b8abab3d952fe7b7c",
+            "tests": 16,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 1
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionTest",
+            "sha256": "b15798ae3ee78d2e3d99f6258d210a7314f611185b3f5be2529c285fc6feb1c4",
+            "tests": 6,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.TraceLinkArithmeticTest",
+            "sha256": "14debc011f0b01d3f12f0d4b5c7d9f48e1138d49109164639d3e4207b9fec0ba",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+            "sha256": "3ef641dacb992d9fbf2d8ef84988b051f88f0ce11201903ce6d3430a3e9b4cfc",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 1
+          },
+          {
+            "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+            "sha256": "b57095c66373379e5b5d134f7802caa0e06e613f034a9b18d534fabeeb7fb496",
+            "tests": 18,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.LateInputIT",
+            "sha256": "45df83e2bd76a1f7fc5e8041472b1e05757f6fea1ffbd3740960f01a32374d50",
+            "tests": 20,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.MlClientTest",
+            "sha256": "918062552174b43d1aa113ffaa4d25ad302dc3638008b541a400ca6d9942ef5e",
+            "tests": 6,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+            "sha256": "c43c48c6ed3276267718fb15fa7b59939fc64182f6644a626bbcd7c298cab0dc",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.ObservationInputTest",
+            "sha256": "bdbb109a1fe3c1ef0257397585b38205ed1bfeea97121c0484dbd2861cfe25c1",
+            "tests": 26,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+            "sha256": "735234748be16f55a2eded0964bc9edb982faa6f227f25f0eaca442e4381b764",
+            "tests": 5,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+            "sha256": "d8764f67fa8a0d5f278d4302e765b8bbe7f112650782332d57bbf38b3aa31467",
+            "tests": 16,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+            "sha256": "96e3e6d82083b9bbcaa898966eba31f7bd9e6a469f0d6d7620ca8f935b209389",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.ReplayIT",
+            "sha256": "fdccd7cf94c78eb008f70d3e0fbb5d9b9fdf9546d343f859278416cfc778fda9",
+            "tests": 7,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.RetentionJobTest",
+            "sha256": "529088fb36673fbb3c21a904b43c6f8deee520be7f331b9728f1613091884c9a",
+            "tests": 31,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.SmsEpisodeTest",
+            "sha256": "218daabd4e357f42aa3543a6ef5128d1015285f8cef1487e6b2366bed9266057",
+            "tests": 3,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.SmsRuleTest",
+            "sha256": "0fd13841d5b8f66c1590a99f5185c19e6ea2cdd242d343cd8ce0259491897f81",
+            "tests": 12,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.SmsShadowClientTest",
+            "sha256": "7aac94179d533459127fd3adabbd5d740be9fa40e8feb2d9bbdf2eda6b3df3c5",
+            "tests": 2,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+            "sha256": "217abc9baf81e62d3759441af1b96a5a5ce224734993fa23f580582ce2978fee",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.StreamingMetricsTest",
+            "sha256": "172541d2a8ba9d62f1b7efd49b24837bf74da1c74ef320ede1764f13ff6c3ad5",
+            "tests": 20,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+            "sha256": "7f010abbef7b59075ae61460f571963a6655a15d454dab4ee69465c2f7f3ebe0",
+            "tests": 13,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+            "sha256": "4fe28d8b53b355ae23a01127900af72b716dddcc52daccc05226b60422a3ed93",
+            "tests": 30,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+            "sha256": "2fc9ab3d0b45143ab17cea9e5a13ba8cf4ac6034e4966fae7973c7bb92d4aaad",
+            "tests": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+            "sha256": "973640d76fc63921e0e8a9d64593718457a415cad7591f28591fb910d5c581e5",
+            "tests": 4,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.VoiceRuleTest",
+            "sha256": "9906517b0aecd827866397fe79c94e3815d148c0b60d1df5dc9722861bc379ea",
+            "tests": 7,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          },
+          {
+            "name": "md.utm.telecom.processing.WindowBoundaryTest",
+            "sha256": "5c2880406ec733bac70c006a6e99857431c7071101c5d9b20d2abd06d6f8a255",
+            "tests": 14,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0
+          }
+        ],
+        "skippedTests": [
+          {
+            "test": "md.utm.telecom.processing.GeographicDetectionTest#pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+            "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+          },
+          {
+            "test": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT#suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+            "reason": "org.opentest4j.TestAbortedException: Assumption failed: Reference archive must be selected explicitly"
+          },
+          {
+            "test": "md.utm.telecom.processing.kpi.SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode",
+            "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true"
+          },
+          {
+            "test": "md.utm.telecom.processing.kpi.SmsShadowReplayTest#freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+            "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+          },
+          {
+            "test": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT#fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+            "reason": "org.opentest4j.TestAbortedException: Assumption failed: Full archive must be explicitly selected"
+          },
+          {
+            "test": "md.utm.telecom.processing.kpi.VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode",
+            "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true"
+          }
+        ]
+      }
+    ],
+    "totals": {
+      "tests": 1205,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6
+    }
+  },
+  "repositoryPython": {
+    "tests": 118,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "archiveReplay": {
+    "status": "PASS",
+    "basis": "Separate opt-in source/import/projection invocation; not added to reactor total",
+    "suites": [
+      {
+        "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "totals": {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "unchangedPathsSinceAuditedHead": [
+    "services/processor/src/main/resources/db/migration",
+    "services/processor/src/main/java/md/utm/telecom/processing/history",
+    "contracts/fixtures/trace-link/native-slice",
+    "contracts/datasets",
+    "services/incident-service"
+  ],
+  "priorEvidenceComparison": [
+    {
+      "freshArtifact": "trace-link-projection-native-example.json",
+      "priorArtifact": "trace-link-projection-v1/bounded-native-example.json",
+      "freshSha256": "0da40dbcc363e2dac8dfb3ab39b1fbc8dc7468c04f6ba7bab8b22d2198b1eb94",
+      "priorSha256": "0da40dbcc363e2dac8dfb3ab39b1fbc8dc7468c04f6ba7bab8b22d2198b1eb94",
+      "sameBytes": true,
+      "sameJSON": true
+    },
+    {
+      "freshArtifact": "trace-link-projection-full-result.json",
+      "priorArtifact": "trace-link-projection-v1/full-archive-result.json",
+      "freshSha256": "cf4b0fc73b81645aa76b5bebc68f7cb62d37926e3f7b43ac31b36271f6b88afd",
+      "priorSha256": "cf4b0fc73b81645aa76b5bebc68f7cb62d37926e3f7b43ac31b36271f6b88afd",
+      "sameBytes": true,
+      "sameJSON": true
+    },
+    {
+      "freshArtifact": "trace-link-native-import-result.json",
+      "priorArtifact": "trace-link-ion-native/native-import-result.json",
+      "freshSha256": "7cf24c0126ef78667d2d0ace7c2dc9bac18b412219ccad5a5a19c0c9e6505dcf",
+      "priorSha256": "6660d50d0e6490ddd344657ccda67da135964906ec671410c86a22fd18f483f3",
+      "sameBytes": false,
+      "sameJSON": false,
+      "priorEvidenceOnlyAnnotation": {
+        "nativeBoundsUtc": [
+          {
+            "from": "2026-09-10T09:00:00Z",
+            "toExclusive": "2026-10-10T09:00:00Z",
+            "sourceResolutionSeconds": 300
+          }
+        ]
+      },
+      "sameMeasuredImportReport": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "consumer-compatibility.json",
+      "sha256": "08f1c29e4e4bfac7c38e09e5dceeb7a1b6767abdce38063c0d6ee284a3406e90",
+      "bytes": 3247
+    },
+    {
+      "path": "trace-link-native-import-result.json",
+      "sha256": "7cf24c0126ef78667d2d0ace7c2dc9bac18b412219ccad5a5a19c0c9e6505dcf",
+      "bytes": 699
+    },
+    {
+      "path": "trace-link-projection-full-result.json",
+      "sha256": "cf4b0fc73b81645aa76b5bebc68f7cb62d37926e3f7b43ac31b36271f6b88afd",
+      "bytes": 10407
+    },
+    {
+      "path": "trace-link-projection-native-example.json",
+      "sha256": "0da40dbcc363e2dac8dfb3ab39b1fbc8dc7468c04f6ba7bab8b22d2198b1eb94",
+      "bytes": 1669
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\trace-link-java.json",
+      "sha256": "0bf874e30440f40241bc7d9b7abba0b1204f7e75f7b3296b6475d51aafdd44b0",
+      "bytes": 44054
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\voice-parity-java.json",
+      "sha256": "4d97c395fe88b794eadb5d8066de4eb249e19de8f6426079dc041da9f1ee9f6b",
+      "bytes": 14668
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\sms-parity-java.json",
+      "sha256": "31a8c5e0ff4db90e374497590d0dd57c7861daee76cd7443ee262b54ecdd81a5",
+      "bytes": 19404
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\geographic-voice-parity-java.json",
+      "sha256": "18d0834049c1c240d9714f06174995c565597dd3ce59e1f7fbbb4d2b4109c0c6",
+      "bytes": 63949
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\geographic-sms-parity-java.json",
+      "sha256": "2b0a1af3fc34970a679da288e73615a7625241e32f38d217a0a2bde02c0b36b0",
+      "bytes": 50843
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\day5-geographic-parity-java.json",
+      "sha256": "f3c0a19b288e9dc9ca7e9379cb34818b62842bf4ddf92c3cfe7643b872900a2b",
+      "bytes": 690696
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\python.json",
+      "sha256": "ec9880bb32a028dad7046f7006c310519028f1904bac8f73fbc9d765dd68b93c",
+      "bytes": 44337
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\javascript.json",
+      "sha256": "bfec6d06f4cca9baa1e2589067a5cc579abb19b32bf1d8b782fd044189a703f4",
+      "bytes": 42310
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\sql.json",
+      "sha256": "132e9f74a62a598dbf9f8deed73b948c53cc22bc5d3d437fb657f06f552eff4f",
+      "bytes": 44343
+    }
+  ],
+  "commands": [
+    {
+      "check": "contracts",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-contracts.py"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 4.34,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\contracts.log",
+      "sha256": "123897e6009223a373fb3654117a204b5f952e9b986635d960b94b83609ba900"
+    },
+    {
+      "check": "repository-python",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 17.43,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\repository-python.log",
+      "sha256": "1917f02ddf48a34c9147bca00794806dbb81fb8d6995fa4d8328506ae63bf558"
+    },
+    {
+      "check": "pins",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/verify-trace-link-pins.py",
+        "--reference-root",
+        "C:/OrangeSystems/task/Trace_Link_Integration_Pack"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.21,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\pins.log",
+      "sha256": "ddd163a8cdc0311ece11d57f4efe07d7d1c111e0482a1d6e92bb577a741c0d30"
+    },
+    {
+      "check": "reference-engine",
+      "argv": [
+        "node",
+        "C:/OrangeSystems/task/Trace_Link_Integration_Pack/tests/engine.test.js"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 3.88,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\reference-engine.log",
+      "sha256": "250eb6948522964f4fb76391b3fe09def587e17d2000d6ce7ce6ea9f05feb812"
+    },
+    {
+      "check": "consumer-compatibility",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-trace-link-consumer-compatibility.py",
+        "--output",
+        "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\consumer-compatibility.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.44,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\consumer-compatibility.log",
+      "sha256": "4cd55e482e925d36ffed3f35cee612f68f71642a6ede841d867b5a4b8c170c4e"
+    },
+    {
+      "check": "arithmetic-python",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "services/ml-service/app/features/trace_link_reference.py",
+        "--fixtures",
+        "contracts/fixtures/trace-link/arithmetic-cases.json",
+        "--output",
+        "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\python.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.08,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\arithmetic-python.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "arithmetic-javascript",
+      "argv": [
+        "node",
+        "scripts/trace-link-reference.cjs",
+        "--fixtures",
+        "contracts/fixtures/trace-link/arithmetic-cases.json",
+        "--output",
+        "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\javascript.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.27,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\arithmetic-javascript.log",
+      "sha256": "25a032820fc8092207b795a056d1494734d14eb3ca0aaef796a179833a77655c"
+    },
+    {
+      "check": "parity-container",
+      "argv": [
+        "docker",
+        "run",
+        "--detach",
+        "--rm",
+        "--network",
+        "none",
+        "--label",
+        "codex.trace-link-parity=true",
+        "--name",
+        "trace-link-hardening-parity-20261012",
+        "-e",
+        "POSTGRES_HOST_AUTH_METHOD=trust",
+        "postgres:16.4-alpine"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.62,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\parity-container.log",
+      "sha256": "e1f97a4050e9be45a05b160759d89d67120f364adea060d2b82974ec7245e230"
+    },
+    {
+      "check": "arithmetic-sql",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-trace-link-parity.py",
+        "--export-sql",
+        "--container",
+        "trace-link-hardening-parity-20261012",
+        "--output",
+        "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\sql.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.72,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\arithmetic-sql.log",
+      "sha256": "2fc3d80298ff52bcd31d1d58d087b7f068982b12b288afea98f6ddcff4803f87"
+    },
+    {
+      "check": "four-language-parity",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-trace-link-parity.py",
+        "--java-output",
+        "services/processor/target/trace-link-java.json",
+        "--python-output",
+        "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\python.json",
+        "--javascript-output",
+        "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\javascript.json",
+        "--sql-output",
+        "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\sql.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.17,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\four-language-parity.log",
+      "sha256": "04e8d356b2d71608f028d02cbd5d094040f495106431e94d3a96b2db2fe64da6"
+    },
+    {
+      "check": "voice-parity",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-voice-parity.py",
+        "--java-output",
+        "services/processor/target/voice-parity-java.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.82,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\voice-parity.log",
+      "sha256": "68b9560eccf8de14471760307fbbb4c28733fa0fd9e0de32da2a7fcef91225db"
+    },
+    {
+      "check": "sms-parity",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-sms-parity.py",
+        "--java-output",
+        "services/processor/target/sms-parity-java.json"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.54,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\sms-parity.log",
+      "sha256": "1e55c68bd2390068181749912bdb368a1099c7d1269a4615ef3a5628a85ef438"
+    },
+    {
+      "check": "geographic-voice-parity",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-voice-parity.py",
+        "--java-output",
+        "services/processor/target/geographic-voice-parity-java.json",
+        "--geographic"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.95,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\geographic-voice-parity.log",
+      "sha256": "6ffd7926f6f616cb57b534f9dc13007a1c24109be8105c15bbae5096a36ec658"
+    },
+    {
+      "check": "geographic-sms-parity",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-sms-parity.py",
+        "--java-output",
+        "services/processor/target/geographic-sms-parity-java.json",
+        "--geographic"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.48,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\geographic-sms-parity.log",
+      "sha256": "19107b800e53b931902dd27a42f71398435c32d214e2a9a066ecb0eef72ae0e3"
+    },
+    {
+      "check": "persisted-geographic-voice-parity",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-voice-parity.py",
+        "--java-output",
+        "services/processor/target/day5-geographic-parity-java.json",
+        "--geographic-persisted"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.86,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\persisted-geographic-voice-parity.log",
+      "sha256": "babb32d920f3110457b4f69594c696540a9164d60a26658d72f800327c82fab8"
+    },
+    {
+      "check": "persisted-geographic-sms-parity",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/check-sms-parity.py",
+        "--java-output",
+        "services/processor/target/day5-geographic-parity-java.json",
+        "--geographic-persisted"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.58,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\persisted-geographic-sms-parity.log",
+      "sha256": "759a3a365b881b4c3ba2796d374091ef296fe1db6bb755b4cfe65224f4f42edd"
+    },
+    {
+      "check": "source-import-projection-replay",
+      "argv": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-o",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=TraceLinkDatasetBootstrapIT,TraceLinkProjectionIT",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "-DtraceLink.referenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+        "-DtraceLink.projectionReferenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+        "test"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 721.86,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\source-import-projection-replay.log",
+      "sha256": "40d45382030804437ad0a6278960078d341ef9011257855a7a8c022d117036c9"
+    },
+    {
+      "check": "final-pins",
+      "argv": [
+        "C:\\Program Files\\Python313\\python.exe",
+        "scripts/verify-trace-link-pins.py",
+        "--reference-root",
+        "C:/OrangeSystems/task/Trace_Link_Integration_Pack"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.18,
+      "log": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\final-pins.log",
+      "sha256": "ddd163a8cdc0311ece11d57f4efe07d7d1c111e0482a1d6e92bb577a741c0d30"
+    }
+  ],
+  "rawArtifactCopies": [
+    {
+      "path": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\consumer-compatibility.json",
+      "sha256": "424c4e458763f4e0988826f0d088b342298039bd8bc641cff312d5e80693656b",
+      "evidenceCopy": "consumer-compatibility.json"
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\trace-link-native-import-result.json",
+      "sha256": "8499fd564d535d12a67fa03f0e014661e015f5a9968dfd1d4c2061570ad25850",
+      "evidenceCopy": "trace-link-native-import-result.json"
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\trace-link-projection-native-example.json",
+      "sha256": "57614b58a0369903e7bf56a4e6bdf8772849ac89dda03baad17c30fd86d73bd1",
+      "evidenceCopy": "trace-link-projection-native-example.json"
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\projection-hardening-evidence\\trace-link-projection-full-result.json",
+      "sha256": "b760c906e802f8edc8711d354eede4fe19a18d955bda85d449caa1bb75bc4dd9",
+      "evidenceCopy": "trace-link-projection-full-result.json"
+    }
+  ],
+  "evidenceEncoding": "Copied report JSON uses LF, matching committed bytes; raw output paths and hashes retained separately",
+  "packagedProcessor": {
+    "path": "C:\\OrangeSystems\\Program\\ion-trace-link-final-hardening-verify\\services\\processor\\target\\processor-0.3.0-SNAPSHOT.jar",
+    "sha256": "508e195baa4bf771c31aa65972b6db25dcadde0db8366b371fa3f524bab28dca"
+  },
+  "preliminaryAttempts": [
+    {
+      "check": "Python module-style selection",
+      "result": "ENVIRONMENT_SELECTION_ERROR",
+      "reason": "tests is not a package; discovery selection passed instead"
+    },
+    {
+      "check": "Sandbox focused Maven",
+      "tests": 24,
+      "failures": 0,
+      "errors": 15,
+      "skipped": 0,
+      "reason": "Sandbox could not access Docker; authorized disposable Docker rerun passed"
+    },
+    {
+      "check": "Authorized focused Maven before final added regression",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "check": "Sandbox cached dependency access",
+      "result": "PERMISSION_ERROR",
+      "reason": "Authorized dependency-cache run passed"
+    }
+  ],
+  "finalPublication": "PR body records final evidence-only head and live CI results; source tree must equal producerSourceSha"
+}

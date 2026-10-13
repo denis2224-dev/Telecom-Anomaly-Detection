@@ -12,6 +12,7 @@ Set-Location -LiteralPath $repoRoot
 $Python = (Resolve-Path -LiteralPath $Python).Path
 $env:JAVA_HOME = (Resolve-Path -LiteralPath $JavaHome).Path
 $ReferenceRoot = (Resolve-Path -LiteralPath $ReferenceRoot).Path
+$mavenWrapper = Join-Path $repoRoot $(if ($env:OS -eq 'Windows_NT') { 'mvnw.cmd' } else { 'mvnw' })
 $containerName = 'codex-trace-link-' + [guid]::NewGuid().ToString('N').Substring(0, 12)
 $outputDir = Join-Path $repoRoot 'tmp/trace-link-day1-reproduction'
 New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
@@ -32,10 +33,10 @@ foreach ($generatedFile in @($javaExport, $javaTestReport)) {
 }
 if ($Focused) {
     Invoke-Checked $Python @('-m', 'unittest', 'discover', '-s', 'services/ml-service/tests', '-p', 'test_trace_link_reference.py', '-v')
-    Invoke-Checked '.\mvnw.cmd' @('-pl', 'services/processor', '-am', '-Dtest=TraceLinkArithmeticTest', '-Dsurefire.failIfNoSpecifiedTests=false', '--batch-mode', '--no-transfer-progress', 'test')
+    Invoke-Checked $mavenWrapper @('-pl', 'services/processor', '-am', '-Dtest=TraceLinkArithmeticTest', '-Dsurefire.failIfNoSpecifiedTests=false', '--batch-mode', '--no-transfer-progress', 'test')
 } else {
     Invoke-Checked $Python @('-m', 'unittest', 'discover', '-s', 'services/ml-service/tests', '-v')
-    Invoke-Checked '.\mvnw.cmd' @('-pl', 'services/processor', '-am', '--batch-mode', '--no-transfer-progress', 'verify')
+    Invoke-Checked $mavenWrapper @('-pl', 'services/processor', '-am', '--batch-mode', '--no-transfer-progress', 'verify')
     Invoke-Checked $Python @('scripts/check-voice-parity.py')
     Invoke-Checked $Python @('scripts/check-sms-parity.py', '--java-output', 'services/processor/target/sms-parity-java.json')
     Invoke-Checked $Python @('scripts/check-voice-parity.py', '--geographic', '--java-output', 'services/processor/target/geographic-voice-parity-java.json')

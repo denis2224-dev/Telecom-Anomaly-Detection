@@ -1,0 +1,52 @@
+{
+  "lookups" : [ {
+    "status" : "DIRECT",
+    "center" : 47.886441500000004,
+    "mad" : 2.7076299999999947,
+    "sourceScope" : {
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "id" : "CHI",
+      "namespace" : "trace-link-reference-v1",
+      "partnerId" : null,
+      "procedure" : null,
+      "type" : "CITY"
+    },
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "policyVersion" : "trace-link-baseline-policy-v1",
+    "trainingFrom" : "2026-09-10T09:00:00Z",
+    "trainingTo" : "2026-09-30T09:00:00Z",
+    "coverage" : 1.0,
+    "reason" : null
+  }, {
+    "status" : "STATIC",
+    "center" : 99,
+    "mad" : 0,
+    "sourceScope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "policyVersion" : "trace-link-baseline-policy-v1",
+    "trainingFrom" : "2026-09-10T09:00:00Z",
+    "trainingTo" : "2026-09-30T09:00:00Z",
+    "coverage" : 0,
+    "reason" : "STATIC_DEMONSTRATION_POLICY"
+  }, {
+    "status" : "BASELINE_UNAVAILABLE",
+    "center" : null,
+    "mad" : null,
+    "sourceScope" : null,
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "policyVersion" : "trace-link-baseline-policy-v1",
+    "trainingFrom" : "2026-09-10T09:00:00Z",
+    "trainingTo" : "2026-09-30T09:00:00Z",
+    "coverage" : 0,
+    "reason" : "NO_ELIGIBLE_SEASONAL_OR_FALLBACK"
+  } ]
+}

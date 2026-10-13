@@ -1,0 +1,154 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "symptom": {
+      "$ref": "../detections/trace-link-rule-result-v1.schema.json"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "candidateId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hypothesisCode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pathId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "candidateId",
+          "hypothesisCode",
+          "sourceId",
+          "pathId",
+          "evidence"
+        ]
+      }
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "candidateId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "CONTRADICTORY",
+              "OPPOSITE_DIRECTION"
+            ]
+          },
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pathId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "candidateId",
+          "kind",
+          "sourceId",
+          "pathId",
+          "evidence"
+        ]
+      }
+    },
+    "dependencySnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "topologyVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "relationId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "pathId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scope": {
+                "$ref": "../evidence/trace-link-evidence-v1.schema.json#/properties/scope"
+              },
+              "targetScope": {
+                "$ref": "../evidence/trace-link-evidence-v1.schema.json#/properties/scope"
+              },
+              "topologyVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              "to": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              }
+            },
+            "required": [
+              "relationId",
+              "sourceId",
+              "pathId",
+              "scope",
+              "targetScope",
+              "topologyVersion",
+              "from",
+              "to"
+            ]
+          }
+        }
+      },
+      "required": [
+        "topologyVersion",
+        "relations"
+      ]
+    }
+  },
+  "required": [
+    "symptom",
+    "candidates",
+    "controls",
+    "dependencySnapshot"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trace Link offline cause input v1"
+}

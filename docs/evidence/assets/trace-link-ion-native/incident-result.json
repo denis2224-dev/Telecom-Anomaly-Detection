@@ -1,0 +1,467 @@
+{
+  "implementationCommit": "5a8e6bec28ab88fbbfe85da2ecca695cdf4aa7a0",
+  "status": "PASS",
+  "totals": {
+    "tests": 218,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "suites": [
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.analysts.AnalystControllerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.evidence.DetectionEvidenceRepositoryTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.evidence.EvidenceServiceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.evidence.messaging.DetectionConsumerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.geography.CoverageFactTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.geography.GeographyBoundsTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.geography.GeographyCatalogueTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.geography.GeographyControllerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.controller.IncidentControllerTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.controller.IncidentStreamControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.DatabaseMigrationTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.DatabaseUpgradeTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.evidence.IncidentProjectionTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.exception.DependencyErrorsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.IncidentAuditRepositoryTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.IncidentServiceApplicationTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.security.AppRoleMapperTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.security.AuthSecurityTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.security.SessionSecurityTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.SergiuDetectionKafkaTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.stream.IncidentStreamTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.incidents.WorkflowTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.services.controller.ServiceControllerTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.services.controller.ServiceOverviewControllerTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.services.ServiceKpiWindowIngestionTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.services.ServiceKpiWindowRepositoryTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.shadow.SmsShadowReplayTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skips": [
+        {
+          "case": "realKafkaConsumerPersistsEveryWindowAndProtectedApisCorrelateRuleIncidents",
+          "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+        }
+      ]
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.shadow.SmsShadowStoreTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "surefire-reports",
+      "name": "md.utm.telecom.simulator.ScenarioCommandRepositoryTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.geography.GeographyFeatureOffIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.geography.GeographyProjectionIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.geography.GeographyReadMatrixIT",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.geography.GeographyTopologyIT",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.geography.IncidentLocationProjectionIT",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.geography.PriorityProjectionIT",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.CommentConcurrencyIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.DatabaseIsolationIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.DependencyFailureIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.FirstSliceIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.IncidentStreamIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.PermissionsIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.ReplayOrderingIT",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.incidents.ServiceScenariosIT",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "module": "incident-service",
+      "reportType": "failsafe-reports",
+      "name": "md.utm.telecom.simulator.ScenarioControllerIT",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    }
+  ]
+}

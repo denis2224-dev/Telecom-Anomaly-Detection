@@ -1,0 +1,19 @@
+{
+  "files": {
+    "contracts/baselines/baseline-catalogue-v2.schema.json": "30f5d415ebedda1fd8c8df2d1ec19aa60abfe0033eac298f02078acaa61ff89f",
+    "contracts/baselines/demo-baseline-v2.json": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
+    "contracts/baselines/geographic-peer-baseline-v2.json": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+    "contracts/detections/service-detection-v2.schema.json": "20c6bd9664174011fa79653cac8a883394b5713e929286f86a9cfbc04395f679",
+    "contracts/features/feature-order-v2.json": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+    "contracts/features/service-feature-window-v2.schema.json": "42031742005596f3fd2989986d933cf6f7463980375e847f0fe7588e7feb9f8d",
+    "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+    "contracts/policies/service-rules-v2.schema.json": "3fdb4db9fbfd25796b23a0046a4363b7d669e96ec97d3102267b7aed7d97e657",
+    "services/ml-service/models/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "services/ml-service/models/SMS-calibration.json": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b",
+    "services/ml-service/models/SMS.joblib": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307",
+    "services/ml-service/models/VOLTE-calibration.json": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
+    "services/ml-service/models/VOLTE.joblib": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd",
+    "services/ml-service/models/manifest.json": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711"
+  },
+  "integrationSha": "99adf9ed32fc80d4bf798789d258a31e588625b0"
+}

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "trace-link-day2-verification-history-v1",
+  "attempts": [
+    {
+      "id": "initial-broad",
+      "finishedAt": "2026-10-11T20:56:03Z",
+      "status": "FAILED",
+      "processorTests": {
+        "tests": 989,
+        "failures": 0,
+        "errors": 1,
+        "skipped": 4
+      },
+      "reason": "HealthProbeTest database-outage readiness stayed UP before Kafka shutdown; no successful Day2 manifest published"
+    },
+    {
+      "id": "resumed-isolation",
+      "finishedAt": "2026-10-12T07:55:13Z",
+      "status": "BLOCKED_BY_ENVIRONMENT",
+      "processorTests": {
+        "tests": 37,
+        "failures": 0,
+        "errors": 4,
+        "skipped": 0
+      },
+      "reason": "Docker stopped; PostgreSQL fixture could not initialize; all TraceLink tests that ran passed"
+    },
+    {
+      "id": "restored-isolation",
+      "finishedAt": "2026-10-12T08:03:29Z",
+      "status": "PASSED",
+      "processorTests": {
+        "tests": 42,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reason": "38 TraceLink tests and 4 readiness tests; initial readiness failure did not recur"
+    },
+    {
+      "id": "hardened-health-fixture",
+      "finishedAt": "2026-10-12T08:04:47Z",
+      "status": "PASSED",
+      "processorTests": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reason": "Effective CONNECT denial asserted; eviction repeated within original 15-second assertion; original checks retained"
+    }
+  ],
+  "diagnosis": "Pool refill escaping a one-time eviction snapshot is a plausible race, not a proven explanation for the initial failure",
+  "environmentRepair": "Preserved Docker socket-only directories under renamed backups; no factory reset or image/volume/database deletion",
+  "setupFailures": [
+    "Unquoted PowerShell dotted Maven argument rejected before test execution; quoted on retry",
+    "Package download DNS restriction; pinned dependency installed after permitted escalation"
+  ],
+  "logs": "Development logs remain under tmp/trace-link-day2; final manifest records the committed full reproduction separately",
+  "finalImplementationRevision": "26bbb1e5ff4b5cba77b4d704306289a7ed3561ad",
+  "attemptsSourceState": "Development working tree before the final implementation commit; final manifest pins the complete committed reproduction"
+}

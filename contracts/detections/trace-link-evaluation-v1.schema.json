@@ -1,0 +1,1183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "datasetId",
+    "namespace",
+    "domain",
+    "scope",
+    "window",
+    "revision",
+    "topologyVersion",
+    "evaluatedAt",
+    "evidence",
+    "baselines",
+    "backlog"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "trace-link-evaluation-v1"
+    },
+    "datasetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "namespace": {
+      "const": "trace-link-reference-v1"
+    },
+    "domain": {
+      "enum": [
+        "TRANSPORT",
+        "ROAMING",
+        "MOBILE_DATA"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "CITY",
+            "LINK_DIRECTION",
+            "PARTNER_DIRECTION",
+            "DATASET"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cityIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "directionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "partnerId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "procedure": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "namespace": {
+          "const": "trace-link-reference-v1"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "cityIds",
+        "directionId",
+        "partnerId",
+        "procedure",
+        "namespace"
+      ]
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "sourceResolutionSeconds": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "id",
+        "from",
+        "to",
+        "sourceResolutionSeconds"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schemaVersion": {
+            "const": 1
+          },
+          "evidenceId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "measurementId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "metricId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "unit": {
+            "enum": [
+              "COUNT",
+              "PERCENT",
+              "ERLANG",
+              "SECONDS",
+              "MILLISECONDS",
+              "GBPS",
+              "BYTES",
+              "MBPS",
+              "STATE"
+            ]
+          },
+          "policyVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "primitives": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "RATIO"
+                  },
+                  "numerator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "denominator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "type",
+                  "numerator",
+                  "denominator"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "SUM_COUNT"
+                  },
+                  "sum": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "count": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "type",
+                  "sum",
+                  "count"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "HISTOGRAM"
+                  },
+                  "histogram": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "schemaVersion": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "unit": {
+                        "const": "SECONDS"
+                      },
+                      "representation": {
+                        "const": "NON_CUMULATIVE_FINITE_BINS"
+                      },
+                      "edges": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "number",
+                          "minimum": 0
+                        }
+                      },
+                      "counts": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "unit",
+                      "representation",
+                      "edges",
+                      "counts"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "histogram"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "SNAPSHOT"
+                  },
+                  "value": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "snapshotAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  }
+                },
+                "required": [
+                  "type",
+                  "value",
+                  "snapshotAt"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "COUNT"
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "type",
+                  "count"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "TIME_WEIGHTED"
+                  },
+                  "weightedSum": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "validSeconds": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "type",
+                  "weightedSum",
+                  "validSeconds"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "STATE"
+                  },
+                  "state": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  }
+                },
+                "required": [
+                  "type",
+                  "state",
+                  "at"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "SNAPSHOT_DIFFERENCE"
+                  },
+                  "start": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "end": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "type",
+                  "start",
+                  "end"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "MAXIMUM"
+                  },
+                  "max": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "type",
+                  "max"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "actual": {
+            "type": [
+              "number",
+              "string",
+              "null"
+            ]
+          },
+          "baseline": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "baselineVersion": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "threshold": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "deviation": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "coverage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "freshness": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "state": {
+                "enum": [
+                  "FRESH",
+                  "STALE",
+                  "UNKNOWN"
+                ]
+              },
+              "observedAt": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "asOf": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              "sourceAgeSeconds": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "maxAgeSeconds": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "state",
+              "observedAt",
+              "asOf",
+              "sourceAgeSeconds",
+              "maxAgeSeconds"
+            ]
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "enum": [
+                  "CITY",
+                  "LINK_DIRECTION",
+                  "PARTNER_DIRECTION",
+                  "DATASET"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "cityIds": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                }
+              },
+              "directionId": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "partnerId": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "procedure": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "namespace": {
+                "const": "trace-link-reference-v1"
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "cityIds",
+              "directionId",
+              "partnerId",
+              "procedure",
+              "namespace"
+            ]
+          },
+          "window": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "from": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              "to": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              "sourceResolutionSeconds": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "id",
+              "from",
+              "to",
+              "sourceResolutionSeconds"
+            ]
+          },
+          "quality": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "state": {
+                "enum": [
+                  "VALID",
+                  "INSUFFICIENT_EVIDENCE",
+                  "MISSING",
+                  "STALE",
+                  "PARTIAL"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              }
+            },
+            "required": [
+              "state",
+              "reason"
+            ]
+          },
+          "dependencyRelationId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "dependency": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "relationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "scopeId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "topologyVersion": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "from": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "to": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "quality": {
+                    "enum": [
+                      "VALID",
+                      "MISSING",
+                      "STALE"
+                    ]
+                  },
+                  "fresh": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "relationId",
+                  "scopeId",
+                  "topologyVersion",
+                  "from",
+                  "to",
+                  "quality",
+                  "fresh"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "topologyVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "ruleVersion": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "modelVersion": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "datasetId": {
+                "const": "trace-link-md-30d-v1"
+              },
+              "synthetic": {
+                "const": true
+              },
+              "origin": {
+                "enum": [
+                  "HAND_CALCULATED",
+                  "REFERENCE_CSV",
+                  "REFERENCE_ENGINE"
+                ]
+              },
+              "sourceChecksum": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "datasetId",
+              "synthetic",
+              "origin",
+              "sourceChecksum"
+            ]
+          },
+          "observedRevision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "evidenceId",
+          "measurementId",
+          "metricId",
+          "unit",
+          "policyVersion",
+          "primitives",
+          "actual",
+          "baseline",
+          "baselineVersion",
+          "threshold",
+          "deviation",
+          "coverage",
+          "freshness",
+          "scope",
+          "window",
+          "quality",
+          "dependencyRelationId",
+          "dependency",
+          "topologyVersion",
+          "ruleVersion",
+          "modelVersion",
+          "provenance",
+          "observedRevision",
+          "generatedAt"
+        ],
+        "title": "Trace Link Day 1 evidence v1 (contract only)",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "properties": {
+                    "state": {
+                      "const": "VALID"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coverage": {
+                  "const": 1
+                },
+                "freshness": {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "FRESH"
+                      ]
+                    }
+                  }
+                },
+                "primitives": {
+                  "type": "object"
+                },
+                "actual": {
+                  "type": [
+                    "number",
+                    "string"
+                  ]
+                },
+                "quality": {
+                  "properties": {
+                    "reason": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "properties": {
+                    "state": {
+                      "const": "PARTIAL"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coverage": {
+                  "exclusiveMinimum": 0,
+                  "exclusiveMaximum": 1
+                },
+                "freshness": {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "FRESH"
+                      ]
+                    }
+                  }
+                },
+                "primitives": {
+                  "type": "object"
+                },
+                "actual": {
+                  "type": [
+                    "number",
+                    "string"
+                  ]
+                },
+                "quality": {
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "properties": {
+                    "state": {
+                      "const": "MISSING"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coverage": {
+                  "const": 0
+                },
+                "freshness": {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "UNKNOWN"
+                      ]
+                    }
+                  }
+                },
+                "primitives": {
+                  "type": "null"
+                },
+                "actual": {
+                  "type": "null"
+                },
+                "quality": {
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "properties": {
+                    "state": {
+                      "const": "STALE"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coverage": {},
+                "freshness": {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "STALE"
+                      ]
+                    }
+                  }
+                },
+                "primitives": {
+                  "type": "object"
+                },
+                "actual": {},
+                "quality": {
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "quality": {
+                  "properties": {
+                    "state": {
+                      "const": "INSUFFICIENT_EVIDENCE"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coverage": {},
+                "freshness": {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "FRESH",
+                        "UNKNOWN"
+                      ]
+                    }
+                  }
+                },
+                "primitives": {},
+                "actual": {
+                  "type": "null"
+                },
+                "quality": {
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "baselines": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "center",
+          "mad",
+          "sourceScope",
+          "baselineVersion",
+          "policyVersion",
+          "trainingFrom",
+          "trainingTo",
+          "coverage",
+          "reason"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "DIRECT",
+              "PEER",
+              "STATIC",
+              "BASELINE_UNAVAILABLE"
+            ]
+          },
+          "center": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mad": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sourceScope": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "CITY",
+                      "LINK_DIRECTION",
+                      "PARTNER_DIRECTION",
+                      "DATASET"
+                    ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "cityIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    }
+                  },
+                  "directionId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "partnerId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "procedure": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "namespace": {
+                    "const": "trace-link-reference-v1"
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "cityIds",
+                  "directionId",
+                  "partnerId",
+                  "procedure",
+                  "namespace"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "baselineVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "policyVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trainingFrom": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "trainingTo": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$"
+          },
+          "coverage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "backlog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "drained"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "drained": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

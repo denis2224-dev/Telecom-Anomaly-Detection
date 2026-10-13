@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "trace-link-baseline-policy-v1",
+  "baselineVersion": "trace-link-seasonal-v1",
+  "policyVersion": "trace-link-baseline-policy-v1",
+  "datasetId": "trace-link-md-30d-v1",
+  "topologyVersion": "trace-link-md-topology-v1",
+  "timezone": "Europe/Chisinau",
+  "slotMinutes": 5,
+  "estimator": "median_mad",
+  "minimumDistinctDays": 3,
+  "minimumRateAttempts": 100,
+  "minimumCoverage": 0.9,
+  "fallback": "peer_then_static_then_unavailable",
+  "peerFallbacks": [],
+  "staticCenters": {
+    "roaming.registration.success": 99,
+    "roaming.data.success": 99,
+    "roaming.voice.success": 99,
+    "mobileData.activation.success": 99,
+    "mobileData.dns.success": 99
+  }
+}
