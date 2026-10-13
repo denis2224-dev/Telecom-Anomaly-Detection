@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "trace-link-load-profile-v1",
+  "description": "Source-frozen executed profile; persisted-window injection, separate from source collection capacity.",
+  "warmupSeconds": 120,
+  "steadySeconds": 900,
+  "burstSeconds": 60,
+  "burstMultiplier": 2,
+  "drainTimeoutSeconds": 300,
+  "steadyRatePerSecond": 4,
+  "rateUnit": "persisted_windows",
+  "configuredConcurrency": 4,
+  "queueCapacityBound": 1000,
+  "selectionEvidence": {
+    "sourceCommit": "59827b1d199516e9ddc10a4df6a8479dc370870b",
+    "harnessSource": {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkRealtimeHarness.java",
+      "sha256": "c4445f5c2b8a3e076c0e798902c6920f8e97546fef54dd485c6004a6cba2b964"
+    },
+    "sourceTreeSha256": "6c292a81f26ee4225646f0d59994495e0f2f0bde02c009cd60e5637a45aa4b18",
+    "materializedAt": "2026-10-13T11:21:31.603142Z",
+    "note": "This JSON records the executed predeclared harness constants and rate argument after the run; it does not retune thresholds."
+  }
+}
