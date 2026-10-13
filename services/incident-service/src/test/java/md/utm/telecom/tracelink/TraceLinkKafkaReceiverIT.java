@@ -3,6 +3,7 @@ package md.utm.telecom.tracelink;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,11 +54,19 @@ class TraceLinkKafkaReceiverIT {
     @Autowired JdbcTemplate jdbc;
 
     @Test void kafkaDeliveryCommitsThreeDomainsAndReplaysWithoutDuplicateEvidence() throws Exception {
+        Instant startedAt=Instant.now();
+        Path receiptFile=Path.of("target/trace-link-day3-received.json");
+        Files.deleteIfExists(receiptFile);
+        assertFalse(org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive(),
+                "Receipt evidence must query committed listener transactions outside a wrapping test transaction");
         String artifact=System.getProperty("traceLink.producedFile");
+        String producerFileSha256=null;
         JsonNode input;
         if (artifact != null) {
             assertTrue(Files.isRegularFile(Path.of(artifact)), "Actual producer artifact must exist");
-            input=TraceLinkReceiverFixtures.JSON.readTree(Path.of(artifact));
+            byte[] producedBytes=Files.readAllBytes(Path.of(artifact));
+            producerFileSha256=java.util.HexFormat.of().formatHex(java.security.MessageDigest.getInstance("SHA-256").digest(producedBytes));
+            input=TraceLinkReceiverFixtures.JSON.readTree(producedBytes);
         } else {
             try (var stream=getClass().getResourceAsStream("/contracts/fixtures/trace-link/day3-detection-envelopes.json")) {
                 assertNotNull(stream); input=TraceLinkReceiverFixtures.JSON.readTree(stream);
@@ -108,6 +117,25 @@ class TraceLinkKafkaReceiverIT {
         }
         assertEquals("incidents_app",jdbc.queryForObject("SELECT current_user",String.class));
         listener.stop();
+        var receipt=TraceLinkReceiverFixtures.JSON.createObjectNode();
+        receipt.put("source",artifact==null?"protocol-oracle":"producer-file");
+        if(producerFileSha256==null)receipt.putNull("producerFileSha256");
+        else receipt.put("producerFileSha256",producerFileSha256);
+        receipt.put("startedAt",startedAt.toString()).put("endedAt",Instant.now().toString());
+        receipt.put("committedKafkaOffsets",committed);
+        var boundaries=receipt.putArray("receivedAt");
+        jdbc.query("""
+                SELECT detection_id,episode_id,sequence,received_at FROM app.trace_link_detection_evidence
+                ORDER BY episode_id,sequence
+                """,(org.springframework.jdbc.core.RowCallbackHandler)row->boundaries.addObject()
+                .put("detectionId",row.getString("detection_id")).put("episodeId",row.getString("episode_id"))
+                .put("sequence",row.getLong("sequence")).put("receivedAt",row.getTimestamp("received_at").toInstant().toString()));
+        long recovered=jdbc.queryForObject("SELECT count(*) FROM app.trace_link_incidents WHERE technical_state='RECOVERED'",Long.class);
+        receipt.putObject("counts").put("receivedUnique",count("trace_link_detection_evidence"))
+                .put("auditRows",count("trace_link_incident_audit")).put("episodes",count("trace_link_incidents")).put("recovered",recovered);
+        assertEquals(21,boundaries.size()); assertEquals(3,recovered);
+        Files.createDirectories(receiptFile.toAbsolutePath().getParent());
+        Files.writeString(receiptFile,TraceLinkReceiverFixtures.JSON.writerWithDefaultPrettyPrinter().writeValueAsString(receipt));
         System.out.println("Real Kafka receiver verified: 42 deliveries, 21 immutable rows, 3 recovered episodes; source="
                 +(artifact==null?"independent hand oracle":artifact));
     }
