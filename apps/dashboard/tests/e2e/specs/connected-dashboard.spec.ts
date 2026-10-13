@@ -91,6 +91,7 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('.featured-city, .featured-sources, .map-notes, .map-source, .search-results')).toHaveCount(0);
     await expect(page.locator('.city-marker').first()).toHaveAttribute('data-state', 'MAPPING PENDING');
     await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
+    await expect(page.locator('.overview-panels table')).toHaveCount(3);
     for (const table of await page.locator('.overview-panels table').all()) {
       expect(await table.locator('tbody tr').count()).toBeLessThanOrEqual(5);
       expect(await table.evaluate(node => node.scrollWidth <= node.clientWidth + 1 && node.getBoundingClientRect().height <= node.parentElement!.clientHeight + 1)).toBe(true);
@@ -162,6 +163,7 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByLabel('Technology', { exact: true })).toBeDisabled();
     await expect(page.locator('details.source-inventory')).not.toHaveAttribute('open');
     await page.screenshot({ path: info.outputPath(`three-panels-fixture-${width}.png`), fullPage: true, animations: 'disabled' });
+    await expect(page.locator('.overview-panels table')).toHaveCount(3);
     for (const table of await page.locator('.overview-panels table').all()) {
       expect(await table.locator('tbody tr').count()).toBeLessThanOrEqual(5);
       expect(await table.evaluate(node => node.scrollWidth <= node.clientWidth + 1 && node.getBoundingClientRect().height <= node.parentElement!.clientHeight + 1)).toBe(true);

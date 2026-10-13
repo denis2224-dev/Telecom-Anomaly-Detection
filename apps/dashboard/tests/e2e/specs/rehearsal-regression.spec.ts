@@ -126,7 +126,7 @@ test('missing evidence remains undetermined without implying power loss', async 
     evidenceCodes: ['PING_RESULT'], renderedCause: await cause.innerText() });
 });
 
-test('TraceLink tab icons are actual image assets', async ({ page, request }) => {
+test('Trace Link tab icons are actual image assets', async ({ page, request }) => {
   await controlledApi(page);
   await page.goto('/dashboard');
   for (const selector of ['link[rel=icon][type="image/x-icon"]', 'link[rel=icon][type="image/png"]', 'link[rel=apple-touch-icon]']) {
@@ -140,5 +140,5 @@ test('TraceLink tab icons are actual image assets', async ({ page, request }) =>
   const bytes = await favicon.body();
   expect(bytes.readUInt16LE(2)).toBe(1);
   expect(bytes.readUInt16LE(4)).toBe(4);
-  await expect(page).toHaveTitle('TraceLink');
+  await expect(page).toHaveTitle('Trace Link');
 });
