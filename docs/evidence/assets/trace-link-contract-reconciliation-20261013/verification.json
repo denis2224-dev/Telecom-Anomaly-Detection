@@ -1,0 +1,1173 @@
+{
+  "status": "PARTIALLY_COMPLETE",
+  "testedCode": "31f093987d898b8589cd8522450703f594cf4cb6",
+  "base": "eab953e9af90ddf5d14cbda57a6935994c2cefb1",
+  "previousHead": "65560c4582f2e2aca061af57dc6980a88cd918ec",
+  "merge": "eba554e27ebbfff02957c95acec99b73ce2fab86",
+  "originalCi": {
+    "run": 38439606468,
+    "artifact": 11835585431,
+    "checkoutMerge": "bd6df213fb33ac2774ab46d51d2999ce5cdb3d28",
+    "passed": 171,
+    "skipped": 24,
+    "failed": 1
+  },
+  "browser": {
+    "startTime": "2026-10-13T18:23:27.825Z",
+    "duration": 250105.525,
+    "expected": 174,
+    "skipped": 24,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserSkips": [
+    {
+      "file": "backend-dependency-live.spec.ts",
+      "title": "database outage returns bounded errors and an identical command succeeds once after recovery",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the real local Compose stack.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/backend-dependency-live.spec.ts",
+            "line": 5,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "backend-dependency-live.spec.ts",
+      "title": "identity outage blocks new login while an existing session remains usable, then login recovers",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the real local Compose stack.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/backend-dependency-live.spec.ts",
+            "line": 5,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "fixture city selection links map, charts, service and incident detail at 1366px",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Run explicitly against the fixture server",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/connected-dashboard.spec.ts",
+            "line": 149,
+            "column": 10
+          }
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "fixture city selection links map, charts, service and incident detail at 768px",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Run explicitly against the fixture server",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/connected-dashboard.spec.ts",
+            "line": 149,
+            "column": 10
+          }
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "fixture city selection links map, charts, service and incident detail at 390px",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Run explicitly against the fixture server",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/connected-dashboard.spec.ts",
+            "line": 149,
+            "column": 10
+          }
+        }
+      ]
+    },
+    {
+      "file": "dashboard-performance-live.spec.ts",
+      "title": "measures authenticated geography, window updates and native SSE leases",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Opt-in real authenticated stack; never fixture acceptance.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/dashboard-performance-live.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "demo-live.spec.ts",
+      "title": "authenticated map, Orhei, approved scenarios, recovery and reversible overview",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Opt-in authenticated local stack; never fixture acceptance.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/demo-live.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "geographic-acceptance.spec.ts",
+      "title": "real city commands reach the processor and protected city routes",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the authenticated local stack with active geography.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/geographic-acceptance.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "geographic-feature-off.spec.ts",
+      "title": "migrated stack keeps legacy APIs and protected commands during feature-off",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the staged feature-off local stack with compatible processor readers.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/geographic-feature-off.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "geographic-incident-trace.spec.ts",
+      "title": "real incident trace pins each Orhei service to opening evidence",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires persisted live city incidents.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/geographic-incident-trace.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "geography-integration.spec.ts",
+      "title": "authenticated G2 geography catalogue and selected-city KPI history reach the LIVE dashboard",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires a running integrated G2 stack and a local analyst account",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/geography-integration.spec.ts",
+            "line": 6,
+            "column": 8
+          }
+        }
+      ]
+    },
+    {
+      "file": "investigation.spec.ts",
+      "title": "G3 real analyst investigation from login to logout",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the protected local stack",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/investigation.spec.ts",
+            "line": 18,
+            "column": 8
+          }
+        }
+      ]
+    },
+    {
+      "file": "login.spec.ts",
+      "title": "real Keycloak login and backend session",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the real backend and a provisioned test account",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/login.spec.ts",
+            "line": 88,
+            "column": 8
+          }
+        }
+      ]
+    },
+    {
+      "file": "project-connections.spec.ts",
+      "title": "every published city, containment node, dependency and service reaches the frontend",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Opt-in authenticated local API audit; no intercepted responses.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/project-connections.spec.ts",
+            "line": 8,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-live.spec.ts",
+      "title": "replays connected city, evidence, recovery and reconnect with authoritative APIs",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Opt-in local authenticated rehearsal, no intercepted requests.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/rehearsal-live.spec.ts",
+            "line": 7,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-live.spec.ts",
+      "title": "extended history uses real protected requests up to 30 periods",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Opt-in local authenticated rehearsal, no intercepted requests.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/rehearsal-live.spec.ts",
+            "line": 7,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "release-workflows.spec.ts",
+      "title": "release roles complete authenticated investigation and scenario workflows",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Opt-in real authenticated release stack; no fixture acceptance.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/release-workflows.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "release-workflows.spec.ts",
+      "title": "matches live incident fields across API, database and browser",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Opt-in real authenticated release stack; no fixture acceptance.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/release-workflows.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "session-expiry-live.spec.ts",
+      "title": "idle real session expires while the browser is inactive",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires a real local OIDC session and the production 15-minute idle deadline.",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/session-expiry-live.spec.ts",
+            "line": 6,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real logout refreshes CSRF and ends protected access",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the protected local stack and test credentials",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/session-expiry.spec.ts",
+            "line": 7,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "frontend stops work after a protected API returns 401",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the protected local stack and test credentials",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/session-expiry.spec.ts",
+            "line": 7,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real protected 401 ends browser work without interception",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the protected local stack and test credentials",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/session-expiry.spec.ts",
+            "line": 7,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real 15-minute idle expiry",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the protected local stack and test credentials",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/session-expiry.spec.ts",
+            "line": 7,
+            "column": 6
+          }
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real 30-minute absolute expiry despite activity",
+      "annotations": [
+        {
+          "type": "skip",
+          "description": "Requires the protected local stack and test credentials",
+          "location": {
+            "file": "/work/apps/dashboard/tests/e2e/specs/session-expiry.spec.ts",
+            "line": 7,
+            "column": 6
+          }
+        }
+      ]
+    }
+  ],
+  "runnerSafety": {
+    "passed": 42
+  },
+  "dashboardUnit": {
+    "passed": 162,
+    "files": 30
+  },
+  "affectedBrowser": {
+    "passed": 20,
+    "includedInFullTotals": false
+  },
+  "assuranceRerun": {
+    "passed": 16,
+    "includedInFullTotals": false
+  },
+  "java": {
+    "totals": {
+      "incident": {
+        "tests": 273,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "focused-root": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "selection": "Latest report per class; focused reruns are not added to full suite totals.",
+    "replacedReports": [
+      "md.utm.telecom.tracelink.MetricQueryServiceIT",
+      "md.utm.telecom.tracelink.TraceDomainApiIT",
+      "md.utm.telecom.tracelink.TraceDomainDurabilityIT",
+      "md.utm.telecom.tracelink.TraceDomainIngestionIT",
+      "md.utm.telecom.tracelink.TracePrimitiveIngestionIT"
+    ],
+    "suites": [
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.MetricQueryServiceIT.xml",
+        "suite": "md.utm.telecom.tracelink.MetricQueryServiceIT",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceDomainApiIT.xml",
+        "suite": "md.utm.telecom.tracelink.TraceDomainApiIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceDomainIngestionIT.xml",
+        "suite": "md.utm.telecom.tracelink.TraceDomainIngestionIT",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TracePrimitiveIngestionIT.xml",
+        "suite": "md.utm.telecom.tracelink.TracePrimitiveIngestionIT",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceDomainDurabilityIT.xml",
+        "suite": "md.utm.telecom.tracelink.TraceDomainDurabilityIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\streaming-support\\target\\surefire-reports\\TEST-md.utm.telecom.observation.TraceLinkMeasurementTest.xml",
+        "suite": "md.utm.telecom.observation.TraceLinkMeasurementTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest.xml",
+        "suite": "md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkDomainRulesTest.xml",
+        "suite": "md.utm.telecom.processing.detection.TraceLinkDomainRulesTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkInputsTest.xml",
+        "suite": "md.utm.telecom.processing.detection.TraceLinkInputsTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkLiveContractTest.xml",
+        "suite": "md.utm.telecom.processing.detection.TraceLinkLiveContractTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest.xml",
+        "suite": "md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest.xml",
+        "suite": "md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkServiceTransportTest.xml",
+        "suite": "md.utm.telecom.processing.detection.TraceLinkServiceTransportTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest.xml",
+        "suite": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest.xml",
+        "suite": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.analysts.AnalystControllerTest.xml",
+        "suite": "md.utm.telecom.analysts.AnalystControllerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.evidence.DetectionEvidenceRepositoryTest.xml",
+        "suite": "md.utm.telecom.evidence.DetectionEvidenceRepositoryTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.evidence.EvidenceServiceTest.xml",
+        "suite": "md.utm.telecom.evidence.EvidenceServiceTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.evidence.messaging.DetectionConsumerTest.xml",
+        "suite": "md.utm.telecom.evidence.messaging.DetectionConsumerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.CoverageFactTest.xml",
+        "suite": "md.utm.telecom.geography.CoverageFactTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.GeographyBoundsTest.xml",
+        "suite": "md.utm.telecom.geography.GeographyBoundsTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.GeographyCatalogueTest.xml",
+        "suite": "md.utm.telecom.geography.GeographyCatalogueTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.GeographyControllerTest.xml",
+        "suite": "md.utm.telecom.geography.GeographyControllerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.controller.IncidentControllerTest.xml",
+        "suite": "md.utm.telecom.incidents.controller.IncidentControllerTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.controller.IncidentStreamControllerTest.xml",
+        "suite": "md.utm.telecom.incidents.controller.IncidentStreamControllerTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.DatabaseMigrationTest.xml",
+        "suite": "md.utm.telecom.incidents.DatabaseMigrationTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.DatabaseUpgradeTest.xml",
+        "suite": "md.utm.telecom.incidents.DatabaseUpgradeTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.evidence.IncidentProjectionTest.xml",
+        "suite": "md.utm.telecom.incidents.evidence.IncidentProjectionTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.exception.DependencyErrorsTest.xml",
+        "suite": "md.utm.telecom.incidents.exception.DependencyErrorsTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.IncidentAuditRepositoryTest.xml",
+        "suite": "md.utm.telecom.incidents.IncidentAuditRepositoryTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.IncidentServiceApplicationTests.xml",
+        "suite": "md.utm.telecom.incidents.IncidentServiceApplicationTests",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.AppRoleMapperTest.xml",
+        "suite": "md.utm.telecom.incidents.security.AppRoleMapperTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.AuthSecurityTest.xml",
+        "suite": "md.utm.telecom.incidents.security.AuthSecurityTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest.xml",
+        "suite": "md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.SessionSecurityTest.xml",
+        "suite": "md.utm.telecom.incidents.security.SessionSecurityTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.SergiuDetectionKafkaTest.xml",
+        "suite": "md.utm.telecom.incidents.SergiuDetectionKafkaTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.stream.IncidentStreamTest.xml",
+        "suite": "md.utm.telecom.incidents.stream.IncidentStreamTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.WorkflowTest.xml",
+        "suite": "md.utm.telecom.incidents.WorkflowTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.CausePresentationPolicyTest.xml",
+        "suite": "md.utm.telecom.notifications.CausePresentationPolicyTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.NotificationSummaryFactoryTest.xml",
+        "suite": "md.utm.telecom.notifications.NotificationSummaryFactoryTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.NotificationTransitionClassifierTest.xml",
+        "suite": "md.utm.telecom.notifications.NotificationTransitionClassifierTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.PushSubscriptionCipherTest.xml",
+        "suite": "md.utm.telecom.notifications.PushSubscriptionCipherTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.controller.ServiceControllerTest.xml",
+        "suite": "md.utm.telecom.services.controller.ServiceControllerTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.controller.ServiceOverviewControllerTest.xml",
+        "suite": "md.utm.telecom.services.controller.ServiceOverviewControllerTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.ServiceKpiWindowIngestionTest.xml",
+        "suite": "md.utm.telecom.services.ServiceKpiWindowIngestionTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.ServiceKpiWindowRepositoryTest.xml",
+        "suite": "md.utm.telecom.services.ServiceKpiWindowRepositoryTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.shadow.SmsShadowReplayTest.xml",
+        "suite": "md.utm.telecom.shadow.SmsShadowReplayTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.shadow.SmsShadowStoreTest.xml",
+        "suite": "md.utm.telecom.shadow.SmsShadowStoreTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.simulator.ScenarioCommandRepositoryTest.xml",
+        "suite": "md.utm.telecom.simulator.ScenarioCommandRepositoryTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.tracelink.TraceQueryTest.xml",
+        "suite": "md.utm.telecom.tracelink.TraceQueryTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.tracelink.TraceScenarioGatewayTest.xml",
+        "suite": "md.utm.telecom.tracelink.TraceScenarioGatewayTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyFeatureOffIT.xml",
+        "suite": "md.utm.telecom.geography.GeographyFeatureOffIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyProjectionIT.xml",
+        "suite": "md.utm.telecom.geography.GeographyProjectionIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyReadMatrixIT.xml",
+        "suite": "md.utm.telecom.geography.GeographyReadMatrixIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyTopologyIT.xml",
+        "suite": "md.utm.telecom.geography.GeographyTopologyIT",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.IncidentLocationProjectionIT.xml",
+        "suite": "md.utm.telecom.geography.IncidentLocationProjectionIT",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.PriorityProjectionIT.xml",
+        "suite": "md.utm.telecom.geography.PriorityProjectionIT",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.CommentConcurrencyIT.xml",
+        "suite": "md.utm.telecom.incidents.CommentConcurrencyIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.DatabaseIsolationIT.xml",
+        "suite": "md.utm.telecom.incidents.DatabaseIsolationIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.DependencyFailureIT.xml",
+        "suite": "md.utm.telecom.incidents.DependencyFailureIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.FirstSliceIT.xml",
+        "suite": "md.utm.telecom.incidents.FirstSliceIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.IncidentStreamIT.xml",
+        "suite": "md.utm.telecom.incidents.IncidentStreamIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.PermissionsIT.xml",
+        "suite": "md.utm.telecom.incidents.PermissionsIT",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.ReplayOrderingIT.xml",
+        "suite": "md.utm.telecom.incidents.ReplayOrderingIT",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.ServiceScenariosIT.xml",
+        "suite": "md.utm.telecom.incidents.ServiceScenariosIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.notifications.NotificationApiIT.xml",
+        "suite": "md.utm.telecom.notifications.NotificationApiIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.notifications.NotificationRepositoryIT.xml",
+        "suite": "md.utm.telecom.notifications.NotificationRepositoryIT",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.simulator.ScenarioControllerIT.xml",
+        "suite": "md.utm.telecom.simulator.ScenarioControllerIT",
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceInventoryIT.xml",
+        "suite": "md.utm.telecom.tracelink.TraceInventoryIT",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceScenarioApiIT.xml",
+        "suite": "md.utm.telecom.tracelink.TraceScenarioApiIT",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "repositoryPython": {
+    "reported": 160,
+    "passed": 159,
+    "skipped": 1,
+    "failures": 0,
+    "skipReason": "pwsh is unavailable"
+  },
+  "historicalEvidence": "../trace-link-contract-resolution-20261013/verification.json",
+  "sourceHashes": [
+    {
+      "path": ".github/workflows/incident-service.yml",
+      "sha256": "b80169b79e5f59a78469fb6455e3bf32aff887f40e3c4e5c14cf05d379e4b091"
+    },
+    {
+      "path": "apps/dashboard/api/incident-api.yaml",
+      "sha256": "fccc6496714edb3b928283d031ac393c5067aa5dffe4ab788ad7883dc1caa7ef"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/api/schema.ts",
+      "sha256": "fe7ceeba71ecf91e9df5a6676848da34248fd003f109447b93bb046eb2576f41"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/trace-history.spec.ts",
+      "sha256": "2cce72d815955a19dce3be8f6f8fe53c14b553bb59da120eaa92db5ca74f42cf"
+    },
+    {
+      "path": "contracts/baselines/trace-link-live-static-baseline-v1.json",
+      "sha256": "4d289db53ba02bbaca093708f7e212c6896335797a6c214022e7acb95215bcc0"
+    },
+    {
+      "path": "contracts/detections/trace-link-live-evaluation-v2.schema.json",
+      "sha256": "3f830eeb7a7257678f8bffdace77f8ec911de7591468cc35483808fbb593a7e3"
+    },
+    {
+      "path": "contracts/detections/trace-link-live-result-v1.schema.json",
+      "sha256": "9920e5aae6831c6624f099250f3ab97bdcfdb6c7b0ef5b60d73b3d54673046e8"
+    },
+    {
+      "path": "contracts/fixtures/trace-link/live-consumer-results-v1.json",
+      "sha256": "f75de456f7b107728060e887cc86a2aacc5679dec0113c0cf634278322a3cc19"
+    },
+    {
+      "path": "contracts/kpi/trace-link-domain-mapping-v1.json",
+      "sha256": "4fe3c943839f3f5c1202afb184ade43d3774ca01d517832cd729e97119ac4b13"
+    },
+    {
+      "path": "contracts/kpi/trace-link-domain-measurement-v1.schema.json",
+      "sha256": "87342b208b2f62376513b36f5b5d4970793e1f6380a4d7fe60b60fe4bb846a54"
+    },
+    {
+      "path": "contracts/openapi/incident-api.yaml",
+      "sha256": "fccc6496714edb3b928283d031ac393c5067aa5dffe4ab788ad7883dc1caa7ef"
+    },
+    {
+      "path": "contracts/policies/trace-link-live-synthetic-rules-v1.json",
+      "sha256": "fa094eeb09925d31fe0785ff328efd157c735e71b726bb140d15769d37242e3a"
+    },
+    {
+      "path": "scripts/check-contracts.py",
+      "sha256": "f3d8c85fdd84ff26950b39f6807424b1d6235d85c8a3dffad9613f3960dc5a7a"
+    },
+    {
+      "path": "scripts/trace_link_receiving_contract.py",
+      "sha256": "d6924c3476df22d1f50df8cefd773fcb2a6d8c162354644a269f8e04b2283350"
+    },
+    {
+      "path": "services/incident-service/Dockerfile",
+      "sha256": "8841ec833e93719d64474a2a8f5e2be9ba71bb02baa5e723d2d15f0ca98b2837"
+    },
+    {
+      "path": "services/incident-service/pom.xml",
+      "sha256": "2192998e9d6f7b81ba5fb9d84bbc065506aa7e05c2f4e513816c1c546a355f99"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/TraceDomainController.java",
+      "sha256": "d44abc982da95bf3cafa5847f6e8df454b33c56327849a9daee3513f30cf9248"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/TraceDomainIngestionService.java",
+      "sha256": "06a53082bb86dfd59749d0c4880671faef5384633cd8e31f1f71b18ab94a4c8f"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/TraceDomainQueryService.java",
+      "sha256": "246219d6fba6b3fc5f8a57f7c77a88b049f30f6e2db157343d8c5feac929c3ef"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/application.yaml",
+      "sha256": "1667903f78790e4fc28d6258a869d59075a8b0fc3c48adc22533591f5d059b68"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V010__trace_link_domain_measurements.sql",
+      "sha256": "3ca8930208490d8ab419451fca62652f08cbecfc24ffd759f0adca550413e56c"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/incidents/DatabaseMigrationTest.java",
+      "sha256": "594660f9f5819bb4e8091d091db3e711e33e7ac05391e4acbee13c7ddd01ff15"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceDomainApiIT.java",
+      "sha256": "3cc183f12a613121bb184a5cdd237f954bca3733ba4cea7c8c46a7a441e78ed2"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceDomainDurabilityIT.java",
+      "sha256": "0ac5def53eb43297d868ded985d1e695b5efc5611b8e2749f9d7ad2608564751"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceDomainIngestionIT.java",
+      "sha256": "4270881abccce1da615b890fb923ec708c83ec7fbf5ae3052308f3384aa88c09"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/correlation/TraceLinkLiveRecovery.java",
+      "sha256": "d26e41da8de4e344d9662e9cc21202b043bc79b63c0f18f25371af5616026103"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/detection/TraceLinkLiveDetector.java",
+      "sha256": "e866f21948246888b6d2e39a906ecb4140a28c452598685bce83ccb371fd6a48"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/detection/TraceLinkLiveContractTest.java",
+      "sha256": "645d6589ef1b62f1221790720b2b28ac50a5bf325a205691ff5ea48a35d4447e"
+    },
+    {
+      "path": "services/streaming-support/pom.xml",
+      "sha256": "8ea6adf40fae4eeab3faeaf4cb7296470d3219fb04475834b73d62152e530f31"
+    },
+    {
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/observation/TraceLinkLiveContract.java",
+      "sha256": "88c034733817812449df960cb0ed09fe16f779d491d94f715efa6a0063cf4ad2"
+    },
+    {
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/observation/TraceLinkMeasurement.java",
+      "sha256": "d6976ed57dfa8faae7c3eea6936b5943545bc10541190708f99412c3ecc4824b"
+    },
+    {
+      "path": "services/streaming-support/src/test/java/md/utm/telecom/observation/TraceLinkMeasurementTest.java",
+      "sha256": "3b9ad0e9be3aa8b392799f60b16e07339587fb447e91bfadef3a24916a6aacd3"
+    },
+    {
+      "path": "tests/test_trace_link_receiving_contract.py",
+      "sha256": "c2ea8d91c969fa8c8d19acf5560d614d24bee308fa139f95922cec9f87b894ab"
+    }
+  ],
+  "dockerImage": "mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27",
+  "node": "24.20.0",
+  "npm": "11.19.0",
+  "chromium": "153.0.8010.12",
+  "finalDockerConfiguration": {
+    "init": true,
+    "ipc": "host",
+    "guidance": "https://playwright.dev/docs/docker"
+  },
+  "policyDecisions": {
+    "Sergiu": "PENDING_REVIEW",
+    "Denis": "PENDING_REVIEW",
+    "Ion": "PENDING_REVIEW",
+    "Stanislav": "PENDING_REVIEW"
+  },
+  "kafkaActivation": false,
+  "releaseV016": false,
+  "mergeReady": false,
+  "remoteCi": "Verify the final published HEAD on PR #102; do not treat local checks as remote CI.",
+  "commands": [
+    "gh run view 38439606468 --log-failed",
+    "gh run download 38439606468 -n dashboard-browser-results -D C:/OrangeSystems/Program/pr102-original-browser-artifact",
+    "git merge --no-ff origin/reconcile/trace-link-pr98-pr99-20261013",
+    "docker run -d --name pr102-linux-contract-check --shm-size=1g --mount type=bind,source=C:/OrangeSystems/Program/pr102-linux-evidence,target=/evidence mcr.microsoft.com/playwright:v1.63.0-noble tail -f /dev/null",
+    "git archive eba554e27ebbfff02957c95acec99b73ce2fab86 -o C:/OrangeSystems/Program/pr102-reconciled-linux.tar",
+    "docker cp C:/OrangeSystems/Program/pr102-reconciled-linux.tar pr102-linux-contract-check:/tmp/source.tar",
+    "Linux: mkdir -p /work && tar -xf /tmp/source.tar -C /work && cd /work/apps/dashboard && npm ci",
+    "Linux unchanged: npx playwright test tests/e2e/specs/trace-history.spec.ts --grep 1366px --repeat-each=8 --workers=2 --trace on --reporter=line,json",
+    "Linux unchanged: npx playwright test tests/e2e/specs/trace-history.spec.ts --grep 1366px --repeat-each=20 --workers=2 --reporter=line",
+    "Linux diagnostic copy only: CPU throttle rate 4 via CDP; four repeats, diagnostic-hook.txt focus observers",
+    "Linux diagnostic: E2E_PORT=4201 npx playwright test tests/e2e/specs/render-race-reproduction.spec.ts --workers=2 --trace on --reporter=line",
+    "docker cp apps/dashboard/tests/e2e/specs/trace-history.spec.ts pr102-linux-contract-check:/work/apps/dashboard/tests/e2e/specs/trace-history.spec.ts",
+    "Linux corrected: npx playwright test tests/e2e/specs/trace-history.spec.ts --repeat-each=4 --workers=2 --reporter=line",
+    "Linux: npx playwright test tests/e2e/specs/service-assurance.spec.ts --workers=2 --reporter=line",
+    "Linux: node --test scripts/pr77-*.test.cjs",
+    "Linux apps/dashboard: npm test; npm run build; npm run generate:api; sha256sum -c /evidence/api-before.sha256",
+    "Linux apps/dashboard: PLAYWRIGHT_JSON_OUTPUT_NAME=/evidence/dashboard-browser.json npx playwright test --workers=2 --reporter=line,json",
+    "Final LF source: docker commit pr102-linux-contract-check pr102-linux-verified-source:31f0939; docker stop pr102-linux-contract-check; docker run -d --init --ipc=host --name pr102-linux-final --mount type=bind,source=C:/OrangeSystems/Program/pr102-linux-evidence,target=/evidence pr102-linux-verified-source:31f0939 tail -f /dev/null; docker exec pr102-linux-final bash -lc \"cd /work/apps/dashboard && PLAYWRIGHT_JSON_OUTPUT_NAME=/evidence/dashboard-browser.json npx playwright test --workers=2 --reporter=line,json\"",
+    "python scripts/check-contracts.py",
+    "python -m unittest discover -s tests -v",
+    "mvn.cmd -o -B -ntp -Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2 -pl services/processor -am -Dtest=TraceLinkMeasurementTest,TraceLinkLiveContractTest,TraceLinkDomainArchiveTest,TraceLinkV016CompatibilityTest,TraceLinkInputsTest,TraceLinkDomainRulesTest,TraceLinkOfflineIntegrationTest,TraceLinkRecoveryPolicyTest,TraceLinkCausePolicyTest,TraceLinkServiceTransportTest -Dsurefire.failIfNoSpecifiedTests=false -Dtrace.link.archive=C:/OrangeSystems/task/Trace_Link_Integration_Pack/data -Dtrace.link.v016.directory=C:/OrangeSystems/Program/ion-domain-producer-evidence/v016 -Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848 install",
+    "mvn.cmd -o -B -ntp -Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2 -f services/incident-service/pom.xml -Dspring.kafka.bootstrap-servers=127.0.0.1:65534 verify",
+    "python.exe -m graphify update .",
+    "git diff --check"
+  ]
+}

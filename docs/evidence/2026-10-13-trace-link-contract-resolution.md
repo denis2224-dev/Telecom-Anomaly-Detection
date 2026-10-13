@@ -1,5 +1,9 @@
 # Trace Link contract resolution acceptance
 
+This is the preserved initial-delivery record. The current reconciled source, dashboard failure
+reproduction and renewed verification are recorded in
+[PR #102 dashboard reconciliation](2026-10-13-pr102-dashboard-reconciliation.md).
+
 13 October 2026, Europe/Chisinau. Overall: **PARTIALLY_COMPLETE**.
 The isolated engineering path is implemented and verified. Owner semantics and connected delivery
 acceptance remain **PENDING_REVIEW/BLOCKED**. Kafka activation: **NO**. Merge-ready: **NO**.
