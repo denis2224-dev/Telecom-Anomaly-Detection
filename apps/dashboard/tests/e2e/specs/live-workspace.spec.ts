@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { controlledApi, streamEvent } from '../helpers/controlled-api';
 import suite from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
 

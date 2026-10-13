@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from '../helpers/test';
 import {controlledApi} from '../helpers/controlled-api';
 
 test('browser alerts request nothing on startup and feature-off retains durable history',async({page})=>{

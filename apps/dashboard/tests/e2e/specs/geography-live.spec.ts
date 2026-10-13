@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from '../helpers/test';
 import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
 import { cityIncidents, citySummaries, cityWindows, fixtureRange } from '../../../src/fixtures/connected-dashboard';
 import type { GeographyCatalogue, ServiceSummary, Incident } from '../../../src/app/core/api/telecom-client';

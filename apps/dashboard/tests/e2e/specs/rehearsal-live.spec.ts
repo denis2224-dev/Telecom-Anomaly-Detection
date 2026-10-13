@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from '../helpers/test';
 import { createHash, randomBytes } from 'node:crypto';
 import { writeFileSync } from 'node:fs';
 import { command, admin, sql } from '../helpers/live-stack';

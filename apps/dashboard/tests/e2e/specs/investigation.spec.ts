@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from '../helpers/test';
 import type { Incident } from '../../../src/app/core/api/telecom-client';
 
 async function signIn(page: Page, username: string, password: string) {

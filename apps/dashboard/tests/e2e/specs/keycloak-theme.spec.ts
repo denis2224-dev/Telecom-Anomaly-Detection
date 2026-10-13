@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../helpers/test";
 import branding from "../../../../../design/branding.json";
 
 function rgb(hex: string): string {

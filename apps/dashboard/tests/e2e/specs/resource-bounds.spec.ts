@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from '../helpers/test';
 import { writeFile } from 'node:fs/promises';
 import services from '../../../src/fixtures/services.json';
 import { voiceIncidents, voiceWindows } from '../../../src/fixtures/voice';
