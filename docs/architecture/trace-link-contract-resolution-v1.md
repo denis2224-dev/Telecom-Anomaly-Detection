@@ -138,6 +138,7 @@ an agent test or a previous PR merge is not a new semantic approval.
 | Denis / API and incident mapping | Review native-only bounded API, default off; retain evaluation read model separately | Extending legacy incidents/rollups requires an approved lifecycle/evidence contract | API tests, OpenAPI, mapping JSON |
 | Denis / delivery | Keep disabled until a reviewed topic/key/ACK contract and durable Kafka/restart rehearsal | Activating now would lack the required delivery evidence | No listener/publisher; source manifests and held V016 unchanged |
 | Ion / receiving checklist | Confirm original bytes/event ID, complete scope, finalized revision zero, pinned manifest and exact retry | A new source/population/duration needs a separate version; never rewrite these fields | Original #97 JSONL, native fixtures, shared validator tests |
+| Stanislav / migration and delivery operations | Review V010 grants, actual PostgreSQL restart/rollback and feature-off operation; keep Kafka disabled | A topic/key/partition/ACK agreement and connected restart rehearsal are required before activation | Migration, durability and immutable replay reports; V016 held-state checks |
 
 Ion should reproduce generation from #97, compare source byte hashes, run the receiving checks,
 retain unavailable source metadata, verify replay conflicts and avoid releasing held intent.
@@ -145,3 +146,5 @@ Sergiu should run the minute, offline, cause and recovery suites on one source S
 policy/baseline/authority decisions. Denis should run fresh/upgrade migration, runtime-grant, concurrency,
 rollback, restart and secured API tests and record the receiving/API/delivery decisions.
 Connected integration must wait for those decisions and an approved durable delivery rehearsal.
+Stanislav should verify fresh and upgrade schema/grant parity, test restart on disposable infrastructure,
+retain the held outbox and prepare the separately reviewed Kafka ACK/commit/restart acceptance procedure.

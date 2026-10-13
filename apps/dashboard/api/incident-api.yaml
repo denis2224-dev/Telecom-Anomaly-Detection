@@ -1516,6 +1516,14 @@ components:
       - sourceCoverage
       - nullReason
       - measurement
+      - qualityReason
+      - sourceQuality
+      - eventId
+      - revision
+      - finalized
+      - primitives
+      - provenance
+      - sourcePayloadSha256
       properties:
         from:
           type: string
@@ -1559,6 +1567,26 @@ components:
           allOf:
           - $ref: '#/components/schemas/TraceDomainMeasurementV1'
           nullable: true
+        qualityReason: &id001
+          type: string
+          nullable: true
+        sourceQuality: *id001
+        eventId: *id001
+        revision:
+          type: integer
+          nullable: true
+        finalized:
+          type: boolean
+          nullable: true
+        primitives:
+          type: object
+          additionalProperties: true
+          nullable: true
+        provenance:
+          type: object
+          additionalProperties: true
+          nullable: true
+        sourcePayloadSha256: *id001
     TraceDomainNativeSeriesV1:
       type: object
       required:
@@ -1575,6 +1603,13 @@ components:
       - to
       - sourceResolutionSeconds
       - points
+      - population
+      - policyVersion
+      - catalogueVersion
+      - topologyVersion
+      - sourceKind
+      - synthetic
+      - scope
       properties:
         schemaVersion:
           type: string
@@ -1608,6 +1643,53 @@ components:
           maxItems: 8640
           items:
             $ref: '#/components/schemas/TraceDomainNativePointV1'
+        population:
+          type: string
+        policyVersion:
+          type: string
+        catalogueVersion:
+          type: string
+        topologyVersion:
+          type: string
+        sourceKind:
+          type: string
+        synthetic:
+          type: boolean
+          enum:
+          - true
+        scope:
+          type: object
+          required:
+          - scopeNamespace
+          - domain
+          - scopeType
+          - scopeId
+          properties:
+            scopeNamespace:
+              type: string
+            domain:
+              type: string
+            scopeType:
+              type: string
+            scopeId:
+              type: string
+            contractCityId:
+              type: string
+            linkId:
+              type: string
+            directionId:
+              type: string
+            partnerId:
+              type: string
+            countryId:
+              type: string
+            direction:
+              type: string
+            procedure:
+              type: string
+            accessTechnology:
+              type: string
+          additionalProperties: false
     GeographyMetric:
       type: object
       description: A finalized measurement; null is never silently converted to zero.

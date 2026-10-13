@@ -48,6 +48,10 @@ class TraceDomainApiIT extends IncidentServiceIntegrationTestSupport {
         mvc.perform(request).andExpect(status().isUnauthorized());
         mvc.perform(request.session(authenticatedSession()).with(login)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.domain").value("mobile-data")).andExpect(jsonPath("$.points.length()").value(2))
+                .andExpect(jsonPath("$.scope.procedure").value("DNS")).andExpect(jsonPath("$.scope.accessTechnology").value("LTE"))
+                .andExpect(jsonPath("$.population").value(o.path("population").asText()))
+                .andExpect(jsonPath("$.points[0].eventId").value(m.id()))
+                .andExpect(jsonPath("$.points[0].primitives.denominator").value(o.path("primitives").path("denominator").asInt()))
                 .andExpect(jsonPath("$.points[0].quality").value("VALID"))
                 .andExpect(jsonPath("$.points[1].quality").value("MISSING"));
         mvc.perform(get("/api/v2/trace-domain-measurements").param("datasetId",o.path("datasetId").asText()).param("sourceId",o.path("sourceId").asText())

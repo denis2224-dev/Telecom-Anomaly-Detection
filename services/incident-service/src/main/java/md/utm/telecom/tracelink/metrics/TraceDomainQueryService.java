@@ -27,6 +27,12 @@ public class TraceDomainQueryService {
                 .put("domain",apiDomain(definition.path("domain").asText())).put("unit",definition.path("unit").asText())
                 .put("aggregationType",definition.path("aggregation").asText()).put("sourceResolutionSeconds",seconds)
                 .put("from",from.toString()).put("to",to.toString());
+        result.put("population",definition.path("population").asText()).put("policyVersion",definition.path("policyVersion").asText());
+        var authority=jdbc.queryForMap("SELECT source_kind,synthetic,catalogue_version,topology_version FROM app.trace_domain_source WHERE dataset_id=? AND source_id=?",dataset,source);
+        result.put("sourceKind",authority.get("source_kind").toString()).put("synthetic",(Boolean)authority.get("synthetic"))
+                .put("catalogueVersion",authority.get("catalogue_version").toString()).put("topologyVersion",authority.get("topology_version").toString());
+        result.set("scope",read(jdbc.queryForObject("SELECT scope::text FROM app.trace_domain_scope WHERE dataset_id=? AND source_id=? AND scope_key=?",
+                String.class,dataset,source,scopeKey).getBytes(java.nio.charset.StandardCharsets.UTF_8)));
         var index=new HashMap<Instant,TraceLinkMeasurement>();windows.forEach(m->index.put(Instant.parse(m.observation().path("windowStart").asText()),m));
         var points=result.putArray("points");
         for(Instant start=from;start.isBefore(to);start=start.plusSeconds(seconds)) {
@@ -34,12 +40,23 @@ public class TraceDomainQueryService {
             var m=index.get(start);
             point.put("expectedSlots",1).put("receivedSlots",m==null?0:1);
             if(m==null) point.put("quality","MISSING").put("nullReason","NO_SOURCE_SLOT").putNull("value")
-                    .putNull("sourceCoverage").putNull("measurement");
+                    .put("qualityReason","NO_SOURCE_SLOT").putNull("sourceQuality").putNull("sourceCoverage")
+                    .putNull("eventId").putNull("revision").putNull("finalized").putNull("primitives").putNull("provenance")
+                    .putNull("sourcePayloadSha256").putNull("measurement");
             else {
                 var o=m.observation();var v=value(o);if(v==null)point.putNull("value");else point.put("value",v);
                 point.put("quality",o.path("quality").asText());
                 point.put("nullReason",o.path("quality").asText().equals("MISSING")?"NO_SOURCE_SLOT":v==null?"ZERO_DENOMINATOR":null);
                 if(m.live())point.set("sourceCoverage",o.path("coverage"));else point.putNull("sourceCoverage");
+                if(m.live())point.set("sourceQuality",o.path("quality"));else point.putNull("sourceQuality");
+                String quality=o.path("quality").asText();
+                point.put("qualityReason",quality.equals("VALID")?null:quality.equals("MISSING")?"NO_SOURCE_SLOT":v==null?"ZERO_DENOMINATOR"
+                        :!m.live()?"SOURCE_QUALITY_UNAVAILABLE":quality.equals("PARTIAL")?"SOURCE_COVERAGE_PARTIAL":"SOURCE_"+quality);
+                point.put("eventId",m.id()).set("revision",o.path("revision"));point.set("finalized",o.path("finalized"));
+                point.set("primitives",o.path("primitives"));point.set("sourcePayloadSha256",m.envelope().path("sourcePayloadSha256"));
+                var provenance=m.envelope().path("provenance").deepCopy();
+                if(!m.live())((com.fasterxml.jackson.databind.node.ObjectNode)provenance).set("nativeSource",read(m.sourceBytes()).path("provenance"));
+                point.set("provenance",provenance);
                 point.set("measurement",m.envelope());
             }
         }

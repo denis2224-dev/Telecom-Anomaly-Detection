@@ -1295,6 +1295,18 @@ export interface components {
             /** @enum {string|null} */
             nullReason: "NO_SOURCE_SLOT" | "ZERO_DENOMINATOR" | null;
             measurement: components["schemas"]["TraceDomainMeasurementV1"] | null;
+            qualityReason: string | null;
+            sourceQuality: string | null;
+            eventId: string | null;
+            revision: number | null;
+            finalized: boolean | null;
+            primitives: {
+                [key: string]: unknown;
+            } | null;
+            provenance: {
+                [key: string]: unknown;
+            } | null;
+            sourcePayloadSha256: string | null;
         };
         TraceDomainNativeSeriesV1: {
             schemaVersion: string;
@@ -1311,6 +1323,27 @@ export interface components {
             /** @enum {integer} */
             sourceResolutionSeconds: 60 | 300;
             points: components["schemas"]["TraceDomainNativePointV1"][];
+            population: string;
+            policyVersion: string;
+            catalogueVersion: string;
+            topologyVersion: string;
+            sourceKind: string;
+            /** @enum {boolean} */
+            synthetic: true;
+            scope: {
+                scopeNamespace: string;
+                domain: string;
+                scopeType: string;
+                scopeId: string;
+                contractCityId?: string;
+                linkId?: string;
+                directionId?: string;
+                partnerId?: string;
+                countryId?: string;
+                direction?: string;
+                procedure?: string;
+                accessTechnology?: string;
+            };
         };
         /** @description A finalized measurement; null is never silently converted to zero. */
         GeographyMetric: {
