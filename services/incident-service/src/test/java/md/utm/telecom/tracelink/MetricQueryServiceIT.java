@@ -155,7 +155,7 @@ class MetricQueryServiceIT extends IncidentServiceIntegrationTestSupport {
         mvc.perform(get("/api/v2/kpi-definitions"))
                 .andExpect(status().isUnauthorized());
         mvc.perform(get("/api/v2/kpi-definitions").session(authenticatedSession()).with(login))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(2))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(5))
                 .andExpect(jsonPath("$[0].metric").value("voice.success_rate"));
         var request = get("/api/v2/metrics/series").session(authenticatedSession()).with(login)
                 .param("datasetId", "trace-link-md-30d-v1").param("domain", "volte")
