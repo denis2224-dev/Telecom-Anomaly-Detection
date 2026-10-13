@@ -66,7 +66,8 @@ class TraceDomainDurabilityIT {
         var m=fixture(0);register(m);
         assertEquals(TraceDomainIngestionService.Result.INSERTED,transactions.execute(status->service.ingest(m.bytes())));
         DATABASE.getDockerClient().restartContainerCmd(DATABASE.getContainerId()).exec();
-        await().atMost(Duration.ofSeconds(45)).pollInterval(Duration.ofMillis(250)).untilAsserted(()->
+        await().atMost(Duration.ofSeconds(45)).pollInterval(Duration.ofMillis(250))
+                .ignoreException(org.springframework.jdbc.CannotGetJdbcConnectionException.class).untilAsserted(()->
                 assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_measurement WHERE event_id=?",Integer.class,m.id())));
         var restarted=new TraceDomainIngestionService(jdbc);
         assertEquals(TraceDomainIngestionService.Result.IDENTICAL_RETRY,transactions.execute(status->restarted.ingest(m.bytes())));
