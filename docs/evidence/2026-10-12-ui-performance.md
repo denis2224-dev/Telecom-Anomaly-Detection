@@ -107,3 +107,13 @@ Optional controlled scope count: `PERF_SCOPE_COUNT=100` (accepted range 1–5,00
 - LIVE service captures: [1366](assets/ui-performance/service-1366.png), [768](assets/ui-performance/service-768.png), [390](assets/ui-performance/service-390.png)
 
 Denis can correlate these request timestamps with the existing API/publication metrics; Stanislav can combine them with the whole-system report. No backend API change was required. Whole-system capacity and teammate review remain separate measurements/reviews, not inferred from the browser results. Device topology and local device measurements remain unavailable under the existing backend contract.
+
+## Analyst experience checkpoint — 2026-10-13
+
+The production resource runner now serves the built Angular bundle with the existing Vite preview server. All five controlled resource checks passed with the existing thresholds. Initial development-server interruptions remain in the evidence directory; they are not included as successful measurements.
+
+An authenticated LIVE sample observed 72.4 seconds with one active EventSource, a 17.4 ms frame-gap p95, a 31.4 ms maximum gap and no recorded tasks of 50 ms or longer. Across 40 non-stream requests, the median was 56.742 ms and the nearest-rank p95 was 177.788 ms. JavaScript heap usage changed from 7,650,864 to 7,852,488 bytes; DOM nodes changed from 8,145 to 8,147. Automated input-to-paint observations ranged from 32.815 to 63.491 ms and include automation overhead; they are not a field INP measurement.
+
+The LIVE sample revision is recorded in [the summary](assets/analyst-experience/performance-summary.json) and [raw measurements](assets/analyst-experience/live-performance.json). It precedes the final query and alert presentation repairs. Those repairs passed focused browser/unit checks and the final production build. CPU model and RAM were not remeasured. Native history remains unavailable, so these measurements do not establish archive-scale native performance.
+
+See [the final frontend verification](final-ui-signoff.md) and [release manifest](assets/analyst-experience/release-manifest.json) for source/build checksums, passing counts, skipped checks and the failed real incident-lifecycle attempt. Full release acceptance requires the archive, enabled native/push contracts and a successful real detection workflow.

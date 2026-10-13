@@ -1,117 +1,75 @@
 # Trace Link analyst guide
 
-This guide covers the isolated repair branch. It is not a release sign-off.
-Receiving-owner review and authenticated connected rehearsal remain pending.
+## Sign in and choose the investigation
 
-## Sign in and choose an investigation
+Open the application login page and continue to organization sign-in. The application does not collect your password. An enabled analyst account and an application role are required. Supervisors can run supported scenarios and assign work to other enabled analysts.
 
-Use the existing backend login. Analyst roles can inspect protected history;
-SUPERVISOR or ADMIN is required for scenario commands. Session expiry returns
-to login and clears private notification and scenario state. Sign in again and
-reload server history rather than trusting a saved browser view.
+Open **Trace Link history** in Workspace for the versioned reference inventory and persisted metric queries. The older service overview and service investigation retain the existing VoLTE/SMS catalogue. Historical or legacy labels do not establish membership in the active Trace Link inventory.
 
-**Trace Link history** opens versioned backend inventory and native persisted
-metrics. **Service overview**, VoLTE/SMS detail and incident investigation retain
-their existing service contracts. Their legacy geography can include labels
-outside the active Trace Link reference inventory; those labels are retained
-for historical investigation. Illustrative link/roaming previews are labelled
-and do not establish current measurements.
+An unavailable inventory is an explicit error with a retry action. It does not display guessed cities, connections or history. Ask the backend owner to register the approved dataset and activate its catalogue before attempting a populated investigation.
 
-## Inventory and history
+## Select the shared context
 
-1. Open Trace Link history. A successful active inventory contains ten cities
-   and twelve links, with explicit declared directions. Use the map or city
-   selection table; link direction buttons select the same focus.
-2. Enter the recorded dataset ID and its available UTC `[from,to)` interval.
-   The service currently supports at most 30 days of five-minute native history.
-   The UI does not discover or invent dataset availability. Obtain the exact
-   manifest and bounds from the dataset owner.
-3. Choose a city and metric supplied by the service. The current candidate
-   registers `voice.success_rate`, a ratio of summed VoLTE attempts. It is not
-   an alias for the live producer's `volte.setup.success` population.
-4. Select 5m, 15m, 1h or 6h independently of the selected period. Presets end at
-   the selected exclusive `to`. Drag horizontally over the chart to zoom, or use
-   the keyboard zoom/pan buttons. Zoom changes visible bounds only; reset restores
-   the selected interval. Expand metric opens the same query and exact bucket
-   table in a focus-managed dialog. URL context contains selections, no tokens.
-5. Review the exact bucket table, units, numerator/denominator, quality,
-   coverage, source resolution and policy/topology identity. Partial edge buckets
-   are identified. Stale measurements remain visible with their recorded quality.
-6. Download exact server CSV. It uses the same current visible query and server
-   aggregation, without browser arithmetic or drawing-point export.
+Enter the recorded dataset ID and UTC bounds ending in `Z`. The start is included and the end is excluded. The longest selected period is 30 calendar-length intervals of 24 hours. Presets cover 6h, 24h, 48h, 7d, 14d and 30d relative to the selected end.
 
-A measured zero remains zero. A rate with denominator zero is unavailable.
-Missing intervals break the chart line. Null is not healthy, zero or recovery.
-This read contract does not supply a baseline or source-event list; the UI does
-not fabricate either. Transport, roaming, SMS and LTE panels show unavailable
-history until approved metric definitions/read mappings exist. Inventory
-capacity and measurement-source declarations are not observations. Inbound and
-outbound partners remain separate even when both directions are selected.
+Choose resolution independently: 5m, 15m, 1h or 6h. Changing period preserves resolution. Select UTC or Europe/Chisinau for chart presentation. The latter uses the IANA timezone rules, including offset transitions; requests remain UTC.
 
-Grafana has no configured, verified connection in this candidate. New-domain
-incident drilldown also requires receiving mappings. Use existing incident
-investigation for recorded VoLTE/SMS evidence; do not infer a new-domain incident
-from a scenario name or a chart shape.
+Zoom changes the visible interval, preserving the selected period. Use the horizontal brush, Zoom in, Zoom out, Pan earlier/later, or Reset zoom. Expanded charts use the same context. The URL carries public query identifiers and absolute timestamps, never session credentials. Invalid URLs and impossible calendar dates are rejected.
 
-## Scenario commands
+## Cities and directional links
 
-The Trace Link section is separate from legacy VoLTE/SMS controls. Both new
-runtime flags default off. When the isolated runtime is enabled, five scenarios
-are executable: transport overload, roaming registration failure, LTE DNS
-failure, normal control and telemetry gap. Thirteen catalogue definitions remain
-unavailable and cannot be submitted successfully by forging a command.
+Once available, the active Trace Link catalogue contains Chișinău (CHI), Bălți (BAL), Cahul (CAH), Ungheni (UNG), Orhei (ORH), Soroca (SOR), Comrat (COM), Edineț (EDI), Hîncești (HIN) and Căușeni (CAU), with twelve approved links. API identifiers can use the reference namespace's lowercase city IDs. RIB/TIR historical labels remain legacy or unmapped context rather than new inventory nodes.
 
-Choose the exact link/direction, country/partner/direction, or LTE DNS city.
-Transport utilization alone is not packet loss or customer outage. DNS and EPS
-bearer activation remain independent populations. Percent inputs allow two
-decimal places; missing minute indices are unique, zero-based 0–7. The server
-owns parameter defaults and the next-minute schedule.
+Select a city with the map, keyboard Enter/Space, city table or City control. Select a link with its map action or the directional inventory table. Each declared direction is explicit. Selecting an incompatible city clears link focus. Capacity in the inventory is a declared value, not a measured traffic sample.
 
-Keep the same request ID and unchanged body after an uncertain response. A
-conflicting retry is rejected rather than becoming another run. Independent
-scopes can run concurrently. The server's status is authoritative; browser time
-only helps interpret the displayed schedule.
+For native transport history, choose Transport, a declared direction, and a measurement. Carried traffic, effective capacity, utilization, RTT snapshot and jitter remain distinct. A high utilization value alone is not an outage verdict. Loss, errors/discards and an operational-state timeline are unavailable under the current native read model.
 
-- COMPLETED means local generation completed, not delivery or detector acceptance.
-- STOPPED means telemetry stopped; it does not prove recovery.
-- INTERRUPTED retains incomplete history and never resumes from minute zero.
-- Planned minutes 6–8 are recovery traffic, not proof of technical recovery.
+## Read metric evidence correctly
 
-The local observation history is labelled generated. Kafka remains disabled;
-offered and acknowledged counts are zero, while persisted/accepted counts are
-unavailable. See the [runtime runbook](../runbooks/trace-link-scenario-runtime.md)
-for configuration, storage limits and safe rollback.
+VoLTE registered series display the server's exact buckets, quality, coverage and primitive counts. Call setup success is a percentage; setup time is a duration. Neither substitutes for the other. The current registered rollup registry exposes setup-success measurements; other definitions remain unavailable until the backend supplies them.
 
-## Notifications and incident work
+The native-domain API preserves aligned five-minute source windows. It does not provide server rollups or CSV. Select 5m and aligned bounds for those views; the application does not change resolution automatically, manufacture edge buckets, or aggregate the observations itself.
 
-Open Notifications to inspect recipient-scoped durable history. Startup history
-does not toast. New HIGH/CRITICAL openings and escalations can produce one
-restrained in-app toast after REST reconciliation; MEDIUM entries remain in the
-list. Repeated hints and active same-origin tabs coordinate duplicate suppression.
-The store keeps one bounded page, bounded seen IDs and its current newest-page
-IDs. Historical page navigation must not re-toast an old opening.
+For roaming, choose Country, Roaming direction and Partner and direction. Both lists inbound and outbound populations separately. Registration, data and voice procedures have separate identities. Active-user snapshots and finalized roaming SMS are unavailable, rather than inferred from interval success rates.
 
-Mark read changes only after a successful server response and subsequent REST
-read. If it fails, retain the visible unread state and retry. The dialog supports
-keyboard entry, Escape and focus return. Cause wording is `Possible cause` plus
-the supplied confidence or `Cause undetermined`. Technical recovery does not
-resolve analyst work. Incident links still require normal authentication.
+For LTE mobile data, inspect EPS bearer activation, DNS response success and modeled throughput separately. Normal activation cannot mask DNS failure. Expand source records to read primitive populations, source qualifiers, hashes and provenance. Unproven eligibility or modeled weighting remains visible.
 
-The repair reads existing recipient records; automatic notification production
-from detector/assignment transitions remains a separate receiving integration
-gate. Browser push is unavailable and no permission prompt or service worker is
-activated. No secure-origin push acceptance is claimed.
+In existing SMS investigations, distinguish submitted, finalized delivered/expired, pending queue and delivered-message delay. Pending is not lost. No delivered samples does not establish an empty queue. A low p95 does not prove that pending messages have drained.
 
-## Troubleshooting and handoff
+Missing values are gaps, never healthy zero. Zero is a valid observation only with a valid population. A zero denominator produces an unavailable rate. PARTIAL, STALE and INSUFFICIENT_EVIDENCE remain visible. Unknown source coverage is not converted to 100% or zero. Source age and request/render latency measure different things.
 
-400 means review command/query bounds, scope and versions; 401 requires sign-in;
-403 means role/profile/session protection is insufficient; 404 keeps another
-analyst's private run or notification undisclosed; 409 requires reviewing the
-conflicting identity/version; 503 requires retrying the same uncertain command.
-Do not reset a database or delete run history to clear an error.
+## Charts, CSV and Grafana
 
-Record the dataset, UTC interval, resolution, exact scope/direction, displayed
-run UUID, status, and error code for the owner. Never include passwords, cookies
-or CSRF values. Human wording, accessibility, capacity, Grafana and the two
-authenticated release rehearsals remain pending; see the
-[engineering evidence](../evidence/2026-10-12-david-trace-link-repair.md).
+The exact-value table preserves all server buckets and pages fifty at a time. Dense SVG drawing selects representative extrema, while table and export values remain exact. Expanded views keep the same interval, resolution and timezone. Escape closes the dialog and restores the expand control's focus.
+
+For a registered series, Download exact server CSV sends the validated current series query and downloads the server response. Changing context cancels an obsolete export. The application does not create an authoritative CSV from visually sampled points.
+
+A configured Grafana link carries absolute epoch bounds, dataset, city, directional link, country, roaming direction, resolution and timezone. Administrators can provide the dashboard URL using the `trace-link-grafana-url` meta setting in the application index. Credential-bearing configuration is rejected. Without a configured endpoint, history and CSV remain usable. No embedded Grafana mode is enabled in this release.
+
+## Alerts and investigation workflow
+
+Notifications shows a bounded newest-first private history, total and unread count. Startup history does not create a toast. A new high/critical opening or escalation can create one restrained toast; medium openings remain in history. Stream hints trigger REST reconciliation rather than authoritatively modifying incidents. Repeated hints are silent, and participating tabs coordinate toast claims.
+
+Open the bell with keyboard or pointer. The modal has loading, empty, error and retry states. Escape/Close returns focus to the bell. Mark read updates visible state only after the server succeeds; on failure the item stays unread and its action can be retried.
+
+Follow Investigate incident to inspect its measured window, source evidence and recommended checks. A possible cause is a qualified hypothesis with confidence, or Cause undetermined. Claim/assign before starting investigation when the workflow requires it. Add a comment and confirm that the server saved it. A conflict requires reloading the current version rather than silently replaying the write.
+
+Technical recovery and analyst resolution are separate. Recovered service evidence can coexist with open investigation work. Resolve only when the workflow permits it and with a resolution note. Stopped telemetry remains stopped/unknown rather than recovered.
+
+## Optional browser alerts
+
+Use Enable browser alerts explicitly. No permission request occurs on page load. Denied, unsupported, insecure-origin, unavailable and feature-off states retain in-app history. Change browser settings and reload after a denied permission; the application does not repeatedly prompt.
+
+Secure opt-in requires enabled backend configuration, a valid VAPID public key, subscription storage and a server subscription identity. If the server omits a removable identity, the browser subscription is rolled back and enabling reports an error. Disable deletes the server identity and unsubscribes the browser; a failure remains retryable.
+
+A visible controlled window refreshes durable history instead of displaying a duplicate system alert. Otherwise lock-screen text contains only a generic title and severity. Click-through accepts only the same-origin incident path and requires normal authentication. No scope, cause, evidence, analyst or subscriber details are displayed on the lock screen. Ended sessions clear private client state and unsubscribe the active browser subscription.
+
+## Scenario runs and troubleshooting
+
+The primary synthetic scenario controls load the authoritative backend catalogue. They expose only executable definitions and complete domain/scope tuples. Unsupported previews cannot post an execution command. Concurrent runs retain separate scope labels, server identities and status. Local generation is not Kafka delivery or detector acceptance.
+
+Retry an uncertain command with its original idempotency key and unchanged body. A conflicting reuse is a visible error. Planned phases are explanatory; the server's status/progress remains authoritative. Legacy VoLTE/SMS commands remain separately labelled for compatibility.
+
+On a source gap or stale response, retain the timestamps and quality state; do not infer a cause. After API/network interruption, retry the same context. Session expiry clears private state, closes the stream and returns to sign-in. A new user cannot receive the previous user's late response.
+
+400 means invalid context, 401 ended authentication, 403 missing permission/session protection, 404 missing or disabled resource, 409 changed/conflicting state, 429 throttling, and 503 temporary unavailability. The current release explicitly reports an inactive Trace Link catalogue or disabled native API. These states need backend registration/activation, not a fabricated frontend fallback.
