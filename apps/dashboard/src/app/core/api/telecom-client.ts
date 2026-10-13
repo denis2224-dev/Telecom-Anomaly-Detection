@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, type HttpResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { firstValueFrom, fromEvent, takeUntil, type Observable } from "rxjs";
 import type { components, operations } from "./schema";
@@ -39,6 +39,15 @@ export class TelecomClient {
   }
   markNotificationRead(id: string, signal?: AbortSignal) {
     return this.request<void>('POST', `/api/notifications/${encodeURIComponent(id)}/read`, undefined, undefined, signal);
+  }
+  notificationPushConfig(signal?: AbortSignal) {
+    return this.request<components['schemas']['PushConfig']>('GET', '/api/notifications/push/config', undefined, undefined, signal);
+  }
+  savePushSubscription(body: components['schemas']['PushSubscriptionInput'], signal?: AbortSignal) {
+    return this.request<HttpResponse<void>>('POST', '/api/notifications/push-subscriptions', body, undefined, signal, 'response');
+  }
+  deletePushSubscription(id: string, signal?: AbortSignal) {
+    return this.request<void>('DELETE', `/api/notifications/push-subscriptions/${encodeURIComponent(id)}`, undefined, undefined, signal);
   }
   traceCities(signal?: AbortSignal) {
     return this.request<components['schemas']['TraceCityList']>('GET','/api/v2/inventory/cities',undefined,undefined,signal);
@@ -260,12 +269,12 @@ stopScenario(runId: string): Promise<ScenarioRun> {
   }
 
     private async request<T>(
-    method: 'GET' | 'POST',
+    method: 'GET' | 'POST' | 'DELETE',
     url: string,
     body?: unknown,
     query?: object,
     signal?: AbortSignal,
-    responseType: 'json' | 'text' = 'json',
+    responseType: 'json' | 'text' | 'response' = 'json',
   ): Promise<T> {
     if (dataSource.fixture) {
       throw new Error(
@@ -282,7 +291,9 @@ stopScenario(runId: string): Promise<ScenarioRun> {
     }
 
     try {
-      const response = (responseType === 'text'
+      const response = (responseType === 'response'
+        ? this.http.request(method, url, {body, params, observe: 'response'})
+        : responseType === 'text'
         ? this.http.request(method,url,{body,params,responseType:'text'})
         : this.http.request<T>(method, url, { body, params })) as Observable<T>;
       const result = await firstValueFrom(signal

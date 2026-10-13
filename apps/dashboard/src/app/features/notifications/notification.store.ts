@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { DestroyRef, Injectable, effect, inject, signal, untracked } from '@angular/core';
 import { TelecomClient, type NotificationItem } from '../../core/api/telecom-client';
 import { IncidentStream } from '../../core/state/incident-stream';
@@ -32,6 +33,10 @@ export class NotificationStore {
   private timers = new Set<ReturnType<typeof setTimeout>>();
 
   constructor() {
+    const browser = inject(DOCUMENT).defaultView;
+    const pushHint = (event: MessageEvent) => { if(event.data?.type==='refresh-notifications') void this.load(0,true); };
+    browser?.navigator.serviceWorker?.addEventListener('message',pushHint);
+    inject(DestroyRef).onDestroy(()=>browser?.navigator.serviceWorker?.removeEventListener('message',pushHint));
     const ended = this.session.ended$.subscribe(() => this.clear());
     effect(cleanup => {
       const phase = this.session.phase(), actor = this.session.actor()?.analystId;

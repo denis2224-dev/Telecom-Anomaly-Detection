@@ -1,3 +1,4 @@
+import { NotificationSettingsComponent } from './notification-settings.component';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -6,7 +7,7 @@ import { NotificationStore } from './notification.store';
 @Component({
   selector: 'app-notification-center',
   providers: [NotificationStore],
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, NotificationSettingsComponent],
   styles: [`
     dialog { color:var(--text); background:var(--surface,#fff); border:1px solid var(--border,#bbb); border-radius:12px; width:min(620px,calc(100vw - 32px)); max-height:85vh; padding:20px; }
     dialog::backdrop { background:#0006; } header,footer { display:flex; gap:12px; align-items:center; justify-content:space-between; }
@@ -18,7 +19,7 @@ import { NotificationStore } from './notification.store';
     <dialog #panel aria-labelledby="notifications-title" (close)="closed()" (cancel)="closed()">
       <header><h2 id="notifications-title">Notification history</h2><button type="button" aria-label="Close notifications" (click)="hide()">Close</button></header>
       <p>Durable recipient history · {{ store.unread() }} unread · UTC. Recovery does not resolve analyst work.</p>
-      <p>Browser alerts are unavailable in this candidate. In-app history remains available.</p>
+      <app-notification-settings />
       @if (store.busy()) { <p role="status">Loading notification history…</p> }
       @if (store.error()) { <p role="alert">{{ store.error() }}</p><button type="button" (click)="store.load()">Retry notification history</button> }
       @if (!store.busy() && !store.error() && !store.items().length) { <p>No recorded notifications.</p> }
