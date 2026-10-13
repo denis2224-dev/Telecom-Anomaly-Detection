@@ -34,6 +34,11 @@ async function setup(page:Page){
     return route.fulfill({json:series(url)});
   });return queries;
 }
+async function expectRenderedSeries(page:Page,from:string,rows:number){
+  const chart=page.getByRole('region',{name:'Persisted metric chart'});
+  await expect(chart.locator('tbody time').first()).toHaveAttribute('datetime',from);
+  await expect(chart.locator('tbody tr')).toHaveCount(rows);
+}
 for(const width of [1366,390])test(`native history keeps query, inventory, gaps and exact export at ${width}px`,async({page},info)=>{
   const queries=await setup(page);await page.setViewportSize({width,height:900});await page.goto(queryUrl);
   await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');
@@ -45,17 +50,24 @@ for(const width of [1366,390])test(`native history keeps query, inventory, gaps 
   await expect(page.getByRole('region',{name:'Persisted metric chart'}).locator('svg circle')).toHaveCount(3);
   const selectedFrom=await page.getByLabel('From · UTC inclusive').inputValue();
   await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('1h');await expect.poll(()=>queries.at(-1)?.resolution).toBe('1h');
+  await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',1);
   await expect(page.getByLabel('From · UTC inclusive')).toHaveValue(selectedFrom);
   await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('5m');
+  await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
   await page.getByRole('button',{name:'Zoom in',exact:true}).click();await expect.poll(()=>queries.at(-1)?.from).toBe('2026-09-10T09:05:00.000Z');
+  await expectRenderedSeries(page,'2026-09-10T09:05:00.000Z',2);
   await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
-  const expand=page.getByRole('button',{name:'Expand metric',exact:true});await expect(expand).toBeVisible();await expand.focus();await page.keyboard.press('Enter');
+  // A request being offered does not mean Angular has rendered its accepted response.
+  // Wait for the reset buckets before focusing a button recreated by the loading view.
+  await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
+  const expand=page.getByRole('button',{name:'Expand metric',exact:true});await expect(expand).toBeVisible();await expand.focus();await expect(expand).toBeFocused();await expand.press('Enter');
   const expanded=page.getByRole('dialog',{name:'Expanded persisted metric'});await expect(expanded).toContainText('2026-09-10T09:00:00Z');
   await page.keyboard.press('Escape');await expect(expanded).not.toBeVisible();await expect(expand).toBeFocused();
   const plot=page.getByRole('region',{name:'Persisted metric chart'}).locator('svg');await plot.scrollIntoViewIfNeeded();const box=(await plot.boundingBox())!;
   await page.mouse.move(box.x+box.width*.25,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width*.75,box.y+box.height/2);await page.mouse.up();
   await expect.poll(()=>queries.at(-1)?.from).not.toBe(selectedFrom);await expect(page.getByLabel('From · UTC inclusive')).toHaveValue(selectedFrom);
   await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
+  await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
   await expect(page.getByRole('button',{name:'Download exact server CSV'})).toBeEnabled();
   const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download exact server CSV'}).click();
   const download=await downloadEvent;expect(readFileSync((await download.path())!,'utf8')).toBe(exactCsv);
@@ -69,6 +81,29 @@ for(const width of [1366,390])test(`native history keeps query, inventory, gaps 
   await expect(page.getByRole('combobox',{name:'City',exact:true})).toHaveValue('bal');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
   await page.screenshot({path:info.outputPath(`trace-history-${width}.png`),fullPage:true});
+});
+
+for(const width of [1366,390])test(`keyboard expansion uses accepted reset history at ${width}px`,async({page})=>{
+  await setup(page);await page.setViewportSize({width,height:900});await page.goto(queryUrl);
+  await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
+  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
+  await expectRenderedSeries(page,'2026-09-10T09:05:00.000Z',2);
+  let release!:()=>void,requested=false;
+  await page.route('**/api/v2/metrics/series?**',async route=>{
+    requested=true;await new Promise<void>(resolve=>release=resolve);
+    await route.fulfill({json:series(new URL(route.request().url()))});
+  });
+  await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
+  await expect.poll(()=>requested).toBe(true);
+  await expect(page.getByRole('status').filter({hasText:'Loading persisted metric buckets'})).toBeVisible();
+  const expand=page.getByRole('button',{name:'Expand metric',exact:true});
+  await expect(expand).not.toBeVisible();
+  release();await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
+  await expand.focus();await expect(expand).toBeFocused();await expand.press('Enter');
+  const expanded=page.getByRole('dialog',{name:'Expanded persisted metric'});
+  await expect(expanded).toContainText('2026-09-10T09:00:00Z');
+  await expect(expanded).toContainText('INSUFFICIENT_EVIDENCE');
+  await page.keyboard.press('Escape');await expect(expanded).not.toBeVisible();await expect(expand).toBeFocused();
 });
 
 test('a cancelled old-city response cannot replace the selected city history',async({page})=>{
