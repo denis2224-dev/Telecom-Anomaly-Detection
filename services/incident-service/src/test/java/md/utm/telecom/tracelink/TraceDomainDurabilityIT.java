@@ -33,18 +33,20 @@ class TraceDomainDurabilityIT {
     @Container static final PostgreSQLContainer DATABASE=new PostgreSQLContainer("postgres:16.4-alpine")
             .withDatabaseName("incidents_db").withInitScript("db/context-test-init.sql");
     static JdbcTemplate admin,jdbc;
+    static DriverManagerDataSource adminSource,runtimeSource;
     static TransactionTemplate transactions;
     static TraceDomainIngestionService service;
     @BeforeAll static void setup() {
         Flyway.configure().dataSource(DATABASE.getJdbcUrl(),DATABASE.getUsername(),DATABASE.getPassword())
                 .defaultSchema("app").schemas("app").cleanDisabled(true).load().migrate();
-        admin=new JdbcTemplate(new DriverManagerDataSource(DATABASE.getJdbcUrl(),DATABASE.getUsername(),DATABASE.getPassword()));
-        var runtime=new DriverManagerDataSource(DATABASE.getJdbcUrl(),DATABASE.getUsername(),DATABASE.getPassword()) {
+        adminSource=new DriverManagerDataSource(DATABASE.getJdbcUrl(),DATABASE.getUsername(),DATABASE.getPassword());
+        admin=new JdbcTemplate(adminSource);
+        runtimeSource=new DriverManagerDataSource(DATABASE.getJdbcUrl(),DATABASE.getUsername(),DATABASE.getPassword()) {
             @Override public Connection getConnection() throws SQLException {
                 var connection=super.getConnection();try(var statement=connection.createStatement()){statement.execute("SET ROLE incidents_app");}return connection;
             }
         };
-        jdbc=new JdbcTemplate(runtime);transactions=new TransactionTemplate(new DataSourceTransactionManager(runtime));service=new TraceDomainIngestionService(jdbc);
+        jdbc=new JdbcTemplate(runtimeSource);transactions=new TransactionTemplate(new DataSourceTransactionManager(runtimeSource));service=new TraceDomainIngestionService(jdbc);
     }
     static void register(TraceLinkMeasurement m) {
         var o=m.observation();var e=m.envelope();var p=e.path("provenance");
@@ -65,7 +67,22 @@ class TraceDomainDurabilityIT {
     @Test void committedMeasurementSurvivesActualPostgresRestartAndNewReceivingInstance() throws Exception {
         var m=fixture(0);register(m);
         assertEquals(TraceDomainIngestionService.Result.INSERTED,transactions.execute(status->service.ingest(m.bytes())));
+        int originalPort=DATABASE.getMappedPort(5432);
         DATABASE.getDockerClient().restartContainerCmd(DATABASE.getContainerId()).exec();
+        // Docker Desktop can assign a new ephemeral host port after a direct Docker restart.
+        // Testcontainers' original inspection is cached: read the actual binding before reconnecting.
+        var inspection=DATABASE.getDockerClient().inspectContainerCmd(DATABASE.getContainerId()).exec();
+        assertTrue(Boolean.TRUE.equals(inspection.getState().getRunning()));
+        var bindings=inspection.getNetworkSettings().getPorts().getBindings()
+                .get(com.github.dockerjava.api.model.ExposedPort.tcp(5432));
+        assertNotNull(bindings);assertTrue(bindings.length>0);
+        int restartedPort=Integer.parseInt(bindings[0].getHostPortSpec());
+        String restartedUrl="jdbc:postgresql://"+DATABASE.getHost()+":"+restartedPort+"/"+DATABASE.getDatabaseName();
+        adminSource.setUrl(restartedUrl);runtimeSource.setUrl(restartedUrl);
+        var evidence=JSON.createObjectNode().put("originalHostPort",originalPort).put("restartedHostPort",restartedPort)
+                .put("containerRunning",true).put("eventId",m.id()).put("sourcePayloadSha256",m.envelope().path("sourcePayloadSha256").asText());
+        Files.createDirectories(Path.of("target/contract-resolution"));
+        Files.write(Path.of("target/contract-resolution/postgres-restart.json"),write(evidence));
         await().atMost(Duration.ofSeconds(45)).pollInterval(Duration.ofMillis(250))
                 .ignoreException(org.springframework.jdbc.CannotGetJdbcConnectionException.class).untilAsserted(()->
                 assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_measurement WHERE event_id=?",Integer.class,m.id())));
