@@ -1,0 +1,20 @@
+{
+  "name": "bounded-owner-cli",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "java",
+    "-Dloader.main=md.utm.telecom.generator.tracelink.TraceLinkScenarioApplication",
+    "-cp",
+    "services/event-generator/target/event-generator-0.3.0-SNAPSHOT.jar",
+    "org.springframework.boot.loader.launch.PropertiesLauncher",
+    "contracts/fixtures/trace-link/scenario-command-v1.json",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/owner-transport.jsonl"
+  ],
+  "startedAt": "2026-10-12T19:00:10.561850+00:00",
+  "finishedAt": "2026-10-12T19:00:21.344246+00:00",
+  "elapsedSeconds": 10.782,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "bounded-owner-cli.log",
+  "logSha256": "7493a36010fa1216cd2524f0c25ec3cf6c453126acd30ebab6b9dac6d065e04b"
+}

@@ -1,0 +1,137 @@
+{
+  "verifiedAtUtc": "2026-10-11T13:37:59.486798+00:00",
+  "reviewedHead": "034265c70bb489fd7eba1f27b64736b87c1e7ff8",
+  "implementationCommit": "7e5af08e6760bd3694858a4e830edb62074c0cd8",
+  "scope": "CONTRACT_ONLY",
+  "findings": {
+    "P1": "Reference-only namespace required; runtime catalogue and historical RIB/TIR preserved",
+    "P2": "Five-state quality/coverage/freshness/primitives/actual consistency enforced"
+  },
+  "contractMetrics": 43,
+  "evidenceCases": 8,
+  "fullReproduction": {
+    "status": "PASS",
+    "repositoryPythonTests": 103,
+    "mlPythonTests": 64,
+    "maven": {
+      "tests": 1166,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "status": "BUILD SUCCESS",
+      "duration": "12:22 min"
+    },
+    "legacyVoiceCases": 7,
+    "legacySmsCases": 12,
+    "geographicVoiceCases": 30,
+    "geographicSmsCases": 32,
+    "command": "./scripts/verify-trace-link-day1.ps1 -Python './.venv/Scripts/python.exe' -JavaHome './tmp/tools/jdk21/jdk-21.0.12.1+1' -ReferenceRoot './tmp/trace-link-pr88-portable-extraction/Trace_Link_Integration_Pack'"
+  },
+  "finalRepositoryPython": {
+    "tests": 107,
+    "status": "PASS",
+    "command": "./.venv/Scripts/python.exe -m unittest discover -s tests -v",
+    "note": "Includes four portability checks added after the full run started"
+  },
+  "cleanSnapshotReproduction": {
+    "status": "PASS",
+    "snapshotSource": "git archive HEAD at implementationCommit",
+    "directory": "tmp/pr88-clean",
+    "focused": true,
+    "pythonTestCounts": [
+      107,
+      10
+    ],
+    "note": "Fresh Java compile and independent PostgreSQL export; not another full reactor run",
+    "command": "./scripts/verify-trace-link-day1.ps1 -Python <installed-python> -JavaHome <jdk21> -ReferenceRoot <extracted-reference-pack> -Focused"
+  },
+  "fixtureSha256": "82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd",
+  "exports": {
+    "java": {
+      "sha256": "0bf874e30440f40241bc7d9b7abba0b1204f7e75f7b3296b6475d51aafdd44b0",
+      "generatedPath": "services/processor/target/trace-link-java.json",
+      "archivedPath": "docs/evidence/assets/trace-link-day1/java.json",
+      "freshRunsMatchArchivedBytes": true,
+      "cases": 54,
+      "maximumAbsoluteFloatError": 0
+    },
+    "python": {
+      "sha256": "ec9880bb32a028dad7046f7006c310519028f1904bac8f73fbc9d765dd68b93c",
+      "generatedPath": "tmp/trace-link-day1-reproduction/python.json",
+      "archivedPath": "docs/evidence/assets/trace-link-day1/python.json",
+      "freshRunsMatchArchivedBytes": true,
+      "cases": 54,
+      "maximumAbsoluteFloatError": 0
+    },
+    "javascript": {
+      "sha256": "bfec6d06f4cca9baa1e2589067a5cc579abb19b32bf1d8b782fd044189a703f4",
+      "generatedPath": "tmp/trace-link-day1-reproduction/javascript.json",
+      "archivedPath": "docs/evidence/assets/trace-link-day1/javascript.json",
+      "freshRunsMatchArchivedBytes": true,
+      "cases": 54,
+      "maximumAbsoluteFloatError": 0
+    },
+    "sql": {
+      "sha256": "132e9f74a62a598dbf9f8deed73b948c53cc22bc5d3d437fb657f06f552eff4f",
+      "generatedPath": "tmp/trace-link-day1-reproduction/sql.json",
+      "archivedPath": "docs/evidence/assets/trace-link-day1/sql.json",
+      "freshRunsMatchArchivedBytes": true,
+      "cases": 54,
+      "maximumAbsoluteFloatError": 0
+    }
+  },
+  "frozenInputs": {
+    "repositoryFiles": 18,
+    "referenceFiles": 11,
+    "status": "UNCHANGED"
+  },
+  "existingEnvironmentSkips": [
+    {
+      "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+      "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+      "reason": null
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+      "reason": null
+    }
+  ],
+  "archive": {
+    "path": "output/trace-link-pr88-review-resolution/Trace_Link_Integration_Pack.zip",
+    "sha256": "4d109f9420e900398856ed0800c912bb8994e21430a780b5aa2b6d0afeae6a55",
+    "fileCount": 24,
+    "bytes": 8730768,
+    "allExtractedFilesMatchSource": true,
+    "distribution": "PENDING_USER_SHARING"
+  },
+  "mutation": {
+    "mutation": "Disable EMPTY_HISTOGRAM reason guard in memory",
+    "detected": true,
+    "testsRun": 1,
+    "failures": 1,
+    "sourceFilesModified": false
+  },
+  "logs": {
+    "tmp/trace-link-pr88-reproduction.log": "80ccaa534a5e7c941e151215a9f06f1d14d7f9a35a95466a2c43da01078f4b49",
+    "tmp/trace-link-pr88-clean-reproduction.log": "febfebeb9a0838338afc09f2be2d316bcc84151599895be2d05a9b546e5b66c8",
+    "tmp/trace-link-pr88-python-final.log": "ab52ce83ca62a8b24b78d658c4d92597a73460a2770b325593e8734d7977d7f6"
+  },
+  "ci": "Pending remote checks after push; local results above are fresh",
+  "receiverAcceptance": {
+    "Ion": "PENDING_REPRODUCTION_AND_REVIEW",
+    "Denis": "PENDING_REPRODUCTION_AND_REVIEW",
+    "David": "PENDING_REPRODUCTION_AND_REVIEW",
+    "Stanislav": "PENDING_REPRODUCTION_AND_REVIEW"
+  }
+}

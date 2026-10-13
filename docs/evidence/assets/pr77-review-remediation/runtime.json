@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "1c889216dec184120373cfd52355f2b2e8fa4ac6",
+  "projectName": "pr77-20261009-r6",
+  "baseURL": "http://telecom.test:18080",
+  "startedAt": "2026-10-09T07:28:01.526Z",
+  "status": "PASSED",
+  "configHashes": {
+    "compose.json": "d85b761a7b96b38bfb694e66703904924fc80b59ab711039b50a46eb551dcf46",
+    "nginx.conf": "227dd193455b83de5bcc36658e08b0d84cb50dc8d3851a2fd5d5513b81d985ab",
+    "realm.json": "29f3df0472b4242c303d3d55a43018acdc5ef7ad62a8920cfeb66997ef4ccb16",
+    "stack.env": "b981afa9e871575e7d8100669a06b7d27a7cd92dd57d5756c12b95714b1ac135"
+  },
+  "cleanup": "PASSED",
+  "dashboardAssets": {
+    "chunk-4BKZDR27.js": "3e32106d4665af79e38372d35d6499daa2615e87213c4a36d6aeb33783bad79b",
+    "chunk-AWEV6IMU.js": "c3bab0c1b39c5052839835ab3df4d519fd3fb22171748851a961814fa60b0630",
+    "chunk-F3RT5ACG.js": "dd535600235f10f353e5b48af0d41759e33a5050fbbff13d6c026a1348315b9e",
+    "chunk-HJ4Z445B.js": "4989fd562d3e1fc816733eb55be640331036fee22cca9e9a92a9b0b96ef97579",
+    "chunk-NDWZSXVV.js": "3d3a55f29f57204422bf5b1cf51a95761ae8210a2f7fee90b1cf1af0c5467515",
+    "chunk-PH7JJXXA.js": "b46ce21ff0fccb87d38018c660fcf85b9832c7111961861440f12751c05152ac",
+    "chunk-PJG5QA3G.js": "78c7581d322d735ee4d4a8807e4bb8d6556a76a15423069e40e37fc95cee353b",
+    "chunk-PNUYLCNI.js": "e095efa3db77f2edd849927f2834160cb0c2dffcec725fceee17dac39069bb68",
+    "chunk-QA4BFXWR.js": "341adcf080e477d61c64914b453701969aa6461dd5e80deeb24bd53a5ac1239e",
+    "chunk-RJOADIC6.js": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0",
+    "index.html": "350d722c77295fc015cf74ce79a8e36cf69e865eab7d01b99fa814ad5b1b3a2e",
+    "main-ZV3TNVMS.js": "d2986ed236e6b2bc7c27bdc75911cadaeb67eb4b8b1a2d4bf28cb2790b46734b",
+    "styles-Y5KECZDI.css": "64a914d751b80d7c947615fad5553b69fef18777362256fd2efdc2f43483f222"
+  },
+  "runtime": [
+    {
+      "containerId": "c12c33f3ffb4",
+      "imageId": "sha256:8f30531b622c92192e6cb2662457511381cabe123d33b3a30bde82c2790e2e33",
+      "service": "incident-service",
+      "health": "healthy",
+      "sourceSha": "1c889216dec184120373cfd52355f2b2e8fa4ac6"
+    },
+    {
+      "containerId": "dc25318a6470",
+      "imageId": "sha256:f758389cc325ba3f55b0d2650f51ccf29068946fda7bcf51b14d09383c417b97",
+      "service": "processor",
+      "health": "healthy",
+      "sourceSha": "1c889216dec184120373cfd52355f2b2e8fa4ac6"
+    },
+    {
+      "containerId": "54e4a3e20cfa",
+      "imageId": "sha256:b153c5cc738ac3a6835a1c92efd39e6032056dbd24009eb86d3075437d3c6266",
+      "service": "event-generator",
+      "health": "healthy",
+      "sourceSha": "1c889216dec184120373cfd52355f2b2e8fa4ac6"
+    },
+    {
+      "containerId": "a031cad4c533",
+      "imageId": "sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+      "service": "proxy",
+      "health": "healthy"
+    },
+    {
+      "containerId": "f75a4192e996",
+      "imageId": "sha256:ea422da6fd5e2eb962a37e450318b8a05911e71f5a14781c515a322734afad89",
+      "service": "history-bootstrap",
+      "sourceSha": "1c889216dec184120373cfd52355f2b2e8fa4ac6"
+    },
+    {
+      "containerId": "bd0066ec3825",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "service": "kafka-init"
+    },
+    {
+      "containerId": "ec6f0f3b9f93",
+      "imageId": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "service": "keycloak",
+      "health": "healthy"
+    },
+    {
+      "containerId": "84d37bae97b0",
+      "imageId": "sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c",
+      "service": "postgres",
+      "health": "healthy"
+    },
+    {
+      "containerId": "4dd957c720ef",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "service": "kafka",
+      "health": "healthy"
+    },
+    {
+      "containerId": "e63477144902",
+      "imageId": "sha256:299ded59780639718a96b02646d37129f56fa86497780f0e272157946dea744e",
+      "service": "ml-service",
+      "health": "healthy",
+      "sourceSha": "1c889216dec184120373cfd52355f2b2e8fa4ac6"
+    }
+  ],
+  "verificationSha256": "ee5fe1a5e8d07913f0ca01e3cdc26100c32fd369366789eb9da989953268952d",
+  "credentialCleanup": "PASSED",
+  "finishedAt": "2026-10-09T08:26:09.001Z"
+}

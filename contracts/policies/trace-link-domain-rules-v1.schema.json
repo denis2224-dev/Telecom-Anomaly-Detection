@@ -1,0 +1,379 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "policyVersion": {
+      "const": "trace-link-domain-rules-v1"
+    },
+    "activation": {
+      "const": "OFFLINE_ONLY"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "windowSeconds": {
+      "const": 300
+    },
+    "openAfterBreachedWindows": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "recoverAfterHealthyWindows": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "minimumCoverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "maxSourceAgeSeconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "baselineVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "transport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overloadCandidatePct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "loss": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minimumSamples": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "trigger": {
+              "type": "number",
+              "minimum": 0
+            },
+            "recovery": {
+              "type": "number",
+              "minimum": 0
+            },
+            "critical": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "minimumSamples",
+            "trigger",
+            "recovery",
+            "critical"
+          ]
+        },
+        "rtt": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minimumSamples": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "trigger": {
+              "type": "number",
+              "minimum": 0
+            },
+            "recovery": {
+              "type": "number",
+              "minimum": 0
+            },
+            "critical": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "minimumSamples",
+            "trigger",
+            "recovery",
+            "critical"
+          ]
+        }
+      },
+      "required": [
+        "overloadCandidatePct",
+        "loss",
+        "rtt"
+      ]
+    },
+    "rates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimumAttempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "triggerDropPp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "recoveryDropPp": {
+          "type": "number",
+          "minimum": 0
+        },
+        "criticalDropPp": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "minimumAttempts",
+        "triggerDropPp",
+        "recoveryDropPp",
+        "criticalDropPp"
+      ]
+    },
+    "cause": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policyVersion": {
+          "const": "trace-link-cause-v1"
+        },
+        "minimumCoverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "maxSourceAgeSeconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "supportThresholds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "transport.packetLoss": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            },
+            "transport.rtt.mean": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            },
+            "roaming.partnerRtt": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            },
+            "roaming.registration.success": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "DROP_PP_GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            },
+            "roaming.data.success": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "DROP_PP_GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            },
+            "mobileData.activation.success": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "DROP_PP_GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            },
+            "mobileData.dns.success": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "DROP_PP_GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            },
+            "roaming.voice.success": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "const": "DROP_PP_GT"
+                },
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minimumSamples": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "comparison",
+                "value",
+                "minimumSamples"
+              ]
+            }
+          },
+          "required": [
+            "transport.packetLoss",
+            "transport.rtt.mean",
+            "roaming.partnerRtt",
+            "roaming.registration.success",
+            "roaming.data.success",
+            "mobileData.activation.success",
+            "mobileData.dns.success",
+            "roaming.voice.success"
+          ]
+        }
+      },
+      "required": [
+        "policyVersion",
+        "minimumCoverage",
+        "maxSourceAgeSeconds",
+        "supportThresholds"
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "policyVersion",
+    "activation",
+    "description",
+    "windowSeconds",
+    "openAfterBreachedWindows",
+    "recoverAfterHealthyWindows",
+    "minimumCoverage",
+    "maxSourceAgeSeconds",
+    "baselineVersion",
+    "transport",
+    "rates",
+    "cause"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://trace-link.local/contracts/policies/trace-link-domain-rules-v1.schema.json"
+}

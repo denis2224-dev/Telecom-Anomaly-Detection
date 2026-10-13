@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "c2a19fb5231e5e201aa2291cdc022832dd9e6df9",
+  "projectName": "pr77-20261009-r1",
+  "baseURL": "http://telecom.test:18080",
+  "startedAt": "2026-10-08T21:27:02.252Z",
+  "status": "FAILED",
+  "configHashes": {
+    "compose.json": "1d18f85b42fe8a3a2c4ffb2a7a6beaa775a6bbd224534779cf0b911c6b31f186",
+    "nginx.conf": "eb7a87d2f2db758239b6489371769839acd9bad995329b78f1c7633d1065bd86",
+    "realm.json": "a73ad44722ea96630678160ec77859569eb47380feabd59ea2bc315bf1f799fe",
+    "stack.env": "6e60ba11522d5798f90d73b7d33b62dfb797821ed3ebfca3f4203835a29234b8"
+  },
+  "cleanup": "PASSED",
+  "dashboardAssets": {
+    "chunk-4BKZDR27.js": "3e32106d4665af79e38372d35d6499daa2615e87213c4a36d6aeb33783bad79b",
+    "chunk-AWEV6IMU.js": "c3bab0c1b39c5052839835ab3df4d519fd3fb22171748851a961814fa60b0630",
+    "chunk-F3RT5ACG.js": "dd535600235f10f353e5b48af0d41759e33a5050fbbff13d6c026a1348315b9e",
+    "chunk-HJ4Z445B.js": "4989fd562d3e1fc816733eb55be640331036fee22cca9e9a92a9b0b96ef97579",
+    "chunk-NDWZSXVV.js": "3d3a55f29f57204422bf5b1cf51a95761ae8210a2f7fee90b1cf1af0c5467515",
+    "chunk-PH7JJXXA.js": "b46ce21ff0fccb87d38018c660fcf85b9832c7111961861440f12751c05152ac",
+    "chunk-PJG5QA3G.js": "78c7581d322d735ee4d4a8807e4bb8d6556a76a15423069e40e37fc95cee353b",
+    "chunk-PNUYLCNI.js": "e095efa3db77f2edd849927f2834160cb0c2dffcec725fceee17dac39069bb68",
+    "chunk-QA4BFXWR.js": "341adcf080e477d61c64914b453701969aa6461dd5e80deeb24bd53a5ac1239e",
+    "chunk-RJOADIC6.js": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0",
+    "index.html": "661ec6d2843302ee97de9823b0bf782cd8cd05706880b0f6ac03fe2e43966a85",
+    "main-ZV3TNVMS.js": "d2986ed236e6b2bc7c27bdc75911cadaeb67eb4b8b1a2d4bf28cb2790b46734b",
+    "styles-SNZ3XGVC.css": "68d1216294dcc88cbfabb108109068b9907ba92be47e8683021dfcdf8c203a4e"
+  },
+  "failure": "docker failed (exit 1); diagnostic output is private.",
+  "credentialCleanup": "PASSED",
+  "finishedAt": "2026-10-08T21:29:46.648Z"
+}

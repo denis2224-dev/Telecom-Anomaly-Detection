@@ -1,0 +1,2 @@
+# Preserve bytes covered by index.json across checkouts.
+* -text whitespace=trailing-space,space-before-tab,cr-at-eol

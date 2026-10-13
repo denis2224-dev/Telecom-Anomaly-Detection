@@ -1,0 +1,28 @@
+{
+  "referenceCompatibility": "PASS",
+  "checks": 75,
+  "operations": [
+    "city_summary",
+    "link_snapshot",
+    "roaming_summary"
+  ],
+  "adaptations": [
+    "period snapshots exclude to; point at inclusive; outside coverage never clamped",
+    "mean utilization distinct from reference peak utilization",
+    "SQL city estimates round each partner/direction before sum",
+    "roaming procedure primitives remain raw; reference city weighting cancels in rates",
+    "SMS histogram seconds converted to milliseconds; frozen V2 nearest-rank unchanged"
+  ],
+  "csvQuantization": {
+    "status": "PASS",
+    "sampledRows": 9,
+    "primitiveChecks": 159,
+    "decimalPlaces": 6,
+    "primitiveBound": "0.5e-6 plus floating representation allowance; integer primitives exact",
+    "maximumPrimitiveError": 4.879813268743316e-7,
+    "maximumUtilizationError": 0.0000022918716950925955,
+    "maximumUtilizationBound": 0.000002500000070345902,
+    "utilizationBoundFormula": "100*(trafficError/capacityRaw + abs(trafficCsv)*capacityError/(capacityCsv*capacityRaw)) plus floating representation allowance",
+    "limitation": "Nine deterministic sample rows; not a full CSV dataset import or completeness check"
+  }
+}

@@ -1,5 +1,16 @@
 # Dashboard terminology
 
+## Trace Link repair interpretation
+
+Local **generated** observations, Kafka **offered/acknowledged** records,
+**persisted** metrics and processor **accepted** observations are separate
+quantities. An unavailable acceptance count is not zero. A COMPLETED scenario
+proves only the explicitly reported layer. Planned recovery and stopped telemetry
+cannot establish technical recovery; technical recovery cannot resolve analyst
+workflow. New-domain attribution remains undetermined without approved evidence.
+The native history `voice.success_rate` population is not silently equated with
+the live producer's `volte.setup.success`. These notes add no owner approval.
+
 Planned date: 2026-10-06
 Commit reviewed: pending
 Metric reviewer: Sergiu — pending

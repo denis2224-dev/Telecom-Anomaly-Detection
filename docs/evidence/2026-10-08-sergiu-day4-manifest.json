@@ -1,0 +1,5155 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-08T09:28:37.227433+00:00",
+  "branch": "feature/sergiu-day4-cause-controls",
+  "baseSha": "ee52b9e04ddf95644eb6cec121e7e76a77acd6f6",
+  "implementationSha": "626721b9046fc5de1d5767bc8cb7fa78a4b021f8",
+  "optionalPower": "NOT_IN_SCOPE",
+  "sharedG4Accepted": false,
+  "java": {
+    "command": "JDK21 ./mvnw.cmd -q clean verify",
+    "result": "PASS",
+    "totals": {
+      "tests": 892,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "executed": 891
+    },
+    "suites": [
+      {
+        "module": "streaming-support",
+        "name": "md.utm.telecom.observation.CoverageContractTest",
+        "tests": 36,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "streaming-support",
+        "name": "md.utm.telecom.observation.GeographyCatalogTest",
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "streaming-support",
+        "name": "md.utm.telecom.observation.ObservationValidatorTest",
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "streaming-support",
+        "name": "md.utm.telecom.observation.TopologyCatalogTest",
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+        "tests": 22,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.HealthProbeTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "event-generator",
+        "name": "md.utm.telecom.generator.VoiceScenarioTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.BaselineRegistryTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.DetectionMigrationTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.DetectionReplayIT",
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.EpisodeStateTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.ExplanationCasesTest",
+        "tests": 64,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.FinalizerRaceIT",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+        "tests": 80,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicDetectionTest",
+        "tests": 45,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicExplanationTest",
+        "tests": 121,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicParityTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicReplayTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.GeographicWorkerTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.HealthProbeTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+        "tests": 28,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.LateInputIT",
+        "tests": 20,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.MlClientTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.ObservationInputTest",
+        "tests": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.ReplayIT",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.SmsEpisodeTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.SmsRuleTest",
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.SmsShadowClientTest",
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "module": "processor",
+        "name": "md.utm.telecom.processing.VoiceRuleTest",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "skips": [
+      {
+        "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+        "case": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+        "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+      }
+    ]
+  },
+  "day4CaseResults": [
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[11]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[12]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[13]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.detection.MlClientFailureTest#ninthRequestIsRefusedAndEveryCompletionPathReleasesAllEightPermits(String, Exit)[14]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#concurrentDeliveryClaimsOnlyTheHeadAndAdvancesEachWindowOnce(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#concurrentDeliveryClaimsOnlyTheHeadAndAdvancesEachWindowOnce(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#severalSynchronousFailuresCountOnceEachTowardTheHundredAttemptLimit",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#interruptedSendReleasesItsClaimAndStopsThePollWithInterruptRestored",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#obsoletePublisherCannotMarkOrReleaseAnotherOwnersClaim(boolean)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#obsoletePublisherCannotMarkOrReleaseAnotherOwnersClaim(boolean)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#databaseBookkeepingFailureStopsThePollAndLeaseExpiryAllowsRecovery(boolean)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#databaseBookkeepingFailureStopsThePollAndLeaseExpiryAllowsRecovery(boolean)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#expiredClaimIsReclaimedAndStaleWorkerCannotCommit",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#claimedScopeDoesNotBlockAnotherService",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#concurrentCoveragePublishersAllowUnrelatedDeliveryButHoldTheFailingStreamsTail",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#failingCoverageHeadDoesNotStarveUnrelatedStreamsAndRecoversInOrder",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#concurrentPublishersHoldLaterSequencesUntilTheHeadIsAcknowledged",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#timedOutHeadRetainsEvidenceWhileUnrelatedRowsPublish",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#episodeWriteAndDeferredCommitFailuresRollBackCompletion(boolean)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.DetectionReplayIT#episodeWriteAndDeferredCommitFailuresRollBackCompletion(boolean)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#imsHypothesisRequiresAlignedMeasurementsAndHealthyAccess",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#contradictoryCityAccessEvidenceWithdrawsCapacityHypothesis",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#bothServicesPreserveExplanationsAcrossAllSixTrajectories",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[11]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[12]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[13]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[14]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[15]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[16]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[17]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[18]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[19]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#everyCityExplanationUsesOnlyMappedContributingEvidence(String)[20]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[11]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[12]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[13]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[14]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[15]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[16]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[17]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[18]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[19]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#wrongContextCannotStrengthenAnyCityExplanation(String)[20]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[11]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[12]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[13]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[14]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[15]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[16]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[17]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[18]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[19]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#missingCoverageAndPartialServiceRemainHonest(String)[20]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.ExplanationCasesTest#geographicGoldenInputsMatchIndependentlyMappedReceipts",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest#auxiliaryFailuresAndOracleFieldsCannotModifyCommittedEvidence(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest#auxiliaryFailuresAndOracleFieldsCannotModifyCommittedEvidence(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#healthyCompletedSmsCannotOverrideAFreshMeasuredBacklog(String)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[11]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[12]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[13]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[14]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[15]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[16]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[17]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[18]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[19]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[20]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[21]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[22]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[23]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[24]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[25]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[26]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[27]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[28]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[29]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#contradictoryOrMissingCapacitySupportWithholdsTheHypothesis(String, VoiceGuard)[30]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[11]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[12]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[13]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[14]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[15]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[16]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[17]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[18]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[19]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#identicalServiceMeasurementsChangeCauseOnlyWithMappedDependencyEvidence(String)[20]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#highImsCpuCannotOpenAnEpisodeWithoutServiceDegradation(String)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[9]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseControlsTest#ninetyPercentCpuStillSupportsAnAlignedCapacityHypothesis(String)[10]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseReplayTest#healthyDependencyWithdrawsCauseAndGapRetainsLabelledHistoricalImpact(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicCauseReplayTest#healthyDependencyWithdrawsCauseAndGapRetainsLabelledHistoricalImpact(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[3]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[4]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[5]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[6]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[7]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicMlFallbackReplayTest#httpFailurePreservesDeterministicTimelineAndCompletedReplay(String, Mode)[8]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicReplayTest#interleavedTwentyScopesPersistIndependentEpisodesAndOnlyChisinauRecovers",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicReplayTest#restartedWorkerPreservesGeographicEpisodesAndCommittedPayloads(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.GeographicReplayTest#restartedWorkerPreservesGeographicEpisodesAndCommittedPayloads(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.MlClientTest#invalidVectorsAreInsufficientAndNeverReachTheHttpServer(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.MlClientTest#invalidVectorsAreInsufficientAndNeverReachTheHttpServer(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.MlClientTest#actualRequestDeadlineReturnsTimeoutWithNullEvidence(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.MlClientTest#actualRequestDeadlineReturnsTimeoutWithNullEvidence(String)[2]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.MlClientTest#mapsRealHttpStatusAndMalformedResponsesWithoutInventingModelEvidence(String)[1]",
+      "result": "PASS"
+    },
+    {
+      "id": "md.utm.telecom.processing.MlClientTest#mapsRealHttpStatusAndMalformedResponsesWithoutInventingModelEvidence(String)[2]",
+      "result": "PASS"
+    }
+  ],
+  "focused": {
+    "totals": {
+      "tests": 195,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": [
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+        "time": "1.833",
+        "tests": "14",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.DetectionReplayIT",
+        "time": "28.435",
+        "tests": "16",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.ExplanationCasesTest",
+        "time": "4.965",
+        "tests": "64",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+        "time": "3.247",
+        "tests": "2",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+        "time": "4.587",
+        "tests": "80",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+        "time": "2.928",
+        "tests": "2",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+        "time": "35.17",
+        "tests": "8",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.GeographicReplayTest",
+        "time": "43.709",
+        "tests": "3",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      },
+      {
+        "{http://www.w3.org/2001/XMLSchema-instance}noNamespaceSchemaLocation": "https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd",
+        "version": "3.0.2",
+        "name": "md.utm.telecom.processing.MlClientTest",
+        "time": "0.666",
+        "tests": "6",
+        "errors": "0",
+        "skipped": "0",
+        "failures": "0",
+        "flakes": "0"
+      }
+    ]
+  },
+  "python": {
+    "rootPassed": 51,
+    "mlPassed": 54,
+    "environment": ".venv Python 3.13.9; numpy2.4.6/sklearn1.9.1/joblib1.5.3"
+  },
+  "parity": {
+    "voiceCases": 30,
+    "smsCases": 32,
+    "integersExact": true,
+    "maximumAbsoluteNumericDifference": 0,
+    "freshJavaExports": true
+  },
+  "contracts": "PASS",
+  "compileRed": "Original MlClient constructor rejected new injection test; exit1, then restored seam and focused195 passed",
+  "packagedModel": {
+    "imageId": "sha256:fffe1b68a3fdee046e8b7823795b404d6368ed83d3e09c948edc0de97b97f486",
+    "url": "http://127.0.0.1:18094",
+    "ready": true,
+    "executedCases": 22,
+    "exercisedBy": [
+      "GeographicDetectionTest#pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules",
+      "VoiceDeliveryTest#livePackagedModelEnrichesRecoveredVoiceEpisode",
+      "SmsDeliveryTest#livePackagedModelEnrichesRecoveredSmsEpisode"
+    ],
+    "cleanup": "Task-only container stopped after verification"
+  },
+  "frozenFiles": [
+    {
+      "path": "contracts/policies/service-rules-v2.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c"
+    },
+    {
+      "path": "contracts/policies/service-rules-v2.schema.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "3fdb4db9fbfd25796b23a0046a4363b7d669e96ec97d3102267b7aed7d97e657"
+    },
+    {
+      "path": "contracts/baselines/demo-baseline-v2.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e"
+    },
+    {
+      "path": "contracts/baselines/geographic-peer-baseline-v2.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82"
+    },
+    {
+      "path": "contracts/features/feature-order-v2.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c"
+    },
+    {
+      "path": "contracts/features/service-feature-window-v2.schema.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "42031742005596f3fd2989986d933cf6f7463980375e847f0fe7588e7feb9f8d"
+    },
+    {
+      "path": "contracts/detections/service-detection-v2.schema.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "20c6bd9664174011fa79653cac8a883394b5713e929286f86a9cfbc04395f679"
+    },
+    {
+      "path": "contracts/observations/telecom-observation-v2.schema.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "8fdb2e892c23db86aeef2ed8fc2addb2d5e064c5c22bf287e44f5be81e69895d"
+    },
+    {
+      "path": "contracts/geography/demo-geography-v1.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced"
+    },
+    {
+      "path": "contracts/topology/geographic-scopes-v2.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532"
+    },
+    {
+      "path": "contracts/auxiliary/auxiliary-network-evidence-v1.schema.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "c6649f706fe80ccb42f799574094d25ccc9580831447ec86c078eaf45cb8cb92"
+    },
+    {
+      "path": "services/ml-service/models/manifest.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711"
+    },
+    {
+      "path": "services/ml-service/models/VOLTE.joblib",
+      "normalization": "BINARY",
+      "unchangedFromBase": true,
+      "sha256": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd"
+    },
+    {
+      "path": "services/ml-service/models/SMS.joblib",
+      "normalization": "BINARY",
+      "unchangedFromBase": true,
+      "sha256": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307"
+    },
+    {
+      "path": "services/ml-service/models/VOLTE-calibration.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489"
+    },
+    {
+      "path": "services/ml-service/models/SMS-calibration.json",
+      "normalization": "LF",
+      "unchangedFromBase": true,
+      "sha256": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b"
+    }
+  ],
+  "changedCodeHashes": [
+    {
+      "path": ".github/workflows/integration.yml",
+      "normalizedSha256": "011b6bb417025645eabd8b47532e7ceb36eb614b05d513fa122dc26b4f93b627"
+    },
+    {
+      "path": "contracts/fixtures/geography/day4-auxiliary-boundary-cases.json",
+      "normalizedSha256": "e92015cc2ef82c53e3fab2f3921f1a72f62f987d20751632aaee2d0fd6421670"
+    },
+    {
+      "path": "scripts/day1_evidence_contract.py",
+      "normalizedSha256": "f02de57544034b5bdeed0c6d8a52141f75ea0da9b75446e0898d308ad2e3f8f5"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/detection/MlClient.java",
+      "normalizedSha256": "a12c9a31ec9d61ef0ddad5b2f95b164016f956bf5080705f33726e9d53233a7a"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicAuxiliaryBoundaryTest.java",
+      "normalizedSha256": "ff3f8425d10eb61130c4a48619403cd1d3434c69c0d065033b0a7ffb86348e55"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicCauseControlsTest.java",
+      "normalizedSha256": "85da364b273d60021567a135028a585422a6927d51eac4ddcbfc7d7d325cc24e"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicCauseReplayTest.java",
+      "normalizedSha256": "146f09e6038fc2be4227c86f32f20d1ba43f3e624503c4a156a64d8129e10bc0"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicMlFallbackReplayTest.java",
+      "normalizedSha256": "207758ab295dca78961541ad4ea466f09488bfc9dea0044808fa6c264943d775"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/GeographicReplayTest.java",
+      "normalizedSha256": "e5fd24d9e92a03ba45de505de406f5fe7be78d880beb891cd895ec959b554750"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/MlClientTest.java",
+      "normalizedSha256": "6559b65c8eef7c9853ba8737122fba4513abf467093189422ca2af368827ee16"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/detection/MlClientFailureTest.java",
+      "normalizedSha256": "7cce1e2a52bda2d495b11d77b2633dd8b0eb552f9225015be66ad3bc23e1bc0b"
+    },
+    {
+      "path": "tests/test_day4_auxiliary_boundary.py",
+      "normalizedSha256": "7de6b9c0c6f939ccd866ba13851eb0c7721db961ab899a8c256c7b2014ba9ee5"
+    }
+  ],
+  "pairedCauseControls": [
+    {
+      "scopeId": "SMS-MD-BAL",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "3c726ae470bfed12c57346ecbb7d2014df374f308eb383fda776a6d9c0948796",
+      "detectionId": "6c4c9cb4a74e0c79d27bcc87021676342f1c6c45d283fe230b805baebb479cb8",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "5a61b65b-fb4b-38b0-a9f6-28c69cdd861b",
+            "b267e38d-59d9-3ecc-a915-98c22728e569"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "5a61b65b-fb4b-38b0-a9f6-28c69cdd861b",
+              "nodeId": "SMSC-MD-BAL-01",
+              "sourceId": "SMSC-MD-BAL-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "7c2fa878-5cb5-3c80-b323-214e19c30377",
+            "b267e38d-59d9-3ecc-a915-98c22728e569"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "7c2fa878-5cb5-3c80-b323-214e19c30377",
+              "nodeId": "SMSC-MD-BAL-01",
+              "sourceId": "SMSC-MD-BAL-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "b267e38d-59d9-3ecc-a915-98c22728e569"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "b267e38d-59d9-3ecc-a915-98c22728e569",
+        "sourceId": "SMS-SRC-BAL",
+        "scopeId": "SMS-MD-BAL",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-CAH",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "15d4ae559a79f881107f3c445ed67d71949a222e4fb68999b1d62cfdec0440a4",
+      "detectionId": "9703529175286a6a78f13661332bb2a9d3e9639143f40f28734a8cd7acbac879",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "03d53897-b0f0-33a2-b07c-20e638bbd182",
+            "7835d894-e25b-3ff5-a197-794fbd8aa8d4"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "03d53897-b0f0-33a2-b07c-20e638bbd182",
+              "nodeId": "SMSC-MD-CAH-01",
+              "sourceId": "SMSC-MD-CAH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "2ac31812-5571-39e6-903e-9d57481937de",
+            "7835d894-e25b-3ff5-a197-794fbd8aa8d4"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "2ac31812-5571-39e6-903e-9d57481937de",
+              "nodeId": "SMSC-MD-CAH-01",
+              "sourceId": "SMSC-MD-CAH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "7835d894-e25b-3ff5-a197-794fbd8aa8d4"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "7835d894-e25b-3ff5-a197-794fbd8aa8d4",
+        "sourceId": "SMS-SRC-CAH",
+        "scopeId": "SMS-MD-CAH",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-CHI",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "393eb9dfc856a290d9255ef6229c8db2e9305b701c0dcfa11430422a27687d0c",
+      "detectionId": "dea34f60e6b7d37ffc434ac17d6dee3d778e690a47d1da83ce73929375c30e87",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "a8e58df8-357d-387f-885b-aa214d15c7b3",
+            "eb953201-1d4c-36bb-88fa-1c7c8e53f355"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "a8e58df8-357d-387f-885b-aa214d15c7b3",
+              "nodeId": "SMSC-MD-CHI-01",
+              "sourceId": "SMSC-MD-CHI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "185a3f72-bf71-34a5-bbd0-d07d817f18b6",
+            "eb953201-1d4c-36bb-88fa-1c7c8e53f355"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "185a3f72-bf71-34a5-bbd0-d07d817f18b6",
+              "nodeId": "SMSC-MD-CHI-01",
+              "sourceId": "SMSC-MD-CHI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "eb953201-1d4c-36bb-88fa-1c7c8e53f355"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "eb953201-1d4c-36bb-88fa-1c7c8e53f355",
+        "sourceId": "SMS-SRC-CHI",
+        "scopeId": "SMS-MD-CHI",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-COM",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "468fcd33cd699e4bedf9803b86917e0332ff689b1b3db365825af24a51f35f08",
+      "detectionId": "24785902afa9c33870e70a2b24fa3ce1f5c51785b8a76f84a5503ac944edfe74",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "75cc82ba-d89a-3b12-94cc-6dd963654d9b",
+            "a37e4cb4-efe7-3b37-b6fc-00574f98cd0a"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "75cc82ba-d89a-3b12-94cc-6dd963654d9b",
+              "nodeId": "SMSC-MD-COM-01",
+              "sourceId": "SMSC-MD-COM-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "64c3a9cb-126d-3744-80c7-fc17d781fbaa",
+            "a37e4cb4-efe7-3b37-b6fc-00574f98cd0a"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "64c3a9cb-126d-3744-80c7-fc17d781fbaa",
+              "nodeId": "SMSC-MD-COM-01",
+              "sourceId": "SMSC-MD-COM-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "a37e4cb4-efe7-3b37-b6fc-00574f98cd0a"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "a37e4cb4-efe7-3b37-b6fc-00574f98cd0a",
+        "sourceId": "SMS-SRC-COM",
+        "scopeId": "SMS-MD-COM",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-EDI",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "085aea8c1ae84760e617629178aff25c3aa0f2952122d9500ba373923d8d85cc",
+      "detectionId": "f78839c53ef1e2b3f672af82afc16d9e01e977663f909941a508a1c4994c59df",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "b8c66389-52c2-36fb-b21e-f4a1d1ac045d",
+            "c5211f6c-62a4-3f5b-8e02-072d64c95a0a"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "c5211f6c-62a4-3f5b-8e02-072d64c95a0a",
+              "nodeId": "SMSC-MD-EDI-01",
+              "sourceId": "SMSC-MD-EDI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "53e966e3-a181-3a40-b4d5-dfc3e55ddf25",
+            "b8c66389-52c2-36fb-b21e-f4a1d1ac045d"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "53e966e3-a181-3a40-b4d5-dfc3e55ddf25",
+              "nodeId": "SMSC-MD-EDI-01",
+              "sourceId": "SMSC-MD-EDI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "b8c66389-52c2-36fb-b21e-f4a1d1ac045d"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "b8c66389-52c2-36fb-b21e-f4a1d1ac045d",
+        "sourceId": "SMS-SRC-EDI",
+        "scopeId": "SMS-MD-EDI",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-ORH",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "fc86a32e77ac9a60472a5660ef4ea6152faaa904e1ab64c7f7598d2ecc2f0b2c",
+      "detectionId": "9534aee709c380a1334488e9f1747542e3ddb13cb755d752912e8be48d6aad8e",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "16f876b7-6d2b-3cf8-a615-8314db54bbd4",
+            "39128ac4-0dc6-322c-8d00-ffa5d3d4b1cf"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "39128ac4-0dc6-322c-8d00-ffa5d3d4b1cf",
+              "nodeId": "SMSC-MD-ORH-01",
+              "sourceId": "SMSC-MD-ORH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "16f876b7-6d2b-3cf8-a615-8314db54bbd4",
+            "8a58d4d5-a477-326b-b297-eb82a1007311"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "8a58d4d5-a477-326b-b297-eb82a1007311",
+              "nodeId": "SMSC-MD-ORH-01",
+              "sourceId": "SMSC-MD-ORH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "16f876b7-6d2b-3cf8-a615-8314db54bbd4"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "16f876b7-6d2b-3cf8-a615-8314db54bbd4",
+        "sourceId": "SMS-SRC-ORH",
+        "scopeId": "SMS-MD-ORH",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-RIB",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "6ccf34f7e307d4ee8724f0d248897cf51ac37df136085672015f999c1f23f104",
+      "detectionId": "69c06f553a82b94e88c0ac7653da09e62ea9269954a608212f2245c68929c5fb",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "4f6b5b6d-6521-3639-9512-b07578abaa7b",
+            "9b4dbc35-8ed5-310a-a318-fc96388362a9"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "9b4dbc35-8ed5-310a-a318-fc96388362a9",
+              "nodeId": "SMSC-MD-RIB-01",
+              "sourceId": "SMSC-MD-RIB-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "18534107-2c0a-3a30-b89f-f1e1402f1b40",
+            "4f6b5b6d-6521-3639-9512-b07578abaa7b"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "18534107-2c0a-3a30-b89f-f1e1402f1b40",
+              "nodeId": "SMSC-MD-RIB-01",
+              "sourceId": "SMSC-MD-RIB-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "4f6b5b6d-6521-3639-9512-b07578abaa7b"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "4f6b5b6d-6521-3639-9512-b07578abaa7b",
+        "sourceId": "SMS-SRC-RIB",
+        "scopeId": "SMS-MD-RIB",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-SOR",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "14cfb06a8b5686c6f591c024fbb5ac9cf93297f05d81c325fa28aed7c4d427b0",
+      "detectionId": "5f1703e9ee5d658f6d8638432d3177578176e5a4dde4ec6c10cd67b53e2ea0b9",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "6c61be06-04a9-3194-8ff5-c429498b91b5",
+            "96f20c69-9298-3ceb-b43e-19be99ad42e0"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "96f20c69-9298-3ceb-b43e-19be99ad42e0",
+              "nodeId": "SMSC-MD-SOR-01",
+              "sourceId": "SMSC-MD-SOR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "6c61be06-04a9-3194-8ff5-c429498b91b5",
+            "d2ec1acc-bdd5-3295-b987-434c5ffb652d"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "d2ec1acc-bdd5-3295-b987-434c5ffb652d",
+              "nodeId": "SMSC-MD-SOR-01",
+              "sourceId": "SMSC-MD-SOR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "6c61be06-04a9-3194-8ff5-c429498b91b5"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "6c61be06-04a9-3194-8ff5-c429498b91b5",
+        "sourceId": "SMS-SRC-SOR",
+        "scopeId": "SMS-MD-SOR",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-TIR",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "3b457c00d642d12d13c1278fbcc7634429899fd75c1207bb4904774504c644d9",
+      "detectionId": "37ff68fcc4f0d24061f6a08ba8d5b89d5693368faaa5efbdf9a468f208e2398a",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "1bf92776-9da7-31ae-aa01-51062d3b0d6e",
+            "f084ba77-a4a4-316c-b682-f4be24f80bcb"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "1bf92776-9da7-31ae-aa01-51062d3b0d6e",
+              "nodeId": "SMSC-MD-TIR-01",
+              "sourceId": "SMSC-MD-TIR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "0315390a-d582-31bf-8734-a4fca9fc19d2",
+            "f084ba77-a4a4-316c-b682-f4be24f80bcb"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "0315390a-d582-31bf-8734-a4fca9fc19d2",
+              "nodeId": "SMSC-MD-TIR-01",
+              "sourceId": "SMSC-MD-TIR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "f084ba77-a4a4-316c-b682-f4be24f80bcb"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "f084ba77-a4a4-316c-b682-f4be24f80bcb",
+        "sourceId": "SMS-SRC-TIR",
+        "scopeId": "SMS-MD-TIR",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "SMS-MD-UNG",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "4a521f5a7e8f91972c4e7c58b1dc5b9ed66d2ca82f4f2d862ddddd2749f91142",
+      "detectionId": "5ac73da55a87649036c0b3402339122c5a4dc3c0810ef4946348ac5105db1262",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "SMSC backlog suggests a delivery bottleneck; verify downstream routing.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 250,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "b0225c27-0831-3a6b-a080-aa7c34048321",
+            "dee886ad-a70b-34c2-a4f4-7be31db646da"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "dee886ad-a70b-34c2-a4f4-7be31db646da",
+              "nodeId": "SMSC-MD-UNG-01",
+              "sourceId": "SMSC-MD-UNG-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "27b0bacc-4144-3659-871a-9f100b22e89b",
+            "b0225c27-0831-3a6b-a080-aa7c34048321"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "27b0bacc-4144-3659-871a-9f100b22e89b",
+              "nodeId": "SMSC-MD-UNG-01",
+              "sourceId": "SMSC-MD-UNG-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Completed SMS delivery is delayed; inspect SMSC and transport evidence.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 100,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "impact",
+            "kpis",
+            "mlStatus",
+            "probableCause"
+          ],
+          "sourceEventIds": [
+            "b0225c27-0831-3a6b-a080-aa7c34048321"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "b0225c27-0831-3a6b-a080-aa7c34048321",
+        "sourceId": "SMS-SRC-UNG",
+        "scopeId": "SMS-MD-UNG",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "SMS",
+        "metrics": {
+          "deliveryAttempts": 120,
+          "deliverySuccesses": 100,
+          "deliveredMessages": 100,
+          "deliveryDelayMs": [
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000,
+            45000
+          ]
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-BAL",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "570c9c354d9c143b599b4f58e193a87120e57cad572bcf94b07c96ea2f147c9c",
+      "detectionId": "97502d0314b37a1573c3e2acdc044ec98d4dbc0a2023a2814289dfd6266ad155",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "32e10882-d126-3e04-aed8-c01d8374fb1b",
+            "7971a51c-51df-3361-acfd-00f23c7856e2",
+            "872fd362-9195-3726-9c7a-2dd94113d722"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "32e10882-d126-3e04-aed8-c01d8374fb1b",
+              "nodeId": "IMS-MD-BAL-01",
+              "sourceId": "IMS-MD-BAL-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "7971a51c-51df-3361-acfd-00f23c7856e2",
+              "nodeId": "TRANSPORT-MD-BAL-01",
+              "sourceId": "TRANSPORT-MD-BAL-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "7971a51c-51df-3361-acfd-00f23c7856e2",
+            "872fd362-9195-3726-9c7a-2dd94113d722",
+            "908dd51e-45e4-3f54-9522-58f3312727b5"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "908dd51e-45e4-3f54-9522-58f3312727b5",
+              "nodeId": "IMS-MD-BAL-01",
+              "sourceId": "IMS-MD-BAL-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "7971a51c-51df-3361-acfd-00f23c7856e2",
+              "nodeId": "TRANSPORT-MD-BAL-01",
+              "sourceId": "TRANSPORT-MD-BAL-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "872fd362-9195-3726-9c7a-2dd94113d722"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "872fd362-9195-3726-9c7a-2dd94113d722",
+        "sourceId": "VOLTE-SRC-BAL",
+        "scopeId": "VOLTE-MD-BAL",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-CAH",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "5fed083cd611db32830b0baff1728fc05bd6620902146b7ba0bffeb71d0fae98",
+      "detectionId": "6ef0466bf33b2bbb4467ac34e9eb8fb7e26103b15fa547937dd0705506b3e43d",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "10cdcd74-76a7-340b-b18a-35823b5108c7",
+            "7a41319b-284d-356f-a682-46ca33968502",
+            "c5d1498d-8821-38b6-838f-93cb37689b6e"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "10cdcd74-76a7-340b-b18a-35823b5108c7",
+              "nodeId": "IMS-MD-CAH-01",
+              "sourceId": "IMS-MD-CAH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "7a41319b-284d-356f-a682-46ca33968502",
+              "nodeId": "TRANSPORT-MD-CAH-01",
+              "sourceId": "TRANSPORT-MD-CAH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "7a41319b-284d-356f-a682-46ca33968502",
+            "80640435-48bf-3650-b153-31459fd0e2f7",
+            "c5d1498d-8821-38b6-838f-93cb37689b6e"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "80640435-48bf-3650-b153-31459fd0e2f7",
+              "nodeId": "IMS-MD-CAH-01",
+              "sourceId": "IMS-MD-CAH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "7a41319b-284d-356f-a682-46ca33968502",
+              "nodeId": "TRANSPORT-MD-CAH-01",
+              "sourceId": "TRANSPORT-MD-CAH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "c5d1498d-8821-38b6-838f-93cb37689b6e"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "c5d1498d-8821-38b6-838f-93cb37689b6e",
+        "sourceId": "VOLTE-SRC-CAH",
+        "scopeId": "VOLTE-MD-CAH",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-CHI",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "4bb692a8fa7b5a0e762ce6dcdaf9bdede382a924f70b56ccb0e2e6bac4a214c2",
+      "detectionId": "b7158c21607b9d47e2d7969731564aa6e757f6f539106086ef309273f4e56e37",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "09a77166-777b-3074-82d5-848f847d621d",
+            "5c6728cb-a800-34ec-bb51-a63368e47b50",
+            "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "5c6728cb-a800-34ec-bb51-a63368e47b50",
+              "nodeId": "IMS-MD-CHI-01",
+              "sourceId": "IMS-MD-CHI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+              "nodeId": "TRANSPORT-MD-CHI-01",
+              "sourceId": "TRANSPORT-MD-CHI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "09a77166-777b-3074-82d5-848f847d621d",
+            "3df28d53-97cb-3b12-953a-d484dfc8a5da",
+            "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "3df28d53-97cb-3b12-953a-d484dfc8a5da",
+              "nodeId": "IMS-MD-CHI-01",
+              "sourceId": "IMS-MD-CHI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "cefcfcba-0a9b-3af9-857e-ecc5a5bbc4cb",
+              "nodeId": "TRANSPORT-MD-CHI-01",
+              "sourceId": "TRANSPORT-MD-CHI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "09a77166-777b-3074-82d5-848f847d621d"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "09a77166-777b-3074-82d5-848f847d621d",
+        "sourceId": "VOLTE-SRC-CHI",
+        "scopeId": "VOLTE-MD-CHI",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-COM",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "fd74fd477d2bf8007e3baa0d817a9b8c9c477ea312a2de579fed3127ada2dc8e",
+      "detectionId": "c720e85c06e5ca551ef4643dbb0eed1b4e4466023a31f78723a39fb4c316eafc",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "6cc4d6fe-fc50-3990-8647-a734a08d63f5",
+            "b24c9ede-3387-398a-94b9-6d7324a08ccc",
+            "f49a7dba-3227-34f2-a6ca-ea1396fbc548"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "6cc4d6fe-fc50-3990-8647-a734a08d63f5",
+              "nodeId": "IMS-MD-COM-01",
+              "sourceId": "IMS-MD-COM-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "f49a7dba-3227-34f2-a6ca-ea1396fbc548",
+              "nodeId": "TRANSPORT-MD-COM-01",
+              "sourceId": "TRANSPORT-MD-COM-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "a5494f40-6a89-3992-8fed-5f28dc303208",
+            "b24c9ede-3387-398a-94b9-6d7324a08ccc",
+            "f49a7dba-3227-34f2-a6ca-ea1396fbc548"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "a5494f40-6a89-3992-8fed-5f28dc303208",
+              "nodeId": "IMS-MD-COM-01",
+              "sourceId": "IMS-MD-COM-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "f49a7dba-3227-34f2-a6ca-ea1396fbc548",
+              "nodeId": "TRANSPORT-MD-COM-01",
+              "sourceId": "TRANSPORT-MD-COM-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "b24c9ede-3387-398a-94b9-6d7324a08ccc"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "b24c9ede-3387-398a-94b9-6d7324a08ccc",
+        "sourceId": "VOLTE-SRC-COM",
+        "scopeId": "VOLTE-MD-COM",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-EDI",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "879188fe08b56906f55fc0cc8b8a204ea5303c05cd6768fb6e32014f5998671c",
+      "detectionId": "b35328fce925a200e7d724c5519f062a6e204804ee800c0f4770a3241093167f",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "25c5c71a-2e7f-3af7-a8a5-e373e9455860",
+            "54c0c916-84e1-393d-9892-1590efe049a2",
+            "fbec08af-31e3-3299-9424-45de3ece0ee8"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "54c0c916-84e1-393d-9892-1590efe049a2",
+              "nodeId": "IMS-MD-EDI-01",
+              "sourceId": "IMS-MD-EDI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "fbec08af-31e3-3299-9424-45de3ece0ee8",
+              "nodeId": "TRANSPORT-MD-EDI-01",
+              "sourceId": "TRANSPORT-MD-EDI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "25c5c71a-2e7f-3af7-a8a5-e373e9455860",
+            "b35f6f09-3c4c-3b2d-aeb7-efa034935f25",
+            "fbec08af-31e3-3299-9424-45de3ece0ee8"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "b35f6f09-3c4c-3b2d-aeb7-efa034935f25",
+              "nodeId": "IMS-MD-EDI-01",
+              "sourceId": "IMS-MD-EDI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "fbec08af-31e3-3299-9424-45de3ece0ee8",
+              "nodeId": "TRANSPORT-MD-EDI-01",
+              "sourceId": "TRANSPORT-MD-EDI-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "25c5c71a-2e7f-3af7-a8a5-e373e9455860"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "25c5c71a-2e7f-3af7-a8a5-e373e9455860",
+        "sourceId": "VOLTE-SRC-EDI",
+        "scopeId": "VOLTE-MD-EDI",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-ORH",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "59bd30499a5c5f7bd20ca3bec7bdc18421d27d6d2e707451a25b95025a7d00a7",
+      "detectionId": "a540aabedb8a1578834e4003efb94c5c8be226c2bc6f80baf889e8279e36df3a",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "9861b42f-0450-38ae-afa0-93e6466ed38e",
+            "cd9ab530-2667-3a01-83f3-cb4d236aefc3",
+            "ebdf7dff-74bd-3047-ac75-88c3c86b4cb8"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "ebdf7dff-74bd-3047-ac75-88c3c86b4cb8",
+              "nodeId": "IMS-MD-ORH-01",
+              "sourceId": "IMS-MD-ORH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "cd9ab530-2667-3a01-83f3-cb4d236aefc3",
+              "nodeId": "TRANSPORT-MD-ORH-01",
+              "sourceId": "TRANSPORT-MD-ORH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "9861b42f-0450-38ae-afa0-93e6466ed38e",
+            "a20e9431-9a3b-3998-8ff1-0e0e5f4ecc99",
+            "cd9ab530-2667-3a01-83f3-cb4d236aefc3"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "a20e9431-9a3b-3998-8ff1-0e0e5f4ecc99",
+              "nodeId": "IMS-MD-ORH-01",
+              "sourceId": "IMS-MD-ORH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "cd9ab530-2667-3a01-83f3-cb4d236aefc3",
+              "nodeId": "TRANSPORT-MD-ORH-01",
+              "sourceId": "TRANSPORT-MD-ORH-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "9861b42f-0450-38ae-afa0-93e6466ed38e"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "9861b42f-0450-38ae-afa0-93e6466ed38e",
+        "sourceId": "VOLTE-SRC-ORH",
+        "scopeId": "VOLTE-MD-ORH",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-RIB",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "4f2bdba780739564bd54292e0c588a5d264cb0e5d34ae32e259b50f71effd1e0",
+      "detectionId": "916540d344f1da0bd6f2e2ba687d1170bc698a4af9ebf5bb3524ab98de95093a",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "7fd6edd9-a3b8-36e1-a071-9eec2af7f3d9",
+            "96a5bd73-0913-3398-9873-934f66b043f5",
+            "f2540e7a-61e1-32ee-8191-732817a2cc9f"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "f2540e7a-61e1-32ee-8191-732817a2cc9f",
+              "nodeId": "IMS-MD-RIB-01",
+              "sourceId": "IMS-MD-RIB-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "7fd6edd9-a3b8-36e1-a071-9eec2af7f3d9",
+              "nodeId": "TRANSPORT-MD-RIB-01",
+              "sourceId": "TRANSPORT-MD-RIB-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "7fd6edd9-a3b8-36e1-a071-9eec2af7f3d9",
+            "96a5bd73-0913-3398-9873-934f66b043f5",
+            "ac154ce0-e461-3d90-985a-a9a3368d7639"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "ac154ce0-e461-3d90-985a-a9a3368d7639",
+              "nodeId": "IMS-MD-RIB-01",
+              "sourceId": "IMS-MD-RIB-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "7fd6edd9-a3b8-36e1-a071-9eec2af7f3d9",
+              "nodeId": "TRANSPORT-MD-RIB-01",
+              "sourceId": "TRANSPORT-MD-RIB-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "96a5bd73-0913-3398-9873-934f66b043f5"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "96a5bd73-0913-3398-9873-934f66b043f5",
+        "sourceId": "VOLTE-SRC-RIB",
+        "scopeId": "VOLTE-MD-RIB",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-SOR",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "c468e26d293fc6d491ded4f69b5bc5a7adab2fda6d0d4f80b0480d74b9200131",
+      "detectionId": "b444b34bb86d272a004d3919427fa568d676e5af0911f0895c3939bd718e5ba6",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "4f93e46e-e05b-31ee-a4ff-b6e33c81229f",
+            "a171eb8d-3cb8-3030-b453-0a10fee52fc5",
+            "ead85751-117a-349d-a3f7-1948bfa34949"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "ead85751-117a-349d-a3f7-1948bfa34949",
+              "nodeId": "IMS-MD-SOR-01",
+              "sourceId": "IMS-MD-SOR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "a171eb8d-3cb8-3030-b453-0a10fee52fc5",
+              "nodeId": "TRANSPORT-MD-SOR-01",
+              "sourceId": "TRANSPORT-MD-SOR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "4f93e46e-e05b-31ee-a4ff-b6e33c81229f",
+            "a171eb8d-3cb8-3030-b453-0a10fee52fc5",
+            "efafae1d-a5fb-3287-bbf6-39927c6d33db"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "efafae1d-a5fb-3287-bbf6-39927c6d33db",
+              "nodeId": "IMS-MD-SOR-01",
+              "sourceId": "IMS-MD-SOR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "a171eb8d-3cb8-3030-b453-0a10fee52fc5",
+              "nodeId": "TRANSPORT-MD-SOR-01",
+              "sourceId": "TRANSPORT-MD-SOR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "4f93e46e-e05b-31ee-a4ff-b6e33c81229f"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "4f93e46e-e05b-31ee-a4ff-b6e33c81229f",
+        "sourceId": "VOLTE-SRC-SOR",
+        "scopeId": "VOLTE-MD-SOR",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-TIR",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "4980fd98954a854d7c038a13d7578d869462b36405f5cc933e8031b290423367",
+      "detectionId": "31fbfaf7a0e4d6e7419ae1ccca44a488eb9adc54160d64e9dad0b05b6bf896fa",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "74a6f764-5c45-3c07-b66e-e02dff810e2a",
+            "9b39ea39-ca46-3cb0-99e9-d3fb817fc4a9",
+            "c99f20a5-be6e-3262-b808-93627646483d"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "c99f20a5-be6e-3262-b808-93627646483d",
+              "nodeId": "IMS-MD-TIR-01",
+              "sourceId": "IMS-MD-TIR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "74a6f764-5c45-3c07-b66e-e02dff810e2a",
+              "nodeId": "TRANSPORT-MD-TIR-01",
+              "sourceId": "TRANSPORT-MD-TIR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "74a6f764-5c45-3c07-b66e-e02dff810e2a",
+            "9b39ea39-ca46-3cb0-99e9-d3fb817fc4a9",
+            "a831f84a-14cc-30bd-b65f-9dddc042c5a6"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "a831f84a-14cc-30bd-b65f-9dddc042c5a6",
+              "nodeId": "IMS-MD-TIR-01",
+              "sourceId": "IMS-MD-TIR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "74a6f764-5c45-3c07-b66e-e02dff810e2a",
+              "nodeId": "TRANSPORT-MD-TIR-01",
+              "sourceId": "TRANSPORT-MD-TIR-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "9b39ea39-ca46-3cb0-99e9-d3fb817fc4a9"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "9b39ea39-ca46-3cb0-99e9-d3fb817fc4a9",
+        "sourceId": "VOLTE-SRC-TIR",
+        "scopeId": "VOLTE-MD-TIR",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    },
+    {
+      "scopeId": "VOLTE-MD-UNG",
+      "coverage": "CONTROLLED_FIXTURE",
+      "windowStart": "2026-09-15T08:01:00Z",
+      "windowEnd": "2026-09-15T08:02:00Z",
+      "topologyVersion": "2-geography-g1",
+      "catalogueVersion": "1-geography-g1",
+      "episodeId": "21ac8202ffd6b3053fc3b7859d16f577e5c1c47e825fcd1733d5529e7424a757",
+      "detectionId": "865cb523fa3f6ca24e150045726cb2ac3bc0c90d77a2e939b080aaf9c1c6239a",
+      "variants": [
+        {
+          "dependency": "BAD",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "causeConfidence": "MEDIUM",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [],
+          "sourceEventIds": [
+            "87e237b2-26b4-3595-92c3-a829b28eebb4",
+            "94e50b80-fe72-3943-a126-89f19df5482d",
+            "d8031abc-0170-3f7b-880c-7cc5b3a6ddd7"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "87e237b2-26b4-3595-92c3-a829b28eebb4",
+              "nodeId": "IMS-MD-UNG-01",
+              "sourceId": "IMS-MD-UNG-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "94e50b80-fe72-3943-a126-89f19df5482d",
+              "nodeId": "TRANSPORT-MD-UNG-01",
+              "sourceId": "TRANSPORT-MD-UNG-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "HEALTHY",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "94e50b80-fe72-3943-a126-89f19df5482d",
+            "958d0058-1ab2-32e7-9bcd-150c8b0f4bef",
+            "d8031abc-0170-3f7b-880c-7cc5b3a6ddd7"
+          ],
+          "observedNodes": [
+            {
+              "eventId": "958d0058-1ab2-32e7-9bcd-150c8b0f4bef",
+              "nodeId": "IMS-MD-UNG-01",
+              "sourceId": "IMS-MD-UNG-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            },
+            {
+              "eventId": "94e50b80-fe72-3943-a126-89f19df5482d",
+              "nodeId": "TRANSPORT-MD-UNG-01",
+              "sourceId": "TRANSPORT-MD-UNG-01",
+              "quality": "COMPLETE",
+              "windowStart": "2026-09-15T08:01:00Z",
+              "windowEnd": "2026-09-15T08:02:00Z"
+            }
+          ]
+        },
+        {
+          "dependency": "ABSENT",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "causeConfidence": "LOW",
+          "impact": {
+            "extraFailedAttempts": 93,
+            "affectedDeliveredMessages": 0,
+            "pendingMessages": 0,
+            "uniqueSubscribers": null
+          },
+          "changedPayloadFields": [
+            "causeConfidence",
+            "evidence",
+            "kpis",
+            "mlStatus",
+            "probableCause",
+            "recommendedChecks"
+          ],
+          "sourceEventIds": [
+            "d8031abc-0170-3f7b-880c-7cc5b3a6ddd7"
+          ],
+          "observedNodes": []
+        }
+      ],
+      "serviceReceiptIdentical": true,
+      "serviceReceipt": {
+        "schemaVersion": 2,
+        "eventId": "d8031abc-0170-3f7b-880c-7cc5b3a6ddd7",
+        "sourceId": "VOLTE-SRC-UNG",
+        "scopeId": "VOLTE-MD-UNG",
+        "kind": "SERVICE",
+        "windowStart": "2026-09-15T08:01:00Z",
+        "windowEnd": "2026-09-15T08:02:00Z",
+        "emittedAt": "2026-09-15T08:02:00Z",
+        "quality": "COMPLETE",
+        "service": "VOLTE",
+        "metrics": {
+          "attempts": 1020,
+          "technicalSuccesses": 900,
+          "technicalFailures": 100,
+          "userOutcomes": 20,
+          "rrcAttempts": 1200,
+          "rrcSuccesses": 1194,
+          "bearerAttempts": 1100,
+          "bearerSuccesses": 1095,
+          "sip503Count": 80
+        }
+      }
+    }
+  ],
+  "postIntegrationReview": {
+    "verifiedCodeSha": "978c81b3655add76dc0368164b7d16dbe62c86f9",
+    "mergedMainSha": "1b675c64938474e74c79efcecb6e051c4d460943",
+    "ciResult": "SUCCESS",
+    "cityTargetingBlocker": "RESOLVED_BY_PR74",
+    "sharedG4Accepted": false,
+    "evidence": "2026-10-08-sergiu-day4-integration-review.json",
+    "note": "Original local counts, timestamps and implementationSha above remain historical; 195 includes three GeographicReplayTest cases excluded from the later 192-test audit."
+  },
+  "limits": [
+    "Auxiliary failed-ping/probe coverage is schema and strict ingestion boundary only.",
+    "Controlled HTTP responses are not packaged-model scores.",
+    "Reported-MISSING city receipts do not prove inference of unrepresented geographic intervals.",
+    "Historical city-targeting blocker resolved by PR74 at integrated code SHA 978c81b; final-revision shared G4 acceptance remains pending.",
+    "Owner reviews/sign-offs are external and were not fabricated."
+  ],
+  "finalConnectedG4": {
+    "applicationBuildSha": "f3e83b157af134c8138354340717e7e3df946768",
+    "runtimeEquivalentIntegratedSha": "b6969f404119aa5a6805c7d3a6db72a4854c5311",
+    "technicalAcceptance": "PASS",
+    "humanApproval": "PENDING",
+    "sharedOwnerSignOff": "PENDING",
+    "optionalPower": "NOT_IN_SCOPE",
+    "evidence": "2026-10-08-sergiu-g4-connected-acceptance.md",
+    "bundle": "assets/sergiu-g4-pr77/index.json",
+    "note": "Actual connected runs; earlier local and CI counts are preserved as historical verification. Final publication-head CI is checked after pushing."
+  }
+}

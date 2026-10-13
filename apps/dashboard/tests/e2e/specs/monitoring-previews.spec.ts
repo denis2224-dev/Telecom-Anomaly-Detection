@@ -78,7 +78,7 @@ test('overview call results use the loaded window and keep missing evidence unav
   await expect(page.locator('.call-donut')).toHaveCount(0);
 });
 
-test('all local scenario controls render seeded evidence without posting unsupported commands', async ({ page }, info) => {
+test('unsupported previews are excluded from execution and the legacy IMS preview stays local', async ({ page }, info) => {
   const state = await controlledApi(page);
   await page.route('**/api/auth/me', route => route.fulfill({ json: { analystId: 'preview-review', displayName: 'Preview reviewer', roles: ['SUPERVISOR'], expiresAt: new Date(Date.now() + 3600000).toISOString() } }));
 
@@ -90,7 +90,10 @@ test('all local scenario controls render seeded evidence without posting unsuppo
   await page.route('**/api/scenarios/**', route => { if (route.request().method() === 'POST') scenarioPosts++; return route.fulfill({ status: 503, json: {} }); });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/scenarios');
-  for (const scenario of previewScenarios) {
+  for (const scenario of previewScenarios.filter(item => item.id !== 'VOLTE_IMS_OVERLOAD')) {
+    await expect(page.getByLabel('Scenario', { exact: true }).locator(`option[value="${scenario.id}"]`)).toHaveCount(0);
+  }
+  for (const scenario of previewScenarios.filter(item => item.id === 'VOLTE_IMS_OVERLOAD')) {
     await page.getByLabel('Scenario', { exact: true }).selectOption(scenario.id);
     await page.getByLabel('Service scope', { exact: true }).selectOption(scenario.id.startsWith('SMS') ? sms.scope.scopeId : scenario.id === 'VOLTE_CITY_TRANSPORT_OVERLOAD' ? 'VOLTE-MD-ORH' : state.summary.scope.scopeId);
     await page.getByLabel('Seed', { exact: true }).fill('73');

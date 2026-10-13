@@ -1,0 +1,30 @@
+{
+  "startedAt": "2026-10-08T16:48:46.024Z",
+  "commands": [],
+  "readersBefore": [
+    {
+      "service": "incident-service",
+      "container": "6a5fc7dc8381",
+      "image": "telecom-g4-pr77-incident-service:f3e83b1"
+    },
+    {
+      "service": "processor",
+      "container": "7bb607a09be7",
+      "image": "telecom-g4-pr77-processor:f3e83b1"
+    }
+  ],
+  "disabledCity": {
+    "requestId": "f14f8141-353f-4902-8202-2f01b19e5727",
+    "httpStatus": 409,
+    "body": {
+      "code": "SCOPE_WINDOW_CONFLICT",
+      "message": "A run already reserves this scope and time interval.",
+      "requestId": "53f81e01-d57d-432c-a468-66848f8a210e"
+    },
+    "expected": "Compatible incident reader still knows city authority; its private generator rejection is surfaced by the current dispatch contract as HTTP 503 / GENERATOR_UNAVAILABLE."
+  },
+  "status": "HARNESS_RESERVATION_FAILURE",
+  "failure": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 503\nReceived: 409",
+  "finishedAt": "2026-10-08T16:51:54.618Z",
+  "note": "The restored test city command retained its scheduled reservation after STOPPED, as the current overlap contract requires. HTTP 409 occurred before private generator dispatch. The independent fresh boundary audit uses an unreserved CHI scope and does not count this attempt as accepted."
+}

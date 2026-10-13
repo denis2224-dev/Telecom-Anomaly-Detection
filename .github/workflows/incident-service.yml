@@ -20,6 +20,8 @@ jobs:
           java-version: "21"
           cache: maven
           cache-dependency-path: services/incident-service/pom.xml
+      - name: Install shared contract validators
+        run: ./mvnw --batch-mode --no-transfer-progress -pl services/streaming-support -am install -DskipTests
       - name: Verify incident service with PostgreSQL and Kafka tests
         working-directory: services/incident-service
         run: ./mvnw --batch-mode --no-transfer-progress verify

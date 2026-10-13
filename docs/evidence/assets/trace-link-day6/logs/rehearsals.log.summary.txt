@@ -1,0 +1,2 @@
+PASS: 14 scoped schedules; six legacy profiles; restart emits zero; Kafka DISABLED
+PASS: 14 scoped schedules; six legacy profiles; restart emits zero; Kafka DISABLED

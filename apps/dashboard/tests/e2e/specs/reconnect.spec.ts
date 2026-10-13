@@ -135,8 +135,9 @@ test.describe('Incident reconnect', () => {
     await expect(page.locator('.episode-card')).toContainText('RECOVERED');
 
     await page.locator('a.back-link').click();
-    expect(await page.evaluate(() => (window as any).__streams[0].closed))
-      .toBe(true);
+    // The shell notification subscriber retains the same tab transport across workspace routes.
+    expect(await page.evaluate(() => (window as any).__streams[0].closed)).toBe(false);
+    expect(await page.evaluate(() => (window as any).__streams.filter((source: any) => !source.closed).length)).toBe(1);
   });
 
   test('closes the stream when the session expires', async ({ page }) => {

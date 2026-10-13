@@ -1,0 +1,145 @@
+{
+  "fixtureSha256": "29d5b339a0c1ceaf171527d056587dd628e47fbd750efe4790e02a27b5c65091",
+  "contexts": {
+    "boundary-schema-number": {
+      "scope": {
+        "type": "REFERENCE",
+        "id": "histogram-pooled"
+      },
+      "window": {
+        "from": "2026-10-10T08:00:00Z",
+        "to": "2026-10-10T08:10:00Z"
+      },
+      "policyVersion": "trace-link-metrics-v1",
+      "units": {
+        "p95": "MILLISECONDS"
+      }
+    },
+    "boundary-schema-blank": {
+      "scope": {
+        "type": "REFERENCE",
+        "id": "histogram-pooled"
+      },
+      "window": {
+        "from": "2026-10-10T08:00:00Z",
+        "to": "2026-10-10T08:10:00Z"
+      },
+      "policyVersion": "trace-link-metrics-v1",
+      "units": {
+        "p95": "MILLISECONDS"
+      }
+    },
+    "boundary-country-invalid": {
+      "scope": {
+        "type": "REFERENCE",
+        "id": "roaming-round-each-and-direction-control"
+      },
+      "window": {
+        "from": "2026-10-10T08:00:00Z",
+        "to": "2026-10-10T08:10:00Z"
+      },
+      "policyVersion": "trace-link-metrics-v1",
+      "units": {
+        "users": "COUNT",
+        "regSR": "PERCENT",
+        "dataSR": "PERCENT",
+        "voiceSR": "PERCENT",
+        "smsSR": "PERCENT"
+      }
+    },
+    "boundary-row-country-invalid": {
+      "scope": {
+        "type": "REFERENCE",
+        "id": "roaming-round-each-and-direction-control"
+      },
+      "window": {
+        "from": "2026-10-10T08:00:00Z",
+        "to": "2026-10-10T08:10:00Z"
+      },
+      "policyVersion": "trace-link-metrics-v1",
+      "units": {
+        "users": "COUNT",
+        "regSR": "PERCENT",
+        "dataSR": "PERCENT",
+        "voiceSR": "PERCENT",
+        "smsSR": "PERCENT"
+      }
+    },
+    "boundary-same-endpoints": {
+      "scope": {
+        "type": "REFERENCE",
+        "id": "link-period-exclusive-boundary"
+      },
+      "window": {
+        "from": "2026-10-10T08:00:00Z",
+        "to": "2026-10-10T08:10:00Z"
+      },
+      "policyVersion": "trace-link-metrics-v1",
+      "units": {
+        "utilizationPct": "PERCENT",
+        "ageSeconds": "SECONDS"
+      }
+    },
+    "boundary-year-zero": {
+      "scope": {
+        "type": "REFERENCE",
+        "id": "ratio-unequal-volume"
+      },
+      "window": {
+        "from": "0000-01-01T00:00:00Z",
+        "to": "2026-10-10T08:10:00Z"
+      },
+      "policyVersion": "trace-link-metrics-v1",
+      "units": {
+        "value": "PERCENT"
+      }
+    },
+    "boundary-empty-ratio": {
+      "scope": {
+        "type": "REFERENCE",
+        "id": "ratio-zero"
+      },
+      "window": {
+        "from": "2026-10-10T08:00:00Z",
+        "to": "2026-10-10T08:10:00Z"
+      },
+      "policyVersion": "trace-link-metrics-v1",
+      "units": {
+        "value": "PERCENT"
+      }
+    }
+  },
+  "results": {
+    "boundary-year-zero": {
+      "error": "INVALID_INPUT"
+    },
+    "boundary-empty-ratio": {
+      "values": {
+        "value": null
+      },
+      "quality": "INSUFFICIENT_DATA",
+      "coverage": 1,
+      "nullReason": "ZERO_DENOMINATOR",
+      "primitives": {
+        "numerator": 0,
+        "denominator": 0
+      },
+      "snapshotAt": null
+    },
+    "boundary-schema-blank": {
+      "error": "INVALID_INPUT"
+    },
+    "boundary-schema-number": {
+      "error": "INVALID_INPUT"
+    },
+    "boundary-same-endpoints": {
+      "error": "INVALID_INPUT"
+    },
+    "boundary-country-invalid": {
+      "error": "INVALID_INPUT"
+    },
+    "boundary-row-country-invalid": {
+      "error": "INVALID_INPUT"
+    }
+  }
+}

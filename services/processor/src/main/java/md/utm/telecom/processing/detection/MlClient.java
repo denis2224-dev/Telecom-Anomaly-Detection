@@ -12,6 +12,7 @@ import java.net.http.HttpTimeoutException;
 import java.time.Duration;
 import java.util.concurrent.Semaphore;
 import md.utm.telecom.observation.ObservationValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -24,13 +25,19 @@ public final class MlClient {
     }
 
     private static final Duration BUDGET = Duration.ofMillis(250);
-    private final HttpClient http = HttpClient.newBuilder().connectTimeout(BUDGET).build();
+    private final HttpClient http;
     private final Semaphore permits = new Semaphore(8);
     private final ObjectMapper json = new ObjectMapper();
     private final URI endpoint;
     private final JsonNode order;
 
+    @Autowired
     public MlClient(@Value("${ML_SERVICE_URL:http://ml-service:8090}") String baseUrl) throws IOException {
+        this(baseUrl, HttpClient.newBuilder().connectTimeout(BUDGET).build());
+    }
+
+    MlClient(String baseUrl, HttpClient http) throws IOException {
+        this.http = http;
         endpoint = URI.create(baseUrl + "/internal/inference");
         order = ObservationValidator.resource("features/feature-order-v2.json", json);
     }

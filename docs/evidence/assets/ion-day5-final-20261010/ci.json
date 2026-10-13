@@ -1,0 +1,298 @@
+{
+  "observedAtUtc": "2026-10-10 20:45:43 UTC",
+  "sourceSha": "4044327d8af813d728627eba52d4688790b8f7fa",
+  "workflows": [
+    {
+      "name": "incident-runtime-image",
+      "id": 38063065502,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-10T15:18:23Z",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38063065502"
+    },
+    {
+      "name": "incident-service",
+      "id": 38063065574,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-10T15:18:23Z",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38063065574"
+    },
+    {
+      "name": "dashboard",
+      "id": 38063065575,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-10T15:18:23Z",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38063065575"
+    },
+    {
+      "name": "service-integration",
+      "id": 38063065547,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-10T15:18:23Z",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38063065547"
+    }
+  ],
+  "integrationJobs": {
+    "jobs": [
+      {
+        "id": 114245084938,
+        "name": "model-evaluation",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38063065547,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install validation and ML dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Validate contracts and packaged models",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Rebuild deterministic evaluation data",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Evaluate local packaged models",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Build and start private ML inference",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      },
+      {
+        "id": 114245085082,
+        "name": "deployment-config",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38063065547,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Validate geography startup alignment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          }
+        ]
+      },
+      {
+        "id": 114246155786,
+        "name": "processor-evaluation",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 38063065547,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-java@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Install geographic parity dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Verify processor dependency outages and replay boundaries",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Save processor outage evidence and test reports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Start private ML inference",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Replay controls without ML service",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Verify processor delivery fairness, scheduling isolation, and replay ordering",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Replay both service profiles with packaged model",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Verify cause controls, bounded ML failures, and durable geographic replay",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Run geographic processor and parity verification",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Save geographic acceptance evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Stop private ML inference",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/setup-java@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "GitHub Actions results are CI evidence, not authorized connected-runtime or human sign-off.",
+    "The connector's commit-workflows endpoint filters pull_request and returned zero for this push SHA; gh run list with the exact SHA supplied the four workflows."
+  ]
+}

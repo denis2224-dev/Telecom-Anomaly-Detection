@@ -1,0 +1,1814 @@
+{
+  "runs": [
+    {
+      "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T14:53:00Z",
+      "scheduledEndAt": "2026-10-08T15:01:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CHI",
+      "requestId": "b676e4e6-2bd1-4237-840e-312fed8974ec"
+    },
+    {
+      "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T14:53:00Z",
+      "scheduledEndAt": "2026-10-08T15:01:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-CHI",
+      "requestId": "ab8ee4e5-3c5a-4d4c-b6e8-565c723f6e08"
+    },
+    {
+      "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T14:53:00Z",
+      "scheduledEndAt": "2026-10-08T15:01:00Z",
+      "scenarioType": "NORMAL_CONTROL",
+      "scopeId": "VOLTE-MD-BAL",
+      "requestId": "f723c1df-eb8e-422a-96f5-179793b9479e"
+    },
+    {
+      "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T14:53:00Z",
+      "scheduledEndAt": "2026-10-08T15:01:00Z",
+      "scenarioType": "TELEMETRY_GAP",
+      "scopeId": "SMS-MD-CAH",
+      "requestId": "bcbbb3ab-5ca5-4d4c-aba0-8be2995e315d"
+    }
+  ],
+  "snapshots": [
+    {
+      "at": "2026-10-08T14:52:48.482Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "SCHEDULED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "SCHEDULED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "SCHEDULED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "SCHEDULED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:53:18.523Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:53:48.548Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:54:18.584Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:54:48.613Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:55:18.642Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:55:48.664Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:56:18.694Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:56:48.712Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:57:18.739Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:57:48.769Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:58:18.801Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:58:48.817Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T14:59:18.844Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T15:01:07.919Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T15:01:37.937Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T15:02:07.961Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "RUNNING",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-08T15:02:37.977Z",
+      "runs": [
+        {
+          "runId": "0130624a-38d9-44c5-b023-187d6acae481",
+          "status": "COMPLETED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "VOLTE_IMS_OVERLOAD",
+          "scopeId": "VOLTE-MD-CHI"
+        },
+        {
+          "runId": "2fff91c3-ef9f-44cf-8bf2-5bfd1a82559d",
+          "status": "COMPLETED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "SMS_QUEUE_DELAY",
+          "scopeId": "SMS-MD-CHI"
+        },
+        {
+          "runId": "175c2462-85d5-450c-a408-b74728fae13c",
+          "status": "COMPLETED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "NORMAL_CONTROL",
+          "scopeId": "VOLTE-MD-BAL"
+        },
+        {
+          "runId": "765f7554-ce41-4f56-b57d-806369ba4c14",
+          "status": "COMPLETED",
+          "scheduledStartAt": "2026-10-08T14:53:00Z",
+          "scheduledEndAt": "2026-10-08T15:01:00Z",
+          "scenarioType": "TELEMETRY_GAP",
+          "scopeId": "SMS-MD-CAH"
+        }
+      ]
+    }
+  ],
+  "browserErrors": [],
+  "blockers": [
+    "expect(received).toEqual(expected) // deep equality\n\n- Expected  - 2\n+ Received  + 1\n\n  Array [\n    \"OPEN\",\n    \"UPDATE\",\n    \"UPDATE\",\n-   \"UPDATE\",\n-   \"RECOVERY\",\n+   \"UNKNOWN\",\n  ]"
+  ],
+  "initialHistories": [
+    {
+      "cityId": "BAL",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "BAL",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "CAH",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "CAH",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "CHI",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "CHI",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "COM",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "COM",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "EDI",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "EDI",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "ORH",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "ORH",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "RIB",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "RIB",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "SOR",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "SOR",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "TIR",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "TIR",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "UNG",
+      "service": "VOLTE",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    },
+    {
+      "cityId": "UNG",
+      "service": "SMS",
+      "page": 0,
+      "size": 100,
+      "hasNext": false,
+      "points": []
+    }
+  ],
+  "incidents": {
+    "VOLTE-MD-CHI": {
+      "items": [
+        {
+          "id": "156d0ff5-61ef-4eac-9c75-6916e94f2373",
+          "episodeId": "e3f084a53080119732c8c9dada3968503e470417182fec14325afeafbb316069",
+          "service": "VOLTE",
+          "scopeId": "VOLTE-MD-CHI",
+          "status": "OPEN",
+          "technicalState": "UNKNOWN",
+          "severity": "HIGH",
+          "assigneeId": null,
+          "resolutionNote": null,
+          "firstObservedAt": "2026-10-08T14:55:00Z",
+          "detectedAt": "2026-10-08T14:57:11.808075Z",
+          "lastObservedAt": "2026-10-08T15:03:00Z",
+          "createdAt": "2026-10-08T14:57:12.200037Z",
+          "updatedAt": "2026-10-08T15:03:11.835717Z",
+          "version": 3,
+          "latestSequence": 4,
+          "latestDetection": {
+            "kpis": [
+              {
+                "name": "cssrPct",
+                "unit": "PERCENT",
+                "baseline": 99.3,
+                "observed": 99.38757655293088,
+                "numerator": 1136,
+                "denominator": 1143
+              },
+              {
+                "name": "eligibleAttempts",
+                "unit": "COUNT",
+                "baseline": null,
+                "observed": 1143,
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "sip503Ratio",
+                "unit": "RATIO",
+                "baseline": null,
+                "observed": 0.0017497812773403325,
+                "numerator": 2,
+                "denominator": 1143
+              },
+              {
+                "name": "sip503Count",
+                "unit": "COUNT",
+                "baseline": null,
+                "observed": 2,
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "rrcSrPct",
+                "unit": "PERCENT",
+                "baseline": 99.5,
+                "observed": 99.5,
+                "numerator": 1194,
+                "denominator": 1200
+              },
+              {
+                "name": "bearerSrPct",
+                "unit": "PERCENT",
+                "baseline": 99,
+                "observed": 99.54545454545455,
+                "numerator": 1095,
+                "denominator": 1100
+              },
+              {
+                "name": "packetLossRatio",
+                "unit": "RATIO",
+                "baseline": null,
+                "observed": 0.0010792863284608415,
+                "numerator": null,
+                "denominator": null
+              },
+              {
+                "name": "imsCpuPct",
+                "unit": "PERCENT",
+                "baseline": null,
+                "observed": 38,
+                "numerator": null,
+                "denominator": null
+              }
+            ],
+            "phase": "UNKNOWN",
+            "impact": {
+              "pendingMessages": 0,
+              "uniqueSubscribers": null,
+              "extraFailedAttempts": 0,
+              "affectedDeliveredMessages": 0
+            },
+            "scopeId": "VOLTE-MD-CHI",
+            "service": "VOLTE",
+            "evidence": [
+              {
+                "code": "FINALIZED_KPI_EVIDENCE",
+                "nodeId": null,
+                "summary": "cssrPct=99.38757655293088 PERCENT; baseline=99.3; numerator=1136; denominator=1143",
+                "sourceEventIds": [
+                  "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                  "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                  "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+                ]
+              },
+              {
+                "code": "FINALIZED_KPI_EVIDENCE",
+                "nodeId": null,
+                "summary": "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+                "sourceEventIds": [
+                  "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                  "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                  "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+                ]
+              },
+              {
+                "code": "FINALIZED_KPI_EVIDENCE",
+                "nodeId": null,
+                "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+                "sourceEventIds": [
+                  "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                  "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                  "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+                ]
+              },
+              {
+                "code": "FINALIZED_KPI_EVIDENCE",
+                "nodeId": null,
+                "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+                "sourceEventIds": [
+                  "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                  "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                  "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+                ]
+              },
+              {
+                "code": "FINALIZED_KPI_EVIDENCE",
+                "nodeId": null,
+                "summary": "imsCpuPct=38 PERCENT; baseline=null; numerator=null; denominator=null",
+                "sourceEventIds": [
+                  "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                  "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                  "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+                ]
+              },
+              {
+                "code": "FINALIZED_KPI_EVIDENCE",
+                "nodeId": null,
+                "summary": "packetLossRatio=0.0010792863284608415 RATIO; baseline=null; numerator=null; denominator=null",
+                "sourceEventIds": [
+                  "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                  "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                  "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+                ]
+              },
+              {
+                "code": "HISTORICAL_SEVERITY",
+                "nodeId": null,
+                "summary": "Historical value from 2026-10-08T14:57:00Z; not a measurement for this UNKNOWN decision",
+                "sourceEventIds": [
+                  "078668ff-425b-3cae-be73-215835683d69",
+                  "3522fc30-32bf-3915-a353-3a518bfa9046",
+                  "de5a727b-5397-3651-9df5-736c323dfef0"
+                ]
+              },
+              {
+                "code": "HISTORICAL_IMPACT",
+                "nodeId": null,
+                "summary": "Historical value from 2026-10-08T14:58:00Z; not a measurement for this UNKNOWN decision",
+                "sourceEventIds": [
+                  "15981cb6-f589-372e-8eec-934c7f164394",
+                  "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                  "c882883a-cf4d-392d-94b2-34db72b570f2"
+                ]
+              }
+            ],
+            "mlStatus": "OK",
+            "sequence": 4,
+            "severity": "HIGH",
+            "episodeId": "e3f084a53080119732c8c9dada3968503e470417182fec14325afeafbb316069",
+            "windowEnd": "2026-10-08T15:03:00Z",
+            "detectedAt": "2026-10-08T15:03:11.452272985Z",
+            "anomalyRank": 0.5133928571428571,
+            "anomalyType": "VOLTE_SETUP_DEGRADATION",
+            "detectionId": "253538ae27553e21102875b992204205790bf5f69a1c9ab7b365eba39ac40695",
+            "windowStart": "2026-10-08T15:02:00Z",
+            "modelVersion": "isoforest-v2-synthetic-1",
+            "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+            "schemaVersion": 2,
+            "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+            "rulesetVersion": "service-rules-v2",
+            "technicalState": "UNKNOWN",
+            "baselineVersion": "baseline-v2",
+            "causeConfidence": "LOW",
+            "firstObservedAt": "2026-10-08T14:55:00Z",
+            "topologyVersion": "2-geography-g1",
+            "recommendedChecks": [
+              "Verify source freshness and baseline coverage",
+              "Inspect SIP 503 traces and IMS/transport health"
+            ]
+          },
+          "presentation": {
+            "impactState": "STALE",
+            "currentImpact": null,
+            "retainedImpact": {
+              "pendingMessages": 0,
+              "uniqueSubscribers": null,
+              "extraFailedAttempts": 0,
+              "affectedDeliveredMessages": 0
+            },
+            "impactSourceDetectionId": "3d40aa6fbe5d2d7b5164fb88d7f084d638bc0df8051065db9cb5bc10a86ba2d0",
+            "impactWindowEnd": "2026-10-08T14:59:00Z",
+            "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+            "causeConfidence": "LOW",
+            "evidenceHistoryPath": "/api/incidents/156d0ff5-61ef-4eac-9c75-6916e94f2373/detections"
+          },
+          "location": {
+            "cityId": "CHI",
+            "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+            "topologyVersion": "2-geography-g1",
+            "measuredScopeId": "VOLTE-MD-CHI",
+            "containmentPath": [
+              "MD",
+              "CITY-MD-CHI",
+              "AGG-MD-CHI-01",
+              "SITE-MD-CHI-01",
+              "CELL-MD-CHI-01"
+            ],
+            "dependencyNodeIds": [
+              "IMS-MD-CHI-01",
+              "TRANSPORT-MD-CHI-01"
+            ],
+            "nullReason": null
+          }
+        }
+      ],
+      "total": 1,
+      "page": 0,
+      "size": 100
+    }
+  },
+  "detections": {
+    "VOLTE-MD-CHI": {
+      "items": [
+        {
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "unit": "PERCENT",
+              "baseline": 99.3,
+              "observed": 94.39775910364146,
+              "numerator": 1011,
+              "denominator": 1071
+            },
+            {
+              "name": "eligibleAttempts",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 1071,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.051353874883286646,
+              "numerator": 55,
+              "denominator": 1071
+            },
+            {
+              "name": "sip503Count",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 55,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "unit": "PERCENT",
+              "baseline": 99.5,
+              "observed": 99.5,
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "unit": "PERCENT",
+              "baseline": 99,
+              "observed": 99.54545454545455,
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.0007190594892273404,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "unit": "PERCENT",
+              "baseline": null,
+              "observed": 97,
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "phase": "OPEN",
+          "impact": {
+            "pendingMessages": 0,
+            "uniqueSubscribers": null,
+            "extraFailedAttempts": 52.503,
+            "affectedDeliveredMessages": 0
+          },
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "cssrPct=94.39775910364146 PERCENT; baseline=99.3; numerator=1011; denominator=1071",
+              "sourceEventIds": [
+                "8d14be3b-2e4b-3676-8210-b04c492bbf6d",
+                "b7b50a7e-f03a-3a7e-981a-226515a37024",
+                "be5cab3c-d79d-32c3-867a-ee22ecc62483"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "sip503Count=55 COUNT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "8d14be3b-2e4b-3676-8210-b04c492bbf6d",
+                "b7b50a7e-f03a-3a7e-981a-226515a37024",
+                "be5cab3c-d79d-32c3-867a-ee22ecc62483"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "sourceEventIds": [
+                "8d14be3b-2e4b-3676-8210-b04c492bbf6d",
+                "b7b50a7e-f03a-3a7e-981a-226515a37024",
+                "be5cab3c-d79d-32c3-867a-ee22ecc62483"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "sourceEventIds": [
+                "8d14be3b-2e4b-3676-8210-b04c492bbf6d",
+                "b7b50a7e-f03a-3a7e-981a-226515a37024",
+                "be5cab3c-d79d-32c3-867a-ee22ecc62483"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "imsCpuPct=97 PERCENT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "8d14be3b-2e4b-3676-8210-b04c492bbf6d",
+                "b7b50a7e-f03a-3a7e-981a-226515a37024",
+                "be5cab3c-d79d-32c3-867a-ee22ecc62483"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "packetLossRatio=7.190594892273404E-4 RATIO; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "8d14be3b-2e4b-3676-8210-b04c492bbf6d",
+                "b7b50a7e-f03a-3a7e-981a-226515a37024",
+                "be5cab3c-d79d-32c3-867a-ee22ecc62483"
+              ]
+            },
+            {
+              "code": "IMS_CAPACITY_HYPOTHESIS",
+              "nodeId": "IMS-MD-CHI-01",
+              "summary": "Aligned IMS CPU=97%; SIP 503=55; RRC/bearer within 0.5 pp of baseline. Supports a capacity hypothesis, not a confirmed diagnosis.",
+              "sourceEventIds": [
+                "8d14be3b-2e4b-3676-8210-b04c492bbf6d"
+              ]
+            }
+          ],
+          "mlStatus": "OK",
+          "sequence": 1,
+          "severity": "HIGH",
+          "episodeId": "e3f084a53080119732c8c9dada3968503e470417182fec14325afeafbb316069",
+          "windowEnd": "2026-10-08T14:57:00Z",
+          "detectedAt": "2026-10-08T14:57:11.808075189Z",
+          "anomalyRank": 1,
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "detectionId": "c099ff9d2663aa4cced838b70251f8e3265d13fe47afcae67376bcd7bf9c1fc4",
+          "windowStart": "2026-10-08T14:56:00Z",
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "rulesetVersion": "service-rules-v2",
+          "technicalState": "ONGOING",
+          "baselineVersion": "baseline-v2",
+          "causeConfidence": "MEDIUM",
+          "firstObservedAt": "2026-10-08T14:55:00Z",
+          "topologyVersion": "2-geography-g1",
+          "recommendedChecks": [
+            "Inspect SIP 503 traces and IMS capacity",
+            "Check downstream routing and transport before confirming the cause"
+          ]
+        },
+        {
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "unit": "PERCENT",
+              "baseline": 99.3,
+              "observed": 94.18604651162791,
+              "numerator": 972,
+              "denominator": 1032
+            },
+            {
+              "name": "eligibleAttempts",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 1032,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.05329457364341085,
+              "numerator": 55,
+              "denominator": 1032
+            },
+            {
+              "name": "sip503Count",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 55,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "unit": "PERCENT",
+              "baseline": 99.5,
+              "observed": 99.5,
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "unit": "PERCENT",
+              "baseline": 99,
+              "observed": 99.54545454545455,
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.0009479074156022589,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "unit": "PERCENT",
+              "baseline": null,
+              "observed": 97,
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "phase": "UPDATE",
+          "impact": {
+            "pendingMessages": 0,
+            "uniqueSubscribers": null,
+            "extraFailedAttempts": 52.776,
+            "affectedDeliveredMessages": 0
+          },
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "cssrPct=94.18604651162791 PERCENT; baseline=99.3; numerator=972; denominator=1032",
+              "sourceEventIds": [
+                "078668ff-425b-3cae-be73-215835683d69",
+                "3522fc30-32bf-3915-a353-3a518bfa9046",
+                "de5a727b-5397-3651-9df5-736c323dfef0"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "sip503Count=55 COUNT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "078668ff-425b-3cae-be73-215835683d69",
+                "3522fc30-32bf-3915-a353-3a518bfa9046",
+                "de5a727b-5397-3651-9df5-736c323dfef0"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "sourceEventIds": [
+                "078668ff-425b-3cae-be73-215835683d69",
+                "3522fc30-32bf-3915-a353-3a518bfa9046",
+                "de5a727b-5397-3651-9df5-736c323dfef0"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "sourceEventIds": [
+                "078668ff-425b-3cae-be73-215835683d69",
+                "3522fc30-32bf-3915-a353-3a518bfa9046",
+                "de5a727b-5397-3651-9df5-736c323dfef0"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "imsCpuPct=97 PERCENT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "078668ff-425b-3cae-be73-215835683d69",
+                "3522fc30-32bf-3915-a353-3a518bfa9046",
+                "de5a727b-5397-3651-9df5-736c323dfef0"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "packetLossRatio=9.479074156022589E-4 RATIO; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "078668ff-425b-3cae-be73-215835683d69",
+                "3522fc30-32bf-3915-a353-3a518bfa9046",
+                "de5a727b-5397-3651-9df5-736c323dfef0"
+              ]
+            },
+            {
+              "code": "IMS_CAPACITY_HYPOTHESIS",
+              "nodeId": "IMS-MD-CHI-01",
+              "summary": "Aligned IMS CPU=97%; SIP 503=55; RRC/bearer within 0.5 pp of baseline. Supports a capacity hypothesis, not a confirmed diagnosis.",
+              "sourceEventIds": [
+                "3522fc30-32bf-3915-a353-3a518bfa9046"
+              ]
+            }
+          ],
+          "mlStatus": "OK",
+          "sequence": 2,
+          "severity": "HIGH",
+          "episodeId": "e3f084a53080119732c8c9dada3968503e470417182fec14325afeafbb316069",
+          "windowEnd": "2026-10-08T14:58:00Z",
+          "detectedAt": "2026-10-08T14:58:11.955314084Z",
+          "anomalyRank": 1,
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "detectionId": "1fa5d26bae475ba1af95c5f8999e87e1de8ddade29ab4208cb113da2affa36a7",
+          "windowStart": "2026-10-08T14:57:00Z",
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "probableCause": "Probable IMS capacity pressure; high IMS CPU and SIP 503 accompany degraded call setup while radio/bearer setup remains healthy.",
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "rulesetVersion": "service-rules-v2",
+          "technicalState": "ONGOING",
+          "baselineVersion": "baseline-v2",
+          "causeConfidence": "MEDIUM",
+          "firstObservedAt": "2026-10-08T14:55:00Z",
+          "topologyVersion": "2-geography-g1",
+          "recommendedChecks": [
+            "Inspect SIP 503 traces and IMS capacity",
+            "Check downstream routing and transport before confirming the cause"
+          ]
+        },
+        {
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "unit": "PERCENT",
+              "baseline": 99.3,
+              "observed": 99.33899905571293,
+              "numerator": 1052,
+              "denominator": 1059
+            },
+            {
+              "name": "eligibleAttempts",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 1059,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.0018885741265344666,
+              "numerator": 2,
+              "denominator": 1059
+            },
+            {
+              "name": "sip503Count",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 2,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "unit": "PERCENT",
+              "baseline": 99.5,
+              "observed": 99.5,
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "unit": "PERCENT",
+              "baseline": 99,
+              "observed": 99.54545454545455,
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.0008733574654317164,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "unit": "PERCENT",
+              "baseline": null,
+              "observed": 39,
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "phase": "UPDATE",
+          "impact": {
+            "pendingMessages": 0,
+            "uniqueSubscribers": null,
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0
+          },
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "cssrPct=99.33899905571293 PERCENT; baseline=99.3; numerator=1052; denominator=1059",
+              "sourceEventIds": [
+                "15981cb6-f589-372e-8eec-934c7f164394",
+                "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                "c882883a-cf4d-392d-94b2-34db72b570f2"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "15981cb6-f589-372e-8eec-934c7f164394",
+                "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                "c882883a-cf4d-392d-94b2-34db72b570f2"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "sourceEventIds": [
+                "15981cb6-f589-372e-8eec-934c7f164394",
+                "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                "c882883a-cf4d-392d-94b2-34db72b570f2"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "sourceEventIds": [
+                "15981cb6-f589-372e-8eec-934c7f164394",
+                "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                "c882883a-cf4d-392d-94b2-34db72b570f2"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "imsCpuPct=39 PERCENT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "15981cb6-f589-372e-8eec-934c7f164394",
+                "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                "c882883a-cf4d-392d-94b2-34db72b570f2"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "packetLossRatio=8.733574654317164E-4 RATIO; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "15981cb6-f589-372e-8eec-934c7f164394",
+                "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                "c882883a-cf4d-392d-94b2-34db72b570f2"
+              ]
+            }
+          ],
+          "mlStatus": "OK",
+          "sequence": 3,
+          "severity": "HIGH",
+          "episodeId": "e3f084a53080119732c8c9dada3968503e470417182fec14325afeafbb316069",
+          "windowEnd": "2026-10-08T14:59:00Z",
+          "detectedAt": "2026-10-08T14:59:11.671591877Z",
+          "anomalyRank": 0.5882936507936508,
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "detectionId": "3d40aa6fbe5d2d7b5164fb88d7f084d638bc0df8051065db9cb5bc10a86ba2d0",
+          "windowStart": "2026-10-08T14:58:00Z",
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "rulesetVersion": "service-rules-v2",
+          "technicalState": "ONGOING",
+          "baselineVersion": "baseline-v2",
+          "causeConfidence": "LOW",
+          "firstObservedAt": "2026-10-08T14:55:00Z",
+          "topologyVersion": "2-geography-g1",
+          "recommendedChecks": [
+            "Verify source freshness and baseline coverage",
+            "Inspect SIP 503 traces and IMS/transport health"
+          ]
+        },
+        {
+          "kpis": [
+            {
+              "name": "cssrPct",
+              "unit": "PERCENT",
+              "baseline": 99.3,
+              "observed": 99.38757655293088,
+              "numerator": 1136,
+              "denominator": 1143
+            },
+            {
+              "name": "eligibleAttempts",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 1143,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "sip503Ratio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.0017497812773403325,
+              "numerator": 2,
+              "denominator": 1143
+            },
+            {
+              "name": "sip503Count",
+              "unit": "COUNT",
+              "baseline": null,
+              "observed": 2,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "rrcSrPct",
+              "unit": "PERCENT",
+              "baseline": 99.5,
+              "observed": 99.5,
+              "numerator": 1194,
+              "denominator": 1200
+            },
+            {
+              "name": "bearerSrPct",
+              "unit": "PERCENT",
+              "baseline": 99,
+              "observed": 99.54545454545455,
+              "numerator": 1095,
+              "denominator": 1100
+            },
+            {
+              "name": "packetLossRatio",
+              "unit": "RATIO",
+              "baseline": null,
+              "observed": 0.0010792863284608415,
+              "numerator": null,
+              "denominator": null
+            },
+            {
+              "name": "imsCpuPct",
+              "unit": "PERCENT",
+              "baseline": null,
+              "observed": 38,
+              "numerator": null,
+              "denominator": null
+            }
+          ],
+          "phase": "UNKNOWN",
+          "impact": {
+            "pendingMessages": 0,
+            "uniqueSubscribers": null,
+            "extraFailedAttempts": 0,
+            "affectedDeliveredMessages": 0
+          },
+          "scopeId": "VOLTE-MD-CHI",
+          "service": "VOLTE",
+          "evidence": [
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "cssrPct=99.38757655293088 PERCENT; baseline=99.3; numerator=1136; denominator=1143",
+              "sourceEventIds": [
+                "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+              "sourceEventIds": [
+                "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+              "sourceEventIds": [
+                "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "imsCpuPct=38 PERCENT; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+              ]
+            },
+            {
+              "code": "FINALIZED_KPI_EVIDENCE",
+              "nodeId": null,
+              "summary": "packetLossRatio=0.0010792863284608415 RATIO; baseline=null; numerator=null; denominator=null",
+              "sourceEventIds": [
+                "15a92e24-48b5-38c3-8233-a2dcae4ef8e6",
+                "8d3c42f3-4d5e-359d-8123-14fdf61fb0a7",
+                "ff34ac66-bb02-3f41-af86-55c1738c6d8d"
+              ]
+            },
+            {
+              "code": "HISTORICAL_SEVERITY",
+              "nodeId": null,
+              "summary": "Historical value from 2026-10-08T14:57:00Z; not a measurement for this UNKNOWN decision",
+              "sourceEventIds": [
+                "078668ff-425b-3cae-be73-215835683d69",
+                "3522fc30-32bf-3915-a353-3a518bfa9046",
+                "de5a727b-5397-3651-9df5-736c323dfef0"
+              ]
+            },
+            {
+              "code": "HISTORICAL_IMPACT",
+              "nodeId": null,
+              "summary": "Historical value from 2026-10-08T14:58:00Z; not a measurement for this UNKNOWN decision",
+              "sourceEventIds": [
+                "15981cb6-f589-372e-8eec-934c7f164394",
+                "c6293ef1-846c-3a5d-b903-f0f965cd12ca",
+                "c882883a-cf4d-392d-94b2-34db72b570f2"
+              ]
+            }
+          ],
+          "mlStatus": "OK",
+          "sequence": 4,
+          "severity": "HIGH",
+          "episodeId": "e3f084a53080119732c8c9dada3968503e470417182fec14325afeafbb316069",
+          "windowEnd": "2026-10-08T15:03:00Z",
+          "detectedAt": "2026-10-08T15:03:11.452272985Z",
+          "anomalyRank": 0.5133928571428571,
+          "anomalyType": "VOLTE_SETUP_DEGRADATION",
+          "detectionId": "253538ae27553e21102875b992204205790bf5f69a1c9ab7b365eba39ac40695",
+          "windowStart": "2026-10-08T15:02:00Z",
+          "modelVersion": "isoforest-v2-synthetic-1",
+          "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+          "schemaVersion": 2,
+          "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+          "rulesetVersion": "service-rules-v2",
+          "technicalState": "UNKNOWN",
+          "baselineVersion": "baseline-v2",
+          "causeConfidence": "LOW",
+          "firstObservedAt": "2026-10-08T14:55:00Z",
+          "topologyVersion": "2-geography-g1",
+          "recommendedChecks": [
+            "Verify source freshness and baseline coverage",
+            "Inspect SIP 503 traces and IMS/transport health"
+          ]
+        }
+      ],
+      "total": 4,
+      "page": 0,
+      "size": 100
+    }
+  }
+}

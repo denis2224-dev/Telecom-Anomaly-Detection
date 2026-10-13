@@ -1,0 +1,2 @@
+# Preserve the raw bytes covered by index.json across commits and checkouts.
+* -text whitespace=trailing-space,space-before-tab,cr-at-eol

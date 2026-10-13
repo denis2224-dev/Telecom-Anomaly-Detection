@@ -1,0 +1,16 @@
+{
+  "checkedAtUTC": "2026-10-09T19:56:43.836Z",
+  "sourceSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+  "integratedMainSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3",
+  "platform": "win32",
+  "nodeVersion": "v24.13.1",
+  "command": "node --test scripts/pr77-connected-verification.test.cjs",
+  "tests": 42,
+  "passed": 42,
+  "failed": 0,
+  "skipped": 0,
+  "durationMs": 25530.4629,
+  "cleanSourceAfterNpmCi": "PASSED",
+  "chromiumInstall": "PASSED",
+  "notes": "Actual CLI regression was RED before the runner fix. An intermediate ignored-directory enumeration defect was found by tests and fixed before the final candidate."
+}

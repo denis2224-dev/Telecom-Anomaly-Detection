@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { firstValueFrom, fromEvent, takeUntil } from "rxjs";
+import { firstValueFrom, fromEvent, takeUntil, type Observable } from "rxjs";
 import type { components, operations } from "./schema";
 import { SessionStore } from "../../features/login-and-session/session.store";
 import { dataSource } from "./data-source";
@@ -10,6 +10,19 @@ export type ServiceSummary = components["schemas"]["ServiceSummary"];
 export type Incident = components["schemas"]["Incident"];
 export type ScenarioRun = components["schemas"]["ScenarioRun"];
 export type ScenarioType = ScenarioRun["scenarioType"];
+export type TraceScenarioRun = components['schemas']['TraceScenarioRun'];
+export type TraceScenarioStart = components['schemas']['TraceScenarioStart'];
+export type TraceScenarioCatalogue = components['schemas']['TraceScenarioCatalogue'];
+export type TraceScenarioScope = components['schemas']['TraceScenarioScope'];
+export type TraceScenarioParameters = components['schemas']['TraceScenarioParameters'];
+export type NotificationItem = components['schemas']['NotificationItem'];
+export type NotificationPage = components['schemas']['NotificationPage'];
+export type TraceMetricSeries = components['schemas']['TraceMetricSeries'];
+export type TraceMetricQuery = operations['getTraceMetricSeries']['parameters']['query'] & {from:string;to:string};
+export type TraceKpiDefinition = components['schemas']['TraceKpiDefinition'];
+export type TraceCity = components['schemas']['TraceCity'];
+export type TraceLink = components['schemas']['TraceLink'];
+export type TracePartner = components['schemas']['TracePartner'];
 export type StartScenarioRequest = components["schemas"]["StartScenarioRequest"];
 type IncidentQuery = operations["listIncidents"]["parameters"]["query"];
 type KpiQuery = operations["getServiceKpis"]["parameters"]["query"];
@@ -20,6 +33,31 @@ export type PriorityPage = components['schemas']['GeographyPriorityPage'];
 export class TelecomClient {
   private readonly http = inject(HttpClient);
   private readonly session = inject(SessionStore);
+
+  listNotifications(page = 0, signal?: AbortSignal) {
+    return this.request<NotificationPage>('GET', '/api/notifications', undefined, { page, size: 20 }, signal);
+  }
+  markNotificationRead(id: string, signal?: AbortSignal) {
+    return this.request<void>('POST', `/api/notifications/${encodeURIComponent(id)}/read`, undefined, undefined, signal);
+  }
+  traceCities(signal?: AbortSignal) {
+    return this.request<components['schemas']['TraceCityList']>('GET','/api/v2/inventory/cities',undefined,undefined,signal);
+  }
+  traceLinks(signal?: AbortSignal) {
+    return this.request<components['schemas']['TraceLinkList']>('GET','/api/v2/inventory/links',undefined,undefined,signal);
+  }
+  tracePartners(signal?: AbortSignal) {
+    return this.request<components['schemas']['TracePartnerList']>('GET','/api/v2/inventory/partners',undefined,undefined,signal);
+  }
+  traceDefinitions(signal?: AbortSignal) {
+    return this.request<TraceKpiDefinition[]>('GET','/api/v2/kpi-definitions',undefined,undefined,signal);
+  }
+  traceMetricSeries(query: TraceMetricQuery, signal?: AbortSignal) {
+    return this.request<TraceMetricSeries>('GET','/api/v2/metrics/series',undefined,query,signal);
+  }
+  traceMetricCsv(query: TraceMetricQuery, signal?: AbortSignal) {
+    return this.request<string>('GET','/api/v2/exports/metrics.csv',undefined,query,signal,'text');
+  }
 
   listGeographyCities(signal?: AbortSignal) {
     return this.request<GeographyCatalogue>('GET', '/api/geography/cities', undefined, undefined, signal);
@@ -202,12 +240,32 @@ stopScenario(runId: string): Promise<ScenarioRun> {
   );
 }
 
+  traceScenarioCatalogue(signal?: AbortSignal) {
+    return this.request<TraceScenarioCatalogue>('GET', '/api/trace-link/v1/scenarios/catalogue', undefined, undefined, signal);
+  }
+  traceScenarioHistory(signal?: AbortSignal) {
+    return this.request<TraceScenarioRun[]>('GET', '/api/trace-link/v1/scenarios/runs', undefined, undefined, signal);
+  }
+  startTraceScenario(body: TraceScenarioStart) {
+    return this.request<TraceScenarioRun>('POST', '/api/trace-link/v1/scenarios/runs', body);
+  }
+  traceScenarioRun(id: string) {
+    return this.request<TraceScenarioRun>('GET', `/api/trace-link/v1/scenarios/runs/${encodeURIComponent(id)}`);
+  }
+  stopTraceScenario(id: string) {
+    return this.request<TraceScenarioRun>('POST', `/api/trace-link/v1/scenarios/runs/${encodeURIComponent(id)}/stop`);
+  }
+  reconcileTraceScenario(id: string) {
+    return this.request<TraceScenarioRun>('POST', `/api/trace-link/v1/scenarios/runs/${encodeURIComponent(id)}/reconcile`);
+  }
+
     private async request<T>(
     method: 'GET' | 'POST',
     url: string,
     body?: unknown,
     query?: object,
     signal?: AbortSignal,
+    responseType: 'json' | 'text' = 'json',
   ): Promise<T> {
     if (dataSource.fixture) {
       throw new Error(
@@ -224,7 +282,9 @@ stopScenario(runId: string): Promise<ScenarioRun> {
     }
 
     try {
-      const response = this.http.request<T>(method, url, { body, params });
+      const response = (responseType === 'text'
+        ? this.http.request(method,url,{body,params,responseType:'text'})
+        : this.http.request<T>(method, url, { body, params })) as Observable<T>;
       const result = await firstValueFrom(signal
         ? response.pipe(takeUntil(fromEvent(signal, 'abort')))
         : response);

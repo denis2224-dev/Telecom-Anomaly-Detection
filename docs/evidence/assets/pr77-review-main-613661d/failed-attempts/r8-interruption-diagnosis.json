@@ -1,0 +1,19 @@
+{
+  "sourceSha": "be05082cda33bbe108c520e866ad65c8d461ba2f",
+  "outcome": "INTERRUPTED / INCOMPLETE_CONNECTED_ACCEPTANCE",
+  "geographicCase": "PASSED",
+  "idleCase": "Interrupted; no completion reporter",
+  "absoluteCase": "Not executed",
+  "reason": "The concurrent full controlled browser run exposed an inherited minute-boundary exact-count race. Only the owned r8 Playwright process tree was terminated to let the runner clean up before committing a deterministic controlled-test clock and restarting all required cases.",
+  "controlledSuite": {
+    "passed": 163,
+    "failed": 1,
+    "existingOptInSkips": 21,
+    "failedTest": "geography-live.spec.ts: LIVE catalogue and selected-city APIs at 390px",
+    "assertion": "Expected exactly 2 /api/geography/cities reads; received 3",
+    "cause": "LiveUpdates schedules legitimate fallback refreshes at the next UTC minute. The controlled explicit-refresh test did not pin Date.now."
+  },
+  "cleanup": "PASSED",
+  "credentialCleanup": "PASSED",
+  "keepAwakeRequest": "Released after runner exit"
+}

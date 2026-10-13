@@ -1,0 +1,11 @@
+{
+  "sourceSha": "7fe593eb0c4eabe4670e2d1c649fc573f3e91a1d",
+  "status": "FAILED",
+  "mode": "open-page inactivity; native REST/SSE remain enabled",
+  "clock": {
+    "serverDate": "2026-10-08T21:40:19.000Z",
+    "absoluteDeadline": "2026-10-08T22:10:18.904853526Z",
+    "hostServerSkewMs": 58,
+    "browserHostSkewMs": -6
+  }
+}

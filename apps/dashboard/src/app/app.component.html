@@ -10,6 +10,7 @@
       <div class="sidebar-section-label">WORKSPACE</div>
       <nav aria-label="Workspace" class="sidebar-nav">
         <a routerLink="/dashboard" routerLinkActive="active" [class.active]="pageTitle() === 'Service overview'" class="nav-link" aria-label="Service overview" title="Service overview" (click)="mobileOpen.set(false)"><app-icon name="grid" /><span>Service overview</span></a>
+        <a routerLink="/trace-link" routerLinkActive="active" class="nav-link" aria-label="Trace Link history" title="Trace Link history" (click)="mobileOpen.set(false)"><app-icon name="grid"/><span>Trace Link history</span></a>
         @if (session.actor()?.roles?.includes('SUPERVISOR') || session.actor()?.roles?.includes('ADMIN')) {
           <a routerLink="/scenarios" routerLinkActive="active" class="nav-link" aria-label="Scenario runner" title="Scenario runner" (click)="mobileOpen.set(false)"><app-icon name="play" /><span>Scenario runner</span></a>
         }
@@ -43,6 +44,7 @@
         }
         <span class="connection-status"><span class="status-dot" [class.offline]="session.phase() !== 'authenticated'"></span>{{ session.phase() === 'authenticated' ? 'Session connected' : fixture ? 'Preview' : 'Secure access' }}</span>
         @if (session.actor(); as actor) {
+          @if (!isAccessPage() && session.phase() === 'authenticated') { @defer (on immediate) { <app-notification-center /> } }
           <div class="identity"><span class="avatar">{{ actor.displayName.slice(0, 2).toUpperCase() }}</span><span class="identity-copy">{{ actor.displayName }}<small>{{ actor.roles.join(', ') }} · until {{ actor.expiresAt | date:'HH:mm':'UTC' }} UTC</small></span></div>
           <button class="ghost icon-button" (click)="session.logout()" aria-label="Sign out" title="Sign out"><app-icon name="logout" /></button>
         }

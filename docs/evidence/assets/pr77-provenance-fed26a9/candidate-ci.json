@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "candidateSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+  "integratedMainSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3",
+  "observedAt": "2026-10-09T20:10:41.208Z",
+  "status": "PASSED",
+  "requiredJobCount": 6,
+  "passedJobCount": 6,
+  "checkoutNote": "Workflow headSha is the PR branch candidate. Each actual checkoutSha was independently confirmed from that job's actions/checkout fetch and git-log output; all are the synthetic refs/pull/77/merge revision, not the branch head.",
+  "runs": [
+    {
+      "id": 37983397315,
+      "name": "incident-service",
+      "event": "pull_request",
+      "headSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+      "baseSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3",
+      "attempt": 1,
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397315",
+      "status": "completed",
+      "conclusion": "success",
+      "updatedAt": "2026-10-09T19:56:43Z",
+      "jobs": [
+        {
+          "id": 113999253208,
+          "name": "backend-verification",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397315/job/113999253208",
+          "checkoutSha": "d03a46e2cbd36009f9ae4da517fdd1dbfd82d691",
+          "checkoutKind": "synthetic_pull_request_merge",
+          "checkoutEvidence": "actions/checkout fetch refs/remotes/pull/77/merge and git log -1 --format=%H"
+        }
+      ]
+    },
+    {
+      "id": 37983397293,
+      "name": "dashboard",
+      "event": "pull_request",
+      "headSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+      "baseSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3",
+      "attempt": 1,
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397293",
+      "status": "completed",
+      "conclusion": "success",
+      "updatedAt": "2026-10-09T19:59:11Z",
+      "jobs": [
+        {
+          "id": 113999253199,
+          "name": "dashboard-verification",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397293/job/113999253199",
+          "checkoutSha": "d03a46e2cbd36009f9ae4da517fdd1dbfd82d691",
+          "checkoutKind": "synthetic_pull_request_merge",
+          "checkoutEvidence": "actions/checkout fetch refs/remotes/pull/77/merge and git log -1 --format=%H",
+          "runnerSafetyStep": {
+            "name": "Verify isolated-runner safety",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          "dashboardBrowserTestsPassed": 164
+        }
+      ]
+    },
+    {
+      "id": 37983397307,
+      "name": "service-integration",
+      "event": "pull_request",
+      "headSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+      "baseSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3",
+      "attempt": 1,
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397307",
+      "status": "completed",
+      "conclusion": "success",
+      "updatedAt": "2026-10-09T20:09:55Z",
+      "jobs": [
+        {
+          "id": 113999254051,
+          "name": "deployment-config",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397307/job/113999254051",
+          "checkoutSha": "d03a46e2cbd36009f9ae4da517fdd1dbfd82d691",
+          "checkoutKind": "synthetic_pull_request_merge",
+          "checkoutEvidence": "actions/checkout fetch refs/remotes/pull/77/merge and git log -1 --format=%H"
+        },
+        {
+          "id": 113999254402,
+          "name": "model-evaluation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397307/job/113999254402",
+          "checkoutSha": "d03a46e2cbd36009f9ae4da517fdd1dbfd82d691",
+          "checkoutKind": "synthetic_pull_request_merge",
+          "checkoutEvidence": "actions/checkout fetch refs/remotes/pull/77/merge and git log -1 --format=%H"
+        },
+        {
+          "id": 114001250638,
+          "name": "processor-evaluation",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397307/job/114001250638",
+          "checkoutSha": "d03a46e2cbd36009f9ae4da517fdd1dbfd82d691",
+          "checkoutKind": "synthetic_pull_request_merge",
+          "checkoutEvidence": "actions/checkout fetch refs/remotes/pull/77/merge and git log -1 --format=%H"
+        }
+      ]
+    },
+    {
+      "id": 37983397328,
+      "name": "incident-runtime-image",
+      "event": "pull_request",
+      "headSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+      "baseSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3",
+      "attempt": 1,
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397328",
+      "status": "completed",
+      "conclusion": "success",
+      "updatedAt": "2026-10-09T19:55:19Z",
+      "jobs": [
+        {
+          "id": 113999253017,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37983397328/job/113999253017",
+          "checkoutSha": "d03a46e2cbd36009f9ae4da517fdd1dbfd82d691",
+          "checkoutKind": "synthetic_pull_request_merge",
+          "checkoutEvidence": "actions/checkout fetch refs/remotes/pull/77/merge and git log -1 --format=%H"
+        }
+      ]
+    }
+  ]
+}

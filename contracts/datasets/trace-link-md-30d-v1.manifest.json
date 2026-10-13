@@ -1,0 +1,79 @@
+{
+  "dataset_id": "trace-link-md-30d-v1",
+  "synthetic": true,
+  "generator_version": "reference-1.0",
+  "seed": 42,
+  "from": "2026-09-10T09:00:00.000Z",
+  "to_exclusive": "2026-10-10T09:00:00.000Z",
+  "source_resolution_seconds": 300,
+  "slots": 8640,
+  "timezone": "Europe/Chisinau",
+  "voice_histogram_edges_seconds": [
+    0.5,
+    1,
+    2,
+    3,
+    5,
+    8,
+    15,
+    30,
+    60
+  ],
+  "sms_histogram_edges_seconds": [
+    1,
+    2,
+    5,
+    10,
+    20,
+    40,
+    80,
+    160,
+    320
+  ],
+  "histogram_representation": "non-cumulative finite bins",
+  "link_direction": "a-to-b only",
+  "files": [
+    {
+      "name": "cities.csv",
+      "rows": 10,
+      "bytes": 452,
+      "sha256": "16cc72a82194b1d416d09df55825f806bd6d97a99bb6ed254ff64a915c530cc1"
+    },
+    {
+      "name": "links.csv",
+      "rows": 12,
+      "bytes": 257,
+      "sha256": "bbf0d608bebf71939354e3d364cd898f69bc12e23e54db3a29552d79ec3a1c6e"
+    },
+    {
+      "name": "countries.csv",
+      "rows": 10,
+      "bytes": 242,
+      "sha256": "23dfc3bc0ef3b2c95d22db3cb1f5bcecba7390ec194225b437ab96d09df3a7d3"
+    },
+    {
+      "name": "city_kpi_5m.csv",
+      "rows": 86400,
+      "bytes": 15110895,
+      "sha256": "2eaab7425946d52f2dffa8429dc11d2e315d2bb4e0b0ff95bc977687f4394647"
+    },
+    {
+      "name": "link_kpi_5m.csv",
+      "rows": 103680,
+      "bytes": 7993287,
+      "sha256": "0da79bde35cc5d141fa00d80e3b19ded3f301eee87b045ef5098cbf3d77d3b0a"
+    },
+    {
+      "name": "roaming_kpi_5m.csv",
+      "rows": 172800,
+      "bytes": 14234377,
+      "sha256": "be3f5766bf0bb6167fa174a44dd414de7507afe03b69b0225f9326f252e3e48f"
+    },
+    {
+      "name": "scenario_events.csv",
+      "rows": 18,
+      "bytes": 2681,
+      "sha256": "fdb4f004b9221fa612e2a55026430bae5fc7b27d0f6b050109cdbd40ff0a894c"
+    }
+  ]
+}

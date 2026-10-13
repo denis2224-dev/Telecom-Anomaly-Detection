@@ -1,0 +1,1081 @@
+{
+  "startedAt": "2026-10-08T15:12:28.001Z",
+  "checks": [
+    "Actual authenticated map, queue and details agree on city, scope, active state, source window, topology, impact unit and measured cause evidence"
+  ],
+  "errors": [],
+  "cities": {
+    "generatedAt": "2026-10-08T15:12:34.709851232Z",
+    "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+    "topologyVersion": "2-geography-g1",
+    "cities": [
+      {
+        "cityId": "BAL",
+        "displayName": "Bălți",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-BAL",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.31573802541544,
+              "baseline": 99.3,
+              "deltaPp": 0.01573802541544,
+              "delayRatio": null,
+              "numerator": 1016,
+              "denominator": 1023,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-BAL",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3332,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.666,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 105,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "CAH",
+        "displayName": "Cahul",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-CAH",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.2818671454219,
+              "baseline": 99.3,
+              "deltaPp": -0.0181328545781,
+              "delayRatio": null,
+              "numerator": 1106,
+              "denominator": 1114,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-CAH",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3344,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.672,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 90,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "CHI",
+        "displayName": "Chișinău",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-CHI",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 1,
+            "analystOpenCount": 2,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.34024505183788,
+              "baseline": 99.3,
+              "deltaPp": 0.04024505183788,
+              "delayRatio": null,
+              "numerator": 1054,
+              "denominator": 1061,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-CHI",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 1,
+            "analystOpenCount": 2,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3380,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.69,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 89,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "COM",
+        "displayName": "Comrat",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-COM",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.2274678111588,
+              "baseline": 99.3,
+              "deltaPp": -0.0725321888412,
+              "delayRatio": null,
+              "numerator": 1156,
+              "denominator": 1165,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-COM",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3310,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.655,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 104,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "EDI",
+        "displayName": "Edineț",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-EDI",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.23011120615911,
+              "baseline": 99.3,
+              "deltaPp": -0.06988879384089,
+              "delayRatio": null,
+              "numerator": 1160,
+              "denominator": 1169,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-EDI",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3364,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.682,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 86,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "ORH",
+        "displayName": "Orhei",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-ORH",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.31212381771282,
+              "baseline": 99.3,
+              "deltaPp": 0.01212381771282,
+              "delayRatio": null,
+              "numerator": 1155,
+              "denominator": 1163,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-ORH",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3343,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.6715,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 111,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "RIB",
+        "displayName": "Rîbnița",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-RIB",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.28443649373882,
+              "baseline": 99.3,
+              "deltaPp": -0.01556350626118,
+              "delayRatio": null,
+              "numerator": 1110,
+              "denominator": 1118,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-RIB",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3452,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.726,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 91,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "SOR",
+        "displayName": "Soroca",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-SOR",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.24178601516428,
+              "baseline": 99.3,
+              "deltaPp": -0.05821398483572,
+              "delayRatio": null,
+              "numerator": 1178,
+              "denominator": 1187,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-SOR",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3405,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.7025,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 92,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "TIR",
+        "displayName": "Tiraspol",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-TIR",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.23142613151153,
+              "baseline": 99.3,
+              "deltaPp": -0.06857386848847,
+              "delayRatio": null,
+              "numerator": 1162,
+              "denominator": 1171,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-TIR",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3374,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.687,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 115,
+              "nullReason": null
+            }
+          }
+        ]
+      },
+      {
+        "cityId": "UNG",
+        "displayName": "Ungheni",
+        "synthetic": true,
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "services": [
+          {
+            "service": "VOLTE",
+            "scopeId": "VOLTE-MD-UNG",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 3,
+              "receivedSources": 3,
+              "usableSources": 3
+            },
+            "metric": {
+              "name": "TECHNICAL_CSSR",
+              "unit": "PERCENT",
+              "observed": 99.30675909878683,
+              "baseline": 99.3,
+              "deltaPp": 0.00675909878683,
+              "delayRatio": null,
+              "numerator": 1146,
+              "denominator": 1154,
+              "sampleCount": null,
+              "nullReason": null
+            }
+          },
+          {
+            "service": "SMS",
+            "scopeId": "SMS-MD-UNG",
+            "latestWindowEnd": "2026-10-08T15:12:00Z",
+            "freshness": "FRESH",
+            "technicalActiveCount": 0,
+            "analystOpenCount": 0,
+            "coverage": {
+              "state": "COMPLETE",
+              "expectedSources": 2,
+              "receivedSources": 2,
+              "usableSources": 2
+            },
+            "metric": {
+              "name": "SMS_DELIVERY_P95",
+              "unit": "MILLISECONDS",
+              "observed": 3390,
+              "baseline": 2000,
+              "deltaPp": null,
+              "delayRatio": 1.695,
+              "numerator": null,
+              "denominator": null,
+              "sampleCount": 110,
+              "nullReason": null
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "priority": {
+    "generatedAt": "2026-10-08T15:12:34.688590347Z",
+    "policyVersion": "geographic-priority-v1",
+    "policyStatus": "ACTIVE",
+    "page": 0,
+    "size": 100,
+    "hasNext": false,
+    "items": [
+      {
+        "incidentId": "7e0d121e-87e2-41ec-b26d-81309f51211d",
+        "cityId": "CHI",
+        "cityNullReason": null,
+        "service": "SMS",
+        "scopeId": "SMS-MD-CHI",
+        "technicalState": "ONGOING",
+        "analystStatus": "OPEN",
+        "severity": "HIGH",
+        "severityHistorical": false,
+        "freshness": "FRESH",
+        "priorityBand": "FRESH_ONGOING",
+        "comparableImpact": 0,
+        "impactUnit": "AFFECTED_DELIVERED_MESSAGES",
+        "firstObservedAt": "2026-10-08T15:08:00Z",
+        "detectedAt": "2026-10-08T15:10:11.509356Z",
+        "latestWindowEnd": "2026-10-08T15:12:00Z"
+      },
+      {
+        "incidentId": "cdd686ed-c413-4ade-b82b-108e91597127",
+        "cityId": "CHI",
+        "cityNullReason": null,
+        "service": "VOLTE",
+        "scopeId": "VOLTE-MD-CHI",
+        "technicalState": "ONGOING",
+        "analystStatus": "OPEN",
+        "severity": "HIGH",
+        "severityHistorical": false,
+        "freshness": "FRESH",
+        "priorityBand": "FRESH_ONGOING",
+        "comparableImpact": 0,
+        "impactUnit": "EXTRA_FAILED_ATTEMPTS",
+        "firstObservedAt": "2026-10-08T15:08:00Z",
+        "detectedAt": "2026-10-08T15:10:11.758610Z",
+        "latestWindowEnd": "2026-10-08T15:12:00Z"
+      },
+      {
+        "incidentId": "156d0ff5-61ef-4eac-9c75-6916e94f2373",
+        "cityId": "CHI",
+        "cityNullReason": null,
+        "service": "VOLTE",
+        "scopeId": "VOLTE-MD-CHI",
+        "technicalState": "RECOVERED",
+        "analystStatus": "OPEN",
+        "severity": "HIGH",
+        "severityHistorical": true,
+        "freshness": "RECOVERED",
+        "priorityBand": "RECOVERED",
+        "comparableImpact": null,
+        "impactUnit": null,
+        "firstObservedAt": "2026-10-08T14:55:00Z",
+        "detectedAt": "2026-10-08T14:57:11.808075Z",
+        "latestWindowEnd": "2026-10-08T15:05:00Z"
+      },
+      {
+        "incidentId": "bdb98f73-fe38-43ce-83db-4e747b66efe3",
+        "cityId": "CHI",
+        "cityNullReason": null,
+        "service": "SMS",
+        "scopeId": "SMS-MD-CHI",
+        "technicalState": "RECOVERED",
+        "analystStatus": "OPEN",
+        "severity": "HIGH",
+        "severityHistorical": true,
+        "freshness": "RECOVERED",
+        "priorityBand": "RECOVERED",
+        "comparableImpact": null,
+        "impactUnit": null,
+        "firstObservedAt": "2026-10-08T14:55:00Z",
+        "detectedAt": "2026-10-08T14:57:11.558222Z",
+        "latestWindowEnd": "2026-10-08T15:05:00Z"
+      }
+    ]
+  },
+  "uiQueue": [
+    "Chișinău · SMSHIGH severity · Technical: ONGOING · Workflow: OPENFRESH_ONGOING · FRESH · 0 AFFECTED_DELIVERED_MESSAGESFirst observed: 08 Oct 15:08:00 UTCDetected: 08 Oct 15:10:11 UTC+1,380 ms from baselineNo cause established from this SMS window.Show ChișinăuOpen incident evidence",
+    "Chișinău · VoLTEHIGH severity · Technical: ONGOING · Workflow: OPENFRESH_ONGOING · FRESH · 0 EXTRA_FAILED_ATTEMPTSFirst observed: 08 Oct 15:08:00 UTCDetected: 08 Oct 15:10:11 UTC+0.04 pp from baselineCause undetermined; inspect SIP traces and aligned dependency measurements.Show ChișinăuOpen incident evidence",
+    "Chișinău · VoLTEHIGH severity · Technical: RECOVERED · Workflow: OPEN · Awaiting analyst resolutionRECOVERED · RECOVERED · Historical severity · Impact unavailable First observed: 08 Oct 14:55:00 UTCDetected: 08 Oct 14:57:11 UTC-0.08 pp from baselineCause undetermined; inspect SIP traces and aligned dependency measurements.Show ChișinăuOpen incident evidence",
+    "Chișinău · SMSHIGH severity · Technical: RECOVERED · Workflow: OPEN · Awaiting analyst resolutionRECOVERED · RECOVERED · Historical severity · Impact unavailable First observed: 08 Oct 14:55:00 UTCDetected: 08 Oct 14:57:11 UTC+1,373 ms from baselineNo cause established from this SMS window.Show ChișinăuOpen incident evidence"
+  ],
+  "details": [
+    {
+      "id": "7e0d121e-87e2-41ec-b26d-81309f51211d",
+      "episodeId": "dbdd469c13f265cf7976c65fddfbe95562fdf1ba5b544c9b6afc5a939a9524b6",
+      "service": "SMS",
+      "scopeId": "SMS-MD-CHI",
+      "status": "OPEN",
+      "technicalState": "ONGOING",
+      "severity": "HIGH",
+      "assigneeId": null,
+      "resolutionNote": null,
+      "firstObservedAt": "2026-10-08T15:08:00Z",
+      "detectedAt": "2026-10-08T15:10:11.509356Z",
+      "lastObservedAt": "2026-10-08T15:12:00Z",
+      "createdAt": "2026-10-08T15:10:12.000957Z",
+      "updatedAt": "2026-10-08T15:12:11.504189Z",
+      "version": 2,
+      "latestSequence": 3,
+      "latestDetection": {
+        "kpis": [
+          {
+            "name": "p95DeliveryMs",
+            "unit": "MILLISECONDS",
+            "baseline": 2000,
+            "observed": 3380,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "deliverySrPct",
+            "unit": "PERCENT",
+            "baseline": 99,
+            "observed": 98.13084112149532,
+            "numerator": 210,
+            "denominator": 214
+          },
+          {
+            "name": "deliveredMessages",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": 89,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "queueDepth",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": 0,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "oldestPendingAgeSec",
+            "unit": "SECONDS",
+            "baseline": null,
+            "observed": 0,
+            "numerator": null,
+            "denominator": null
+          }
+        ],
+        "phase": "UPDATE",
+        "impact": {
+          "pendingMessages": 0,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 0,
+          "affectedDeliveredMessages": 0
+        },
+        "scopeId": "SMS-MD-CHI",
+        "service": "SMS",
+        "evidence": [
+          {
+            "code": "SMS_DELIVERY_DELAY",
+            "nodeId": null,
+            "summary": "p95=3380 ms; baseline=2000 ms; completed=89",
+            "sourceEventIds": [
+              "283e9327-ee6a-3f33-b0a1-600d38b6b8db",
+              "77ac5869-a58b-3586-87c1-a25b20d34240"
+            ]
+          },
+          {
+            "code": "SMSC_QUEUE",
+            "nodeId": "SMSC-MD-CHI-01",
+            "summary": "pending=0; oldest=0 s",
+            "sourceEventIds": [
+              "77ac5869-a58b-3586-87c1-a25b20d34240"
+            ]
+          }
+        ],
+        "mlStatus": "OK",
+        "sequence": 3,
+        "severity": "HIGH",
+        "episodeId": "dbdd469c13f265cf7976c65fddfbe95562fdf1ba5b544c9b6afc5a939a9524b6",
+        "windowEnd": "2026-10-08T15:12:00Z",
+        "detectedAt": "2026-10-08T15:12:11.001924727Z",
+        "anomalyRank": 0.9811507936507936,
+        "anomalyType": "SMS_DELIVERY_DELAY",
+        "detectionId": "e8a501faed0a8abd13ea3807404d88d5366d2fb4a0beb242a54839828e405d49",
+        "windowStart": "2026-10-08T15:11:00Z",
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "probableCause": "No cause established from this SMS window.",
+        "schemaVersion": 2,
+        "correlationKey": "880d533e22b53549d066d98b0fb71903f1bf3a9aab4f10f20203eb869f196735",
+        "rulesetVersion": "service-rules-v2",
+        "technicalState": "ONGOING",
+        "baselineVersion": "baseline-v2",
+        "causeConfidence": "LOW",
+        "firstObservedAt": "2026-10-08T15:08:00Z",
+        "topologyVersion": "2-geography-g1",
+        "recommendedChecks": [
+          "Verify SMSC queue freshness",
+          "Inspect delivery and routing traces; check recipient unreachability and campaign load"
+        ]
+      },
+      "presentation": {
+        "impactState": "CURRENT",
+        "currentImpact": {
+          "pendingMessages": 0,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 0,
+          "affectedDeliveredMessages": 0
+        },
+        "retainedImpact": null,
+        "impactSourceDetectionId": "e8a501faed0a8abd13ea3807404d88d5366d2fb4a0beb242a54839828e405d49",
+        "impactWindowEnd": "2026-10-08T15:12:00Z",
+        "probableCause": "No cause established from this SMS window.",
+        "causeConfidence": "LOW",
+        "evidenceHistoryPath": "/api/incidents/7e0d121e-87e2-41ec-b26d-81309f51211d/detections"
+      },
+      "location": {
+        "cityId": "CHI",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "measuredScopeId": "SMS-MD-CHI",
+        "containmentPath": [
+          "MD",
+          "CITY-MD-CHI",
+          "AGG-MD-CHI-01",
+          "SITE-MD-CHI-01",
+          "CELL-MD-CHI-01"
+        ],
+        "dependencyNodeIds": [
+          "SMSC-MD-CHI-01",
+          "TRANSPORT-MD-CHI-01"
+        ],
+        "nullReason": null
+      }
+    },
+    {
+      "id": "cdd686ed-c413-4ade-b82b-108e91597127",
+      "episodeId": "a0a0bde41a5c0a0e6a0f0581a3825b2d3a26f93d5745f5e3ab2d273e5c859368",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CHI",
+      "status": "OPEN",
+      "technicalState": "ONGOING",
+      "severity": "HIGH",
+      "assigneeId": null,
+      "resolutionNote": null,
+      "firstObservedAt": "2026-10-08T15:08:00Z",
+      "detectedAt": "2026-10-08T15:10:11.758610Z",
+      "lastObservedAt": "2026-10-08T15:12:00Z",
+      "createdAt": "2026-10-08T15:10:12.048444Z",
+      "updatedAt": "2026-10-08T15:12:11.552627Z",
+      "version": 2,
+      "latestSequence": 3,
+      "latestDetection": {
+        "kpis": [
+          {
+            "name": "cssrPct",
+            "unit": "PERCENT",
+            "baseline": 99.3,
+            "observed": 99.34024505183788,
+            "numerator": 1054,
+            "denominator": 1061
+          },
+          {
+            "name": "eligibleAttempts",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": 1061,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "sip503Ratio",
+            "unit": "RATIO",
+            "baseline": null,
+            "observed": 0.001885014137606032,
+            "numerator": 2,
+            "denominator": 1061
+          },
+          {
+            "name": "sip503Count",
+            "unit": "COUNT",
+            "baseline": null,
+            "observed": 2,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "rrcSrPct",
+            "unit": "PERCENT",
+            "baseline": 99.5,
+            "observed": 99.5,
+            "numerator": 1194,
+            "denominator": 1200
+          },
+          {
+            "name": "bearerSrPct",
+            "unit": "PERCENT",
+            "baseline": 99,
+            "observed": 99.54545454545455,
+            "numerator": 1095,
+            "denominator": 1100
+          },
+          {
+            "name": "packetLossRatio",
+            "unit": "RATIO",
+            "baseline": null,
+            "observed": 0.001143759122753802,
+            "numerator": null,
+            "denominator": null
+          },
+          {
+            "name": "imsCpuPct",
+            "unit": "PERCENT",
+            "baseline": null,
+            "observed": 31,
+            "numerator": null,
+            "denominator": null
+          }
+        ],
+        "phase": "UPDATE",
+        "impact": {
+          "pendingMessages": 0,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 0,
+          "affectedDeliveredMessages": 0
+        },
+        "scopeId": "VOLTE-MD-CHI",
+        "service": "VOLTE",
+        "evidence": [
+          {
+            "code": "FINALIZED_KPI_EVIDENCE",
+            "nodeId": null,
+            "summary": "cssrPct=99.34024505183788 PERCENT; baseline=99.3; numerator=1054; denominator=1061",
+            "sourceEventIds": [
+              "2b73de8d-27b1-3662-ac0d-82b7b9778d85",
+              "993eaf0e-f844-39db-87ee-60a199016843",
+              "a78dac58-8aa0-3df4-a0b3-486580533362"
+            ]
+          },
+          {
+            "code": "FINALIZED_KPI_EVIDENCE",
+            "nodeId": null,
+            "summary": "sip503Count=2 COUNT; baseline=null; numerator=null; denominator=null",
+            "sourceEventIds": [
+              "2b73de8d-27b1-3662-ac0d-82b7b9778d85",
+              "993eaf0e-f844-39db-87ee-60a199016843",
+              "a78dac58-8aa0-3df4-a0b3-486580533362"
+            ]
+          },
+          {
+            "code": "FINALIZED_KPI_EVIDENCE",
+            "nodeId": null,
+            "summary": "rrcSrPct=99.5 PERCENT; baseline=99.5; numerator=1194; denominator=1200",
+            "sourceEventIds": [
+              "2b73de8d-27b1-3662-ac0d-82b7b9778d85",
+              "993eaf0e-f844-39db-87ee-60a199016843",
+              "a78dac58-8aa0-3df4-a0b3-486580533362"
+            ]
+          },
+          {
+            "code": "FINALIZED_KPI_EVIDENCE",
+            "nodeId": null,
+            "summary": "bearerSrPct=99.54545454545455 PERCENT; baseline=99; numerator=1095; denominator=1100",
+            "sourceEventIds": [
+              "2b73de8d-27b1-3662-ac0d-82b7b9778d85",
+              "993eaf0e-f844-39db-87ee-60a199016843",
+              "a78dac58-8aa0-3df4-a0b3-486580533362"
+            ]
+          },
+          {
+            "code": "FINALIZED_KPI_EVIDENCE",
+            "nodeId": null,
+            "summary": "imsCpuPct=31 PERCENT; baseline=null; numerator=null; denominator=null",
+            "sourceEventIds": [
+              "2b73de8d-27b1-3662-ac0d-82b7b9778d85",
+              "993eaf0e-f844-39db-87ee-60a199016843",
+              "a78dac58-8aa0-3df4-a0b3-486580533362"
+            ]
+          },
+          {
+            "code": "FINALIZED_KPI_EVIDENCE",
+            "nodeId": null,
+            "summary": "packetLossRatio=0.001143759122753802 RATIO; baseline=null; numerator=null; denominator=null",
+            "sourceEventIds": [
+              "2b73de8d-27b1-3662-ac0d-82b7b9778d85",
+              "993eaf0e-f844-39db-87ee-60a199016843",
+              "a78dac58-8aa0-3df4-a0b3-486580533362"
+            ]
+          }
+        ],
+        "mlStatus": "OK",
+        "sequence": 3,
+        "severity": "HIGH",
+        "episodeId": "a0a0bde41a5c0a0e6a0f0581a3825b2d3a26f93d5745f5e3ab2d273e5c859368",
+        "windowEnd": "2026-10-08T15:12:00Z",
+        "detectedAt": "2026-10-08T15:12:11.247575624Z",
+        "anomalyRank": 0.6438492063492064,
+        "anomalyType": "VOLTE_SETUP_DEGRADATION",
+        "detectionId": "c8e4ec695b422f0149448ce6b0b6bb877a48d05c75bbac6018a733349ad7b564",
+        "windowStart": "2026-10-08T15:11:00Z",
+        "modelVersion": "isoforest-v2-synthetic-1",
+        "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+        "schemaVersion": 2,
+        "correlationKey": "d9c0dbc253f5e3021f788221df564a3c299b2a3a2b21e9716fd0031dc60322d0",
+        "rulesetVersion": "service-rules-v2",
+        "technicalState": "ONGOING",
+        "baselineVersion": "baseline-v2",
+        "causeConfidence": "LOW",
+        "firstObservedAt": "2026-10-08T15:08:00Z",
+        "topologyVersion": "2-geography-g1",
+        "recommendedChecks": [
+          "Verify source freshness and baseline coverage",
+          "Inspect SIP 503 traces and IMS/transport health"
+        ]
+      },
+      "presentation": {
+        "impactState": "CURRENT",
+        "currentImpact": {
+          "pendingMessages": 0,
+          "uniqueSubscribers": null,
+          "extraFailedAttempts": 0,
+          "affectedDeliveredMessages": 0
+        },
+        "retainedImpact": null,
+        "impactSourceDetectionId": "c8e4ec695b422f0149448ce6b0b6bb877a48d05c75bbac6018a733349ad7b564",
+        "impactWindowEnd": "2026-10-08T15:12:00Z",
+        "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+        "causeConfidence": "LOW",
+        "evidenceHistoryPath": "/api/incidents/cdd686ed-c413-4ade-b82b-108e91597127/detections"
+      },
+      "location": {
+        "cityId": "CHI",
+        "catalogueVersion": "2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895",
+        "topologyVersion": "2-geography-g1",
+        "measuredScopeId": "VOLTE-MD-CHI",
+        "containmentPath": [
+          "MD",
+          "CITY-MD-CHI",
+          "AGG-MD-CHI-01",
+          "SITE-MD-CHI-01",
+          "CELL-MD-CHI-01"
+        ],
+        "dependencyNodeIds": [
+          "IMS-MD-CHI-01",
+          "TRANSPORT-MD-CHI-01"
+        ],
+        "nullReason": null
+      }
+    }
+  ],
+  "detailText": {
+    "SMS": "ANALYST WORKSPACE\n\nIncident investigation\n\nFollow the evidence. Coordinate the response.\n\nService\nVoLTE setup\nSMS delivery\nRefresh incident\nBack to service\n\nINCIDENT EPISODE\n\nSMS delivery\nSeverity\nHIGH\nTechnical state\nONGOING\nAnalyst workflow\nOPEN\nAssignee\nUnassigned\nLatest KPI deviation\nDelivery p95: +1380 ms\nDetails & workflow\nFirst observed (UTC)\n08 Oct 2026 15:08:00\nDetected (UTC)\n08 Oct 2026 15:10:11\nLast observed (UTC)\n08 Oct 2026 15:12:00\nUpdated (UTC)\n08 Oct 2026 15:12:11\nRecovery detected (UTC)\nUnavailable\n\nEvidence page 1 · 3 shown · 3 total. This page is part of the timeline; the incident summary shows the current state.\n\nPrevious evidence\n1 / 1\nNext evidence\nEvidence timeline\n\nAccepted detection records, ordered by sequence from earliest to latest. Each update preserves the evidence recorded for its own window.\n\nUpdate 1 · OPEN\n\n08 Oct 15:09:00 – 08 Oct 15:10:00 UTC\n\nSeverity:\nHIGH\nTechnical state:\nONGOING\nOPEN\n\nServer detected at 08 Oct 2026 15:10:11 UTC · Service: SMS\n\nOBSERVED EVIDENCE\n\nCompleted-message samples: 112\n\nWhat does delivery p95 mean?\nMeasured KPIs for update 1\nKPI\tActual\tBaseline\tUnit\tChange\tRelative change\tNumerator\tDenominator\nDelivery p95\t58100\t2000\tMILLISECONDS\t+56100 ms\t+2805%\tUnavailable\tUnavailable\ndeliverySrPct\t99.4949494949495\t99\tPERCENT\t+0.49 pp\t+0.5%\t197\t198\nCompleted messages\t112\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nQueued messages\t290\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nOldest queued-message age\t100\tUnavailable\tSECONDS\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\n\nEstimated impact · Affected delivered messages: 112 · Pending messages: 290 · Unique customers: Unavailable\n\nUnique subscribers: not available in aggregate demo\n\nAttempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.\n\nSource evidence\nTroubleshooting\nCause hypothesis & recommended checks\nUpdate 2 · UPDATE\n\n08 Oct 15:10:00 – 08 Oct 15:11:00 UTC\n\nSeverity:\nHIGH\nTechnical state:\nONGOING\nUPDATE\n\nServer detected at 08 Oct 2026 15:11:11 UTC · Service: SMS\n\nOBSERVED EVIDENCE\n\nCompleted-message samples: 109\n\nWhat does delivery p95 mean?\nMeasured KPIs for update 2\nKPI\tActual\tBaseline\tUnit\tChange\tRelative change\tNumerator\tDenominator\nDelivery p95\t58313\t2000\tMILLISECONDS\t+56313 ms\t+2815.65%\tUnavailable\tUnavailable\ndeliverySrPct\t99.00990099009901\t99\tPERCENT\t+0.01 pp\t+0.01%\t200\t202\nCompleted messages\t109\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nQueued messages\t214\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nOldest queued-message age\t113\tUnavailable\tSECONDS\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\n\nEstimated impact · Affected delivered messages: 109 · Pending messages: 214 · Unique customers: Unavailable\n\nUnique subscribers: not available in aggregate demo\n\nAttempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.\n\nSource evidence\nTroubleshooting\nCause hypothesis & recommended checks\nUpdate 3 · UPDATE\n\n08 Oct 15:11:00 – 08 Oct 15:12:00 UTC\n\nSeverity:\nHIGH\nTechnical state:\nONGOING\nUPDATE\n\nServer detected at 08 Oct 2026 15:12:11 UTC · Service: SMS\n\nOBSERVED EVIDENCE\n\nCompleted-message samples: 89\n\nWhat does delivery p95 mean?\nMeasured KPIs for update 3\nKPI\tActual\tBaseline\tUnit\tChange\tRelative change\tNumerator\tDenominator\nDelivery p95\t3380\t2000\tMILLISECONDS\t+1380 ms\t+69%\tUnavailable\tUnavailable\ndeliverySrPct\t98.13084112149532\t99\tPERCENT\t-0.87 pp\t-0.88%\t210\t214\nCompleted messages\t89\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nQueued messages\t0\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nOldest queued-message age\t0\tUnavailable\tSECONDS\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\n\nEstimated impact · Affected delivered messages: 0 · Pending messages: 0 · Unique customers: Unavailable\n\nUnique subscribers: not available in aggregate demo\n\nAttempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.\n\nSource evidence\nTroubleshooting\nCause hypothesis & recommended checks\nCurrent impact and cause\n\nCURRENT · Impact source window: 08 Oct 15:12:00 UTC\n\nOpening city: CHI · Captured catalogue: 2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895 · Topology: 2-geography-g1\n\nCaptured path: MD → CITY-MD-CHI → AGG-MD-CHI-01 → SITE-MD-CHI-01 → CELL-MD-CHI-01 · Dependencies: SMSC-MD-CHI-01, TRANSPORT-MD-CHI-01\n\nLatest evaluated impact: 0 affected delivered messages · 0 pending messages · Unique subscribers: Unavailable\n\nNo cause established from this SMS window. · Confidence: LOW\n\nSMS classifier shadow evidence\nTelecom service assurance\nService health and analyst workflow are separate states.",
+    "VOLTE": "ANALYST WORKSPACE\n\nIncident investigation\n\nFollow the evidence. Coordinate the response.\n\nService\nVoLTE setup\nSMS delivery\nRefresh incident\nBack to service\n\nINCIDENT EPISODE\n\nVoLTE setup\nSeverity\nHIGH\nTechnical state\nONGOING\nAnalyst workflow\nOPEN\nAssignee\nUnassigned\nLatest KPI deviation\nCall setup success rate: +0.04 pp\nDetails & workflow\nFirst observed (UTC)\n08 Oct 2026 15:08:00\nDetected (UTC)\n08 Oct 2026 15:10:11\nLast observed (UTC)\n08 Oct 2026 15:12:00\nUpdated (UTC)\n08 Oct 2026 15:12:11\nRecovery detected (UTC)\nUnavailable\n\nEvidence page 1 · 3 shown · 3 total. This page is part of the timeline; the incident summary shows the current state.\n\nPrevious evidence\n1 / 1\nNext evidence\nEvidence timeline\n\nAccepted detection records, ordered by sequence from earliest to latest. Each update preserves the evidence recorded for its own window.\n\nUpdate 1 · OPEN\n\n08 Oct 15:09:00 – 08 Oct 15:10:00 UTC\n\nSeverity:\nHIGH\nTechnical state:\nONGOING\nOPEN\n\nServer detected at 08 Oct 2026 15:10:11 UTC · Service: VOLTE\n\nOBSERVED EVIDENCE\nMeasured KPIs for update 1\nKPI\tActual\tBaseline\tUnit\tChange\tRelative change\tNumerator\tDenominator\nCall setup success rate\t94.40820130475304\t99.3\tPERCENT\t-4.89 pp\t-4.93%\t1013\t1073\neligibleAttempts\t1073\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nsip503Ratio\t0.05125815470643057\tUnavailable\tRATIO\tComparison unavailable\tUnavailable\t55\t1073\nsip503Count\t55\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nrrcSrPct\t99.5\t99.5\tPERCENT\t0 pp\t0%\t1194\t1200\nbearerSrPct\t99.54545454545455\t99\tPERCENT\t+0.55 pp\t+0.55%\t1095\t1100\npacketLossRatio\t0.0006550552109771058\tUnavailable\tRATIO\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nimsCpuPct\t97\tUnavailable\tPERCENT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\n\nEstimated impact · Estimated extra failed attempts: 52.489 · Unique customers: Unavailable\n\nUnique subscribers: not available in aggregate demo\n\nAttempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.\n\nWhat are estimated extra failed attempts?\nSource evidence\nTroubleshooting\nCause hypothesis & recommended checks\nUpdate 2 · UPDATE\n\n08 Oct 15:10:00 – 08 Oct 15:11:00 UTC\n\nSeverity:\nHIGH\nTechnical state:\nONGOING\nUPDATE\n\nServer detected at 08 Oct 2026 15:11:11 UTC · Service: VOLTE\n\nOBSERVED EVIDENCE\nMeasured KPIs for update 2\nKPI\tActual\tBaseline\tUnit\tChange\tRelative change\tNumerator\tDenominator\nCall setup success rate\t94.14634146341463\t99.3\tPERCENT\t-5.15 pp\t-5.19%\t965\t1025\neligibleAttempts\t1025\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nsip503Ratio\t0.05365853658536585\tUnavailable\tRATIO\tComparison unavailable\tUnavailable\t55\t1025\nsip503Count\t55\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nrrcSrPct\t99.5\t99.5\tPERCENT\t0 pp\t0%\t1194\t1200\nbearerSrPct\t99.54545454545455\t99\tPERCENT\t+0.55 pp\t+0.55%\t1095\t1100\npacketLossRatio\t0.0014860109876444017\tUnavailable\tRATIO\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nimsCpuPct\t97\tUnavailable\tPERCENT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\n\nEstimated impact · Estimated extra failed attempts: 52.825 · Unique customers: Unavailable\n\nUnique subscribers: not available in aggregate demo\n\nAttempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.\n\nWhat are estimated extra failed attempts?\nSource evidence\nTroubleshooting\nCause hypothesis & recommended checks\nUpdate 3 · UPDATE\n\n08 Oct 15:11:00 – 08 Oct 15:12:00 UTC\n\nSeverity:\nHIGH\nTechnical state:\nONGOING\nUPDATE\n\nServer detected at 08 Oct 2026 15:12:11 UTC · Service: VOLTE\n\nOBSERVED EVIDENCE\nMeasured KPIs for update 3\nKPI\tActual\tBaseline\tUnit\tChange\tRelative change\tNumerator\tDenominator\nCall setup success rate\t99.34024505183788\t99.3\tPERCENT\t+0.04 pp\t+0.04%\t1054\t1061\neligibleAttempts\t1061\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nsip503Ratio\t0.001885014137606032\tUnavailable\tRATIO\tComparison unavailable\tUnavailable\t2\t1061\nsip503Count\t2\tUnavailable\tCOUNT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nrrcSrPct\t99.5\t99.5\tPERCENT\t0 pp\t0%\t1194\t1200\nbearerSrPct\t99.54545454545455\t99\tPERCENT\t+0.55 pp\t+0.55%\t1095\t1100\npacketLossRatio\t0.001143759122753802\tUnavailable\tRATIO\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\nimsCpuPct\t31\tUnavailable\tPERCENT\tComparison unavailable\tUnavailable\tUnavailable\tUnavailable\n\nEstimated impact · Estimated extra failed attempts: 0 · Unique customers: Unavailable\n\nUnique subscribers: not available in aggregate demo\n\nAttempts and messages are not unique customers. Aggregate observations do not identify distinct subscribers.\n\nWhat are estimated extra failed attempts?\nSource evidence\nTroubleshooting\nCause hypothesis & recommended checks\nCurrent impact and cause\n\nCURRENT · Impact source window: 08 Oct 15:12:00 UTC\n\nOpening city: CHI · Captured catalogue: 2-geography-day2-b2f5fb1060ef76209f1d73555cbadcc7797116e8ddc9c28589cb6811d6e29895 · Topology: 2-geography-g1\n\nCaptured path: MD → CITY-MD-CHI → AGG-MD-CHI-01 → SITE-MD-CHI-01 → CELL-MD-CHI-01 · Dependencies: IMS-MD-CHI-01, TRANSPORT-MD-CHI-01\n\nLatest evaluated impact: 0 extra failed attempts · Unique subscribers: Unavailable\n\nCause undetermined; inspect SIP traces and aligned dependency measurements. · Confidence: LOW\n\nTelecom service assurance\nService health and analyst workflow are separate states."
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-08T15:12:40.366Z"
+}

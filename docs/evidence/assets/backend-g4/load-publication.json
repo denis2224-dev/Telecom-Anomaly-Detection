@@ -1,0 +1,24 @@
+{
+  "query": "SELECT coalesce(json_agg(row_to_json(t)),'[]') FROM (SELECT window_start,count(*) AS receipts,count(DISTINCT scope_id) AS scopes,count(DISTINCT (source_id,scope_id,kind,window_start)) AS distinct_keys FROM app.observation_receipt WHERE window_start >= '2026-10-09T16:08:00Z' AND window_start < '2026-10-09T16:11:00Z' GROUP BY window_start ORDER BY window_start) t",
+  "windows": [
+    {
+      "window_start": "2026-10-09T16:08:00+00:00",
+      "receipts": 55,
+      "scopes": 22,
+      "distinct_keys": 55
+    },
+    {
+      "window_start": "2026-10-09T16:09:00+00:00",
+      "receipts": 55,
+      "scopes": 22,
+      "distinct_keys": 55
+    },
+    {
+      "window_start": "2026-10-09T16:10:00+00:00",
+      "receipts": 55,
+      "scopes": 22,
+      "distinct_keys": 55
+    }
+  ],
+  "capturedAtUTC": "2026-10-09T16:17:18.272577+00:00"
+}

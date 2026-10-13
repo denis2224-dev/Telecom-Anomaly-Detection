@@ -1,0 +1,553 @@
+[ {
+  "case" : "transport-loss-positive",
+  "baseline" : {
+    "status" : "DIRECT",
+    "center" : 0.0,
+    "mad" : 0.0,
+    "sourceScope" : {
+      "type" : "LINK_DIRECTION",
+      "id" : "chi-hin:a-to-b",
+      "cityIds" : [ "CHI", "HIN" ],
+      "directionId" : "a-to-b",
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "policyVersion" : "trace-link-baseline-policy-v1",
+    "trainingFrom" : "2026-09-10T09:00:00Z",
+    "trainingTo" : "2026-09-30T09:00:00Z",
+    "coverage" : 1.0,
+    "reason" : null
+  },
+  "rule" : {
+    "schemaVersion" : "trace-link-rule-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "TRANSPORT",
+    "scope" : {
+      "type" : "LINK_DIRECTION",
+      "id" : "chi-hin:a-to-b",
+      "cityIds" : [ "CHI", "HIN" ],
+      "directionId" : "a-to-b",
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-domain-rules-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "anomalyKind" : "TRANSPORT_PACKET_LOSS",
+    "verdict" : "BREACH",
+    "reason" : "TRIGGER_EXCEEDED",
+    "overloadCandidate" : false,
+    "anomalyRank" : null,
+    "severity" : "HIGH",
+    "evidenceIds" : [ "hand-transport.packetLoss" ],
+    "baselineDeviation" : 3.0
+  },
+  "open" : {
+    "schemaVersion" : "trace-link-lifecycle-v1",
+    "episodeId" : "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+    "detectionId" : "a1a6baa29ee25179bd9eabe33631e9f12635e7f27f3c2af1074328f1280bdac0",
+    "sequence" : 1,
+    "phase" : "OPEN",
+    "technicalState" : "ONGOING",
+    "severity" : "HIGH",
+    "window" : {
+      "id" : "hand-window-0835:next",
+      "from" : "2026-10-10T08:40:00Z",
+      "to" : "2026-10-10T08:45:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "evaluation" : {
+      "schemaVersion" : "trace-link-rule-result-v1",
+      "datasetId" : "trace-link-md-30d-v1",
+      "namespace" : "trace-link-reference-v1",
+      "domain" : "TRANSPORT",
+      "scope" : {
+        "type" : "LINK_DIRECTION",
+        "id" : "chi-hin:a-to-b",
+        "cityIds" : [ "CHI", "HIN" ],
+        "directionId" : "a-to-b",
+        "partnerId" : null,
+        "procedure" : null,
+        "namespace" : "trace-link-reference-v1"
+      },
+      "window" : {
+        "id" : "hand-window-0835:next",
+        "from" : "2026-10-10T08:40:00Z",
+        "to" : "2026-10-10T08:45:00Z",
+        "sourceResolutionSeconds" : 300
+      },
+      "revision" : 0,
+      "topologyVersion" : "trace-link-md-topology-v1",
+      "evaluatedAt" : "2026-10-10T08:45:01Z",
+      "policyVersion" : "trace-link-domain-rules-v1",
+      "baselineVersion" : "trace-link-seasonal-v1",
+      "anomalyKind" : "TRANSPORT_PACKET_LOSS",
+      "verdict" : "BREACH",
+      "reason" : "TRIGGER_EXCEEDED",
+      "overloadCandidate" : false,
+      "anomalyRank" : null,
+      "severity" : "HIGH",
+      "evidenceIds" : [ "hand-transport.packetLoss:next" ],
+      "baselineDeviation" : 3.0
+    }
+  },
+  "supportedCause" : {
+    "schemaVersion" : "trace-link-cause-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "TRANSPORT",
+    "scope" : {
+      "type" : "LINK_DIRECTION",
+      "id" : "chi-hin:a-to-b",
+      "cityIds" : [ "CHI", "HIN" ],
+      "directionId" : "a-to-b",
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-cause-v1",
+    "symptomPolicyVersion" : "trace-link-domain-rules-v1",
+    "status" : "SUPPORTED_HYPOTHESIS",
+    "probableCauseCode" : "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+    "probableCause" : "Supported dependency hypothesis; not a confirmed diagnosis.",
+    "causeConfidence" : "MEDIUM",
+    "dependency" : {
+      "relationId" : "r1",
+      "sourceId" : "source-1",
+      "pathId" : "path-1",
+      "topologyVersion" : "trace-link-md-topology-v1",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z"
+    },
+    "supportingEvidenceIds" : [ "e1" ],
+    "contradictoryEvidenceIds" : [ ],
+    "rejectedEvidence" : [ ],
+    "reasonCodes" : [ ]
+  },
+  "unresolvedCause" : {
+    "schemaVersion" : "trace-link-cause-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "TRANSPORT",
+    "scope" : {
+      "type" : "LINK_DIRECTION",
+      "id" : "chi-hin:a-to-b",
+      "cityIds" : [ "CHI", "HIN" ],
+      "directionId" : "a-to-b",
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-cause-v1",
+    "symptomPolicyVersion" : "trace-link-domain-rules-v1",
+    "status" : "UNDETERMINED",
+    "probableCauseCode" : "UNDETERMINED",
+    "probableCause" : "Cause undetermined; inspect eligible dependency evidence.",
+    "causeConfidence" : null,
+    "dependency" : null,
+    "supportingEvidenceIds" : [ ],
+    "contradictoryEvidenceIds" : [ ],
+    "rejectedEvidence" : [ ],
+    "reasonCodes" : [ "NO_DEPENDENCY" ]
+  }
+}, {
+  "case" : "roaming-data-positive",
+  "baseline" : {
+    "status" : "DIRECT",
+    "center" : 99.0,
+    "mad" : 0.0,
+    "sourceScope" : {
+      "type" : "PARTNER_DIRECTION",
+      "id" : "ro-partner:out",
+      "cityIds" : [ ],
+      "directionId" : "out",
+      "partnerId" : "ro-partner",
+      "procedure" : "DATA",
+      "namespace" : "trace-link-reference-v1"
+    },
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "policyVersion" : "trace-link-baseline-policy-v1",
+    "trainingFrom" : "2026-09-10T09:00:00Z",
+    "trainingTo" : "2026-09-30T09:00:00Z",
+    "coverage" : 1.0,
+    "reason" : null
+  },
+  "rule" : {
+    "schemaVersion" : "trace-link-rule-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "ROAMING",
+    "scope" : {
+      "type" : "PARTNER_DIRECTION",
+      "id" : "ro-partner:out",
+      "cityIds" : [ ],
+      "directionId" : "out",
+      "partnerId" : "ro-partner",
+      "procedure" : "DATA",
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-domain-rules-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "anomalyKind" : "ROAMING_DATA",
+    "verdict" : "BREACH",
+    "reason" : "TRIGGER_EXCEEDED",
+    "overloadCandidate" : false,
+    "anomalyRank" : null,
+    "severity" : "HIGH",
+    "evidenceIds" : [ "hand-roaming.data.success" ],
+    "baselineDeviation" : -2.0
+  },
+  "open" : {
+    "schemaVersion" : "trace-link-lifecycle-v1",
+    "episodeId" : "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+    "detectionId" : "88ce4bb2c106f8c2b86a27ba2f1e3c2edd78bc6ed1ec0a4af40e0871be00bab2",
+    "sequence" : 1,
+    "phase" : "OPEN",
+    "technicalState" : "ONGOING",
+    "severity" : "HIGH",
+    "window" : {
+      "id" : "hand-window-0835:next",
+      "from" : "2026-10-10T08:40:00Z",
+      "to" : "2026-10-10T08:45:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "evaluation" : {
+      "schemaVersion" : "trace-link-rule-result-v1",
+      "datasetId" : "trace-link-md-30d-v1",
+      "namespace" : "trace-link-reference-v1",
+      "domain" : "ROAMING",
+      "scope" : {
+        "type" : "PARTNER_DIRECTION",
+        "id" : "ro-partner:out",
+        "cityIds" : [ ],
+        "directionId" : "out",
+        "partnerId" : "ro-partner",
+        "procedure" : "DATA",
+        "namespace" : "trace-link-reference-v1"
+      },
+      "window" : {
+        "id" : "hand-window-0835:next",
+        "from" : "2026-10-10T08:40:00Z",
+        "to" : "2026-10-10T08:45:00Z",
+        "sourceResolutionSeconds" : 300
+      },
+      "revision" : 0,
+      "topologyVersion" : "trace-link-md-topology-v1",
+      "evaluatedAt" : "2026-10-10T08:45:01Z",
+      "policyVersion" : "trace-link-domain-rules-v1",
+      "baselineVersion" : "trace-link-seasonal-v1",
+      "anomalyKind" : "ROAMING_DATA",
+      "verdict" : "BREACH",
+      "reason" : "TRIGGER_EXCEEDED",
+      "overloadCandidate" : false,
+      "anomalyRank" : null,
+      "severity" : "HIGH",
+      "evidenceIds" : [ "hand-roaming.data.success:next" ],
+      "baselineDeviation" : -2.0
+    }
+  },
+  "supportedCause" : {
+    "schemaVersion" : "trace-link-cause-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "ROAMING",
+    "scope" : {
+      "type" : "PARTNER_DIRECTION",
+      "id" : "ro-partner:out",
+      "cityIds" : [ ],
+      "directionId" : "out",
+      "partnerId" : "ro-partner",
+      "procedure" : "DATA",
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-cause-v1",
+    "symptomPolicyVersion" : "trace-link-domain-rules-v1",
+    "status" : "SUPPORTED_HYPOTHESIS",
+    "probableCauseCode" : "ROAMING_DEPENDENCY_HYPOTHESIS",
+    "probableCause" : "Supported dependency hypothesis; not a confirmed diagnosis.",
+    "causeConfidence" : "MEDIUM",
+    "dependency" : {
+      "relationId" : "r1",
+      "sourceId" : "source-1",
+      "pathId" : "path-1",
+      "topologyVersion" : "trace-link-md-topology-v1",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z"
+    },
+    "supportingEvidenceIds" : [ "e1" ],
+    "contradictoryEvidenceIds" : [ ],
+    "rejectedEvidence" : [ ],
+    "reasonCodes" : [ ]
+  },
+  "unresolvedCause" : {
+    "schemaVersion" : "trace-link-cause-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "ROAMING",
+    "scope" : {
+      "type" : "PARTNER_DIRECTION",
+      "id" : "ro-partner:out",
+      "cityIds" : [ ],
+      "directionId" : "out",
+      "partnerId" : "ro-partner",
+      "procedure" : "DATA",
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-cause-v1",
+    "symptomPolicyVersion" : "trace-link-domain-rules-v1",
+    "status" : "UNDETERMINED",
+    "probableCauseCode" : "UNDETERMINED",
+    "probableCause" : "Cause undetermined; inspect eligible dependency evidence.",
+    "causeConfidence" : null,
+    "dependency" : null,
+    "supportingEvidenceIds" : [ ],
+    "contradictoryEvidenceIds" : [ ],
+    "rejectedEvidence" : [ ],
+    "reasonCodes" : [ "NO_DEPENDENCY" ]
+  }
+}, {
+  "case" : "mobile-dns-only",
+  "baseline" : {
+    "status" : "DIRECT",
+    "center" : 99.0,
+    "mad" : 0.0,
+    "sourceScope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "policyVersion" : "trace-link-baseline-policy-v1",
+    "trainingFrom" : "2026-09-10T09:00:00Z",
+    "trainingTo" : "2026-09-30T09:00:00Z",
+    "coverage" : 1.0,
+    "reason" : null
+  },
+  "rule" : {
+    "schemaVersion" : "trace-link-rule-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "MOBILE_DATA",
+    "scope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-domain-rules-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "anomalyKind" : "MOBILE_DATA_DNS",
+    "verdict" : "BREACH",
+    "reason" : "TRIGGER_EXCEEDED",
+    "overloadCandidate" : false,
+    "anomalyRank" : null,
+    "severity" : "HIGH",
+    "evidenceIds" : [ "hand-mobileData.dns.success" ],
+    "baselineDeviation" : -2.0
+  },
+  "open" : {
+    "schemaVersion" : "trace-link-lifecycle-v1",
+    "episodeId" : "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+    "detectionId" : "7d25ca9147e7ac392853d7e24208bb0fea25f8561d1064012bdf299d1ff49fe3",
+    "sequence" : 1,
+    "phase" : "OPEN",
+    "technicalState" : "ONGOING",
+    "severity" : "HIGH",
+    "window" : {
+      "id" : "hand-window-0835:next",
+      "from" : "2026-10-10T08:40:00Z",
+      "to" : "2026-10-10T08:45:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "evaluation" : {
+      "schemaVersion" : "trace-link-rule-result-v1",
+      "datasetId" : "trace-link-md-30d-v1",
+      "namespace" : "trace-link-reference-v1",
+      "domain" : "MOBILE_DATA",
+      "scope" : {
+        "type" : "CITY",
+        "id" : "CHI",
+        "cityIds" : [ "CHI" ],
+        "directionId" : null,
+        "partnerId" : null,
+        "procedure" : null,
+        "namespace" : "trace-link-reference-v1"
+      },
+      "window" : {
+        "id" : "hand-window-0835:next",
+        "from" : "2026-10-10T08:40:00Z",
+        "to" : "2026-10-10T08:45:00Z",
+        "sourceResolutionSeconds" : 300
+      },
+      "revision" : 0,
+      "topologyVersion" : "trace-link-md-topology-v1",
+      "evaluatedAt" : "2026-10-10T08:45:01Z",
+      "policyVersion" : "trace-link-domain-rules-v1",
+      "baselineVersion" : "trace-link-seasonal-v1",
+      "anomalyKind" : "MOBILE_DATA_DNS",
+      "verdict" : "BREACH",
+      "reason" : "TRIGGER_EXCEEDED",
+      "overloadCandidate" : false,
+      "anomalyRank" : null,
+      "severity" : "HIGH",
+      "evidenceIds" : [ "hand-mobileData.dns.success:next" ],
+      "baselineDeviation" : -2.0
+    }
+  },
+  "supportedCause" : {
+    "schemaVersion" : "trace-link-cause-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "MOBILE_DATA",
+    "scope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-cause-v1",
+    "symptomPolicyVersion" : "trace-link-domain-rules-v1",
+    "status" : "SUPPORTED_HYPOTHESIS",
+    "probableCauseCode" : "MOBILE_DATA_DEPENDENCY_HYPOTHESIS",
+    "probableCause" : "Supported dependency hypothesis; not a confirmed diagnosis.",
+    "causeConfidence" : "MEDIUM",
+    "dependency" : {
+      "relationId" : "r1",
+      "sourceId" : "source-1",
+      "pathId" : "path-1",
+      "topologyVersion" : "trace-link-md-topology-v1",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z"
+    },
+    "supportingEvidenceIds" : [ "e1" ],
+    "contradictoryEvidenceIds" : [ ],
+    "rejectedEvidence" : [ ],
+    "reasonCodes" : [ ]
+  },
+  "unresolvedCause" : {
+    "schemaVersion" : "trace-link-cause-result-v1",
+    "datasetId" : "trace-link-md-30d-v1",
+    "namespace" : "trace-link-reference-v1",
+    "domain" : "MOBILE_DATA",
+    "scope" : {
+      "type" : "CITY",
+      "id" : "CHI",
+      "cityIds" : [ "CHI" ],
+      "directionId" : null,
+      "partnerId" : null,
+      "procedure" : null,
+      "namespace" : "trace-link-reference-v1"
+    },
+    "window" : {
+      "id" : "hand-window-0835",
+      "from" : "2026-10-10T08:35:00Z",
+      "to" : "2026-10-10T08:40:00Z",
+      "sourceResolutionSeconds" : 300
+    },
+    "revision" : 0,
+    "topologyVersion" : "trace-link-md-topology-v1",
+    "baselineVersion" : "trace-link-seasonal-v1",
+    "evaluatedAt" : "2026-10-10T08:40:01Z",
+    "policyVersion" : "trace-link-cause-v1",
+    "symptomPolicyVersion" : "trace-link-domain-rules-v1",
+    "status" : "UNDETERMINED",
+    "probableCauseCode" : "UNDETERMINED",
+    "probableCause" : "Cause undetermined; inspect eligible dependency evidence.",
+    "causeConfidence" : null,
+    "dependency" : null,
+    "supportingEvidenceIds" : [ ],
+    "contradictoryEvidenceIds" : [ ],
+    "rejectedEvidence" : [ ],
+    "reasonCodes" : [ "NO_DEPENDENCY" ]
+  }
+} ]

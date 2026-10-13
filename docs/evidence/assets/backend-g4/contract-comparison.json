@@ -1,0 +1,37 @@
+{
+  "revision": "87bfd3dacdded6f1680ce446ccbd4c400effe718",
+  "comparisons": [
+    {
+      "incidentId": "259afdbf-64ac-4042-9af7-7c3660ddac24",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "status": "RESOLVED",
+      "technicalState": "RECOVERED",
+      "severity": "HIGH",
+      "version": 9,
+      "latestSequence": 5,
+      "firstObservedAt": "2026-10-09T16:01:00Z",
+      "detectedAt": "2026-10-09T16:03:12.284779Z",
+      "lastObservedAt": "2026-10-09T16:07:00Z",
+      "latestPhase": "RECOVERY",
+      "probableCause": "Cause undetermined; inspect SIP traces and aligned dependency measurements.",
+      "causeConfidence": "LOW"
+    },
+    {
+      "incidentId": "1493c74f-265f-473c-b93c-5020c7ae500e",
+      "service": "SMS",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "status": "RESOLVED",
+      "technicalState": "RECOVERED",
+      "severity": "HIGH",
+      "version": 7,
+      "latestSequence": 5,
+      "firstObservedAt": "2026-10-09T16:01:00Z",
+      "detectedAt": "2026-10-09T16:03:11.940742Z",
+      "lastObservedAt": "2026-10-09T16:07:00Z",
+      "latestPhase": "RECOVERY",
+      "probableCause": "No cause established from this SMS window.",
+      "causeConfidence": "LOW"
+    }
+  ]
+}

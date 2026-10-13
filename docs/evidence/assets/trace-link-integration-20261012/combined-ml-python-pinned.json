@@ -1,0 +1,20 @@
+{
+  "name": "combined-ml-python-pinned",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "services/ml-service/tests",
+    "-v"
+  ],
+  "startedAt": "2026-10-12T18:53:13.871649+00:00",
+  "finishedAt": "2026-10-12T18:56:17.056077+00:00",
+  "elapsedSeconds": 183.184,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "combined-ml-python-pinned.log",
+  "logSha256": "68beaab067f70f074489334bc25b57807016bd546823896e7e5166af53d4c008"
+}

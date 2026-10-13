@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "createdAtUTC": "2026-10-09T20:58:14.351Z",
+  "runtimeTestedSha": "fed26a9d529aa5bdfd1810c4c49c902db41f6525",
+  "integratedMainSha": "652726fc0748bce0fa1ff5c74101e4168bc2fff3",
+  "focusedCombinedAcceptance": "PASSED",
+  "humanApproval": "PENDING",
+  "G5ReleaseApproval": "BLOCKED",
+  "artifacts": {
+    ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
+    "absolute-expiry-results.json": "2d87436dd746ed9e22e65a26ad0249b2d2ef5c3297355752af32c5e43c574d77",
+    "candidate-ci.json": "0525799d092d186d9179940fd826ab62cbbe96fde0a40dd49ba43c093a43580d",
+    "capture-hashes.json": "318f697a64012697c4619870ee43ba3889ab00504485e67f72de9df7a2236fe1",
+    "captures/SMS-MD-CHI-390.png": "23fdb456d265bd7de1874fb9e09d03214913da46c1e575cbdfd03a959c574fa4",
+    "captures/VOLTE-MD-CHI-390.png": "896d6b09ed1671efb5daac2ed234545522c6d05ad76c0bf1e9a2f99586fc7fec",
+    "ci-checkout-equivalence.json": "6d194cbf9537f8dbc634ed17d77d9849bdccf1e7398446b6fd5240ea41f31ff8",
+    "geographic-security-results.json": "39ef97d6996d571dba14911384868271b6a94ee574d85c9f68fa6dc5f5e94bc9",
+    "historical-seals.json": "96651b9a880fd83f2f97d770aca66737d15d68d62ef96e11b5afab60672e6f08",
+    "idle-expiry-results.json": "7b8a475bcd5df32790726857b2d7ba729d690bfdd1ce65895d406c95815c915c",
+    "local-verification.json": "36b36f2f2239c565614986e718ebf3f29f248dac38fa1479e35f9767ee88900c",
+    "runtime-source-objects.json": "35acc2714740642ea485f34914707120dfe2c4dbf90811d2a578d3dcb7c6dcd4",
+    "runtime.json": "cc569f56d24bed679dc6eb70a42ea6f7dd87a90264ca77561f8bf41fd02862ad",
+    "scenarios.json": "39ef97d6996d571dba14911384868271b6a94ee574d85c9f68fa6dc5f5e94bc9",
+    "verification.json": "0995cb01d486a1e2bb49beea7fc09f7292b77e6f38bcc3e4551ba584751b56d9"
+  }
+}

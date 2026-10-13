@@ -13,6 +13,17 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DetectionConfigurationTest {
+    @Test void injectedContractOnlyGeographyFailsClosed() throws Exception {
+        var geography = md.utm.telecom.observation.GeographyCatalog.load();
+        new ApplicationContextRunner().withBean(md.utm.telecom.observation.GeographyCatalog.class, () -> geography)
+                .withUserConfiguration(BaselineRegistry.class).run(context -> {
+                    assertNotNull(context.getStartupFailure());
+                    assertTrue(context.getStartupFailure().getMessage().contains("BaselineRegistry"));
+                    Throwable root = context.getStartupFailure();
+                    while (root.getCause() != null) root = root.getCause();
+                    assertEquals("Geographic baselines require activated authority", root.getMessage());
+                });
+    }
     @Test void geographicActivationLoadsReviewedPeersAndKeepsPendingLegacyWindows() {
         new ApplicationContextRunner().withUserConfiguration(BaselineRegistry.class,
                 md.utm.telecom.observation.GeographicRuntimeConfiguration.class)

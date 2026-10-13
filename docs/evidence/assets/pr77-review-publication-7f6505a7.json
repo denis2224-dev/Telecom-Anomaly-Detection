@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "observedAtUTC": "2026-10-09T08:39:35.596Z",
+  "pr": 77,
+  "sourceHeadSha": "7f6505a7084db456bc1faa0cb71eb43e9fd6cc05",
+  "integratedMainSha": "0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+  "actualSyntheticCheckoutSha": "e68273f2aa916a21dcccda2224816881429d0ec6",
+  "syntheticCheckoutTreeSha": "fd0910384b0e4429a82dfb3837200d9bb8894146",
+  "sourceHeadTreeSha": "fd0910384b0e4429a82dfb3837200d9bb8894146",
+  "contentEquivalent": true,
+  "allRequiredPassed": true,
+  "jobs": [
+    {
+      "name": "deployment-config",
+      "id": 113736452376,
+      "run_id": 37905068383,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37905068383/job/113736452376",
+      "checkoutEvidence": [
+        "2026-10-09T08:27:39.8356889Z HEAD is now at e68273f Merge 7f6505a7084db456bc1faa0cb71eb43e9fd6cc05 into 0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+        "2026-10-09T08:27:39.8399585Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-09T08:27:39.8421797Z e68273f2aa916a21dcccda2224816881429d0ec6"
+      ],
+      "resultEvidence": [
+        "2026-10-09T08:27:40.1863116Z Ran 7 tests in 0.000s",
+        "2026-10-09T08:27:40.1863873Z OK"
+      ]
+    },
+    {
+      "name": "model-evaluation",
+      "id": 113736452674,
+      "run_id": 37905068383,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37905068383/job/113736452674",
+      "checkoutEvidence": [
+        "2026-10-09T08:27:41.0480019Z HEAD is now at e68273f Merge 7f6505a7084db456bc1faa0cb71eb43e9fd6cc05 into 0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+        "2026-10-09T08:27:41.0522996Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-09T08:27:41.0546127Z e68273f2aa916a21dcccda2224816881429d0ec6"
+      ],
+      "resultEvidence": [
+        "2026-10-09T08:28:01.7338366Z PASS: v2 schema and 13 independent observation fixtures",
+        "2026-10-09T08:28:01.7339116Z PASS: detection schemas, policy, baseline and 6 payloads",
+        "2026-10-09T08:28:01.7339712Z PASS: 14 explanation trajectories with validated nested features, nodes and detections",
+        "2026-10-09T08:28:01.7340328Z PASS: 7 voice parity cases with unchanged shared expectations",
+        "2026-10-09T08:28:01.7340800Z PASS: 12 SMS parity cases with unchanged shared expectations",
+        "2026-10-09T08:28:01.7341173Z PASS: 62 geographic raw-input/reference cases across 20 scopes; not fresh Java parity",
+        "2026-10-09T08:28:01.7341667Z PASS: 10 cities, 20 geographic scopes + 2 legacy, 50 observations, 12 rejected catalogues, 30 coverage cases",
+        "2026-10-09T08:28:01.7342106Z PASS: 8 geographic voice and 7 SMS numeric reference cases",
+        "2026-10-09T08:28:01.7342500Z PASS: 7 cause DTO examples and 1 PLANNED auxiliary shape samples; no runtime correlation claim",
+        "2026-10-09T08:28:01.7342955Z PASS: 2 PLANNED failed-ping/probe schema examples; ingestion-boundary coverage only",
+        "2026-10-09T08:28:05.8364350Z Ran 59 tests in 3.308s",
+        "2026-10-09T08:28:05.8364604Z OK",
+        "2026-10-09T08:28:05.8365046Z PASS: 7 cause DTO examples and 1 PLANNED auxiliary shape samples; no runtime correlation claim",
+        "2026-10-09T08:28:05.8365734Z PASS: 2 PLANNED failed-ping/probe schema examples; ingestion-boundary coverage only",
+        "2026-10-09T08:28:05.8366376Z PASS: 14 explanation trajectories with validated nested features, nodes and detections",
+        "2026-10-09T08:28:05.8366925Z PASS: 8 geographic voice and 7 SMS numeric reference cases",
+        "2026-10-09T08:28:05.8367518Z PASS: 10 cities, 20 geographic scopes + 2 legacy, 50 observations, 12 rejected catalogues, 30 coverage cases",
+        "2026-10-09T08:29:02.2054438Z Ran 54 tests in 54.135s",
+        "2026-10-09T08:29:02.2054623Z OK"
+      ],
+      "httpParity": "PASS"
+    },
+    {
+      "name": "processor-evaluation",
+      "id": 113737729203,
+      "run_id": 37905068383,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37905068383/job/113737729203",
+      "checkoutEvidence": [
+        "2026-10-09T08:31:27.5570771Z HEAD is now at e68273f Merge 7f6505a7084db456bc1faa0cb71eb43e9fd6cc05 into 0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+        "2026-10-09T08:31:27.5625491Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-09T08:31:27.5648593Z e68273f2aa916a21dcccda2224816881429d0ec6"
+      ],
+      "resultEvidence": [
+        "2026-10-09T08:31:54.1584461Z [INFO] Tests run: 111, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:32:09.1252783Z [INFO] Tests run: 95, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:36:53.4807465Z [INFO] Tests run: 825, Failures: 0, Errors: 0, Skipped: 4",
+        "2026-10-09T08:36:53.6424753Z [INFO] BUILD SUCCESS",
+        "2026-10-09T08:37:19.9182282Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:37:19.9210926Z [INFO] BUILD SUCCESS",
+        "2026-10-09T08:37:43.3146397Z [INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:37:43.3174792Z [INFO] BUILD SUCCESS",
+        "2026-10-09T08:37:57.5264362Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:37:57.5295784Z [INFO] BUILD SUCCESS",
+        "2026-10-09T08:38:44.0434386Z [INFO] Tests run: 179, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:38:44.0465173Z [INFO] BUILD SUCCESS",
+        "2026-10-09T08:39:09.4836609Z [INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:39:09.4873630Z [INFO] BUILD SUCCESS",
+        "2026-10-09T08:39:09.8395852Z PASS: 30 persisted Java/Python payloads, all fields compared",
+        "2026-10-09T08:39:10.0670421Z PASS: 32 persisted Java/Python payloads, all fields compared"
+      ]
+    },
+    {
+      "name": "dashboard-verification",
+      "id": 113736452375,
+      "run_id": 37905068401,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37905068401/job/113736452375",
+      "checkoutEvidence": [
+        "2026-10-09T08:27:40.6573289Z HEAD is now at e68273f Merge 7f6505a7084db456bc1faa0cb71eb43e9fd6cc05 into 0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+        "2026-10-09T08:27:40.6617317Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-09T08:27:40.6643616Z e68273f2aa916a21dcccda2224816881429d0ec6"
+      ],
+      "resultEvidence": [
+        "2026-10-09T08:27:57.2826224Z  Test Files  23 passed (23)",
+        "2026-10-09T08:27:57.2833551Z       Tests  120 passed (120)",
+        "2026-10-09T08:30:12.2098493Z   17 skipped",
+        "2026-10-09T08:30:12.2099266Z   131 passed (1.8m)"
+      ]
+    },
+    {
+      "name": "build",
+      "id": 113736451959,
+      "run_id": 37905068390,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37905068390/job/113736451959",
+      "checkoutEvidence": [
+        "2026-10-09T08:27:41.0735158Z HEAD is now at e68273f Merge 7f6505a7084db456bc1faa0cb71eb43e9fd6cc05 into 0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+        "2026-10-09T08:27:41.0783176Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-09T08:27:41.0810118Z e68273f2aa916a21dcccda2224816881429d0ec6"
+      ],
+      "resultEvidence": []
+    },
+    {
+      "name": "backend-verification",
+      "id": 113736451821,
+      "run_id": 37905068362,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37905068362/job/113736451821",
+      "checkoutEvidence": [
+        "2026-10-09T08:27:42.0822704Z HEAD is now at e68273f Merge 7f6505a7084db456bc1faa0cb71eb43e9fd6cc05 into 0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+        "2026-10-09T08:27:42.0870012Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-10-09T08:27:42.0899175Z e68273f2aa916a21dcccda2224816881429d0ec6"
+      ],
+      "resultEvidence": [
+        "2026-10-09T08:28:49.7268808Z [INFO] Tests run: 151, Failures: 0, Errors: 0, Skipped: 1",
+        "2026-10-09T08:29:36.7850338Z [INFO] Tests run: 59, Failures: 0, Errors: 0, Skipped: 0",
+        "2026-10-09T08:29:37.1441751Z [INFO] BUILD SUCCESS"
+      ]
+    }
+  ]
+}

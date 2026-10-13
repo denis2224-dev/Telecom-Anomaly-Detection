@@ -1,0 +1,22 @@
+{
+  "originalPublication": {
+    "cause-controls.json": "df0ab39aed7a2793395739129f5071fd9e84262de7e9b3d89322701390bfdf5b",
+    "domain-rules.json": "22653d78a03cfc8cd2b295eb6013041a520ee0d277b75403b5e842d3de9e81f1",
+    "fixture-matrix.json": "649cd5e604d8764ca8d736f95614b3e96d86b0a15b3793fd96b15d95cf110ee5",
+    "frozen-hashes.json": "413ee43d18ba7d01b7a56e8a4bf828e54a5b52bd4b05df74f105f7ed8beb6103",
+    "history-fit-report.json": "df6b0054e182a7e0eb36373c52d643e12c4a06cb05c7096bdd687012647184d0",
+    "integrated.json": "12820afd501ccf821e42e996543b26f88e19e603e613fe5e6efb55bceed301d0",
+    "lifecycle.json": "1d7dca4e33bbeaa014edb9e70635fe840d736f6d9782efd231f04df07d1d30c7",
+    "loaded-fallbacks.json": "3bf4c404f87a2b79f779c8769cecfcdac6e5f50a3034710d278793a20c4ae490",
+    "manifest.json": "546897be77e8f582cfa073a5308d0c6c686666595791fa805adc33ce2017e641",
+    "reference-eligibility.json": "d23a5338d4ea81cba1008fd6af94768638c3ff6ebfe88acd391b66452cc63a5a",
+    "seasonal-baseline.json.gz": "767be86c7b55e22581d3d395dc12c39ac3b11d58d03d549dcbf612606c268d87",
+    "service-transport.json": "ab9e9498c59cd08fb1c0339a22d2f13749c76c8b3abc01542847eadb95adde88",
+    "verification-history.json": "baae0291607745b7ff8f9ebc10f824b8f86ed86ceffdcdc089e5d8b4c7ba6382"
+  },
+  "receivingAttachments": {
+    "Trace_Link_Day2_Receiving_Acceptance_Report.md": "67eb09ceb6573bc4dbdf86a1828768ac3e12a35d191314e1709fa6c8a291eaef",
+    "Trace_Link_Day2_Receiving_Evidence.zip": "6e64da6b352e9f5538432113355ee5dd63420a1192bdec90be3a1f069b618c18",
+    "Trace_Link_Day3_Implementation_Plan.md": "c1c67c86092132d732fcf4e3e152a2260b1a1bbbe9cf492fcc5924d752f4bfc3"
+  }
+}

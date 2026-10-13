@@ -26,9 +26,15 @@
     <resources>
       <resource><directory>src/main/resources</directory></resource>
       <resource><directory>../../contracts</directory><targetPath>contracts</targetPath>
-        <includes><include>policies/**</include><include>baselines/**</include><include>features/**</include><include>detections/**</include><include>fixtures/features/**</include><include>fixtures/detections/**</include></includes>
+        <includes><include>policies/**</include><include>baselines/**</include><include>features/**</include><include>detections/**</include><include>evidence/**</include><include>kpi/**</include><include>fixtures/features/**</include><include>fixtures/detections/**</include></includes>
       </resource>
     </resources>
+    <testResources>
+      <testResource><directory>src/test/resources</directory></testResource>
+      <testResource><directory>../../contracts</directory><targetPath>contracts</targetPath>
+        <includes><include>fixtures/trace-link/**</include></includes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId></plugin>
       <plugin>
@@ -39,6 +45,8 @@
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
           <include>**/DetectionReplayIT.java</include>
           <include>**/DependencyOutageIT.java</include>
+          <include>**/TraceLinkDatasetBootstrapIT.java</include>
+          <include>**/TraceLinkProjectionIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

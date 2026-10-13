@@ -1,0 +1,1 @@
+PASS: existing five-minute fixture accepted; raw producer shape and one-minute context rejected

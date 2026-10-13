@@ -1,0 +1,47 @@
+{
+  "modules": {
+    "services\\event-generator": {
+      "tests": 95,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "services\\processor": {
+      "tests": 959,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4
+    },
+    "services/streaming-support": {
+      "tests": 111,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "skips": [
+    {
+      "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+      "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+      "reason": null
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+    },
+    {
+      "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+      "reason": null
+    }
+  ],
+  "status": "BUILD SUCCESS",
+  "duration": "13:21 min",
+  "command": "mvnw.cmd -pl services/processor -am --batch-mode --no-transfer-progress verify"
+}

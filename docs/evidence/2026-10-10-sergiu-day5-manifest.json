@@ -1,0 +1,2059 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+  "startingSha": "cd5b013d979e51e27ff1d4b1c1fff3693a2f4e79",
+  "implementationSha": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+  "branch": "codex/sergiu-day5-acceptance",
+  "status": "LOCAL_VERIFICATION_PASS_SHARED_G5_BLOCKED",
+  "runtime": {
+    "java": "21.0.12.1",
+    "python": "3.13.9",
+    "numpy": "2.4.6",
+    "sklearn": "1.9.1",
+    "joblib": "1.5.3",
+    "docker": "29.5.2",
+    "mlEndpoint": "http://127.0.0.1:18095",
+    "geographicAcceptanceActivationUtc": "2026-10-05T08:00:00Z"
+  },
+  "invariantHashes": {
+    "services/ml-service/models/manifest.json": {
+      "expected": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711",
+      "actual": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711"
+    },
+    "contracts/policies/service-rules-v2.json": {
+      "expected": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+      "actual": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c"
+    },
+    "contracts/baselines/demo-baseline-v2.json": {
+      "expected": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e",
+      "actual": "d661e5351974c86b533e192391d8e744496d4b072899714ee5d6d5d9d0a83d1e"
+    },
+    "services/ml-service/models/VOLTE-calibration.json": {
+      "expected": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489",
+      "actual": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489"
+    },
+    "contracts/topology/demo-scopes-v2.json": {
+      "expected": "6259e98a2081ba93adc5693126a3b14bd3c7bde890d13e1053bca8a8c7320b3c",
+      "actual": "6259e98a2081ba93adc5693126a3b14bd3c7bde890d13e1053bca8a8c7320b3c"
+    },
+    "services/ml-service/models/VOLTE.joblib": {
+      "expected": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd",
+      "actual": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd"
+    },
+    "contracts/baselines/geographic-peer-baseline-v2.json": {
+      "expected": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+      "actual": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82"
+    },
+    "services/ml-service/models/SMS-calibration.json": {
+      "expected": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b",
+      "actual": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b"
+    },
+    "contracts/features/feature-order-v2.json": {
+      "expected": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c",
+      "actual": "5250c7148efed157aa1697597b9b08df9f0b98d97d2c238829ef17c0a50c9d9c"
+    },
+    "contracts/topology/geographic-scopes-v2.json": {
+      "expected": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+      "actual": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532"
+    },
+    "contracts/geography/demo-geography-v1.json": {
+      "expected": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced",
+      "actual": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced"
+    },
+    "services/ml-service/models/SMS.joblib": {
+      "expected": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307",
+      "actual": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307"
+    }
+  },
+  "implementationFileHashes": {
+    "scripts/check-sms-parity.py": "e83b9a55437da13ebaceb7a46d61bfc6aadcfaff8ed969578344cdd26e7fafff",
+    "scripts/check-voice-parity.py": "81a15fca293c84169344bbf102f9b2663c44f5fff1ae00eb7dd579921d4b5692",
+    "scripts/geographic_feature_parity.py": "35ee67ef3018be9aa62e8a0b9d6cfc1471ddae315b9822a71527cc6946af4c36",
+    "services/ml-service/app/features/service_features.py": "ae5027f101f3bf725719eaa3f4cca25cab1a711580de9ff5dc3fbf2189bce6cb",
+    "services/ml-service/tests/test_api.py": "4f3b4d2d14082a71579155d0cf3e3156f83d14d7cb5ff3cb76315e5a2238f31e",
+    "services/ml-service/tests/test_geographic_features.py": "ba0f37c9c9ad0b970fa1ac8d5ac0afc6c1e6cbe3d533f2a58c88d47ccff5cb0c",
+    "services/processor/src/main/java/md/utm/telecom/processing/baseline/BaselineRegistry.java": "2dbb7920bb3db715a57d372a36fd5e4e47cf0d18dbc92d13220502a6a59823be",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/DetectionEvidence.java": "30cfd548b4e5c3d511b6bf0aff60fcaba900fb4362ade3ae4c52fab1f325d6df",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/DetectionWorker.java": "4c8edf003d05a65956445d7a4b909f6d3284993f84cebc77b6d88949324f194d",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/SmsDeliveryRule.java": "0393dad908b7c1777c64f895e567a2ee4a767fda4102bc9378ac38145c21f673",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/VoiceEpisode.java": "2bb48de2e2557cce10c1648521cd42ad1e01277a4bb7486de023d56d64192a04",
+    "services/processor/src/main/java/md/utm/telecom/processing/detection/VoiceSetupRule.java": "9ba21ec86136ab9c96f27ed4e2ece5c01b1f82bd5084d69221a7ccaa1d6632ab",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicDetectionFixtures.java": "233000292660b4a9dd2758dafe09762f90ff16b8ef3db4ea0c893af2c8757b1f",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicDetectorAcceptanceTest.java": "7e20694d16a9da46f8a29c9b61cb0a8e0402a262a232133ad34aea958d6e6306",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicEvidenceIsolationTest.java": "3cef0d31b6913dfa9aae2d4caf4bfda5a66a5df3758301ad083708ac6f1334f7",
+    "services/processor/src/test/java/md/utm/telecom/processing/GeographicMonitoringMigrationTest.java": "296878785d6159a609e16bb3a1a8c1d688913e2defc284493f7ba6a2c5dbce1e",
+    "services/processor/src/test/java/md/utm/telecom/processing/MlClientTest.java": "bcc0f8aec78bfff7bca08ef5eef1c84899db7a405e7c0adba9220404e89e1192",
+    "services/processor/src/test/java/md/utm/telecom/processing/ingestion/IngestionIntegrationTest.java": "cc9eedf3d56b20497081c1a295d423f6ba3dc1eb69124ba79c7b2f14f89a1662",
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/GeographicParityTest.java": "e29012df602448485ded2c6718b200996096ff247665724624b7fa9322e384ff"
+  },
+  "java": {
+    "totals": {
+      "tests": 645,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 644
+    },
+    "suites": {
+      "md.utm.telecom.observation.CoverageContractTest": {
+        "tests": 36,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.observation.GeographyCatalogTest": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.observation.ObservationValidatorTest": {
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.observation.TopologyCatalogTest": {
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.api.ScenarioControllerTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.api.ScenarioExecutionServiceTest": {
+        "tests": 22,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.continuous.GeographicPublicationTest": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.G2ServiceSuiteTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.GeographicRuntimeTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.HealthProbeTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.ObservationGeneratorTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.generator.VoiceScenarioTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.BaselineRegistryTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.DetectionConfigurationTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.DetectionMigrationTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.DetectionReplayIT": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.EpisodeStateTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.ExplanationCasesTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.FinalizerRaceIT": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicAggregationCasesTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicBaselineContractTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicDetectorAcceptanceTest": {
+        "tests": 101,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicEvidenceIsolationTest": {
+        "tests": 20,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicLegacyDetectionTest": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicLegacyWorkerTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicMonitoringMigrationTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.GeographicMonitoringTest": {
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.HealthProbeTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.history.HealthyHistoryTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.history.HistoryRangeTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.ingestion.IngestionIntegrationTest": {
+        "tests": 28,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.ingestion.PayloadCodecTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.ingestion.SourceFreshnessTest": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.CoverageSnapshotTest": {
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.GeographicCoverageTest": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.GeographicParityTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.SmsDeliveryTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.SmsShadowReplayTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "md.utm.telecom.processing.kpi.SmsShadowWorkerTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.VoiceDeliveryTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.kpi.WindowFinalizerTest": {
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.LateInputIT": {
+        "tests": 20,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.MlClientTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.MonitoringLifecycleTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.ObservationInputTest": {
+        "tests": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.outbox.RejectionPublisherTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.ReplayIT": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.SmsEpisodeTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.SmsRuleTest": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.SmsShadowClientTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.SmsShadowConfigurationTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.topology.EvidenceJoinerTest": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.topology.ScopeRegistryTest": {
+        "tests": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.VoiceEpisodeTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "md.utm.telecom.processing.VoiceRuleTest": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "optionalSkipReason": "SmsShadowReplayTest requires SMS_SHADOW_REPLAY_DIR; experimental shadow replay is outside this frozen-model assignment"
+  },
+  "python": {
+    "results": {
+      "root": {
+        "tests": 46,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "ml": {
+        "tests": 49,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "focusedChecks": [
+      "Updated API rejection test:1 passed",
+      "Restored feature/mutation checks:10 passed"
+    ]
+  },
+  "parity": {
+    "legacyVoice": {
+      "status": "PASS",
+      "payloads": 7,
+      "maximumAbsoluteNumericDifference": 0.0,
+      "integers": "exact values",
+      "artifact": "output/day5/parity-legacy-voice.log"
+    },
+    "legacySms": {
+      "status": "PASS",
+      "payloads": 12,
+      "maximumAbsoluteNumericDifference": 0.0,
+      "integers": "exact values",
+      "artifact": "output/day5/parity-legacy-sms.log"
+    },
+    "geographicVoice": {
+      "status": "PASS",
+      "payloads": 90,
+      "maximumAbsoluteNumericDifference": 0.0,
+      "integers": "exact values",
+      "artifact": "output/day5/parity-geographic-voice.log"
+    },
+    "geographicSms": {
+      "status": "PASS",
+      "payloads": 90,
+      "maximumAbsoluteNumericDifference": 0.0,
+      "integers": "exact values",
+      "artifact": "output/day5/parity-geographic-sms.log"
+    }
+  },
+  "geographicHttp": {
+    "compatiblePassed": 60,
+    "incompatibleRejected": 60
+  },
+  "caseLedger": [
+    {
+      "caseId": "AGG-01",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "unit/contract/database integration",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "1089/1100=99.0%; baseline99.3 gives delta=-0.3pp and estimated extra failures3.3",
+      "actual": "Independent BigDecimal/Decimal numeric fixtures passed; persisted unequal-volume feature matches Python",
+      "evidence": [
+        "GeographicAggregationCasesTest",
+        "contracts/fixtures/geography/numeric-cases-v1.json",
+        "parity"
+      ],
+      "limitation": "Live read-projection arithmetic is not authenticated acceptance."
+    },
+    {
+      "caseId": "AGG-02",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "unit/contract/database integration",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Zero denominator, missing baseline, subset coverage and incompatible partitions remain explicit",
+      "actual": "Independent numeric validators and persisted zero/missing/partial variants passed",
+      "evidence": [
+        "GeographicAggregationCasesTest",
+        "output/day5/contracts-final.log",
+        "parity"
+      ],
+      "limitation": null
+    },
+    {
+      "caseId": "DET-01",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "unit/database integration",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Normal opens none; two adjacent breaches open one episode with correct timestamps",
+      "actual": "All twenty scopes passed pure transition and durable ingestion/finalization/worker tests",
+      "evidence": [
+        "GeographicDetectorAcceptanceTest",
+        "GeographicParityTest",
+        "sources"
+      ],
+      "limitation": null
+    },
+    {
+      "caseId": "DET-02",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "unit/database integration",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "UNKNOWN/gray/gaps do not recover; three adjacent healthy minutes recover with historical impact labelled",
+      "actual": "All-city unknown/nonadjacent/recovery checks plus existing gray episode suites passed",
+      "evidence": [
+        "GeographicDetectorAcceptanceTest",
+        "VoiceEpisodeTest",
+        "SmsEpisodeTest",
+        "EpisodeStateTest"
+      ],
+      "limitation": "Protected API/browser analyst workflow review remains blocked."
+    },
+    {
+      "caseId": "DET-03",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "unit/database integration",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Frozen exact policy boundaries, low volume, baseline missing and source-aligned SMS backlog",
+      "actual": "All-city boundary checks and existing complete voice/SMS boundary suites passed",
+      "evidence": [
+        "GeographicDetectorAcceptanceTest",
+        "VoiceRuleTest",
+        "SmsRuleTest",
+        "GeographicBaselineContractTest"
+      ],
+      "limitation": null
+    },
+    {
+      "caseId": "DET-04",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "unit/database integration/private HTTP",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Pinned model and ordered features; unavailable/timeout/incompatible ML cannot change deterministic episodes",
+      "actual": "Both packaged delivery profiles ran without skips; all-city fallback and 60 fresh HTTP inputs/60 rejection controls passed",
+      "evidence": [
+        "MlClientTest",
+        "VoiceDeliveryTest",
+        "SmsDeliveryTest",
+        "GeographicParityTest",
+        "output/day5/geographic-ml.json"
+      ],
+      "limitation": "Contract/execution compatibility does not establish geographic model generalization."
+    },
+    {
+      "caseId": "DET-05",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "unit/contract",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Wrong source/city/time/version, gaps, failed ping/worker and contradictions cannot establish power failure",
+      "actual": "All-city cause controls passed; auxiliary messages/scenario labels rejected by strict V2 detector boundary",
+      "evidence": [
+        "GeographicDetectorAcceptanceTest",
+        "GeographicEvidenceIsolationTest"
+      ],
+      "limitation": "No activated auxiliary evidence pipeline is claimed."
+    },
+    {
+      "caseId": "DET-06",
+      "required": false,
+      "owner": "Rusu Serghei",
+      "status": "NOT_IN_SCOPE",
+      "evidenceKind": "scope decision",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Optional paired explicit-power correlation only after G2 enablement",
+      "actual": "Not enabled; optional slice excluded",
+      "evidence": [],
+      "limitation": null
+    },
+    {
+      "caseId": "REPLAY",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "database integration",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Identical replay preserves identities, episode sequence and durable output",
+      "actual": "All-city worker outbox unchanged after replay; existing lease/concurrency/replay suites passed",
+      "evidence": [
+        "GeographicParityTest",
+        "DetectionReplayIT",
+        "GeographicLegacyWorkerTest"
+      ],
+      "limitation": null
+    },
+    {
+      "caseId": "PARITY",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "PASS",
+      "evidenceKind": "database integration/Python reference",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Fresh Java/Python legacy and geographic payloads match, including provenance",
+      "actual": "7 voice +12 SMS legacy and90 voice +90 SMS geographic; max numeric error0",
+      "evidence": [
+        "parity"
+      ],
+      "limitation": null
+    },
+    {
+      "caseId": "SHARED-G5",
+      "required": true,
+      "owner": "Rusu Serghei",
+      "status": "BLOCKED",
+      "evidenceKind": "authenticated live/owner review",
+      "recordedAtUtc": "2026-10-10T09:53:51.636362+00:00",
+      "commit": "49695750ab22dbf64ba315b986ed63f3f25e7495",
+      "versions": {
+        "policy": "service-rules-v2",
+        "baseline": "baseline-v2",
+        "topology": "2-geography-g1",
+        "catalogue": "2-geography-day2-7f0cee1fd59d36316785110569f3480831fc5f6b1ab869a71880a75779543042",
+        "catalogueDigest": "197571771026be7486e166bd4366fb69c61b2644873748dff50f77a0eaeb6865",
+        "model": "isoforest-v2-synthetic-1",
+        "thresholdRank": 0.99,
+        "featureVersion": 2
+      },
+      "scopeIds": [
+        "SMS-MD-BAL",
+        "SMS-MD-CAH",
+        "SMS-MD-CHI",
+        "SMS-MD-COM",
+        "SMS-MD-EDI",
+        "SMS-MD-ORH",
+        "SMS-MD-RIB",
+        "SMS-MD-SOR",
+        "SMS-MD-TIR",
+        "SMS-MD-UNG",
+        "VOLTE-MD-BAL",
+        "VOLTE-MD-CAH",
+        "VOLTE-MD-CHI",
+        "VOLTE-MD-COM",
+        "VOLTE-MD-EDI",
+        "VOLTE-MD-ORH",
+        "VOLTE-MD-RIB",
+        "VOLTE-MD-SOR",
+        "VOLTE-MD-TIR",
+        "VOLTE-MD-UNG"
+      ],
+      "fixtureStartUtc": "2026-10-05T08:00:00Z",
+      "fixtureIdentity": "deterministic name-based UUIDs; no random training seed",
+      "expected": "Protected API/browser incidents agree with receipts; affected city and two unaffected cities; human review and reproducible mentor flow",
+      "actual": "Local protected application/readiness/geography endpoints unavailable; no authenticated screenshots or owner signatures",
+      "evidence": [
+        "output/day5/live-readiness.json"
+      ],
+      "limitation": "Requires Denis/David/Stanislav integrated runtime and owner review; not replaced by fixture tests."
+    }
+  ],
+  "sources": [
+    {
+      "scopeId": "SMS-MD-BAL",
+      "cityId": "BAL",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-BAL/fault",
+      "windowStart": "2026-10-05T08:01:00Z",
+      "windowEnd": "2026-10-05T08:02:00Z",
+      "windowId": "5f1d32ebaa28fc00cca4e22544cfc299aefbc3a9c59049c00348b44cef8a108b",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "9f66c18c-62ff-3788-b388-7e922cd5d7f8",
+        "e6af95e2-56e3-3818-96bd-d599a32135be"
+      ],
+      "episodes": [
+        {
+          "detectionId": "59ccd7fd378c2b550a3f892ba8373e5a86bc46645eb44edcfccad422082245cb",
+          "episodeId": "e9f69dfc2f04501874ed5283e4116f4193dd4f0d778eafc76c6d87152e75681b",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "ce1d66d1fbbb040d027c403ca84131ccfb5df4b1c2c23ee259d7740d347f3efd",
+          "sourceEventIds": [
+            "1b154552-1bdf-3b2d-a9f3-eb300ce750b3",
+            "a5cc413d-2105-3747-b42e-3e61e31d5bc2"
+          ]
+        },
+        {
+          "detectionId": "399c996eb3edccfe850966af62ceb7b34156ae53ab4a75d4e0ae56370f53f989",
+          "episodeId": "e9f69dfc2f04501874ed5283e4116f4193dd4f0d778eafc76c6d87152e75681b",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "c3fd09a031aa55b669c635b1e2cb08482ce99c65b2ca030a49996c3c9973240f",
+          "sourceEventIds": [
+            "4e016e5b-2023-3824-925d-2c017b5ee2d8",
+            "618a5baa-809a-3221-9e9d-377a68d9880b"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-CAH",
+      "cityId": "CAH",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-CAH/fault",
+      "windowStart": "2026-10-05T08:10:00Z",
+      "windowEnd": "2026-10-05T08:11:00Z",
+      "windowId": "1e1c9622e45a52680d5787ea5adab947e69aba863b2cf479eeec2ae9de103da8",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "2bd50d50-8af9-3847-b475-9b882203b8a2",
+        "6459ab0c-9637-3249-8d1a-54924c216e23"
+      ],
+      "episodes": [
+        {
+          "detectionId": "5c31401e1650e788ae271175d20d9250f06262de0f28ec51c3571bf36d8e381b",
+          "episodeId": "e4a5f13dd00e07a555b43d7a86e35be281662216fba1adc0457bf194adb980bd",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "76ace6ffb54033fa301b87bc04215c573143a34e185a2ab85c0f4e514e4e0bd1",
+          "sourceEventIds": [
+            "1def3cf3-59f9-3506-bcfb-e181b6a6f7fe",
+            "75821296-c5e8-3813-ab1f-de647b020125"
+          ]
+        },
+        {
+          "detectionId": "ab4f22b5fa2e1ca4c497c3cbb0e40f39629a949e82daacfb1b7f07edb2dba10d",
+          "episodeId": "e4a5f13dd00e07a555b43d7a86e35be281662216fba1adc0457bf194adb980bd",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "68b6b9fb36cdbd4c8f407abaef45645be93cd31c3f7d2cc0f1f0091d3223a6ea",
+          "sourceEventIds": [
+            "2071a854-f58d-3f8a-9241-ef496342661d",
+            "ee351227-765d-3b5e-9a59-df0232c98a7c"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-CHI",
+      "cityId": "CHI",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-CHI/fault",
+      "windowStart": "2026-10-05T08:19:00Z",
+      "windowEnd": "2026-10-05T08:20:00Z",
+      "windowId": "9d3cc45367d930a5f94e7918aa4f4329492dc12dafbebb760ebc16989c67b4ac",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "74ea2aee-30c7-36a7-aefa-31f3490e313b",
+        "bb3d8cd8-d948-356f-8526-dd4db1c8bac9"
+      ],
+      "episodes": [
+        {
+          "detectionId": "9ae4413fe3019c18fcb5e787bbee4fab6982617a0e5ba075bfa22db0b55f24d6",
+          "episodeId": "f9686f7af268baf1161d0b3fd56a07ce5c431ca85fe5aa784731a82b78e0d0e4",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "7ca72b889036cef198d08e6d6a2b0e10377c27554bd234398cb994c98dfd7daf",
+          "sourceEventIds": [
+            "ad34591e-6cfa-3b19-a907-476f671b2769",
+            "f6c225e2-ce2b-30ed-9e19-f2840dbb699a"
+          ]
+        },
+        {
+          "detectionId": "cfb301d5cda87a97d1740dddb569bd72b2019f0f20f1a68a8c3ede62f77ee22f",
+          "episodeId": "f9686f7af268baf1161d0b3fd56a07ce5c431ca85fe5aa784731a82b78e0d0e4",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "7660125667cac5f63b3ff7c387c86dd8ba0bc4d76c6a7bb9b172ca238fb43666",
+          "sourceEventIds": [
+            "247b10cb-aea8-33e0-8827-cfbcc209c24d",
+            "a367db03-a2ff-3e23-bfff-c5426c15007c"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-COM",
+      "cityId": "COM",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-COM/fault",
+      "windowStart": "2026-10-05T08:28:00Z",
+      "windowEnd": "2026-10-05T08:29:00Z",
+      "windowId": "0e80920038d8b3afc1815108742d57b5716466bd4ef935ae4cec4f7c948976fb",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "42ac0662-49f9-3ada-a155-ce586d4c3e78",
+        "80ea1858-99ea-3853-ac1f-a1f8777b0011"
+      ],
+      "episodes": [
+        {
+          "detectionId": "2e572a4d9c0a90a709f53b3131df3672289cfa62377ed6bcac08da12b625391d",
+          "episodeId": "bc1cce0db55237931f2c0a5c0a63f4785bb0e920a6a05088e4bce42f83df5724",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "5f26da53189ffd60dc83eb2494308871b0ff1c5785829dff94023877636c705c",
+          "sourceEventIds": [
+            "479cd4bc-9156-3637-951f-a905a568e316",
+            "83a358e1-8e8b-3674-bd02-4836c2790b0c"
+          ]
+        },
+        {
+          "detectionId": "ea71669dbcc5fc52562e7024b838d5933f9f2d8e9894a3223f619ef36a80a2cb",
+          "episodeId": "bc1cce0db55237931f2c0a5c0a63f4785bb0e920a6a05088e4bce42f83df5724",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "3f25eda79b8e9b87a7f04457f17ded19efee2d6d0fd586b99bb47e30e629a121",
+          "sourceEventIds": [
+            "22c52011-2c7d-3614-bc88-f10073fc7444",
+            "6f9fd84c-21a2-3529-8c35-aa7fa34a8f9e"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-EDI",
+      "cityId": "EDI",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-EDI/fault",
+      "windowStart": "2026-10-05T08:37:00Z",
+      "windowEnd": "2026-10-05T08:38:00Z",
+      "windowId": "0bd466ca01ec906c9a142d221cf7a9527027ac7f26b7f88d874bf1280d52f13e",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "51d16be4-d827-3e84-8aeb-0c5c0ff9d02a",
+        "82c3ceab-81f5-33e0-bc47-e152d3d0975e"
+      ],
+      "episodes": [
+        {
+          "detectionId": "1fd23ae4132c1830d050db73306171e7beb81eb0e998ae76ec4ce1b25e41a94a",
+          "episodeId": "24678b2c4dcb160f633a615ce448692d9ffacec5a7fcd21ab18a76b03bd518d4",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "b939d57037a78c95b6145393918ea552f3120124474e5210fb9e0d3332132f18",
+          "sourceEventIds": [
+            "b6c482df-59e2-30ab-b3a5-18e962128d9c",
+            "c67b7cf0-fb84-39ba-91da-7b7084f7170c"
+          ]
+        },
+        {
+          "detectionId": "10983a16715cb46023f1d3dfae3255057e4897e3f2b6786aeb9387de2590dc6a",
+          "episodeId": "24678b2c4dcb160f633a615ce448692d9ffacec5a7fcd21ab18a76b03bd518d4",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "424a5e37e8d3adbdf5f19855cbb6f5a78e3d764454c2a73313f169fa59a3e75a",
+          "sourceEventIds": [
+            "2c875e58-736a-330a-8db7-ffa8bc43eb55",
+            "38b9baba-1f4c-30cf-918b-0086b9c6b7f6"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-ORH",
+      "cityId": "ORH",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-ORH/fault",
+      "windowStart": "2026-10-05T08:46:00Z",
+      "windowEnd": "2026-10-05T08:47:00Z",
+      "windowId": "ed51872a1d62bcdedb004cad685da6231eb30cf7418460fd4b82150ca071dd3f",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "03a22866-a264-36fc-b1b5-36543b8ef331",
+        "7935898f-2ae9-36b2-97a1-f1664b99fc0b"
+      ],
+      "episodes": [
+        {
+          "detectionId": "3007cde9bbd34ae014d1299d419b09904357b3968f51c64bf00f442612d55a99",
+          "episodeId": "d0531a5c0b30c7e0d37ccf890c9a9d6154835d52ed9ade4a9cd137842f0f2888",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "9487f6afda40862ff8a4282c1054b8f5edb9a3fb12de5360a0380dc7b327e6ac",
+          "sourceEventIds": [
+            "b662bf8d-6901-391a-9972-d18690d18538",
+            "f3a03924-e3ca-38f0-bf67-e5198a02a3e3"
+          ]
+        },
+        {
+          "detectionId": "357caac49010e5994611277e6bd700d2bca87531905cf6b77258a118a7dcd229",
+          "episodeId": "d0531a5c0b30c7e0d37ccf890c9a9d6154835d52ed9ade4a9cd137842f0f2888",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "587076dc20488acb5559203024f0ffc10827f25631ee02cf3e52fc26c420d13e",
+          "sourceEventIds": [
+            "80ef56da-68c7-3d79-aee0-ee800c239738",
+            "a13dd7fd-2a3a-383f-805c-76cf5228c076"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-RIB",
+      "cityId": "RIB",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-RIB/fault",
+      "windowStart": "2026-10-05T08:55:00Z",
+      "windowEnd": "2026-10-05T08:56:00Z",
+      "windowId": "18bb7ad6ddd64194082465827bc9273765f0a5edd5b9299618def795a997350e",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "2ce84d2c-0d52-3b10-a84e-d77268ce31c9",
+        "30b2c373-9e2d-3dbf-83ea-aeb925831cb2"
+      ],
+      "episodes": [
+        {
+          "detectionId": "f9a739b3be579e70fca6aecaf709c63ec7f752962e7590f1e95a522013da018f",
+          "episodeId": "c764f198e3288adafa69a69562add516c74cff39f8770b48392b12c18b65abbd",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "b4d4e1d7932184cfe20037444976f4f91cb6b659a3dae5ea909519ad00e2b5b3",
+          "sourceEventIds": [
+            "16dccdfb-3529-3038-a7cf-61e0b173b2bc",
+            "af8f9b04-395e-3ca4-ab75-ab40bd2d1b4d"
+          ]
+        },
+        {
+          "detectionId": "027e364031ae284b0d61f5d9ce78870b17a3d59b80cab6154a6707db5d561d1d",
+          "episodeId": "c764f198e3288adafa69a69562add516c74cff39f8770b48392b12c18b65abbd",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "dadfcde8987c46928cd1cd47671432529e71c239f3eb5bcbbb7d3205ec540ea7",
+          "sourceEventIds": [
+            "3c420b1d-31be-3378-a96a-1a2a6c200a05",
+            "fa66b8ee-501b-3930-a50f-35de3335146b"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-SOR",
+      "cityId": "SOR",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-SOR/fault",
+      "windowStart": "2026-10-05T09:04:00Z",
+      "windowEnd": "2026-10-05T09:05:00Z",
+      "windowId": "baed2ae52d1db7c213996603e88a8453b4a6e8843217d2fedac8febff2d7f114",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "0f3b1f00-d81d-3721-b4e6-2e5c0ed0bc6f",
+        "aa851a5d-ab30-32eb-bb77-85f0a7aa965f"
+      ],
+      "episodes": [
+        {
+          "detectionId": "e7259be7e4d4243b85ecbeb10851c02812818b4661a7ab73f8946810c1558285",
+          "episodeId": "f9f944a5adc19e2e8d6d9c88e39ac5c2ddeb929eee3d823d9b379f8cfe74e410",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "4325879a596c0268006b82161fddf6c86a4f8558c42c46655a40b1bd0868eade",
+          "sourceEventIds": [
+            "17e7d725-adfd-3df6-8739-bf3eb68a2baa",
+            "faa2125c-d886-3415-ae0c-6c12a211ca1f"
+          ]
+        },
+        {
+          "detectionId": "171e0c1cca51da22a155f57d1d5155fabff3f556a1e73325ced48c9362b7a73c",
+          "episodeId": "f9f944a5adc19e2e8d6d9c88e39ac5c2ddeb929eee3d823d9b379f8cfe74e410",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "08e2145d5a98bfc8db1bd71f77685857d37723e95ed84c1d772129fa29f8b796",
+          "sourceEventIds": [
+            "54e43a30-817f-3ba7-88c1-d7ec7a3505ac",
+            "e68c50c3-5288-3b0b-b682-e9f610d6dacf"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-TIR",
+      "cityId": "TIR",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-TIR/fault",
+      "windowStart": "2026-10-05T09:13:00Z",
+      "windowEnd": "2026-10-05T09:14:00Z",
+      "windowId": "fe0461a901e65ed7ec9f85d8b89387778d0c8df79cb6a5f9b36d43aefa4eb8ab",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "49a6cc2f-32b8-3a58-acc2-e44185b32fe9",
+        "dfa6b07d-d94b-39f9-8168-ba623cffb6df"
+      ],
+      "episodes": [
+        {
+          "detectionId": "53b3f6101d2141386e571b549ff036c7d59bdb1e89a00aaf53f0e9fb12350411",
+          "episodeId": "8788c5d65fc7dce66a451bd3aeb50a41dddd095fd497ca65e3680e15633c75ab",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "f0559a373110c2df825c1abc04e783667b8afa4932ac1839071a7d27e77a4136",
+          "sourceEventIds": [
+            "24244e2d-e7ab-3c03-ae3c-a7238e6d1f14",
+            "44e14772-1fc2-32c8-8a35-ec55f5ee4586"
+          ]
+        },
+        {
+          "detectionId": "0e1fd8279b2f3fdd02bf9a574dcef5a6c4fbedf8b0d2c08fe3ed89b45d2cc40d",
+          "episodeId": "8788c5d65fc7dce66a451bd3aeb50a41dddd095fd497ca65e3680e15633c75ab",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "003b5016c0e3f93be455d63c932706f07fda5891000aea666fbb4274383d6ef8",
+          "sourceEventIds": [
+            "0ad2bc6d-e6ca-3d63-8961-464e939b8839",
+            "eaa43ed2-3f5e-3a6c-b95a-9219f52d4b80"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "SMS-MD-UNG",
+      "cityId": "UNG",
+      "service": "SMS",
+      "parityCaseId": "SMS-MD-UNG/fault",
+      "windowStart": "2026-10-05T09:22:00Z",
+      "windowEnd": "2026-10-05T09:23:00Z",
+      "windowId": "a3cdb24b8a4a06ba1b316366792c0957ab99eb4e9c0418846a3982c71928ffb4",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "5d7b7e10-1982-3cf7-905b-3e6d82d20025",
+        "f5082dca-86c9-3c04-8de3-23e9e4a0e2bf"
+      ],
+      "episodes": [
+        {
+          "detectionId": "8c6416e5d796a86771f2312e686ed525bb89c329c7f9d68acb9f47d12b1a8a1f",
+          "episodeId": "c53976564129d8c3e9365b9a42b03d14cf84e7cb26f3fed049240a011bc96d32",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "02eecbf4039fe0f55bcc8a76177f5d818de7ba4663fcb6e215fa6a6a327781ed",
+          "sourceEventIds": [
+            "144cb9f7-16ab-3b12-b60e-5f544eca9769",
+            "bcad907c-7f91-3a74-87b2-8182af908730"
+          ]
+        },
+        {
+          "detectionId": "4304b0df1e3d67620517e8bcef70b67377bdfdc3ceeeb99961cfd9ff5edd151d",
+          "episodeId": "c53976564129d8c3e9365b9a42b03d14cf84e7cb26f3fed049240a011bc96d32",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "41ca98960f462806c6689d88a0701d60bd83292a29a7a0370f5a27a8cbe81914",
+          "sourceEventIds": [
+            "7d07b05b-85d4-3507-b531-d0f323c4c885",
+            "f06ef700-32dc-3178-944c-fe97b405be0d"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-BAL",
+      "cityId": "BAL",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-BAL/fault",
+      "windowStart": "2026-10-05T09:31:00Z",
+      "windowEnd": "2026-10-05T09:32:00Z",
+      "windowId": "55bbd380bdfcd8d8e8f23aac43bfea6e2bdf7a3c474a049603694bc59a0edcfb",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "5025a239-e0a2-35d3-bfd1-5353709fc762",
+        "c1b3ed37-ebfa-3b58-8108-7de7516d865e",
+        "faba5893-0aea-3d81-9a6b-d89b4ce8006b"
+      ],
+      "episodes": [
+        {
+          "detectionId": "08ba95a063c03f314f4ecc2b5f7f5102d3098042204258f5a5ea3757bf8e59fd",
+          "episodeId": "0c11f7df5e391e9e9507e60a70c70aa5c314818a8f666446b2314cfb2c4acd9d",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "690a5c642a372e399a7e165a436724879f966af54ad23b90c1b1660cc52e626f",
+          "sourceEventIds": [
+            "c91c96fc-9313-3252-b324-0881680d722c",
+            "eaa43a97-bc09-3f78-8dee-eba119b2665c",
+            "eb729520-e174-3d52-b466-831c6dd76738"
+          ]
+        },
+        {
+          "detectionId": "3f8ff18291551dd61a37a2669574897e193a7715b6ebd6b81c695cc54a9c3edc",
+          "episodeId": "0c11f7df5e391e9e9507e60a70c70aa5c314818a8f666446b2314cfb2c4acd9d",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "008050ba9533ca2f20b253cff8fc1b6d8cb9d49b5ccbf6d6c9c5523f75128d54",
+          "sourceEventIds": [
+            "433e1bbd-0ae7-3619-87f0-514131c2f851",
+            "c99577c6-2eb4-3f07-951a-c69db53736b0",
+            "d6bc0bcd-2813-3383-82f1-c990abf77f88"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-CAH",
+      "cityId": "CAH",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-CAH/fault",
+      "windowStart": "2026-10-05T09:40:00Z",
+      "windowEnd": "2026-10-05T09:41:00Z",
+      "windowId": "21c074b7c1ae5ab2182fc43c180527d0435682db7abce05dbf73dd3d56dd5d20",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "b9b0e61f-c399-3957-8633-adb5d65aabaf",
+        "be0eb42f-f138-3c68-8aff-87c181d03c42",
+        "f809d1af-688b-3133-a51a-39156d4d3a4c"
+      ],
+      "episodes": [
+        {
+          "detectionId": "d1521fa3aaa091adbac474b586048c541abc6166ef007fe78445fb2329f8db82",
+          "episodeId": "e1f3b107fdc181ac37636d6a56c6b7496a864fb0f89795497eb39433b6d4e938",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "62bba87a04b5321619e4631541b4c46ed39e02f91aacaa9fc2bba28f84684a15",
+          "sourceEventIds": [
+            "2fe3c04f-c801-3957-a83c-ba74c418dc84",
+            "5602f72a-aefc-393b-bebd-c32ca4d5d579",
+            "61c32f78-75a2-3415-8125-792e6a422c63"
+          ]
+        },
+        {
+          "detectionId": "b9d23cf34f83a64c1ea6074cc3e69f3090427324efe9507a9be8f9463b19c140",
+          "episodeId": "e1f3b107fdc181ac37636d6a56c6b7496a864fb0f89795497eb39433b6d4e938",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "8a55e1a4d492bb105d9071cdd830c454cee2815a9f11e8c1acab28c45b0abcdf",
+          "sourceEventIds": [
+            "87220d1c-436f-310c-98ae-6463bada7f93",
+            "ae3daf58-23c0-3e49-b4b4-f6470d0a1d4a",
+            "bb21d12d-df39-37cd-9003-c5d1987b9992"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-CHI",
+      "cityId": "CHI",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-CHI/fault",
+      "windowStart": "2026-10-05T09:49:00Z",
+      "windowEnd": "2026-10-05T09:50:00Z",
+      "windowId": "a9672ac376776ac501650bfeb03c009ccad214b780a10889a40f89879e63ecd4",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "3666cdc6-7591-3071-9180-03cfced6331e",
+        "7f2e9eb0-d0a1-33b8-a144-bac1c7d88296",
+        "edf39dba-b2de-39d8-80d8-a53c76e9fff3"
+      ],
+      "episodes": [
+        {
+          "detectionId": "0a1a8dbec3698cf802242289eba4c23e0fa26c24c877f5bc9903ddd5651c55f4",
+          "episodeId": "5ff7c821c8a22f1e54efbadbb1ee9e2a9d1a231b0fe56bae596d2f6099df41ee",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "ca6e470fba8ce59873a69d2bde5c3c6da365582f5447195e8f90952d426b422e",
+          "sourceEventIds": [
+            "429f871c-f542-35c1-ac42-1aefd71c8369",
+            "60399d1f-b4c2-3f1b-87c0-6cba364c40a4",
+            "c38b9304-4e30-3cd1-ac5d-4d8f0d059a21"
+          ]
+        },
+        {
+          "detectionId": "c37d7813eb9c6b25df2337f905cbf49ee1ab09686d77ba011841298939b23c9d",
+          "episodeId": "5ff7c821c8a22f1e54efbadbb1ee9e2a9d1a231b0fe56bae596d2f6099df41ee",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "1f001e815381542ebe907cacc588a86f5c4d13b18657ad929b2c5737ff3b794e",
+          "sourceEventIds": [
+            "791b0247-cafa-3c59-965b-adbe1bf18db8",
+            "a35a4690-a8f8-33e7-9855-6450bddf9d63",
+            "d549c776-dc12-3bb8-b06f-22b9b15e9522"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-COM",
+      "cityId": "COM",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-COM/fault",
+      "windowStart": "2026-10-05T09:58:00Z",
+      "windowEnd": "2026-10-05T09:59:00Z",
+      "windowId": "a3dcc63f3b319886e7d9d94e4de6234b1de730879ff3f50dc819a39d8d2c403f",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "1e0729ba-ef91-30d2-a4e9-f515abedcc2b",
+        "1f970f0f-db9c-3ca5-8f4f-299406b2b34a",
+        "89eb5e53-46d6-30cc-ad45-5a5ef20110b1"
+      ],
+      "episodes": [
+        {
+          "detectionId": "a63d441feacb3bee270a5ebfdcc051e9170a7aa048d221a260e806236319a8da",
+          "episodeId": "04d409ccc21f5e7463a90c286897d7d12cb9743f7edd0eefcb306a8724e1cf4c",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "8c4c00ef7bce7f82eb4a682e36ea70e959ad50aee5adc2d72f4b8437a275288a",
+          "sourceEventIds": [
+            "0793d6e4-a97d-3458-b85d-45f29d12cb01",
+            "0dd1a600-2a85-3184-8dfd-0a85cc5a2031",
+            "b9011730-543e-3bfb-aaf7-4423b451753d"
+          ]
+        },
+        {
+          "detectionId": "3094af42394fafc1616cf6cc3bb8e2119c1f435360db3b7d619569f3826f74f8",
+          "episodeId": "04d409ccc21f5e7463a90c286897d7d12cb9743f7edd0eefcb306a8724e1cf4c",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "c10f5f2595ea5fc8820aa2f4b2ee2a2e8a4868c0c713f878948d842caba2267f",
+          "sourceEventIds": [
+            "1a5204e7-0ef2-3cc8-a8f0-1042311453fd",
+            "90aa75ba-89e1-32ba-8d84-27af316b9655",
+            "dd517007-7b70-3d68-9943-e5ab21d34156"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-EDI",
+      "cityId": "EDI",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-EDI/fault",
+      "windowStart": "2026-10-05T10:07:00Z",
+      "windowEnd": "2026-10-05T10:08:00Z",
+      "windowId": "d3cfd6d73122f891863fe3fbe44608303c5b89a27aaaf18cfc6c9411850b025e",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "53dfb2f5-2128-35c1-a942-909b3876f23f",
+        "c989bf75-ff11-3700-8df9-f603e5987830",
+        "f2c3bdbf-7980-373b-abd8-e9e37bb53be8"
+      ],
+      "episodes": [
+        {
+          "detectionId": "ee4ba26a834f04e763c4528fdfe1fd0cf684ebd69c8b2fd1da3e66c69647043d",
+          "episodeId": "d77232c1438e6cc07f1bdea9c06ec535dcac9794da77869fdfd72be7d23d6a27",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "7b1960c0a46ccb3aa7fb87bf4d585bf566438cd188906ad4e99f4d468dda8e28",
+          "sourceEventIds": [
+            "03563dc1-cfc7-3b82-96e4-5fdad6e85c8f",
+            "309ad963-6c21-3d23-9459-636888b76dda",
+            "4f64cf69-df8f-3991-a449-defb301742c1"
+          ]
+        },
+        {
+          "detectionId": "fb3e4615710c40f8bfde461f43f91cfb04bc828a8ef03e78ab00cd5863f88be4",
+          "episodeId": "d77232c1438e6cc07f1bdea9c06ec535dcac9794da77869fdfd72be7d23d6a27",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "96972e88b9e828db5a7a1c02e474e07a13f99a99466890e00a2380760f27b600",
+          "sourceEventIds": [
+            "7666d88a-f1e3-3115-b938-f5e438af2804",
+            "8e71a2a8-a61c-322e-bc30-2d589bd20e08",
+            "fdf11b97-9d34-3cfb-97d8-367572a1f846"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-ORH",
+      "cityId": "ORH",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-ORH/fault",
+      "windowStart": "2026-10-05T10:16:00Z",
+      "windowEnd": "2026-10-05T10:17:00Z",
+      "windowId": "a8d523cc1e307a4b092837649cafc16ed198c125b26aa8d9b6fb09665623dcae",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "1f62e5f6-ce34-3950-9cd9-b4c785bfa1c5",
+        "4aad6a18-71db-3d39-a91d-f3554a33c23b",
+        "79062645-3fc7-34d0-ae3b-57a763cdbf82"
+      ],
+      "episodes": [
+        {
+          "detectionId": "73dd919d9947cb3f134082d53578c64dd079d50e92ed8d7461585e04690ee8fd",
+          "episodeId": "18852954b0e38fb317f15a4fc3b65fc4db4267e9d9a993fad8093977d124ec57",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "bd09c56830e2be48bc423e6e9ac418686d67f3a2b79c18726b4c1008b41fb233",
+          "sourceEventIds": [
+            "34dd8517-27ee-3ef7-8c72-a879fe1e8684",
+            "6f585b6d-b263-3577-a64f-15369ab5626f",
+            "bd2addad-4a5e-30a8-8a59-8abc6095c7a2"
+          ]
+        },
+        {
+          "detectionId": "e0693da9d887c7bf0ad166f87256496167b69da8589476233719dadc94524008",
+          "episodeId": "18852954b0e38fb317f15a4fc3b65fc4db4267e9d9a993fad8093977d124ec57",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "e2ad8549eae6ba7a71ea25e3a36ef5b03fbbb1596a6e9590a86d8854ddf3ed89",
+          "sourceEventIds": [
+            "203ea647-f3fd-3213-bf2f-e3760b004f34",
+            "7fb02e78-d3e6-3e4a-b47f-d9b2792e4a5c",
+            "dfd11613-5dbb-36b2-9bb0-083043fcc6e0"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-RIB",
+      "cityId": "RIB",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-RIB/fault",
+      "windowStart": "2026-10-05T10:25:00Z",
+      "windowEnd": "2026-10-05T10:26:00Z",
+      "windowId": "8a3f8b48a6c24675e311ac3b385b70261716c7b29aca392a7ee22c1208c54a8c",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "021ed025-9568-32c0-9ee1-757f2713a531",
+        "58d260d6-431b-3df4-8bba-07435ff0443c",
+        "d0e44a6f-ac68-36ea-9b5f-12e4c95aecfa"
+      ],
+      "episodes": [
+        {
+          "detectionId": "c70fe1dd8991972e53b553acc33ade7fe32d64a9aac9801cd99edc4256f961b1",
+          "episodeId": "ce5380f70c670afdd530c38a1996bc74dc79d20cf67628058e3991979c96454f",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "b6a6e7c9811aed81eb4c931fcac0085fd4f79d19d27162e8787690ab47a5a80d",
+          "sourceEventIds": [
+            "20be1bba-3fc9-3426-8d2c-25896c279a8d",
+            "550c50c0-590b-3102-a949-4a9a26284171",
+            "de137bfc-dd40-3187-a922-eb25056128f0"
+          ]
+        },
+        {
+          "detectionId": "b6260a89299f6036a6a99c22b8e2f45134d896f23d0c52a0086e85ccab211c97",
+          "episodeId": "ce5380f70c670afdd530c38a1996bc74dc79d20cf67628058e3991979c96454f",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "0d94930fda0cd276dbee194c96826de42338673baf06fe7f9c3996cef86d27a5",
+          "sourceEventIds": [
+            "54ae7a05-2bca-3c59-81f5-d808f49d2fdd",
+            "6b982a45-366e-3c6b-9b6e-b56145578336",
+            "a32f5335-1950-3209-bc86-3fa896b0b726"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-SOR",
+      "cityId": "SOR",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-SOR/fault",
+      "windowStart": "2026-10-05T10:34:00Z",
+      "windowEnd": "2026-10-05T10:35:00Z",
+      "windowId": "3ca4afcd0a76b4709894f687bf556b1e8f1d000bba86e0493c2c87ccceabd6fb",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "1aed0c05-d89d-3e61-b016-913da230554a",
+        "29629fdc-b7cb-3a25-8ad5-56a3875b0003",
+        "a37e41b0-8648-3c57-9c2f-90b06deccda0"
+      ],
+      "episodes": [
+        {
+          "detectionId": "de1afa33b4f1e307cdf0bf9153a9c7014b74d2fe877f68f6f4627f098237ecb1",
+          "episodeId": "47cffa49a5315b8d4200f6ecad27d96f03c01824b1c3bbb95831b0cc4c7babeb",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "2ff7920473df0860e91caac46128c54106b88302115f7b23494e51295fb42546",
+          "sourceEventIds": [
+            "17e8f50d-dc19-304b-a4da-5d3353826ef9",
+            "696ddfbf-9af3-3a8e-848b-8f62047c57d4",
+            "bd1f4319-151c-3bde-abed-2ae5e2614395"
+          ]
+        },
+        {
+          "detectionId": "86251c0cf9f0b7e92ab09fb8533e957446422a009ecf7a41a264082ee2820436",
+          "episodeId": "47cffa49a5315b8d4200f6ecad27d96f03c01824b1c3bbb95831b0cc4c7babeb",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "c9b7dbf750f05aa480d8a09f637003ba47423fb3e96672541b3f0afea4c60984",
+          "sourceEventIds": [
+            "245a12ea-24c9-38e3-b3d1-db9caf580770",
+            "599033e9-d6fd-385a-aaf8-4d6ba87abae2",
+            "e11ced87-1cf8-3227-ad3b-8efc21cf0950"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-TIR",
+      "cityId": "TIR",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-TIR/fault",
+      "windowStart": "2026-10-05T10:43:00Z",
+      "windowEnd": "2026-10-05T10:44:00Z",
+      "windowId": "6116a76b34230bc509ca0ca91cf795b7f2f2d949db8ef725159a5674c1bbda30",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "0064e23a-7e5a-3a04-b18d-c107637d1087",
+        "4714820a-8286-3a7d-9629-4273cda13f2f",
+        "540a18f9-1cba-33eb-90dd-89ee2aa60b92"
+      ],
+      "episodes": [
+        {
+          "detectionId": "e2e139ca373f150f178fde05049938745d5cc9e809e1862df5f24c6319959dc4",
+          "episodeId": "7990eced403eb8edfe6808627cb443a003f5446427f9c58f1afb908828c08307",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "ee8ac8a86721bb187b0d121527f7d675a862c6e869fd171d7c945d2142ab574e",
+          "sourceEventIds": [
+            "4cfff600-07d8-3d8e-99a5-0574916d0523",
+            "851707e6-4480-3010-8d92-b1769982a019",
+            "c2bc8df4-7aa6-3e58-ba1e-94a6a3e2387f"
+          ]
+        },
+        {
+          "detectionId": "3e02ceaba8f58cff3c7a49bda0032c3d4d5d25029b7be32a6ad6ae357e75413f",
+          "episodeId": "7990eced403eb8edfe6808627cb443a003f5446427f9c58f1afb908828c08307",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "708c81b16b0466f25dcbd12c6305ea4247343e66e10fdfc608596e209989bc0a",
+          "sourceEventIds": [
+            "2643ca40-51cd-3578-9fd1-830e4ba6414f",
+            "661baf4e-3cb0-3dfe-8262-8407a94c9b22",
+            "d403257c-eb6d-3767-a7c3-8c8a739d126e"
+          ]
+        }
+      ]
+    },
+    {
+      "scopeId": "VOLTE-MD-UNG",
+      "cityId": "UNG",
+      "service": "VOLTE",
+      "parityCaseId": "VOLTE-MD-UNG/fault",
+      "windowStart": "2026-10-05T10:52:00Z",
+      "windowEnd": "2026-10-05T10:53:00Z",
+      "windowId": "c47f4fc033a31d721167f7c8dd061a85813710aa2f80e8c90cc87f980f073b4e",
+      "topologyVersion": "2-geography-g1",
+      "sourceEventIds": [
+        "606bdf17-a073-39a8-a7fb-12fb15aa4985",
+        "b20169e1-31a5-34cb-a7b3-6a80a874c71c",
+        "f8e61632-ad36-3a12-a53e-107374275d1f"
+      ],
+      "episodes": [
+        {
+          "detectionId": "f8b5a1ae78bb9776efdbfe45a9745dba9d8cd038f60c9b6e5587a678f676ff12",
+          "episodeId": "e73d63fe4139baa3089cb8f292658e3298781885de24df278fc7087baa9e8fb5",
+          "windowStart": "2026-10-05T08:03:00Z",
+          "windowEnd": "2026-10-05T08:04:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:04:10Z",
+          "phase": "OPEN",
+          "sequence": 1,
+          "windowId": "7c28d7fdb4f792c6cd23c7d5b11f7461556b5357ee710112fc652d2db52fcf8d",
+          "sourceEventIds": [
+            "2526d4b2-74ab-3e17-bcfa-88ecbe7f4313",
+            "66721b19-c64c-335e-adc2-435af496c73a",
+            "9e37af60-61fe-350b-ba05-c1ede5e2933a"
+          ]
+        },
+        {
+          "detectionId": "d76227e8ec15439055a8eb95d4351302eb54e99aa87d40331789db7cd671660d",
+          "episodeId": "e73d63fe4139baa3089cb8f292658e3298781885de24df278fc7087baa9e8fb5",
+          "windowStart": "2026-10-05T08:07:00Z",
+          "windowEnd": "2026-10-05T08:08:00Z",
+          "firstObservedAt": "2026-10-05T08:02:00Z",
+          "detectedAt": "2026-10-05T08:08:10Z",
+          "phase": "RECOVERY",
+          "sequence": 5,
+          "windowId": "5de2fa5cfe4866dc3c0344f4f61513618952eabd4d3fba9b2b43d173d096a748",
+          "sourceEventIds": [
+            "8c39f97f-2382-35c8-9ee6-b8652f0a8a54",
+            "d2ed3d6c-0972-301a-88a9-c4d5a7ac182e",
+            "d785e396-9418-3beb-9a54-e77a4bf19d8c"
+          ]
+        }
+      ]
+    }
+  ],
+  "artifactHashes": {
+    "output/day5/contracts-final.log": "490c0479933359f3012410224e9b4c94c1c0f70547f597d5d05704c5a6672c7a",
+    "output/day5/python-root-final.log": "236b2f3183561c9c480aff593f0d262d7803b8bbc9bea8ac4aaad4f021941688",
+    "output/day5/python-ml-final.log": "dd0c9202a12e401ea1f677381a77381018c45296083cafe473872d35625abb2e",
+    "output/day5/python-api.log": "3afc9dfb2b6f5f4b18abc9391525d4dcbdb0b20540764bb267483adbf6832711",
+    "output/day5/python-features-final.log": "9af92c3b4c7569e098f6235fd6b9c0221db8a1b931514d26fe0bcef720f0aa19",
+    "output/day5/mutation.log": "a890ff920dbe1221bcab93334216c58be7ae054ec4ecccd5b3b869a30f5f64f7",
+    "output/day5/java-verify-final.log": "fc3dd9d4b5972901bafa9a948c507d0ac00e6330e6fe19d089513c16dff85ba6",
+    "output/day5/geographic-ml.json": "9299eceeabb63fd5c6316da23cbe292d4b8b3cd695d17f295fd6e9afb790446e",
+    "output/day5/live-readiness.json": "55f8334c9aa66515743465cc78319d1ad9310d237be447ce5ad8bbd118b292a2",
+    "tasks/sergiu-day5-acceptance/check_geographic_http.py": "33704f565f5bfc06e592f9113780b43daf13f7fa39a2170f6cf344f72acc82f4",
+    "services/processor/target/geographic-parity-java.json": "a04506b26c7759138265bae9dce7b77ffef9e0d9c68961940e07905023ff3b82",
+    "services/processor/target/day5-geographic-detections.json": "c74760ab928ff94a8bb5ff0027740243328b9200db71f6cf90a74812164461df",
+    "services/processor/target/g2-voice-detections.json": "17d489226fda9abd75ef7394b6e59908b57aaf935a9c8143048cefd0e5ad4e7c",
+    "services/processor/target/g2-sms-detections.json": "fe733f6b458b29ab3aa64f86cc188c74084683b6f0ebe39a7307e8866d106279",
+    "output/day5/parity-legacy-voice.log": "e83c29c8f44eb22dcb17b4628decd7e6c2c237bae457e37525b26167ea7a129d",
+    "output/day5/parity-legacy-sms.log": "209e85f8cd05a192bac32f68f744691794d888c94245a59c894039121d56a345",
+    "output/day5/parity-geographic-voice.log": "e3a6d120a83103493194fd1f19b7675d6918c300ac622b413d382c3ec4302ac6",
+    "output/day5/parity-geographic-sms.log": "9a848e01cd1607017a9dcbe011e33d86d460b2f011b80786f1c37e731ab2c38b"
+  },
+  "ownerReviews": {
+    "Ion": "PENDING: shared feature/export boundary",
+    "Denis": "PENDING: protected API and projection review",
+    "David": "PENDING: authenticated UI wording/screenshots",
+    "Stanislav": "PENDING: combined release/demo acceptance"
+  },
+  "limitations": [
+    "Synthetic peer baselines",
+    "Geographic model generalization unvalidated",
+    "Rank is not probability",
+    "Subscriber impact remains null",
+    "DET-06 excluded",
+    "Authenticated shared gate remains BLOCKED"
+  ]
+}

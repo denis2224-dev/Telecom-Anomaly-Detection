@@ -1,0 +1,216 @@
+{
+  "capturedAt": "2026-10-08T16:53:12.902Z",
+  "candidate": {
+    "sha": "f3e83b157af134c8138354340717e7e3df946768",
+    "project": "telecom-g4-pr77",
+    "publicOrigin": "http://telecom.test:8080",
+    "geographyEffectiveFrom": "2026-10-08T00:00:00Z",
+    "historyBootstrap": false,
+    "proxyBackend": "incident-service:8082",
+    "ports": {
+      "postgres": 15432,
+      "kafka": 19094,
+      "generator": 18081,
+      "incident": 18082,
+      "proxy": 8080
+    }
+  },
+  "files": {
+    "compose.yaml": "8abcbfafc1bf0b8e1ee80211208cc62e1c431c829608daf986e72d566333950e",
+    "contracts/topology/geographic-scopes-v2.json": "b0f39e02a4687c34bbe3ba988100402033a137eb9500a290d671a63aee6a5532",
+    "contracts/geography/demo-geography-v1.json": "134fb76a79e0942a930700a323b693108010fb1f64f58e708b67075aabf5eced",
+    "contracts/baselines/geographic-peer-baseline-v2.json": "dce63721acb008da1c8048b942b50aa61e2ed20baf681a2e693ba9ea199ebe82",
+    "contracts/policies/service-rules-v2.json": "5566c4f40940e0e7df6efd3a2d1b7d9a860f47f87e468f469d9089f1f25f005c",
+    "tmp/g4-pr77/compose.yaml": "7cfcb4551555ef79ce4af5a281eb641fedf4176b6faab547c1ded467a2162c6a",
+    "tmp/g4-pr77/nginx.conf": "647291d4d10dfeca032a73e965c15e12fd4eed5c2cd7d7e5d617f1b97babe2ef"
+  },
+  "images": [
+    {
+      "service": "event-generator",
+      "id": "sha256:53824e71f6ca690f9340d576a7ce973cdb26d20a6096ce3dd1470b5bdb99c92d",
+      "repoDigests": [
+        "telecom-g4-pr77-event-generator@sha256:53824e71f6ca690f9340d576a7ce973cdb26d20a6096ce3dd1470b5bdb99c92d"
+      ],
+      "sourceRevision": "f3e83b157af134c8138354340717e7e3df946768"
+    },
+    {
+      "service": "history-bootstrap",
+      "id": "sha256:0a85fb272bb79e4a51a4c1f1306c08e257496b0c48f3626428e72619746902e9",
+      "repoDigests": [
+        "telecom-g4-pr77-processor@sha256:0a85fb272bb79e4a51a4c1f1306c08e257496b0c48f3626428e72619746902e9"
+      ],
+      "sourceRevision": "f3e83b157af134c8138354340717e7e3df946768"
+    },
+    {
+      "service": "incident-service",
+      "id": "sha256:0f58ccb7870a3639d1f830f1bf95aa9d22cd9491c4f07cfd087691fce595b933",
+      "repoDigests": [
+        "telecom-g4-pr77-incident-service@sha256:0f58ccb7870a3639d1f830f1bf95aa9d22cd9491c4f07cfd087691fce595b933"
+      ],
+      "sourceRevision": "f3e83b157af134c8138354340717e7e3df946768"
+    },
+    {
+      "service": "kafka",
+      "id": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "repoDigests": [
+        "apache/kafka@sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed"
+      ],
+      "sourceRevision": null
+    },
+    {
+      "service": "kafka-init",
+      "id": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "repoDigests": [
+        "apache/kafka@sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed"
+      ],
+      "sourceRevision": null
+    },
+    {
+      "service": "keycloak",
+      "id": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "repoDigests": [
+        "quay.io/keycloak/keycloak@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c"
+      ],
+      "sourceRevision": "df15afa5a3a8a2b10021f879ffa93b30fb36c73a"
+    },
+    {
+      "service": "ml-service",
+      "id": "sha256:3605e6fb5f4225ea6863c84e72213b6d6af63c8a5710b96dc0288380dedcfabd",
+      "repoDigests": [
+        "telecom-g4-pr77-ml-service@sha256:3605e6fb5f4225ea6863c84e72213b6d6af63c8a5710b96dc0288380dedcfabd"
+      ],
+      "sourceRevision": "f3e83b157af134c8138354340717e7e3df946768"
+    },
+    {
+      "service": "postgres",
+      "id": "sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c",
+      "repoDigests": [
+        "postgres@sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c"
+      ],
+      "sourceRevision": null
+    },
+    {
+      "service": "processor",
+      "id": "sha256:0a85fb272bb79e4a51a4c1f1306c08e257496b0c48f3626428e72619746902e9",
+      "repoDigests": [
+        "telecom-g4-pr77-processor@sha256:0a85fb272bb79e4a51a4c1f1306c08e257496b0c48f3626428e72619746902e9"
+      ],
+      "sourceRevision": "f3e83b157af134c8138354340717e7e3df946768"
+    },
+    {
+      "service": "proxy",
+      "id": "sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+      "repoDigests": [
+        "nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236"
+      ],
+      "sourceRevision": null
+    }
+  ],
+  "containers": [
+    {
+      "name": "telecom-g4-pr77-event-generator-1",
+      "service": "event-generator",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:53824e71f6ca690f9340d576a7ce973cdb26d20a6096ce3dd1470b5bdb99c92d"
+    },
+    {
+      "name": "telecom-g4-pr77-history-bootstrap-1",
+      "service": "history-bootstrap",
+      "state": "exited",
+      "health": "",
+      "imageId": "sha256:0a85fb272bb79e4a51a4c1f1306c08e257496b0c48f3626428e72619746902e9"
+    },
+    {
+      "name": "telecom-g4-pr77-incident-service-1",
+      "service": "incident-service",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:0f58ccb7870a3639d1f830f1bf95aa9d22cd9491c4f07cfd087691fce595b933"
+    },
+    {
+      "name": "telecom-g4-pr77-kafka-1",
+      "service": "kafka",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed"
+    },
+    {
+      "name": "telecom-g4-pr77-kafka-init-1",
+      "service": "kafka-init",
+      "state": "exited",
+      "health": "",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed"
+    },
+    {
+      "name": "telecom-g4-pr77-keycloak-1",
+      "service": "keycloak",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c"
+    },
+    {
+      "name": "telecom-g4-pr77-ml-service-1",
+      "service": "ml-service",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:3605e6fb5f4225ea6863c84e72213b6d6af63c8a5710b96dc0288380dedcfabd"
+    },
+    {
+      "name": "telecom-g4-pr77-postgres-1",
+      "service": "postgres",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c"
+    },
+    {
+      "name": "telecom-g4-pr77-processor-1",
+      "service": "processor",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:0a85fb272bb79e4a51a4c1f1306c08e257496b0c48f3626428e72619746902e9"
+    },
+    {
+      "name": "telecom-g4-pr77-proxy-1",
+      "service": "proxy",
+      "state": "running",
+      "health": "healthy",
+      "imageId": "sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236"
+    }
+  ],
+  "topics": [
+    "__consumer_offsets",
+    "telecom.coverage.v1",
+    "telecom.detections.dlq.v1",
+    "telecom.detections.v1",
+    "telecom.detections.v2",
+    "telecom.kpis.v2",
+    "telecom.ml-shadow.sms.v1",
+    "telecom.observations.invalid.v2",
+    "telecom.observations.late.v2",
+    "telecom.observations.v2",
+    "telecom.telemetry.v1"
+  ],
+  "dashboardAssets": {
+    "chunk-2IXY2DIA.js": "0ae15bdd0f2f5b7916d4200ceb7ec8711f881becfac9cb32f79ee59846c68450",
+    "chunk-5SA66ML3.js": "674558ce739e9b86956524783c169eed6baadc40b7030cda1d8e6879b193a73e",
+    "chunk-7RD76673.js": "0afba8bb96dbb7e26df777660564400c407cb7cb8824566ac0ce4eeb10d35210",
+    "chunk-FUTXHJWB.js": "a16dd32ff211975878ece42069eaaa9110a058dee1cf7041fae78c825950b1cd",
+    "chunk-G4XXPZXI.js": "cdd0776c54c074502c54487c84022e29cc5e9e498cd04a47cbe8069692f85f2f",
+    "chunk-HUDNFMWC.js": "9892562754bfb242dd6e40abed09980287e3c1e05d841180afc37e54865f91c2",
+    "chunk-K3KARNZO.js": "b3ecaefd77a7cd7f19e8ae0ae93aff693f12e7d3aa0b83d3f6b50ba14eab4cbd",
+    "chunk-MCLJDYPO.js": "2f9b19dd94d23c320efe2545a31bcd8bfde1c527051d199c3bcb30ad4b2caaed",
+    "chunk-P5F26ERL.js": "951e1e013909fc254f62d01db3d4fb194f71377ff0953bc79307d86976059f10",
+    "chunk-RJOADIC6.js": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0",
+    "index.html": "41c135520f079eab5c47387b258929be3beac29ca1830ab6902d989553ba80cd",
+    "main-BHRBNFR5.js": "2b4530882c007ce58df78637c61be01ab07ca474cc33c80e4f2132cb43005d1d",
+    "styles-SNZ3XGVC.css": "68d1216294dcc88cbfabb108109068b9907ba92be47e8683021dfcdf8c203a4e"
+  },
+  "publicEnvironment": {
+    "TELECOM_GEOGRAPHY_ENABLED": "true",
+    "TELECOM_GEOGRAPHY_EFFECTIVE_FROM": "2026-10-08T00:00:00Z",
+    "HISTORICAL_BOOTSTRAP_ENABLED": "false",
+    "CONTINUOUS_TELEMETRY_ENABLED": "true"
+  },
+  "databaseVersion": "16.4"
+}

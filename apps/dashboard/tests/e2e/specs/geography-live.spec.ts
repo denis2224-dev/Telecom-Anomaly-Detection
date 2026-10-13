@@ -116,6 +116,8 @@ async function liveApi(page: Page) {
 for (const width of [1366, 768, 390]) {
   test(`LIVE catalogue and selected-city APIs at ${width}px`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 900 });
+    // This interaction check counts explicit refreshes; fallback timing is tested separately.
+    await page.clock.setFixedTime(new Date('2026-10-08T12:00:10Z'));
     const state = await liveApi(page);
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();

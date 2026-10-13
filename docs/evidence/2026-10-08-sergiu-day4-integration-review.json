@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-08T14:19:31Z",
+  "pr": 77,
+  "verifiedCodeSha": "978c81b3655add76dc0368164b7d16dbe62c86f9",
+  "mergedMainSha": "1b675c64938474e74c79efcecb6e051c4d460943",
+  "source": "GitHub connector: commit workflow runs and latest-attempt workflow jobs",
+  "result": "AUTOMATED_PASS_SHARED_G4_PENDING",
+  "sharedG4Accepted": false,
+  "optionalPower": "NOT_IN_SCOPE",
+  "counts": {
+    "originalLocal": {
+      "implementationSha": "626721b9046fc5de1d5767bc8cb7fa78a4b021f8",
+      "executed": 195,
+      "selection": "nine suites, including three GeographicReplayTest cases"
+    },
+    "independentLocalAudit": {
+      "codeSha": "a1afc6d4457ec076d3c9136f4ea5d300621ee4cf",
+      "executed": 192,
+      "selection": "same selection except GeographicReplayTest; not a post-integration rerun"
+    },
+    "ciCauseSelection": {
+      "expectedSelectionCount": 179,
+      "note": "195 minus 16 DetectionReplayIT tests; replay ordering has its own CI step. No aggregate CI count is inferred."
+    }
+  },
+  "workflows": [
+    {
+      "id": 37788623949,
+      "name": "incident-runtime-image",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788623949",
+      "jobs": [
+        {
+          "id": 113349767391,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Build the Compose-managed incident service image",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 37788624095,
+      "name": "dashboard",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788624095",
+      "jobs": [
+        {
+          "id": 113349767602,
+          "name": "dashboard-verification",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Run npm ci",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run build",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npx playwright install --with-deps chromium",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npx playwright test --workers=2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Save browser reports",
+              "conclusion": "skipped"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 37788624071,
+      "name": "incident-service",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788624071",
+      "jobs": [
+        {
+          "id": 113349767792,
+          "name": "backend-verification",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Verify incident service with PostgreSQL and Kafka tests",
+              "conclusion": "success"
+            },
+            {
+              "name": "Save test reports",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 37788624124,
+      "name": "service-integration",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37788624124",
+      "jobs": [
+        {
+          "id": 113350020185,
+          "name": "deployment-config",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Validate geography startup alignment",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 113350020484,
+          "name": "model-evaluation",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Install validation and ML dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate contracts and packaged models",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild deterministic evaluation data",
+              "conclusion": "success"
+            },
+            {
+              "name": "Evaluate local packaged models",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build and start private ML inference",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 113351308445,
+          "name": "processor-evaluation",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Install geographic parity dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify processor dependency outages and replay boundaries",
+              "conclusion": "success"
+            },
+            {
+              "name": "Save processor outage evidence and test reports",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start private ML inference",
+              "conclusion": "success"
+            },
+            {
+              "name": "Replay controls without ML service",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify processor delivery fairness, scheduling isolation, and replay ordering",
+              "conclusion": "success"
+            },
+            {
+              "name": "Replay both service profiles with packaged model",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify cause controls, bounded ML failures, and durable geographic replay",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run geographic processor and parity verification",
+              "conclusion": "success"
+            },
+            {
+              "name": "Stop private ML inference",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "acceptance": [
+    {
+      "requirement": "City scenario targeting",
+      "status": "RESOLVED",
+      "evidence": "PR74 merged at 1b675c6, included in 978c81b"
+    },
+    {
+      "requirement": "Authenticated fault/normal/gap/recovery",
+      "status": "PRIOR_REVISION_EVIDENCE_ONLY",
+      "evidence": "docs/evidence/2026-10-08-geographic-completion.md",
+      "limitation": "Not rerun at 978c81b; raw artifact retains receipt/display review pending"
+    },
+    {
+      "requirement": "Final-revision map/queue/detail consistency",
+      "status": "PENDING"
+    },
+    {
+      "requirement": "Replay persistence and ML fallback",
+      "status": "AUTOMATED_PASS",
+      "evidence": "processor-evaluation job"
+    },
+    {
+      "requirement": "Final-revision live reconnect/security/feature-off rollback",
+      "status": "PENDING"
+    },
+    {
+      "requirement": "Required reviewer/owner acceptance",
+      "status": "PENDING",
+      "limitation": "User-supplied colleague review withholds final approval; no approval is fabricated"
+    }
+  ],
+  "runtime": {
+    "status": "UNAVAILABLE_FOR_SHARED_ACCEPTANCE",
+    "observed": "docker compose ps and docker ps found only incident-service, subsequently restarting; no complete authenticated stack"
+  },
+  "limits": [
+    "Documentation correction has no code/config changes; check its new head's CI before merging.",
+    "Green controlled/DB/HTTP tests are not a final-revision authenticated live G4 demonstration.",
+    "Original local verification evidence is preserved separately."
+  ],
+  "finalConnectedG4": {
+    "technicalAcceptance": "PASS",
+    "humanReviewerApproval": "PENDING",
+    "sharedOwnerSignOff": "PENDING",
+    "evidence": "2026-10-08-sergiu-g4-connected-acceptance.md",
+    "applicationBuildSha": "f3e83b157af134c8138354340717e7e3df946768",
+    "runtimeEquivalentIntegratedSha": "b6969f404119aa5a6805c7d3a6db72a4854c5311",
+    "note": "The earlier result/sharedG4Accepted fields above are the historical automated-only review; this executed connected technical audit does not supply human acceptance."
+  }
+}

@@ -1,0 +1,83 @@
+import { test, expect, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { controlledApi } from '../helpers/controlled-api';
+
+const csvRows=(name:string)=>{
+  const [header,...lines]=readFileSync(resolve(__dirname,`../../../../../contracts/fixtures/trace-link/native-slice/${name}.csv`),'utf8').trim().split(/\r?\n/);
+  return lines.map(line=>Object.fromEntries(header.split(',').map((key,index)=>[key,line.split(',')[index]])));
+};
+const active={active:true,validFrom:'2026-09-10T09:00:00Z',validTo:null,synthetic:true};
+const cities=csvRows('cities').map(city=>({...active,id:city.id,name:city.name,latitude:+city.latitude,longitude:+city.longitude,demandShare:+city.demand_share}));
+const links=csvRows('links').map(link=>({...active,id:link.id,endpointA:link.a,endpointB:link.b,linkType:'FIBER',nominalCapacityGbps:+link.nominal_capacity_gbps,
+  directions:['a-to-b','b-to-a'].map(id=>({id,effectiveCapacityGbps:+link.nominal_capacity_gbps,capacityValidFrom:active.validFrom,capacityValidTo:null,measurementSource:'controlled reference fixture'}))}));
+const partners=csvRows('countries').flatMap(country=>['in','out'].map(direction=>({...active,id:country.partner_id,country:country.id,direction})));
+const definition={domain:'volte',metric:'voice.success_rate',unit:'PERCENT',aggregation:'RATIO_OF_SUMS',population:'VoLTE call attempts in the selected city',primitiveFields:['numerator','denominator'],policyVersion:'trace-link-md-policy-v1'};
+const queryUrl='/trace-link?datasetId=trace-link-md-30d-v1&from=2026-09-10T09%3A00%3A00Z&to=2026-09-10T09%3A20%3A00Z&resolution=5m&cityId=chi';
+const exactCsv='from,value,numerator,denominator\r\n"2026-09-10T09:00:00Z","0","0","10"\r\n"2026-09-10T09:05:00Z",,"0","0"\r\n';
+function series(url:URL){
+  const params=Object.fromEntries(url.searchParams),seconds=({'5m':300,'15m':900,'1h':3600,'6h':21600} as Record<string,number>)[params.resolution];
+  const from=Math.floor(Date.parse(params.from)/(seconds*1000))*seconds*1000,to=Math.ceil(Date.parse(params.to)/(seconds*1000))*seconds*1000;
+  return {...params,requestedFrom:params.from,requestedTo:params.to,effectiveFrom:new Date(from).toISOString(),effectiveTo:new Date(to).toISOString(),partialStart:from!==Date.parse(params.from),partialEnd:to!==Date.parse(params.to),sourceResolutionSeconds:300,unit:'PERCENT',aggregation:'RATIO_OF_SUMS',synthetic:true,policyVersion:definition.policyVersion,topologyVersion:'trace-link-md-topology-v1',nextCursor:null,
+    points:Array.from({length:(to-from)/seconds/1000},(_,index)=>({from:new Date(from+index*seconds*1000).toISOString(),to:new Date(from+(index+1)*seconds*1000).toISOString(),value:[0,null,50,45][index%4],coverage:1,quality:index%4===3?'STALE':'VALID',numerator:index%4===1?0:[0,0,5,9][index%4],denominator:index%4===1?0:10,sumValue:null,sampleCount:null}))};
+}
+async function setup(page:Page){
+  await controlledApi(page);const queries:Record<string,string>[]=[];
+  await page.route('**/api/v2/**',route=>{
+    const url=new URL(route.request().url());
+    if(url.pathname==='/api/v2/inventory/cities')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',cities}});
+    if(url.pathname==='/api/v2/inventory/links')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',links}});
+    if(url.pathname==='/api/v2/inventory/partners')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',partners}});
+    if(url.pathname==='/api/v2/kpi-definitions')return route.fulfill({json:[definition]});
+    queries.push(Object.fromEntries(url.searchParams));
+    if(url.pathname.endsWith('.csv'))return route.fulfill({contentType:'text/csv;charset=utf-8',body:exactCsv});
+    return route.fulfill({json:series(url)});
+  });return queries;
+}
+for(const width of [1366,390])test(`native history keeps query, inventory, gaps and exact export at ${width}px`,async({page},info)=>{
+  const queries=await setup(page);await page.setViewportSize({width,height:900});await page.goto(queryUrl);
+  await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');
+  await expect(page.getByRole('region',{name:'Persisted metric chart'})).toContainText('Unavailable · zero denominator');
+  await expect(page.getByRole('region',{name:'Persisted metric chart'})).toContainText('STALE');
+  const path=await page.getByRole('region',{name:'Persisted metric chart'}).locator('svg path').getAttribute('d');
+  expect(path?.match(/M/g)).toHaveLength(2);
+  await expect(page.getByRole('region',{name:'Persisted metric chart'}).locator('svg circle')).toHaveCount(3);
+  const selectedFrom=await page.getByLabel('From · UTC inclusive').inputValue();
+  await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('1h');await expect.poll(()=>queries.at(-1)?.resolution).toBe('1h');
+  await expect(page.getByLabel('From · UTC inclusive')).toHaveValue(selectedFrom);
+  await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('5m');
+  await page.getByRole('button',{name:'Zoom in',exact:true}).click();await expect.poll(()=>queries.at(-1)?.from).toBe('2026-09-10T09:05:00.000Z');
+  await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
+  const expand=page.getByRole('button',{name:'Expand metric',exact:true});await expect(expand).toBeVisible();await expand.focus();await page.keyboard.press('Enter');
+  const expanded=page.getByRole('dialog',{name:'Expanded persisted metric'});await expect(expanded).toContainText('2026-09-10T09:00:00Z');
+  await page.keyboard.press('Escape');await expect(expanded).not.toBeVisible();await expect(expand).toBeFocused();
+  const plot=page.getByRole('region',{name:'Persisted metric chart'}).locator('svg');await plot.scrollIntoViewIfNeeded();const box=(await plot.boundingBox())!;
+  await page.mouse.move(box.x+box.width*.25,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width*.75,box.y+box.height/2);await page.mouse.up();
+  await expect.poll(()=>queries.at(-1)?.from).not.toBe(selectedFrom);await expect(page.getByLabel('From · UTC inclusive')).toHaveValue(selectedFrom);
+  await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Download exact server CSV'})).toBeEnabled();
+  const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download exact server CSV'}).click();
+  const download=await downloadEvent;expect(readFileSync((await download.path())!,'utf8')).toBe(exactCsv);
+  expect(queries.at(-1)).toMatchObject({datasetId:'trace-link-md-30d-v1',domain:'volte',metric:'voice.success_rate',scopeType:'CITY',scopeId:'chi',resolution:'5m',from:'2026-09-10T09:00:00Z',to:'2026-09-10T09:20:00Z'});
+  await page.getByRole('button',{name:'chi-hin b-to-a',exact:true}).click();await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('Selected chi-hin:b-to-a');
+  await expect(page.getByRole('row').filter({has:page.getByRole('button',{name:'chi-hin b-to-a',exact:true})})).toContainText('hin → chi');
+  await page.getByRole('combobox',{name:'City',exact:true}).selectOption('bal');await expect(page.getByRole('region',{name:'Approved topology'})).not.toContainText('Selected chi-hin');
+  await page.getByRole('button',{name:'Roaming',exact:true}).click();await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('No approved metric definition');
+  await page.getByRole('combobox',{name:'Country',exact:true}).selectOption('RO');await page.getByRole('combobox',{name:'Roaming direction',exact:true}).selectOption('in');
+  await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('RO-DEMO-01 · in');
+  await expect(page.getByRole('combobox',{name:'City',exact:true})).toHaveValue('bal');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  await page.screenshot({path:info.outputPath(`trace-history-${width}.png`),fullPage:true});
+});
+
+test('a cancelled old-city response cannot replace the selected city history',async({page})=>{
+  await setup(page);let release!:()=>void,started=false;
+  await page.route('**/api/v2/metrics/series?**',async route=>{
+    const url=new URL(route.request().url());if(url.searchParams.get('scopeId')==='chi'){started=true;await new Promise<void>(resolve=>release=resolve);}
+    await route.fulfill({json:series(url)}).catch(()=>{});
+  });
+  await page.goto(queryUrl);await expect.poll(()=>started).toBe(true);await page.getByRole('combobox',{name:'City',exact:true}).selectOption('hin');
+  await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('CITY hin');release();
+  await page.waitForTimeout(200);await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('CITY hin');
+  await expect(page.getByRole('region',{name:'Persisted domain panels'})).not.toContainText('CITY chi');
+});

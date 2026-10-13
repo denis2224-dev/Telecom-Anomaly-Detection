@@ -1,0 +1,47 @@
+{
+  "sourceSha": "7fe593eb0c4eabe4670e2d1c649fc573f3e91a1d",
+  "startedAtUTC": "2026-10-08T21:34:48.426Z",
+  "status": "FAILED",
+  "checks": [
+    "ANALYST/SUPERVISOR real OIDC; prelogin REST401; session/CSRF rotation; stale CSRF403; token-free storage",
+    "ANALYST scenario UI and API restrictions",
+    "Owned proxy stop/start: native SSE reconnect and authoritative REST refresh preserve city/filter/range/focus",
+    "CHI fault map/queue against API, BAL normal, CAH missing history/null/unit presentation; desktop/mobile"
+  ],
+  "runs": [
+    {
+      "runId": "6ba2e5a6-42d3-449c-9c52-9c8539341e9b",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T21:36:00Z",
+      "scheduledEndAt": "2026-10-08T21:44:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CHI"
+    },
+    {
+      "runId": "17d6ce20-2709-4249-a0a1-1168cc44b0a5",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T21:36:00Z",
+      "scheduledEndAt": "2026-10-08T21:44:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-CHI"
+    },
+    {
+      "runId": "4edaf126-0005-43dd-9324-5a84b2a8c76e",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T21:36:00Z",
+      "scheduledEndAt": "2026-10-08T21:44:00Z",
+      "scenarioType": "NORMAL_CONTROL",
+      "scopeId": "VOLTE-MD-BAL"
+    },
+    {
+      "runId": "b2a02f23-919a-4f40-b2f4-884583685b2b",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-08T21:36:00Z",
+      "scheduledEndAt": "2026-10-08T21:44:00Z",
+      "scenarioType": "TELEMETRY_GAP",
+      "scopeId": "SMS-MD-CAH"
+    }
+  ],
+  "trace": [],
+  "captures": []
+}

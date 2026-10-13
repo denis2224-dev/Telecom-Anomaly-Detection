@@ -41,6 +41,9 @@ test('keyboard: skip link, service chart, incident workflow, conflict, Escape', 
   await visibleFocus(serviceLink);
   await page.keyboard.press('Enter');
   const chart = page.getByLabel('Scrollable CSSR chart', { exact: true });
+  // The hero includes a focusable loading plot before the asynchronous KPI read.
+  // Inspect measured points only after the server-backed drawing is populated.
+  await expect(chart.locator('path.actual-line')).toHaveAttribute('d', /M/);
   await tabTo(page, chart);
   await visibleFocus(chart);
   await page.keyboard.press('Home');

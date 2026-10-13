@@ -1,0 +1,40 @@
+name: PR77 focused connected verification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  connected-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: apps/dashboard/package-lock.json
+      - name: Install browser dependencies
+        working-directory: apps/dashboard
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Verify isolated-runner safety
+        run: node --test scripts/pr77-*.test.cjs
+      - name: Run production connected acceptance
+        run: >
+          node scripts/pr77-connected-verification.cjs
+          --project pr77-${{ github.run_id }}-${{ github.run_attempt }}
+          --private-dir "$RUNNER_TEMP/pr77-private"
+          --output-dir "$RUNNER_TEMP/pr77-public"
+      - name: Save public acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr77-focused-connected-evidence
+          path: ${{ runner.temp }}/pr77-public/
+          if-no-files-found: warn
+          retention-days: 30

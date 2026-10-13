@@ -1,0 +1,410 @@
+name: telecom-g4-pr77
+x-geography-environment: &a1
+  TELECOM_GEOGRAPHY_ENABLED: ${TELECOM_GEOGRAPHY_ENABLED:-false}
+  TELECOM_GEOGRAPHY_EFFECTIVE_FROM: ${TELECOM_GEOGRAPHY_EFFECTIVE_FROM:-}
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-telecom_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:?Set PROCESSING_DB_PASSWORD}
+      PROCESSING_MIGRATOR_PASSWORD: ${PROCESSING_MIGRATOR_PASSWORD:?Set PROCESSING_MIGRATOR_PASSWORD}
+      INCIDENT_DB_PASSWORD: ${INCIDENT_DB_PASSWORD:?Set INCIDENT_DB_PASSWORD}
+      INCIDENT_MIGRATOR_PASSWORD: ${INCIDENT_MIGRATOR_PASSWORD:?Set INCIDENT_MIGRATOR_PASSWORD}
+      KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:?Set KEYCLOAK_DB_PASSWORD}
+    ports:
+      - 127.0.0.1:${POSTGRES_PORT:-5432}:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - type: bind
+        source: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection\infra\postgres\init
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - telecom-private
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.4
+    command:
+      - start-dev
+      - --import-realm
+    volumes:
+      - type: bind
+        source: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection\tmp\g4-pr77\private-realm.json
+        target: /opt/keycloak/data/import/telecom-realm.json
+        read_only: true
+      - type: bind
+        source: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection\infra\keycloak\themes\telecom
+        target: /opt/keycloak/themes/telecom
+        read_only: true
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
+      KC_DB_USERNAME: keycloak_app
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:?Set KEYCLOAK_DB_PASSWORD}
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USERNAME:-admin}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Set KEYCLOAK_ADMIN_PASSWORD}
+      KC_HOSTNAME: http://telecom.test:8080/auth
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_PROXY_HEADERS: xforwarded
+      KC_HEALTH_ENABLED: "true"
+      KC_HTTP_MANAGEMENT_RELATIVE_PATH: /
+    depends_on:
+      postgres:
+        condition: service_healthy
+    expose:
+      - "8080"
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - -ec
+        - "{ printf 'HEAD /health/ready HTTP/1.0\\r\\n\\r\\n' >&0; grep -q
+          'HTTP/1.0 200'; } 0<>/dev/tcp/localhost/9000"
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+    networks:
+      - telecom-private
+  proxy:
+    image: nginx:1.28.3-alpine
+    volumes:
+      - type: bind
+        source: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection\tmp\g4-pr77\nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+      - type: bind
+        source: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection\apps\dashboard\dist\dashboard\browser
+        target: /usr/share/nginx/html
+        read_only: true
+        bind:
+          create_host_path: false
+    ports:
+      - 127.0.0.1:8080:8080
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -q -O /dev/null
+          http://127.0.0.1:8080/auth/realms/telecom/.well-known/openid-configuration
+          && wget -q -O /dev/null http://127.0.0.1:8080/dashboard
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      telecom-private:
+        aliases:
+          - telecom.test
+  incident-service:
+    profiles:
+      - app
+    restart: unless-stopped
+    build:
+      context: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection
+      dockerfile: services/incident-service/Dockerfile
+      labels:
+        org.opencontainers.image.revision: f3e83b157af134c8138354340717e7e3df946768
+    environment:
+      JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxMetaspaceSize=192m
+      INCIDENT_DB_URL: jdbc:postgresql://postgres:5432/incidents_db?currentSchema=app
+      INCIDENT_DB_USER: ${INCIDENT_DB_USER:-incidents_app}
+      INCIDENT_DB_PASSWORD: ${INCIDENT_DB_PASSWORD:?Set INCIDENT_DB_PASSWORD}
+      INCIDENT_MIGRATOR_USER: ${INCIDENT_MIGRATOR_USER:-incidents_migrator}
+      INCIDENT_MIGRATOR_PASSWORD: ${INCIDENT_MIGRATOR_PASSWORD:?Set INCIDENT_MIGRATOR_PASSWORD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      APP_PUBLIC_ORIGIN: http://telecom.test:8080
+      KEYCLOAK_ISSUER: http://telecom.test:8080/auth/realms/telecom
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET:-}
+      GENERATOR_BASE_URL: http://event-generator:8081
+      SESSION_COOKIE_SECURE: "false"
+      TELECOM_GEOGRAPHY_ENABLED: ${TELECOM_GEOGRAPHY_ENABLED:-false}
+      TELECOM_GEOGRAPHY_EFFECTIVE_FROM: ${TELECOM_GEOGRAPHY_EFFECTIVE_FROM:-}
+      KAFKA_COVERAGE_TOPIC: ${KAFKA_COVERAGE_TOPIC:-telecom.coverage.v1}
+    ports:
+      - 127.0.0.1:18082:8082
+    depends_on:
+      postgres:
+        condition: service_healthy
+      proxy:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+      event-generator:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - --fail
+        - --silent
+        - http://localhost:8082/actuator/health/readiness
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 15s
+    networks:
+      - telecom-private
+    image: telecom-g4-pr77-incident-service:f3e83b1
+  kafka:
+    image: apache/kafka:3.9.1
+    environment:
+      CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_NODE_ID: "1"
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: INTERNAL://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:${KAFKA_HOST_PORT:-9094}
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
+    ports:
+      - 127.0.0.1:${KAFKA_HOST_PORT:-9094}:9094
+    volumes:
+      - apache-kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - /opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server
+          localhost:9092 >/dev/null 2>&1
+      interval: 5s
+      timeout: 10s
+      retries: 30
+    networks:
+      - telecom-private
+  kafka-init:
+    image: apache/kafka:3.9.1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command:
+      - /bin/bash
+      - -lc
+      - >
+        set -euo pipefail
+
+
+        kafka_topics=/opt/kafka/bin/kafka-topics.sh
+
+        common=(
+          --bootstrap-server kafka:9092
+          --create
+          --if-not-exists
+          --replication-factor 1
+          --partitions ${KAFKA_TOPIC_PARTITIONS:-3}
+        )
+
+
+        "$${kafka_topics}" "$${common[@]}" --topic telecom.observations.v2
+        --config retention.ms=86400000
+
+        "$${kafka_topics}" "$${common[@]}" --topic telecom.detections.v1
+        --config retention.ms=604800000
+
+        "$${kafka_topics}" "$${common[@]}" --topic telecom.telemetry.v1 --config
+        retention.ms=604800000
+
+        "$${kafka_topics}" "$${common[@]}" --topic telecom.detections.dlq.v1
+        --config retention.ms=604800000
+
+
+        # Revision 3 service-assurance topics.  V2 observation input has a
+
+        # 24-hour raw retention; derived, invalid and late records have a
+
+        # seven-day retention for the local demo.
+
+        "$${kafka_topics}" "$${common[@]}" --topic
+        ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2} --config
+        retention.ms=${KAFKA_RAW_RETENTION_MS:-86400000}
+
+        "$${kafka_topics}" "$${common[@]}" --topic
+        ${KAFKA_V2_KPIS_TOPIC:-telecom.kpis.v2} --config
+        retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+
+        "$${kafka_topics}" "$${common[@]}" --topic
+        ${KAFKA_COVERAGE_TOPIC:-telecom.coverage.v1} --config
+        retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+
+        "$${kafka_topics}" "$${common[@]}" --topic
+        ${KAFKA_V2_DETECTIONS_TOPIC:-telecom.detections.v2} --config
+        retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+
+        "$${kafka_topics}" "$${common[@]}" --topic
+        ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2} --config
+        retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+
+        "$${kafka_topics}" "$${common[@]}" --topic
+        ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2} --config
+        retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+
+        "$${kafka_topics}" "$${common[@]}" --topic telecom.ml-shadow.sms.v1
+        --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+    networks:
+      - telecom-private
+    restart: no
+  event-generator:
+    build:
+      context: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection
+      dockerfile: services/event-generator/Dockerfile
+      labels:
+        org.opencontainers.image.revision: f3e83b157af134c8138354340717e7e3df946768
+    environment:
+      JAVA_TOOL_OPTIONS: -Xms32m -Xmx256m -XX:MaxMetaspaceSize=160m
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      CONTINUOUS_TELEMETRY_ENABLED: ${CONTINUOUS_TELEMETRY_ENABLED:-true}
+      CONTINUOUS_TELEMETRY_SEED: ${CONTINUOUS_TELEMETRY_SEED:-42}
+      CONTINUOUS_TELEMETRY_PUBLISH_DELAY: ${CONTINUOUS_TELEMETRY_PUBLISH_DELAY:-1s}
+      <<: *a1
+      SERVER_PORT: 8081
+      KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
+      KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      history-bootstrap:
+        condition: service_completed_successfully
+    expose:
+      - "8081"
+    ports:
+      - 127.0.0.1:${GENERATOR_HOST_PORT:-8081}:8081
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - --fail
+        - --silent
+        - http://localhost:8081/actuator/health/readiness
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - telecom-private
+    image: telecom-g4-pr77-event-generator:f3e83b1
+  processor:
+    build:
+      context: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection
+      dockerfile: services/processor/Dockerfile
+      labels:
+        org.opencontainers.image.revision: f3e83b157af134c8138354340717e7e3df946768
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: 8083
+      JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxMetaspaceSize=192m
+      KAFKA_V2_OBSERVATIONS_TOPIC: ${KAFKA_V2_OBSERVATIONS_TOPIC:-telecom.observations.v2}
+      KAFKA_V2_INVALID_TOPIC: ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2}
+      KAFKA_V2_LATE_TOPIC: ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2}
+      <<: *a1
+      REJECTION_DELIVERY_ENABLED: ${REJECTION_DELIVERY_ENABLED:-true}
+      REJECTION_DELIVERY_BATCH_SIZE: ${REJECTION_DELIVERY_BATCH_SIZE:-100}
+      REJECTION_DELIVERY_POLL_INTERVAL: ${REJECTION_DELIVERY_POLL_INTERVAL:-1000}
+      ML_SERVICE_URL: http://ml-service:8090
+      ML_SMS_SHADOW_ENABLED: ${ML_SMS_SHADOW_ENABLED:-false}
+      PROCESSING_DB_URL: jdbc:postgresql://postgres:5432/processing_db?currentSchema=app
+      PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
+      PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:?Set PROCESSING_DB_PASSWORD}
+      PROCESSING_MIGRATOR_USER: ${PROCESSING_MIGRATOR_USER:-processing_migrator}
+      PROCESSING_MIGRATOR_PASSWORD: ${PROCESSING_MIGRATOR_PASSWORD:?Set PROCESSING_MIGRATOR_PASSWORD}
+      KAFKA_READINESS_TIMEOUT: ${KAFKA_READINESS_TIMEOUT:-2s}
+      KAFKA_READINESS_POLL_INTERVAL: ${KAFKA_READINESS_POLL_INTERVAL:-1s}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      history-bootstrap:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    expose:
+      - "8083"
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - --fail
+        - --silent
+        - http://localhost:8083/actuator/health/readiness
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - telecom-private
+    image: telecom-g4-pr77-processor:f3e83b1
+  history-bootstrap:
+    build:
+      context: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection
+      dockerfile: services/processor/Dockerfile
+      labels:
+        org.opencontainers.image.revision: f3e83b157af134c8138354340717e7e3df946768
+    environment:
+      HISTORY_BOOTSTRAP_MODE: "true"
+      JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxMetaspaceSize=192m
+      HISTORICAL_BOOTSTRAP_ENABLED: ${HISTORICAL_BOOTSTRAP_ENABLED:-true}
+      HISTORICAL_BOOTSTRAP_DAYS: ${HISTORICAL_BOOTSTRAP_DAYS:-30}
+      HISTORICAL_BOOTSTRAP_SEED: ${HISTORICAL_BOOTSTRAP_SEED:-42}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      PROCESSING_DB_URL: jdbc:postgresql://postgres:5432/processing_db?currentSchema=app
+      PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
+      PROCESSING_DB_PASSWORD: ${PROCESSING_DB_PASSWORD:?Set PROCESSING_DB_PASSWORD}
+      PROCESSING_MIGRATOR_USER: ${PROCESSING_MIGRATOR_USER:-processing_migrator}
+      PROCESSING_MIGRATOR_PASSWORD: ${PROCESSING_MIGRATOR_PASSWORD:?Set PROCESSING_MIGRATOR_PASSWORD}
+    depends_on:
+      kafka-init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    networks:
+      - telecom-private
+    restart: no
+    image: telecom-g4-pr77-processor:f3e83b1
+  ml-service:
+    build:
+      context: D:\Univer\Anul2\Orange_intership\project\Telecom-Anomaly-Detection
+      dockerfile: services/ml-service/Dockerfile
+      labels:
+        org.opencontainers.image.revision: f3e83b157af134c8138354340717e7e3df946768
+    environment:
+      ML_SMS_SHADOW_ENABLED: ${ML_SMS_SHADOW_ENABLED:-false}
+      ML_SMS_CANDIDATE_PATH: /app/services/ml-service/candidate-models/sms-supervised-v1-2
+    expose:
+      - "8090"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request;
+          urllib.request.urlopen('http://localhost:8090/health/ready',
+          timeout=2)
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - telecom-private
+    image: telecom-g4-pr77-ml-service:f3e83b1
+networks:
+  telecom-private:
+    driver: bridge
+volumes:
+  postgres-data: null
+  kafka-data: null
+  apache-kafka-data: null

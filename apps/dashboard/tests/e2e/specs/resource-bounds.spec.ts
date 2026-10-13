@@ -255,7 +255,7 @@ test.describe('Browser resource bounds', () => {
     await cdp.detach();
   });
 
-  test('bounds history, replaces pages, and closes the stream on navigation', async ({ page }) => {
+  test('bounds history, replaces pages, and retains one tab stream across workspace routes', async ({ page }) => {
     const data = await setup(page);
     await page.goto(`/services/${SCOPE}`);
     await expect(page.locator('.episode-card')).toHaveCount(20);
@@ -303,7 +303,7 @@ test.describe('Browser resource bounds', () => {
     await page.evaluate(() => (window as any).__previousStream = (window as any).__resource.stream);
     await page.locator('a.back-link').click();
     await expect(page).toHaveURL(/\/dashboard$/);
-    expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(true);
+    expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(false);
     expect(await page.evaluate(() => (window as any).__resource.active)).toBe(1);
     await navigateToLoginAndExpectCleanup(page);
   });
@@ -358,7 +358,7 @@ test.describe('Browser resource bounds', () => {
       await page.evaluate(() => (window as any).__previousStream = (window as any).__resource.stream);
       await page.locator('a.back-link').click();
       await expect(page).toHaveURL(/\/dashboard$/);
-      expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(true);
+      expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(false);
       expect(await page.evaluate(() => (window as any).__resource.active)).toBe(1);
       await paint(page);
       navigation.push({ iteration, ...await sample() });

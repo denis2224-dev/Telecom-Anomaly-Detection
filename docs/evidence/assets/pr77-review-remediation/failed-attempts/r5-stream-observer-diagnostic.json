@@ -1,0 +1,12 @@
+﻿{
+    "schemaVersion":  1,
+    "sourceSha":  "df84b682fee93ffcbc89759b64ee341cd8a6273b",
+    "projectName":  "pr77-20261009-r5",
+    "status":  "FAILED",
+    "observedFailure":  "Expiry observer expected zero active SSE requests but counted seven historical requests after full document navigations.",
+    "rootCause":  "Chromium omits requestfinished/requestfailed for EventSource requests abandoned by document replacement. A separate real HTTP server regression measured one actual live connection while the previous observer accumulated historical request objects.",
+    "remainingCases":  "The idle case was interrupted and the absolute-expiry case was not executed; neither is accepted.",
+    "remediationCommit":  "1c889216dec184120373cfd52355f2b2e8fa4ac6",
+    "cleanup":  "PASSED",
+    "credentialCleanup":  "PASSED"
+}

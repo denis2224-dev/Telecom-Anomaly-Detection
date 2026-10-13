@@ -1,0 +1,550 @@
+{
+  "checkedAt": "2026-10-08 16:30:28 UTC",
+  "sha": "b6969f404119aa5a6805c7d3a6db72a4854c5311",
+  "runs": [
+    {
+      "id": 37807530015,
+      "name": "incident-runtime-image",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 108,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807530015/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807530015/logs",
+      "workflow_id": 373156221
+    },
+    {
+      "id": 37807530177,
+      "name": "incident-service",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 109,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807530177/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807530177/logs",
+      "workflow_id": 373086064
+    },
+    {
+      "id": 37807529992,
+      "name": "dashboard",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 98,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807529992/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807529992/logs",
+      "workflow_id": 373448396
+    },
+    {
+      "id": 37807529999,
+      "name": "service-integration",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 154,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807529999/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/37807529999/logs",
+      "workflow_id": 370494734
+    }
+  ],
+  "jobs": [
+    {
+      "runId": 37807530015,
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Action completed."
+            }
+          ],
+          "structuredContent": {
+            "jobs": [
+              {
+                "id": 113415601389,
+                "name": "build",
+                "status": "completed",
+                "conclusion": "success",
+                "run_id": 37807530015,
+                "logs_url": null,
+                "steps": [
+                  {
+                    "name": "Set up job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 1
+                  },
+                  {
+                    "name": "Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 2
+                  },
+                  {
+                    "name": "Build the Compose-managed incident service image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 3
+                  },
+                  {
+                    "name": "Post Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 6
+                  },
+                  {
+                    "name": "Complete job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 7
+                  }
+                ]
+              }
+            ]
+          },
+          "isError": false
+        }
+      }
+    },
+    {
+      "runId": 37807530177,
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Action completed."
+            }
+          ],
+          "structuredContent": {
+            "jobs": [
+              {
+                "id": 113415602307,
+                "name": "backend-verification",
+                "status": "completed",
+                "conclusion": "success",
+                "run_id": 37807530177,
+                "logs_url": null,
+                "steps": [
+                  {
+                    "name": "Set up job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 1
+                  },
+                  {
+                    "name": "Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 2
+                  },
+                  {
+                    "name": "Run actions/setup-java@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 3
+                  },
+                  {
+                    "name": "Verify incident service with PostgreSQL and Kafka tests",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 4
+                  },
+                  {
+                    "name": "Save test reports",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 5
+                  },
+                  {
+                    "name": "Post Run actions/setup-java@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 9
+                  },
+                  {
+                    "name": "Post Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 10
+                  },
+                  {
+                    "name": "Complete job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 11
+                  }
+                ]
+              }
+            ]
+          },
+          "isError": false
+        }
+      }
+    },
+    {
+      "runId": 37807529992,
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Action completed."
+            }
+          ],
+          "structuredContent": {
+            "jobs": [
+              {
+                "id": 113415601745,
+                "name": "dashboard-verification",
+                "status": "completed",
+                "conclusion": "success",
+                "run_id": 37807529992,
+                "logs_url": null,
+                "steps": [
+                  {
+                    "name": "Set up job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 1
+                  },
+                  {
+                    "name": "Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 2
+                  },
+                  {
+                    "name": "Run actions/setup-node@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 3
+                  },
+                  {
+                    "name": "Run npm ci",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 4
+                  },
+                  {
+                    "name": "Run npm test",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 5
+                  },
+                  {
+                    "name": "Run npm run build",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 6
+                  },
+                  {
+                    "name": "Run npx playwright install --with-deps chromium",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 7
+                  },
+                  {
+                    "name": "Run npx playwright test --workers=2",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 8
+                  },
+                  {
+                    "name": "Save browser reports",
+                    "status": "completed",
+                    "conclusion": "skipped",
+                    "number": 9
+                  },
+                  {
+                    "name": "Post Run actions/setup-node@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 17
+                  },
+                  {
+                    "name": "Post Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 18
+                  },
+                  {
+                    "name": "Complete job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 19
+                  }
+                ]
+              }
+            ]
+          },
+          "isError": false
+        }
+      }
+    },
+    {
+      "runId": 37807529999,
+      "result": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "Action completed."
+            }
+          ],
+          "structuredContent": {
+            "jobs": [
+              {
+                "id": 113415602751,
+                "name": "model-evaluation",
+                "status": "completed",
+                "conclusion": "success",
+                "run_id": 37807529999,
+                "logs_url": null,
+                "steps": [
+                  {
+                    "name": "Set up job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 1
+                  },
+                  {
+                    "name": "Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 2
+                  },
+                  {
+                    "name": "Run actions/setup-python@v5",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 3
+                  },
+                  {
+                    "name": "Install validation and ML dependencies",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 4
+                  },
+                  {
+                    "name": "Validate contracts and packaged models",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 5
+                  },
+                  {
+                    "name": "Rebuild deterministic evaluation data",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 6
+                  },
+                  {
+                    "name": "Evaluate local packaged models",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 7
+                  },
+                  {
+                    "name": "Build and start private ML inference",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 8
+                  },
+                  {
+                    "name": "Post Run actions/setup-python@v5",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 15
+                  },
+                  {
+                    "name": "Post Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 16
+                  },
+                  {
+                    "name": "Complete job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 17
+                  }
+                ]
+              },
+              {
+                "id": 113415603200,
+                "name": "deployment-config",
+                "status": "completed",
+                "conclusion": "success",
+                "run_id": 37807529999,
+                "logs_url": null,
+                "steps": [
+                  {
+                    "name": "Set up job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 1
+                  },
+                  {
+                    "name": "Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 2
+                  },
+                  {
+                    "name": "Run actions/setup-python@v5",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 3
+                  },
+                  {
+                    "name": "Validate geography startup alignment",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 4
+                  },
+                  {
+                    "name": "Post Run actions/setup-python@v5",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 7
+                  },
+                  {
+                    "name": "Post Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 8
+                  },
+                  {
+                    "name": "Complete job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 9
+                  }
+                ]
+              },
+              {
+                "id": 113416906458,
+                "name": "processor-evaluation",
+                "status": "completed",
+                "conclusion": "success",
+                "run_id": 37807529999,
+                "logs_url": null,
+                "steps": [
+                  {
+                    "name": "Set up job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 1
+                  },
+                  {
+                    "name": "Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 2
+                  },
+                  {
+                    "name": "Run actions/setup-python@v5",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 3
+                  },
+                  {
+                    "name": "Run actions/setup-java@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 4
+                  },
+                  {
+                    "name": "Install geographic parity dependencies",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 5
+                  },
+                  {
+                    "name": "Verify processor dependency outages and replay boundaries",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 6
+                  },
+                  {
+                    "name": "Save processor outage evidence and test reports",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 7
+                  },
+                  {
+                    "name": "Start private ML inference",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 8
+                  },
+                  {
+                    "name": "Replay controls without ML service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 9
+                  },
+                  {
+                    "name": "Verify processor delivery fairness, scheduling isolation, and replay ordering",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 10
+                  },
+                  {
+                    "name": "Replay both service profiles with packaged model",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 11
+                  },
+                  {
+                    "name": "Verify cause controls, bounded ML failures, and durable geographic replay",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 12
+                  },
+                  {
+                    "name": "Run geographic processor and parity verification",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 13
+                  },
+                  {
+                    "name": "Stop private ML inference",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 14
+                  },
+                  {
+                    "name": "Post Run actions/setup-java@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 26
+                  },
+                  {
+                    "name": "Post Run actions/setup-python@v5",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 27
+                  },
+                  {
+                    "name": "Post Run actions/checkout@v4",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 28
+                  },
+                  {
+                    "name": "Complete job",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "number": 29
+                  }
+                ]
+              }
+            ]
+          },
+          "isError": false
+        }
+      }
+    }
+  ]
+}

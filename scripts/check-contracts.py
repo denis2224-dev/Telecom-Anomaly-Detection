@@ -114,6 +114,24 @@ def main():
     validate_day1_numeric_contracts()
     from day1_evidence_contract import validate_day1_evidence_contracts
     validate_day1_evidence_contracts()
+    from trace_link_contract import validate_trace_link_contracts
+    validate_trace_link_contracts()
+    from trace_link_fixture_contract import validate_trace_link_fixture_contracts
+    validate_trace_link_fixture_contracts()
+    from trace_link_domain_contract import validate_domain_contracts
+    validate_domain_contracts()
+    from trace_link_projection_contract import validate_projection_contracts
+    validate_projection_contracts()
+    from trace_link_day2_contract import validate_day2_contracts
+    validate_day2_contracts()
+    from trace_link_history_baseline import validate_contracts as validate_seasonal_baseline_contracts
+    validate_seasonal_baseline_contracts()
+    from trace_link_producer_contract import validate_producer_contracts
+    validate_producer_contracts()
+    from trace_link_scenario_contract import validate_scenarios, validate_transitions
+    print(f'PASS: {validate_scenarios()} independent synthetic minute measurements; {validate_transitions()} evaluator expectations PENDING')
+    from trace_link_receiving_contract import validate_receiving_contracts
+    validate_receiving_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)

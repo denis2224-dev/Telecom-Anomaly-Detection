@@ -1,0 +1,33 @@
+commit e85a81660aeff3ebae71150a6361084dd11191b2
+Merge: fc35261 b987aa8
+Author: Zavtoni Ion <ion.zavtoni@isa.utm.md>
+Date:   Mon Oct 12 21:35:36 2026 +0300
+
+    Merge parallel VoLTE projection with producers and keep V016 delivery held
+
+diff --git a/services/processor/README.md b/services/processor/README.md
+remerge CONFLICT (content): Merge conflict in services/processor/README.md
+index 973008c..77381a3 100644
+--- a/services/processor/README.md
++++ b/services/processor/README.md
+@@ -15,7 +15,6 @@ publish metric projections, or claim authenticated API/UI acceptance. Migrations
+ V014–V016 are implemented; consumer activation remains gated in the
+ [migration ledger](../../docs/architecture/trace-link-migration-ledger.md).
+ 
+-<<<<<<< fc35261 (Merge frozen producer rehearsal package into isolated candidate)
+ The separate [native domain producer job](../../docs/runbooks/trace-link-domain-producers.md)
+ reads completed imports and writes deterministic Transport, Roaming and LTE
+ mobile-data primitive artifacts. It runs without Kafka or Flyway and creates no
+@@ -30,7 +29,6 @@ after recovery. Existing retention deletes only eligible legacy receipts and
+ ACK-marked rejections; native source/checkpoint/provenance tables and held V016
+ outbox rows have no cleanup lifecycle. Connected new-domain delivery and capacity
+ remain blocked on consumer and environment approval.
+-=======
+ ## Native Trace Link primitive projection
+ 
+ Use [the producer projection runbook](../../docs/runbooks/trace-link-primitive-projection.md)
+@@ -38,4 +36,3 @@ for the explicit `TRACE_LINK_PROJECTION_MODE` tool. V016 projects only dictionar
+ `VOLTE / volte.setup.success` from completed immutable native imports, preserves
+ unknown source quality, and holds delivery intent pending Denis's consumer
+ agreement. The tool has no Kafka publisher or public API.
+->>>>>>> b987aa8 (Merge commit '5daccd7' into review-pr92)

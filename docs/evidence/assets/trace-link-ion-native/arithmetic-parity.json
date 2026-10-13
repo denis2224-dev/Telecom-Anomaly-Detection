@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "caseCount": 54,
+  "fixtureSha256": "82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd",
+  "maximumAbsoluteDifference": {
+    "java": 0,
+    "python": 0,
+    "sql": 0,
+    "javascript": 0
+  },
+  "exportSha256": {
+    "java": "0bf874e30440f40241bc7d9b7abba0b1204f7e75f7b3296b6475d51aafdd44b0",
+    "python": "ec9880bb32a028dad7046f7006c310519028f1904bac8f73fbc9d765dd68b93c",
+    "sql": "132e9f74a62a598dbf9f8deed73b948c53cc22bc5d3d437fb657f06f552eff4f",
+    "javascript": "bfec6d06f4cca9baa1e2589067a5cc579abb19b32bf1d8b782fd044189a703f4"
+  }
+}

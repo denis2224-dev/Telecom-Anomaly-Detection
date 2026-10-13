@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.HashSet;
 import md.utm.telecom.processing.detection.DetectionAuthority;
 import md.utm.telecom.processing.detection.VoiceDeliveryService;
 import md.utm.telecom.processing.detection.VoiceEpisode;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -20,6 +22,62 @@ class GeographicReplayTest extends ReplayTestSupport {
     @Autowired VoiceEpisode episodes;
     @Autowired PlatformTransactionManager transactions;
     @Autowired Optional<DetectionAuthority> authority;
+
+    @Test void interleavedTwentyScopesPersistIndependentEpisodesAndOnlyChisinauRecovers() throws Exception {
+        var scopes = GeographicDetectionTest.scopes().sorted().toList();
+        assertEquals(20, scopes.size());
+        var receipts = new ArrayList<JsonNode>();
+        var episodeIds = new HashSet<String>();
+        var correlationKeys = new HashSet<String>();
+        for (int minute = 0; minute < 5; minute++) {
+            var at = START.plusSeconds(minute * 60L);
+            clock.now = at.plusSeconds(65);
+            for (String scope : scopes) {
+                var input = GeographicDetectionTest.receipts(scope, minute < 2 || !scope.endsWith("CHI"), minute);
+                receipts.addAll(input);
+                for (var receipt : input) ingestion.ingest(record(receipt));
+            }
+            clock.now = at.plusSeconds(70);
+            for (String scope : scopes) {
+                finalizer.finalizeWindow(scope, at);
+                delivery.evaluate(scope);
+                var persisted = detections(scope);
+                if (minute == 0) assertTrue(persisted.isEmpty(), scope);
+                if (minute == 1) {
+                    assertEquals("OPEN", persisted.getFirst().path("phase").asText(), scope);
+                    assertTrue(episodeIds.add(persisted.getFirst().required("episodeId").asText()), scope);
+                    assertTrue(correlationKeys.add(persisted.getFirst().required("correlationKey").asText()), scope);
+                }
+                if (minute == 4) {
+                    assertEquals(4, persisted.size(), scope);
+                    var last = persisted.getLast();
+                    assertEquals(scope.endsWith("CHI") ? "RECOVERY" : "UPDATE", last.path("phase").asText(), scope);
+                    assertEquals(persisted.getFirst().required("episodeId"), last.required("episodeId"), scope);
+                    assertEquals(persisted.getFirst().required("firstObservedAt"), last.required("firstObservedAt"), scope);
+                    var state = JSON.readTree(jdbc.queryForObject(
+                            "SELECT state::text FROM app.voice_episode_state WHERE scope_id=?", String.class, scope));
+                    assertEquals(!scope.endsWith("CHI"), state.path("active").asBoolean(), scope);
+                }
+            }
+        }
+        assertEquals(100, count("voice_evaluated_window"));
+        assertEquals(100, count("detection_job"));
+        assertEquals(250, count("observation_receipt"));
+        var committed = state();
+        var jobs = rows("SELECT * FROM app.detection_job ORDER BY window_id");
+        int calls = mlCalls.get();
+        clock.now = START.plusSeconds(1200);
+        for (var receipt : receipts) ingestion.ingest(record(receipt));
+        var restarted = new VoiceDeliveryService(jdbc, episodes, ml, clock, transactions, authority);
+        for (String scope : scopes) {
+            for (int minute = 0; minute < 5; minute++)
+                finalizer.finalizeWindow(scope, START.plusSeconds(minute * 60L));
+            restarted.evaluate(scope);
+        }
+        assertEquals(committed, state());
+        assertEquals(jobs, rows("SELECT * FROM app.detection_job ORDER BY window_id"));
+        assertEquals(calls, mlCalls.get(), "Twenty-scope replay must not score completed windows");
+    }
 
     @ParameterizedTest @ValueSource(strings = {"VOLTE-MD-CHI", "SMS-MD-CHI"})
     void restartedWorkerPreservesGeographicEpisodesAndCommittedPayloads(String scope) throws Exception {

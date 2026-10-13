@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b",
+  "projectName": "pr77-20261009-r5",
+  "baseURL": "http://telecom.test:18080",
+  "startedAt": "2026-10-09T07:06:11.234Z",
+  "status": "FAILED",
+  "configHashes": {
+    "compose.json": "aa506c37bd2a9150b41171734f511d22504ec9eb0ba5e4f1b8dc230a729ebcbc",
+    "nginx.conf": "227dd193455b83de5bcc36658e08b0d84cb50dc8d3851a2fd5d5513b81d985ab",
+    "realm.json": "920b7cf3d938aaef234c7999987719bf47a93caf8846deb7b876d577021e422e",
+    "stack.env": "0b8ce67c865b87d986209902d80732cd5f26a8fb6ccf6aac905df47bed3a41b3"
+  },
+  "cleanup": "PASSED",
+  "dashboardAssets": {
+    "chunk-4BKZDR27.js": "3e32106d4665af79e38372d35d6499daa2615e87213c4a36d6aeb33783bad79b",
+    "chunk-AWEV6IMU.js": "c3bab0c1b39c5052839835ab3df4d519fd3fb22171748851a961814fa60b0630",
+    "chunk-F3RT5ACG.js": "dd535600235f10f353e5b48af0d41759e33a5050fbbff13d6c026a1348315b9e",
+    "chunk-HJ4Z445B.js": "4989fd562d3e1fc816733eb55be640331036fee22cca9e9a92a9b0b96ef97579",
+    "chunk-NDWZSXVV.js": "3d3a55f29f57204422bf5b1cf51a95761ae8210a2f7fee90b1cf1af0c5467515",
+    "chunk-PH7JJXXA.js": "b46ce21ff0fccb87d38018c660fcf85b9832c7111961861440f12751c05152ac",
+    "chunk-PJG5QA3G.js": "78c7581d322d735ee4d4a8807e4bb8d6556a76a15423069e40e37fc95cee353b",
+    "chunk-PNUYLCNI.js": "e095efa3db77f2edd849927f2834160cb0c2dffcec725fceee17dac39069bb68",
+    "chunk-QA4BFXWR.js": "341adcf080e477d61c64914b453701969aa6461dd5e80deeb24bd53a5ac1239e",
+    "chunk-RJOADIC6.js": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0",
+    "index.html": "350d722c77295fc015cf74ce79a8e36cf69e865eab7d01b99fa814ad5b1b3a2e",
+    "main-ZV3TNVMS.js": "d2986ed236e6b2bc7c27bdc75911cadaeb67eb4b8b1a2d4bf28cb2790b46734b",
+    "styles-Y5KECZDI.css": "64a914d751b80d7c947615fad5553b69fef18777362256fd2efdc2f43483f222"
+  },
+  "runtime": [
+    {
+      "containerId": "77b40c80fc09",
+      "imageId": "sha256:3574e7d844e734931c264e82ea628f58cbdb900da9cf2862ef65ea6e545557a3",
+      "service": "incident-service",
+      "health": "healthy",
+      "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b"
+    },
+    {
+      "containerId": "7320650af788",
+      "imageId": "sha256:2f620712414b84c63fd224209d9e696a43f98aee78ef91d000cd21bfd65a2cc8",
+      "service": "event-generator",
+      "health": "healthy",
+      "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b"
+    },
+    {
+      "containerId": "7854cafdcc2f",
+      "imageId": "sha256:bb987cd347a63fe2cb412d817d86a0c8181590b1a975aea61d935f170ab5217a",
+      "service": "processor",
+      "health": "healthy",
+      "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b"
+    },
+    {
+      "containerId": "e20461049040",
+      "imageId": "sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+      "service": "proxy",
+      "health": "healthy"
+    },
+    {
+      "containerId": "d7a5859ecaaf",
+      "imageId": "sha256:94591c2c883c63349db7b47adf46ec367df68dff02bfface6520b00d63a41686",
+      "service": "history-bootstrap",
+      "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b"
+    },
+    {
+      "containerId": "211380a3b09c",
+      "imageId": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "service": "keycloak",
+      "health": "healthy"
+    },
+    {
+      "containerId": "a934b15a72c3",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "service": "kafka-init"
+    },
+    {
+      "containerId": "fdb7c1768ebf",
+      "imageId": "sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c",
+      "service": "postgres",
+      "health": "healthy"
+    },
+    {
+      "containerId": "6afafdeb95d7",
+      "imageId": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "service": "kafka",
+      "health": "healthy"
+    },
+    {
+      "containerId": "ff0ef9da16cf",
+      "imageId": "sha256:be1b33a72ceedc8b20e2eaab00672613ed18ca09fbb6765e2e59bd29aacf7c42",
+      "service": "ml-service",
+      "health": "healthy",
+      "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b"
+    }
+  ],
+  "failure": "node.exe failed (exit 1); diagnostic output is private.",
+  "privateFailureLogsCollected": true,
+  "credentialCleanup": "PASSED",
+  "finishedAt": "2026-10-09T07:27:37.818Z"
+}

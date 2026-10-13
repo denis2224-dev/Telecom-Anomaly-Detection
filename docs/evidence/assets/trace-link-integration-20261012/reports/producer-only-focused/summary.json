@@ -1,0 +1,107 @@
+{
+  "name": "producer-only-focused",
+  "suites": [
+    {
+      "name": "md.utm.telecom.observation.DomainObservationValidatorTest",
+      "path": "streaming-support/target/surefire-reports/TEST-md.utm.telecom.observation.DomainObservationValidatorTest.xml",
+      "sha256": "6b87cc721bbde203c57dc6258a7be26ccd85a070dd03d86e791fc824a29baace",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest.xml",
+      "sha256": "e594a1786601f6598f67eb038eb955941b641461ad2908020ccf874de992503e",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkDomainRulesTest",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkDomainRulesTest.xml",
+      "sha256": "0c698dec70d1be427b6aae4926cb1c2d71412202027115dcb40fa25efb8d39b1",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkInputsTest",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkInputsTest.xml",
+      "sha256": "da769bfffa358acef61d1285473ea1af09edaddd7e02b8e7b5d78e870e02f6c5",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest.xml",
+      "sha256": "09b485330a265fc2df6d9d887527240364d48477b84442ff696515dec9ba083b",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest.xml",
+      "sha256": "63ceca70d73152d524080df729d3715bdec46773ce479fc1d1af3ae22befbe04",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.detection.TraceLinkServiceTransportTest",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.detection.TraceLinkServiceTransportTest.xml",
+      "sha256": "37c85f1ae15694e638d70b290e11e789e690e528c1de1099d278b52660a88c78",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT.xml",
+      "sha256": "03b8f4fdf171db8433d8206339a43c0219ef0f32e68492e708423b4cd96519c0",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skips": [
+        {
+          "test": "suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+          "message": null,
+          "text": "org.opentest4j.TestAbortedException: Assumption failed: Reference archive must be selected explicitly\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT.suppliedFullArchiveImportsOnlyWhenExplicitlySelected(TraceLinkDatasetBootstrapIT.java:187)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n"
+        }
+      ]
+    },
+    {
+      "name": "md.utm.telecom.processing.TraceLinkSeasonalBaselineTest",
+      "path": "processor/target/surefire-reports/TEST-md.utm.telecom.processing.TraceLinkSeasonalBaselineTest.xml",
+      "sha256": "6f79776cb65359510aa57bb07a2184af254a9bd1ebbc50aa278c38071ee7a714",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    }
+  ],
+  "totals": {
+    "tests": 53,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  }
+}

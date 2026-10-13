@@ -4,6 +4,26 @@
  */
 
 export interface paths {
+    "/api/v2/trace-domain-measurements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Isolated native-domain measurements with complete scope and original source bytes
+         * @description Disabled by default (app.trace-domain-read-model.enabled). Mapping and minute policy PENDING_REVIEW. Uses existing enabled analyst and session security. No Kafka ingestion or connected acceptance is implied. Exact native alignment; up to 30 days and 8640 points. Missing points contain no fabricated observation. No rollup or duration conversion.
+         */
+        get: operations["getTraceDomainNativeMeasurements"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/geography/cities": {
         parameters: {
             query?: never;
@@ -529,10 +549,802 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v2/inventory/cities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTraceCities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/inventory/links": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTraceLinks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/inventory/partners": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTracePartners"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/kpi-definitions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTraceKpiDefinitions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/metrics/series": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceMetricSeries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceOverview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/transport/snapshot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceTransportSnapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/roaming/snapshot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceRoamingSnapshot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/exports/metrics.csv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["exportTraceMetricCsv"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listNotifications"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["markNotificationRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/push/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNotificationPushConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/push-subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["upsertPushSubscription"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/push-subscriptions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deletePushSubscription"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/catalogue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * GET catalogue
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioCatalogue"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * GET runs
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"][];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /**
+         * POST runs
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "X-CSRF-TOKEN": string;
+                    "X-Request-ID"?: string;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TraceScenarioStart"];
+                };
+            };
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                202: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * GET runs/{id}
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs/{id}/stop": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * POST runs/{id}/stop
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "X-CSRF-TOKEN": string;
+                };
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs/{id}/reconcile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * POST runs/{id}/reconcile
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "X-CSRF-TOKEN": string;
+                };
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        TraceDomainMeasurementV1: {
+            /** @enum {unknown} */
+            schemaVersion: "trace-link-domain-measurement-v1";
+            /** @enum {unknown} */
+            mappingVersion: "trace-link-domain-mapping-v1";
+            /** @enum {unknown} */
+            sourceKind: "LIVE_60" | "NATIVE_300";
+            sourcePayloadBase64: string;
+            sourcePayloadSha256: string;
+            provenance: {
+                manifestSha256: string;
+                generatorVersion: string;
+                seed: number;
+            };
+        };
+        TraceDomainNativePointV1: {
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            /** @enum {integer} */
+            expectedSlots: 1;
+            /** @enum {integer} */
+            receivedSlots: 0 | 1;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
+            value: number | null;
+            sourceCoverage: number | null;
+            /** @enum {string|null} */
+            nullReason: "NO_SOURCE_SLOT" | "ZERO_DENOMINATOR" | null;
+            measurement: components["schemas"]["TraceDomainMeasurementV1"] | null;
+            qualityReason: string | null;
+            sourceQuality: string | null;
+            eventId: string | null;
+            revision: number | null;
+            finalized: boolean | null;
+            primitives: {
+                [key: string]: unknown;
+            } | null;
+            provenance: {
+                [key: string]: unknown;
+            } | null;
+            sourcePayloadSha256: string | null;
+        };
+        TraceDomainNativeSeriesV1: {
+            schemaVersion: string;
+            mappingVersion: string;
+            datasetId: string;
+            sourceId: string;
+            scopeKey: string;
+            metricId: string;
+            domain: string;
+            unit: string;
+            aggregationType: string;
+            from: string;
+            to: string;
+            /** @enum {integer} */
+            sourceResolutionSeconds: 60 | 300;
+            points: components["schemas"]["TraceDomainNativePointV1"][];
+            population: string;
+            policyVersion: string;
+            catalogueVersion: string;
+            topologyVersion: string;
+            sourceKind: string;
+            /** @enum {boolean} */
+            synthetic: true;
+            scope: {
+                scopeNamespace: string;
+                domain: string;
+                scopeType: string;
+                scopeId: string;
+                contractCityId?: string;
+                linkId?: string;
+                directionId?: string;
+                partnerId?: string;
+                countryId?: string;
+                direction?: string;
+                procedure?: string;
+                accessTechnology?: string;
+            };
+        };
         /** @description A finalized measurement; null is never silently converted to zero. */
         GeographyMetric: {
             /** @enum {string} */
@@ -1069,6 +1881,320 @@ export interface components {
             page: number;
             size: number;
         };
+        TraceCityList: {
+            catalogueVersion: string;
+            cities: components["schemas"]["TraceCity"][];
+        };
+        TraceCity: {
+            id: string;
+            name: string;
+            latitude: number;
+            longitude: number;
+            demandShare: number;
+            active: boolean;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            validTo: string | null;
+            synthetic: boolean;
+        };
+        TraceLinkList: {
+            catalogueVersion: string;
+            links: components["schemas"]["TraceLink"][];
+        };
+        TraceLink: {
+            id: string;
+            endpointA: string;
+            endpointB: string;
+            linkType: string;
+            nominalCapacityGbps: number;
+            active: boolean;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            validTo: string | null;
+            synthetic: boolean;
+            directions: components["schemas"]["TraceLinkDirection"][];
+        };
+        TraceLinkDirection: {
+            /** @enum {string} */
+            id: "a-to-b" | "b-to-a";
+            sourceInterface?: string | null;
+            destinationInterface?: string | null;
+            effectiveCapacityGbps: number;
+            /** Format: date-time */
+            capacityValidFrom: string;
+            /** Format: date-time */
+            capacityValidTo: string | null;
+            measurementSource: string;
+        };
+        TracePartnerList: {
+            catalogueVersion: string;
+            partners: components["schemas"]["TracePartner"][];
+        };
+        TracePartner: {
+            id: string;
+            country: string;
+            /** @enum {string} */
+            direction: "in" | "out";
+            active: boolean;
+            /** Format: date-time */
+            validFrom: string;
+            /** Format: date-time */
+            validTo: string | null;
+            synthetic: boolean;
+        };
+        TraceKpiDefinition: {
+            domain: string;
+            metric: string;
+            unit: string;
+            /** @enum {string} */
+            aggregation: "COUNT_SUM" | "RATIO_OF_SUMS" | "WEIGHTED_MEAN" | "TIME_WEIGHTED_MEAN" | "HISTOGRAM_P95" | "SNAPSHOT_LAST" | "STATE_TIMELINE";
+            population: string;
+            primitiveFields: string[];
+            policyVersion: string;
+        };
+        TraceMetricSeries: {
+            datasetId: string;
+            domain: string;
+            metric: string;
+            scopeType: string;
+            scopeId: string;
+            resolution: string;
+            /** Format: date-time */
+            requestedFrom: string;
+            /** Format: date-time */
+            requestedTo: string;
+            /** Format: date-time */
+            effectiveFrom: string;
+            /** Format: date-time */
+            effectiveTo: string;
+            partialStart: boolean;
+            partialEnd: boolean;
+            sourceResolutionSeconds: number;
+            unit: string;
+            aggregation: string;
+            policyVersion?: string | null;
+            topologyVersion?: string | null;
+            synthetic: boolean;
+            nextCursor?: string | null;
+            points: components["schemas"]["TraceMetricPoint"][];
+        };
+        TraceMetricPoint: {
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            value: number | null;
+            coverage: number;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
+            numerator: number | null;
+            denominator: number | null;
+            sumValue: number | null;
+            /** Format: int64 */
+            sampleCount: number | null;
+            nullReason: string | null;
+            qualityReason: string | null;
+            expectedSlots: number | null;
+            receivedSlots: number | null;
+            sourceQuality: string | null;
+            sourceCoverage: number | null;
+            projectionIds: string[];
+            provenance: components["schemas"]["TraceProjectionProvenance"][];
+        };
+        TraceProjectionProvenance: {
+            projectionId: string;
+            sourceNaturalId: string;
+            /** Format: int64 */
+            sourceRowNumber: number;
+            sourceRowSha256: string;
+            sourceFile: string;
+            manifestSha256: string;
+            generatorVersion: string;
+            /** Format: int64 */
+            seed: number;
+            catalogueVersion: string;
+            importPolicyVersion: string;
+            sourceQuality: string | null;
+            sourceCoverage: number | null;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
+            qualityReason: string | null;
+        };
+        TraceOverview: {
+            datasetId: string;
+            /** Format: date-time */
+            requestedFrom: string;
+            /** Format: date-time */
+            requestedTo: string;
+            /** @enum {string} */
+            resolution: "5m" | "15m" | "1h" | "6h";
+            synthetic: boolean;
+            summaries: components["schemas"]["TraceSnapshot"][];
+        };
+        TraceSnapshot: {
+            datasetId: string;
+            domain: string;
+            scopeType: string;
+            scopeId: string;
+            /** Format: date-time */
+            at: string;
+            /** Format: date-time */
+            snapshotAt: string | null;
+            /** Format: int64 */
+            sourceAgeSeconds: number | null;
+            value: number | null;
+            unit: string;
+            coverage: number;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE";
+            policyVersion: string | null;
+            topologyVersion: string | null;
+            synthetic: boolean;
+        };
+        NotificationPage: {
+            items: components["schemas"]["NotificationItem"][];
+            /** Format: int64 */
+            total: number;
+            /** Format: int64 */
+            unreadCount: number;
+            page: number;
+            size: number;
+        };
+        NotificationItem: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            incidentId: string;
+            /** @enum {string} */
+            kind: "OPEN" | "ESCALATED" | "RECOVERED" | "ASSIGNED";
+            /** @enum {string} */
+            severity: "MEDIUM" | "HIGH" | "CRITICAL";
+            service: string;
+            scopeId: string;
+            summary: string;
+            /** Format: date-time */
+            occurredAt: string;
+            /** Format: date-time */
+            readAt: string | null;
+            /** @enum {string} */
+            causeStatus: "HYPOTHESIS" | "UNDETERMINED";
+            probableCause: string | null;
+            causeConfidence: string | null;
+            incidentUrl: string;
+        };
+        PushConfig: {
+            enabled: boolean;
+            vapidPublicKey: string | null;
+        };
+        PushSubscriptionInput: {
+            /** Format: uri */
+            endpoint: string;
+            p256dh: string;
+            auth: string;
+            /** Format: date-time */
+            expirationTime?: string | null;
+        };
+        TraceScenarioScope: {
+            /** @enum {string} */
+            domain: "TRANSPORT" | "ROAMING" | "MOBILE_DATA";
+            id: string;
+            direction: string | null;
+            country: string | null;
+            procedure: string | null;
+            /** @enum {string} */
+            topologyVersion: "trace-link-links-v1";
+        };
+        TraceScenarioParameters: {
+            normalUtilizationBp: number;
+            degradedUtilizationBp: number;
+            healthySuccessBp: number;
+            degradedSuccessBp: number;
+            capacityGbps: number;
+            attempts: number;
+            missingMinutes: number[];
+        };
+        TraceScenarioStart: {
+            /** Format: uuid */
+            requestId: string;
+            /** @enum {string} */
+            type: "TRANSPORT_LINK_OVERLOAD" | "ROAMING_REGISTRATION_FAILURE" | "MOBILE_DATA_DNS_FAILURE" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+            /** @enum {string} */
+            version: "trace-link-scenarios-v1";
+            scope: components["schemas"]["TraceScenarioScope"];
+            seed: number;
+            parameters?: components["schemas"]["TraceScenarioParameters"];
+        };
+        TraceScenarioCommand: {
+            /** @enum {string} */
+            type: "TRANSPORT_LINK_OVERLOAD" | "ROAMING_REGISTRATION_FAILURE" | "MOBILE_DATA_DNS_FAILURE" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+            /** @enum {string} */
+            version: "trace-link-scenarios-v1";
+            scope: components["schemas"]["TraceScenarioScope"];
+            seed: number;
+            parameters: components["schemas"]["TraceScenarioParameters"];
+            /** Format: date-time */
+            start: string;
+        };
+        TraceScenarioDefinition: {
+            type: string;
+            version: string;
+            domains: string[];
+            scopeTypes: string[];
+            implemented: boolean;
+            parameterRanges: {
+                [key: string]: {
+                    minimum: number;
+                    maximum: number;
+                };
+            };
+            expectedPrimitiveChanges: string;
+            positiveControl: string;
+            negativeControl: string;
+        };
+        TraceScenarioCatalogue: {
+            enabled: boolean;
+            /** @enum {boolean} */
+            synthetic: true;
+            version: string;
+            /** @enum {string} */
+            deliveryStatus: "DISABLED_PENDING_REVIEW";
+            topologyVersion?: string;
+            sourceNamespace?: string;
+            definitions?: components["schemas"]["TraceScenarioDefinition"][];
+            defaults?: components["schemas"]["TraceScenarioParameters"];
+            scopes?: {
+                scope: components["schemas"]["TraceScenarioScope"];
+                label: string;
+                sourceCity?: string;
+                destinationCity?: string;
+                nominalCapacityGbps?: number;
+            }[];
+        };
+        TraceScenarioRun: {
+            /** Format: uuid */
+            runId: string;
+            fingerprint: string;
+            command: components["schemas"]["TraceScenarioCommand"];
+            /** @enum {string} */
+            status: "SCHEDULED" | "RUNNING" | "COMPLETED" | "STOPPED" | "INTERRUPTED" | "FAILED";
+            completedWindows: number;
+            generatedObservations: number;
+            /** @enum {string} */
+            deliveryStatus: "DISABLED_PENDING_REVIEW";
+            /** @enum {integer} */
+            offered: 0;
+            /** @enum {integer} */
+            acknowledged: 0;
+            persisted: number | null;
+            accepted: number | null;
+            history?: {
+                /** Format: date-time */
+                start: string;
+                observations: string[];
+            }[];
+        };
     };
     responses: {
         /** @description Malformed input, an invalid range or invalid request identifier. */
@@ -1138,6 +2264,14 @@ export interface components {
         From: string;
         /** @description Exclusive end instant. Must be later than from. */
         To: string;
+        /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+        TraceCatalogueVersion: string;
+        TraceDomain: "volte" | "transport" | "roaming" | "sms" | "mobile-data";
+        TraceMetric: string;
+        TraceScopeType: "CITY" | "LINK_DIRECTION" | "PARTNER_DIRECTION";
+        TraceScopeId: string;
+        TraceResolution: "5m" | "15m" | "1h" | "6h";
+        TraceDatasetId: string;
     };
     requestBodies: never;
     headers: never;
@@ -1145,6 +2279,61 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getTraceDomainNativeMeasurements: {
+        parameters: {
+            query: {
+                datasetId: string;
+                sourceId: string;
+                scopeKey: string;
+                metric: string;
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native immutable measurements and explicit missing points */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceDomainNativeSeriesV1"];
+                };
+            };
+            /** @description Invalid or incompatible source, scope, metric, alignment or bounds */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Enabled analyst profile and application role required */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Feature disabled */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     listGeographyCities: {
         parameters: {
             query?: never;
@@ -1888,6 +3077,371 @@ export interface operations {
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
             503: components["responses"]["Unavailable"];
+        };
+    };
+    listTraceCities: {
+        parameters: {
+            query?: {
+                /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+                catalogueVersion?: components["parameters"]["TraceCatalogueVersion"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Versioned city inventory */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceCityList"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listTraceLinks: {
+        parameters: {
+            query?: {
+                /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+                catalogueVersion?: components["parameters"]["TraceCatalogueVersion"];
+                cityId?: string;
+                at?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Links and both declared directions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceLinkList"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listTracePartners: {
+        parameters: {
+            query?: {
+                /** @description Omit for active inventory; provide a recorded version for historical evidence. */
+                catalogueVersion?: components["parameters"]["TraceCatalogueVersion"];
+                country?: string;
+                direction?: "in" | "out";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Versioned roaming partner inventory */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TracePartnerList"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listTraceKpiDefinitions: {
+        parameters: {
+            query?: {
+                domain?: "volte" | "transport" | "roaming" | "sms" | "mobile-data";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Defined metrics and their arithmetic */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceKpiDefinition"][];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    getTraceMetricSeries: {
+        parameters: {
+            query: {
+                domain: components["parameters"]["TraceDomain"];
+                metric: components["parameters"]["TraceMetric"];
+                scopeType: components["parameters"]["TraceScopeType"];
+                scopeId: components["parameters"]["TraceScopeId"];
+                /** @description Inclusive start instant. */
+                from?: components["parameters"]["From"];
+                /** @description Exclusive end instant. Must be later than from. */
+                to?: components["parameters"]["To"];
+                resolution: components["parameters"]["TraceResolution"];
+                datasetId: components["parameters"]["TraceDatasetId"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Exact bounded bucket series */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceMetricSeries"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getTraceOverview: {
+        parameters: {
+            query: {
+                datasetId: components["parameters"]["TraceDatasetId"];
+                /** @description Inclusive start instant. */
+                from?: components["parameters"]["From"];
+                /** @description Exclusive end instant. Must be later than from. */
+                to?: components["parameters"]["To"];
+                resolution: components["parameters"]["TraceResolution"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Bounded multi-domain overview */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceOverview"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    getTraceTransportSnapshot: {
+        parameters: {
+            query: {
+                datasetId: components["parameters"]["TraceDatasetId"];
+                at: string;
+                cityId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Last valid directional transport snapshot */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceSnapshot"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    getTraceRoamingSnapshot: {
+        parameters: {
+            query: {
+                datasetId: components["parameters"]["TraceDatasetId"];
+                at: string;
+                direction: "in" | "out";
+                country?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Last valid roaming snapshot */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceSnapshot"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    exportTraceMetricCsv: {
+        parameters: {
+            query: {
+                domain: components["parameters"]["TraceDomain"];
+                metric: components["parameters"]["TraceMetric"];
+                scopeType: components["parameters"]["TraceScopeType"];
+                scopeId: components["parameters"]["TraceScopeId"];
+                /** @description Inclusive start instant. */
+                from?: components["parameters"]["From"];
+                /** @description Exclusive end instant. Must be later than from. */
+                to?: components["parameters"]["To"];
+                resolution: components["parameters"]["TraceResolution"];
+                datasetId: components["parameters"]["TraceDatasetId"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Exact buckets with primitive aggregates and provenance */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    listNotifications: {
+        parameters: {
+            query?: {
+                page?: components["parameters"]["Page"];
+                size?: components["parameters"]["Size"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recipient-scoped history and unread count */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotificationPage"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    markNotificationRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Marked read, including a repeated request */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getNotificationPushConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Public configuration only */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PushConfig"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+        };
+    };
+    upsertPushSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PushSubscriptionInput"];
+            };
+        };
+        responses: {
+            /** @description Current analyst subscription stored */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    deletePushSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Removed current analyst subscription */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
         };
     };
 }

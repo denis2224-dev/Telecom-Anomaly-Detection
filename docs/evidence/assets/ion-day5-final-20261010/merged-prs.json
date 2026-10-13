@@ -1,0 +1,34 @@
+[
+  {
+    "number": 73,
+    "title": "Enable city scenarios and resume-safe geographic history",
+    "merged": true,
+    "headSha": "05f4f088244d3728e15cc18c233b67f3b45def5d",
+    "mergeSha": "9f67c6d5a78d047840a13d5f7650acfd4feae4f7",
+    "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/73"
+  },
+  {
+    "number": 78,
+    "title": "test(streaming): integrate Ion Day 4/5 negative controls and release evidence",
+    "merged": true,
+    "headSha": "2e86a0e5b55d807ad60948615f8f14d4b5d9661f",
+    "mergeSha": "54758678602b518d5d500d357181c7a868e63537",
+    "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/78"
+  },
+  {
+    "number": 77,
+    "title": "Validate Day 4 cause controls, ML fallback and replay",
+    "merged": true,
+    "headSha": "1d082ea51043ad7ed23498efa9b79b53446eae98",
+    "mergeSha": "9e8501b627a00d59f995e410e35d08ceb0ada149",
+    "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/77"
+  },
+  {
+    "number": 86,
+    "title": "Add Day 5 geographic acceptance and historical baseline replay regressions",
+    "merged": true,
+    "headSha": "30c9a47b7f58d46f7fbfab08f2fa2d5959da5cea",
+    "mergeSha": "4044327d8af813d728627eba52d4688790b8f7fa",
+    "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/86"
+  }
+]

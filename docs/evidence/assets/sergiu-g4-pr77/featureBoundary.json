@@ -1,0 +1,96 @@
+{
+  "startedAt": "2026-10-08T16:52:18.184Z",
+  "commands": [
+    {
+      "type": "VOLTE_IMS_OVERLOAD",
+      "httpStatus": 202,
+      "run": {
+        "runId": "ae8bf384-7b42-4d48-9980-0822f973a84a",
+        "status": "SCHEDULED",
+        "scheduledStartAt": "2026-10-08T16:53:00Z",
+        "scheduledEndAt": "2026-10-08T17:01:00Z",
+        "scenarioType": "VOLTE_IMS_OVERLOAD",
+        "scopeId": "VOLTE-MD-CENTRAL"
+      },
+      "stopped": {
+        "runId": "ae8bf384-7b42-4d48-9980-0822f973a84a",
+        "status": "STOPPED",
+        "scheduledStartAt": "2026-10-08T16:53:00Z",
+        "scheduledEndAt": "2026-10-08T17:01:00Z",
+        "scenarioType": "VOLTE_IMS_OVERLOAD",
+        "scopeId": "VOLTE-MD-CENTRAL"
+      },
+      "note": "Authenticated legacy control routing only; stopped before measurements, no fault/recovery claim."
+    },
+    {
+      "type": "SMS_QUEUE_DELAY",
+      "httpStatus": 202,
+      "run": {
+        "runId": "3b5f6483-fc48-44ee-9bb3-d256f9719ceb",
+        "status": "SCHEDULED",
+        "scheduledStartAt": "2026-10-08T16:53:00Z",
+        "scheduledEndAt": "2026-10-08T17:01:00Z",
+        "scenarioType": "SMS_QUEUE_DELAY",
+        "scopeId": "SMS-MD-ROUTE-A"
+      },
+      "stopped": {
+        "runId": "3b5f6483-fc48-44ee-9bb3-d256f9719ceb",
+        "status": "STOPPED",
+        "scheduledStartAt": "2026-10-08T16:53:00Z",
+        "scheduledEndAt": "2026-10-08T17:01:00Z",
+        "scenarioType": "SMS_QUEUE_DELAY",
+        "scopeId": "SMS-MD-ROUTE-A"
+      },
+      "note": "Authenticated legacy control routing only; stopped before measurements, no fault/recovery claim."
+    }
+  ],
+  "readersBefore": [
+    {
+      "service": "incident-service",
+      "container": "6a5fc7dc8381",
+      "image": "telecom-g4-pr77-incident-service:f3e83b1"
+    },
+    {
+      "service": "processor",
+      "container": "7bb607a09be7",
+      "image": "telecom-g4-pr77-processor:f3e83b1"
+    }
+  ],
+  "disabledCity": {
+    "requestId": "b61a5d66-6380-40e6-92b9-bccde9d1addf",
+    "httpStatus": 503,
+    "body": {
+      "code": "GENERATOR_UNAVAILABLE",
+      "message": "The generator could not confirm this run. Retry with the same requestId.",
+      "requestId": "701b88d0-1470-4d82-8eba-dd0fb91aee53"
+    },
+    "expected": "Compatible incident reader still knows city authority; its private generator rejection is surfaced by the current dispatch contract as HTTP 503 / GENERATOR_UNAVAILABLE.",
+    "pending": {
+      "run_id": "34155bde-9c16-42c4-a34b-5ea9e1072232",
+      "status": "SCHEDULED",
+      "dispatch_error": "INVALID_SCOPE"
+    },
+    "cancelled": {
+      "runId": "34155bde-9c16-42c4-a34b-5ea9e1072232",
+      "status": "STOPPED",
+      "scheduledStartAt": "2026-10-08T16:53:00Z",
+      "scheduledEndAt": "2026-10-08T17:01:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CHI"
+    }
+  },
+  "readersAfter": [
+    {
+      "service": "incident-service",
+      "container": "6a5fc7dc8381",
+      "image": "telecom-g4-pr77-incident-service:f3e83b1"
+    },
+    {
+      "service": "processor",
+      "container": "7bb607a09be7",
+      "image": "telecom-g4-pr77-processor:f3e83b1"
+    }
+  ],
+  "status": "PASS",
+  "finishedAt": "2026-10-08T16:52:54.341Z"
+}

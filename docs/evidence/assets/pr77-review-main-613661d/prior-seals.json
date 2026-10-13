@@ -1,0 +1,19 @@
+{
+  "verifiedAtUTC": "2026-10-09T12:15:18.991736+00:00",
+  "bundles": [
+    {
+      "bundle": "../pr77-review-remediation",
+      "artifactCount": 29,
+      "unchangedArtifacts": 29,
+      "indexSha256": "5d5031af9d2d494f22c04d7bb9c87b4346c4661a9c0a049a1f36d68b0059f475",
+      "mismatches": []
+    },
+    {
+      "bundle": "../sergiu-g4-pr77",
+      "artifactCount": 55,
+      "unchangedArtifacts": 55,
+      "indexSha256": "8ca2e3e97a2eca28f0b246736b704ecd083fb5155bbca8d48e7a76d8b60b655c",
+      "mismatches": []
+    }
+  ]
+}

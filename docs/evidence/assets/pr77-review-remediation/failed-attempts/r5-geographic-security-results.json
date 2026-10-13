@@ -1,0 +1,219 @@
+{
+  "sourceSha": "df84b682fee93ffcbc89759b64ee341cd8a6273b",
+  "startedAtUTC": "2026-10-09T07:08:12.489Z",
+  "status": "FAILED",
+  "checks": [
+    "ANALYST/SUPERVISOR real OIDC; prelogin REST401; session/CSRF rotation; stale CSRF403; token-free storage",
+    "ANALYST scenario UI and API restrictions",
+    "Owned proxy stop/start: native SSE reconnect and authoritative REST refresh preserve city/filter/range/focus",
+    "CHI fault map/queue against API, BAL normal, CAH missing history/null/unit presentation; desktop/mobile",
+    "Five immutable detections per fault match DB/API, canonical identities and authorized durable source receipts; normal/gap no false incident; recovery leaves analyst workflow OPEN"
+  ],
+  "runs": [
+    {
+      "runId": "6f7ed11d-329b-4945-b0bb-be43342f9df9",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-09T07:09:00Z",
+      "scheduledEndAt": "2026-10-09T07:17:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CHI"
+    },
+    {
+      "runId": "77f86f4c-441d-42ad-a845-ad6e3d1a9e19",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-09T07:09:00Z",
+      "scheduledEndAt": "2026-10-09T07:17:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-CHI"
+    },
+    {
+      "runId": "971a1ada-f0a6-4e32-82d8-a4f1cd86fd83",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-09T07:09:00Z",
+      "scheduledEndAt": "2026-10-09T07:17:00Z",
+      "scenarioType": "NORMAL_CONTROL",
+      "scopeId": "VOLTE-MD-BAL"
+    },
+    {
+      "runId": "1ea9bea0-2d48-4254-a08f-cdc10ed1af21",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-09T07:09:00Z",
+      "scheduledEndAt": "2026-10-09T07:17:00Z",
+      "scenarioType": "TELEMETRY_GAP",
+      "scopeId": "SMS-MD-CAH"
+    }
+  ],
+  "trace": [
+    {
+      "incidentId": "3484ecf3-13d9-478d-88f8-99e858713859",
+      "detectionId": "ac1f03024e229e046d6842cc54df17e6cf81010a1aaced051acfe29f42df28db",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowStart": "2026-10-09T07:12:00Z",
+      "windowEnd": "2026-10-09T07:13:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "8e366560-f113-3c78-a1c1-55fef2f9a5ea",
+        "ab7fee4c-af3f-3b44-b4c3-a83118993acf",
+        "bda16e19-1a11-3f76-b574-ac92b1a44bf0"
+      ],
+      "receiptHashes": [
+        "3287dc930edf973bc65b903020dd74db68182b48d14c1084fc084394ad3a568b",
+        "eddd1e1ddeee82809ec38b6a5b405eaa91a42ba24e35f3d897dc0ed294dd76f0",
+        "8ecd0fa9892c3d84a79a010af2a819b01a5fabf13bf7781bfdff2ebf4684f697"
+      ]
+    },
+    {
+      "incidentId": "3484ecf3-13d9-478d-88f8-99e858713859",
+      "detectionId": "75c09870f6f3976142f05ba96f5d8fa34ca0bbb3dd25bfdefbc2273a3d0092b1",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowStart": "2026-10-09T07:13:00Z",
+      "windowEnd": "2026-10-09T07:14:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "37005245-e732-338f-bad5-26d52c8a7427",
+        "6cfd9327-90fa-3850-8d72-2f0b3d4398a3",
+        "ac2a5b06-f72b-3f07-9e26-895f49c28343"
+      ],
+      "receiptHashes": [
+        "79b30ce0e360a2bd37eb81c641b0787172ba2da097f4f42b7532ad2d979e5747",
+        "29d73d3fc4456ada3e7db27332e841fc88031656b49f3b79319f0ecaa7c9ea33",
+        "084185d8cc26ce6050fb9be4d09146b51e16663a05bfa23c0de61f7049f76f19"
+      ]
+    },
+    {
+      "incidentId": "3484ecf3-13d9-478d-88f8-99e858713859",
+      "detectionId": "22b8624491112d6e83af3aa3c62309ff139d431736242336574b086594cfc445",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowStart": "2026-10-09T07:14:00Z",
+      "windowEnd": "2026-10-09T07:15:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "20945fa1-b214-3b1e-9cc6-e1acd62905e0",
+        "39ad5311-962c-3c15-a634-9e659977d8ec",
+        "41b06d0e-1f47-3bd9-a6ff-9def140d499d"
+      ],
+      "receiptHashes": [
+        "97fa9e83f7d7b158fcd7cc664492c0c38d93fb9333938e08b148d412974ed20a",
+        "8223b946bc7540bde196fce6f29cf125878fa15322c57e02ed6352354c18af03",
+        "ce1d92670503e3d8c67021a91865bdff3637f892cc3dfb6af5ca18346a5c68a0"
+      ]
+    },
+    {
+      "incidentId": "3484ecf3-13d9-478d-88f8-99e858713859",
+      "detectionId": "bc0c7ea6db05bb5376a37ada05b6978fbe1c30cd8b66507d2c670b11d6df780f",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowStart": "2026-10-09T07:15:00Z",
+      "windowEnd": "2026-10-09T07:16:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "4b5f3feb-825c-3d4b-a093-b69f20b1816a",
+        "abd4de52-1c77-3953-9cca-961bb622eb4b",
+        "e851a1e6-c4cb-352a-b6ca-21e150d6b39c"
+      ],
+      "receiptHashes": [
+        "872ca05f5909eaebff23d9ce300139a696e2c613ed74230615a825de7fb71209",
+        "4c920dd024545a77a5a5b95151413f163771f4e2fcce10df646c36f22d752041",
+        "92c9523351180cffdf49f92b0f06fc47587bb529826192a57c988873f704cae3"
+      ]
+    },
+    {
+      "incidentId": "3484ecf3-13d9-478d-88f8-99e858713859",
+      "detectionId": "6e70f0ebd799e63eb77b010e82c41ffee2c29fd3f9148d70f2826bdccf84dc80",
+      "scopeId": "VOLTE-MD-CHI",
+      "windowStart": "2026-10-09T07:16:00Z",
+      "windowEnd": "2026-10-09T07:17:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "36bc4893-cad6-316d-a05a-bf4831105f7c",
+        "6a2e554d-39d6-3835-942c-fb1e8adb9b45",
+        "af591cb7-59cf-3b6e-928c-3e7365617ab4"
+      ],
+      "receiptHashes": [
+        "dde1838cc9b6999a4b79d0a42fba1b031963c3270e50db758c73ecd3b7c1a900",
+        "bd134b7370afef42465da10fef5b42c5c2b052e785c21f44b04508a74b07f747",
+        "3bad325e5e34c62dc610bb0818efca4c84e3b5b2111f7ce7d472d9f222b6c61a"
+      ]
+    },
+    {
+      "incidentId": "9e66cb89-3f33-4364-b734-c8a8cc3de513",
+      "detectionId": "cd04df75f0b6b3a1fd4db879e630e282d63569cf4c139bb218b5763bd06cb532",
+      "scopeId": "SMS-MD-CHI",
+      "windowStart": "2026-10-09T07:12:00Z",
+      "windowEnd": "2026-10-09T07:13:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "00dd0d2d-97d3-37b8-9540-392c225beb4c",
+        "91ee9e40-b2f4-3ad2-95a2-ad9fd83aabe7"
+      ],
+      "receiptHashes": [
+        "5a2186f1972499a2b04e8cef339dc18f26e368297126ab0c4eac693c07ca09c8",
+        "44b1a0da265cf207ac4697469e1d350d45f9c8ffb539e2ac6f0fae574a21609f"
+      ]
+    },
+    {
+      "incidentId": "9e66cb89-3f33-4364-b734-c8a8cc3de513",
+      "detectionId": "1955213a8eb2de40000aff041e559eefbd6bd4d4e74ab9fc86f33d8106327d7c",
+      "scopeId": "SMS-MD-CHI",
+      "windowStart": "2026-10-09T07:13:00Z",
+      "windowEnd": "2026-10-09T07:14:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "09110bad-7e81-3df7-80b5-aee304a5acbb",
+        "24855a80-bd2c-38c7-802a-70f159a9db58"
+      ],
+      "receiptHashes": [
+        "47cb147353f20aa7ab8376ae78840ce0f2d15a9d77d1f0c6f6ed7e61393cc1d3",
+        "0eafc943d67c392d5de13cb983f1b61ccefccc84c03732d29b456ecb41a074bb"
+      ]
+    },
+    {
+      "incidentId": "9e66cb89-3f33-4364-b734-c8a8cc3de513",
+      "detectionId": "87de921660ad513e8a429475346747db735caadea4ade15110ccb35bfa24e298",
+      "scopeId": "SMS-MD-CHI",
+      "windowStart": "2026-10-09T07:14:00Z",
+      "windowEnd": "2026-10-09T07:15:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "71d7d91b-7169-391c-8fd7-29ffe64301e1",
+        "fa679e4f-cd5e-3476-962b-ddf51030b63f"
+      ],
+      "receiptHashes": [
+        "535194f47543a1ec89697f5d761a1e84e4d422b213a71ecdaaa221d2cf166f8a",
+        "833475e6fd8bc411163e23185a2bb39f07796a15d255d80d2b6322613058f2f5"
+      ]
+    },
+    {
+      "incidentId": "9e66cb89-3f33-4364-b734-c8a8cc3de513",
+      "detectionId": "a2ba6bf6987eab7b8e5bbe0f1f98b40b817f6c5d1edd5c1a585886d535b800fe",
+      "scopeId": "SMS-MD-CHI",
+      "windowStart": "2026-10-09T07:15:00Z",
+      "windowEnd": "2026-10-09T07:16:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "06dbe500-cd9a-347e-9914-392004d974f3",
+        "362191f9-b8c2-3839-bb0b-5d6fd765e867"
+      ],
+      "receiptHashes": [
+        "e8aff348e5a979b2e54e5bc038d28dd857c3224e945c4ebd2c29826062fc09b5",
+        "f9bc7d12f608b6e670865824a48eabe8ceef305d541f6a1c7d8e1bd37344ba9a"
+      ]
+    },
+    {
+      "incidentId": "9e66cb89-3f33-4364-b734-c8a8cc3de513",
+      "detectionId": "caf53f9f18c9d611107f33f0b58d78583b8137b9b27871e84082800d7bd161d4",
+      "scopeId": "SMS-MD-CHI",
+      "windowStart": "2026-10-09T07:16:00Z",
+      "windowEnd": "2026-10-09T07:17:00Z",
+      "topologyVersion": "2-geography-g1",
+      "receiptIds": [
+        "c8ce3428-8d9e-3477-8789-137d18d507ec",
+        "dd2276e7-74b0-3b9f-be58-fbcb4d6a7177"
+      ],
+      "receiptHashes": [
+        "dbd363eadb87725298dd32126060d51e03374694bdf6c533407ca120b2faf22f",
+        "04e0c56062f4618226c36f0b3fe2f3a55f48e0efc6457e76a5f71db9795f8d6b"
+      ]
+    }
+  ],
+  "captures": []
+}
