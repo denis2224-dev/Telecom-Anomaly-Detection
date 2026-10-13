@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Telecom Service Assurance API
-  version: 0.4.0
+  version: 0.5.0
   description: Revision 3 contracts. Service KPI trends and incident episodes replace subscriber risk scoring.
     Application endpoints remain implementation tasks; this document is not evidence of a running API.
 servers:
@@ -939,26 +939,34 @@ paths:
     get:
       operationId: getTraceTransportSnapshot
       tags: [Trace Metrics]
-      x-implementation-status: planned-day-3
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/TraceDatasetId'}
       - {name: at, in: query, required: true, schema: {type: string, format: date-time}}
       - {name: cityId, in: query, schema: {type: string, maxLength: 32}}
       responses:
-        '200': {description: Last valid directional transport snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshot'}}}}
+        '200': {description: Last valid directional transport snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshotList'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {description: Source contract mismatch}
+        '403': {$ref: '#/components/responses/Forbidden'}
         '401': {$ref: '#/components/responses/Unauthenticated'}
   /api/v2/roaming/snapshot:
     get:
       operationId: getTraceRoamingSnapshot
       tags: [Trace Metrics]
-      x-implementation-status: planned-day-3
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/TraceDatasetId'}
       - {name: at, in: query, required: true, schema: {type: string, format: date-time}}
       - {name: direction, in: query, required: true, schema: {type: string, enum: [in, out]}}
       - {name: country, in: query, schema: {type: string, maxLength: 8}}
       responses:
-        '200': {description: Last valid roaming snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshot'}}}}
+        '200': {description: Last valid roaming snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshotList'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {description: Source contract mismatch}
+        '403': {$ref: '#/components/responses/Forbidden'}
         '401': {$ref: '#/components/responses/Unauthenticated'}
   /api/v2/exports/metrics.csv:
     get:
@@ -981,19 +989,20 @@ paths:
     get:
       operationId: listNotifications
       tags: [Notifications]
-      x-implementation-status: planned-day-3
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/Page'}
       - {$ref: '#/components/parameters/Size'}
       responses:
         '200': {description: Recipient-scoped history and unread count, content: {application/json: {schema: {$ref: '#/components/schemas/NotificationPage'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
   /api/notifications/{id}/read:
     post:
       operationId: markNotificationRead
       tags: [Notifications]
-      x-implementation-status: planned-day-3
+      x-implementation-status: backend-implemented
       security: [{sessionCookie: [], csrfToken: []}]
       parameters:
       - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
@@ -1034,6 +1043,19 @@ paths:
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+  /api/v2/domain-incidents/{id}:
+    get:
+      operationId: getTraceDomainIncident
+      tags: [Incidents]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '200': {description: Durable domain episode and primitive evidence, content: {application/json: {schema: {$ref: '#/components/schemas/TraceDomainIncident'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+
 components:
   securitySchemes:
     sessionCookie:
@@ -2661,6 +2683,65 @@ components:
         resolution: {type: string, enum: [5m, 15m, 1h, 6h]}
         synthetic: {type: boolean}
         summaries: {type: array, items: {$ref: '#/components/schemas/TraceSnapshot'}}
+
+    TraceSnapshotList:
+      type: object
+      required: [datasetId, domain, at, synthetic, items]
+      properties:
+        datasetId: {type: string}
+        domain: {type: string, enum: [transport, roaming]}
+        at: {type: string, format: date-time}
+        synthetic: {type: boolean}
+        items: {type: array, maxItems: 100, items: {$ref: '#/components/schemas/TraceSnapshot'}}
+    TraceDomainIncident:
+      type: object
+      required: [id, technicalState, severity, version, evidence]
+      properties:
+        id: {type: string, format: uuid}
+        technicalState: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
+        severity: {type: string, enum: [MEDIUM, HIGH, CRITICAL]}
+        version: {type: integer, format: int64}
+        evidence: {$ref: '#/components/schemas/TraceDomainIncidentEvidence'}
+    TraceDomainIncidentEvidence:
+      type: object
+      required: [detection, primitiveEvidence, causeStatus, probableCause, causeConfidence]
+      properties:
+        detection:
+          type: object
+          required: [schemaVersion, datasetId, synthetic, domain, metric, metricVersion, scopeType, scopeId, policyVersion, topologyVersion, episodeId, detectionId, sequence, phase, severity, firstObservedAt, windowStart, windowEnd, detectedAt, revision]
+          properties:
+            schemaVersion: {type: integer, enum: [1]}
+            datasetId: {type: string}
+            synthetic: {type: boolean, enum: [true]}
+            domain: {type: string, enum: [transport, roaming, mobile-data]}
+            metric: {type: string}
+            metricVersion: {type: string}
+            scopeType: {type: string, enum: [CITY, LINK_DIRECTION, PARTNER_DIRECTION]}
+            scopeId: {type: string}
+            policyVersion: {type: string}
+            topologyVersion: {type: string}
+            episodeId: {type: string}
+            detectionId: {type: string}
+            sequence: {type: integer, format: int64}
+            phase: {type: string, enum: [OPEN, UPDATE, UNKNOWN, RECOVERY]}
+            severity: {type: string, enum: [MEDIUM, HIGH, CRITICAL]}
+            firstObservedAt: {type: string, format: date-time}
+            windowStart: {type: string, format: date-time}
+            windowEnd: {type: string, format: date-time}
+            detectedAt: {type: string, format: date-time}
+            revision: {type: integer, minimum: 0}
+        primitiveEvidence:
+          type: object
+          required: [payload, quality, coverage, numerator, denominator]
+          properties:
+            payload: {type: object, additionalProperties: true}
+            quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE, INSUFFICIENT_EVIDENCE]}
+            coverage: {type: number, minimum: 0, maximum: 1}
+            numerator: {type: number, nullable: true}
+            denominator: {type: number, nullable: true}
+        causeStatus: {type: string, enum: [UNDETERMINED]}
+        probableCause: {type: string, nullable: true}
+        causeConfidence: {type: string, nullable: true}
     TraceSnapshot:
       type: object
       required: [datasetId, domain, scopeType, scopeId, at, snapshotAt, sourceAgeSeconds, value, unit, coverage, quality, policyVersion, topologyVersion, synthetic]
@@ -2675,7 +2756,7 @@ components:
         value: {type: number, nullable: true}
         unit: {type: string}
         coverage: {type: number, minimum: 0, maximum: 1}
-        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE]}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE, INSUFFICIENT_EVIDENCE]}
         policyVersion: {type: string, nullable: true}
         topologyVersion: {type: string, nullable: true}
         synthetic: {type: boolean}
