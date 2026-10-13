@@ -15,13 +15,20 @@ public class TraceDomainProjectionService {
     private final ObjectMapper json;
     private final MetricDefinitionRegistry definitions;
     private final MetricScopeRepository scopes;
+    private final MetricRollupRepository datasets;
     public TraceDomainProjectionService(JdbcTemplate jdbc, ObjectMapper json,
-            MetricDefinitionRegistry definitions, MetricScopeRepository scopes) {
-        this.jdbc = jdbc; this.json = json; this.definitions = definitions; this.scopes = scopes;
+            MetricDefinitionRegistry definitions, MetricScopeRepository scopes, MetricRollupRepository datasets) {
+        this.jdbc = jdbc; this.json = json; this.definitions = definitions; this.scopes = scopes; this.datasets = datasets;
     }
     @Transactional
     public void ingest(TraceDomainDetection input) {
         input.validateIdentity(json);
+        var dataset = datasets.dataset(input.datasetId()).orElseThrow(() ->
+                new IllegalArgumentException("Domain detection dataset is not registered"));
+        if (!dataset.synthetic() || input.firstObservedAt().isBefore(dataset.from())
+                || input.windowStart().isBefore(dataset.from()) || input.windowEnd().isAfter(dataset.to())) {
+            throw new IllegalArgumentException("Domain detection is outside its synthetic dataset history");
+        }
         var definition = definitions.require(input.domain(), input.metric());
         var scope = scopes.resolve(new TraceQuery(input.datasetId(), input.domain(), input.metric(),
                 input.scopeType(), input.scopeId(), input.windowStart(), input.windowEnd(), "5m"));

@@ -141,6 +141,19 @@ class TraceDomainSliceIT extends IncidentServiceIntegrationTestSupport {
         assertEquals("INSUFFICIENT_EVIDENCE", snapshots.read(DATASET, "transport", AT.plusSeconds(300), "hin", null, null).items().getFirst().quality());
     }
     @Test
+    void domainDetectionCannotEscapeItsRegisteredHistory() {
+        var old = detection("transport", 1, "OPEN");
+        Instant outside = AT.minusSeconds(300);
+        String episode = TraceDomainDetection.hash(json.writeValueAsString(List.of(DATASET, old.domain(), old.metric(),
+                old.metricVersion(), old.scopeType(), old.scopeId(), POLICY, TOPOLOGY, outside.toString())));
+        String id = TraceDomainDetection.hash(json.writeValueAsString(List.of(episode, old.windowStart().toString(), "OPEN", old.metricVersion())));
+        var invalid = new TraceDomainDetection(old.schemaVersion(), old.datasetId(), true, old.domain(), old.metric(),
+                old.metricVersion(), old.scopeType(), old.scopeId(), POLICY, TOPOLOGY, episode, id, 1, "OPEN", "HIGH", outside,
+                old.windowStart(), old.windowEnd(), old.detectedAt(), 0);
+        assertThrows(IllegalArgumentException.class, () -> projections.ingest(invalid));
+        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_detection", Long.class));
+    }
+    @Test
     void staleSourceCannotCreateAPositiveEpisode() {
         window("mobile-data", 0, "990", "1000", "STALE", 1);
         var old = detection("mobile-data", 1, "OPEN");
