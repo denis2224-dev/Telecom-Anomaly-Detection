@@ -52,7 +52,7 @@ public class TraceDomainQueryService {
     public List<TraceLinkMeasurement> nativeWindows(String dataset,String source,String scopeKey,String metric,Instant from,Instant to) {
         require(dataset != null && dataset.matches("[A-Za-z0-9_.:-]{1,160}")
                 && source != null && source.matches("[A-Za-z0-9_.:-]{1,160}")
-                && scopeKey != null && scopeKey.matches("[0-9a-f]{64}") && METRICS.contains(metric)
+                && scopeKey != null && scopeKey.matches("[0-9a-f]{64}") && metric != null && METRICS.contains(metric)
                 && from != null && to != null && from.getNano()==0 && to.getNano()==0 && from.isBefore(to)
                 && Duration.between(from,to).compareTo(Duration.ofDays(30))<=0, "Invalid native domain query");
         var registration = jdbc.query("SELECT source_kind,available_from,available_to FROM app.trace_domain_source WHERE dataset_id=? AND source_id=?",
