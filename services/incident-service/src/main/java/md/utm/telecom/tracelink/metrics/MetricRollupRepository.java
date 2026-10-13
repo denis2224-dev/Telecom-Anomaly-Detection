@@ -2,119 +2,87 @@ package md.utm.telecom.tracelink.metrics;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Objects;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional(readOnly = true)
 public class MetricRollupRepository {
     private final JdbcTemplate jdbc;
-
-    public MetricRollupRepository(JdbcTemplate jdbc) {
-        this.jdbc = jdbc;
-    }
-
-    public Optional<Dataset> dataset(String datasetId) {
+    public MetricRollupRepository(JdbcTemplate jdbc) { this.jdbc = jdbc; }
+    public Optional<Dataset> dataset(String id) {
         return jdbc.query("""
                 SELECT history_from, history_to_exclusive, source_resolution_seconds, synthetic
                 FROM app.trace_dataset WHERE dataset_id = ?
-                """, (rs, row) -> new Dataset(rs.getTimestamp(1).toInstant(),
-                rs.getTimestamp(2).toInstant(), rs.getInt(3), rs.getBoolean(4)),
-                datasetId).stream().findFirst();
+                """, (rs, row) -> new Dataset(rs.getTimestamp(1).toInstant(), rs.getTimestamp(2).toInstant(),
+                rs.getInt(3), rs.getBoolean(4)), id).stream().findFirst();
     }
-
-    public Optional<String> cityTopology(String datasetId, String cityId) {
+    public List<SourceShape> sourceShapes(TraceQuery q, MetricScopeRepository.Scope scope) {
         return jdbc.query("""
-                SELECT c.topology_version
-                FROM app.trace_catalogue c JOIN app.trace_inventory_city city
-                  ON city.catalogue_version = c.catalogue_version
-                WHERE c.dataset_id = ? AND city.city_id = ? AND c.active AND city.active
-                ORDER BY c.valid_from DESC LIMIT 1
-                """, (rs, row) -> rs.getString(1), datasetId, cityId).stream().findFirst();
-    }
-
-    public List<SourceShape> sourceShapes(TraceQuery query) {
-        return jdbc.query("""
-                SELECT DISTINCT policy_version, topology_version, aggregation_type,
-                                unit, source_resolution_seconds
+                SELECT DISTINCT policy_version, topology_version, aggregation_type, unit, source_resolution_seconds
                 FROM app.trace_metric_window
-                WHERE dataset_id = ? AND domain = ? AND metric_id = ?
-                  AND scope_type = ? AND scope_id = ?
-                  AND direction = '' AND partner_id = '' AND procedure = ''
-                  AND finalized AND bucket_start >= ? AND bucket_start < ?
-                LIMIT 2
-                """, (rs, row) -> new SourceShape(rs.getString(1), rs.getString(2),
-                rs.getString(3), rs.getString(4), rs.getInt(5)),
-                query.datasetId(), query.domain(), query.metric(), query.scopeType(),
-                query.scopeId(), Timestamp.from(query.effectiveFrom()),
-                Timestamp.from(query.effectiveTo()));
+                WHERE dataset_id = ? AND domain = ? AND metric_id = ? AND scope_type = ? AND scope_id = ?
+                  AND direction = ? AND partner_id = ? AND procedure = ? AND finalized
+                  AND bucket_start >= ? AND bucket_end <= ? LIMIT 2
+                """, (rs, row) -> new SourceShape(rs.getString(1), rs.getString(2), rs.getString(3),
+                rs.getString(4), rs.getInt(5)), q.datasetId(), q.domain(), q.metric(), q.scopeType(), q.scopeId(),
+                scope.direction(), scope.partnerId(), scope.procedure(), Timestamp.from(q.from()), Timestamp.from(q.to()));
     }
-
-    public List<MetricSeriesResponse.Point> ratio(TraceQuery query, String policyVersion,
-                                                   String topologyVersion) {
-        long seconds = query.bucketSeconds();
-        BigDecimal expected = BigDecimal.valueOf(seconds / 300);
+    public List<MetricSeriesResponse.Point> ratio(TraceQuery q, String policy, MetricScopeRepository.Scope scope) {
+        long seconds = q.bucketSeconds();
         return jdbc.query("""
                 WITH latest AS (
-                    SELECT DISTINCT ON (w.bucket_start)
-                           w.bucket_start, w.numerator, w.denominator, w.coverage, w.quality
-                    FROM app.trace_metric_window w
-                    WHERE w.dataset_id = ? AND w.domain = ? AND w.metric_id = ?
-                      AND w.scope_type = ? AND w.scope_id = ?
-                      AND w.direction = '' AND w.partner_id = '' AND w.procedure = ''
-                      AND w.policy_version = ? AND w.topology_version = ?
-                      AND w.aggregation_type = 'RATIO_OF_SUMS' AND w.unit = 'PERCENT'
-                      AND w.source_resolution_seconds = 300 AND w.finalized
-                      AND w.bucket_start >= ? AND w.bucket_start < ?
-                    ORDER BY w.bucket_start, w.revision DESC
+                    SELECT DISTINCT ON (bucket_start) bucket_start, numerator, denominator, coverage, quality, payload
+                    FROM app.trace_metric_window
+                    WHERE dataset_id = ? AND domain = ? AND metric_id = ? AND scope_type = ? AND scope_id = ?
+                      AND direction = ? AND partner_id = ? AND procedure = ?
+                      AND policy_version = ? AND topology_version = ? AND finalized
+                      AND aggregation_type = 'RATIO_OF_SUMS' AND unit = 'PERCENT'
+                      AND source_resolution_seconds = 300 AND bucket_start >= ? AND bucket_end <= ?
+                    ORDER BY bucket_start, revision DESC
                 ), buckets AS (
-                    SELECT generate_series(?::timestamptz,
-                                           ?::timestamptz - (? * INTERVAL '1 second'),
-                                           ? * INTERVAL '1 second') AS bucket_start
+                    SELECT generate_series(?::timestamptz, ?::timestamptz - (? * INTERVAL '1 second'),
+                                           ? * INTERVAL '1 second') AS start
+                ), aggregates AS (
+                    SELECT b.start,
+                           SUM(w.numerator) FILTER (WHERE w.quality IN ('VALID','PARTIAL') AND w.denominator IS NOT NULL AND w.numerator IS NOT NULL) AS numerator,
+                           SUM(w.denominator) FILTER (WHERE w.quality IN ('VALID','PARTIAL') AND w.denominator IS NOT NULL AND w.numerator IS NOT NULL) AS denominator,
+                           COALESCE(SUM(w.coverage) FILTER (WHERE w.quality IN ('VALID','PARTIAL') AND w.denominator IS NOT NULL AND w.numerator IS NOT NULL), 0) / ? AS coverage,
+                           COALESCE(BOOL_OR(w.quality = 'STALE'), FALSE) AS stale,
+                           COALESCE(BOOL_OR(jsonb_exists(w.payload, 'sourceQuality') AND w.payload->'sourceQuality' = 'null'::jsonb), FALSE) AS source_unknown,
+                           COUNT(w.bucket_start) AS received_slots,
+                           COALESCE(BOOL_OR(w.quality <> 'VALID' OR w.numerator IS NULL OR w.denominator IS NULL), FALSE) AS invalid
+                    FROM buckets b LEFT JOIN latest w ON w.bucket_start >= b.start
+                         AND w.bucket_start < b.start + (? * INTERVAL '1 second')
+                    GROUP BY b.start
                 )
-                SELECT b.bucket_start,
-                       b.bucket_start + (? * INTERVAL '1 second') AS bucket_end,
-                       CASE WHEN SUM(w.denominator) > 0
-                            THEN 100 * SUM(w.numerator) / SUM(w.denominator)
-                            ELSE NULL END AS value,
-                       SUM(w.numerator) AS numerator,
-                       SUM(w.denominator) AS denominator,
-                       LEAST(1, COALESCE(SUM(w.coverage), 0) / ?) AS coverage,
-                       COALESCE(BOOL_OR(w.quality <> 'VALID'), FALSE) AS invalid_source
-                FROM buckets b
-                LEFT JOIN latest w
-                  ON w.bucket_start >= b.bucket_start
-                 AND w.bucket_start < b.bucket_start + (? * INTERVAL '1 second')
-                GROUP BY b.bucket_start
-                ORDER BY b.bucket_start
+                SELECT start, start + (? * INTERVAL '1 second') AS finish,
+                       100 * numerator / NULLIF(denominator, 0) AS value,
+                       numerator, denominator, coverage, stale, invalid, source_unknown, received_slots
+                FROM aggregates ORDER BY start
                 """, (rs, row) -> {
             BigDecimal coverage = rs.getBigDecimal("coverage");
+            String quality = coverage.signum() == 0 ? (rs.getBoolean("stale") ? "STALE" : "MISSING")
+                    : coverage.compareTo(BigDecimal.ONE) < 0 || rs.getBoolean("invalid") ? "PARTIAL" : "VALID";
             BigDecimal denominator = rs.getBigDecimal("denominator");
-            String quality = coverage.signum() == 0 ? "MISSING"
-                    : denominator != null && denominator.signum() == 0 ? "INSUFFICIENT_EVIDENCE"
-                    : coverage.compareTo(BigDecimal.ONE) < 0 || rs.getBoolean("invalid_source")
-                    ? "PARTIAL" : "VALID";
-            return new MetricSeriesResponse.Point(rs.getTimestamp("bucket_start").toInstant(),
-                    rs.getTimestamp("bucket_end").toInstant(), rs.getBigDecimal("value"),
-                    coverage, quality, rs.getBigDecimal("numerator"),
-                    denominator, null, null,
-                    quality.equals("MISSING") ? "NO_SOURCE_SLOTS"
-                            : denominator != null && denominator.signum() == 0 ? "ZERO_DENOMINATOR" : null,
-                    quality.equals("INSUFFICIENT_EVIDENCE") ? "ZERO_DENOMINATOR" : null,
-                    null, null, null, null, List.of(), List.of());
-        }, query.datasetId(), query.domain(), query.metric(), query.scopeType(), query.scopeId(),
-                policyVersion, topologyVersion, Timestamp.from(query.effectiveFrom()),
-                Timestamp.from(query.effectiveTo()), Timestamp.from(query.effectiveFrom()),
-                Timestamp.from(query.effectiveTo()), seconds, seconds, seconds, expected, seconds);
+            if (rs.getBoolean("source_unknown") && coverage.signum() > 0) quality = "INSUFFICIENT_EVIDENCE";
+            if (denominator != null && denominator.signum() == 0 && coverage.signum() > 0) quality = "INSUFFICIENT_EVIDENCE";
+            return new MetricSeriesResponse.Point(rs.getTimestamp("start").toInstant(),
+                    rs.getTimestamp("finish").toInstant(), rs.getBigDecimal("value"), coverage, quality,
+                    rs.getBigDecimal("numerator"), denominator, null, null,
+                    quality.equals("MISSING") ? "NO_SOURCE_SLOTS" : denominator != null && denominator.signum() == 0 ? "ZERO_DENOMINATOR" : null,
+                    denominator != null && denominator.signum() == 0 ? "ZERO_DENOMINATOR" : rs.getBoolean("source_unknown") ? "SOURCE_QUALITY_UNAVAILABLE" : null,
+                    Math.toIntExact(seconds / 300), rs.getInt("received_slots"), null, null, List.of(), List.of());
+        }, q.datasetId(), q.domain(), q.metric(), q.scopeType(), q.scopeId(), scope.direction(), scope.partnerId(),
+                scope.procedure(), policy, scope.topologyVersion(), Timestamp.from(q.from()), Timestamp.from(q.to()),
+                Timestamp.from(q.effectiveFrom()), Timestamp.from(q.effectiveTo()), seconds, seconds,
+                BigDecimal.valueOf(seconds / 300), seconds, seconds);
     }
-
     public List<MetricSeriesResponse.Point> primitiveRatio(TraceQuery query, String policyVersion,
                                                             String topologyVersion) {
         List<Primitive> rows = jdbc.query("""
@@ -216,7 +184,7 @@ public class MetricRollupRepository {
             String sourceFile, String manifest, String generator, long seed,
             String catalogue, String importPolicy) {}
 
+
     public record Dataset(Instant from, Instant to, int sourceResolutionSeconds, boolean synthetic) {}
-    public record SourceShape(String policyVersion, String topologyVersion,
-                              String aggregation, String unit, int sourceResolutionSeconds) {}
+    public record SourceShape(String policyVersion, String topologyVersion, String aggregation, String unit, int sourceResolutionSeconds) {}
 }
