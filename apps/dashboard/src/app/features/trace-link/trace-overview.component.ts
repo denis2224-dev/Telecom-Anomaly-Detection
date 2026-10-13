@@ -48,7 +48,7 @@ import { TraceMetricChartComponent } from './trace-metric-chart.component';
       @if(!metricQuery() && availableDefinitions().length){<p>Enter the recorded dataset, choose a city and apply valid history bounds.</p>}
       @if(seriesBusy()){<p role="status">Loading persisted metric buckets…</p>}
       @if(seriesError()){<p role="alert">{{seriesError()}}</p><button type="button" (click)="refresh.update(value=>value+1)">Retry metric history</button>}
-      @if(series();as result){<p>{{result.synthetic?'Synthetic':'Source marked non-synthetic'}} · dataset <code>{{result.datasetId}}</code> · {{result.scopeType}} {{result.scopeId}} · topology {{result.topologyVersion ?? 'Unavailable'}} · source resolution {{result.sourceResolutionSeconds}} seconds · {{result.partialStart || result.partialEnd ? 'Partial edge buckets' : 'Full edge buckets'}}</p><app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/><button type="button" (click)="expanded.showModal()">Expand metric</button><button type="button" [disabled]="csvBusy() || seriesBusy()" (click)="downloadCsv()">Download exact server CSV</button>}
+      @if(series();as result){<p>{{result.synthetic?'Synthetic':'Source marked non-synthetic'}} · dataset <code>{{result.datasetId}}</code> · {{result.scopeType}} {{result.scopeId}} · topology {{result.topologyVersion ?? 'Unavailable'}} · source resolution {{result.sourceResolutionSeconds}} seconds · {{result.partialStart || result.partialEnd ? 'Partial edge buckets' : 'Full edge buckets'}}</p><app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/><button #expandBtn type="button" (click)="openExpanded(expanded,expandBtn)">Expand metric</button><button type="button" [disabled]="csvBusy() || seriesBusy()" (click)="downloadCsv()">Download exact server CSV</button>}
       <p>Grafana connectivity and new-domain incident mapping are unavailable in this candidate. Existing incident investigation remains available through the workspace navigation.</p>
     </section>
     <dialog #expanded aria-labelledby="expanded-trace-title"><h2 id="expanded-trace-title">Expanded persisted metric</h2><button type="button" (click)="expanded.close()">Close expanded metric</button><p>Visible [{{query.context().visibleFrom ?? query.context().from}}, {{query.context().visibleTo ?? query.context().to}}) · {{query.context().resolution}} · {{query.context().timezone}}</p><button type="button" (click)="query.resetZoom()">Reset zoom</button>@if(series();as result){<app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/>}@else{<p role="status">{{seriesError() || 'Loading selected history…'}}</p>}</dialog>
@@ -93,7 +93,7 @@ export class TraceOverviewComponent {
         if(result.datasetId!==query.datasetId||result.domain!==query.domain||result.metric!==query.metric||result.scopeId!==query.scopeId
           ||result.scopeType!==query.scopeType||result.resolution!==query.resolution||Date.parse(result.requestedFrom)!==Date.parse(query.from)
           ||Date.parse(result.requestedTo)!==Date.parse(query.to)||result.points.length>8640)throw new Error('Metric response does not match the selected query.');
-        if(result.points.some(point=>!['VALID','PARTIAL','MISSING','STALE'].includes(point.quality)
+        if(result.points.some(point=>!['VALID','PARTIAL','MISSING','STALE','INSUFFICIENT_EVIDENCE'].includes(point.quality)
           || !Number.isFinite(point.coverage)||point.coverage<0||point.coverage>1
           || (point.value!==null && (!Number.isFinite(point.value)||point.quality==='MISSING'||(result.aggregation==='RATIO_OF_SUMS'&&point.denominator===0)))))
           throw new Error('Metric response contains incompatible quality or primitives.');
@@ -123,6 +123,10 @@ export class TraceOverviewComponent {
   y(city:TraceCity):number{const values=this.cities().map(city=>city.latitude);return 310-(city.latitude-Math.min(...values))/Math.max(.01,Math.max(...values)-Math.min(...values))*270;}
   zoom():void{const c=this.query.context(),from=Date.parse(c.visibleFrom??c.from),to=Date.parse(c.visibleTo??c.to),quarter=(to-from)/4;if(to-from>600000)this.query.zoom(new Date(from+quarter).toISOString(),new Date(to-quarter).toISOString());}
   pan(direction:number):void{const c=this.query.context(),from=Date.parse(c.visibleFrom??c.from),to=Date.parse(c.visibleTo??c.to),shift=(to-from)/2*direction;this.query.zoom(new Date(from+shift).toISOString(),new Date(to+shift).toISOString());}
+  openExpanded(dialog: HTMLDialogElement, opener: HTMLElement): void {
+    dialog.showModal();
+    dialog.addEventListener('close', () => opener.focus(), { once: true });
+  }
   async downloadCsv():Promise<void>{
     const query=this.metricQuery();if(!query||!this.series()||this.csvBusy())return;
     const revision=this.query.revision(),sessionRevision=this.session.revision;this.csvRequest?.abort();const request=this.csvRequest=new AbortController();this.csvBusy.set(true);
