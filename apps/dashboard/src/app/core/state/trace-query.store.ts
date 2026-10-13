@@ -66,8 +66,12 @@ export class TraceQueryStore {
   resetZoom(): void {this.update({visibleFrom:undefined,visibleTo:undefined});}
   restore(parameters:Record<string,string>): boolean {
     const keys=Object.keys(defaults()).concat(['linkDirectionId','partnerDirectionId','visibleFrom','visibleTo']);
-    const patch=Object.fromEntries(Object.entries(parameters).filter(([key])=>keys.includes(key)));
-    return this.update({...defaults(),linkDirectionId:undefined,partnerDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined,...patch});
+    const entries=Object.entries(parameters).filter(([key])=>keys.includes(key));
+    if(entries.some(([,value])=>typeof value!=='string'))return false;
+    const next={...defaults(),...Object.fromEntries(entries)};
+    if(!validTraceContext(next))return false;
+    if(JSON.stringify(next)===JSON.stringify(this.value()))return true;
+    this.value.set(Object.freeze(next));this.revision.update(value=>value+1);return true;
   }
   private reset(): void {this.value.set(Object.freeze(defaults()));this.revision.update(value=>value+1);}
 }

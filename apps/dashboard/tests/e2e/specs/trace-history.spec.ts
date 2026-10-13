@@ -64,7 +64,7 @@ for(const width of [1366,390])test(`native history keeps query, inventory, gaps 
   await page.getByRole('button',{name:'chi-hin b-to-a',exact:true}).click();await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('Selected chi-hin:b-to-a');
   await expect(page.getByRole('row').filter({has:page.getByRole('button',{name:'chi-hin b-to-a',exact:true})})).toContainText('hin → chi');
   await page.getByRole('combobox',{name:'City',exact:true}).selectOption('bal');await expect(page.getByRole('region',{name:'Approved topology'})).not.toContainText('Selected chi-hin');
-  await page.getByRole('button',{name:'Roaming',exact:true}).click();await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('No approved metric definition');
+  await page.getByRole('button',{name:'Roaming',exact:true}).click();await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('Registered rollups are unavailable');
   await page.getByRole('combobox',{name:'Country',exact:true}).selectOption('RO');await page.getByRole('combobox',{name:'Roaming direction',exact:true}).selectOption('in');
   await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('RO-DEMO-01 · in');
   await expect(page.getByRole('combobox',{name:'City',exact:true})).toHaveValue('bal');

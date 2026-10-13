@@ -40,6 +40,13 @@ describe('Shared Trace Link query context',()=>{
     store.restore({datasetId:'recorded',from:'2026-09-10T09:00:00Z',to:'2026-10-10T09:00:00Z'});
     expect(store.context().linkDirectionId).toBeUndefined();expect(store.context().visibleFrom).toBeUndefined();
   });
+  it('restores a city and directional link together before inventory is loaded',()=>{
+    expect(store.restore({...traceContextParameters(store.context()),cityId:'chi',linkDirectionId:'chi-orh:a-to-b'})).toBe(true);
+    expect(store.context().linkDirectionId).toBe('chi-orh:a-to-b');
+  });
+  it('rejects ambiguous repeated query parameters',()=>{
+    expect(store.restore({from:['2026-10-09T09:00:00Z'] as unknown as string})).toBe(false);
+  });
   it('clears the query on session end and changes revision for cancellation guards',()=>{
     const revision=store.revision();ended.next();expect(store.context().datasetId).toBe('');expect(store.revision()).toBeGreaterThan(revision);
   });
