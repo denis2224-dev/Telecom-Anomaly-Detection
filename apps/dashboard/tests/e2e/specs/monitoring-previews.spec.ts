@@ -16,10 +16,20 @@ for (const width of [1366, 390]) {
     await expect(page.getByLabel('Key service information')).toContainText('Backhaul trafficUnavailable');
     await expect(page.locator('.transport-link')).toHaveCount(7);
     await expect(page.getByLabel('Illustrative intercity traffic')).toContainText('8.9 Gbps');
-    await page.getByRole('checkbox', { name: 'Show sample links' }).uncheck();
+    const trafficToggle = page.getByRole('checkbox', { name: 'Show sample links' });
+    await trafficToggle.scrollIntoViewIfNeeded();
+    const mapPosition = () => page.locator('.city-map').evaluate(map => {
+      const { x, y, width, height } = map.getBoundingClientRect();
+      return { x: x + window.scrollX, y: y + window.scrollY, width, height };
+    });
+    const initialMapPosition = await mapPosition();
+    await trafficToggle.uncheck();
     await expect(page.locator('.transport-link')).toHaveCount(0);
     await expect(page.locator('.city-marker')).toHaveCount(8);
-    await page.getByRole('checkbox', { name: 'Show sample links' }).check();
+    expect(await mapPosition()).toEqual(initialMapPosition);
+    await trafficToggle.check();
+    await expect(page.locator('.transport-link')).toHaveCount(7);
+    expect(await mapPosition()).toEqual(initialMapPosition);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 1366) {
       const boxes = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
