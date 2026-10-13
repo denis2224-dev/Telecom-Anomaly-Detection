@@ -180,6 +180,11 @@ class TraceLinkDetectionIT {
         var manifest=export.putArray("windows");
         for(var row:jdbc.queryForList("SELECT window_id,payload_hash FROM app.trace_link_window ORDER BY window_id"))
             manifest.addObject().put("windowId",row.get("window_id").toString()).put("inputSha256",row.get("payload_hash").toString());
+        var deliveryTraces=export.putArray("deliveryTraces");
+        for(var row:jdbc.queryForList("SELECT id,created_at,published_at FROM app.trace_link_delivery ORDER BY id"))
+            deliveryTraces.addObject().put("detectionId",row.get("id").toString())
+                    .put("outboxCreatedAt",((java.sql.Timestamp)row.get("created_at")).toInstant().toString())
+                    .put("kafkaAcknowledgedAt",((java.sql.Timestamp)row.get("published_at")).toInstant().toString());
         java.nio.file.Files.createDirectories(java.nio.file.Path.of("target"));
         JSON.writerWithDefaultPrettyPrinter().writeValue(java.nio.file.Path.of("target/trace-link-day3-produced.json").toFile(),export);
     }

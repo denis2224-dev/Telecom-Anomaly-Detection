@@ -96,6 +96,11 @@ class TraceLinkRealtimeHarness {
                 export.put("committedDetections",jdbc.queryForObject("SELECT count(*) FROM app.trace_link_delivery",Integer.class));
                 export.put("published",jdbc.queryForObject("SELECT count(*) FROM app.trace_link_delivery WHERE published_at IS NOT NULL",Integer.class));
                 export.put("actualKafkaMessages",consume(broker));
+                var deliveryTraces=export.putArray("deliveryTraces");
+                for(var row:jdbc.queryForList("SELECT id,created_at,published_at FROM app.trace_link_delivery ORDER BY id"))
+                    deliveryTraces.addObject().put("detectionId",row.get("id").toString())
+                            .put("outboxCreatedAt",((java.sql.Timestamp)row.get("created_at")).toInstant().toString())
+                            .put("kafkaAcknowledgedAt",((java.sql.Timestamp)row.get("published_at")).toInstant().toString());
                 var traces=export.putArray("traces");
                 for(var row:jdbc.queryForList("""
                         SELECT w.window_id,w.payload_hash,w.created_at,j.evaluation_at,e.evaluated_at,
