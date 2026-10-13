@@ -18,10 +18,12 @@ parser.add_argument('--output', required=True)
 parser.add_argument('--steady-rps', type=float, default=10)
 parser.add_argument('--burst-rps', type=float, default=30)
 parser.add_argument('--workers', type=int, default=24)
+parser.add_argument('--warmup-seconds', type=int, default=120)
+parser.add_argument('--steady-seconds', type=int, default=900)
 parser.add_argument('--burst-seconds', type=int, default=60)
 parser.add_argument('--recovery-seconds', type=int, default=180)
 args = parser.parse_args()
-if not args.origin.startswith(('http://', 'https://')) or args.workers < 1 or min(args.steady_rps, args.burst_rps) <= 0:
+if not args.origin.startswith(('http://', 'https://')) or args.workers < 1 or min(args.steady_rps, args.burst_rps) <= 0 or min(args.warmup_seconds, args.steady_seconds, args.burst_seconds, args.recovery_seconds) < 1:
     parser.error('Invalid origin, workers or request rate')
 local = threading.local()
 samples = []
@@ -78,27 +80,41 @@ def percentile(values, fraction):
     return values[max(0, math.ceil(len(values) * fraction) - 1)]
 
 admin = opener(args.admin_cookies)
+try:
+    for active_client, path in [(opener(args.cookies), '/api/notifications?size=1'), (admin, '/api/ops/capacity')]:
+        with active_client.open(args.origin.rstrip('/') + path, timeout=10) as response:
+            if response.status != 200 or 'application/json' not in response.headers.get('Content-Type', ''):
+                raise ValueError('Authenticated JSON required')
+            json.load(response)
+except Exception:
+    parser.error('Authenticated JSON preflight failed; renew the analyst/admin sessions before measurement')
+metrics_stop = threading.Event()
+current_phase = {'name': 'warmup'}
 started_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
-phases = [('warmup', 120, args.steady_rps), ('steady', 900, args.steady_rps),
+phases = [('warmup', args.warmup_seconds, args.steady_rps), ('steady', args.steady_seconds, args.steady_rps),
           ('burst', args.burst_seconds, args.burst_rps), ('recovery', args.recovery_seconds, args.steady_rps)]
 phase_stats = []
+def collect_metrics():
+    while not metrics_stop.is_set():
+        phase = current_phase['name']
+        try:
+            with admin.open(args.origin.rstrip('/') + '/api/ops/capacity', timeout=3) as response:
+                telemetry.append({'phase': phase, 'sample': json.load(response)})
+        except Exception as failure:
+            telemetry.append({'phase': phase, 'error': type(failure).__name__})
+        metrics_stop.wait(5)
+metrics_thread = threading.Thread(target=collect_metrics, daemon=True)
+metrics_thread.start()
 with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
     for phase, seconds, rate in phases:
+        current_phase['name'] = phase
         start = time.perf_counter()
         end = start + seconds
         next_offer = start
-        next_metrics = start
         offered = rejected = 0
         pending = set()
         while time.perf_counter() < end:
             now = time.perf_counter()
-            if now >= next_metrics:
-                try:
-                    with admin.open(args.origin.rstrip('/') + '/api/ops/capacity', timeout=3) as response:
-                        telemetry.append({'phase': phase, 'sample': json.load(response)})
-                except Exception as failure:
-                    telemetry.append({'phase': phase, 'error': type(failure).__name__})
-                next_metrics += 5
             completed = {future for future in pending if future.done()}
             samples.extend(future.result() for future in completed)
             pending -= completed
@@ -113,6 +129,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
         samples.extend(future.result() for future in pending)
         phase_stats.append({'phase': phase, 'plannedSeconds': seconds, 'elapsedSeconds': time.perf_counter() - start,
                             'offered': offered, 'clientRejected': rejected})
+metrics_stop.set()
+metrics_thread.join(timeout=5)
 summary = []
 for phase, _, _ in phases:
     for route in sorted({sample['route'] for sample in samples}):
