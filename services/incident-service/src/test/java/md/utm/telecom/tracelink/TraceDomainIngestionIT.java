@@ -78,6 +78,11 @@ class TraceDomainIngestionIT extends IncidentServiceIntegrationTestSupport {
             assertEquals(m.id(),point.path("eventId").asText());assertTrue(point.path("sourceCoverage").isNull());
             assertEquals(o.path("quality").asText().equals("MISSING")?0:1,point.path("receivedSlots").asInt());
             assertEquals(read(m.sourceBytes()).path("provenance"),point.path("provenance").path("nativeSource"));
+            for(String field:List.of("availability","referenceLimitations","qualification","validityAssumption",
+                    "referenceOnly","procedureEligibility","weightingBasis","coverageBasis"))
+                assertEquals(read(m.sourceBytes()).path(field),point.path("provenance").path("nativeQualification").path(field));
+            var stored=read(jdbc.queryForObject("SELECT provenance::text FROM app.trace_domain_measurement WHERE event_id=?",String.class,m.id()).getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            assertEquals(point.path("provenance").path("nativeQualification"),stored.path("nativeQualification"));
         }
         assertEquals(METRICS,metrics);assertEquals(nativeFixtures().size(),jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_measurement",Integer.class));
     }

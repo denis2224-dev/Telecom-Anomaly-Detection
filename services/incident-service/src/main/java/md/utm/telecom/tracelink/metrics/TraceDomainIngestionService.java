@@ -48,7 +48,13 @@ public class TraceDomainIngestionService {
         JsonNode raw = read(m.sourceBytes());
         String nullReason = o.path("quality").asText().equals("MISSING") ? "NO_SOURCE_SLOT" : value(o) == null ? "ZERO_DENOMINATOR" : null;
         JsonNode provenance = e.path("provenance").deepCopy();
-        if (!m.live()) ((com.fasterxml.jackson.databind.node.ObjectNode)provenance).set("nativeSource",raw.path("provenance"));
+        if (!m.live()) {
+            var receivingProvenance=(com.fasterxml.jackson.databind.node.ObjectNode)provenance;
+            receivingProvenance.set("nativeSource",raw.path("provenance"));
+            var qualification=receivingProvenance.putObject("nativeQualification");
+            for(String field:java.util.List.of("availability","referenceLimitations","qualification","validityAssumption",
+                    "referenceOnly","procedureEligibility","weightingBasis","coverageBasis")) qualification.set(field,raw.path(field));
+        }
         int count = jdbc.update("""
                 INSERT INTO app.trace_domain_measurement
                   (event_id,dataset_id,source_id,source_kind,domain,wire_domain,metric_id,scope_key,scope,

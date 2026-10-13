@@ -55,7 +55,12 @@ public class TraceDomainQueryService {
                 point.put("eventId",m.id()).set("revision",o.path("revision"));point.set("finalized",o.path("finalized"));
                 point.set("primitives",o.path("primitives"));point.set("sourcePayloadSha256",m.envelope().path("sourcePayloadSha256"));
                 var provenance=m.envelope().path("provenance").deepCopy();
-                if(!m.live())((com.fasterxml.jackson.databind.node.ObjectNode)provenance).set("nativeSource",read(m.sourceBytes()).path("provenance"));
+                if(!m.live()) {
+                    var raw=read(m.sourceBytes());var p=(com.fasterxml.jackson.databind.node.ObjectNode)provenance;
+                    p.set("nativeSource",raw.path("provenance"));var qualification=p.putObject("nativeQualification");
+                    for(String field:List.of("availability","referenceLimitations","qualification","validityAssumption",
+                            "referenceOnly","procedureEligibility","weightingBasis","coverageBasis")) qualification.set(field,raw.path(field));
+                }
                 point.set("provenance",provenance);
                 point.set("measurement",m.envelope());
             }
