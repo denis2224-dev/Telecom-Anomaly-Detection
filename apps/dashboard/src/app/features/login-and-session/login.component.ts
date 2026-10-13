@@ -1,3 +1,4 @@
+import { product } from "../../../branding/product";
 import { Component, inject } from "@angular/core";
 import { Router, RouterLink } from "@angular/router";
 import { SessionStore } from "./session.store";
@@ -8,7 +9,7 @@ import { SessionStore } from "./session.store";
   template: `
     <section class="login-layout" aria-labelledby="login-title">
       <div class="login-intro">
-        <p class="eyebrow">TraceLink</p>
+        <p class="eyebrow">{{ product.name }}</p>
         <h1 id="login-title">{{ title() }}</h1>
         <p>Understand service health. Investigate the evidence. Keep track of your next action.</p>
         <div class="login-capabilities">
@@ -54,6 +55,7 @@ import { SessionStore } from "./session.store";
   `,
 })
 export class LoginComponent {
+  readonly product = product;
   readonly session = inject(SessionStore);
   private readonly router = inject(Router);
 

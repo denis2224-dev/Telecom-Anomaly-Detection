@@ -3,9 +3,9 @@
   [class.access-shell]="isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')">
   @if (!isAccessPage() && (session.phase() === 'authenticated' || session.phase() === 'fixture')) {
     <aside class="sidebar" id="workspace-navigation">
-      <a class="brand" routerLink="/dashboard" aria-label="TraceLink — Service overview" title="TraceLink" (click)="mobileOpen.set(false)">
+      <a class="brand" routerLink="/dashboard" [attr.aria-label]="product.name + ' — Service overview'" [title]="product.name" (click)="mobileOpen.set(false)">
         <span class="brand-symbol" aria-hidden="true"></span>
-        <span class="brand-copy">TraceLink<span>Follow service evidence</span></span>
+        <span class="brand-copy">{{ product.name }}<span>{{ product.tagline }}</span></span>
       </a>
       <div class="sidebar-section-label">WORKSPACE</div>
       <nav aria-label="Workspace" class="sidebar-nav">
@@ -31,7 +31,7 @@
   <div class="workspace-layout">
     <header class="app-header">
       @if (isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')) {
-        <a class="brand" routerLink="/dashboard" aria-label="TraceLink — Service overview"><span class="brand-symbol" aria-hidden="true"></span><span class="brand-copy">TraceLink<span>Follow service evidence</span></span></a>
+        <a class="brand" routerLink="/dashboard" [attr.aria-label]="product.name + ' — Service overview'"><span class="brand-symbol" aria-hidden="true"></span><span class="brand-copy">{{ product.name }}<span>{{ product.tagline }}</span></span></a>
       } @else {
         <div class="header-location">
           <button class="ghost mobile-menu icon-button" aria-label="Open navigation" [attr.aria-expanded]="mobileOpen()" aria-controls="workspace-navigation" (click)="mobileOpen.set(!mobileOpen())"><app-icon name="menu" /></button>

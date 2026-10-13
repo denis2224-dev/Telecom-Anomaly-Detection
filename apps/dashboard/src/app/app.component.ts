@@ -1,3 +1,4 @@
+import { product } from "../branding/product";
 import { TelecomClient, type ServiceSummary } from './core/api/telecom-client';
 import { Component, effect, inject, signal } from "@angular/core";
 import { DatePipe } from "@angular/common";
@@ -44,6 +45,7 @@ export class AppComponent {
       : path.startsWith('/incidents') ? 'Incident investigation'
       : path.startsWith('/services') ? 'Service investigation' : 'Service overview';
   }
+  readonly product = product;
   readonly session = inject(SessionStore);
   readonly fixture = dataSource.fixture;
   readonly router = inject(Router);
