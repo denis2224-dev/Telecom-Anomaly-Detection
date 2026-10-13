@@ -1,0 +1,2416 @@
+{
+  "status": "PASS_WITH_SKIPS",
+  "stats": {
+    "startTime": "2026-10-13T06:59:59.504Z",
+    "duration": 217780.297,
+    "expected": 172,
+    "skipped": 24,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "accessibility.spec.ts",
+      "title": "keyboard: skip link, service chart, incident workflow, conflict, Escape",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2743
+        }
+      ]
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "long evidence, labels and non-color state at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3105
+        }
+      ]
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "long evidence, labels and non-color state at 1024px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1184
+        }
+      ]
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "long evidence, labels and non-color state at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1256
+        }
+      ]
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "long evidence, labels and non-color state at 320px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1183
+        }
+      ]
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "chart summary, exact values, nulls, measured zero, zero denominator",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 698
+        }
+      ]
+    },
+    {
+      "file": "accessibility.spec.ts",
+      "title": "anonymous retry control has a keyboard-accessible label",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 519
+        }
+      ]
+    },
+    {
+      "file": "assurance-live-updates.spec.ts",
+      "title": "incident notifications and reconnect reload REST; expiry stops refresh",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4825
+        }
+      ]
+    },
+    {
+      "file": "backend-dependency-live.spec.ts",
+      "title": "database outage returns bounded errors and an identical command succeeds once after recovery",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the real local Compose stack."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "backend-dependency-live.spec.ts",
+      "title": "identity outage blocks new login while an existing session remains usable, then login recovers",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the real local Compose stack."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "overview SMS chart uses the measured delivery success rate, not delay",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 623
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "connected dashboard at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1543
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "connected dashboard at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1406
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "connected dashboard at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1301
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "fixture city selection links map, charts, service and incident detail at 1366px",
+      "status": "skipped",
+      "skipReasons": [
+        "Run explicitly against the fixture server"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 71
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "fixture city selection links map, charts, service and incident detail at 768px",
+      "status": "skipped",
+      "skipReasons": [
+        "Run explicitly against the fixture server"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 83
+        }
+      ]
+    },
+    {
+      "file": "connected-dashboard.spec.ts",
+      "title": "fixture city selection links map, charts, service and incident detail at 390px",
+      "status": "skipped",
+      "skipReasons": [
+        "Run explicitly against the fixture server"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 68
+        }
+      ]
+    },
+    {
+      "file": "dark-workspace.spec.ts",
+      "title": "dark workspace presentation and interactions at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 5606
+        }
+      ]
+    },
+    {
+      "file": "dark-workspace.spec.ts",
+      "title": "dark workspace presentation and interactions at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 5290
+        }
+      ]
+    },
+    {
+      "file": "dark-workspace.spec.ts",
+      "title": "dark workspace presentation and interactions at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4034
+        }
+      ]
+    },
+    {
+      "file": "dashboard-performance-live.spec.ts",
+      "title": "measures authenticated geography, window updates and native SSE leases",
+      "status": "skipped",
+      "skipReasons": [
+        "Opt-in real authenticated stack; never fixture acceptance."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "demo-live.spec.ts",
+      "title": "authenticated map, Orhei, approved scenarios, recovery and reversible overview",
+      "status": "skipped",
+      "skipReasons": [
+        "Opt-in authenticated local stack; never fixture acceptance."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "demo-readiness.spec.ts",
+      "title": "the fallback keeps the existing authentication guard",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 332
+        }
+      ]
+    },
+    {
+      "file": "demo-readiness.spec.ts",
+      "title": "scope fallback and reversible connected view at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1142
+        }
+      ]
+    },
+    {
+      "file": "demo-readiness.spec.ts",
+      "title": "scope fallback and reversible connected view at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1289
+        }
+      ]
+    },
+    {
+      "file": "demo-readiness.spec.ts",
+      "title": "scope fallback and reversible connected view at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1167
+        }
+      ]
+    },
+    {
+      "file": "demo-readiness.spec.ts",
+      "title": "200% zoom keeps overview and service graph labels, focus and navigation usable",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1970
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "identity discovery unavailable: retry access without claiming telecom degradation",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 451
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "overview API interruption has a retry and recovers",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 402
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "KPI API interruption retries the same selected range",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 661
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "overview: interrupted stream stays visible through REST refresh and clears on reconnect",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 660
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "service: interrupted stream stays visible through REST refresh and clears on reconnect",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 667
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "incident: interrupted stream stays visible through REST refresh and clears on reconnect",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 583
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "failed comment (503) keeps draft and never says saved",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 815
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "failed comment (network) keeps draft and never says saved",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 824
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "failed comment (409) keeps draft and never says saved",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 875
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "failed resolution retains note and INVESTIGATING workflow",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 716
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "ML UNAVAILABLE: measured evidence and rule severity remain usable",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 927
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "ML TIMEOUT: measured evidence and rule severity remain usable",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 933
+        }
+      ]
+    },
+    {
+      "file": "dependency-failures.spec.ts",
+      "title": "telemetry gap is UNKNOWN and null measurements are unavailable",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 497
+        }
+      ]
+    },
+    {
+      "file": "evidence-timeline.spec.ts",
+      "title": "shows each historical window and source at 1366px without page overflow",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1929
+        }
+      ]
+    },
+    {
+      "file": "evidence-timeline.spec.ts",
+      "title": "shows each historical window and source at 390px without page overflow",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1831
+        }
+      ]
+    },
+    {
+      "file": "evidence-timeline.spec.ts",
+      "title": "clears a failed evidence page and retries from the first page",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 688
+        }
+      ]
+    },
+    {
+      "file": "geographic-acceptance.spec.ts",
+      "title": "real city commands reach the processor and protected city routes",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the authenticated local stack with active geography."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "geographic-feature-off.spec.ts",
+      "title": "migrated stack keeps legacy APIs and protected commands during feature-off",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the staged feature-off local stack with compatible processor readers."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "geographic-incident-trace.spec.ts",
+      "title": "real incident trace pins each Orhei service to opening evidence",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires persisted live city incidents."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "geography-integration.spec.ts",
+      "title": "authenticated G2 geography catalogue and selected-city KPI history reach the LIVE dashboard",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires a running integrated G2 stack and a local analyst account"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 84
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "LIVE catalogue and selected-city APIs at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1853
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "LIVE catalogue and selected-city APIs at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1698
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "LIVE catalogue and selected-city APIs at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1798
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "LIVE geography outages and missing history never substitute fixture values",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 881
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "changing city clears unrelated topology when the new city read fails",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1270
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "city history failure does not label previous rows as the new page",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1120
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "a new observed minute preserves the selected topology parent",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1283
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "an existing SMS service without classifier records reports unavailable evidence",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 807
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "connected Orhei investigation across queue pages and historical filters at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2442
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "connected Orhei investigation across queue pages and historical filters at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2380
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "connected Orhei investigation across queue pages and historical filters at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2085
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "extended overview periods load legal slices and navigate city intervals at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1480
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "extended overview periods load legal slices and navigate city intervals at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1514
+        }
+      ]
+    },
+    {
+      "file": "geography-live.spec.ts",
+      "title": "extended overview periods load legal slices and navigate city intervals at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1593
+        }
+      ]
+    },
+    {
+      "file": "incident-episodes.spec.ts",
+      "title": "VOLTE episodes share problem, evidence, states and actions at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1345
+        }
+      ]
+    },
+    {
+      "file": "incident-episodes.spec.ts",
+      "title": "VOLTE episodes share problem, evidence, states and actions at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1321
+        }
+      ]
+    },
+    {
+      "file": "incident-episodes.spec.ts",
+      "title": "SMS episodes share problem, evidence, states and actions at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1350
+        }
+      ]
+    },
+    {
+      "file": "incident-episodes.spec.ts",
+      "title": "SMS episodes share problem, evidence, states and actions at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1235
+        }
+      ]
+    },
+    {
+      "file": "investigation.spec.ts",
+      "title": "G3 real analyst investigation from login to logout",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the protected local stack"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 58
+        }
+      ]
+    },
+    {
+      "file": "live-workspace.spec.ts",
+      "title": "sidebar defaults to a rail and remembers the choice for this browser session",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1161
+        }
+      ]
+    },
+    {
+      "file": "live-workspace.spec.ts",
+      "title": "overview fallback preserves the workspace and stale status catches missing updates",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 5814
+        }
+      ]
+    },
+    {
+      "file": "live-workspace.spec.ts",
+      "title": "VOLTE appends real new windows and keeps inspected window and focus",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 832
+        }
+      ]
+    },
+    {
+      "file": "live-workspace.spec.ts",
+      "title": "SMS appends real new windows and keeps inspected window and focus",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 880
+        }
+      ]
+    },
+    {
+      "file": "login.spec.ts",
+      "title": "real Keycloak login and backend session",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the real backend and a provisioned test account"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 59
+        }
+      ]
+    },
+    {
+      "file": "login.spec.ts",
+      "title": "anonymous deep links show sign-in without fetching service data",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 524
+        }
+      ]
+    },
+    {
+      "file": "login.spec.ts",
+      "title": "HTML from the API shows a recoverable connection error",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 379
+        }
+      ]
+    },
+    {
+      "file": "login.spec.ts",
+      "title": "direct login survives refresh and never collects credentials",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 463
+        }
+      ]
+    },
+    {
+      "file": "login.spec.ts",
+      "title": "expiry removes the signed-in identity and protected screen",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 338
+        }
+      ]
+    },
+    {
+      "file": "login.spec.ts",
+      "title": "signed-out page fits a narrow screen",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 289
+        }
+      ]
+    },
+    {
+      "file": "monitoring-previews.spec.ts",
+      "title": "roaming overview, live status and incident sheet are connected at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1555
+        }
+      ]
+    },
+    {
+      "file": "monitoring-previews.spec.ts",
+      "title": "roaming overview, live status and incident sheet are connected at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1805
+        }
+      ]
+    },
+    {
+      "file": "monitoring-previews.spec.ts",
+      "title": "overview call results use the loaded window and keep missing evidence unavailable",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 986
+        }
+      ]
+    },
+    {
+      "file": "monitoring-previews.spec.ts",
+      "title": "unsupported previews are excluded from execution and the legacy IMS preview stays local",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 917
+        }
+      ]
+    },
+    {
+      "file": "notifications.spec.ts",
+      "title": "durable notifications keep failed read state, qualify causes and restore keyboard focus",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1143
+        }
+      ]
+    },
+    {
+      "file": "notifications.spec.ts",
+      "title": "two authenticated tabs share each new high alert and repeated hints remain silent",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1556
+        }
+      ]
+    },
+    {
+      "file": "pr77-stream-observer.spec.ts",
+      "title": "native SSE observer follows document replacement, SPA routing and explicit closure",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 683
+        }
+      ]
+    },
+    {
+      "file": "project-connections.spec.ts",
+      "title": "every published city, containment node, dependency and service reaches the frontend",
+      "status": "skipped",
+      "skipReasons": [
+        "Opt-in authenticated local API audit; no intercepted responses."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "reconnect.spec.ts",
+      "title": "deduplicates rows, rejects old versions, and preserves the selected range",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3597
+        }
+      ]
+    },
+    {
+      "file": "reconnect.spec.ts",
+      "title": "closes the stream when the session expires",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 656
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-live.spec.ts",
+      "title": "replays connected city, evidence, recovery and reconnect with authoritative APIs",
+      "status": "skipped",
+      "skipReasons": [
+        "Opt-in local authenticated rehearsal, no intercepted requests."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-live.spec.ts",
+      "title": "extended history uses real protected requests up to 30 periods",
+      "status": "skipped",
+      "skipReasons": [
+        "Opt-in local authenticated rehearsal, no intercepted requests."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-regression.spec.ts",
+      "title": "evidence page shrink reconciles recovery and preserves the open workflow at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2092
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-regression.spec.ts",
+      "title": "evidence page shrink reconciles recovery and preserves the open workflow at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1945
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-regression.spec.ts",
+      "title": "evidence page shrink reconciles recovery and preserves the open workflow at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1681
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-regression.spec.ts",
+      "title": "priority queue returns to a populated page after its last page disappears",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1399
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-regression.spec.ts",
+      "title": "missing evidence remains undetermined without implying power loss",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1008
+        }
+      ]
+    },
+    {
+      "file": "rehearsal-regression.spec.ts",
+      "title": "TraceLink tab icons are actual image assets",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 602
+        }
+      ]
+    },
+    {
+      "file": "release-workflows.spec.ts",
+      "title": "release roles complete authenticated investigation and scenario workflows",
+      "status": "skipped",
+      "skipReasons": [
+        "Opt-in real authenticated release stack; no fixture acceptance."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "release-workflows.spec.ts",
+      "title": "matches live incident fields across API, database and browser",
+      "status": "skipped",
+      "skipReasons": [
+        "Opt-in real authenticated release stack; no fixture acceptance."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "resource-bounds.spec.ts",
+      "title": "overview: sustained hints remain responsive with bounded REST refreshes",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 16723
+        }
+      ]
+    },
+    {
+      "file": "resource-bounds.spec.ts",
+      "title": "service: sustained hints remain responsive with bounded REST refreshes",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 16418
+        }
+      ]
+    },
+    {
+      "file": "resource-bounds.spec.ts",
+      "title": "investigation: sustained hints remain responsive with bounded REST refreshes",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 16307
+        }
+      ]
+    },
+    {
+      "file": "resource-bounds.spec.ts",
+      "title": "bounds history, replaces pages, and retains one tab stream across workspace routes",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4333
+        }
+      ]
+    },
+    {
+      "file": "resource-bounds.spec.ts",
+      "title": "records retained heap and render time as fresh windows replace old ones",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 15053
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-normal at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1664
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-fault at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1500
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-recovered at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1688
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-missing-source at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1632
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-normal at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1579
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-fault at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1715
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-recovered at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1733
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-missing-source at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1679
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-normal at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1451
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-fault at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1507
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-recovered at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1431
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance volte-missing-source at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1365
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-normal at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1139
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-fault at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1241
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-recovered at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1361
+        }
+      ]
+    },
+    {
+      "file": "service-assurance.spec.ts",
+      "title": "Assurance sms-missing-source at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1438
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "VOLTE city choice precedes dates and keeps graphs, incidents and period aligned at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2298
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "VOLTE city choice precedes dates and keeps graphs, incidents and period aligned at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2321
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "VOLTE city choice precedes dates and keeps graphs, incidents and period aligned at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2844
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "SMS city choice precedes dates and keeps graphs, incidents and period aligned at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3005
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "SMS city choice precedes dates and keeps graphs, incidents and period aligned at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4057
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "SMS city choice precedes dates and keeps graphs, incidents and period aligned at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3652
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "failed city history stays isolated and the selector can recover to another city",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 885
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "captured incident city takes precedence over current scope membership",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 712
+        }
+      ]
+    },
+    {
+      "file": "service-city-selection.spec.ts",
+      "title": "city catalogue failure keeps service evidence usable and can be retried",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 746
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-normal at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 833
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-fault at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1220
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-gray-zone at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1445
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-low-volume at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1547
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-missing-source at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1511
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-recovered at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1138
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-normal at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 836
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-fault at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1519
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-gray-zone at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1591
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-low-volume at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4181
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-missing-source at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 5642
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-recovered at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3693
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-chi-mapped-recovery at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2985
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-bal-mapped-recovery at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2223
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-normal at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1076
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-fault at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2407
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-gray-zone at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2395
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-low-volume at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2324
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-missing-source at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2191
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-recovered at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2955
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-normal at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1410
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-fault at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1890
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-gray-zone at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2363
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-low-volume at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2112
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-missing-source at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2670
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-recovered at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2396
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation volte-chi-mapped-recovery at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2252
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "G3 explanation sms-bal-mapped-recovery at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2613
+        }
+      ]
+    },
+    {
+      "file": "service-explanations.spec.ts",
+      "title": "captured catalogue provenance stays readable at mobile width",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1354
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "VOLTE principal KPI, technical selection, incident highlighting and layout at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3923
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "VOLTE principal KPI, technical selection, incident highlighting and layout at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3552
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "VOLTE principal KPI, technical selection, incident highlighting and layout at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2747
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "SMS principal KPI, technical selection, incident highlighting and layout at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2735
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "SMS principal KPI, technical selection, incident highlighting and layout at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3148
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "SMS principal KPI, technical selection, incident highlighting and layout at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2971
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "missing principal KPI observations keep graph space and never fabricate a reading",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 968
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "VOLTE episode drawer preserves the workspace at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4062
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "VOLTE episode drawer preserves the workspace at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3807
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "VOLTE episode drawer preserves the workspace at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3741
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "SMS episode drawer preserves the workspace at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4470
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "SMS episode drawer preserves the workspace at 768px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3727
+        }
+      ]
+    },
+    {
+      "file": "service-hero.spec.ts",
+      "title": "SMS episode drawer preserves the workspace at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3749
+        }
+      ]
+    },
+    {
+      "file": "session-expiry-live.spec.ts",
+      "title": "idle real session expires while the browser is inactive",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires a real local OIDC session and the production 15-minute idle deadline."
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real logout refreshes CSRF and ends protected access",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the protected local stack and test credentials"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "frontend stops work after a protected API returns 401",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the protected local stack and test credentials"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real protected 401 ends browser work without interception",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the protected local stack and test credentials"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real 15-minute idle expiry",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the protected local stack and test credentials"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "session-expiry.spec.ts",
+      "title": "real 30-minute absolute expiry despite activity",
+      "status": "skipped",
+      "skipReasons": [
+        "Requires the protected local stack and test credentials"
+      ],
+      "attempts": [
+        {
+          "status": "skipped",
+          "durationMs": 0
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "missing-observation at 1366px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1277
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "absent-baseline at 1366px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2755
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "low-volume at 1366px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2295
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "model-unavailable at 1366px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1968
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "stale-evidence at 1366px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2080
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "missing-observation at 390px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1971
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "absent-baseline at 390px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3179
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "low-volume at 390px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2044
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "model-unavailable at 390px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1760
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "stale-evidence at 390px has an explanation and next action",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1505
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "preserves zero rank without question disclosures",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 2020
+        }
+      ]
+    },
+    {
+      "file": "terminology.spec.ts",
+      "title": "keeps queue evidence visible when no messages completed",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1714
+        }
+      ]
+    },
+    {
+      "file": "trace-history.spec.ts",
+      "title": "native history keeps query, inventory, gaps and exact export at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 6405
+        }
+      ]
+    },
+    {
+      "file": "trace-history.spec.ts",
+      "title": "native history keeps query, inventory, gaps and exact export at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 6313
+        }
+      ]
+    },
+    {
+      "file": "trace-history.spec.ts",
+      "title": "a cancelled old-city response cannot replace the selected city history",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1858
+        }
+      ]
+    },
+    {
+      "file": "trace-scenarios.spec.ts",
+      "title": "Trace Link scopes, exact input and interrupted history at 1366px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 7998
+        }
+      ]
+    },
+    {
+      "file": "trace-scenarios.spec.ts",
+      "title": "Trace Link scopes, exact input and interrupted history at 390px",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 7502
+        }
+      ]
+    },
+    {
+      "file": "trace-scenarios.spec.ts",
+      "title": "feature off keeps legacy controls available",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1179
+        }
+      ]
+    },
+    {
+      "file": "voice-investigation.spec.ts",
+      "title": "overview opens paginated history with gaps and one recovered/open episode",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 5641
+        }
+      ]
+    },
+    {
+      "file": "voice-investigation.spec.ts",
+      "title": "validates time range and sends UTC boundaries to the backend",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 4185
+        }
+      ]
+    },
+    {
+      "file": "voice-investigation.spec.ts",
+      "title": "history failure shows an error instead of synthetic evidence",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1548
+        }
+      ]
+    },
+    {
+      "file": "voice-investigation.spec.ts",
+      "title": "empty history and mobile layout remain readable",
+      "status": "expected",
+      "skipReasons": [],
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 1265
+        }
+      ]
+    }
+  ],
+  "authentication": "Controlled HTTP/session responses; no real OIDC acceptance",
+  "transport": "Controlled SSE",
+  "runner": "Final run used normal test permissions, exited 0 without manual cleanup. Prior failed restricted run retained separately."
+}
