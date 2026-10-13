@@ -70,6 +70,14 @@ class TraceDomainIngestionIT extends IncidentServiceIntegrationTestSupport {
             assertNull(jdbc.queryForObject("SELECT source_coverage FROM app.trace_domain_measurement WHERE event_id=?",java.math.BigDecimal.class,m.id()));
             assertEquals(apiDomain(o.path("domain").asText()),jdbc.queryForObject("SELECT domain FROM app.trace_domain_measurement WHERE event_id=?",String.class,m.id()));
             assertArrayEquals(m.sourceBytes(),jdbc.queryForObject("SELECT source_payload_bytes FROM app.trace_domain_measurement WHERE event_id=?",byte[].class,m.id()));
+            var api=read(queries.series(o.path("datasetId").asText(),o.path("sourceId").asText(),m.scopeKey(),o.path("metricId").asText(),
+                    Instant.parse(o.path("windowStart").asText()),Instant.parse(o.path("windowEnd").asText())).getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            assertEquals(scope(o),api.path("scope"));assertEquals(o.path("population"),api.path("population"));
+            assertEquals(o.path("unit"),api.path("unit"));assertEquals(o.path("aggregationType"),api.path("aggregationType"));
+            var point=api.path("points").get(0);assertEquals(o.path("primitives"),point.path("primitives"));
+            assertEquals(m.id(),point.path("eventId").asText());assertTrue(point.path("sourceCoverage").isNull());
+            assertEquals(o.path("quality").asText().equals("MISSING")?0:1,point.path("receivedSlots").asInt());
+            assertEquals(read(m.sourceBytes()).path("provenance"),point.path("provenance").path("nativeSource"));
         }
         assertEquals(METRICS,metrics);assertEquals(nativeFixtures().size(),jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_measurement",Integer.class));
     }

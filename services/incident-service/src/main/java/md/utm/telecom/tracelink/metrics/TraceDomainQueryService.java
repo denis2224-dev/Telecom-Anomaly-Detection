@@ -38,7 +38,7 @@ public class TraceDomainQueryService {
         for(Instant start=from;start.isBefore(to);start=start.plusSeconds(seconds)) {
             var point=points.addObject().put("from",start.toString()).put("to",start.plusSeconds(seconds).toString());
             var m=index.get(start);
-            point.put("expectedSlots",1).put("receivedSlots",m==null?0:1);
+            point.put("expectedSlots",1).put("receivedSlots",m==null||m.observation().path("quality").asText().equals("MISSING")?0:1);
             if(m==null) point.put("quality","MISSING").put("nullReason","NO_SOURCE_SLOT").putNull("value")
                     .put("qualityReason","NO_SOURCE_SLOT").putNull("sourceQuality").putNull("sourceCoverage")
                     .putNull("eventId").putNull("revision").putNull("finalized").putNull("primitives").putNull("provenance")
