@@ -42,6 +42,7 @@ public final class TraceLinkDetectionMessage {
             require(context.required(field).equals(cause.required(field)), "Cause/context mismatch: " + field);
         }
         require(lifecycle.required("window").equals(context.required("window")), "Lifecycle window mismatch");
+        require(evaluation.required("policyVersion").equals(DOMAIN_POLICY.required("policyVersion")), "Unapproved symptom policy");
         require(cause.required("symptomPolicyVersion").equals(evaluation.required("policyVersion")), "Cause symptom policy mismatch");
         require(cause.required("baselineVersion").equals(evaluation.required("baselineVersion")), "Cause baseline mismatch");
         Instant from = Instant.parse(context.required("window").required("from").asText());

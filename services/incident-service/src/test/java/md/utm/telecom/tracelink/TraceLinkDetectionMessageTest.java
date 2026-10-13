@@ -20,6 +20,21 @@ class TraceLinkDetectionMessageTest {
         var failure = assertThrows(IllegalArgumentException.class,() -> TraceLinkDetectionMessage.validate(forged));
         assertEquals("Opening episode ID mismatch",failure.getMessage());
     }
+    @Test void rejectsUnapprovedPolicyEvenWithSelfConsistentOpeningIds() {
+        var forged = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
+        var lifecycle = forged.withObject("lifecycle");
+        var evaluation = lifecycle.withObject("evaluation").put("policyVersion","unapproved-policy");
+        forged.withObject("cause").put("symptomPolicyVersion","unapproved-policy");
+        var identity = TraceLinkReceiverFixtures.JSON.createObjectNode();
+        for (String field : java.util.List.of("datasetId","namespace","domain","scope","anomalyKind","policyVersion"))
+            identity.set(field,evaluation.required(field).deepCopy());
+        var firstBad = java.time.Instant.parse(lifecycle.required("window").required("from").asText()).minusSeconds(300);
+        String episode = TraceLinkDetectionMessage.hash(TraceLinkDetectionMessage.hash(TraceLinkDetectionMessage.canonical(identity)) + ":" + firstBad);
+        lifecycle.put("episodeId",episode).put("detectionId",TraceLinkDetectionMessage.hash(episode + ":1:"
+                + TraceLinkDetectionMessage.canonical(lifecycle.required("window")) + ":OPEN:unapproved-policy"));
+        var failure = assertThrows(IllegalArgumentException.class,() -> TraceLinkDetectionMessage.validate(forged));
+        assertEquals("Unapproved symptom policy",failure.getMessage());
+    }
     @Test void rejectsContextDriftUnknownFieldsAndUnsupportedCause() {
         var valid = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
         var mismatch = valid.deepCopy(); mismatch.withObject("context").put("datasetId","other");
