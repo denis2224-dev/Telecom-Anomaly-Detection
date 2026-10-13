@@ -1400,12 +1400,39 @@ export interface components {
             value: number | null;
             coverage: number;
             /** @enum {string} */
-            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE";
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
             numerator: number | null;
             denominator: number | null;
             sumValue: number | null;
             /** Format: int64 */
             sampleCount: number | null;
+            nullReason: string | null;
+            qualityReason: string | null;
+            expectedSlots: number | null;
+            receivedSlots: number | null;
+            sourceQuality: string | null;
+            sourceCoverage: number | null;
+            projectionIds: string[];
+            provenance: components["schemas"]["TraceProjectionProvenance"][];
+        };
+        TraceProjectionProvenance: {
+            projectionId: string;
+            sourceNaturalId: string;
+            /** Format: int64 */
+            sourceRowNumber: number;
+            sourceRowSha256: string;
+            sourceFile: string;
+            manifestSha256: string;
+            generatorVersion: string;
+            /** Format: int64 */
+            seed: number;
+            catalogueVersion: string;
+            importPolicyVersion: string;
+            sourceQuality: string | null;
+            sourceCoverage: number | null;
+            /** @enum {string} */
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
+            qualityReason: string | null;
         };
         TraceOverview: {
             datasetId: string;

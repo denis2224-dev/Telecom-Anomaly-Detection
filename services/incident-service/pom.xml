@@ -155,6 +155,7 @@
 					<include>topology/geographic-scopes-v2.json</include>
 					<include>geography/**</include>
 					<include>coverage/**</include>
+					<include>kpi/trace-link-primitive-projection-v1.schema.json</include>
 				</includes>
 			</resource>
 		</resources>
@@ -168,6 +169,7 @@
 				<includes>
 					<include>fixtures/detections/**</include>
 					<include>fixtures/coverage/**</include>
+					<include>fixtures/trace-link/primitive-projection-cases-v1.json</include>
 				</includes>
 			</testResource>
 		</testResources>

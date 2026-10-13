@@ -10,7 +10,10 @@ public class MetricDefinitionRegistry {
     private static final List<Definition> DEFINITIONS = List.of(
             new Definition("volte", "voice.success_rate", "PERCENT", "RATIO_OF_SUMS",
                     "VoLTE call attempts in the selected city", List.of("numerator", "denominator"),
-                    "trace-link-md-policy-v1")
+                    "trace-link-md-policy-v1"),
+            new Definition("volte", "volte.setup.success", "PERCENT", "RATIO_OF_SUMS",
+                    "VoLTE setup successes over attempts in the selected city",
+                    List.of("numerator", "denominator"), "trace-link-kpi-v1")
     );
 
     public List<Definition> list(String domain) {
