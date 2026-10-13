@@ -26,7 +26,7 @@
     <resources>
       <resource><directory>src/main/resources</directory></resource>
       <resource><directory>../../contracts</directory><targetPath>contracts</targetPath>
-        <includes><include>policies/**</include><include>baselines/**</include><include>features/**</include><include>detections/**</include><include>evidence/**</include><include>kpi/**</include><include>fixtures/features/**</include><include>fixtures/detections/**</include></includes>
+        <includes><include>topology/trace-link-runtime-dependencies-v1.json</include><include>explanations/**</include><include>policies/**</include><include>baselines/**</include><include>features/**</include><include>detections/**</include><include>evidence/**</include><include>kpi/**</include><include>fixtures/features/**</include><include>fixtures/detections/**</include></includes>
       </resource>
     </resources>
     <testResources>
@@ -44,7 +44,7 @@
           <include>**/*TestCase.java</include><include>**/LateInputIT.java</include>
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
           <include>**/DetectionReplayIT.java</include>
-          <include>**/DependencyOutageIT.java</include>
+          <include>**/DependencyOutageIT.java</include><include>**/TraceLinkDetectionIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

@@ -28,6 +28,36 @@ def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
 
 
+def native_lifecycle_traces(raw):
+    """Use native five-minute windows and actual database commit times only."""
+    windows = {w['input']['context']['window']['id']: w for w in raw.get('nativeWindows', [])
+               if isinstance(w.get('input'), dict) and 'context' in w['input']}
+    commits = {t['windowId']: t['evaluationCommittedAt'] for t in raw.get('traces', [])
+               if 'windowId' in t and 'evaluationCommittedAt' in t}
+    previous_severity, result = {}, []
+    for envelope in sorted(raw['detections'], key=lambda d: (d['lifecycle']['episodeId'], d['lifecycle']['sequence'])):
+        context, life = envelope.get('context', {}), envelope['lifecycle']
+        if context.get('datasetId') != raw.get('runId'): continue
+        native = windows.get(life['window']['id'])
+        if native is None or native['windowId'] not in commits: continue
+        committed = commits[native['windowId']]
+        trace = {'detectionId': life['detectionId'], 'nativeLifecycle': True}
+        if life['phase'] == 'OPEN':
+            candidates = [w['input']['context']['window'] for w in windows.values()
+                          if all(w['input']['context'].get(f) == context.get(f)
+                                 for f in ('datasetId', 'namespace', 'domain', 'scope'))
+                          and w['input']['context']['window']['to'] == life['window']['from']]
+            if len(candidates) == 1:
+                trace.update(firstBadWindowAt=candidates[0]['from'], firstBadWindowEnd=candidates[0]['to'], openedAt=committed)
+        elif life['phase'] == 'UPDATE' and previous_severity.get(life['episodeId']) != life['severity']:
+            trace.update(escalationWindowAt=life['window']['from'], escalatedAt=committed)
+        elif life['phase'] == 'RECOVERY':
+            trace.update(finalHealthyWindowAt=life['window']['to'], recoveredAt=committed)
+        previous_severity[life['episodeId']] = life['severity']
+        if len(trace) > 2: result.append(trace)
+    return result
+
+
 def convert(raw, hardware, profile, source_commit, mode, raw_sha256, receipts=None):
     require = benchmark.require
     require(mode in ('real-time', 'accelerated-replay'), 'Unknown conversion mode')
@@ -44,14 +74,15 @@ def convert(raw, hardware, profile, source_commit, mode, raw_sha256, receipts=No
         require(raw['ratePerSecond'] == profile['steadyRatePerSecond'], 'Raw rate differs from frozen profile')
         require(raw['queueCapacityBound'] == profile['queueCapacityBound'], 'Raw queue bound differs from frozen profile')
         require(raw['configuredConcurrency'] == profile['configuredConcurrency'], 'Raw concurrency differs from frozen profile')
+        require(raw.get('rateUnit') == profile['rateUnit'], 'Raw rate units differ from frozen profile')
         native = [{'windowId': w['windowId'], 'inputSha256': digest(w['input'])} for w in raw['nativeWindows']]
         windows = native + raw['capacityWindows']
         background = {'offered': len(native), 'accepted': len(native)}
         phases = raw['phases']
         evaluated, committed, published = raw['evaluated'], raw['committedDetections'], raw['published']
         configured = raw['configuredConcurrency']
-        drain = raw.get('globalDrainSeconds', raw.get('capacityDrainSeconds'))
-        if 'globalDrainSeconds' not in raw: gaps.append('NATIVE_FINAL_DRAIN_UNMEASURED')
+        drain = raw.get('globalDrainSeconds', raw.get('drainSeconds'))
+        if drain is None: gaps.append('NATIVE_FINAL_DRAIN_UNMEASURED')
     else:
         benchmark.obj(raw, ('windows', 'inputWindows', 'outputDetections', 'actualKafkaMessages',
                             'maximumWorkerThreads', 'detectionNanos'), 'replay raw')
@@ -74,28 +105,70 @@ def convert(raw, hardware, profile, source_commit, mode, raw_sha256, receipts=No
     traces = [dict(trace) for trace in raw.get('traces', [])]
     for trace in traces:
         if 'finalizedAt' in trace: trace['featureFinalizedAt'] = trace.pop('finalizedAt')
+        if raw.get('deliveryTraces') and 'windowId' in trace:
+            # Per-window min/max spans may aggregate several outcomes. Exact per-detection
+            # measurements below are the only samples for publication latency.
+            trace.pop('outboxCreatedAt', None)
+            trace.pop('kafkaAcknowledgedAt', None)
+            trace.pop('incidentReceivedAt', None)
     delivery_traces = {}
     for trace in raw.get('deliveryTraces', []):
         require(trace['detectionId'] in identities and trace['detectionId'] not in delivery_traces, 'Invalid delivery trace identity')
         delivery_traces[trace['detectionId']] = dict(trace)
+    receiver_run = None
     if receipts is not None:
         benchmark.obj(receipts, ('source', 'producerFileSha256', 'receivedAt', 'counts', 'startedAt', 'endedAt'), 'receipt artifact')
         require(receipts['source'] == 'producer-file', 'Protocol oracle cannot establish measured receiving')
         require(receipts['producerFileSha256'] == raw_sha256, 'Receipt artifact is not bound to producer export')
+        receiver_start = benchmark.timestamp(receipts['startedAt'], 'receiver run start')
+        receiver_end = benchmark.timestamp(receipts['endedAt'], 'receiver run end')
+        require(receiver_start <= receiver_end, 'Invalid receiver run interval')
+        # A fresh consumer of a producer export verifies receiving, but not the original live pipeline latency.
+        simultaneous = (receiver_start <= benchmark.timestamp(raw['startedAt'], 'producer start')
+                        and receiver_end >= benchmark.timestamp(raw['endedAt'], 'producer end'))
+        if not simultaneous: gaps.append('SEPARATE_RECEIVER_REPLAY_NOT_SIMULTANEOUS')
         seen = set()
         for row in receipts['receivedAt']:
             identity = row['detectionId']
             require(identity in identities and identity not in seen, 'Unknown or duplicate receiver detection')
             life = identities[identity]
             require(row['episodeId'] == life['episodeId'] and row['sequence'] == life['sequence'], 'Receipt lifecycle identity mismatch')
-            benchmark.timestamp(row['receivedAt'], 'incident receivedAt')
+            received_at = benchmark.timestamp(row['receivedAt'], 'incident receivedAt')
+            require(receiver_start <= received_at <= receiver_end, 'Receipt timestamp escapes receiver run')
+            if identity in delivery_traces and 'outboxCreatedAt' in delivery_traces[identity]:
+                require(received_at >= benchmark.timestamp(delivery_traces[identity]['outboxCreatedAt'], 'outbox createdAt'),
+                        'Receipt precedes original committed delivery')
             seen.add(identity)
-            trace = delivery_traces.pop(identity, {'detectionId': identity})
-            trace['incidentReceivedAt'] = row['receivedAt']
-            traces.append(trace)
+            if simultaneous:
+                trace = delivery_traces.pop(identity, {'detectionId': identity})
+                trace['incidentReceivedAt'] = row['receivedAt']
+                traces.append(trace)
         received = len(seen)
         require(receipts['counts']['receivedUnique'] == received, 'Receipt count does not match immutable evidence rows')
+        receiver_run = {'source': receipts['source'], 'producerFileSha256': receipts['producerFileSha256'],
+                        'startedAt': receipts['startedAt'], 'endedAt': receipts['endedAt'],
+                        'simultaneousWithProducer': simultaneous, 'counts': receipts['counts'], 'receivedAt': receipts['receivedAt']}
     traces.extend(delivery_traces.values())
+    if mode == 'real-time':
+        detection_traces = {t['detectionId']: t for t in traces if 'detectionId' in t}
+        for lifecycle_trace in native_lifecycle_traces(raw):
+            identity = lifecycle_trace['detectionId']
+            if identity in detection_traces: detection_traces[identity].update(lifecycle_trace)
+            else:
+                traces.append(lifecycle_trace)
+                detection_traces[identity] = lifecycle_trace
+    source_files = raw.get('sourceFiles')
+    if source_files is not None:
+        require(isinstance(source_files, list) and bool(source_files), 'Source file manifest must be nonempty')
+        require(digest(source_files) == raw.get('sourceTreeSha256'), 'Source file manifest hash mismatch')
+        paths = set()
+        for entry in source_files:
+            benchmark.obj(entry, ('path', 'sha256'), 'source file')
+            require(entry['path'] not in paths and isinstance(entry['path'], str) and entry['path'], 'Source file identity invalid')
+            require(isinstance(entry['sha256'], str) and len(entry['sha256']) == 64
+                    and all(c in 'abcdef0123456789' for c in entry['sha256']), 'Invalid source file hash')
+            paths.add(entry['path'])
+    elif mode == 'real-time': gaps.append('SOURCE_FILE_MANIFEST_UNMEASURED')
     samples = {stage: raw.get('samplesMs', {}).get(stage, []) for stage in benchmark.STAGES}
     for stage in ('rule', 'join'):
         if not samples[stage]: gaps.append(stage.upper() + '_STAGE_UNMEASURED')
@@ -118,7 +191,12 @@ def convert(raw, hardware, profile, source_commit, mode, raw_sha256, receipts=No
         'sourceEvidence': {'producerSha256': raw_sha256, 'synthetic': raw.get('synthetic'),
                            'boundary': raw.get('boundary', 'POSTGRES_TO_KAFKA_ACK'), 'jvmMaxHeapBytes': raw.get('maxHeapBytes'),
                            'jvmAvailableProcessors': raw.get('cpuCount', raw.get('availableProcessors')),
-                           'sourceManifest': raw.get('sourceManifest'), 'drainBoundary': raw.get('drainBoundary')},
+                           'sourceManifest': raw.get('sourceManifest'), 'sourceFiles': source_files,
+                           'sourceTreeSha256': raw.get('sourceTreeSha256'), 'receiverRun': receiver_run,
+                           'drainBoundary': raw.get('drainBoundary', 'DETECTOR_JOBS_AND_OUTBOX_TO_KAFKA_ACK'),
+                           'drainMeasurementField': ('globalDrainSeconds' if 'globalDrainSeconds' in raw else 'drainSeconds'),
+                           'capacityOnlyDrainSeconds': raw.get('capacityDrainSeconds'),
+                           'nativeLifecycleDelayDefinition': 'First bad window start and end to OPEN database commit are reported separately; escalation window start to escalation commit; final healthy window end to RECOVERY commit. Window-end time is the source finalized interval boundary. Five-minute policy waiting is included in opening/escalation, not compute latency.'},
     }
     benchmark.summarize(data)
     return data

@@ -81,3 +81,8 @@ app:
   simulator:
     generator-base-url: ${GENERATOR_BASE_URL:http://127.0.0.1:${GENERATOR_HOST_PORT:8081}}
     reconcile-ms: 5000
+
+telecom:
+  trace-link:
+    enabled: ${TRACE_LINK_ENABLED:false}
+    topic: ${TRACE_LINK_DETECTIONS_TOPIC:telecom.detections.trace-link.v1}

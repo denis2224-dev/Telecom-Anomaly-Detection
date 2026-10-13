@@ -18,6 +18,57 @@ tags:
 - name: Geography
 - name: Operations
 paths:
+  /api/v2/trace-link/incidents:
+    get:
+      operationId: listTraceLinkIncidents
+      tags: [Incidents]
+      summary: Read durable synthetic Trace Link incidents
+      parameters:
+      - {$ref: '#/components/parameters/TraceLinkLimit'}
+      - {$ref: '#/components/parameters/TraceLinkOffset'}
+      responses:
+        '200':
+          description: Latest contiguous projections; controls without episodes are not incidents.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/TraceLinkIncidentPage'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/trace-link/incidents/{episodeId}:
+    get:
+      operationId: getTraceLinkIncident
+      tags: [Incidents]
+      parameters:
+      - {$ref: '#/components/parameters/TraceLinkEpisodeId'}
+      responses:
+        '200':
+          description: Latest applied episode evidence. Technical recovery does not resolve analyst workflow.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/v2/trace-link/incidents/{episodeId}/evidence:
+    get:
+      operationId: getTraceLinkIncidentEvidence
+      tags: [Incidents]
+      parameters:
+      - {$ref: '#/components/parameters/TraceLinkEpisodeId'}
+      - {$ref: '#/components/parameters/TraceLinkLimit'}
+      - {$ref: '#/components/parameters/TraceLinkOffset'}
+      responses:
+        '200':
+          description: Immutable received detections in sequence order, including pending gaps.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/TraceLinkIncidentPage'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
   /api/geography/cities:
     get:
       operationId: listGeographyCities
@@ -865,6 +916,19 @@ components:
       description: Token returned by GET /api/auth/csrf. Required alongside the session cookie for JSON mutations;
         never a replacement for authentication. POST /logout uses the _csrf form parameter instead.
   parameters:
+    TraceLinkLimit:
+      name: limit
+      in: query
+      schema: {type: integer, minimum: 1, maximum: 100, default: 50}
+    TraceLinkOffset:
+      name: offset
+      in: query
+      schema: {type: integer, minimum: 0, maximum: 100000, default: 0}
+    TraceLinkEpisodeId:
+      name: episodeId
+      in: path
+      required: true
+      schema: {type: string, pattern: '^[a-f0-9]{64}$'}
     GeographyCityId:
       name: cityId
       in: path
@@ -957,6 +1021,40 @@ components:
           schema:
             $ref: '#/components/schemas/ApiError'
   schemas:
+    TraceLinkIncidentPage:
+      type: object
+      required: [items, total, limit, offset]
+      properties:
+        items: {type: array, items: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}}
+        total: {type: integer, minimum: 0}
+        limit: {type: integer, minimum: 1, maximum: 100}
+        offset: {type: integer, minimum: 0, maximum: 100000}
+    TraceLinkDetectionEnvelope:
+      type: object
+      additionalProperties: false
+      x-json-schema: contracts/detections/trace-link-detection-v1.schema.json
+      description: Strict wire JSON schema is authoritative for primitive evidence and cause validation.
+      required: [schemaVersion, synthetic, lifecycle, context, cause, causeEvidence, committedAt]
+      properties:
+        schemaVersion: {type: string, enum: [trace-link-detection-v1]}
+        synthetic: {type: boolean, enum: [true]}
+        lifecycle:
+          type: object
+          required: [schemaVersion, episodeId, detectionId, sequence, phase, technicalState, severity, window, evaluation]
+          properties:
+            schemaVersion: {type: string, enum: [trace-link-lifecycle-v1]}
+            episodeId: {type: string, pattern: '^[a-f0-9]{64}$'}
+            detectionId: {type: string, pattern: '^[a-f0-9]{64}$'}
+            sequence: {type: integer, minimum: 1}
+            phase: {type: string, enum: [OPEN, UPDATE, UNKNOWN, RECOVERY]}
+            technicalState: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
+            severity: {type: string, enum: [HIGH, CRITICAL]}
+            window: {type: object, additionalProperties: true}
+            evaluation: {type: object, additionalProperties: true}
+        context: {type: object, additionalProperties: true}
+        cause: {type: object, additionalProperties: true}
+        causeEvidence: {type: object, additionalProperties: true}
+        committedAt: {type: string, format: date-time}
     GeographyMetric:
       type: object
       description: A finalized measurement; null is never silently converted to zero.

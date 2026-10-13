@@ -47,9 +47,10 @@ public final class TraceLinkWindowAdapter {
         validateSnapshot(persistedWindow.path("dependencySnapshot"));
         ObjectNode result = (ObjectNode) TraceLinkInputs.validateContext(persistedWindow.path("context"));
         result.path("evidence").forEach(TraceLinkWindowAdapter::nativeProvenance);
-        for (String name : List.of("candidates", "controls"))
-            persistedWindow.path(name).forEach(item -> nativeProvenance(item.path("evidence")));
         if (baselines != null) applyBaselines(result);
+        else for (JsonNode lookup : result.path("baselines"))
+            require(Set.of("STATIC", "BASELINE_UNAVAILABLE").contains(lookup.path("status").asText()),
+                    "Learned lookup requires a configured checksum-verified baseline artifact");
         return TraceLinkInputs.validateContext(result);
     }
 

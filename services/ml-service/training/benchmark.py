@@ -31,6 +31,7 @@ BOUNDARIES = {
     'outboxToKafka': ('outboxCreatedAt', 'kafkaAcknowledgedAt'),
     'outboxDelivery': ('outboxCreatedAt', 'incidentReceivedAt'),
     'firstBadToOpen': ('firstBadWindowAt', 'openedAt'),
+    'firstFinalizedBadToOpen': ('firstBadWindowEnd', 'openedAt'),
     'escalation': ('escalationWindowAt', 'escalatedAt'),
     'finalHealthyToRecovery': ('finalHealthyWindowAt', 'recoveredAt'),
 }
@@ -103,11 +104,16 @@ def summarize(data):
     numeric(concurrency['observedMax'], 'observed concurrency', integer=True)
     require(isinstance(data['windows'], list) and bool(data['windows']), 'Measured windows required')
     window_ids = set()
+    window_hashes = {}
     for window in data['windows']:
         obj(window, ('windowId', 'inputSha256'), 'window')
         require(isinstance(window['windowId'], str) and window['windowId'] and window['windowId'] not in window_ids, 'Window IDs must be unique')
         require(isinstance(window['inputSha256'], str) and bool(re.fullmatch('[a-f0-9]{64}', window['inputSha256'])), 'Invalid window input hash')
         window_ids.add(window['windowId'])
+        window_hashes[window['windowId']] = window['inputSha256']
+    manifest_hash = hashlib.sha256(json.dumps(data['windows'], sort_keys=True, separators=(',', ':'),
+                                             ensure_ascii=False).encode()).hexdigest()
+    require(run['inputWindowsSha256'] == manifest_hash, 'Input window manifest hash mismatch')
     counts = obj(data['counts'], (*COUNT_FIELDS, 'inputUnit'), 'counts')
     receiving_measured = counts.get('receivingMeasured', True)
     require(isinstance(receiving_measured, bool), 'receivingMeasured must be boolean')
@@ -147,7 +153,10 @@ def summarize(data):
     time_names = {name for pair in BOUNDARIES.values() for name in pair}
     for trace in traces:
         require(isinstance(trace, dict) and ('windowId' in trace or 'detectionId' in trace), 'Trace identity required')
-        if 'windowId' in trace: require(trace['windowId'] in window_ids, 'Trace window absent from input manifest')
+        if 'windowId' in trace:
+            require(trace['windowId'] in window_ids, 'Trace window absent from input manifest')
+            if 'inputSha256' in trace:
+                require(trace['inputSha256'] == window_hashes[trace['windowId']], 'Trace input hash differs from manifest')
         parsed = {name: timestamp(trace[name], name) for name in time_names if name in trace}
         for name, (start, end) in BOUNDARIES.items():
             if start in parsed and end in parsed:
@@ -200,6 +209,10 @@ def summarize(data):
         incomplete.append('FULL_PROFILE_NOT_MEASURED')
     if not resources['samples']: incomplete.append('RESOURCE_USE_UNMEASURED')
     if data['mode'] == 'real-time':
+        for stage in ('rule', 'join'):
+            if not samples[stage]: incomplete.append(stage.upper() + '_STAGE_UNMEASURED')
+        if counts['inputUnit'] == 'persisted_windows':
+            incomplete.append('SOURCE_COLLECTION_AND_FINALIZATION_CAPACITY_UNMEASURED')
         if not all(name in measured_phases for name in ('warmup', 'steady', 'burst')):
             incomplete.append('PROFILE_PHASES_UNMEASURED')
         else:

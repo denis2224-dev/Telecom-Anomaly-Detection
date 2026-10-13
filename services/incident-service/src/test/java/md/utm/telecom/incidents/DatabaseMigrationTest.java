@@ -55,7 +55,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(4, flyway.migrate().migrationsExecuted);
+        assertEquals(5, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -76,7 +76,7 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals("15", scalar("""
+        assertEquals("18", scalar("""
                 SELECT count(*) FROM pg_tables WHERE schemaname = 'app'
                 AND tablename <> 'flyway_schema_history' AND tableowner = 'incidents_migrator'
                 """));

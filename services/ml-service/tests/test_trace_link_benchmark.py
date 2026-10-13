@@ -1,5 +1,7 @@
 """Capacity reports use recorded measurements and explicitly distinguish replay."""
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
 import unittest
 
@@ -10,7 +12,7 @@ spec.loader.exec_module(benchmark)
 
 
 def measured():
-    return {
+    data = {
         'schemaVersion': 'trace-link-capacity-input-v1', 'mode': 'accelerated-replay',
         'run': {'runId': 'bounded-run', 'datasetId': 'synthetic-native-v1', 'inputWindowsSha256': 'a' * 64,
                 'sourceCommit': 'b' * 40, 'startedAt': '2026-10-12T10:00:00Z', 'endedAt': '2026-10-12T10:00:10Z'},
@@ -30,6 +32,13 @@ def measured():
         'inference': {'eligibleRequests': 0, 'ok': 0, 'timeout': 0, 'rejected': 0, 'unavailable': 0, 'fallback': 0},
         'resources': {'scope': 'detector-jvm', 'samples': [{'at': '2026-10-12T10:00:01Z', 'heapUsedBytes': 1000}]},
     }
+    hash_manifest(data)
+    return data
+
+
+def hash_manifest(data):
+    data['run']['inputWindowsSha256'] = hashlib.sha256(json.dumps(data['windows'], sort_keys=True,
+            separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()
 
 
 class TraceLinkBenchmarkTest(unittest.TestCase):
@@ -74,7 +83,10 @@ class TraceLinkBenchmarkTest(unittest.TestCase):
         self.assertIn('PHASE_COUNT_MISMATCH', benchmark.summarize(data)['gates']['correctness']['reasons'])
         data['counts'].update(offered=1140, accepted=1140, finalized=1140, evaluated=1140)
         data['windows'] = [{'windowId': f'w{i}', 'inputSha256': 'c' * 64} for i in range(1140)]
-        self.assertEqual(benchmark.summarize(data)['gates']['realTimeCapacity']['status'], 'PASS')
+        hash_manifest(data)
+        self.assertEqual(benchmark.summarize(data)['gates']['correctness']['status'], 'PASS')
+        self.assertEqual(benchmark.summarize(data)['gates']['realTimeCapacity']['reasons'],
+                         ['SOURCE_COLLECTION_AND_FINALIZATION_CAPACITY_UNMEASURED'])
         data['queues']['finalDepth'] = 1
         self.assertEqual(benchmark.summarize(data)['status'], 'FAIL')
 
@@ -125,6 +137,19 @@ class TraceLinkBenchmarkTest(unittest.TestCase):
         with self.assertRaises(ValueError): benchmark.summarize(data)
         data['counts']['received'] = 0; data['measurementGaps'] = 'invalid'
         with self.assertRaises(ValueError): benchmark.summarize(data)
+
+    def test_tampered_window_manifest_is_rejected(self):
+        data = measured(); data['windows'][0]['inputSha256'] = 'd' * 64
+        with self.assertRaisesRegex(ValueError, 'manifest hash mismatch'): benchmark.summarize(data)
+        data = measured(); data['traces'] = [{'windowId': 'w1', 'inputSha256': 'e' * 64}]
+        with self.assertRaisesRegex(ValueError, 'Trace input hash differs'): benchmark.summarize(data)
+
+    def test_empty_realtime_algorithm_samples_are_incomplete(self):
+        data = measured(); data['mode'] = 'real-time'
+        for stage in ('rule', 'join'): data['samplesMs'][stage] = []
+        reasons = benchmark.summarize(data)['gates']['realTimeCapacity']['reasons']
+        self.assertIn('RULE_STAGE_UNMEASURED', reasons)
+        self.assertIn('JOIN_STAGE_UNMEASURED', reasons)
 
 
 if __name__ == '__main__':

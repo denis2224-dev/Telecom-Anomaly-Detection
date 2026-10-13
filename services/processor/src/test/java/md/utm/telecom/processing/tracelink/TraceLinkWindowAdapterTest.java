@@ -26,11 +26,47 @@ class TraceLinkWindowAdapterTest {
         return saved;
     }
 
+    private ObjectNode roamingData() throws Exception {
+        for (var item : fixture("detection-cases.json").path("cases"))
+            if (item.path("id").asText().equals("roaming-data-positive")) return persisted(item.path("context"));
+        throw new AssertionError("Missing roaming-data-positive fixture");
+    }
+
+    @Test void learnedBaselineRequiresConfiguredChecksumVerifiedArtifact() throws Exception {
+        var saved = roamingData();
+        ((ObjectNode) saved.path("context").path("baselines").path("roaming.data.success"))
+                .put("status", "DIRECT").put("coverage", 1).putNull("reason");
+        // This is a valid offline learned lookup; schema rejection cannot substitute for the runtime trust boundary.
+        md.utm.telecom.processing.detection.TraceLinkInputs.validateContext(saved.path("context"));
+        var catalogue = JSON.createObjectNode(); catalogue.putArray("snapshots");
+        var adapter = new TraceLinkWindowAdapter(catalogue);
+        var failure = assertThrows(IllegalArgumentException.class, () -> adapter.context(saved));
+        assertTrue(failure.getMessage().contains("checksum-verified baseline artifact"));
+    }
+
+    @Test void policyValidatedStaticBaselineRemainsUsableWithoutArtifactAndDoesNotRewriteInput() throws Exception {
+        var saved = roamingData();
+        var before = saved.deepCopy();
+        var catalogue = JSON.createObjectNode(); catalogue.putArray("snapshots");
+        var adapter = new TraceLinkWindowAdapter(catalogue);
+        var context = adapter.context(saved);
+        assertEquals("STATIC", context.path("baselines").path("roaming.data.success").path("status").asText());
+        assertEquals(before.path("context"), context);
+        assertEquals("BREACH", adapter.evaluate(context).getFirst().path("verdict").asText());
+        assertEquals(before, saved);
+    }
+
     @Test void dispatchesEveryIndependentDomainWithoutChangingSavedPrimitiveOrObservationTime() throws Exception {
         var adapter = new TraceLinkWindowAdapter();
         for (var item : fixture("detection-cases.json").path("cases")) {
             var saved = persisted(item.path("context"));
             var before = saved.deepCopy();
+            // The offline learned-baseline oracle needs an artifact-backed lookup at the persistence boundary.
+            if (item.path("id").asText().equals("zero-baseline-no-division")) {
+                assertThrows(IllegalArgumentException.class, () -> adapter.context(saved));
+                assertEquals(before, saved);
+                continue;
+            }
             var context = adapter.context(saved);
             var results = adapter.evaluate(context);
             for (var expected : item.path("expected")) {
@@ -95,6 +131,26 @@ class TraceLinkWindowAdapterTest {
         assertEquals("MEDIUM", result.path("causeConfidence").asText());
         ((ObjectNode) saved.path("dependencySnapshot").path("relations").get(0)).put("sourceId", "forged-source");
         assertEquals("UNDETERMINED", adapter.cause(context, adapter.evaluate(context).getFirst(), saved).path("status").asText());
+    }
+
+    @Test void malformedNativeCauseChecksumCannotSuppressIndependentSymptom() throws Exception {
+        var saved = persisted(fixture("detection-cases.json").path("cases").get(0).path("context"));
+        var input = fixture("cause-control-cases.json").path("cases").get(0).path("input");
+        for (String name : new String[]{"candidates", "controls", "dependencySnapshot"}) saved.set(name, input.path(name).deepCopy());
+        ((ObjectNode) saved.path("candidates").get(0).path("evidence").path("provenance"))
+                .put("origin", "NATIVE_OBSERVATION").putNull("sourceChecksum");
+        var before = saved.deepCopy();
+        var catalogue = JSON.createObjectNode(); catalogue.putArray("snapshots").add(input.path("dependencySnapshot").deepCopy());
+        var adapter = new TraceLinkWindowAdapter(catalogue);
+        var context = adapter.context(saved);
+        var symptom = adapter.evaluate(context).getFirst();
+        assertEquals("BREACH", symptom.path("verdict").asText());
+        var cause = adapter.cause(context, symptom, saved);
+        assertEquals("UNDETERMINED", cause.path("status").asText());
+        assertTrue(cause.path("causeConfidence").isNull());
+        assertTrue(cause.path("dependency").isNull());
+        assertEquals("INVALID_EVIDENCE", cause.path("rejectedEvidence").get(0).path("reason").asText());
+        assertEquals(before, saved);
     }
 
     @Test void configuredChecksumVerifiedArtifactOverridesInjectedLookupAndKeepsObservationTimes() throws Exception {

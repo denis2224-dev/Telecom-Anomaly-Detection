@@ -14,7 +14,7 @@ public class TraceLinkIncidentController {
     private final AnalystAccess analysts;
     public TraceLinkIncidentController(TraceLinkIncidentService service, AnalystAccess analysts) { this.service = service; this.analysts = analysts; }
     @GetMapping
-    public TraceLinkIncidentService.Page list(Authentication actor, @RequestParam(defaultValue="20") int limit, @RequestParam(defaultValue="0") int offset) {
+    public TraceLinkIncidentService.Page list(Authentication actor, @RequestParam(defaultValue="50") int limit, @RequestParam(defaultValue="0") int offset) {
         analysts.requireEnabled(actor); return service.list(limit, offset);
     }
     @GetMapping("/{episodeId}")
@@ -23,7 +23,7 @@ public class TraceLinkIncidentController {
     }
     @GetMapping("/{episodeId}/evidence")
     public TraceLinkIncidentService.Page evidence(Authentication actor, @PathVariable String episodeId,
-            @RequestParam(defaultValue="20") int limit, @RequestParam(defaultValue="0") int offset) {
+            @RequestParam(defaultValue="50") int limit, @RequestParam(defaultValue="0") int offset) {
         analysts.requireEnabled(actor); return service.evidence(episodeId, limit, offset);
     }
 }
