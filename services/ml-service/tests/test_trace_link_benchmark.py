@@ -114,6 +114,18 @@ class TraceLinkBenchmarkTest(unittest.TestCase):
         data['traces'][0]['detectorClaimedAt'] = '2026-10-12T09:00:00Z'
         with self.assertRaises(ValueError): benchmark.summarize(data)
 
+    def test_receiving_unmeasured_and_explicit_gaps_cannot_pass_capacity(self):
+        data = measured(); data['counts'].update(receivingMeasured=False, received=0)
+        data['measurementGaps'] = ['ACTUAL_STAGE_UNMEASURED']
+        report = benchmark.summarize(data)
+        self.assertEqual(report['gates']['correctness']['status'], 'PASS')
+        self.assertIn('INCIDENT_RECEIPT_UNMEASURED', report['gates']['realTimeCapacity']['reasons'])
+        self.assertIn('ACTUAL_STAGE_UNMEASURED', report['gates']['realTimeCapacity']['reasons'])
+        data['counts']['received'] = 2
+        with self.assertRaises(ValueError): benchmark.summarize(data)
+        data['counts']['received'] = 0; data['measurementGaps'] = 'invalid'
+        with self.assertRaises(ValueError): benchmark.summarize(data)
+
 
 if __name__ == '__main__':
     unittest.main()

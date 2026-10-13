@@ -109,6 +109,12 @@ def summarize(data):
         require(isinstance(window['inputSha256'], str) and bool(re.fullmatch('[a-f0-9]{64}', window['inputSha256'])), 'Invalid window input hash')
         window_ids.add(window['windowId'])
     counts = obj(data['counts'], (*COUNT_FIELDS, 'inputUnit'), 'counts')
+    receiving_measured = counts.get('receivingMeasured', True)
+    require(isinstance(receiving_measured, bool), 'receivingMeasured must be boolean')
+    require(receiving_measured or counts['received'] == 0, 'Unmeasured receipt cannot have a received count')
+    background = obj(data.get('backgroundInputCounts', {'offered': 0, 'accepted': 0}), ('offered', 'accepted'), 'backgroundInputCounts')
+    for name in ('offered', 'accepted'): numeric(background[name], 'background ' + name, integer=True)
+    require(background['accepted'] <= background['offered'], 'Background accepted exceeds offered')
     require(counts['inputUnit'] == profile['rateUnit'], 'Input/rate units differ')
     for name in COUNT_FIELDS:
         numeric(counts[name], name, integer=True)
@@ -171,9 +177,9 @@ def summarize(data):
     if counts['evaluated'] != counts['finalized']: failures.append('EVALUATION_NOT_DRAINED')
     if counts['finalized'] != len(window_ids): failures.append('WINDOW_MANIFEST_COUNT_MISMATCH')
     if counts['committedDetections'] != counts['published']: failures.append('COMMITTED_OUTPUT_NOT_PUBLISHED')
-    if counts['received'] != counts['published']: failures.append('RECEIVING_NOT_DRAINED')
+    if receiving_measured and counts['received'] != counts['published']: failures.append('RECEIVING_NOT_DRAINED')
     if counts['duplicateEpisodes'] > 0: failures.append('DUPLICATE_EPISODES')
-    if phases and any(counts[name] != sum(phase[name] for phase in phases) for name in ('offered', 'accepted')):
+    if phases and any(counts[name] != sum(phase[name] for phase in phases) + background[name] for name in ('offered', 'accepted')):
         failures.append('PHASE_COUNT_MISMATCH')
     if concurrency['observedMax'] > concurrency['configured']: failures.append('CONCURRENCY_BOUND_EXCEEDED')
     if queues['peakDepth'] > queues['capacityBound']: failures.append('QUEUE_BOUND_EXCEEDED')
@@ -185,7 +191,10 @@ def summarize(data):
     if inference['fallback'] != sum(inference[name] for name in ('timeout', 'rejected', 'unavailable')):
         failures.append('FALLBACK_COUNT_MISMATCH')
     correctness = {'status': 'FAIL' if failures else 'PASS', 'reasons': failures}
-    incomplete = []
+    gaps = data.get('measurementGaps', [])
+    require(isinstance(gaps, list) and all(isinstance(reason, str) and reason for reason in gaps), 'Invalid measurementGaps')
+    incomplete = gaps.copy()
+    if not receiving_measured: incomplete.append('INCIDENT_RECEIPT_UNMEASURED')
     if data['mode'] == 'accelerated-replay': incomplete.append('ACCELERATED_REPLAY_NOT_REAL_TIME_CAPACITY')
     if elapsed < sum(profile[name] for name in ('warmupSeconds', 'steadySeconds', 'burstSeconds')):
         incomplete.append('FULL_PROFILE_NOT_MEASURED')
@@ -216,6 +225,8 @@ def summarize(data):
         'concurrency': copy.deepcopy(concurrency), 'counts': copy.deepcopy(counts), 'queues': copy.deepcopy(queues),
         'inference': copy.deepcopy(inference), 'resources': copy.deepcopy(resources), 'newDomainMl': 'NOT_ELIGIBLE_DAY3',
         'windows': copy.deepcopy(data['windows']), 'traces': copy.deepcopy(traces), 'phaseMeasurements': measured_phases,
+        'backgroundInputCounts': copy.deepcopy(background),
+        'sourceEvidence': copy.deepcopy(data.get('sourceEvidence', {})),
         'elapsedSeconds': elapsed, 'wholeRunRatesPerSecond': {'acceptedInputs': counts['accepted'] / elapsed,
             'evaluatedWindows': counts['evaluated'] / elapsed, 'receivedDetections': counts['received'] / elapsed},
         'latencyMs': {name: distribution(samples[name]) for name in STAGES},
