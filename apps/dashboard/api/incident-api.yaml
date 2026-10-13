@@ -964,7 +964,7 @@ paths:
     get:
       operationId: exportTraceMetricCsv
       tags: [Trace Export]
-      x-implementation-status: planned-day-4
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/TraceDomain'}
       - {$ref: '#/components/parameters/TraceMetric'}
@@ -981,7 +981,7 @@ paths:
     get:
       operationId: listNotifications
       tags: [Notifications]
-      x-implementation-status: planned-day-3
+      x-implementation-status: backend-implemented
       parameters:
       - {$ref: '#/components/parameters/Page'}
       - {$ref: '#/components/parameters/Size'}
@@ -993,7 +993,7 @@ paths:
     post:
       operationId: markNotificationRead
       tags: [Notifications]
-      x-implementation-status: planned-day-3
+      x-implementation-status: backend-implemented
       security: [{sessionCookie: [], csrfToken: []}]
       parameters:
       - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
@@ -1034,6 +1034,231 @@ paths:
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+  /api/trace-link/v1/scenarios/catalogue:
+    get:
+      tags:
+      - Trace Link scenarios
+      summary: GET catalogue
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioCatalogue'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+  /api/trace-link/v1/scenarios/runs:
+    get:
+      tags:
+      - Trace Link scenarios
+      summary: GET runs
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 128
+                items:
+                  $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+    post:
+      tags:
+      - Trace Link scenarios
+      summary: POST runs
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '202':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: X-CSRF-TOKEN
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: X-Request-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TraceScenarioStart'
+  /api/trace-link/v1/scenarios/runs/{id}:
+    get:
+      tags:
+      - Trace Link scenarios
+      summary: GET runs/{id}
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /api/trace-link/v1/scenarios/runs/{id}/stop:
+    post:
+      tags:
+      - Trace Link scenarios
+      summary: POST runs/{id}/stop
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-CSRF-TOKEN
+        in: header
+        required: true
+        schema:
+          type: string
+  /api/trace-link/v1/scenarios/runs/{id}/reconcile:
+    post:
+      tags:
+      - Trace Link scenarios
+      summary: POST runs/{id}/reconcile
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-CSRF-TOKEN
+        in: header
+        required: true
+        schema:
+          type: string
 components:
   securitySchemes:
     sessionCookie:
@@ -2693,3 +2918,323 @@ components:
         p256dh: {type: string, maxLength: 256}
         auth: {type: string, maxLength: 256}
         expirationTime: {type: string, format: date-time, nullable: true}
+
+    TraceScenarioScope:
+      type: object
+      additionalProperties: false
+      required:
+      - domain
+      - id
+      - direction
+      - country
+      - procedure
+      - topologyVersion
+      properties:
+        domain:
+          type: string
+          enum:
+          - TRANSPORT
+          - ROAMING
+          - MOBILE_DATA
+        id:
+          type: string
+        direction:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        procedure:
+          type: string
+          nullable: true
+        topologyVersion:
+          type: string
+          enum:
+          - trace-link-links-v1
+    TraceScenarioParameters:
+      type: object
+      additionalProperties: false
+      required:
+      - normalUtilizationBp
+      - degradedUtilizationBp
+      - healthySuccessBp
+      - degradedSuccessBp
+      - capacityGbps
+      - attempts
+      - missingMinutes
+      properties:
+        normalUtilizationBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        degradedUtilizationBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        healthySuccessBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        degradedSuccessBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        capacityGbps:
+          type: integer
+          minimum: 1
+          maximum: 1000
+        attempts:
+          type: integer
+          minimum: 0
+          maximum: 1000000
+        missingMinutes:
+          type: array
+          maxItems: 8
+          uniqueItems: true
+          items:
+            type: integer
+            minimum: 0
+            maximum: 7
+    TraceScenarioStart:
+      type: object
+      additionalProperties: false
+      required:
+      - requestId
+      - type
+      - version
+      - scope
+      - seed
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - TRANSPORT_LINK_OVERLOAD
+          - ROAMING_REGISTRATION_FAILURE
+          - MOBILE_DATA_DNS_FAILURE
+          - NORMAL_CONTROL
+          - TELEMETRY_GAP
+        version:
+          type: string
+          enum:
+          - trace-link-scenarios-v1
+        scope:
+          $ref: '#/components/schemas/TraceScenarioScope'
+        seed:
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+        parameters:
+          $ref: '#/components/schemas/TraceScenarioParameters'
+    TraceScenarioCommand:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - version
+      - scope
+      - seed
+      - parameters
+      - start
+      properties:
+        type:
+          type: string
+          enum:
+          - TRANSPORT_LINK_OVERLOAD
+          - ROAMING_REGISTRATION_FAILURE
+          - MOBILE_DATA_DNS_FAILURE
+          - NORMAL_CONTROL
+          - TELEMETRY_GAP
+        version:
+          type: string
+          enum:
+          - trace-link-scenarios-v1
+        scope:
+          $ref: '#/components/schemas/TraceScenarioScope'
+        seed:
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+        parameters:
+          $ref: '#/components/schemas/TraceScenarioParameters'
+        start:
+          type: string
+          format: date-time
+    TraceScenarioDefinition:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - version
+      - domains
+      - scopeTypes
+      - implemented
+      - parameterRanges
+      - expectedPrimitiveChanges
+      - positiveControl
+      - negativeControl
+      properties:
+        type:
+          type: string
+        version:
+          type: string
+        domains:
+          type: array
+          items:
+            type: string
+        scopeTypes:
+          type: array
+          items:
+            type: string
+        implemented:
+          type: boolean
+        parameterRanges:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: false
+            required:
+            - minimum
+            - maximum
+            properties:
+              minimum:
+                type: number
+              maximum:
+                type: number
+        expectedPrimitiveChanges:
+          type: string
+        positiveControl:
+          type: string
+        negativeControl:
+          type: string
+    TraceScenarioCatalogue:
+      type: object
+      additionalProperties: false
+      required:
+      - enabled
+      - synthetic
+      - version
+      - deliveryStatus
+      properties:
+        enabled:
+          type: boolean
+        synthetic:
+          type: boolean
+          enum:
+          - true
+        version:
+          type: string
+        deliveryStatus:
+          type: string
+          enum:
+          - DISABLED_PENDING_REVIEW
+        topologyVersion:
+          type: string
+        sourceNamespace:
+          type: string
+        definitions:
+          type: array
+          maxItems: 18
+          items:
+            $ref: '#/components/schemas/TraceScenarioDefinition'
+        defaults:
+          $ref: '#/components/schemas/TraceScenarioParameters'
+        scopes:
+          type: array
+          maxItems: 54
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - scope
+            - label
+            properties:
+              scope:
+                $ref: '#/components/schemas/TraceScenarioScope'
+              label:
+                type: string
+              sourceCity:
+                type: string
+              destinationCity:
+                type: string
+              nominalCapacityGbps:
+                type: number
+    TraceScenarioRun:
+      type: object
+      additionalProperties: false
+      required:
+      - runId
+      - fingerprint
+      - command
+      - status
+      - completedWindows
+      - generatedObservations
+      - deliveryStatus
+      - offered
+      - acknowledged
+      - persisted
+      - accepted
+      properties:
+        runId:
+          type: string
+          format: uuid
+        fingerprint:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        command:
+          $ref: '#/components/schemas/TraceScenarioCommand'
+        status:
+          type: string
+          enum:
+          - SCHEDULED
+          - RUNNING
+          - COMPLETED
+          - STOPPED
+          - INTERRUPTED
+          - FAILED
+        completedWindows:
+          type: integer
+          minimum: 0
+          maximum: 8
+        generatedObservations:
+          type: integer
+          minimum: 0
+          maximum: 24
+        deliveryStatus:
+          type: string
+          enum:
+          - DISABLED_PENDING_REVIEW
+        offered:
+          type: integer
+          enum:
+          - 0
+        acknowledged:
+          type: integer
+          enum:
+          - 0
+        persisted:
+          type: integer
+          nullable: true
+        accepted:
+          type: integer
+          nullable: true
+        history:
+          type: array
+          maxItems: 8
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - start
+            - observations
+            properties:
+              start:
+                type: string
+                format: date-time
+              observations:
+                type: array
+                maxItems: 3
+                items:
+                  type: string

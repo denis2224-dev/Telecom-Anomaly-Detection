@@ -164,6 +164,19 @@ class MetricQueryServiceIT extends IncidentServiceIntegrationTestSupport {
         mvc.perform(request).andExpect(status().isOk())
                 .andExpect(jsonPath("$.points.length()").value(3))
                 .andExpect(jsonPath("$.points[0].value").value(99.0));
+        var csv=mvc.perform(get("/api/v2/exports/metrics.csv").session(authenticatedSession()).with(login)
+                        .param("datasetId","trace-link-md-30d-v1").param("domain","volte").param("metric","voice.success_rate")
+                        .param("scopeType","CITY").param("scopeId","hin").param("from",FROM.toString())
+                        .param("to",FROM.plusSeconds(900).toString()).param("resolution","5m"))
+                .andExpect(status().isOk()).andReturn().getResponse();
+        assertEquals("no-store",csv.getHeader("Cache-Control"));
+        String[] rows=csv.getContentAsString().split("\r\n");
+        assertEquals(4,rows.length);
+        var columns=rows[1].replace("\"","").split(",",-1);
+        assertEquals(0,new BigDecimal(columns[10]).compareTo(new BigDecimal("99")));
+        assertEquals(0,new BigDecimal(columns[15]).compareTo(new BigDecimal("990")));
+        assertEquals(0,new BigDecimal(columns[16]).compareTo(new BigDecimal("1000")));
+        assertTrue(rows[3].contains(",,\"PERCENT\",\"RATIO_OF_SUMS\""));
         mvc.perform(get("/api/v2/metrics/series").session(authenticatedSession()).with(login)
                         .param("datasetId", "trace-link-md-30d-v1").param("domain", "volte")
                         .param("metric", "voice.success_rate").param("scopeType", "CITY")

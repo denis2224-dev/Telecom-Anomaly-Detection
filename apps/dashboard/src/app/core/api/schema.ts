@@ -753,6 +753,493 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/trace-link/v1/scenarios/catalogue": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * GET catalogue
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioCatalogue"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * GET runs
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"][];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /**
+         * POST runs
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "X-CSRF-TOKEN": string;
+                    "X-Request-ID"?: string;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["TraceScenarioStart"];
+                };
+            };
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                202: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * GET runs/{id}
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs/{id}/stop": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * POST runs/{id}/stop
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "X-CSRF-TOKEN": string;
+                };
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/trace-link/v1/scenarios/runs/{id}/reconcile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * POST runs/{id}/reconcile
+         * @description Protected synthetic local generation. Kafka delivery and live detector acceptance remain disabled pending independent approval. Run UUIDs map durably to immutable producer fingerprints. History is private to the issuing analyst.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    "X-CSRF-TOKEN": string;
+                };
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Authoritative local generation state. Counts are not delivery or detector acceptance. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["TraceScenarioRun"];
+                    };
+                };
+                /** @description Invalid command or identifier */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Authentication required */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Supervisor or admin role and valid CSRF required */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Run not found for this analyst */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Conflicting request identity or scope interval */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Feature disabled or runtime unavailable; preserve original retry identity */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1480,6 +1967,105 @@ export interface components {
             auth: string;
             /** Format: date-time */
             expirationTime?: string | null;
+        };
+        TraceScenarioScope: {
+            /** @enum {string} */
+            domain: "TRANSPORT" | "ROAMING" | "MOBILE_DATA";
+            id: string;
+            direction: string | null;
+            country: string | null;
+            procedure: string | null;
+            /** @enum {string} */
+            topologyVersion: "trace-link-links-v1";
+        };
+        TraceScenarioParameters: {
+            normalUtilizationBp: number;
+            degradedUtilizationBp: number;
+            healthySuccessBp: number;
+            degradedSuccessBp: number;
+            capacityGbps: number;
+            attempts: number;
+            missingMinutes: number[];
+        };
+        TraceScenarioStart: {
+            /** Format: uuid */
+            requestId: string;
+            /** @enum {string} */
+            type: "TRANSPORT_LINK_OVERLOAD" | "ROAMING_REGISTRATION_FAILURE" | "MOBILE_DATA_DNS_FAILURE" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+            /** @enum {string} */
+            version: "trace-link-scenarios-v1";
+            scope: components["schemas"]["TraceScenarioScope"];
+            seed: number;
+            parameters?: components["schemas"]["TraceScenarioParameters"];
+        };
+        TraceScenarioCommand: {
+            /** @enum {string} */
+            type: "TRANSPORT_LINK_OVERLOAD" | "ROAMING_REGISTRATION_FAILURE" | "MOBILE_DATA_DNS_FAILURE" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+            /** @enum {string} */
+            version: "trace-link-scenarios-v1";
+            scope: components["schemas"]["TraceScenarioScope"];
+            seed: number;
+            parameters: components["schemas"]["TraceScenarioParameters"];
+            /** Format: date-time */
+            start: string;
+        };
+        TraceScenarioDefinition: {
+            type: string;
+            version: string;
+            domains: string[];
+            scopeTypes: string[];
+            implemented: boolean;
+            parameterRanges: {
+                [key: string]: {
+                    minimum: number;
+                    maximum: number;
+                };
+            };
+            expectedPrimitiveChanges: string;
+            positiveControl: string;
+            negativeControl: string;
+        };
+        TraceScenarioCatalogue: {
+            enabled: boolean;
+            /** @enum {boolean} */
+            synthetic: true;
+            version: string;
+            /** @enum {string} */
+            deliveryStatus: "DISABLED_PENDING_REVIEW";
+            topologyVersion?: string;
+            sourceNamespace?: string;
+            definitions?: components["schemas"]["TraceScenarioDefinition"][];
+            defaults?: components["schemas"]["TraceScenarioParameters"];
+            scopes?: {
+                scope: components["schemas"]["TraceScenarioScope"];
+                label: string;
+                sourceCity?: string;
+                destinationCity?: string;
+                nominalCapacityGbps?: number;
+            }[];
+        };
+        TraceScenarioRun: {
+            /** Format: uuid */
+            runId: string;
+            fingerprint: string;
+            command: components["schemas"]["TraceScenarioCommand"];
+            /** @enum {string} */
+            status: "SCHEDULED" | "RUNNING" | "COMPLETED" | "STOPPED" | "INTERRUPTED" | "FAILED";
+            completedWindows: number;
+            generatedObservations: number;
+            /** @enum {string} */
+            deliveryStatus: "DISABLED_PENDING_REVIEW";
+            /** @enum {integer} */
+            offered: 0;
+            /** @enum {integer} */
+            acknowledged: 0;
+            persisted: number | null;
+            accepted: number | null;
+            history?: {
+                /** Format: date-time */
+                start: string;
+                observations: string[];
+            }[];
         };
     };
     responses: {

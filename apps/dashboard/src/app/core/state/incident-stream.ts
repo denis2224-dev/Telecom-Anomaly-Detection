@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
 import { firstValueFrom, Subject, takeUntil, type Subscription, timeout } from 'rxjs';
 import type { Incident } from '../api/telecom-client';
 import { dataSource } from '../api/data-source';
@@ -40,8 +40,52 @@ export function mergeIncidentPage(current: Incident[], incoming: Incident[]): In
 export class IncidentStream {
   private readonly http = inject(HttpClient);
   private readonly session = inject(SessionStore);
+  private readonly subscribers = new Set<{ refresh: () => void; interrupted: () => void; connected: () => void }>();
+  private transport?: () => void;
+  private revision = -1;
+  private state: 'connecting' | 'connected' | 'interrupted' = 'connecting';
+
+  constructor() {
+    const ended = this.session.ended$.subscribe(() => this.closeAll());
+    inject(DestroyRef).onDestroy(() => { this.closeAll(); ended.unsubscribe(); });
+  }
 
   connect(refresh: () => void, interrupted: () => void, connected: () => void = () => {}): () => void {
+    if (dataSource.fixture || this.session.phase() !== 'authenticated') return () => {};
+    if (this.revision !== this.session.revision) this.closeAll();
+    this.revision = this.session.revision;
+    const subscriber = { refresh, interrupted, connected };
+    this.subscribers.add(subscriber);
+    if (!this.transport) {
+      this.transport = this.open(
+        () => this.fanOut('refresh'), () => this.fanOut('interrupted'), () => this.fanOut('connected'),
+      );
+    }
+    if (this.state === 'interrupted') interrupted();
+    else if (this.state === 'connected') connected();
+    return () => {
+      this.subscribers.delete(subscriber);
+      if (!this.subscribers.size) this.closeAll();
+    };
+  }
+
+  private fanOut(kind: 'refresh' | 'interrupted' | 'connected'): void {
+    if(kind !== 'refresh')this.state=kind;
+    for (const subscriber of [...this.subscribers]) {
+      // One failed view cannot prevent other consumers from reconciling.
+      try { subscriber[kind](); } catch { /* The view owns its request errors. */ }
+    }
+  }
+
+  private closeAll(): void {
+    this.transport?.();
+    this.transport = undefined;
+    this.subscribers.clear();
+    this.revision = -1;
+    this.state = 'connecting';
+  }
+
+  private open(refresh: () => void, interrupted: () => void, connected: () => void): () => void {
     if (dataSource.fixture || this.session.phase() !== 'authenticated') {
       return () => {};
     }

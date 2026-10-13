@@ -12,6 +12,8 @@ This ledger records the supplied reservation, not receiving-owner approval.
 | incidents_db / Denis | V005__incident_notifications.sql | PR #90; not changed here |
 | incidents_db / Denis | V006__trace_link_read_models.sql | PR #90; not changed here |
 | incidents_db / Denis | V007__trace_link_query_indexes.sql | PR #90; not changed here |
+| incidents_db / Denis | V008__trace_link_primitive_projections.sql | Reserved by independent PR #98; not imported or approved by this repair |
+| incidents_db / integration repair | V009__trace_link_scenario_commands.sql | Additive protected command ledger; isolated PostgreSQL verification; flags default off |
 
 Processor source tables use `trace_source_*`. They retain the supplied archive,
 including unavailable quality/coverage as null. They are not equivalents of

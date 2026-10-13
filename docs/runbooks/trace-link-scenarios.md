@@ -6,6 +6,10 @@ provides a pure scheduler. Kafka is **DISABLED**; consumer integration is
 context, run background threads, read databases or activate geographic authority.
 Existing VoLTE/SMS callers and their V2 topics/contracts keep their current behavior.
 
+The later [protected API and local runtime adapter](trace-link-scenario-runtime.md)
+wraps this unchanged pure milestone behind flags that default off. Its local
+generation and checkpoint checks do not activate Kafka or approve live detection.
+
 ## Supported commands and measurements
 
 `TraceLinkScenarioCatalogue` lists eighteen versioned public symptoms. Only these

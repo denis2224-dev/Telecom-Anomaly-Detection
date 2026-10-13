@@ -57,7 +57,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(7, flyway.migrate().migrationsExecuted);
+        assertEquals(8, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -85,7 +85,7 @@ class DatabaseMigrationTest {
                 "scope_window_coverage_rejection", "notification_event", "notification_recipient",
                 "push_subscription", "push_delivery", "trace_dataset", "trace_catalogue",
                 "trace_inventory_city", "trace_inventory_link", "trace_link_direction",
-                "trace_partner", "trace_metric_window"), tableNames());
+                "trace_partner", "trace_metric_window", "trace_scenario_command"), tableNames());
         assertEquals("1", scalar("""
                 SELECT count(*) FROM pg_indexes
                 WHERE schemaname = 'app'
@@ -119,6 +119,15 @@ class DatabaseMigrationTest {
     }
 
     @Test
+    void traceScenarioRuntimeCannotRewriteCommandsOrDeleteHistory() throws Exception {
+        assertEquals("false", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','command_text','UPDATE')::text"));
+        assertEquals("false", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','fingerprint','UPDATE')::text"));
+        assertEquals("false", scalar("SELECT has_table_privilege(current_user,'app.trace_scenario_command','DELETE')::text"));
+        assertEquals("false", scalar("SELECT has_table_privilege(current_user,'app.trace_scenario_command','TRUNCATE')::text"));
+        assertEquals("true", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','status','UPDATE')::text"));
+    }
+
+    @Test
     void upgradeFromV004MatchesFreshSchemaAndGrants() throws Exception {
         String database = "incidents_upgrade";
         try (Connection admin = DriverManager.getConnection(url("bootstrap"),
@@ -146,7 +155,7 @@ class DatabaseMigrationTest {
                 .dataSource(url(database), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(3, upgrade.migrate().migrationsExecuted);
+        assertEquals(4, upgrade.migrate().migrationsExecuted);
         assertEquals(0, upgrade.migrate().migrationsExecuted);
         try (Connection fresh = DriverManager.getConnection(url("incidents_db"),
                 POSTGRES.getUsername(), POSTGRES.getPassword());

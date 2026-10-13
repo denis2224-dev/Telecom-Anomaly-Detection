@@ -68,6 +68,10 @@ server:
         secure: ${SESSION_COOKIE_SECURE:false}
 
 app:
+  trace-link:
+    scenarios:
+      enabled: ${TRACE_LINK_SCENARIOS_ENABLED:false}
+      reconcile-ms: 5000
   public-origin: ${APP_PUBLIC_ORIGIN:http://telecom.test:8080}
   evidence:
     reconcile-enabled: ${EVIDENCE_RECONCILE_ENABLED:true}

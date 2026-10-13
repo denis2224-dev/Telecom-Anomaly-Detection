@@ -8,10 +8,11 @@ import { IconComponent } from "./shared/icon.component";
 import { ToastService } from "./shared/toast.service";
 import { dataSource } from "./core/api/data-source";
 import { LiveUpdates } from './core/state/live-updates';
+import { NotificationCenterComponent } from './features/notifications/notification-center.component';
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, DatePipe, LoginComponent, IconComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, DatePipe, LoginComponent, IconComponent, NotificationCenterComponent],
   templateUrl: "./app.component.html",
 })
 export class AppComponent {
@@ -38,7 +39,7 @@ export class AppComponent {
   readonly toast = inject(ToastService);
   pageTitle(): string {
     const path = this.router.url;
-    return path.startsWith('/scenarios') ? 'Scenario runner'
+    return path.startsWith('/trace-link') ? 'Trace Link history' : path.startsWith('/scenarios') ? 'Scenario runner'
       : path.startsWith('/roaming') ? 'Roaming preview'
       : path.startsWith('/incidents') ? 'Incident investigation'
       : path.startsWith('/services') ? 'Service investigation' : 'Service overview';
