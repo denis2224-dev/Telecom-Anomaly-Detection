@@ -60,16 +60,20 @@ class TraceLinkReceiverIT extends IncidentServiceIntegrationTestSupport {
         var detections=input.isArray()?input:input.required("detections");
         assertTrue(detections.isArray()); assertFalse(detections.isEmpty());
         java.util.Set<String> domains=new java.util.HashSet<>(),episodes=new java.util.HashSet<>();
+        var latest = new java.util.HashMap<String,tools.jackson.databind.JsonNode>();
         for(var envelope:detections) {
             domains.add(envelope.required("context").required("domain").asText());
             String episode=envelope.required("lifecycle").required("episodeId").asText(); episodes.add(episode);
             receiver.ingest(episode,envelope.toString());
+            latest.merge(episode,envelope,(before,after) -> before.required("lifecycle").required("sequence").asLong()
+                    > after.required("lifecycle").required("sequence").asLong() ? before : after);
         }
         assertEquals(java.util.Set.of("TRANSPORT","ROAMING","MOBILE_DATA"),domains);
         assertEquals(episodes.size(),receiver.list(100,0).total());
         for(String episode:episodes) {
             var detail=receiver.detail(episode);
-            assertEquals("RECOVERED",detail.required("lifecycle").required("technicalState").asText());
+            assertEquals(latest.get(episode),detail,"Projection must equal the highest contiguous producer sequence");
+            if (producedFile == null) assertEquals("RECOVERED",detail.required("lifecycle").required("technicalState").asText());
             assertEquals(episode,detail.required("lifecycle").required("episodeId").asText());
             assertEquals("DUPLICATE",receiver.ingest(episode,detail.toString()).disposition());
         }

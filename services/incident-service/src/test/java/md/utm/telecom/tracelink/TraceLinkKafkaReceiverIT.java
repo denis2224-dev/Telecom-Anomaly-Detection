@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import md.utm.telecom.incidents.security.OidcTestConfiguration;
 import org.apache.kafka.clients.admin.Admin;
@@ -73,13 +74,35 @@ class TraceLinkKafkaReceiverIT {
             }
         }
         JsonNode detections=input.isArray()?input:input.required("detections");
-        assertEquals(21,detections.size());
-        var episodes=new HashSet<String>(); var domains=new HashSet<String>();
-        for(var envelope:detections) {
-            episodes.add(envelope.required("lifecycle").required("episodeId").asText());
+        assertFalse(detections.isEmpty(), "Producer must contain detections");
+        var expected = new TreeMap<String,TreeMap<Long,JsonNode>>();
+        var unique = new HashMap<String,JsonNode>();
+        var domains = new HashSet<String>();
+        var nativeEpisodes = new HashSet<String>();
+        for (var envelope : detections) {
+            TraceLinkDetectionMessage.validate(envelope);
+            var lifecycle = envelope.required("lifecycle");
+            String episode = lifecycle.required("episodeId").asText();
+            String detection = lifecycle.required("detectionId").asText();
+            long sequence = lifecycle.required("sequence").asLong();
+            var prior = unique.putIfAbsent(detection,envelope);
+            if (prior != null) assertEquals(prior,envelope,"Conflicting producer detection");
+            var previous = expected.computeIfAbsent(episode,key -> new TreeMap<>()).putIfAbsent(sequence,envelope);
+            if (previous != null) assertEquals(previous,envelope,"Conflicting producer episode sequence");
             domains.add(envelope.required("context").required("domain").asText());
+            if (input.has("nativeWindows") && envelope.required("context").required("datasetId").asText()
+                    .equals(input.required("runId").asText())) nativeEpisodes.add(episode);
         }
-        assertEquals(3,episodes.size()); assertEquals(java.util.Set.of("TRANSPORT","ROAMING","MOBILE_DATA"),domains);
+        for (var episode : expected.values()) {
+            long sequence = 1;
+            for (var entry : episode.entrySet()) assertEquals(sequence++,entry.getKey(),"Producer sequence gap");
+        }
+        assertEquals(java.util.Set.of("TRANSPORT","ROAMING","MOBILE_DATA"),domains);
+        if (artifact == null) { assertEquals(21,detections.size()); assertEquals(3,expected.size()); }
+        if (input.has("nativeWindows")) assertEquals(3,nativeEpisodes.size(),"Native lifecycle must cover all three domains");
+        long deliveryCount = Math.multiplyExact(2L,detections.size());
+        long expectedRecovered = expected.values().stream().filter(rows -> rows.lastEntry().getValue()
+                .required("lifecycle").required("technicalState").asText().equals("RECOVERED")).count();
         var listener=listeners.getListenerContainer("traceLinkDetections");
         assertNotNull(listener); listener.start();
         Map<String,Object> config=new HashMap<>();
@@ -98,31 +121,53 @@ class TraceLinkKafkaReceiverIT {
             }
             producer.flush();
         }
-        long deadline=System.nanoTime()+Duration.ofSeconds(60).toNanos();
+        long deadline=System.nanoTime()+Duration.ofMinutes(10).toNanos();
         long committed=0;
         try(var admin=Admin.create(Map.of("bootstrap.servers",broker.getBrokersAsString()))) {
-            while(System.nanoTime()<deadline && committed<42) {
+            while(System.nanoTime()<deadline && committed<deliveryCount) {
                 committed=admin.listConsumerGroupOffsets("incident-service-trace-link-v1").partitionsToOffsetAndMetadata()
                         .get(10,TimeUnit.SECONDS).entrySet().stream().filter(e->e.getKey().topic().equals(TOPIC))
                         .mapToLong(e->e.getValue().offset()).sum();
-                if(committed<42)Thread.sleep(100);
+                if(committed<deliveryCount)Thread.sleep(100);
             }
         }
-        assertEquals(42,committed,"Every Kafka delivery, including duplicates, must be acknowledged after service commit");
-        assertEquals(21,count("trace_link_detection_evidence")); assertEquals(21,count("trace_link_incident_audit"));
-        assertEquals(3,receiver.list(100,0).total());
-        for(String episode:episodes) {
+        assertEquals(deliveryCount,committed,"Every Kafka delivery, including duplicates, must be acknowledged after service commit");
+        assertEquals(unique.size(),count("trace_link_detection_evidence"));
+        assertEquals(unique.size(),count("trace_link_incident_audit"));
+        assertEquals(expected.size(),receiver.list(100,0).total());
+        for (var entry : expected.entrySet()) {
+            assertEquals(entry.getValue().lastEntry().getValue(),receiver.detail(entry.getKey()),
+                    "Projection must equal the highest contiguous producer sequence");
+            assertEquals(entry.getValue().size(),receiver.evidence(entry.getKey(),100,0).total());
+        }
+        for (String episode : nativeEpisodes) {
             assertEquals("RECOVERED",receiver.detail(episode).required("lifecycle").required("technicalState").asText());
             assertEquals(7,receiver.evidence(episode,100,0).total());
         }
+        assertEquals(0L,jdbc.queryForObject("""
+                SELECT count(*) FROM app.trace_link_detection_evidence e
+                LEFT JOIN app.trace_link_incident_audit a USING(detection_id) WHERE a.detection_id IS NULL
+                """,Long.class),"No committed evidence may remain unapplied after complete input");
         assertEquals("incidents_app",jdbc.queryForObject("SELECT current_user",String.class));
         listener.stop();
         var receipt=TraceLinkReceiverFixtures.JSON.createObjectNode();
         receipt.put("source",artifact==null?"protocol-oracle":"producer-file");
+        receipt.put("receiptBoundary","SEPARATE_SUBSEQUENT_KAFKA_RECEIVER_RUN");
+        receipt.put("latencyInterpretation","Outbox-to-receipt elapsed time includes artifact handoff wait; this is not simultaneous incident latency");
+        if (artifact != null) receipt.put("producerFile",Path.of(artifact).toAbsolutePath().toString());
         if(producerFileSha256==null)receipt.putNull("producerFileSha256");
         else receipt.put("producerFileSha256",producerFileSha256);
         receipt.put("startedAt",startedAt.toString()).put("endedAt",Instant.now().toString());
-        receipt.put("committedKafkaOffsets",committed);
+        receipt.put("committedKafkaOffsets",committed).put("sentKafkaDeliveries",deliveryCount);
+        var projections = receipt.putArray("projections");
+        for (var entry : expected.entrySet()) {
+            var lifecycle = receiver.detail(entry.getKey()).required("lifecycle");
+            projections.addObject().put("episodeId",entry.getKey())
+                    .put("sequence",lifecycle.required("sequence").asLong())
+                    .put("detectionId",lifecycle.required("detectionId").asText())
+                    .put("technicalState",lifecycle.required("technicalState").asText())
+                    .put("nativeLifecycle",nativeEpisodes.contains(entry.getKey()));
+        }
         var boundaries=receipt.putArray("receivedAt");
         jdbc.query("""
                 SELECT detection_id,episode_id,sequence,received_at FROM app.trace_link_detection_evidence
@@ -133,10 +178,12 @@ class TraceLinkKafkaReceiverIT {
         long recovered=jdbc.queryForObject("SELECT count(*) FROM app.trace_link_incidents WHERE technical_state='RECOVERED'",Long.class);
         receipt.putObject("counts").put("receivedUnique",count("trace_link_detection_evidence"))
                 .put("auditRows",count("trace_link_incident_audit")).put("episodes",count("trace_link_incidents")).put("recovered",recovered);
-        assertEquals(21,boundaries.size()); assertEquals(3,recovered);
+        assertEquals(unique.size(),boundaries.size()); assertEquals(expectedRecovered,recovered);
+        if (artifact == null) assertEquals(3,recovered);
         Files.createDirectories(receiptFile.toAbsolutePath().getParent());
         Files.writeString(receiptFile,TraceLinkReceiverFixtures.JSON.writerWithDefaultPrettyPrinter().writeValueAsString(receipt));
-        System.out.println("Real Kafka receiver verified: 42 deliveries, 21 immutable rows, 3 recovered episodes; source="
+        System.out.println("Real Kafka receiver verified: " + deliveryCount + " deliveries, " + unique.size()
+                + " immutable rows, " + expected.size() + " episodes, " + recovered + " recovered; source="
                 +(artifact==null?"independent hand oracle":artifact));
     }
     private long count(String table) { return jdbc.queryForObject("SELECT count(*) FROM app."+table,Long.class); }
