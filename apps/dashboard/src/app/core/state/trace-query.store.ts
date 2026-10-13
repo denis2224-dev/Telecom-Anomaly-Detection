@@ -9,6 +9,7 @@ export interface TraceQueryContext {
   timezone: 'UTC' | 'Europe/Chisinau';
   cityId: string;
   linkDirectionId?: string;
+  partnerDirectionId?: string;
   countryId: string;
   roamingDirection: 'out' | 'in' | 'both';
   domain: 'all' | 'volte' | 'transport' | 'roaming' | 'sms' | 'mobile-data';
@@ -29,6 +30,7 @@ export function validTraceContext(context: TraceQueryContext): boolean {
     && ['5m','15m','1h','6h'].includes(context.resolution) && ['UTC','Europe/Chisinau'].includes(context.timezone)
     && ['all','volte','transport','roaming','sms','mobile-data'].includes(context.domain) && ['in','out','both'].includes(context.roamingDirection)
     && /^[A-Za-z0-9_.:-]{1,96}$/.test(context.cityId) && /^[A-Za-z0-9_.:-]{1,96}$/.test(context.countryId)
+    && (!context.partnerDirectionId || /^[A-Za-z0-9_.:-]{1,128}$/.test(context.partnerDirectionId))
     && (!context.linkDirectionId || /^[A-Za-z0-9_.:-]{1,128}$/.test(context.linkDirectionId))
     && ((!context.visibleFrom && !context.visibleTo) || (!!context.visibleFrom && !!context.visibleTo && utc(context.visibleFrom) && utc(context.visibleTo)
       && Date.parse(context.visibleFrom)>=from && Date.parse(context.visibleTo)<=to && Date.parse(context.visibleTo)>Date.parse(context.visibleFrom)));
@@ -63,9 +65,9 @@ export class TraceQueryStore {
   zoom(from:string,to:string): boolean {return this.update({visibleFrom:from,visibleTo:to});}
   resetZoom(): void {this.update({visibleFrom:undefined,visibleTo:undefined});}
   restore(parameters:Record<string,string>): boolean {
-    const keys=Object.keys(defaults()).concat(['linkDirectionId','visibleFrom','visibleTo']);
+    const keys=Object.keys(defaults()).concat(['linkDirectionId','partnerDirectionId','visibleFrom','visibleTo']);
     const patch=Object.fromEntries(Object.entries(parameters).filter(([key])=>keys.includes(key)));
-    return this.update({...defaults(),linkDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined,...patch});
+    return this.update({...defaults(),linkDirectionId:undefined,partnerDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined,...patch});
   }
   private reset(): void {this.value.set(Object.freeze(defaults()));this.revision.update(value=>value+1);}
 }

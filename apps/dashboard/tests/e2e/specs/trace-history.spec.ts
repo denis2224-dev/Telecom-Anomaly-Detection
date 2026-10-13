@@ -29,6 +29,7 @@ async function setup(page:Page){
     if(url.pathname==='/api/v2/inventory/links')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',links}});
     if(url.pathname==='/api/v2/inventory/partners')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',partners}});
     if(url.pathname==='/api/v2/kpi-definitions')return route.fulfill({json:[definition]});
+    if(url.pathname==='/api/v2/trace-domain-measurements')return route.fulfill({status:404,json:{code:'FEATURE_DISABLED'}});
     queries.push(Object.fromEntries(url.searchParams));
     if(url.pathname.endsWith('.csv'))return route.fulfill({contentType:'text/csv;charset=utf-8',body:exactCsv});
     return route.fulfill({json:series(url)});
@@ -81,4 +82,29 @@ test('a cancelled old-city response cannot replace the selected city history',as
   await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('CITY hin');release();
   await page.waitForTimeout(200);await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('CITY hin');
   await expect(page.getByRole('region',{name:'Persisted domain panels'})).not.toContainText('CITY chi');
+});
+
+for(const domain of ['transport','roaming','mobile-data'])test(`native ${domain} preserves complete scope and unknown source quality`,async({page})=>{
+  await setup(page);
+  const scope=domain==='transport'?{scopeNamespace:'trace-link-reference-v1',domain:'TRANSPORT',scopeType:'LINK_DIRECTION',scopeId:'chi-hin',linkId:'chi-hin',directionId:'a-to-b'}
+    :domain==='roaming'?{scopeNamespace:'trace-link-reference-v1',domain:'ROAMING',scopeType:'ROAMING_PROCEDURE',scopeId:'RO-DEMO-01',partnerId:'RO-DEMO-01',countryId:'RO',direction:'out',procedure:'REGISTRATION'}
+    :{scopeNamespace:'trace-link-reference-v1',domain:'MOBILE_DATA',scopeType:'CITY_SERVICE',scopeId:'chi',contractCityId:'CHI',procedure:'EPS_BEARER_ACTIVATION',accessTechnology:'LTE'};
+  const {createHash}=await import('node:crypto');const scopeKey=createHash('sha256').update(JSON.stringify(scope)).digest('hex');
+  const metric=domain==='transport'?'transport.traffic':domain==='roaming'?'roaming.registration.success':'mobileData.activation.success';
+  let requested:Record<string,string>|undefined;
+  await page.route('**/api/v2/trace-domain-measurements?**',route=>{
+    const params=Object.fromEntries(new URL(route.request().url()).searchParams);requested=params;
+    return route.fulfill({json:{schemaVersion:'trace-link-domain-series-v1',mappingVersion:'trace-link-domain-measurement-mapping-v1',datasetId:params.datasetId,sourceId:params.sourceId,scopeKey,metricId:metric,domain,unit:'PERCENT',aggregationType:'RATIO_OF_SUMS',from:params.from,to:params.to,sourceResolutionSeconds:300,population:'Controlled independent native population',policyVersion:'controlled-native-v1',catalogueVersion:'controlled-native-v1',topologyVersion:'controlled-native-v1',sourceKind:'NATIVE_300',synthetic:true,scope,
+      points:[{from:params.from,to:new Date(Date.parse(params.from)+300000).toISOString(),expectedSlots:1,receivedSlots:1,quality:'INSUFFICIENT_EVIDENCE',value:95,sourceCoverage:null,nullReason:null,measurement:null,qualityReason:'SOURCE_QUALITY_UNAVAILABLE',sourceQuality:null,eventId:'controlled-native',revision:0,finalized:true,primitives:{numerator:95,denominator:100},provenance:{nativeQualification:{procedureEligibility:'Unproven reference eligibility'}},sourcePayloadSha256:'a'.repeat(64)}]}});
+  });
+  await page.goto(queryUrl+`&domain=${domain}&linkDirectionId=chi-hin%3Aa-to-b&countryId=RO&roamingDirection=out`);
+  const native=page.getByRole('region',{name:'Native domain measurements'});
+  await expect(native).toContainText('Controlled independent native population');
+  expect(requested).toMatchObject({scopeKey,metric,sourceId:'trace-link-native-primitives-v1',datasetId:'trace-link-md-30d-v1'});
+  await expect(native.getByRole('region',{name:'Persisted metric chart'})).toContainText('INSUFFICIENT_EVIDENCE');
+  await native.getByText('Exact source primitives and qualifications for the visible bucket page').click();
+  await expect(native).toContainText('Unproven reference eligibility');
+  await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('15m');
+  await expect(native).toContainText('Choose a dataset and domain scope');
+  await expect(native.getByRole('region',{name:'Persisted metric chart'})).toHaveCount(0);
 });

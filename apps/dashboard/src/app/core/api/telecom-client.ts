@@ -17,6 +17,8 @@ export type TraceScenarioScope = components['schemas']['TraceScenarioScope'];
 export type TraceScenarioParameters = components['schemas']['TraceScenarioParameters'];
 export type NotificationItem = components['schemas']['NotificationItem'];
 export type NotificationPage = components['schemas']['NotificationPage'];
+export type TraceNativeSeries = components['schemas']['TraceDomainNativeSeriesV1'];
+export type TraceNativeQuery = operations['getTraceDomainNativeMeasurements']['parameters']['query'];
 export type TraceMetricSeries = components['schemas']['TraceMetricSeries'];
 export type TraceMetricQuery = operations['getTraceMetricSeries']['parameters']['query'] & {from:string;to:string};
 export type TraceKpiDefinition = components['schemas']['TraceKpiDefinition'];
@@ -60,6 +62,9 @@ export class TelecomClient {
   }
   traceDefinitions(signal?: AbortSignal) {
     return this.request<TraceKpiDefinition[]>('GET','/api/v2/kpi-definitions',undefined,undefined,signal);
+  }
+  traceNativeSeries(query: TraceNativeQuery, signal?: AbortSignal) {
+    return this.request<TraceNativeSeries>('GET','/api/v2/trace-domain-measurements',undefined,query,signal);
   }
   traceMetricSeries(query: TraceMetricQuery, signal?: AbortSignal) {
     return this.request<TraceMetricSeries>('GET','/api/v2/metrics/series',undefined,query,signal);
