@@ -10,6 +10,16 @@ class TraceLinkDetectionMessageTest {
         valid.withObject("lifecycle").put("detectionId","0".repeat(64));
         assertThrows(IllegalArgumentException.class, () -> TraceLinkDetectionMessage.validate(valid));
     }
+    @Test void rejectsForgedOpeningEpisodeEvenWithSelfConsistentDetectionId() {
+        var forged = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
+        var lifecycle = forged.withObject("lifecycle");
+        String episode = "0".repeat(64);
+        lifecycle.put("episodeId",episode).put("detectionId",TraceLinkDetectionMessage.hash(episode + ":1:"
+                + TraceLinkDetectionMessage.canonical(lifecycle.required("window")) + ":OPEN:"
+                + lifecycle.required("evaluation").required("policyVersion").asText()));
+        var failure = assertThrows(IllegalArgumentException.class,() -> TraceLinkDetectionMessage.validate(forged));
+        assertEquals("Opening episode ID mismatch",failure.getMessage());
+    }
     @Test void rejectsContextDriftUnknownFieldsAndUnsupportedCause() {
         var valid = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
         var mismatch = valid.deepCopy(); mismatch.withObject("context").put("datasetId","other");

@@ -24,7 +24,8 @@ public final class TraceLinkDetectionMessage {
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final com.fasterxml.jackson.databind.ObjectMapper CONTRACT_JSON = new com.fasterxml.jackson.databind.ObjectMapper();
     private static final JsonSchema SCHEMA = schema();
-    private static final JsonNode CAUSE_POLICY = resource("policies/trace-link-domain-rules-v1.json").required("cause");
+    private static final JsonNode DOMAIN_POLICY = resource("policies/trace-link-domain-rules-v1.json");
+    private static final JsonNode CAUSE_POLICY = DOMAIN_POLICY.required("cause");
     private static final JsonNode AUTHORITIES = resource("topology/trace-link-runtime-dependencies-v1.json");
     private TraceLinkDetectionMessage() { }
 
@@ -70,6 +71,15 @@ public final class TraceLinkDetectionMessage {
         String state = phase.equals("RECOVERY") ? "RECOVERED" : phase.equals("UNKNOWN") ? "UNKNOWN" : "ONGOING";
         require(state.equals(lifecycle.required("technicalState").asText()), "Phase/state mismatch");
         String episode = lifecycle.required("episodeId").asText();
+        if (phase.equals("OPEN")) {
+            var identity = JSON.createObjectNode();
+            for (String field : List.of("datasetId", "namespace", "domain", "scope", "anomalyKind", "policyVersion"))
+                identity.set(field,evaluation.required(field).deepCopy());
+            if (evaluation.has("serviceScope")) identity.set("serviceScope",evaluation.required("serviceScope").deepCopy());
+            long precedingWindows = DOMAIN_POLICY.required("openAfterBreachedWindows").asLong() - 1;
+            Instant firstBad = from.minusSeconds(Math.multiplyExact(precedingWindows,DOMAIN_POLICY.required("windowSeconds").asLong()));
+            require(hash(hash(canonical(identity)) + ":" + firstBad).equals(episode), "Opening episode ID mismatch");
+        }
         require(hash(episode + ":" + sequence + ":" + canonical(lifecycle.required("window")) + ":" + phase + ":" + evaluation.required("policyVersion").asText())
                 .equals(lifecycle.required("detectionId").asText()), "Detection ID mismatch");
         validateCauseEvidence(envelope, evaluation);
