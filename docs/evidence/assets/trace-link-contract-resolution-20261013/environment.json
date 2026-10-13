@@ -1,0 +1,18 @@
+{
+  "java": {
+    "exit": 0,
+    "version": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\nOpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)\nOpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)"
+  },
+  "python": {
+    "exit": 0,
+    "version": "Python 3.13.7"
+  },
+  "node": {
+    "exit": 0,
+    "version": "v24.20.0"
+  },
+  "maven": {
+    "exit": 0,
+    "version": "Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5)\nMaven home: C:\\Users\\Admin\\.m2\\wrapper\\dists\\apache-maven-3.9.16\\56ba1f9f\nJava version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\nDefault locale: en_US, platform encoding: UTF-8\nOS name: \"windows 11\", version: \"10.0\", arch: \"amd64\", family: \"windows\""
+  }
+}
