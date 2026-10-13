@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TraceDomainDetectionV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "datasetId",
+    "synthetic",
+    "domain",
+    "metric",
+    "metricVersion",
+    "scopeType",
+    "scopeId",
+    "policyVersion",
+    "topologyVersion",
+    "episodeId",
+    "detectionId",
+    "sequence",
+    "phase",
+    "severity",
+    "firstObservedAt",
+    "windowStart",
+    "windowEnd",
+    "detectedAt",
+    "revision"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "datasetId": {
+      "const": "trace-link-md-30d-v1"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "domain": {
+      "enum": [
+        "transport",
+        "roaming",
+        "mobile-data"
+      ]
+    },
+    "metric": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96
+    },
+    "metricVersion": {
+      "const": "trace-link-metrics-v1"
+    },
+    "scopeType": {
+      "enum": [
+        "CITY",
+        "LINK_DIRECTION",
+        "PARTNER_DIRECTION"
+      ]
+    },
+    "scopeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,96}$"
+    },
+    "policyVersion": {
+      "const": "trace-link-md-policy-v1"
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "episodeId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "detectionId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "phase": {
+      "enum": [
+        "OPEN",
+        "UPDATE",
+        "UNKNOWN",
+        "RECOVERY"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "firstObservedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "detectedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

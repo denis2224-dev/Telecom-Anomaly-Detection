@@ -22,3 +22,7 @@ The new catalogue lists ten active reference members but is registered as
 `CONTRACT_ONLY`. No legacy source authority or deployment flag is changed.
 Runtime activation requires a separately versioned source-authority contract and
 the shared consumer alignment gate.
+
+## Transactional history increment
+
+Incident-service V009__trace_link_domain_incidents.sql is reserved for immutable five-minute evaluated-domain detections and their contiguous technical episode projection on base f7364d3. V008 remains the merged primitive projection migration; V001–V008 are unchanged. Producer delivery acceptance remains pending, so the new consumer defaults off.
