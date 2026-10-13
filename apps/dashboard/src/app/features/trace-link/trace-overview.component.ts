@@ -93,7 +93,7 @@ export class TraceOverviewComponent {
         if(result.datasetId!==query.datasetId||result.domain!==query.domain||result.metric!==query.metric||result.scopeId!==query.scopeId
           ||result.scopeType!==query.scopeType||result.resolution!==query.resolution||Date.parse(result.requestedFrom)!==Date.parse(query.from)
           ||Date.parse(result.requestedTo)!==Date.parse(query.to)||result.points.length>8640)throw new Error('Metric response does not match the selected query.');
-        if(result.points.some(point=>!['VALID','PARTIAL','MISSING','STALE'].includes(point.quality)
+        if(result.points.some(point=>!['VALID','PARTIAL','MISSING','STALE','INSUFFICIENT_EVIDENCE'].includes(point.quality)
           || !Number.isFinite(point.coverage)||point.coverage<0||point.coverage>1
           || (point.value!==null && (!Number.isFinite(point.value)||point.quality==='MISSING'||(result.aggregation==='RATIO_OF_SUMS'&&point.denominator===0)))))
           throw new Error('Metric response contains incompatible quality or primitives.');
