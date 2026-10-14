@@ -96,6 +96,32 @@ class TraceLinkShadowWorkerTest {
             assertTrue(pending.get(10,TimeUnit.SECONDS));
         }
     }
+    @Test void realHeadersFirstBodyStallPersistsTimeoutBeforeServerFinishes() throws Exception {
+        store.save(windows.get(0).path("input"));assertTrue(detector.runOnce());
+        var before=jdbc.queryForList("SELECT * FROM app.trace_link_delivery ORDER BY id");
+        var state=jdbc.queryForList("SELECT * FROM app.trace_link_episode_state ORDER BY state_key");
+        var release=new CountDownLatch(1);var entered=new CountDownLatch(1);
+        var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor();
+        var server=com.sun.net.httpserver.HttpServer.create(new java.net.InetSocketAddress("127.0.0.1",0),0);
+        server.createContext("/internal/inference/trace-link",exchange->{
+            exchange.getRequestBody().readAllBytes();
+            try {
+                exchange.sendResponseHeaders(200,0);exchange.getResponseBody().write('{');exchange.getResponseBody().flush();entered.countDown();
+                try {release.await(5,TimeUnit.SECONDS);}catch(InterruptedException interrupted){Thread.currentThread().interrupt();}
+            }finally{exchange.close();}
+        });server.setExecutor(executor);server.start();
+        try {
+            var client=new TraceLinkShadowClient("http://127.0.0.1:"+server.getAddress().getPort(),Clock.systemUTC());
+            assertTrue(worker(client::score).runOnce());
+            assertEquals(0,entered.getCount());assertEquals(1,release.getCount(),"Fallback committed while HTTP body is still blocked");
+            JsonNode payload=JSON.readTree(jdbc.queryForObject("SELECT payload::text FROM app.trace_link_shadow_result",String.class));
+            assertEquals("FALLBACK",payload.path("status").asText());assertEquals("TIMEOUT",payload.path("reason").asText());
+            assertTrue(payload.path("response").isNull());assertEquals(0,client.active());
+            assertEquals(before,jdbc.queryForList("SELECT * FROM app.trace_link_delivery ORDER BY id"));
+            assertEquals(state,jdbc.queryForList("SELECT * FROM app.trace_link_episode_state ORDER BY state_key"));
+            assertFalse(worker(client::score).runOnce(),"Restart must retain the committed timeout result");
+        }finally{release.countDown();server.stop(0);executor.close();}
+    }
     @Test void acceptedScoresAreAuditedForEveryDomainWithoutChangingDetections() throws Exception {
         seedAll();var before=jdbc.queryForList("SELECT * FROM app.trace_link_delivery ORDER BY id");
         JsonNode pin;

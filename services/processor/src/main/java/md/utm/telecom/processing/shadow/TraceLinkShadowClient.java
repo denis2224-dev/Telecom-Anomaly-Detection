@@ -12,6 +12,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /** Independent bounded inference; accepted output is never a detector input. */
 public final class TraceLinkShadowClient {
@@ -42,12 +46,18 @@ public final class TraceLinkShadowClient {
         catch(RuntimeException invalid) { return Result.failure("INELIGIBLE","INVALID_REQUEST",elapsed(started)); }
         if(!request.path("features").path("eligible").asBoolean()) return Result.failure("INELIGIBLE","NO_VALID_FRESH_REQUIRED_METRIC",elapsed(started));
         if(!permits.tryAcquire()) return Result.failure("FALLBACK","SATURATED",elapsed(started));
+        CompletableFuture<HttpResponse<String>> exchange=null;
         try {
             long remaining=250_000_000L-(System.nanoTime()-started);
             if(remaining<=0)return Result.failure("FALLBACK","TIMEOUT",elapsed(started));
             var call=HttpRequest.newBuilder(endpoint).timeout(Duration.ofNanos(remaining)).header("Content-Type","application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(request.toString())).build();
-            var response=http.send(call,HttpResponse.BodyHandlers.ofString());
+            // HttpRequest.timeout alone does not bound a headers-first stalled body.
+            // The future completes only after ofString has consumed the entire body.
+            exchange=http.sendAsync(call,HttpResponse.BodyHandlers.ofString());
+            remaining=BUDGET.toNanos()-(System.nanoTime()-started);
+            if(remaining<=0)return Result.failure("FALLBACK","TIMEOUT",elapsed(started));
+            var response=exchange.get(remaining,TimeUnit.NANOSECONDS);
             if(response.statusCode()!=200) {
                 String reason="HTTP_REJECTED",status="FALLBACK";
                 try {
@@ -75,10 +85,14 @@ public final class TraceLinkShadowClient {
                 return Result.failure("FALLBACK","STALE_RESPONSE",elapsed(started));
             if(elapsed(started)>250)return Result.failure("FALLBACK","EXCESSIVE_LATENCY",elapsed(started));
             return new Result("OK",null,body,elapsed(started));
-        } catch(HttpTimeoutException timeout) { return Result.failure("FALLBACK","TIMEOUT",elapsed(started)); }
+        } catch(TimeoutException timeout) { return Result.failure("FALLBACK","TIMEOUT",elapsed(started)); }
+        catch(ExecutionException failed) { return Result.failure("FALLBACK",failed.getCause() instanceof HttpTimeoutException?"TIMEOUT":"CONNECTION_UNAVAILABLE",elapsed(started)); }
         catch(InterruptedException interrupted) { Thread.currentThread().interrupt();return Result.failure("FALLBACK","INTERRUPTED",elapsed(started)); }
         catch(Exception unavailable) { return Result.failure("FALLBACK","CONNECTION_UNAVAILABLE",elapsed(started)); }
-        finally { permits.release(); }
+        finally {
+            if(exchange!=null && !exchange.isDone())exchange.cancel(true);
+            permits.release();
+        }
     }
     private static double elapsed(long start) { return (System.nanoTime()-start)/1_000_000.0; }
 }

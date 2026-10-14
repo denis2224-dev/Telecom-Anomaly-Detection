@@ -26,6 +26,38 @@ class TraceLinkShadowClientTest {
                 .put("inferenceStatus","OK").put("anomalyScore",.83).put("label","TRANSPORT_DEGRADATION")
                 .put("latencyMs",1).put("generatedAt",Clock.systemUTC().instant().toString());body.putArray("featureContributions");return body;
     }
+    @Test void deadlineIncludesHeadersFirstStalledBodyAndReleasesPermit() throws Exception {
+        var stalled=new java.util.concurrent.CountDownLatch(1);
+        var release=new java.util.concurrent.CountDownLatch(1);
+        var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor();
+        var server=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
+        var stall=new java.util.concurrent.atomic.AtomicBoolean(true);
+        server.createContext("/internal/inference/trace-link",exchange->{
+            ObjectNode input=(ObjectNode)JSON.readTree(exchange.getRequestBody());
+            try {
+                if(stall.get()) {
+                    exchange.sendResponseHeaders(200,0);
+                    exchange.getResponseBody().write('{');exchange.getResponseBody().flush();stalled.countDown();
+                    try {release.await(2,java.util.concurrent.TimeUnit.SECONDS);}
+                    catch(InterruptedException interrupted){Thread.currentThread().interrupt();}
+                } else {
+                    byte[] bytes=response(input).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
+                    exchange.sendResponseHeaders(200,bytes.length);exchange.getResponseBody().write(bytes);
+                }
+            } finally {exchange.close();}
+        });server.setExecutor(executor);server.start();
+        try {
+            var permits=new Semaphore(8);
+            var client=new TraceLinkShadowClient("http://127.0.0.1:"+server.getAddress().getPort(),Clock.systemUTC(),HttpClient.newHttpClient(),permits);
+            var result=client.score(request());
+            assertEquals(0,stalled.getCount(),"The server delivered headers and a body byte");
+            assertEquals("TIMEOUT",result.reason());assertEquals("FALLBACK",result.status());assertNull(result.response());
+            assertTrue(result.latencyMs()<600,"Full body deadline: "+result.latencyMs());
+            assertEquals(8,permits.availablePermits());assertEquals(0,client.active());
+            // The original handler is still stalled; a new request must nevertheless work.
+            stall.set(false);assertEquals("OK",client.score(request()).status());
+        } finally {release.countDown();server.stop(0);executor.close();}
+    }
     @Test void acceptsBoundIdentityAndRejectsFailureMatrixWithoutScores() throws Exception {
         var server=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
         var mode=new java.util.concurrent.atomic.AtomicReference<>("OK");
