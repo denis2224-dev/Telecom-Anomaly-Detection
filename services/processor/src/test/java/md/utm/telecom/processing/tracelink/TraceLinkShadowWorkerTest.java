@@ -50,7 +50,7 @@ class TraceLinkShadowWorkerTest {
         seedAll();var before=jdbc.queryForList("SELECT * FROM app.trace_link_delivery ORDER BY id");
         var state=jdbc.queryForList("SELECT * FROM app.trace_link_episode_state ORDER BY state_key");
         var failures=List.of("TIMEOUT","CONNECTION_UNAVAILABLE","HTTP_REJECTED","MODEL_UNAVAILABLE","MALFORMED_RESPONSE",
-                "NONFINITE_SCORE","IDENTITY_MISMATCH","MODEL_MISMATCH","STALE_RESPONSE","SATURATED");
+                "NONFINITE_SCORE","IDENTITY_MISMATCH","MODEL_MISMATCH","STALE_RESPONSE","SATURATED","RESPONSE_TOO_LARGE");
         var index=new java.util.concurrent.atomic.AtomicInteger();
         var shadow=worker(r->TraceLinkShadowClient.Result.failure("FALLBACK",failures.get(index.getAndIncrement()%failures.size()),250));
         int count=0;while(shadow.runOnce())count++;
@@ -121,6 +121,32 @@ class TraceLinkShadowWorkerTest {
             assertEquals(state,jdbc.queryForList("SELECT * FROM app.trace_link_episode_state ORDER BY state_key"));
             assertFalse(worker(client::score).runOnce(),"Restart must retain the committed timeout result");
         }finally{release.countDown();server.stop(0);executor.close();}
+    }
+    @Test void realOversizedErrorBodyCommitsScoreFreeFallbackAndRetainsItAcrossRestart() throws Exception {
+        store.save(windows.get(0).path("input"));assertTrue(detector.runOnce());
+        var before=jdbc.queryForList("SELECT * FROM app.trace_link_delivery ORDER BY id");
+        var state=jdbc.queryForList("SELECT * FROM app.trace_link_episode_state ORDER BY state_key");
+        var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor();
+        var server=com.sun.net.httpserver.HttpServer.create(new java.net.InetSocketAddress("127.0.0.1",0),0);
+        byte[] attack=("["+"{},".repeat(2_000_000)+"{}]").getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        server.createContext("/internal/inference/trace-link",exchange->{
+            exchange.getRequestBody().readAllBytes();
+            try{exchange.sendResponseHeaders(503,0);exchange.getResponseBody().write(attack);}
+            catch(java.io.IOException cancelled){ /* Client cancels at the byte cap. */ }
+            finally{exchange.close();}
+        });server.setExecutor(executor);server.start();
+        try {
+            var client=new TraceLinkShadowClient("http://127.0.0.1:"+server.getAddress().getPort(),Clock.systemUTC());
+            assertTrue(worker(client::score).runOnce());
+            JsonNode payload=JSON.readTree(jdbc.queryForObject("SELECT payload::text FROM app.trace_link_shadow_result",String.class));
+            assertEquals("FALLBACK",payload.path("status").asText());assertEquals("RESPONSE_TOO_LARGE",payload.path("reason").asText());
+            assertTrue(payload.path("response").isNull());assertEquals(0,client.active());
+            assertTrue(payload.path("latencyMs").asDouble()<600);
+            assertFalse(worker(client::score).runOnce());
+            assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM app.trace_link_shadow_result",Integer.class));
+            assertEquals(before,jdbc.queryForList("SELECT * FROM app.trace_link_delivery ORDER BY id"));
+            assertEquals(state,jdbc.queryForList("SELECT * FROM app.trace_link_episode_state ORDER BY state_key"));
+        }finally{server.stop(0);executor.close();}
     }
     @Test void acceptedScoresAreAuditedForEveryDomainWithoutChangingDetections() throws Exception {
         seedAll();var before=jdbc.queryForList("SELECT * FROM app.trace_link_delivery ORDER BY id");

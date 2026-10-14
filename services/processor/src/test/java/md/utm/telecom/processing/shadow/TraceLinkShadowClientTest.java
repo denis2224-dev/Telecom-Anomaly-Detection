@@ -26,6 +26,68 @@ class TraceLinkShadowClientTest {
                 .put("inferenceStatus","OK").put("anomalyScore",.83).put("label","TRANSPORT_DEGRADATION")
                 .put("latencyMs",1).put("generatedAt",Clock.systemUTC().instant().toString());body.putArray("featureContributions");return body;
     }
+    @Test void oversizedSuccessAndErrorBodiesAreRejectedBeforeBufferingAndDecoding() throws Exception {
+        byte[] attack=("["+"{},".repeat(2_000_000)+"{}]").getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        var mode=new java.util.concurrent.atomic.AtomicReference<>("OK");
+        var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor();
+        var server=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
+        server.createContext("/internal/inference/trace-link",exchange->{
+            ObjectNode input=(ObjectNode)JSON.readTree(exchange.getRequestBody());String selected=mode.get();
+            byte[] bytes=selected.equals("OK")?response(input).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8):attack;
+            try {
+                exchange.sendResponseHeaders(selected.startsWith("ERROR")?503:200,selected.endsWith("CHUNKED")?0:bytes.length);
+                exchange.getResponseBody().write(bytes);
+            }catch(java.io.IOException cancelled){ /* Overflow must cancel the server's response stream. */ }
+            finally{exchange.close();}
+        });server.setExecutor(executor);server.start();
+        try {
+            var permits=new Semaphore(8);
+            var client=new TraceLinkShadowClient("http://127.0.0.1:"+server.getAddress().getPort(),Clock.systemUTC(),HttpClient.newHttpClient(),permits);
+            assertEquals("OK",client.score(request()).status());
+            for(String selected:java.util.List.of("SUCCESS_FIXED","SUCCESS_CHUNKED","ERROR_FIXED","ERROR_CHUNKED")) {
+                mode.set(selected);var result=client.score(request());
+                System.out.println(selected+" 6000004 bytes: "+result.reason()+" at "+result.latencyMs()+" ms; permits="+permits.availablePermits());
+                assertEquals("RESPONSE_TOO_LARGE",result.reason(),selected);
+                assertEquals("FALLBACK",result.status());assertNull(result.response());
+                assertTrue(result.latencyMs()<600,"Oversized response retained worker: "+result.latencyMs());
+                assertEquals(8,permits.availablePermits());assertEquals(0,client.active());
+                mode.set("OK");assertEquals("OK",client.score(request()).status(),"Permit reuse after "+selected);
+            }
+        }finally{server.stop(0);executor.close();}
+    }
+    @Test void exactByteBoundaryAndJsonComplexityLimitsPreservePermitReuse() throws Exception {
+        var selected=new java.util.concurrent.atomic.AtomicReference<>("OK");
+        var executor=java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor();
+        var server=HttpServer.create(new InetSocketAddress("127.0.0.1",0),0);
+        server.createContext("/internal/inference/trace-link",exchange->{
+            ObjectNode input=(ObjectNode)JSON.readTree(exchange.getRequestBody());String valid=response(input).toString();
+            String output=switch(selected.get()) {
+                case "EXACT" -> valid+" ".repeat(TraceLinkResponseBody.MAX_BYTES-valid.getBytes(java.nio.charset.StandardCharsets.UTF_8).length);
+                case "OVER" -> valid+" ".repeat(TraceLinkResponseBody.MAX_BYTES+1-valid.getBytes(java.nio.charset.StandardCharsets.UTF_8).length);
+                case "DEPTH" -> "{\"x\":"+"[".repeat(20)+"0"+"]".repeat(20)+"}";
+                case "TOKENS" -> "{\"x\":["+"0,".repeat(600)+"0]}";
+                case "STRING" -> "{\"x\":\""+"a".repeat(2049)+"\"}";
+                case "NUMBER" -> "{\"x\":"+"1".repeat(65)+"}";
+                case "DUPLICATE" -> "{\"x\":0,\"x\":1}";
+                case "TRAILING" -> valid+"{}";
+                default -> valid;
+            };
+            try {exchange.sendResponseHeaders(200,0);exchange.getResponseBody().write(output.getBytes(java.nio.charset.StandardCharsets.UTF_8));}
+            catch(java.io.IOException cancelled){ /* Over-limit body rejected before EOF. */ }
+            finally{exchange.close();}
+        });server.setExecutor(executor);server.start();
+        try {
+            var client=new TraceLinkShadowClient("http://127.0.0.1:"+server.getAddress().getPort(),Clock.systemUTC());
+            assertEquals("OK",client.score(request()).status());
+            selected.set("EXACT");assertEquals("OK",client.score(request()).status(),"A valid response at the exact byte cap is accepted");
+            for(String failure:java.util.List.of("OVER","DEPTH","TOKENS","STRING","NUMBER","DUPLICATE","TRAILING")) {
+                selected.set(failure);var result=client.score(request());
+                assertEquals(failure.equals("OVER")?"RESPONSE_TOO_LARGE":"MALFORMED_RESPONSE",result.reason(),failure);
+                assertEquals("FALLBACK",result.status());assertNull(result.response());assertEquals(0,client.active());
+                selected.set("OK");assertEquals("OK",client.score(request()).status(),failure);
+            }
+        }finally{server.stop(0);executor.close();}
+    }
     @Test void deadlineIncludesHeadersFirstStalledBodyAndReleasesPermit() throws Exception {
         var stalled=new java.util.concurrent.CountDownLatch(1);
         var release=new java.util.concurrent.CountDownLatch(1);
