@@ -80,6 +80,7 @@ app:
       coverage: ${KAFKA_COVERAGE_TOPIC:telecom.coverage.v1}
       domain-detections: ${KAFKA_TRACE_DOMAIN_DETECTIONS_TOPIC:telecom.trace-domain.detections.v1}
   simulator:
+    trace-link-scenarios-enabled: ${TRACE_LINK_SCENARIOS_ENABLED:false}
     generator-base-url: ${GENERATOR_BASE_URL:http://127.0.0.1:${GENERATOR_HOST_PORT:8081}}
     reconcile-ms: 5000
   notifications:
