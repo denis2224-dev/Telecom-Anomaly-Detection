@@ -769,6 +769,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/simulator/scenario-definitions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listScenarioDefinitions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1211,7 +1227,7 @@ export interface components {
             /** Format: date-time */
             scheduledEndAt: string;
             /** @enum {string} */
-            scenarioType: "VOLTE_IMS_OVERLOAD" | "SMS_QUEUE_DELAY" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+            scenarioType: "VOLTE_SETUP_FAILURE" | "VOLTE_SETUP_DELAY" | "VOLTE_MEDIA_QUALITY" | "VOLTE_HANDOVER_FAILURE" | "TRANSPORT_LINK_OVERLOAD" | "TRANSPORT_PACKET_LOSS" | "TRANSPORT_RTT_INCREASE" | "TRANSPORT_CAPACITY_REDUCTION" | "ROAMING_REGISTRATION_FAILURE" | "ROAMING_DATA_FAILURE" | "ROAMING_PARTNER_DEGRADATION" | "MOBILE_DATA_ACTIVATION_FAILURE" | "MOBILE_DATA_DNS_FAILURE" | "SMS_DELIVERY_DELAY" | "SMS_QUEUE_CONGESTION" | "SMS_ROUTE_FAILURE" | "NORMAL_CONTROL" | "TELEMETRY_GAP" | "VOLTE_IMS_OVERLOAD" | "SMS_QUEUE_DELAY";
             scopeId: string;
         };
         ServiceKpiPage: {
@@ -2342,7 +2358,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                type: "VOLTE_IMS_OVERLOAD" | "SMS_QUEUE_DELAY" | "NORMAL_CONTROL" | "TELEMETRY_GAP";
+                type: "VOLTE_SETUP_FAILURE" | "VOLTE_SETUP_DELAY" | "VOLTE_MEDIA_QUALITY" | "VOLTE_HANDOVER_FAILURE" | "TRANSPORT_LINK_OVERLOAD" | "TRANSPORT_PACKET_LOSS" | "TRANSPORT_RTT_INCREASE" | "TRANSPORT_CAPACITY_REDUCTION" | "ROAMING_REGISTRATION_FAILURE" | "ROAMING_DATA_FAILURE" | "ROAMING_PARTNER_DEGRADATION" | "MOBILE_DATA_ACTIVATION_FAILURE" | "MOBILE_DATA_DNS_FAILURE" | "SMS_DELIVERY_DELAY" | "SMS_QUEUE_CONGESTION" | "SMS_ROUTE_FAILURE" | "NORMAL_CONTROL" | "TELEMETRY_GAP" | "VOLTE_IMS_OVERLOAD" | "SMS_QUEUE_DELAY";
             };
             cookie?: never;
         };
@@ -2688,7 +2704,17 @@ export interface operations {
                     "text/csv": string;
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            /** @description Source contract mismatch */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     listNotifications: {
@@ -2758,7 +2784,9 @@ export interface operations {
                     "application/json": components["schemas"]["PushConfig"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
         };
     };
     upsertPushSubscription: {
@@ -2779,10 +2807,23 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        id: string;
+                    };
+                };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
+            /** @description Push disabled, subscription limit, or endpoint owned by another analyst */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     deletePushSubscription: {
@@ -2803,6 +2844,7 @@ export interface operations {
                 };
                 content?: never;
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
@@ -2831,6 +2873,37 @@ export interface operations {
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
+        };
+    };
+    listScenarioDefinitions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented public scenario definitions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        type: string;
+                        scopeTypes: string[];
+                        /** @enum {integer} */
+                        durationSeconds: 480;
+                        /** @enum {integer} */
+                        minimumSeed: 0;
+                        /** @enum {integer} */
+                        maximumConcurrentPerScope: 1;
+                    }[];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
         };
     };
 }
