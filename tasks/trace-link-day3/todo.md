@@ -25,15 +25,15 @@ are historical and do not constitute fresh verification of the corrected source.
 
 - [x] Freeze correction ownership, migration sequence and incident-view contract.
 - [x] Correct workflow scope claims and distinguish historical measurement evidence.
-- [ ] Integrate main without losing either implementation's APIs, config, contracts or tests.
-- [ ] Preserve main incident V001–V010; add detector V011 with non-null detected_at.
-- [ ] Verify populated main-to-V011 upgrade, fresh install, validation, idempotency, rows, checksums and grants.
-- [ ] Verify processor fresh V001–V017 and populated V016-to-V017 upgrade with prior bytes unchanged.
-- [ ] Persist first breach and initial OPEN evaluation; expose stable incident-view fields.
-- [ ] Verify timestamp/replay/reorder/restart/rollback/security regressions and unchanged evidence.
-- [ ] Update both OpenAPI copies and regenerate/check dashboard types.
-- [ ] Run final Python/reactor/separate receiver/dashboard/browser/config checks and record skips/failures.
-- [ ] Package new correction verification evidence and close findings against exact source commits.
+- [x] Integrate main without losing either implementation's APIs, config, contracts or tests.
+- [x] Preserve main incident V001–V010; add detector V011 with non-null detected_at.
+- [x] Verify populated main-to-V011 upgrade, fresh install, validation, idempotency, rows, checksums and grants.
+- [x] Verify processor fresh V001–V017 and populated V016-to-V017 upgrade with prior bytes unchanged.
+- [x] Persist first breach and initial OPEN evaluation; expose stable incident-view fields.
+- [x] Verify timestamp/replay/reorder/restart/rollback/security regressions and unchanged evidence.
+- [x] Update both OpenAPI copies and regenerate/check dashboard types.
+- [x] Run final Python/reactor/separate receiver/dashboard/browser/config checks and record skips/failures.
+- [x] Package new correction verification evidence and close findings against exact source commits.
 - [ ] Independently accept corrected PR #104 as a disabled technical foundation.
 - [ ] Approve a contract for analyst identity/workflow integration (outside this correction).
 

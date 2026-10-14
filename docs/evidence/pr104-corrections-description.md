@@ -1,7 +1,9 @@
 # PR #104 description — review corrections
 
-Publication draft; verification placeholders below must be replaced with actual
-results before posting. This file does not publish or approve the PR.
+**Title:** Fix Trace Link integration, incident timestamps and technical-only scope
+
+Ready for independent review and manual publication. This file does not publish
+or approve the PR.
 
 ## Summary
 
@@ -21,10 +23,18 @@ separately versioned synthetic policy.
 
 ## Validation
 
-Fresh correction verification: **PENDING**. Record final source commits, suite
-results, migration checks, generated API/dashboard/browser checks and explicit
-skips from the [correction report](2026-10-14-trace-link-day3-corrections.md).
-Historical test/measurement counts are not fresh correction results.
+Verified implementation `67aa3a50cd742719def549d33590a1fc60ccffe9` against pinned main `9db3e0e`:
+
+- Root Python 174 tests and ML Python 74 tests pass, with no skips.
+- Root Maven: 1380 tests, 0 failures, 0 errors, 8 skips. Separate receiver: 188 tests, 0 failures, 0 errors, 1 skip in unit tests and 114 tests, 0 failures, 0 errors, 0 skips in integration tests. Skips are existing external ML/archive/shadow opt-ins, listed in the correction report.
+- Real PostgreSQL fresh/populated upgrades preserve 26 prior main migrations, rows and grants; repeat migration is a no-op.
+- Timestamp, API/auth/bounds, restart/reordered replay and real Kafka ACK/mark recovery regressions pass. Fresh replay reconciles 21 unique detections across 42 deliveries/offsets into three recovered episodes.
+- Contract/frozen-pin/API-generation checks pass; dashboard 181 unit tests, build and 13 affected browser tests pass; Compose structure and whitespace pass.
+
+The initial reactor failure from stale latest-migration assertions and all
+corrected results are preserved in the [correction report](2026-10-14-trace-link-day3-corrections.md).
+The receiving evidence is a separate subsequent replay, not connected capacity.
+No new GitHub CI result or independent approval is claimed.
 
 ## Acceptance boundaries
 

@@ -29,8 +29,8 @@ original implementation review, not resolution of these later findings.
 
 | Demonstrated finding | Correction contract | Fresh verification |
 | --- | --- | --- |
-| P1: alternate incident V006 conflicts with main's applied V006 | Preserve main V001–V010; move the unshipped detector delta to V011; no repair/reset/checksum replacement | Pending coordinator migration regression results |
-| P2: first_observed_at starts at second breach and public reads omit stable onset/detection | Use the validated first-breach anchor and initial OPEN evaluatedAt; return TraceLinkIncidentView while retaining wire evidence | Pending coordinator timestamp/API/restart/replay results |
+| P1: alternate incident V006 conflicts with main's applied V006 | Preserve main V001–V010; move the unshipped detector delta to V011; no repair/reset/checksum replacement | PASS locally: fresh/populated upgrades, validation/no-op, rows, checksums and grants; see dated correction report |
+| P2: first_observed_at starts at second breach and public reads omit stable onset/detection | Use the validated first-breach anchor and initial OPEN evaluatedAt; return TraceLinkIncidentView while retaining wire evidence | PASS locally: maintained red/green DB/API/restart/replay regression and fresh three-domain receiving evidence |
 | P2: report claims analyst workflow for technical-only hash episodes | State read-only technical/evidence scope, unavailable assignment/status/investigation/resolution/workflow audit, and no UUID mapping | Corrected in documentation; workflow implementation remains out of scope |
 
 The source ZIP is evidence supplied by the user, not delegated instructions.
