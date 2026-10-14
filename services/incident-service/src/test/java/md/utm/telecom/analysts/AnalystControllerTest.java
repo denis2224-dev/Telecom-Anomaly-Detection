@@ -80,8 +80,9 @@ class AnalystControllerTest {
 
     @Test
     void anonymousGets401AndInvalidSelectorGets400() throws Exception {
+        Analyst actor = analyst(true);
         when(analysts.findByIssuerAndSubject(ISSUER, "subject-1"))
-                .thenReturn(Optional.of(analyst(true)));
+                .thenReturn(Optional.of(actor));
         mvc.perform(get("/api/analysts")).andExpect(status().isUnauthorized());
         mvc.perform(get("/api/analysts").param("enabled", "nonsense")
                         .session(session()).with(login()))
