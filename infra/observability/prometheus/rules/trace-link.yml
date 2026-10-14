@@ -1,0 +1,20 @@
+groups:
+  - name: trace-link-recording
+    rules:
+      - record: telecom:source:offered_rate:5m
+        expr: sum by (domain) (rate(telecom_generator_observations_offered_total[5m]))
+
+      - record: telecom:source:accepted_rate:5m
+        expr: sum by (domain) (rate(telecom_processor_observations_accepted_total[5m]))
+
+      - record: telecom:processor:window_finalized_rate:5m
+        expr: sum by (domain) (rate(telecom_processor_windows_finalized_total[5m]))
+
+      - record: telecom:detection:published_rate:5m
+        expr: sum by (domain) (rate(telecom_processor_detections_published_total[5m]))
+
+      - record: telecom:api:request_rate:5m
+        expr: sum by (uri) (rate(http_server_requests_seconds_count[5m]))
+
+      - record: telecom:api:error_ratio:5m
+        expr: sum(rate(http_server_requests_seconds_count{status=~"5.."}[5m])) / clamp_min(sum(rate(http_server_requests_seconds_count[5m])), 1)
