@@ -12,7 +12,7 @@ public class MetricDefinitionRegistry {
                     "VoLTE call attempts in the selected city", List.of("numerator", "denominator"),
                     "trace-link-md-policy-v1"),
             new Definition("volte", "volte.setup.success", "PERCENT", "RATIO_OF_SUMS",
-                    "VoLTE setup successes over attempts in the selected city",
+                    "Eligible established calls / eligible network setup attempts in the selected city",
                     List.of("numerator", "denominator"), "trace-link-kpi-v1")
     );
 

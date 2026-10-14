@@ -3149,9 +3149,10 @@ components:
         provenance: {type: array, items: {$ref: '#/components/schemas/TraceProjectionProvenance'}}
     TraceProjectionProvenance:
       type: object
-      required: [projectionId, sourceNaturalId, sourceRowNumber, sourceRowSha256, sourceFile, manifestSha256, generatorVersion, seed, catalogueVersion, importPolicyVersion, sourceQuality, sourceCoverage, quality, qualityReason]
+      required: [sourceNamespace, projectionId, sourceNaturalId, sourceRowNumber, sourceRowSha256, sourceFile, manifestSha256, generatorVersion, seed, catalogueVersion, importPolicyVersion, sourceQuality, sourceCoverage, quality, qualityReason]
       properties:
         projectionId: {type: string}
+        sourceNamespace: {type: string, enum: [trace-link-reference-v1]}
         sourceNaturalId: {type: string}
         sourceRowNumber: {type: integer, format: int64}
         sourceRowSha256: {type: string}

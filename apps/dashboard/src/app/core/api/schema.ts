@@ -2005,6 +2005,8 @@ export interface components {
         };
         TraceProjectionProvenance: {
             projectionId: string;
+            /** @enum {string} */
+            sourceNamespace: "trace-link-reference-v1";
             sourceNaturalId: string;
             /** Format: int64 */
             sourceRowNumber: number;
