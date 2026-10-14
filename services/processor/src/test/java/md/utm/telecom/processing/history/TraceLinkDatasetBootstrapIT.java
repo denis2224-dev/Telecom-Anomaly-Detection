@@ -174,7 +174,7 @@ class TraceLinkDatasetBootstrapIT {
         Flyway.configure().dataSource(upgradeUrl,"processing_migrator","test-migrator").defaultSchema("app").schemas("app").target("13").load().migrate();
         owner.execute("INSERT INTO app.historical_bootstrap VALUES ('preserved','2026-09-01T00:00Z','2026-09-02T00:00Z',42,now())");
         var upgrade = Flyway.configure().dataSource(upgradeUrl,"processing_migrator","test-migrator").defaultSchema("app").schemas("app").load();
-        assertEquals(4,upgrade.migrate().migrationsExecuted); upgrade.validate();
+        assertEquals(5,upgrade.migrate().migrationsExecuted); upgrade.validate();
         assertEquals(1,owner.queryForObject("SELECT count(*) FROM app.historical_bootstrap WHERE bootstrap_id='preserved'",Integer.class));
         String tables = "SELECT tablename FROM pg_tables WHERE schemaname='app' ORDER BY tablename";
         assertEquals(jdbc.queryForList(tables),owner.queryForList(tables));

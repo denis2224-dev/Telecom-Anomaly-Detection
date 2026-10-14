@@ -296,6 +296,7 @@ services:
       REJECTION_DELIVERY_BATCH_SIZE: ${REJECTION_DELIVERY_BATCH_SIZE:-100}
       REJECTION_DELIVERY_POLL_INTERVAL: ${REJECTION_DELIVERY_POLL_INTERVAL:-1000}
       ML_SERVICE_URL: http://ml-service:8090
+      ML_TRACE_LINK_SHADOW_ENABLED: ${ML_TRACE_LINK_SHADOW_ENABLED:-false}
       ML_SMS_SHADOW_ENABLED: ${ML_SMS_SHADOW_ENABLED:-false}
       PROCESSING_DB_URL: jdbc:postgresql://postgres:5432/processing_db?currentSchema=app
       PROCESSING_DB_USER: ${PROCESSING_DB_USER:-processing_app}
@@ -354,6 +355,8 @@ services:
     environment:
       ML_SMS_SHADOW_ENABLED: ${ML_SMS_SHADOW_ENABLED:-false}
       ML_SMS_CANDIDATE_PATH: /app/services/ml-service/candidate-models/sms-supervised-v1-2
+      ML_TRACE_LINK_SHADOW_ENABLED: ${ML_TRACE_LINK_SHADOW_ENABLED:-false}
+      ML_TRACE_LINK_CANDIDATE_PATH: /app/services/ml-service/candidate-models/trace-link-shadow-v1
     expose:
       - "8090"
     healthcheck:

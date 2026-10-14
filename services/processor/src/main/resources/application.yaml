@@ -49,6 +49,10 @@ management:
           include: readinessState,kafka,db
 telecom:
   trace-link:
+    shadow:
+      enabled: ${ML_TRACE_LINK_SHADOW_ENABLED:false}
+      workers: ${ML_TRACE_LINK_SHADOW_WORKERS:2}
+      poll-interval: ${ML_TRACE_LINK_SHADOW_POLL_INTERVAL:1000}
     enabled: ${TRACE_LINK_ENABLED:false}
     workers: ${TRACE_LINK_WORKERS:4}
     mode: ${TRACE_LINK_EVALUATION_MODE:LIVE}

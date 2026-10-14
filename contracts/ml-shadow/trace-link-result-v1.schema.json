@@ -1,0 +1,1942 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "trace-link-shadow-result-v1"
+    },
+    "evidenceId": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "requestedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "requestedModelVersion": {
+          "const": "trace-link-shadow-v1"
+        },
+        "features": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "datasetId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "domain": {
+              "enum": [
+                "TRANSPORT",
+                "ROAMING",
+                "MOBILE_DATA"
+              ]
+            },
+            "scope": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "CITY",
+                    "LINK_DIRECTION",
+                    "PARTNER_DIRECTION",
+                    "DATASET"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "cityIds": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  }
+                },
+                "directionId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "partnerId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "procedure": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "namespace": {
+                  "const": "trace-link-reference-v1"
+                }
+              },
+              "required": [
+                "type",
+                "id",
+                "cityIds",
+                "directionId",
+                "partnerId",
+                "procedure",
+                "namespace"
+              ]
+            },
+            "window": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "from": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "to": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "sourceResolutionSeconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "id",
+                "from",
+                "to",
+                "sourceResolutionSeconds"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "topologyVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "schemaVersion": {
+                    "const": 1
+                  },
+                  "evidenceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "measurementId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "metricId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "unit": {
+                    "enum": [
+                      "COUNT",
+                      "PERCENT",
+                      "ERLANG",
+                      "SECONDS",
+                      "MILLISECONDS",
+                      "GBPS",
+                      "BYTES",
+                      "MBPS",
+                      "STATE"
+                    ]
+                  },
+                  "policyVersion": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "primitives": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "RATIO"
+                          },
+                          "numerator": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "denominator": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "numerator",
+                          "denominator"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "SUM_COUNT"
+                          },
+                          "sum": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "count": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "sum",
+                          "count"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "HISTOGRAM"
+                          },
+                          "histogram": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "schemaVersion": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 160
+                              },
+                              "unit": {
+                                "const": "SECONDS"
+                              },
+                              "representation": {
+                                "const": "NON_CUMULATIVE_FINITE_BINS"
+                              },
+                              "edges": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "number",
+                                  "minimum": 0
+                                }
+                              },
+                              "counts": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 9007199254740991
+                                }
+                              }
+                            },
+                            "required": [
+                              "schemaVersion",
+                              "unit",
+                              "representation",
+                              "edges",
+                              "counts"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "histogram"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "SNAPSHOT"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "snapshotAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "Z$"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "value",
+                          "snapshotAt"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "COUNT"
+                          },
+                          "count": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "count"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "TIME_WEIGHTED"
+                          },
+                          "weightedSum": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "validSeconds": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "weightedSum",
+                          "validSeconds"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "STATE"
+                          },
+                          "state": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "Z$"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "state",
+                          "at"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "SNAPSHOT_DIFFERENCE"
+                          },
+                          "start": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "end": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "start",
+                          "end"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "MAXIMUM"
+                          },
+                          "max": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "max"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "actual": {
+                    "type": [
+                      "number",
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "baseline": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "baselineVersion": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "threshold": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "deviation": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "coverage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "freshness": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "state": {
+                        "enum": [
+                          "FRESH",
+                          "STALE",
+                          "UNKNOWN"
+                        ]
+                      },
+                      "observedAt": {
+                        "oneOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "Z$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "asOf": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      },
+                      "sourceAgeSeconds": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "maxAgeSeconds": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "state",
+                      "observedAt",
+                      "asOf",
+                      "sourceAgeSeconds",
+                      "maxAgeSeconds"
+                    ]
+                  },
+                  "scope": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "CITY",
+                          "LINK_DIRECTION",
+                          "PARTNER_DIRECTION",
+                          "DATASET"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "cityIds": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        }
+                      },
+                      "directionId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "partnerId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "procedure": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "namespace": {
+                        "const": "trace-link-reference-v1"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id",
+                      "cityIds",
+                      "directionId",
+                      "partnerId",
+                      "procedure",
+                      "namespace"
+                    ]
+                  },
+                  "window": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "from": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      },
+                      "to": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      },
+                      "sourceResolutionSeconds": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "from",
+                      "to",
+                      "sourceResolutionSeconds"
+                    ]
+                  },
+                  "quality": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "state": {
+                        "enum": [
+                          "VALID",
+                          "INSUFFICIENT_EVIDENCE",
+                          "MISSING",
+                          "STALE",
+                          "PARTIAL"
+                        ]
+                      },
+                      "reason": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      }
+                    },
+                    "required": [
+                      "state",
+                      "reason"
+                    ]
+                  },
+                  "dependencyRelationId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "dependency": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "relationId": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "scopeId": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "topologyVersion": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "from": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "Z$"
+                          },
+                          "to": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "Z$"
+                          },
+                          "quality": {
+                            "enum": [
+                              "VALID",
+                              "MISSING",
+                              "STALE"
+                            ]
+                          },
+                          "fresh": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "relationId",
+                          "scopeId",
+                          "topologyVersion",
+                          "from",
+                          "to",
+                          "quality",
+                          "fresh"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "topologyVersion": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "ruleVersion": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "modelVersion": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "provenance": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "datasetId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "synthetic": {
+                        "const": true
+                      },
+                      "origin": {
+                        "enum": [
+                          "HAND_CALCULATED",
+                          "REFERENCE_CSV",
+                          "REFERENCE_ENGINE",
+                          "NATIVE_OBSERVATION"
+                        ]
+                      },
+                      "sourceChecksum": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "pattern": "^[a-f0-9]{64}$"
+                      }
+                    },
+                    "required": [
+                      "datasetId",
+                      "synthetic",
+                      "origin",
+                      "sourceChecksum"
+                    ],
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "origin": {
+                              "not": {
+                                "const": "NATIVE_OBSERVATION"
+                              }
+                            }
+                          }
+                        },
+                        "then": {
+                          "properties": {
+                            "datasetId": {
+                              "const": "trace-link-md-30d-v1"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "observedRevision": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "generatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  }
+                },
+                "required": [
+                  "schemaVersion",
+                  "evidenceId",
+                  "measurementId",
+                  "metricId",
+                  "unit",
+                  "policyVersion",
+                  "primitives",
+                  "actual",
+                  "baseline",
+                  "baselineVersion",
+                  "threshold",
+                  "deviation",
+                  "coverage",
+                  "freshness",
+                  "scope",
+                  "window",
+                  "quality",
+                  "dependencyRelationId",
+                  "dependency",
+                  "topologyVersion",
+                  "ruleVersion",
+                  "modelVersion",
+                  "provenance",
+                  "observedRevision",
+                  "generatedAt"
+                ],
+                "title": "Trace Link Day 1 evidence v1 (contract only)",
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "quality": {
+                          "properties": {
+                            "state": {
+                              "const": "VALID"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "coverage": {
+                          "const": 1
+                        },
+                        "freshness": {
+                          "properties": {
+                            "state": {
+                              "enum": [
+                                "FRESH"
+                              ]
+                            }
+                          }
+                        },
+                        "primitives": {
+                          "type": "object"
+                        },
+                        "actual": {
+                          "type": [
+                            "number",
+                            "string"
+                          ]
+                        },
+                        "quality": {
+                          "properties": {
+                            "reason": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "quality": {
+                          "properties": {
+                            "state": {
+                              "const": "PARTIAL"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "coverage": {
+                          "exclusiveMinimum": 0,
+                          "exclusiveMaximum": 1
+                        },
+                        "freshness": {
+                          "properties": {
+                            "state": {
+                              "enum": [
+                                "FRESH"
+                              ]
+                            }
+                          }
+                        },
+                        "primitives": {
+                          "type": "object"
+                        },
+                        "actual": {
+                          "type": [
+                            "number",
+                            "string"
+                          ]
+                        },
+                        "quality": {
+                          "properties": {
+                            "reason": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "quality": {
+                          "properties": {
+                            "state": {
+                              "const": "MISSING"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "coverage": {
+                          "const": 0
+                        },
+                        "freshness": {
+                          "properties": {
+                            "state": {
+                              "enum": [
+                                "UNKNOWN"
+                              ]
+                            }
+                          }
+                        },
+                        "primitives": {
+                          "type": "null"
+                        },
+                        "actual": {
+                          "type": "null"
+                        },
+                        "quality": {
+                          "properties": {
+                            "reason": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "quality": {
+                          "properties": {
+                            "state": {
+                              "const": "STALE"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "coverage": {},
+                        "freshness": {
+                          "properties": {
+                            "state": {
+                              "enum": [
+                                "STALE"
+                              ]
+                            }
+                          }
+                        },
+                        "primitives": {
+                          "type": "object"
+                        },
+                        "actual": {},
+                        "quality": {
+                          "properties": {
+                            "reason": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "quality": {
+                          "properties": {
+                            "state": {
+                              "const": "INSUFFICIENT_EVIDENCE"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "coverage": {},
+                        "freshness": {
+                          "properties": {
+                            "state": {
+                              "enum": [
+                                "FRESH",
+                                "UNKNOWN"
+                              ]
+                            }
+                          }
+                        },
+                        "primitives": {},
+                        "actual": {
+                          "type": "null"
+                        },
+                        "quality": {
+                          "properties": {
+                            "reason": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "baselines": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "center",
+                  "mad",
+                  "sourceScope",
+                  "baselineVersion",
+                  "policyVersion",
+                  "trainingFrom",
+                  "trainingTo",
+                  "coverage",
+                  "reason"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "DIRECT",
+                      "PEER",
+                      "STATIC",
+                      "BASELINE_UNAVAILABLE"
+                    ]
+                  },
+                  "center": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "mad": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "sourceScope": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "enum": [
+                              "CITY",
+                              "LINK_DIRECTION",
+                              "PARTNER_DIRECTION",
+                              "DATASET"
+                            ]
+                          },
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "cityIds": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 160
+                            }
+                          },
+                          "directionId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "partnerId": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "procedure": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "namespace": {
+                            "const": "trace-link-reference-v1"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "id",
+                          "cityIds",
+                          "directionId",
+                          "partnerId",
+                          "procedure",
+                          "namespace"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "baselineVersion": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "policyVersion": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "trainingFrom": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "trainingTo": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "coverage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "reason": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "featureSchemaVersion": {
+              "const": "trace-link-features-v1"
+            },
+            "evaluatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "featureNames": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "featureValues": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "minItems": 1
+            },
+            "eligible": {
+              "type": "boolean"
+            },
+            "reasonCodes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "datasetId",
+            "domain",
+            "scope",
+            "window",
+            "revision",
+            "topologyVersion",
+            "evidence",
+            "baselines",
+            "featureSchemaVersion",
+            "evaluatedAt",
+            "featureNames",
+            "featureValues",
+            "eligible",
+            "reasonCodes"
+          ],
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "domain": {
+                    "const": "TRANSPORT"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "featureNames": {
+                    "const": [
+                      "transport.link.utilization.actual",
+                      "transport.link.utilization.actual.available",
+                      "transport.link.utilization.numerator",
+                      "transport.link.utilization.numerator.available",
+                      "transport.link.utilization.denominator",
+                      "transport.link.utilization.denominator.available",
+                      "transport.link.utilization.sum",
+                      "transport.link.utilization.sum.available",
+                      "transport.link.utilization.count",
+                      "transport.link.utilization.count.available",
+                      "transport.link.utilization.residual",
+                      "transport.link.utilization.residual.available",
+                      "transport.link.utilization.coverage",
+                      "transport.link.utilization.coverage.available",
+                      "transport.link.utilization.sourceAgeSeconds",
+                      "transport.link.utilization.sourceAgeSeconds.available",
+                      "transport.packetLoss.actual",
+                      "transport.packetLoss.actual.available",
+                      "transport.packetLoss.numerator",
+                      "transport.packetLoss.numerator.available",
+                      "transport.packetLoss.denominator",
+                      "transport.packetLoss.denominator.available",
+                      "transport.packetLoss.sum",
+                      "transport.packetLoss.sum.available",
+                      "transport.packetLoss.count",
+                      "transport.packetLoss.count.available",
+                      "transport.packetLoss.residual",
+                      "transport.packetLoss.residual.available",
+                      "transport.packetLoss.coverage",
+                      "transport.packetLoss.coverage.available",
+                      "transport.packetLoss.sourceAgeSeconds",
+                      "transport.packetLoss.sourceAgeSeconds.available",
+                      "transport.rtt.mean.actual",
+                      "transport.rtt.mean.actual.available",
+                      "transport.rtt.mean.numerator",
+                      "transport.rtt.mean.numerator.available",
+                      "transport.rtt.mean.denominator",
+                      "transport.rtt.mean.denominator.available",
+                      "transport.rtt.mean.sum",
+                      "transport.rtt.mean.sum.available",
+                      "transport.rtt.mean.count",
+                      "transport.rtt.mean.count.available",
+                      "transport.rtt.mean.residual",
+                      "transport.rtt.mean.residual.available",
+                      "transport.rtt.mean.coverage",
+                      "transport.rtt.mean.coverage.available",
+                      "transport.rtt.mean.sourceAgeSeconds",
+                      "transport.rtt.mean.sourceAgeSeconds.available",
+                      "transport.jitter.actual",
+                      "transport.jitter.actual.available",
+                      "transport.jitter.numerator",
+                      "transport.jitter.numerator.available",
+                      "transport.jitter.denominator",
+                      "transport.jitter.denominator.available",
+                      "transport.jitter.sum",
+                      "transport.jitter.sum.available",
+                      "transport.jitter.count",
+                      "transport.jitter.count.available",
+                      "transport.jitter.residual",
+                      "transport.jitter.residual.available",
+                      "transport.jitter.coverage",
+                      "transport.jitter.coverage.available",
+                      "transport.jitter.sourceAgeSeconds",
+                      "transport.jitter.sourceAgeSeconds.available"
+                    ]
+                  },
+                  "featureValues": {
+                    "minItems": 64,
+                    "maxItems": 64
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "domain": {
+                    "const": "ROAMING"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "featureNames": {
+                    "const": [
+                      "roaming.registration.success.actual",
+                      "roaming.registration.success.actual.available",
+                      "roaming.registration.success.numerator",
+                      "roaming.registration.success.numerator.available",
+                      "roaming.registration.success.denominator",
+                      "roaming.registration.success.denominator.available",
+                      "roaming.registration.success.sum",
+                      "roaming.registration.success.sum.available",
+                      "roaming.registration.success.count",
+                      "roaming.registration.success.count.available",
+                      "roaming.registration.success.residual",
+                      "roaming.registration.success.residual.available",
+                      "roaming.registration.success.coverage",
+                      "roaming.registration.success.coverage.available",
+                      "roaming.registration.success.sourceAgeSeconds",
+                      "roaming.registration.success.sourceAgeSeconds.available",
+                      "roaming.data.success.actual",
+                      "roaming.data.success.actual.available",
+                      "roaming.data.success.numerator",
+                      "roaming.data.success.numerator.available",
+                      "roaming.data.success.denominator",
+                      "roaming.data.success.denominator.available",
+                      "roaming.data.success.sum",
+                      "roaming.data.success.sum.available",
+                      "roaming.data.success.count",
+                      "roaming.data.success.count.available",
+                      "roaming.data.success.residual",
+                      "roaming.data.success.residual.available",
+                      "roaming.data.success.coverage",
+                      "roaming.data.success.coverage.available",
+                      "roaming.data.success.sourceAgeSeconds",
+                      "roaming.data.success.sourceAgeSeconds.available",
+                      "roaming.voice.success.actual",
+                      "roaming.voice.success.actual.available",
+                      "roaming.voice.success.numerator",
+                      "roaming.voice.success.numerator.available",
+                      "roaming.voice.success.denominator",
+                      "roaming.voice.success.denominator.available",
+                      "roaming.voice.success.sum",
+                      "roaming.voice.success.sum.available",
+                      "roaming.voice.success.count",
+                      "roaming.voice.success.count.available",
+                      "roaming.voice.success.residual",
+                      "roaming.voice.success.residual.available",
+                      "roaming.voice.success.coverage",
+                      "roaming.voice.success.coverage.available",
+                      "roaming.voice.success.sourceAgeSeconds",
+                      "roaming.voice.success.sourceAgeSeconds.available",
+                      "roaming.sms.finalizedSuccess.actual",
+                      "roaming.sms.finalizedSuccess.actual.available",
+                      "roaming.sms.finalizedSuccess.numerator",
+                      "roaming.sms.finalizedSuccess.numerator.available",
+                      "roaming.sms.finalizedSuccess.denominator",
+                      "roaming.sms.finalizedSuccess.denominator.available",
+                      "roaming.sms.finalizedSuccess.sum",
+                      "roaming.sms.finalizedSuccess.sum.available",
+                      "roaming.sms.finalizedSuccess.count",
+                      "roaming.sms.finalizedSuccess.count.available",
+                      "roaming.sms.finalizedSuccess.residual",
+                      "roaming.sms.finalizedSuccess.residual.available",
+                      "roaming.sms.finalizedSuccess.coverage",
+                      "roaming.sms.finalizedSuccess.coverage.available",
+                      "roaming.sms.finalizedSuccess.sourceAgeSeconds",
+                      "roaming.sms.finalizedSuccess.sourceAgeSeconds.available",
+                      "roaming.partnerRtt.actual",
+                      "roaming.partnerRtt.actual.available",
+                      "roaming.partnerRtt.numerator",
+                      "roaming.partnerRtt.numerator.available",
+                      "roaming.partnerRtt.denominator",
+                      "roaming.partnerRtt.denominator.available",
+                      "roaming.partnerRtt.sum",
+                      "roaming.partnerRtt.sum.available",
+                      "roaming.partnerRtt.count",
+                      "roaming.partnerRtt.count.available",
+                      "roaming.partnerRtt.residual",
+                      "roaming.partnerRtt.residual.available",
+                      "roaming.partnerRtt.coverage",
+                      "roaming.partnerRtt.coverage.available",
+                      "roaming.partnerRtt.sourceAgeSeconds",
+                      "roaming.partnerRtt.sourceAgeSeconds.available"
+                    ]
+                  },
+                  "featureValues": {
+                    "minItems": 80,
+                    "maxItems": 80
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "domain": {
+                    "const": "MOBILE_DATA"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "featureNames": {
+                    "const": [
+                      "mobileData.activation.success.actual",
+                      "mobileData.activation.success.actual.available",
+                      "mobileData.activation.success.numerator",
+                      "mobileData.activation.success.numerator.available",
+                      "mobileData.activation.success.denominator",
+                      "mobileData.activation.success.denominator.available",
+                      "mobileData.activation.success.sum",
+                      "mobileData.activation.success.sum.available",
+                      "mobileData.activation.success.count",
+                      "mobileData.activation.success.count.available",
+                      "mobileData.activation.success.residual",
+                      "mobileData.activation.success.residual.available",
+                      "mobileData.activation.success.coverage",
+                      "mobileData.activation.success.coverage.available",
+                      "mobileData.activation.success.sourceAgeSeconds",
+                      "mobileData.activation.success.sourceAgeSeconds.available",
+                      "mobileData.dns.success.actual",
+                      "mobileData.dns.success.actual.available",
+                      "mobileData.dns.success.numerator",
+                      "mobileData.dns.success.numerator.available",
+                      "mobileData.dns.success.denominator",
+                      "mobileData.dns.success.denominator.available",
+                      "mobileData.dns.success.sum",
+                      "mobileData.dns.success.sum.available",
+                      "mobileData.dns.success.count",
+                      "mobileData.dns.success.count.available",
+                      "mobileData.dns.success.residual",
+                      "mobileData.dns.success.residual.available",
+                      "mobileData.dns.success.coverage",
+                      "mobileData.dns.success.coverage.available",
+                      "mobileData.dns.success.sourceAgeSeconds",
+                      "mobileData.dns.success.sourceAgeSeconds.available",
+                      "mobileData.throughput.actual",
+                      "mobileData.throughput.actual.available",
+                      "mobileData.throughput.numerator",
+                      "mobileData.throughput.numerator.available",
+                      "mobileData.throughput.denominator",
+                      "mobileData.throughput.denominator.available",
+                      "mobileData.throughput.sum",
+                      "mobileData.throughput.sum.available",
+                      "mobileData.throughput.count",
+                      "mobileData.throughput.count.available",
+                      "mobileData.throughput.residual",
+                      "mobileData.throughput.residual.available",
+                      "mobileData.throughput.coverage",
+                      "mobileData.throughput.coverage.available",
+                      "mobileData.throughput.sourceAgeSeconds",
+                      "mobileData.throughput.sourceAgeSeconds.available"
+                    ]
+                  },
+                  "featureValues": {
+                    "minItems": 48,
+                    "maxItems": 48
+                  }
+                }
+              }
+            }
+          ],
+          "$schema": "https://json-schema.org/draft/2020-12/schema"
+        }
+      },
+      "required": [
+        "requestId",
+        "requestedAt",
+        "requestedModelVersion",
+        "features"
+      ]
+    },
+    "status": {
+      "enum": [
+        "OK",
+        "FALLBACK",
+        "DISABLED",
+        "INELIGIBLE"
+      ]
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "response": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "datasetId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "domain": {
+              "enum": [
+                "TRANSPORT",
+                "ROAMING",
+                "MOBILE_DATA"
+              ]
+            },
+            "featureSchemaVersion": {
+              "const": "trace-link-features-v1"
+            },
+            "modelVersion": {
+              "const": "trace-link-shadow-v1"
+            },
+            "modelSha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "scope": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "CITY",
+                    "LINK_DIRECTION",
+                    "PARTNER_DIRECTION",
+                    "DATASET"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "cityIds": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  }
+                },
+                "directionId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "partnerId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "procedure": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "namespace": {
+                  "const": "trace-link-reference-v1"
+                }
+              },
+              "required": [
+                "type",
+                "id",
+                "cityIds",
+                "directionId",
+                "partnerId",
+                "procedure",
+                "namespace"
+              ]
+            },
+            "window": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "from": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "to": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "sourceResolutionSeconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "id",
+                "from",
+                "to",
+                "sourceResolutionSeconds"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "topologyVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "inferenceStatus": {
+              "const": "OK"
+            },
+            "anomalyScore": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "label": {
+              "enum": [
+                "TRANSPORT_DEGRADATION",
+                "ROAMING_DEGRADATION",
+                "MOBILE_DATA_DEGRADATION"
+              ]
+            },
+            "featureContributions": {
+              "type": "array",
+              "maxItems": 0
+            },
+            "latencyMs": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 250
+            },
+            "generatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            }
+          },
+          "required": [
+            "requestId",
+            "datasetId",
+            "domain",
+            "featureSchemaVersion",
+            "modelVersion",
+            "modelSha256",
+            "scope",
+            "window",
+            "revision",
+            "topologyVersion",
+            "inferenceStatus",
+            "anomalyScore",
+            "label",
+            "featureContributions",
+            "latencyMs",
+            "generatedAt"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "latencyMs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "evidenceId",
+    "request",
+    "status",
+    "reason",
+    "response",
+    "latencyMs",
+    "completedAt"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "OK"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "response": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "datasetId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "domain": {
+                "enum": [
+                  "TRANSPORT",
+                  "ROAMING",
+                  "MOBILE_DATA"
+                ]
+              },
+              "featureSchemaVersion": {
+                "const": "trace-link-features-v1"
+              },
+              "modelVersion": {
+                "const": "trace-link-shadow-v1"
+              },
+              "modelSha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "scope": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "CITY",
+                      "LINK_DIRECTION",
+                      "PARTNER_DIRECTION",
+                      "DATASET"
+                    ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "cityIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    }
+                  },
+                  "directionId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "partnerId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "procedure": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "namespace": {
+                    "const": "trace-link-reference-v1"
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "cityIds",
+                  "directionId",
+                  "partnerId",
+                  "procedure",
+                  "namespace"
+                ]
+              },
+              "window": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "from": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "to": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "sourceResolutionSeconds": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "from",
+                  "to",
+                  "sourceResolutionSeconds"
+                ]
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "topologyVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "inferenceStatus": {
+                "const": "OK"
+              },
+              "anomalyScore": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "label": {
+                "enum": [
+                  "TRANSPORT_DEGRADATION",
+                  "ROAMING_DEGRADATION",
+                  "MOBILE_DATA_DEGRADATION"
+                ]
+              },
+              "featureContributions": {
+                "type": "array",
+                "maxItems": 0
+              },
+              "latencyMs": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 250
+              },
+              "generatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              }
+            },
+            "required": [
+              "requestId",
+              "datasetId",
+              "domain",
+              "featureSchemaVersion",
+              "modelVersion",
+              "modelSha256",
+              "scope",
+              "window",
+              "revision",
+              "topologyVersion",
+              "inferenceStatus",
+              "anomalyScore",
+              "label",
+              "featureContributions",
+              "latencyMs",
+              "generatedAt"
+            ]
+          },
+          "reason": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "response": {
+            "type": "null"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

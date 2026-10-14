@@ -250,10 +250,10 @@ class TraceLinkProjectionIT {
         }
     }
 
-    @Test void v015UpgradeAndFreshInstallKeepV016GrantsWithV017Runtime() throws Exception {
+    @Test void v015UpgradeAndFreshInstallKeepV016GrantsWithV018Shadow() throws Exception {
         var flyway=Flyway.configure().dataSource(url,"processing_migrator","test-migrator").schemas("app").defaultSchema("app").load();
         flyway.validate();
-        assertEquals("017",flyway.info().current().getVersion().toString());
+        assertEquals("018",flyway.info().current().getVersion().toString());
         assertTrue(jdbc.queryForObject("SELECT string_agg(pg_get_constraintdef(oid),' ') FROM pg_constraint WHERE conrelid='app.feature_outbox'::regclass",String.class).contains("00:01:00"));
         String upgrade="upgrade_"+UUID.randomUUID().toString().replace("-","");
         admin.execute("CREATE DATABASE "+upgrade+" OWNER processing_migrator");
@@ -267,7 +267,7 @@ class TraceLinkProjectionIT {
         var preserved=upgradeJdbc.queryForList("SELECT natural_id,source_row_sha256,payload FROM app.trace_source_native_window ORDER BY natural_id");
         var upgraded=Flyway.configure().dataSource(PostgresFixture.url(upgrade),"processing_migrator","test-migrator")
                 .schemas("app").defaultSchema("app").load();
-        assertEquals(2,upgraded.migrate().migrationsExecuted); upgraded.validate(); assertEquals(0,upgraded.migrate().migrationsExecuted);
+        assertEquals(3,upgraded.migrate().migrationsExecuted); upgraded.validate(); assertEquals(0,upgraded.migrate().migrationsExecuted);
         assertEquals(preserved,upgradeJdbc.queryForList("SELECT natural_id,source_row_sha256,payload FROM app.trace_source_native_window ORDER BY natural_id"));
         assertEquals(1,new TraceLinkProjectionService(upgradeJdbc,new DataSourceTransactionManager(upgradeRuntime)).project(request(1)).inserted());
         String grants="SELECT table_name,privilege_type FROM information_schema.role_table_grants WHERE grantee='processing_app' AND table_schema='app' AND table_name IN ('trace_metric_projection','trace_projection_outbox') ORDER BY table_name,privilege_type";

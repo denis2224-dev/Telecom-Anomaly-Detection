@@ -1,0 +1,182 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "datasetId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "domain": {
+      "enum": [
+        "TRANSPORT",
+        "ROAMING",
+        "MOBILE_DATA"
+      ]
+    },
+    "featureSchemaVersion": {
+      "const": "trace-link-features-v1"
+    },
+    "modelVersion": {
+      "const": "trace-link-shadow-v1"
+    },
+    "modelSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "CITY",
+            "LINK_DIRECTION",
+            "PARTNER_DIRECTION",
+            "DATASET"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cityIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "directionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "partnerId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "procedure": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "namespace": {
+          "const": "trace-link-reference-v1"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "cityIds",
+        "directionId",
+        "partnerId",
+        "procedure",
+        "namespace"
+      ]
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "sourceResolutionSeconds": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "id",
+        "from",
+        "to",
+        "sourceResolutionSeconds"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "topologyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inferenceStatus": {
+      "const": "OK"
+    },
+    "anomalyScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "label": {
+      "enum": [
+        "TRANSPORT_DEGRADATION",
+        "ROAMING_DEGRADATION",
+        "MOBILE_DATA_DEGRADATION"
+      ]
+    },
+    "featureContributions": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "latencyMs": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 250
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    }
+  },
+  "required": [
+    "requestId",
+    "datasetId",
+    "domain",
+    "featureSchemaVersion",
+    "modelVersion",
+    "modelSha256",
+    "scope",
+    "window",
+    "revision",
+    "topologyVersion",
+    "inferenceStatus",
+    "anomalyScore",
+    "label",
+    "featureContributions",
+    "latencyMs",
+    "generatedAt"
+  ]
+}
