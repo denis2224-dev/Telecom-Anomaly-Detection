@@ -47,10 +47,10 @@ paths:
       - {$ref: '#/components/parameters/TraceLinkEpisodeId'}
       responses:
         '200':
-          description: Latest applied episode evidence. Technical recovery does not resolve analyst workflow.
+          description: Read-only technical incident with stable onset and initial detection timestamps. Analyst workflow is not implemented for these episodes.
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}
+              schema: {$ref: '#/components/schemas/TraceLinkIncidentView'}
         '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
@@ -68,7 +68,7 @@ paths:
           description: Immutable received detections in sequence order, including pending gaps.
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/TraceLinkIncidentPage'}
+              schema: {$ref: '#/components/schemas/TraceLinkDetectionEvidencePage'}
         '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
@@ -1525,10 +1525,38 @@ components:
       type: object
       required: [items, total, limit, offset]
       properties:
+        items: {type: array, items: {$ref: '#/components/schemas/TraceLinkIncidentView'}}
+        total: {type: integer, minimum: 0}
+        limit: {type: integer, minimum: 1, maximum: 100}
+        offset: {type: integer, minimum: 0, maximum: 100000}
+    TraceLinkDetectionEvidencePage:
+      type: object
+      required: [items, total, limit, offset]
+      properties:
         items: {type: array, items: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}}
         total: {type: integer, minimum: 0}
         limit: {type: integer, minimum: 1, maximum: 100}
         offset: {type: integer, minimum: 0, maximum: 100000}
+    TraceLinkIncidentView:
+      type: object
+      additionalProperties: false
+      description: Read-only technical episode metadata. No analyst assignment, status, investigation, resolution or workflow audit is provided.
+      required: [episodeId, firstObservedAt, detectedAt, latestWindowEnd, latestSequence, technicalState, severity, latestDetection]
+      properties:
+        episodeId: {type: string, pattern: '^[a-f0-9]{64}$'}
+        firstObservedAt:
+          type: string
+          format: date-time
+          description: Start of the first breached source window; stable for the episode.
+        detectedAt:
+          type: string
+          format: date-time
+          description: Evaluation time of the initial OPEN decision; stable through later transitions.
+        latestWindowEnd: {type: string, format: date-time, description: End of the latest contiguously applied source window.}
+        latestSequence: {type: integer, format: int64, minimum: 1}
+        technicalState: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
+        severity: {type: string, enum: [HIGH, CRITICAL]}
+        latestDetection: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}
     TraceLinkDetectionEnvelope:
       type: object
       additionalProperties: false

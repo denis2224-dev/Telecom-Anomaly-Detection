@@ -1314,10 +1314,42 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         TraceLinkIncidentPage: {
+            items: components["schemas"]["TraceLinkIncidentView"][];
+            total: number;
+            limit: number;
+            offset: number;
+        };
+        TraceLinkDetectionEvidencePage: {
             items: components["schemas"]["TraceLinkDetectionEnvelope"][];
             total: number;
             limit: number;
             offset: number;
+        };
+        /** @description Read-only technical episode metadata. No analyst assignment, status, investigation, resolution or workflow audit is provided. */
+        TraceLinkIncidentView: {
+            episodeId: string;
+            /**
+             * Format: date-time
+             * @description Start of the first breached source window; stable for the episode.
+             */
+            firstObservedAt: string;
+            /**
+             * Format: date-time
+             * @description Evaluation time of the initial OPEN decision; stable through later transitions.
+             */
+            detectedAt: string;
+            /**
+             * Format: date-time
+             * @description End of the latest contiguously applied source window.
+             */
+            latestWindowEnd: string;
+            /** Format: int64 */
+            latestSequence: number;
+            /** @enum {string} */
+            technicalState: "ONGOING" | "UNKNOWN" | "RECOVERED";
+            /** @enum {string} */
+            severity: "HIGH" | "CRITICAL";
+            latestDetection: components["schemas"]["TraceLinkDetectionEnvelope"];
         };
         /** @description Strict wire JSON schema is authoritative for primitive evidence and cause validation. */
         TraceLinkDetectionEnvelope: {
@@ -2411,13 +2443,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Latest applied episode evidence. Technical recovery does not resolve analyst workflow. */
+            /** @description Read-only technical incident with stable onset and initial detection timestamps. Analyst workflow is not implemented for these episodes. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["TraceLinkDetectionEnvelope"];
+                    "application/json": components["schemas"]["TraceLinkIncidentView"];
                 };
             };
             400: components["responses"]["BadRequest"];
@@ -2446,7 +2478,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["TraceLinkIncidentPage"];
+                    "application/json": components["schemas"]["TraceLinkDetectionEvidencePage"];
                 };
             };
             400: components["responses"]["BadRequest"];
