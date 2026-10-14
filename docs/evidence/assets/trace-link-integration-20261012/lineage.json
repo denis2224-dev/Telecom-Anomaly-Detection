@@ -1,0 +1,43 @@
+{
+  "refs": {
+    "main": "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+    "91": "5daccd7ba207ffcfea0d21e89151a79154586fba",
+    "92": "b987aa809101eedc1d40d52c95dff94a1e9e27b8",
+    "93": "e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8",
+    "95": "e3d0a41da141f2a836edbd35258ba878efc335dd",
+    "96": "8fb0596b415b4fef137b29b38774948d3112c1a0",
+    "97": "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c"
+  },
+  "mainOnlyHeadOnly": {
+    "main": [
+      "0",
+      "0"
+    ],
+    "91": [
+      "8",
+      "0"
+    ],
+    "92": [
+      "2",
+      "0"
+    ],
+    "93": [
+      "37",
+      "3"
+    ],
+    "95": [
+      "37",
+      "6"
+    ],
+    "96": [
+      "37",
+      "8"
+    ],
+    "97": [
+      "37",
+      "12"
+    ]
+  },
+  "candidateSource": "46c9b50db6d11f0588b2ab0aa9036b53d5b19fb9",
+  "candidateTree": "93242ee84a92a9d9a98e7caba68866674f6ea354"
+}

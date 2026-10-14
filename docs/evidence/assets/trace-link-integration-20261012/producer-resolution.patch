@@ -1,0 +1,45 @@
+commit 2c4d3130896cfe19fe9649f7bfc98790ee5e9715
+Merge: 5c4c714 e9a79c1
+Author: Zavtoni Ion <ion.zavtoni@isa.utm.md>
+Date:   Mon Oct 12 21:32:46 2026 +0300
+
+    Merge native domain producers preserving detector contract validation
+
+diff --git a/.gitattributes b/.gitattributes
+remerge CONFLICT (content): Merge conflict in .gitattributes
+index 3391d80..7f33727 100644
+--- a/.gitattributes
++++ b/.gitattributes
+@@ -27,11 +27,8 @@ docs/evidence/assets/trace-link-day1/*.json -text whitespace=trailing-space,spac
+ contracts/fixtures/trace-link/native-slice/* text eol=lf
+ contracts/datasets/*.manifest.json text eol=lf
+ docs/evidence/assets/trace-link-ion-native/*.json text eol=lf
+-<<<<<<< 5c4c714 (Merge current Trace Link inventory into isolated integration candidate)
+ 
+ # Preserve the raw bytes pinned by the separate receiving reproduction manifest.
+ docs/evidence/assets/trace-link-day2-receiving-closure/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+-=======
+ contracts/fixtures/trace-link/domain-primitive-results-v1.json text eol=lf
+ docs/evidence/assets/trace-link-domain-producers/*.json text eol=lf
+->>>>>>> e9a79c1 (docs(evidence): pin canonical artifact hashes across Windows and Linux)
+diff --git a/scripts/check-contracts.py b/scripts/check-contracts.py
+remerge CONFLICT (content): Merge conflict in scripts/check-contracts.py
+index cac76a8..1734a31 100644
+--- a/scripts/check-contracts.py
++++ b/scripts/check-contracts.py
+@@ -120,15 +120,12 @@ def main():
+     validate_trace_link_fixture_contracts()
+     from trace_link_domain_contract import validate_domain_contracts
+     validate_domain_contracts()
+-<<<<<<< 5c4c714 (Merge current Trace Link inventory into isolated integration candidate)
+     from trace_link_day2_contract import validate_day2_contracts
+     validate_day2_contracts()
+     from trace_link_history_baseline import validate_contracts as validate_seasonal_baseline_contracts
+     validate_seasonal_baseline_contracts()
+-=======
+     from trace_link_producer_contract import validate_producer_contracts
+     validate_producer_contracts()
+->>>>>>> e9a79c1 (docs(evidence): pin canonical artifact hashes across Windows and Linux)
+     if args.batch:
+         batch = ObservationBatch()
+         events = read_json(args.batch)

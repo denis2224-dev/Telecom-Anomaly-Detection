@@ -30,6 +30,10 @@
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
+        <dependency>
+            <groupId>md.utm.telecom</groupId><artifactId>streaming-support</artifactId><version>0.3.0-SNAPSHOT</version><classifier>contracts</classifier>
+            <exclusions><exclusion><groupId>*</groupId><artifactId>*</artifactId></exclusion></exclusions>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -153,12 +157,18 @@
 				<targetPath>contracts</targetPath>
 				<includes>
 					<include>detections/service-detection-v2.schema.json</include>
+                    <include>detections/trace-link-detection-v1.schema.json</include>
+                    <include>kpi/trace-link-kpi-definitions-v1.json</include>
+                    <include>policies/trace-link-domain-rules-v1.json</include>
+                    <include>topology/trace-link-runtime-dependencies-v1.json</include>
+                    <include>evidence/trace-link-evidence-v1.schema.json</include>
 					<include>features/service-feature-window-v2.schema.json</include>
 					<include>topology/demo-scopes-v2.json</include>
 					<include>ml-shadow/sms-shadow-evidence-v1.schema.json</include>
 					<include>topology/geographic-scopes-v2.json</include>
 					<include>geography/**</include>
 					<include>coverage/**</include>
+					<include>kpi/trace-link-primitive-projection-v1.schema.json</include>
 				</includes>
 			</resource>
 		</resources>
@@ -171,7 +181,9 @@
 				<targetPath>contracts</targetPath>
 				<includes>
 					<include>fixtures/detections/**</include>
+                    <include>fixtures/trace-link/day3-*.json</include>
 					<include>fixtures/coverage/**</include>
+					<include>fixtures/trace-link/primitive-projection-cases-v1.json</include>
 				</includes>
 			</testResource>
 		</testResources>

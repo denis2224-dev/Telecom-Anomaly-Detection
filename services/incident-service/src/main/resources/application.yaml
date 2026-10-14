@@ -77,6 +77,12 @@ management:
       application: ${spring.application.name}
 
 app:
+  trace-domain-read-model:
+    enabled: ${TRACE_DOMAIN_READ_MODEL_ENABLED:false}
+  trace-link:
+    scenarios:
+      enabled: ${TRACE_LINK_SCENARIOS_ENABLED:false}
+      reconcile-ms: 5000
   public-origin: ${APP_PUBLIC_ORIGIN:http://telecom.test:8080}
   evidence:
     reconcile-enabled: ${EVIDENCE_RECONCILE_ENABLED:true}
@@ -102,3 +108,8 @@ app:
       poll-ms: 2000
       lease-seconds: 60
       max-attempts: 6
+
+telecom:
+  trace-link:
+    enabled: ${TRACE_LINK_ENABLED:false}
+    topic: ${TRACE_LINK_DETECTIONS_TOPIC:telecom.detections.trace-link.v1}

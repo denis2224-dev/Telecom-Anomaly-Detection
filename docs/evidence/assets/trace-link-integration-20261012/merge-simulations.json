@@ -1,0 +1,41 @@
+[
+  {
+    "name": "historical-pr91",
+    "command": [
+      "git",
+      "merge-tree",
+      "--write-tree",
+      "bccfd01d20373d71cd6b51f7c102ebde45c884ff",
+      "1e67e61ce3f2c46f26818b42c17fc3d50481aae4"
+    ],
+    "exitCode": 1,
+    "interpretation": "EXPECTED_CONFLICT",
+    "output": "historical-pr91-merge-tree.txt"
+  },
+  {
+    "name": "current-pr91",
+    "command": [
+      "git",
+      "merge-tree",
+      "--write-tree",
+      "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+      "5daccd7ba207ffcfea0d21e89151a79154586fba"
+    ],
+    "exitCode": 0,
+    "interpretation": "CLEAN",
+    "output": "current-pr91-merge-tree.txt"
+  },
+  {
+    "name": "current-producer-stack",
+    "command": [
+      "git",
+      "merge-tree",
+      "--write-tree",
+      "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+      "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c"
+    ],
+    "exitCode": 1,
+    "interpretation": "EXPECTED_CONFLICT",
+    "output": "current-producer-stack-merge-tree.txt"
+  }
+]

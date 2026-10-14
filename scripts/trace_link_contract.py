@@ -195,7 +195,9 @@ def validate_evidence(value, dictionary=None):
     require(value['unit'] == metric['unit'] and value['policyVersion'] == metric['policyVersion'],
             'Metric unit/policy mismatch')
     provenance = value['provenance']
-    if provenance['origin'] != 'HAND_CALCULATED':
+    if provenance['origin'] == 'NATIVE_OBSERVATION':
+        require(provenance['sourceChecksum'] is not None, 'Native evidence requires original observation checksum')
+    if provenance['origin'] in ('REFERENCE_CSV', 'REFERENCE_ENGINE'):
         require(provenance['sourceChecksum'] is not None, 'Reference evidence requires a source checksum')
         if metric['reference']['availability'] == 'REQUIRES_ADDITIONAL_PRIMITIVES':
             require(value['primitives'] is None and value['actual'] is None,

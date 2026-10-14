@@ -1,0 +1,94 @@
+{
+  "autoMergeRequest": null,
+  "baseRefName": "main",
+  "baseRefOid": "cbb94d37f7593e99737ee4200e91b14e0512f76f",
+  "comments": [],
+  "headRefName": "feat/trace-link-day2-seasonal-policies",
+  "headRefOid": "f004f765373753e43adaf714b85bbd1501ccf0bd",
+  "isDraft": false,
+  "mergeStateStatus": "UNKNOWN",
+  "number": 94,
+  "reviewDecision": "",
+  "reviews": [
+    {
+      "id": "PRR_kwDOUWQgeM8AAAABR2Vc1g",
+      "author": {
+        "login": "copilot-pull-request-reviewer"
+      },
+      "authorAssociation": "NONE",
+      "body": "Copilot was unable to review this pull request because the user who requested the review has reached their quota limit.",
+      "submittedAt": "2026-10-12T15:23:18Z",
+      "includesCreatedEdit": false,
+      "reactionGroups": [],
+      "state": "COMMENTED",
+      "commit": {
+        "oid": "f004f765373753e43adaf714b85bbd1501ccf0bd"
+      }
+    }
+  ],
+  "state": "MERGED",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T14:59:18Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38266409939/job/114869583399",
+      "name": "dashboard-verification",
+      "startedAt": "2026-10-12T14:55:15Z",
+      "status": "COMPLETED",
+      "workflowName": "dashboard"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T14:55:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38266409952/job/114869584473",
+      "name": "build",
+      "startedAt": "2026-10-12T14:55:15Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-runtime-image"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T14:57:30Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38266409969/job/114869584509",
+      "name": "backend-verification",
+      "startedAt": "2026-10-12T14:55:15Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-service"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T14:55:27Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38266410034/job/114869586740",
+      "name": "deployment-config",
+      "startedAt": "2026-10-12T14:55:15Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:01:32Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38266410034/job/114869585975",
+      "name": "model-evaluation",
+      "startedAt": "2026-10-12T14:55:15Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T15:12:47Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38266410034/job/114872191905",
+      "name": "processor-evaluation",
+      "startedAt": "2026-10-12T15:01:35Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    }
+  ],
+  "title": "Add Trace Link Day 2 seasonal baselines and offline detection policies",
+  "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/94"
+}

@@ -51,6 +51,12 @@ management:
         readiness:
           include: readinessState,kafka,db
 telecom:
+  trace-link:
+    enabled: ${TRACE_LINK_ENABLED:false}
+    workers: ${TRACE_LINK_WORKERS:4}
+    mode: ${TRACE_LINK_EVALUATION_MODE:LIVE}
+    topic: ${TRACE_LINK_DETECTIONS_TOPIC:telecom.detections.trace-link.v1}
+    poll-interval: ${TRACE_LINK_POLL_INTERVAL:1000}
   retention:
     enabled: ${PROCESSOR_RETENTION_ENABLED:true}
     receipt-horizon: ${PROCESSOR_RECEIPT_HORIZON:48h}

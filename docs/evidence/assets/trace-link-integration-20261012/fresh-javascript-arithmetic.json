@@ -1,0 +1,19 @@
+{
+  "name": "fresh-javascript-arithmetic",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "node",
+    "scripts/trace-link-reference.cjs",
+    "--fixtures",
+    "contracts/fixtures/trace-link/arithmetic-cases.json",
+    "--output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-javascript.json"
+  ],
+  "startedAt": "2026-10-12T18:48:06.169204+00:00",
+  "finishedAt": "2026-10-12T18:48:06.942673+00:00",
+  "elapsedSeconds": 0.773,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "fresh-javascript-arithmetic.log",
+  "logSha256": "25a032820fc8092207b795a056d1494734d14eb3ca0aaef796a179833a77655c"
+}

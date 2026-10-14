@@ -136,6 +136,34 @@ class TraceLinkDatasetBootstrapIT {
         assertThrows(DataAccessException.class,() -> jdbc.execute("CREATE TABLE app.trace_forbidden(id int)"));
         assertFalse(jdbc.queryForObject("SELECT has_database_privilege(current_user,'incidents_db','CONNECT')",Boolean.class));
     }
+    @Test void enabledRetentionPreservesUnfinishedImportThenCompletedProvenance() throws Exception {
+        var interrupted = new TraceLinkDatasetBootstrap(jdbc,new DataSourceTransactionManager(runtime),3,
+                file -> { throw new IllegalStateException("stop after committed batch"); });
+        assertThrows(IllegalStateException.class, () -> interrupted.execute(source));
+        var protectedTables = List.of("trace_source_catalogue", "trace_source_city", "trace_source_link",
+                "trace_source_link_direction", "trace_source_dataset", "trace_source_native_window",
+                "trace_source_import_checkpoint", "trace_source_import_completion");
+        var clock = java.time.Clock.fixed(java.time.Instant.parse("2026-12-01T00:00:00Z"), java.time.ZoneOffset.UTC);
+        var guard = new md.utm.telecom.processing.outbox.RawRetentionGuard(null,"test.retention.raw") {
+            @Override public boolean permits(java.time.Duration horizon) { return true; }
+        }; // Real deletion SQL; the existing RetentionJobTest independently verifies the live broker guard.
+        var retention = new md.utm.telecom.processing.outbox.RetentionJob(jdbc,clock,
+                new md.utm.telecom.processing.outbox.RetentionProperties(true,java.time.Duration.ofHours(48),
+                        java.time.Duration.ofHours(48),java.time.Duration.ofHours(24),100,java.time.Duration.ofMinutes(1)),guard);
+        for (int phase=0; phase<2; phase++) {
+            var before = new LinkedHashMap<String,Object>();
+            for (var table:protectedTables) before.put(table,jdbc.queryForList("SELECT row_to_json(t)::text FROM app."+table+" t ORDER BY 1"));
+            jdbc.update("""
+                    INSERT INTO app.rejection_outbox(payload_hash,reason_code,reason_detail,kafka_topic,kafka_partition,
+                        kafka_offset,payload_size,payload_truncated,created_at,published_at)
+                    VALUES (repeat('a',64),'MALFORMED_JSON','retention test','test.retention.raw',0,?,0,false,
+                        '2026-09-01T00:00:00Z','2026-09-01T00:00:00Z')
+                    """, phase);
+            assertEquals(new md.utm.telecom.processing.outbox.RetentionJob.Result(0,1),retention.poll());
+            for (var table:protectedTables) assertEquals(before.get(table),jdbc.queryForList("SELECT row_to_json(t)::text FROM app."+table+" t ORDER BY 1"),table);
+            if (phase==0) assertEquals(42,bootstrap().execute(source).nativeRows());
+        }
+    }
     @Test void v013UpgradeAndFreshInstallHaveSameTablesAndGrants() throws Exception {
         String name = "trace_upgrade_"+UUID.randomUUID().toString().replace("-","");
         var admin = new JdbcTemplate(new DriverManagerDataSource(PostgresFixture.url("postgres"),"test_admin","test-admin"));
@@ -146,7 +174,7 @@ class TraceLinkDatasetBootstrapIT {
         Flyway.configure().dataSource(upgradeUrl,"processing_migrator","test-migrator").defaultSchema("app").schemas("app").target("13").load().migrate();
         owner.execute("INSERT INTO app.historical_bootstrap VALUES ('preserved','2026-09-01T00:00Z','2026-09-02T00:00Z',42,now())");
         var upgrade = Flyway.configure().dataSource(upgradeUrl,"processing_migrator","test-migrator").defaultSchema("app").schemas("app").load();
-        assertEquals(3,upgrade.migrate().migrationsExecuted); upgrade.validate();
+        assertEquals(4,upgrade.migrate().migrationsExecuted); upgrade.validate();
         assertEquals(1,owner.queryForObject("SELECT count(*) FROM app.historical_bootstrap WHERE bootstrap_id='preserved'",Integer.class));
         String tables = "SELECT tablename FROM pg_tables WHERE schemaname='app' ORDER BY tablename";
         assertEquals(jdbc.queryForList(tables),owner.queryForList(tables));

@@ -5,6 +5,21 @@ import { SessionStore } from '../login-and-session/session.store';
 import { RunStore } from './run.store';
 
 describe('Scenario command retry', () => {
+  it('rejects a late start response after the authenticated session revision changes', async () => {
+    let revision = 1;
+    let resolve!: (value: unknown) => void;
+    const startScenario = vi.fn(() => new Promise(r => { resolve = r; }));
+    TestBed.configureTestingModule({ providers: [
+      { provide: TelecomClient, useValue: { startScenario } },
+      { provide: SessionStore, useValue: { actor: () => null, phase: () => 'authenticated', get revision() { return revision; } } },
+    ] });
+    const store = TestBed.inject(RunStore);
+    const pending = store.start('VOLTE_IMS_OVERLOAD', 42, 'VOLTE-MD-CENTRAL');
+    revision++;
+    resolve({ runId: 'previous-user-run', status: 'SCHEDULED' });
+    await pending;
+    expect(store.run()).toBeNull();
+  });
   it('reuses the original request ID after an uncertain failure', async () => {
     const actor = {
       analystId: 'supervisor-1',

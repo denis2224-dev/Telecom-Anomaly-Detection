@@ -1,0 +1,22 @@
+{
+  "run": "david-trace-e2e-final7.log",
+  "stats": {
+    "startTime": "2026-10-13T06:49:07.999Z",
+    "duration": 445599.272,
+    "expected": 171,
+    "skipped": 24,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "failures": [
+    {
+      "file": "accessibility.spec.ts",
+      "title": "keyboard: skip link, service chart, incident workflow, conflict, Escape",
+      "errors": [
+        "Error: expect(locator).toContainText(expected) failed\n\nLocator: locator('.service-hero .chart-tooltip')\nExpected substring: \"10:00\"\nReceived string:    \"\"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"toContainText\" locator('.service-hero .chart-tooltip') with timeout 5000ms\n  - waiting for locator('.service-hero .chart-tooltip')\n    12 \u00c3\u2014 locator resolved to <div aria-live=\"polite\" class=\"chart-tooltip\">\u00e2\u20ac\u00a6</div>\n       - unexpected value \"\"\n\n\n  45 |   await visibleFocus(chart);\n  46 |   await page.keyboard.press('Home');\n> 47 |   await expect(page.locator('.service-hero .chart-tooltip')).toContainText('10:00');\n     |                                                              ^\n  48 |   await page.keyboard.press('End');\n  49 |   await expect(page.locator('.service-hero .chart-tooltip')).toContainText('10:09');\n  50 |   const evidence = page.getByRole('link', { name: 'Open incident detail', exact: true });\n    at C:\\OrangeSystems\\Program\\david-trace-link-repair-20261012\\apps\\dashboard\\tests\\e2e\\specs\\accessibility.spec.ts:47:62"
+      ]
+    }
+  ],
+  "diagnosis": "Keyboard test could focus the loading chart before asynchronous KPI points arrived. Added a measured-path readiness assertion before unchanged keyboard/tooltip expectations.",
+  "runnerCleanup": "After workers exited, stopped verified disposable Angular PID 8336 to end stalled teardown; global reporter errors empty."
+}

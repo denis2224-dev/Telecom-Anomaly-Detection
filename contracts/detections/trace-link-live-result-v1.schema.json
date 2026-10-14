@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:telecom:trace-link-live-result-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "policyVersion",
+    "baselineVersion",
+    "approvalStatus",
+    "detectionId",
+    "streamKey",
+    "datasetId",
+    "domain",
+    "scope",
+    "metricId",
+    "windowStart",
+    "windowEnd",
+    "input",
+    "actual",
+    "baseline",
+    "overloadCandidate",
+    "verdict",
+    "reason",
+    "severity",
+    "causeStatus",
+    "sourceEventIds",
+    "sourcePayloadHashes"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "trace-link-live-result-v1"
+    },
+    "policyVersion": {
+      "const": "trace-link-live-synthetic-rules-v1"
+    },
+    "baselineVersion": {
+      "const": "trace-link-live-static-baseline-v1"
+    },
+    "approvalStatus": {
+      "const": "PENDING_REVIEW"
+    },
+    "detectionId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "streamKey": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "datasetId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "domain": {
+      "enum": [
+        "TRANSPORT",
+        "ROAMING",
+        "MOBILE_DATA"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scopeNamespace",
+        "domain",
+        "scopeType",
+        "scopeId"
+      ],
+      "properties": {
+        "scopeNamespace": {
+          "const": "trace-link-reference-v1"
+        },
+        "domain": {
+          "enum": [
+            "VOLTE",
+            "SMS",
+            "TRANSPORT",
+            "ROAMING",
+            "MOBILE_DATA"
+          ]
+        },
+        "scopeType": {
+          "enum": [
+            "CITY_SERVICE",
+            "LINK_DIRECTION",
+            "ROAMING_PROCEDURE"
+          ]
+        },
+        "scopeId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "contractCityId": {
+          "enum": [
+            "CHI",
+            "BAL",
+            "CAH",
+            "UNG",
+            "ORH",
+            "SOR",
+            "COM",
+            "EDI",
+            "HIN",
+            "CAU"
+          ]
+        },
+        "linkId": {
+          "enum": [
+            "chi-orh",
+            "orh-sor",
+            "sor-bal",
+            "bal-edi",
+            "bal-ung",
+            "ung-chi",
+            "chi-hin",
+            "hin-com",
+            "com-cah",
+            "chi-cau",
+            "cau-com",
+            "orh-bal"
+          ]
+        },
+        "directionId": {
+          "enum": [
+            "a-to-b",
+            "b-to-a"
+          ]
+        },
+        "partnerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "countryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "direction": {
+          "enum": [
+            "in",
+            "out"
+          ]
+        },
+        "procedure": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "accessTechnology": {
+          "const": "LTE"
+        }
+      }
+    },
+    "metricId": {
+      "enum": [
+        "transport.link.utilization",
+        "roaming.registration.success",
+        "mobileData.dns.success",
+        "mobileData.activation.success"
+      ]
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "policyVersion",
+        "baselineVersion",
+        "baselineMode",
+        "receiverId",
+        "receivedAt",
+        "evaluatedAt",
+        "primaryMetric",
+        "measurements"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "trace-link-live-evaluation-v2"
+        },
+        "policyVersion": {
+          "const": "trace-link-live-synthetic-rules-v1"
+        },
+        "baselineVersion": {
+          "const": "trace-link-live-static-baseline-v1"
+        },
+        "baselineMode": {
+          "enum": [
+            "STATIC_SYNTHETIC_ONLY",
+            "UNAVAILABLE"
+          ]
+        },
+        "receiverId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "receivedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "evaluatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "primaryMetric": {
+          "enum": [
+            "transport.link.utilization",
+            "roaming.registration.success",
+            "mobileData.dns.success",
+            "mobileData.activation.success"
+          ]
+        },
+        "measurements": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schemaVersion",
+              "mappingVersion",
+              "sourceKind",
+              "sourcePayloadBase64",
+              "sourcePayloadSha256",
+              "provenance"
+            ],
+            "properties": {
+              "schemaVersion": {
+                "const": "trace-link-domain-measurement-v1"
+              },
+              "mappingVersion": {
+                "const": "trace-link-domain-mapping-v1"
+              },
+              "sourceKind": {
+                "enum": [
+                  "LIVE_60",
+                  "NATIVE_300"
+                ]
+              },
+              "sourcePayloadBase64": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 900000
+              },
+              "sourcePayloadSha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "provenance": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "manifestSha256",
+                  "generatorVersion",
+                  "seed"
+                ],
+                "properties": {
+                  "manifestSha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "generatorVersion": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9223372036854775807
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "actual": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "baseline": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "overloadCandidate": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "BREACH",
+        "HEALTHY",
+        "GRAY",
+        "UNKNOWN",
+        "CANDIDATE"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "severity": {
+      "enum": [
+        null,
+        "HIGH",
+        "CRITICAL"
+      ]
+    },
+    "causeStatus": {
+      "const": "UNDETERMINED"
+    },
+    "sourceEventIds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "sourcePayloadHashes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    }
+  }
+}

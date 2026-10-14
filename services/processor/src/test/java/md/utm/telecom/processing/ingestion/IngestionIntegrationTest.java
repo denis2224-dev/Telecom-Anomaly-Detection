@@ -100,7 +100,7 @@ class IngestionIntegrationTest {
     @Test void migrationOwnershipRuntimeDmlAndIsolation() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(26, jdbc.queryForObject("""
+        assertEquals(31, jdbc.queryForObject("""
                 SELECT count(*) FROM pg_tables WHERE schemaname='app' AND tableowner='processing_migrator'
                 AND tablename <> 'flyway_schema_history'
                 """, Integer.class));
@@ -121,10 +121,29 @@ class IngestionIntegrationTest {
                 assertFalse(jdbc.queryForObject("SELECT has_table_privilege(current_user,?,?)", Boolean.class, "app."+table, privilege));
         }
         assertEquals("processing_app", jdbc.queryForObject("SELECT current_user", String.class));
+        for (String table : List.of("trace_link_window", "trace_link_job", "trace_link_episode_state",
+                "trace_link_evaluated_window", "trace_link_delivery")) {
+            for (String privilege : List.of("SELECT", "INSERT"))
+                assertTrue(jdbc.queryForObject("SELECT has_table_privilege(current_user,?,?)", Boolean.class,
+                        "app." + table, privilege), table + " " + privilege);
+            for (String privilege : List.of("DELETE", "TRUNCATE"))
+                assertFalse(jdbc.queryForObject("SELECT has_table_privilege(current_user,?,?)", Boolean.class,
+                        "app." + table, privilege), table + " " + privilege);
+            assertEquals(table.equals("trace_link_job") || table.equals("trace_link_episode_state"),
+                    jdbc.queryForObject("SELECT has_table_privilege(current_user,?,'UPDATE')", Boolean.class,
+                            "app." + table), table + " UPDATE");
+        }
+        for (String column : List.of("published_at", "claim_token", "lease_until"))
+            assertTrue(jdbc.queryForObject("SELECT has_column_privilege(current_user,'app.trace_link_delivery',?,'UPDATE')",
+                    Boolean.class, column), "trace_link_delivery " + column);
+        assertFalse(jdbc.queryForObject("SELECT has_column_privilege(current_user,'app.trace_link_delivery','payload','UPDATE')",
+                Boolean.class));
         for (String sql : List.of("CREATE TABLE app.forbidden(id int)", "CREATE TABLE public.forbidden(id int)",
                 "CREATE SCHEMA forbidden", "DROP TABLE app.interval_bucket", "ALTER TABLE app.source_state ADD COLUMN forbidden int",
                 "DELETE FROM app.flyway_schema_history", "UPDATE app.sms_shadow_result SET evidence_id='forbidden'",
-                "DELETE FROM app.sms_shadow_result")) {
+                "DELETE FROM app.sms_shadow_result", "UPDATE app.trace_link_window SET payload='{}'::jsonb",
+                "UPDATE app.trace_link_evaluated_window SET results='[]'::jsonb",
+                "UPDATE app.trace_link_delivery SET payload='{}'::jsonb", "DELETE FROM app.trace_link_episode_state")) {
             var error = assertThrows(DataAccessException.class, () -> jdbc.execute(sql));
             assertEquals("42501", ((SQLException) error.getMostSpecificCause()).getSQLState());
         }

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import type { GeographyCatalogue, ServiceSummary } from '../../../src/app/core/api/telecom-client';
 
 // Opt-in, read-only G2 audit: no route interception, fixtures, simulator commands, or saved session secrets.

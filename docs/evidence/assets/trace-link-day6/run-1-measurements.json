@@ -1,0 +1,3277 @@
+{
+  "status": "VERIFIED",
+  "newDomainObservations": 240,
+  "legacyObservations": 105,
+  "scenarios": [
+    {
+      "name": "transport-fault",
+      "observations": 24,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:00:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "595.68",
+                "validSeconds": 60
+              },
+              "value": "9.928",
+              "quality": "VALID",
+              "eventId": "60232152ac5ee24bc77a8d4bf79322a000ed452543a0bc72d95eb82eed88f619"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:00:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "1790b5592578566ef574cb4d94b32194bdcbd888b2dd1ab4a70a0d4746c0ae7a"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2978.4",
+                "validSeconds": 60
+              },
+              "value": "49.64",
+              "quality": "VALID",
+              "eventId": "49a7522463e610797e34efb0e1339c6e0f7a33e6d2a0898bf39c27d4cb32466d"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:01:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "599.28",
+                "validSeconds": 60
+              },
+              "value": "9.988",
+              "quality": "VALID",
+              "eventId": "f9a1e15fdab966f29c121f4a47d66d9dc34ab8bc50a36f17e16b38090a163787"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:01:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "411073340a4bcf4d9921f4947e6927d009f4ebb96c74da32e29abfceb3fa9321"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2996.4",
+                "validSeconds": 60
+              },
+              "value": "49.94",
+              "quality": "VALID",
+              "eventId": "6bb6e141433001840508d1f9dec1157b97cbb79254d3138e16ee152bb9bd53b7"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:02:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1170.84",
+                "validSeconds": 60
+              },
+              "value": "19.514",
+              "quality": "VALID",
+              "eventId": "fec8529f43b59e33c62c94cb834f02a44892d2c9afe8d95456c256fcd363da63"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:02:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "bde7071b99bc97be3b6939c55d74afafc9f22a642d8c0e67ebc003c6e176cf65"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5854.2",
+                "validSeconds": 60
+              },
+              "value": "97.57",
+              "quality": "VALID",
+              "eventId": "bdcbc5793d7fc412f95eb3ece0cf00c086cbe965ad8ce7de7d38aa74bd3789d2"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:03:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1173.96",
+                "validSeconds": 60
+              },
+              "value": "19.566",
+              "quality": "VALID",
+              "eventId": "9dfd4c04e5977b4e1745c43bbdfe5f40048b5a0fc56dd87c5acbb9f5ef996e7c"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:03:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "630a6e99c3013446c14582f9041f575af0abd3325da528937daec687daad3529"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5869.8",
+                "validSeconds": 60
+              },
+              "value": "97.83",
+              "quality": "VALID",
+              "eventId": "5b39cc70dcc4d21289c124c688dece8b156343b8b62395d0d7a41f8db70dee87"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:04:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1171.8",
+                "validSeconds": 60
+              },
+              "value": "19.53",
+              "quality": "VALID",
+              "eventId": "ed26b96f939243874907e840b03ec4f10cd844eccc791d3e8b8dc968f575eeeb"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:04:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "3c012bfb4321e11dfb794579f958cd12164b96081e0ac115cfe3aefbb81026b9"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5859.0",
+                "validSeconds": 60
+              },
+              "value": "97.65",
+              "quality": "VALID",
+              "eventId": "8b330e2f1a43e12c6bcb997cf3939006f47ed2c19f01ff068f86d254d7ecdeb4"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:05:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "598.68",
+                "validSeconds": 60
+              },
+              "value": "9.978",
+              "quality": "VALID",
+              "eventId": "14e5bc4ac7fa61cc2e64a9e7dbb525c46eb2dfe219b7ee26278b9b4fda029696"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:05:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "3946ed5a5414e7763c5cf705705236edce244e07ac64ae5eb02a73dcb897798e"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2993.4",
+                "validSeconds": 60
+              },
+              "value": "49.89",
+              "quality": "VALID",
+              "eventId": "fcac939a1763daa33842fccf895e606afd078574e9b56e74c777f562b7ab7ee7"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:06:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.4",
+                "validSeconds": 60
+              },
+              "value": "9.94",
+              "quality": "VALID",
+              "eventId": "eca71d327fd80d4a5e61cec77104dde0288aa3ec2e425e001b0aa5eb948c9bec"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:06:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "b7a51d4934fef416a53ae7b7bafd00c4c432783d0ce22fccd5cb5b195ae07415"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2982.0",
+                "validSeconds": 60
+              },
+              "value": "49.7",
+              "quality": "VALID",
+              "eventId": "0e75c02b62406c7e1681ad910ea55e1a79e7b47e1449e894000140656a6bbc1a"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:07:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "594.6",
+                "validSeconds": 60
+              },
+              "value": "9.91",
+              "quality": "VALID",
+              "eventId": "352593103183327fc7c2980b4706f5435cb0b4d55a34f6573f0e39e2530011c0"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:07:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "0645e154c7e89abc6532c57a1e4757f9dac442c4dc4550c5a4349fcad33aba95"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2973.0",
+                "validSeconds": 60
+              },
+              "value": "49.55",
+              "quality": "VALID",
+              "eventId": "2d7d560b401c3142d229253f66eb283809e3c0de20f6865b7bb96bd13274e780"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transport-normal",
+      "observations": 24,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:08:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.76",
+                "validSeconds": 60
+              },
+              "value": "9.946",
+              "quality": "VALID",
+              "eventId": "569f3483d8bc3e59e9ea93a5feb4998bbe9614d15c7de186bedd4abca055bb61"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:08:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "8c4996782d299092b9dd6a2ae2eca82397fcf75545985b7d3d88cd0b45420298"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2983.8",
+                "validSeconds": 60
+              },
+              "value": "49.73",
+              "quality": "VALID",
+              "eventId": "bd48d4b7a0ee1c66b64b9100d13d815204e60e4824a77ae5956601728c009268"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:09:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "597.36",
+                "validSeconds": 60
+              },
+              "value": "9.956",
+              "quality": "VALID",
+              "eventId": "90b71a52c31a7e94254793bc0447258b3ca88a6027464b1abdb67ef07591cf33"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:09:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "be59e4670074f885a170ed27b4be01a6d53b15cd39165955458b7436fcab89ec"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2986.8",
+                "validSeconds": 60
+              },
+              "value": "49.78",
+              "quality": "VALID",
+              "eventId": "5af115948decc15cfa789b7bd0431835db1de079b312d92a8f88150b00cc2414"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:10:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "595.8",
+                "validSeconds": 60
+              },
+              "value": "9.93",
+              "quality": "VALID",
+              "eventId": "b8c8a7886bdb49001da1c91bb551120cd9951f090e737e30d448f6de5be6dbe1"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:10:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "639ca9987b4e4a49fa5de496b7b063ab4389f7bf90f2b1028ecfdeaa08ac0c63"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2979.0",
+                "validSeconds": 60
+              },
+              "value": "49.65",
+              "quality": "VALID",
+              "eventId": "6896c3cae2a536aafa3bcb7e3f0ec65082454df72bac4ec30da3caa25db7ba3e"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:11:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "597.36",
+                "validSeconds": 60
+              },
+              "value": "9.956",
+              "quality": "VALID",
+              "eventId": "9c5d36b070918dbffee7c02e18d64d53f2df8c5b40df016bebd763078ab6ba46"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:11:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "8120817c67478b99684d20294095d87696c6a3f2a5216e8e302121029223ec5c"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2986.8",
+                "validSeconds": 60
+              },
+              "value": "49.78",
+              "quality": "VALID",
+              "eventId": "3dd128b1fbfdfefc65c2568cc5c039e2ba908910411b6d3ededbf656227a63ba"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:12:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "597.72",
+                "validSeconds": 60
+              },
+              "value": "9.962",
+              "quality": "VALID",
+              "eventId": "af7213f4bcd3c773e5e4feffd95579d2480594d56857af04152b89c57d24bdbb"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:12:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "01ddbe62c45384841907a634aab8b70f5904bf024ae1df28bea007affd3db3d6"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2988.6",
+                "validSeconds": 60
+              },
+              "value": "49.81",
+              "quality": "VALID",
+              "eventId": "fbb2e2f78382e64bf728b3507e2086f38eae06d516ed5178bba9fa64bc7aeee3"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:13:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "600.0",
+                "validSeconds": 60
+              },
+              "value": "10.0",
+              "quality": "VALID",
+              "eventId": "51234b028ec1cc6bb5c8b22434036b571c25ad818e597c911c6b698be94195c4"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:13:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "fa86c9ce60986d2b15546deee5c700b4c8e04e645eefdfabbb2e72bbb17f68f8"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "3000.0",
+                "validSeconds": 60
+              },
+              "value": "50.0",
+              "quality": "VALID",
+              "eventId": "f8515ea2eff12e0473ab3a3ba091240b2e42e63eab07a7793332cd71ddfb7daa"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:14:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.4",
+                "validSeconds": 60
+              },
+              "value": "9.94",
+              "quality": "VALID",
+              "eventId": "5bd33ba6c7ab64cd390ab17ac884890eee6d03ecac688329277444ea2f285f32"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:14:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "e24b75969c211bb6ded034650c137c644c5b7fbb3bc8860e4b0be6062abfc179"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2982.0",
+                "validSeconds": 60
+              },
+              "value": "49.7",
+              "quality": "VALID",
+              "eventId": "8c9042810fa6eee96aef498f95014ad872078c9c19c85d363e13425511354615"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:15:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "598.8",
+                "validSeconds": 60
+              },
+              "value": "9.98",
+              "quality": "VALID",
+              "eventId": "b1a72006d1a32c2f5752bbaa1f19efa12602c3a9aa28f5d2c1bfcb58f4440684"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:15:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "3a62079cc653e41ad1a2c976132714e6c5b509aba33b9224f984d0f88ff6f79c"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2994.0",
+                "validSeconds": 60
+              },
+              "value": "49.9",
+              "quality": "VALID",
+              "eventId": "24fbacef3d65cd97b0267e31a3eb7ac874ad7bad42d3ffeae4afd527f6ee747e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transport-gap",
+      "observations": 24,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:16:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.28",
+                "validSeconds": 60
+              },
+              "value": "9.938",
+              "quality": "VALID",
+              "eventId": "33c13bd548b245651fe8eacb0a53499ea4a0bd8c57b5792e428915d3b483b13f"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:16:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "58c70e1e2300e9af6c8a6446a7978d1588e4226bb103ac857c88e1ad536dc498"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2981.4",
+                "validSeconds": 60
+              },
+              "value": "49.69",
+              "quality": "VALID",
+              "eventId": "368ba2b5879aa039409556f56cd47e2d1bf744830fc85949e611321dc01e1aff"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:17:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "595.32",
+                "validSeconds": 60
+              },
+              "value": "9.922",
+              "quality": "VALID",
+              "eventId": "9d1f2bc65d097739e3ad51eb189f1cc22ad1e0b1b7ef07e40c2c6f0b79489aac"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:17:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "2e3c85a592cef1a1a6a956b3a8d1791fa31e3c2fbbad5e622f3f4ab7b4822b0d"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2976.6",
+                "validSeconds": 60
+              },
+              "value": "49.61",
+              "quality": "VALID",
+              "eventId": "4c5ebda1aec94f6eb1308a887e11eb42c8437404e75990317e460fc9998737af"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:18:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "afa1da4872e80b202065ae181db2a9976a70a4d76bb5cc108f0d083f6d2080ef"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": null,
+                "snapshotAt": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "4cd70c0134fbe51ee7c230949e750148d25efffa8bb3d26474da8ca7c37e63f2"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "38d222f10c5693e4688ca033dd3ad69e1b03dfb72fb57c88c6c116a1e1c4c871"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:19:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "761e06eb2a133dbb27a39df6080382c4a1792c95fee93ff5e2fd65b68cb46caa"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": null,
+                "snapshotAt": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "af0a88efef9c67403a43af5518f83565c4f90dbbbf327c84f4056877bc10f612"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "a70e55952230f4fa72b6616e3258ef38c916b47be9109146698a57cae528d654"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:20:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "90d5735ab267b4413250622908bda82a75041c99b681e9769e70b9fbf6b263e2"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": null,
+                "snapshotAt": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "8daa681668733dcea439118cd6f8f39612dfb15c7333f203bca00b12e019073b"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "a8cc3162ab18269ed354f0d6e1dd536b64e143584ff67fa6018772b642706c20"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:21:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.16",
+                "validSeconds": 60
+              },
+              "value": "9.936",
+              "quality": "VALID",
+              "eventId": "fdcef318b7ad510d21bd85d294b7ae9d1286829e1d559702f43c938a71accb56"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:21:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "49eddea5b88bfb38c146426480b6f15815b5edc56d596e5ee6eacf09f14a72e9"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2980.8",
+                "validSeconds": 60
+              },
+              "value": "49.68",
+              "quality": "VALID",
+              "eventId": "a37fee246dfa540ac9e9f4372d6ef0d0da318394a6d51435dd6b617a772f882f"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:22:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.28",
+                "validSeconds": 60
+              },
+              "value": "9.938",
+              "quality": "VALID",
+              "eventId": "a5c08004ce1a77c5c00e85195d1d1afba01d4cdf5ab2c6b8ea1ec7bc9eb29ffe"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:22:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "07e84d5af4f2c09ab53900f008438efffaa15c13b7e16426a7f7e4680f6216d4"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2981.4",
+                "validSeconds": 60
+              },
+              "value": "49.69",
+              "quality": "VALID",
+              "eventId": "9c29d0b9cc22706d599c728241569373840adcfb78aaad7567a1d7fb750e420c"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:23:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.28",
+                "validSeconds": 60
+              },
+              "value": "9.938",
+              "quality": "VALID",
+              "eventId": "7da0a3fef45fbb2639c1957f12c10428883dcd0385f31a3b9585969b50dfc226"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:23:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "39f5f314852ea796f0c937f435285ecb163cf2b90ec822dece125fbf5a7805d4"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2981.4",
+                "validSeconds": 60
+              },
+              "value": "49.69",
+              "quality": "VALID",
+              "eventId": "819088a3ce9e62c4b56113297a4c1f515f8bd56e38ceabd3b4fab1b2e854ef13"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "roaming-fault",
+      "observations": 8,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:00:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1009,
+                "denominator": 1020
+              },
+              "value": "98.92156862745098039215686275",
+              "quality": "VALID",
+              "eventId": "dc89428a2cc7a4b02c3e20eefb88be31e614bf7b425b1fb585fe392c597844aa"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:01:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 997,
+                "denominator": 1008
+              },
+              "value": "98.90873015873015873015873016",
+              "quality": "VALID",
+              "eventId": "83fcadbc8889391eef5e63ddeba9df96c71a516f783f4499474671a972b35a7c"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:02:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 709,
+                "denominator": 1013
+              },
+              "value": "69.99012833168805528134254689",
+              "quality": "VALID",
+              "eventId": "5829367256e14ee3ad67218b28709050ca4390d77a8a1f9a7f4b11cbc6e75aca"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:03:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 731,
+                "denominator": 1045
+              },
+              "value": "69.95215311004784688995215311",
+              "quality": "VALID",
+              "eventId": "16748e88edbe7c9e8310b0133d6e1f164860663fe4b55e20071b416837217932"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:04:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 723,
+                "denominator": 1033
+              },
+              "value": "69.99031945788964181994191675",
+              "quality": "VALID",
+              "eventId": "1d5ac1ddd4528c3c3145a36aa4d05da86623e867fbe2f155cb8c24e4d3b52ce0"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:05:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1036,
+                "denominator": 1047
+              },
+              "value": "98.94937917860553963705826170",
+              "quality": "VALID",
+              "eventId": "ba345122909968f6045395e0c6f73d67bedd97fd332dd53bb1bfa8af78b14539"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:06:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1020,
+                "denominator": 1031
+              },
+              "value": "98.93307468477206595538312318",
+              "quality": "VALID",
+              "eventId": "ab719312d182a8b119dceb46addf6953065ce8518cdfd90f342675785a7382cb"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:07:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1000,
+                "denominator": 1011
+              },
+              "value": "98.91196834817012858555885262",
+              "quality": "VALID",
+              "eventId": "87290eac151bc1628a2a694889909afc81bc963170c5ee0ab62a5610651e0f80"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "roaming-normal",
+      "observations": 8,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:08:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1001,
+                "denominator": 1012
+              },
+              "value": "98.91304347826086956521739130",
+              "quality": "VALID",
+              "eventId": "cadfc0d4311a1a65fee01bd0e8aa057c3b5e2b742a27fb8a2b4163241817f93c"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:09:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 996,
+                "denominator": 1007
+              },
+              "value": "98.90764647467725918570009930",
+              "quality": "VALID",
+              "eventId": "003571e30c5a1dd1e99c31f0df50c82093ab29695d56ef5557d2cceccb401643"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:10:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1026,
+                "denominator": 1037
+              },
+              "value": "98.93924783027965284474445516",
+              "quality": "VALID",
+              "eventId": "60c520e40e288afee2791a04e35ab90a1590d5eff3824f5cddeaf89343279170"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:11:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1025,
+                "denominator": 1036
+              },
+              "value": "98.93822393822393822393822394",
+              "quality": "VALID",
+              "eventId": "98f9b353c7fb7512653766f36898bbec6a6c36732d3695e8a23d7893cedfb28a"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:12:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 994,
+                "denominator": 1005
+              },
+              "value": "98.90547263681592039800995025",
+              "quality": "VALID",
+              "eventId": "686f9b3b0cd16e15b5fa846d521bcb92c303e3dc7333e0d7894d3cb02e3d5995"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:13:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1023,
+                "denominator": 1034
+              },
+              "value": "98.93617021276595744680851064",
+              "quality": "VALID",
+              "eventId": "e973c456e17f665271651fe6ae02c4ab976fe85a9861567a7ec0c6dc431d66bf"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:14:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1031,
+                "denominator": 1042
+              },
+              "value": "98.94433781190019193857965451",
+              "quality": "VALID",
+              "eventId": "be8cbae676a9b4cb6516c8c1798324969b94c7b568b2927c5699f49427a5867a"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:15:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1021,
+                "denominator": 1032
+              },
+              "value": "98.93410852713178294573643411",
+              "quality": "VALID",
+              "eventId": "cc20690e19e8f3765df64298dc00b45245d8208aa69b9b981660acd4132c94e1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "roaming-gap",
+      "observations": 8,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:16:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1029,
+                "denominator": 1040
+              },
+              "value": "98.94230769230769230769230769",
+              "quality": "VALID",
+              "eventId": "6e4f82849a14ebbda3c18a72d5357448d9882d4e6530218fa9d330438c8f6844"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:17:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1038,
+                "denominator": 1049
+              },
+              "value": "98.95138226882745471877979028",
+              "quality": "VALID",
+              "eventId": "5cdecc50ee16dfd92b560f99d3fbb6d1cc584b54fc1eb240a48738eeefe31846"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:18:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "8af588a533c1e0d9a2054efd9b2e08344d93499efc49d397348b228ac06c41ed"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:19:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "dd14ac6be01a7f8f122d5d3adbe9ab3053437ec1058d0eacca1aacc0afda57f0"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:20:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "15fd85c2c5d89207e3684732f107ee49ff977b5454c50e6916b31ad6a46532e8"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:21:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 995,
+                "denominator": 1006
+              },
+              "value": "98.90656063618290258449304175",
+              "quality": "VALID",
+              "eventId": "af704bda1d9b74e896979622bf0c95d56a08bdcb804fe77dfa5e92ff5b600299"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:22:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 990,
+                "denominator": 1000
+              },
+              "value": "99",
+              "quality": "VALID",
+              "eventId": "521d8e22cb17fb5b4036af50f165cc0572f3a357436544739356c9cc6f8fecfa"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:23:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 990,
+                "denominator": 1000
+              },
+              "value": "99",
+              "quality": "VALID",
+              "eventId": "4298e85253013afb1298492c1fb9e7b5e0a5712d592d11c033f211bf7b136687"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mobile-data-fault",
+      "observations": 16,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:00:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1029,
+                "denominator": 1040
+              },
+              "value": "98.94230769230769230769230769",
+              "quality": "VALID",
+              "eventId": "b728cfdbb029e67cd4531a04e2eed2e3047b1e6c83c6fd41b5578cde4cf93262"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1022,
+                "denominator": 1033
+              },
+              "value": "98.93514036786060019361084221",
+              "quality": "VALID",
+              "eventId": "a5a255f2125cfdbdd5b7a4063d0a90745c7c388879048be0fd8795e0ed727cae"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:01:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 990,
+                "denominator": 1001
+              },
+              "value": "98.90109890109890109890109890",
+              "quality": "VALID",
+              "eventId": "54f5e5b27005f120255a022e4087242fb81d53dcb7112d26b342c5ed0c4d88e9"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1011,
+                "denominator": 1022
+              },
+              "value": "98.92367906066536203522504892",
+              "quality": "VALID",
+              "eventId": "51c840a082b563cf577594e257234c077a07f286868825541084628f931416dc"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:02:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 711,
+                "denominator": 1016
+              },
+              "value": "69.98031496062992125984251969",
+              "quality": "VALID",
+              "eventId": "53c3f8613694527513c7a715284f83a77d56242c933dd685c73c7dcc33d5185c"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1022,
+                "denominator": 1033
+              },
+              "value": "98.93514036786060019361084221",
+              "quality": "VALID",
+              "eventId": "6289bd1cd8cf54189cd31c374d64604ba5c593d58e4e5100df95efcbaa83e91f"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:03:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 726,
+                "denominator": 1038
+              },
+              "value": "69.94219653179190751445086705",
+              "quality": "VALID",
+              "eventId": "9cda90b4951f50fb023201ca2390cfacf2daab77e2b334fe86a2c3ed4a7cb6ff"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1035,
+                "denominator": 1046
+              },
+              "value": "98.94837476099426386233269598",
+              "quality": "VALID",
+              "eventId": "ede1d6e82cb8ac1cae7825330d3143398a297d78964ebcd03cfb5b8a8538aa24"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:04:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 729,
+                "denominator": 1042
+              },
+              "value": "69.96161228406909788867562380",
+              "quality": "VALID",
+              "eventId": "1bf9f07c2d680f147ea1b1cef9d67442b711d09019098f2e6d6d1e3bef4eb2d3"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 991,
+                "denominator": 1002
+              },
+              "value": "98.90219560878243512974051896",
+              "quality": "VALID",
+              "eventId": "bfe5062267b8527bfa49da517b8f343668390e85d8adc9735b3a645b85d42e2f"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:05:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1039,
+                "denominator": 1050
+              },
+              "value": "98.95238095238095238095238095",
+              "quality": "VALID",
+              "eventId": "62e192452f2c9603a899a7c6aaa5dddb9a078b16d4f19ab103192cc98fbdca4d"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1025,
+                "denominator": 1036
+              },
+              "value": "98.93822393822393822393822394",
+              "quality": "VALID",
+              "eventId": "367b21f89860dfc80c511d0410f2028a8805ae64be6d10898f1488f99a25087d"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:06:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1029,
+                "denominator": 1040
+              },
+              "value": "98.94230769230769230769230769",
+              "quality": "VALID",
+              "eventId": "344ce4c53f7755ff3ab5ec376787f363bf20e0447b2208ef63e43ba4ac753015"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1004,
+                "denominator": 1015
+              },
+              "value": "98.91625615763546798029556650",
+              "quality": "VALID",
+              "eventId": "9412112e089d10b25c2da5649c4acbd26736ff6e0bc2e5f9cc807e61e86eb861"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:07:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 993,
+                "denominator": 1004
+              },
+              "value": "98.90438247011952191235059761",
+              "quality": "VALID",
+              "eventId": "aab2e846ebe31afda29c9bfbbd819be7edb3806a8d41c6b7b4f4e571b1aef2de"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1017,
+                "denominator": 1028
+              },
+              "value": "98.92996108949416342412451362",
+              "quality": "VALID",
+              "eventId": "c970a34727f7b488222c927d4d8759f854c59c5edab86a1fa2f1dbc9b4c5ea1c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mobile-data-normal",
+      "observations": 16,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:08:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1009,
+                "denominator": 1020
+              },
+              "value": "98.92156862745098039215686275",
+              "quality": "VALID",
+              "eventId": "b28590447282a8d2b333bb55bbea27cb7547b5f772ad9e8d38d20e7b5c962e49"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1036,
+                "denominator": 1047
+              },
+              "value": "98.94937917860553963705826170",
+              "quality": "VALID",
+              "eventId": "b972ffbf9cbcb16ac3f285a174795fff9bcb7880f1a6e0e08f47dc4c6fbe34b8"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:09:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1030,
+                "denominator": 1041
+              },
+              "value": "98.94332372718539865513928915",
+              "quality": "VALID",
+              "eventId": "5905379ebb1108cea3ee8aee6c05c4a2d2fd7d2ec609636e8ad2a7c75cf8ea13"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1008,
+                "denominator": 1019
+              },
+              "value": "98.92051030421982335623159961",
+              "quality": "VALID",
+              "eventId": "4eb96aaf090e0b7160d9b9283d49edfe6ea03a723b2f78a7105b776d3c80fb68"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:10:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1018,
+                "denominator": 1029
+              },
+              "value": "98.93100097181729834791059281",
+              "quality": "VALID",
+              "eventId": "c37c3d22c15df6e87421ee002bb6cc24470bd38630205182d0a780a47cd072ba"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1013,
+                "denominator": 1024
+              },
+              "value": "98.92578125",
+              "quality": "VALID",
+              "eventId": "631095991a699ff021d7f90807af71c1ad4891cce0e8a7e380f8b859df0a17d0"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:11:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1020,
+                "denominator": 1031
+              },
+              "value": "98.93307468477206595538312318",
+              "quality": "VALID",
+              "eventId": "d24ca5de588e4af4a3f2e4ec458e020d258c8ed6c2de0cdaf81e68982aac3fd5"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1016,
+                "denominator": 1027
+              },
+              "value": "98.92891918208373904576436222",
+              "quality": "VALID",
+              "eventId": "8215e89f96c596a7178c3424fc642959469baedd8b44f2e20c26bee23d0a14c7"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:12:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 991,
+                "denominator": 1002
+              },
+              "value": "98.90219560878243512974051896",
+              "quality": "VALID",
+              "eventId": "32fd50a73aa48d9af153d02bc5370b602f96295f86b9061a476ed12468fa5d51"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 991,
+                "denominator": 1002
+              },
+              "value": "98.90219560878243512974051896",
+              "quality": "VALID",
+              "eventId": "0ad14af658a59cb09a1905a311ca6e753d2f961f33d059bb2988b235eac58008"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:13:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1038,
+                "denominator": 1049
+              },
+              "value": "98.95138226882745471877979028",
+              "quality": "VALID",
+              "eventId": "a1aa781a9713f651a78f24cc9ba315c0796765925c641c17911cb51c3b839c37"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1026,
+                "denominator": 1037
+              },
+              "value": "98.93924783027965284474445516",
+              "quality": "VALID",
+              "eventId": "5d831e878563e68ceb99b6dda1510c888848eb50a8a5eeb58d843813c96f3565"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:14:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1029,
+                "denominator": 1040
+              },
+              "value": "98.94230769230769230769230769",
+              "quality": "VALID",
+              "eventId": "fa2d95d29e8b2c1071850f7ed4465fdd5033bb6d6bbc83663389b0129d7cc613"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1025,
+                "denominator": 1036
+              },
+              "value": "98.93822393822393822393822394",
+              "quality": "VALID",
+              "eventId": "3897764028b6aff2f0a9e3e3ae8388977a03b9196d814945690140629b7f5975"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:15:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 993,
+                "denominator": 1004
+              },
+              "value": "98.90438247011952191235059761",
+              "quality": "VALID",
+              "eventId": "36914b846939ce560d0ff613e1f92edf67cfb35c5b15d4cba9035de5df9e7c3c"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1002,
+                "denominator": 1013
+              },
+              "value": "98.91411648568608094768015795",
+              "quality": "VALID",
+              "eventId": "ee507ea17fb3f786bd0153444fc90cfe35dd5c2627fc6df79ca85612de4a34bd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mobile-data-gap",
+      "observations": 16,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:16:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1026,
+                "denominator": 1037
+              },
+              "value": "98.93924783027965284474445516",
+              "quality": "VALID",
+              "eventId": "50397d2db6a69f74790203c90be702beb7bd713ca74a6e32649350810c1d9c85"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1035,
+                "denominator": 1046
+              },
+              "value": "98.94837476099426386233269598",
+              "quality": "VALID",
+              "eventId": "f75ea68990db7f9bcc3cad26a0ff21db423e812dc8507fc8aa9c46e2f7475914"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:17:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1029,
+                "denominator": 1040
+              },
+              "value": "98.94230769230769230769230769",
+              "quality": "VALID",
+              "eventId": "57687a776d11d9124fb4c4285600cfd00f8e60ab5e784572591c957a7f6c069f"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 992,
+                "denominator": 1003
+              },
+              "value": "98.90329012961116650049850449",
+              "quality": "VALID",
+              "eventId": "a8862ff8b3017fd11062f9e239b944e55b7d842311025dd96ca01ab431557d0d"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:18:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "1824fa0351a2be7a22bbdf565192a160a0c9bb40289b6218255f2b0993c6df63"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "40c729b21b536dc1c5f8592f3937f74165f321ec4484de667aa97012051bc837"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:19:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "351e8d3336219e12ad9328b18fdb0fc801ad894b08291ee556f91fe2d176df59"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "db6ecc692173ef6a5d775743caaac09125465af37da232d9253c3b14cfb7f130"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:20:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "191257d7c1f3fe47bd1dbcab82ed10f5acc578f38e0f24c228b139bedac8a051"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": null,
+                "denominator": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "528e912011ef5bf4b4073ac57f7e4c59b113d4568939f1038f3ba0fe84c9edf5"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:21:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 993,
+                "denominator": 1004
+              },
+              "value": "98.90438247011952191235059761",
+              "quality": "VALID",
+              "eventId": "08caeb47b2dd88cfa68cccb91b5a2d9c48c87414013603bc7f19b5ff3fe51c58"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1037,
+                "denominator": 1048
+              },
+              "value": "98.95038167938931297709923664",
+              "quality": "VALID",
+              "eventId": "8bbf8830d74d444656393179ef8cf2d9a8910597d4a87e0b39a9014e02e61bcd"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:22:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 992,
+                "denominator": 1003
+              },
+              "value": "98.90329012961116650049850449",
+              "quality": "VALID",
+              "eventId": "b1d03186b5ecdd41dfd807d32099dd8223a406445db99fc71f28d161a5b7c509"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1020,
+                "denominator": 1031
+              },
+              "value": "98.93307468477206595538312318",
+              "quality": "VALID",
+              "eventId": "3867d1742f800f74f4a313b6234a38329a07187c14b712b5cefc933a45ad2405"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:23:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1015,
+                "denominator": 1026
+              },
+              "value": "98.92787524366471734892787524",
+              "quality": "VALID",
+              "eventId": "c98e1ae3e386170a88453b42480ff5c6991da307dd9a3d4238e44d289617b821"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1012,
+                "denominator": 1023
+              },
+              "value": "98.92473118279569892473118280",
+              "quality": "VALID",
+              "eventId": "7073df23843fcb7c177119edd1a65c30b51e3a7981bdc0e9c9bd035c0f5d8881"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transport-opposite",
+      "observations": 24,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:00:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "595.8",
+                "validSeconds": 60
+              },
+              "value": "9.93",
+              "quality": "VALID",
+              "eventId": "5aa9638ad0e60aebb383a59faac96005ffa16816db1105b0d625805254df9463"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:00:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "8a6b630957a650bebbbfb43edb26274a4fd059fd2d9c46a4a002f79c2c76ab3f"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2979.0",
+                "validSeconds": 60
+              },
+              "value": "49.65",
+              "quality": "VALID",
+              "eventId": "719c449fa3ddfb73caf9735e642309f184bf0c6bbd1f6c4cc4257dd2f078a904"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:01:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "595.32",
+                "validSeconds": 60
+              },
+              "value": "9.922",
+              "quality": "VALID",
+              "eventId": "84be3fa48b28e8b8f237ebc111cffdda58eda4e266fc87a7f246f1984f42cb0a"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:01:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "f43b82e462b8236241686a041c1cbe69afc67534283ec366e7831846c79e1b03"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2976.6",
+                "validSeconds": 60
+              },
+              "value": "49.61",
+              "quality": "VALID",
+              "eventId": "78b9a976b68fa5f0acec30382a247435c75993a4684f622ce469deb2c48a0511"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:02:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "599.16",
+                "validSeconds": 60
+              },
+              "value": "9.986",
+              "quality": "VALID",
+              "eventId": "cab2b2959ed699b6d8c7fc662f267f12eb533999be5ec5d62de53fb80ca544f0"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:02:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "ca7032830e214d6ee26ad2815c43ebe66940e329d28d1112f15f8b9f4bace9af"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2995.8",
+                "validSeconds": 60
+              },
+              "value": "49.93",
+              "quality": "VALID",
+              "eventId": "51f159c73df3fc8d5ca94bb0081a062648d217055fc352b39ce5f4b0a4b3f313"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:03:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "598.32",
+                "validSeconds": 60
+              },
+              "value": "9.972",
+              "quality": "VALID",
+              "eventId": "6318a1c2bc9f04d9e1b3603935521714c9c8fbfc77ffb176415ae4a5be31d61b"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:03:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "7fde401a209e5c780b667f19cde404962ffa87e97b8bea0c34dddfa5388988b9"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2991.6",
+                "validSeconds": 60
+              },
+              "value": "49.86",
+              "quality": "VALID",
+              "eventId": "66b057bd09fa313ee1056edad88d3e0322c117bb25f426ed58db66aeb288155e"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:04:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "595.8",
+                "validSeconds": 60
+              },
+              "value": "9.93",
+              "quality": "VALID",
+              "eventId": "7fb764bd48b75eafab11abd94b011cc6607035130d6d263f4083a19f2352e0c7"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:04:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "90f2490d5cf87e45649bd3c84f0e7e79276dba93a1f3beef63d44543f46ca8e5"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2979.0",
+                "validSeconds": 60
+              },
+              "value": "49.65",
+              "quality": "VALID",
+              "eventId": "2998a9ddc52e8767a866060549f7301349715c24daff55421227686e8d7bc8b7"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:05:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "598.8",
+                "validSeconds": 60
+              },
+              "value": "9.98",
+              "quality": "VALID",
+              "eventId": "186020960081f4c972158f58c1246dc87d6495984e1c7cf0afbd524b903e27a0"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:05:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "8ef9c91a9fa62cdb14e5ef11f387453f1dfae3e0c2a5b7adfe3d844dc98a1d7a"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2994.0",
+                "validSeconds": 60
+              },
+              "value": "49.9",
+              "quality": "VALID",
+              "eventId": "8525e18633a3916bbb6fedefe79bf563d0780860345996705102da64d1fa5581"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:06:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "595.8",
+                "validSeconds": 60
+              },
+              "value": "9.93",
+              "quality": "VALID",
+              "eventId": "33795bb68ad06461c6823a0f9b18c3d0b1fc4b45c2effb5396c3dd9bf97488d4"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:06:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "c4deb86677c8db5205a147f4082493ae3935cb1ad669ef44adff00d979a4c4bb"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2979.0",
+                "validSeconds": 60
+              },
+              "value": "49.65",
+              "quality": "VALID",
+              "eventId": "398f3e95244fd013f03e53a42eef84f0c8d9e499322caddc1bb95338be0f7110"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:07:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "600.0",
+                "validSeconds": 60
+              },
+              "value": "10.0",
+              "quality": "VALID",
+              "eventId": "752cec4acadc5c1f1d299d2474f9ba2cfb1ccc2ef84b4d456c9926480a572b3d"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:07:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "41113975b6f9c6436b3548f2435a8bb23d3b5f0c5c1adb05f76323fbba35605d"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "3000.0",
+                "validSeconds": 60
+              },
+              "value": "50.0",
+              "quality": "VALID",
+              "eventId": "1cbc822e37e8c929fcfe454ffdd194f4ee859d31754d780c5df8949a75d5c58f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "roaming-opposite",
+      "observations": 8,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:00:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 990,
+                "denominator": 1001
+              },
+              "value": "98.90109890109890109890109890",
+              "quality": "VALID",
+              "eventId": "f51dfba03fe19a5eb28848be26822128c3a46b96dadffde53997ba91b1047fea"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:01:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1028,
+                "denominator": 1039
+              },
+              "value": "98.94128970163618864292589028",
+              "quality": "VALID",
+              "eventId": "46d920617522da5d6761238a85ac4d5831c1c606a53deea59d08ccf628d81d2d"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:02:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1005,
+                "denominator": 1016
+              },
+              "value": "98.91732283464566929133858268",
+              "quality": "VALID",
+              "eventId": "10490a07a473da842b1cdcc865f0fe8a5c60162cd60684509131f8c0b36d39b1"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:03:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 999,
+                "denominator": 1010
+              },
+              "value": "98.91089108910891089108910891",
+              "quality": "VALID",
+              "eventId": "57f2b375ca77972ce7817149b172ed2a99b99a7f346fc8d4a6bd6a354bbe5b1b"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:04:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1009,
+                "denominator": 1020
+              },
+              "value": "98.92156862745098039215686275",
+              "quality": "VALID",
+              "eventId": "b5d6efc4c68bc2e23597b004ce242c5705aec38d8327f13ef15f3c5a12939c55"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:05:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1004,
+                "denominator": 1015
+              },
+              "value": "98.91625615763546798029556650",
+              "quality": "VALID",
+              "eventId": "6b31b3f98ea7d1ad2adeaddf4a7edd6fa4ea8341ff142ed3061576f0f91ee494"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:06:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 997,
+                "denominator": 1008
+              },
+              "value": "98.90873015873015873015873016",
+              "quality": "VALID",
+              "eventId": "ac57fa95b28b53570f7295cf582b7112d37d61a729838a487c1a30de4ef79578"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:07:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "roaming.registration.success",
+              "primitives": {
+                "numerator": 1030,
+                "denominator": 1041
+              },
+              "value": "98.94332372718539865513928915",
+              "quality": "VALID",
+              "eventId": "5d2a39ac95f0071d264e1c4bcb5dd728cfbffac2c611f500309db2da56556cb5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mobile-data-other-city",
+      "observations": 16,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:00:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1006,
+                "denominator": 1017
+              },
+              "value": "98.91838741396263520157325467",
+              "quality": "VALID",
+              "eventId": "740eabf030695109fefca0837816c88a7439c0b01bd7e9b4a66f1d083118f9f8"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 998,
+                "denominator": 1009
+              },
+              "value": "98.90981169474727452923686819",
+              "quality": "VALID",
+              "eventId": "b358ee0a58c5fc09d684a8a6c8d18fa91b5a420a2f5338a5de0c91b28158263a"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:01:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1027,
+                "denominator": 1038
+              },
+              "value": "98.94026974951830443159922929",
+              "quality": "VALID",
+              "eventId": "3dc0c2adb98647b27d91b36fb7d713b1aab8a0c08e43c8ba3c2a3041ff93402f"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1036,
+                "denominator": 1047
+              },
+              "value": "98.94937917860553963705826170",
+              "quality": "VALID",
+              "eventId": "6955b11f2e32c3300627566fa17e1bfa2897a66bc33f4c7658f5ef3b9867956f"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:02:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1012,
+                "denominator": 1023
+              },
+              "value": "98.92473118279569892473118280",
+              "quality": "VALID",
+              "eventId": "d98ad712100b57131f6c5be1a7c43e91d80c170169ce45cbd27b609f15e33b20"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 991,
+                "denominator": 1002
+              },
+              "value": "98.90219560878243512974051896",
+              "quality": "VALID",
+              "eventId": "0ee756c9767a5ded0ec82e906d3d5a533c799dfc17f88664ac0ecbaf157c6607"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:03:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1017,
+                "denominator": 1028
+              },
+              "value": "98.92996108949416342412451362",
+              "quality": "VALID",
+              "eventId": "9afa924c19892bb0abf6102db2beecf8ea4eacc12d3561b6e0ad3eb1ad9fa2ed"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1017,
+                "denominator": 1028
+              },
+              "value": "98.92996108949416342412451362",
+              "quality": "VALID",
+              "eventId": "43b4ef47333e896bf800d1d21f30177d3e8291ac2b3503b36238a00cd01a1daf"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:04:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1009,
+                "denominator": 1020
+              },
+              "value": "98.92156862745098039215686275",
+              "quality": "VALID",
+              "eventId": "db7f728431ccaad5cbd5701d30dafcd96c169b31e247763ffc7ec3b530a14b6a"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1024,
+                "denominator": 1035
+              },
+              "value": "98.93719806763285024154589372",
+              "quality": "VALID",
+              "eventId": "890507d3176970ba28af25bf3180a72044824b58a5c22cc22642a5b8793e6c26"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:05:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1020,
+                "denominator": 1031
+              },
+              "value": "98.93307468477206595538312318",
+              "quality": "VALID",
+              "eventId": "85f2c58eee15a8822b976dd1fe916f56410fcbec776933b5510a2c5ead76b8db"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 997,
+                "denominator": 1008
+              },
+              "value": "98.90873015873015873015873016",
+              "quality": "VALID",
+              "eventId": "7985e222b4f19e0b194853bc79575eac55083f1b1588da41e49bbd016316d3f7"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:06:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1023,
+                "denominator": 1034
+              },
+              "value": "98.93617021276595744680851064",
+              "quality": "VALID",
+              "eventId": "ecd2e6fb2d51f9123ff23943fd0e21ed26c6c37afcc0dd230b5e785ea691c211"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 996,
+                "denominator": 1007
+              },
+              "value": "98.90764647467725918570009930",
+              "quality": "VALID",
+              "eventId": "0cae2e433c4911100f1917fcdae283813c8f09e78a2192c0a7725d4d143afac6"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:07:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "mobileData.dns.success",
+              "primitives": {
+                "numerator": 1009,
+                "denominator": 1020
+              },
+              "value": "98.92156862745098039215686275",
+              "quality": "VALID",
+              "eventId": "af7fe0fd944cda7cc960b5c1cf6def06a9b66c7b88b80dc852a7d35ee0b9badc"
+            },
+            {
+              "metricId": "mobileData.activation.success",
+              "primitives": {
+                "numerator": 1009,
+                "denominator": 1020
+              },
+              "value": "98.92156862745098039215686275",
+              "quality": "VALID",
+              "eventId": "0e5384918b41f629a026754f97b7f616050c11c0d30430073a89808a15efea5a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transport-high-utilization-control",
+      "observations": 24,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:00:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1147.2",
+                "validSeconds": 60
+              },
+              "value": "19.12",
+              "quality": "VALID",
+              "eventId": "e509860ba039e5b19a9c6893d5fa87661b3a22a9352c90215d2ee6d54557ed09"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:00:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "9404395ea9326fa41d702cee071018cf00aff7c9726724d4b6756c6fbe2f61ed"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5736.0",
+                "validSeconds": 60
+              },
+              "value": "95.6",
+              "quality": "VALID",
+              "eventId": "781593ea121143a57f27eb62dc14f93e58f85662e1855e9fed5dac2b109348f6"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:01:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1152.0",
+                "validSeconds": 60
+              },
+              "value": "19.2",
+              "quality": "VALID",
+              "eventId": "94804d2075cfe9f3a20b80f597b79a05d7ea1c1fbbe9b12c7810569b2ceac6b1"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:01:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "684e4963667dd5286690ef4e8163d4df82da3d3d14546daf31fde2c476f4ca31"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5760.0",
+                "validSeconds": 60
+              },
+              "value": "96.0",
+              "quality": "VALID",
+              "eventId": "a3572ff616567d31a97a9b3f113d80bf201d13c909e27548371bbc3135c0a03f"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:02:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1147.08",
+                "validSeconds": 60
+              },
+              "value": "19.118",
+              "quality": "VALID",
+              "eventId": "ae2b4c4e509dbf354d3cef501659e84384539ebef12a485e0492c7aa22c4a22c"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:02:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "602ade8201be864dc46d5b5e7c41f5a4e94266f68e2ea4f114e35de982fb35f7"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5735.4",
+                "validSeconds": 60
+              },
+              "value": "95.59",
+              "quality": "VALID",
+              "eventId": "d8ac45b0f7fa3b612ad64d3c35958f3a5558a25f7fb8a3170b74d82fa285a575"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:03:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1147.2",
+                "validSeconds": 60
+              },
+              "value": "19.12",
+              "quality": "VALID",
+              "eventId": "23891e059ee63f23a7bfff9ee17be3abcb93d54f1fde1eefb81f60ef877ddb82"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:03:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "b483d04c9cd48489e8e52a4042f178106aedd7c72f1461fedb416c63fa6e8fba"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5736.0",
+                "validSeconds": 60
+              },
+              "value": "95.6",
+              "quality": "VALID",
+              "eventId": "fd53f814867ffde74df1a72d34e63bcfb0fc417bed6b4932d56ab63b0100af09"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:04:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1146.0",
+                "validSeconds": 60
+              },
+              "value": "19.1",
+              "quality": "VALID",
+              "eventId": "e535c640423956fc1c436ddc7d8e8d9728481b3f61771072884382b1ce96304a"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:04:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "ff1be2db03e48a5752a830b48e6c02e55490c6f2c04c543c2d2949f8d3ba0b8f"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5730.0",
+                "validSeconds": 60
+              },
+              "value": "95.5",
+              "quality": "VALID",
+              "eventId": "22fb8aa80554d70529f60eb1c6a2bac46206d4b3f62529507804b2788f6bbb38"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:05:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1150.32",
+                "validSeconds": 60
+              },
+              "value": "19.172",
+              "quality": "VALID",
+              "eventId": "58d4c09708261a7c8b6bb9f437de652330c5fb26a339ed9581acdcf210ee9b30"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:05:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "bac78a97c6009d3599263a5ee58eda1f16ed772f3810e3435287620cfe384f82"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5751.6",
+                "validSeconds": 60
+              },
+              "value": "95.86",
+              "quality": "VALID",
+              "eventId": "fef91ff6d34bcb6bf71221a6f5ce5a38574d12e7b541d4ed8d61beaa81127682"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:06:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1149.72",
+                "validSeconds": 60
+              },
+              "value": "19.162",
+              "quality": "VALID",
+              "eventId": "4567fa7510eaeadf833023dd10ad478b9be3fbd5c24f2af94497b6be5d21b468"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:06:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "c15db0d257f7e8f2d0e7b5a33e826588617a291f24fecf0be232e18ffab435b6"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5748.6",
+                "validSeconds": 60
+              },
+              "value": "95.81",
+              "quality": "VALID",
+              "eventId": "c199ab912f513a2c126ec0b716aefaf8677f738c64f86872a12b68c0a4913f1c"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:07:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1148.4",
+                "validSeconds": 60
+              },
+              "value": "19.14",
+              "quality": "VALID",
+              "eventId": "eaefb40f0e24541e853e31600a1abe338f5a14bcff1fdaccbb746d1654ed1725"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:07:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "4f97abf06e46c9a02865e01093d36965147ca1803993ee8bc255f4ff17de20ea"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5742.0",
+                "validSeconds": 60
+              },
+              "value": "95.7",
+              "quality": "VALID",
+              "eventId": "498325d37276a671efd54f0f642f6641f091d2907062baec72c7284801b74121"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transport-recovery-gap",
+      "observations": 24,
+      "minutes": [
+        {
+          "minute": 1,
+          "windowStart": "2026-10-12T09:24:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "597.6",
+                "validSeconds": 60
+              },
+              "value": "9.96",
+              "quality": "VALID",
+              "eventId": "854914ee86b084e8630ce958f005a5f70b82831ba683c343f9051ea36c2d2748"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:24:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "3c9bc47de3dba79e232c395a7c00a43f416db8d4d5dc4102748f91f06b50905c"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2988.0",
+                "validSeconds": 60
+              },
+              "value": "49.8",
+              "quality": "VALID",
+              "eventId": "4b0dd0dffb3f300e3e677a9ec80df93ac0d0bc7c5c1a42ca7a1ae2a9d08e0c5a"
+            }
+          ]
+        },
+        {
+          "minute": 2,
+          "windowStart": "2026-10-12T09:25:00Z",
+          "schedulePhase": "NORMAL",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "594.24",
+                "validSeconds": 60
+              },
+              "value": "9.904",
+              "quality": "VALID",
+              "eventId": "a09d15d0094c9e985aa644e12caae3388225f78eb69eb1c59cd6932ee2fc837f"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:25:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "fc86f8b82791ae0104f181c679460722c34e5351d0afafea69d007775452ad3d"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2971.2",
+                "validSeconds": 60
+              },
+              "value": "49.52",
+              "quality": "VALID",
+              "eventId": "ad66f364014da29b569cc9bc43796517f52782c9cb5c01dfda74116bd2b4aa92"
+            }
+          ]
+        },
+        {
+          "minute": 3,
+          "windowStart": "2026-10-12T09:26:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1175.16",
+                "validSeconds": 60
+              },
+              "value": "19.586",
+              "quality": "VALID",
+              "eventId": "b1af6f6ceee859f24d1a4223cd63dd548f92b04816816f038263dbdf1cc5473d"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:26:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "70e0544e0075b5b883c70db96eda9034ec177913174332b860660fe801406eee"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5875.8",
+                "validSeconds": 60
+              },
+              "value": "97.93",
+              "quality": "VALID",
+              "eventId": "8a949157365eb4f6afaedd09149a7b015080ba5defad91bed223835942930a26"
+            }
+          ]
+        },
+        {
+          "minute": 4,
+          "windowStart": "2026-10-12T09:27:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1170.24",
+                "validSeconds": 60
+              },
+              "value": "19.504",
+              "quality": "VALID",
+              "eventId": "5efad46cecdda2f4b33e4b04f0d2fed2f0642e72b5afcf587cb842f21f2eea8b"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:27:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "4155036f4bf8932bc4b72da8763bf6c5974868062fd6a516ab1406405b0f4d53"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5851.2",
+                "validSeconds": 60
+              },
+              "value": "97.52",
+              "quality": "VALID",
+              "eventId": "d79f56f0cbda359999addca1f62fd74b46e9ce60fc64fdc46beed6b14c19e669"
+            }
+          ]
+        },
+        {
+          "minute": 5,
+          "windowStart": "2026-10-12T09:28:00Z",
+          "schedulePhase": "DEGRADED",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "1172.52",
+                "validSeconds": 60
+              },
+              "value": "19.542",
+              "quality": "VALID",
+              "eventId": "a7f6e9074b5385ea4376450f828afb667d241a38d5d220bb37c56ed6c13632a1"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:28:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "9ac51809cb4cc6ccd8f849229a41ff98aa7d6529d5a05a3f7af7c20e2d4bfce2"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "5862.6",
+                "validSeconds": 60
+              },
+              "value": "97.71",
+              "quality": "VALID",
+              "eventId": "2cb01c3cf1d86cf7d55d831559041db1c8e0bb5691b59b2f28f734fee39becbd"
+            }
+          ]
+        },
+        {
+          "minute": 6,
+          "windowStart": "2026-10-12T09:29:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "1fa8addc3c03889f38b1c8c52ee687e56397770facc3e7e637e5463fc3719a42"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": null,
+                "snapshotAt": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "f5ee40e52005410af066b1be4640341545a48dfb7ac4705e1f2995e52d373d02"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "c1178dabbbafbf7399a6bc00b32c95c9e023bf0c7aaa331422da5eb530318565"
+            }
+          ]
+        },
+        {
+          "minute": 7,
+          "windowStart": "2026-10-12T09:30:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "6ecd5cd1fbdbfad96d2eb73b202f375f180c20c3588512b47005e1582dfa394b"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": null,
+                "snapshotAt": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "cddd45b3c85cfb8f3ba747067006a048694318ae6dc70e07335a58cb0c7b00c9"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": null,
+                "validSeconds": null
+              },
+              "value": null,
+              "quality": "MISSING",
+              "eventId": "f1889278b1efad05f1d454b1674c80efe61fd7d8ebbfb0b492dd0b2166aafe72"
+            }
+          ]
+        },
+        {
+          "minute": 8,
+          "windowStart": "2026-10-12T09:31:00Z",
+          "schedulePhase": "RECOVERY",
+          "measurements": [
+            {
+              "metricId": "transport.traffic",
+              "primitives": {
+                "weightedSum": "596.76",
+                "validSeconds": 60
+              },
+              "value": "9.946",
+              "quality": "VALID",
+              "eventId": "5bdd0bc26b0a3632a05921ddf4242004e46ac7f6060f7c3907a7ab95f79e1cfe"
+            },
+            {
+              "metricId": "transport.effectiveCapacity",
+              "primitives": {
+                "value": 20,
+                "snapshotAt": "2026-10-12T09:31:00Z"
+              },
+              "value": "20",
+              "quality": "VALID",
+              "eventId": "f770a458e00033c63f88f46f54e2d8214b05438e0647d8e9075697bcbb6448b9"
+            },
+            {
+              "metricId": "transport.link.utilization",
+              "primitives": {
+                "weightedSum": "2983.8",
+                "validSeconds": 60
+              },
+              "value": "49.73",
+              "quality": "VALID",
+              "eventId": "0763a9c0259fcf6f0003980622e197338b072fb3a27bb35c8c78905e46db7ae4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "detectorTransitions": "NOT_VERIFIED",
+  "Kafka": "DISABLED"
+}

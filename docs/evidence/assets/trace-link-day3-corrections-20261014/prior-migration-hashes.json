@@ -1,0 +1,136 @@
+{
+  "base": "9db3e0e5a61a8062310e560e734a5395758f70b7",
+  "migrations": [
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V001__service_incidents.sql",
+      "sha256": "b6a8a6109344a1109b8fab1743449c9162f165cc65054de1d4c8d71b48e46c12",
+      "gitBlobOid": "8a3e128a5204196a54f88950e7eac7e7106f0c25"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V002__service_kpi_indexes.sql",
+      "sha256": "0472699bbe31fdaf6f3e9093de4de7b4cbf193e93e6295992364c7035145039e",
+      "gitBlobOid": "276e459abe5ce69ba9fd33200652b06186931897"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V003__sms_ml_shadow.sql",
+      "sha256": "109555ccdddeb247c47db5451cdbc4c07802aba766112ede11c9e48150b1c9d9",
+      "gitBlobOid": "45dbd58f9e18bbde9ea32a25e8a9b5e7b22ed7c2"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V004__geography_coverage.sql",
+      "sha256": "891caaae8cbb1615d7c59fa3136c5773f197fe0b3510eec114ece1d2d001c5d6",
+      "gitBlobOid": "9667325e6ef0375cb8dba056fb948b6890e9288f"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V005__incident_notifications.sql",
+      "sha256": "9662e62fff98b8b58fed290728b8f1008484c1d580f3285efc4392c959b18bfc",
+      "gitBlobOid": "09e4f3fc8b5d44334834bf39c844a5cea44b5605"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V006__trace_link_read_models.sql",
+      "sha256": "bbc4dda8d9614970c863d5992d0292617c73f504a2238e3f8dcd9b2f1ba272f8",
+      "gitBlobOid": "32e96636ed3b66a6fef98dc2438d7ca23cc0c4b5"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V007__trace_link_query_indexes.sql",
+      "sha256": "d49d2f8af8c50c6a7a7d0aa7693015d8a150083de02fc4a83f49bf1882726942",
+      "gitBlobOid": "19dfe87845a88a252e740869447091a9f98578ec"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V008__trace_link_primitive_projections.sql",
+      "sha256": "6baa03f39f246c2354aa8ee88db35142b130a6f1faac3ba855c121052944d416",
+      "gitBlobOid": "e23c5cfca657633d14c696783418648ef41352fa"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V009__trace_link_scenario_commands.sql",
+      "sha256": "0c20b322c1d0bef4f1255bd43ce6462506d89facf2fd1426ae33e9792dd9559f",
+      "gitBlobOid": "2f20f88aea8417c15f7da5bce264e5251ebd9b09"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V010__trace_link_domain_measurements.sql",
+      "sha256": "3ca8930208490d8ab419451fca62652f08cbecfc24ffd759f0adca550413e56c",
+      "gitBlobOid": "9d28a9d15a197b962d3a761690e4aa821834c3b2"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V001__observation_state.sql",
+      "sha256": "7605419ce49bbd6c168988e91e73fa7b26638d88626938f926a207d2728c7ae4",
+      "gitBlobOid": "d6cde94d3b268e9e777a75ca07d358736ad03876"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V002__feature_outbox.sql",
+      "sha256": "0aa840dc57b87903f89b5af040a390892546903f437302afb259e5a22e90ea2d",
+      "gitBlobOid": "613b8f72911bbd197ece3784c820adbb70f8ce2e"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V003__voice_delivery.sql",
+      "sha256": "b804fe7d634ff37d4c0389d0d5017aa13f0c55cb0f9242c20ce3d3149aef0084",
+      "gitBlobOid": "81c3db149c46f6772ebe0cad183435f1b98d662f"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V004__allow_empty_expected_windows.sql",
+      "sha256": "89dc21491bc3578db0440f6159f24b689581c2d03abb408f1ab1a097d392fc85",
+      "gitBlobOid": "3326220bb634f94a64f3b5a19f4f4bf7dd5af3ca"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V005__rejection_delivery.sql",
+      "sha256": "44bbda6728084fd9451cc46e520b9eb8249154192f17725a61cdeb18f1710fc5",
+      "gitBlobOid": "9803e9eb83c20e564230e20233ed942fbf901057"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V006__detection_leases.sql",
+      "sha256": "9c44d77c82ee5cb6b227c9db1a8fb805d297c3f16f0d8a6abbc3605f1b7a7913",
+      "gitBlobOid": "5bd6ae69b51690d146298892054c410de65a719d"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V007__historical_bootstrap.sql",
+      "sha256": "cff09258d33be9fc21a82603d3c432718d13c41ddd55c205dd0d5340ac1caf7c",
+      "gitBlobOid": "fc79257b492aa49ce2cced1d42a1ed0290e26331"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V008__sms_ml_shadow.sql",
+      "sha256": "dcb4180a0469ffecc3dcaf5fa01db9aff1bb1d294f1d9effbd1adb9184c1e62f",
+      "gitBlobOid": "a74fc67245d9dc3983846b0e4a93464bb00e2553"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V009__sms_shadow_delivery_index.sql",
+      "sha256": "2932078c61ae8be1ef22a4cffff000403c4f46f664c4eb9661c66705e8def81e",
+      "gitBlobOid": "b00249533547197960c1b146f3f532cb7faa7dc5"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V010__feature_worker_indexes.sql",
+      "sha256": "b63742fe1199fb50465764a7e306c335dd286f2b354660acc941440f5cdc18e8",
+      "gitBlobOid": "75461f3525888781a404ade837289e5db7956e21"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V011__geographic_monitoring.sql",
+      "sha256": "2f7f55505d8a1f51182e9ab2385d3c477fa2948ce0bfd3e1dd78913285a20fc5",
+      "gitBlobOid": "6779fc380cc7b97da9373f6ebef76697b69115fe"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V012__processor_retention.sql",
+      "sha256": "91ad5d59f7d66a321b3aede86023e47123fd23fda815c477e79537e999fa8c73",
+      "gitBlobOid": "82fff1d15ba7212e7df6aeaf89ba2e9242ad94d3"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V013__geographic_history_ownership.sql",
+      "sha256": "d04def89529b241696b9982a59b3a50a52b921edb9d591b937eb275ee11e9b35",
+      "gitBlobOid": "c16849aba7e79fc82829be2798caf261a3eff45c"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V014__trace_link_inventory.sql",
+      "sha256": "6c338d99ea97ff14cbbc20beb5f8b77dea3ddb6574e3c9382ca51c71181ce57e",
+      "gitBlobOid": "862248251a3e4b0d74c7f11bd67b84ef51e4b92d"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V015__trace_link_dataset_history.sql",
+      "sha256": "4d30580bcc0fefc71a4db5d9cbaaecb5e3cffbe451c4f9ade2fbb1711ebbfb48",
+      "gitBlobOid": "16c7ac524dbea9c99ae6bd501ebe0b016cacd303"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V016__trace_link_domain_windows.sql",
+      "sha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+      "gitBlobOid": "e8aa9a8f1c52be81ddaba31553b7aaf3c6fa257c"
+    }
+  ],
+  "status": "PASS"
+}

@@ -57,7 +57,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(7, flyway.migrate().migrationsExecuted);
+        assertEquals(11, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -85,7 +85,8 @@ class DatabaseMigrationTest {
                 "scope_window_coverage_rejection", "notification_event", "notification_recipient",
                 "push_subscription", "push_delivery", "trace_dataset", "trace_catalogue",
                 "trace_inventory_city", "trace_inventory_link", "trace_link_direction",
-                "trace_partner", "trace_metric_window"), tableNames());
+                "trace_partner", "trace_metric_window", "trace_primitive_projection", "trace_scenario_command",
+                "trace_domain_source", "trace_domain_scope", "trace_domain_measurement", "trace_domain_detection", "trace_link_detection_evidence", "trace_link_incidents", "trace_link_incident_audit"), tableNames());
         assertEquals("1", scalar("""
                 SELECT count(*) FROM pg_indexes
                 WHERE schemaname = 'app'
@@ -106,6 +107,14 @@ class DatabaseMigrationTest {
         rejects("42501", "UPDATE app.notification_recipient SET analyst_id = gen_random_uuid() WHERE false");
         rejects("42501", "UPDATE app.trace_metric_window SET quality = 'VALID' WHERE false");
         rejects("42501", "DELETE FROM app.trace_metric_window");
+        rejects("42501", "UPDATE app.trace_primitive_projection SET quality = 'VALID' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_primitive_projection");
+        rejects("42501", "UPDATE app.trace_domain_measurement SET quality = 'VALID' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_domain_measurement");
+        rejects("42501", "UPDATE app.trace_domain_detection SET verdict = 'HEALTHY' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_domain_detection");
+        rejects("42501", "INSERT INTO app.trace_domain_source (dataset_id) VALUES ('forbidden')");
+        rejects("42501", "UPDATE app.trace_domain_scope SET scope = '{}'::jsonb WHERE false");
         rejects("42501", "UPDATE app.trace_inventory_city SET display_name = 'changed' WHERE false");
         for (String db : new String[]{"processing_db", "keycloak_db"}) {
             SQLException failure = assertThrows(SQLException.class, () -> {
@@ -116,6 +125,15 @@ class DatabaseMigrationTest {
             });
             assertEquals("42501", failure.getSQLState());
         }
+    }
+
+    @Test
+    void traceScenarioRuntimeCannotRewriteCommandsOrDeleteHistory() throws Exception {
+        assertEquals("false", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','command_text','UPDATE')::text"));
+        assertEquals("false", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','fingerprint','UPDATE')::text"));
+        assertEquals("false", scalar("SELECT has_table_privilege(current_user,'app.trace_scenario_command','DELETE')::text"));
+        assertEquals("false", scalar("SELECT has_table_privilege(current_user,'app.trace_scenario_command','TRUNCATE')::text"));
+        assertEquals("true", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','status','UPDATE')::text"));
     }
 
     @Test
@@ -146,7 +164,7 @@ class DatabaseMigrationTest {
                 .dataSource(url(database), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(3, upgrade.migrate().migrationsExecuted);
+        assertEquals(7, upgrade.migrate().migrationsExecuted);
         assertEquals(0, upgrade.migrate().migrationsExecuted);
         try (Connection fresh = DriverManager.getConnection(url("incidents_db"),
                 POSTGRES.getUsername(), POSTGRES.getPassword());

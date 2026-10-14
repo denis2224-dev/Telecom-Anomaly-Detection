@@ -33,6 +33,16 @@ public class MetricQueryService {
         String catalogueTopology = repository.cityTopology(query.datasetId(), query.scopeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "Unknown city scope for dataset"));
+        if (query.metric().equals("volte.setup.success")) {
+            var points = repository.primitiveRatio(query, definition.policyVersion(), catalogueTopology);
+            return new MetricSeriesResponse(query.datasetId(), query.domain(), query.metric(),
+                    query.scopeType(), query.scopeId(), query.resolution(), query.from(), query.to(),
+                    query.effectiveFrom(), query.effectiveTo(),
+                    !query.from().equals(query.effectiveFrom()),
+                    !query.to().equals(query.effectiveTo()), 300, definition.unit(),
+                    definition.aggregation(), definition.policyVersion(), catalogueTopology,
+                    dataset.synthetic(), null, points);
+        }
         var sourceShapes = repository.sourceShapes(query);
         if (sourceShapes.size() > 1) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
@@ -48,7 +58,10 @@ public class MetricQueryService {
                 throw new ResponseStatusException(HttpStatus.CONFLICT,
                         "Metric source contract mismatch");
             }
-            topologyVersion = shape.topologyVersion();
+            if (!shape.topologyVersion().equals(catalogueTopology)) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT,
+                        "Metric source topology differs from registered catalogue");
+            }
         }
         var points = repository.ratio(query, definition.policyVersion(), topologyVersion);
         if (points.size() != query.pointCount()) {

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "trace-link-live-synthetic-rules-v1",
+  "policyVersion": "trace-link-live-synthetic-rules-v1",
+  "baselineVersion": "trace-link-live-static-baseline-v1",
+  "activation": "ISOLATED_SYNTHETIC_ONLY",
+  "ownerDecision": "PENDING_REVIEW",
+  "windowSeconds": 60,
+  "minimumAttempts": 100,
+  "maxSourceAgeSeconds": 120,
+  "minimumCoverage": 1,
+  "staticSuccessCenterPct": 99,
+  "triggerDropPp": 5,
+  "recoveryDropPp": 1,
+  "criticalDropPp": 20,
+  "transportCandidatePct": 85,
+  "openAfterBreachedWindows": 2,
+  "recoverAfterHealthyWindows": 3,
+  "baselineSelection": "Explicit static synthetic demonstration or UNAVAILABLE; no seasonal, peer, training or ground-truth inputs",
+  "sourceFreshness": "Age from complete interval end; transport snapshots must be within the same minute",
+  "transportAttribution": "Utilization is a candidate only; v1 source has no independent impairment or dependency measurements",
+  "unknown": "Missing, partial, stale, insufficient and temporal gaps reset healthy and breach streaks; active episode remains UNKNOWN",
+  "delivery": "DISABLED"
+}

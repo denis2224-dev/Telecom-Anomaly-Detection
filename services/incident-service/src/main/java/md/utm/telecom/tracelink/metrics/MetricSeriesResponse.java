@@ -13,5 +13,21 @@ public record MetricSeriesResponse(
 
     public record Point(Instant from, Instant to, BigDecimal value, BigDecimal coverage,
                         String quality, BigDecimal numerator, BigDecimal denominator,
-                        BigDecimal sumValue, Long sampleCount) {}
+                        BigDecimal sumValue, Long sampleCount, String nullReason,
+                        String qualityReason, Integer expectedSlots, Integer receivedSlots,
+                        String sourceQuality, BigDecimal sourceCoverage,
+                        List<String> projectionIds, List<Provenance> provenance) {
+        public Point(Instant from, Instant to, BigDecimal value, BigDecimal coverage,
+                     String quality, BigDecimal numerator, BigDecimal denominator,
+                     BigDecimal sumValue, Long sampleCount) {
+            this(from, to, value, coverage, quality, numerator, denominator, sumValue,
+                    sampleCount, null, null, null, null, null, null, List.of(), List.of());
+        }
+    }
+
+    public record Provenance(String projectionId, String sourceNaturalId, long sourceRowNumber,
+                             String sourceRowSha256, String sourceFile, String manifestSha256,
+                             String generatorVersion, long seed, String catalogueVersion,
+                             String importPolicyVersion, String sourceQuality,
+                             BigDecimal sourceCoverage, String quality, String qualityReason, String sourceNamespace) {}
 }

@@ -142,6 +142,8 @@ services:
       TELECOM_GEOGRAPHY_ENABLED: ${TELECOM_GEOGRAPHY_ENABLED:-false}
       TELECOM_GEOGRAPHY_EFFECTIVE_FROM: ${TELECOM_GEOGRAPHY_EFFECTIVE_FROM:-}
       KAFKA_COVERAGE_TOPIC: ${KAFKA_COVERAGE_TOPIC:-telecom.coverage.v1}
+      TRACE_LINK_ENABLED: ${TRACE_LINK_ENABLED:-false}
+      TRACE_LINK_DETECTIONS_TOPIC: ${TRACE_LINK_DETECTIONS_TOPIC:-telecom.detections.trace-link.v1}
     ports:
       - "127.0.0.1:8082:8082"
     depends_on:
@@ -233,6 +235,7 @@ services:
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_DETECTIONS_TOPIC:-telecom.detections.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
         "$${kafka_topics}" "$${common[@]}" --topic ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
+        "$${kafka_topics}" "$${common[@]}" --topic ${TRACE_LINK_DETECTIONS_TOPIC:-telecom.detections.trace-link.v1} --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
         "$${kafka_topics}" "$${common[@]}" --topic telecom.ml-shadow.sms.v1 --config retention.ms=${KAFKA_DERIVED_RETENTION_MS:-604800000}
 
     networks:
@@ -285,6 +288,10 @@ services:
       KAFKA_V2_INVALID_TOPIC: ${KAFKA_V2_INVALID_TOPIC:-telecom.observations.invalid.v2}
       KAFKA_V2_LATE_TOPIC: ${KAFKA_V2_LATE_TOPIC:-telecom.observations.late.v2}
       <<: *geography-environment
+      TRACE_LINK_ENABLED: ${TRACE_LINK_ENABLED:-false}
+      TRACE_LINK_WORKERS: ${TRACE_LINK_WORKERS:-4}
+      TRACE_LINK_EVALUATION_MODE: ${TRACE_LINK_EVALUATION_MODE:-LIVE}
+      TRACE_LINK_DETECTIONS_TOPIC: ${TRACE_LINK_DETECTIONS_TOPIC:-telecom.detections.trace-link.v1}
       REJECTION_DELIVERY_ENABLED: ${REJECTION_DELIVERY_ENABLED:-true}
       REJECTION_DELIVERY_BATCH_SIZE: ${REJECTION_DELIVERY_BATCH_SIZE:-100}
       REJECTION_DELIVERY_POLL_INTERVAL: ${REJECTION_DELIVERY_POLL_INTERVAL:-1000}

@@ -1,0 +1,25 @@
+{
+  "name": "combined-full-projection-archive",
+  "cwd": "C:/OrangeSystems/Program/trace-link-combined-projection-verify-20261012",
+  "command": [
+    "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+    "-pl",
+    "services/processor",
+    "-am",
+    "-Dtest=TraceLinkProjectionIT#fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+    "-Dsurefire.failIfNoSpecifiedTests=false",
+    "-DtraceLink.projectionReferenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+    "-Dlogging.level.org.springframework.jdbc.core=INFO",
+    "verify"
+  ],
+  "startedAt": "2026-10-12T18:47:10.578408+00:00",
+  "finishedAt": "2026-10-12T19:02:26.128158+00:00",
+  "elapsedSeconds": 915.55,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "combined-full-projection-archive.log",
+  "logSha256": "300b4a52ee80938b9902c900aa8d12a1467d70d248e2f1315ff1774093cd50f2"
+}
