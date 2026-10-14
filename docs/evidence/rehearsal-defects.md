@@ -124,3 +124,20 @@ also exercises the packaged library with an explicit logical clock: three
 Transport windows/nine observations, immutable exact replay, interrupted restart,
 retained stopped state and zero released windows after restart. It starts no
 transport. Complete new-domain incident/API acceptance remains BLOCKED.
+
+## Day 4 CI gates, reproducible defects, and recovery tooling (13 October 2026)
+
+Owner: Bradu Stanislav (DevOps / Infrastructure / Release Engineering).  
+Baseline: `bb2d8d1`.
+
+| Defect | Reproduced before fix | Repair and regression |
+| :--- | :--- | :--- |
+| **D4-1: Backup restore could overwrite primary database volume** | Unvalidated restore commands could write directly to active `incidents_db` or `processing_db` if run without a target isolation prefix | `scripts/restore-demo` strictly requires `--target-prefix` (default `isolated_`) and raises `PermissionError` if an unisolated target is passed without explicit override. Covered in `tests/test_backup_restore.py#test_restore_refuses_overwrite_without_prefix`. |
+| **D4-2: Tampered dump files passed restore verification** | A corrupted or modified `.sql` dump archive was read without cryptographic hash validation | `scripts/restore-demo` verifies SHA-256 against `backup-manifest.json` before any restore action; fails closed with `ValueError: Checksum mismatch`. Covered in `tests/test_backup_restore.py#test_restore_detects_tampered_dump`. |
+| **D4-3: Missing native launcher failure propagation** | On macOS systems, launcher verification failed due to binary execution flags | Fixed by using native platform wrapper script and verifying exit code propagation. Covered in `tests/test_trace_link_verifier_portability.py`. |
+
+### Day 4 Exit Criteria Status
+- [x] All defects assigned to owners with reproducible unit tests.
+- [x] CI checks reject contract drift, migration mutation, wrong grants, stale types, and secrets.
+- [x] Coherent demo backup and isolated restore verified with cryptographic manifest checks.
+

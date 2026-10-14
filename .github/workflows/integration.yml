@@ -146,3 +146,29 @@ jobs:
       - name: Stop private ML inference
         if: always()
         run: docker stop telecom-ml-integration || true
+
+  trace-link-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+      - name: Check contracts and schemas
+        run: python scripts/check-contracts.py
+      - name: Check Grafana datasource, dashboards, and security views
+        run: python scripts/check-trace-link-grafana
+      - name: Check query parity matrix
+        run: python scripts/check-trace-link-parity.py --matrix
+      - name: Validate Compose configurations
+        run: |
+          docker compose config --quiet
+          docker compose --profile observability config --quiet
+      - name: Run backup and restore unit tests
+        run: python -m unittest tests.test_backup_restore -v
+

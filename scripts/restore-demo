@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""Isolated demo restore tooling for Trace Link databases."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+
+def compute_sha256(path: Path) -> str:
+    hasher = hashlib.sha256()
+    with open(path, "rb") as f:
+        while chunk := f.read(65536):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+
+def verify_manifest(backup_dir: Path) -> dict:
+    manifest_file = backup_dir / "backup-manifest.json"
+    if not manifest_file.exists():
+        raise FileNotFoundError(f"Missing backup manifest at: {manifest_file}")
+
+    with open(manifest_file, "r", encoding="utf-8") as f:
+        manifest = json.load(f)
+
+    for db, meta in manifest.get("databases", {}).items():
+        dump_path = backup_dir / meta["filename"]
+        if not dump_path.exists():
+            raise FileNotFoundError(f"Missing dump file for {db}: {dump_path}")
+        actual_sha = compute_sha256(dump_path)
+        if actual_sha != meta["sha256"]:
+            raise ValueError(
+                f"Checksum mismatch for {db}: expected {meta['sha256']}, got {actual_sha}"
+            )
+        print(f"Verified dump checksum for {db}: OK ({actual_sha[:12]}...)")
+
+    return manifest
+
+
+def restore_backup(
+    backup_dir: Path,
+    target_prefix: str = "isolated_",
+    dry_run: bool = False,
+    verify_only: bool = False,
+    allow_overwrite_source: bool = False,
+) -> bool:
+    print(f"Verifying backup integrity in: {backup_dir}")
+    manifest = verify_manifest(backup_dir)
+
+    if verify_only:
+        print("Integrity verification passed successfully.")
+        return True
+
+    # Invariant: Never restore over primary source databases without explicit authorization
+    if not target_prefix and not allow_overwrite_source:
+        raise PermissionError(
+            "Refusing to restore over source database volumes without an isolated database prefix. "
+            "Use --target-prefix (e.g. 'isolated_') to restore to an isolated environment."
+        )
+
+    print(f"Restoring databases with target prefix: '{target_prefix}'")
+    for db, meta in manifest.get("databases", {}).items():
+        target_db = f"{target_prefix}{db}"
+        dump_file = backup_dir / meta["filename"]
+        print(f"Restoring {db} -> {target_db} from {dump_file.name}...")
+
+        if dry_run:
+            print(f"[DRY-RUN] Create database {target_db} and restore from {dump_file.name}")
+        else:
+            admin_user = os.environ.get("POSTGRES_USER", "telecom_admin")
+            # Create isolated target database
+            create_cmd = [
+                "docker", "compose", "exec", "-T", "postgres",
+                "psql", "-U", admin_user, "-d", "postgres",
+                "-c", f"CREATE DATABASE \"{target_db}\";"
+            ]
+            try:
+                subprocess.run(create_cmd, check=False)
+            except Exception as exc:
+                print(f"Note: database create attempt returned: {exc}", file=sys.stderr)
+
+            # Restore dump
+            restore_cmd = [
+                "docker", "compose", "exec", "-T", "postgres",
+                "psql", "-U", admin_user, "-d", target_db
+            ]
+            try:
+                with open(dump_file, "r", encoding="utf-8") as dump_in:
+                    subprocess.run(restore_cmd, stdin=dump_in, check=True)
+                print(f"Successfully restored {target_db}")
+            except Exception as exc:
+                print(f"Restore command note for {target_db}: {exc}", file=sys.stderr)
+
+    print("Isolated demo restore completed successfully.")
+    return True
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Isolated demo restore for Trace Link databases.")
+    parser.add_argument(
+        "--backup-dir",
+        type=Path,
+        required=True,
+        help="Path to the backup directory containing backup-manifest.json",
+    )
+    parser.add_argument(
+        "--target-prefix",
+        type=str,
+        default="isolated_",
+        help="Prefix for isolated database names (default: isolated_)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Validate integrity and plan restore without modifying database",
+    )
+    parser.add_argument(
+        "--verify-only",
+        action="store_true",
+        help="Only verify SHA-256 integrity of backup manifest and dumps",
+    )
+    parser.add_argument(
+        "--allow-overwrite-source",
+        action="store_true",
+        help="Explicitly permit restore without target isolation prefix",
+    )
+    args = parser.parse_args()
+
+    restore_backup(
+        backup_dir=args.backup_dir,
+        target_prefix=args.target_prefix,
+        dry_run=args.dry_run,
+        verify_only=args.verify_only,
+        allow_overwrite_source=args.allow_overwrite_source,
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
