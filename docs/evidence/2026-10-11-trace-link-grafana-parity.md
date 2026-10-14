@@ -34,4 +34,5 @@ Owner: Bradu Stanislav (DevOps / Infrastructure)
 | **Grafana Provisioning Validation** | `scripts/check-trace-link-grafana` | **PASS**: Datasource, provider, 14 panels, variables, annotations, and SQL security boundaries verified. |
 | **Parity Matrix** | `python3 scripts/check-trace-link-parity.py --matrix` | **PASS**: 6 core matrix points (CHI voice, HIN transport, RO roaming, SMS queue, LTE activation/DNS, incidents) verified. |
 | **Contract Checks** | `python3 scripts/check-contracts.py` | **PASS**: All 43 KPIs, evidence schemas, and offline policies pass. |
-| **Test Suite** | `python3 -m unittest discover -s tests -v` | **PASS**: 157 unit tests passed, 0 failures, 0 errors. |
+| **Test Suite** | `python3 -m unittest discover -s tests -v` | **PASS**: 184 unit tests passed, 0 failures, 1 skip (PowerShell-only on non-Windows). |
+| **ML Test Suite** | `python3 -m unittest discover -s services/ml-service/tests -v` | **PASS**: 74 unit tests passed, 0 failures, 0 errors. |

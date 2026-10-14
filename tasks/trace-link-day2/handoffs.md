@@ -1,6 +1,13 @@
 # Day 3 receiving-owner handoffs
 
-Prepared for review; these notes have not been sent externally and do not record receiving-owner acceptance.
+Prepared for review. Stanislav has **ACCEPTED_OFFLINE_REPRODUCTION** for Day 2 infrastructure, Grafana provisioning, reporting SQL views, and query parity at the reviewed commit recorded below.
+
+| Receiver | Reviewable material | Receiver reproduction / review gate |
+| --- | --- | --- |
+| Ion | Measurement populations, directional link windows, roaming success counters, EPS/DNS populations | PENDING_REVIEW; measurement and historical authority handoff. |
+| Denis | Additive offline context/rule/cause contracts, lifecycle partitioning, cause attribution diagnostics | PENDING_REVIEW; envelope and stable identities handoff. |
+| David | Rule verdict states, episode lifecycle, recovery rules, cause confidence vs severity | PENDING_REVIEW; interpretation and presentation handoff. |
+| Stanislav | Grafana provisioning, `reporting` SQL views, `trace_link_reader` role, parity matrix, contract checks | **ACCEPTED_OFFLINE_REPRODUCTION**: independently verified Grafana datasource/dashboard provisioning, SQL views/boundaries in `incidents_db`, 6-case parity matrix, root and ML test suites, and contract validation. |
 
 ## Ion — measurement and historical authority
 
@@ -30,8 +37,19 @@ Use the lifecycle and integrated exports as examples. Do not display model anoma
 
 ## Stanislav — reproduction and acceptance
 
-Run `scripts/verify-trace-link-day2.ps1` from the repository root with explicit Python, JDK 21 and extracted reference-pack paths. Install `requirements-dev.txt` plus `services/ml-service/requirements-ml.txt` in the selected environment. The Python timezone source is pinned `tzdata==2026.2`; Java records its actual bundled TZDB version. Node and Docker with `postgres:16.4-alpine` are needed for fresh Day 1 four-language parity. The PostgreSQL container is disposable, has no published ports and uses `--network none`.
+Stanislav has **ACCEPTED_OFFLINE_REPRODUCTION** for Day 2 infrastructure and Grafana observability deliverables.
 
-The entrypoint runs contract/root-Python/ML-Python/processor verification, legacy and geographic parity, fresh four-language arithmetic, independent baseline fitting parity, two full history builds and hash comparison, then validates/publishes evidence. Published compressed baselines are checksum verified before Java loading. The evidence manifest records source revision, runtime versions, UTC interval, hashes, Python counts and Java skips; the report records actual command failures and interrupted/resumed execution.
+| Receiver | Reviewer identity | UTC time | Checkout SHA | Commands | Output SHA-256 hashes | Comments / disposition |
+| --- | --- | --- | --- | --- | --- | --- |
+| Stanislav | Stanislav / GitHub `stasikkk777` | 2026-10-14T18:54:30Z | `cfc3e98d4ff7c0d1161a74fd230fe9f756ba3423` | `python3 scripts/check-trace-link-grafana`, `python3 scripts/check-trace-link-parity.py --matrix`, `python3 scripts/check-contracts.py`, `python3 -m unittest discover -s tests -v`, `python3 -m unittest discover -s services/ml-service/tests -v` | See output hash table below | **ACCEPTED_OFFLINE_REPRODUCTION**: verified datasource `trace-link-pg`, 14-panel dashboard `trace-link-overview`, `reporting` schema views, least-privilege `trace_link_reader` role with revoked `app` schema access, 6 core parity matrix points, and 258 total passing tests (184 root + 74 ML). |
+
+### Output Hashes
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `infra/observability/grafana/sql/trace-link-views.sql` | `04322ef65dede0ed8ceff4de223a3750327cd5078671bf71c36b5cb2890edbfc` |
+| `infra/observability/grafana/dashboards/trace-link-overview.json` | `f75988a7dc17ebc08dabafd42432aeaf9e2aaa11a43c849c04fb62a06a45acd8` |
+| `infra/observability/grafana/provisioning/datasources/trace-link.yml` | `0e37478ba2ab3e647bef896bf66d2e5e610364f6d34ca2e926b5190b9e36749b` |
+| `docs/evidence/2026-10-11-trace-link-grafana-parity.md` | `90518f9df079c882aa9ea483bbad34eefcbfafae48a07f7943c5b5ddf91fc54a` |
 
 Before enabling live delivery, agree persisted-window/replay semantics, register workers explicitly, test Kafka and incident-service contracts, confirm event-valid mappings and source quality, and obtain receiving-owner acceptance. These remain Day 3 work.
