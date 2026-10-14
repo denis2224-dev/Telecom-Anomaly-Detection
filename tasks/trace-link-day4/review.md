@@ -1,5 +1,10 @@
 # Day 4 final review
 
+The original self-review below was superseded by independent REQUEST CHANGES on
+`720802b8`. Four findings were reproduced and corrected; see
+`docs/evidence/2026-10-14-sergiu-day4-review-corrections.md` for fresh checks and
+replacement artifact hashes. Reviewer approval is still required before merge.
+
 - Correctness: exact feature/audit parity, independent primitive expectations,
   response binding, missing/invalid populations and all inference failures tested.
 - Boundaries: additive local shadow storage and private HTTP only; no incident,

@@ -1,5 +1,10 @@
 # Sergiu Day 4 — ML shadow and fallback hardening
 
+Review correction addendum: [four independently reproduced findings and fixes](2026-10-14-sergiu-day4-review-corrections.md).
+The original counts, hashes and acceptance statements below describe the original
+implementation, not approval of the reviewed head. The addendum records the
+replacement candidate pins and fresh correction checks; independent re-review is required.
+
 Implemented the 13 October assignment on 14 October 2026, based on main
 `f9934b5`, on `feat/trace-link-day4-ml-shadow-hardening`. Shared activation remains
 disabled. This report records local verification, not deployment or owner sign-off.

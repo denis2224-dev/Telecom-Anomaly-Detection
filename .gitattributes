@@ -84,3 +84,5 @@ services/ml-service/training/trace_link_candidate.py text eol=lf
 services/ml-service/candidate-models/trace-link-shadow-v1/*.json text eol=lf
 services/ml-service/candidate-models/trace-link-shadow-v1/*.joblib binary
 docs/evidence/assets/trace-link-day4-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+contracts/fixtures/trace-link/ml-adversarial-cases-v1.json text eol=lf
+docs/evidence/assets/trace-link-day4-review-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol

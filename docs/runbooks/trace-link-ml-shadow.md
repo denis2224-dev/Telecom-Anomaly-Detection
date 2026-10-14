@@ -70,6 +70,25 @@ request time, so an old replay window is not itself a stale response.
 The private route is `POST /internal/inference/trace-link`. There are eight
 non-blocking inference permits on each side, a 250 ms total client deadline,
 and two independent shadow workers by default (configurable from one to eight).
+The deadline includes reading the complete response body. Timeout or interruption
+cancels the asynchronous HTTP exchange and releases the inference permit, even
+when the server has already delivered headers and a partial body.
+
+Both feature builders bind roaming procedure populations to the scope's procedure
+(REGISTRATION, DATA, VOICE or SMS). Snapshot timestamps must lie in the half-open
+source window `[from,to)` and equal `freshness.observedAt`; freshness age is still
+checked independently. Peer baselines require compatible namespace, scope type,
+direction, partner and procedure, a distinct source ID, and an exact declared
+requested/source key mapping in the baseline policy. The packaged policy currently
+declares no peers, so HTTP requests cannot introduce an arbitrary peer relationship.
+
+The pre-merge review corrected synthetic snapshot generation to observe at minute
+four, with a truthful 61-second source age at evaluation, and rebuilt the unapproved
+candidate/pins. Seeds, baseline/calibration bytes and fitted estimator trees did not
+change; only the two affected constant preprocessing columns and provenance/split
+hashes changed. See the [review correction evidence](../evidence/2026-10-14-sergiu-day4-review-corrections.md).
+This pre-release correction does not authorize replacing an activated candidate
+under an existing model identity or rewriting any committed shadow results.
 The worker enqueues only completed deterministic evaluations, uses fenced
 thirty-second leases and performs HTTP outside transactions. A committed fallback
 is final for that window/feature/model version; restart retries only unfinished
