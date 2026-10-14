@@ -1,0 +1,19 @@
+{
+  "status": "passed-for-isolated-compose",
+  "project": "trace-link-backend-qa-20261014",
+  "checks": [
+    "database ownership",
+    "runtime no superuser/create role/create database",
+    "only owned database CONNECT",
+    "runtime no CREATE in public/app",
+    "app schema owner is migrator",
+    "default table DML grants",
+    "non-owner DDL denial",
+    "Kafka/Keycloak/backend/proxy readiness",
+    "anonymous protected API JSON 401"
+  ],
+  "limits": [
+    "Local QA only; shared deployed/Grafana role approval pending"
+  ],
+  "sourceRevision": "6b4d4246a5a8eb563394525dbd04394d432ed8ca"
+}

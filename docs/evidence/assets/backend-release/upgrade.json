@@ -1,0 +1,22 @@
+{
+  "status": "passed-for-disposable-postgresql",
+  "targetVersion": "011",
+  "totalMigrations": 10,
+  "upgradeFromVersion": "004",
+  "newMigrations": 6,
+  "repeatMigrations": 0,
+  "targetedTests": 10,
+  "failures": 0,
+  "errors": 0,
+  "runtimeDdlSqlState": "42501",
+  "preserved": [
+    "legacy detection payload fingerprint",
+    "incident row fingerprint",
+    "audit row fingerprint",
+    "legacy KPI payload fingerprint",
+    "V001\u2013V004 Flyway checksums"
+  ],
+  "sourceRevision": "6b4d4246a5a8eb563394525dbd04394d432ed8ca",
+  "localLogSha256": "9ae0d7202511ff44c521ec995a42ed60e242e04765221bd8b4ce79612bab097a",
+  "testRevision": "65290e3498dfe84fb1460aec9459e8826a735031"
+}
