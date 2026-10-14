@@ -142,3 +142,13 @@ localhost/Docker access. It runs the complete processor/dependency verification,
 both Python suites, contracts, fresh feature parity, frozen pins and real HTTP.
 Full native-archive and external live-service tests retain their explicit input
 prerequisites; inspect any reported skips rather than treating them as passes.
+
+CI pins Python 3.13.9 for every job that loads the frozen candidate. The mandatory
+Windows `model-reproducibility` job generates fresh Java vectors and runs the
+complete ML suite, including the unchanged strict clean-CLI byte-rebuild assertion.
+The dependent Linux `model-evaluation` job validates contracts/root tests, exercises
+frozen-candidate failure modes, and checks legacy plus three-domain Trace Link
+inference over real container HTTP. `processor-evaluation` requires that job, so
+neither the Windows byte gate nor the Linux runtime gate can be bypassed. Linux
+consumes the pinned Windows artifacts; byte-identical Linux retraining is not
+claimed. Only the disposable CI ML container enables Trace Link inference.

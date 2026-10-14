@@ -1,0 +1,10 @@
+{
+  "day4-ci-github-failure-excerpt.log.gz": "968a956abd89b8f9b866e1cf535f73f3f036412b60f95d2cac0554bd9ab49830",
+  "day4-ci-linux-rebuild.log.gz": "a1878c841990f1af7fff724aa76472855089bbc6a3649e61c3b941648f6ea3ab",
+  "day4-ci-linux-runtime.log.gz": "20483e29bfc2c2e4013811a4d0b45b42570ec70304c39182171ebde5565d7d79",
+  "day4-ci-root.log.gz": "6caa5c6d7a6d7797bbc63f8a4746f3285a77875f5cb414fbc729eab2fb7c3568",
+  "day4-ci-windows-ml.log.gz": "b193351cac11746788b92a493309410fabeb9de447e8672972eacc2a43e9c323",
+  "day4-ci-workflow-red.log.gz": "1251fe8f5a2feb682c80da63b5e650144f8a6db95b1588558936537c818804b9",
+  "pinned-linux-rebuild-manifest.json": "d375971b65ca0903fa1732ae330b1fde9a9f0406563fb266239f4c680aed5db5",
+  "source-manifest.json": "9c288ae97a7c246b5b807c0d7190bc17e469d5bc7519477193906974c9c4e5fb"
+}
