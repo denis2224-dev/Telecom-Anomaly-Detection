@@ -5,6 +5,8 @@ RUN python -m pip install --no-cache-dir -r services/ml-service/requirements-ml.
 COPY contracts/features/feature-order-v2.json contracts/features/feature-order-v2.json
 COPY contracts/features/trace-link* contracts/features/
 COPY contracts/detections/trace-link-evaluation-v1.schema.json contracts/detections/trace-link-evaluation-v1.schema.json
+COPY contracts/baselines/trace-link-baseline-policy-v1* contracts/baselines/
+COPY contracts/kpi/trace-link-kpi-definitions-v1.json contracts/kpi/trace-link-kpi-definitions-v1.json
 COPY contracts/ml-shadow/trace-link* contracts/ml-shadow/
 COPY services/ml-service/app services/ml-service/app
 COPY services/ml-service/models services/ml-service/models

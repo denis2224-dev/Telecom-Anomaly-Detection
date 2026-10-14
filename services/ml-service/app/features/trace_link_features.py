@@ -56,7 +56,10 @@ def actual(primitives):
     return None
 
 
-def build_features(context):
+def build_features(context, baseline_policy=None):
+    if baseline_policy is None:
+        baseline_policy = contract('baselines/trace-link-baseline-policy-v1.json')
+    validate('baselines/trace-link-baseline-policy-v1.schema.json', baseline_policy)
     validate('detections/trace-link-evaluation-v1.schema.json', context)
     order = contract('features/trace-link-feature-order-v1.json')['domains'][context['domain']]
     start, end = instant(context['window']['from']), instant(context['window']['to'])
@@ -68,12 +71,35 @@ def build_features(context):
     evidence = {}
     for item in context['evidence']:
         metric = item['metricId']
+        procedure = {'roaming.registration.success':'REGISTRATION', 'roaming.data.success':'DATA',
+                     'roaming.voice.success':'VOICE', 'roaming.sms.finalizedSuccess':'SMS'}.get(metric)
+        if procedure is not None and context['scope']['procedure'] != procedure:
+            raise ValueError('METRIC_PROCEDURE_MISMATCH')
+        p = item['primitives']
+        if p and p['type'] == 'SNAPSHOT':
+            snapshot = instant(p['snapshotAt'])
+            if not (start <= snapshot < end and item['freshness']['observedAt'] is not None
+                    and snapshot == instant(item['freshness']['observedAt'])):
+                raise ValueError('INVALID_SNAPSHOT_TIME')
         if metric in evidence: raise ValueError('DUPLICATE_METRIC')
         if (item['scope'] != context['scope'] or item['window'] != context['window']
                 or item['topologyVersion'] != context['topologyVersion'] or item['observedRevision'] != context['revision']
                 or item['provenance']['datasetId'] != context['datasetId'] or item['freshness']['asOf'] != context['evaluatedAt']):
             raise ValueError('EVIDENCE_CONTEXT_MISMATCH')
         evidence[metric] = item
+    definitions = {m['metricId']:m for m in contract('kpi/trace-link-kpi-definitions-v1.json')['metrics']}
+    for metric, baseline in context['baselines'].items():
+        if baseline['status'] != 'PEER':
+            continue
+        source, scope = baseline['sourceScope'], context['scope']
+        if (source is None or source['id'] == scope['id'] or metric not in definitions
+                or any(source[field] != scope[field] for field in ('namespace','type','directionId','partnerId','procedure'))):
+            raise ValueError('INCOMPATIBLE_BASELINE')
+        requested = {k:context[k] for k in ('datasetId','domain','scope','topologyVersion')}
+        requested.update(metricId=metric,unit=definitions[metric]['unit'],metricPolicyVersion=definitions[metric]['policyVersion'])
+        if not any(p['key'] == requested and p['peerKey'] == {**requested, 'scope':source}
+                   for p in baseline_policy['peerFallbacks']):
+            raise ValueError('INCOMPATIBLE_BASELINE')
     values, available = [], set()
     for spec in order['metrics']:
         metric = spec['metricId']

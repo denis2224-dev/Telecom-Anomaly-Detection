@@ -16,7 +16,7 @@
   "domains": {
     "TRANSPORT": {
       "modelFile": "TRANSPORT.joblib",
-      "modelSha256": "9087da206475be66302153191754055cc9cec075eb09883653c08952a41631d2",
+      "modelSha256": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077",
       "calibrationFile": "TRANSPORT-calibration.json",
       "calibrationSha256": "8c4c64e3a853a055689d9482ff220a06de4856668bb2503d348b7693a0d6f3b5",
       "baselineFile": "TRANSPORT-baselines.json",
@@ -108,7 +108,7 @@
     },
     "ROAMING": {
       "modelFile": "ROAMING.joblib",
-      "modelSha256": "bbc483daae7bcdb40682307bcbfcb54c8d9e6d86df6fd6cc9cc9f175c7f303f6",
+      "modelSha256": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4",
       "calibrationFile": "ROAMING-calibration.json",
       "calibrationSha256": "b8cd63648186e52ae7001a58fbff4ff1c42c43e55b6849d29630ad207b352d45",
       "baselineFile": "ROAMING-baselines.json",
@@ -287,6 +287,6 @@
       "baselineTrainingTo": "2026-09-24T00:00:00Z"
     }
   },
-  "splitManifestSha256": "d3c38f9a1d91d01436b5f5809f4db5d6acd7e8ce7cae1d362689c5bc740d9306",
+  "splitManifestSha256": "ee9caf3ad7f51a80562a37a7425d174eb69a4a86e6087bf0d799b689c3bdafd8",
   "datasetId": "trace-link-day4-native-synthetic-v1"
 }

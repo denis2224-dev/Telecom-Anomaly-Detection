@@ -15,6 +15,49 @@ class TraceLinkFeaturesTest {
             return JSON.readTree(stream).path("windows");
         }
     }
+    @Test void rejectsReviewerAdversarialContexts() throws Exception {
+        try(var stream=getClass().getResourceAsStream("/contracts/fixtures/trace-link/ml-adversarial-cases-v1.json")) {
+            for(JsonNode fixture:JSON.readTree(stream).path("cases")) {
+                var error=assertThrows(IllegalArgumentException.class,()->TraceLinkFeatures.build(fixture.path("context")),fixture.path("id").asText());
+                assertEquals(fixture.path("reason").asText(),error.getMessage(),fixture.path("id").asText());
+            }
+        }
+    }
+    @Test void permitsEachProcedureOnlyInItsOwnScopeAndBothDirections() throws Exception {
+        for(String procedure:java.util.List.of("REGISTRATION","DATA","VOICE","SMS"))for(String direction:java.util.List.of("in","out")) {
+            ObjectNode context=null;
+            for(JsonNode row:contexts())if(row.path("domain").asText().equals("ROAMING")){context=row.path("input").path("context").deepCopy();break;}
+            assertNotNull(context);context.putObject("baselines");
+            context.withObject("scope").put("procedure",procedure).put("directionId",direction).put("id","ro-partner:"+direction);
+            ObjectNode item=(ObjectNode)context.path("evidence").get(0);item.set("scope",context.path("scope").deepCopy());
+            item.put("metricId",procedure.equals("SMS")?"roaming.sms.finalizedSuccess":"roaming."+procedure.toLowerCase(java.util.Locale.ROOT)+".success");
+            assertTrue(TraceLinkFeatures.build(context).path("eligible").asBoolean(),procedure+":"+direction);
+        }
+    }
+    @Test void acceptsBoundSnapshotAndOnlyExactDeclaredPeer() throws Exception {
+        ObjectNode context=contexts().get(0).path("input").path("context").deepCopy();
+        ObjectNode item=context.path("evidence").get(0).deepCopy();context.withArray("evidence").add(item);
+        item.put("metricId","transport.jitter").put("unit","MILLISECONDS").put("actual",3);
+        item.putObject("primitives").put("type","SNAPSHOT").put("value",3).put("snapshotAt","2026-10-10T08:39:00Z");
+        item.withObject("freshness").put("observedAt","2026-10-10T08:39:00Z").put("sourceAgeSeconds",61);
+        assertTrue(TraceLinkFeatures.build(context).path("eligible").asBoolean());
+        ObjectNode roaming=null;
+        for(JsonNode row:contexts())if(row.path("domain").asText().equals("ROAMING")){roaming=row.path("input").path("context").deepCopy();break;}
+        assertNotNull(roaming);ObjectNode baseline=roaming.withObject("baselines").withObject("roaming.data.success");
+        baseline.put("status","PEER").withObject("sourceScope").put("id","peer:out");
+        ObjectNode key=JSON.createObjectNode();
+        for(String field:java.util.List.of("datasetId","domain","scope","topologyVersion"))key.set(field,roaming.path(field).deepCopy());
+        key.put("metricId","roaming.data.success").put("unit","PERCENT").put("metricPolicyVersion","trace-link-kpi-v1");
+        ObjectNode peer=key.deepCopy();peer.set("scope",baseline.path("sourceScope").deepCopy());
+        ObjectNode policy=TraceLinkFeatures.resource("baselines/trace-link-baseline-policy-v1.json").deepCopy();
+        var mapping=policy.withArray("peerFallbacks").addObject();mapping.set("key",key);mapping.set("peerKey",peer);
+        assertTrue(TraceLinkFeatures.build(roaming,policy).path("eligible").asBoolean());
+        final JsonNode input=roaming;
+        for(String field:java.util.List.of("metricId","metricPolicyVersion","unit")) {
+            ObjectNode wrong=policy.deepCopy();((ObjectNode)wrong.path("peerFallbacks").get(0).path("peerKey")).put(field,"wrong");
+            assertThrows(IllegalArgumentException.class,()->TraceLinkFeatures.build(input,wrong));
+        }
+    }
     @Test void exportsIndependentDomainVectorsAndHandCalculatedRatios() throws Exception {
         var rows=JSON.createArrayNode();
         for(JsonNode fixture:contexts()) {

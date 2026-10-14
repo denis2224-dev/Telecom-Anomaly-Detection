@@ -66,7 +66,16 @@ def verify(base):
         results.append({'domain':domain,'modelSha256':actual['modelSha256'],'anomalyScore':actual['anomalyScore'],
                         'roundTripMs':(time.perf_counter()-started)*1000,'serverLatencyMs':actual['latencyMs']})
     if get(base+'/internal/inference/trace-link',{'unexpected':True})[0]!=422:raise ValueError('Malformed request accepted')
-    print(json.dumps({'status':'PASS','transport':'real HTTP','results':results},indent=2))
+    rejected=[]
+    fixtures=json.loads((ROOT/'contracts/fixtures/trace-link/ml-adversarial-cases-v1.json').read_text())['cases']
+    for fixture in fixtures:
+        request={'requestId':str(uuid4()),'requestedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
+                 'requestedModelVersion':'trace-link-shadow-v1','features':fixture['untrustedFeatures']}
+        status,body=get(base+'/internal/inference/trace-link',request)
+        if status!=422 or body.get('reason')!='INVALID_REQUEST' or 'anomalyScore' in body:
+            raise ValueError(f"Adversarial context accepted: {fixture['id']}: HTTP {status} {body}")
+        rejected.append(fixture['id'])
+    print(json.dumps({'status':'PASS','transport':'real HTTP','results':results,'rejectedAdversarialCases':rejected},indent=2))
 
 
 if __name__=='__main__':

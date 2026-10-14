@@ -26,6 +26,11 @@ public final class TraceLinkFeatures {
     private TraceLinkFeatures() { }
 
     public static JsonNode build(JsonNode context) {
+        return build(context,resource("baselines/trace-link-baseline-policy-v1.json"));
+    }
+
+    static JsonNode build(JsonNode context,JsonNode baselinePolicy) {
+        validate("baselines/trace-link-baseline-policy-v1.schema.json",baselinePolicy);
         validate("detections/trace-link-evaluation-v1.schema.json",context);
         JsonNode order=ORDER.path("domains").path(context.path("domain").asText());
         Instant start=time(context.path("window").path("from")),end=time(context.path("window").path("to"));
@@ -38,6 +43,21 @@ public final class TraceLinkFeatures {
         }),"INVALID_SCOPE");
         var evidence=new HashMap<String,JsonNode>();
         for(JsonNode item:context.path("evidence")) {
+            String metric=item.path("metricId").asText();
+            String procedure=switch(metric) {
+                case "roaming.registration.success" -> "REGISTRATION";
+                case "roaming.data.success" -> "DATA";
+                case "roaming.voice.success" -> "VOICE";
+                case "roaming.sms.finalizedSuccess" -> "SMS";
+                default -> null;
+            };
+            require(procedure==null || context.path("scope").path("procedure").asText().equals(procedure),"METRIC_PROCEDURE_MISMATCH");
+            if(item.path("primitives").path("type").asText().equals("SNAPSHOT")) {
+                Instant snapshot=time(item.path("primitives").path("snapshotAt"));
+                require(!snapshot.isBefore(start) && snapshot.isBefore(end)
+                        && item.path("freshness").path("observedAt").isTextual()
+                        && snapshot.equals(time(item.path("freshness").path("observedAt"))),"INVALID_SNAPSHOT_TIME");
+            }
             require(evidence.put(item.path("metricId").asText(),item)==null,"DUPLICATE_METRIC");
             for(String field:List.of("scope","window","topologyVersion"))
                 require(item.path(field).equals(context.path(field)),"EVIDENCE_CONTEXT_MISMATCH");
@@ -45,6 +65,10 @@ public final class TraceLinkFeatures {
                     && item.path("provenance").path("datasetId").equals(context.path("datasetId"))
                     && item.path("freshness").path("asOf").equals(context.path("evaluatedAt")),"EVIDENCE_CONTEXT_MISMATCH");
         }
+        context.path("baselines").properties().forEach(entry->{
+            if(entry.getValue().path("status").asText().equals("PEER"))
+                require(compatiblePeer(context,entry.getKey(),entry.getValue().path("sourceScope"),baselinePolicy),"INCOMPATIBLE_BASELINE");
+        });
         ObjectNode result=JSON.createObjectNode();
         for(String field:List.of("datasetId","domain","scope","window","revision","topologyVersion","evaluatedAt","evidence","baselines"))
             result.set(field,context.required(field).deepCopy());
@@ -97,6 +121,25 @@ public final class TraceLinkFeatures {
         for(JsonNode metric:order.path("requiredAny")) if(available.contains(metric.asText())) eligible=true;
         result.put("eligible",eligible);var reasons=result.putArray("reasonCodes");if(!eligible)reasons.add("NO_VALID_FRESH_REQUIRED_METRIC");
         validate("features/trace-link-feature-window-v1.schema.json",result);return result;
+    }
+
+    private static boolean compatiblePeer(JsonNode context,String metric,JsonNode source,JsonNode policy) {
+        JsonNode scope=context.path("scope");
+        if(!source.isObject() || source.path("id").equals(scope.path("id")))return false;
+        for(String field:List.of("namespace","type","directionId","partnerId","procedure"))
+            if(!source.path(field).equals(scope.path(field)))return false;
+        JsonNode definition=null;
+        for(JsonNode item:resource("kpi/trace-link-kpi-definitions-v1.json").path("metrics"))
+            if(item.path("metricId").asText().equals(metric))definition=item;
+        if(definition==null)return false;
+        ObjectNode requested=JSON.createObjectNode();
+        for(String field:List.of("datasetId","domain","scope","topologyVersion"))requested.set(field,context.path(field));
+        requested.put("metricId",metric);requested.set("unit",definition.path("unit"));
+        requested.set("metricPolicyVersion",definition.path("policyVersion"));
+        ObjectNode peer=requested.deepCopy();peer.set("scope",source);
+        for(JsonNode mapping:policy.path("peerFallbacks"))
+            if(mapping.path("key").equals(requested) && mapping.path("peerKey").equals(peer))return true;
+        return false;
     }
 
     private static BigDecimal actual(JsonNode p) {

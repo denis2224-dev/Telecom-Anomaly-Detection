@@ -38,6 +38,21 @@ class TraceLinkFailureModesTests(unittest.TestCase):
             self.assertEqual(result['featureContributions'],[])
             self.assertNotIn('probability',result)
 
+    def test_api_rejects_adversarial_provenance_without_score(self):
+        from app.inference.api import app
+        from unittest.mock import patch
+        fixtures=json.loads((ROOT/'contracts/fixtures/trace-link/ml-adversarial-cases-v1.json').read_text())['cases']
+        with patch.dict(os.environ,ML_TRACE_LINK_SHADOW_ENABLED='true',ML_TRACE_LINK_CANDIDATE_PATH=str(DEFAULT)),TestClient(app) as client:
+            for fixture in fixtures:
+                # Deliberately bypass the caller's builder, as an untrusted HTTP caller can.
+                req=request(fixture['context']['domain'])
+                req['features']=deepcopy(fixture['untrustedFeatures'])
+                with self.subTest(case=fixture['id']):
+                    response=client.post('/internal/inference/trace-link',json=req)
+                    self.assertEqual(response.status_code,422,response.text)
+                    self.assertEqual(response.json()['reason'],'INVALID_REQUEST')
+                    self.assertNotIn('anomalyScore',response.json())
+
     def test_feature_tampering_nan_labels_and_wrong_versions_are_rejected(self):
         for kind in ('vector','nan','label','version','scope'):
             req=request()

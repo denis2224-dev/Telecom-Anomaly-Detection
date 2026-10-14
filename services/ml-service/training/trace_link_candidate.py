@@ -63,13 +63,15 @@ def source_context(domain,day,slot,seed):
             p={'type':'SUM_COUNT','sum':rng.uniform(12,25)*100,'count':100}
         elif metric.endswith('throughput'):
             p={'type':'SUM_COUNT','sum':rng.uniform(20,45)*100,'count':100}
-        else: p={'type':'SNAPSHOT','value':rng.uniform(2,8) if metric.endswith('jitter') else rng.uniform(20,40),'snapshotAt':context['window']['to']}
+        else: p={'type':'SNAPSHOT','value':rng.uniform(2,8) if metric.endswith('jitter') else rng.uniform(20,40),'snapshotAt':stamp(start+timedelta(minutes=4))}
         from app.features.trace_link_features import actual
         evidence=deepcopy(template)
         evidence.update(metricId=metric,unit=spec['unit'],primitives=p,actual=actual(p),baseline=None,baselineVersion=None,
                         evidenceId=context['window']['id']+':'+metric,measurementId=context['window']['id']+':'+metric,
                         window=deepcopy(context['window']),scope=deepcopy(context['scope']),generatedAt=context['evaluatedAt'])
-        evidence['freshness'].update(observedAt=context['window']['to'],asOf=context['evaluatedAt'],sourceAgeSeconds=1)
+        observed=p['snapshotAt'] if p['type']=='SNAPSHOT' else context['window']['to']
+        age=(datetime.fromisoformat(context['evaluatedAt'])-datetime.fromisoformat(observed)).total_seconds()
+        evidence['freshness'].update(observedAt=observed,asOf=context['evaluatedAt'],sourceAgeSeconds=age)
         evidence['provenance']['sourceChecksum']=sha256(canonical(p)).hexdigest()
         evidence['provenance']['datasetId']=context['datasetId']
         context['evidence'].append(evidence)
