@@ -26,3 +26,7 @@ the shared consumer alignment gate.
 ## Transactional history increment
 
 Incident-service V009__trace_link_domain_incidents.sql is reserved for immutable five-minute evaluated-domain detections and their contiguous technical episode projection on base f7364d3. V008 remains the merged primitive projection migration; V001–V008 are unchanged. Producer delivery acceptance remains pending, so the new consumer defaults off.
+
+## Alert delivery and exact export increment
+
+V011__trace_link_scenario_types.sql is reserved for additive legacy-command validation. Current V009__trace_link_domain_incidents.sql is preserved. Main currently owns a different V009__trace_link_scenario_commands.sql and V010__trace_link_domain_measurements.sql; their version/table collision must be resolved through a separately reviewed upgrade before this stack merges into main. This branch does not apply or rename a consumed migration and does not activate producer delivery.
