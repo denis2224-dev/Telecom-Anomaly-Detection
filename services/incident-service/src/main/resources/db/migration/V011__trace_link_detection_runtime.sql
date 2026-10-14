@@ -1,4 +1,4 @@
--- V005 remains reserved for notifications. Legacy evidence constraints are unchanged.
+-- Additive five-minute detector storage after main V001-V010. Legacy evidence is unchanged.
 CREATE TABLE app.trace_link_detection_evidence (
     detection_id varchar(64) PRIMARY KEY CHECK (detection_id ~ '^[a-f0-9]{64}$'),
     episode_id varchar(64) NOT NULL CHECK (episode_id ~ '^[a-f0-9]{64}$'),
@@ -19,6 +19,7 @@ CREATE TABLE app.trace_link_incidents (
     technical_state varchar(16) NOT NULL CHECK (technical_state IN ('ONGOING','UNKNOWN','RECOVERED')),
     severity varchar(16) NOT NULL CHECK (severity IN ('HIGH','CRITICAL')),
     first_observed_at timestamptz NOT NULL,
+    detected_at timestamptz NOT NULL,
     last_observed_at timestamptz NOT NULL,
     projection jsonb NOT NULL,
     version bigint NOT NULL DEFAULT 1,
