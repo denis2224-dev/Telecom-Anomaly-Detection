@@ -236,9 +236,20 @@ class TraceLinkKafkaReceiverIT {
         else receipt.put("producerFileSha256",producerFileSha256);
         receipt.put("startedAt",startedAt.toString()).put("endedAt",Instant.now().toString());
         receipt.put("committedKafkaOffsets",committed).put("sentKafkaDeliveries",deliveryCount);
+        receipt.put("incidentViewsSource","PRODUCTION_RECEIVER_READ_SERVICE_NOT_HTTP");
+        var incidentViews = receipt.putArray("incidentViews");
         var projections = receipt.putArray("projections");
         for (var entry : expected.entrySet()) {
-            var lifecycle = receiver.detail(entry.getKey()).latestDetection().required("lifecycle");
+            var view = receiver.detail(entry.getKey());
+            var opening = entry.getValue().firstEntry().getValue();
+            assertEquals(Instant.parse(opening.required("context").required("window").required("from").asText()).minusSeconds(300),view.firstObservedAt());
+            assertEquals(Instant.parse(opening.required("context").required("evaluatedAt").asText()),view.detectedAt());
+            incidentViews.addObject().put("episodeId",view.episodeId())
+                    .put("firstObservedAt",view.firstObservedAt().toString()).put("detectedAt",view.detectedAt().toString())
+                    .put("latestWindowEnd",view.latestWindowEnd().toString()).put("latestSequence",view.latestSequence())
+                    .put("technicalState",view.technicalState()).put("severity",view.severity())
+                    .set("latestDetection",view.latestDetection());
+            var lifecycle = view.latestDetection().required("lifecycle");
             projections.addObject().put("episodeId",entry.getKey())
                     .put("sequence",lifecycle.required("sequence").asLong())
                     .put("detectionId",lifecycle.required("detectionId").asText())
