@@ -99,3 +99,8 @@ app:
       poll-ms: 2000
       lease-seconds: 60
       max-attempts: 6
+
+telecom:
+  trace-link:
+    enabled: ${TRACE_LINK_ENABLED:false}
+    topic: ${TRACE_LINK_DETECTIONS_TOPIC:telecom.detections.trace-link.v1}

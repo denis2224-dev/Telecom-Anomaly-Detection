@@ -153,6 +153,11 @@
 				<targetPath>contracts</targetPath>
 				<includes>
 					<include>detections/service-detection-v2.schema.json</include>
+                    <include>detections/trace-link-detection-v1.schema.json</include>
+                    <include>kpi/trace-link-kpi-definitions-v1.json</include>
+                    <include>policies/trace-link-domain-rules-v1.json</include>
+                    <include>topology/trace-link-runtime-dependencies-v1.json</include>
+                    <include>evidence/trace-link-evidence-v1.schema.json</include>
 					<include>features/service-feature-window-v2.schema.json</include>
 					<include>topology/demo-scopes-v2.json</include>
 					<include>ml-shadow/sms-shadow-evidence-v1.schema.json</include>
@@ -172,6 +177,7 @@
 				<targetPath>contracts</targetPath>
 				<includes>
 					<include>fixtures/detections/**</include>
+                    <include>fixtures/trace-link/day3-*.json</include>
 					<include>fixtures/coverage/**</include>
 					<include>fixtures/trace-link/primitive-projection-cases-v1.json</include>
 				</includes>

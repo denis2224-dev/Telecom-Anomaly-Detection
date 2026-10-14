@@ -25,3 +25,32 @@ The new catalogue lists ten active reference members but is registered as
 `CONTRACT_ONLY`. No legacy source authority or deployment flag is changed.
 Runtime activation requires a separately versioned source-authority contract and
 the shared consumer alignment gate.
+
+## PR #104 correction allocation — 14 October 2026
+
+Pinned main: `9db3e0e5a61a8062310e560e734a5395758f70b7`. Original PR #104 head:
+`f41dfbb017ad4f11e7a1f18b0996a3868889ff75`. Main now contains processor V001–V016
+and incident V001–V010. The earlier reservation table is retained as historical
+context; it is not an instruction to overwrite an applied migration.
+
+| Database | Correction allocation and sequence | Compatibility requirement |
+| --- | --- | --- |
+| processing_db | V017__trace_link_detection_runtime.sql after main V016 | Preserve main V001–V016 and existing V017 bytes; fresh V001–V017 and populated V016-to-V017 verification |
+| incidents_db | V011__trace_link_detection_runtime.sql after main V010 | Preserve main V001–V010 byte-for-byte; add five-minute detector evidence/incidents/audit and non-null detected_at; verify fresh and populated main-to-V011 upgrade |
+
+Main's V006__trace_link_read_models.sql remains the upstream dataset/catalogue/
+metric-window schema. PR #104's conflicting alternate V006 held different
+five-minute detector tables and has only been used in disposable tests. Moving
+that unshipped branch delta to V011 preserves main's applied migration history.
+V011 was free at the pinned main snapshot; recheck allocation if main advances
+before deployment.
+
+Do not run Flyway repair, replace applied checksums, reset an existing database
+or enable out-of-order migration to bypass this collision. If an alternate V006
+is found in a non-disposable environment, that environment needs a separately
+reviewed transition before deployment. No such deployment is asserted here.
+
+The [correction report](../evidence/2026-10-14-trace-link-day3-corrections.md)
+records actual fresh/upgrade/validate/idempotency, row/checksum and grant results.
+Allocation is not activation approval: upstream 60/300-second compatibility,
+shared receiving decisions and simultaneous capacity remain separate gates.

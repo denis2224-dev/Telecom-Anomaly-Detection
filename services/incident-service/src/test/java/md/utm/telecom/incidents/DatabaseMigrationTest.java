@@ -57,7 +57,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(10, flyway.migrate().migrationsExecuted);
+        assertEquals(11, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -86,7 +86,7 @@ class DatabaseMigrationTest {
                 "push_subscription", "push_delivery", "trace_dataset", "trace_catalogue",
                 "trace_inventory_city", "trace_inventory_link", "trace_link_direction",
                 "trace_partner", "trace_metric_window", "trace_primitive_projection", "trace_scenario_command",
-                "trace_domain_source", "trace_domain_scope", "trace_domain_measurement", "trace_domain_detection"), tableNames());
+                "trace_domain_source", "trace_domain_scope", "trace_domain_measurement", "trace_domain_detection", "trace_link_detection_evidence", "trace_link_incidents", "trace_link_incident_audit"), tableNames());
         assertEquals("1", scalar("""
                 SELECT count(*) FROM pg_indexes
                 WHERE schemaname = 'app'
@@ -164,7 +164,7 @@ class DatabaseMigrationTest {
                 .dataSource(url(database), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(6, upgrade.migrate().migrationsExecuted);
+        assertEquals(7, upgrade.migrate().migrationsExecuted);
         assertEquals(0, upgrade.migrate().migrationsExecuted);
         try (Connection fresh = DriverManager.getConnection(url("incidents_db"),
                 POSTGRES.getUsername(), POSTGRES.getPassword());

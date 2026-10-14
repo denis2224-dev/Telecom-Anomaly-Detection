@@ -4,6 +4,55 @@
  */
 
 export interface paths {
+    "/api/v2/trace-link/incidents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read durable synthetic Trace Link incidents */
+        get: operations["listTraceLinkIncidents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/{episodeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceLinkIncident"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/{episodeId}/evidence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceLinkIncidentEvidence"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v2/trace-domain-measurements": {
         parameters: {
             query?: never;
@@ -1264,6 +1313,81 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        TraceLinkIncidentPage: {
+            items: components["schemas"]["TraceLinkIncidentView"][];
+            total: number;
+            limit: number;
+            offset: number;
+        };
+        TraceLinkDetectionEvidencePage: {
+            items: components["schemas"]["TraceLinkDetectionEnvelope"][];
+            total: number;
+            limit: number;
+            offset: number;
+        };
+        /** @description Read-only technical episode metadata. No analyst assignment, status, investigation, resolution or workflow audit is provided. */
+        TraceLinkIncidentView: {
+            episodeId: string;
+            /**
+             * Format: date-time
+             * @description Start of the first breached source window; stable for the episode.
+             */
+            firstObservedAt: string;
+            /**
+             * Format: date-time
+             * @description Evaluation time of the initial OPEN decision; stable through later transitions.
+             */
+            detectedAt: string;
+            /**
+             * Format: date-time
+             * @description End of the latest contiguously applied source window.
+             */
+            latestWindowEnd: string;
+            /** Format: int64 */
+            latestSequence: number;
+            /** @enum {string} */
+            technicalState: "ONGOING" | "UNKNOWN" | "RECOVERED";
+            /** @enum {string} */
+            severity: "HIGH" | "CRITICAL";
+            latestDetection: components["schemas"]["TraceLinkDetectionEnvelope"];
+        };
+        /** @description Strict wire JSON schema is authoritative for primitive evidence and cause validation. */
+        TraceLinkDetectionEnvelope: {
+            /** @enum {string} */
+            schemaVersion: "trace-link-detection-v1";
+            /** @enum {boolean} */
+            synthetic: true;
+            lifecycle: {
+                /** @enum {string} */
+                schemaVersion: "trace-link-lifecycle-v1";
+                episodeId: string;
+                detectionId: string;
+                sequence: number;
+                /** @enum {string} */
+                phase: "OPEN" | "UPDATE" | "UNKNOWN" | "RECOVERY";
+                /** @enum {string} */
+                technicalState: "ONGOING" | "UNKNOWN" | "RECOVERED";
+                /** @enum {string} */
+                severity: "HIGH" | "CRITICAL";
+                window: {
+                    [key: string]: unknown;
+                };
+                evaluation: {
+                    [key: string]: unknown;
+                };
+            };
+            context: {
+                [key: string]: unknown;
+            };
+            cause: {
+                [key: string]: unknown;
+            };
+            causeEvidence: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            committedAt: string;
+        };
         TraceDomainMeasurementV1: {
             /** @enum {unknown} */
             schemaVersion: "trace-link-domain-measurement-v1";
@@ -2255,6 +2379,9 @@ export interface components {
         };
     };
     parameters: {
+        TraceLinkLimit: number;
+        TraceLinkOffset: number;
+        TraceLinkEpisodeId: string;
         GeographyCityId: string;
         /** @description Incident UUID, not a detectionId. */
         IncidentId: string;
@@ -2281,6 +2408,87 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    listTraceLinkIncidents: {
+        parameters: {
+            query?: {
+                limit?: components["parameters"]["TraceLinkLimit"];
+                offset?: components["parameters"]["TraceLinkOffset"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Latest contiguous projections; controls without episodes are not incidents. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceLinkIncidentPage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    getTraceLinkIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                episodeId: components["parameters"]["TraceLinkEpisodeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read-only technical incident with stable onset and initial detection timestamps. Analyst workflow is not implemented for these episodes. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceLinkIncidentView"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getTraceLinkIncidentEvidence: {
+        parameters: {
+            query?: {
+                limit?: components["parameters"]["TraceLinkLimit"];
+                offset?: components["parameters"]["TraceLinkOffset"];
+            };
+            header?: never;
+            path: {
+                episodeId: components["parameters"]["TraceLinkEpisodeId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Immutable received detections in sequence order, including pending gaps. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceLinkDetectionEvidencePage"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
     getTraceDomainNativeMeasurements: {
         parameters: {
             query: {
