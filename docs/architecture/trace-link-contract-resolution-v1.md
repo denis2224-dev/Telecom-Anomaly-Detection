@@ -123,6 +123,13 @@ connected incident lifecycle, real authenticated browser acceptance, capacity or
 
 ## Owner decision records and handoffs
 
+PR #102 now retains PR #101's quality-state and modal-focus fixes from
+`eab953e9af90ddf5d14cbda57a6935994c2cefb1`. The reviewed proposal below is unchanged;
+the [reconciliation evidence](../evidence/2026-10-13-pr102-dashboard-reconciliation.md)
+pins the renewed tests and the accepted-history keyboard regression. This adds no source authority,
+delivery activation or human approval. Sergiu and Denis should record APPROVED or REJECTED decisions
+against this versioned package in Draft PR #102, with any required alternative policy/schema version.
+
 Each record is **PENDING_REVIEW**, with the proposed choice, alternative and consequence below.
 References are this contract, the exact source/fixture files and PR #93–#101 review snapshots (no human
 approval of these new semantics was present). The final Draft PR requests the actual owners' review;

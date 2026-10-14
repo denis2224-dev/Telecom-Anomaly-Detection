@@ -75,3 +75,4 @@ services/incident-service/src/main/resources/db/migration/V010__trace_link_domai
 contracts/datasets/trace-link-live-synthetic-v1.json text eol=lf
 contracts/fixtures/trace-link/live-consumer-results-v1.json text eol=lf
 docs/evidence/assets/trace-link-contract-resolution-20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-contract-reconciliation-20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
