@@ -68,6 +68,12 @@ server:
         secure: ${SESSION_COOKIE_SECURE:false}
 
 app:
+  trace-domain-read-model:
+    enabled: ${TRACE_DOMAIN_READ_MODEL_ENABLED:false}
+  trace-link:
+    scenarios:
+      enabled: ${TRACE_LINK_SCENARIOS_ENABLED:false}
+      reconcile-ms: 5000
   public-origin: ${APP_PUBLIC_ORIGIN:http://telecom.test:8080}
   evidence:
     reconcile-enabled: ${EVIDENCE_RECONCILE_ENABLED:true}
@@ -81,6 +87,18 @@ app:
   simulator:
     generator-base-url: ${GENERATOR_BASE_URL:http://127.0.0.1:${GENERATOR_HOST_PORT:8081}}
     reconcile-ms: 5000
+  notifications:
+    enabled: ${NOTIFICATIONS_ENABLED:true}
+    push-enabled: ${NOTIFICATION_PUSH_ENABLED:false}
+    vapid-public-key: ${NOTIFICATION_VAPID_PUBLIC_KEY:}
+    vapid-private-key: ${NOTIFICATION_VAPID_PRIVATE_KEY:}
+    vapid-subject: ${NOTIFICATION_VAPID_SUBJECT:}
+    encryption-key: ${NOTIFICATION_ENCRYPTION_KEY:}
+    delivery:
+      batch-size: 50
+      poll-ms: 2000
+      lease-seconds: 60
+      max-attempts: 6
 
 telecom:
   trace-link:

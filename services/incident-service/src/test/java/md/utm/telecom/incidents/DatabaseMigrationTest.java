@@ -13,6 +13,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Savepoint;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,7 +57,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(5, flyway.migrate().migrationsExecuted);
+        assertEquals(11, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -76,10 +78,15 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals("18", scalar("""
-                SELECT count(*) FROM pg_tables WHERE schemaname = 'app'
-                AND tablename <> 'flyway_schema_history' AND tableowner = 'incidents_migrator'
-                """));
+        assertEquals(Set.of("analysts", "detection_evidence", "incidents", "incident_audit",
+                "service_kpi_windows", "scenario_commands", "sms_ml_shadow",
+                "geo_catalogue_versions", "geo_cities", "geo_nodes", "geo_scope_bindings",
+                "geo_scope_roles", "geo_configured_links", "scope_window_coverage",
+                "scope_window_coverage_rejection", "notification_event", "notification_recipient",
+                "push_subscription", "push_delivery", "trace_dataset", "trace_catalogue",
+                "trace_inventory_city", "trace_inventory_link", "trace_link_direction",
+                "trace_partner", "trace_metric_window", "trace_primitive_projection", "trace_scenario_command",
+                "trace_domain_source", "trace_domain_scope", "trace_domain_measurement", "trace_domain_detection", "trace_link_detection_evidence", "trace_link_incidents", "trace_link_incident_audit"), tableNames());
         assertEquals("1", scalar("""
                 SELECT count(*) FROM pg_indexes
                 WHERE schemaname = 'app'
@@ -95,6 +102,20 @@ class DatabaseMigrationTest {
         rejects("42501", "DELETE FROM app.sms_ml_shadow");
         rejects("42501", "UPDATE app.scope_window_coverage SET payload = '{}'::jsonb");
         rejects("42501", "DELETE FROM app.geo_catalogue_versions");
+        rejects("42501", "UPDATE app.notification_event SET summary = 'changed' WHERE false");
+        rejects("42501", "DELETE FROM app.notification_event");
+        rejects("42501", "UPDATE app.notification_recipient SET analyst_id = gen_random_uuid() WHERE false");
+        rejects("42501", "UPDATE app.trace_metric_window SET quality = 'VALID' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_metric_window");
+        rejects("42501", "UPDATE app.trace_primitive_projection SET quality = 'VALID' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_primitive_projection");
+        rejects("42501", "UPDATE app.trace_domain_measurement SET quality = 'VALID' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_domain_measurement");
+        rejects("42501", "UPDATE app.trace_domain_detection SET verdict = 'HEALTHY' WHERE false");
+        rejects("42501", "DELETE FROM app.trace_domain_detection");
+        rejects("42501", "INSERT INTO app.trace_domain_source (dataset_id) VALUES ('forbidden')");
+        rejects("42501", "UPDATE app.trace_domain_scope SET scope = '{}'::jsonb WHERE false");
+        rejects("42501", "UPDATE app.trace_inventory_city SET display_name = 'changed' WHERE false");
         for (String db : new String[]{"processing_db", "keycloak_db"}) {
             SQLException failure = assertThrows(SQLException.class, () -> {
                 try (Connection ignored = DriverManager.getConnection(url(db),
@@ -103,6 +124,53 @@ class DatabaseMigrationTest {
                 }
             });
             assertEquals("42501", failure.getSQLState());
+        }
+    }
+
+    @Test
+    void traceScenarioRuntimeCannotRewriteCommandsOrDeleteHistory() throws Exception {
+        assertEquals("false", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','command_text','UPDATE')::text"));
+        assertEquals("false", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','fingerprint','UPDATE')::text"));
+        assertEquals("false", scalar("SELECT has_table_privilege(current_user,'app.trace_scenario_command','DELETE')::text"));
+        assertEquals("false", scalar("SELECT has_table_privilege(current_user,'app.trace_scenario_command','TRUNCATE')::text"));
+        assertEquals("true", scalar("SELECT has_column_privilege(current_user,'app.trace_scenario_command','status','UPDATE')::text"));
+    }
+
+    @Test
+    void upgradeFromV004MatchesFreshSchemaAndGrants() throws Exception {
+        String database = "incidents_upgrade";
+        try (Connection admin = DriverManager.getConnection(url("bootstrap"),
+                POSTGRES.getUsername(), POSTGRES.getPassword())) {
+            execute(admin, "CREATE DATABASE " + database + " OWNER incidents_migrator");
+            execute(admin, "REVOKE CONNECT ON DATABASE " + database + " FROM PUBLIC");
+            execute(admin, "GRANT CONNECT ON DATABASE " + database + " TO incidents_app, incidents_migrator");
+        }
+        try (Connection admin = DriverManager.getConnection(url(database),
+                POSTGRES.getUsername(), POSTGRES.getPassword())) {
+            execute(admin, "REVOKE CREATE ON SCHEMA public FROM PUBLIC");
+            execute(admin, "CREATE SCHEMA app AUTHORIZATION incidents_migrator");
+            execute(admin, "GRANT USAGE ON SCHEMA app TO incidents_app");
+            execute(admin, """
+                    ALTER DEFAULT PRIVILEGES FOR ROLE incidents_migrator IN SCHEMA app
+                    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO incidents_app
+                    """);
+        }
+        Flyway throughV004 = Flyway.configure()
+                .dataSource(url(database), "incidents_migrator", "test-migrator-only")
+                .defaultSchema("app").schemas("app").createSchemas(false)
+                .locations("classpath:db/migration").target("004").cleanDisabled(true).load();
+        assertEquals(4, throughV004.migrate().migrationsExecuted);
+        Flyway upgrade = Flyway.configure()
+                .dataSource(url(database), "incidents_migrator", "test-migrator-only")
+                .defaultSchema("app").schemas("app").createSchemas(false)
+                .locations("classpath:db/migration").cleanDisabled(true).load();
+        assertEquals(6, upgrade.migrate().migrationsExecuted);
+        assertEquals(0, upgrade.migrate().migrationsExecuted);
+        try (Connection fresh = DriverManager.getConnection(url("incidents_db"),
+                POSTGRES.getUsername(), POSTGRES.getPassword());
+             Connection upgraded = DriverManager.getConnection(url(database),
+                     POSTGRES.getUsername(), POSTGRES.getPassword())) {
+            assertEquals(schemaSnapshot(fresh), schemaSnapshot(upgraded));
         }
     }
 
@@ -282,10 +350,59 @@ class DatabaseMigrationTest {
         }
     }
 
+    private Set<String> tableNames() throws SQLException {
+        Set<String> names = new HashSet<>();
+        try (var statement = runtime.createStatement(); var rows = statement.executeQuery("""
+                SELECT tablename, tableowner FROM pg_tables WHERE schemaname = 'app'
+                  AND tablename <> 'flyway_schema_history'
+                """)) {
+            while (rows.next()) {
+                names.add(rows.getString(1));
+                assertEquals("incidents_migrator", rows.getString(2));
+            }
+        }
+        return names;
+    }
+
     private static void execute(Connection connection, String sql) throws SQLException {
         try (var statement = connection.createStatement()) {
             statement.execute(sql);
         }
+    }
+
+    private static String schemaSnapshot(Connection connection) throws SQLException {
+        StringBuilder snapshot = new StringBuilder();
+        for (String sql : new String[]{
+                """
+                SELECT table_name, column_name, data_type, is_nullable, COALESCE(column_default, '')
+                FROM information_schema.columns WHERE table_schema = 'app'
+                ORDER BY table_name, ordinal_position
+                """,
+                """
+                SELECT conrelid::regclass::text, conname, pg_get_constraintdef(oid)
+                FROM pg_constraint WHERE connamespace = 'app'::regnamespace
+                ORDER BY conrelid::regclass::text, conname
+                """,
+                """
+                SELECT tablename, indexname, indexdef FROM pg_indexes
+                WHERE schemaname = 'app' ORDER BY tablename, indexname
+                """,
+                """
+                SELECT table_name, grantee, privilege_type FROM information_schema.role_table_grants
+                WHERE table_schema = 'app' ORDER BY table_name, grantee, privilege_type
+                """
+        }) {
+            try (var statement = connection.createStatement(); var rows = statement.executeQuery(sql)) {
+                int columns = rows.getMetaData().getColumnCount();
+                while (rows.next()) {
+                    for (int column = 1; column <= columns; column++) {
+                        snapshot.append(rows.getString(column)).append('|');
+                    }
+                    snapshot.append('\n');
+                }
+            }
+        }
+        return snapshot.toString();
     }
 
     private static String url(String database) {

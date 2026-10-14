@@ -1,0 +1,78 @@
+{
+  "autoMergeRequest": null,
+  "baseRefName": "feature/ion-trace-link-inventory-bootstrap",
+  "baseRefOid": "1e67e61ce3f2c46f26818b42c17fc3d50481aae4",
+  "comments": [],
+  "headRefName": "feature/ion-trace-link-projection-v1",
+  "headRefOid": "3f6d485f41a6881fe65e580dfc8854d9ce97a2fe",
+  "isDraft": true,
+  "mergeStateStatus": "CLEAN",
+  "number": 92,
+  "reviewDecision": "",
+  "reviews": [],
+  "state": "OPEN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T06:58:51Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883766/job/114697201822",
+      "name": "dashboard-verification",
+      "startedAt": "2026-10-12T06:54:44Z",
+      "status": "COMPLETED",
+      "workflowName": "dashboard"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T06:55:30Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883769/job/114697202254",
+      "name": "build",
+      "startedAt": "2026-10-12T06:54:44Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-runtime-image"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T06:56:50Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883781/job/114697201984",
+      "name": "backend-verification",
+      "startedAt": "2026-10-12T06:54:44Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-service"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T06:54:53Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883767/job/114697202400",
+      "name": "deployment-config",
+      "startedAt": "2026-10-12T06:54:44Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T07:00:30Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883767/job/114697202096",
+      "name": "model-evaluation",
+      "startedAt": "2026-10-12T06:54:44Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-12T07:11:42Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883767/job/114698824188",
+      "name": "processor-evaluation",
+      "startedAt": "2026-10-12T07:00:35Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    }
+  ],
+  "title": "feat(processor): add gated Trace Link native KPI projection and rollups",
+  "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/92"
+}

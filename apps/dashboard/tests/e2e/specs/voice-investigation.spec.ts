@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import services from '../../../src/fixtures/services.json';
 import { voiceWindows, voiceIncidents } from '../../../src/fixtures/voice';
 
@@ -67,7 +67,7 @@ test.describe('Voice investigation', () => {
   test('history failure shows an error instead of synthetic evidence', async ({ page }) => {
     await page.route('**/api/services/*/kpis?**', route => route.fulfill({ status: 503, json: { code: 'UNAVAILABLE' } }));
     await page.goto('/services/VOLTE-MD-CENTRAL');
-    await expect(page.getByRole('alert')).toContainText('could not be reached');
+    await expect(page.getByRole('alert')).toContainText('temporarily unavailable');
     await expect(page.locator('.service-hero .actual-line')).toHaveCount(0);
   });
   test('empty history and mobile layout remain readable', async ({ page }, info) => {

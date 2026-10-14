@@ -1,0 +1,110 @@
+{
+  "implementationSha": "633feb5319127018bd351df65c8eed8e96c0870a",
+  "files": [
+    {
+      "path": "contracts/fixtures/trace-link/primitive-projection-cases-v1.json",
+      "gitBlobSha256": "a913d79eac6347661fa35eb06fef7f201c8ef6ef32db0e6ae8381e15351de3f9",
+      "workingBytesSha256": "cf09c071a5c581da527e3494f43b72fad5b54a2a0bbfe19f69157afadc55d56f"
+    },
+    {
+      "path": "contracts/kpi/trace-link-primitive-projection-v1.schema.json",
+      "gitBlobSha256": "575e3a7ecdc4c466af1a5be30796a80e069c11ea945402e184515dfa23fd3257",
+      "workingBytesSha256": "575e3a7ecdc4c466af1a5be30796a80e069c11ea945402e184515dfa23fd3257"
+    },
+    {
+      "path": "docs/architecture/trace-link-migration-ledger.md",
+      "gitBlobSha256": "8ab985d3ae03574590f1092aac14c0be109b728e64e306f1382ebc1f9981db10",
+      "workingBytesSha256": "c285603b846f3a0f6e32234d9121c4f8c9a2e6cf6a9f3b0e042bfffd2a618573"
+    },
+    {
+      "path": "docs/architecture/trace-link-projection-v1.md",
+      "gitBlobSha256": "9d4fa8b0d2c1db2910dc5b98710d934845c889a34e6f668ec982a927609b1f44",
+      "workingBytesSha256": "9d4fa8b0d2c1db2910dc5b98710d934845c889a34e6f668ec982a927609b1f44"
+    },
+    {
+      "path": "docs/runbooks/trace-link-primitive-projection.md",
+      "gitBlobSha256": "015f1f7234846680d827e8f6525cd59b1b91053e65fe224e2dd58c4026514225",
+      "workingBytesSha256": "015f1f7234846680d827e8f6525cd59b1b91053e65fe224e2dd58c4026514225"
+    },
+    {
+      "path": "scripts/check-contracts.py",
+      "gitBlobSha256": "8b77ecbb500b9d0663aecb929cc0fc04f0c7ffb68aad9aaa44e1d7c07034ed5d",
+      "workingBytesSha256": "8b77ecbb500b9d0663aecb929cc0fc04f0c7ffb68aad9aaa44e1d7c07034ed5d"
+    },
+    {
+      "path": "scripts/trace_link_projection_contract.py",
+      "gitBlobSha256": "cb266c865a2ef39f3c34b2dd71b84376805b97371d32afc643ec061ddfd86122",
+      "workingBytesSha256": "cb266c865a2ef39f3c34b2dd71b84376805b97371d32afc643ec061ddfd86122"
+    },
+    {
+      "path": "services/processor/README.md",
+      "gitBlobSha256": "27e5e662f7cfb7ade3a939074c2b469f0281c619b5e48eb142b9843a03c6ca0f",
+      "workingBytesSha256": "d4cfdcc371807aca811196475179f0653d3a6970c63d4a50fe139298dfa491d4"
+    },
+    {
+      "path": "services/processor/pom.xml",
+      "gitBlobSha256": "bc9f5d2ec95bb3609b07481700694f2d49e938fe1d520861263d50752a78574b",
+      "workingBytesSha256": "723dd48e3362ed8ea10b154ab47b0490ed212e121424159859dfed04db80438f"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/ProcessorApplication.java",
+      "gitBlobSha256": "dce6e9ae37924c4bd867863119b02fb8ae930b5287dec75975a43a77ae272db6",
+      "workingBytesSha256": "5ad816aa875d04442ca170401972c33826120b3af0ba6c3c63734992d3d21a60"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/kpi/tracelink/TraceLinkProjection.java",
+      "gitBlobSha256": "be7a4d76d8040f8fc85b5b4d0bf59a2fa786150e0dcfa3429e38c1bbcdd2db95",
+      "workingBytesSha256": "be7a4d76d8040f8fc85b5b4d0bf59a2fa786150e0dcfa3429e38c1bbcdd2db95"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/kpi/tracelink/TraceLinkProjectionApplication.java",
+      "gitBlobSha256": "74f65754a4002878c944b4c644285d48bc48a3346e8b953dd614227a59c3349b",
+      "workingBytesSha256": "74f65754a4002878c944b4c644285d48bc48a3346e8b953dd614227a59c3349b"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/kpi/tracelink/TraceLinkProjectionService.java",
+      "gitBlobSha256": "49e89b4868b048a7de6d698102cec423f1b2af1d97ce2e5e249c283a3600472e",
+      "workingBytesSha256": "49e89b4868b048a7de6d698102cec423f1b2af1d97ce2e5e249c283a3600472e"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/kpi/tracelink/TraceLinkRollupService.java",
+      "gitBlobSha256": "e896533a8d65a397bef5f8952056d49bb669a8c4f821e7fe7ed065dd36a0ebb3",
+      "workingBytesSha256": "e896533a8d65a397bef5f8952056d49bb669a8c4f821e7fe7ed065dd36a0ebb3"
+    },
+    {
+      "path": "services/processor/src/main/resources/application-trace-link-projection.yaml",
+      "gitBlobSha256": "548ec0e6798d107d6fdd1271ea15f7ead52464a585cd48f700a425fd33f51329",
+      "workingBytesSha256": "548ec0e6798d107d6fdd1271ea15f7ead52464a585cd48f700a425fd33f51329"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V016__trace_link_domain_windows.sql",
+      "gitBlobSha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+      "workingBytesSha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/history/TraceLinkDatasetBootstrapIT.java",
+      "gitBlobSha256": "d3b616fe50eefebbce1f990f988dcebd7cb319983929e48e7686551426f851f6",
+      "workingBytesSha256": "6f33a038134c77cfb71b7e0bd01403330dd08e6a098bd8eab4a3ec80551302e2"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/ingestion/IngestionIntegrationTest.java",
+      "gitBlobSha256": "6b12d18c61551dce9ba1dcddd31908b6e575c0ea6ffc02fe669aca58f3bc70ff",
+      "workingBytesSha256": "ae0b8fe667e44ee203c7ac164b5e2d8886abcb3495bb4167dd834c4ef9d8012e"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/kpi/tracelink/TraceLinkProjectionIT.java",
+      "gitBlobSha256": "dd94619d3504142cef8761f4898d0dae0e67ada11cd6e24febe4a34ff4e8ec83",
+      "workingBytesSha256": "dd94619d3504142cef8761f4898d0dae0e67ada11cd6e24febe4a34ff4e8ec83"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/kpi/tracelink/TraceLinkProjectionTest.java",
+      "gitBlobSha256": "118a575c6e8b9ef2e23abc7ae1b6b80d2a218c3310603a20baa0b301d1ab734c",
+      "workingBytesSha256": "118a575c6e8b9ef2e23abc7ae1b6b80d2a218c3310603a20baa0b301d1ab734c"
+    },
+    {
+      "path": "tests/test_trace_link_projection_contract.py",
+      "gitBlobSha256": "d8e4da101b8006ae90ea6fdbf5ebbea68ae7fd350388c327c3440d03f51dd222",
+      "workingBytesSha256": "d8e4da101b8006ae90ea6fdbf5ebbea68ae7fd350388c327c3440d03f51dd222"
+    }
+  ]
+}

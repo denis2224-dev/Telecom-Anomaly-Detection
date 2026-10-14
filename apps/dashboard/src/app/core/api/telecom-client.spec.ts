@@ -58,6 +58,15 @@ describe("TelecomClient", () => {
     await expectation;
   });
 
+  it('protects subscription deletion with CSRF and supports cancellation', async () => {
+    const controller = new AbortController();
+    const pending = client.deletePushSubscription('subscription/1', controller.signal);
+    const rejected = expect(pending).rejects.toMatchObject({name:'AbortError'});
+    const request = http.expectOne('/api/notifications/push-subscriptions/subscription%2F1');
+    expect(request.request.method).toBe('DELETE');
+    expect(request.request.headers.get('X-CSRF-TOKEN')).toBe('test-csrf');
+    controller.abort();await rejected;expect(request.cancelled).toBe(true);
+  });
   it("clears session state on API 401", async () => {
     const response = client.listServices();
     const expectation = expect(response).rejects.toMatchObject({ status: 401 });

@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "implementationCommit": "5a8e6bec28ab88fbbfe85da2ecca695cdf4aa7a0",
+  "context": "Unmodified verifier and inputs exported as exact Git blobs, retaining committed LF bytes",
+  "result": "PASS: 29 frozen V2/reference files and independent fixture hash unchanged",
+  "workingTreeVerifier": "FAIL due to pre-existing Windows CRLF conversion; frozen files left unchanged"
+}

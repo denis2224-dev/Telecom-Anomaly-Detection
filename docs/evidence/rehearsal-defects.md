@@ -97,3 +97,30 @@ The replay provisions and removes a disposable local supervisor, starts approved
 Sergiu reviews changed labels; Denis reviews changed API handling. These human reviews remain pending. The automated results and evidence are supplied for that review; no teammate approval is inferred.
 
 The local processor also logged recurring receipt-retention `QueryTimeoutException` messages during this execution. KPI publication and coverage consumption continued. This is a backend operational warning for Denis to review, not a dashboard fix or a proposed API change; no database retention configuration was changed.
+
+## Trace Link producer Day 5 regressions (12 October 2026)
+
+These repairs are isolated from the earlier browser rehearsals above. Production
+baseline: `e3d0a41da141f2a836edbd35258ba878efc335dd`. Repair:
+`6a6231113f9655534e14e54af204fb6c51cb4b92`. Exact commands, initial outcomes,
+passing full verification and log hashes are in the
+[Day 5 verification manifest](assets/trace-link-reliability/verification.json).
+
+| Defect | Reproduced before fix | Repair and regression |
+| --- | --- | --- |
+| D5-1: first-use run identity can disagree with command fingerprint | `TraceLinkReliabilityRegressionTest.firstCommandCannotBindAnUnrelatedRunIdentity` expected rejection of an unrelated 64-hex run ID, but start succeeded | Require the canonical command-derived run ID before reserving scope. The regression rejects without retaining a run; restart tests reject changed parameters under the old identity. |
+| D5-2: artifact JSON accepts a trailing second document | `TraceLinkReliabilityRegressionTest.artifactsRejectTrailingDocumentsAndDuplicateKeysBeforeAnyOutput` expected a parse failure for valid observation plus `{}`, but output was created | Enable strict duplicate-key and trailing-token rejection before creating any output. The repaired test covers both trailing documents and duplicate eventId properties; prior files remain untouched. |
+
+The focused red run had 2 tests / 2 failures / 0 errors / 0 skips. The first
+sandbox green attempt encountered JUnit temporary-directory cleanup errors; the
+authorized host rerun resolved that environment limitation. A subsequent new
+outage test expected DataAccessException where Spring correctly reported
+CannotCreateTransactionException before import transaction creation. Correcting
+that test assertion was not a production fix. Existing retention had no reproduced
+defect; its new native/V016 tests verify preservation without changing cleanup SQL.
+
+The [checkpoint rehearsal source](assets/trace-link-reliability/CheckpointRehearsal.java)
+also exercises the packaged library with an explicit logical clock: three
+Transport windows/nine observations, immutable exact replay, interrupted restart,
+retained stopped state and zero released windows after restart. It starts no
+transport. Complete new-domain incident/API acceptance remains BLOCKED.

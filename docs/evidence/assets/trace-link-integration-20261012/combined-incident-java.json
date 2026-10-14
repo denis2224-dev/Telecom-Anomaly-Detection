@@ -1,0 +1,20 @@
+{
+  "name": "combined-incident-java",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012/services/incident-service",
+  "command": [
+    "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+    "-Dspring.kafka.bootstrap-servers=127.0.0.1:65534",
+    "clean",
+    "verify"
+  ],
+  "startedAt": "2026-10-12T18:39:09.065190+00:00",
+  "finishedAt": "2026-10-12T18:44:29.373990+00:00",
+  "elapsedSeconds": 320.309,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "combined-incident-java.log",
+  "logSha256": "8b32f17eee282d51a227d52117acbb63810e226f59579090b8dab365a7ed4fa3"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "frozen-input-pins",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/verify-trace-link-pins.py",
+    "--reference-root",
+    "C:/OrangeSystems/task/Trace_Link_Integration_Pack"
+  ],
+  "startedAt": "2026-10-12T18:37:03.776445+00:00",
+  "finishedAt": "2026-10-12T18:37:04.384454+00:00",
+  "elapsedSeconds": 0.608,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "frozen-input-pins.log",
+  "logSha256": "ddd163a8cdc0311ece11d57f4efe07d7d1c111e0482a1d6e92bb577a741c0d30"
+}

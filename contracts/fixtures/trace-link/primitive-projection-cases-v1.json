@@ -1,0 +1,92 @@
+{
+  "contractVersion": "trace-link-primitive-projection-v1",
+  "consumerAgreement": "PENDING_REVIEW",
+  "nativeExample": {
+    "schemaVersion": 1,
+    "messageType": "trace-link-primitive-projection-v1",
+    "projectionId": "bcea328d0c89878a6b8ecf627ab1f8a06f7a9fd18bb4f1aa9f615a3630f11e32",
+    "datasetId": "trace-link-bounded-fixture-v1",
+    "sourceNamespace": "trace-link-reference-v1",
+    "synthetic": true,
+    "domain": "VOLTE",
+    "metricId": "volte.setup.success",
+    "unit": "PERCENT",
+    "aggregation": "RATIO_OF_SUMS",
+    "policyVersion": "trace-link-kpi-v1",
+    "topologyVersion": "trace-link-links-v1",
+    "revision": 0,
+    "finalized": true,
+    "scope": {
+      "type": "CITY",
+      "id": "chi",
+      "contractCityId": "CHI"
+    },
+    "window": {
+      "from": "2026-09-10T09:00:00Z",
+      "to": "2026-09-10T09:05:00Z",
+      "sourceResolutionSeconds": 300
+    },
+    "primitives": {
+      "numerator": 7900,
+      "denominator": 7957
+    },
+    "value": 99.28364961668970717607138368731934,
+    "nullReason": null,
+    "coverage": {
+      "expectedSlots": 1,
+      "receivedSlots": 1,
+      "ratio": 1
+    },
+    "sourceQuality": null,
+    "sourceCoverage": null,
+    "quality": {
+      "state": "INSUFFICIENT_EVIDENCE",
+      "reason": "SOURCE_QUALITY_UNAVAILABLE"
+    },
+    "provenance": {
+      "sourceNaturalId": "e2092e22273ae02408e1d56b123bab3b7dbcdb13b5af6102fa1791ad81d2af12",
+      "sourceFile": "city_kpi_5m.csv",
+      "sourceRowNumber": 1,
+      "sourceRowSha256": "7fdcd4963c7c76d121a6fed0685a3f299ac82eef69f2457b881308cb6ceff63c",
+      "manifestSha256": "48017fa7ccf83883c4975b4a175c6d9f6a9dbb491da8b8faa49c724246e6f775",
+      "generatorVersion": "reference-1.0",
+      "seed": 42,
+      "catalogueVersion": "trace-link-geography-v2",
+      "importPolicyVersion": "trace-link-native-source-v1"
+    }
+  },
+  "rollupOracle": {
+    "primitives": [
+      {
+        "numerator": 990,
+        "denominator": 1000
+      },
+      {
+        "numerator": 9,
+        "denominator": 10
+      },
+      {
+        "numerator": 0,
+        "denominator": 0
+      }
+    ],
+    "expectedNumerator": 999,
+    "expectedDenominator": 1010,
+    "expectedValue": 98.91089108910892,
+    "expectedNativeSlots": 3
+  },
+  "zeroDenominator": {
+    "numerator": 0,
+    "denominator": 0,
+    "value": null,
+    "nullReason": "ZERO_DENOMINATOR"
+  },
+  "emptyBucket": {
+    "numerator": null,
+    "denominator": null,
+    "value": null,
+    "coverage": 0,
+    "quality": "MISSING",
+    "nullReason": "NO_SOURCE_SLOTS"
+  }
+}

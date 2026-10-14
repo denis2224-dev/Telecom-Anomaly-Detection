@@ -1,0 +1,15 @@
+PASS: v2 schema and 13 independent observation fixtures
+PASS: detection schemas, policy, baseline and 6 payloads
+PASS: 14 explanation trajectories with validated nested features, nodes and detections
+PASS: 7 voice parity cases with unchanged shared expectations
+PASS: 12 SMS parity cases with unchanged shared expectations
+PASS: 62 geographic raw-input/reference cases across 20 scopes; not fresh Java parity
+PASS: 10 cities, 20 geographic scopes + 2 legacy, 50 observations, 12 rejected catalogues, 30 coverage cases
+PASS: 8 geographic voice and 7 SMS numeric reference cases
+PASS: 7 cause DTO examples and 1 PLANNED auxiliary shape samples; no runtime correlation claim
+PASS: 2 PLANNED failed-ping/probe schema examples; ingestion-boundary coverage only
+PASS: Trace Link 43 KPI definitions and 8 evidence cases; CONTRACT_ONLY
+PASS: 54 independent Trace Link goldens, all seven operations and negative controls
+PASS: 60 strict raw-candidate cause fixtures (negative evidence retained for rejection)
+PASS: Trace Link Day 2 offline policies and 58 validated contexts
+PASS: Trace Link reference inventory, 17 domain examples and bounded native archive checksums

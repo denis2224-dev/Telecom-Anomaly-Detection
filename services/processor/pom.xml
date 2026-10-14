@@ -44,7 +44,7 @@
           <include>**/*TestCase.java</include><include>**/LateInputIT.java</include>
           <include>**/ReplayIT.java</include><include>**/FinalizerRaceIT.java</include>
           <include>**/DetectionReplayIT.java</include>
-          <include>**/DependencyOutageIT.java</include><include>**/TraceLinkDetectionIT.java</include>
+          <include>**/DependencyOutageIT.java</include><include>**/TraceLinkDatasetBootstrapIT.java</include><include>**/TraceLinkProjectionIT.java</include><include>**/TraceLinkDetectionIT.java</include>
         </includes></configuration>
       </plugin>
     </plugins></build>

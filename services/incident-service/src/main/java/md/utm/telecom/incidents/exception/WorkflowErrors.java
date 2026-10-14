@@ -9,6 +9,9 @@ import md.utm.telecom.analysts.AnalystController;
 import md.utm.telecom.incidents.controller.IncidentController;
 import md.utm.telecom.incidents.controller.IncidentStreamController;
 import md.utm.telecom.incidents.security.ApiSecurityErrors;
+import md.utm.telecom.notifications.api.NotificationController;
+import md.utm.telecom.tracelink.inventory.TraceInventoryController;
+import md.utm.telecom.tracelink.metrics.MetricSeriesController;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +25,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice(assignableTypes = {
         IncidentController.class, EvidenceController.class, AnalystController.class,
         IncidentStreamController.class, GeographyController.class, GeographyTopologyController.class,
-        PriorityController.class
+        PriorityController.class, NotificationController.class, TraceInventoryController.class, MetricSeriesController.class
 })
 public class WorkflowErrors {
     @ExceptionHandler(WorkflowProblem.class)

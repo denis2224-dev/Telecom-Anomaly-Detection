@@ -1,0 +1,27 @@
+{
+  "name": "combined-full-java",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+    "-B",
+    "-ntp",
+    "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+    "-pl",
+    "services/streaming-support,services/event-generator,services/processor",
+    "-am",
+    "-Dlogging.level.org.springframework.jdbc.core=INFO",
+    "-DtraceLink.referenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+    "-Dtrace.link.archive=C:/OrangeSystems/task/Trace_Link_Integration_Pack/data",
+    "-Dtrace.link.v016.directory=C:/OrangeSystems/Program/ion-domain-producer-evidence/v016",
+    "-Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+    "clean",
+    "verify"
+  ],
+  "startedAt": "2026-10-12T18:38:07.017073+00:00",
+  "finishedAt": "2026-10-12T19:04:42.827502+00:00",
+  "elapsedSeconds": 1595.81,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "combined-full-java.log",
+  "logSha256": "cb059b2c1340ba1ca897eec6820f7244ee146eeb5457f1b46460fd137737d520"
+}

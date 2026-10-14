@@ -22,7 +22,7 @@ import { projectCity, moldovaOutline } from '../service-overview/moldova-map';
         @for (city of mapCities; track city.id) { <circle [attr.cx]="city.marker!.x * 6" [attr.cy]="city.marker!.y * 7.4" r="11" [attr.fill]="city.name === location() ? 'var(--danger)' : 'var(--text-muted)'" /><text [attr.x]="city.marker!.x * 6 + 16" [attr.y]="city.marker!.y * 7.4 + 5">{{ city.name }}</text> }
       </svg><p>Only {{ location() }} degrades in this sample. Other cities retain their own baseline.</p></div>
     }
-    @if (type().includes('ROAMING')) { <app-roaming-overview [seed]="seed()" [affectedCountry]="country()" [affectedMetric]="type().includes('REGISTRATION') ? 'registration' : 'voice'" [from]="startUTC()" [to]="data().rows.at(-1)!.windowEnd" /> }
+    @if (type().includes('ROAMING')) { <app-roaming-overview [preview]="true" [seed]="seed()" [affectedCountry]="country()" [affectedMetric]="type().includes('REGISTRATION') ? 'registration' : 'voice'" [from]="startUTC()" [to]="data().rows.at(-1)!.windowEnd" /> }
     <h3>Incident evidence timeline · local preview</h3><p>Affected {{ scenario().target }}: {{ location() }} · sample workflow remains OPEN after technical recovery.</p>
     <ol class="preview-timeline">@for (event of data().timeline; track event.sequence) { <li><time>{{ event.at | date:'HH:mm:ss':'UTC' }} UTC</time><span class="badge" [attr.data-state]="event.state">{{ event.phase }} · {{ event.state }}</span><span>{{ event.target }}</span></li> }</ol>
   </section>`,

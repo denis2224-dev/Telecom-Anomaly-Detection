@@ -1,0 +1,54 @@
+{
+  "observedAtUtc": "2026-10-11T21:26:19.705752+00:00",
+  "baseCommit": "cbb94d37f7593e99737ee4200e91b14e0512f76f",
+  "branch": "feature/ion-trace-link-inventory-bootstrap",
+  "originalCheckout": {
+    "path": "C:\\OrangeSystems\\Program\\Telecom-Anomaly-Detection",
+    "branch": "feature/volte-sms-service-assurance",
+    "head": "0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+    "status": [
+      " M apps/dashboard/src/branding/mark.svg",
+      " M apps/dashboard/src/branding/tokens.css",
+      " M infra/keycloak/themes/telecom/login/resources/css/tokens.css",
+      " M infra/keycloak/themes/telecom/login/resources/img/mark.svg",
+      " M scripts/up",
+      "?? .agents/",
+      "?? .codex/",
+      "?? .telemetry-final-audit.json",
+      "?? .telemetry-final-audit.py",
+      "?? .telemetry-final-check.py",
+      "?? .telemetry-final-document.py",
+      "?? .telemetry-final-history.json",
+      "?? .telemetry-final-live.json",
+      "?? .telemetry-final-scenario-command.json",
+      "?? .telemetry-final-scenario-live.json",
+      "?? .telemetry-history-progress.json",
+      "?? .telemetry-hosts",
+      "?? AGENTS.md",
+      "?? graphify-out/"
+    ]
+  },
+  "prDependencies": [
+    {
+      "number": 88,
+      "state": "MERGED",
+      "mergeCommit": "cbb94d37f7593e99737ee4200e91b14e0512f76f"
+    },
+    {
+      "number": 89,
+      "state": "OPEN",
+      "head": "fec8905d7ba5563a8ebfe0aa541c16b1cb93b75b",
+      "base": "main"
+    },
+    {
+      "number": 90,
+      "state": "OPEN",
+      "head": "923a9f009ce402b84cc26882466e7c2e3989a136",
+      "base": "feat/trace-link-backend-contracts"
+    }
+  ],
+  "processorMigrationCollisionScan": "No V014-V016 files on fetched remote branches before implementation",
+  "runtimeCatalogueActivation": "NOT_APPROVED_CONTRACT_ONLY",
+  "receivingOwnerReproduction": "PENDING",
+  "preservationCheckedAtUtc": "2026-10-11T21:49:31.275347+00:00"
+}

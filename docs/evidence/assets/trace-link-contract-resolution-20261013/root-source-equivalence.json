@@ -1,0 +1,61 @@
+{
+  "fullRunRevision": "24137d2d2d9da01be7b304e84b8af45422d1bf2f",
+  "finalRevision": "8f97fb3c853cdd34adb14016724ffe6e85177ee3",
+  "paths": {
+    "pom.xml": {
+      "fullRunTree": "508f84b8cb39781fdeb35146713d952ba3e7f5e6",
+      "finalTree": "508f84b8cb39781fdeb35146713d952ba3e7f5e6",
+      "equal": true
+    },
+    "services/streaming-support": {
+      "fullRunTree": "c6fd2b1f6584f519239696e2f55a6d42b2cb4f1d",
+      "finalTree": "c6fd2b1f6584f519239696e2f55a6d42b2cb4f1d",
+      "equal": true
+    },
+    "services/event-generator": {
+      "fullRunTree": "5414306a272eb18e5749d1c3d9b53823cf420166",
+      "finalTree": "5414306a272eb18e5749d1c3d9b53823cf420166",
+      "equal": true
+    },
+    "services/processor/src/main": {
+      "fullRunTree": "eb3c2c85fbd0ebde0d5091680ccafdb06e9f30dd",
+      "finalTree": "eb3c2c85fbd0ebde0d5091680ccafdb06e9f30dd",
+      "equal": true
+    },
+    "services/processor/pom.xml": {
+      "fullRunTree": "c97819939787904cf055012929dca2d1efeec8f5",
+      "finalTree": "c97819939787904cf055012929dca2d1efeec8f5",
+      "equal": true
+    },
+    "contracts/kpi": {
+      "fullRunTree": "2b4d7a81db577c4d6488d928e29cae6b3b7eb942",
+      "finalTree": "2b4d7a81db577c4d6488d928e29cae6b3b7eb942",
+      "equal": true
+    },
+    "contracts/observations": {
+      "fullRunTree": "43e3ce72631cddcdadf56964e4c215fcddc91951",
+      "finalTree": "43e3ce72631cddcdadf56964e4c215fcddc91951",
+      "equal": true
+    },
+    "contracts/policies": {
+      "fullRunTree": "3dc188831f503a92f018439a98dfdcaa5c0b0520",
+      "finalTree": "3dc188831f503a92f018439a98dfdcaa5c0b0520",
+      "equal": true
+    },
+    "contracts/baselines": {
+      "fullRunTree": "92d35572d840c58c0e655ef1ff14a76a65a6a312",
+      "finalTree": "92d35572d840c58c0e655ef1ff14a76a65a6a312",
+      "equal": true
+    },
+    "contracts/detections": {
+      "fullRunTree": "f33b282f89cbc16451256255d07a6a29929ecdd5",
+      "finalTree": "f33b282f89cbc16451256255d07a6a29929ecdd5",
+      "equal": true
+    },
+    "contracts/datasets": {
+      "fullRunTree": "b80dd980443f65a8f1fb6d8a2eae574206a972fe",
+      "finalTree": "b80dd980443f65a8f1fb6d8a2eae574206a972fe",
+      "equal": true
+    }
+  }
+}

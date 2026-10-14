@@ -1,0 +1,86 @@
+{
+  "consumerSha": "47a2c9236e8ac82351b7fa62ec2264cc8df103c2",
+  "consumerAgreement": "PENDING_REVIEW",
+  "method": "Read-only Git blobs and isolated JSON Schema checks of V006 restrictions; no consumer DB/API invoked",
+  "compatibility": "INCOMPATIBLE",
+  "directFixtureColumnErrors": [
+    "domain: 'VOLTE' is not one of ['volte', 'transport', 'roaming', 'sms', 'mobile-data']",
+    "quality: 'INSUFFICIENT_EVIDENCE' is not one of ['VALID', 'PARTIAL', 'MISSING', 'STALE']",
+    "quality: 'INSUFFICIENT_EVIDENCE' is too long"
+  ],
+  "afterProposedDomainTranslationErrors": [
+    "quality: 'INSUFFICIENT_EVIDENCE' is not one of ['VALID', 'PARTIAL', 'MISSING', 'STALE']",
+    "quality: 'INSUFFICIENT_EVIDENCE' is too long"
+  ],
+  "registry": {
+    "domain": "volte",
+    "metric": "voice.success_rate",
+    "policy": "trace-link-md-policy-v1"
+  },
+  "producer": {
+    "domain": "VOLTE",
+    "metric": "volte.setup.success",
+    "policy": "trace-link-kpi-v1"
+  },
+  "qualityColumn": {
+    "width": 16,
+    "allowed": [
+      "VALID",
+      "PARTIAL",
+      "MISSING",
+      "STALE"
+    ]
+  },
+  "missingReadDtoFields": [
+    "projectionId",
+    "sourceNamespace",
+    "sourceQuality",
+    "sourceCoverage",
+    "nullReason",
+    "provenance",
+    "projectionIds",
+    "expectedSlots",
+    "receivedSlots"
+  ],
+  "topologyComparison": "MISSING: MetricQueryService accepts source shape topology without comparing catalogueTopology",
+  "rollupLimitations": [
+    "Non-VALID source is collapsed to PARTIAL",
+    "Zero denominator may be reported VALID",
+    "Effective bucket bounds include native slots outside requested partial edges",
+    "coverage uses SUM(source coverage), rather than independent slot count",
+    "Latest revision selection is not conflicting-retry validation"
+  ],
+  "compatibleColumns": [
+    "CITY",
+    "RATIO_OF_SUMS",
+    "PERCENT",
+    "300 seconds",
+    "NUMERIC(22,6) fits supported integer primitives"
+  ],
+  "storageLimitations": [
+    "No dedicated projection ID, payload bytes/hash, source namespace, source quality/coverage or provenance columns",
+    "JSONB payload can retain provenance, but current read DTO does not expose it"
+  ],
+  "sourceFiles": [
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V006__trace_link_read_models.sql",
+      "sha256": "bbc4dda8d9614970c863d5992d0292617c73f504a2238e3f8dcd9b2f1ba272f8"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/MetricDefinitionRegistry.java",
+      "sha256": "56d832d429fb72b8c03a760a733d8272634107e0f8eb3e6470bd89fded451ce6"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/MetricSeriesResponse.java",
+      "sha256": "c853dfdd8ec04b9609922d08febfce44d4ae0f6233941aa5ac37b618b65eb3aa"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/MetricQueryService.java",
+      "sha256": "e56d6a7f9696cfa33e3e45ec22744dcc2fbea4c73db48feaae28e90944fc25ac"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/MetricRollupRepository.java",
+      "sha256": "053b7d8772c58811a4245eafaafadb098a256077dbb25d2eee044511808328bb"
+    }
+  ]
+}

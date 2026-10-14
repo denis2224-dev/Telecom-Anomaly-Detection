@@ -1,0 +1,23 @@
+{
+  "name": "live-offline-boundary",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/probe-trace-link-compatibility.py",
+    "--merged-worktree",
+    "C:/OrangeSystems/Program/trace-link-combined-20261012",
+    "--measurements",
+    "C:/OrangeSystems/Program/trace-link-integration-20261012/docs/evidence/assets/trace-link-day6/run-1/mobile-data-fault.jsonl",
+    "--output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/compatibility-probe",
+    "--java-home",
+    "C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot"
+  ],
+  "startedAt": "2026-10-12T18:39:20.955322+00:00",
+  "finishedAt": "2026-10-12T18:39:30.628884+00:00",
+  "elapsedSeconds": 9.674,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "live-offline-boundary.log",
+  "logSha256": "736138fdffdff2899ef88df8952000ff2fdc4e63586ee108a39af13894dd7541"
+}

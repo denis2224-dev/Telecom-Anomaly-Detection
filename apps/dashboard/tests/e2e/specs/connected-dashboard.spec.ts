@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { cityIncidents, citySummaries, cityWindows, fixtureRange } from '../../../src/fixtures/connected-dashboard';
 import { controlledApi } from '../helpers/controlled-api';
 import suite from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
@@ -85,12 +85,13 @@ for (const width of [1366, 768, 390]) {
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
-    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
     await expect(page.locator('.featured-city, .featured-sources, .map-notes, .map-source, .search-results')).toHaveCount(0);
     await expect(page.locator('.city-marker').first()).toHaveAttribute('data-state', 'MAPPING PENDING');
     await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
+    await expect(page.locator('.overview-panels table')).toHaveCount(3);
     for (const table of await page.locator('.overview-panels table').all()) {
       expect(await table.locator('tbody tr').count()).toBeLessThanOrEqual(5);
       expect(await table.evaluate(node => node.scrollWidth <= node.clientWidth + 1 && node.getBoundingClientRect().height <= node.parentElement!.clientHeight + 1)).toBe(true);
@@ -151,7 +152,7 @@ for (const width of [1366, 768, 390]) {
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toBeVisible();
-    await expect(page.locator('.city-marker')).toHaveCount(9);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
     await expect(page.locator('.overview-panels [data-chart]')).toHaveCount(2);
@@ -162,6 +163,7 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByLabel('Technology', { exact: true })).toBeDisabled();
     await expect(page.locator('details.source-inventory')).not.toHaveAttribute('open');
     await page.screenshot({ path: info.outputPath(`three-panels-fixture-${width}.png`), fullPage: true, animations: 'disabled' });
+    await expect(page.locator('.overview-panels table')).toHaveCount(3);
     for (const table of await page.locator('.overview-panels table').all()) {
       expect(await table.locator('tbody tr').count()).toBeLessThanOrEqual(5);
       expect(await table.evaluate(node => node.scrollWidth <= node.clientWidth + 1 && node.getBoundingClientRect().height <= node.parentElement!.clientHeight + 1)).toBe(true);

@@ -1,0 +1,102 @@
+{
+  "sourceCommit": "f572ebd27c71cb809eb43fa51f07f40740ae181c",
+  "sourceTree": "83b8bb260ceba844fdbcee388c275b2ba15dc4ed",
+  "refs": {
+    "base": "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+    "producer": "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c",
+    "projection": "b987aa809101eedc1d40d52c95dff94a1e9e27b8"
+  },
+  "frozenV016Sha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+  "migrations": [
+    "BOOT-INF/classes/db/migration/V001__observation_state.sql",
+    "BOOT-INF/classes/db/migration/V002__feature_outbox.sql",
+    "BOOT-INF/classes/db/migration/V003__voice_delivery.sql",
+    "BOOT-INF/classes/db/migration/V004__allow_empty_expected_windows.sql",
+    "BOOT-INF/classes/db/migration/V005__rejection_delivery.sql",
+    "BOOT-INF/classes/db/migration/V006__detection_leases.sql",
+    "BOOT-INF/classes/db/migration/V007__historical_bootstrap.sql",
+    "BOOT-INF/classes/db/migration/V008__sms_ml_shadow.sql",
+    "BOOT-INF/classes/db/migration/V009__sms_shadow_delivery_index.sql",
+    "BOOT-INF/classes/db/migration/V010__feature_worker_indexes.sql",
+    "BOOT-INF/classes/db/migration/V011__geographic_monitoring.sql",
+    "BOOT-INF/classes/db/migration/V012__processor_retention.sql",
+    "BOOT-INF/classes/db/migration/V013__geographic_history_ownership.sql",
+    "BOOT-INF/classes/db/migration/V014__trace_link_inventory.sql",
+    "BOOT-INF/classes/db/migration/V015__trace_link_dataset_history.sql",
+    "BOOT-INF/classes/db/migration/V016__trace_link_domain_windows.sql"
+  ],
+  "packagedResourceChecks": "PASS",
+  "entrypointCollision": "PASS",
+  "processorJarSha256": "c493e85b865a9efbef9cb0fd33e19d598fef3fb6023dcdfde068320cc930ef98",
+  "producerExamples": [
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/transport-fault.jsonl",
+      "line": 9,
+      "sourceFileSha256": "98a3c1e3a05d5f78a20d9d66c228fc9730cdd8cbd0b179093d88ba0254f8687e",
+      "payloadSha256": "7e228828b46ed7fa76e2d8c2bcedc0fd2821e9a1342964650c989cb6c8b28c60",
+      "windowStart": "2026-10-12T09:02:00Z",
+      "eventId": "bdcbc5793d7fc412f95eb3ece0cf00c086cbe965ad8ce7de7d38aa74bd3789d2"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/transport-high-utilization-control.jsonl",
+      "line": 9,
+      "sourceFileSha256": "a76b7bb45a0686012c2035a09349202a3d411014fbcd409c7b8263c23dacf2c1",
+      "payloadSha256": "d24e0c3c162ad61c0438f7eed48eff4afec40bccc5e88f6fc19585756ae079eb",
+      "windowStart": "2026-10-12T09:02:00Z",
+      "eventId": "d8ac45b0f7fa3b612ad64d3c35958f3a5558a25f7fb8a3170b74d82fa285a575"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/transport-opposite.jsonl",
+      "line": 9,
+      "sourceFileSha256": "01aad4e33f2568f9b42c7eb39faeab86228bfb9d444867d47a6e3044b8e824f6",
+      "payloadSha256": "c066ea46fdb3cd76433af78116e3b4ba1e9b9f5b02105da7caf0320f0bdaa290",
+      "windowStart": "2026-10-12T09:02:00Z",
+      "eventId": "51f159c73df3fc8d5ca94bb0081a062648d217055fc352b39ce5f4b0a4b3f313"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/roaming-fault.jsonl",
+      "line": 3,
+      "sourceFileSha256": "885126778ed7a82b9f17e05b98c98d6129e3ca874410833aa9bb1ffcb9b45dd4",
+      "payloadSha256": "2400b409eda0e7f28f53f0ba71820b1b14140d907ce4447ff5d5e5512f1ffbe5",
+      "windowStart": "2026-10-12T09:02:00Z",
+      "eventId": "5829367256e14ee3ad67218b28709050ca4390d77a8a1f9a7f4b11cbc6e75aca"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/roaming-opposite.jsonl",
+      "line": 3,
+      "sourceFileSha256": "4f16027498a195498443a802de74cb74eec20192b965602b5ca43acb2f5a5b0b",
+      "payloadSha256": "4fc85bc121ce0443fcae45f6d4e9fde920669feb928fa1cfe5d5c0d315319615",
+      "windowStart": "2026-10-12T09:02:00Z",
+      "eventId": "10490a07a473da842b1cdcc865f0fe8a5c60162cd60684509131f8c0b36d39b1"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/mobile-data-fault.jsonl",
+      "line": 5,
+      "sourceFileSha256": "83c788c4b1581dd9d83a9e678329bd54b9069f6c8d9f571a6a1b00b31279614f",
+      "payloadSha256": "702ad1168e9a9b27c46029a31a54d1f463f2d8936cd6516892f5de741b664b7e",
+      "windowStart": "2026-10-12T09:02:00Z",
+      "eventId": "53c3f8613694527513c7a715284f83a77d56242c933dd685c73c7dcc33d5185c"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/mobile-data-fault.jsonl",
+      "line": 6,
+      "sourceFileSha256": "83c788c4b1581dd9d83a9e678329bd54b9069f6c8d9f571a6a1b00b31279614f",
+      "payloadSha256": "88fe2c12593d48aa84f4c6b1bbe460e094c82f85f0c5be5cf7d4a53104268a7a",
+      "windowStart": "2026-10-12T09:02:00Z",
+      "eventId": "6289bd1cd8cf54189cd31c374d64604ba5c593d58e4e5100df95efcbaa83e91f"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-day6/run-1/mobile-data-gap.jsonl",
+      "line": 5,
+      "sourceFileSha256": "993a611f0a60a4017fe7bd349881a6794d2f25c607f3583846b30437a843c5d3",
+      "payloadSha256": "5fcb3e5329853e1717a88c01390873f720fe9145890f91e9bdbe1d78537540bf",
+      "windowStart": "2026-10-12T09:18:00Z",
+      "eventId": "1824fa0351a2be7a22bbdf565192a160a0c9bb40289b6218255f2b0993c6df63"
+    }
+  ],
+  "protectedSourceComparison": "BYTE_IDENTICAL_TO_BASE",
+  "kafka": "DISABLED",
+  "consumerAgreement": "PENDING_REVIEW",
+  "liveDetectorAgreement": "PENDING_REVIEW",
+  "overallRelease": "BLOCKED"
+}

@@ -1,0 +1,818 @@
+{
+  "status": "FAIL",
+  "cause": "Existing schema inventory expected 16 owned tables; V014-V015 add eight. Exact expected inventory corrected before rerun.",
+  "suites": [
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.CoverageContractTest",
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.DomainObservationValidatorTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.GeographyCatalogTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.ObservationValidatorTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.TopologyCatalogTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+      "tests": 29,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.CityVoiceSeedTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.HealthProbeTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.VoiceScenarioTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.BaselineRegistryTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DependencyOutageIT",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DetectionMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DetectionReplayIT",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.EpisodeStateTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ExplanationCasesTest",
+      "tests": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.FinalizerRaceIT",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+      "tests": 80,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicDetectionTest",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicDetectorAcceptanceTest",
+      "tests": 101,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicEvidenceIsolationTest",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicExplanationTest",
+      "tests": 121,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicParityTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicReplayTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicWorkerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.HealthProbeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+      "tests": 28,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": [
+        "migrationOwnershipRuntimeDmlAndIsolation"
+      ]
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.Day5GeographicParityTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkArithmeticTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.LateInputIT",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.MlClientTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ObservationInputTest",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ReplayIT",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.RetentionJobTest",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsEpisodeTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsRuleTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsShadowClientTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.StreamingMetricsTest",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.VoiceRuleTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.WindowBoundaryTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failureCases": []
+    }
+  ]
+}

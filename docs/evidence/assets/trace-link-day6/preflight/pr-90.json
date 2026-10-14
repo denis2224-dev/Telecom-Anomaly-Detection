@@ -1,0 +1,78 @@
+{
+  "autoMergeRequest": null,
+  "baseRefName": "feat/trace-link-backend-contracts",
+  "baseRefOid": "fec8905d7ba5563a8ebfe0aa541c16b1cb93b75b",
+  "comments": [],
+  "headRefName": "feat/trace-link-backend-persistence",
+  "headRefOid": "923a9f009ce402b84cc26882466e7c2e3989a136",
+  "isDraft": false,
+  "mergeStateStatus": "CLEAN",
+  "number": 90,
+  "reviewDecision": "",
+  "reviews": [],
+  "state": "OPEN",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:44:28Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026300/job/114557514917",
+      "name": "dashboard-verification",
+      "startedAt": "2026-10-11T19:40:39Z",
+      "status": "COMPLETED",
+      "workflowName": "dashboard"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:41:19Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026341/job/114557515144",
+      "name": "build",
+      "startedAt": "2026-10-11T19:40:40Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-runtime-image"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:42:37Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026224/job/114557514879",
+      "name": "backend-verification",
+      "startedAt": "2026-10-11T19:40:39Z",
+      "status": "COMPLETED",
+      "workflowName": "incident-service"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:40:49Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026269/job/114557515252",
+      "name": "deployment-config",
+      "startedAt": "2026-10-11T19:40:39Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:44:27Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026269/job/114557515418",
+      "name": "model-evaluation",
+      "startedAt": "2026-10-11T19:40:40Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-11T19:56:27Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026269/job/114558297868",
+      "name": "processor-evaluation",
+      "startedAt": "2026-10-11T19:44:30Z",
+      "status": "COMPLETED",
+      "workflowName": "service-integration"
+    }
+  ],
+  "title": "Persist Trace Link history and notification foundations",
+  "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/90"
+}

@@ -1,0 +1,261 @@
+{
+  "schemaVersion": 1,
+  "topologyVersion": "trace-link-links-v1",
+  "catalogueVersion": "trace-link-geography-v2",
+  "scopeNamespace": "trace-link-reference-v1",
+  "synthetic": true,
+  "links": [
+    {
+      "linkId": "chi-orh",
+      "endpointAContractCityId": "CHI",
+      "endpointBContractCityId": "ORH",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 20.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "chi",
+          "destinationReferenceCityId": "orh",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "orh",
+          "destinationReferenceCityId": "chi",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "orh-sor",
+      "endpointAContractCityId": "ORH",
+      "endpointBContractCityId": "SOR",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 10.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "orh",
+          "destinationReferenceCityId": "sor",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "sor",
+          "destinationReferenceCityId": "orh",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "sor-bal",
+      "endpointAContractCityId": "SOR",
+      "endpointBContractCityId": "BAL",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 10.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "sor",
+          "destinationReferenceCityId": "bal",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "bal",
+          "destinationReferenceCityId": "sor",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "bal-edi",
+      "endpointAContractCityId": "BAL",
+      "endpointBContractCityId": "EDI",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 10.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "bal",
+          "destinationReferenceCityId": "edi",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "edi",
+          "destinationReferenceCityId": "bal",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "bal-ung",
+      "endpointAContractCityId": "BAL",
+      "endpointBContractCityId": "UNG",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 20.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "bal",
+          "destinationReferenceCityId": "ung",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "ung",
+          "destinationReferenceCityId": "bal",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "ung-chi",
+      "endpointAContractCityId": "UNG",
+      "endpointBContractCityId": "CHI",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 20.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "ung",
+          "destinationReferenceCityId": "chi",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "chi",
+          "destinationReferenceCityId": "ung",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "chi-hin",
+      "endpointAContractCityId": "CHI",
+      "endpointBContractCityId": "HIN",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 20.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "chi",
+          "destinationReferenceCityId": "hin",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "hin",
+          "destinationReferenceCityId": "chi",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "hin-com",
+      "endpointAContractCityId": "HIN",
+      "endpointBContractCityId": "COM",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 10.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "hin",
+          "destinationReferenceCityId": "com",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "com",
+          "destinationReferenceCityId": "hin",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "com-cah",
+      "endpointAContractCityId": "COM",
+      "endpointBContractCityId": "CAH",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 10.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "com",
+          "destinationReferenceCityId": "cah",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "cah",
+          "destinationReferenceCityId": "com",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "chi-cau",
+      "endpointAContractCityId": "CHI",
+      "endpointBContractCityId": "CAU",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 10.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "chi",
+          "destinationReferenceCityId": "cau",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "cau",
+          "destinationReferenceCityId": "chi",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "cau-com",
+      "endpointAContractCityId": "CAU",
+      "endpointBContractCityId": "COM",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 10.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "cau",
+          "destinationReferenceCityId": "com",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "com",
+          "destinationReferenceCityId": "cau",
+          "sourceAvailable": false
+        }
+      ]
+    },
+    {
+      "linkId": "orh-bal",
+      "endpointAContractCityId": "ORH",
+      "endpointBContractCityId": "BAL",
+      "linkType": "SYNTHETIC_REFERENCE",
+      "nominalCapacityGbps": 20.0,
+      "directions": [
+        {
+          "directionId": "a-to-b",
+          "sourceReferenceCityId": "orh",
+          "destinationReferenceCityId": "bal",
+          "sourceAvailable": true
+        },
+        {
+          "directionId": "b-to-a",
+          "sourceReferenceCityId": "bal",
+          "destinationReferenceCityId": "orh",
+          "sourceAvailable": false
+        }
+      ]
+    }
+  ]
+}

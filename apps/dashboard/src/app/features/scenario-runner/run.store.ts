@@ -1,4 +1,5 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { DestroyRef, Injectable, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   TelecomClient,
   type ScenarioRun,
@@ -56,6 +57,19 @@ export class RunStore {
   readonly error = signal('');
   readonly notice = signal('');
   readonly canAbandon = signal(false);
+  private operation = 0;
+
+  constructor() {
+    const destroyRef = inject(DestroyRef);
+    this.session.ended$?.pipe(takeUntilDestroyed(destroyRef)).subscribe(() => {
+      ++this.operation;
+      this.command.set(null); this.run.set(null); this.busy.set(false); this.refreshing.set(false);
+      this.error.set(''); this.notice.set(''); this.canAbandon.set(false);
+    });
+  }
+  private current(revision: number, operation: number): boolean {
+    return this.session.phase() === 'authenticated' && this.session.revision === revision && this.operation === operation;
+  }
 
   private get storageKey(): string {
     return `telecom.scenario-runner:${this.session.actor()?.analystId ?? 'unknown'}`;
@@ -78,7 +92,11 @@ export class RunStore {
       }
 
       if (saved.run && typeof saved.run.runId === 'string') {
-        this.run.set(saved.run);
+        const revision = this.session.revision, operation = this.operation;
+        // Browser storage supplies only a locator; server state remains authoritative.
+        void this.api.getScenarioRun(saved.run.runId).then(run => {
+          if (this.current(revision,operation)) { this.run.set(run); this.save(); }
+        }).catch(error => { if (this.current(revision,operation)) this.error.set(scenarioError(error)); });
       }
 
       this.canAbandon.set(saved.canAbandon === true);
@@ -129,6 +147,7 @@ export class RunStore {
     this.error.set('');
     this.notice.set('');
     this.canAbandon.set(false);
+    const revision = this.session.revision, operation = ++this.operation;
 
     try {
       const run = await this.api.startScenario(command.type, {
@@ -137,12 +156,14 @@ export class RunStore {
         scopeId: command.scopeId,
       });
 
+      if (!this.current(revision,operation)) return;
       this.run.set(run);
       this.notice.set(
         'The server accepted the command. Use the returned schedule below.',
       );
       this.save();
     } catch (error) {
+      if (!this.current(revision,operation)) return;
       this.error.set(scenarioError(error));
 
       // A 400 or 409 is a definite rejection. A network failure or 503
@@ -153,7 +174,7 @@ export class RunStore {
       );
       this.save();
     } finally {
-      this.busy.set(false);
+      if (this.current(revision,operation)) this.busy.set(false);
     }
   }
 
@@ -169,20 +190,21 @@ export class RunStore {
     ) return;
 
     this.refreshing.set(true);
+    const revision = this.session.revision, operation = this.operation;
 
     try {
       const latest = await this.api.getScenarioRun(current.runId);
 
       // A stop may have begun while this GET was in flight.
-      if (!this.busy() && this.run()?.runId === current.runId) {
+      if (this.current(revision,operation) && !this.busy() && this.run()?.runId === current.runId) {
         this.run.set(latest);
         this.save();
         this.error.set('');
       }
     } catch (error) {
-      this.error.set(scenarioError(error));
+      if (this.current(revision,operation)) this.error.set(scenarioError(error));
     } finally {
-      this.refreshing.set(false);
+      if (this.current(revision,operation)) this.refreshing.set(false);
     }
   }
 
@@ -198,18 +220,21 @@ export class RunStore {
 
     this.busy.set(true);
     this.error.set('');
+    const revision = this.session.revision, operation = ++this.operation;
+    this.refreshing.set(false);
 
     try {
       const stopped = await this.api.stopScenario(current.runId);
+      if (!this.current(revision,operation)) return;
       this.run.set(stopped);
       this.notice.set(
         'Telemetry was stopped. This does not demonstrate healthy recovery.',
       );
       this.save();
     } catch (error) {
-      this.error.set(scenarioError(error));
+      if (this.current(revision,operation)) this.error.set(scenarioError(error));
     } finally {
-      this.busy.set(false);
+      if (this.current(revision,operation)) this.busy.set(false);
     }
   }
 
@@ -221,6 +246,8 @@ export class RunStore {
       && ['COMPLETED', 'STOPPED', 'FAILED'].includes(current.status);
 
     if (!terminal && !this.canAbandon()) return;
+    ++this.operation;
+    this.refreshing.set(false);
 
     this.command.set(null);
     this.run.set(null);

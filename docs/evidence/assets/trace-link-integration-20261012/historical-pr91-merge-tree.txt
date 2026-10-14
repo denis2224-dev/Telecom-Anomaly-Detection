@@ -1,0 +1,13 @@
+adec362557f7c8833107b7fe80411b6d00749d2c
+100644 c8d99558527551fb661f779c9db27f06e4e7aee9 1	.gitattributes
+100644 4be7cec95bcf11ddf6d7cd94ba02dada4da12195 2	.gitattributes
+100644 0133d9db88231d1ec90b8ce968a8f77e36ecabd4 3	.gitattributes
+100644 3b8dbcfa7049f78fc6709a148449179234628271 1	scripts/check-contracts.py
+100644 6a10e5499b0108a1b39f519fe36cba27e8ca160d 2	scripts/check-contracts.py
+100644 58589169d298413f47871bb51654f2eef5a345ab 3	scripts/check-contracts.py
+
+Auto-merging .gitattributes
+CONFLICT (content): Merge conflict in .gitattributes
+Auto-merging scripts/check-contracts.py
+CONFLICT (content): Merge conflict in scripts/check-contracts.py
+Auto-merging services/processor/pom.xml

@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "f572ebd27c71cb809eb43fa51f07f40740ae181c",
+  "coreAutocrlf": true,
+  "command": [
+    "git",
+    "-c",
+    "core.autocrlf=true",
+    "cat-file",
+    "--filters",
+    "HEAD:services/processor/src/main/resources/db/migration/V016__trace_link_domain_windows.sql"
+  ],
+  "sha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+  "status": "PASS"
+}

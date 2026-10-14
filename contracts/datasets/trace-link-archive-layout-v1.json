@@ -1,0 +1,85 @@
+{
+  "cities.csv": [
+    "id",
+    "name",
+    "latitude",
+    "longitude",
+    "demand_share"
+  ],
+  "city_kpi_5m.csv": [
+    "ts",
+    "city_id",
+    "voice_attempts",
+    "voice_success",
+    "voice_drops",
+    "voice_holding_seconds",
+    "voice_baseline_erlang",
+    "voice_setup_elapsed_seconds",
+    "voice_setup_hist",
+    "sms_submitted",
+    "sms_delivered",
+    "sms_expired",
+    "sms_queue",
+    "sms_oldest_seconds",
+    "sms_delay_hist",
+    "data_attempts",
+    "data_success",
+    "dns_attempts",
+    "dns_success",
+    "user_throughput_mbps",
+    "ho_attempts",
+    "ho_success"
+  ],
+  "countries.csv": [
+    "id",
+    "name",
+    "partner_id"
+  ],
+  "links.csv": [
+    "id",
+    "a",
+    "b",
+    "nominal_capacity_gbps"
+  ],
+  "link_kpi_5m.csv": [
+    "ts",
+    "link_id",
+    "traffic_gbps",
+    "effective_capacity_gbps",
+    "loss_pct",
+    "rtt_ms",
+    "jitter_ms",
+    "interface_errors",
+    "queue_drops"
+  ],
+  "roaming_kpi_5m.csv": [
+    "ts",
+    "country_id",
+    "direction",
+    "partner_id",
+    "active_users",
+    "reg_attempts",
+    "reg_success",
+    "data_attempts",
+    "data_success",
+    "voice_attempts",
+    "voice_success",
+    "sms_attempts",
+    "sms_success",
+    "rtt_ms"
+  ],
+  "scenario_events.csv": [
+    "id",
+    "scenario_type",
+    "domain",
+    "title",
+    "city_id",
+    "link_id",
+    "country_id",
+    "direction",
+    "start_ts",
+    "end_ts",
+    "severity",
+    "synthetic"
+  ]
+}
