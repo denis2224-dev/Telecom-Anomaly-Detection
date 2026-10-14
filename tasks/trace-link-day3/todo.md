@@ -9,7 +9,7 @@
 - [x] Integrate transport, roaming and mobile-data persisted-window delivery.
 - [x] Replay, conflicting input, reorder, restart, crash and scope controls.
 - [x] Required Python/reactor/incident-service regression and frozen hashes; optional SMS shadow replay remains unavailable.
-- [x] Cross-review and resolve findings with regressions.
+- [x] Original implementation cross-review; later PR #104 findings are tracked below.
 - [x] Persisted-window benchmark and actual receiving reconciliation with hash-bound raw evidence.
 - [ ] Source collection/finalization and simultaneous end-to-end capacity acceptance (unmeasured boundary).
 - [x] Real-time five-minute lifecycle verification (distinct from accelerated replay).
@@ -17,3 +17,26 @@
 - [ ] Receiving gates: Ion decision/windows; Denis contract; David wording; Stanislav context.
 
 External acceptance is recorded only when actually supplied. Activation stays off.
+
+## PR #104 corrections — 14 October 2026
+
+Original review head `f41dfbb`; pinned main `9db3e0e`. The original checks above
+are historical and do not constitute fresh verification of the corrected source.
+
+- [x] Freeze correction ownership, migration sequence and incident-view contract.
+- [x] Correct workflow scope claims and distinguish historical measurement evidence.
+- [ ] Integrate main without losing either implementation's APIs, config, contracts or tests.
+- [ ] Preserve main incident V001–V010; add detector V011 with non-null detected_at.
+- [ ] Verify populated main-to-V011 upgrade, fresh install, validation, idempotency, rows, checksums and grants.
+- [ ] Verify processor fresh V001–V017 and populated V016-to-V017 upgrade with prior bytes unchanged.
+- [ ] Persist first breach and initial OPEN evaluation; expose stable incident-view fields.
+- [ ] Verify timestamp/replay/reorder/restart/rollback/security regressions and unchanged evidence.
+- [ ] Update both OpenAPI copies and regenerate/check dashboard types.
+- [ ] Run final Python/reactor/separate receiver/dashboard/browser/config checks and record skips/failures.
+- [ ] Package new correction verification evidence and close findings against exact source commits.
+- [ ] Independently accept corrected PR #104 as a disabled technical foundation.
+- [ ] Approve a contract for analyst identity/workflow integration (outside this correction).
+
+The upstream 60/300-second bridge, simultaneous end-to-end capacity and personal
+approvals above remain open. No long benchmark or activation is part of these
+corrections; neither the original review nor component tests supply those approvals.
