@@ -1,0 +1,15 @@
+{
+  "name": "combined-contracts",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-contracts.py"
+  ],
+  "startedAt": "2026-10-12T18:38:18.340148+00:00",
+  "finishedAt": "2026-10-12T18:38:52.744033+00:00",
+  "elapsedSeconds": 34.404,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "combined-contracts.log",
+  "logSha256": "03fe1b7a72a21bb5ef02fb25936fd0d4a2b6e54cce6dc67c4d089f799815b180"
+}

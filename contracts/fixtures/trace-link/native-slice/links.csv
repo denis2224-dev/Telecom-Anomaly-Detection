@@ -1,0 +1,13 @@
+id,a,b,nominal_capacity_gbps
+chi-orh,chi,orh,20
+orh-sor,orh,sor,10
+sor-bal,sor,bal,10
+bal-edi,bal,edi,10
+bal-ung,bal,ung,20
+ung-chi,ung,chi,20
+chi-hin,chi,hin,20
+hin-com,hin,com,10
+com-cah,com,cah,10
+chi-cau,chi,cau,10
+cau-com,cau,com,10
+orh-bal,orh,bal,20

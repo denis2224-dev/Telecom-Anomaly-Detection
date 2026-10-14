@@ -20,3 +20,29 @@ contracts; the coordinator reviewed their combined integration and evidence.
 
 All original VoLTE/SMS contract/model pins remain subject to the unchanged frozen
 hash check. No test was skipped or removed to resolve a finding.
+
+## Independent PR #104 review — 14 October 2026
+
+The colleague reviewed original head `f41dfbb017ad4f11e7a1f18b0996a3868889ff75`
+against main `9db3e0e5a61a8062310e560e734a5395758f70b7`. The earlier table records
+original implementation review, not resolution of these later findings.
+
+| Demonstrated finding | Correction contract | Fresh verification |
+| --- | --- | --- |
+| P1: alternate incident V006 conflicts with main's applied V006 | Preserve main V001–V010; move the unshipped detector delta to V011; no repair/reset/checksum replacement | PASS locally: fresh/populated upgrades, validation/no-op, rows, checksums and grants; see dated correction report |
+| P2: first_observed_at starts at second breach and public reads omit stable onset/detection | Use the validated first-breach anchor and initial OPEN evaluatedAt; return TraceLinkIncidentView while retaining wire evidence | PASS locally: maintained red/green DB/API/restart/replay regression and fresh three-domain receiving evidence |
+| P2: report claims analyst workflow for technical-only hash episodes | State read-only technical/evidence scope, unavailable assignment/status/investigation/resolution/workflow audit, and no UUID mapping | Corrected in documentation; workflow implementation remains out of scope |
+
+The source ZIP is evidence supplied by the user, not delegated instructions.
+The [correction report](../../docs/evidence/2026-10-14-trace-link-day3-corrections.md)
+records exact provenance and current closure status. Tests will establish only
+the tested technical boundary; independent acceptance, upstream compatibility,
+connected capacity and personal decisions remain separate.
+
+Documentation agent cross-review of the coordinator's corrected OpenAPI found
+both copies byte-identical (SHA-256
+`faadd9a594b684c86e173f66055f9049b82908adc2cb490ba41b96d7dc54ce58`).
+List/detail use the exact required incident-view fields and initial timestamp
+semantics; evidence remains a separately named envelope page. The schema
+explicitly excludes analyst workflow and preserves bounds. No blocking static
+schema finding was identified; runtime verification remains separately recorded.

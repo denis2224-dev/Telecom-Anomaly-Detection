@@ -1,0 +1,25 @@
+{
+  "name": "packaged-integration-final",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/verify-trace-link-integration.py",
+    "--base-ref",
+    "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+    "--producer-ref",
+    "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c",
+    "--projection-ref",
+    "b987aa809101eedc1d40d52c95dff94a1e9e27b8",
+    "--java-home",
+    "C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot",
+    "--output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/packaged-integration"
+  ],
+  "startedAt": "2026-10-12T19:09:19.735848+00:00",
+  "finishedAt": "2026-10-12T19:09:20.642454+00:00",
+  "elapsedSeconds": 0.907,
+  "exitCode": 1,
+  "status": "FAIL",
+  "log": "packaged-integration-final.log",
+  "logSha256": "c9a4a53b1341012b8f237f0f4251d48a8d548c885d7341f32e7491e2295b8fb1"
+}

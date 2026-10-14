@@ -1,0 +1,1257 @@
+{
+  "executedAt": "2026-10-12T19:16:03.988116+00:00",
+  "timezone": "Europe/Chisinau",
+  "verdict": "INTEGRATION_CANDIDATE_VERIFIED",
+  "overallRelease": "BLOCKED",
+  "sourceCommit": "f572ebd27c71cb809eb43fa51f07f40740ae181c",
+  "sourceTree": "83b8bb260ceba844fdbcee388c275b2ba15dc4ed",
+  "baseCommit": "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+  "fullJavaTestSnapshot": "e85a81660aeff3ebae71150a6361084dd11191b2",
+  "fullProjectionTestSnapshot": "ac1c00278fcdb33fa28502d5f31cdc1aa6aaf2ba",
+  "fullJava": {
+    "tests": 1307,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 5,
+    "passed": 1302,
+    "skips": [
+      {
+        "suite": "md.utm.telecom.processing.GeographicDetectionTest",
+        "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+        "message": "Environment variable [ML_SERVICE_URL] does not exist",
+        "text": null
+      },
+      {
+        "suite": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+        "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+        "message": null,
+        "text": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode(SmsDeliveryTest.java:80)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n"
+      },
+      {
+        "suite": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+        "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+        "message": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist",
+        "text": null
+      },
+      {
+        "suite": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+        "test": "fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+        "message": null,
+        "text": "org.opentest4j.TestAbortedException: Assumption failed: Full archive must be explicitly selected\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT.fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity(TraceLinkProjectionIT.java:281)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n"
+      },
+      {
+        "suite": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+        "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+        "message": null,
+        "text": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode(VoiceDeliveryTest.java:66)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n\tat java.base/java.util.ArrayList.forEach(ArrayList.java:1596)\n"
+      }
+    ],
+    "modules": {
+      "combined-support": {
+        "tests": 120,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "combined-generator": {
+        "tests": 138,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "combined-processor": {
+        "tests": 1049,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 5
+      }
+    }
+  },
+  "incidentJava": {
+    "tests": 243,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "fullNativeProjection": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "producerOnlyFocused": {
+    "tests": 53,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "python": {
+    "combined": {
+      "reported": 159,
+      "skipped": 1,
+      "status": "PASS",
+      "skipReason": "pwsh runtime unavailable",
+      "passed": 158
+    },
+    "producerOnly": {
+      "reported": 152,
+      "skipped": 1,
+      "status": "PASS",
+      "skipReason": "pwsh runtime unavailable",
+      "passed": 151
+    },
+    "historicalResolution": {
+      "reported": 137,
+      "skipped": 1,
+      "status": "PASS",
+      "skipReason": "pwsh runtime unavailable",
+      "passed": 136
+    }
+  },
+  "pinnedML": {
+    "reported": 64,
+    "passed": 64,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0
+  },
+  "parity": {
+    "arithmeticGoldens": 54,
+    "languages": [
+      "Java",
+      "Python",
+      "JavaScript",
+      "PostgreSQL"
+    ],
+    "maximumDifference": 0,
+    "legacyVoice": 7,
+    "legacySMS": 12,
+    "persistedGeographicVoice": 90,
+    "persistedGeographicSMS": 90
+  },
+  "archive": {
+    "nativeRows": 362880,
+    "projectionRows": 8640,
+    "heldOutboxRows": 8640,
+    "native5mBuckets": 8640,
+    "rollup6hBuckets": 121
+  },
+  "frozenDay6": {
+    "files": 124,
+    "fullRehearsalRepeated": false
+  },
+  "frozenInputs": 29,
+  "finalCanonicalByteMigrationRerun": {
+    "tests": 2,
+    "passed": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "packagedVerifier": "PASS",
+  "commandRecords": [
+    {
+      "name": "bounded-owner-cli-replay",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "java",
+        "-Dloader.main=md.utm.telecom.generator.tracelink.TraceLinkScenarioApplication",
+        "-cp",
+        "services/event-generator/target/event-generator-0.3.0-SNAPSHOT.jar",
+        "org.springframework.boot.loader.launch.PropertiesLauncher",
+        "contracts/fixtures/trace-link/scenario-command-v1.json",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/owner-transport.jsonl"
+      ],
+      "startedAt": "2026-10-12T19:00:21.535428+00:00",
+      "finishedAt": "2026-10-12T19:00:31.850596+00:00",
+      "elapsedSeconds": 10.315,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "bounded-owner-cli-replay.log",
+      "logSha256": "213dce0f2f39d0f3be5e5aa706b4739da450a2ee0e994be91250361f552a9240",
+      "compressedLog": "logs/bounded-owner-cli-replay.log.gz"
+    },
+    {
+      "name": "bounded-owner-cli",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "java",
+        "-Dloader.main=md.utm.telecom.generator.tracelink.TraceLinkScenarioApplication",
+        "-cp",
+        "services/event-generator/target/event-generator-0.3.0-SNAPSHOT.jar",
+        "org.springframework.boot.loader.launch.PropertiesLauncher",
+        "contracts/fixtures/trace-link/scenario-command-v1.json",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/owner-transport.jsonl"
+      ],
+      "startedAt": "2026-10-12T19:00:10.561850+00:00",
+      "finishedAt": "2026-10-12T19:00:21.344246+00:00",
+      "elapsedSeconds": 10.782,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "bounded-owner-cli.log",
+      "logSha256": "7493a36010fa1216cd2524f0c25ec3cf6c453126acd30ebab6b9dac6d065e04b",
+      "compressedLog": "logs/bounded-owner-cli.log.gz"
+    },
+    {
+      "name": "combined-contracts",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-contracts.py"
+      ],
+      "startedAt": "2026-10-12T18:38:18.340148+00:00",
+      "finishedAt": "2026-10-12T18:38:52.744033+00:00",
+      "elapsedSeconds": 34.404,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-contracts.log",
+      "logSha256": "03fe1b7a72a21bb5ef02fb25936fd0d4a2b6e54cce6dc67c4d089f799815b180",
+      "compressedLog": "logs/combined-contracts.log.gz"
+    },
+    {
+      "name": "combined-full-java",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-pl",
+        "services/streaming-support,services/event-generator,services/processor",
+        "-am",
+        "-Dlogging.level.org.springframework.jdbc.core=INFO",
+        "-DtraceLink.referenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+        "-Dtrace.link.archive=C:/OrangeSystems/task/Trace_Link_Integration_Pack/data",
+        "-Dtrace.link.v016.directory=C:/OrangeSystems/Program/ion-domain-producer-evidence/v016",
+        "-Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+        "clean",
+        "verify"
+      ],
+      "startedAt": "2026-10-12T18:38:07.017073+00:00",
+      "finishedAt": "2026-10-12T19:04:42.827502+00:00",
+      "elapsedSeconds": 1595.81,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-full-java.log",
+      "logSha256": "cb059b2c1340ba1ca897eec6820f7244ee146eeb5457f1b46460fd137737d520",
+      "compressedLog": "logs/combined-full-java.log.gz"
+    },
+    {
+      "name": "combined-full-projection-archive",
+      "cwd": "C:/OrangeSystems/Program/trace-link-combined-projection-verify-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=TraceLinkProjectionIT#fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "-DtraceLink.projectionReferenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+        "-Dlogging.level.org.springframework.jdbc.core=INFO",
+        "verify"
+      ],
+      "startedAt": "2026-10-12T18:47:10.578408+00:00",
+      "finishedAt": "2026-10-12T19:02:26.128158+00:00",
+      "elapsedSeconds": 915.55,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-full-projection-archive.log",
+      "logSha256": "300b4a52ee80938b9902c900aa8d12a1467d70d248e2f1315ff1774093cd50f2",
+      "compressedLog": "logs/combined-full-projection-archive.log.gz"
+    },
+    {
+      "name": "combined-incident-java",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012/services/incident-service",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-Dspring.kafka.bootstrap-servers=127.0.0.1:65534",
+        "clean",
+        "verify"
+      ],
+      "startedAt": "2026-10-12T18:39:09.065190+00:00",
+      "finishedAt": "2026-10-12T18:44:29.373990+00:00",
+      "elapsedSeconds": 320.309,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-incident-java.log",
+      "logSha256": "8b32f17eee282d51a227d52117acbb63810e226f59579090b8dab365a7ed4fa3",
+      "compressedLog": "logs/combined-incident-java.log.gz"
+    },
+    {
+      "name": "combined-ml-python-pinned",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "C:/OrangeSystems/Program/Telecom-Anomaly-Detection/.venv/Scripts/python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/ml-service/tests",
+        "-v"
+      ],
+      "startedAt": "2026-10-12T18:53:13.871649+00:00",
+      "finishedAt": "2026-10-12T18:56:17.056077+00:00",
+      "elapsedSeconds": 183.184,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-ml-python-pinned.log",
+      "logSha256": "68beaab067f70f074489334bc25b57807016bd546823896e7e5166af53d4c008",
+      "compressedLog": "logs/combined-ml-python-pinned.log.gz"
+    },
+    {
+      "name": "combined-ml-python-root",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/ml-service/tests",
+        "-v"
+      ],
+      "startedAt": "2026-10-12T18:48:56.012410+00:00",
+      "finishedAt": "2026-10-12T18:52:02.380014+00:00",
+      "elapsedSeconds": 186.368,
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "combined-ml-python-root.log",
+      "logSha256": "8ec7e1b4b5fcee1b6be4f861cdb8176b4c29d53c3aca80c3552d893768ee48a6",
+      "compressedLog": "logs/combined-ml-python-root.log.gz",
+      "reason": "Same global dependency mismatch; pinned environment used for final verification."
+    },
+    {
+      "name": "combined-ml-python",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012/services/ml-service",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "startedAt": "2026-10-12T18:47:18.223198+00:00",
+      "finishedAt": "2026-10-12T18:51:01.322814+00:00",
+      "elapsedSeconds": 223.1,
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "combined-ml-python.log",
+      "logSha256": "e097a22c5d7ba8de08279f66428e5a6aa5068335a8266570e55fc3613e98370f",
+      "compressedLog": "logs/combined-ml-python.log.gz",
+      "reason": "Global Python dependencies differ from packaged model pins; existing pinned environment passes 64 tests."
+    },
+    {
+      "name": "combined-package-lf-corrected",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-DskipTests",
+        "package"
+      ],
+      "startedAt": "2026-10-12T19:08:48.820381+00:00",
+      "finishedAt": "2026-10-12T19:08:54.521821+00:00",
+      "elapsedSeconds": 5.701,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-package-lf-corrected.log",
+      "logSha256": "ec03cabd4c31737d84516772be9fc935051d96c523fca5e5ff2cfccb24849b1e",
+      "compressedLog": "logs/combined-package-lf-corrected.log.gz"
+    },
+    {
+      "name": "combined-package-lf",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-Dmaven",
+        ".repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-DskipTests",
+        "package"
+      ],
+      "startedAt": "2026-10-12T19:07:38.130139+00:00",
+      "finishedAt": "2026-10-12T19:07:49.699794+00:00",
+      "elapsedSeconds": 11.57,
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "combined-package-lf.log",
+      "logSha256": "c16dc41978397c76235868a60e20e01d00a8c8464b12c7113c3317fd4deeb52e",
+      "compressedLog": "logs/combined-package-lf.log.gz",
+      "reason": "Unquoted PowerShell Maven property split; corrected quoted cached command passes."
+    },
+    {
+      "name": "combined-python",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "startedAt": "2026-10-12T18:38:52.880662+00:00",
+      "finishedAt": "2026-10-12T18:39:47.546884+00:00",
+      "elapsedSeconds": 54.666,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-python.log",
+      "logSha256": "9a5fe30b445b3b74c63e68cb9ca9f8aeef1e50b51a305d43403f5980c1405bcf",
+      "compressedLog": "logs/combined-python.log.gz"
+    },
+    {
+      "name": "combined-v016-before",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-Dtest=TraceLinkV016CompatibilityTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "-Dtrace.link.v016.directory=C:/OrangeSystems/Program/ion-domain-producer-evidence/v016",
+        "-Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+        "verify"
+      ],
+      "startedAt": "2026-10-12T18:36:55.133078+00:00",
+      "finishedAt": "2026-10-12T18:37:24.518781+00:00",
+      "elapsedSeconds": 29.386,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-v016-before.log",
+      "logSha256": "84730b3e03b4eb194a0bd304c2cbf3692ddbe5ed2ee24fd0dd3287b3c3c3da51",
+      "compressedLog": "logs/combined-v016-before.log.gz"
+    },
+    {
+      "name": "combined-v016-lf-final",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=TraceLinkV016CompatibilityTest,TraceLinkProjectionIT#v015UpgradeAndFreshInstallKeepSameV016GrantsAndLegacyConstraint",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "-Dtrace.link.v016.directory=C:/OrangeSystems/Program/ion-domain-producer-evidence/v016",
+        "-Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+        "verify"
+      ],
+      "startedAt": "2026-10-12T19:09:20.737456+00:00",
+      "finishedAt": "2026-10-12T19:09:36.772969+00:00",
+      "elapsedSeconds": 16.036,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "combined-v016-lf-final.log",
+      "logSha256": "d9eecb552ba523825886fb4ab923ae06e6466796641dcf9fb97eeeca5f3cc8d5",
+      "compressedLog": "logs/combined-v016-lf-final.log.gz"
+    },
+    {
+      "name": "current-consumer-compatibility-final",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-trace-link-consumer-compatibility.py",
+        "--consumer-ref",
+        "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/consumer-compatibility-current.json"
+      ],
+      "startedAt": "2026-10-12T18:52:31.956465+00:00",
+      "finishedAt": "2026-10-12T18:52:32.973388+00:00",
+      "elapsedSeconds": 1.017,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "current-consumer-compatibility-final.log",
+      "logSha256": "4cd55e482e925d36ffed3f35cee612f68f71642a6ede841d867b5a4b8c170c4e",
+      "compressedLog": "logs/current-consumer-compatibility-final.log.gz"
+    },
+    {
+      "name": "current-consumer-compatibility",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-trace-link-consumer-compatibility.py",
+        "--consumer-ref",
+        "47a2c9236e8ac82351b7fa62ec2264cc8df103c2",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/consumer-compatibility.json"
+      ],
+      "startedAt": "2026-10-12T18:35:38.703424+00:00",
+      "finishedAt": "2026-10-12T18:35:39.502642+00:00",
+      "elapsedSeconds": 0.799,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "current-consumer-compatibility.log",
+      "logSha256": "4cd55e482e925d36ffed3f35cee612f68f71642a6ede841d867b5a4b8c170c4e",
+      "compressedLog": "logs/current-consumer-compatibility.log.gz"
+    },
+    {
+      "name": "four-language-parity",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-trace-link-parity.py",
+        "--java-output",
+        "services/processor/target/trace-link-java.json",
+        "--python-output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-python.json",
+        "--sql-output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-sql.json",
+        "--javascript-output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-javascript.json"
+      ],
+      "startedAt": "2026-10-12T18:58:43.634696+00:00",
+      "finishedAt": "2026-10-12T18:58:43.810953+00:00",
+      "elapsedSeconds": 0.176,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "four-language-parity.log",
+      "logSha256": "04e8d356b2d71608f028d02cbd5d094040f495106431e94d3a96b2db2fe64da6",
+      "compressedLog": "logs/four-language-parity.log.gz"
+    },
+    {
+      "name": "fresh-javascript-arithmetic",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "node",
+        "scripts/trace-link-reference.cjs",
+        "--fixtures",
+        "contracts/fixtures/trace-link/arithmetic-cases.json",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-javascript.json"
+      ],
+      "startedAt": "2026-10-12T18:48:06.169204+00:00",
+      "finishedAt": "2026-10-12T18:48:06.942673+00:00",
+      "elapsedSeconds": 0.773,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "fresh-javascript-arithmetic.log",
+      "logSha256": "25a032820fc8092207b795a056d1494734d14eb3ca0aaef796a179833a77655c",
+      "compressedLog": "logs/fresh-javascript-arithmetic.log.gz"
+    },
+    {
+      "name": "fresh-python-arithmetic",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "services/ml-service/app/features/trace_link_reference.py",
+        "--fixtures",
+        "contracts/fixtures/trace-link/arithmetic-cases.json",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-python.json"
+      ],
+      "startedAt": "2026-10-12T18:48:38.370943+00:00",
+      "finishedAt": "2026-10-12T18:48:38.553646+00:00",
+      "elapsedSeconds": 0.183,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "fresh-python-arithmetic.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedLog": "logs/fresh-python-arithmetic.log.gz"
+    },
+    {
+      "name": "fresh-python-sql-javascript-arithmetic",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-trace-link-parity.py",
+        "--python-output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-python.json",
+        "--sql-output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-sql.json",
+        "--javascript-output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-javascript.json",
+        "--postgres-container"
+      ],
+      "startedAt": "2026-10-12T18:46:21.721213+00:00",
+      "finishedAt": "2026-10-12T18:46:21.878317+00:00",
+      "elapsedSeconds": 0.157,
+      "exitCode": 2,
+      "status": "FAIL",
+      "log": "fresh-python-sql-javascript-arithmetic.log",
+      "logSha256": "d9ad92dd26ec0c02c92a2b1b160823c82f1e3d071bc25f7fbfd238df08b4a7c0",
+      "compressedLog": "logs/fresh-python-sql-javascript-arithmetic.log.gz",
+      "reason": "Unsupported SQL exporter CLI argument; corrected documented invocation retained."
+    },
+    {
+      "name": "fresh-sql-arithmetic-isolated",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-trace-link-parity.py",
+        "--export-sql",
+        "--container",
+        "trace-link-integration-parity-20261012",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-sql.json"
+      ],
+      "startedAt": "2026-10-12T18:48:50.128297+00:00",
+      "finishedAt": "2026-10-12T18:48:50.646305+00:00",
+      "elapsedSeconds": 0.518,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "fresh-sql-arithmetic-isolated.log",
+      "logSha256": "2fc3d80298ff52bcd31d1d58d087b7f068982b12b288afea98f6ddcff4803f87",
+      "compressedLog": "logs/fresh-sql-arithmetic-isolated.log.gz"
+    },
+    {
+      "name": "fresh-sql-arithmetic",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-trace-link-parity.py",
+        "--export-sql",
+        "--container",
+        "trace-link-integration-parity-20261012",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-sql.json"
+      ],
+      "startedAt": "2026-10-12T18:48:00.398814+00:00",
+      "finishedAt": "2026-10-12T18:48:00.714450+00:00",
+      "elapsedSeconds": 0.316,
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "fresh-sql-arithmetic.log",
+      "logSha256": "5286caacf14c4aed3de9defb50d211e8297700b8576da4fec209322dcbbec438",
+      "compressedLog": "logs/fresh-sql-arithmetic.log.gz",
+      "reason": "Exporter correctly rejected missing isolation label/network boundary; corrected disposable isolated container passes."
+    },
+    {
+      "name": "frozen-day6-evidence",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/verify-trace-link-day6-evidence.py"
+      ],
+      "startedAt": "2026-10-12T18:35:37.033986+00:00",
+      "finishedAt": "2026-10-12T18:35:38.559927+00:00",
+      "elapsedSeconds": 1.526,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "frozen-day6-evidence.log",
+      "logSha256": "bc9943c52610f3e2b74a692118c35e1e9d8aabda02f3613df8e11ade17f53f7d",
+      "compressedLog": "logs/frozen-day6-evidence.log.gz"
+    },
+    {
+      "name": "frozen-input-pins",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/verify-trace-link-pins.py",
+        "--reference-root",
+        "C:/OrangeSystems/task/Trace_Link_Integration_Pack"
+      ],
+      "startedAt": "2026-10-12T18:37:03.776445+00:00",
+      "finishedAt": "2026-10-12T18:37:04.384454+00:00",
+      "elapsedSeconds": 0.608,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "frozen-input-pins.log",
+      "logSha256": "ddd163a8cdc0311ece11d57f4efe07d7d1c111e0482a1d6e92bb577a741c0d30",
+      "compressedLog": "logs/frozen-input-pins.log.gz"
+    },
+    {
+      "name": "legacy-sms-parity",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-sms-parity.py",
+        "--java-output",
+        "services/processor/target/sms-parity-java.json"
+      ],
+      "startedAt": "2026-10-12T19:07:20.352840+00:00",
+      "finishedAt": "2026-10-12T19:07:20.696634+00:00",
+      "elapsedSeconds": 0.344,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "legacy-sms-parity.log",
+      "logSha256": "1e55c68bd2390068181749912bdb368a1099c7d1269a4615ef3a5628a85ef438",
+      "compressedLog": "logs/legacy-sms-parity.log.gz"
+    },
+    {
+      "name": "legacy-voice-parity",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-voice-parity.py",
+        "--java-output",
+        "services/processor/target/voice-parity-java.json"
+      ],
+      "startedAt": "2026-10-12T19:07:20.003250+00:00",
+      "finishedAt": "2026-10-12T19:07:20.261687+00:00",
+      "elapsedSeconds": 0.258,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "legacy-voice-parity.log",
+      "logSha256": "68b9560eccf8de14471760307fbbb4c28733fa0fd9e0de32da2a7fcef91225db",
+      "compressedLog": "logs/legacy-voice-parity.log.gz"
+    },
+    {
+      "name": "live-offline-boundary",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/probe-trace-link-compatibility.py",
+        "--merged-worktree",
+        "C:/OrangeSystems/Program/trace-link-combined-20261012",
+        "--measurements",
+        "C:/OrangeSystems/Program/trace-link-integration-20261012/docs/evidence/assets/trace-link-day6/run-1/mobile-data-fault.jsonl",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/compatibility-probe",
+        "--java-home",
+        "C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot"
+      ],
+      "startedAt": "2026-10-12T18:39:20.955322+00:00",
+      "finishedAt": "2026-10-12T18:39:30.628884+00:00",
+      "elapsedSeconds": 9.674,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "live-offline-boundary.log",
+      "logSha256": "736138fdffdff2899ef88df8952000ff2fdc4e63586ee108a39af13894dd7541",
+      "compressedLog": "logs/live-offline-boundary.log.gz"
+    },
+    {
+      "name": "packaged-integration-corrected",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/verify-trace-link-integration.py",
+        "--base-ref",
+        "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+        "--producer-ref",
+        "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c",
+        "--projection-ref",
+        "b987aa809101eedc1d40d52c95dff94a1e9e27b8",
+        "--java-home",
+        "C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/packaged-integration"
+      ],
+      "startedAt": "2026-10-12T19:10:14.265022+00:00",
+      "finishedAt": "2026-10-12T19:10:15.551078+00:00",
+      "elapsedSeconds": 1.286,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "packaged-integration-corrected.log",
+      "logSha256": "f8eb6354c4beee3e64b02edf32b09a6c474f7fc77a8f64ff309497b2a59196dc",
+      "compressedLog": "logs/packaged-integration-corrected.log.gz"
+    },
+    {
+      "name": "packaged-integration-final",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/verify-trace-link-integration.py",
+        "--base-ref",
+        "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+        "--producer-ref",
+        "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c",
+        "--projection-ref",
+        "b987aa809101eedc1d40d52c95dff94a1e9e27b8",
+        "--java-home",
+        "C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/packaged-integration"
+      ],
+      "startedAt": "2026-10-12T19:09:19.735848+00:00",
+      "finishedAt": "2026-10-12T19:09:20.642454+00:00",
+      "elapsedSeconds": 0.907,
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "packaged-integration-final.log",
+      "logSha256": "c9a4a53b1341012b8f237f0f4251d48a8d548c885d7341f32e7491e2295b8fb1",
+      "compressedLog": "logs/packaged-integration-final.log.gz",
+      "reason": "New verification helper incorrectly selected 09:02 for separate gap schedule; corrected to actual 09:18 slot."
+    },
+    {
+      "name": "packaged-integration",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/verify-trace-link-integration.py",
+        "--base-ref",
+        "ae9a53626ac7ee62efec40a19ebb20c6e2cf7049",
+        "--producer-ref",
+        "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c",
+        "--projection-ref",
+        "b987aa809101eedc1d40d52c95dff94a1e9e27b8",
+        "--java-home",
+        "C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot",
+        "--output",
+        "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/packaged-integration"
+      ],
+      "startedAt": "2026-10-12T19:06:30.974669+00:00",
+      "finishedAt": "2026-10-12T19:06:31.665512+00:00",
+      "elapsedSeconds": 0.691,
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "packaged-integration.log",
+      "logSha256": "9870567509ae3771b322439f7caf6fda6d94c3b58f5a3f70b42bf54a2ba4c838",
+      "compressedLog": "logs/packaged-integration.log.gz",
+      "reason": "Real CRLF packaged V016 hash mismatch; fixed LF checkout attribute, frozen Git SQL unchanged."
+    },
+    {
+      "name": "persisted-geographic-sms-parity",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-sms-parity.py",
+        "--geographic-persisted",
+        "--java-output",
+        "services/processor/target/day5-geographic-parity-java.json"
+      ],
+      "startedAt": "2026-10-12T19:07:21.754677+00:00",
+      "finishedAt": "2026-10-12T19:07:22.426607+00:00",
+      "elapsedSeconds": 0.672,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "persisted-geographic-sms-parity.log",
+      "logSha256": "759a3a365b881b4c3ba2796d374091ef296fe1db6bb755b4cfe65224f4f42edd",
+      "compressedLog": "logs/persisted-geographic-sms-parity.log.gz"
+    },
+    {
+      "name": "persisted-geographic-voice-parity",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-voice-parity.py",
+        "--geographic-persisted",
+        "--java-output",
+        "services/processor/target/day5-geographic-parity-java.json"
+      ],
+      "startedAt": "2026-10-12T19:07:20.803299+00:00",
+      "finishedAt": "2026-10-12T19:07:21.664807+00:00",
+      "elapsedSeconds": 0.862,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "persisted-geographic-voice-parity.log",
+      "logSha256": "babb32d920f3110457b4f69594c696540a9164d60a26658d72f800327c82fab8",
+      "compressedLog": "logs/persisted-geographic-voice-parity.log.gz"
+    },
+    {
+      "name": "producer-contracts",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "scripts/check-contracts.py"
+      ],
+      "startedAt": "2026-10-12T18:33:32.659632+00:00",
+      "finishedAt": "2026-10-12T18:33:58.393925+00:00",
+      "elapsedSeconds": 25.734,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "producer-contracts.log",
+      "logSha256": "03fe1b7a72a21bb5ef02fb25936fd0d4a2b6e54cce6dc67c4d089f799815b180",
+      "compressedLog": "logs/producer-contracts.log.gz"
+    },
+    {
+      "name": "producer-focused-java",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-Dtest=TraceLinkSeasonalBaselineTest,TraceLinkDomainRulesTest,TraceLinkInputsTest,TraceLinkOfflineIntegrationTest,TraceLinkRecoveryPolicyTest,TraceLinkServiceTransportTest,TraceLinkCausePolicyTest,DomainObservationValidatorTest,TraceLinkDatasetBootstrapIT",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "startedAt": "2026-10-12T18:34:17.509355+00:00",
+      "finishedAt": "2026-10-12T18:35:48.612229+00:00",
+      "elapsedSeconds": 91.103,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "producer-focused-java.log",
+      "logSha256": "d75566051ec3443dfc036d64285be8aaf90e8a221f76acc14eb5272e119d533e",
+      "compressedLog": "logs/producer-focused-java.log.gz"
+    },
+    {
+      "name": "producer-only-focused-java",
+      "cwd": "C:/OrangeSystems/Program/trace-link-combined-20261012",
+      "command": [
+        "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+        "-B",
+        "-ntp",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+        "-Dtest=TraceLinkSeasonalBaselineTest,TraceLinkDomainRulesTest,TraceLinkInputsTest,TraceLinkOfflineIntegrationTest,TraceLinkRecoveryPolicyTest,TraceLinkServiceTransportTest,TraceLinkCausePolicyTest,DomainObservationValidatorTest,TraceLinkDatasetBootstrapIT",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "verify"
+      ],
+      "startedAt": "2026-10-12T18:36:06.043901+00:00",
+      "finishedAt": "2026-10-12T18:37:35.021002+00:00",
+      "elapsedSeconds": 88.977,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "producer-only-focused-java.log",
+      "logSha256": "147b3f7c6cc7cb2bf7caf0ce0e1c6538e60dff84504bb1088e5276aec2296752",
+      "compressedLog": "logs/producer-only-focused-java.log.gz"
+    },
+    {
+      "name": "producer-only-python",
+      "cwd": "C:/OrangeSystems/Program/trace-link-combined-20261012",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "startedAt": "2026-10-12T18:36:17.740476+00:00",
+      "finishedAt": "2026-10-12T18:37:03.575484+00:00",
+      "elapsedSeconds": 45.835,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "producer-only-python.log",
+      "logSha256": "cbfc766084c2f4ece4bcd7ca4a802b873889e2d91839a35eda107fd7ca9e2525",
+      "compressedLog": "logs/producer-only-python.log.gz"
+    },
+    {
+      "name": "producer-python",
+      "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "startedAt": "2026-10-12T18:33:58.676917+00:00",
+      "finishedAt": "2026-10-12T18:34:34.409133+00:00",
+      "elapsedSeconds": 35.732,
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "producer-python.log",
+      "logSha256": "7334b25562a9b90cce218cd65a065af3c1bf26431750d2fa9c231d8d1ad3ef38",
+      "compressedLog": "logs/producer-python.log.gz"
+    }
+  ],
+  "compressedLogs": [
+    {
+      "path": "logs/bounded-owner-cli-replay.log.gz",
+      "originalBytes": 143,
+      "originalSha256": "213dce0f2f39d0f3be5e5aa706b4739da450a2ee0e994be91250361f552a9240",
+      "compressedSha256": "ae76fd9524b9a0874b419f4d13c90aac9faa8b7fbbe0dd1e2fb858ad255238e6"
+    },
+    {
+      "path": "logs/bounded-owner-cli.log.gz",
+      "originalBytes": 138,
+      "originalSha256": "7493a36010fa1216cd2524f0c25ec3cf6c453126acd30ebab6b9dac6d065e04b",
+      "compressedSha256": "ef81d823a5dff72fc18115b969441babf02e7a1d894e9c205f74687f199ae04f"
+    },
+    {
+      "path": "logs/combined-contracts.log.gz",
+      "originalBytes": 1469,
+      "originalSha256": "03fe1b7a72a21bb5ef02fb25936fd0d4a2b6e54cce6dc67c4d089f799815b180",
+      "compressedSha256": "85db92c8876fb0785beefd3183929a249a3a6335d44878351a052033a6c85c0f"
+    },
+    {
+      "path": "logs/combined-full-java.log.gz",
+      "originalBytes": 4633767,
+      "originalSha256": "cb059b2c1340ba1ca897eec6820f7244ee146eeb5457f1b46460fd137737d520",
+      "compressedSha256": "18a304748f8d76557cace038cd55e1a06ceefaad5a278817dd94df8ba4c22e8a"
+    },
+    {
+      "path": "logs/combined-full-projection-archive.log.gz",
+      "originalBytes": 47946,
+      "originalSha256": "300b4a52ee80938b9902c900aa8d12a1467d70d248e2f1315ff1774093cd50f2",
+      "compressedSha256": "229556903859dcf6128d01fff05f66d8fe32773e7869e670add8a92d6ad7fa20"
+    },
+    {
+      "path": "logs/combined-incident-java.log.gz",
+      "originalBytes": 4955275,
+      "originalSha256": "8b32f17eee282d51a227d52117acbb63810e226f59579090b8dab365a7ed4fa3",
+      "compressedSha256": "504121485af8660505aa42d50c625d9413de27411cd47f86fdd66960c694baa5"
+    },
+    {
+      "path": "logs/combined-ml-python-pinned.log.gz",
+      "originalBytes": 14148,
+      "originalSha256": "68beaab067f70f074489334bc25b57807016bd546823896e7e5166af53d4c008",
+      "compressedSha256": "ade3cb89fe219bdcebc1b9e3bfd0848884bc8c765a93b159c69a88be388bf151"
+    },
+    {
+      "path": "logs/combined-ml-python-root.log.gz",
+      "originalBytes": 37303,
+      "originalSha256": "8ec7e1b4b5fcee1b6be4f861cdb8176b4c29d53c3aca80c3552d893768ee48a6",
+      "compressedSha256": "c53d17c8f29e14a65d51e06b088fb108f2df875fb5d823479ea46164be12342e"
+    },
+    {
+      "path": "logs/combined-ml-python.log.gz",
+      "originalBytes": 37303,
+      "originalSha256": "e097a22c5d7ba8de08279f66428e5a6aa5068335a8266570e55fc3613e98370f",
+      "compressedSha256": "62366c6cb7e06d2dc6f2254884397cc8845cf74723429da415417f9f9e204252"
+    },
+    {
+      "path": "logs/combined-package-lf-corrected.log.gz",
+      "originalBytes": 6545,
+      "originalSha256": "ec03cabd4c31737d84516772be9fc935051d96c523fca5e5ff2cfccb24849b1e",
+      "compressedSha256": "b1b501083b4953049346f9c93773c82b634ce8227dadff2850dc816d77c73660"
+    },
+    {
+      "path": "logs/combined-package-lf.log.gz",
+      "originalBytes": 1749,
+      "originalSha256": "c16dc41978397c76235868a60e20e01d00a8c8464b12c7113c3317fd4deeb52e",
+      "compressedSha256": "6676ae406d974c49f2b0c725a22f581d78f1d5ecfd3510e2de5770d2809e0412"
+    },
+    {
+      "path": "logs/combined-python.log.gz",
+      "originalBytes": 27707,
+      "originalSha256": "9a5fe30b445b3b74c63e68cb9ca9f8aeef1e50b51a305d43403f5980c1405bcf",
+      "compressedSha256": "0b9dd2081e6ccae413a137d2da40c578bc080b58f394264a66744e7948e51d05"
+    },
+    {
+      "path": "logs/combined-v016-before.log.gz",
+      "originalBytes": 13634,
+      "originalSha256": "84730b3e03b4eb194a0bd304c2cbf3692ddbe5ed2ee24fd0dd3287b3c3c3da51",
+      "compressedSha256": "6ceab641b99a0d022380cbe6ee38feacfbb81f0607fae4b1116b71b9cb5fc385"
+    },
+    {
+      "path": "logs/combined-v016-lf-final.log.gz",
+      "originalBytes": 22331,
+      "originalSha256": "d9eecb552ba523825886fb4ab923ae06e6466796641dcf9fb97eeeca5f3cc8d5",
+      "compressedSha256": "5d040d53504e0e7bf2b01936f1860b1a07caf9e3ad2c951f9fa08c6806b9782a"
+    },
+    {
+      "path": "logs/current-consumer-compatibility-final.log.gz",
+      "originalBytes": 100,
+      "originalSha256": "4cd55e482e925d36ffed3f35cee612f68f71642a6ede841d867b5a4b8c170c4e",
+      "compressedSha256": "bb1b659d5632cb7db40d3f7edc15e160493fad7be895ee29821ef1f6c791ec8e"
+    },
+    {
+      "path": "logs/current-consumer-compatibility.log.gz",
+      "originalBytes": 100,
+      "originalSha256": "4cd55e482e925d36ffed3f35cee612f68f71642a6ede841d867b5a4b8c170c4e",
+      "compressedSha256": "bb1b659d5632cb7db40d3f7edc15e160493fad7be895ee29821ef1f6c791ec8e"
+    },
+    {
+      "path": "logs/four-language-parity.log.gz",
+      "originalBytes": 381,
+      "originalSha256": "04e8d356b2d71608f028d02cbd5d094040f495106431e94d3a96b2db2fe64da6",
+      "compressedSha256": "10f8c29c0b0530986fbe67d720223d8133afb79f1923bad45ae7a0a5a920855e"
+    },
+    {
+      "path": "logs/fresh-javascript-arithmetic.log.gz",
+      "originalBytes": 35,
+      "originalSha256": "25a032820fc8092207b795a056d1494734d14eb3ca0aaef796a179833a77655c",
+      "compressedSha256": "70ac9c619c9fcf8f07a4710b82eb6e75b54bb3c5402b0f0c4d2b3405de4bc91a"
+    },
+    {
+      "path": "logs/fresh-python-arithmetic.log.gz",
+      "originalBytes": 0,
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compressedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "logs/fresh-python-sql-javascript-arithmetic.log.gz",
+      "originalBytes": 536,
+      "originalSha256": "d9ad92dd26ec0c02c92a2b1b160823c82f1e3d071bc25f7fbfd238df08b4a7c0",
+      "compressedSha256": "244fff8ed1d21072b7c1c91874ab79187a80b52d455ad10379cdb6c9048b89f1"
+    },
+    {
+      "path": "logs/fresh-sql-arithmetic-isolated.log.gz",
+      "originalBytes": 50,
+      "originalSha256": "2fc3d80298ff52bcd31d1d58d087b7f068982b12b288afea98f6ddcff4803f87",
+      "compressedSha256": "124fed051fb3d8e28bad5684819c92b83530fa24be8db7a9271fb096fdc935ba"
+    },
+    {
+      "path": "logs/fresh-sql-arithmetic.log.gz",
+      "originalBytes": 762,
+      "originalSha256": "5286caacf14c4aed3de9defb50d211e8297700b8576da4fec209322dcbbec438",
+      "compressedSha256": "9840a283bc86abb182465e81a6b07594cbcb5f1abe664cbfa5595530352f4021"
+    },
+    {
+      "path": "logs/frozen-day6-evidence.log.gz",
+      "originalBytes": 95,
+      "originalSha256": "bc9943c52610f3e2b74a692118c35e1e9d8aabda02f3613df8e11ade17f53f7d",
+      "compressedSha256": "aaf01fbe0ed0520857cd04b4bb53ec49252843f4e91270427328decdab0ce717"
+    },
+    {
+      "path": "logs/frozen-input-pins.log.gz",
+      "originalBytes": 75,
+      "originalSha256": "ddd163a8cdc0311ece11d57f4efe07d7d1c111e0482a1d6e92bb577a741c0d30",
+      "compressedSha256": "b7d581bfd630fb4f6dd7a3be85fcd163a12dd9fc6e2947c76a92b2d443c11a35"
+    },
+    {
+      "path": "logs/graphify-update-final.log.gz",
+      "originalBytes": 4058,
+      "originalSha256": "1b5c92095bdcf3ca1d3699b80d596620dcd983879d3acd6da69d79667eef9634",
+      "compressedSha256": "b530448574c5f73f360e5c0a87adbbe8852db332427c9baf1d3d8b716373e042"
+    },
+    {
+      "path": "logs/graphify-update.log.gz",
+      "originalBytes": 4330,
+      "originalSha256": "a2798e4b34ecd80318763e6001f9a6c0de7bab8a76b973dd6fde018c18e10621",
+      "compressedSha256": "70a035789f984828496e4eada3658cf8562f74a77e9ff95c009712e55fda7621"
+    },
+    {
+      "path": "logs/legacy-sms-parity.log.gz",
+      "originalBytes": 1015,
+      "originalSha256": "1e55c68bd2390068181749912bdb368a1099c7d1269a4615ef3a5628a85ef438",
+      "compressedSha256": "3e7be59abfdead44efa00ca0474da60d5557cfd9327b7ba0b419abc53c92521b"
+    },
+    {
+      "path": "logs/legacy-voice-parity.log.gz",
+      "originalBytes": 572,
+      "originalSha256": "68b9560eccf8de14471760307fbbb4c28733fa0fd9e0de32da2a7fcef91225db",
+      "compressedSha256": "3981a4de9c196fe0b616cd8e528c94307b1c8635c163ccab03b446136df69ac6"
+    },
+    {
+      "path": "logs/live-offline-boundary.log.gz",
+      "originalBytes": 97,
+      "originalSha256": "736138fdffdff2899ef88df8952000ff2fdc4e63586ee108a39af13894dd7541",
+      "compressedSha256": "db354963192e3d19e70e152d6621548dc7573fb6255836b571977d08cba9a4c8"
+    },
+    {
+      "path": "logs/packaged-integration-corrected.log.gz",
+      "originalBytes": 117,
+      "originalSha256": "f8eb6354c4beee3e64b02edf32b09a6c474f7fc77a8f64ff309497b2a59196dc",
+      "compressedSha256": "b4e6f609b965cb828a35c4624b7c99d013ecf440e48e8e3dce67c638acc174ab"
+    },
+    {
+      "path": "logs/packaged-integration-final.log.gz",
+      "originalBytes": 438,
+      "originalSha256": "c9a4a53b1341012b8f237f0f4251d48a8d548c885d7341f32e7491e2295b8fb1",
+      "compressedSha256": "3010c0739f22aa5d7c1393929721dfb5cef18caaa23d8bc40981c46e9d41620b"
+    },
+    {
+      "path": "logs/packaged-integration.log.gz",
+      "originalBytes": 834,
+      "originalSha256": "9870567509ae3771b322439f7caf6fda6d94c3b58f5a3f70b42bf54a2ba4c838",
+      "compressedSha256": "0516717e647f760d950491b763fdd2d276ea00e796e2496db73fee6e14fec495"
+    },
+    {
+      "path": "logs/persisted-geographic-sms-parity.log.gz",
+      "originalBytes": 7242,
+      "originalSha256": "759a3a365b881b4c3ba2796d374091ef296fe1db6bb755b4cfe65224f4f42edd",
+      "compressedSha256": "2e00c17c2dd940b9363bd1bed67ca79a0f98cf347a5c05815b223dca28647c92"
+    },
+    {
+      "path": "logs/persisted-geographic-voice-parity.log.gz",
+      "originalBytes": 7422,
+      "originalSha256": "babb32d920f3110457b4f69594c696540a9164d60a26658d72f800327c82fab8",
+      "compressedSha256": "f0f08cd5027506b48510237147fbfede0441b1b00bc54f3a22e3d79e2a729995"
+    },
+    {
+      "path": "logs/producer-contracts.log.gz",
+      "originalBytes": 1469,
+      "originalSha256": "03fe1b7a72a21bb5ef02fb25936fd0d4a2b6e54cce6dc67c4d089f799815b180",
+      "compressedSha256": "85db92c8876fb0785beefd3183929a249a3a6335d44878351a052033a6c85c0f"
+    },
+    {
+      "path": "logs/producer-focused-java.log.gz",
+      "originalBytes": 437451,
+      "originalSha256": "d75566051ec3443dfc036d64285be8aaf90e8a221f76acc14eb5272e119d533e",
+      "compressedSha256": "09060cb7ac1ff5c510cbd768b4290c37e2cfc55b0de146d05931852abce289e1"
+    },
+    {
+      "path": "logs/producer-only-focused-java.log.gz",
+      "originalBytes": 434175,
+      "originalSha256": "147b3f7c6cc7cb2bf7caf0ce0e1c6538e60dff84504bb1088e5276aec2296752",
+      "compressedSha256": "072fd9599997ab7bdd886a432cc142eec954fbb9f0254890026c8e80fe3f3665"
+    },
+    {
+      "path": "logs/producer-only-python.log.gz",
+      "originalBytes": 26260,
+      "originalSha256": "cbfc766084c2f4ece4bcd7ca4a802b873889e2d91839a35eda107fd7ca9e2525",
+      "compressedSha256": "720aaf8e2b45fd21348850473dde81c1e165f18bfbf91c7c6bd852c610959ddd"
+    },
+    {
+      "path": "logs/producer-python.log.gz",
+      "originalBytes": 27707,
+      "originalSha256": "7334b25562a9b90cce218cd65a065af3c1bf26431750d2fa9c231d8d1ad3ef38",
+      "compressedSha256": "6a7aba4400acb6ea00828832ea00fab3ff7b45e672f8f526a480431d13530327"
+    },
+    {
+      "path": "logs/trace-link-historical-python-20261012.log.gz",
+      "originalBytes": 48426,
+      "originalSha256": "da42da05b427297ae6d688371d22eaf4c445fe7ccb806e05582c39fc8925e99f",
+      "compressedSha256": "2c7645003f2245c5626f0e7ea412e5a15d792a5882959f2ae61f74b93216a0e0"
+    }
+  ],
+  "tooling": {
+    "graphifyInitialExitCode": 1,
+    "graphifyFinalExitCode": 1,
+    "finalGraph": "10682 nodes / 27010 edges / 631 communities",
+    "impact": "Graph rebuilt; auxiliary CLI exit status retained separately"
+  },
+  "blocked": [
+    {
+      "action": "Live minute detector acceptance",
+      "status": "BLOCKED",
+      "reason": "Versioned receiver scope, clock, baseline and minute policy authority unapproved."
+    },
+    {
+      "action": "Consumer mapping/ingestion",
+      "status": "BLOCKED",
+      "reason": "Metric, scope, policy, quality, nullable provenance and additive read-model decisions unapproved."
+    },
+    {
+      "action": "Connected delivery/ACK/restart",
+      "status": "BLOCKED",
+      "reason": "No approved new-domain publisher/consumer/topic configuration; Kafka disabled and outbox held."
+    },
+    {
+      "action": "Authenticated API/UI/notifications/Grafana",
+      "status": "BLOCKED",
+      "reason": "Connected approved deployment and receiving flows unavailable."
+    },
+    {
+      "action": "Capacity",
+      "status": "BLOCKED",
+      "reason": "120s/900s profile exists; target rate, bounded burst and recovery limits plus connected path unset."
+    },
+    {
+      "action": "Backup/restore/deployment",
+      "status": "BLOCKED",
+      "reason": "No approved disposable deployment/restore target and shared configuration identity."
+    },
+    {
+      "action": "Connected rehearsals and owner signatures",
+      "status": "BLOCKED",
+      "reason": "Two connected rehearsals and five genuine owner reproductions absent."
+    }
+  ],
+  "owners": {
+    "Ion": "NOT_VERIFIED",
+    "Sergiu": "NOT_VERIFIED",
+    "Denis": "NOT_VERIFIED",
+    "David": "NOT_VERIFIED",
+    "Stanislav": "NOT_VERIFIED"
+  },
+  "newDomainKafka": "DISABLED",
+  "projectionOutbox": "PENDING_REVIEW",
+  "note": "Independent invocation totals are not added across overlapping suites. Separate full projection covers the archive case skipped by the default full reactor. New PR CI is checked separately after publication, never inferred from parent CI."
+}

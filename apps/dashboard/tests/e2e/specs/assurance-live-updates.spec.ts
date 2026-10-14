@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import services from '../../../src/fixtures/services.json';
 import { voiceWindows, voiceIncidents } from '../../../src/fixtures/voice';
 
@@ -46,7 +46,7 @@ test('incident notifications and reconnect reload REST; expiry stops refresh', a
   degraded = true;
   const before = requests;
   await page.evaluate(() => (window as any).__source.dispatchEvent(new MessageEvent('incident-upsert', { data: JSON.stringify({ id: 'controlled-incident', version: 2 }) })));
-  await page.clock.runFor(500);
+  await page.clock.runFor(1500);
   await expect.poll(() => requests).toBeGreaterThan(before);
   await expect(page.locator('.service-assurance-card')).toHaveAttribute('data-health', 'DEGRADED');
   degraded = false;

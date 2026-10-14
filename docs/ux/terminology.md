@@ -1,4 +1,32 @@
-# Dashboard terminology
+# Trace Link terminology
+
+**Observed** is the server measurement for the stated window and population. **Baseline** is a versioned expectation for the same metric. An absent baseline is unavailable. A change in percentage points is not a relative percentage change.
+
+**Call setup success (%)** and **setup time (seconds)** describe different measurements. **Delivered-message delay** excludes pending-message age. **Pending** is neither delivered nor lost. **Active roamers** is a same-time snapshot, not an interval sum.
+
+**Effective capacity** can differ from nominal capacity. Directional utilization retains its direction and capacity validity. High utilization does not independently establish outage, impairment or a confirmed cause.
+
+**Possible cause** is a qualified hypothesis with the supplied confidence. **Cause undetermined** is used when qualification is absent. Scenario intent is not detected cause. **Technical recovery** does not mean **analyst resolution**. **Stopped telemetry** means stopped/unknown, not recovered.
+
+**Synthetic** identifies provenance. **Fixture preview** is explicitly illustrative and is confined to preview builds or labelled local scenario illustration. Production history uses typed backend responses. **Legacy/unmapped** retains historical context without asserting current inventory membership.
+
+**Missing**, **partial**, **stale**, **insufficient evidence**, **unknown coverage**, and **valid zero** remain distinct. Original source qualifications accompany native values even when arithmetic is computable. Units, half-open UTC bounds and presentation timezone are visible.
+
+## Earlier service terminology and review record
+
+The following record preserves the existing service definitions and historical acceptance state. Its counts and dates describe the earlier checkpoint.
+
+
+## Trace Link repair interpretation
+
+Local **generated** observations, Kafka **offered/acknowledged** records,
+**persisted** metrics and processor **accepted** observations are separate
+quantities. An unavailable acceptance count is not zero. A COMPLETED scenario
+proves only the explicitly reported layer. Planned recovery and stopped telemetry
+cannot establish technical recovery; technical recovery cannot resolve analyst
+workflow. New-domain attribution remains undetermined without approved evidence.
+The native history `voice.success_rate` population is not silently equated with
+the live producer's `volte.setup.success`. These notes add no owner approval.
 
 Planned date: 2026-10-06
 Commit reviewed: pending

@@ -1,0 +1,9 @@
+{
+  "mergeSnapshot": "e85a81660aeff3ebae71150a6361084dd11191b2",
+  "finalToolSnapshot": "f572ebd27c71cb809eb43fa51f07f40740ae181c",
+  "committedRuntimeTestContractInputs": "BYTE_IDENTICAL",
+  "gitInputListSha256": "ad8ffb0629766425fe311c90513b717d07c1cfafd09d2af6aae5fbf8b04799c3",
+  "packagedV016Before": "75f3a07f3a193b80b970a6a311a109b14a69fe36e89a65813e03489e6b5fe21f",
+  "packagedV016After": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+  "explanation": "CRLF worktree packaging corrected with an LF attribute; Git SQL blob unchanged; two fresh migration tests and packaged verifier rerun"
+}

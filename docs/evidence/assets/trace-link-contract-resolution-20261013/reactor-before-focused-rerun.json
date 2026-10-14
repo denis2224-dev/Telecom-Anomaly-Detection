@@ -1,0 +1,60 @@
+{
+  "streaming-support": {
+    "counts": {
+      "tests": 130,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "skips": []
+  },
+  "event-generator": {
+    "counts": {
+      "tests": 147,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "skips": []
+  },
+  "processor": {
+    "counts": {
+      "tests": 1060,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 6
+    },
+    "skips": [
+      {
+        "class": "md.utm.telecom.processing.GeographicDetectionTest",
+        "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+        "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+      },
+      {
+        "class": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+        "test": "suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+        "reason": null
+      },
+      {
+        "class": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+        "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+        "reason": null
+      },
+      {
+        "class": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+        "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+        "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+      },
+      {
+        "class": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+        "test": "suppliedFullArchiveProducesIndependentSqlParityWithoutDeliveryWrites",
+        "reason": "System property [trace.link.archive] does not exist"
+      },
+      {
+        "class": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+        "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+        "reason": null
+      }
+    ]
+  }
+}

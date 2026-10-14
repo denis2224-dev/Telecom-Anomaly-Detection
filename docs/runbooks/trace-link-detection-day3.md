@@ -1,6 +1,8 @@
 # Trace Link five-minute detection
 
-Assignment: 12 October 2026; implementation and measurements completed on 13 October.
+Assignment: 12 October 2026; original implementation and measurements completed on
+13 October. Review corrections dated 14 October are documented separately in
+[the correction report](../evidence/2026-10-14-trace-link-day3-corrections.md).
 
 ## Runtime path
 
@@ -37,6 +39,27 @@ GET /api/v2/trace-link/incidents/{episodeId}
 GET /api/v2/trace-link/incidents/{episodeId}/evidence
 ```
 
+List items and detail responses are `TraceLinkIncidentView` objects containing
+`episodeId`, `firstObservedAt`, `detectedAt`, `latestWindowEnd`, `latestSequence`,
+`technicalState`, `severity` and `latestDetection`. `latestDetection` is the
+unchanged strict detection envelope; evidence-page items remain strict envelopes
+without the incident-view wrapper. List/evidence pagination retains
+`{items,total,limit,offset}`.
+
+`firstObservedAt` is the first breached window's start, derived from the validated
+OPEN anchor: OPEN window start minus `(openAfterBreachedWindows - 1) *
+windowSeconds`. `detectedAt` is the initial OPEN context's `evaluatedAt`.
+Both remain stable through updates, UNKNOWN and recovery. `latestWindowEnd`
+follows the most recent contiguous window end. For the regression example,
+onset is `2026-10-10T08:35:00Z`, OPEN starts at `08:40:00Z`, and initial detection
+is `08:45:01Z`. Later evaluation/commit timestamps do not replace initial detection.
+
+These are read-only technical incident and evidence routes. The hash-ID episodes
+have no analyst assignment, analyst status, investigation, resolution or workflow
+audit. No mapping to legacy UUID incidents is introduced. Technical recovery
+records service health; analyst workflow integration needs a separate approved
+identity and workflow contract.
+
 Learned baseline lookup requires both JVM properties
 `telecom.trace-link.baseline-artifact` and
 `telecom.trace-link.baseline-sha256`. The adapter checksum-verifies the configured
@@ -45,11 +68,17 @@ artifact. Configured static demonstration fallbacks and baseline-unavailable
 states retain explicit provenance. Missing, stale, partial and low-volume inputs
 remain distinct from healthy service.
 
-Processor V014–V016 and incident V005/V007 remain reservations of the shared
-upstream/notification/query work. This increment uses processor V017 and incident
-V006. **Reconcile the full migration ledger before deployment**: applying V017
-before introducing later-arriving lower versions requires an agreed migration
-strategy. No deployment or personal receiving-owner approval is recorded here.
+The correction pins main `9db3e0e5a61a8062310e560e734a5395758f70b7`: processor
+V001–V016 and incident V001–V010 are retained unchanged. Apply processor V017
+after V016 and the five-minute receiver V011 after incident V010. Main's V006
+owns upstream read models; V011 owns the dedicated detector evidence, incident
+projection and receipt audit, including non-null `detected_at`. The branch's old
+alternate V006 was used only in disposable tests and is not an applied deployment
+migration. Do not repair, replace checksums, reset databases or enable out-of-order
+migration as an integration workaround. See the [migration ledger](../architecture/trace-link-migration-ledger.md)
+and fresh/upgrade evidence in the correction report. If a non-disposable alternate
+V006 is discovered, stop that deployment and define its transition explicitly.
+No deployment or personal receiving-owner approval is recorded here.
 
 ## Reproduction
 
@@ -107,6 +136,7 @@ and finalization remain outside the measured boundary.
   scope/time and healthy controls. Rejected support cannot erase a valid symptom.
 - Recovery: two adjacent eligible bad windows open an episode; three healthy
   windows and any required drainage recover it. Severity remains at its peak.
-  Technical recovery does not resolve analyst workflow.
+  Technical recovery updates only technical state; analyst workflow is unavailable
+  for these episodes and remains a separate integration gate.
 
 See `docs/evidence/2026-10-12-detection-capacity.md` for measured limits and gates.

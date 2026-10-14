@@ -1,0 +1,790 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:telecom:trace-link-domain-window-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "datasetId",
+    "synthetic",
+    "sourceId",
+    "scopeNamespace",
+    "catalogueVersion",
+    "topologyVersion",
+    "policyVersion",
+    "domain",
+    "scopeType",
+    "scopeId",
+    "windowStart",
+    "windowEnd",
+    "sourceResolutionSeconds",
+    "emittedAt",
+    "revision",
+    "finalized",
+    "metricId",
+    "population",
+    "unit",
+    "aggregationType",
+    "quality",
+    "coverage",
+    "primitives"
+  ],
+  "properties": {
+    "datasetId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "sourceId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "scopeId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "metricId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "population": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "procedure": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "partnerId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "countryId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "schemaVersion": {
+      "const": "trace-link-domain-window-v1"
+    },
+    "eventId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "scopeNamespace": {
+      "const": "trace-link-reference-v1"
+    },
+    "catalogueVersion": {
+      "const": "trace-link-geography-v2"
+    },
+    "topologyVersion": {
+      "const": "trace-link-links-v1"
+    },
+    "policyVersion": {
+      "const": "trace-link-kpi-v1"
+    },
+    "domain": {
+      "enum": [
+        "VOLTE",
+        "SMS",
+        "TRANSPORT",
+        "ROAMING",
+        "MOBILE_DATA"
+      ]
+    },
+    "scopeType": {
+      "enum": [
+        "CITY_SERVICE",
+        "LINK_DIRECTION",
+        "ROAMING_PROCEDURE"
+      ]
+    },
+    "contractCityId": {
+      "enum": [
+        "CHI",
+        "BAL",
+        "CAH",
+        "UNG",
+        "ORH",
+        "SOR",
+        "COM",
+        "EDI",
+        "HIN",
+        "CAU"
+      ]
+    },
+    "linkId": {
+      "enum": [
+        "chi-orh",
+        "orh-sor",
+        "sor-bal",
+        "bal-edi",
+        "bal-ung",
+        "ung-chi",
+        "chi-hin",
+        "hin-com",
+        "com-cah",
+        "chi-cau",
+        "cau-com",
+        "orh-bal"
+      ]
+    },
+    "directionId": {
+      "enum": [
+        "a-to-b",
+        "b-to-a"
+      ]
+    },
+    "direction": {
+      "enum": [
+        "in",
+        "out"
+      ]
+    },
+    "accessTechnology": {
+      "const": "LTE"
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "emittedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "sourceResolutionSeconds": {
+      "enum": [
+        60,
+        300
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "finalized": {
+      "type": "boolean"
+    },
+    "unit": {
+      "enum": [
+        "COUNT",
+        "PERCENT",
+        "SECONDS",
+        "MILLISECONDS",
+        "ERLANG",
+        "GBPS",
+        "BYTES",
+        "MESSAGES",
+        "USERS",
+        "MBPS",
+        "STATE"
+      ]
+    },
+    "aggregationType": {
+      "enum": [
+        "COUNT_SUM",
+        "RATIO_OF_SUMS",
+        "WEIGHTED_MEAN",
+        "TIME_WEIGHTED_MEAN",
+        "HISTOGRAM_P95",
+        "SNAPSHOT_LAST",
+        "STATE_TIMELINE",
+        "MAXIMUM",
+        "SNAPSHOT_DIFFERENCE"
+      ]
+    },
+    "quality": {
+      "enum": [
+        "VALID",
+        "PARTIAL",
+        "MISSING",
+        "STALE",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    },
+    "coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "primitives": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "numerator": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "denominator": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sum": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "weightedSum": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "validSeconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "start": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "end": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "max": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "snapshotAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "state": {
+          "enum": [
+            "UP",
+            "DOWN",
+            "DEGRADED",
+            "UNKNOWN",
+            null
+          ]
+        },
+        "histogram": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "edges",
+            "counts",
+            "unit",
+            "representation"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "enum": [
+                "trace-link-voice-histogram-v1",
+                "trace-link-sms-histogram-v1"
+              ]
+            },
+            "edges": {
+              "type": "array",
+              "minItems": 9,
+              "maxItems": 9,
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "counts": {
+              "type": "array",
+              "minItems": 9,
+              "maxItems": 9,
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "unit": {
+              "const": "SECONDS"
+            },
+            "representation": {
+              "const": "NON_CUMULATIVE_FINITE_BINS"
+            }
+          }
+        }
+      }
+    },
+    "transport": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "trafficGbps",
+        "effectiveCapacityGbps",
+        "validFrom",
+        "validTo"
+      ],
+      "properties": {
+        "trafficGbps": {
+          "type": "number",
+          "minimum": 0
+        },
+        "effectiveCapacityGbps": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "validFrom": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "validTo": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "domain": {
+            "const": "TRANSPORT"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "linkId",
+          "directionId",
+          "transport"
+        ],
+        "properties": {
+          "contractCityId": false,
+          "partnerId": false,
+          "countryId": false,
+          "direction": false,
+          "procedure": false,
+          "accessTechnology": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "domain": {
+            "const": "ROAMING"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "partnerId",
+          "countryId",
+          "direction",
+          "procedure"
+        ],
+        "properties": {
+          "contractCityId": false,
+          "linkId": false,
+          "directionId": false,
+          "transport": false,
+          "accessTechnology": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "domain": {
+            "const": "MOBILE_DATA"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "contractCityId",
+          "procedure",
+          "accessTechnology"
+        ],
+        "properties": {
+          "linkId": false,
+          "directionId": false,
+          "transport": false,
+          "partnerId": false,
+          "countryId": false,
+          "direction": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "domain": {
+            "const": "VOLTE"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "contractCityId"
+        ],
+        "properties": {
+          "linkId": false,
+          "directionId": false,
+          "transport": false,
+          "partnerId": false,
+          "countryId": false,
+          "direction": false,
+          "procedure": false,
+          "accessTechnology": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "domain": {
+            "const": "SMS"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "contractCityId"
+        ],
+        "properties": {
+          "linkId": false,
+          "directionId": false,
+          "transport": false,
+          "partnerId": false,
+          "countryId": false,
+          "direction": false,
+          "procedure": false,
+          "accessTechnology": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "COUNT_SUM"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "count"
+            ],
+            "propertyNames": {
+              "enum": [
+                "count"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "RATIO_OF_SUMS"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "numerator",
+              "denominator"
+            ],
+            "propertyNames": {
+              "enum": [
+                "numerator",
+                "denominator"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "WEIGHTED_MEAN"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "sum",
+              "count"
+            ],
+            "propertyNames": {
+              "enum": [
+                "sum",
+                "count"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "TIME_WEIGHTED_MEAN"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "weightedSum",
+              "validSeconds"
+            ],
+            "propertyNames": {
+              "enum": [
+                "weightedSum",
+                "validSeconds"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "HISTOGRAM_P95"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "histogram"
+            ],
+            "propertyNames": {
+              "enum": [
+                "histogram"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "SNAPSHOT_LAST"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "value",
+              "snapshotAt"
+            ],
+            "propertyNames": {
+              "enum": [
+                "value",
+                "snapshotAt"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "STATE_TIMELINE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "state",
+              "at"
+            ],
+            "propertyNames": {
+              "enum": [
+                "state",
+                "at"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "MAXIMUM"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "max"
+            ],
+            "propertyNames": {
+              "enum": [
+                "max"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "aggregationType": {
+            "const": "SNAPSHOT_DIFFERENCE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "primitives": {
+            "required": [
+              "start",
+              "end"
+            ],
+            "propertyNames": {
+              "enum": [
+                "start",
+                "end"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quality": {
+            "const": "MISSING"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coverage": {
+            "const": 0
+          },
+          "primitives": {
+            "additionalProperties": {
+              "type": "null"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "quality": {
+            "const": "VALID"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coverage": {
+            "const": 1
+          }
+        }
+      }
+    }
+  ]
+}

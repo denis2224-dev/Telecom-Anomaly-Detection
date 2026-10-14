@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Telecom Service Assurance API
-  version: 0.3.0
+  version: 0.4.0
   description: Revision 3 contracts. Service KPI trends and incident episodes replace subscriber risk scoring.
     Application endpoints remain implementation tasks; this document is not evidence of a running API.
 servers:
@@ -17,6 +17,10 @@ tags:
 - name: Simulator
 - name: Geography
 - name: Operations
+- name: Inventory
+- name: Trace Metrics
+- name: Trace Export
+- name: Notifications
 paths:
   /api/v2/trace-link/incidents:
     get:
@@ -43,10 +47,10 @@ paths:
       - {$ref: '#/components/parameters/TraceLinkEpisodeId'}
       responses:
         '200':
-          description: Latest applied episode evidence. Technical recovery does not resolve analyst workflow.
+          description: Read-only technical incident with stable onset and initial detection timestamps. Analyst workflow is not implemented for these episodes.
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}
+              schema: {$ref: '#/components/schemas/TraceLinkIncidentView'}
         '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
@@ -64,11 +68,67 @@ paths:
           description: Immutable received detections in sequence order, including pending gaps.
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/TraceLinkIncidentPage'}
+              schema: {$ref: '#/components/schemas/TraceLinkDetectionEvidencePage'}
         '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+  /api/v2/trace-domain-measurements:
+    get:
+      tags:
+      - Trace Metrics
+      operationId: getTraceDomainNativeMeasurements
+      summary: Isolated native-domain measurements with complete scope and original source bytes
+      description: Disabled by default (app.trace-domain-read-model.enabled). Mapping and minute policy
+        PENDING_REVIEW. Uses existing enabled analyst and session security. No Kafka ingestion or connected
+        acceptance is implied. Exact native alignment; up to 30 days and 8640 points. Missing points contain
+        no fabricated observation. No rollup or duration conversion.
+      parameters:
+      - name: datasetId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: sourceId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: scopeKey
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: metric
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Native immutable measurements and explicit missing points
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceDomainNativeSeriesV1'
+        '400':
+          description: Invalid or incompatible source, scope, metric, alignment or bounds
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Enabled analyst profile and application role required
+        '404':
+          description: Feature disabled
   /api/geography/cities:
     get:
       operationId: listGeographyCities
@@ -901,6 +961,411 @@ paths:
       security:
       - sessionCookie: []
         csrfToken: []
+  /api/v2/inventory/cities:
+    get:
+      operationId: listTraceCities
+      tags: [Inventory]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {$ref: '#/components/parameters/TraceCatalogueVersion'}
+      responses:
+        '200': {description: Versioned city inventory, content: {application/json: {schema: {$ref: '#/components/schemas/TraceCityList'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/inventory/links:
+    get:
+      operationId: listTraceLinks
+      tags: [Inventory]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {$ref: '#/components/parameters/TraceCatalogueVersion'}
+      - {name: cityId, in: query, schema: {type: string, maxLength: 32}}
+      - {name: at, in: query, schema: {type: string, format: date-time}}
+      responses:
+        '200': {description: Links and both declared directions, content: {application/json: {schema: {$ref: '#/components/schemas/TraceLinkList'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/inventory/partners:
+    get:
+      operationId: listTracePartners
+      tags: [Inventory]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {$ref: '#/components/parameters/TraceCatalogueVersion'}
+      - {name: country, in: query, schema: {type: string, maxLength: 8}}
+      - {name: direction, in: query, schema: {type: string, enum: [in, out]}}
+      responses:
+        '200': {description: Versioned roaming partner inventory, content: {application/json: {schema: {$ref: '#/components/schemas/TracePartnerList'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/kpi-definitions:
+    get:
+      operationId: listTraceKpiDefinitions
+      tags: [Trace Metrics]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {name: domain, in: query, schema: {type: string, enum: [volte, transport, roaming, sms, mobile-data]}}
+      responses:
+        '200': {description: Defined metrics and their arithmetic, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/TraceKpiDefinition'}}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/metrics/series:
+    get:
+      operationId: getTraceMetricSeries
+      tags: [Trace Metrics]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {$ref: '#/components/parameters/TraceDomain'}
+      - {$ref: '#/components/parameters/TraceMetric'}
+      - {$ref: '#/components/parameters/TraceScopeType'}
+      - {$ref: '#/components/parameters/TraceScopeId'}
+      - {$ref: '#/components/parameters/From'}
+      - {$ref: '#/components/parameters/To'}
+      - {$ref: '#/components/parameters/TraceResolution'}
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      responses:
+        '200': {description: Exact bounded bucket series, content: {application/json: {schema: {$ref: '#/components/schemas/TraceMetricSeries'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/v2/overview:
+    get:
+      operationId: getTraceOverview
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-3
+      parameters:
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      - {$ref: '#/components/parameters/From'}
+      - {$ref: '#/components/parameters/To'}
+      - {$ref: '#/components/parameters/TraceResolution'}
+      responses:
+        '200': {description: Bounded multi-domain overview, content: {application/json: {schema: {$ref: '#/components/schemas/TraceOverview'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/v2/transport/snapshot:
+    get:
+      operationId: getTraceTransportSnapshot
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-3
+      parameters:
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      - {name: at, in: query, required: true, schema: {type: string, format: date-time}}
+      - {name: cityId, in: query, schema: {type: string, maxLength: 32}}
+      responses:
+        '200': {description: Last valid directional transport snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshot'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/v2/roaming/snapshot:
+    get:
+      operationId: getTraceRoamingSnapshot
+      tags: [Trace Metrics]
+      x-implementation-status: planned-day-3
+      parameters:
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      - {name: at, in: query, required: true, schema: {type: string, format: date-time}}
+      - {name: direction, in: query, required: true, schema: {type: string, enum: [in, out]}}
+      - {name: country, in: query, schema: {type: string, maxLength: 8}}
+      responses:
+        '200': {description: Last valid roaming snapshot, content: {application/json: {schema: {$ref: '#/components/schemas/TraceSnapshot'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/v2/exports/metrics.csv:
+    get:
+      operationId: exportTraceMetricCsv
+      tags: [Trace Export]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {$ref: '#/components/parameters/TraceDomain'}
+      - {$ref: '#/components/parameters/TraceMetric'}
+      - {$ref: '#/components/parameters/TraceScopeType'}
+      - {$ref: '#/components/parameters/TraceScopeId'}
+      - {$ref: '#/components/parameters/From'}
+      - {$ref: '#/components/parameters/To'}
+      - {$ref: '#/components/parameters/TraceResolution'}
+      - {$ref: '#/components/parameters/TraceDatasetId'}
+      responses:
+        '200': {description: Exact buckets with primitive aggregates and provenance, content: {text/csv: {schema: {type: string}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/notifications:
+    get:
+      operationId: listNotifications
+      tags: [Notifications]
+      x-implementation-status: backend-implemented
+      parameters:
+      - {$ref: '#/components/parameters/Page'}
+      - {$ref: '#/components/parameters/Size'}
+      responses:
+        '200': {description: Recipient-scoped history and unread count, content: {application/json: {schema: {$ref: '#/components/schemas/NotificationPage'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/notifications/{id}/read:
+    post:
+      operationId: markNotificationRead
+      tags: [Notifications]
+      x-implementation-status: backend-implemented
+      security: [{sessionCookie: [], csrfToken: []}]
+      parameters:
+      - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '204': {description: "Marked read, including a repeated request"}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/notifications/push/config:
+    get:
+      operationId: getNotificationPushConfig
+      tags: [Notifications]
+      x-implementation-status: planned-day-4
+      responses:
+        '200': {description: Public configuration only, content: {application/json: {schema: {$ref: '#/components/schemas/PushConfig'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+  /api/notifications/push-subscriptions:
+    post:
+      operationId: upsertPushSubscription
+      tags: [Notifications]
+      x-implementation-status: planned-day-4
+      security: [{sessionCookie: [], csrfToken: []}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/PushSubscriptionInput'}}}}
+      responses:
+        '201': {description: Current analyst subscription stored}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/notifications/push-subscriptions/{id}:
+    delete:
+      operationId: deletePushSubscription
+      tags: [Notifications]
+      x-implementation-status: planned-day-4
+      security: [{sessionCookie: [], csrfToken: []}]
+      parameters:
+      - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '204': {description: Removed current analyst subscription}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/trace-link/v1/scenarios/catalogue:
+    get:
+      tags:
+      - Trace Link scenarios
+      summary: GET catalogue
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioCatalogue'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+  /api/trace-link/v1/scenarios/runs:
+    get:
+      tags:
+      - Trace Link scenarios
+      summary: GET runs
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 128
+                items:
+                  $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+    post:
+      tags:
+      - Trace Link scenarios
+      summary: POST runs
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '202':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: X-CSRF-TOKEN
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: X-Request-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TraceScenarioStart'
+  /api/trace-link/v1/scenarios/runs/{id}:
+    get:
+      tags:
+      - Trace Link scenarios
+      summary: GET runs/{id}
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /api/trace-link/v1/scenarios/runs/{id}/stop:
+    post:
+      tags:
+      - Trace Link scenarios
+      summary: POST runs/{id}/stop
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-CSRF-TOKEN
+        in: header
+        required: true
+        schema:
+          type: string
+  /api/trace-link/v1/scenarios/runs/{id}/reconcile:
+    post:
+      tags:
+      - Trace Link scenarios
+      summary: POST runs/{id}/reconcile
+      description: Protected synthetic local generation. Kafka delivery and live detector
+        acceptance remain disabled pending independent approval. Run UUIDs map durably
+        to immutable producer fingerprints. History is private to the issuing analyst.
+      responses:
+        '200':
+          description: Authoritative local generation state. Counts are not delivery
+            or detector acceptance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceScenarioRun'
+        '400':
+          description: Invalid command or identifier
+        '401':
+          description: Authentication required
+        '403':
+          description: Supervisor or admin role and valid CSRF required
+        '404':
+          description: Run not found for this analyst
+        '409':
+          description: Conflicting request identity or scope interval
+        '503':
+          description: Feature disabled or runtime unavailable; preserve original retry
+            identity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-CSRF-TOKEN
+        in: header
+        required: true
+        schema:
+          type: string
 components:
   securitySchemes:
     sessionCookie:
@@ -980,6 +1445,41 @@ components:
         type: string
         format: date-time
       description: Exclusive end instant. Must be later than from.
+    TraceCatalogueVersion:
+      name: catalogueVersion
+      in: query
+      schema: {type: string, maxLength: 128}
+      description: Omit for active inventory; provide a recorded version for historical evidence.
+    TraceDomain:
+      name: domain
+      in: query
+      required: true
+      schema: {type: string, enum: [volte, transport, roaming, sms, mobile-data]}
+    TraceMetric:
+      name: metric
+      in: query
+      required: true
+      schema: {type: string, maxLength: 96}
+    TraceScopeType:
+      name: scopeType
+      in: query
+      required: true
+      schema: {type: string, enum: [CITY, LINK_DIRECTION, PARTNER_DIRECTION]}
+    TraceScopeId:
+      name: scopeId
+      in: query
+      required: true
+      schema: {type: string, maxLength: 96}
+    TraceResolution:
+      name: resolution
+      in: query
+      required: true
+      schema: {type: string, enum: [5m, 15m, 1h, 6h]}
+    TraceDatasetId:
+      name: datasetId
+      in: query
+      required: true
+      schema: {type: string, maxLength: 128}
   responses:
     BadRequest:
       description: Malformed input, an invalid range or invalid request identifier.
@@ -1025,10 +1525,38 @@ components:
       type: object
       required: [items, total, limit, offset]
       properties:
+        items: {type: array, items: {$ref: '#/components/schemas/TraceLinkIncidentView'}}
+        total: {type: integer, minimum: 0}
+        limit: {type: integer, minimum: 1, maximum: 100}
+        offset: {type: integer, minimum: 0, maximum: 100000}
+    TraceLinkDetectionEvidencePage:
+      type: object
+      required: [items, total, limit, offset]
+      properties:
         items: {type: array, items: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}}
         total: {type: integer, minimum: 0}
         limit: {type: integer, minimum: 1, maximum: 100}
         offset: {type: integer, minimum: 0, maximum: 100000}
+    TraceLinkIncidentView:
+      type: object
+      additionalProperties: false
+      description: Read-only technical episode metadata. No analyst assignment, status, investigation, resolution or workflow audit is provided.
+      required: [episodeId, firstObservedAt, detectedAt, latestWindowEnd, latestSequence, technicalState, severity, latestDetection]
+      properties:
+        episodeId: {type: string, pattern: '^[a-f0-9]{64}$'}
+        firstObservedAt:
+          type: string
+          format: date-time
+          description: Start of the first breached source window; stable for the episode.
+        detectedAt:
+          type: string
+          format: date-time
+          description: Evaluation time of the initial OPEN decision; stable through later transitions.
+        latestWindowEnd: {type: string, format: date-time, description: End of the latest contiguously applied source window.}
+        latestSequence: {type: integer, format: int64, minimum: 1}
+        technicalState: {type: string, enum: [ONGOING, UNKNOWN, RECOVERED]}
+        severity: {type: string, enum: [HIGH, CRITICAL]}
+        latestDetection: {$ref: '#/components/schemas/TraceLinkDetectionEnvelope'}
     TraceLinkDetectionEnvelope:
       type: object
       additionalProperties: false
@@ -1055,6 +1583,239 @@ components:
         cause: {type: object, additionalProperties: true}
         causeEvidence: {type: object, additionalProperties: true}
         committedAt: {type: string, format: date-time}
+    TraceDomainMeasurementV1:
+      type: object
+      additionalProperties: false
+      required:
+      - schemaVersion
+      - mappingVersion
+      - sourceKind
+      - sourcePayloadBase64
+      - sourcePayloadSha256
+      - provenance
+      properties:
+        schemaVersion:
+          enum:
+          - trace-link-domain-measurement-v1
+        mappingVersion:
+          enum:
+          - trace-link-domain-mapping-v1
+        sourceKind:
+          enum:
+          - LIVE_60
+          - NATIVE_300
+        sourcePayloadBase64:
+          type: string
+          minLength: 1
+          maxLength: 900000
+        sourcePayloadSha256:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        provenance:
+          type: object
+          additionalProperties: false
+          required:
+          - manifestSha256
+          - generatorVersion
+          - seed
+          properties:
+            manifestSha256:
+              type: string
+              pattern: ^[0-9a-f]{64}$
+            generatorVersion:
+              type: string
+              minLength: 1
+              maxLength: 160
+            seed:
+              type: integer
+              minimum: 0
+              maximum: 9223372036854775807
+    TraceDomainNativePointV1:
+      type: object
+      required:
+      - from
+      - to
+      - expectedSlots
+      - receivedSlots
+      - quality
+      - value
+      - sourceCoverage
+      - nullReason
+      - measurement
+      - qualityReason
+      - sourceQuality
+      - eventId
+      - revision
+      - finalized
+      - primitives
+      - provenance
+      - sourcePayloadSha256
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        expectedSlots:
+          type: integer
+          enum:
+          - 1
+        receivedSlots:
+          type: integer
+          enum:
+          - 0
+          - 1
+        quality:
+          type: string
+          enum:
+          - VALID
+          - PARTIAL
+          - MISSING
+          - STALE
+          - INSUFFICIENT_EVIDENCE
+        value:
+          type: number
+          nullable: true
+        sourceCoverage:
+          type: number
+          nullable: true
+          minimum: 0
+          maximum: 1
+        nullReason:
+          type: string
+          nullable: true
+          enum:
+          - NO_SOURCE_SLOT
+          - ZERO_DENOMINATOR
+          - null
+        measurement:
+          allOf:
+          - $ref: '#/components/schemas/TraceDomainMeasurementV1'
+          nullable: true
+        qualityReason: &id001
+          type: string
+          nullable: true
+        sourceQuality: *id001
+        eventId: *id001
+        revision:
+          type: integer
+          nullable: true
+        finalized:
+          type: boolean
+          nullable: true
+        primitives:
+          type: object
+          additionalProperties: true
+          nullable: true
+        provenance:
+          type: object
+          additionalProperties: true
+          nullable: true
+        sourcePayloadSha256: *id001
+    TraceDomainNativeSeriesV1:
+      type: object
+      required:
+      - schemaVersion
+      - mappingVersion
+      - datasetId
+      - sourceId
+      - scopeKey
+      - metricId
+      - domain
+      - unit
+      - aggregationType
+      - from
+      - to
+      - sourceResolutionSeconds
+      - points
+      - population
+      - policyVersion
+      - catalogueVersion
+      - topologyVersion
+      - sourceKind
+      - synthetic
+      - scope
+      properties:
+        schemaVersion:
+          type: string
+        mappingVersion:
+          type: string
+        datasetId:
+          type: string
+        sourceId:
+          type: string
+        scopeKey:
+          type: string
+        metricId:
+          type: string
+        domain:
+          type: string
+        unit:
+          type: string
+        aggregationType:
+          type: string
+        from:
+          type: string
+        to:
+          type: string
+        sourceResolutionSeconds:
+          type: integer
+          enum:
+          - 60
+          - 300
+        points:
+          type: array
+          maxItems: 8640
+          items:
+            $ref: '#/components/schemas/TraceDomainNativePointV1'
+        population:
+          type: string
+        policyVersion:
+          type: string
+        catalogueVersion:
+          type: string
+        topologyVersion:
+          type: string
+        sourceKind:
+          type: string
+        synthetic:
+          type: boolean
+          enum:
+          - true
+        scope:
+          type: object
+          required:
+          - scopeNamespace
+          - domain
+          - scopeType
+          - scopeId
+          properties:
+            scopeNamespace:
+              type: string
+            domain:
+              type: string
+            scopeType:
+              type: string
+            scopeId:
+              type: string
+            contractCityId:
+              type: string
+            linkId:
+              type: string
+            directionId:
+              type: string
+            partnerId:
+              type: string
+            countryId:
+              type: string
+            direction:
+              type: string
+            procedure:
+              type: string
+            accessTechnology:
+              type: string
+          additionalProperties: false
     GeographyMetric:
       type: object
       description: A finalized measurement; null is never silently converted to zero.
@@ -2389,3 +3150,532 @@ components:
           type: integer
           minimum: 1
           maximum: 100
+    TraceCityList:
+      type: object
+      required: [catalogueVersion, cities]
+      properties:
+        catalogueVersion: {type: string}
+        cities: {type: array, items: {$ref: '#/components/schemas/TraceCity'}}
+    TraceCity:
+      type: object
+      required: [id, name, latitude, longitude, demandShare, active, validFrom, validTo, synthetic]
+      properties:
+        id: {type: string}
+        name: {type: string}
+        latitude: {type: number}
+        longitude: {type: number}
+        demandShare: {type: number, minimum: 0, maximum: 1}
+        active: {type: boolean}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time, nullable: true}
+        synthetic: {type: boolean}
+    TraceLinkList:
+      type: object
+      required: [catalogueVersion, links]
+      properties:
+        catalogueVersion: {type: string}
+        links: {type: array, items: {$ref: '#/components/schemas/TraceLink'}}
+    TraceLink:
+      type: object
+      required: [id, endpointA, endpointB, linkType, nominalCapacityGbps, active, validFrom, validTo, directions, synthetic]
+      properties:
+        id: {type: string}
+        endpointA: {type: string}
+        endpointB: {type: string}
+        linkType: {type: string}
+        nominalCapacityGbps: {type: number, minimum: 0, exclusiveMinimum: true}
+        active: {type: boolean}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time, nullable: true}
+        synthetic: {type: boolean}
+        directions: {type: array, items: {$ref: '#/components/schemas/TraceLinkDirection'}}
+    TraceLinkDirection:
+      type: object
+      required: [id, effectiveCapacityGbps, capacityValidFrom, capacityValidTo, measurementSource]
+      properties:
+        id: {type: string, enum: [a-to-b, b-to-a]}
+        sourceInterface: {type: string, nullable: true}
+        destinationInterface: {type: string, nullable: true}
+        effectiveCapacityGbps: {type: number, minimum: 0, exclusiveMinimum: true}
+        capacityValidFrom: {type: string, format: date-time}
+        capacityValidTo: {type: string, format: date-time, nullable: true}
+        measurementSource: {type: string}
+    TracePartnerList:
+      type: object
+      required: [catalogueVersion, partners]
+      properties:
+        catalogueVersion: {type: string}
+        partners: {type: array, items: {$ref: '#/components/schemas/TracePartner'}}
+    TracePartner:
+      type: object
+      required: [id, country, direction, active, validFrom, validTo, synthetic]
+      properties:
+        id: {type: string}
+        country: {type: string}
+        direction: {type: string, enum: [in, out]}
+        active: {type: boolean}
+        validFrom: {type: string, format: date-time}
+        validTo: {type: string, format: date-time, nullable: true}
+        synthetic: {type: boolean}
+    TraceKpiDefinition:
+      type: object
+      required: [domain, metric, unit, aggregation, population, primitiveFields, policyVersion]
+      properties:
+        domain: {type: string}
+        metric: {type: string}
+        unit: {type: string}
+        aggregation: {type: string, enum: [COUNT_SUM, RATIO_OF_SUMS, WEIGHTED_MEAN, TIME_WEIGHTED_MEAN, HISTOGRAM_P95, SNAPSHOT_LAST, STATE_TIMELINE]}
+        population: {type: string}
+        primitiveFields: {type: array, items: {type: string}}
+        policyVersion: {type: string}
+    TraceMetricSeries:
+      type: object
+      required: [datasetId, domain, metric, scopeType, scopeId, resolution, requestedFrom, requestedTo, effectiveFrom, effectiveTo, partialStart, partialEnd, sourceResolutionSeconds, unit, aggregation, synthetic, points]
+      properties:
+        datasetId: {type: string}
+        domain: {type: string}
+        metric: {type: string}
+        scopeType: {type: string}
+        scopeId: {type: string}
+        resolution: {type: string}
+        requestedFrom: {type: string, format: date-time}
+        requestedTo: {type: string, format: date-time}
+        effectiveFrom: {type: string, format: date-time}
+        effectiveTo: {type: string, format: date-time}
+        partialStart: {type: boolean}
+        partialEnd: {type: boolean}
+        sourceResolutionSeconds: {type: integer}
+        unit: {type: string}
+        aggregation: {type: string}
+        policyVersion: {type: string, nullable: true}
+        topologyVersion: {type: string, nullable: true}
+        synthetic: {type: boolean}
+        nextCursor: {type: string, nullable: true}
+        points: {type: array, items: {$ref: '#/components/schemas/TraceMetricPoint'}}
+    TraceMetricPoint:
+      type: object
+      required: [from, to, value, coverage, quality, numerator, denominator, sumValue, sampleCount, nullReason, qualityReason, expectedSlots, receivedSlots, sourceQuality, sourceCoverage, projectionIds, provenance]
+      properties:
+        from: {type: string, format: date-time}
+        to: {type: string, format: date-time}
+        value: {type: number, nullable: true}
+        coverage: {type: number, minimum: 0, maximum: 1}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE, INSUFFICIENT_EVIDENCE]}
+        numerator: {type: number, nullable: true}
+        denominator: {type: number, nullable: true}
+        sumValue: {type: number, nullable: true}
+        sampleCount: {type: integer, format: int64, nullable: true}
+        nullReason: {type: string, nullable: true}
+        qualityReason: {type: string, nullable: true}
+        expectedSlots: {type: integer, nullable: true}
+        receivedSlots: {type: integer, nullable: true}
+        sourceQuality: {type: string, nullable: true}
+        sourceCoverage: {type: number, minimum: 0, maximum: 1, nullable: true}
+        projectionIds: {type: array, items: {type: string}}
+        provenance: {type: array, items: {$ref: '#/components/schemas/TraceProjectionProvenance'}}
+    TraceProjectionProvenance:
+      type: object
+      required: [projectionId, sourceNaturalId, sourceRowNumber, sourceRowSha256, sourceFile, manifestSha256, generatorVersion, seed, catalogueVersion, importPolicyVersion, sourceQuality, sourceCoverage, quality, qualityReason]
+      properties:
+        projectionId: {type: string}
+        sourceNaturalId: {type: string}
+        sourceRowNumber: {type: integer, format: int64}
+        sourceRowSha256: {type: string}
+        sourceFile: {type: string}
+        manifestSha256: {type: string}
+        generatorVersion: {type: string}
+        seed: {type: integer, format: int64}
+        catalogueVersion: {type: string}
+        importPolicyVersion: {type: string}
+        sourceQuality: {type: string, nullable: true}
+        sourceCoverage: {type: number, minimum: 0, maximum: 1, nullable: true}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE, INSUFFICIENT_EVIDENCE]}
+        qualityReason: {type: string, nullable: true}
+    TraceOverview:
+      type: object
+      required: [datasetId, requestedFrom, requestedTo, resolution, synthetic, summaries]
+      properties:
+        datasetId: {type: string}
+        requestedFrom: {type: string, format: date-time}
+        requestedTo: {type: string, format: date-time}
+        resolution: {type: string, enum: [5m, 15m, 1h, 6h]}
+        synthetic: {type: boolean}
+        summaries: {type: array, items: {$ref: '#/components/schemas/TraceSnapshot'}}
+    TraceSnapshot:
+      type: object
+      required: [datasetId, domain, scopeType, scopeId, at, snapshotAt, sourceAgeSeconds, value, unit, coverage, quality, policyVersion, topologyVersion, synthetic]
+      properties:
+        datasetId: {type: string}
+        domain: {type: string}
+        scopeType: {type: string}
+        scopeId: {type: string}
+        at: {type: string, format: date-time}
+        snapshotAt: {type: string, format: date-time, nullable: true}
+        sourceAgeSeconds: {type: integer, format: int64, nullable: true}
+        value: {type: number, nullable: true}
+        unit: {type: string}
+        coverage: {type: number, minimum: 0, maximum: 1}
+        quality: {type: string, enum: [VALID, PARTIAL, MISSING, STALE]}
+        policyVersion: {type: string, nullable: true}
+        topologyVersion: {type: string, nullable: true}
+        synthetic: {type: boolean}
+    NotificationPage:
+      type: object
+      required: [items, total, unreadCount, page, size]
+      properties:
+        items: {type: array, items: {$ref: '#/components/schemas/NotificationItem'}}
+        total: {type: integer, format: int64}
+        unreadCount: {type: integer, format: int64}
+        page: {type: integer}
+        size: {type: integer}
+    NotificationItem:
+      type: object
+      required: [id, incidentId, kind, severity, service, scopeId, summary, occurredAt, readAt, causeStatus, probableCause, causeConfidence, incidentUrl]
+      properties:
+        id: {type: string, format: uuid}
+        incidentId: {type: string, format: uuid}
+        kind: {type: string, enum: [OPEN, ESCALATED, RECOVERED, ASSIGNED]}
+        severity: {type: string, enum: [MEDIUM, HIGH, CRITICAL]}
+        service: {type: string}
+        scopeId: {type: string}
+        summary: {type: string, maxLength: 500}
+        occurredAt: {type: string, format: date-time}
+        readAt: {type: string, format: date-time, nullable: true}
+        causeStatus: {type: string, enum: [HYPOTHESIS, UNDETERMINED]}
+        probableCause: {type: string, nullable: true}
+        causeConfidence: {type: string, nullable: true}
+        incidentUrl: {type: string, pattern: '^/incidents/[0-9a-f-]+$'}
+    PushConfig:
+      type: object
+      required: [enabled, vapidPublicKey]
+      properties:
+        enabled: {type: boolean}
+        vapidPublicKey: {type: string, nullable: true}
+    PushSubscriptionInput:
+      type: object
+      required: [endpoint, p256dh, auth]
+      properties:
+        endpoint: {type: string, format: uri, maxLength: 2048}
+        p256dh: {type: string, maxLength: 256}
+        auth: {type: string, maxLength: 256}
+        expirationTime: {type: string, format: date-time, nullable: true}
+
+    TraceScenarioScope:
+      type: object
+      additionalProperties: false
+      required:
+      - domain
+      - id
+      - direction
+      - country
+      - procedure
+      - topologyVersion
+      properties:
+        domain:
+          type: string
+          enum:
+          - TRANSPORT
+          - ROAMING
+          - MOBILE_DATA
+        id:
+          type: string
+        direction:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        procedure:
+          type: string
+          nullable: true
+        topologyVersion:
+          type: string
+          enum:
+          - trace-link-links-v1
+    TraceScenarioParameters:
+      type: object
+      additionalProperties: false
+      required:
+      - normalUtilizationBp
+      - degradedUtilizationBp
+      - healthySuccessBp
+      - degradedSuccessBp
+      - capacityGbps
+      - attempts
+      - missingMinutes
+      properties:
+        normalUtilizationBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        degradedUtilizationBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        healthySuccessBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        degradedSuccessBp:
+          type: integer
+          minimum: 0
+          maximum: 10000
+        capacityGbps:
+          type: integer
+          minimum: 1
+          maximum: 1000
+        attempts:
+          type: integer
+          minimum: 0
+          maximum: 1000000
+        missingMinutes:
+          type: array
+          maxItems: 8
+          uniqueItems: true
+          items:
+            type: integer
+            minimum: 0
+            maximum: 7
+    TraceScenarioStart:
+      type: object
+      additionalProperties: false
+      required:
+      - requestId
+      - type
+      - version
+      - scope
+      - seed
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - TRANSPORT_LINK_OVERLOAD
+          - ROAMING_REGISTRATION_FAILURE
+          - MOBILE_DATA_DNS_FAILURE
+          - NORMAL_CONTROL
+          - TELEMETRY_GAP
+        version:
+          type: string
+          enum:
+          - trace-link-scenarios-v1
+        scope:
+          $ref: '#/components/schemas/TraceScenarioScope'
+        seed:
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+        parameters:
+          $ref: '#/components/schemas/TraceScenarioParameters'
+    TraceScenarioCommand:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - version
+      - scope
+      - seed
+      - parameters
+      - start
+      properties:
+        type:
+          type: string
+          enum:
+          - TRANSPORT_LINK_OVERLOAD
+          - ROAMING_REGISTRATION_FAILURE
+          - MOBILE_DATA_DNS_FAILURE
+          - NORMAL_CONTROL
+          - TELEMETRY_GAP
+        version:
+          type: string
+          enum:
+          - trace-link-scenarios-v1
+        scope:
+          $ref: '#/components/schemas/TraceScenarioScope'
+        seed:
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+        parameters:
+          $ref: '#/components/schemas/TraceScenarioParameters'
+        start:
+          type: string
+          format: date-time
+    TraceScenarioDefinition:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - version
+      - domains
+      - scopeTypes
+      - implemented
+      - parameterRanges
+      - expectedPrimitiveChanges
+      - positiveControl
+      - negativeControl
+      properties:
+        type:
+          type: string
+        version:
+          type: string
+        domains:
+          type: array
+          items:
+            type: string
+        scopeTypes:
+          type: array
+          items:
+            type: string
+        implemented:
+          type: boolean
+        parameterRanges:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: false
+            required:
+            - minimum
+            - maximum
+            properties:
+              minimum:
+                type: number
+              maximum:
+                type: number
+        expectedPrimitiveChanges:
+          type: string
+        positiveControl:
+          type: string
+        negativeControl:
+          type: string
+    TraceScenarioCatalogue:
+      type: object
+      additionalProperties: false
+      required:
+      - enabled
+      - synthetic
+      - version
+      - deliveryStatus
+      properties:
+        enabled:
+          type: boolean
+        synthetic:
+          type: boolean
+          enum:
+          - true
+        version:
+          type: string
+        deliveryStatus:
+          type: string
+          enum:
+          - DISABLED_PENDING_REVIEW
+        topologyVersion:
+          type: string
+        sourceNamespace:
+          type: string
+        definitions:
+          type: array
+          maxItems: 18
+          items:
+            $ref: '#/components/schemas/TraceScenarioDefinition'
+        defaults:
+          $ref: '#/components/schemas/TraceScenarioParameters'
+        scopes:
+          type: array
+          maxItems: 54
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - scope
+            - label
+            properties:
+              scope:
+                $ref: '#/components/schemas/TraceScenarioScope'
+              label:
+                type: string
+              sourceCity:
+                type: string
+              destinationCity:
+                type: string
+              nominalCapacityGbps:
+                type: number
+    TraceScenarioRun:
+      type: object
+      additionalProperties: false
+      required:
+      - runId
+      - fingerprint
+      - command
+      - status
+      - completedWindows
+      - generatedObservations
+      - deliveryStatus
+      - offered
+      - acknowledged
+      - persisted
+      - accepted
+      properties:
+        runId:
+          type: string
+          format: uuid
+        fingerprint:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        command:
+          $ref: '#/components/schemas/TraceScenarioCommand'
+        status:
+          type: string
+          enum:
+          - SCHEDULED
+          - RUNNING
+          - COMPLETED
+          - STOPPED
+          - INTERRUPTED
+          - FAILED
+        completedWindows:
+          type: integer
+          minimum: 0
+          maximum: 8
+        generatedObservations:
+          type: integer
+          minimum: 0
+          maximum: 24
+        deliveryStatus:
+          type: string
+          enum:
+          - DISABLED_PENDING_REVIEW
+        offered:
+          type: integer
+          enum:
+          - 0
+        acknowledged:
+          type: integer
+          enum:
+          - 0
+        persisted:
+          type: integer
+          nullable: true
+        accepted:
+          type: integer
+          nullable: true
+        history:
+          type: array
+          maxItems: 8
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - start
+            - observations
+            properties:
+              start:
+                type: string
+                format: date-time
+              observations:
+                type: array
+                maxItems: 3
+                items:
+                  type: string

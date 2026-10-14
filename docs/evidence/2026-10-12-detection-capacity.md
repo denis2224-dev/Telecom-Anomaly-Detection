@@ -3,6 +3,14 @@
 Assignment date: **12 October 2026**. Actual execution: **13 October 2026**,
 Europe/Chisinau (UTC+3). Branch: `feat/trace-link-day3-integrated-detection`.
 
+**Historical measurement record.** The verification totals, measured source
+commits and archived assets below describe the 13 October implementation, not
+the corrected 14 October source. The colleague's later review demonstrated a
+main migration collision, shifted episode onset and an unsupported workflow
+claim. Those corrections and their fresh verification are tracked in the
+[14 October correction report](2026-10-14-trace-link-day3-corrections.md).
+Original raw artifacts and manifests remain unchanged.
+
 The three synthetic domains now produce durable, queryable incidents with
 immutable primitive evidence. Replay, restart, ordering and control regressions
 pass. The measured persisted-window processing boundary passes its correctness
@@ -34,10 +42,18 @@ late history rewrites are rejected. The publisher preserves episode sequence.
 The additive `trace-link-detection-v1` topic contract has independent producer
 and receiver validation. Receiver evidence is immutable; sequence gaps remain
 pending until projection can advance contiguously. Authenticated bounded
-`/api/v2/trace-link/incidents` list/detail/evidence routes retain analyst workflow
-after technical recovery. OpenAPI and generated dashboard types are updated.
-Processor V017 and incident V006 are additive; reconcile the reserved lower
-versions in the shared migration ledger before deployment.
+`/api/v2/trace-link/incidents` list/detail/evidence routes provide read-only
+technical incidents and immutable evidence. Analyst assignment, analyst status,
+investigation, resolution and workflow audit are unavailable for these hash-ID
+episodes; no mapping to legacy UUID incidents exists. Technical recovery updates
+only technical state. Analyst workflow needs a separately approved contract.
+
+The original branch used processor V017 and an alternate incident V006. The
+14 October correction preserves pinned main's processor V001–V016 and incident
+V001–V010, keeps processor V017, and moves the detector tables into incident V011.
+It adds stable first-breach/initial-detection fields to a dedicated incident-view
+DTO while retaining strict envelopes as nested latestDetection and evidence
+items. These corrections do not change the recorded 13 October measurements.
 
 ## Verification
 
@@ -215,5 +231,8 @@ including upstream collection/finalization and concurrent receiving is still
 needed for full acceptance. The prepared [handoffs](../../tasks/trace-link-day3/handoffs.md)
 separately record missing Ion matching-window/receiving decision, Denis contract
 acceptance, David wording handoff and Stanislav hardware/rate acceptance. Agent
-test results are not personal sign-offs. Live activation remains off until those
-gates and the migration ledger are accepted.
+test results are not personal sign-offs. The historical correctness PASS applies
+to the measured boundary, not integration acceptance against current main: the
+14 October review demonstrated defects requiring the separately documented
+migration and timestamp corrections. Live activation remains off until the
+upstream, connected-capacity, personal-acceptance and deployment gates pass.

@@ -1,0 +1,26 @@
+{
+  "observedAt": "2026-10-12T19:17:23.591432+00:00",
+  "head": "0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+  "branch": "feature/volte-sms-service-assurance",
+  "status": [
+    " M apps/dashboard/src/branding/mark.svg",
+    " M apps/dashboard/src/branding/tokens.css",
+    " M infra/keycloak/themes/telecom/login/resources/css/tokens.css",
+    " M infra/keycloak/themes/telecom/login/resources/img/mark.svg",
+    " M scripts/up",
+    "?? .agents/",
+    "?? .codex/",
+    "?? .telemetry-final-audit.json",
+    "?? .telemetry-final-audit.py",
+    "?? .telemetry-final-check.py",
+    "?? .telemetry-final-document.py",
+    "?? .telemetry-final-history.json",
+    "?? .telemetry-final-live.json",
+    "?? .telemetry-final-scenario-command.json",
+    "?? .telemetry-final-scenario-live.json",
+    "?? .telemetry-history-progress.json",
+    "?? .telemetry-hosts",
+    "?? AGENTS.md",
+    "?? graphify-out/"
+  ]
+}

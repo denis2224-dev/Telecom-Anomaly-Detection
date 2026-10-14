@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { createServer, type ServerResponse } from 'node:http';
 import { observe } from '../helpers/pr77-stack';
 

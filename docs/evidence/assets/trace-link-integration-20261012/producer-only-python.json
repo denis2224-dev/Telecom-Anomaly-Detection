@@ -1,0 +1,20 @@
+{
+  "name": "producer-only-python",
+  "cwd": "C:/OrangeSystems/Program/trace-link-combined-20261012",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-v"
+  ],
+  "startedAt": "2026-10-12T18:36:17.740476+00:00",
+  "finishedAt": "2026-10-12T18:37:03.575484+00:00",
+  "elapsedSeconds": 45.835,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "producer-only-python.log",
+  "logSha256": "cbfc766084c2f4ece4bcd7ca4a802b873889e2d91839a35eda107fd7ca9e2525"
+}

@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
 import { citySummaries, cityWindows, fixtureRange } from '../../../src/fixtures/connected-dashboard';
@@ -113,7 +113,7 @@ test('failed city history stays isolated and the selector can recover to another
   await page.goto('/services/VOLTE-MD-CHI');
   state.failedScope = 'VOLTE-MD-ORH';
   await page.getByRole('combobox', { name: 'City', exact: true }).selectOption('VOLTE-MD-ORH');
-  await expect(page.getByRole('alert')).toContainText('could not be reached');
+  await expect(page.getByRole('alert')).toContainText('temporarily unavailable');
   await expect(page.locator('.episode-card, .service-hero')).toHaveCount(0);
   await page.getByRole('combobox', { name: 'City', exact: true }).selectOption('VOLTE-MD-BAL');
   await expect(page.locator('.episode-location')).toContainText('Bălți');

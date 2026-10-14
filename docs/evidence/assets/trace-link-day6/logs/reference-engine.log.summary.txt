@@ -1,0 +1,1 @@
+{"status":"PASS","checks":708498,"day_to_night_ratio":5.859780516419549,"slots":8640,"scenarios":18}

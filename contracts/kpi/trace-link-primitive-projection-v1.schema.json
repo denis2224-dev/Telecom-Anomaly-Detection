@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:telecom:trace-link:primitive-projection:v1",
+  "title": "Producer-owned immutable native primitive projection; consumer agreement PENDING_REVIEW",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "messageType": {"const": "trace-link-primitive-projection-v1"},
+    "projectionId": {"$ref": "#/$defs/hash"},
+    "datasetId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,127}$"},
+    "sourceNamespace": {"const": "trace-link-reference-v1"},
+    "synthetic": {"const": true},
+    "domain": {"const": "VOLTE"},
+    "metricId": {"const": "volte.setup.success"},
+    "unit": {"const": "PERCENT"},
+    "aggregation": {"const": "RATIO_OF_SUMS"},
+    "policyVersion": {"const": "trace-link-kpi-v1"},
+    "topologyVersion": {"const": "trace-link-links-v1"},
+    "revision": {"const": 0},
+    "finalized": {"const": true},
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "type": {"const": "CITY"},
+        "id": {"enum": ["chi", "bal", "cah", "ung", "orh", "sor", "com", "edi", "hin", "cau"]},
+        "contractCityId": {"enum": ["CHI", "BAL", "CAH", "UNG", "ORH", "SOR", "COM", "EDI", "HIN", "CAU"]}
+      },
+      "required": ["type", "id", "contractCityId"]
+    },
+    "window": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "from": {"$ref": "#/$defs/time"}, "to": {"$ref": "#/$defs/time"},
+        "sourceResolutionSeconds": {"const": 300}
+      },
+      "required": ["from", "to", "sourceResolutionSeconds"]
+    },
+    "primitives": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"numerator": {"$ref": "#/$defs/count"}, "denominator": {"$ref": "#/$defs/count"}},
+      "required": ["numerator", "denominator"]
+    },
+    "value": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+    "nullReason": {"enum": [null, "ZERO_DENOMINATOR"]},
+    "coverage": {
+      "description": "Native slot presence, independent of nullable source-supplied coverage and quality",
+      "type": "object", "additionalProperties": false,
+      "properties": {"expectedSlots": {"const": 1}, "receivedSlots": {"const": 1}, "ratio": {"const": 1}},
+      "required": ["expectedSlots", "receivedSlots", "ratio"]
+    },
+    "sourceQuality": {"enum": [null, "VALID", "PARTIAL", "STALE", "INSUFFICIENT_EVIDENCE"]},
+    "sourceCoverage": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "quality": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "state": {"enum": ["VALID", "PARTIAL", "MISSING", "STALE", "INSUFFICIENT_EVIDENCE"]},
+        "reason": {"enum": [null, "SOURCE_QUALITY_UNAVAILABLE", "SOURCE_COVERAGE_UNAVAILABLE", "SOURCE_COVERAGE_PARTIAL", "SOURCE_PARTIAL", "SOURCE_MISSING", "SOURCE_STALE", "SOURCE_INSUFFICIENT_EVIDENCE", "ZERO_DENOMINATOR"]}
+      },
+      "required": ["state", "reason"]
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "sourceNaturalId": {"$ref": "#/$defs/hash"}, "sourceFile": {"const": "city_kpi_5m.csv"},
+        "sourceRowNumber": {"type": "integer", "minimum": 1}, "sourceRowSha256": {"$ref": "#/$defs/hash"},
+        "manifestSha256": {"$ref": "#/$defs/hash"}, "generatorVersion": {"type": "string", "minLength": 1},
+        "seed": {"type": "integer"}, "catalogueVersion": {"const": "trace-link-geography-v2"},
+        "importPolicyVersion": {"const": "trace-link-native-source-v1"}
+      },
+      "required": ["sourceNaturalId", "sourceFile", "sourceRowNumber", "sourceRowSha256", "manifestSha256", "generatorVersion", "seed", "catalogueVersion", "importPolicyVersion"]
+    }
+  },
+  "required": ["schemaVersion", "messageType", "projectionId", "datasetId", "sourceNamespace", "synthetic", "domain", "metricId", "unit", "aggregation", "policyVersion", "topologyVersion", "revision", "finalized", "scope", "window", "primitives", "value", "nullReason", "coverage", "sourceQuality", "sourceCoverage", "quality", "provenance"],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "time": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "count": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}
+  },
+  "allOf": [
+    {"if": {"properties": {"primitives": {"properties": {"denominator": {"const": 0}}}}},
+     "then": {"properties": {"value": {"type": "null"}, "nullReason": {"const": "ZERO_DENOMINATOR"}}},
+     "else": {"properties": {"value": {"type": "number"}, "nullReason": {"type": "null"}}}},
+    {"if": {"properties": {"sourceQuality": {"type": "null"}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "INSUFFICIENT_EVIDENCE"}, "reason": {"const": "SOURCE_QUALITY_UNAVAILABLE"}}}}}},
+    {"if": {"properties": {"sourceQuality": {"const": "VALID"}, "sourceCoverage": {"type": "null"}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "INSUFFICIENT_EVIDENCE"}, "reason": {"const": "SOURCE_COVERAGE_UNAVAILABLE"}}}}}},
+    {"if": {"properties": {"sourceCoverage": {"const": 0}}},
+     "then": {"anyOf": [{"properties": {"primitives": {"properties": {"denominator": {"const": 0}}}}}, {"properties": {"sourceQuality": {"const": "STALE"}}}]}},
+    {"if": {"properties": {"sourceQuality": {"const": "VALID"}, "sourceCoverage": {"const": 1}, "primitives": {"properties": {"denominator": {"exclusiveMinimum": 0}}}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "VALID"}, "reason": {"type": "null"}}}}}},
+    {"if": {"properties": {"sourceQuality": {"const": "VALID"}, "sourceCoverage": {"type": "number", "exclusiveMaximum": 1}, "primitives": {"properties": {"denominator": {"exclusiveMinimum": 0}}}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "PARTIAL"}, "reason": {"const": "SOURCE_COVERAGE_PARTIAL"}}}}}},
+    {"if": {"anyOf": [{"properties": {"sourceQuality": {"const": "VALID"}, "sourceCoverage": {"type": "number"}}}, {"properties": {"sourceQuality": {"const": "PARTIAL"}}}], "properties": {"primitives": {"properties": {"denominator": {"const": 0}}}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "INSUFFICIENT_EVIDENCE"}, "reason": {"const": "ZERO_DENOMINATOR"}}}}}},
+    {"if": {"properties": {"sourceQuality": {"const": "PARTIAL"}, "primitives": {"properties": {"denominator": {"exclusiveMinimum": 0}}}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "PARTIAL"}}}},
+       "if": {"properties": {"sourceCoverage": {"type": "null"}}},
+       "then": {"properties": {"quality": {"properties": {"reason": {"const": "SOURCE_COVERAGE_UNAVAILABLE"}}}}},
+       "else": {"properties": {"quality": {"properties": {"reason": {"const": "SOURCE_PARTIAL"}}}}}}},
+    {"if": {"properties": {"sourceQuality": {"const": "STALE"}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "STALE"}}}},
+       "if": {"properties": {"sourceCoverage": {"type": "null"}}},
+       "then": {"properties": {"quality": {"properties": {"reason": {"const": "SOURCE_COVERAGE_UNAVAILABLE"}}}}},
+       "else": {"properties": {"quality": {"properties": {"reason": {"const": "SOURCE_STALE"}}}}}}},
+    {"if": {"properties": {"sourceQuality": {"const": "INSUFFICIENT_EVIDENCE"}}},
+     "then": {"properties": {"quality": {"properties": {"state": {"const": "INSUFFICIENT_EVIDENCE"}}}},
+       "if": {"properties": {"sourceCoverage": {"type": "null"}}},
+       "then": {"properties": {"quality": {"properties": {"reason": {"const": "SOURCE_COVERAGE_UNAVAILABLE"}}}}},
+       "else": {"properties": {"quality": {"properties": {"reason": {"const": "SOURCE_INSUFFICIENT_EVIDENCE"}}}}}}}
+  ]
+}

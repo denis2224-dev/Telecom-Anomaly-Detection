@@ -1,0 +1,18 @@
+{
+  "name": "persisted-geographic-sms-parity",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-sms-parity.py",
+    "--geographic-persisted",
+    "--java-output",
+    "services/processor/target/day5-geographic-parity-java.json"
+  ],
+  "startedAt": "2026-10-12T19:07:21.754677+00:00",
+  "finishedAt": "2026-10-12T19:07:22.426607+00:00",
+  "elapsedSeconds": 0.672,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "persisted-geographic-sms-parity.log",
+  "logSha256": "759a3a365b881b4c3ba2796d374091ef296fe1db6bb755b4cfe65224f4f42edd"
+}

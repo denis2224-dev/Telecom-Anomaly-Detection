@@ -52,7 +52,13 @@ try {
         $producerExport = Join-Path $repoRoot 'services/processor/target/trace-link-day3-produced.json'
         if (Test-Path -LiteralPath $producerExport) { Remove-Item -LiteralPath $producerExport -Force }
         $processorPassed = Invoke-Gate 'reactor' $wrapper @('--batch-mode', '--no-transfer-progress', 'verify')
-        if ($processorPassed -and (Test-Path -LiteralPath $producerExport) -and
+        $contractsInstalled = $false
+        if ($processorPassed) {
+            # The separate Spring 4 receiver needs the classifier just verified by the reactor.
+            $contractsInstalled = Invoke-Gate 'shared-contract-install' $wrapper @('--batch-mode', '--no-transfer-progress',
+                '-pl', 'services/streaming-support', '-am', 'install', '-DskipTests')
+        }
+        if ($processorPassed -and $contractsInstalled -and (Test-Path -LiteralPath $producerExport) -and
                 (Get-Item -LiteralPath $producerExport).LastWriteTimeUtc -ge $startedAt) {
             $null = Invoke-Gate 'incident-service' $wrapper @('-f', 'services/incident-service/pom.xml',
                 '--batch-mode', '--no-transfer-progress', 'verify', "-DtraceLink.producedFile=$producerExport")

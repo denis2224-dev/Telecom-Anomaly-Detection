@@ -1,0 +1,9 @@
+{
+  "counts": {
+    "tests": 272,
+    "failures": 0,
+    "errors": 2,
+    "skipped": 1
+  },
+  "classes": 60
+}

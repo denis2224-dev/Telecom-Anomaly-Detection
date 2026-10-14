@@ -1,0 +1,355 @@
+{
+  "recordedAtUtc": "2026-10-11T21:52:16.639433+00:00",
+  "implementationCommit": "5a8e6bec28ab88fbbfe85da2ecca695cdf4aa7a0",
+  "baseCommit": "cbb94d37f7593e99737ee4200e91b14e0512f76f",
+  "executionContext": {
+    "os": "Windows 11 amd64",
+    "java": "Eclipse Adoptium 21.0.12.1",
+    "maven": "3.9.16",
+    "python": "3.13.7",
+    "node": "24.20.0",
+    "docker": "29.3.1",
+    "postgres": "16.4-alpine",
+    "scope": "Local and disposable verification only",
+    "pythonPath": "C:\\OrangeSystems\\Program\\ion-trace-link-evidence\\ml-deps;C:\\OrangeSystems\\Program\\ion-trace-link-evidence\\python-deps"
+  },
+  "commands": [
+    {
+      "check": "Contracts",
+      "executable": "python",
+      "arguments": [
+        "scripts/check-contracts.py"
+      ],
+      "status": "PASS",
+      "context": "Final implementation; task-local requirements-dev dependencies",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-contracts-committed.log"
+    },
+    {
+      "check": "Repository Python",
+      "executable": "python",
+      "arguments": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "status": "PASS",
+      "context": "111 tests; task-local requirements-dev dependencies",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-python-committed.log"
+    },
+    {
+      "check": "ML Python",
+      "executable": "python",
+      "arguments": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/ml-service/tests",
+        "-v"
+      ],
+      "status": "PASS",
+      "context": "64 tests; pinned ML dependencies; component/local model checks",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-ml-final.log"
+    },
+    {
+      "check": "Initial complete reactor plus full archive",
+      "executable": "C:\\Users\\Admin\\.m2\\wrapper\\dists\\apache-maven-3.9.16\\56ba1f9f\\bin\\mvn.cmd",
+      "arguments": [
+        "-o",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-Dmaven.repo.local=C:\\OrangeSystems\\Program\\.tools\\m2",
+        "-pl",
+        "services/streaming-support,services/event-generator,services/processor",
+        "-am",
+        "verify",
+        "-DtraceLink.referenceRoot=C:\\OrangeSystems\\task\\Trace_Link_Integration_Pack"
+      ],
+      "status": "FAIL",
+      "context": "1181 reported, 1 failure, 0 errors, 4 skips. Sole failure: existing owned-table count expected 16 instead of 24. Full native archive IT passed within this run.",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-reactor.log"
+    },
+    {
+      "check": "Focused final boundary rerun",
+      "executable": "C:\\Users\\Admin\\.m2\\wrapper\\dists\\apache-maven-3.9.16\\56ba1f9f\\bin\\mvn.cmd",
+      "arguments": [
+        "-o",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-Dmaven.repo.local=C:\\OrangeSystems\\Program\\.tools\\m2",
+        "-pl",
+        "services/processor",
+        "-am",
+        "verify",
+        "-Dtest=DomainObservationValidatorTest,TraceLinkDatasetBootstrapIT#isolatedProfileStartsWithoutKafkaOrLiveWorkers,IngestionIntegrationTest#migrationOwnershipRuntimeDmlAndIsolation",
+        "-Dsurefire.failIfNoSpecifiedTests=false"
+      ],
+      "status": "PASS",
+      "context": "8 tests; PostgreSQL runtime, migration ownership and isolated job startup",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-final-boundary-rerun.log"
+    },
+    {
+      "check": "Final complete streaming reactor",
+      "executable": "C:\\Users\\Admin\\.m2\\wrapper\\dists\\apache-maven-3.9.16\\56ba1f9f\\bin\\mvn.cmd",
+      "arguments": [
+        "-o",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-Dmaven.repo.local=C:\\OrangeSystems\\Program\\.tools\\m2",
+        "-pl",
+        "services/streaming-support,services/event-generator,services/processor",
+        "-am",
+        "verify"
+      ],
+      "status": "PASS",
+      "context": "1183 reported, 0 failures/errors, 5 skips. Disposable PostgreSQL/Kafka; full external archive check was passed separately.",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-reactor-final.log"
+    },
+    {
+      "check": "Incident service",
+      "executable": "C:\\Users\\Admin\\.m2\\wrapper\\dists\\apache-maven-3.9.16\\56ba1f9f\\bin\\mvn.cmd",
+      "arguments": [
+        "-o",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-Dmaven.repo.local=C:\\OrangeSystems\\Program\\.tools\\m2",
+        "-f",
+        "services/incident-service/pom.xml",
+        "verify"
+      ],
+      "status": "PASS",
+      "context": "218 reported across Surefire/Failsafe, 0 failures/errors, 1 skip; legacy component/integration compatibility",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-incident.log"
+    },
+    {
+      "check": "Dashboard dependencies",
+      "executable": "npm.cmd",
+      "arguments": [
+        "--prefix",
+        "apps/dashboard",
+        "ci",
+        "--offline"
+      ],
+      "status": "PASS",
+      "context": "Locked dependencies installed from cache in this isolated worktree",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-dashboard-deps.log"
+    },
+    {
+      "check": "Dashboard API types",
+      "executable": "npm.cmd",
+      "arguments": [
+        "--prefix",
+        "apps/dashboard",
+        "run",
+        "generate:api"
+      ],
+      "status": "PASS",
+      "context": "No committed Git content changes",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-dashboard-api.log"
+    },
+    {
+      "check": "Branding byte normalization",
+      "executable": "node",
+      "arguments": [
+        "scripts/sync-branding.mjs"
+      ],
+      "status": "PASS",
+      "context": "Existing generator normalized Windows checkout line endings only; all generated Git blob IDs match HEAD",
+      "executed": true
+    },
+    {
+      "check": "Dashboard tests",
+      "executable": "npm.cmd",
+      "arguments": [
+        "--prefix",
+        "apps/dashboard",
+        "test"
+      ],
+      "status": "PASS",
+      "context": "26 files / 131 tests; unit checks, no real browser acceptance",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-dashboard-test-final.log"
+    },
+    {
+      "check": "Dashboard build",
+      "executable": "npm.cmd",
+      "arguments": [
+        "--prefix",
+        "apps/dashboard",
+        "run",
+        "build"
+      ],
+      "status": "PASS",
+      "context": "Production bundle built; no frontend feature changes",
+      "executed": true,
+      "logPath": "C:\\OrangeSystems\\Program\\ion-trace-link-dashboard-build-final.log"
+    },
+    {
+      "check": "External reference engine",
+      "executable": "node",
+      "arguments": [
+        "C:\\OrangeSystems\\task\\Trace_Link_Integration_Pack\\tests\\engine.test.js"
+      ],
+      "status": "PASS",
+      "context": "708498 checks; supplied pack unchanged",
+      "executed": true
+    },
+    {
+      "check": "External DOM shim",
+      "executable": "node",
+      "arguments": [
+        "C:\\OrangeSystems\\task\\Trace_Link_Integration_Pack\\tests\\ui-smoke.test.js"
+      ],
+      "status": "PASS",
+      "context": "23 checks; DOM shim, not a real browser",
+      "executed": true
+    },
+    {
+      "check": "Four-language comparator",
+      "executable": "python",
+      "arguments": [
+        "scripts/check-trace-link-parity.py",
+        "--java-output",
+        "services/processor/target/trace-link-java.json",
+        "--python-output",
+        "C:\\OrangeSystems\\Program\\ion-trace-link-evidence\\parity\\python.json",
+        "--sql-output",
+        "C:\\OrangeSystems\\Program\\ion-trace-link-evidence\\parity\\sql.json",
+        "--javascript-output",
+        "C:\\OrangeSystems\\Program\\ion-trace-link-evidence\\parity\\javascript.json"
+      ],
+      "status": "PASS",
+      "context": "54 fresh cases in each language; maximum numerical difference zero. SQL used a disposable network-none PostgreSQL container.",
+      "executed": true
+    },
+    {
+      "check": "Working-tree Day 1 byte pins",
+      "executable": "python",
+      "arguments": [
+        "scripts/verify-trace-link-pins.py",
+        "--reference-root",
+        "C:\\OrangeSystems\\task\\Trace_Link_Integration_Pack"
+      ],
+      "status": "FAIL",
+      "context": "Pre-existing CRLF conversion in frozen text files; unchanged committed bytes verified separately",
+      "executed": true
+    },
+    {
+      "check": "Committed LF snapshot Day 1 byte pins",
+      "executable": "python",
+      "arguments": [
+        "C:\\OrangeSystems\\Program\\ion-trace-link-evidence\\committed-pin-snapshot\\scripts\\verify-trace-link-pins.py",
+        "--reference-root",
+        "C:\\OrangeSystems\\task\\Trace_Link_Integration_Pack"
+      ],
+      "status": "PASS",
+      "context": "Unmodified verifier and exact committed input blobs; 29 frozen/reference files plus golden fixture SHA",
+      "executed": true
+    },
+    {
+      "check": "Compose configuration",
+      "executable": "docker",
+      "arguments": [
+        "compose",
+        "config",
+        "--quiet"
+      ],
+      "status": "BLOCKED",
+      "context": "Executed preflight failed: PROCESSING_DB_PASSWORD missing; isolated worktree has no provisioned .env",
+      "executed": true
+    },
+    {
+      "check": "Integrated verification",
+      "executable": "bash",
+      "arguments": [
+        "./scripts/verify"
+      ],
+      "status": "BLOCKED",
+      "context": "No approved configured integrated target or authenticated runtime was selected",
+      "executed": false
+    }
+  ],
+  "nativeImport": {
+    "status": "PASS",
+    "rows": 362880,
+    "exactRetry": "PASS",
+    "boundedInterruptedResume": "PASS",
+    "batchRollback": "PASS",
+    "concurrentExactRetry": "PASS",
+    "freshAndV013Upgrade": "PASS",
+    "runtimeDdlAndImmutableMutationDenied": "PASS",
+    "sourceQualityAndCoverage": "UNPROVIDED_RETAINED_NULL",
+    "scenarioTruth": "18 rows checksum/count verified only; not persisted in detector-accessible storage"
+  },
+  "notVerified": [
+    "Authenticated new-domain backend projection/read",
+    "Runtime catalogue/source authority activation",
+    "Primitive MetricRollupService integration at 15m/1h/6h",
+    "New-domain detector/scenario runtime acceptance",
+    "Native-import process/database restart and outage drills",
+    "Shared load/capacity, Grafana, real browser, deployment/rollback",
+    "Receiving-owner reproduction"
+  ],
+  "initialAttempts": [
+    {
+      "status": "FAIL",
+      "context": "Sandbox Docker access unavailable",
+      "log": "ion-trace-link-focused.log"
+    },
+    {
+      "status": "FAIL",
+      "context": "Native slice query test used local timestamp bounds; corrected to UTC",
+      "log": "ion-trace-link-focused-host.log"
+    },
+    {
+      "status": "FAIL",
+      "context": "Stale-snapshot regression exposed producer population-length limit below existing dictionary; corrected and covered",
+      "log": "ion-trace-link-final-boundary.log"
+    },
+    {
+      "status": "FAIL",
+      "context": "Missing Python/OpenAPI/sklearn dependencies and sandbox read access; corrected using task-local dependencies with host access",
+      "logs": [
+        "ion-trace-link-python.log",
+        "ion-trace-link-python-final.log",
+        "ion-trace-link-ml-host.log"
+      ]
+    },
+    {
+      "status": "FAIL",
+      "context": "Frontend precheck encountered CRLF branding drift; existing generator produced zero committed Git changes before passing reruns",
+      "logs": [
+        "ion-trace-link-dashboard-test.log",
+        "ion-trace-link-dashboard-build.log"
+      ]
+    }
+  ],
+  "artifactHashes": {
+    "services\\processor\\target\\processor-0.3.0-SNAPSHOT.jar": {
+      "bytes": 50176539,
+      "sha256": "54b5533d6f4d136749091c2dd31e3fa428fd8c1c30200e857784e88277577c6e"
+    },
+    "services\\event-generator\\target\\event-generator-0.3.0-SNAPSHOT.jar": {
+      "bytes": 47260665,
+      "sha256": "78a5dbd1fcf6f432a83ba004432f98d963a88c69d6198b2a0c754a4fd832baf9"
+    },
+    "services\\streaming-support\\target\\streaming-support-0.3.0-SNAPSHOT.jar": {
+      "bytes": 98872,
+      "sha256": "c650feb9918453c0f1f3850bc15e621dfd01ead4b90888f710858990f0877bf5"
+    }
+  },
+  "sharedReleaseDisposition": "BLOCKED",
+  "receivingOwnerReproduction": "PENDING"
+}
