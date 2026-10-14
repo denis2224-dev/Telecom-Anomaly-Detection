@@ -1,0 +1,21 @@
+{
+  "status": "passed-for-isolated-database-restore",
+  "countsAndIdentityHashes": {
+    "incidents": 7,
+    "audit": 61,
+    "notifications": 35,
+    "recipients": 56,
+    "metricWindows": 362880,
+    "deliveries": 0,
+    "readStateHash": "cdfc2e10cc197ffcc355ccbe9d25ef17",
+    "eventIdentityHash": "247c990bc92759a5ba4f47ef291e234c"
+  },
+  "backupSha256": "10103d1b53b885b6eaa96f71a6d3c2fdba7e5bb9cfbf14ace3157a5650597666",
+  "backupBytes": 33806061,
+  "isolation": "trace-link-backend-qa-20261014",
+  "limits": [
+    "Backend database restore only; application reconnection to restored DB not claimed",
+    "No queued runtime push deliveries existed; pending delivery recovery covered by PostgreSQL tests",
+    "Private backup is not exported to Git"
+  ]
+}
