@@ -77,7 +77,7 @@ public class TraceScenarioService {
             String fingerprint = validated.path("fingerprint").asText();
             if (!fingerprint.matches("[0-9a-f]{64}") || !command.isObject()) throw TraceScenarioGateway.unavailable();
             for (var entry : proposed.properties())
-                if (!canonical(entry.getValue()).equals(canonical(command.path(entry.getKey())))) throw TraceScenarioGateway.unavailable();
+                if (!canonicalProducerField(entry.getKey(), entry.getValue()).equals(canonicalProducerField(entry.getKey(), command.path(entry.getKey())))) throw TraceScenarioGateway.unavailable();
             Instant start = Instant.parse(command.path("start").asText());
             String scope = canonical(command.path("scope"));
             Long overlaps = jdbc.queryForObject("SELECT count(*) FROM app.trace_scenario_command WHERE scope_key=? AND scheduled_start_at < ? AND scheduled_end_at > ?", Long.class,
@@ -182,6 +182,20 @@ public class TraceScenarioService {
             throw new WorkflowProblem(HttpStatus.UNAUTHORIZED,"UNAUTHENTICATED","Sign in to continue.");
         return analysts.findByIssuerAndSubject(user.getIdToken().getIssuer().toString(),user.getIdToken().getSubject())
                 .filter(a -> a.isEnabled()).orElseThrow(() -> new WorkflowProblem(HttpStatus.FORBIDDEN,"FORBIDDEN","An enabled analyst profile is required.")).getId();
+    }
+    private String canonicalProducerField(String field, JsonNode node) {
+        // Only producer validation normalizes this set. Request identity and saved commands retain their array order.
+        if (!"parameters".equals(field) || !node.isObject() || !node.has("missingMinutes")) return canonical(node);
+        var missing = node.path("missingMinutes");
+        if (!missing.isArray()) throw TraceScenarioGateway.unavailable();
+        var sorted = new TreeSet<Integer>();
+        for (var minute : missing) {
+            if (!minute.isIntegralNumber() || !minute.canConvertToInt() || minute.intValue() < 0 || minute.intValue() > 7
+                    || !sorted.add(minute.intValue())) throw TraceScenarioGateway.unavailable();
+        }
+        var normalized = ((ObjectNode) node).deepCopy();
+        normalized.set("missingMinutes", json.valueToTree(sorted));
+        return canonical(normalized);
     }
     private String canonical(JsonNode node) {
         if (node.isObject()) {

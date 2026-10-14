@@ -22,6 +22,29 @@ class TraceLinkRuntimeTest {
     }
     Command command(Type type, Scope scope) { return new Command(type,VERSION,scope,42,START,Parameters.defaults()); }
     String body(Command command) { return new TraceLinkScenarioCommandCodec().write(command).toString(); }
+    @Test void unsortedMissingMinutesUseRealCodecAndStableProducerFingerprint() throws Exception {
+        var codec=new TraceLinkScenarioCommandCodec();
+        String base=body(command(Type.NORMAL_CONTROL,Scope.data("chi")));
+        String submitted=base.replace("\"missingMinutes\":[]","\"missingMinutes\":[7,5]");
+        var decoded=codec.read(submitted);
+        assertEquals("[5,7]",codec.write(decoded).path("parameters").path("missingMinutes").toString());
+        assertEquals(decoded.fingerprint(),codec.read(base.replace("\"missingMinutes\":[]","\"missingMinutes\":[5,7]")).fingerprint());
+        assertEquals(decoded.fingerprint(),codec.read(codec.write(decoded).toString()).fingerprint());
+        try(var runtime=new TraceLinkRuntime(new MutableClock(),directory)) {
+            assertEquals(decoded,runtime.validate(submitted));
+            var first=runtime.start(decoded.runId(),submitted);
+            assertEquals("[5,7]",first.path("command").path("parameters").path("missingMinutes").toString());
+            assertEquals(first,runtime.start(decoded.runId(),submitted));
+        }
+    }
+    @ParameterizedTest @ValueSource(strings={"[7,7]","[-1]","[8]","[2147483648]","[1.5]","[\"5\"]","[null]","[true]","{}","null"})
+    void realProducerRejectsMalformedMissingMinutes(String missing) throws Exception {
+        String submitted=body(command(Type.NORMAL_CONTROL,Scope.data("chi"))).replace("\"missingMinutes\":[]","\"missingMinutes\":"+missing);
+        assertThrows(Exception.class,()->new TraceLinkScenarioCommandCodec().read(submitted));
+        try(var runtime=new TraceLinkRuntime(new MutableClock(),directory)) {
+            assertThrows(Exception.class,()->runtime.validate(submitted));
+        }
+    }
     @Test void durableCompletedHistoryHasStableIdentityAndNoDeliveryClaims() throws Exception {
         var clock = new MutableClock(); var c = command(Type.MOBILE_DATA_DNS_FAILURE,Scope.data("chi"));
         String completed;

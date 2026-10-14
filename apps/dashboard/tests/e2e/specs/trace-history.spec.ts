@@ -79,6 +79,21 @@ for(const width of [1366,390])test(`native history keeps query, inventory, gaps 
   await page.screenshot({path:info.outputPath(`trace-history-${width}.png`),fullPage:true});
 });
 
+test('expanded history restores focus when a pending response replaces the loading state',async({page})=>{
+  await setup(page);let release!:()=>void,started=false;
+  await page.route('**/api/v2/metrics/series?**',async route=>{
+    started=true;await new Promise<void>(resolve=>release=resolve);
+    await route.fulfill({json:series(new URL(route.request().url()))});
+  });
+  await page.goto(queryUrl);await expect.poll(()=>started).toBe(true);
+  const expand=page.getByRole('button',{name:'Expand metric',exact:true});
+  await expand.focus();await page.keyboard.press('Enter');
+  const expanded=page.getByRole('dialog',{name:'Expanded persisted metric'});
+  await expect(expanded).toContainText('Loading selected history');
+  release();await expect(expanded.getByRole('region',{name:'Persisted metric chart'})).toContainText('INSUFFICIENT_EVIDENCE');
+  await page.keyboard.press('Escape');await expect(expanded).not.toBeVisible();await expect(expand).toBeFocused();
+});
+
 test('a cancelled old-city response cannot replace the selected city history',async({page})=>{
   await setup(page);let release!:()=>void,started=false;
   await page.route('**/api/v2/metrics/series?**',async route=>{
