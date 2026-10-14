@@ -54,3 +54,11 @@ The [correction report](../evidence/2026-10-14-trace-link-day3-corrections.md)
 records actual fresh/upgrade/validate/idempotency, row/checksum and grant results.
 Allocation is not activation approval: upstream 60/300-second compatibility,
 shared receiving decisions and simultaneous capacity remain separate gates.
+
+## Day 4 processor allocation — 14 October 2026
+
+`V018__trace_link_ml_shadow.sql` follows the existing processor V017. It adds
+processor-local shadow jobs and immutable results, with column-limited job
+updates for processing_app. Processor V001–V017 and all incident migrations are
+preserved. Fresh and populated V017-to-V018 tests cover retained rows/checksums,
+ownership, grants, validation and no-op rerun. Activation remains a separate gate.
