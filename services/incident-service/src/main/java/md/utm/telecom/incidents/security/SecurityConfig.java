@@ -63,7 +63,8 @@ public class SecurityConfig {
                         // Only this internal dispatch is allowed; the initial HTTP request stays protected.
                         .requestMatchers(request -> request.getDispatcherType() == DispatcherType.ASYNC
                                 && "GET".equals(request.getMethod())
-                                && "/api/incidents/stream".equals(request.getServletPath())).permitAll()
+                                && ("/api/incidents/stream".equals(request.getServletPath())
+                                || "/api/v2/exports/metrics.csv".equals(request.getServletPath()))).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/auth/csrf",
                                 "/actuator/health", "/actuator/health/**").permitAll()
                         .requestMatchers("/oauth2/authorization/keycloak",
