@@ -1,0 +1,83 @@
+{
+  "releaseName": "trace-link-release-candidate",
+  "version": "1.0.0",
+  "packagedAt": "2026-10-14T19:14:45.196213+00:00",
+  "sourceCommit": "8102c0c876233faf98a7bbf2c2c6323aef3c2d4b",
+  "dataset": {
+    "id": "trace-link-md-30d-v1",
+    "resolution": "5m",
+    "provenance": "synthetic"
+  },
+  "topologyVersion": "trace-link-md-topology-v1",
+  "containerImages": {
+    "postgres": "postgres:16.4-alpine",
+    "keycloak": "quay.io/keycloak/keycloak:26.7.4",
+    "nginx": "nginx:1.28.3-alpine",
+    "kafka": "apache/kafka:3.9.1",
+    "prometheus": "prom/prometheus:v2.54.1",
+    "grafana": "grafana/grafana:11.2.0"
+  },
+  "components": {
+    "contracts": {
+      "type": "directory",
+      "relPath": "contracts",
+      "fileCount": 110,
+      "compositeSha256": "5b2a38942600803fc09e9a74b93f4a177f99f512bd840028db145d241a95d88f"
+    },
+    "infra_postgres_init": {
+      "type": "directory",
+      "relPath": "infra/postgres/init",
+      "fileCount": 1,
+      "compositeSha256": "398a00195e4c5f56057d4873d42d6eb4a7ef559a16d582f861264b46fda20a1b"
+    },
+    "infra_observability": {
+      "type": "directory",
+      "relPath": "infra/observability",
+      "fileCount": 9,
+      "compositeSha256": "269492e565158029893ed889bce8bdd24d64f0a920503ee3471210d41b562c70"
+    },
+    "infra_nginx": {
+      "type": "directory",
+      "relPath": "infra/nginx",
+      "fileCount": 3,
+      "compositeSha256": "c7f300c836bb94124bc094c064d29f864384e50d77eb34637e18a40a95df183d"
+    },
+    "infra_keycloak_realm": {
+      "type": "file",
+      "relPath": "infra/keycloak/telecom-realm.json",
+      "sha256": "8c779ba22ca6e4fdf1e9ef8eaeac3839f96a80a0fd7cdc2e964fa3472f7c110f",
+      "sizeBytes": 1491
+    },
+    "runbooks": {
+      "type": "directory",
+      "relPath": "docs/runbooks",
+      "fileCount": 22,
+      "compositeSha256": "b10e3ba69e941edcedece120cee8871c9c37e8878c8adc5636a73854bc23f468"
+    },
+    "processor_migrations": {
+      "type": "directory",
+      "relPath": "services/processor/src/main/resources/db/migration",
+      "fileCount": 17,
+      "compositeSha256": "3d567c9377be344d3f9df19c8c544d520d7ebabd9f47ad60735dee78db06dfcc"
+    },
+    "incident_migrations": {
+      "type": "directory",
+      "relPath": "services/incident-service/src/main/resources/db/migration",
+      "fileCount": 11,
+      "compositeSha256": "27f2f15196da2665b2513870b64f448b37264e775ecea6e487395a8dbd1bfa51"
+    },
+    "compose_config": {
+      "type": "file",
+      "relPath": "compose.yaml",
+      "sha256": "8a5618533aaf60e62a9866763b5aa8908d9161bbcfcfd695fbc326617e0c8ec4",
+      "sizeBytes": 16675
+    },
+    "env_example": {
+      "type": "file",
+      "relPath": ".env.example",
+      "sha256": "00068fee3d4fea5d0218b7dcbb21cf43ffdaa8e006e9ebbb0c66e5d2e56cdbba",
+      "sizeBytes": 2440
+    }
+  },
+  "secretIsolationVerified": true
+}
