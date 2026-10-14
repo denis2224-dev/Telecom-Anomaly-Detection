@@ -132,6 +132,8 @@ def main():
     print(f'PASS: {validate_scenarios()} independent synthetic minute measurements; {validate_transitions()} evaluator expectations PENDING')
     from trace_link_receiving_contract import validate_receiving_contracts
     validate_receiving_contracts()
+    from trace_link_ml_contract import validate_ml_contracts
+    validate_ml_contracts()
     if args.batch:
         batch = ObservationBatch()
         events = read_json(args.batch)

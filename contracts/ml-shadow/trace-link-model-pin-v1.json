@@ -1,0 +1,9 @@
+{
+  "modelVersion": "trace-link-shadow-v1",
+  "manifestSha256": "8860e4c5711c778cdf861e89094a002ed04beda46ebd0cb90eb03c04b5316078",
+  "domains": {
+    "TRANSPORT": "9087da206475be66302153191754055cc9cec075eb09883653c08952a41631d2",
+    "ROAMING": "bbc483daae7bcdb40682307bcbfcb54c8d9e6d86df6fd6cc9cc9f175c7f303f6",
+    "MOBILE_DATA": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4"
+  }
+}
