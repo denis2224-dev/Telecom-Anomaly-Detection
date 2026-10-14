@@ -25,3 +25,7 @@ Foundation PR #103 and current main both use V009 and incompatible trace_domain_
 The full pinned reference archive has twelve chi-cau five-minute slots with effective capacity reduced from 10 to 5 Gbps. Registering a single nominal-capacity interval made fixture import correctly reject those rows. The old query scope resolver also rejected a valid request across adjacent capacity intervals; MetricCapacityHistoryIT reproduced that rejection before repair.
 
 The QA fixture authority now records actual valid-time intervals. The query resolver requires their complete range union and rejects ambiguous overlapping authority. No reverse-direction measurements or healthy source quality are invented. The focused capacity, existing metric query, and domain query suites verify the repair; exact results are recorded in reliability evidence.
+
+## Disabled profiles on legacy reads
+
+The isolated real-OIDC probe showed that disabling an analyst blocked notification reads (403), but incident and service reads still returned 200. EnabledAnalystAccessIT reproduced the unauthorized legacy access before repair. A shared private-API filter now checks the registered issuer/subject and current enabled state; public CSRF discovery remains available. The final real-OIDC probe returns 403 for all three reads. Existing controller and Kafka integration fixtures now register their mock identities instead of bypassing this rule. CSRF, role, expiry, and legacy assertion coverage remain intact.
