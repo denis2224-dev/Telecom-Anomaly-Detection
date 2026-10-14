@@ -14,7 +14,7 @@
 - [ ] Source collection/finalization and simultaneous end-to-end capacity acceptance (unmeasured boundary).
 - [x] Real-time five-minute lifecycle verification (distinct from accelerated replay).
 - [x] Package hash-verified raw evidence, suite logs, integrated source identities and reproduction report.
-- [ ] Receiving gates: Ion decision/windows; Denis contract; David wording; Stanislav context.
+- [ ] Receiving gates: Ion decision/windows; Denis contract; David wording; [x] Stanislav capacity and observability baseline.
 
 External acceptance is recorded only when actually supplied. Activation stays off.
 
