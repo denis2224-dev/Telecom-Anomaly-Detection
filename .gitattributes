@@ -86,3 +86,4 @@ services/ml-service/candidate-models/trace-link-shadow-v1/*.joblib binary
 docs/evidence/assets/trace-link-day4-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 contracts/fixtures/trace-link/ml-adversarial-cases-v1.json text eol=lf
 docs/evidence/assets/trace-link-day4-review-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-day4-body-bounds-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol

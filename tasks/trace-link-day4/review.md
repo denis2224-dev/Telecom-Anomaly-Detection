@@ -5,6 +5,9 @@ The original self-review below was superseded by independent REQUEST CHANGES on
 `docs/evidence/2026-10-14-sergiu-day4-review-corrections.md` for fresh checks and
 replacement artifact hashes. Reviewer approval is still required before merge.
 
+The follow-up response buffering/decoding P2 on `cd0847d4` is addressed by
+`8483cca9`; fresh evidence is in `docs/evidence/2026-10-14-sergiu-day4-response-bounds.md`.
+
 - Correctness: exact feature/audit parity, independent primitive expectations,
   response binding, missing/invalid populations and all inference failures tested.
 - Boundaries: additive local shadow storage and private HTTP only; no incident,

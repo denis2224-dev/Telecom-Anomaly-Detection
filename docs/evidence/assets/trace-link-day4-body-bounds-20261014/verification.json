@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "reviewedHead": "cd0847d459132523055217819c6b4d898ff1142e",
+  "implementationHead": "8483cca9d3020a085d3f3e0a8ccbb3d9cf1f6448",
+  "java": {
+    "streaming-support": {
+      "tests": 139,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "event-generator": {
+      "tests": 158,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "processor": {
+      "tests": 1117,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8
+    }
+  },
+  "focused": {
+    "md.utm.telecom.processing.shadow.TraceLinkResponseBodyTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "md.utm.telecom.processing.shadow.TraceLinkShadowClientTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "md.utm.telecom.processing.tracelink.TraceLinkShadowWorkerTest": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "skips": [
+    {
+      "test": "md.utm.telecom.processing.GeographicDetectionTest.pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+    },
+    {
+      "test": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT.suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: Reference archive must be selected explicitly\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT.suppliedFullArchiveImportsOnlyWhenExplicitlySelected(TraceLinkDatasetBootstrapIT.java:187)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java.base/java.util.A"
+    },
+    {
+      "test": "md.utm.telecom.processing.kpi.SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode(SmsDeliveryTest.java:80)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java.base/j"
+    },
+    {
+      "test": "md.utm.telecom.processing.kpi.SmsShadowReplayTest.freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+    },
+    {
+      "test": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT.fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: Full archive must be explicitly selected\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT.fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity(TraceLinkProjectionIT.java:281)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java.base/java.util.Arr"
+    },
+    {
+      "test": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest.suppliedFullArchiveProducesIndependentSqlParityWithoutDeliveryWrites",
+      "reason": "System property [trace.link.archive] does not exist"
+    },
+    {
+      "test": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest.frozenV016MigratesAndRemainsHeldWithoutAnyProducerSchemaChange(Path)",
+      "reason": "System property [trace.link.v016.directory] does not exist"
+    },
+    {
+      "test": "md.utm.telecom.processing.kpi.VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode(VoiceDeliveryTest.java:66)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java."
+    }
+  ],
+  "rootPython": {
+    "tests": 174,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "freshFeatureParity": {
+    "cases": 34,
+    "floatTolerance": 1e-09
+  },
+  "frozenPins": 29,
+  "bounds": {
+    "responseBytes": 16384,
+    "tokens": 512,
+    "nestingDepth": 16,
+    "stringOrNameCharacters": 2048,
+    "numberCharacters": 64,
+    "totalBudgetMs": 250,
+    "clientPermits": 8
+  },
+  "packagedHttp": {
+    "client": "current Java client",
+    "domains": [
+      "TRANSPORT",
+      "ROAMING",
+      "MOBILE_DATA"
+    ],
+    "status": "OK",
+    "candidateUnchanged": true
+  },
+  "limitations": [
+    "Eight existing Java opt-in skips",
+    "Java 25 runtime with release target 21; no new Java 21 runtime campaign",
+    "ML Python/models unchanged; prior 91-test full ML result not re-claimed as fresh in this run",
+    "No new Linux byte rebuild, connected capacity/deployment or held-out Day 5 evaluation",
+    "Independent re-review pending"
+  ]
+}

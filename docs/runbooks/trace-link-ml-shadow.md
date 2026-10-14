@@ -73,6 +73,16 @@ and two independent shadow workers by default (configurable from one to eight).
 The deadline includes reading the complete response body. Timeout or interruption
 cancels the asynchronous HTTP exchange and releases the inference permit, even
 when the server has already delivered headers and a partial body.
+Response collection uses a fixed 16 KiB buffer for success and error statuses.
+A declared or streamed overflow cancels body demand and records
+`RESPONSE_TOO_LARGE`, without an accepted score. Chunked responses have the same
+limit. Decoding and success-schema validation finish inside the timed HTTP future;
+the caller's deadline therefore also covers decoding. JSON preflight permits at
+most 512 tokens, nesting depth 16, string/field-name length 2,048 and number length
+64, before a tree is constructed. Duplicate keys and trailing JSON are rejected.
+Complexity/malformed input records `MALFORMED_RESPONSE`; an expired absolute
+deadline records `TIMEOUT`. No separate decoding executor or unbounded queue is used.
+See the [response-bound correction evidence](../evidence/2026-10-14-sergiu-day4-response-bounds.md).
 
 Both feature builders bind roaming procedure populations to the scope's procedure
 (REGISTRATION, DATA, VOICE or SMS). Snapshot timestamps must lie in the half-open
@@ -111,6 +121,7 @@ $env:PYTHONPATH='services/ml-service'
 
 Common result reasons are TIMEOUT, CONNECTION_UNAVAILABLE, HTTP_REJECTED,
 MODEL_UNAVAILABLE, SATURATED, INVALID_REQUEST, MALFORMED_RESPONSE,
+RESPONSE_TOO_LARGE,
 REQUEST_MISMATCH, IDENTITY_MISMATCH, MODEL_MISMATCH, UNSUPPORTED_LABEL,
 STALE_RESPONSE and EXCESSIVE_LATENCY. Disabled/ineligible results are distinct
 from failed inference. No failure carries an accepted score.

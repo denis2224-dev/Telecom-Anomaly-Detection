@@ -16,6 +16,7 @@
 - [x] Bind snapshot timestamps to the source window and observed timestamp.
 - [x] Validate peer dimensions and exact policy-declared relationships.
 - [x] Correct synthetic snapshot provenance and rebuild the unapproved candidate.
+- [x] Reproduce and bound oversized HTTP response buffering and decoding after re-review.
 - [ ] Obtain independent re-review approval before merge.
 
 Fresh checks and hashes: `docs/evidence/2026-10-14-sergiu-day4-review-corrections.md`.

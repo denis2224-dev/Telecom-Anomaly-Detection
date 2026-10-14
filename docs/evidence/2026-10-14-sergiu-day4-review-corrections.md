@@ -1,5 +1,9 @@
 # Day 4 independent review corrections
 
+Follow-up: the [response buffering/decoding correction](2026-10-14-sergiu-day4-response-bounds.md)
+addresses the remaining P2 from independent re-review of `cd0847d4`.
+The counts and hashes below remain evidence for the earlier correction head.
+
 Review: [REQUEST CHANGES on PR #110](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/110#pullrequestreview-5522591498),
 reviewed head `720802b8b6c9497a42e18adcb1ea9333c415b5db`, base
 `f9934b5dce7c47f75771661b58592b68e4d545fa`. Corrections remain on
