@@ -60,6 +60,8 @@ class FirstSliceIT {
 
     @Test
     void voiceDetectionIsPersistedVisibleAndReplaySafe() throws Exception {
+        database.update("INSERT INTO app.analysts(id,issuer,subject,display_name,enabled) VALUES (?, ?, ?, ?, TRUE)",
+                UUID.randomUUID(), "https://identity.test/realm", "first-slice-reader", "First slice reader");
         String payload = new ClassPathResource(
                 "contracts/fixtures/detections/voice-open-illustrative-v2.json")
                 .getContentAsString(StandardCharsets.UTF_8);
@@ -192,7 +194,7 @@ class FirstSliceIT {
     ) {
         return get(path, uriVariables)
                 .session(session)
-                .with(oidcLogin().authorities(
+                .with(oidcLogin().idToken(token -> token.issuer("https://identity.test/realm").subject("first-slice-reader")).authorities(
                         new SimpleGrantedAuthority("ROLE_ANALYST")));
     }
 

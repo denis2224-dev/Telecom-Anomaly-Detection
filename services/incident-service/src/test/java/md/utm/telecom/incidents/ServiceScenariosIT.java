@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import md.utm.telecom.IncidentServiceIntegrationTestSupport;
+import md.utm.telecom.analysts.model.Analyst;
+import md.utm.telecom.analysts.repository.AnalystRepository;
+import org.junit.jupiter.api.BeforeEach;
 import md.utm.telecom.evidence.service.Disposition;
 import md.utm.telecom.evidence.service.EvidenceService;
 import md.utm.telecom.incidents.model.Incident;
@@ -33,6 +36,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ServiceScenariosIT extends IncidentServiceIntegrationTestSupport {
+    @Autowired AnalystRepository analysts;
+    private Analyst actor;
+    @BeforeEach
+    void registerActor() {
+        actor = analysts.saveAndFlush(new Analyst("https://identity.test/realm", "scenario-reader", "Scenario reader"));
+    }
     private static final String MODEL_VERSION = "isoforest-v2-synthetic-1";
     private static final List<String> EXPECTED_PHASES =
             List.of("OPEN", "UPDATE", "UPDATE", "UPDATE", "RECOVERY");
@@ -112,7 +121,7 @@ class ServiceScenariosIT extends IncidentServiceIntegrationTestSupport {
 
             MockHttpSession session = authenticatedSession();
             mvc.perform(get("/api/incidents/{id}", incident.getId()).session(session)
-                            .with(oidcLogin().authorities(
+                            .with(oidcLogin().idToken(token -> token.issuer(actor.getIssuer()).subject(actor.getSubject())).authorities(
                                     new SimpleGrantedAuthority("ROLE_ANALYST"))))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.episodeId").value(episodeId))
@@ -121,14 +130,14 @@ class ServiceScenariosIT extends IncidentServiceIntegrationTestSupport {
                     .andExpect(jsonPath("$.latestSequence").value(5))
                     .andExpect(jsonPath("$.latestDetection.mlStatus").value("OK"));
             mvc.perform(get("/api/incidents/{id}/detections", incident.getId())
-                            .session(session).with(oidcLogin().authorities(
+                            .session(session).with(oidcLogin().idToken(token -> token.issuer(actor.getIssuer()).subject(actor.getSubject())).authorities(
                                     new SimpleGrantedAuthority("ROLE_ANALYST"))))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.total").value(5))
                     .andExpect(jsonPath("$.items[0].phase").value("OPEN"))
                     .andExpect(jsonPath("$.items[4].phase").value("RECOVERY"));
             mvc.perform(get("/api/incidents/{id}/timeline", incident.getId())
-                            .session(session).with(oidcLogin().authorities(
+                            .session(session).with(oidcLogin().idToken(token -> token.issuer(actor.getIssuer()).subject(actor.getSubject())).authorities(
                                     new SimpleGrantedAuthority("ROLE_ANALYST"))))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.total").value(5));
