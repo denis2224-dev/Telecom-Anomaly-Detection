@@ -1,0 +1,72 @@
+{
+  "base": "3468ed908bebbe0eae7ced93ef46d56e412c9655",
+  "ancestry": [
+    {
+      "ref": "origin/main",
+      "sha": "f7364d35c71ddf865c9f826c41bdf0aac37f473d",
+      "ancestorOfBase": true
+    },
+    {
+      "ref": "origin/feature/ion-tracelink-domain-producers",
+      "sha": "e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8",
+      "ancestorOfBase": true
+    },
+    {
+      "ref": "origin/feature/ion-tracelink-scoped-scenarios",
+      "sha": "e3d0a41da141f2a836edbd35258ba878efc335dd",
+      "ancestorOfBase": true
+    },
+    {
+      "ref": "origin/feature/ion-tracelink-day5-reliability",
+      "sha": "8fb0596b415b4fef137b29b38774948d3112c1a0",
+      "ancestorOfBase": true
+    },
+    {
+      "ref": "origin/feature/ion-tracelink-day6-rehearsal",
+      "sha": "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c",
+      "ancestorOfBase": true
+    },
+    {
+      "ref": "origin/integration/trace-link-readiness-20261012",
+      "sha": "94950a35ea514672027242a19871f413a2120b10",
+      "ancestorOfBase": true
+    },
+    {
+      "ref": "origin/repair/david-trace-link-e2e-20261012",
+      "sha": "db6c0e9bb6d034383b8b109725462396496d1b8f",
+      "ancestorOfBase": true
+    }
+  ],
+  "preserved": [
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/detection/TraceLinkInputs.java",
+      "baseSha256": "7b3525e1168f3e0b265a30af7626d03f409fdec43a06b42ecd349acdc1cab942",
+      "diskSha256": "74c8f1aafab1184762627278da5ff2d4787dae2badfcaa73061a394e8d5b79a9",
+      "gitNormalizedUnchanged": true
+    },
+    {
+      "path": "contracts/policies/trace-link-domain-rules-v1.json",
+      "baseSha256": "59c6356c8ac4425c18ee523109d3d9982dd07818521460806169a20897db8d22",
+      "diskSha256": "c126af303fdc23cbdf203696d922847ee134f075dd63842c443d63a930fd1231",
+      "gitNormalizedUnchanged": true
+    },
+    {
+      "path": "contracts/baselines/trace-link-baseline-policy-v1.json",
+      "baseSha256": "25ab91191c497fc62c5c6cbd3664509a45940bae86cd3db838322e3ee9d6fb35",
+      "diskSha256": "8dcc6793ca47365eae479980e0e04660237461d0e15fea5a728b068aeceb5562",
+      "gitNormalizedUnchanged": true
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V016__trace_link_domain_windows.sql",
+      "baseSha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+      "diskSha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+      "gitNormalizedUnchanged": true
+    },
+    {
+      "path": "contracts/datasets/trace-link-live-synthetic-v1.json",
+      "baseSha256": "4accd3317fa6248a68e4b42ba6793ab3cc0f9c5a5a07c019b3846ccbfc90b444",
+      "diskSha256": "4accd3317fa6248a68e4b42ba6793ab3cc0f9c5a5a07c019b3846ccbfc90b444",
+      "gitNormalizedUnchanged": true
+    }
+  ]
+}

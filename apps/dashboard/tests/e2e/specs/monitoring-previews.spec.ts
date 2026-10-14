@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
 import { previewScenarios } from '../../../src/app/features/scenario-runner/monitoring-preview';
@@ -8,18 +8,13 @@ for (const width of [1366, 390]) {
     const state = await controlledApi(page);
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
-    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('not live subscriber counts');
-    await expect(page.locator('[data-chart=registrationSrPct] .actual-line')).not.toHaveAttribute('d', '');
-    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
-    expect(await page.locator('.compact .country-panels table').evaluateAll(tables => tables.every(table => table.scrollWidth <= table.parentElement!.clientWidth + 1))).toBe(true);
+    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Roaming measurements are unavailable');
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
     await expect(page.getByLabel('Key service information')).toContainText('Backhaul trafficUnavailable');
-    await expect(page.locator('.transport-link')).toHaveCount(8);
-    await expect(page.getByLabel('Illustrative intercity traffic')).toContainText('8.9 Gbps');
-    await page.getByRole('checkbox', { name: 'Show sample links' }).uncheck();
     await expect(page.locator('.transport-link')).toHaveCount(0);
-    await expect(page.locator('.city-marker')).toHaveCount(9);
-    await page.getByRole('checkbox', { name: 'Show sample links' }).check();
+    await expect(page.getByRole('checkbox', { name: 'Show sample links' })).toHaveCount(0);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 1366) {
       const boxes = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
@@ -29,13 +24,10 @@ for (const width of [1366, 390]) {
       expect((await page.locator('.city-map').boundingBox())!.width).toBeGreaterThan(350);
     }
     await page.screenshot({ path: info.outputPath(`overview-traffic-${width}.png`), fullPage: true });
-    await page.getByRole('link', { name: 'Open roaming preview', exact: false }).click();
-    await expect(page).toHaveURL(/\/roaming$/);
-    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
-    await page.getByRole('combobox', { name: 'Sort roaming countries' }).selectOption('voice');
-    await expect(page.locator('.country-panels tbody').first().locator('tr').first()).toContainText('Ukraine');
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`roaming-${width}.png`), fullPage: true });
+    await page.getByRole('link', { name: 'Open roaming investigation', exact: false }).click();
+    await expect(page).toHaveURL(/\/trace-link\?/);
+    await expect(page.getByRole('heading', { name: 'Trace Link history' })).toBeVisible();
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
     await page.goto('/dashboard?view=live');
     await expect(page.getByRole('region', { name: 'Live status' })).toContainText('1 active incidents');
     await expect(page.locator('app-connected-overview')).toHaveCount(0);

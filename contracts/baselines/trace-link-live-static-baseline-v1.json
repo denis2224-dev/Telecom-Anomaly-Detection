@@ -1,0 +1,11 @@
+{
+  "baselineVersion": "trace-link-live-static-baseline-v1",
+  "policyVersion": "trace-link-live-synthetic-rules-v1",
+  "datasetId": "trace-link-live-synthetic-v1",
+  "windowSeconds": 60,
+  "status": "STATIC_SYNTHETIC_ONLY",
+  "successCenterPct": 99,
+  "training": null,
+  "fallback": "UNAVAILABLE",
+  "ownerDecision": "PENDING_REVIEW"
+}

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import type { Incident } from '../../../src/app/core/api/telecom-client';
 

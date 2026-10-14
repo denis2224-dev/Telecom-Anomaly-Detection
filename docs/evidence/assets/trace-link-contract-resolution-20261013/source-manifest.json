@@ -1,0 +1,195 @@
+{
+  "revision": "8f97fb3c853cdd34adb14016724ffe6e85177ee3",
+  "tree": "18a0d90419831c5c63ef6f1f57eb137afc1f6e39",
+  "base": "3468ed908bebbe0eae7ced93ef46d56e412c9655",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "c32a05872684211c37f981ca05c0b6a531a6ce0bd16d48af7b7fa4f880d8eae2"
+    },
+    {
+      "path": ".github/workflows/incident-service.yml",
+      "sha256": "b80169b79e5f59a78469fb6455e3bf32aff887f40e3c4e5c14cf05d379e4b091"
+    },
+    {
+      "path": "apps/dashboard/api/incident-api.yaml",
+      "sha256": "fccc6496714edb3b928283d031ac393c5067aa5dffe4ab788ad7883dc1caa7ef"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/api/schema.ts",
+      "sha256": "fe7ceeba71ecf91e9df5a6676848da34248fd003f109447b93bb046eb2576f41"
+    },
+    {
+      "path": "contracts/baselines/trace-link-live-static-baseline-v1.json",
+      "sha256": "4d289db53ba02bbaca093708f7e212c6896335797a6c214022e7acb95215bcc0"
+    },
+    {
+      "path": "contracts/detections/trace-link-live-evaluation-v2.schema.json",
+      "sha256": "3f830eeb7a7257678f8bffdace77f8ec911de7591468cc35483808fbb593a7e3"
+    },
+    {
+      "path": "contracts/detections/trace-link-live-result-v1.schema.json",
+      "sha256": "9920e5aae6831c6624f099250f3ab97bdcfdb6c7b0ef5b60d73b3d54673046e8"
+    },
+    {
+      "path": "contracts/fixtures/trace-link/live-consumer-results-v1.json",
+      "sha256": "f75de456f7b107728060e887cc86a2aacc5679dec0113c0cf634278322a3cc19"
+    },
+    {
+      "path": "contracts/kpi/trace-link-domain-mapping-v1.json",
+      "sha256": "4fe3c943839f3f5c1202afb184ade43d3774ca01d517832cd729e97119ac4b13"
+    },
+    {
+      "path": "contracts/kpi/trace-link-domain-measurement-v1.schema.json",
+      "sha256": "87342b208b2f62376513b36f5b5d4970793e1f6380a4d7fe60b60fe4bb846a54"
+    },
+    {
+      "path": "contracts/openapi/incident-api.yaml",
+      "sha256": "fccc6496714edb3b928283d031ac393c5067aa5dffe4ab788ad7883dc1caa7ef"
+    },
+    {
+      "path": "contracts/policies/trace-link-live-synthetic-rules-v1.json",
+      "sha256": "fa094eeb09925d31fe0785ff328efd157c735e71b726bb140d15769d37242e3a"
+    },
+    {
+      "path": "docs/architecture/trace-link-contract-resolution-v1.md",
+      "sha256": "38d3b2fe93f4561e93c5147201ff2abef4e54caa3d69a63485f2002a18aa7475"
+    },
+    {
+      "path": "docs/architecture/trace-link-migration-ledger.md",
+      "sha256": "6bccd13fdb38ab10edba9eb434ddf5e12a9d4338a82dd61a9fa103f60c054c2d"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/migration-reservations.json",
+      "sha256": "7202ff6c5270c1edd2ebd709811f9312f278fb92098f2962509f919e2011f1ef"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-100.json",
+      "sha256": "465ce58b97a96b29e5d631733f5ad4f3b347cdc97b02b00bb72962c0f0fabde4"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-101.json",
+      "sha256": "b841ee61529db05293d4bbd3a57a26a1d8b651ddfb7b09cdc6d8bc3642156410"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-93.json",
+      "sha256": "9a9d62b4c47461b8f864ef6089cd5c53602e6501f5d39e1933cea0832f33db62"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-94.json",
+      "sha256": "0f84d3746736da467420570d685cb096c620453b20398ab56d617f1a9d72d0bf"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-95.json",
+      "sha256": "29f002dd1bba9974b04808d17438631413c58a58a52cca62362bbfea3913a7d3"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-96.json",
+      "sha256": "97cb006bca5c016996eb0f27811563f9601a6d2431094898ec6cda65600ac1f1"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-97.json",
+      "sha256": "4cfb2ee6fc95ff360e0acf8319150cee817e86f3d5cebda96baf016daaeaef20"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-98.json",
+      "sha256": "62327f6ef3f6cac0d9e04f3ff0efd1453915c84ded10c6906b80205b6866385e"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-99.json",
+      "sha256": "1abcf2dab69b37b3c418f405f620cf33a5b38c9c51b5b8dadecb27bddd429a8f"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/pr-heads.json",
+      "sha256": "4beecaf5d7e3dd04d6f908485e8eb7f1534cf072c7aa2d5b1aca488a176f484f"
+    },
+    {
+      "path": "docs/evidence/assets/trace-link-contract-resolution-20261013/source-boundaries.json",
+      "sha256": "dd1da03378f687b1d8fe9a44658cda2293de86d2fe770076d9f4201ffca4b6c4"
+    },
+    {
+      "path": "scripts/check-contracts.py",
+      "sha256": "f3d8c85fdd84ff26950b39f6807424b1d6235d85c8a3dffad9613f3960dc5a7a"
+    },
+    {
+      "path": "scripts/trace_link_receiving_contract.py",
+      "sha256": "d6924c3476df22d1f50df8cefd773fcb2a6d8c162354644a269f8e04b2283350"
+    },
+    {
+      "path": "services/incident-service/Dockerfile",
+      "sha256": "8841ec833e93719d64474a2a8f5e2be9ba71bb02baa5e723d2d15f0ca98b2837"
+    },
+    {
+      "path": "services/incident-service/pom.xml",
+      "sha256": "2192998e9d6f7b81ba5fb9d84bbc065506aa7e05c2f4e513816c1c546a355f99"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/TraceDomainController.java",
+      "sha256": "d44abc982da95bf3cafa5847f6e8df454b33c56327849a9daee3513f30cf9248"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/TraceDomainIngestionService.java",
+      "sha256": "06a53082bb86dfd59749d0c4880671faef5384633cd8e31f1f71b18ab94a4c8f"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/TraceDomainQueryService.java",
+      "sha256": "246219d6fba6b3fc5f8a57f7c77a88b049f30f6e2db157343d8c5feac929c3ef"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/application.yaml",
+      "sha256": "1667903f78790e4fc28d6258a869d59075a8b0fc3c48adc22533591f5d059b68"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V010__trace_link_domain_measurements.sql",
+      "sha256": "3ca8930208490d8ab419451fca62652f08cbecfc24ffd759f0adca550413e56c"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/incidents/DatabaseMigrationTest.java",
+      "sha256": "594660f9f5819bb4e8091d091db3e711e33e7ac05391e4acbee13c7ddd01ff15"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceDomainApiIT.java",
+      "sha256": "3cc183f12a613121bb184a5cdd237f954bca3733ba4cea7c8c46a7a441e78ed2"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceDomainDurabilityIT.java",
+      "sha256": "0ac5def53eb43297d868ded985d1e695b5efc5611b8e2749f9d7ad2608564751"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceDomainIngestionIT.java",
+      "sha256": "4270881abccce1da615b890fb923ec708c83ec7fbf5ae3052308f3384aa88c09"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/correlation/TraceLinkLiveRecovery.java",
+      "sha256": "d26e41da8de4e344d9662e9cc21202b043bc79b63c0f18f25371af5616026103"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/detection/TraceLinkLiveDetector.java",
+      "sha256": "e866f21948246888b6d2e39a906ecb4140a28c452598685bce83ccb371fd6a48"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/detection/TraceLinkLiveContractTest.java",
+      "sha256": "645d6589ef1b62f1221790720b2b28ac50a5bf325a205691ff5ea48a35d4447e"
+    },
+    {
+      "path": "services/streaming-support/pom.xml",
+      "sha256": "8ea6adf40fae4eeab3faeaf4cb7296470d3219fb04475834b73d62152e530f31"
+    },
+    {
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/observation/TraceLinkLiveContract.java",
+      "sha256": "88c034733817812449df960cb0ed09fe16f779d491d94f715efa6a0063cf4ad2"
+    },
+    {
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/observation/TraceLinkMeasurement.java",
+      "sha256": "d6976ed57dfa8faae7c3eea6936b5943545bc10541190708f99412c3ecc4824b"
+    },
+    {
+      "path": "services/streaming-support/src/test/java/md/utm/telecom/observation/TraceLinkMeasurementTest.java",
+      "sha256": "3b9ad0e9be3aa8b392799f60b16e07339587fb447e91bfadef3a24916a6aacd3"
+    },
+    {
+      "path": "tests/test_trace_link_receiving_contract.py",
+      "sha256": "c2ea8d91c969fa8c8d19acf5560d614d24bee308fa139f95922cec9f87b894ab"
+    }
+  ]
+}

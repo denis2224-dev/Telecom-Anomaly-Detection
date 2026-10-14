@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 
 test('durable notifications keep failed read state, qualify causes and restore keyboard focus',async({page})=>{

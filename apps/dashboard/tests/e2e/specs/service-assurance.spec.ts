@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import suite from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
 import services from '../../../src/fixtures/services.json';
 import { voiceIncidents } from '../../../src/fixtures/voice';
@@ -36,7 +36,7 @@ for (const width of [1366, 390]) for (const id of ['volte-normal', 'volte-fault'
     await page.screenshot({ path: info.outputPath(`controlled-${id}-overview-${width}.png`), fullPage: true });
     await page.locator('details.source-inventory > summary').click();
     await page.locator('.service-assurance-card a').click();
-    await expect(page.locator('app-kpi-cards [data-kpi-card]')).toHaveCount(trajectory.service === 'VOLTE' ? 8 : 5);
+    await expect(page.locator('app-kpi-cards [data-kpi-card]')).toHaveCount(trajectory.service === 'VOLTE' ? 7 : 5);
     await expect(page.locator('.service-hero [data-chart]')).toHaveCount(1);
     await expect(page.locator('.service-hero [data-chart]')).toHaveAttribute('data-chart', trajectory.service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs');
     await expect(page.locator('.service-hero .chart-legend')).toHaveCount(1);

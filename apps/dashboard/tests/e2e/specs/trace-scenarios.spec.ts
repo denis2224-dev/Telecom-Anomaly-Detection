@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 
 // Controlled HTTP responses in a real browser. This is not connected acceptance.

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { writeFileSync } from 'node:fs';
 import { admin, command, sql } from '../helpers/live-stack';

@@ -68,6 +68,8 @@ server:
         secure: ${SESSION_COOKIE_SECURE:false}
 
 app:
+  trace-domain-read-model:
+    enabled: ${TRACE_DOMAIN_READ_MODEL_ENABLED:false}
   trace-link:
     scenarios:
       enabled: ${TRACE_LINK_SCENARIOS_ENABLED:false}

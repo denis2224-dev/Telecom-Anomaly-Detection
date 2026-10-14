@@ -1,0 +1,32 @@
+{
+  "revision": "8fb1c7000c8ac01fb1dcc0fe4de00f006a4840a8",
+  "schemaSha256": "fccc6496714edb3b928283d031ac393c5067aa5dffe4ab788ad7883dc1caa7ef",
+  "browser": "153.0.8010.12",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "datasetId": "trace-link-md-30d-v1",
+  "seed": 42,
+  "rehearsals": [
+    {
+      "rehearsal": 1,
+      "inventoryStatus": 503,
+      "notificationStatus": 200,
+      "pushStatus": 404,
+      "nativeStatus": 404,
+      "actor": "same temporary analyst",
+      "contextVerified": true
+    },
+    {
+      "rehearsal": 2,
+      "inventoryStatus": 503,
+      "notificationStatus": 200,
+      "pushStatus": 404,
+      "nativeStatus": 404,
+      "actor": "same temporary analyst",
+      "contextVerified": true
+    }
+  ],
+  "populatedHistoryVerified": false
+}

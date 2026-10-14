@@ -25,11 +25,6 @@ import type { Filter } from './dashboard-geography';
     .page-heading p:not(.eyebrow) { display: none; }
     .page-heading .heading-copy { flex: 1; }
     .page-heading button { min-height: 36px; }
-    .kpi-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 0; background: var(--surface); border-radius: var(--radius-control); }
-    .kpi-strip > div { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-width: 0; min-height: 32px; padding: 4px 16px; }
-    .kpi-strip > div + div::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: color-mix(in srgb, var(--text-muted) 35%, var(--transparent)); }
-    .kpi-strip span { color: var(--text-muted); font-size: 12px; line-height: 1.35; }
-    .kpi-strip strong { min-width: 2ch; text-align: right; font-size: 20px; line-height: 1.2; font-weight: 600; font-variant-numeric: tabular-nums; }
     .scope-toolbar { display: flex; align-items: flex-end; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-3) 0 var(--space-4); }
     .scope-toolbar .button, .scope-toolbar select { min-height: 44px; }
     .scope-service { display: grid; gap: var(--space-2); width: 200px; max-width: 100%; color: var(--text-muted); font-size: 12px; }
@@ -38,11 +33,6 @@ import type { Filter } from './dashboard-geography';
       .page-heading h1 { font-size: 18px; }
       .page-heading button { padding: 8px; }
       .refresh-copy { display: none; }
-      .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 4px 0; }
-      .kpi-strip > div { gap: 8px; padding: 10px 12px; }
-      .kpi-strip > div:nth-child(odd)::before { content: none; }
-      .kpi-strip > div:nth-child(n + 3)::after { content: ''; position: absolute; top: 0; left: 12px; right: 12px; height: 1px; background: color-mix(in srgb, var(--text-muted) 35%, var(--transparent)); }
-      .kpi-strip span { font-size: 11px; }
       .scope-toolbar { display: grid; grid-template-columns: minmax(0, 1fr); }
       .scope-service { width: 100%; }
     }
@@ -74,9 +64,6 @@ export class ServiceOverviewComponent {
   }
   readonly visibleServices = computed(() => this.services().filter(item => this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter()));
   readonly healthyCount = computed(() => this.services().filter(item => this.health(item) === 'NORMAL').length);
-  readonly ongoingCount = computed(() => new Set(this.store.incidents().filter(item => item.technicalState === 'ONGOING').map(item => item.episodeId)).size);
-  readonly openCount = computed(() => this.services().reduce((sum, item) => sum + item.openIncidents, 0));
-  readonly observedCount = computed(() => this.services().filter(item => item.latestWindow !== null).length);
   mainMetric(service: Parameters<ServiceStore['health']>[0]): string {
     const window = service.latestWindow;
     if (!window) return 'Unavailable';

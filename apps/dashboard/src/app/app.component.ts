@@ -1,3 +1,4 @@
+import { product } from "../branding/product";
 import { TelecomClient, type ServiceSummary } from './core/api/telecom-client';
 import { Component, effect, inject, signal } from "@angular/core";
 import { DatePipe } from "@angular/common";
@@ -40,10 +41,11 @@ export class AppComponent {
   pageTitle(): string {
     const path = this.router.url;
     return path.startsWith('/trace-link') ? 'Trace Link history' : path.startsWith('/scenarios') ? 'Scenario runner'
-      : path.startsWith('/roaming') ? 'Roaming preview'
+      : path.startsWith('/roaming') ? 'Roaming investigation'
       : path.startsWith('/incidents') ? 'Incident investigation'
       : path.startsWith('/services') ? 'Service investigation' : 'Service overview';
   }
+  readonly product = product;
   readonly session = inject(SessionStore);
   readonly fixture = dataSource.fixture;
   readonly router = inject(Router);

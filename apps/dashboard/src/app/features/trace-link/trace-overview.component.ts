@@ -1,3 +1,6 @@
+import { NativeDomainPanelComponent } from './native-domain-panel.component';
+import { GrafanaLinkService } from './grafana-link.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TelecomClient, type TraceCity, type TraceLink, type TracePartner, type TraceKpiDefinition, type TraceMetricSeries, type TraceMetricQuery } from '../../core/api/telecom-client';
@@ -6,7 +9,7 @@ import { SessionStore } from '../login-and-session/session.store';
 import { TraceMetricChartComponent } from './trace-metric-chart.component';
 
 @Component({
-  selector:'app-trace-overview',imports:[TraceMetricChartComponent],
+  selector:'app-trace-overview',imports:[TraceMetricChartComponent,NativeDomainPanelComponent],
   styles:[`
     dialog {width:min(1400px,95vw);max-height:90vh;overflow:auto;background:var(--surface,#fff);color:var(--text);border:1px solid var(--border,#bbb);border-radius:12px;padding:20px;} dialog::backdrop {background:#0006;}
     .controls {display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;} label {display:grid;gap:6px;} input,select,button {min-height:44px;max-width:100%;} .actions {display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;}
@@ -27,34 +30,38 @@ import { TraceMetricChartComponent } from './trace-metric-chart.component';
       <div class="actions"><button type="button" (click)="apply(dataset.value,from.value,to.value)">Apply history query</button>@for(hours of periods;track hours){<button type="button" (click)="query.preset(hours)">{{ hours<72 ? hours+'h' : hours/24+'d' }}</button>}</div>
       @if(inputError()){<p role="alert">{{inputError()}}</p>}
       <p>Selected [{{query.context().from}}, {{query.context().to}}). Visible [{{query.context().visibleFrom ?? query.context().from}}, {{query.context().visibleTo ?? query.context().to}}).</p>
-      <div class="actions"><button type="button" (click)="zoom()">Zoom in</button><button type="button" (click)="pan(-1)">Pan earlier</button><button type="button" (click)="pan(1)">Pan later</button><button type="button" (click)="query.resetZoom()">Reset zoom</button></div>
+      <div class="actions"><button type="button" (click)="zoom()">Zoom in</button><button type="button" (click)="zoomOut()">Zoom out</button><button type="button" (click)="pan(-1)">Pan earlier</button><button type="button" (click)="pan(1)">Pan later</button><button type="button" (click)="query.resetZoom()">Reset zoom</button></div>
     </section>
     @if(inventoryBusy()){<p role="status">Loading versioned inventory…</p>}
     @if(inventoryError()){<p role="alert">{{inventoryError()}}</p><button type="button" (click)="loadInventory()">Retry inventory</button>}
     @if(cities().length){<section class="detail-panel" aria-label="Approved topology">
       <h2>Active reference topology</h2><p>Catalogue {{catalogueVersion()}} · {{cities().length}} active cities · {{links().length}} active links. Declared directions and capacity are inventory, not measured traffic or source authority.</p>
       <div class="table-scroll" tabindex="0" aria-label="Scrollable reference topology"><svg class="topology" style="min-width:650px" viewBox="0 0 650 350" role="group" aria-label="Versioned city and link topology; equivalent selection table follows">
-        @for(link of links();track link.id){@if(cityById(link.endpointA);as a){@if(cityById(link.endpointB);as b){<line [attr.x1]="x(a)" [attr.y1]="y(a)" [attr.x2]="x(b)" [attr.y2]="y(b)"><title>{{link.id}} · {{link.endpointA}} to {{link.endpointB}} · measurements unavailable</title></line>}}}
+        @for(link of links();track link.id){@if(cityById(link.endpointA);as a){@if(cityById(link.endpointB);as b){<g tabindex="0" role="button" [attr.aria-label]="'Select directional link '+link.id" (click)="chooseLink(link.id)" (keydown.enter)="chooseLink(link.id)" (keydown.space)="$event.preventDefault();chooseLink(link.id)"><line [attr.x1]="x(a)" [attr.y1]="y(a)" [attr.x2]="x(b)" [attr.y2]="y(b)"><title>{{link.id}} · {{link.endpointA}} to {{link.endpointB}} · declared inventory direction</title></line></g>}}}
         @for(city of cities();track city.id){<g tabindex="0" role="button" [attr.aria-label]="'Select city '+city.name" (click)="chooseCity(city.id)" (keydown.enter)="chooseCity(city.id)" (keydown.space)="$event.preventDefault();chooseCity(city.id)"><circle [attr.cx]="x(city)" [attr.cy]="y(city)" r="6"/><text [attr.x]="x(city)+10" [attr.y]="y(city)+4">{{city.name}}</text></g>}
       </svg></div>
       <details><summary>City selection table</summary><div class="table-scroll"><table><thead><tr><th>City</th><th>Latitude</th><th>Longitude</th><th>Provenance</th></tr></thead><tbody>@for(city of cities();track city.id){<tr><th><button type="button" (click)="chooseCity(city.id)">{{city.name}}</button></th><td>{{city.latitude}}</td><td>{{city.longitude}}</td><td>{{city.synthetic?'Synthetic':'Source marked non-synthetic'}}</td></tr>}</tbody></table></div></details>
       <details open><summary>Directional transport inventory</summary><div class="table-scroll"><table><thead><tr><th>Link</th><th>Endpoints</th><th>Direction</th><th>Effective Gbps</th><th>Measurement source</th></tr></thead><tbody>@for(link of links();track link.id){@for(direction of link.directions;track direction.id){<tr><th>{{link.id}}</th><td>{{direction.id==='a-to-b'?link.endpointA:link.endpointB}} → {{direction.id==='a-to-b'?link.endpointB:link.endpointA}}</td><td><button type="button" [attr.aria-pressed]="query.context().linkDirectionId===link.id+':'+direction.id" (click)="change({linkDirectionId:link.id+':'+direction.id})">{{link.id}} {{direction.id}}</button></td><td>{{direction.effectiveCapacityGbps}}</td><td>{{direction.measurementSource}}</td></tr>}}</tbody></table></div></details>
-      @if(query.context().linkDirectionId){<p>Selected {{query.context().linkDirectionId}}. Traffic, utilization, loss, RTT, jitter and operational state are unavailable until an approved read mapping exists. No reverse-direction value is inferred.</p>}
+      @if(query.context().linkDirectionId){<p>Selected {{query.context().linkDirectionId}}. Open Transport for enabled native measurements. Each declared direction is queried independently; no reverse-direction value is inferred.</p>}
     </section>}
     <section class="detail-panel" aria-label="Persisted domain panels"><h2>Persisted domain metrics</h2><div class="actions">@for(domain of domains;track domain.id){<button type="button" [attr.aria-pressed]="query.context().domain===domain.id" (click)="change({domain:domain.id})">{{domain.label}}</button>}</div>
-      @if(query.context().domain==='roaming'){<div class="controls"><label>Country<select [value]="query.context().countryId" (change)="change({countryId:$any($event.target).value})"><option value="all">All countries</option>@for(country of countries();track country){<option [value]="country">{{country}}</option>}</select></label><label>Roaming direction<select [value]="query.context().roamingDirection" (change)="change({roamingDirection:$any($event.target).value})"><option value="both">Both, separate populations</option><option value="out">out</option><option value="in">in</option></select></label></div><ul>@for(partner of visiblePartners();track partner.id+partner.direction){<li>{{partner.country}} · {{partner.id}} · {{partner.direction}} · {{partner.synthetic?'Synthetic reference partner':'Source marked non-synthetic'}} · measurements unavailable</li>}</ul>}
-      @if(!availableDefinitions().length){<p role="status">No approved metric definition is registered for {{query.context().domain}}. Measurements, baseline and incidents remain unavailable.</p>}
+      @if(query.context().domain==='roaming'){<div class="controls"><label>Country<select [value]="query.context().countryId" (change)="change({countryId:$any($event.target).value})"><option value="all">All countries</option>@for(country of countries();track country){<option [value]="country">{{country}}</option>}</select></label><label>Roaming direction<select [value]="query.context().roamingDirection" (change)="change({roamingDirection:$any($event.target).value})"><option value="both">Both, separate populations</option><option value="out">out</option><option value="in">in</option></select></label></div><ul>@for(partner of visiblePartners();track partner.id+partner.direction){<li>{{partner.country}} · {{partner.id}} · {{partner.direction}} · {{partner.synthetic?'Synthetic reference partner':'Source marked non-synthetic'}} · inventory context</li>}</ul>}
+      @if(query.context().domain==='transport' || query.context().domain==='roaming' || query.context().domain==='mobile-data'){<app-native-domain-panel [cities]="cities()" [links]="links()" [partners]="partners()" />}
+      @if(!availableDefinitions().length && ['transport','roaming','mobile-data'].includes(query.context().domain)){<p>Registered rollups are unavailable for {{query.context().domain}}. Native source measurements are listed separately.</p>}
+      @else if(!availableDefinitions().length){<p role="status">No approved metric definition is registered for {{query.context().domain}}. Measurements, baseline and incidents remain unavailable.</p>}
       @else{<label>Metric<select [value]="definition()?.metric ?? ''" (change)="metric.set($any($event.target).value)">@for(item of availableDefinitions();track item.metric){<option [value]="item.metric" [selected]="definition()?.metric===item.metric">{{item.metric}}</option>}</select></label><p>{{definition()?.population}} · {{definition()?.aggregation}} · policy {{definition()?.policyVersion}}</p>}
       @if(!metricQuery() && availableDefinitions().length){<p>Enter the recorded dataset, choose a city and apply valid history bounds.</p>}
       @if(seriesBusy()){<p role="status">Loading persisted metric buckets…</p>}
       @if(seriesError()){<p role="alert">{{seriesError()}}</p><button type="button" (click)="refresh.update(value=>value+1)">Retry metric history</button>}
-      @if(series();as result){<p>{{result.synthetic?'Synthetic':'Source marked non-synthetic'}} · dataset <code>{{result.datasetId}}</code> · {{result.scopeType}} {{result.scopeId}} · topology {{result.topologyVersion ?? 'Unavailable'}} · source resolution {{result.sourceResolutionSeconds}} seconds · {{result.partialStart || result.partialEnd ? 'Partial edge buckets' : 'Full edge buckets'}}</p><app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/><button #expandBtn type="button" (click)="openExpanded(expanded,expandBtn)">Expand metric</button><button type="button" [disabled]="csvBusy() || seriesBusy()" (click)="downloadCsv()">Download exact server CSV</button>}
-      <p>Grafana connectivity and new-domain incident mapping are unavailable in this candidate. Existing incident investigation remains available through the workspace navigation.</p>
+      @if(series();as result){<p>{{result.synthetic?'Synthetic':'Source marked non-synthetic'}} · dataset <code>{{result.datasetId}}</code> · {{result.scopeType}} {{result.scopeId}} · topology {{result.topologyVersion ?? 'Unavailable'}} · source resolution {{result.sourceResolutionSeconds}} seconds · {{result.partialStart || result.partialEnd ? 'Partial edge buckets' : 'Full edge buckets'}}</p><app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/><button type="button" [disabled]="csvBusy() || seriesBusy()" (click)="downloadCsv()">Download exact server CSV</button>}
+      @if(metricQuery()){<button #expandBtn type="button" (click)="openExpanded(expanded,expandBtn)">Expand metric</button>}
+      <p>@if(grafana.url(query.context());as url){<a [href]="url" target="_blank" rel="noopener noreferrer">Open this context in Grafana</a>}@else{Grafana is not configured. Metric history and exact CSV remain available.}</p>
     </section>
     <dialog #expanded aria-labelledby="expanded-trace-title"><h2 id="expanded-trace-title">Expanded persisted metric</h2><button type="button" (click)="expanded.close()">Close expanded metric</button><p>Visible [{{query.context().visibleFrom ?? query.context().from}}, {{query.context().visibleTo ?? query.context().to}}) · {{query.context().resolution}} · {{query.context().timezone}}</p><button type="button" (click)="query.resetZoom()">Reset zoom</button>@if(series();as result){<app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/>}@else{<p role="status">{{seriesError() || 'Loading selected history…'}}</p>}</dialog>
   `,
 })
 export class TraceOverviewComponent {
+  readonly grafana=inject(GrafanaLinkService);
   readonly query=inject(TraceQueryStore);private readonly api=inject(TelecomClient);private readonly session=inject(SessionStore);
   private readonly router=inject(Router);private readonly route=inject(ActivatedRoute);
   readonly cities=signal<TraceCity[]>([]);readonly links=signal<TraceLink[]>([]);readonly partners=signal<TracePartner[]>([]);
@@ -69,13 +76,15 @@ export class TraceOverviewComponent {
   readonly definition=computed<TraceKpiDefinition|undefined>(()=>this.availableDefinitions().find(item=>item.metric===this.metric()) ?? this.availableDefinitions()[0]);
   readonly metricQuery=computed<TraceMetricQuery|null>(()=>{
     const context=this.query.context(),definition=this.definition();
-    if(!definition || !context.datasetId.trim() || context.cityId==='all' || context.domain==='transport'||context.domain==='roaming')return null;
+    if(!definition || context.domain==='all' || !context.datasetId.trim() || context.cityId==='all' || context.domain==='transport'||context.domain==='roaming')return null;
     return {datasetId:context.datasetId,domain:context.domain,metric:definition.metric,scopeType:'CITY',scopeId:context.cityId,
       from:context.visibleFrom??context.from,to:context.visibleTo??context.to,resolution:context.resolution};
   });
   private inventoryRequest?:AbortController;private csvRequest?:AbortController;private inventoryGeneration=0;
   constructor(){
+    this.route.queryParams?.pipe(takeUntilDestroyed()).subscribe(params=>{if(!this.query.restore(params))this.inputError.set('Invalid URL history context. Review the period, resolution and scope.');});
     if(!this.query.restore(this.route.snapshot.queryParams))this.inputError.set('Invalid URL history context. Review the period, resolution and scope.');
+    effect(cleanup=>{this.metricQuery();cleanup(()=>{this.csvRequest?.abort();this.csvBusy.set(false);});});
     effect(()=>{const context=this.query.context();void this.router.navigate([],{relativeTo:this.route,queryParams:traceContextParameters(context),replaceUrl:true});});
     effect(cleanup=>{
       if(this.session.phase()!=='authenticated')return;
@@ -116,12 +125,14 @@ export class TraceOverviewComponent {
     finally{if(!request.signal.aborted)this.inventoryBusy.set(false);}
   }
   change(patch:Partial<TraceQueryContext>):void {this.inputError.set(this.query.update(patch,this.links())?'':'Invalid query context. Use a UTC period of at most 30 days.');}
+  chooseLink(id:string):void{const link=this.links().find(link=>link.id===id);if(!link?.directions.length)return;const city=this.query.context().cityId;this.change({domain:'transport',linkDirectionId:id+':'+link.directions[0].id,...(city!=='all'&&![link.endpointA,link.endpointB].includes(city)?{cityId:link.endpointA}:{})});}
   chooseCity(id:string):void{this.change({cityId:id});}
   apply(datasetId:string,from:string,to:string):void{this.change({datasetId:datasetId.trim(),from,to});}
   cityById(id:string):TraceCity|undefined{return this.cities().find(city=>city.id===id);}
   x(city:TraceCity):number{const values=this.cities().map(city=>city.longitude);return 40+(city.longitude-Math.min(...values))/Math.max(.01,Math.max(...values)-Math.min(...values))*480;}
   y(city:TraceCity):number{const values=this.cities().map(city=>city.latitude);return 310-(city.latitude-Math.min(...values))/Math.max(.01,Math.max(...values)-Math.min(...values))*270;}
   zoom():void{const c=this.query.context(),from=Date.parse(c.visibleFrom??c.from),to=Date.parse(c.visibleTo??c.to),quarter=(to-from)/4;if(to-from>600000)this.query.zoom(new Date(from+quarter).toISOString(),new Date(to-quarter).toISOString());}
+  zoomOut():void{const c=this.query.context(),from=Date.parse(c.visibleFrom??c.from),to=Date.parse(c.visibleTo??c.to),half=(to-from)/2;this.query.zoom(new Date(Math.max(Date.parse(c.from),from-half)).toISOString(),new Date(Math.min(Date.parse(c.to),to+half)).toISOString());}
   pan(direction:number):void{const c=this.query.context(),from=Date.parse(c.visibleFrom??c.from),to=Date.parse(c.visibleTo??c.to),shift=(to-from)/2*direction;this.query.zoom(new Date(from+shift).toISOString(),new Date(to+shift).toISOString());}
   openExpanded(dialog: HTMLDialogElement, opener: HTMLElement): void {
     dialog.showModal();

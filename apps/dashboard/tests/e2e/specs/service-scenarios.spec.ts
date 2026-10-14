@@ -3,7 +3,7 @@ import {
   expect,
   type APIRequestContext,
   type Page,
-} from '@playwright/test';
+} from '../helpers/test';
 import type { components } from '../../../src/app/core/api/schema';
 
 type Run = components['schemas']['ScenarioRun'];

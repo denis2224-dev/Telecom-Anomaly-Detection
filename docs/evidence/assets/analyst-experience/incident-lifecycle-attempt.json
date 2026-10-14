@@ -1,0 +1,1965 @@
+{
+  "startedAtUTC": "2026-10-13T18:25:02.591Z",
+  "revision": "43ca6ce37c54204b979c35df7994ea5c79079dd0",
+  "patchSha256": "142c13ecfb2721f812de7b251f9a1004d3ab59a66b188972b1072011761e1abd",
+  "mode": "Authenticated local backend; synthetic telemetry; no interception or fixture fallback",
+  "checks": [
+    "ANALYST: real OIDC login, protected geography, rotated session/CSRF, token-free browser storage",
+    "SUPERVISOR: real OIDC login, protected geography, rotated session/CSRF, token-free browser storage",
+    "ANALYST cannot start scenarios in the UI or protected API",
+    "Orhei real city/service histories and actual SSE reconnect REST refresh with selection/focus preserved"
+  ],
+  "requests": [
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:09:00.000Z&to=2026-10-13T18:24:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:09:00.000Z&to=2026-10-13T18:24:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/auth/csrf",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T17:25:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?scopeId=VOLTE-MD-ORH&service=VOLTE&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a/detections?page=0&size=1",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T17:25:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?scopeId=SMS-MD-ORH&service=SMS&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513/detections?page=0&size=1",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:10:00.000Z&to=2026-10-13T18:25:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:11:00.000Z&to=2026-10-13T18:26:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 503
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/stream",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/notifications?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/geography/cities",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/topology?catalogueVersion=2-geography-day2-7ac01ade203503df6cfe7e5630907655f7f83b2b33bd2a2c0d80d6639e424298&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:12:00.000Z&to=2026-10-13T18:27:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T18:14:00.000Z&to=2026-10-13T18:29:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/services/SMS-MD-ORH/kpis?from=2026-10-13T18:14:00.000Z&to=2026-10-13T18:29:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/operations/priority?cityId=ORH&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/operations/priority?page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=SMS&from=2026-10-13T18:14:00.000Z&to=2026-10-13T18:29:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/geography/cities/ORH/kpis?service=VOLTE&from=2026-10-13T18:14:00.000Z&to=2026-10-13T18:29:00.000Z&page=0&size=20",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents?page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "ANALYST",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5d491dcd-86ec-4ae1-b71a-a3ec8eda0041",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/5641f2ae-d30f-4588-85e7-b486701c87b5",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/f13ee44e-7385-4605-9e8f-9b4163864301",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/9fbde580-4990-48ef-91bb-5d640f892976",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d9e6b1fb-4ca9-4b18-b412-c58f8d67d1d8",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/76e60c59-34a0-426d-afcd-dc7f59b589af",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/035966af-7c4d-4945-b336-f2a99a0fc908",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/fcffe48b-1880-4bf3-b423-2487f7b90e54",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/VOLTE-MD-CENTRAL/kpis?from=2026-10-13T18:14:00.000Z&to=2026-10-13T18:29:00.000Z&page=0&size=100",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/92befdc0-6442-4a4e-8f0e-a4b6172f4004",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/8b980d05-50b2-456a-b778-c6138719a513",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/96e0bb21-5246-4631-b864-d0fb7d39e74a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/519578b8-0f63-476f-af27-e6cb469a850b",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/c8e9889f-f58e-4cff-9146-f6b5f8d4c76e",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d3fb1eb3-3adb-4a35-8c1d-0867a8661b86",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/incidents/d4cb15a9-002f-423d-a799-cdb12f55205a",
+      "status": 200
+    },
+    {
+      "role": "SUPERVISOR",
+      "path": "/api/services/SMS-MD-ROUTE-A/kpis?from=2026-10-13T18:14:00.000Z&to=2026-10-13T18:29:00.000Z&page=0&size=100",
+      "status": 200
+    }
+  ],
+  "runs": [
+    {
+      "type": "VOLTE_IMS_OVERLOAD",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "runId": "00c701d7-44de-486d-b83d-40ec1fb472ef",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-13T18:26:00Z",
+      "scheduledEndAt": "2026-10-13T18:34:00Z",
+      "scenarioType": "VOLTE_IMS_OVERLOAD"
+    },
+    {
+      "type": "SMS_QUEUE_DELAY",
+      "scopeId": "SMS-MD-ROUTE-A",
+      "runId": "22f86d12-fa9f-4b74-9b7f-c49c86d176e4",
+      "status": "SCHEDULED",
+      "scheduledStartAt": "2026-10-13T18:26:00Z",
+      "scheduledEndAt": "2026-10-13T18:34:00Z",
+      "scenarioType": "SMS_QUEUE_DELAY"
+    }
+  ],
+  "captures": [
+    {
+      "file": "VOLTE_IMS_OVERLOAD-1366.png",
+      "capturedAtUTC": "2026-10-13T18:25:24.148Z"
+    },
+    {
+      "file": "SMS_QUEUE_DELAY-1366.png",
+      "capturedAtUTC": "2026-10-13T18:25:25.261Z"
+    },
+    {
+      "file": "orhei-release-1366.png",
+      "capturedAtUTC": "2026-10-13T18:25:26.495Z"
+    },
+    {
+      "file": "orhei-release-768.png",
+      "capturedAtUTC": "2026-10-13T18:25:26.612Z"
+    },
+    {
+      "file": "orhei-release-390.png",
+      "capturedAtUTC": "2026-10-13T18:25:26.719Z"
+    },
+    {
+      "file": "VOLTE-MD-ORH-1366.png",
+      "capturedAtUTC": "2026-10-13T18:25:27.190Z"
+    },
+    {
+      "file": "SMS-MD-ORH-1366.png",
+      "capturedAtUTC": "2026-10-13T18:25:27.555Z"
+    }
+  ],
+  "passed": false
+}

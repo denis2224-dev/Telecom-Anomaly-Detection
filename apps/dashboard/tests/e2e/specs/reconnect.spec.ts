@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from '../helpers/test';
 import services from '../../../src/fixtures/services.json';
 import { voiceIncidents, voiceRange, voiceWindows } from '../../../src/fixtures/voice';
 import type { Incident } from '../../../src/app/core/api/telecom-client';
