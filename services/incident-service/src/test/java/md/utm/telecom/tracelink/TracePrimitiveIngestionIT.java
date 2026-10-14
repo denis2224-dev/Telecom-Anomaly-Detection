@@ -138,7 +138,7 @@ class TracePrimitiveIngestionIT extends IncidentServiceIntegrationTestSupport {
     }
 
     @Test
-    void completeSourceQualitySurvivesPartialEdge() {
+    void excludedNativeSlotDoesNotContributeQualityAtPartialEdges() {
         ObjectNode valid = nativeExample.deepCopy();
         valid.put("sourceQuality", "VALID");
         valid.put("sourceCoverage", 1);
@@ -150,8 +150,12 @@ class TracePrimitiveIngestionIT extends IncidentServiceIntegrationTestSupport {
         assertEquals(0, full.sourceCoverage().compareTo(java.math.BigDecimal.ONE));
         var edge = queries.series(query(FROM.plusSeconds(60), FROM.plusSeconds(240), "5m"))
                 .points().getFirst();
-        assertEquals("PARTIAL", edge.quality());
-        assertEquals("PARTIAL_REQUEST_EDGE", edge.qualityReason());
+        assertEquals("MISSING", edge.quality());
+        assertEquals("NO_SOURCE_SLOTS", edge.qualityReason());
+        assertEquals(0, edge.receivedSlots());
+        assertEquals(0, edge.coverage().signum());
+        assertNull(edge.value());
+        assertNull(edge.sourceQuality());
     }
 
     @Test
