@@ -14,8 +14,16 @@ import org.apache.kafka.clients.admin.Admin;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
+import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -34,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.*;
         "app.evidence.reconcile-enabled=false", "logging.level.org.apache.kafka=WARN",
         "spring.datasource.hikari.connection-init-sql=SET ROLE incidents_app"})
 @Import(OidcTestConfiguration.class)
-@EmbeddedKafka(partitions=1, topics="telecom.detections.trace-link.v1",
+@EmbeddedKafka(partitions=1, topics={"telecom.detections.trace-link.v1","telecom.detections.trace-link.retry.v1"},
         bootstrapServersProperty="spring.kafka.bootstrap-servers")
 class TraceLinkKafkaReceiverIT {
     private static final String TOPIC="telecom.detections.trace-link.v1";
@@ -53,6 +61,75 @@ class TraceLinkKafkaReceiverIT {
     @Autowired KafkaListenerEndpointRegistry listeners;
     @Autowired TraceLinkIncidentService receiver;
     @Autowired JdbcTemplate jdbc;
+
+    @BeforeEach void clearDetectorTestRows() throws Exception {
+        try (var connection=java.sql.DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());
+             var statement=connection.createStatement()) {
+            statement.executeUpdate("DELETE FROM app.trace_link_incident_audit");
+            statement.executeUpdate("DELETE FROM app.trace_link_incidents");
+            statement.executeUpdate("DELETE FROM app.trace_link_detection_evidence");
+        }
+    }
+
+    @AfterEach void stopListener() {
+        var listener=listeners.getListenerContainer("traceLinkDetections");
+        if (listener!=null && listener.isRunning()) listener.stop();
+    }
+
+    @Test void committedEvidenceSurvivesLostAcknowledgmentAndRealKafkaRedelivery() throws Exception {
+        String topic="telecom.detections.trace-link.retry.v1", group="trace-link-ack-retry";
+        var envelope=TraceLinkReceiverFixtures.envelope("ROAMING",1,"OPEN","HIGH");
+        String episode=envelope.required("lifecycle").required("episodeId").asText();
+        Map<String,Object> producerConfig=Map.of(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,broker.getBrokersAsString(),
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class,
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class,ProducerConfig.ACKS_CONFIG,"all");
+        try(var producer=new KafkaProducer<String,String>(producerConfig)) {
+            producer.send(new ProducerRecord<>(topic,episode,envelope.toString())).get(20,TimeUnit.SECONDS);
+        }
+        Map<String,Object> consumerConfig=Map.of(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,broker.getBrokersAsString(),
+                ConsumerConfig.GROUP_ID_CONFIG,group,ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG,false,
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest",ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class,
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
+        var productionConsumer=new TraceLinkDetectionConsumer(receiver);
+        long deliveredOffset;
+        try(var beforeRestart=new KafkaConsumer<String,String>(consumerConfig)) {
+            beforeRestart.subscribe(java.util.List.of(topic));
+            var record=nextRecord(beforeRestart);
+            deliveredOffset=record.offset();
+            assertThrows(IllegalStateException.class,() -> productionConsumer.consume(record,() -> {
+                assertEquals(1,count("trace_link_detection_evidence"));
+                assertEquals(1,count("trace_link_incident_audit"));
+                throw new IllegalStateException("Injected acknowledgment failure after committed ingest");
+            }));
+            assertNull(beforeRestart.committed(java.util.Set.of(new TopicPartition(topic,0))).get(new TopicPartition(topic,0)));
+        }
+        var committed=receiver.detail(episode);
+        try(var afterRestart=new KafkaConsumer<String,String>(consumerConfig)) {
+            afterRestart.subscribe(java.util.List.of(topic));
+            var retry=nextRecord(afterRestart);
+            assertEquals(deliveredOffset,retry.offset(),"Unacknowledged record must be redelivered after restart");
+            productionConsumer.consume(retry,() -> afterRestart.commitSync(Map.of(new TopicPartition(topic,0),new OffsetAndMetadata(retry.offset()+1))));
+            assertEquals(retry.offset()+1,afterRestart.committed(java.util.Set.of(new TopicPartition(topic,0)))
+                    .get(new TopicPartition(topic,0)).offset());
+        }
+        assertEquals(1,count("trace_link_detection_evidence"));
+        assertEquals(1,count("trace_link_incident_audit"));
+        assertEquals(committed,receiver.detail(episode));
+        assertEquals(envelope,committed.latestDetection());
+        assertEquals(java.time.Instant.parse("2026-10-10T08:35:00Z"),committed.firstObservedAt());
+        assertEquals(java.time.Instant.parse("2026-10-10T08:45:01Z"),committed.detectedAt());
+        assertEquals(TraceLinkDetectionMessage.fingerprint(envelope),jdbc.queryForObject(
+                "SELECT fingerprint FROM app.trace_link_detection_evidence WHERE episode_id=?",String.class,episode));
+    }
+
+    private static ConsumerRecord<String,String> nextRecord(KafkaConsumer<String,String> consumer) {
+        long deadline=System.nanoTime()+Duration.ofSeconds(30).toNanos();
+        while(System.nanoTime()<deadline) {
+            var records=consumer.poll(Duration.ofSeconds(1));
+            if(!records.isEmpty()) return records.iterator().next();
+        }
+        throw new AssertionError("Kafka record was not delivered within 30 seconds");
+    }
 
     @Test void kafkaDeliveryCommitsThreeDomainsAndReplaysWithoutDuplicateEvidence() throws Exception {
         Instant startedAt=Instant.now();
@@ -136,12 +213,12 @@ class TraceLinkKafkaReceiverIT {
         assertEquals(unique.size(),count("trace_link_incident_audit"));
         assertEquals(expected.size(),receiver.list(100,0).total());
         for (var entry : expected.entrySet()) {
-            assertEquals(entry.getValue().lastEntry().getValue(),receiver.detail(entry.getKey()),
+            assertEquals(entry.getValue().lastEntry().getValue(),receiver.detail(entry.getKey()).latestDetection(),
                     "Projection must equal the highest contiguous producer sequence");
             assertEquals(entry.getValue().size(),receiver.evidence(entry.getKey(),100,0).total());
         }
         for (String episode : nativeEpisodes) {
-            assertEquals("RECOVERED",receiver.detail(episode).required("lifecycle").required("technicalState").asText());
+            assertEquals("RECOVERED",receiver.detail(episode).technicalState());
             assertEquals(7,receiver.evidence(episode,100,0).total());
         }
         assertEquals(0L,jdbc.queryForObject("""
@@ -161,7 +238,7 @@ class TraceLinkKafkaReceiverIT {
         receipt.put("committedKafkaOffsets",committed).put("sentKafkaDeliveries",deliveryCount);
         var projections = receipt.putArray("projections");
         for (var entry : expected.entrySet()) {
-            var lifecycle = receiver.detail(entry.getKey()).required("lifecycle");
+            var lifecycle = receiver.detail(entry.getKey()).latestDetection().required("lifecycle");
             projections.addObject().put("episodeId",entry.getKey())
                     .put("sequence",lifecycle.required("sequence").asLong())
                     .put("detectionId",lifecycle.required("detectionId").asText())

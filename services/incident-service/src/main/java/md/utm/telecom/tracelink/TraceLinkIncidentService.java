@@ -82,17 +82,18 @@ public class TraceLinkIncidentService {
             JsonNode next = TraceLinkDetectionMessage.validate(json.readTree(pending.getFirst().toString()));
             JsonNode lifecycle = next.required("lifecycle");
             if (previous != null) validateSuccessor(previous, next);
-            Instant start = Instant.parse(lifecycle.required("window").required("from").asText());
             Instant end = Instant.parse(lifecycle.required("window").required("to").asText());
             if (latest == 0) {
                 db.createNativeQuery("""
                         INSERT INTO app.trace_link_incidents
-                        (episode_id,latest_sequence,technical_state,severity,first_observed_at,last_observed_at,projection,version)
-                        VALUES (:episode,:sequence,:state,:severity,:start,:end,CAST(:payload AS jsonb),1)
+                        (episode_id,latest_sequence,technical_state,severity,first_observed_at,detected_at,last_observed_at,projection,version)
+                        VALUES (:episode,:sequence,:state,:severity,:start,:detected,:end,CAST(:payload AS jsonb),1)
                         """).setParameter("episode", episode).setParameter("sequence", latest + 1)
                         .setParameter("state", lifecycle.required("technicalState").asText())
                         .setParameter("severity", lifecycle.required("severity").asText())
-                        .setParameter("start", start).setParameter("end", end)
+                        .setParameter("start", TraceLinkDetectionMessage.openingAnchor(next))
+                        .setParameter("detected", Instant.parse(next.required("context").required("evaluatedAt").asText()))
+                        .setParameter("end", end)
                         .setParameter("payload", TraceLinkDetectionMessage.canonical(next)).executeUpdate();
             } else {
                 db.createNativeQuery("""
@@ -133,31 +134,46 @@ public class TraceLinkIncidentService {
     }
 
     @Transactional(readOnly = true)
-    public Page list(int limit, int offset) {
+    public Page<TraceLinkIncidentView> list(int limit, int offset) {
         validateBounds(limit, offset);
-        List<?> values = db.createNativeQuery("SELECT projection::text FROM app.trace_link_incidents ORDER BY first_observed_at DESC,episode_id DESC")
+        List<?> values = db.createNativeQuery("SELECT " + VIEW_COLUMNS + " FROM app.trace_link_incidents ORDER BY first_observed_at DESC,episode_id DESC")
                 .setFirstResult(offset).setMaxResults(limit).getResultList();
         long total = ((Number)db.createNativeQuery("SELECT count(*) FROM app.trace_link_incidents").getSingleResult()).longValue();
-        return new Page(values.stream().map(v -> json.readTree(v.toString())).toList(), total, limit, offset);
+        return new Page<>(values.stream().map(this::view).toList(), total, limit, offset);
     }
 
     @Transactional(readOnly = true)
-    public JsonNode detail(String episode) {
+    public TraceLinkIncidentView detail(String episode) {
         validateEpisode(episode);
-        List<?> rows = db.createNativeQuery("SELECT projection::text FROM app.trace_link_incidents WHERE episode_id=:episode")
+        List<?> rows = db.createNativeQuery("SELECT " + VIEW_COLUMNS + " FROM app.trace_link_incidents WHERE episode_id=:episode")
                 .setParameter("episode", episode).getResultList();
         if (rows.isEmpty()) throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "Incident not found");
-        return json.readTree(rows.getFirst().toString());
+        return view(rows.getFirst());
     }
 
     @Transactional(readOnly = true)
-    public Page evidence(String episode, int limit, int offset) {
+    public Page<JsonNode> evidence(String episode, int limit, int offset) {
         validateBounds(limit, offset); detail(episode);
         List<?> rows = db.createNativeQuery("SELECT payload::text FROM app.trace_link_detection_evidence WHERE episode_id=:episode ORDER BY sequence")
                 .setParameter("episode", episode).setFirstResult(offset).setMaxResults(limit).getResultList();
         long total = ((Number)db.createNativeQuery("SELECT count(*) FROM app.trace_link_detection_evidence WHERE episode_id=:episode")
                 .setParameter("episode", episode).getSingleResult()).longValue();
-        return new Page(rows.stream().map(v -> json.readTree(v.toString())).toList(), total, limit, offset);
+        return new Page<>(rows.stream().map(v -> json.readTree(v.toString())).toList(), total, limit, offset);
+    }
+
+    private static final String VIEW_COLUMNS = "episode_id,first_observed_at,detected_at,last_observed_at,latest_sequence,technical_state,severity,projection::text";
+
+    private TraceLinkIncidentView view(Object value) {
+        Object[] row = (Object[]) value;
+        return new TraceLinkIncidentView(row[0].toString(),instant(row[1]),instant(row[2]),instant(row[3]),
+                ((Number)row[4]).longValue(),row[5].toString(),row[6].toString(),json.readTree(row[7].toString()));
+    }
+
+    private static Instant instant(Object value) {
+        if (value instanceof Instant instant) return instant;
+        if (value instanceof java.time.OffsetDateTime offset) return offset.toInstant();
+        if (value instanceof java.sql.Timestamp timestamp) return timestamp.toInstant();
+        throw new IllegalStateException("Unsupported database timestamp type: " + value.getClass().getName());
     }
 
     public static void validateBounds(int limit, int offset) {
@@ -167,7 +183,7 @@ public class TraceLinkIncidentService {
     static void validateEpisode(String episode) {
         if (episode == null || !episode.matches("[a-f0-9]{64}")) throw new IllegalArgumentException("Invalid episodeId");
     }
-    public record Page(List<JsonNode> items, long total, int limit, int offset) { }
+    public record Page<T>(List<T> items, long total, int limit, int offset) { }
     public record IngestResult(String disposition, int appliedCount, long latestSequence) { }
     public record TraceLinkIncidentChanged(String episodeId, long version) { }
 }

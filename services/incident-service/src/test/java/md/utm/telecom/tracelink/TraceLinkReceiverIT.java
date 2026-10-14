@@ -20,6 +20,79 @@ class TraceLinkReceiverIT extends IncidentServiceIntegrationTestSupport {
     @Autowired MockMvc mvc;
     @Autowired AnalystRepository analysts;
 
+    @Test void openingProjectionStartsAtFirstBreachRatherThanSecondWindow() {
+        var first = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
+        String episode = first.required("lifecycle").required("episodeId").asText();
+        assertEquals("2026-10-10T08:40:00Z", first.required("context").required("window").required("from").asText());
+        assertEquals("2026-10-10T08:45:01Z", first.required("context").required("evaluatedAt").asText());
+        receiver.ingest(episode,first.toString());
+        var onset = (java.time.Instant)entityManager.createNativeQuery(
+                "SELECT first_observed_at FROM app.trace_link_incidents WHERE episode_id=:episode",java.time.Instant.class)
+                .setParameter("episode",episode).getSingleResult();
+        assertEquals(java.time.Instant.parse("2026-10-10T08:35:00Z"),onset);
+    }
+
+    @Test void incidentReadViewsRetainInitialTimesAcrossTransitionsReorderAndReplay() throws Exception {
+        var first = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
+        String episode = first.required("lifecycle").required("episodeId").asText();
+        analysts.saveAndFlush(new Analyst("https://identity.test/realm","timestamp-review","Timestamp review"));
+        var actor = oidcLogin().idToken(token -> token.issuer("https://identity.test/realm").subject("timestamp-review"))
+                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"));
+        var third = TraceLinkReceiverFixtures.envelope(3,"UPDATE","CRITICAL");
+        receiver.ingest(episode,third.toString());
+        assertEquals(0,receiver.list(20,0).total());
+        receiver.ingest(episode,first.toString());
+        var rows = java.util.List.of(first,TraceLinkReceiverFixtures.envelope(2,"UPDATE","HIGH"),third,
+                TraceLinkReceiverFixtures.envelope(4,"UNKNOWN","CRITICAL"),
+                TraceLinkReceiverFixtures.envelope(5,"UPDATE","CRITICAL"),
+                TraceLinkReceiverFixtures.envelope(6,"UPDATE","CRITICAL"),
+                TraceLinkReceiverFixtures.envelope(7,"RECOVERY","CRITICAL"));
+        for (var row : rows) {
+            receiver.ingest(episode,row.toString());
+            receiver.reconcile(episode);
+            var view = receiver.detail(episode);
+            assertOpeningTimes(view);
+            assertEquals(view,receiver.list(20,0).items().getFirst());
+            assertEquals(view.latestDetection().required("lifecycle").required("sequence").asLong(),view.latestSequence());
+            assertEquals(java.time.Instant.parse(view.latestDetection().required("context").required("window").required("to").asText()),view.latestWindowEnd());
+            var detail = mvc.perform(get("/api/v2/trace-link/incidents/"+episode).with(actor).session(authenticatedSession()))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.firstObservedAt").value("2026-10-10T08:35:00Z"))
+                    .andExpect(jsonPath("$.detectedAt").value("2026-10-10T08:45:01Z"))
+                    .andReturn().getResponse().getContentAsString();
+            var returned = TraceLinkReceiverFixtures.JSON.readTree(detail);
+            assertEquals(8,returned.size(),"Technical view must not invent analyst workflow fields");
+            assertEquals(view.latestDetection(),returned.required("latestDetection"));
+            mvc.perform(get("/api/v2/trace-link/incidents").with(actor).session(authenticatedSession()))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.items[0].firstObservedAt").value("2026-10-10T08:35:00Z"))
+                    .andExpect(jsonPath("$.items[0].detectedAt").value("2026-10-10T08:45:01Z"));
+        }
+        assertEquals("RECOVERED",receiver.detail(episode).technicalState());
+        assertEquals("CRITICAL",receiver.detail(episode).severity());
+        assertEquals(rows,receiver.evidence(episode,100,0).items(),"Immutable evidence remains original envelopes");
+        for (var row : rows) assertEquals("DUPLICATE",receiver.ingest(episode,row.toString()).disposition());
+        assertOpeningTimes(receiver.detail(episode));
+        var recurring = TraceLinkReceiverFixtures.recurringOpen();
+        String nextEpisode = recurring.required("lifecycle").required("episodeId").asText();
+        assertNotEquals(episode,nextEpisode);
+        receiver.ingest(nextEpisode,recurring.toString());
+        assertEquals(2,receiver.list(20,0).total());
+        assertEquals(java.time.Instant.parse("2026-10-10T09:35:00Z"),receiver.detail(nextEpisode).firstObservedAt());
+        assertEquals(java.time.Instant.parse("2026-10-10T09:45:01Z"),receiver.detail(nextEpisode).detectedAt());
+        assertOpeningTimes(receiver.detail(episode));
+    }
+
+    private void assertOpeningTimes(TraceLinkIncidentView view) {
+        assertEquals(java.time.Instant.parse("2026-10-10T08:35:00Z"),view.firstObservedAt());
+        assertEquals(java.time.Instant.parse("2026-10-10T08:45:01Z"),view.detectedAt());
+        for (var field : java.util.Map.of("first_observed_at",view.firstObservedAt(),"detected_at",view.detectedAt()).entrySet()) {
+            assertEquals(field.getValue(),entityManager.createNativeQuery("SELECT "+field.getKey()
+                    +" FROM app.trace_link_incidents WHERE episode_id=:episode",java.time.Instant.class)
+                    .setParameter("episode",view.episodeId()).getSingleResult());
+        }
+    }
+
     @Test void reorderedReplayAndReconciliationProduceOneOrderedEpisode() {
         var first = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
         var second = TraceLinkReceiverFixtures.envelope(2,"UPDATE","HIGH");
@@ -38,7 +111,7 @@ class TraceLinkReceiverIT extends IncidentServiceIntegrationTestSupport {
         receiver.ingest(episode,sixth.toString()); receiver.ingest(episode,seventh.toString());
         assertEquals(7,receiver.reconcile(episode).latestSequence());
         assertEquals(7,receiver.evidence(episode,100,0).total());
-        assertEquals("RECOVERED",receiver.detail(episode).required("lifecycle").required("technicalState").asText());
+        assertEquals("RECOVERED",receiver.detail(episode).technicalState());
         assertEquals(7,((Number)entityManager.createNativeQuery("SELECT count(*) FROM app.trace_link_incident_audit").getSingleResult()).intValue());
         assertEquals(1,receiver.list(20,0).total());
     }
@@ -72,10 +145,10 @@ class TraceLinkReceiverIT extends IncidentServiceIntegrationTestSupport {
         assertEquals(episodes.size(),receiver.list(100,0).total());
         for(String episode:episodes) {
             var detail=receiver.detail(episode);
-            assertEquals(latest.get(episode),detail,"Projection must equal the highest contiguous producer sequence");
-            if (producedFile == null) assertEquals("RECOVERED",detail.required("lifecycle").required("technicalState").asText());
-            assertEquals(episode,detail.required("lifecycle").required("episodeId").asText());
-            assertEquals("DUPLICATE",receiver.ingest(episode,detail.toString()).disposition());
+            assertEquals(latest.get(episode),detail.latestDetection(),"Projection must equal the highest contiguous producer sequence");
+            if (producedFile == null) assertEquals("RECOVERED",detail.technicalState());
+            assertEquals(episode,detail.episodeId());
+            assertEquals("DUPLICATE",receiver.ingest(episode,detail.latestDetection().toString()).disposition());
         }
     }
     @Test void conflictingReplayDoesNotOverwriteImmutableEvidence() {
@@ -115,6 +188,8 @@ class TraceLinkReceiverIT extends IncidentServiceIntegrationTestSupport {
             assertEquals("DUPLICATE",restarted.ingest(episode,first.toString()).disposition());
             assertEquals(2,restarted.ingest(episode,second.toString()).latestSequence());
             assertEquals(2,restarted.evidence(episode,20,0).total());
+            assertOpeningTimes(restarted.detail(episode));
+            assertEquals(second,restarted.detail(episode).latestDetection());
         } finally {
             // Discard the uncommitted second transition, then remove the committed test seed as test admin.
             org.springframework.test.context.transaction.TestTransaction.flagForRollback();
@@ -145,7 +220,7 @@ class TraceLinkReceiverIT extends IncidentServiceIntegrationTestSupport {
         receiver.ingest(episode,first.toString());
         mvc.perform(get("/api/v2/trace-link/incidents").with(requestUser).session(authenticatedSession()))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.total").value(1))
-                .andExpect(jsonPath("$.items[0].context.datasetId").value("trace-link-md-30d-v1"));
+                .andExpect(jsonPath("$.items[0].latestDetection.context.datasetId").value("trace-link-md-30d-v1"));
         mvc.perform(get("/api/v2/trace-link/incidents/"+episode+"/evidence").with(requestUser).session(authenticatedSession()))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.total").value(1));
         mvc.perform(get("/api/v2/trace-link/incidents?limit=101").with(requestUser).session(authenticatedSession()))

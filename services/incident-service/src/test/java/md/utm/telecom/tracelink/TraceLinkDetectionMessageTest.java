@@ -4,6 +4,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TraceLinkDetectionMessageTest {
+    @Test void openingAnchorIsFirstBreachAndCannotBeTakenFromLaterTransitions() {
+        var opened = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
+        TraceLinkDetectionMessage.validate(opened);
+        assertEquals(java.time.Instant.parse("2026-10-10T08:35:00Z"),TraceLinkDetectionMessage.openingAnchor(opened));
+        var update = TraceLinkReceiverFixtures.envelope(2,"UPDATE","HIGH");
+        assertThrows(IllegalArgumentException.class,() -> TraceLinkDetectionMessage.openingAnchor(update));
+    }
     @Test void acceptsFrozenEnvelopeAndRejectsForgedIdentity() {
         var valid = TraceLinkReceiverFixtures.envelope(1,"OPEN","HIGH");
         assertEquals(valid,TraceLinkDetectionMessage.validate(valid));

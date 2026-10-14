@@ -77,8 +77,7 @@ public final class TraceLinkDetectionMessage {
             for (String field : List.of("datasetId", "namespace", "domain", "scope", "anomalyKind", "policyVersion"))
                 identity.set(field,evaluation.required(field).deepCopy());
             if (evaluation.has("serviceScope")) identity.set("serviceScope",evaluation.required("serviceScope").deepCopy());
-            long precedingWindows = DOMAIN_POLICY.required("openAfterBreachedWindows").asLong() - 1;
-            Instant firstBad = from.minusSeconds(Math.multiplyExact(precedingWindows,DOMAIN_POLICY.required("windowSeconds").asLong()));
+            Instant firstBad = openingAnchor(envelope);
             require(hash(hash(canonical(identity)) + ":" + firstBad).equals(episode), "Opening episode ID mismatch");
         }
         require(hash(episode + ":" + sequence + ":" + canonical(lifecycle.required("window")) + ":" + phase + ":" + evaluation.required("policyVersion").asText())
@@ -91,6 +90,18 @@ public final class TraceLinkDetectionMessage {
                     && !cause.required("dependency").isNull() && !cause.required("supportingEvidenceIds").isEmpty(), "Invalid supported hypothesis");
         }
         return envelope.deepCopy();
+    }
+
+    /** First breached window used both by the approved OPEN identity and incident onset. */
+    static Instant openingAnchor(JsonNode envelope) {
+        var lifecycle = envelope.required("lifecycle");
+        require("OPEN".equals(lifecycle.required("phase").asText()) && lifecycle.required("sequence").asLong() == 1,
+                "Opening anchor requires sequence-one OPEN");
+        require(lifecycle.required("evaluation").required("policyVersion").equals(DOMAIN_POLICY.required("policyVersion")),
+                "Unapproved symptom policy");
+        long precedingWindows = DOMAIN_POLICY.required("openAfterBreachedWindows").asLong() - 1;
+        return Instant.parse(envelope.required("context").required("window").required("from").asText())
+                .minusSeconds(Math.multiplyExact(precedingWindows,DOMAIN_POLICY.required("windowSeconds").asLong()));
     }
 
     /** Rejected raw inputs remain diagnostic evidence; they cannot suppress a valid symptom. */
