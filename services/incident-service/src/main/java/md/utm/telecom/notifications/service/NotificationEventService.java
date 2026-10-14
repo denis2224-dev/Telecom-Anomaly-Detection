@@ -111,5 +111,16 @@ public class NotificationEventService {
                     VALUES (?, ?, ?, ?) ON CONFLICT (event_id, analyst_id) DO NOTHING
                     """, UUID.randomUUID(), eventId, analyst, Timestamp.from(at));
         }
+        if (properties.pushEnabled()) {
+            jdbc.update("""
+                    INSERT INTO app.push_delivery (id, recipient_id, subscription_id, state, attempt_count, next_attempt_at)
+                    SELECT gen_random_uuid(), r.id, s.id, 'PENDING', 0, CURRENT_TIMESTAMP
+                    FROM app.notification_recipient r JOIN app.push_subscription s ON s.analyst_id = r.analyst_id
+                    JOIN app.analysts a ON a.id = r.analyst_id
+                    WHERE r.event_id = ? AND a.enabled AND s.enabled
+                      AND (s.expiration_time IS NULL OR s.expiration_time > CURRENT_TIMESTAMP)
+                    ON CONFLICT (recipient_id, subscription_id) DO NOTHING
+                    """, eventId);
+        }
     }
 }
