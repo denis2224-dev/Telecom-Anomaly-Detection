@@ -19,3 +19,9 @@ The standalone full Maven compile exposed a missing direct Bouncy Castle provide
 ## Integration migration collision
 
 Foundation PR #103 and current main both use V009 and incompatible trace_domain_detection tables. The user chose to preserve the current migration and prepare stacked draft PRs. V011 reserves the additive scenario-type constraint. No consumed migration or existing database was changed. Main integration and external owner acceptance remain pending.
+
+## Historical capacity changes
+
+The full pinned reference archive has twelve chi-cau five-minute slots with effective capacity reduced from 10 to 5 Gbps. Registering a single nominal-capacity interval made fixture import correctly reject those rows. The old query scope resolver also rejected a valid request across adjacent capacity intervals; MetricCapacityHistoryIT reproduced that rejection before repair.
+
+The QA fixture authority now records actual valid-time intervals. The query resolver requires their complete range union and rejects ambiguous overlapping authority. No reverse-direction measurements or healthy source quality are invented. The focused capacity, existing metric query, and domain query suites verify the repair; exact results are recorded in reliability evidence.
