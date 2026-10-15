@@ -2,6 +2,8 @@
 
 Verified 2026-10-15, Europe/Chisinau. Implementation source: `7ed100944c398c0e5a31695a23f22d2ebc1522a5` on `feature/trace-link-completion`, rebased onto fetched GitHub main `ce35fec7ecf0b99fcfd4df1dd9516aaa588c8a7f`. No shared deployment, merge, database reset or delivery activation was performed. The original checkout and its unrelated untracked files were preserved.
 
+Follow-up review: the [six-phase requirement record](trace-link-assignment-status.md) and [frontend acceptance record](final-ui-signoff.md) include the latest locale-formatting and stricter authenticated release checks. The complete follow-up run passed 184 unit checks and 186 controlled browser checks with 25 environment-dependent skips; production build, contracts, fixtures, branding, unchanged generated API, acceptance-test type checks and four new source-pinned local image builds passed. The original evidence below remains scoped to its original pin. Current local pins and logs are in the [preparation manifest](../release/trace-link-release-manifest.json) and [follow-up checksum index](assets/trace-link-followup/artifact-index.json). Populated and human acceptance remain pending.
+
 ## Initial classification
 
 At the starting revision, authentication/CSRF, immutable incident evidence, baseline native producers/detection, shared EventSource and bounded notification presentation were implemented. Full incident-owned history, complete registered rollups, notification production/push APIs, connected native analyst workflow and reference Grafana provisioning were incomplete. The full pinned archive, populated connected acceptance, secure push, offline handoff and human reviews were unverified. Older reports were checked against actual source, services and fresh tests before reuse.

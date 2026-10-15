@@ -1,32 +1,25 @@
-# Trace Link frontend verification
+# Trace Link frontend acceptance record
 
-Verified on 2026-10-13. Frontend checks pass; full release acceptance remains incomplete. Changes are committed on `feature/trace-link-analyst-experience`.
+Status: **PENDING populated and human acceptance**. Reviewed 2026-10-15.
 
-The map remains stationary when sample links are toggled. The analyst interface now shares validated UTC bounds, timezone and scope context across native investigations, URL navigation and Grafana links. Branding, qualified history tables, registered CSV checks, notification presentation and opt-in push fallback are covered by automated checks. Illustrative traffic is restricted to fixture previews.
+Use the [six-phase requirement record](trace-link-assignment-status.md) and [implementation evidence](trace-link-completion-status.md) for the current branch. The previous frontend report described an older revision; its measurements and failures remain preserved in [the earlier manifest](assets/analyst-experience/release-manifest.json).
 
-## Checks completed
+## Implemented and verified locally
 
-- 181 unit checks passed across 35 test files.
-- The complete controlled functional/accessibility browser run passed 172 checks; 25 opt-in checks were skipped.
-- Six focused history checks passed after the final partner-focus and CSV fixture repairs.
-- Four focused alert checks passed after the timezone presentation change.
-- Two fixture map checks passed at desktop and mobile widths.
-- Five production resource checks passed without weakening the thresholds.
-- Three push worker checks and three API contract checks passed. Schema validation, branding consistency, fixture validation and the final production build passed.
-- Local stack readiness passed. An authenticated LIVE performance run passed, and authenticated dependency-boundary rehearsal passed with two repetitions.
+Approved geography, immutable scope/time state, recorded-inventory selection, persisted metric definitions and rollups, bounded exact tables, expanded charts, server CSV, Grafana context, native incident workflow and private notifications are implemented. The map remains stationary when sample links are toggled. Generated API types come from the synchronized canonical contract.
 
-The [release manifest](assets/analyst-experience/release-manifest.json) records the exact source revision, schema checksum, final bundle checksums, counts and limitations. The complete controlled browser/resource runs preceded the final small query repair; the final revision has the focused history checks, unit suite and production build recorded above. The LIVE timing sample uses an earlier recorded revision and does not certify populated native history or secure push delivery.
+The prior complete supported-runtime check passed 184 unit checks and 183 controlled Chromium checks, with 25 environment-dependent checks skipped. Five production-build controlled capacity checks passed. Backend security, private recipients, transactional notification production and protected push APIs passed isolated integration checks. The [verification record](assets/trace-link-completion/verification.json) contains exact counts, pins and limitations. These are controlled or isolated results, not full populated acceptance.
 
-## Release blockers
+The follow-up changes standardize native incident time formatting and make the authenticated release check require the full pinned archive. Its regression cases reject incomplete archives and altered CSV values, scope, qualifications and provenance. The connected check now reads recorded inventory without live activation, checks all five domains, validates bucket counts and four resolutions, compares JSON/CSV and repeats the same authenticated history context. It cannot pass by accepting an unavailable response. A history repetition alone is not a complete rehearsal.
 
-The full checksum-pinned archive is unavailable on this machine. The local incident database has no registered Trace Link dataset, active catalogue, metric windows or native source rows. GitHub contains a manifest and bounded test slice; substituting that slice for the required full archive would invalidate acceptance. The archive location is still needed.
+The complete follow-up run passed 184 unit checks and 186 controlled Chromium checks, with 25 environment-dependent checks skipped. Production build, unchanged API generation, contract/fixture/branding checks, strict acceptance-test TypeScript checks and four source-pinned local image builds passed. The existing 501.42 kB initial-bundle warning remains. Actual results/logs are [indexed separately](assets/trace-link-followup/artifact-index.json); images and browser assets now match the follow-up source recorded in the [preparation manifest](../release/trace-link-release-manifest.json).
 
-The public native-domain and push APIs remain disabled or absent. Authenticated checks observed inventory 503, notifications 200, native measurements 404 and push subscription 404. The interface presents these unavailable states; populated history and real browser push delivery are not certified. Native rollups, native CSV and additional registered domain definitions require upstream contracts and data.
+## Pending acceptance
 
-The real incident-lifecycle attempt failed. Both scenario submissions returned 202 for the interval 18:26–18:34 UTC: VoLTE run `00c701d7-44de-486d-b83d-40ec1fb472ef` and SMS run `22f86d12-fa9f-4b74-9b7f-c49c86d176e4`. Of 16 persisted source windows, only the first two per scope were complete; the remaining six per scope were missing. No new committed incident opening was observed before the test timed out. [Persisted source-window evidence](assets/analyst-experience/scenario-source-windows.json) and [lifecycle attempt](assets/analyst-experience/incident-lifecycle-attempt.json) preserve this failure for backend investigation.
+- Full archive import/retry and populated backend, browser and Grafana parity: needs the exact seven-file archive and approved oracle pack.
+- Real secure-origin push: needs an approved HTTPS origin/browser/device. Keep delivery disabled. In-app notifications remain the candidate behavior.
+- Connected outage, session, reconnect, browser matrix and assistive-technology review: needs the populated candidate environment and actual operator reviews.
+- Coordinated capacity, full restore, offline installation/upgrade, two complete rehearsals and five owner reviews: pending on one unchanged release identity. Local builds are pinned; their existence does not establish populated installation or acceptance.
+- The older missing-window lifecycle failure remains unresolved. Retained logs or a database snapshot for the recorded runs are needed; the controlled reproduction establishes a possible mechanism only.
 
-Guide-only teammate acceptance remains unperformed. The [demo script](../demo/david-script.md) states the prerequisites for two populated rehearsals; passing unavailable-state checks is not a substitute.
-
-## Evidence
-
-The [analyst guide](../user-guide/trace-link-analyst-guide.md) documents supported interactions and unavailable features. The [performance checkpoint](2026-10-12-ui-performance.md) links controlled and real measurements. Compressed command logs, actual rehearsal output, screenshots and hashes are retained under [the evidence directory](assets/analyst-experience/release-manifest.json). Initial development-server performance interruptions are retained alongside the passing production measurements.
+Owner acceptance: **not signed**. Guide-only teammate investigation: **not performed**. Complete release gates: **NOT PASSED**.

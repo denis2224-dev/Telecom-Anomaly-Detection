@@ -1,0 +1,27 @@
+{
+  "sourceCommit": "863c83d69a1e7801153ba365f984a731293eb585",
+  "node": "24.21.0",
+  "unitPassed": 184,
+  "controlledChromiumPassed": 186,
+  "environmentDependentSkipped": 25,
+  "releaseGateRegressionsPassed": 3,
+  "focusedNativeWorkflowPassed": 2,
+  "productionBuild": "PASS_WITH_EXISTING_WARNING",
+  "initialBundleKilobytes": 501.42,
+  "warningBudgetKilobytes": 500,
+  "canonicalApiAndGeneratedTypes": "PASS_UNCHANGED",
+  "contracts": "PASS",
+  "fixtures": "PASS",
+  "brandingPassed": 1,
+  "strictReleaseTestTypes": "PASS",
+  "applicationImageBuildsPassed": 4,
+  "populatedConnectedReleaseSmoke": "NOT_RUN_MISSING_FULL_ARCHIVE",
+  "secureOriginPush": "PENDING_DISABLED",
+  "completeReleaseGatesPassed": false,
+  "retainedAttemptFailures": [
+    "Sandboxed loopback browser launch was denied; normal process-access run passed",
+    "Sandboxed production build aborted without compiler diagnostics; normal process-access build passed",
+    "Initial standalone TypeScript invocation could not resolve Node types from the root; dashboard-scoped invocation with the installed Node types passed"
+  ],
+  "verificationMode": "Controlled routed Chromium and local builds; no shared deployment, full archive import, real secure push, human acceptance or complete rehearsals"
+}

@@ -6,4 +6,4 @@ Notification counts are part of the bell's accessible name. Toasts use a restrai
 
 The focus regression was reproduced by closing an expanded chart during a range refresh. The original expand control could be replaced by asynchronous rendering. The repaired control persists while the chart loads; desktop and narrow-browser checks pass.
 
-These automated checks do not constitute a human screen-reader certification. A teammate-assisted screen-reader and guide-only investigation remain release acceptance work. Actual populated Trace Link investigations additionally require the registered archive and active backend catalogue.
+These automated checks do not constitute a human screen-reader certification. A teammate-assisted screen-reader and guide-only investigation remain release acceptance work. Actual populated Trace Link investigations require the full registered archive and its recorded inventory version. Historical inventory does not require activation of a live catalogue. See the [current acceptance record](../evidence/final-ui-signoff.md).
