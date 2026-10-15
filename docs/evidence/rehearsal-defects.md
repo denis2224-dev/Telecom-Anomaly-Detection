@@ -130,3 +130,15 @@ transport. Complete new-domain incident/API acceptance remains BLOCKED.
 The foundation #103 is now on main. Its V012 episode namespace is preserved. This PR uses V013 for additive compatibility and retains the original review V009/V011 SQL in a separate classpath directory, selected by the already-recorded V009 script identity. Neither main nor historical applied checksums are repaired. Populated upgrade tests retain complete Flyway rows and episode/evidence/audit payloads, converge schemas and reject a changed historical checksum.
 
 Consolidation removes the duplicate CSV route and retains the foundation notification adapter. CSV MockMvc acceptance now waits for asynchronous completion and checks primitive values by column name, including null zero-denominator values with INSUFFICIENT_EVIDENCE. Private API fixtures use actual registered issuer/subject identities; missing accounts remain unauthorized. Full verification results are in the PR #107 integration evidence. Historical pre-integration observations above remain dated records, not current merge blockers.
+
+## Historical reliability observations, 14 October 2026
+
+## Historical capacity changes
+
+The full pinned reference archive has twelve chi-cau five-minute slots with effective capacity reduced from 10 to 5 Gbps. Registering a single nominal-capacity interval made fixture import correctly reject those rows. The old query scope resolver also rejected a valid request across adjacent capacity intervals; MetricCapacityHistoryIT reproduced that rejection before repair.
+
+The QA fixture authority now records actual valid-time intervals. The query resolver requires their complete range union and rejects ambiguous overlapping authority. No reverse-direction measurements or healthy source quality are invented. The focused capacity, existing metric query, and domain query suites verify the repair; exact results are recorded in reliability evidence.
+
+## Disabled profiles on legacy reads
+
+The isolated real-OIDC probe showed that disabling an analyst blocked notification reads (403), but incident and service reads still returned 200. EnabledAnalystAccessIT reproduced the unauthorized legacy access before repair. A shared private-API filter now checks the registered issuer/subject and current enabled state; public CSRF discovery remains available. The final real-OIDC probe returns 403 for all three reads. Existing controller and Kafka integration fixtures now register their mock identities instead of bypassing this rule. CSRF, role, expiry, and legacy assertion coverage remain intact.
