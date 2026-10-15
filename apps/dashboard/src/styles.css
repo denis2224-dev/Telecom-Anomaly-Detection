@@ -270,3 +270,6 @@ app-connected-overview .panel-visual { height: auto; }
 
 app-connected-overview .voice-success .actual-line { stroke: var(--accent); }
 app-connected-overview .voice-success .actual-dot { fill: var(--accent); }
+
+app-roaming-overview .roaming-chart .actual-line {stroke:#ae8af5;animation:none;}
+app-roaming-overview .roaming-chart .actual-dot {fill:#ae8af5;}

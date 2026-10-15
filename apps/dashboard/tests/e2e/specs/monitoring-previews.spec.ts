@@ -8,8 +8,8 @@ for (const width of [1366, 390]) {
     const state = await controlledApi(page);
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
-    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Roaming measurements are unavailable');
-    await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
+    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Artificial data');
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(10);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
     await expect(page.getByLabel('Key service information')).toContainText('SMS queue');
     await expect(page.locator('.transport-link')).toHaveCount(0);
@@ -24,7 +24,13 @@ for (const width of [1366, 390]) {
       expect((await page.locator('.city-map').boundingBox())!.width).toBeGreaterThan(350);
     }
     await page.screenshot({ path: info.outputPath(`overview-traffic-${width}.png`), fullPage: true });
-    await page.getByRole('link', { name: 'Open roaming investigation', exact: false }).click();
+    await page.getByRole('link', { name: 'Open roaming services', exact: false }).click();
+    await expect(page).toHaveURL(/\/roaming$/);
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+    await expect(page.locator('.roaming-chart .actual-line')).not.toHaveAttribute('d','');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({path:info.outputPath(`roaming-${width}.png`),fullPage:true});
+    await page.getByRole('link',{name:'Measured partner history',exact:true}).click();
     await expect(page).toHaveURL(/\/trace-link\?/);
     await expect(page.getByRole('heading', { name: 'Trace Link history' })).toBeVisible();
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
