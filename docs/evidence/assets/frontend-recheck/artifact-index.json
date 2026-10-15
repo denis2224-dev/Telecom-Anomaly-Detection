@@ -1,0 +1,107 @@
+[
+  {
+    "file": "api-copy.log.gz",
+    "bytes": 20,
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  {
+    "file": "api-generation.log.gz",
+    "bytes": 162,
+    "sha256": "d62dbcb358f28aac51dd417833e467ceb05912b967ee59179aa3369650928aa6"
+  },
+  {
+    "file": "archive-counts.txt",
+    "bytes": 57,
+    "sha256": "d7a430ddbcbd39250673ee459e4dd85e1432d44676e8f3eb2e286276a9e4378d"
+  },
+  {
+    "file": "branding.log.gz",
+    "bytes": 226,
+    "sha256": "944aca7f25c594df6f785eaa1daf438520207419277c4fd02706759360fa523a"
+  },
+  {
+    "file": "browsers.json",
+    "bytes": 75,
+    "sha256": "0cdabcff0722deb4a36d379ce91872cb193812e401c621652e8a9e7cb8f8be29"
+  },
+  {
+    "file": "controlled-history-1366.png",
+    "bytes": 356388,
+    "sha256": "1cd5e0e06ee4198afe7de093a9876238515164b3ca4bcbf0a1d6ee3e94c1a0fd"
+  },
+  {
+    "file": "controlled-history-390.png",
+    "bytes": 252088,
+    "sha256": "22de4783445a8ccb76cc9cbacf392b4ef122c502771bce4a6c9ebcb1e3c1771b"
+  },
+  {
+    "file": "fixture-build.log.gz",
+    "bytes": 953,
+    "sha256": "5fc2eccc9375a4c49068ab06cd709cbcd5bff9718a5c65994b9ac6ac19e3bcd2"
+  },
+  {
+    "file": "fixtures.log.gz",
+    "bytes": 156,
+    "sha256": "ecbb668ede67cda518d5eb797b763eb4b32625cc5b5bfbe61b85015da0c43099"
+  },
+  {
+    "file": "generated-unchanged.log.gz",
+    "bytes": 20,
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  {
+    "file": "live-preflight.log.gz",
+    "bytes": 574,
+    "sha256": "af2ee63578826a1986514f6f364d93669415411820c193300e1af2c9e74264c6"
+  },
+  {
+    "file": "matrix.log.gz",
+    "bytes": 2270,
+    "sha256": "85360d29d8d56889249d1fc38fe9ae96d06ee8b90f7d89fec3b18dfe5f5634c3"
+  },
+  {
+    "file": "performance-resource-bounds-Browser-re-115bd-with-bounded-REST-refreshes.json",
+    "bytes": 17410,
+    "sha256": "4779164ff5acd65ab3dd9ab3d5c9effa62e0d382d7f252c259f429ea91ab0853"
+  },
+  {
+    "file": "performance-resource-bounds-Browser-re-3b91c-sh-windows-replace-old-ones.json",
+    "bytes": 5009,
+    "sha256": "9f0aeb073e21c3043b0692ee99374828eaf580c0b6624084a150b2b6ad41a5cf"
+  },
+  {
+    "file": "performance-resource-bounds-Browser-re-69292-with-bounded-REST-refreshes.json",
+    "bytes": 4133,
+    "sha256": "836d6c2f9c2a1a6ce781c5fc96ff648d9131893ea1c1042a4a355b427e759e0b"
+  },
+  {
+    "file": "performance-resource-bounds-Browser-re-7f12a-with-bounded-REST-refreshes.json",
+    "bytes": 5768,
+    "sha256": "7e53752e896b327e978eb803cd2789f81d7ab9865659d3a843c67cfeb07d8779"
+  },
+  {
+    "file": "performance.log.gz",
+    "bytes": 621,
+    "sha256": "671ee047210555aeff1772ad20cfa499611383cfc22aeeefd51db193b9cd9021"
+  },
+  {
+    "file": "production-build.log.gz",
+    "bytes": 1010,
+    "sha256": "ed30480fc32ebec8c185722341939c53154fa4c22396729dd4e2bcea28feaa70"
+  },
+  {
+    "file": "runtime-images.txt",
+    "bytes": 370,
+    "sha256": "de964255d44a9da73be28ec259bc8324b33281a5123d83b3f872631263a9c6dc"
+  },
+  {
+    "file": "summary.json",
+    "bytes": 6492,
+    "sha256": "4b6421d73fb9ab9fc5c3c024cb2147f7ff0c1c089a61474b59885c1f0168289f"
+  },
+  {
+    "file": "units.log.gz",
+    "bytes": 1987,
+    "sha256": "14d13bf974b786aa032bb1675f2062ebf0d148b8612fe7ca14d652ec132193ad"
+  }
+]

@@ -84,7 +84,7 @@ test('requires populated persisted history through two authenticated context rep
         const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download exact server CSV',exact:true}).click();
         const download=await downloadEvent,uiCsv=readFileSync((await download.path())!,'utf8');requireExactExport(await uiResponse.json(),uiCsv);
         await page.screenshot({path:info.outputPath(`authenticated-history-${repetition}.png`),fullPage:true,mask:[page.locator('.identity')]});
-        report.historyRepetitions.push({repetition,inventoryStatus:inventory.status(),notificationStatus:history.status(),pushStatus:push.status(),actor:'same temporary analyst',contextVerified:true,checks,uiCsvSha256:createHash('sha256').update(uiCsv).digest('hex')});
+        report.historyRepetitions.push({repetition,inventoryStatus:inventory.status(),notificationStatus:history.status(),pushStatus:push.status(),actor:'same existing analyst',contextVerified:true,checks,uiCsvSha256:createHash('sha256').update(uiCsv).digest('hex')});
         await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect.poll(()=>new URL(page.url()).pathname).toBe('/signed-out');
       }finally{await context.close();}
     }
