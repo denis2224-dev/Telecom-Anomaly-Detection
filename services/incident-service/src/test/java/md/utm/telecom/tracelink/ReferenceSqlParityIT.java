@@ -19,6 +19,24 @@ class ReferenceSqlParityIT extends IncidentServiceIntegrationTestSupport {
  @Autowired MetricDefinitionRegistry definitions;
  @Autowired ReferenceMetricRollupRepository backend;
  private static final Instant FROM=Instant.parse("2026-09-10T09:00:00Z");
+ @Test void partialQueueOpeningNeverIncludesMovementBeforeTheSelectedInterval() throws Exception {
+  // Bounded controlled rows and completion marker only in this disposable transaction.
+  for(boolean near:List.of(false,true)) {
+   String dataset="partial-queue-"+near;Instant beginning=FROM.minusSeconds(21600);
+   jdbc.update("INSERT INTO app.trace_dataset VALUES (?, 'fixture',42,true,?, ?,300,'UTC',?)",dataset,Timestamp.from(beginning),Timestamp.from(FROM.plusSeconds(86400)),"a".repeat(64));
+   jdbc.update("INSERT INTO app.trace_catalogue(catalogue_version,dataset_id,topology_version,active,valid_from) VALUES (?,?,'fixture',false,?)",dataset,dataset,Timestamp.from(beginning));
+   jdbc.update("INSERT INTO app.trace_inventory_city VALUES (?,'chi','Chișinău',47,28,0.1,true,?,NULL,true)",dataset,Timestamp.from(beginning));
+   jdbc.update("INSERT INTO app.trace_reference_import(dataset_id,manifest_sha256,native_rows) VALUES (?,?,362880)",dataset,"a".repeat(64));
+   int row=0;
+   for(int offset:near?List.of(-11100,-300,0):List.of(-11100,0))
+    jdbc.update("INSERT INTO app.trace_reference_window VALUES (?,'CITY','chi',?,'controlled.csv',?, ?,?::jsonb)",dataset,Timestamp.from(FROM.plusSeconds(offset)),++row,"b".repeat(64),"{\"sms_queue\":"+(100+row)+"}");
+   var query=new TraceQuery(dataset,"sms","sms.queueGrowth","CITY","chi",FROM,FROM.plusSeconds(600),"6h");
+   var point=backend.series(query,definitions.require("sms","sms.queueGrowth")).getFirst();
+   assertNull(point.value());assertNull(point.snapshotAt());assertEquals("OPENING_SNAPSHOT_UNAVAILABLE",point.nullReason());
+   var result=jdbc.queryForMap("SELECT * FROM app.trace_reference_series(?,?,?,?,?,?)",dataset,query.metric(),query.scopeId(),Timestamp.from(query.from()),Timestamp.from(query.to()),query.resolution());
+   assertNull(result.get("value"));assertNull(result.get("snapshot_at"));assertNull(result.get("source_age_seconds"));assertEquals(point.quality(),result.get("quality"));
+  }
+ }
  @Test void percentileRejectsInvalidLateBinsBeforeReturningAnEarlyQuantile() {
   assertThrows(org.springframework.dao.DataAccessException.class,()->jdbc.queryForObject(
    "SELECT app.trace_reference_p95('[100,0,-1]'::jsonb,'[1,2,3]'::jsonb)",BigDecimal.class));

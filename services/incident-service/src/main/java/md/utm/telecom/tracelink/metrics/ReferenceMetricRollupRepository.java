@@ -49,7 +49,7 @@ public class ReferenceMetricRollupRepository {
             Instant end=start.plusSeconds(q.bucketSeconds()); var bucket=new ArrayList<Source>();
             while(cursor<sources.size() && sources.get(cursor).start().isBefore(end)) {var source=sources.get(cursor++);if(!source.start().isBefore(q.from())&&!source.start().plusSeconds(300).isAfter(q.to()))bucket.add(source);}
             Source opening=null,closing=null;
-            if(snapshot)for(var source:sources){if(source.start().isBefore(start))opening=source;if(source.start().isBefore(end))closing=source;else break;}
+            if(snapshot)for(var source:sources){if(!start.isBefore(q.from())&&source.start().isBefore(start))opening=source;if(source.start().isBefore(end))closing=source;else break;}
             Point calculated=rollup(definition,start,end,bucket,opening,closing);
             var members=new ArrayList<>(bucket);if(opening!=null&&!members.contains(opening))members.add(opening);if(closing!=null&&!members.contains(closing))members.add(closing);
             var provenance=members.stream().map(s->new Provenance(identity(q.datasetId()+"|"+q.domain()+"|"+q.metric()+"|"+q.scopeId()+"|"+s.start()+"|"+definition.policyVersion()),
