@@ -42,13 +42,13 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     .country-bar strong { position: relative; font-weight: 400; }
     .country-panels section:nth-child(2) td {color:var(--success);}
     .affected { color: var(--danger) !important; }
-    .compact { padding: 12px; } .compact h2 { font-size: 14px; }
+    .compact { padding: 8px; } .compact h2 { font-size: 14px; }
     .compact .roaming-chart app-metric-chart { height: auto; } .compact .roaming-chart h3 { font-size: 11px; }
     .compact .country-panels { gap: 8px; grid-template-columns:1fr; }
     .measured-history {display:inline-block;margin-top:10px;font-size:12px;}
     .compact .country-panels section { padding: 6px; }
     .compact .country-panels h3 { font-size: 11px; }
-    .compact .country-panels th, .compact .country-panels td { padding: 5px 3px; font-size: 10px; }
+    .compact .country-panels th, .compact .country-panels td { padding: 4px 3px; font-size: 10px; }
     .compact .kpi-table { min-width: 0; width: 100%; table-layout: fixed; }
     .compact .kpi-table th, .compact .kpi-table td { white-space: normal; overflow-wrap: anywhere; }
     .compact .kpi-table th:first-child { width: 28%; }
@@ -57,7 +57,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     .compact .country-bar { min-width: 0; }
     .compact .country-panels section:last-child td { color: var(--success); }
     .compact .country-panels section:last-child td.affected { color: var(--danger); }
-    .compact .sort-country { margin: 8px 0; }
+    .compact .sort-country { margin: 6px 0; }
     .roaming-link { display: flex; margin-top: 10px; font-size: 12px; background: var(--surface-raised); }
     @media(max-width: 600px) { .country-panels {grid-template-columns:1fr;} }
     @media(max-width: 900px) { .roaming:not(.compact) .country-panels { grid-template-columns: 1fr; } }

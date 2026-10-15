@@ -4,6 +4,7 @@ import {controlledApi} from '../helpers/controlled-api';
 for(const width of [1440,390])test(`overview combines traffic, selects links and ranks episode evidence at ${width}px`,async({page},info)=>{
  const state=await controlledApi(page);await page.setViewportSize({width,height:900});
  const episodes=[{...structuredClone(state.incident),id:'11111111-1111-4111-8111-111111111111',severity:'CRITICAL'},{...structuredClone(state.incident),id:'22222222-2222-4222-8222-222222222222',severity:'HIGH'}];
+ episodes.push({...episodes[1],id:'33333333-3333-4333-8333-333333333333'},{...episodes[1],id:'44444444-4444-4444-8444-444444444444'});
  await page.route('**/api/operations/priority*',route=>route.fulfill({json:{generatedAt:state.summary.observedAt,policyVersion:'controlled-priority',policyStatus:'ACTIVE',page:0,size:20,hasNext:false,items:episodes.map(item=>({incidentId:item.id,cityId:null,cityNullReason:'UNALLOCATED',service:item.service,scopeId:item.scopeId,technicalState:item.technicalState,analystStatus:item.status,severity:item.severity,severityHistorical:false,freshness:'FRESH',priorityBand:'FRESH_ONGOING',comparableImpact:null,impactUnit:null,firstObservedAt:item.firstObservedAt,detectedAt:item.detectedAt,latestWindowEnd:item.lastObservedAt}))}}));
  for(const episode of episodes)await page.route('**/api/incidents/'+episode.id,route=>route.fulfill({json:{...episode,location:{cityId:null,catalogueVersion:null,topologyVersion:null,measuredScopeId:episode.scopeId,containmentPath:[],dependencyNodeIds:[],nullReason:'UNALLOCATED'}}}));
  await page.goto('/dashboard');
@@ -21,7 +22,7 @@ for(const width of [1440,390])test(`overview combines traffic, selects links and
  const href=await page.getByRole('link',{name:'Investigate A → B',exact:true}).getAttribute('href');
  expect(new URL(href!,'http://local').searchParams.get('linkDirectionId')).toBe('chi-hin:a-to-b');
  await expect(page.locator('.map-panel > .active-anomalies')).toHaveCount(1);
- const cards=page.locator('.active-anomalies .anomaly-card');await expect(cards).toHaveCount(2);
+ const cards=page.locator('.active-anomalies .anomaly-card');await expect(cards).toHaveCount(3);
  await expect(cards.nth(0)).toHaveAttribute('data-state','CRITICAL');await expect(cards.nth(1)).toHaveAttribute('data-state','HIGH');
  await expect(cards.nth(0)).toContainText('Acknowledged');
  await expect(cards.nth(0).locator('dt')).toHaveText(['Where','When','Why']);

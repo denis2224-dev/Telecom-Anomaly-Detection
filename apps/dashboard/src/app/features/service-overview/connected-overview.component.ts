@@ -81,7 +81,7 @@ export class ConnectedOverviewComponent {
   }
   readonly overviewPriority = signal<Episode[]>([]);
   readonly unacknowledged = computed(() => this.riskIncidents().filter(item => item.status === 'OPEN').length);
-  readonly riskIncidents = computed(() => this.overviewPriority().map(item => this.acknowledgements.current(item)).filter(item => item.status !== 'RESOLVED').slice(0, 6));
+  readonly riskIncidents = computed(() => this.overviewPriority().map(item => this.acknowledgements.current(item)).filter(item => item.status !== 'RESOLVED').slice(0, 3));
   incidentPlace(incident: Episode): string {
     const captured = incident.location?.cityId;
     return (captured ? this.cityById(captured)?.name : undefined)

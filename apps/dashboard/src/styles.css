@@ -273,3 +273,6 @@ app-connected-overview .voice-success .actual-dot { fill: var(--accent); }
 
 app-roaming-overview .roaming-chart .actual-line {stroke:#ae8af5;animation:none;}
 app-roaming-overview .roaming-chart .actual-dot {fill:#ae8af5;}
+
+app-connected-overview .service-column .compact-chart .chart-scroll {height:210px;}
+app-connected-overview app-roaming-overview .compact .hero-chart .chart-scroll {height:155px;}

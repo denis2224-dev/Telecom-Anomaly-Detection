@@ -24,10 +24,10 @@ for (const width of [1366, 390]) {
     await expect(page.locator('.city-marker')).toHaveCount(10);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 1366) {
-      const boxes = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
-      expect(boxes[1].left).toBeGreaterThan(boxes[0].right);
-      expect(boxes[2].top).toBeGreaterThan(boxes[0].bottom);
-      expect(boxes[1].bottom).toBeCloseTo(boxes[2].bottom, 0);
+      const boxes = await page.locator('.overview-panels .service-panel, .overview-panels > .map-panel').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
+      expect(boxes[2].left).toBeGreaterThan(boxes[0].right);
+      expect(boxes[1].top).toBeGreaterThan(boxes[0].bottom);
+      expect(boxes[1].top-boxes[0].bottom).toBeLessThanOrEqual(10);
       expect((await page.locator('.city-map').boundingBox())!.width).toBeGreaterThan(350);
     }
     await page.screenshot({ path: info.outputPath(`overview-traffic-${width}.png`), fullPage: true });

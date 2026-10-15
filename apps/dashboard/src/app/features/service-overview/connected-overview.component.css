@@ -20,9 +20,9 @@
 .headline-metrics [data-tone=danger] strong { color: var(--danger); }
 .headline-metrics [data-tone=info] strong { color: var(--info); }
 .headline-metrics [data-tone=muted] strong { color: var(--text-muted); }
-.overview-panels { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); align-items: stretch; gap: 12px; }
-.overview-panels > .service-panel { grid-column: 1; }
-.overview-panels > .map-panel { grid-column: 2; grid-row: 1 / span 2; }
+.overview-panels { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); align-items: start; gap: 10px; }
+.service-column {grid-column:1;display:flex;flex-direction:column;gap:8px;min-width:0;}
+.overview-panels > .map-panel { grid-column: 2; grid-row: 1; }
 .service-panel, .map-panel { min-width: 0; display: flex; flex-direction: column; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-inner); overflow: hidden; }
 .service-panel > h2, .map-panel > h2 { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 38px; margin: 0; padding: 9px 12px; box-sizing: border-box; font-size: 14px; }
 h2 > span { color: var(--text-muted); font-size: 10px; font-weight: 400; }
@@ -114,7 +114,7 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
   .apply-field { grid-column: 3; }
   .queue-toggle { grid-column: 3; grid-row: auto; }
   .overview-panels { grid-template-columns: 1fr; }
-  .overview-panels > .service-panel, .overview-panels > .map-panel { grid-column: auto; grid-row: auto; }
+  .overview-panels > .service-column, .overview-panels > .map-panel { grid-column: auto; grid-row: auto; }
   .map-visual { min-height: 0; }
   .headline-metrics { grid-template-columns: repeat(4,minmax(0,1fr)); }
 }
@@ -220,3 +220,21 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .headline-metrics [data-tone=violet] {--card-tone:var(--violet);}
 .headline-metrics [data-tone=violet] strong {color:var(--violet);}
 .headline-metrics [data-tone=muted] {--card-tone:var(--text-muted);}
+
+.service-column .panel-visual {min-height:0;}
+.service-column .service-panel > h2 {min-height:32px;padding:6px 10px;font-size:13px;}
+.service-column .chart-legend {margin:4px 8px;}
+.call-details {gap:6px;margin:6px;}
+.call-details section {padding:8px;}
+.call-donut {width:72px;height:72px;padding:8px;}
+.call-breakdown {gap:8px;}
+.overview-table th,.overview-table td {height:22px;padding:3px;}
+.overview-table thead th {height:30px;}
+.panel-navigation {margin:6px;padding:6px 8px;}
+.queue-item {padding:8px;margin-bottom:6px;}
+.queue-item .incident-behavior {font-size:13px;}
+.queue-item p {font-size:11px;margin:3px 0;}
+.map-panel > .active-anomalies {padding:8px;margin-top:8px;}
+.anomaly-grid {gap:5px;margin:6px 0;}
+.anomaly-card {padding:7px 9px;}
+.anomaly-context {gap:2px;margin:5px 0;}
