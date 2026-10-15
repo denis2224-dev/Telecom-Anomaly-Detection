@@ -165,19 +165,25 @@ class MetricQueryServiceIT extends IncidentServiceIntegrationTestSupport {
         mvc.perform(request).andExpect(status().isOk())
                 .andExpect(jsonPath("$.points.length()").value(3))
                 .andExpect(jsonPath("$.points[0].value").value(99.0));
-        var csv=mvc.perform(get("/api/v2/exports/metrics.csv").session(authenticatedSession()).with(login)
+        var export=mvc.perform(get("/api/v2/exports/metrics.csv").session(authenticatedSession()).with(login)
                         .param("datasetId","trace-link-md-30d-v1").param("domain","volte").param("metric","voice.success_rate")
                         .param("scopeType","CITY").param("scopeId","hin").param("from",FROM.toString())
                         .param("to",FROM.plusSeconds(900).toString()).param("resolution","5m"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.request().asyncStarted()).andReturn();
+        var csv=mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch(export))
                 .andExpect(status().isOk()).andReturn().getResponse();
         assertEquals("no-store",csv.getHeader("Cache-Control"));
         String[] rows=csv.getContentAsString().split("\r\n");
         assertEquals(4,rows.length);
+        var headers=java.util.Arrays.asList(rows[0].replace("\"","").split(",",-1));
         var columns=rows[1].replace("\"","").split(",",-1);
-        assertEquals(0,new BigDecimal(columns[10]).compareTo(new BigDecimal("99")));
-        assertEquals(0,new BigDecimal(columns[15]).compareTo(new BigDecimal("990")));
-        assertEquals(0,new BigDecimal(columns[16]).compareTo(new BigDecimal("1000")));
-        assertTrue(rows[3].contains(",,\"PERCENT\",\"RATIO_OF_SUMS\""));
+        assertEquals(0,new BigDecimal(columns[headers.indexOf("value")]).compareTo(new BigDecimal("99")));
+        assertEquals(0,new BigDecimal(columns[headers.indexOf("numerator")]).compareTo(new BigDecimal("990")));
+        assertEquals(0,new BigDecimal(columns[headers.indexOf("denominator")]).compareTo(new BigDecimal("1000")));
+        var missing=rows[3].replace("\"","").split(",",-1);
+        assertEquals("",missing[headers.indexOf("value")]);
+        assertEquals("INSUFFICIENT_EVIDENCE",missing[headers.indexOf("quality")]);
+        assertEquals("ZERO_DENOMINATOR",missing[headers.indexOf("nullReason")]);
         mvc.perform(get("/api/v2/metrics/series").session(authenticatedSession()).with(login)
                         .param("datasetId", "trace-link-md-30d-v1").param("domain", "volte")
                         .param("metric", "voice.success_rate").param("scopeType", "CITY")

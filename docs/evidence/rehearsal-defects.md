@@ -124,3 +124,9 @@ also exercises the packaged library with an explicit logical clock: three
 Transport windows/nine observations, immutable exact replay, interrupted restart,
 retained stopped state and zero released windows after restart. It starts no
 transport. Complete new-domain incident/API acceptance remains BLOCKED.
+
+## PR #107 integration with merged foundation — 15 October 2026
+
+The foundation #103 is now on main. Its V012 episode namespace is preserved. This PR uses V013 for additive compatibility and retains the original review V009/V011 SQL in a separate classpath directory, selected by the already-recorded V009 script identity. Neither main nor historical applied checksums are repaired. Populated upgrade tests retain complete Flyway rows and episode/evidence/audit payloads, converge schemas and reject a changed historical checksum.
+
+Consolidation removes the duplicate CSV route and retains the foundation notification adapter. CSV MockMvc acceptance now waits for asynchronous completion and checks primitive values by column name, including null zero-denominator values with INSUFFICIENT_EVIDENCE. Private API fixtures use actual registered issuer/subject identities; missing accounts remain unauthorized. Full verification results are in the PR #107 integration evidence. Historical pre-integration observations above remain dated records, not current merge blockers.

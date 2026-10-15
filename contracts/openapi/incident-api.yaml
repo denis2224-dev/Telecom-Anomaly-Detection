@@ -850,13 +850,12 @@ paths:
       summary: Schedule a synthetic service scenario
       tags:
       - Simulator
-      description: 'Supervisor/admin only. Server schedules the next full minute: two normal, three degraded,
-        three recovery windows (8 minutes). Rate/duration are fixed by versioned scenario profile, not arbitrary
-        request fields. Persist requestId/body hash/runId in incidents_db; retries reuse the saved command
-        and generator runId. Same ID with different body returns 409. NORMAL_CONTROL and TELEMETRY_GAP
-        accept catalogue VoLTE or SMS city scopes and the two legacy scopes; VOLTE_IMS_OVERLOAD accepts
-        VoLTE scopes only, and SMS_QUEUE_DELAY accepts SMS scopes only. Unknown or incompatible scopes
-        return INVALID_SCOPE. An overlapping reservation on the same scope returns 409.'
+      description: 'Supervisor/admin only. Server schedules the next full minute: two normal, three degraded, three recovery
+        windows (8 minutes). Rate/duration are fixed by versioned scenario profile, not arbitrary request fields. Persist requestId/body
+        hash/runId in incidents_db; retries reuse the saved command and generator runId. Same ID with different body returns
+        409. NORMAL_CONTROL and TELEMETRY_GAP accept catalogue VoLTE or SMS city scopes and the two legacy scopes; VOLTE_IMS_OVERLOAD
+        accepts VoLTE scopes only, and SMS_QUEUE_DELAY accepts SMS scopes only. Unknown or incompatible scopes return INVALID_SCOPE.
+        An overlapping reservation on the same scope returns 409.'
       responses:
         '202':
           description: Scenario accepted and durably scheduled. An exact retry returns the same run and schedule.
@@ -881,10 +880,26 @@ paths:
         schema:
           type: string
           enum:
-          - VOLTE_IMS_OVERLOAD
-          - SMS_QUEUE_DELAY
+          - VOLTE_SETUP_FAILURE
+          - VOLTE_SETUP_DELAY
+          - VOLTE_MEDIA_QUALITY
+          - VOLTE_HANDOVER_FAILURE
+          - TRANSPORT_LINK_OVERLOAD
+          - TRANSPORT_PACKET_LOSS
+          - TRANSPORT_RTT_INCREASE
+          - TRANSPORT_CAPACITY_REDUCTION
+          - ROAMING_REGISTRATION_FAILURE
+          - ROAMING_DATA_FAILURE
+          - ROAMING_PARTNER_DEGRADATION
+          - MOBILE_DATA_ACTIVATION_FAILURE
+          - MOBILE_DATA_DNS_FAILURE
+          - SMS_DELIVERY_DELAY
+          - SMS_QUEUE_CONGESTION
+          - SMS_ROUTE_FAILURE
           - NORMAL_CONTROL
           - TELEMETRY_GAP
+          - VOLTE_IMS_OVERLOAD
+          - SMS_QUEUE_DELAY
       requestBody:
         required: true
         content:
@@ -1078,20 +1093,35 @@ paths:
   /api/v2/exports/metrics.csv:
     get:
       operationId: exportTraceMetricCsv
-      tags: [Trace Export]
+      tags:
+      - Trace Export
       x-implementation-status: backend-implemented
       parameters:
-      - {$ref: '#/components/parameters/TraceDomain'}
-      - {$ref: '#/components/parameters/TraceMetric'}
-      - {$ref: '#/components/parameters/TraceScopeType'}
-      - {$ref: '#/components/parameters/TraceScopeId'}
-      - {$ref: '#/components/parameters/From'}
-      - {$ref: '#/components/parameters/To'}
-      - {$ref: '#/components/parameters/TraceResolution'}
-      - {$ref: '#/components/parameters/TraceDatasetId'}
+      - $ref: '#/components/parameters/TraceDomain'
+      - $ref: '#/components/parameters/TraceMetric'
+      - $ref: '#/components/parameters/TraceScopeType'
+      - $ref: '#/components/parameters/TraceScopeId'
+      - $ref: '#/components/parameters/From'
+      - $ref: '#/components/parameters/To'
+      - $ref: '#/components/parameters/TraceResolution'
+      - $ref: '#/components/parameters/TraceDatasetId'
       responses:
-        '200': {description: Exact buckets with primitive aggregates and provenance, content: {text/csv: {schema: {type: string}}}}
-        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '200':
+          description: Exact buckets with primitive aggregates and provenance
+          content:
+            text/csv:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Source contract mismatch
   /api/notifications:
     get:
       operationId: listNotifications
@@ -1121,35 +1151,85 @@ paths:
   /api/notifications/push/config:
     get:
       operationId: getNotificationPushConfig
-      tags: [Notifications]
-      x-implementation-status: planned-day-4
+      tags:
+      - Notifications
+      x-implementation-status: backend-implemented
       responses:
-        '200': {description: Public configuration only, content: {application/json: {schema: {$ref: '#/components/schemas/PushConfig'}}}}
-        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '200':
+          description: Public configuration only
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushConfig'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
   /api/notifications/push-subscriptions:
     post:
       operationId: upsertPushSubscription
-      tags: [Notifications]
-      x-implementation-status: planned-day-4
-      security: [{sessionCookie: [], csrfToken: []}]
-      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/PushSubscriptionInput'}}}}
+      tags:
+      - Notifications
+      x-implementation-status: backend-implemented
+      security:
+      - sessionCookie: []
+        csrfToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushSubscriptionInput'
       responses:
-        '201': {description: Current analyst subscription stored}
-        '401': {$ref: '#/components/responses/Unauthenticated'}
-        '403': {$ref: '#/components/responses/Forbidden'}
+        '201':
+          description: Current analyst subscription stored
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Push disabled, subscription limit, or endpoint owned by another analyst
   /api/notifications/push-subscriptions/{id}:
     delete:
       operationId: deletePushSubscription
-      tags: [Notifications]
-      x-implementation-status: planned-day-4
-      security: [{sessionCookie: [], csrfToken: []}]
+      tags:
+      - Notifications
+      x-implementation-status: backend-implemented
+      security:
+      - sessionCookie: []
+        csrfToken: []
       parameters:
-      - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       responses:
-        '204': {description: Removed current analyst subscription}
-        '401': {$ref: '#/components/responses/Unauthenticated'}
-        '403': {$ref: '#/components/responses/Forbidden'}
-        '404': {$ref: '#/components/responses/NotFound'}
+        '204':
+          description: Removed current analyst subscription
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequest'
   /api/v2/domain-incidents/{id}:
     get:
       operationId: getTraceDomainIncident
@@ -1388,6 +1468,49 @@ paths:
         required: true
         schema:
           type: string
+  /api/simulator/scenario-definitions:
+    get:
+      operationId: listScenarioDefinitions
+      tags:
+      - Simulator
+      responses:
+        '200':
+          description: Implemented public scenario definitions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - type
+                  - scopeTypes
+                  - durationSeconds
+                  - minimumSeed
+                  - maximumConcurrentPerScope
+                  properties:
+                    type:
+                      type: string
+                    scopeTypes:
+                      type: array
+                      items:
+                        type: string
+                    durationSeconds:
+                      type: integer
+                      enum:
+                      - 480
+                    minimumSeed:
+                      type: integer
+                      enum:
+                      - 0
+                    maximumConcurrentPerScope:
+                      type: integer
+                      enum:
+                      - 1
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
 components:
   securitySchemes:
     sessionCookie:
@@ -2819,7 +2942,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        runId: *id004
+        runId:
+          type: string
+          format: uuid
         status:
           type: string
           enum:
@@ -2828,16 +2953,40 @@ components:
           - COMPLETED
           - STOPPED
           - FAILED
-        scheduledStartAt: *id003
-        scheduledEndAt: *id003
+        scheduledStartAt:
+          type: string
+          format: date-time
+          pattern: Z$
+        scheduledEndAt:
+          type: string
+          format: date-time
+          pattern: Z$
         scenarioType:
           type: string
           enum:
-          - VOLTE_IMS_OVERLOAD
-          - SMS_QUEUE_DELAY
+          - VOLTE_SETUP_FAILURE
+          - VOLTE_SETUP_DELAY
+          - VOLTE_MEDIA_QUALITY
+          - VOLTE_HANDOVER_FAILURE
+          - TRANSPORT_LINK_OVERLOAD
+          - TRANSPORT_PACKET_LOSS
+          - TRANSPORT_RTT_INCREASE
+          - TRANSPORT_CAPACITY_REDUCTION
+          - ROAMING_REGISTRATION_FAILURE
+          - ROAMING_DATA_FAILURE
+          - ROAMING_PARTNER_DEGRADATION
+          - MOBILE_DATA_ACTIVATION_FAILURE
+          - MOBILE_DATA_DNS_FAILURE
+          - SMS_DELIVERY_DELAY
+          - SMS_QUEUE_CONGESTION
+          - SMS_ROUTE_FAILURE
           - NORMAL_CONTROL
           - TELEMETRY_GAP
-        scopeId: *id005
+          - VOLTE_IMS_OVERLOAD
+          - SMS_QUEUE_DELAY
+        scopeId:
+          type: string
+          pattern: ^[A-Za-z0-9_.:-]{1,96}$
       required:
       - runId
       - status
@@ -3435,13 +3584,28 @@ components:
         vapidPublicKey: {type: string, nullable: true}
     PushSubscriptionInput:
       type: object
-      required: [endpoint, p256dh, auth]
+      required:
+      - endpoint
+      - p256dh
+      - auth
       properties:
-        endpoint: {type: string, format: uri, maxLength: 2048}
-        p256dh: {type: string, maxLength: 256}
-        auth: {type: string, maxLength: 256}
-        expirationTime: {type: string, format: date-time, nullable: true}
-
+        endpoint:
+          type: string
+          format: uri
+          maxLength: 2048
+          minLength: 1
+        p256dh:
+          type: string
+          maxLength: 256
+          minLength: 1
+        auth:
+          type: string
+          maxLength: 256
+          minLength: 1
+        expirationTime:
+          type: string
+          format: date-time
+          nullable: true
     TraceScenarioScope:
       type: object
       additionalProperties: false

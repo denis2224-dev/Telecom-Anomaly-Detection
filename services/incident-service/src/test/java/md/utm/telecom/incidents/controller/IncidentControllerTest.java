@@ -367,7 +367,7 @@ class IncidentControllerTest extends IncidentServiceIntegrationTestSupport {
     ) {
         return get(path, uriVariables)
                 .session(authenticatedSession())
-                .with(oidcLogin().authorities(
+                .with(oidcLogin().idToken(token -> token.issuer(analyst.getIssuer()).subject(analyst.getSubject())).authorities(
                         new SimpleGrantedAuthority("ROLE_ANALYST")));
     }
 }

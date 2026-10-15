@@ -57,7 +57,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(12, flyway.migrate().migrationsExecuted);
+        assertEquals(13, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -166,7 +166,7 @@ class DatabaseMigrationTest {
                 .dataSource(url(database), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(8, upgrade.migrate().migrationsExecuted);
+        assertEquals(9, upgrade.migrate().migrationsExecuted);
         assertEquals(0, upgrade.migrate().migrationsExecuted);
         try (Connection fresh = DriverManager.getConnection(url("incidents_db"),
                 POSTGRES.getUsername(), POSTGRES.getPassword());

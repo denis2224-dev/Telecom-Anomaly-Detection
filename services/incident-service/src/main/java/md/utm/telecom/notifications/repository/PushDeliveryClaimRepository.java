@@ -24,7 +24,7 @@ public class PushDeliveryClaimRepository {
         return jdbc.query("""
                 UPDATE app.push_delivery d
                 SET state = 'IN_FLIGHT', lease_owner = ?,
-                    leased_until = ? + (? * INTERVAL '1 second'),
+                    leased_until = ?::timestamptz + (? * INTERVAL '1 second'),
                     last_attempt_at = ?, attempt_count = attempt_count + 1,
                     updated_at = ?
                 WHERE d.id IN (
