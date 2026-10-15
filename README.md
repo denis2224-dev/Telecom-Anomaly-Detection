@@ -68,6 +68,14 @@ frozen evidence and model manifests are compatibility and verification inputs.
 
 ## Quick start
 
+For a new checkout, keep LF line endings, including on Windows. Branding checks
+compare generated files byte-for-byte; these options apply only to the new clone:
+
+```bash
+git clone --config core.autocrlf=false --config core.eol=lf https://github.com/denis2224-dev/Telecom-Anomaly-Detection.git
+cd Telecom-Anomaly-Detection
+```
+
 Run commands from the repository root. For a **new local installation**, follow
 the [local development runbook](docs/runbooks/local-dev.md) to generate a private
 `.env`, add the `telecom.test` hosts entry and prepare Docker. Reuse existing
