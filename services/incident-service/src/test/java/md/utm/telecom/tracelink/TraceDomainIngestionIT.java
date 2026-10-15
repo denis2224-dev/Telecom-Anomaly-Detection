@@ -140,7 +140,10 @@ class TraceDomainIngestionIT extends IncidentServiceIntegrationTestSupport {
     }
     @Test void publicDomainApiDefaultsOffAndStillRequiresAuthentication() throws Exception {
         mvc.perform(get("/api/v2/trace-domain-measurements")).andExpect(status().isUnauthorized());
+        jdbc.update("INSERT INTO app.analysts(id,issuer,subject,display_name) VALUES (?, ?, ?, ?)",
+                java.util.UUID.randomUUID(), "https://identity.test/realm", "domain-feature-reader", "Reader");
         mvc.perform(get("/api/v2/trace-domain-measurements").session(authenticatedSession()).with(oidcLogin()
+                .idToken(token -> token.issuer("https://identity.test/realm").subject("domain-feature-reader"))
                 .authorities(new SimpleGrantedAuthority("ROLE_ANALYST")))).andExpect(status().isNotFound());
     }
     @Test void liveQueriesRejectMetricsAbsentFromTheirSourceManifest() throws Exception {
