@@ -30,13 +30,14 @@ def verify(package):
         relative=Path(item['file'])
         if relative.is_absolute() or '..' in relative.parts:raise ValueError('Unsafe package member')
         path=package/relative
-        if path.is_symlink() or not path.is_file() or path.stat().st_size!=item['bytes'] or sha(path)!=item['sha256']:
+        if not path.resolve().is_relative_to(package.resolve()) or path.is_symlink() or not path.is_file() or path.stat().st_size!=item['bytes'] or sha(path)!=item['sha256']:
             raise ValueError('Package integrity failure: '+str(relative))
     return manifest
 
 
-def package(archive, images, output, evidence):
+def package(archive, images, output, evidence, application_images=None):
     if output.exists():raise ValueError('Output must be a new directory')
+    if output.resolve().is_relative_to(evidence.resolve()):raise ValueError('Package output must be outside its evidence directory')
     if not images or any(not image or image.startswith('-') for image in images):raise ValueError('Explicit release images are required')
     command('git','diff','--quiet','HEAD','--')
     commit=command('git','rev-parse','HEAD',capture_output=True,text=True).stdout.strip()
@@ -53,13 +54,17 @@ def package(archive, images, output, evidence):
                   ROOT/'services/processor/target/processor-0.3.0-SNAPSHOT.jar']
         if any(not path.is_file() for path in required) or not evidence.is_dir():raise ValueError('Verified build assets and release evidence are required')
         if any(path.is_symlink() for path in evidence.rglob('*')):raise ValueError('Evidence must not contain symlinks')
-        required_images=set(command('docker','compose','--profile','*','config','--images',capture_output=True,text=True).stdout.splitlines())|{'grafana/grafana:11.2.0'}
+        configuration=json.loads(command('docker','compose','--profile','*','config','--format','json',capture_output=True,text=True).stdout)
+        applications={name for name,service in configuration['services'].items() if service.get('build')}
+        application_images=application_images or {}
+        if set(application_images)!=applications:raise ValueError('Pin every application service, including bootstrap, without replacing shared image tags')
+        required_images={service['image'] for service in configuration['services'].values() if service.get('image') and not service.get('build')}|set(application_images.values())|{'grafana/grafana:11.2.0'}
         if not required_images.issubset(set(images)):raise ValueError('Every Compose release image must be supplied')
         # A supplied tag must resolve locally. Never substitute a mock image or silently pull a different release.
         inspected=json.loads(command('docker','image','inspect',*images,capture_output=True,text=True).stdout)
         if len(inspected)!=len(images):raise ValueError('Missing release image')
         for image,item in zip(images,inspected):
-            if not image.startswith(('postgres:','quay.io/keycloak/keycloak:','nginx:','apache/kafka:','grafana/grafana:')) and item.get('Config',{}).get('Labels',{}).get('org.opencontainers.image.revision')!=commit:
+            if image in application_images.values() and item.get('Config',{}).get('Labels',{}).get('org.opencontainers.image.revision')!=commit:
                 raise ValueError('Application image is not pinned to the source commit: '+image)
         output.mkdir(mode=0o700)
         command('git','archive','--format=tar','--output='+str(output/'source.tar'),commit)
@@ -68,11 +73,12 @@ def package(archive, images, output, evidence):
         with tarfile.open(output/'dashboard.tar','w') as tar:tar.add(required[0].parent,arcname='browser')
         for path in required[1:]:shutil.copyfile(path,output/path.name)
         command('docker','image','save','--output',str(output/'images.tar'),*images)
+        (output/'compose.release.yaml').write_text(json.dumps({'services':{name:{'image':image,'pull_policy':'never','build':None} for name,image in application_images.items()}},indent=2)+'\n')
         files=[{'file':str(path.relative_to(output)),'bytes':path.stat().st_size,'sha256':sha(path)}
                for path in sorted(output.rglob('*')) if path.is_file()]
         # Secrets, local environment and volumes are deliberately outside git archive.
         result={'sourceCommit':commit,'datasetId':manifest['dataset_id'],'datasetManifestSha256':manifest_sha,
-                'nativeRows':rows,'images':[{'id':item['Id'],'digests':item.get('RepoDigests',[]),'architecture':item['Architecture']} for item in inspected],
+                'nativeRows':rows,'applicationImages':application_images,'images':[{'id':item['Id'],'digests':item.get('RepoDigests',[]),'architecture':item['Architecture']} for item in inspected],
                 'files':files,'humanAcceptance':'PENDING','ownerSignatures':[],
                 'rehearsals':[],'securePushAcceptance':'PENDING','sharedPushEnabled':False,
                 'offlineCleanInstallAcceptance':'PENDING','releaseGatesPassed':False}
@@ -86,10 +92,14 @@ if __name__=='__main__':
     parser.add_argument('--verify',type=Path)
     parser.add_argument('--archive',type=Path)
     parser.add_argument('--image',action='append')
+    parser.add_argument('--application-image',action='append',default=[],help='Service=immutable-image mapping; bootstrap may reuse the processor image')
     parser.add_argument('--output',type=Path)
     parser.add_argument('--evidence',type=Path)
     args=parser.parse_args()
     if args.verify:verify(args.verify)
     elif not all([args.archive,args.image,args.output,args.evidence]):parser.error('Archive, images, output and evidence are required')
-    else:package(args.archive,args.image,args.output.resolve(),args.evidence.resolve())
+    else:
+        mappings=dict(item.split('=',1) for item in args.application_image)
+        if len(mappings)!=len(args.application_image):parser.error('Duplicate application service mapping')
+        package(args.archive,args.image,args.output.resolve(),args.evidence.resolve(),mappings)
     print('Package integrity verified. Pending acceptance remains pending.')

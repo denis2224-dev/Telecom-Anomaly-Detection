@@ -1,5 +1,7 @@
 # Dashboard release checklist
 
+The checked entries below retain prior acceptance history. Current Trace Link implementation, executed verification and remaining release gates are tracked in [completion status](../evidence/trace-link-completion-status.md) and the [completion runbook](../runbooks/trace-link-completion.md). The complete Trace Link release gates have not passed.
+
 ## Supported release
 
 The release uses Incident API **0.3.0**. Supported screens are the authenticated

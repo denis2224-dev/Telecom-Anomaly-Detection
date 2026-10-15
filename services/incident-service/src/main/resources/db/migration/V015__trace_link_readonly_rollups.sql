@@ -48,6 +48,12 @@ LANGUAGE plpgsql IMMUTABLE STRICT AS $$
 DECLARE total numeric; rank numeric; cumulative numeric:=0; previous numeric:=0; edge numeric; bin numeric; i integer;
 BEGIN
  IF jsonb_array_length(counts)=0 OR jsonb_array_length(counts)<>jsonb_array_length(edges) THEN RAISE EXCEPTION 'Incompatible histogram'; END IF;
+ FOR i IN 0..jsonb_array_length(counts)-1 LOOP
+  edge:=(edges->>i)::numeric;bin:=(counts->>i)::numeric;
+  IF bin<0 OR edge<=previous THEN RAISE EXCEPTION 'Invalid histogram'; END IF;
+  previous:=edge;
+ END LOOP;
+ previous:=0;
  SELECT sum(value::numeric) INTO total FROM jsonb_array_elements_text(counts);
  IF total=0 THEN RETURN NULL; END IF; rank:=total*0.95;
  FOR i IN 0..jsonb_array_length(counts)-1 LOOP

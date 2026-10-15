@@ -19,6 +19,10 @@ class ReferenceSqlParityIT extends IncidentServiceIntegrationTestSupport {
  @Autowired MetricDefinitionRegistry definitions;
  @Autowired ReferenceMetricRollupRepository backend;
  private static final Instant FROM=Instant.parse("2026-09-10T09:00:00Z");
+ @Test void percentileRejectsInvalidLateBinsBeforeReturningAnEarlyQuantile() {
+  assertThrows(org.springframework.dao.DataAccessException.class,()->jdbc.queryForObject(
+   "SELECT app.trace_reference_p95('[100,0,-1]'::jsonb,'[1,2,3]'::jsonb)",BigDecimal.class));
+ }
  @Test void allDictionaryOperatorsMatchReadOnlySqlAtEveryResolution() throws Exception {
   jdbc.update("INSERT INTO app.trace_dataset VALUES ('parity-fixture','fixture',42,true,?, ?,300,'UTC',?)",Timestamp.from(FROM),Timestamp.from(FROM.plusSeconds(86400)),"a".repeat(64));
   jdbc.update("INSERT INTO app.trace_catalogue(catalogue_version,dataset_id,topology_version,active,valid_from) VALUES ('parity-fixture','parity-fixture','fixture',false,?)",Timestamp.from(FROM));

@@ -20,12 +20,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /** Actual protected API and encrypted persistence; the sender is controlled and never delivers. */
-@TestPropertySource(properties={"app.notifications.enabled=true","app.notifications.push-enabled=true",
+@TestPropertySource(properties={"app.notifications.enabled=true","app.notifications.push-enabled=true","telecom.trace-link.enabled=true",
  "app.notifications.vapid-public-key=controlled-test-key","app.notifications.vapid-private-key=controlled-test-key",
  "app.notifications.vapid-subject=mailto:test@example.invalid",
  "app.notifications.encryption-key=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="})
 class PushSubscriptionApiIT extends IncidentServiceIntegrationTestSupport {
  @Autowired MockMvc mvc;@Autowired JdbcTemplate jdbc;@Autowired ObjectMapper json;
+ @Autowired md.utm.telecom.tracelink.TraceLinkIncidentService receiver;
+ @Autowired md.utm.telecom.notifications.repository.PushDeliveryStore delivery;
  @MockitoBean WebPushSender sender;
  private static final String ISSUER="http://telecom.test:8080/auth/realms/telecom";
  private UUID actor(){var id=UUID.randomUUID();jdbc.update("INSERT INTO app.analysts(id,issuer,subject,display_name) VALUES (?,?,?,'Push test')",id,ISSUER,id.toString());return id;}
@@ -51,5 +53,28 @@ class PushSubscriptionApiIT extends IncidentServiceIntegrationTestSupport {
   mvc.perform(auth(post("/api/notifications/push-subscriptions"),actor).with(csrf()).contentType("application/json").content(subscription(5))).andExpect(status().isConflict());
   jdbc.update("UPDATE app.analysts SET enabled=false WHERE id=?",actor);entityManager.clear();
   mvc.perform(auth(get("/api/notifications/push/config"),actor)).andExpect(status().isForbidden());
+ }
+ @Test void committedNotificationQueueRetainsIdentityAndFencesExpiredDeliveryOwners() throws Exception {
+  var actor=actor();
+  mvc.perform(auth(post("/api/notifications/push-subscriptions"),actor).with(csrf()).contentType("application/json").content(subscription(0))).andExpect(status().isCreated());
+  var resource=new org.springframework.core.io.support.PathMatchingResourcePatternResolver().getResources("classpath:contracts/fixtures/trace-link/*detection-envelopes.json")[0];
+  tools.jackson.databind.JsonNode envelope;
+  try(var input=resource.getInputStream()){envelope=json.readTree(input).required("detections").get(0);}
+  String episode=envelope.required("lifecycle").required("episodeId").asText();
+  receiver.ingest(episode,envelope.toString());receiver.ingest(episode,envelope.toString());
+  assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM app.push_delivery",Long.class));
+  var now=java.time.Instant.now();var id=delivery.claim("owner-a",now,60,6).orElseThrow();
+  assertEquals(1,delivery.load(id,"owner-a",now).orElseThrow().attempt());
+  assertTrue(delivery.claim("owner-b",now.plusSeconds(1),60,6).isEmpty());
+  assertEquals(id,delivery.claim("owner-b",now.plusSeconds(61),60,6).orElseThrow());
+  delivery.finish(id,"owner-a",now.plusSeconds(62),md.utm.telecom.notifications.push.PushDeliveryPolicy.classify(201,1,6,now.plusSeconds(62)));
+  assertEquals("IN_FLIGHT",jdbc.queryForObject("SELECT state FROM app.push_delivery WHERE id=?",String.class,id));
+  assertEquals(2,delivery.load(id,"owner-b",now.plusSeconds(62)).orElseThrow().attempt());
+  delivery.finish(id,"owner-b",now.plusSeconds(62),md.utm.telecom.notifications.push.PushDeliveryPolicy.classify(503,2,6,now.plusSeconds(62)));
+  assertTrue(delivery.claim("owner-c",now.plusSeconds(63),60,6).isEmpty());
+  assertEquals(id,delivery.claim("owner-c",now.plusSeconds(83),60,6).orElseThrow());
+  delivery.finish(id,"owner-c",now.plusSeconds(84),md.utm.telecom.notifications.push.PushDeliveryPolicy.classify(410,3,6,now.plusSeconds(84)));
+  assertEquals("FAILED",jdbc.queryForObject("SELECT state FROM app.push_delivery WHERE id=?",String.class,id));
+  assertFalse(jdbc.queryForObject("SELECT enabled FROM app.push_subscription WHERE analyst_id=?",Boolean.class,actor));
  }
 }

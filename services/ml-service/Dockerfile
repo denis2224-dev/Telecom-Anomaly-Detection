@@ -1,6 +1,4 @@
 FROM python:3.13.9-slim-bookworm
-ARG TRACE_RELEASE_COMMIT=unrecorded
-LABEL org.opencontainers.image.revision=$TRACE_RELEASE_COMMIT
 WORKDIR /app
 COPY services/ml-service/requirements-ml.txt services/ml-service/requirements-ml.txt
 RUN python -m pip install --no-cache-dir -r services/ml-service/requirements-ml.txt
@@ -19,3 +17,5 @@ ENV ML_TRACE_LINK_CANDIDATE_PATH=/app/services/ml-service/candidate-models/trace
 ENV ML_SMS_CANDIDATE_PATH=/app/services/ml-service/candidate-models/sms-supervised-v1-2
 ENV PYTHONPATH=/app/services/ml-service
 CMD ["python", "-m", "uvicorn", "app.inference.api:app", "--host", "0.0.0.0", "--port", "8090", "--limit-concurrency", "32"]
+ARG TRACE_RELEASE_COMMIT=unrecorded
+LABEL org.opencontainers.image.revision=$TRACE_RELEASE_COMMIT

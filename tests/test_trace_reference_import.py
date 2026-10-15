@@ -60,7 +60,7 @@ class ReferenceImportSafety(unittest.TestCase):
         release=module('reference_package_missing','package-trace-release.py')
         with tempfile.TemporaryDirectory() as temporary,patch.object(release,'command') as command:
             output=Path(temporary)/'release'
-            with self.assertRaises(ValueError):release.package(Path(temporary),[],output,Path(temporary))
+            with self.assertRaises(ValueError):release.package(Path(temporary),[],output,Path(temporary)/'evidence')
             command.assert_not_called();self.assertFalse(output.exists())
 
 

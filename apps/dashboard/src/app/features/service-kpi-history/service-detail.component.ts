@@ -43,6 +43,7 @@ const MAX_WINDOWS = 1440;
         <label class="field service-city">City<select aria-label="City" [value]="scopeId()" [disabled]="cityLoading() || loading() || !cityOptions().length" (change)="selectCity($any($event.target).value)">
           @if (!selectedCity()) { <option [value]="scopeId()" [selected]="true">{{ item.scope.region }} · current scope</option> }
           @for (city of cityOptions(); track city.id) { <option [value]="city.scopeId" [selected]="city.scopeId === scopeId()">{{ city.name }}</option> }
+          @for(city of unavailableCityOptions();track city.id){<option disabled>{{city.name}} · service membership unavailable</option>}
         </select></label>
         <app-history-range [compact]="true" [from]="from()" [to]="to()" (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
       </div>
@@ -171,6 +172,7 @@ export class ServiceDetailComponent {
       : city.geography?.services.find(item => item.service === service)?.scopeId;
     return scopeId ? [{ id: city.id, name: city.name, scopeId }] : [];
   }));
+  readonly unavailableCityOptions=computed(()=>this.cityCatalogue().filter(city=>!this.cityOptions().some(option=>option.id===city.id)));
   readonly selectedCity = computed(() => this.cityOptions().find(city => city.scopeId === this.scopeId()));
 
   async loadCities(): Promise<void> {

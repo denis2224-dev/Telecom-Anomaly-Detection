@@ -58,7 +58,7 @@ export class AppComponent {
       const controller = new AbortController();
       cleanup(() => controller.abort());
       void this.api.listServices(controller.signal).then(items => {
-        if (!controller.signal.aborted) this.serviceScopes.set(items);
+        if (!controller.signal.aborted) this.serviceScopes.set(items.filter(item=>!/(?:VOLTE|SMS)-MD-(?:RIB|TIR)$/.test(item.scope.scopeId)));
       }).catch(() => { /* Service loading errors are presented by the routed page. */ });
     });
     effect(() => {
