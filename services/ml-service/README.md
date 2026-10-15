@@ -18,6 +18,23 @@ calling the Windows gate there fails. Any applicable failure is `INCOMPLETE` wit
 nonzero exit. A technical `PASS` retains independent reproduction `PENDING` and
 does not grant Day 5 acceptance. See the runbook for separate platform commands.
 
+Windows full verification:
+
+```powershell
+.venv/Scripts/python.exe scripts/verify-trace-link-day5.py --output tmp/day5-windows-full-new
+```
+
+Linux portable verification:
+
+```sh
+.venv/bin/python scripts/verify-trace-link-day5.py --output tmp/day5-linux-runtime-new
+```
+
+Both require Java, Docker and the approved reference pack as described in the
+runbook. Expected successful scopes are respectively `WINDOWS_FULL` with Windows
+bytes `PASS`, and `PORTABLE_RUNTIME` with Windows bytes `NOT_RUN`. Applicable
+failures yield `INCOMPLETE`; independent acceptance stays `PENDING` in either case.
+
 This module calculates independent Python VOLTE/SMS features and packages
 synthetic Isolation Forest models and serves private HTTP inference.
 
