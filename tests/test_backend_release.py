@@ -102,6 +102,11 @@ class BackendReleaseTests(unittest.TestCase):
         document['pushEnabled'] = True
         self.assertIn('Evidence entry must include path and sha256', CHECKER.validate(document, self.repository))
 
+    def test_superseded_identity_cannot_be_accepted_with_otherwise_consistent_evidence(self):
+        document = copy.deepcopy(self.document)
+        document['status'] = 'superseded-unaccepted'
+        self.assertEqual(['Candidate identity is superseded'], CHECKER.validate(document, self.repository))
+
     def test_capture_does_not_overwrite_or_accept_a_draft(self):
         output = self.repository / 'draft.json'
         command = [sys.executable, str(ROOT / 'scripts/capture-backend-release.py'), '--revision', self.revision,

@@ -20,7 +20,8 @@ def capture(revision, image_digest, dataset_manifest, image_distribution):
         return hashlib.sha256(data).hexdigest()
 
     migrations = subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', revision,
-        'services/incident-service/src/main/resources/db/migration'], text=True).splitlines()
+        'services/incident-service/src/main/resources/db/migration',
+        'services/incident-service/src/main/resources/db/compatibility/foundation'], text=True).splitlines()
     return {
         'status': 'draft-unaccepted',
         'codeRevision': revision,

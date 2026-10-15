@@ -48,6 +48,7 @@ def validate(document, repository):
         require(hashlib.sha256(full.read_bytes()).hexdigest() == entry.get('sha256'),
                 'Evidence checksum changed: ' + name)
 
+    require(backend.get('status') != 'superseded-unaccepted', 'Candidate identity is superseded')
     revision_valid = require(matches(r'[0-9a-f]{40}', backend.get('codeRevision')), 'Pin a full code revision')
     require(matches(r'.+@sha256:[0-9a-f]{64}', backend.get('imageDigest')), 'Pin the deployed image digest')
     for field in ('apiSha256', 'datasetManifestSha256', 'identityConfigurationHash'):
@@ -61,7 +62,8 @@ def validate(document, repository):
     if revision_valid:
         try:
             migrations = subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', backend['codeRevision'],
-                'services/incident-service/src/main/resources/db/migration'], cwd=repository,
+                'services/incident-service/src/main/resources/db/migration',
+                'services/incident-service/src/main/resources/db/compatibility/foundation'], cwd=repository,
                 text=True, stderr=subprocess.DEVNULL).splitlines()
             expected = {path for path in migrations if path.endswith('.sql')}
             if checksums_valid and require(set(checksums) == expected and bool(expected),
