@@ -1,0 +1,17 @@
+setUpClass (__main__.WindowsCandidateReproductionTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (__main__.WindowsCandidateReproductionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/services/ml-service/tests/windows_candidate_reproduction.py", line 32, in setUpClass
+    def setUpClass(cls): require_windows()
+                         ~~~~~~~~~~~~~~~^^
+  File "/workspace/services/ml-service/tests/windows_candidate_reproduction.py", line 18, in require_windows
+    raise RuntimeError('Windows artifact byte reproduction requires Windows; use portable checks on this platform')
+RuntimeError: Windows artifact byte reproduction requires Windows; use portable checks on this platform
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.007s
+
+FAILED (errors=1)

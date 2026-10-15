@@ -1,0 +1,44 @@
+test_counts_and_missing_denominators (test_trace_link_evaluation.EvaluationTests.test_counts_and_missing_denominators) ... ok
+test_matching_is_one_to_one_and_direction_isolated (test_trace_link_evaluation.EvaluationTests.test_matching_is_one_to_one_and_direction_isolated) ... ok
+test_nested_truth_is_rejected_before_builder_or_scoring (test_trace_link_evaluation.EvaluationTests.test_nested_truth_is_rejected_before_builder_or_scoring) ... ok
+test_threshold_is_selected_only_from_validation_and_ties_favor_higher (test_trace_link_evaluation.EvaluationTests.test_threshold_is_selected_only_from_validation_and_ties_favor_higher) ... ok
+test_unmatched_is_a_miss_and_tolerance_has_an_exclusive_boundary (test_trace_link_evaluation.EvaluationTests.test_unmatched_is_a_miss_and_tolerance_has_an_exclusive_boundary) ... ok
+setUpClass (test_trace_link_evaluation.StudyIntegrityTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_trace_link_evaluation.StudyIntegrityTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/services/ml-service/tests/test_trace_link_evaluation.py", line 59, in setUpClass
+    cls.dataset = generate(Path(cls.folder.name) / 'study')
+                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/services/ml-service/training/trace_link_study.py", line 124, in generate
+    tracked = subprocess.check_output(['git', 'ls-files', 'contracts',
+        'services/ml-service/candidate-models/trace-link-shadow-v1', 'services/ml-service/app',
+        'services/processor/src/main/java', 'services/streaming-support/src/main/java'], cwd=ROOT, text=True)
+  File "/usr/local/lib/python3.13/subprocess.py", line 472, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               **kwargs).stdout
+               ^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 1972, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'git'
+
+----------------------------------------------------------------------
+Ran 5 tests in 13.235s
+
+FAILED (errors=1)

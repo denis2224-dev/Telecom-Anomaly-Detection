@@ -1,0 +1,1400 @@
+{
+  "totals": {
+    "streaming-support": {
+      "tests": 139,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "event-generator": {
+      "tests": 158,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "processor": {
+      "tests": 1119,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8
+    }
+  },
+  "classes": [
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.CoverageContractTest",
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "6dc9a10b109f87c707b7ef0c8d0f6f0b3e87edf5c192c92fc2c4f47eb34c347d"
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.DomainObservationValidatorTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "de8e93dea3b25d9ed913aa4024a692e084069bf9e563e317f120109677411d84"
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.GeographyCatalogTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e5363ef08eee2df26a093704be8905f94a1b1fee65997c0e0c6a505dd697c211"
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.ObservationValidatorTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "98dc958e54b5195b9dd57c70e3bb01a7cd080aba22fc210a03a95213069900fb"
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.TopologyCatalogTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7818593a0dfbbd891eaa41fd4a326ce95dcf1d9e378e3eff584e5a9b3e652269"
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.TraceLinkMeasurementTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7aa1a5c56c2b7248af82e245690f5818d3406fc29928aa1ba6c4393b62ae949b"
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.observation.TraceLinkSyntheticSourceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "11405d4b893f5398f4e3d56745ece9a4d35de7414926849922146fc71610a60f"
+    },
+    {
+      "module": "streaming-support",
+      "name": "md.utm.telecom.tracelink.TraceLinkDetectionMessageTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7ee35f9830c8bdc6fb0f29e8752f3bc1de76af18009767a334aa7d9c426e5c43"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "d91768546a97d7463c5147df07501b1d6ccc279a966d11aa3cafc357a97954d5"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7bcfbcaed155ea2b308d4389dfd5eb2e411f6522b673f6c29bc23239bad786ef"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+      "tests": 29,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "2adff0655c12085916271c13d749e23f02cecb2405dbfd5e346875c0a636a662"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.CityVoiceSeedTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "4018e6661fe47efd6ad5b9f761e74b4b247c20c04d063d8a0be93f28f1f0d653"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e03ae32884dd61422e617c5cdedcac54430c9a9e71093f9f05adceb165b52bc4"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e0b55a208d0e59fa58bda4abb813787a548e08f1a75caa9f32ed4ed1aeb68448"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "f73a6d63287ddb4cb197f7e86856514a837d58bef3f78419181bb8a7094283a5"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "1e18cd2aa878c4bd70fa8213ecb04c2a702182b7bcbfaee4b3d4da1b51aa4d66"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.HealthProbeTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "f396fcca2c18725ff03d1709825eb8f60583945cf763c4daee24fedef37bf88e"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "4098791d5a005eacf39c7466303f5fd92d093d86b52c47ee37bf95bc5c1785a2"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "c1671c4b92c6d2fbdae4bc57d487e714b1c690dfd572e80450d39c3ba4a72afc"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.evaluation.TraceLinkEvaluationFixtureTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "c176c4ac9253bb648d231ace2b153e9fca8e45e7e56e3766a5511d7cce521047"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkCheckpointTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "cd06d240e331a506ec5a8818ccb505391993ae250b11a71d33f5044d55e4adf5"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkMobileDataScenarioTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5ca84614c2726780082c1103df6f448f8f455ddd4f2a8bcd0b7d4a6fb6f81aca"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkReliabilityRegressionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "fa97ac4eeb4ae68f071e91bf35cb4b9b1012b6adc39d2c2759d7ed39494e74d6"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkRoamingScenarioTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "16fb7247442cd9a216475aaf2760829ed711b48a9f383333271433a9a9db0262"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkRuntimeTest",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7a7a99319d44461e90cf94d5839733f51c98bd209c7c3701074a763d1dfbc760"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkScenarioBoundaryTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5db47ca03bf214d89ca66ec1ed88cb99bb3d25de4e744e40ce3a0fe15b4ceb48"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkScenarioEngineTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "68e1d7f105a6b7cf0f23e7739c3cc4e7911c74a62ecb246e4ba1a58add3a3c3c"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.tracelink.TraceLinkTransportScenarioTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "4cedb98065a07a5e6bc3f8b4b007f31514b2113713d21aad8bb9539bb0ea39c5"
+    },
+    {
+      "module": "event-generator",
+      "name": "md.utm.telecom.generator.VoiceScenarioTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "a1d7da7f187d1ff86a80b8de5fcac6fa36ef842344f83d66be526048f2ae5466"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.BaselineRegistryTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "3f6d684d6743ac6d99294ed5bba19259ccfb654c203c99acc895028cfe66a485"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "667ed00824d2f975d7cfd621397dd3167a9c565b8ff9697b9d34f6b5762b5198"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DependencyOutageIT",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "125f5abb5ce6b4622933d78ce9032d4ef35fd7f293cafc17862d5c056ffb17ed"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "d30107b34307f6a3ac2272cc752028945374634e32acb58fa27b5139ab96fb5f"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.TraceLinkDomainRulesTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "ce8cf5f3816586c7c4f2e83804fb949c9b6793cee4f96606c782fb5a528ae05c"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.TraceLinkInputsTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "4853998214b0e6c7d5d02813bb25952f60d09a27cb5c195d18a85f9a720a4e00"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.TraceLinkLiveContractTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "3424a31c8eccfa6b998fcc173b6cc5e8c64f5777a73f78f185ff026fc5899fbf"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "37e75f0e3030998acade96ee18846a17ddf46ccdd27fc6d67b0a8ea0d8733b00"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "6bda8ee3031f8f6a6df9a670e8a5a3baa01454492523e07bb32d969352f9b355"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.detection.TraceLinkServiceTransportTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "a34c91f4df497ebd78b0c8e8a78df517c29e6dba581f8733c91c2035e99b5df4"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "d3964ae660e971b351d93c8ca0f9452f95c2bec3cf8daa27bf54ca948f9b19af"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DetectionMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "0bd49a629d320fc233465cce9c3701e6971a279e886c67f12f6e7e48986c21b7"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.DetectionReplayIT",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "b1905a4431a45292f2bfd4440d65a0948f590a4d40df077ad21aa5bb1d65d833"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.EpisodeStateTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "0e83de2a27ddc17597c5793b1f976934633634134e638494cca7d2cb4a018d44"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ExplanationCasesTest",
+      "tests": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "4cf0e729fe118c6b655b188b3e892c1442f0ff1d0d4ce7f0f0616dd7393c8158"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.FinalizerRaceIT",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "62d89696531150359758d2127e4eb5075f79d7cb8020f0f376402c61b4f01d75"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "2859eba6ac5115471f351cd9d96eb2af4d20852e88367400c9f39882be6c9dde"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "260855fa3d58fe77dfb7ce319a4bd9d0496fc04ba0d44ac9f816b13f7e2ae69c"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "092660fa8ca22cc3fe3ace85c1ac6cdac4c2531547b2487b3653a4cd82606115"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+      "tests": 80,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "8999fecb71bd9ecb8b3551b90ad4a07c287f5d6ea7beb3c514fe788711e2d452"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5c5a88da3022e74081e1f3083310a2a68711c8211fdefd91fb5b49ae75725579"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicDetectionTest",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+          "reason": {
+            "message": "Environment variable [ML_SERVICE_URL] does not exist"
+          }
+        }
+      ],
+      "rawSha256": "ec3ee7778ad1e4c1f97807521c6bfc8b357e65241b567ffb6182afa67c98367a"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicDetectorAcceptanceTest",
+      "tests": 101,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "abd970aa6f426499fec82c210c118bca1fe4f2a7bff7c30189ce7dfe39885b20"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicEvidenceIsolationTest",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "68b88cce05104fe68b9c708babf61cce9e1f2562b6de2cb191b032dba8d74fb0"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicExplanationTest",
+      "tests": 121,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "add3ba5308939399eb3efe4ff9b9a6561b2a49d3c5e50672f4cb20ba070a27f4"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "eafc003cebcc8d642310f156dd6ec85c7cc15ab74880cee56b272743fb96161c"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "25d7c148ae1032441e72d3004d1968c553a2ae718f0933eb3f8f8cc68010e408"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "2f3fe8632c8570e49d435fb45383fff244df0fbd568fe6165fc125718422fc86"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "97f0472b6b2921f55c80062d62e0232cb397c6a1738d6a301053228dd4ad9aa0"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "9120336172d833ebee05234955f35587cafc421063856943c9ce4ef1cf4c1a75"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "4b55fffd31ba6e5a5ada4f6d9d9faeca2b38b5af896f487901de2e228e1f4175"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "0a8b515e902abf24a4ec43c0e276e917d0c76f5a5fb5cc6144fca1a5416fa49a"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicParityTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "407a9a6ffd49b4490819496cb343263e5f6e1b94fb37d932658c878ac14c2133"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicReplayTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5ba79f2b1672c22308ed33517681e8c6c176c6acebfcf2b2bb62ed23067a7dcd"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "fa12c031ca7024c7bbca2977ae33ea51ca8ed314f5adaef3362711f73cb5ad17"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "8bbdbf9b165faefe55fc0df7d170cf0db006152693b4b73d3ac74b58e7d3c841"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.GeographicWorkerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "c422e1f6304dcc9de58e38e3f19e56dae104704b2ad9969c3a80a1879990cddd"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.HealthProbeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "9d8a75e84df2fd1bc47e29cc5b875dbbad2c62aef25cb679d011a9c3155e988c"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5609889b6dfbe7d3105cf3426f78ecbc04b08b51895a4fc8f6fa1c9c2c37f693"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "01b0d3f225442c4a92766770270d9504fb97760cbc413e2110f82f63d98bb9b1"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "d08cc8f27d3d1edb3ee39d57e988675d03f162c1033b072ee6624351c520fd9e"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e376ea64f763dc4583a3dded7f815453575a7de80fbfac8b32756676778d2b12"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "ab0b9f760346aed67ae4086e2e454a26646c4ad1974bd9504504f18111c400c3"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "a954c786de95749e755fe56d5d59baae5c11efaa50a85f845894fd759cfdde47"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "409cd79dadf88658a7fc89a081f619c819a63bf27645fe75ab1fe525bdb38c5e"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+          "reason": {
+            "type": "org.opentest4j.TestAbortedException"
+          }
+        }
+      ],
+      "rawSha256": "b2c08e21b5725ab0951e65484e2b6cf3b7362355a72e465a02aee747b82f6a0d"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "2e0ee2bb026f031e8bc61db31a73d8090fa396a060968f9490ef951cd18262f4"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7323cb9e0fbc2d4b55612afffc853448039bb7f831a2cbaf68924266d4c3a797"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "f22add56b09ee1f841c6d490f24fa29f92fadb0132ee6f9c23570b73804498df"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "66cf7921426394aaf3b0ea0f7b90c6affc9d0384087ef6ce2e7a3e0245affc1a"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.Day5GeographicParityTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "c0ba9884d9f5b25d2a2a8d031819a2e43560e4d42224cc5936748373a22dec75"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "8292c5d191789292bb07533bd22443e73c4e2c568975d93792226b2c1f471d83"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "c7bf93aa1a17f597927febcd296ff5a66534dfbb1822ff09ae0fb7541df50bb3"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "livePackagedModelEnrichesRecoveredSmsEpisode",
+          "reason": {
+            "type": "org.opentest4j.TestAbortedException"
+          }
+        }
+      ],
+      "rawSha256": "f7dbb3f1377ba4bf15772ad9dc1620415473cd6a084231e1f2bb68f63caef8a8"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "ebe4bce7835e72b1e65aee617f5f0e29fa4157ac83b95a2531654721531dc204"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+          "reason": {
+            "message": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+          }
+        }
+      ],
+      "rawSha256": "be68c7bdab3d417260e2bd3b87c7dc3d9d635743b501642dd03759790612dfeb"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "38c5868d5e1a314c7d51ead7ffc3ff92a51cde748d7cdb361aab6fb6a1f82d95"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+          "reason": {
+            "type": "org.opentest4j.TestAbortedException"
+          }
+        }
+      ],
+      "rawSha256": "54a68f2f40fa51a4819ad85b1f501263d17f2db8d5fcc32e9ea759dee990a8e6"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "0698f0a5c3d68bf06e88efff235e088adb3454974c7681f3f0ac411a5e92c4d7"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkArithmeticTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5ace9d8f1bf4fb4df77662dc9e7e195f4121de2b941bb16a1f27ce4fec9e0d6e"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "suppliedFullArchiveProducesIndependentSqlParityWithoutDeliveryWrites",
+          "reason": {
+            "message": "System property [trace.link.archive] does not exist"
+          }
+        }
+      ],
+      "rawSha256": "d4e7d3543730c70a9407db145f823e722e015483a0fe9daefb99652dd00da210"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkDomainProducerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e6c30d17b2063d292023b6d1a0abd434e22801499f871cff9383ebb5f3cc5f5d"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkMobileDataPrimitiveTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "3b5e55cf99382602218252f38b6cb1e37a1e8d3f0f6a480f6d7480ea5172dc72"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkNativeFailureTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "76e524e6397dc4f81acbc21cbc5a1fbc6269aae8276cc1106b368b50dbe03d12"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkRoamingPrimitiveTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "03a076c28e7ff94d7d35b4db65f7981e25f13160c9df16711dccfd1c67d67aaf"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkTransportPrimitiveTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "1843fdb8f4cb2d78ad1500a7af22af1c47be6868b305dde4e47c4817cff162c4"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "frozenV016MigratesAndRemainsHeldWithoutAnyProducerSchemaChange(Path)",
+          "reason": {
+            "message": "System property [trace.link.v016.directory] does not exist"
+          }
+        }
+      ],
+      "rawSha256": "c2c9b57cba4c6700e163d82833ff5509b86b8e5dbc416dea8ccc41b1c59f268f"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "skipReasons": [
+        {
+          "name": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+          "reason": {
+            "type": "org.opentest4j.TestAbortedException"
+          }
+        }
+      ],
+      "rawSha256": "3b11de542e8ce5eeddd3f6c0a4415157b423c4baf5ab5a9ae9701b113e3dfc65"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e69b39ca58e8de832e5426adf30db4ca7e7d0142545e6eeeb27bdf8a79097d57"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.LateInputIT",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "6012bc3e284aa6b203fb055a4497907dfa0d18cb6d38b77518a773537099faf7"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.MlClientTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7461ceb631cc25d40df1b174442db6ae2633c0116b9a6bc4f3ad6ed58f21713a"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "744501c30728ee3807a027bafbc7dce3686d583ea99e8ab4ad45b8ea292de31a"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ObservationInputTest",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "062ddf1fc989092f7ca937a16cc4b518263c28ebe37fbde361c4f8c88fd0e577"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7d6ffcf891e739aba95509c952a2ff4242323fc4d9d59ebcd70cd33e418b1f07"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "1025deb7eb36fd5f328d854367b8a2fa728cbda8a3064e571ed074a5b980687f"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "005f2496d782c1913111b74825c29c6e58ee5fb92ed055cdb4c48627cd624427"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.ReplayIT",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "f082b2df4b985c46e06078cdceefb370dd0a4b644479364a62d181e00c01dbce"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.RetentionJobTest",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "da1e660121e545a6355445d131df13d6b703b3737851a5cb155b7c64c0fb746f"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.shadow.TraceLinkFeaturesTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "f6556cde970e4f95e337b548350a2c04c426e06932e2644ec957e9a3cf440b26"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.shadow.TraceLinkResponseBodyTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5846a41d6cdc0381bbef27eec4e2026b23cf962d1380fa230d5953c61c875a97"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.shadow.TraceLinkShadowClientTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "a794e38b82627429aaaa2610539c7eaf78a93dbeed3481b0482be6a2a40d8139"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsEpisodeTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7cb565760589b8d3ce848d2c837fd5acc66402c3d85db85778ef4ad438fa4f62"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsRuleTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "95ce5abb6cae99771047b35a1b167a7b85f6a827251017982946f0566c8fb7be"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsShadowClientTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "1fb83c2d3512b7e565445527c8a507cf01af5f2b3a2340e4c84d54f370819866"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "ab44339eb56e4f80e87a3200cb30285e8ddb920bf6b8c380940223c1e90f55af"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.StreamingMetricsTest",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "522d9e2fa4348f53e5d719a809f73e3a12fe7960b0e17d6ea6a8a695c72d9ff7"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "506267e22cb194b8eb7171ee3ecf3a7ef75447a2d8eab4748495014ee8823bfe"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e4a8aeacfbb27f6ff969ad950e9daae92fd2469a7094f8747d7e2d07d6d6d3a5"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkDetectionIT",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "ec4068f761e105dba3b752aad89c469746b6e9623d606bcad73be8b096f8c8b3"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkDetectionMigrationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "2b4ed6f65e2183d934cc41df20ed074645a4817860fd64251763b23c959e19a5"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkNativeGeneratorTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "5904e1048d5ec2ebbd0aa4fd59f760c17b28726ba42f7661ad9f4a313c6b3850"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkPublisherAckMarkTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "be2bf9b612ddce891e3c3b626a0b9209a0e4b20143e0e6c5b3df2ded9bf27c45"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkRuntimeEvaluationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "471319a45eb806a52c3528543fcc257d9ae73800ed39f17c84c653bbf33e2618"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkRuntimeTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "4742ccadd992813b320f9ad6f8c465cf39c62085123475aa184a013710041a6d"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkShadowConfigurationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "cfb2727a6bb2e1eb3b0b6919dd698c0256934db8638ebbe6deb1df53668eb4ab"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkShadowWorkerTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "7b95a098750deefa5c2f484c2145ef42b037274a20a80ea7a59fdaf2d4f8cdfd"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkStudyExportTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "902414e106bf86cbbd044b39f2b58b6faf4e66b2018eb2e1e927459d201aac49"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.tracelink.TraceLinkWindowAdapterTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "93f87ed3ce459b7bfd1a486cd1f491ca63c07072e1869f59eed84555992a3a27"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.TraceLinkSeasonalBaselineTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "6f34389ab61bf56b1648bf7637ad0d0b2eda48b450a42bb9ab084f0ff5103979"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "d90bc1d958c3817324fe57a2cd6f582c4c1a75dd1b8e5728f92d7a4b5887fa3c"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "e9e4efc84fc9206fab2615ddfa409849f197779cc4f3adfcaf63e735b14fe30b"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.VoiceRuleTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "f6842c733d0914e8f33b4e806bcdd52577a4572cdc243321785eaa5afd0f47f5"
+    },
+    {
+      "module": "processor",
+      "name": "md.utm.telecom.processing.WindowBoundaryTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skipReasons": [],
+      "rawSha256": "69ebbb0c523c655967e2c2686680a604c40a7422d27bc342cf4e90de85143c0a"
+    }
+  ]
+}
