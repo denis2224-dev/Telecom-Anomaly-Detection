@@ -14,9 +14,9 @@ for(const width of [1440,390])test(`overview combines traffic, selects links and
  await expect(page.locator('.voice-success .actual-line')).not.toHaveAttribute('d','');
  await expect(page.locator('.inventory-link')).toHaveCount(12);
  const map=page.locator('.city-map');await map.scrollIntoViewIfNeeded();const before=(await map.boundingBox())!;
- for(const marker of await page.locator('.link-marker').all()) {await marker.click();await expect(marker).toHaveAttribute('aria-pressed','true');}
+ for(const marker of await page.locator('.map-link').all()) {await marker.click();await expect(marker).toHaveAttribute('aria-pressed','true');}
  await page.getByRole('button',{name:'Inspect Chișinău – Hîncești',exact:true}).click();
- await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('chi-hin');
+ await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('Chișinău – Hîncești');
  expect((await map.boundingBox())!.y).toBeCloseTo(before.y,0);
  const href=await page.getByRole('link',{name:'Investigate A → B',exact:true}).getAttribute('href');
  expect(new URL(href!,'http://local').searchParams.get('linkDirectionId')).toBe('chi-hin:a-to-b');
@@ -68,4 +68,20 @@ test('incident actions persist acknowledgement and focus the exact dashboard int
  await expect(page.locator('.focused-incident-band')).toHaveCount(0);
  await page.reload();await expect(card.getByRole('button',{name:'Acknowledged',exact:true})).toBeDisabled();
  expect(errors).toEqual([]);
+});
+
+
+test('plain map targets retain their positions while hovering and selecting',async({page})=>{
+ await controlledApi(page);await page.goto('/dashboard');
+ await expect(page.locator('.city-marker')).toHaveCount(10);
+ await expect(page.locator('.link-marker')).toHaveCount(0);
+ for(const marker of await page.locator('.city-marker').all()) {
+  const position=()=>marker.evaluate(node=>{const box=node.getBoundingClientRect(),map=node.closest('.city-map')!.getBoundingClientRect();return {x:box.x-map.x,y:box.y-map.y,width:box.width,height:box.height};});
+  const initial=await position();await marker.hover();expect(await position()).toEqual(initial);
+  expect(await marker.locator('.marker-symbol').textContent()).toBe('');
+  await marker.click();expect(await position()).toEqual(initial);
+ }
+ const link=page.getByRole('button',{name:'Inspect Bălți – Ungheni',exact:true});await link.click();
+ await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('nominal capacity');
+ await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('Traffic, utilization and loss unavailable');
 });

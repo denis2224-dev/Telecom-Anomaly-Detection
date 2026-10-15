@@ -18,7 +18,6 @@ import { metricValue, formatMetric } from '../service-kpi-history/assurance-mode
 import { OVERVIEW_RANGE_MS, overviewHistory } from './overview-history';
 import { moldovaOutline } from './moldova-map';
 import { callResults } from './dashboard-results';
-import { transportPreview } from './transport-preview';
 import {
   approvedConnections, baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
   type City, type Episode, type Filter, type Service, type Summary, type Window,
@@ -56,8 +55,6 @@ export class ConnectedOverviewComponent {
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
   readonly roamingPanel = signal(true);
-  readonly showTraffic = signal(false);
-  readonly transportLinks = this.fixture ? transportPreview : [];
   readonly selectedLinkId = signal<string | null>(null);
   readonly mapLinks = computed(() => approvedConnections.flatMap(link => {
     const from = this.markerCities().find(city => city.id === link.fromCityId);
@@ -299,7 +296,7 @@ export class ConnectedOverviewComponent {
     });
   }
 
-  select(id: string): void { this.queuePage.set(0); this.selectedId.set(id); this.search.set(this.cityById(id)?.name ?? ''); }
+  select(id: string): void { this.selectedLinkId.set(null); this.queuePage.set(0); this.selectedId.set(id); this.search.set(this.cityById(id)?.name ?? ''); }
 
   cityById(id: string): City | undefined { return this.catalogue().find(city => city.id === id); }
 

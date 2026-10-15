@@ -31,7 +31,7 @@ h2 > span { color: var(--text-muted); font-size: 10px; font-weight: 400; }
 .panel-visual { position: relative; min-height: 290px; box-sizing: border-box; min-width: 0; }
 .chart-scope { height: 20px; margin: 0; padding: 2px 12px; color: var(--text-muted); font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chart-error { position: absolute; top: 24px; right: 12px; color: var(--warning); font-size: 10px; }
-.map-visual { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: flex-start; height: auto; min-height: 540px; padding: 16px 0; }
+.map-visual { display: flex; flex: 0 0 auto; flex-direction: column; align-items: center; justify-content: flex-start; height: auto; min-height: 540px; padding: 16px 0; }
 .city-map { position: relative; width: 500px; aspect-ratio: 600 / 740; max-width: calc(100% - 64px); margin: 12px auto; }
 .city-map > svg { width: 100%; height: 100%; display: block; }
 .country-outline { fill: var(--field); stroke: var(--accent-end); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
@@ -143,9 +143,6 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 
 .inventory-link { stroke: var(--text-muted); stroke-width: 3; opacity: .65; vector-effect: non-scaling-stroke; }
 .inventory-link.selected-link { stroke: var(--accent); stroke-width: 5; opacity: 1; }
-.link-marker { position: absolute; transform: translate(-50%,-50%); width: 28px; min-height: 28px; height: 28px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text); z-index: 1; }
-.link-marker[aria-pressed=true] { background: var(--accent); color: var(--field); }
-.link-marker:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 .city-marker { z-index: 2; }
 .link-investigation { min-height: 140px; padding: 12px; border-top: 1px solid var(--border); }
 .link-investigation h3 { margin: 0; font-size: 15px; }
@@ -165,10 +162,9 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .anomaly-card h3 { flex: 1; font-size: 16px; margin: 0; }
 .anomaly-card p { font-size: 13px; overflow-wrap: anywhere; line-height: 1.5; }
 .anomaly-card .anomaly-measurement { font-weight: 600; }
-@container (max-width: 600px) { .anomaly-grid { grid-template-columns: 1fr; } .link-marker { width: 36px; height: 36px; min-height: 36px; } }
+@container (max-width: 600px) { .anomaly-grid { grid-template-columns: 1fr; } }
 
 .anomaly-evidence { padding-left: 18px; color: var(--text-muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
-@container (max-width: 600px) { .link-marker[data-link=chi-hin] { margin-left: -42px; margin-top: -4px; } }
 
 .map-scroll { width: 100%; overflow-x: auto; }
 @container (max-width: 600px) { .city-map { width: 600px; max-width: none; margin: 12px 30px; } }
@@ -185,3 +181,22 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .queue-item, .queue-meta, .queue-impact { width:100%; min-width:0; }
 .city-marker.incident-focused { outline:3px solid var(--accent); outline-offset:5px; }
 .incident-focus { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:13px; }
+
+/* Plain, fixed map targets: only colour changes on hover or selection. */
+.city-map *, .city-map *:hover, .city-map *:active { animation:none !important; transition:none !important; transform:none !important; }
+.marker-symbol {width:10px;height:10px;box-shadow:none !important;background:var(--text-muted);}
+.city-marker[data-state=NORMAL] .marker-symbol {background:var(--success);}
+.city-marker[data-state=DEGRADED] .marker-symbol, .city-marker[data-state=STALE] .marker-symbol {background:var(--warning);}
+.city-marker:hover .marker-symbol, .city-marker:focus-visible .marker-symbol {background:var(--accent);}
+.map-link {cursor:pointer;outline:none;}
+.link-hit-area {stroke:transparent;stroke-width:18;fill:none;pointer-events:stroke;}
+.inventory-link {stroke-width:2;pointer-events:none;}
+.inventory-link.selected-link, .map-link:hover .inventory-link, .map-link:focus-visible .inventory-link {stroke:var(--accent);stroke-width:2;opacity:1;}
+.link-investigation {min-height:120px;border:0;background:var(--surface-raised);border-radius:12px;margin:8px;}
+.link-investigation h3 span {font-size:13px;font-weight:400;}
+.active-anomalies {padding:12px;border:0;}
+.anomaly-grid {gap:6px;margin:8px 0;}
+.anomaly-card {padding:9px 12px;}
+.anomaly-card h3 {font-size:14px;}
+.anomaly-card p {font-size:12px;margin:4px 0;}
+.anomaly-description {-webkit-line-clamp:1;}
