@@ -11,6 +11,24 @@ Python verifier when that folder lives elsewhere.
 
 ## Rebuild and evaluate without changing the approved candidate
 
+For a clean Windows reproduction, create a new LF checkout before installing or
+running anything. Run these commands from an existing repository checkout:
+
+```powershell
+git fetch origin refs/pull/111/head
+git -c core.autocrlf=false worktree add --detach tmp/day5-independent-lf FETCH_HEAD
+Set-Location tmp/day5-independent-lf
+git rev-parse HEAD
+git status --porcelain
+```
+
+Record the printed revision; the initial status must be empty. Use a new worktree
+path if it already exists. The LF setting applies while files are checked out;
+changing it after checkout does not repair existing CRLF bytes. An archived study
+may reject a default Windows checkout with `Source pin mismatch`, including
+`contracts/README.md`. Diagnose line endings and repeat in a fresh LF checkout;
+do not reseal manifests, normalize the archive, or change approved hashes.
+
 ```powershell
 python -m venv .venv
 .venv/Scripts/python.exe -m pip install -r requirements-dev.txt -r services/ml-service/requirements-ml.txt
@@ -148,6 +166,89 @@ SELECT lease_until, completed_at FROM app.trace_link_shadow_job
 WHERE completed_at IS NULL ORDER BY lease_until NULLS FIRST LIMIT 20;
 ```
 
+### Disposable local database and worker commands
+
+The following PowerShell commands create a new Compose project from the repository
+root. They require Docker Compose 2.24.4 or later (`!override` support), Docker's
+Linux engine, and network access for missing images/build dependencies. They do
+not reuse the ordinary `.env`, existing projects or volumes. PostgreSQL and Kafka
+have no published host ports. Only this disposable processor enables Trace Link;
+ML shadow stays disabled. No generator or history import is started, so an empty
+pending queue is expected and is not proof of backlog recovery.
+
+```powershell
+$day5Project='trace-link-day5-'+[DateTime]::UtcNow.ToString('yyyyMMddHHmmss')
+$day5Local=Join-Path (Get-Location) ('tmp/'+$day5Project)
+New-Item -ItemType Directory -Path $day5Local -ErrorAction Stop | Out-Null
+$day5Env=Join-Path $day5Local 'local.env'
+$day5Override=Join-Path $day5Local 'ports.yaml'
+$day5Text=[IO.File]::ReadAllText((Join-Path (Get-Location) '.env.example'))
+$day5Text=[regex]::Replace($day5Text,'(?m)^([A-Z_]*(?:PASSWORD|SECRET))=\r?$',{
+    param($match) $match.Groups[1].Value+'='+[guid]::NewGuid().ToString('N')
+})
+$day5Text+="`nTRACE_LINK_ENABLED=true`nML_TRACE_LINK_SHADOW_ENABLED=false`n"
+[IO.File]::WriteAllText($day5Env,$day5Text,(New-Object Text.UTF8Encoding($false)))
+[IO.File]::WriteAllText($day5Override,"services:`n  postgres:`n    ports: !override []`n  kafka:`n    ports: !override []`n",(New-Object Text.UTF8Encoding($false)))
+$day5Compose=@('--project-name',$day5Project,'--env-file',$day5Env,'-f','compose.yaml','-f',$day5Override)
+docker compose @day5Compose config --quiet
+if ($LASTEXITCODE -ne 0) { throw 'Compose configuration failed' }
+docker compose @day5Compose up -d --wait --wait-timeout 180 postgres kafka
+if ($LASTEXITCODE -ne 0) { throw 'Disposable dependencies failed' }
+docker compose @day5Compose up --no-deps --exit-code-from kafka-init kafka-init
+if ($LASTEXITCODE -ne 0) { throw 'Topic initialization failed' }
+docker compose @day5Compose up -d --no-deps --build --wait --wait-timeout 180 processor
+if ($LASTEXITCODE -ne 0) { throw 'Disposable processor failed' }
+docker compose @day5Compose ps
+```
+
+Expected: PostgreSQL, Kafka and processor are healthy; topic initialization exits
+zero. Processor startup applies the normal migrations. Keep the variables in this
+PowerShell session and connect directly inside this project's PostgreSQL container:
+
+```powershell
+docker compose @day5Compose exec -T postgres psql -X -v ON_ERROR_STOP=1 -U processing_app -d processing_db
+```
+
+In `psql`, execute `BEGIN READ ONLY;`, the three SELECTs above, then `ROLLBACK;`
+and `\q`. In a fresh empty stack the two pending counts are zero, oldest timestamps
+are null, and the lease query has no rows. With work present, record actual counts,
+oldest timestamps and leases before and after restart; do not assume zero or edit
+job/completion rows. Missing source data remains UNKNOWN, not healthy recovery.
+
+Stop and start only the disposable processor (both workers run in this process):
+
+```powershell
+docker compose @day5Compose stop --timeout 30 processor
+docker compose @day5Compose ps --all processor
+docker compose @day5Compose up -d --no-deps --wait --wait-timeout 180 processor
+if ($LASTEXITCODE -ne 0) { throw 'Disposable processor restart failed' }
+docker compose @day5Compose logs --no-color --tail 100 processor
+```
+
+Expected: the stopped processor is exited, then healthy after start. PostgreSQL
+and Kafka remain running and the same project volumes retain data. The command
+uses `up --no-deps` to start the existing stopped processor: plain `compose start`
+can require the deliberately omitted `history-bootstrap` dependency. Do not add
+that import job merely to silence a dependency error in this empty diagnostic stack.
+This command check alone does not prove lease fencing, immutable completion or backlog drain.
+Run the populated disposable database drills for those assertions:
+
+```powershell
+./mvnw.cmd -pl services/processor -am test '-Dtest=TraceLinkDetectionIT,TraceLinkShadowWorkerTest' '-Dsurefire.failIfNoSpecifiedTests=false' --batch-mode --no-transfer-progress
+```
+
+These tests use their own Testcontainers PostgreSQL and check expired-claim
+fencing, restart/replay, unchanged deterministic transitions and backlog drain.
+Retain Surefire XML/logs and `services/processor/target/day5-backlog-drill.json`.
+When finished, remove only the disposable project created above:
+
+```powershell
+docker compose @day5Compose down --volumes --remove-orphans
+```
+
+The last command deletes this project's disposable database/Kafka volumes. Keep
+the generated local environment file private; it contains disposable passwords.
+
 Restart the affected local worker normally; do not manually clear completion,
 delete evidence or reuse claim tokens. Expired leases are reclaimed with fencing.
 Replay preserves identities and completed fallback results remain immutable.
@@ -180,3 +281,11 @@ and Day 5 acceptance is incomplete. CI and this agent's repeats cannot sign it.
 The receipt must include a fresh Java export produced by that person, Docker
 drills, and the approved reference pack. Comparing the archived Java export is
 partial reproduction evidence and cannot satisfy this receipt.
+
+An independent automated execution may supply technical evidence, including a
+fresh Java export, but must identify the automated actor. A GitHub Approve submitted
+by automation does not record human acceptance. The responsible person must review
+the receipt, its failures/skips and remaining limitations and explicitly record
+their acceptance decision. Keep `secondPersonReproduction=PENDING` and shared
+release approval false until the required human receipt/decision exists; do not
+change frozen verification manifests to manufacture that decision.

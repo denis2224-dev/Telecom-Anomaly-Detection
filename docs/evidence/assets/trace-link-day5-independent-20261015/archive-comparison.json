@@ -1,0 +1,23 @@
+{
+  "processor-export": {
+    "archivedSha256": "44b42b01f8fbc7ccf8b6fe3e6e47420468672a63ff2bc55c553a871913efb8c6",
+    "freshSha256": "44b42b01f8fbc7ccf8b6fe3e6e47420468672a63ff2bc55c553a871913efb8c6",
+    "byteEqual": true,
+    "jsonEqual": true
+  },
+  "results.json": {
+    "expected": "131c39292a94e5ddb4b40597eed3d7facfe212598a551f21a9466d7b8875d7bb",
+    "actual": "131c39292a94e5ddb4b40597eed3d7facfe212598a551f21a9466d7b8875d7bb",
+    "equal": true
+  },
+  "predictions.json": {
+    "expected": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+    "actual": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+    "equal": true
+  },
+  "thresholds.json": {
+    "expected": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+    "actual": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+    "equal": true
+  }
+}

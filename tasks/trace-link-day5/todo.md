@@ -23,6 +23,21 @@
 - [ ] Required CI checks pass on the corrected PR head.
 - [ ] Review a real independent Windows/Java/Docker/reference-pack receipt with fresh Java export.
 
+## Independent automated receipt, 15 October 2026
+
+- [x] Verify GitHub Approve at `5d5a9d59` and all 241 supplied evidence hashes.
+- [x] Compare rebuilt candidate, fresh Java export, results, predictions and thresholds with the frozen archive.
+- [x] Record the original report/ZIP and actor attribution in a new evidence archive.
+- [x] Add fresh LF checkout and disposable database/worker commands to the runbook.
+- [x] Verify the documented disposable connection and normal processor stop/start commands.
+- [ ] Required CI passes on the documentation follow-up head; earlier head `5d5a9d59` is green.
+- [ ] Responsible human reviews the receipt, failures/skips and limitations and records Day 5 acceptance.
+
+The supplied execution identifies Codex as the automated reviewer. Its GitHub
+Approve is technical evidence, not a human signature. The human receipt/acceptance
+items above stay open; PR #111 remains draft and unmerged. See
+`docs/evidence/2026-10-15-sergiu-day5-independent-review.md` for the intake record.
+
 Platform commands, from the repository root with runbook prerequisites installed:
 
 - Windows: `.venv/Scripts/python.exe scripts/verify-trace-link-day5.py --output tmp/day5-windows-full-new`.

@@ -1,0 +1,57 @@
+{
+  "manifest.json": {
+    "expected": "b7d15dc27bf383edd4f522ec2f034504a838c946968ab9e382b08227b6a08268",
+    "actual": "b7d15dc27bf383edd4f522ec2f034504a838c946968ab9e382b08227b6a08268",
+    "equal": true
+  },
+  "MOBILE_DATA-baselines.json": {
+    "expected": "f50eed4eeb76dd3751d35b86406bdc94ffc99dc366a8beb9141e530d932c7907",
+    "actual": "f50eed4eeb76dd3751d35b86406bdc94ffc99dc366a8beb9141e530d932c7907",
+    "equal": true
+  },
+  "MOBILE_DATA-calibration.json": {
+    "expected": "7fa47495cf02c473a3926c06541035aff09159473daeeeafc5bfb8915b1a0507",
+    "actual": "7fa47495cf02c473a3926c06541035aff09159473daeeeafc5bfb8915b1a0507",
+    "equal": true
+  },
+  "MOBILE_DATA.joblib": {
+    "expected": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4",
+    "actual": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4",
+    "equal": true
+  },
+  "ROAMING-baselines.json": {
+    "expected": "25feba443ea704fe8ed27d24b5043410ccf7d31277a73df1a91b75d86b09c0e6",
+    "actual": "25feba443ea704fe8ed27d24b5043410ccf7d31277a73df1a91b75d86b09c0e6",
+    "equal": true
+  },
+  "ROAMING-calibration.json": {
+    "expected": "b8cd63648186e52ae7001a58fbff4ff1c42c43e55b6849d29630ad207b352d45",
+    "actual": "b8cd63648186e52ae7001a58fbff4ff1c42c43e55b6849d29630ad207b352d45",
+    "equal": true
+  },
+  "ROAMING.joblib": {
+    "expected": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4",
+    "actual": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4",
+    "equal": true
+  },
+  "split-manifest.json": {
+    "expected": "ee9caf3ad7f51a80562a37a7425d174eb69a4a86e6087bf0d799b689c3bdafd8",
+    "actual": "ee9caf3ad7f51a80562a37a7425d174eb69a4a86e6087bf0d799b689c3bdafd8",
+    "equal": true
+  },
+  "TRANSPORT-baselines.json": {
+    "expected": "80908497220dbd8fbfcc8004ff78f41f88a7aa716c30f6ee7be3911d8fbcf086",
+    "actual": "80908497220dbd8fbfcc8004ff78f41f88a7aa716c30f6ee7be3911d8fbcf086",
+    "equal": true
+  },
+  "TRANSPORT-calibration.json": {
+    "expected": "8c4c64e3a853a055689d9482ff220a06de4856668bb2503d348b7693a0d6f3b5",
+    "actual": "8c4c64e3a853a055689d9482ff220a06de4856668bb2503d348b7693a0d6f3b5",
+    "equal": true
+  },
+  "TRANSPORT.joblib": {
+    "expected": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077",
+    "actual": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077",
+    "equal": true
+  }
+}
