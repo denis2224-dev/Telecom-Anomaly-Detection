@@ -1,0 +1,9 @@
+apiVersion: 1
+providers:
+  - name: Trace Link
+    folder: Trace Link
+    type: file
+    disableDeletion: true
+    editable: false
+    options:
+      path: /etc/grafana/trace-link-dashboards

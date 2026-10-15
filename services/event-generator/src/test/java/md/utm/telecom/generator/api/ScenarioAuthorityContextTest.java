@@ -71,13 +71,17 @@ class ScenarioAuthorityContextTest {
         });
     }
 
-    @Test void featureOnAcceptsAllSixtyCompatibleCommandsAndRejectsMismatches() {
+    @Test void featureOnAcceptsApprovedCompatibleCommandsAndRejectsRetiredScopes() {
         context.withPropertyValues("telecom.geography.enabled=true", "telecom.geography.effective-from=" + START)
                 .run(ctx -> {
             assertNull(ctx.getStartupFailure());
             var service = ctx.getBean(ScenarioExecutionService.class);
             int combinations = 0;
             for (String city : md.utm.telecom.observation.GeographyCatalog.load().cities().keySet()) {
+                if(java.util.Set.of("RIB","TIR").contains(city)){
+                    assertEquals("INVALID_SCOPE",assertThrows(ScenarioExecutionService.ApiFailure.class,()->service.start(UUID.randomUUID(),command("NORMAL_CONTROL","VOLTE-MD-"+city))).code());
+                    continue;
+                }
                 for (String prefix : new String[] {"VOLTE", "SMS"}) {
                     String scope = prefix + "-MD-" + city;
                     String[] types = {"NORMAL_CONTROL", "TELEMETRY_GAP", prefix.equals("VOLTE") ? "VOLTE_IMS_OVERLOAD" : "SMS_QUEUE_DELAY"};
@@ -88,7 +92,7 @@ class ScenarioAuthorityContextTest {
                     }
                 }
             }
-            assertEquals(60, combinations);
+            assertEquals(48, combinations);
             assertEquals("INVALID_SCOPE", assertThrows(ScenarioExecutionService.ApiFailure.class,
                     () -> service.start(UUID.randomUUID(), command("SMS_QUEUE_DELAY", "VOLTE-MD-CHI"))).code());
             assertEquals("INVALID_SCOPE", assertThrows(ScenarioExecutionService.ApiFailure.class,

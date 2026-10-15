@@ -181,7 +181,9 @@ class ScenarioExecutionServiceTest {
                 boolean compatible = type.equals("NORMAL_CONTROL") || type.equals("TELEMETRY_GAP")
                         || type.equals("VOLTE_IMS_OVERLOAD") && scope.service().equals("VOLTE")
                         || type.equals("SMS_QUEUE_DELAY") && scope.service().equals("SMS");
-                if (compatible) {
+                var binding=geography.bindings().get(scope.scopeId());
+                boolean retired=binding!=null && ("RIB".equals(binding.cityId()) || "TIR".equals(binding.cityId()));
+                if (compatible && !retired) {
                     assertEquals("SCHEDULED", geographic.start(UUID.randomUUID(), command).status());
                     accepted++;
                 } else {
@@ -193,8 +195,8 @@ class ScenarioExecutionServiceTest {
             }
         }
         assertEquals(22, authority.scopes().size());
-        assertEquals(66, accepted);
-        assertEquals(22, rejected);
+        assertEquals(54, accepted);
+        assertEquals(34, rejected);
         var beforeActivation = commandAt("NORMAL_CONTROL", "VOLTE-MD-CHI",
                 START.minusSeconds(7200));
         assertEquals("INVALID_SCOPE", assertThrows(ScenarioExecutionService.ApiFailure.class,
@@ -369,6 +371,19 @@ class ScenarioExecutionServiceTest {
         assertEquals("FAILED", service.status(id).status());
     }
 
+    @Test void brokerFailureAfterTwoAcknowledgedWindowsLeavesSixUnpublishedWithoutClaimingRecovery() {
+        UUID id=start("VOLTE_IMS_OVERLOAD","VOLTE-MD-CENTRAL");
+        advance(START.plusSeconds(120));
+        assertEquals(2,service.status(id).publishedWindows());
+        org.mockito.Mockito.clearInvocations(kafka);
+        when(kafka.send(anyString(),anyString(),anyString())).thenReturn(CompletableFuture.failedFuture(new IllegalStateException("controlled broker interruption")));
+        advance(START.plusSeconds(480));
+        var status=service.status(id);
+        assertEquals("FAILED",status.status());assertEquals("PUBLISH_FAILED",status.failureCode());assertEquals(2,status.publishedWindows());
+        verify(kafka,times(1)).send(anyString(),anyString(),anyString());
+        assertTrue(tasks.stream().filter(task->!task.fired).allMatch(task->task.cancelled));
+    }
+
     @Test void stopWaitsForInFlightKafkaAckThenPreventsFutureWindows() throws Exception {
         UUID id = start("VOLTE_IMS_OVERLOAD", "VOLTE-MD-CENTRAL");
         CompletableFuture<org.springframework.kafka.support.SendResult<String, String>> firstAck = new CompletableFuture<>();
@@ -522,10 +537,11 @@ class ScenarioExecutionServiceTest {
     }
 
     @Test
-    void allSixtyCityCombinationsAcceptedWithCorrectScopeKafkaKeyAndEightWindows() throws Exception {
+    void approvedCityCombinationsRetainScopeKafkaKeyAndEightWindows() throws Exception {
         var geo = GeographyCatalog.load();
-        List<String> cities = geo.cities().keySet().stream().sorted().toList();
-        assertEquals(10, cities.size());
+        assertEquals(10,geo.cities().size()); // Historical catalogue remains intact.
+        List<String> cities = geo.cities().keySet().stream().filter(city->!java.util.Set.of("RIB","TIR").contains(city)).sorted().toList();
+        assertEquals(8, cities.size());
 
         List<String> volteScenarios = List.of("NORMAL_CONTROL", "TELEMETRY_GAP", "VOLTE_IMS_OVERLOAD");
         List<String> smsScenarios = List.of("NORMAL_CONTROL", "TELEMETRY_GAP", "SMS_QUEUE_DELAY");
@@ -573,12 +589,12 @@ class ScenarioExecutionServiceTest {
                         () -> service.start(id, commandAt(scenarioType.equals("NORMAL_CONTROL") ? "SMS_QUEUE_DELAY" : "NORMAL_CONTROL", scope, scenarioStart)));
             }
         }
-        assertEquals(60, totalCombinations);
+        assertEquals(48, totalCombinations);
         // Execute the scheduled callbacks for every combination; acceptance alone proves no payloads.
         advance(START.plusSeconds(1440));
         var keys = org.mockito.ArgumentCaptor.forClass(String.class);
         var payloads = org.mockito.ArgumentCaptor.forClass(String.class);
-        verify(kafka, times(1050)).send(eq("telecom.observations.v2"), keys.capture(), payloads.capture());
+        verify(kafka, times(840)).send(eq("telecom.observations.v2"), keys.capture(), payloads.capture());
         var validator = new ObservationValidator(GeographyCatalog.activate(START));
         var identities = new java.util.HashSet<String>();
         for (int i = 0; i < payloads.getAllValues().size(); i++) {

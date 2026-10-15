@@ -1,0 +1,18 @@
+apiVersion: 1
+datasources:
+  - name: Trace Link persisted history
+    uid: trace-link-postgres
+    type: postgres
+    access: proxy
+    url: $__env{TRACE_GRAFANA_PG_HOST}:$__env{TRACE_GRAFANA_PG_PORT}
+    user: trace_grafana_reader
+    editable: false
+    secureJsonData:
+      password: $__env{TRACE_GRAFANA_PG_PASSWORD}
+    jsonData:
+      database: incidents_db
+      sslmode: $__env{TRACE_GRAFANA_PG_SSLMODE}
+      postgresVersion: 1600
+      maxOpenConns: 5
+      maxIdleConns: 2
+      connMaxLifetime: 300

@@ -10,15 +10,19 @@ import org.springframework.web.server.ResponseStatusException;
 public class MetricQueryService {
     private final MetricDefinitionRegistry definitions;
     private final MetricRollupRepository repository;
+    private final MetricScopeRepository scopes;
+    private final ReferenceMetricRollupRepository reference;
 
     public MetricQueryService(MetricDefinitionRegistry definitions,
-                              MetricRollupRepository repository) {
+                              MetricRollupRepository repository, MetricScopeRepository scopes, ReferenceMetricRollupRepository reference) {
         this.definitions = definitions;
         this.repository = repository;
+        this.scopes = scopes;
+        this.reference = reference;
     }
 
     public MetricSeriesResponse series(TraceQuery query) {
-        if (query.pointCount() > 8640 || !query.scopeType().equals("CITY")) {
+        if (query.pointCount() > 8641) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Unsupported scope or too many buckets");
         }
@@ -30,9 +34,19 @@ public class MetricQueryService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Query is outside available five-minute history");
         }
-        String catalogueTopology = repository.cityTopology(query.datasetId(), query.scopeId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                        "Unknown city scope for dataset"));
+        String catalogueTopology = scopes.resolve(query).topologyVersion();
+        if (reference.imported(query.datasetId())) {
+            if (query.metric().equals("roaming.activeOutbound") && !query.scopeId().endsWith(":out")
+                    || query.metric().equals("roaming.activeInbound") && !query.scopeId().endsWith(":in"))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Snapshot direction does not match its population");
+            var points = reference.series(query, definition);
+            return new MetricSeriesResponse(query.datasetId(), query.domain(), query.metric(), query.scopeType(), query.scopeId(),
+                    query.resolution(), query.from(), query.to(), query.effectiveFrom(), query.effectiveTo(),
+                    !query.from().equals(query.effectiveFrom()), !query.to().equals(query.effectiveTo()), 300,
+                    definition.unit(), definition.aggregation(), definition.policyVersion(), catalogueTopology, dataset.synthetic(), null, points);
+        }
+        if (!query.metric().equals("voice.success_rate") && !query.metric().equals("volte.setup.success"))
+            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "The full validated reference archive is not projected");
         if (query.metric().equals("volte.setup.success")) {
             var points = repository.primitiveRatio(query, definition.policyVersion(), catalogueTopology);
             return new MetricSeriesResponse(query.datasetId(), query.domain(), query.metric(),

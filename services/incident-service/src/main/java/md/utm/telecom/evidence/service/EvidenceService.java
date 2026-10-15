@@ -10,6 +10,8 @@ import md.utm.telecom.incidents.repository.IncidentAuditRepository;
 import md.utm.telecom.incidents.repository.IncidentRepository;
 import md.utm.telecom.incidents.stream.IncidentChanged;
 import org.springframework.context.ApplicationEventPublisher;
+import md.utm.telecom.notifications.service.NotificationEventService;
+import md.utm.telecom.notifications.service.IncidentStateSnapshot;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.ObjectMapper;
@@ -27,6 +29,7 @@ public class EvidenceService {
     private final ObjectMapper json;
     private final EpisodeLock episodeLock;
     private final ApplicationEventPublisher events;
+    private final NotificationEventService notifications;
 
     public EvidenceService(
             DetectionEvidenceRepository evidence,
@@ -34,7 +37,8 @@ public class EvidenceService {
             IncidentAuditRepository audits,
             ObjectMapper json,
             EpisodeLock episodeLock,
-            ApplicationEventPublisher events
+            ApplicationEventPublisher events,
+            NotificationEventService notifications
     ) {
         this.evidence = evidence;
         this.incidents = incidents;
@@ -42,6 +46,7 @@ public class EvidenceService {
         this.json = json;
         this.episodeLock = episodeLock;
         this.events = events;
+        this.notifications = notifications;
     }
 
     @Transactional
@@ -95,6 +100,7 @@ public class EvidenceService {
                     openingMessage.severity(),
                     openingMessage.firstObservedAt()));
             audit(incident, opening, null, snapshot(incident));
+            notifications.detection(null, incident, openingMessage);
             applied = 1;
         }
 
@@ -119,6 +125,7 @@ public class EvidenceService {
             if (next.getWindowStart().isBefore(incident.getLastObservedAt())) {
                 throw new IllegalArgumentException("Episode windows must not move backwards or overlap");
             }
+            IncidentStateSnapshot beforeState = IncidentStateSnapshot.from(incident);
             String before = snapshot(incident);
             incident.setLatestEvidence(next);
             incident.setTechnicalState(nextMessage.technicalState());
@@ -126,6 +133,7 @@ public class EvidenceService {
                 incident.setSeverity(nextMessage.severity());
             }
             audit(incident, next, before, snapshot(incident));
+            notifications.detection(beforeState, incident, nextMessage);
             applied++;
         }
 

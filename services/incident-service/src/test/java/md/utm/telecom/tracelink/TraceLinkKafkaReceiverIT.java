@@ -65,6 +65,8 @@ class TraceLinkKafkaReceiverIT {
     @BeforeEach void clearDetectorTestRows() throws Exception {
         try (var connection=java.sql.DriverManager.getConnection(POSTGRES.getJdbcUrl(),POSTGRES.getUsername(),POSTGRES.getPassword());
              var statement=connection.createStatement()) {
+            statement.executeUpdate("DELETE FROM app.notification_event WHERE native_episode_id IS NOT NULL");
+            statement.executeUpdate("DELETE FROM app.trace_link_workflow_audit");
             statement.executeUpdate("DELETE FROM app.trace_link_incident_audit");
             statement.executeUpdate("DELETE FROM app.trace_link_incidents");
             statement.executeUpdate("DELETE FROM app.trace_link_detection_evidence");

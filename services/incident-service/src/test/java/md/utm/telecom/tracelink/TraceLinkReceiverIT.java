@@ -195,6 +195,10 @@ class TraceLinkReceiverIT extends IncidentServiceIntegrationTestSupport {
             org.springframework.test.context.transaction.TestTransaction.flagForRollback();
             org.springframework.test.context.transaction.TestTransaction.end();
             org.springframework.test.context.transaction.TestTransaction.start();
+            entityManager.createNativeQuery("DELETE FROM app.push_delivery WHERE recipient_id IN (SELECT r.id FROM app.notification_recipient r JOIN app.notification_event e ON e.id=r.event_id WHERE e.native_episode_id IS NOT NULL)").executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM app.notification_recipient WHERE event_id IN (SELECT id FROM app.notification_event WHERE native_episode_id IS NOT NULL)").executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM app.notification_event WHERE native_episode_id IS NOT NULL").executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM app.trace_link_workflow_audit").executeUpdate();
             entityManager.createNativeQuery("DELETE FROM app.trace_link_incident_audit").executeUpdate();
             entityManager.createNativeQuery("DELETE FROM app.trace_link_incidents").executeUpdate();
             entityManager.createNativeQuery("DELETE FROM app.trace_link_detection_evidence").executeUpdate();

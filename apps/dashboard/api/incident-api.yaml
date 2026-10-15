@@ -22,6 +22,102 @@ tags:
 - name: Trace Export
 - name: Notifications
 paths:
+  /api/v2/datasets:
+    get:
+      operationId: listTraceDatasets
+      tags: [Trace Metrics]
+      responses:
+        '200':
+          description: Registered persisted datasets and exact availability bounds
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/TraceDataset'}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /api/v2/trace-link/incidents/by-id/{id}:
+    get:
+      operationId: getTraceIncidentByPublicId
+      tags: [Incidents]
+      parameters:
+      - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '200': {description: Native technical incident retaining its original episode identity, content: {application/json: {schema: {$ref: '#/components/schemas/TraceLinkIncidentView'}}}}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /api/v2/trace-link/incidents/{episodeId}/workflow:
+    get:
+      operationId: getTraceIncidentWorkflow
+      tags: [Incidents]
+      parameters:
+      - {name: episodeId, in: path, required: true, schema: {type: string, pattern: '^[a-f0-9]{64}$'}}
+      responses:
+        '200': {description: Recipient-authorized native analyst workflow, content: {application/json: {schema: {$ref: '#/components/schemas/TraceIncidentWorkflow'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /api/v2/trace-link/incidents/{episodeId}/assignment:
+    post:
+      operationId: assignTraceIncident
+      tags: [Incidents]
+      parameters:
+      - {name: episodeId, in: path, required: true, schema: {type: string, pattern: '^[a-f0-9]{64}$'}}
+      security: [{sessionCookie: [], csrfToken: []}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/TraceIncidentAssignment'}}}}
+      responses:
+        '200': {description: Recipient-authorized native analyst workflow, content: {application/json: {schema: {$ref: '#/components/schemas/TraceIncidentWorkflow'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /api/v2/trace-link/incidents/{episodeId}/status:
+    post:
+      operationId: updateTraceIncidentWorkflow
+      tags: [Incidents]
+      parameters:
+      - {name: episodeId, in: path, required: true, schema: {type: string, pattern: '^[a-f0-9]{64}$'}}
+      security: [{sessionCookie: [], csrfToken: []}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/TraceIncidentStatus'}}}}
+      responses:
+        '200': {description: Recipient-authorized native analyst workflow, content: {application/json: {schema: {$ref: '#/components/schemas/TraceIncidentWorkflow'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /api/v2/trace-link/incidents/{episodeId}/comments:
+    post:
+      operationId: commentTraceIncident
+      tags: [Incidents]
+      parameters:
+      - {name: episodeId, in: path, required: true, schema: {type: string, pattern: '^[a-f0-9]{64}$'}}
+      security: [{sessionCookie: [], csrfToken: []}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/TraceIncidentComment'}}}}
+      responses:
+        '200': {description: Recipient-authorized native analyst workflow, content: {application/json: {schema: {$ref: '#/components/schemas/TraceIncidentWorkflow'}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /api/v2/trace-link/incidents/{episodeId}/audit:
+    get:
+      operationId: getTraceIncidentAudit
+      tags: [Incidents]
+      parameters:
+      - {name: episodeId, in: path, required: true, schema: {type: string, pattern: '^[a-f0-9]{64}$'}}
+      - {name: limit, in: query, schema: {type: integer, minimum: 1, maximum: 100, default: 50}}
+      - {name: offset, in: query, schema: {type: integer, minimum: 0, maximum: 100000, default: 0}}
+      responses:
+        '200': {description: Recipient-authorized native analyst workflow, content: {application/json: {schema: {type: array, items: {$ref: '#/components/schemas/TraceIncidentAudit'}}}}}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthenticated'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
   /api/v2/trace-link/incidents:
     get:
       operationId: listTraceLinkIncidents
@@ -30,6 +126,14 @@ paths:
       parameters:
       - {$ref: '#/components/parameters/TraceLinkLimit'}
       - {$ref: '#/components/parameters/TraceLinkOffset'}
+      - {name: datasetId, in: query, schema: {type: string}}
+      - {name: domain, in: query, schema: {type: string}}
+      - {name: cityId, in: query, schema: {type: string}}
+      - {name: linkDirectionId, in: query, schema: {type: string}}
+      - {name: countryId, in: query, schema: {type: string}}
+      - {name: roamingDirection, in: query, schema: {type: string}}
+      - {name: from, in: query, schema: {type: string, format: date-time}}
+      - {name: to, in: query, schema: {type: string, format: date-time}}
       responses:
         '200':
           description: Latest contiguous projections; controls without episodes are not incidents.
@@ -1113,7 +1217,7 @@ paths:
     get:
       operationId: getNotificationPushConfig
       tags: [Notifications]
-      x-implementation-status: planned-day-4
+      x-implementation-status: implemented-disabled-until-secure-acceptance
       responses:
         '200': {description: Public configuration only, content: {application/json: {schema: {$ref: '#/components/schemas/PushConfig'}}}}
         '401': {$ref: '#/components/responses/Unauthenticated'}
@@ -1121,18 +1225,28 @@ paths:
     post:
       operationId: upsertPushSubscription
       tags: [Notifications]
-      x-implementation-status: planned-day-4
+      x-implementation-status: implemented-disabled-until-secure-acceptance
       security: [{sessionCookie: [], csrfToken: []}]
       requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/PushSubscriptionInput'}}}}
       responses:
-        '201': {description: Current analyst subscription stored}
+        '201':
+          description: Current analyst subscription stored
+          headers:
+            Location: {description: Recipient-owned removable subscription identity, schema: {type: string}}
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id]
+                properties:
+                  id: {type: string, format: uuid}
         '401': {$ref: '#/components/responses/Unauthenticated'}
         '403': {$ref: '#/components/responses/Forbidden'}
   /api/notifications/push-subscriptions/{id}:
     delete:
       operationId: deletePushSubscription
       tags: [Notifications]
-      x-implementation-status: planned-day-4
+      x-implementation-status: implemented-disabled-until-secure-acceptance
       security: [{sessionCookie: [], csrfToken: []}]
       parameters:
       - {name: id, in: path, required: true, schema: {type: string, format: uuid}}
@@ -3217,6 +3331,53 @@ components:
         validFrom: {type: string, format: date-time}
         validTo: {type: string, format: date-time, nullable: true}
         synthetic: {type: boolean}
+    TraceDataset:
+      type: object
+      required: [datasetId, from, to, synthetic, manifestSha256, archiveReady]
+      properties:
+        datasetId: {type: string}
+        from: {type: string, format: date-time}
+        to: {type: string, format: date-time}
+        synthetic: {type: boolean}
+        manifestSha256: {type: string}
+        archiveReady: {type: boolean}
+    TraceIncidentWorkflow:
+      type: object
+      required: [id, episodeId, status, assigneeId, version, resolutionNote]
+      properties:
+        id: {type: string, format: uuid}
+        episodeId: {type: string}
+        status: {type: string, enum: [OPEN, INVESTIGATING, RESOLVED]}
+        assigneeId: {type: string, format: uuid, nullable: true}
+        version: {type: integer, format: int64}
+        resolutionNote: {type: string, nullable: true}
+    TraceIncidentAssignment:
+      type: object
+      required: [assigneeId, version]
+      properties:
+        assigneeId: {type: string, format: uuid}
+        version: {type: integer, format: int64, minimum: 1}
+    TraceIncidentStatus:
+      type: object
+      required: [status, version]
+      properties:
+        status: {type: string, enum: [INVESTIGATING, RESOLVED]}
+        version: {type: integer, format: int64, minimum: 1}
+        resolutionNote: {type: string, maxLength: 2000, nullable: true}
+    TraceIncidentComment:
+      type: object
+      required: [version, note]
+      properties:
+        version: {type: integer, format: int64, minimum: 1}
+        note: {type: string, minLength: 1, maxLength: 2000}
+    TraceIncidentAudit:
+      type: object
+      required: [action, version, note, occurredAt]
+      properties:
+        action: {type: string}
+        version: {type: integer, format: int64}
+        note: {type: string, nullable: true}
+        occurredAt: {type: string, format: date-time}
     TraceKpiDefinition:
       type: object
       required: [domain, metric, unit, aggregation, population, primitiveFields, policyVersion]
@@ -3224,10 +3385,14 @@ components:
         domain: {type: string}
         metric: {type: string}
         unit: {type: string}
-        aggregation: {type: string, enum: [COUNT_SUM, RATIO_OF_SUMS, WEIGHTED_MEAN, TIME_WEIGHTED_MEAN, HISTOGRAM_P95, SNAPSHOT_LAST, STATE_TIMELINE]}
+        aggregation: {type: string, enum: [COUNT_SUM, RATIO_OF_SUMS, WEIGHTED_MEAN, TIME_WEIGHTED_MEAN, HISTOGRAM_P95, SNAPSHOT_LAST, SNAPSHOT_DIFFERENCE, MAXIMUM, STATE_TIMELINE]}
         population: {type: string}
         primitiveFields: {type: array, items: {type: string}}
         policyVersion: {type: string}
+        referenceAvailability: {type: string, enum: [SUPPORTED, APPROXIMATION, REQUIRES_ADDITIONAL_PRIMITIVES]}
+        referenceReason: {type: string, nullable: true}
+        referenceFields: {type: array, items: {type: string}}
+        histogramEdges: {type: array, items: {type: number}}
     TraceMetricSeries:
       type: object
       required: [datasetId, domain, metric, scopeType, scopeId, resolution, requestedFrom, requestedTo, effectiveFrom, effectiveTo, partialStart, partialEnd, sourceResolutionSeconds, unit, aggregation, synthetic, points]
@@ -3273,6 +3438,19 @@ components:
         sourceCoverage: {type: number, minimum: 0, maximum: 1, nullable: true}
         projectionIds: {type: array, items: {type: string}}
         provenance: {type: array, items: {$ref: '#/components/schemas/TraceProjectionProvenance'}}
+        snapshotAt: {type: string, format: date-time, nullable: true}
+        sourceAgeSeconds: {type: integer, format: int64, nullable: true}
+        histogramCounts: {type: array, items: {type: number}}
+        histogramEdges: {type: array, items: {type: number}}
+        states:
+          type: array
+          items:
+            type: object
+            required: [from, to, state]
+            properties:
+              from: {type: string, format: date-time}
+              to: {type: string, format: date-time}
+              state: {type: string}
     TraceProjectionProvenance:
       type: object
       required: [sourceNamespace, projectionId, sourceNaturalId, sourceRowNumber, sourceRowSha256, sourceFile, manifestSha256, generatorVersion, seed, catalogueVersion, importPolicyVersion, sourceQuality, sourceCoverage, quality, qualityReason]

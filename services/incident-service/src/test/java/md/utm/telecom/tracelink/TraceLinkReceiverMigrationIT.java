@@ -64,7 +64,7 @@ class TraceLinkReceiverMigrationIT {
                     + "FROM app.flyway_schema_history ORDER BY installed_rank");
         }
         Flyway upgraded = flyway(upgradeUrl, null);
-        assertEquals(1, upgraded.migrate().migrationsExecuted);
+        assertEquals(5, upgraded.migrate().migrationsExecuted);
         upgraded.validate();
         assertEquals(0, upgraded.migrate().migrationsExecuted);
         try (Connection db = migrator(upgradeUrl)) {
@@ -77,7 +77,7 @@ class TraceLinkReceiverMigrationIT {
 
         String freshUrl = createDatabase("receiver_fresh");
         Flyway fresh = flyway(freshUrl, null);
-        assertEquals(11, fresh.migrate().migrationsExecuted);
+        assertEquals(15, fresh.migrate().migrationsExecuted);
         fresh.validate();
         assertEquals(0, fresh.migrate().migrationsExecuted);
         try (Connection upgradedDb = migrator(upgradeUrl); Connection freshDb = migrator(freshUrl)) {
@@ -88,7 +88,7 @@ class TraceLinkReceiverMigrationIT {
     @Test
     void detectorTimestampIsRequiredAndRuntimeCannotRewriteEvidenceOrAudit() throws Exception {
         String url = createDatabase("receiver_grants");
-        assertEquals(11, flyway(url, null).migrate().migrationsExecuted);
+        assertEquals(15, flyway(url, null).migrate().migrationsExecuted);
         try (Connection db = runtime(url)) {
             execute(db, """
                     INSERT INTO app.trace_link_detection_evidence

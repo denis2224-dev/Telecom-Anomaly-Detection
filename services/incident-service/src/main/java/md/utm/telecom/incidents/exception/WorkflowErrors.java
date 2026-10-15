@@ -25,7 +25,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice(assignableTypes = {
         IncidentController.class, EvidenceController.class, AnalystController.class,
         IncidentStreamController.class, GeographyController.class, GeographyTopologyController.class,
-        PriorityController.class, NotificationController.class, TraceInventoryController.class, MetricSeriesController.class
+        md.utm.telecom.tracelink.metrics.TraceDatasetController.class, PriorityController.class, md.utm.telecom.notifications.controller.PushSubscriptionController.class, NotificationController.class, TraceInventoryController.class, MetricSeriesController.class
 })
 public class WorkflowErrors {
     @ExceptionHandler(WorkflowProblem.class)

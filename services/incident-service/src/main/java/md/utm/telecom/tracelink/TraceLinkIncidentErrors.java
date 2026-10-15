@@ -10,14 +10,14 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.server.ResponseStatusException;
 
 /** Keeps the additive read surface on the established structured error contract. */
-@RestControllerAdvice(assignableTypes=TraceLinkIncidentController.class)
+@RestControllerAdvice(assignableTypes={TraceLinkIncidentController.class,TraceLinkWorkflowController.class})
 public class TraceLinkIncidentErrors {
     @ExceptionHandler(WorkflowProblem.class)
     ResponseEntity<ApiSecurityErrors.ApiError> access(WorkflowProblem error) {
         return ResponseEntity.status(error.status()).contentType(MediaType.APPLICATION_JSON)
                 .body(ApiSecurityErrors.body(error.code(),error.getMessage()));
     }
-    @ExceptionHandler({IllegalArgumentException.class, MethodArgumentTypeMismatchException.class})
+    @ExceptionHandler({IllegalArgumentException.class, java.time.format.DateTimeParseException.class, MethodArgumentTypeMismatchException.class, org.springframework.web.bind.MethodArgumentNotValidException.class, org.springframework.http.converter.HttpMessageNotReadableException.class})
     ResponseEntity<ApiSecurityErrors.ApiError> invalid(Exception error) {
         return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON)
                 .body(ApiSecurityErrors.body("BAD_REQUEST","Check the episode ID and pagination bounds."));

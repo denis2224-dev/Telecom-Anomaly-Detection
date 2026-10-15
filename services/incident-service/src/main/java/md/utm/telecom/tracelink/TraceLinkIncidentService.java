@@ -110,6 +110,7 @@ public class TraceLinkIncidentService {
                     VALUES (:episode,:id,:sequence,:phase)
                     """).setParameter("episode", episode).setParameter("id", lifecycle.required("detectionId").asText())
                     .setParameter("sequence", latest + 1).setParameter("phase", lifecycle.required("phase").asText()).executeUpdate();
+            events.publishEvent(new NotificationTransition(episode, previous, next));
             latest++; version++; applied++; previous = next;
         }
         if (applied > 0) events.publishEvent(new TraceLinkIncidentChanged(episode, version));
@@ -133,13 +134,38 @@ public class TraceLinkIncidentService {
             throw new IllegalArgumentException("Episode severity cannot decrease");
     }
 
+    public record Filter(String datasetId,String domain,String cityId,String linkDirectionId,String countryId,String roamingDirection,Instant from,Instant to) {
+        public Filter {
+            if(datasetId!=null&&!datasetId.matches("[A-Za-z0-9_.:-]{1,128}"))throw new IllegalArgumentException("Invalid dataset");
+            if(domain!=null&&!List.of("all","volte","transport","roaming","sms","mobile-data").contains(domain))throw new IllegalArgumentException("Invalid domain");
+            for(String id:new String[]{cityId,linkDirectionId,countryId})if(id!=null&&!id.matches("[A-Za-z0-9_.:-]{1,128}"))throw new IllegalArgumentException("Invalid scope");
+            if(roamingDirection!=null&&!List.of("both","in","out").contains(roamingDirection))throw new IllegalArgumentException("Invalid direction");
+            if((from==null)!=(to==null)||from!=null&&(!from.isBefore(to)||java.time.Duration.between(from,to).compareTo(java.time.Duration.ofDays(30))>0))throw new IllegalArgumentException("Invalid half-open interval");
+        }
+    }
     @Transactional(readOnly = true)
-    public Page<TraceLinkIncidentView> list(int limit, int offset) {
-        validateBounds(limit, offset);
-        List<?> values = db.createNativeQuery("SELECT " + VIEW_COLUMNS + " FROM app.trace_link_incidents ORDER BY first_observed_at DESC,episode_id DESC")
-                .setFirstResult(offset).setMaxResults(limit).getResultList();
-        long total = ((Number)db.createNativeQuery("SELECT count(*) FROM app.trace_link_incidents").getSingleResult()).longValue();
-        return new Page<>(values.stream().map(this::view).toList(), total, limit, offset);
+    public Page<TraceLinkIncidentView> list(int limit,int offset) {return list(limit,offset,new Filter(null,null,null,null,null,null,null,null));}
+    @Transactional(readOnly = true)
+    public Page<TraceLinkIncidentView> list(int limit,int offset,Filter filter) {
+        validateBounds(limit,offset);
+        String where="""
+                FROM app.trace_link_incidents WHERE
+                  (CAST(:dataset AS text) IS NULL OR projection#>>'{context,datasetId}'=CAST(:dataset AS text))
+                  AND (CAST(:domain AS text) IS NULL OR :domain='all' OR replace(lower(projection#>>'{context,domain}'),'_','-')=:domain)
+                  AND (CAST(:city AS text) IS NULL OR :city='all' OR projection#>>'{context,domain}'='ROAMING' OR projection#>'{context,scope,cityIds}' @> jsonb_build_array(upper(CAST(:city AS text))))
+                  AND (CAST(:link AS text) IS NULL OR projection#>>'{context,domain}'<>'TRANSPORT' OR projection#>>'{context,scope,id}'=:link)
+                  AND (CAST(:country AS text) IS NULL OR :country='all' OR projection#>>'{context,domain}'<>'ROAMING' OR split_part(projection#>>'{context,scope,partnerId}','-',1)=:country)
+                  AND (CAST(:direction AS text) IS NULL OR :direction='both' OR projection#>>'{context,domain}'<>'ROAMING' OR projection#>>'{context,scope,directionId}'=:direction)
+                  AND (CAST(:from AS timestamptz) IS NULL OR last_observed_at>CAST(:from AS timestamptz))
+                  AND (CAST(:to AS timestamptz) IS NULL OR first_observed_at<CAST(:to AS timestamptz))
+                """;
+        var data=db.createNativeQuery("SELECT "+VIEW_COLUMNS+" "+where+" ORDER BY first_observed_at DESC,episode_id DESC");
+        var count=db.createNativeQuery("SELECT count(*) "+where);
+        for(var query:List.of(data,count))query.setParameter("dataset",filter.datasetId()).setParameter("domain",filter.domain())
+                .setParameter("city",filter.cityId()).setParameter("link",filter.linkDirectionId()).setParameter("country",filter.countryId())
+                .setParameter("direction",filter.roamingDirection()).setParameter("from",filter.from()).setParameter("to",filter.to());
+        var values=data.setFirstResult(offset).setMaxResults(limit).getResultList();
+        return new Page<>(values.stream().map(this::view).toList(),((Number)count.getSingleResult()).longValue(),limit,offset);
     }
 
     @Transactional(readOnly = true)
@@ -185,5 +211,6 @@ public class TraceLinkIncidentService {
     }
     public record Page<T>(List<T> items, long total, int limit, int offset) { }
     public record IngestResult(String disposition, int appliedCount, long latestSequence) { }
+    public record NotificationTransition(String episodeId, JsonNode previous, JsonNode next) {}
     public record TraceLinkIncidentChanged(String episodeId, long version) { }
 }

@@ -34,9 +34,9 @@ public class NotificationController {
         if(page<0 || page>10000 || size<1 || size>100)
             throw new WorkflowProblem(HttpStatus.BAD_REQUEST,"INVALID_PAGE","Use page 0 through 10000 and size 1 through 100.");
         var items=jdbc.query("""
-                SELECT r.id,e.incident_id,e.kind,e.severity,e.service,e.scope_id,e.summary,r.occurred_at,r.read_at,
+                SELECT r.id,COALESCE(e.incident_id,i.public_id),e.kind,e.severity,e.service,e.scope_id,e.summary,r.occurred_at,r.read_at,
                        e.cause_status,e.probable_cause,e.cause_confidence,e.incident_url
-                FROM app.notification_recipient r JOIN app.notification_event e ON e.id=r.event_id
+                FROM app.notification_recipient r JOIN app.notification_event e ON e.id=r.event_id LEFT JOIN app.trace_link_incidents i ON i.episode_id=e.native_episode_id
                 WHERE r.analyst_id=? ORDER BY r.occurred_at DESC,r.id DESC LIMIT ? OFFSET ?
                 """,(rs,n)->new Item(rs.getObject(1,UUID.class),rs.getObject(2,UUID.class),rs.getString(3),rs.getString(4),
                 rs.getString(5),rs.getString(6),rs.getString(7),rs.getTimestamp(8).toInstant(),
