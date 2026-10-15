@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '../helpers/test';
-import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
+import pairs from '../helpers/approved-geography';
 import { cityIncidents, citySummaries, cityWindows, fixtureRange } from '../../../src/fixtures/connected-dashboard';
 import type { GeographyCatalogue, ServiceSummary, Incident } from '../../../src/app/core/api/telecom-client';
 import type { components } from '../../../src/app/core/api/schema';
@@ -121,9 +121,9 @@ for (const width of [1366, 768, 390]) {
     const state = await liveApi(page);
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
-    await expect(page.locator('.city-marker')).toHaveCount(8);
+    await expect(page.locator('.city-marker')).toHaveCount(10);
     await expect(page.locator('.map-table')).not.toContainText('Mapping pending');
-    await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
+    await expect(page.locator('.city-marker .node-label small')).toHaveCount(10);
     await expect(page.locator('.city-marker').filter({ hasText: 'Rîbnița' })).toHaveCount(0);
     await expect(page.locator('.city-marker').filter({ hasText: 'Tiraspol' })).toHaveCount(0);
     await page.locator('.city-marker').filter({ hasText: 'Orhei' }).click();
@@ -167,7 +167,7 @@ test('LIVE geography outages and missing history never substitute fixture values
   await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
   state.geographyStatus = 200;
   await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-  await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
+  await expect(page.locator('.city-marker .node-label small')).toHaveCount(10);
   state.historyStatus = 503;
   await page.getByLabel('Region', { exact: true }).fill('Orhei');
   await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);

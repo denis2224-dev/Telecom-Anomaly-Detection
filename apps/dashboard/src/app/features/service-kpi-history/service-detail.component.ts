@@ -1,5 +1,6 @@
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
+import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -32,6 +33,7 @@ const MAX_WINDOWS = 1440;
   imports: [SmsShadowComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
+    @if(service() && from() && to()){<a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Open this scope and interval in persisted history</a>}
     <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a><div class="heading-copy"><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
     </div>
     @if (loading() && !displayedService()) { <section class="state-panel skeleton-panel service-loading" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
@@ -143,6 +145,8 @@ export class ServiceDetailComponent {
   });
   readonly pageSize = PAGE_SIZE;
   readonly fixture = dataSource.fixture;
+  private readonly traceQuery=inject(TraceQueryStore);
+  readonly traceHistoryParameters=computed(()=>traceContextParameters({...this.traceQuery.context(),from:this.from(),to:this.to(),cityId:this.selectedCity()?.id.toLowerCase()??'all',domain:this.service()?.scope.service==='SMS'?'sms':'volte',visibleFrom:undefined,visibleTo:undefined,linkDirectionId:undefined}));
   readonly scopeId = signal('');
   readonly service = signal<ServiceSummary | null>(null);
   readonly displayedService = computed(() => this.service()?.scope.scopeId === this.scopeId() ? this.service() : null);

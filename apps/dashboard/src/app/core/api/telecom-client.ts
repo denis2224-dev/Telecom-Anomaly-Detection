@@ -36,6 +36,16 @@ export class TelecomClient {
   private readonly http = inject(HttpClient);
   private readonly session = inject(SessionStore);
 
+  traceDatasets(signal?: AbortSignal) {return this.request<components['schemas']['TraceDataset'][]>('GET','/api/v2/datasets',undefined,undefined,signal);}
+  traceIncidents(query:operations['listTraceLinkIncidents']['parameters']['query']={},signal?:AbortSignal){return this.request<components['schemas']['TraceLinkIncidentPage']>('GET','/api/v2/trace-link/incidents',undefined,query,signal);}
+  traceIncident(episode:string,signal?:AbortSignal){return this.request<components['schemas']['TraceLinkIncidentView']>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}`,undefined,undefined,signal);}
+  traceIncidentByPublicId(id:string,signal?:AbortSignal){return this.request<components['schemas']['TraceLinkIncidentView']>('GET',`/api/v2/trace-link/incidents/by-id/${encodeURIComponent(id)}`,undefined,undefined,signal);}
+  traceIncidentEvidence(episode:string,offset=0,signal?:AbortSignal){return this.request<components['schemas']['TraceLinkDetectionEvidencePage']>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/evidence`,undefined,{limit:50,offset},signal);}
+  traceIncidentWorkflow(episode:string,signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/workflow`,undefined,undefined,signal);}
+  traceIncidentAudit(episode:string,offset=0,signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentAudit'][]>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/audit`,undefined,{limit:50,offset},signal);}
+  assignTraceIncident(episode:string,body:components['schemas']['TraceIncidentAssignment'],signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('POST',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/assignment`,body,undefined,signal);}
+  updateTraceIncident(episode:string,body:components['schemas']['TraceIncidentStatus'],signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('POST',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/status`,body,undefined,signal);}
+  commentTraceIncident(episode:string,body:components['schemas']['TraceIncidentComment'],signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('POST',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/comments`,body,undefined,signal);}
   listNotifications(page = 0, signal?: AbortSignal) {
     return this.request<NotificationPage>('GET', '/api/notifications', undefined, { page, size: 20 }, signal);
   }

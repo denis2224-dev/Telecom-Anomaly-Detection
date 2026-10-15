@@ -1,5 +1,6 @@
+import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { dataSource } from '../../core/api/data-source';
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, input, signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
 import { countryPreview, previewMetric, previewWindow, randomSource } from '../scenario-runner/monitoring-preview';
@@ -26,7 +27,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource } from '../s
       </div>
     }
     @if (compact()) { <a class="button roaming-link" routerLink="/roaming">Open roaming preview →</a> }
-  </section>} @else {<section class="roaming" aria-label="Roaming measurements"><h2>Roaming services</h2><p role="status">Roaming measurements are unavailable in the legacy service response. Investigate persisted partner, country and direction populations in Trace Link history.</p><a class="button roaming-link" routerLink="/trace-link" [queryParams]="{domain:'roaming'}">Open roaming investigation →</a></section>}`,
+  </section>} @else {<section class="roaming" aria-label="Roaming measurements"><h2>Roaming services</h2><p role="status">Roaming measurements are unavailable in the legacy service response. Investigate persisted partner, country and direction populations in Trace Link history.</p><a class="button roaming-link" routerLink="/trace-link" [queryParams]="roamingContext()">Open roaming investigation →</a></section>}`,
   styles: [`
     :host { display: block; min-width: 0; }
     .roaming { background: var(--surface); border-radius: var(--radius); padding: 16px; }
@@ -69,6 +70,8 @@ import { countryPreview, previewMetric, previewWindow, randomSource } from '../s
   `],
 })
 export class RoamingOverviewComponent {
+  private readonly query=inject(TraceQueryStore);
+  readonly roamingContext=computed(()=>traceContextParameters({...this.query.context(),domain:'roaming'}));
   readonly preview = input(dataSource.fixture);
   readonly compact = input(false);
   readonly showCountries = input(false);

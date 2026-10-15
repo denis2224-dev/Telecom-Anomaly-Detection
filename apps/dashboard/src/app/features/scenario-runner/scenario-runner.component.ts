@@ -1,3 +1,4 @@
+import { cities as approvedCities } from '../service-overview/dashboard-geography';
 import { DatePipe } from '@angular/common';
 import {
   Component,
@@ -298,6 +299,7 @@ export class ScenarioRunnerComponent implements OnDestroy {
           throw new Error('Incomplete city catalogue.');
         const authorized = new Set(['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A']);
         for (const city of catalogue.cities) {
+          if (!approvedCities.some(approved=>approved.id===city.cityId)) continue;
           if (city.catalogueVersion !== catalogue.catalogueVersion
             || city.topologyVersion !== catalogue.topologyVersion || city.services.length !== 2)
             throw new Error('Inconsistent city catalogue.');
@@ -308,7 +310,7 @@ export class ScenarioRunnerComponent implements OnDestroy {
             authorized.add(state.scopeId);
           }
         }
-        if (authorized.size !== 22) throw new Error('Incomplete city scenario scopes.');
+        if (authorized.size < 18) throw new Error('Incomplete approved city scenario scopes.');
         this.catalogueScopes.set(authorized);
       } catch {
         // The public catalogue is the authority for city commands; retain legacy controls.

@@ -1,3 +1,4 @@
+import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { Component, DestroyRef, viewChild, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SessionStore } from '../login-and-session/session.store';
@@ -108,6 +109,8 @@ export class ConnectedOverviewComponent {
     const duration = custom ? Date.parse(custom.to) - Date.parse(custom.from) : this.minutes() * 60_000;
     return new Date(Date.parse(this.chartTo()) - duration).toISOString();
   });
+  private readonly traceQuery=inject(TraceQueryStore);
+  readonly traceHistoryParameters=computed(()=>traceContextParameters({...this.traceQuery.context(),from:this.chartFrom(),to:this.chartTo(),cityId:this.selectedCity()?.id.toLowerCase()??'all',domain:this.serviceFilter()==='SMS'?'sms':'volte',visibleFrom:undefined,visibleTo:undefined,linkDirectionId:undefined}));
   readonly refresh = signal(0);
   readonly statusMessage = signal('');
   readonly queueSeverityFilter = signal('');

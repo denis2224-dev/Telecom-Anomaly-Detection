@@ -53,6 +53,10 @@ describe('Shared Trace Link query context',()=>{
     store.update({countryId:'IT'});expect(store.context().partnerDirectionId).toBeUndefined();expect(store.context().cityId).toBe('chi');
     store.update({partnerDirectionId:'IT-DEMO-01:out'});store.update({roamingDirection:'in'});expect(store.context().partnerDirectionId).toBeUndefined();
   });
+  it('accepts an atomic country, direction and partner focus from an incident',()=>{
+    expect(store.update({countryId:'IT',roamingDirection:'in',partnerDirectionId:'IT-DEMO-01:in'})).toBe(true);
+    expect(store.context().partnerDirectionId).toBe('IT-DEMO-01:in');
+  });
   it('clears the query on session end and changes revision for cancellation guards',()=>{
     const revision=store.revision();ended.next();expect(store.context().datasetId).toBe('');expect(store.revision()).toBeGreaterThan(revision);
   });

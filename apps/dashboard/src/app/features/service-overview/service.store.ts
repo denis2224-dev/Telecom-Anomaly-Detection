@@ -32,10 +32,11 @@ export class ServiceStore {
     this.error.set("");
 
     try {
-      const [services] = await Promise.all([
+      const [receivedServices] = await Promise.all([
         this.api.listServices(controller.signal),
         this.loadGeography(requestId, controller.signal),
       ]);
+      const services=receivedServices.filter(service=>!/(?:VOLTE|SMS)-MD-(?:RIB|TIR)$/.test(service.scope.scopeId));
       if (requestId === this.requestId) {
         const old = new Map(this.services().map(item => [item.scope.scopeId, item]));
         // Keep the prior completed window until a genuinely new minute arrives.

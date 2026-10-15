@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
-import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
+import pairs from '../helpers/approved-geography';
 import { citySummaries, cityWindows, fixtureRange } from '../../../src/fixtures/connected-dashboard';
 import type { GeographyCatalogue, Incident } from '../../../src/app/core/api/telecom-client';
 

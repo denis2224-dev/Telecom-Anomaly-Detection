@@ -372,7 +372,7 @@ test.describe('Browser resource bounds', () => {
     for (const group of [samples, navigation.slice(2)]) {
       const heaps = group.map(item => item.heapBytes), nodes = group.map(item => item.domNodes);
       expect(Math.max(...heaps) - Math.min(...heaps)).toBeLessThan(5 * 1024 * 1024);
-      expect(Math.max(...nodes) - Math.min(...nodes)).toBeLessThanOrEqual(100);
+      expect(Math.max(...nodes) - Math.min(...nodes),JSON.stringify(nodes)).toBeLessThanOrEqual(100);
     }
     await navigateToLoginAndExpectCleanup(page);
     const report = {

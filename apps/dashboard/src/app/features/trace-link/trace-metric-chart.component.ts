@@ -1,12 +1,12 @@
 import { Component, computed, input, signal, effect, output } from '@angular/core';
 import type { TraceMetricSeries } from '../../core/api/telecom-client';
 
-export type MetricChartSeries = Omit<TraceMetricSeries,'points'> & { points: (Pick<TraceMetricSeries['points'][number], 'from'|'to'|'value'|'quality'|'numerator'|'denominator'|'sumValue'|'sampleCount'> & {coverage:number|null})[] };
+export type MetricChartSeries = Omit<TraceMetricSeries,'points'> & { points: (Pick<TraceMetricSeries['points'][number], 'from'|'to'|'value'|'quality'|'numerator'|'denominator'|'sumValue'|'sampleCount'> & Partial<Pick<TraceMetricSeries['points'][number], 'qualityReason'|'snapshotAt'|'sourceAgeSeconds'|'histogramCounts'|'histogramEdges'|'provenance'>> & {coverage:number|null})[] };
 
 /** Native Trace Link series remains distinct from the legacy ServiceKpiWindow population. */
 @Component({
   selector:'app-trace-metric-chart',
-  styles:[`svg {width:100%;height:260px;} path {fill:none;stroke:var(--brand,#ff7900);stroke-width:2;} text {fill:currentColor;font-size:12px;} .values {overflow:auto;} table {min-width:800px;} button {min-height:44px;}`],
+  styles:[`svg {width:100%;height:260px;} path {fill:none;stroke:var(--brand,#ff7900);stroke-width:2;} text {fill:currentColor;font-size:12px;} .values {overflow:auto;} table {min-width:800px;} pre {white-space:pre-wrap;overflow-wrap:anywhere;} button {min-height:44px;}`],
   template:`<section aria-label="Persisted metric chart">
     <p>{{ series().metric }} · {{ series().unit }} · {{ series().aggregation }}. Baseline unavailable in this read contract. Gaps indicate unavailable observations.</p>
     @if(!series().points.length){<p role="status">No recorded buckets for this query.</p>}
@@ -16,12 +16,13 @@ export type MetricChartSeries = Omit<TraceMetricSeries,'points'> & { points: (Pi
       <path [attr.d]="path()" />
       @for(point of markers();track point.from){<circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" fill="currentColor"><title>{{point.from}} · {{point.value}} {{series().unit}} · {{point.quality}}</title></circle>}
     </svg>
-    <details open><summary>Exact server buckets · {{ series().points.length }} rows</summary><div class="values" tabindex="0" aria-label="Scrollable exact metric buckets"><table><thead><tr><th>Start · {{ timezone() }}</th><th>End</th><th>Value · {{ series().unit }}</th><th>Quality</th><th>Coverage</th><th>Numerator</th><th>Denominator</th><th>Sum</th><th>Samples</th></tr></thead><tbody>
-      @for(point of rows();track point.from) {<tr><th><time [attr.datetime]="point.from">{{ time(point.from) }}</time></th><td>{{ time(point.to) }}</td><td>{{ reading(point) }}</td><td>{{ point.quality }}</td><td>{{ point.coverage ?? 'Unavailable' }}</td><td>{{ point.numerator ?? 'Unavailable' }}</td><td>{{ point.denominator ?? 'Unavailable' }}</td><td>{{ point.sumValue ?? 'Unavailable' }}</td><td>{{ point.sampleCount ?? 'Unavailable' }}</td></tr>}
-    </tbody></table></div><button type="button" [disabled]="page()===0" (click)="page.set(page()-1)">Previous buckets</button> <span>Page {{ page()+1 }} of {{ pages() }}</span> <button type="button" [disabled]="page()+1>=pages()" (click)="page.set(page()+1)">Next buckets</button></details>
+    <details open><summary>Exact server buckets · {{ series().points.length }} rows</summary><div class="values" tabindex="0" aria-label="Scrollable exact metric buckets"><table><thead><tr><th>Start · {{ timezone() }}</th><th>End</th><th>Value · {{ series().unit }}</th><th>Quality</th><th>Coverage</th><th>Numerator</th><th>Denominator</th><th>Sum</th><th>Samples</th><th>Qualification</th><th>Snapshot</th><th>Source age · seconds</th></tr></thead><tbody>
+      @for(point of rows();track point.from) {<tr><th><time [attr.datetime]="point.from">{{ time(point.from) }}</time></th><td>{{ time(point.to) }}</td><td>{{ reading(point) }}</td><td>{{ point.quality }}</td><td>{{ point.coverage ?? 'Unavailable' }}</td><td>{{ point.numerator ?? 'Unavailable' }}</td><td>{{ point.denominator ?? 'Unavailable' }}</td><td>{{ point.sumValue ?? 'Unavailable' }}</td><td>{{ point.sampleCount ?? 'Unavailable' }}</td><td>{{point.qualityReason ?? 'Unavailable'}}</td><td>{{point.snapshotAt ? time(point.snapshotAt) : 'Unavailable'}}</td><td>{{point.sourceAgeSeconds ?? 'Unavailable'}}</td></tr>}
+    </tbody></table></div><details><summary>Exact primitives and provenance for this bucket page</summary>@for(point of rows();track point.from){<pre>{{ provenance(point) }}</pre>}</details><button type="button" [disabled]="page()===0" (click)="page.set(page()-1)">Previous buckets</button> <span>Page {{ page()+1 }} of {{ pages() }}</span> <button type="button" [disabled]="page()+1>=pages()" (click)="page.set(page()+1)">Next buckets</button></details>
   </section>`,
 })
 export class TraceMetricChartComponent {
+  provenance(point:MetricChartSeries['points'][number]):string{return JSON.stringify({from:point.from,histogramCounts:point.histogramCounts,histogramEdges:point.histogramEdges,provenance:point.provenance},null,2);}
   readonly zoomRequested=output<{from:string;to:string}>();
   brushStart?:number;
   readonly series=input.required<MetricChartSeries>();

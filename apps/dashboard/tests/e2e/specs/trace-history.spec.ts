@@ -29,6 +29,8 @@ async function setup(page:Page){
   await controlledApi(page);const queries:Record<string,string>[]=[];
   await page.route('**/api/v2/**',route=>{
     const url=new URL(route.request().url());
+    if(url.pathname==='/api/v2/trace-link/incidents')return route.fulfill({json:{items:[],total:0,limit:50,offset:0}});
+    if(url.pathname==='/api/v2/datasets')return route.fulfill({json:[]});
     if(url.pathname==='/api/v2/inventory/cities')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',cities}});
     if(url.pathname==='/api/v2/inventory/links')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',links}});
     if(url.pathname==='/api/v2/inventory/partners')return route.fulfill({json:{catalogueVersion:'controlled-native-v1',partners}});
@@ -155,6 +157,7 @@ for(const domain of ['transport','roaming','mobile-data'])test(`native ${domain}
       points:[{from:params.from,to:new Date(Date.parse(params.from)+300000).toISOString(),expectedSlots:1,receivedSlots:1,quality:'INSUFFICIENT_EVIDENCE',value:95,sourceCoverage:null,nullReason:null,measurement:null,qualityReason:'SOURCE_QUALITY_UNAVAILABLE',sourceQuality:null,eventId:'controlled-native',revision:0,finalized:true,primitives:{numerator:95,denominator:100},provenance:{nativeQualification:{procedureEligibility:'Unproven reference eligibility'}},sourcePayloadSha256:'a'.repeat(64)}]}});
   });
   await page.goto(queryUrl+`&domain=${domain}&linkDirectionId=chi-hin%3Aa-to-b&countryId=RO&roamingDirection=out`);
+  await page.getByText('Original five-minute native measurements',{exact:true}).click();
   const native=page.getByRole('region',{name:'Native domain measurements'});
   await expect(native).toContainText('Controlled independent native population');
   expect(requested).toMatchObject({scopeKey,metric,sourceId:'trace-link-native-primitives-v1',datasetId:'trace-link-md-30d-v1'});

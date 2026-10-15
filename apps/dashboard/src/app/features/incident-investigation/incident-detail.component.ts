@@ -1,9 +1,10 @@
+import { ApiFailure } from '../../core/api/api-errors';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { StatusBannerComponent } from '../../shared/status-banner.component';
 import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TelecomClient, Incident } from '../../core/api/telecom-client';
 import type { components } from '../../core/api/schema';
@@ -127,6 +128,7 @@ export class IncidentDetailComponent {
   private id = '';
   private generation = 0;
   private controller?: AbortController;
+  private readonly nativeRouter=inject(Router);
   readonly fixture = dataSource.fixture;
   readonly pageSize = 20;
   readonly page = signal(0);
@@ -238,6 +240,14 @@ export class IncidentDetailComponent {
         () => this.connectionInterrupted.set('Live connection interrupted. Reconnecting…'),
         () => this.connectionInterrupted.set(''));
     } catch (error) {
+      if(error instanceof ApiFailure && error.status===404 && !this.fixture && !controller.signal.aborted) {
+        try {
+          const native=await this.api.traceIncidentByPublicId(id,controller.signal);
+          if(generation===this.generation && !controller.signal.aborted) {
+            await this.nativeRouter.navigate(['/trace-link/incidents',native.episodeId],{queryParamsHandling:'preserve'});return;
+          }
+        } catch { /* Preserve the original missing-incident error; never infer a native identity. */ }
+      }
       controller.abort();
       if (generation === this.generation) {
         (background ? this.streamError : this.error).set(
