@@ -1,0 +1,76 @@
+{
+  "status": "superseded-unaccepted",
+  "codeRevision": "6b4d4246a5a8eb563394525dbd04394d432ed8ca",
+  "imageDigest": "trace-link-backend-qa-20261014-incident-service@sha256:4f035a8ecf3d1e2b393941f9d1ad624ea8e36129485bf5a0ce5b3095cf341029",
+  "imageDistribution": "local-content-store",
+  "apiSha256": "8103b368f8520d15e912bfa985bdd530555b4991c155dd6093cda0b586377c68",
+  "datasetId": "trace-link-md-30d-v1",
+  "datasetManifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+  "migrationChecksums": {
+    "services/incident-service/src/main/resources/db/migration/V001__service_incidents.sql": "b6a8a6109344a1109b8fab1743449c9162f165cc65054de1d4c8d71b48e46c12",
+    "services/incident-service/src/main/resources/db/migration/V002__service_kpi_indexes.sql": "0472699bbe31fdaf6f3e9093de4de7b4cbf193e93e6295992364c7035145039e",
+    "services/incident-service/src/main/resources/db/migration/V003__sms_ml_shadow.sql": "109555ccdddeb247c47db5451cdbc4c07802aba766112ede11c9e48150b1c9d9",
+    "services/incident-service/src/main/resources/db/migration/V004__geography_coverage.sql": "891caaae8cbb1615d7c59fa3136c5773f197fe0b3510eec114ece1d2d001c5d6",
+    "services/incident-service/src/main/resources/db/migration/V005__incident_notifications.sql": "9662e62fff98b8b58fed290728b8f1008484c1d580f3285efc4392c959b18bfc",
+    "services/incident-service/src/main/resources/db/migration/V006__trace_link_read_models.sql": "bbc4dda8d9614970c863d5992d0292617c73f504a2238e3f8dcd9b2f1ba272f8",
+    "services/incident-service/src/main/resources/db/migration/V007__trace_link_query_indexes.sql": "d49d2f8af8c50c6a7a7d0aa7693015d8a150083de02fc4a83f49bf1882726942",
+    "services/incident-service/src/main/resources/db/migration/V008__trace_link_primitive_projections.sql": "6baa03f39f246c2354aa8ee88db35142b130a6f1faac3ba855c121052944d416",
+    "services/incident-service/src/main/resources/db/migration/V009__trace_link_domain_incidents.sql": "2c01c765730bab83873c487359dadcb085a5ddc5e02cd61aaad713c09d26f1e1",
+    "services/incident-service/src/main/resources/db/migration/V011__trace_link_scenario_types.sql": "b3962a6bd26b765623003a75bdbe4af87f70a6cf42a80ae5fab97e7605f87bca"
+  },
+  "pushEnabled": false,
+  "capacityEvidence": null,
+  "grantsEvidence": {
+    "path": "docs/evidence/assets/backend-release/grants.json",
+    "sha256": "b33a7f6b6f2e44cc00d160bce7f9ebca1494f58b6d172f8ba9b0185b24831435"
+  },
+  "policyVersion": "service-rules-v2",
+  "topologyVersion": "trace-link-links-v1",
+  "modelVersion": "isoforest-v2-synthetic-1",
+  "identityConfigurationHash": "44253fe9cf7a2e0fa1034f772a014ebb59caf8b1f86d1984e2df8390c6cb6ce2",
+  "knownLimitations": [
+    "Stacked candidate; current main V009 and trace_domain_detection collision unresolved",
+    "Local Docker content digest only; registry publication/shared deployment unverified",
+    "New-domain producer/processor activation remains disabled; domain policy contract is not claimed active",
+    "HTTP origin; push remains off and live browser permission/delivery unverified",
+    "Full capacity/load, Grafana parity and offline receiving-teammate reproduction pending",
+    "Two controlled automated lifecycle runs are partial evidence; complete release rehearsals and five owner acknowledgments pending",
+    "15 October: foundation #103 and feature #107 integration supersede this unaccepted code/image identity; recapture an integrated candidate and rerun complete release acceptance."
+  ],
+  "rehearsals": [],
+  "signoffs": {
+    "denis": null,
+    "ion": null,
+    "sergiu": null,
+    "david": null,
+    "stanislav": null
+  },
+  "observedChecks": {
+    "upgrade": {
+      "path": "docs/evidence/assets/backend-release/upgrade.json",
+      "sha256": "d8a978f2b13f4227cf2be648e602876c44f244bcfe45d154f1f21495a3d67ca4"
+    },
+    "backendReliability": {
+      "path": "docs/evidence/2026-10-14-backend-reliability.md",
+      "sha256": "cd743382e2eea4ef785fd67ae9720bf5a8bd57adb3ab55d7e0122357a20431ba"
+    },
+    "controlledSmoke": {
+      "path": "docs/evidence/assets/backend-reliability/controlled-smoke.json",
+      "sha256": "2a9c7631778a26c61cde086b3906ba366dc3d4d6f961d25912b5346b5565a59d"
+    },
+    "restore": {
+      "path": "docs/evidence/assets/backend-reliability/restore.json",
+      "sha256": "07177dd8704c3e0bc2377b3f92cb11c2ab5aa293fafa904e6f0c76b11659a72a"
+    }
+  },
+  "historicalCapacityEvidence": {
+    "path": "docs/evidence/2026-10-09-g4-backend.md",
+    "status": "prior source baseline only; not current capacity acceptance"
+  },
+  "newDomainScenariosEnabled": false,
+  "identityConfigurationEvidence": {
+    "path": "docs/evidence/assets/backend-release/identity-configuration.json",
+    "sha256": "2068efb89421a999d11582ba86dfdff69d8511aa479c0fb29478d009b4df0d09"
+  },
+  "supersededByFeatureRevision": "95f1cc99abb4c6fdc4043a33bea1dd77562455b6"
+}

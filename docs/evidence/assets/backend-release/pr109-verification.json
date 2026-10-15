@@ -1,0 +1,84 @@
+{
+  "status": "passed-local-pr-integration",
+  "observedDate": "2026-10-15",
+  "testedSourceRevision": "93d2985e65e377ea2221f37c9a9c25d5a60ca78c",
+  "scope": "Release verification tooling and tests; no production deployment or release acceptance",
+  "releaseToolTests": {
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "regressionBeforeFix": "Two new tests failed across five activation-flag cases"
+  },
+  "migrationTests": {
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": [
+      {
+        "name": "DatabaseMigrationTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "DatabaseUpgradeTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "TraceLinkHistoryCompatibilityTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "name": "TraceLinkUpgradeTest",
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "canonicalTargetVersion": "013",
+    "canonicalTotalMigrations": 13,
+    "upgradeFromVersion": "004",
+    "newMigrations": 9,
+    "repeatMigrations": 0
+  },
+  "repositoryTests": {
+    "tests": 186,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "historicalCandidate": {
+    "status": "superseded-unaccepted",
+    "expectedRejectionReasons": [
+      "Candidate identity is superseded",
+      "Evidence entry must include path and sha256",
+      "Two rehearsal records are required",
+      "Missing sign-off on candidate identity: denis",
+      "Missing sign-off on candidate identity: ion",
+      "Missing sign-off on candidate identity: sergiu",
+      "Missing sign-off on candidate identity: david",
+      "Missing sign-off on candidate identity: stanislav"
+    ],
+    "verifiedEvidenceHashes": 6
+  },
+  "privateLogSha256": {
+    "trace-link-pr109-gate-before.log": "11f8341e0f47c00680932480fb571b2cbcaec290d60691c04e129cf3da068346",
+    "trace-link-pr109-gate-after.log": "88bede76ff69c17d958a23c1161ff5264b575f5a378e99e4ff5540a45ad54c9d",
+    "trace-link-pr109-upgrade.log": "aa281394c450c0739c241ddab1465f8873fd8d9f237075e17a192a29702021ed",
+    "trace-link-pr109-python.log": "a38e3343193f0797464b4a50f382670cea65fc25973ee4684943904b0400b2cf"
+  },
+  "limits": [
+    "Historical 14 October observations are unchanged and remain superseded/unaccepted",
+    "No coworker acceptance, complete release rehearsals, load/Grafana/offline reproduction or deployed integration is inferred",
+    "Optional activation defaults remain false"
+  ]
+}

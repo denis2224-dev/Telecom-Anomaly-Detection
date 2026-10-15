@@ -1,0 +1,19 @@
+{
+  "status": "correctly-rejected-superseded-release",
+  "missingAcceptance": [
+    "Candidate identity is superseded",
+    "Evidence entry must include path and sha256",
+    "Two rehearsal records are required",
+    "Missing sign-off on candidate identity: denis",
+    "Missing sign-off on candidate identity: ion",
+    "Missing sign-off on candidate identity: sergiu",
+    "Missing sign-off on candidate identity: david",
+    "Missing sign-off on candidate identity: stanislav"
+  ],
+  "gateTests": {
+    "tests": 8,
+    "failures": 0,
+    "errors": 0
+  },
+  "limits": "Previous candidate hashes remain historical. Checksums establish consistency, not independent truth or signatures."
+}
