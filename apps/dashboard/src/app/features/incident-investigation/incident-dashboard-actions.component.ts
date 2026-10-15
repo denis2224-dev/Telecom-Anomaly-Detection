@@ -1,3 +1,4 @@
+import { incidentDisplayRange } from '../../shared/incident-display-range';
 import { Component, Injectable, computed, effect, inject, input, output, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -6,11 +7,11 @@ import { incidentActionMessage } from '../../core/api/api-errors';
 import { dataSource } from '../../core/api/data-source';
 import { SessionStore } from '../login-and-session/session.store';
 
-export function incidentDashboardParameters(item: Incident) {
+export function incidentDashboardParameters(item: Incident, range?: {from:string;to:string} | null) {
   const start = Date.parse(item.firstObservedAt), end = Date.parse(item.lastObservedAt);
   return { incidentId: item.id, service: item.service, scopeId: item.scopeId,
     city: item.location?.cityId ?? null, region: item.scopeId,
-    from: new Date(start).toISOString(), to: new Date(Math.max(start + 60_000, end + 60_000)).toISOString() };
+    ...incidentDisplayRange(new Date(start).toISOString(), new Date(Math.max(start + 60_000, end + 60_000)).toISOString(), range) };
 }
 
 @Injectable({ providedIn: 'root' })
@@ -74,6 +75,7 @@ export class IncidentAcknowledgements {
 export class IncidentDashboardActionsComponent {
   readonly incident = input.required<Incident>();
   readonly compact = input(false);
+  readonly dashboardRange = input<{from:string;to:string} | null>(null);
   readonly updated = output<Incident>();
   readonly navigated = output<void>();
   readonly acknowledgements = inject(IncidentAcknowledgements);
@@ -108,7 +110,9 @@ export class IncidentDashboardActionsComponent {
   }
   show() {
     this.navigated.emit();
-    void this.router.navigate(['/dashboard'], { queryParams: incidentDashboardParameters(this.item()), fragment: this.item().service === 'SMS' ? 'sms-panel-title' : 'volte-panel-title' });
+    const params=this.router.parseUrl(this.router.url).queryParams;
+    const range=this.dashboardRange() ?? (params['from'] && params['to'] ? {from:params['from'],to:params['to']} : null);
+    void this.router.navigate(['/dashboard'], { queryParams: incidentDashboardParameters(this.item(),range), fragment: this.item().service === 'SMS' ? 'sms-panel-title' : 'volte-panel-title' });
   }
   async acknowledge() {
     if (this.fixture || this.busy() || this.acknowledged()) return;

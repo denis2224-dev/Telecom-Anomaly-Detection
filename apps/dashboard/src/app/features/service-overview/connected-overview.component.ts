@@ -1,3 +1,4 @@
+import { incidentDisplayRange } from '../../shared/incident-display-range';
 import { IncidentDashboardActionsComponent, IncidentAcknowledgements } from '../incident-investigation/incident-dashboard-actions.component';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { Component, DestroyRef, viewChild, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
@@ -260,7 +261,7 @@ export class ConnectedOverviewComponent {
         const from = Date.parse(item.firstObservedAt), end = Date.parse(item.lastObservedAt);
         if (!Number.isFinite(from) || !Number.isFinite(end)) return;
         this.focusedIncident.set(item);
-        this.customRange.set({from:new Date(from).toISOString(),to:new Date(Math.max(from+60_000,end+60_000)).toISOString()});
+        this.customRange.set(incidentDisplayRange(new Date(from).toISOString(),new Date(Math.max(from+60_000,end+60_000)).toISOString(),{from:params.get('from') ?? this.chartFrom(),to:params.get('to') ?? this.chartTo()}));
         this.followsLatest.set(false); this.draftFrom.set(null); this.draftTo.set(null);
         this.selectScope(item.service, item.scopeId);
         const city = cityForScope(this.catalogue(), item.scopeId);

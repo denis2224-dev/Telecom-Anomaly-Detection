@@ -1,3 +1,4 @@
+import { incidentDisplayRange } from '../../shared/incident-display-range';
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -17,7 +18,7 @@ export function nativeIncidentContext(item: Incident, context: TraceQueryContext
   if (domain === 'roaming' && (typeof scope['partnerId'] !== 'string' || !['in','out'].includes(String(scope['directionId'])))) throw new Error('Recorded partner population unavailable.');
   const from = item.firstObservedAt, to = item.latestWindowEnd;
   if (!Number.isFinite(Date.parse(from)) || Date.parse(to) <= Date.parse(from)) throw new Error('Incident interval unavailable.');
-  const result: TraceQueryContext = {...context, datasetId: String(source['datasetId']), domain: domain as TraceQueryContext['domain'], from, to,
+  const result: TraceQueryContext = {...context, datasetId: String(source['datasetId']), domain: domain as TraceQueryContext['domain'], ...incidentDisplayRange(from,to,context),
     cityId: domain === 'transport' || domain === 'roaming' ? 'all' : String(scope['id']).toLowerCase(),
     linkDirectionId: domain === 'transport' ? String(scope['id']) : undefined,
     countryId: domain === 'roaming' ? String(scope['partnerId']).split('-')[0] : 'all',

@@ -11,7 +11,7 @@ describe('Native incident dashboard context',()=>{
   it('preserves independent resolution and selects the recorded directional link',()=>{
     const next=nativeIncidentContext(incident('TRANSPORT',{id:'chi-hin:a-to-b'}),context);
     expect(next.linkDirectionId).toBe('chi-hin:a-to-b');expect(next.cityId).toBe('all');expect(next.resolution).toBe('1h');
-    expect(next.from).toBe('2026-10-01T01:00:00Z');expect(next.to).toBe('2026-10-01T02:00:00Z');
+    expect(next.from).toBe('2026-10-01T00:00:00.000Z');expect(next.to).toBe('2026-10-02T00:00:00.000Z');
   });
   it('keeps roaming partner and direction as an independent population',()=>{
     const next=nativeIncidentContext(incident('ROAMING',{id:'RO-DEMO-01:out',partnerId:'RO-DEMO-01',directionId:'out'}),context);

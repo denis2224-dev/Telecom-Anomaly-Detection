@@ -97,7 +97,7 @@
             <div><dt>When</dt><dd>{{ incident.firstObservedAt | date:'dd MMM HH:mm':'UTC' }} UTC</dd></div>
             <div><dt>Why</dt><dd>{{ cause(incident.latestDetection) === 'Cause undetermined' ? 'Cause undetermined' : 'Possible cause: ' + cause(incident.latestDetection) }}</dd></div>
           </dl>
-          <app-incident-dashboard-actions [compact]="true" [incident]="incident" (updated)="acceptAcknowledgement($event)" />
+          <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [compact]="true" [incident]="incident" (updated)="acceptAcknowledgement($event)" />
           <a class="incident-evidence" [routerLink]="['/incidents', incident.id]">Episode evidence</a>
         </article>
       } @empty {<p role="status">{{ queueLoading() ? 'Loading priority anomalies…' : 'No unresolved anomalies returned for these filters.' }}</p>}</div>
@@ -168,7 +168,7 @@
                 <p class="queue-impact">{{ deviation(detectionWindow(incident), incident.service) }}</p>
                 <p class="queue-meta">{{ cause(incident.latestDetection) }}</p>
                 <div class="button-row">
-                  <app-incident-dashboard-actions [incident]="incident" (updated)="acceptAcknowledgement($event)" (navigated)="queueDialog.close()" />
+                  <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [incident]="incident" (updated)="acceptAcknowledgement($event)" (navigated)="queueDialog.close()" />
                   <a class="button primary" [routerLink]="['/incidents', incident.id]">Open incident evidence</a>
                 </div>
               </article>

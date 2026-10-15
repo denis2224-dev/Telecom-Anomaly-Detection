@@ -31,7 +31,6 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
 
         <svg #plot [style.min-width.px]="canvasWidth()" [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="trafficOnly() ? title() + ': successful and failed attempts' : traffic() ? title() + ': successful and failed traffic on the left axis, success rate and baseline on the right axis' : secondaryName() ? title() + ': ' + secondaryTitle() + ' on the left axis, ' + unitLabel() + ' on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
           <title>{{ title() }} · {{ unit() }}</title><desc [id]="chartId + '-description'">Blank gaps mean unavailable observations. Phase bands follow persisted detections; healthy points alone do not prove recovery. Focus the chart and use arrow keys, Home or End to inspect values.</desc>
-          @if (focusBand(); as focus) { <rect class="focused-incident-band" [attr.x]="x(focus.start)" y="15" [attr.width]="Math.max(2,x(focus.end)-x(focus.start))" [attr.height]="plotHeight()-60" fill="rgba(255,80,105,.2)" /><text class="focused-incident-label" [attr.x]="Math.min(x(focus.start)+6,plotWidth()-220)" y="30" fill="#ff647a">{{ focus.label }}</text> }
           @for (interval of incidentBands(); track $index) { <rect class="incident-band" [attr.x]="x(interval.start)" y="15" [attr.width]="Math.max(1, x(interval.end) - x(interval.start))" [attr.height]="plotHeight() - 60"><title>Incident interval {{ interval.start }} – {{ interval.end }}</title></rect> }
           @for (band of bands(); track $index) { <rect [attr.data-phase]="band.phase" [attr.class]="'phase-band ' + band.phase" [attr.x]="x(band.start)" y="15" [attr.width]="Math.max(1, x(band.end) - x(band.start))" [attr.height]="plotHeight() - 60"><title>{{ band.phase }} {{ band.start }} – {{ band.end }}</title></rect> }
           @for (tick of displayTicks(); track tick) { <line x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="trafficOnly() ? countY(tick) : y(tick)" [attr.y2]="trafficOnly() ? countY(tick) : y(tick)" class="chart-grid"/><text [attr.x]="dualAxis() && !trafficOnly() ? plotWidth() - 55 : 55" [attr.y]="trafficOnly() ? countY(tick) + 4 : y(tick) + 4" [attr.text-anchor]="dualAxis() && !trafficOnly() ? 'start' : 'end'">{{ tickFormat(tick) }}{{ traffic() && !trafficOnly() ? '%' : '' }}</text> }
@@ -57,6 +56,7 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
           }
           @for (tick of timeTicks(); track tick) {<line [attr.x1]="x(tick)" [attr.x2]="x(tick)" y1="15" [attr.y2]="plotHeight() - 45" class="chart-grid" /><text [attr.x]="x(tick)" [attr.y]="plotHeight() - 15" text-anchor="middle">{{ tick | date:axisDateFormat():'UTC' }}</text>}
           <text x="65" [attr.y]="plotHeight() - 15">{{ visibleFrom() | date:axisDateFormat():'UTC' }}</text><text [attr.x]="plotWidth() - plotRight()" [attr.y]="plotHeight() - 15" text-anchor="end">{{ visibleTo() | date:axisDateFormat():'UTC' }} UTC</text>
+          @if (focusBand(); as focus) { <rect class="focused-incident-band" [attr.x]="x(focus.start)" y="15" [attr.width]="Math.max(2,x(focus.end)-x(focus.start))" [attr.height]="plotHeight()-60" fill="rgba(255,80,105,.2)" /><line class="focused-incident-line" [attr.x1]="x(focus.start)" [attr.x2]="x(focus.start)" y1="15" [attr.y2]="plotHeight()-45" stroke="#ff5069" stroke-width="2.5" /><text class="focused-incident-label" [attr.x]="Math.min(x(focus.start)+6,plotWidth()-220)" y="30" style="fill:#ff5069">{{ focus.label }}</text> }
         </svg>
       </div>
       @if (!hasValues() && !trafficRows().length) { <p class="chart-empty" role="status">{{ loading() ? 'Loading KPI history…' : rows().length ? 'No usable observations for this KPI. Gaps are unavailable.' : 'No KPI history in this time range.' }}</p> }
@@ -97,7 +97,8 @@ export class MetricChartComponent {
   }
   zoom(factor: number): void {
     const span = this.visibleDuration() * factor;
-    const centre = this.hovered() ? this.rowTime(this.hovered()!) : (Date.parse(this.visibleFrom()) + Date.parse(this.visibleTo())) / 2;
+    const focus=this.focusBand();
+    const centre = this.hovered() ? this.rowTime(this.hovered()!) : focus ? (Date.parse(focus.start)+Date.parse(focus.end))/2 : (Date.parse(this.visibleFrom()) + Date.parse(this.visibleTo())) / 2;
     this.setVisible(centre - span / 2, span);
   }
   pan(direction: number): void { this.setVisible(Date.parse(this.visibleFrom()) + direction * this.visibleDuration() / 2, this.visibleDuration()); }
@@ -124,7 +125,7 @@ export class MetricChartComponent {
     const item = this.focusedIncident();
     if (!item || !this.rows().some(row => row.scopeId === item.scopeId)) return null;
     const start = Math.max(Date.parse(this.visibleFrom()), Date.parse(item.firstObservedAt));
-    const end = Math.min(Date.parse(this.visibleTo()), Math.max(Date.parse(item.lastObservedAt) + 60_000, start + 60_000));
+    const end = Math.min(Date.parse(this.visibleTo()), Math.max(Date.parse(item.lastObservedAt) + 60_000, Date.parse(item.firstObservedAt) + 60_000));
     return end > start ? {start:new Date(start).toISOString(),end:new Date(end).toISOString(),label:item.latestDetection.anomalyType.replaceAll('_',' ').toLowerCase()} : null;
   });
   readonly incidents = input<Incident[]>([]);
