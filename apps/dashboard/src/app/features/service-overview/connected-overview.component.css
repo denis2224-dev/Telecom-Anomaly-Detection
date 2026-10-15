@@ -11,7 +11,7 @@
 .queue-toggle { grid-column: 7; grid-row: 2; width: 100%; justify-self: end; }
 .controls > button { height: 36px; min-height: 36px; padding: 6px 8px; font-size: 11px; white-space: nowrap; }
 .controls .badge { font-size: 8px; padding: 3px 4px; }
-.headline-metrics { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 8px; margin-bottom: 14px; }
+.headline-metrics { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 8px; margin-bottom: 14px; }
 .headline-metrics > div { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 12px; background: var(--surface); border-radius: var(--radius-control); }
 .headline-metrics span, .headline-metrics small { color: var(--text-muted); font-size: 11px; }
 .headline-metrics strong { color: var(--accent); font-size: clamp(16px,1.6vw,24px); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
@@ -211,3 +211,12 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .anomaly-context dt {display:inline;color:var(--text-muted);font-size:10px;margin-right:6px;}
 .anomaly-context dd {display:inline;margin:0;font:inherit;overflow-wrap:anywhere;}
 .anomaly-card .incident-evidence {font-size:10px;margin-top:4px;}
+
+.headline-metrics > div {--card-tone:var(--accent);box-shadow:inset 4px 0 var(--card-tone);min-height:108px;box-sizing:border-box;}
+.headline-metrics [data-tone=info] {--card-tone:var(--info);}
+.headline-metrics [data-tone=success] {--card-tone:var(--success);}
+.headline-metrics [data-tone=warning] {--card-tone:var(--warning);}
+.headline-metrics [data-tone=danger] {--card-tone:var(--danger);}
+.headline-metrics [data-tone=violet] {--card-tone:var(--violet);}
+.headline-metrics [data-tone=violet] strong {color:var(--violet);}
+.headline-metrics [data-tone=muted] {--card-tone:var(--text-muted);}

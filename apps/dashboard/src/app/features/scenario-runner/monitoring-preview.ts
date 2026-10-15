@@ -12,6 +12,7 @@ export const previewScenarios = [
   { id: 'SMS_DELAYED_DELIVERY', label: 'SMS delayed delivery without loss', metric: 'p95DeliveryMs', unit: 'MILLISECONDS', target: 'SMSC queue' },
 ] as const;
 export type PreviewType = typeof previewScenarios[number]['id'];
+export const roamingSample = {seed:42, registrationSuccess:99.1} as const;
 export const countries = ['Romania', 'Turkey', 'Italy', 'Germany', 'France', 'Ukraine', 'Spain', 'United Kingdom', 'USA', 'Bulgaria'];
 export function randomSource(seed: number) {
   let state = seed >>> 0;

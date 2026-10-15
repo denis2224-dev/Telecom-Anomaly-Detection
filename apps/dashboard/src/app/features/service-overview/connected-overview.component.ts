@@ -1,3 +1,4 @@
+import { countryPreview, roamingSample } from '../scenario-runner/monitoring-preview';
 import { incidentDisplayRange } from '../../shared/incident-display-range';
 import { IncidentDashboardActionsComponent, IncidentAcknowledgements } from '../incident-investigation/incident-dashboard-actions.component';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
@@ -95,16 +96,18 @@ export class ConnectedOverviewComponent {
   readonly results = computed(() => callResults(this.latestVoiceWindow()));
   readonly headline = computed(() => {
     const window = this.latestVoiceWindow(), results = this.results();
-    const cpu = metricValue(window, 'imsCpuPct');
+    const sampleCountries = countryPreview(roamingSample.seed);
+    const sampleSubscribers = sampleCountries.reduce((sum, row) => sum + row.users, 0);
     const city = this.selectedCity();
     const scopes = this.services().filter(item => (this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter())
       && (!city || city.scopeIds.includes(item.scope.scopeId)));
     return [
-      { label: 'Call attempts', value: results ? number(results.total) : 'Unavailable', note: 'Latest VoLTE window', tone: 'info' },
-      { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
-      { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
-      { label: 'SMS queue', value: this.latestSmsQueue(), note: 'Selected SMS scope · pending messages', tone: 'info' },
-      { label: 'Open incidents', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Current service / city filter', tone: 'warning' },
+      { label: 'VoLTE call volume', value: results ? number(results.total) : 'Unavailable', note: 'Latest setup attempts', tone: 'info' },
+      { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Latest selected-scope window', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
+      { label: 'Backhaul peak utilization', value: 'Unavailable', note: 'Directional measurements required', tone: 'danger' },
+      { label: 'Roaming LU success', value: number(roamingSample.registrationSuccess) + '%', note: 'Sample data · latest window', tone: 'warning' },
+      { label: 'Roaming subscribers', value: number(sampleSubscribers), note: `Sample data · ${sampleCountries.length} countries`, tone: 'violet' },
+      { label: 'Open anomalies', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Unresolved · current service / city', tone: 'danger' },
     ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
   });
   readonly latestSmsQueue = computed(() => {

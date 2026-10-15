@@ -11,7 +11,14 @@ for (const width of [1366, 390]) {
     await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Artificial data');
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(10);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
-    await expect(page.getByLabel('Key service information')).toContainText('SMS queue');
+    await expect(page.getByLabel('Key service information').locator(':scope > div')).toHaveCount(6);
+    await expect(page.getByLabel('Key service information')).toContainText('Backhaul peak utilizationUnavailable');
+    await expect(page.getByLabel('Key service information')).toContainText('Sample data · 10 countries');
+    await expect(page.getByLabel('Key service information')).not.toContainText('IMS CPU');
+    const subscribers=(await page.locator('.country-bar strong').allTextContents()).reduce((sum,value)=>sum+Number(value.replaceAll(',','')),0);
+    await expect(page.locator('.headline-metrics > div').filter({hasText:'Roaming subscribers'}).locator('strong')).toHaveText(subscribers.toLocaleString('en'));
+    await expect(page.getByLabel('Key service information')).not.toContainText('Call drop rate');
+    await expect(page.getByLabel('Key service information')).toContainText('Roaming LU success99.1%');
     await expect(page.locator('.transport-link')).toHaveCount(0);
     await expect(page.getByRole('checkbox', { name: 'Show sample links' })).toHaveCount(0);
     await expect(page.locator('.city-marker')).toHaveCount(10);

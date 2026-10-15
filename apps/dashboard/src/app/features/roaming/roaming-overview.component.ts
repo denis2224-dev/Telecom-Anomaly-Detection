@@ -2,7 +2,7 @@ import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-
 import { Component, computed, input, signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
-import { countryPreview, previewMetric, previewWindow, randomSource } from '../scenario-runner/monitoring-preview';
+import { countryPreview, previewMetric, previewWindow, randomSource, roamingSample } from '../scenario-runner/monitoring-preview';
 @Component({
   selector: 'app-roaming-overview', imports: [MetricChartComponent, RouterLink],
   template: `@if (preview()) {<section class="roaming" [class.compact]="compact()" aria-label="Roaming services preview">
@@ -71,7 +71,7 @@ export class RoamingOverviewComponent {
   readonly showCountries = input(false);
   readonly from = input(new Date(Date.now()-48*3_600_000).toISOString());
   readonly to = input(new Date().toISOString());
-  readonly seed = input(42);
+  readonly seed = input<number>(roamingSample.seed);
   readonly affectedCountry = input('');
   readonly affectedMetric = input('voice');
   readonly sort = signal('users');
@@ -81,7 +81,7 @@ export class RoamingOverviewComponent {
   readonly sorted = computed(() => [...this.rows()].sort((a,b) => this.sort() === 'country' ? a.country.localeCompare(b.country)
     : this.sort() === 'voice' ? a.voice - b.voice : this.sort() === 'registration' ? a.registration - b.registration : b.users - a.users));
   readonly windows = computed(() => {
-    const base = 99.1;
+    const base = roamingSample.registrationSuccess;
     const random = randomSource(this.seed()), start = Date.parse(this.from()), step = (Date.parse(this.to()) - start) / 48;
     return Array.from({ length: 48 }, (_, index) => previewWindow('roaming-preview', start + index * step, start + (index + 1) * step,
       [previewMetric('registrationSrPct', +(base + (index === 47 ? 0 : (random() - .5) * .4) - (index === 25 ? 1.6 : 0)).toFixed(2), base, 'PERCENT')]));
