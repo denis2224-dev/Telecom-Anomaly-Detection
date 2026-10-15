@@ -3,11 +3,20 @@ import { controlledApi } from '../helpers/controlled-api';
 
 test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled UI cases; real sign-in is reviewed separately');
 
-async function tabTo(page: Page, target: Locator) {
+async function pressTab(page: Page, backwards = false) {
+  // macOS WebKit uses Option+Tab to include links and buttons when full keyboard
+  // access is disabled. Exercise native navigation without changing OS settings.
+  const fullNavigation = process.platform === 'darwin'
+    && page.context().browser()?.browserType().name() === 'webkit';
+  const key = fullNavigation ? 'Alt+Tab' : 'Tab';
+  await page.keyboard.press(backwards ? `Shift+${key}` : key);
+}
+
+async function tabTo(page: Page, target: Locator, backwards = false) {
   await expect(target).toBeVisible();
   for (let step = 0; step < 100; step++) {
     if (await target.evaluate(element => element === document.activeElement)) return;
-    await page.keyboard.press('Tab');
+    await pressTab(page, backwards);
   }
   throw new Error('Control could not be reached with Tab');
 }
@@ -30,14 +39,16 @@ test('keyboard: skip link, service chart, incident workflow, conflict, Escape', 
   state.writeStatus = 409;
   await page.goto('/dashboard');
   await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
-  await page.keyboard.press('Tab');
+  await pressTab(page);
   await expect(page.getByRole('link', { name: 'Skip to workspace' })).toBeFocused();
   await visibleFocus(page.getByRole('link', { name: 'Skip to workspace' }));
   await page.keyboard.press('Enter');
   await expect(page.locator('#workspace')).toBeFocused();
 
   const serviceLink = page.getByRole('link', { name: 'VoLTE setup', exact: true });
-  await tabTo(page, serviceLink);
+  // The skip link moved past the sidebar. Return through preceding controls
+  // instead of walking every workspace chart point before the document wraps.
+  await tabTo(page, serviceLink, true);
   await visibleFocus(serviceLink);
   await page.keyboard.press('Enter');
   const chart = page.getByLabel('Scrollable CSSR chart', { exact: true });
@@ -70,7 +81,7 @@ test('keyboard: skip link, service chart, incident workflow, conflict, Escape', 
   // Native showModal makes the rest of the page inert. At the document boundary,
   // Chromium can move focus to browser chrome and report body as activeElement.
   for (let step = 0; step < 12; step++) {
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     expect(await dialog.evaluate(element =>
       element.contains(document.activeElement) || document.activeElement === document.body)).toBe(true);
   }

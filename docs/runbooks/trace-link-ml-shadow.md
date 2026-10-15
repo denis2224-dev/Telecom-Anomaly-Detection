@@ -32,6 +32,7 @@ a separate directory:
 ```powershell
 .venv/Scripts/python.exe services/ml-service/training/trace_link_candidate.py --output tmp/day4-candidate-rebuilt
 .venv/Scripts/python.exe -m unittest discover -s services/ml-service/tests -p test_trace_link_candidate.py -v
+.venv/Scripts/python.exe services/ml-service/tests/windows_candidate_reproduction.py -v
 ```
 
 Byte reproduction uses the clean CLI process, not a training helper inside a
@@ -145,7 +146,8 @@ prerequisites; inspect any reported skips rather than treating them as passes.
 
 CI pins Python 3.13.9 for every job that loads the frozen candidate. The mandatory
 Windows `model-reproducibility` job generates fresh Java vectors and runs the
-complete ML suite, including the unchanged strict clean-CLI byte-rebuild assertion.
+portable ML suite and explicitly invokes the strict clean-CLI byte-rebuild gate
+outside ordinary test discovery. Candidate seed isolation remains portable.
 The dependent Linux `model-evaluation` job validates contracts/root tests, exercises
 frozen-candidate failure modes, and checks legacy plus three-domain Trace Link
 inference over real container HTTP. `processor-evaluation` requires that job, so

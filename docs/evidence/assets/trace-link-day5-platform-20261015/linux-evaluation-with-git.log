@@ -1,0 +1,13 @@
+test_counts_and_missing_denominators (test_trace_link_evaluation.EvaluationTests.test_counts_and_missing_denominators) ... ok
+test_matching_is_one_to_one_and_direction_isolated (test_trace_link_evaluation.EvaluationTests.test_matching_is_one_to_one_and_direction_isolated) ... ok
+test_nested_truth_is_rejected_before_builder_or_scoring (test_trace_link_evaluation.EvaluationTests.test_nested_truth_is_rejected_before_builder_or_scoring) ... ok
+test_threshold_is_selected_only_from_validation_and_ties_favor_higher (test_trace_link_evaluation.EvaluationTests.test_threshold_is_selected_only_from_validation_and_ties_favor_higher) ... ok
+test_unmatched_is_a_miss_and_tolerance_has_an_exclusive_boundary (test_trace_link_evaluation.EvaluationTests.test_unmatched_is_a_miss_and_tolerance_has_an_exclusive_boundary) ... ok
+test_checksum_mismatch_is_rejected_before_scoring (test_trace_link_evaluation.StudyIntegrityTests.test_checksum_mismatch_is_rejected_before_scoring) ... ok
+test_generated_splits_are_separated_and_truth_is_external (test_trace_link_evaluation.StudyIntegrityTests.test_generated_splits_are_separated_and_truth_is_external) ... ok
+test_resealed_truth_leakage_and_training_overlap_are_rejected (test_trace_link_evaluation.StudyIntegrityTests.test_resealed_truth_leakage_and_training_overlap_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 48.353s
+
+OK

@@ -1,0 +1,6 @@
+test_held_out_seed_cannot_change_model_calibration_or_baselines (test_trace_link_candidate.TraceLinkCandidateTests.test_held_out_seed_cannot_change_model_calibration_or_baselines) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 11.742s
+
+OK

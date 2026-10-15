@@ -44,8 +44,10 @@ jobs:
         run: >-
           ./mvnw.cmd --batch-mode --no-transfer-progress -pl services/processor -am test
           '-Dtest=TraceLinkFeaturesTest' '-Dsurefire.failIfNoSpecifiedTests=false'
-      - name: Verify all ML tests including strict Windows candidate byte reproduction
+      - name: Verify portable ML suite on Windows
         run: python -m unittest discover -s services/ml-service/tests -v
+      - name: Require strict Windows candidate byte reproduction
+        run: python services/ml-service/tests/windows_candidate_reproduction.py -v
       - name: Save rebuild diagnostics and feature parity evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -55,6 +57,7 @@ jobs:
             services/processor/target/trace-link-shadow-java.json
             tmp/day4-rebuild-diff.json
             tmp/day4-rebuild-failed/
+            tmp/day5-windows-rebuild-failed-*/
 
   model-evaluation:
     runs-on: ubuntu-latest
@@ -76,6 +79,10 @@ jobs:
           python -m unittest discover -s tests -v
       - name: Verify frozen candidate loading and inference failures on pinned Linux
         run: python -m unittest discover -s services/ml-service/tests -p test_trace_link_failure_modes.py -v
+      - name: Verify portable candidate isolation and evaluation integrity on Linux
+        run: |
+          python -m unittest discover -s services/ml-service/tests -p test_trace_link_candidate.py -v
+          python -m unittest discover -s services/ml-service/tests -p test_trace_link_evaluation.py -v
       - name: Rebuild deterministic evaluation data
         run: python services/ml-service/training/generate_history.py
       - name: Evaluate local packaged models
@@ -120,6 +127,7 @@ jobs:
           name: processor-dependency-outage-evidence
           path: |
             services/processor/target/day17-dependency-outages.json
+            services/processor/target/day5-backlog-drill.json
             services/processor/target/surefire-reports/
       - name: Start private ML inference
         run: |
@@ -180,3 +188,44 @@ jobs:
       - name: Stop private ML inference
         if: always()
         run: docker stop telecom-ml-integration || true
+
+  trace-link-day5-evaluation:
+    runs-on: ubuntu-latest
+    needs: processor-evaluation
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.9"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - name: Install pinned evaluation dependencies
+        run: python -m pip install -r requirements-dev.txt -r services/ml-service/requirements-ml.txt
+      - name: Generate Day 5 study without fitting or scoring
+        run: python services/ml-service/training/trace_link_study.py --output tmp/trace-link-day5-ci
+      - name: Export actual Day 5 deterministic rules and lifecycle
+        run: >-
+          ./mvnw -pl services/processor -am test --batch-mode --no-transfer-progress
+          -Dtest=TraceLinkStudyExportTest -Dsurefire.failIfNoSpecifiedTests=false
+          -DtraceLink.study.inputs=${{ github.workspace }}/tmp/trace-link-day5-ci/inputs.json.gz
+          -DtraceLink.study.output=${{ github.workspace }}/tmp/trace-link-day5-java.json
+      - name: Evaluate frozen Day 5 study and require reproducible results
+        run: |
+          python services/ml-service/training/trace_link_evaluation.py --dataset tmp/trace-link-day5-ci --protocol tmp/trace-link-day5-ci/protocol.json --processor-export tmp/trace-link-day5-java.json --output tmp/trace-link-day5-results
+          python services/ml-service/training/trace_link_evaluation.py --dataset tmp/trace-link-day5-ci --protocol tmp/trace-link-day5-ci/protocol.json --processor-export tmp/trace-link-day5-java.json --output tmp/trace-link-day5-repeat
+          cmp tmp/trace-link-day5-results/results.json tmp/trace-link-day5-repeat/results.json
+          cmp tmp/trace-link-day5-results/predictions.json tmp/trace-link-day5-repeat/predictions.json
+          cmp tmp/trace-link-day5-results/thresholds.json tmp/trace-link-day5-repeat/thresholds.json
+      - name: Retain Day 5 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trace-link-day5-study
+          path: |
+            tmp/trace-link-day5-ci/
+            tmp/trace-link-day5-results/
+            tmp/trace-link-day5-java.json

@@ -78,6 +78,29 @@ class TraceLinkShadowWorkerTest {
         assertTrue(shadow.complete(renewed,request(renewed),fallback));assertFalse(shadow.complete(renewed,request(renewed),fallback));
         assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM app.trace_link_shadow_result",Integer.class));
     }
+    @Test void pendingBacklogDrainsAfterWorkerRestartWithoutChangingLifecycle() throws Exception {
+        seedAll();
+        var before=jdbc.queryForList("SELECT payload::text FROM app.trace_link_delivery ORDER BY id");
+        var stopped=worker(r->TraceLinkShadowClient.Result.failure("FALLBACK","TIMEOUT",250));
+        // Claim discovers completed detector windows and durably enqueues shadow work.
+        var abandoned=stopped.claim();assertNotNull(abandoned);
+        int pending=jdbc.queryForObject("SELECT count(*) FROM app.trace_link_shadow_job WHERE completed_at IS NULL",Integer.class);
+        assertTrue(pending>0);
+        double oldestSeconds=jdbc.queryForObject("SELECT extract(epoch FROM clock_timestamp()-min(e.evaluated_at)) FROM app.trace_link_shadow_job j JOIN app.trace_link_evaluated_window e USING(window_id) WHERE j.completed_at IS NULL",Double.class);
+        assertTrue(oldestSeconds>=0);
+        admin.update("UPDATE app.trace_link_shadow_job SET lease_until=clock_timestamp()-interval '1 second' WHERE window_id=?",abandoned.windowId());
+        long started=System.nanoTime();
+        var restarted=worker(r->TraceLinkShadowClient.Result.failure("FALLBACK","CONNECTION_UNAVAILABLE",1));
+        while(restarted.runOnce()) { }
+        assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM app.trace_link_shadow_job WHERE completed_at IS NULL",Integer.class));
+        assertEquals(pending,jdbc.queryForObject("SELECT count(*) FROM app.trace_link_shadow_result",Integer.class));
+        assertEquals(before,jdbc.queryForList("SELECT payload::text FROM app.trace_link_delivery ORDER BY id"));
+        assertFalse(stopped.complete(abandoned,request(abandoned),TraceLinkShadowClient.Result.failure("FALLBACK","TIMEOUT",250)));
+        var receipt=JSON.createObjectNode().put("initialPending",pending).put("oldestEvaluationAgeSeconds",oldestSeconds)
+            .put("drainElapsedMs",(System.nanoTime()-started)/1_000_000.0).put("pendingAfter",0).put("claimReclaimed",true)
+            .put("deterministicLifecycleUnchanged",true).put("productionCapacityClaim",false);
+        java.nio.file.Files.writeString(java.nio.file.Path.of("target/day5-backlog-drill.json"),receipt.toPrettyString());
+    }
     @Test void blockedInferenceDoesNotHoldTransactionOrStopDeterministicOpening() throws Exception {
         store.save(windows.get(0).path("input"));assertTrue(detector.runOnce());
         var entered=new CountDownLatch(1);var release=new CountDownLatch(1);

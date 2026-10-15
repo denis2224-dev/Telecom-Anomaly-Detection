@@ -1,0 +1,283 @@
+{
+  "recordedAtUtc": "2026-10-15T08:11:14.507411+00:00",
+  "localVerification": "PASS_WITH_DOCUMENTED_CONDITIONAL_SKIPS",
+  "day5Acceptance": "PENDING_SECOND_PERSON",
+  "secondPersonReproduction": "PENDING",
+  "sharedReleaseApproval": false,
+  "baseRevision": "ce35fec7ecf0b99fcfd4df1dd9516aaa588c8a7f",
+  "verifiedImplementationRevision": "5cdaa0ecd65257414b2b5cf5a6812c8615e481dc",
+  "hardware": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "cpuIdentifier": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "logicalCpuCount": 16
+  },
+  "versions": {
+    "python": "3.13.9 (tags/v3.13.9:8183fa5, Oct 14 2025, 14:09:13) [MSC v.1944 64 bit (AMD64)]",
+    "java": "java version \"25.0.4.1\" 2026-08-18 LTS\nJava(TM) SE Runtime Environment (build 25.0.4.1+1-LTS-5)\nJava HotSpot(TM) 64-Bit Server VM (build 25.0.4.1+1-LTS-5, mixed mode, sharing)\n",
+    "javaTestJvm": {
+      "java.home": "D:\\Program Files\\Java",
+      "java.runtime.version": "25.0.4.1+1-LTS-5",
+      "java.version": "25.0.4.1"
+    },
+    "compilerRelease": 21,
+    "remoteCiJava": 21
+  },
+  "exactCommands": [
+    ".venv/Scripts/python.exe services/ml-service/training/trace_link_study.py --output tmp/day5-study-release",
+    "./mvnw.cmd -pl services/processor -am test -Dtest=TraceLinkStudyExportTest -Dsurefire.failIfNoSpecifiedTests=false -DtraceLink.study.inputs=D:/Univer/Anul2/Orange_intership/project/Telecom-Anomaly-Detection/tmp/day5-study-v1/inputs.json.gz --batch-mode --no-transfer-progress",
+    ".venv/Scripts/python.exe services/ml-service/training/trace_link_evaluation.py --dataset tmp/day5-study-release --protocol tmp/day5-study-release/protocol.json --processor-export services/processor/target/trace-link-study-java.json --output tmp/day5-results-release",
+    ".venv/Scripts/python.exe services/ml-service/training/trace_link_evaluation.py --dataset tmp/day5-study-release --protocol tmp/day5-study-release/protocol.json --processor-export services/processor/target/trace-link-study-java.json --output tmp/day5-results-repeat",
+    ".venv/Scripts/python.exe -m unittest discover -s tests -v",
+    ".venv/Scripts/python.exe -m unittest discover -s services/ml-service/tests -v",
+    ".venv/Scripts/python.exe -m unittest discover -s services/ml-service/tests -p test_trace_link_failure_modes.py -v",
+    ".venv/Scripts/python.exe -m unittest discover -s services/ml-service/tests -p test_trace_link_evaluation.py -v",
+    "./mvnw.cmd -pl services/processor -am test -Dtest=TraceLinkShadowWorkerTest,TraceLinkDetectionIT -Dsurefire.failIfNoSpecifiedTests=false --batch-mode --no-transfer-progress",
+    "./mvnw.cmd -pl services/processor -am verify -DtraceLink.study.output=target/trace-link-study-smoke-java.json --batch-mode --no-transfer-progress",
+    ".venv/Scripts/python.exe scripts/check-contracts.py",
+    ".venv/Scripts/python.exe scripts/check-trace-link-ml-parity.py",
+    ".venv/Scripts/python.exe scripts/check-voice-parity.py --geographic --java-output services/processor/target/geographic-voice-parity-java.json",
+    ".venv/Scripts/python.exe scripts/check-sms-parity.py --geographic --java-output services/processor/target/geographic-sms-parity-java.json",
+    ".venv/Scripts/python.exe scripts/verify-trace-link-pins.py --reference-root ../Trace_Link_Integration_Pack",
+    ".venv/Scripts/python.exe scripts/verify-trace-link-ml-http.py"
+  ],
+  "logFileTimestamps": [
+    {
+      "name": "day5-java-export.log",
+      "rawSha256": "d4418eaa6d5a7be7b83c8672b9848bbfeabb1db35f5c52abe152339d14863cdf",
+      "createdAtUtc": "2026-10-15T07:27:07.409573+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:30:05.031533+00:00"
+    },
+    {
+      "name": "day5-evaluator-tests.log",
+      "rawSha256": "27724b189249ba2c2c40a6a72ea64d40ce41159586bea3dd6b76be663a06b6b8",
+      "createdAtUtc": "2026-10-15T07:31:03.709841+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:31:06.441936+00:00"
+    },
+    {
+      "name": "day5-evaluator-tests-localtemp.log",
+      "rawSha256": "0ec4c2375d96620d831b0fb8713ed743baa81adad05899ceb93e00124a74b419",
+      "createdAtUtc": "2026-10-15T07:31:42.784786+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:31:56.662866+00:00"
+    },
+    {
+      "name": "day5-evaluator-final-host.log",
+      "rawSha256": "8498798c4baacbeef450ccf85aeff111086b5534c4ab14b2bc172b32852dc5d2",
+      "createdAtUtc": "2026-10-15T07:50:08.982737+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:50:32.069820+00:00"
+    },
+    {
+      "name": "day5-root-tests.log",
+      "rawSha256": "a2969dfb5a30c18be7a964a7095839e09a696abee4b48acbe640b2dd6e2398ba",
+      "createdAtUtc": "2026-10-15T07:34:15.218921+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:35:05.603444+00:00"
+    },
+    {
+      "name": "day5-root-tests-host.log",
+      "rawSha256": "eeb1dd996d75b9054477add5b3c87fd062cc0f1962dd656dbe1aa494aac98fdd",
+      "createdAtUtc": "2026-10-15T07:36:34.619009+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:37:07.927657+00:00"
+    },
+    {
+      "name": "day5-contracts-host.log",
+      "rawSha256": "3efd80d845f3b2e8d0abbc23bea05048fccaa0aab449de7ccd31b2c1f4c9a722",
+      "createdAtUtc": "2026-10-15T07:37:08.001215+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:37:32.757924+00:00"
+    },
+    {
+      "name": "day5-full-ml-host.log",
+      "rawSha256": "db1b540078acca0b6b64951ae44b7422b454470849d9ef5cf776c22d7087453a",
+      "createdAtUtc": "2026-10-15T07:37:52.923240+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:41:46.286450+00:00"
+    },
+    {
+      "name": "day5-ml-failure-final-host.log",
+      "rawSha256": "2f3967b5a2a52447d4bce8b8b52cf72388bb91663e0e478dab22e1ca3efb1897",
+      "createdAtUtc": "2026-10-15T07:43:53.093875+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:44:06.187736+00:00"
+    },
+    {
+      "name": "day5-java-focused.log",
+      "rawSha256": "88b5875aa15a7bf1b82810825ace9c8267a7013c31a38d389cfcb1bbeef8f1a5",
+      "createdAtUtc": "2026-10-15T07:35:03.188983+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:35:31.334085+00:00"
+    },
+    {
+      "name": "day5-java-focused-host.log",
+      "rawSha256": "fabae563ecb4dda616dd94c37ff3f003d8d0153aba6e401da0e0648aebad19ce",
+      "createdAtUtc": "2026-10-15T07:36:21.000264+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:36:33.884313+00:00"
+    },
+    {
+      "name": "day5-database-drills-host.log",
+      "rawSha256": "0ac1ec34ba3273d64f606e4c939b2446e9d1efd0262c8470793b05a165e98c7e",
+      "createdAtUtc": "2026-10-15T07:42:25.413050+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:43:37.207729+00:00"
+    },
+    {
+      "name": "day5-database-drills-final-host.log",
+      "rawSha256": "59394b1c89d601a502acf874734556f36da5d61adb850bc937a1d793590eb65a",
+      "createdAtUtc": "2026-10-15T07:44:43.196567+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:45:57.535562+00:00"
+    },
+    {
+      "name": "day5-full-processor-host.log",
+      "rawSha256": "2dc5aade4dbdf1804be64a85bb66cb7acb6a00a5d9bc268d4b0fa828b7bfd59d",
+      "createdAtUtc": "2026-10-15T07:46:31.500732+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:50:28.135822+00:00"
+    },
+    {
+      "name": "day5-full-processor-final-host.log",
+      "rawSha256": "f80fc7dc90fc2a5f4466a9a0f9b3e11e0b357862c67bdefeb12d9fc1f03411d3",
+      "createdAtUtc": "2026-10-15T07:53:46.044027+00:00",
+      "lastWrittenAtUtc": "2026-10-15T08:09:31.017258+00:00"
+    },
+    {
+      "name": "day5-feature-parity.log",
+      "rawSha256": "fc4b86416f17b0618e33607fc6af02d8b0ab2ee6bd839eaaee9353e379d532ad",
+      "createdAtUtc": "2026-10-15T07:38:03.510524+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:38:03.968563+00:00"
+    },
+    {
+      "name": "day5-voice-parity.log",
+      "rawSha256": "6ffd7926f6f616cb57b534f9dc13007a1c24109be8105c15bbae5096a36ec658",
+      "createdAtUtc": "2026-10-15T07:38:03.986804+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:38:04.772372+00:00"
+    },
+    {
+      "name": "day5-sms-parity.log",
+      "rawSha256": "19107b800e53b931902dd27a42f71398435c32d214e2a9a066ecb0eef72ae0e3",
+      "createdAtUtc": "2026-10-15T07:38:04.796967+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:38:05.428696+00:00"
+    },
+    {
+      "name": "day5-frozen-pins.log",
+      "rawSha256": "ddd163a8cdc0311ece11d57f4efe07d7d1c111e0482a1d6e92bb577a741c0d30",
+      "createdAtUtc": "2026-10-15T07:46:42.552310+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:46:43.017516+00:00"
+    },
+    {
+      "name": "day5-evaluation.log",
+      "rawSha256": "7b21715ac4ea3f86981e42f0bd716df21184a30303c4c44e672f56ef141063d7",
+      "createdAtUtc": "2026-10-15T07:31:11.107812+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:35:02.502254+00:00"
+    },
+    {
+      "name": "day5-evaluation-release.log",
+      "rawSha256": "7b21715ac4ea3f86981e42f0bd716df21184a30303c4c44e672f56ef141063d7",
+      "createdAtUtc": "2026-10-15T07:39:43.117818+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:45:00.444798+00:00"
+    },
+    {
+      "name": "day5-evaluation-repeat.log",
+      "rawSha256": "7b21715ac4ea3f86981e42f0bd716df21184a30303c4c44e672f56ef141063d7",
+      "createdAtUtc": "2026-10-15T07:45:00.863467+00:00",
+      "lastWrittenAtUtc": "2026-10-15T07:50:39.843271+00:00"
+    }
+  ],
+  "mavenTotals": {
+    "streaming-support": {
+      "tests": 139,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "event-generator": {
+      "tests": 158,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "processor": {
+      "tests": 1119,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8
+    }
+  },
+  "repeatExactBytes": {
+    "results.json": true,
+    "predictions.json": true,
+    "thresholds.json": true
+  },
+  "preservedFailures": [
+    {
+      "log": "day5-evaluator-tests.log",
+      "reason": "sandbox temporary-directory access denied"
+    },
+    {
+      "log": "day5-root-tests.log",
+      "reason": "long sandbox temp path wrapped existing PowerShell exception text; unchanged test passed on host"
+    },
+    {
+      "log": "day5-java-focused.log",
+      "reason": "sandbox loopback connection denied; unchanged HTTP tests passed on host"
+    },
+    {
+      "log": "day5-database-drills-host.log",
+      "reason": "new test measured pending jobs before shadow claim enqueued them; corrected test setup"
+    },
+    {
+      "log": "day5-full-processor-host.log",
+      "reason": "disposable PostgreSQL port became unreachable during Docker restart",
+      "processorReported": {
+        "tests": 1106,
+        "failures": 4,
+        "errors": 359,
+        "skipped": 3
+      }
+    }
+  ],
+  "files": {
+    "backlog-drill.json": "95d82b88df1ac30e5a96e08ef30e44f9a3b4d39e645cda8acfb724884e8f41af",
+    "implementation-pins.json": "ddbbd0ac9da69a65174e70e9d0e43fda553159116dffc9e8b037a84bd6a51a25",
+    "initial-results/predictions.json": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+    "initial-results/report.md": "499e685d8e7a4a449ea7ec78c9243209e2e58127e0de8892d3c7577bf1093e0b",
+    "initial-results/results.json": "4d608316fc727be705bc80b31a0c977913ad2eea39bc7c38737579228ccb3dd8",
+    "initial-results/thresholds.json": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+    "initial-study-manifest.json": "45473df83dec00573729650b920182b35de5acd3306a86479c189c7f0290999d",
+    "junit-inventory.json": "10034b63b8532d3ae064597eac66f9f1a72eb76d72113ce1d9775942a0f98555",
+    "junit.zip": "2a82af85af513702aafaa838ba3cfb0ef31c060364ad1e6ff0e5caca4698fd6a",
+    "logs/day5-contracts-host.log.gz": "d559dad70d24b08c223fa9c40fc8b33e8f1580a78b0036f1b6bdb0ad939c90ff",
+    "logs/day5-database-drills-final-host.log.gz": "53981707987a2263dc3f113a5a2a20671ad7df0e87a3e9b2b10a991999a6fc0c",
+    "logs/day5-database-drills-host.log.gz": "061c36b5599cbb27c12e783870407edda6a3f38991b02cb67d9373b09460fe71",
+    "logs/day5-evaluation-release.log.gz": "35e10a8716c55b677832f5c7dd20aaf3159afb88978be867d0b09c286755df81",
+    "logs/day5-evaluation-repeat.log.gz": "35e10a8716c55b677832f5c7dd20aaf3159afb88978be867d0b09c286755df81",
+    "logs/day5-evaluation.log.gz": "35e10a8716c55b677832f5c7dd20aaf3159afb88978be867d0b09c286755df81",
+    "logs/day5-evaluator-final-host.log.gz": "0eeb7a7ac88cfbca0b513eed03993debd6e45731388bfc0c9c814e5f7e16f4ce",
+    "logs/day5-evaluator-tests-localtemp.log.gz": "9f6a3602c0f5fcd46a6c35cc1cd90e61b2680849d3d8327113b058d8e8fd0bfe",
+    "logs/day5-evaluator-tests.log.gz": "834dc4de8569b1d707aa6b5e71135b54d3ba406ff449a30ed96a0f17a8f736fb",
+    "logs/day5-feature-parity.log.gz": "7ab845dbfd4cd5b6c8e33b38abf3bc036155f8b1d093b8991ae2c772b418c925",
+    "logs/day5-frozen-pins.log.gz": "b7d581bfd630fb4f6dd7a3be85fcd163a12dd9fc6e2947c76a92b2d443c11a35",
+    "logs/day5-full-ml-host.log.gz": "02cd3faac5ad073ba8328532c683da9f8ec151244e61cf723ee5f37a3b47fe11",
+    "logs/day5-full-processor-final-host.log.gz": "3d55124bc4f716e794f0f7e98786bc9120cbb44a570212d8a95237177c1e4e0d",
+    "logs/day5-full-processor-host.log.gz": "e560330831e8a47a7b8a2fb146766603909de65766d7045b4d811ad2fc70ba99",
+    "logs/day5-java-export.log.gz": "76cc8164d4c83e19367fa880c82b71341d8d6e160aea13442f897ae8ef665bc3",
+    "logs/day5-java-focused-host.log.gz": "27f59453dc84fd7771705b09ac62492acd39e2f2fda3316ae717bf2ff591c8a1",
+    "logs/day5-java-focused.log.gz": "c93d25f8565783914c315c22005393f21bbeb7e2be1bf1932d89ed1e82f1533b",
+    "logs/day5-ml-failure-final-host.log.gz": "3d6ab254db62a120612fcce75d18c1ef8d4cf5645ff4465c1aae2f1df26b506d",
+    "logs/day5-root-tests-host.log.gz": "fb27dce4d15dec5510221de76437c947ddeb31ec4fc974891073aa921175d80a",
+    "logs/day5-root-tests.log.gz": "7b8bb4fc42962b70a40da0b5d98e481ec4638fcbfbe7fafd3a1cd5d9be4ce9a8",
+    "logs/day5-sms-parity.log.gz": "6481b565dde9e879590bd6e73c89a897866f392c46228999682850d5e5438279",
+    "logs/day5-voice-parity.log.gz": "0df330ab7ba2f34c317496d8422466ad84f281d2df652ecf50a0138208523d7b",
+    "processor-export.json.gz": "b74924908a1b8a377097369967bc1aba92c871eb1deec8744c3253a129df8fdf",
+    "real-http.json": "5c504fdeb1983ccf19488300795eafd7b18b7d392dd74a54f14d548cc5698271",
+    "repeat-comparison.json": "a17ba7a111e0748d526a208e54b0ca4076060b2997ba362d0f635146ac9a9ffb",
+    "results/predictions.json": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+    "results/report.md": "a8cba1905850f12b49a51e4e052bea3be601e5c4f7c259940545ce7e6b6e9f9c",
+    "results/results.json": "131c39292a94e5ddb4b40597eed3d7facfe212598a551f21a9466d7b8875d7bb",
+    "results/thresholds.json": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+    "study/inputs.json.gz": "8ef1f46d5e246f2de9cd201b37fb2e886b1b0fcc95f8abc9168a89562e298f69",
+    "study/manifest.json": "4a0d40f4bf7fdd7a0cab9eb64d0b8d2e3b88182b36b134bcecfd6971eed6a40e",
+    "study/protocol.json": "c0b08f47ccabad04187102c025721de0ff6dd9bb3b1b9c44e03c40fdbf2d470e",
+    "study/truth.json": "34f96a641a8e60ef9340a32ed4aad25fcb8e22267b7cc2755cccad503c8b8493",
+    "java-version.txt": "21d2beeb422c19e428ee4bd35c2d54dede7d6b32c846234d853b6536a98e49c9"
+  },
+  "inputTruthProtocolBytesUnchanged": true,
+  "limits": [
+    "overlapping invocation counts are not additive",
+    "file timestamps delimit recorded logs; unmeasured per-step wall times are not inferred",
+    "CI configured but remote CI not executed",
+    "source pins identify tested workspace bytes at the recorded base revision"
+  ]
+}

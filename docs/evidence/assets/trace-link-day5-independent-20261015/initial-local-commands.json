@@ -1,0 +1,154 @@
+{
+  "recordedAtUtc": "2026-10-15T15:12:51.242354+00:00",
+  "status": "FAIL",
+  "scope": "EMPTY_DISPOSABLE_SQL_CONNECTION_AND_NORMAL_PROCESS_RESTART",
+  "backlogOrLiveAcceptance": false,
+  "project": "trace-link-day5-20261015150811",
+  "commands": [
+    {
+      "name": "local-before",
+      "command": [
+        "docker",
+        "compose",
+        "--project-name",
+        "trace-link-day5-20261015150811",
+        "--env-file",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\local.env",
+        "-f",
+        "compose.yaml",
+        "-f",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\ports.yaml",
+        "ps",
+        "--all",
+        "--format",
+        "json"
+      ],
+      "startedAt": "2026-10-15T15:12:16.071230+00:00",
+      "elapsedSeconds": 0.8631576999978279,
+      "exitCode": 0
+    },
+    {
+      "name": "local-sql-before",
+      "command": [
+        "docker",
+        "compose",
+        "--project-name",
+        "trace-link-day5-20261015150811",
+        "--env-file",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\local.env",
+        "-f",
+        "compose.yaml",
+        "-f",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\ports.yaml",
+        "exec",
+        "-T",
+        "postgres",
+        "psql",
+        "-X",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-U",
+        "processing_app",
+        "-d",
+        "processing_db",
+        "-c",
+        "BEGIN READ ONLY;\nSELECT count(*) AS pending, min(w.created_at) AS oldest_pending_source FROM app.trace_link_job j JOIN app.trace_link_window w USING(window_id) WHERE j.completed_at IS NULL;\nSELECT count(*) AS pending, min(e.evaluated_at) AS oldest_pending_evaluation FROM app.trace_link_shadow_job j JOIN app.trace_link_evaluated_window e USING(window_id) WHERE j.completed_at IS NULL;\nSELECT lease_until, completed_at FROM app.trace_link_shadow_job WHERE completed_at IS NULL ORDER BY lease_until NULLS FIRST LIMIT 20;\nROLLBACK;"
+      ],
+      "startedAt": "2026-10-15T15:12:16.934445+00:00",
+      "elapsedSeconds": 0.9004941000021063,
+      "exitCode": 0
+    },
+    {
+      "name": "local-stop",
+      "command": [
+        "docker",
+        "compose",
+        "--project-name",
+        "trace-link-day5-20261015150811",
+        "--env-file",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\local.env",
+        "-f",
+        "compose.yaml",
+        "-f",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\ports.yaml",
+        "stop",
+        "--timeout",
+        "30",
+        "processor"
+      ],
+      "startedAt": "2026-10-15T15:12:17.835009+00:00",
+      "elapsedSeconds": 2.345100699996692,
+      "exitCode": 0
+    },
+    {
+      "name": "local-stopped",
+      "command": [
+        "docker",
+        "compose",
+        "--project-name",
+        "trace-link-day5-20261015150811",
+        "--env-file",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\local.env",
+        "-f",
+        "compose.yaml",
+        "-f",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\ports.yaml",
+        "ps",
+        "--all",
+        "--format",
+        "json",
+        "processor"
+      ],
+      "startedAt": "2026-10-15T15:12:20.180153+00:00",
+      "elapsedSeconds": 0.7145348000012746,
+      "exitCode": 0
+    },
+    {
+      "name": "local-start",
+      "command": [
+        "docker",
+        "compose",
+        "--project-name",
+        "trace-link-day5-20261015150811",
+        "--env-file",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\local.env",
+        "-f",
+        "compose.yaml",
+        "-f",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\ports.yaml",
+        "start",
+        "--wait",
+        "--wait-timeout",
+        "180",
+        "processor"
+      ],
+      "startedAt": "2026-10-15T15:12:20.894746+00:00",
+      "elapsedSeconds": 27.83343640000021,
+      "exitCode": 1
+    },
+    {
+      "name": "local-cleanup",
+      "command": [
+        "docker",
+        "compose",
+        "--project-name",
+        "trace-link-day5-20261015150811",
+        "--env-file",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\local.env",
+        "-f",
+        "compose.yaml",
+        "-f",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\trace-link-day5-20261015150811\\ports.yaml",
+        "down",
+        "--volumes",
+        "--remove-orphans"
+      ],
+      "startedAt": "2026-10-15T15:12:48.728207+00:00",
+      "elapsedSeconds": 2.5141072000005806,
+      "exitCode": 0
+    }
+  ],
+  "harnessErrors": [
+    "Initial extraction of the Markdown PowerShell block truncated a backtick; fixed in harness before provisioning"
+  ]
+}

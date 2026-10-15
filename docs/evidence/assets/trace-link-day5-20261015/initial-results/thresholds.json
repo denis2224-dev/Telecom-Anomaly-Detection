@@ -1,0 +1,1 @@
+{"protocolSha256":"c0b08f47ccabad04187102c025721de0ff6dd9bb3b1b9c44e03c40fdbf2d470e","testUsed":false,"thresholds":{"MOBILE_DATA":0.9,"ROAMING":0.95,"TRANSPORT":0.95},"validationCounts":{"MOBILE_DATA":465,"ROAMING":345,"TRANSPORT":405}}

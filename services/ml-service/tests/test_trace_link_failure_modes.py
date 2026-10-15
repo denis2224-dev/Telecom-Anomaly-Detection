@@ -86,6 +86,22 @@ class TraceLinkFailureModesTests(unittest.TestCase):
                 deserialize.assert_not_called()
         with self.assertRaises(FileNotFoundError):load('missing-trace-link-candidate')
 
+    def test_manifest_byte_mismatch_fails_before_deserialization_and_capability_falls_back(self):
+        import shutil
+        from app.inference.api import app
+        with tempfile.TemporaryDirectory() as folder:
+            target=Path(folder)/'candidate';shutil.copytree(DEFAULT,target)
+            manifest=target/'manifest.json';manifest.write_bytes(manifest.read_bytes()+b' ')
+            with patch('app.inference.trace_link_scoring.joblib.load') as deserialize:
+                with self.assertRaisesRegex(ValueError,'MODEL_MANIFEST_PIN_MISMATCH'):load(target)
+                deserialize.assert_not_called()
+            with patch.dict(os.environ,ML_TRACE_LINK_SHADOW_ENABLED='true',ML_TRACE_LINK_CANDIDATE_PATH=str(target)),TestClient(app) as client:
+                self.assertEqual(client.get('/health/ready').status_code,200)
+                self.assertEqual(client.get('/health/trace-link').json()['status'],'FALLBACK')
+                body=client.post('/internal/inference/trace-link',json=request()).json()
+                self.assertEqual(body['reason'],'MODEL_UNAVAILABLE')
+                self.assertNotIn('anomalyScore',body)
+
     def test_api_disabled_missing_model_saturation_bad_json_and_good_domains(self):
         from app.inference.api import app
         with patch.dict(os.environ,ML_TRACE_LINK_SHADOW_ENABLED='false'),TestClient(app) as client:
