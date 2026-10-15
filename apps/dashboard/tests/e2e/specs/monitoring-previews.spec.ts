@@ -11,7 +11,7 @@ for (const width of [1366, 390]) {
     await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Roaming measurements are unavailable');
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
-    await expect(page.getByLabel('Key service information')).toContainText('Backhaul trafficUnavailable');
+    await expect(page.getByLabel('Key service information')).toContainText('SMS queue');
     await expect(page.locator('.transport-link')).toHaveCount(0);
     await expect(page.getByRole('checkbox', { name: 'Show sample links' })).toHaveCount(0);
     await expect(page.locator('.city-marker')).toHaveCount(10);
@@ -52,7 +52,7 @@ test('overview call results use the loaded window and keep missing evidence unav
   await page.goto('/dashboard');
   await expect(page.getByLabel('VoLTE calls by result')).toContainText('980');
   await expect(page.getByLabel('Key service information')).toContainText('Call setup success98%');
-  await expect(page.getByLabel('Key service information')).toContainText('Failed setup share2%');
+  await expect(page.getByLabel('Key service information')).not.toContainText('Failed setup share');
   last.quality = 'INCOMPLETE';
   await page.reload();
   await expect(page.getByLabel('VoLTE calls by result')).toContainText('Call result counts unavailable');

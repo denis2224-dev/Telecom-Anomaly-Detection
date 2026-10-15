@@ -19,7 +19,7 @@ import { moldovaOutline } from './moldova-map';
 import { callResults } from './dashboard-results';
 import { transportPreview } from './transport-preview';
 import {
-  baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
+  approvedConnections, baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
   type City, type Episode, type Filter, type Service, type Summary, type Window,
 } from './dashboard-geography';
 
@@ -55,8 +55,25 @@ export class ConnectedOverviewComponent {
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
   readonly roamingPanel = signal(true);
-  readonly showTraffic = signal(this.fixture);
+  readonly showTraffic = signal(false);
   readonly transportLinks = this.fixture ? transportPreview : [];
+  readonly selectedLinkId = signal<string | null>(null);
+  readonly mapLinks = computed(() => approvedConnections.flatMap(link => {
+    const from = this.markerCities().find(city => city.id === link.fromCityId);
+    const to = this.markerCities().find(city => city.id === link.toCityId);
+    return from?.marker && to?.marker ? [{...link, name: `${from.name} – ${to.name}`,
+      x1: from.marker.x * 6, y1: from.marker.y * 7.4, x2: to.marker.x * 6, y2: to.marker.y * 7.4,
+      left: (from.marker.x + to.marker.x) / 2, top: (from.marker.y + to.marker.y) / 2}] : [];
+  }));
+  readonly selectedLink = computed(() => this.mapLinks().find(link => link.id === this.selectedLinkId()));
+  linkParameters(id: string, direction = 'a-to-b') {
+    return {...this.traceHistoryParameters(), domain: 'transport', cityId: 'all', linkDirectionId: `${id}:${direction}`};
+  }
+  readonly overviewPriority = signal<Episode[]>([]);
+  readonly riskIncidents = computed(() => this.overviewPriority().filter(item => item.status !== 'RESOLVED').slice(0, 6));
+  anomalyTitle(incident: Episode): string {
+    return incident.latestDetection.anomalyType.replaceAll('_', ' ').toLowerCase().replace(/^./, letter => letter.toUpperCase());
+  }
   readonly latestVoiceWindow = computed(() => this.chartRows('VOLTE').at(-1));
   readonly results = computed(() => callResults(this.latestVoiceWindow()));
   readonly headline = computed(() => {
@@ -68,12 +85,14 @@ export class ConnectedOverviewComponent {
     return [
       { label: 'Call attempts', value: results ? number(results.total) : 'Unavailable', note: 'Latest VoLTE window', tone: 'info' },
       { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
-      { label: 'Failed setup share', value: results ? number(100 - results.rate) + '%' : 'Unavailable', note: 'Setup attempts only', tone: 'danger' },
       { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
-      { label: 'Backhaul traffic', value: 'Unavailable', note: this.fixture ? 'Sample links shown below' : 'Open directional transport history', tone: 'muted' },
-      { label: 'Roaming status', value: this.fixture ? 'Preview' : 'Unavailable', note: 'Partner investigation available', tone: 'info' },
+      { label: 'SMS queue', value: this.latestSmsQueue(), note: 'Selected SMS scope · pending messages', tone: 'info' },
       { label: 'Open incidents', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Current service / city filter', tone: 'warning' },
     ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
+  });
+  readonly latestSmsQueue = computed(() => {
+    const value = metricValue(this.chartRows('SMS').at(-1), 'queueDepth');
+    return value === null ? 'Unavailable' : number(value);
   });
   readonly sipFailures = computed(() => {
     const window = this.latestVoiceWindow();
@@ -215,6 +234,7 @@ export class ConnectedOverviewComponent {
       this.queueController?.abort();
       this.historyController?.abort();
       this.incidents.set([]);
+      this.overviewPriority.set([]);
       this.priorityItems.set([]);
       this.histories.set({});
     };
@@ -352,6 +372,7 @@ export class ConnectedOverviewComponent {
     if (this.stopped) return;
     this.queueController?.abort();
     const controller = this.queueController = new AbortController();
+    if (page === 0) this.overviewPriority.set([]);
     this.queueLoading.set(true);
     this.queueError.set('');
     try {
@@ -373,6 +394,7 @@ export class ConnectedOverviewComponent {
           || detail.location?.cityId !== result.items[index].cityId)) throw new Error('Priority and incident evidence disagree. Refresh the queue.');
         this.priorityItems.set(result.items);
         this.incidents.set(details);
+        if (page === 0) this.overviewPriority.set(details);
         this.queueHasNext.set(result.hasNext);
         this.queueTotal.set(page * this.pageSize + result.items.length + (result.hasNext ? 1 : 0));
         return;
@@ -380,6 +402,7 @@ export class ConnectedOverviewComponent {
       const result = await this.api.listIncidents({ service: filter === 'ALL' ? undefined : filter, page, size: this.pageSize }, controller.signal);
       if (controller.signal.aborted || this.stopped) return;
       this.incidents.set(result.items);
+      if (page === 0) this.overviewPriority.set([...result.items].sort((a,b) => ['CRITICAL','HIGH','MEDIUM'].indexOf(a.severity) - ['CRITICAL','HIGH','MEDIUM'].indexOf(b.severity)));
       this.queueHasNext.set((page + 1) * this.pageSize < result.total);
       this.queueTotal.set(result.total);
     } catch (error) {

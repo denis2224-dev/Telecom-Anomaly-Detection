@@ -11,7 +11,7 @@
 .queue-toggle { grid-column: 7; grid-row: 2; width: 100%; justify-self: end; }
 .controls > button { height: 36px; min-height: 36px; padding: 6px 8px; font-size: 11px; white-space: nowrap; }
 .controls .badge { font-size: 8px; padding: 3px 4px; }
-.headline-metrics { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 8px; margin-bottom: 14px; }
+.headline-metrics { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 8px; margin-bottom: 14px; }
 .headline-metrics > div { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 12px; background: var(--surface); border-radius: var(--radius-control); }
 .headline-metrics span, .headline-metrics small { color: var(--text-muted); font-size: 11px; }
 .headline-metrics strong { color: var(--accent); font-size: clamp(16px,1.6vw,24px); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
@@ -28,7 +28,7 @@
 h2 > span { color: var(--text-muted); font-size: 10px; font-weight: 400; }
 .map-panel { box-shadow: var(--shadow-inner); }
 .map-panel > h2 { background: var(--accent-soft); }
-.panel-visual { position: relative; height: 230px; box-sizing: border-box; min-width: 0; }
+.panel-visual { position: relative; min-height: 290px; box-sizing: border-box; min-width: 0; }
 .chart-scope { height: 20px; margin: 0; padding: 2px 12px; color: var(--text-muted); font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chart-error { position: absolute; top: 24px; right: 12px; color: var(--warning); font-size: 10px; }
 .map-visual { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: flex-start; height: auto; min-height: 540px; padding: 16px 0; }
@@ -140,3 +140,35 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
   .controls input, .controls select, .controls > button, .controls .apply-field button { min-height: 44px; height: 44px; }
   .period-chips button { min-height: 44px; }
 }
+
+.inventory-link { stroke: var(--text-muted); stroke-width: 3; opacity: .65; vector-effect: non-scaling-stroke; }
+.inventory-link.selected-link { stroke: var(--accent); stroke-width: 5; opacity: 1; }
+.link-marker { position: absolute; transform: translate(-50%,-50%); width: 28px; min-height: 28px; height: 28px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-raised); color: var(--text); z-index: 1; }
+.link-marker[aria-pressed=true] { background: var(--accent); color: var(--field); }
+.link-marker:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.city-marker { z-index: 2; }
+.link-investigation { min-height: 140px; padding: 12px; border-top: 1px solid var(--border); }
+.link-investigation h3 { margin: 0; font-size: 15px; }
+.link-investigation p { color: var(--text-muted); font-size: 12px; }
+.link-investigation .button { margin: 4px; }
+.link-list { margin: 12px; }
+.link-list ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
+.link-list button { width: 100%; min-height: 44px; font-size: 12px; }
+.active-anomalies { margin-top: 20px; padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.active-anomalies > header, .anomaly-card > header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.active-anomalies h2 { margin: 0; flex: 1; }
+.active-anomalies > header > span, .anomaly-card time { color: var(--text-muted); font-size: 12px; }
+.anomaly-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin: 16px 0; }
+.anomaly-card { padding: 16px; background: var(--surface-raised); border: 1px solid var(--border); border-left: 5px solid var(--warning); border-radius: var(--radius-control); min-width: 0; }
+.anomaly-card[data-state=CRITICAL], .anomaly-card[data-state=HIGH] { border-left-color: var(--danger); }
+.anomaly-card[data-state=RECOVERED] { border-left-color: var(--success); }
+.anomaly-card h3 { flex: 1; font-size: 16px; margin: 0; }
+.anomaly-card p { font-size: 13px; overflow-wrap: anywhere; line-height: 1.5; }
+.anomaly-card .anomaly-measurement { font-weight: 600; }
+@container (max-width: 600px) { .anomaly-grid { grid-template-columns: 1fr; } .link-marker { width: 36px; height: 36px; min-height: 36px; } }
+
+.anomaly-evidence { padding-left: 18px; color: var(--text-muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+@container (max-width: 600px) { .link-marker[data-link=chi-hin] { margin-left: -42px; margin-top: -4px; } }
+
+.map-scroll { width: 100%; overflow-x: auto; }
+@container (max-width: 600px) { .city-map { width: 600px; max-width: none; margin: 12px 30px; } }
