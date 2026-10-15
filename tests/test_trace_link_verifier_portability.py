@@ -20,8 +20,10 @@ class VerifierPortabilityTest(unittest.TestCase):
             # A relocated Windows virtualenv Python launcher needs pyvenv.cfg.
             # Use the platform shell to exercise executable selection independently.
             native = os.environ['COMSPEC'] if os.name == 'nt' else shutil.which('sh')
-            shutil.copyfile(native, launcher)
-            shutil.copymode(native, launcher)
+            if os.name == "nt":
+                shutil.copy2(native, launcher)
+            else:
+                launcher.symlink_to(native)
             arguments = ['/d', '/c', 'echo native-launcher-ok'] if os.name == 'nt' else [
                 '-c', 'printf native-launcher-ok']
             output = subprocess.check_output(

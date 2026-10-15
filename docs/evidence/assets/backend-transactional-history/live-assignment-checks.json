@@ -1,0 +1,16 @@
+{
+  "receipts": [
+    {
+      "target": "analyst",
+      "status": 200,
+      "version": 5
+    },
+    {
+      "target": "admin",
+      "status": 200,
+      "version": 6
+    }
+  ],
+  "assigneeOnly": true,
+  "incidentId": "b22c37aa-f261-4b8c-93d1-c9b3a685fc3b"
+}

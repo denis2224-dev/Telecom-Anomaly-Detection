@@ -57,12 +57,16 @@ public class ScenarioCommandService {
     private final GeneratorScenarioClient generator;
     private final Clock clock;
     private final GeographyCatalogue catalogue;
+    private final TraceScenarioScopeValidator traceScopes;
+    private final boolean traceScenariosEnabled;
 
     public ScenarioCommandService(ScenarioCommandRepository commands,
             AnalystRepository analysts, JdbcTemplate jdbc,
             PlatformTransactionManager transactionManager, ObjectMapper json,
             Clock clock, GeographyCatalogue catalogue,
-            @Value("${app.simulator.generator-base-url}") String generatorUrl) {
+            @Value("${app.simulator.generator-base-url}") String generatorUrl,
+            TraceScenarioScopeValidator traceScopes,
+            @Value("${app.simulator.trace-link-scenarios-enabled:false}") boolean traceScenariosEnabled) {
         this.commands = commands;
         this.analysts = analysts;
         this.jdbc = jdbc;
@@ -70,6 +74,8 @@ public class ScenarioCommandService {
         this.generator = new GeneratorScenarioClient(generatorUrl, json);
         this.clock = clock;
         this.catalogue = catalogue;
+        this.traceScopes = traceScopes;
+        this.traceScenariosEnabled = traceScenariosEnabled;
     }
 
     public Run start(ScenarioType type, UUID requestId, long seed,
@@ -211,6 +217,10 @@ public class ScenarioCommandService {
                 ScenarioCommand command = locked(runId);
                 if (terminal(command.getStatus())) return ok(command);
                 command.markDispatchError(failure.code());
+                if (failure.status() == 400) {
+                    command.setStatus(ScenarioStatus.FAILED);
+                    return error(HttpStatus.BAD_REQUEST, failure.code(), "The generator rejected this scenario command.");
+                }
                 if (failure.status() == 409) {
                     command.setStatus(ScenarioStatus.FAILED);
                     if ("SCOPE_WINDOW_CONFLICT".equals(failure.code())) {
@@ -311,12 +321,19 @@ public class ScenarioCommandService {
 
     private static void validateCommand(ScenarioType type, UUID requestId,
                                         long seed, String scopeId) {
-        if (type == null || requestId == null || seed < 0 || scopeId == null) {
+        if (type == null || requestId == null || seed < 0 || scopeId == null || !scopeId.matches("[A-Za-z0-9_.:-]{1,96}")) {
             throw problem(HttpStatus.BAD_REQUEST, "INVALID_COMMAND", "Invalid scenario request.");
         }
     }
 
     private void validate(ScenarioType type, String scopeId, Instant startAt) {
+        boolean legacy = type == ScenarioType.VOLTE_IMS_OVERLOAD || type == ScenarioType.SMS_QUEUE_DELAY
+                || type == ScenarioType.NORMAL_CONTROL || type == ScenarioType.TELEMETRY_GAP;
+        if (!legacy) {
+            if (!traceScenariosEnabled) throw problem(HttpStatus.CONFLICT, "SCENARIO_DISABLED", "Trace Link scenarios are not enabled.");
+            traceScopes.validate(type, scopeId, startAt);
+            return;
+        }
         var binding = catalogue.scope(scopeId);
         var authority = catalogue.strictScope(scopeId);
         String service = authority == null ? null : authority.path("service").asText();

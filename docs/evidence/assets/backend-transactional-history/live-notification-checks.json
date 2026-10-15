@@ -1,0 +1,59 @@
+{
+  "episodeId": "b545edec56a0545dbd568bcc29e5d2da4f8b570c1be8e1176fa2b53dc9505d06",
+  "kinds": [
+    "ESCALATED",
+    "OPEN",
+    "RECOVERED"
+  ],
+  "items": [
+    {
+      "id": "5723a5bd-240f-4f06-9d83-4174fc360e1f",
+      "incidentId": "b22c37aa-f261-4b8c-93d1-c9b3a685fc3b",
+      "kind": "RECOVERED",
+      "severity": "CRITICAL",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "summary": "VOLTE incident recovered.",
+      "occurredAt": "2026-09-15T08:08:10Z",
+      "readAt": null,
+      "causeStatus": "UNDETERMINED",
+      "probableCause": null,
+      "causeConfidence": null,
+      "incidentUrl": "/incidents/b22c37aa-f261-4b8c-93d1-c9b3a685fc3b"
+    },
+    {
+      "id": "28955e61-4956-4ca5-9e0e-c539718b7a2f",
+      "incidentId": "b22c37aa-f261-4b8c-93d1-c9b3a685fc3b",
+      "kind": "ESCALATED",
+      "severity": "CRITICAL",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "summary": "VOLTE incident severity increased.",
+      "occurredAt": "2026-09-15T08:05:10Z",
+      "readAt": null,
+      "causeStatus": "UNDETERMINED",
+      "probableCause": null,
+      "causeConfidence": null,
+      "incidentUrl": "/incidents/b22c37aa-f261-4b8c-93d1-c9b3a685fc3b"
+    },
+    {
+      "id": "ee1c396d-2288-4ad1-9450-6e60f4373ac2",
+      "incidentId": "b22c37aa-f261-4b8c-93d1-c9b3a685fc3b",
+      "kind": "OPEN",
+      "severity": "HIGH",
+      "service": "VOLTE",
+      "scopeId": "VOLTE-MD-CENTRAL",
+      "summary": "VOLTE incident detected.",
+      "occurredAt": "2026-09-15T08:04:10Z",
+      "readAt": null,
+      "causeStatus": "UNDETERMINED",
+      "probableCause": null,
+      "causeConfidence": null,
+      "incidentUrl": "/incidents/b22c37aa-f261-4b8c-93d1-c9b3a685fc3b"
+    }
+  ],
+  "repeatedReadStatus": 204,
+  "crossAnalystReadStatus": 404,
+  "fixtureDriven": true,
+  "operatorDetectorProof": false
+}

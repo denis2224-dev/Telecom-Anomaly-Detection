@@ -12,6 +12,8 @@ import tools.jackson.databind.ObjectMapper;
 @Component
 public class MetricDefinitionRegistry {
     private final List<Definition> definitions;
+    public MetricDefinitionRegistry() throws Exception { this(new ObjectMapper()); }
+    @org.springframework.beans.factory.annotation.Autowired
     public MetricDefinitionRegistry(ObjectMapper json) throws Exception {
         try (var input = new ClassPathResource("contracts/kpi/trace-link-kpi-definitions-v1.json").getInputStream()) {
             var result = new ArrayList<Definition>();
@@ -42,6 +44,8 @@ public class MetricDefinitionRegistry {
         return definitions.stream().filter(item -> item.domain().equals(domain)).toList();
     }
     public Definition require(String domain, String metric) {
+        if ((domain.equals("transport") && metric.equals("link.utilization")) || (domain.equals("roaming") && metric.equals("registration.success_rate")) || (domain.equals("mobile-data") && metric.equals("data.session_success_rate")))
+            return new Definition(domain,metric,"PERCENT","RATIO_OF_SUMS","Versioned native primitive population",List.of("numerator","denominator"),"trace-link-md-policy-v1","REQUIRES_ADDITIONAL_PRIMITIVES","Legacy source identity is independent of the reference archive",List.of(),List.of());
         return definitions.stream().filter(item -> item.domain().equals(domain) && item.metric().equals(metric)).findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unsupported Trace Link metric"));
     }

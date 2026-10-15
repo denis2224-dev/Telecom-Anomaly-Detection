@@ -33,7 +33,7 @@ class TraceLinkReceiverMigrationIT {
     @Test
     void populatedMainUpgradePreservesRowsChecksumsConstraintsAndMatchesFreshSchema() throws Exception {
         String upgradeUrl = createDatabase("receiver_upgrade");
-        assertEquals(10, flyway(upgradeUrl, "10").migrate().migrationsExecuted);
+        assertEquals(11, flyway(upgradeUrl, "11").migrate().migrationsExecuted);
         List<String> history;
         List<String> legacyRows;
         String retainedRows = "SELECT 'analyst:' || row_to_json(t)::text FROM app.analysts t UNION ALL "
@@ -64,12 +64,12 @@ class TraceLinkReceiverMigrationIT {
                     + "FROM app.flyway_schema_history ORDER BY installed_rank");
         }
         Flyway upgraded = flyway(upgradeUrl, null);
-        assertEquals(6, upgraded.migrate().migrationsExecuted);
+        assertEquals(7, upgraded.migrate().migrationsExecuted);
         upgraded.validate();
         assertEquals(0, upgraded.migrate().migrationsExecuted);
         try (Connection db = migrator(upgradeUrl)) {
             assertEquals(history, rows(db, "SELECT concat_ws('|',installed_rank,version,description,script,checksum,success) "
-                    + "FROM app.flyway_schema_history WHERE version::integer <= 10 ORDER BY installed_rank"));
+                    + "FROM app.flyway_schema_history WHERE version::integer <= 11 ORDER BY installed_rank"));
             assertEquals(legacyRows, rows(db, retainedRows));
             assertTrue(rows(db, "SELECT pg_get_constraintdef(oid) FROM pg_constraint WHERE conname='detection_window_ck'")
                     .getFirst().contains("00:01:00"));
@@ -77,7 +77,7 @@ class TraceLinkReceiverMigrationIT {
 
         String freshUrl = createDatabase("receiver_fresh");
         Flyway fresh = flyway(freshUrl, null);
-        assertEquals(16, fresh.migrate().migrationsExecuted);
+        assertEquals(18, fresh.migrate().migrationsExecuted);
         fresh.validate();
         assertEquals(0, fresh.migrate().migrationsExecuted);
         try (Connection upgradedDb = migrator(upgradeUrl); Connection freshDb = migrator(freshUrl)) {
@@ -88,7 +88,7 @@ class TraceLinkReceiverMigrationIT {
     @Test
     void detectorTimestampIsRequiredAndRuntimeCannotRewriteEvidenceOrAudit() throws Exception {
         String url = createDatabase("receiver_grants");
-        assertEquals(16, flyway(url, null).migrate().migrationsExecuted);
+        assertEquals(18, flyway(url, null).migrate().migrationsExecuted);
         try (Connection db = runtime(url)) {
             execute(db, """
                     INSERT INTO app.trace_link_detection_evidence

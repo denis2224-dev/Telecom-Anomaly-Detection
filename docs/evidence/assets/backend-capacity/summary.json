@@ -1,0 +1,98 @@
+{
+  "fullRun": {
+    "result": "FAILED_BASELINE",
+    "startedAt": "2026-10-13T18:08:09.705355+00:00",
+    "phases": [
+      {
+        "phase": "warmup",
+        "plannedSeconds": 120,
+        "elapsedSeconds": 120.00141120800072,
+        "offered": 1200,
+        "clientRejected": 0
+      },
+      {
+        "phase": "steady",
+        "plannedSeconds": 900,
+        "elapsedSeconds": 909.8050656670002,
+        "offered": 9000,
+        "clientRejected": 0
+      },
+      {
+        "phase": "burst",
+        "plannedSeconds": 60,
+        "elapsedSeconds": 69.90267470799881,
+        "offered": 1800,
+        "clientRejected": 401
+      },
+      {
+        "phase": "recovery",
+        "plannedSeconds": 180,
+        "elapsedSeconds": 180.00052620799943,
+        "offered": 1800,
+        "clientRejected": 7
+      }
+    ],
+    "completedSuccess": 12936,
+    "requestErrors": 456,
+    "clientRejected": 408,
+    "telemetryErrors": 11,
+    "latenciesAreSuccessfulRequestsOnly": true
+  },
+  "collectorDiagnostic": {
+    "result": "FAILED_PROXY_BASELINE",
+    "fullDurationRun": false,
+    "phases": [
+      {
+        "phase": "warmup",
+        "plannedSeconds": 15,
+        "elapsedSeconds": 15.000100834000477,
+        "offered": 150,
+        "clientRejected": 0
+      },
+      {
+        "phase": "steady",
+        "plannedSeconds": 60,
+        "elapsedSeconds": 69.70766729100069,
+        "offered": 600,
+        "clientRejected": 0
+      },
+      {
+        "phase": "burst",
+        "plannedSeconds": 30,
+        "elapsedSeconds": 36.81480249999913,
+        "offered": 900,
+        "clientRejected": 172
+      },
+      {
+        "phase": "recovery",
+        "plannedSeconds": 30,
+        "elapsedSeconds": 30.20441475000007,
+        "offered": 300,
+        "clientRejected": 7
+      }
+    ],
+    "completedSuccess": 1679,
+    "requestErrors": 92,
+    "clientRejected": 179
+  },
+  "measuredHealthyOperatingLimit": null,
+  "transportEvidence": "../backend-transactional-history/transport-check.json",
+  "harnessRepair": "Telemetry now samples on a separate thread; active OIDC/ADMIN JSON preflight is required; slow telemetry independence is tested",
+  "projectionTimerCaveat": "Latest evidence receipt age sampled on incident commits includes workflow commits and is not a pure ingestion SLA",
+  "producerSteadyBurstLoad": "NOT_RUN: producer agreement and usable source quality pending",
+  "productionLimitClaim": false,
+  "rawTraceHashes": {
+    "capacity.json.gz": {
+      "uncompressedSha256": "a9ea46de88c9ad4649ee5a084d5a271a0f5dcc23f9323f087ae0d7aa736a94f6",
+      "compressedSha256": "f60a0cd0c47f372265d456e2a444d68cfd0bcdc4e4d75bd808c9369bc0ecf05b"
+    },
+    "collector-diagnostic.json.gz": {
+      "uncompressedSha256": "099bc4bf43d891a19da2efcc8e937a4dfd3e34129978354819653814e986fcb4",
+      "compressedSha256": "341b4f5c5776c02a5d9741177c6ef3431631e538be7f9458b325c6828a78ac48"
+    },
+    "expired-session-diagnostic.json.gz": {
+      "uncompressedSha256": "031ecfa3d5e61357e5f874bb92c4f5e432ea10862e93d9caefd028f28d7c1951",
+      "compressedSha256": "981d64d908bc14f55dbb5d3764e757a8f5648c373c418658bc2d4be5212e652c"
+    }
+  }
+}

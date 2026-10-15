@@ -26,6 +26,9 @@ The new catalogue lists ten active reference members but is registered as
 Runtime activation requires a separately versioned source-authority contract and
 the shared consumer alignment gate.
 
+## Transactional history increment
+
+The unmerged PR #103 originally reserved V009 on base f7364d3. Current main already owns V009–V011, so PR #103 now adds V012__trace_link_episode_history.sql after V011. Main V001–V011 remain byte-for-byte unchanged. Episode evidence uses trace_domain_episode_detection to avoid main V010’s trace_domain_detection measurement-verdict table. These separate contracts and feature flags remain intact; the evaluated-domain consumer defaults off. The earlier V009 existed only in isolated review databases, which were removed after verification; this change does not authorize repairing any applied checksum or renaming a migration in a persistent environment.
 ## PR #104 correction allocation — 14 October 2026
 
 Pinned main: `9db3e0e5a61a8062310e560e734a5395758f70b7`. Original PR #104 head:
@@ -62,3 +65,11 @@ processor-local shadow jobs and immutable results, with column-limited job
 updates for processing_app. Processor V001–V017 and all incident migrations are
 preserved. Fresh and populated V017-to-V018 tests cover retained rows/checksums,
 ownership, grants, validation and no-op rerun. Activation remains a separate gate.
+
+## PR #107 compatibility allocation — 15 October 2026
+
+Main foundation #103 is merged at 9085cb1. Main V001–V012 remain byte-for-byte unchanged. V013__trace_link_history_compatibility.sql extends scenario validation and supports the original foundation review databases without changing their applied Flyway records. The original V009__trace_link_domain_incidents.sql and V011__trace_link_scenario_types.sql are retained byte-for-byte under db/compatibility/foundation.
+
+Application startup selects those historical resources only when the recorded V009 script is the original foundation script. Normal Flyway checksum validation remains enabled. The historical track excludes the conflicting main V009–V012 resources and converges through V013; the main track applies V013 after V012. No repair, baseline, out-of-order bypass, deleted history row, or rewritten checksum is used. External Flyway callers upgrading a historical foundation database must use TraceLinkMigrations.forDatabase rather than a raw default-location migration. Fresh/main installations continue using the default migration directory.
+
+V013 renames the foundation episode table and its constraint/index names to trace_domain_episode_detection, preserving rows and foreign keys, and creates the missing canonical command, measurement and runtime tables. Main's trace_domain_detection retains its separate measurement-verdict contract. Disposable PostgreSQL tests cover both original foundation endpoints (V009 and V011), populated main V012, identical fresh/upgrade schemas, no-op repeat, preserved full history rows, runtime denial, and rejected altered checksums. Both detector activation flags and optional push remain off by default.

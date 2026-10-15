@@ -4,118 +4,6 @@
  */
 
 export interface paths {
-    "/api/v2/datasets": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listTraceDatasets"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v2/trace-link/incidents/by-id/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getTraceIncidentByPublicId"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v2/trace-link/incidents/{episodeId}/workflow": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getTraceIncidentWorkflow"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v2/trace-link/incidents/{episodeId}/assignment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["assignTraceIncident"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v2/trace-link/incidents/{episodeId}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["updateTraceIncidentWorkflow"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v2/trace-link/incidents/{episodeId}/comments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["commentTraceIncident"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v2/trace-link/incidents/{episodeId}/audit": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getTraceIncidentAudit"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/v2/trace-link/incidents": {
         parameters: {
             query?: never;
@@ -934,6 +822,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v2/domain-incidents/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceDomainIncident"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/trace-link/v1/scenarios/catalogue": {
         parameters: {
             query?: never;
@@ -1415,6 +1319,134 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/simulator/scenario-definitions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listScenarioDefinitions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/datasets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listTraceDatasets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/by-id/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceIncidentByPublicId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/{episodeId}/workflow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceIncidentWorkflow"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/{episodeId}/assignment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["assignTraceIncident"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/{episodeId}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["updateTraceIncidentWorkflow"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/{episodeId}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["commentTraceIncident"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v2/trace-link/incidents/{episodeId}/audit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceIncidentAudit"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2180,56 +2212,6 @@ export interface components {
             validTo: string | null;
             synthetic: boolean;
         };
-        TraceDataset: {
-            datasetId: string;
-            /** Format: date-time */
-            from: string;
-            /** Format: date-time */
-            to: string;
-            synthetic: boolean;
-            manifestSha256: string;
-            archiveReady: boolean;
-            /** @description Versioned inventory covering the registered history interval; reading it does not activate live producers. */
-            catalogueVersion?: string | null;
-        };
-        TraceIncidentWorkflow: {
-            /** Format: uuid */
-            id: string;
-            episodeId: string;
-            /** @enum {string} */
-            status: "OPEN" | "INVESTIGATING" | "RESOLVED";
-            /** Format: uuid */
-            assigneeId: string | null;
-            /** Format: int64 */
-            version: number;
-            resolutionNote: string | null;
-        };
-        TraceIncidentAssignment: {
-            /** Format: uuid */
-            assigneeId: string;
-            /** Format: int64 */
-            version: number;
-        };
-        TraceIncidentStatus: {
-            /** @enum {string} */
-            status: "INVESTIGATING" | "RESOLVED";
-            /** Format: int64 */
-            version: number;
-            resolutionNote?: string | null;
-        };
-        TraceIncidentComment: {
-            /** Format: int64 */
-            version: number;
-            note: string;
-        };
-        TraceIncidentAudit: {
-            action: string;
-            /** Format: int64 */
-            version: number;
-            note: string | null;
-            /** Format: date-time */
-            occurredAt: string;
-        };
         TraceKpiDefinition: {
             domain: string;
             metric: string;
@@ -2338,6 +2320,75 @@ export interface components {
             resolution: "5m" | "15m" | "1h" | "6h";
             synthetic: boolean;
             summaries: components["schemas"]["TraceSnapshot"][];
+        };
+        TraceSnapshotList: {
+            datasetId: string;
+            /** @enum {string} */
+            domain: "transport" | "roaming";
+            /** Format: date-time */
+            at: string;
+            synthetic: boolean;
+            items: components["schemas"]["TraceSnapshot"][];
+        };
+        TraceDomainIncident: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            technicalState: "ONGOING" | "UNKNOWN" | "RECOVERED";
+            /** @enum {string} */
+            severity: "MEDIUM" | "HIGH" | "CRITICAL";
+            /** Format: int64 */
+            version: number;
+            evidence: components["schemas"]["TraceDomainIncidentEvidence"];
+        };
+        TraceDomainIncidentEvidence: {
+            detection: {
+                /** @enum {integer} */
+                schemaVersion: 1;
+                datasetId: string;
+                /** @enum {boolean} */
+                synthetic: true;
+                /** @enum {string} */
+                domain: "transport" | "roaming" | "mobile-data";
+                metric: string;
+                metricVersion: string;
+                /** @enum {string} */
+                scopeType: "CITY" | "LINK_DIRECTION" | "PARTNER_DIRECTION";
+                scopeId: string;
+                policyVersion: string;
+                topologyVersion: string;
+                episodeId: string;
+                detectionId: string;
+                /** Format: int64 */
+                sequence: number;
+                /** @enum {string} */
+                phase: "OPEN" | "UPDATE" | "UNKNOWN" | "RECOVERY";
+                /** @enum {string} */
+                severity: "MEDIUM" | "HIGH" | "CRITICAL";
+                /** Format: date-time */
+                firstObservedAt: string;
+                /** Format: date-time */
+                windowStart: string;
+                /** Format: date-time */
+                windowEnd: string;
+                /** Format: date-time */
+                detectedAt: string;
+                revision: number;
+            };
+            primitiveEvidence: {
+                payload: {
+                    [key: string]: unknown;
+                };
+                /** @enum {string} */
+                quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
+                coverage: number;
+                numerator: number | null;
+                denominator: number | null;
+            };
+            /** @enum {string} */
+            causeStatus: "UNDETERMINED";
+            probableCause: string | null;
+            causeConfidence: string | null;
         };
         TraceSnapshot: {
             datasetId: string;
@@ -2501,6 +2552,56 @@ export interface components {
                 observations: string[];
             }[];
         };
+        TraceDataset: {
+            datasetId: string;
+            /** Format: date-time */
+            from: string;
+            /** Format: date-time */
+            to: string;
+            synthetic: boolean;
+            manifestSha256: string;
+            archiveReady: boolean;
+            /** @description Versioned inventory covering the registered history interval; reading it does not activate live producers. */
+            catalogueVersion?: string | null;
+        };
+        TraceIncidentWorkflow: {
+            /** Format: uuid */
+            id: string;
+            episodeId: string;
+            /** @enum {string} */
+            status: "OPEN" | "INVESTIGATING" | "RESOLVED";
+            /** Format: uuid */
+            assigneeId: string | null;
+            /** Format: int64 */
+            version: number;
+            resolutionNote: string | null;
+        };
+        TraceIncidentAssignment: {
+            /** Format: uuid */
+            assigneeId: string;
+            /** Format: int64 */
+            version: number;
+        };
+        TraceIncidentStatus: {
+            /** @enum {string} */
+            status: "INVESTIGATING" | "RESOLVED";
+            /** Format: int64 */
+            version: number;
+            resolutionNote?: string | null;
+        };
+        TraceIncidentComment: {
+            /** Format: int64 */
+            version: number;
+            note: string;
+        };
+        TraceIncidentAudit: {
+            action: string;
+            /** Format: int64 */
+            version: number;
+            note: string | null;
+            /** Format: date-time */
+            occurredAt: string;
+        };
     };
     responses: {
         /** @description Malformed input, an invalid range or invalid request identifier. */
@@ -2588,203 +2689,6 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    listTraceDatasets: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Registered persisted datasets and exact availability bounds */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceDataset"][];
-                };
-            };
-            401: components["responses"]["Unauthenticated"];
-            403: components["responses"]["Forbidden"];
-        };
-    };
-    getTraceIncidentByPublicId: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Native technical incident retaining its original episode identity */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceLinkIncidentView"];
-                };
-            };
-            401: components["responses"]["Unauthenticated"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getTraceIncidentWorkflow: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                episodeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Recipient-authorized native analyst workflow */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
-                };
-            };
-            400: components["responses"]["BadRequest"];
-            401: components["responses"]["Unauthenticated"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-            409: components["responses"]["Conflict"];
-        };
-    };
-    assignTraceIncident: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                episodeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["TraceIncidentAssignment"];
-            };
-        };
-        responses: {
-            /** @description Recipient-authorized native analyst workflow */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
-                };
-            };
-            400: components["responses"]["BadRequest"];
-            401: components["responses"]["Unauthenticated"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-            409: components["responses"]["Conflict"];
-        };
-    };
-    updateTraceIncidentWorkflow: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                episodeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["TraceIncidentStatus"];
-            };
-        };
-        responses: {
-            /** @description Recipient-authorized native analyst workflow */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
-                };
-            };
-            400: components["responses"]["BadRequest"];
-            401: components["responses"]["Unauthenticated"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-            409: components["responses"]["Conflict"];
-        };
-    };
-    commentTraceIncident: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                episodeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["TraceIncidentComment"];
-            };
-        };
-        responses: {
-            /** @description Recipient-authorized native analyst workflow */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
-                };
-            };
-            400: components["responses"]["BadRequest"];
-            401: components["responses"]["Unauthenticated"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-            409: components["responses"]["Conflict"];
-        };
-    };
-    getTraceIncidentAudit: {
-        parameters: {
-            query?: {
-                limit?: number;
-                offset?: number;
-            };
-            header?: never;
-            path: {
-                episodeId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Recipient-authorized native analyst workflow */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TraceIncidentAudit"][];
-                };
-            };
-            400: components["responses"]["BadRequest"];
-            401: components["responses"]["Unauthenticated"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-            409: components["responses"]["Conflict"];
-        };
-    };
     listTraceLinkIncidents: {
         parameters: {
             query?: {
@@ -3862,7 +3766,17 @@ export interface operations {
                     "application/json": components["schemas"]["TraceSnapshot"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            /** @description Source contract mismatch */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     getTraceRoamingSnapshot: {
@@ -3888,7 +3802,17 @@ export interface operations {
                     "application/json": components["schemas"]["TraceSnapshot"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            /** @description Source contract mismatch */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     exportTraceMetricCsv: {
@@ -3920,7 +3844,17 @@ export interface operations {
                     "text/csv": string;
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            /** @description Source contract mismatch */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     listNotifications: {
@@ -3944,6 +3878,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotificationPage"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
         };
@@ -3989,7 +3924,9 @@ export interface operations {
                     "application/json": components["schemas"]["PushConfig"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
         };
     };
     upsertPushSubscription: {
@@ -4019,8 +3956,16 @@ export interface operations {
                     };
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
+            /** @description Push disabled, subscription limit, or endpoint owned by another analyst */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     deletePushSubscription: {
@@ -4041,9 +3986,263 @@ export interface operations {
                 };
                 content?: never;
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
             404: components["responses"]["NotFound"];
+        };
+    };
+    getTraceDomainIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Durable domain episode and primitive evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceDomainIncident"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    listScenarioDefinitions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Implemented public scenario definitions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        type: string;
+                        scopeTypes: string[];
+                        /** @enum {integer} */
+                        durationSeconds: 480;
+                        /** @enum {integer} */
+                        minimumSeed: 0;
+                        /** @enum {integer} */
+                        maximumConcurrentPerScope: 1;
+                    }[];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    listTraceDatasets: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Registered persisted datasets and exact availability bounds */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceDataset"][];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+        };
+    };
+    getTraceIncidentByPublicId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Native technical incident retaining its original episode identity */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceLinkIncidentView"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getTraceIncidentWorkflow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                episodeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recipient-authorized native analyst workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
+        };
+    };
+    assignTraceIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                episodeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TraceIncidentAssignment"];
+            };
+        };
+        responses: {
+            /** @description Recipient-authorized native analyst workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
+        };
+    };
+    updateTraceIncidentWorkflow: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                episodeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TraceIncidentStatus"];
+            };
+        };
+        responses: {
+            /** @description Recipient-authorized native analyst workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
+        };
+    };
+    commentTraceIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                episodeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TraceIncidentComment"];
+            };
+        };
+        responses: {
+            /** @description Recipient-authorized native analyst workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceIncidentWorkflow"];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
+        };
+    };
+    getTraceIncidentAudit: {
+        parameters: {
+            query?: {
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                episodeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recipient-authorized native analyst workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceIncidentAudit"][];
+                };
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            409: components["responses"]["Conflict"];
         };
     };
 }

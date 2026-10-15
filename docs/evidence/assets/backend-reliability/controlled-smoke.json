@@ -1,0 +1,226 @@
+{
+  "status": "passed-for-observed-backend-smoke",
+  "parity": [
+    {
+      "domain": "transport",
+      "scopeId": "chi-hin:a-to-b",
+      "resolution": "5m",
+      "points": 288,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "transport",
+      "scopeId": "chi-hin:a-to-b",
+      "resolution": "15m",
+      "points": 96,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "transport",
+      "scopeId": "chi-hin:a-to-b",
+      "resolution": "1h",
+      "points": 24,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "transport",
+      "scopeId": "chi-hin:a-to-b",
+      "resolution": "6h",
+      "points": 5,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "transport",
+      "scopeId": "chi-cau:a-to-b",
+      "resolution": "5m",
+      "points": 288,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "transport",
+      "scopeId": "chi-cau:a-to-b",
+      "resolution": "15m",
+      "points": 96,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "transport",
+      "scopeId": "chi-cau:a-to-b",
+      "resolution": "1h",
+      "points": 24,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "transport",
+      "scopeId": "chi-cau:a-to-b",
+      "resolution": "6h",
+      "points": 5,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "roaming",
+      "scopeId": "RO-DEMO-01:out",
+      "resolution": "5m",
+      "points": 288,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "roaming",
+      "scopeId": "RO-DEMO-01:out",
+      "resolution": "15m",
+      "points": 96,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "roaming",
+      "scopeId": "RO-DEMO-01:out",
+      "resolution": "1h",
+      "points": 24,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "roaming",
+      "scopeId": "RO-DEMO-01:out",
+      "resolution": "6h",
+      "points": 5,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "mobile-data",
+      "scopeId": "hin",
+      "resolution": "5m",
+      "points": 288,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "mobile-data",
+      "scopeId": "hin",
+      "resolution": "15m",
+      "points": 96,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "mobile-data",
+      "scopeId": "hin",
+      "resolution": "1h",
+      "points": 24,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    },
+    {
+      "domain": "mobile-data",
+      "scopeId": "hin",
+      "resolution": "6h",
+      "points": 5,
+      "quality": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "status": "passed"
+    }
+  ],
+  "capacity30DayPoints": 121,
+  "realOidcRoles": [
+    "ANALYST",
+    "SUPERVISOR"
+  ],
+  "controlledRuns": [
+    {
+      "runId": "4332f332-f78d-494a-958f-6a9288fdd5c3",
+      "scope": "automated real-OIDC controlled synthetic Kafka lifecycle",
+      "episodeId": "30b84a9f68fa075b4dda83e8210d35e8330a52b8d04fdf49b7e43aefef4ec6cc",
+      "incidentId": "b9e61913-3ff4-45a1-a4b3-7f16fa19d811",
+      "detectionIds": [
+        "7c3899744acc1212b335b3398d1be1bcac23e8f62a635e3fed79ee0d1738ddab",
+        "38a004102e67a25e33ae91b907a81236272fcfe8ebd41154cec127718dec9be8",
+        "9ec57a722fe493798b50afc9826bc5e5a4afeeed2c3b38e1c7cc95a892f2567e",
+        "a0d39ff67017b98f3f1c8fde7541d05acc71f602d8169cf9e52f12bafb1a0b65",
+        "bb57ce890e3a6fac4ad6587343b26a8e7ea4c802a5715339a9f467bcb6efd641"
+      ],
+      "analystItems": 4,
+      "supervisorItems": 4,
+      "kinds": [
+        "ASSIGNED",
+        "ESCALATED",
+        "OPEN",
+        "RECOVERED"
+      ],
+      "observedChecks": "passed",
+      "fullReleaseRehearsal": "pending owner, browser, and new-domain acceptance"
+    },
+    {
+      "runId": "4f3d7127-46fe-4771-a54c-ae585cfe84a5",
+      "scope": "automated real-OIDC controlled synthetic Kafka lifecycle",
+      "episodeId": "20fa21c2571b3b78b203ddb5e2238bf74ad7ff63fbc311ae91cae7aef8723377",
+      "incidentId": "441eb9b7-5eb1-4e84-8735-169565b98504",
+      "detectionIds": [
+        "48846923a7710385ecd1decc6ea1667e2e12774248ab33dfd9d62850012d528d",
+        "e515e32070d432923c31ed328161adff77b785ea6bb419133e8c3cb50290e9d1",
+        "e7806504ccb58d477c51218d6fb6cc258efde4ba76232cbf77723c67f0b6c57a",
+        "72bcd3fd9781f44976c473c112e5b9268134de2da04efe13948e3960694ecaca",
+        "f80cc06523a94bd7523381141f98064daa408e4b0d26972a4254c1cc9060040a"
+      ],
+      "analystItems": 4,
+      "supervisorItems": 4,
+      "kinds": [
+        "ASSIGNED",
+        "ESCALATED",
+        "OPEN",
+        "RECOVERED"
+      ],
+      "observedChecks": "passed",
+      "fullReleaseRehearsal": "pending owner, browser, and new-domain acceptance"
+    }
+  ],
+  "restartPreservedItems": 28,
+  "logoutPrivateReads": 401,
+  "browserPushEnabled": false,
+  "limitations": [
+    "HTTP local origin; real browser push unverified",
+    "No new-domain producer activation or five-owner approval",
+    "Controlled fixture runs are not complete release rehearsals"
+  ]
+}

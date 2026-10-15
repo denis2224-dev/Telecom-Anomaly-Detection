@@ -16,11 +16,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TraceLinkDisabledIT extends IncidentServiceIntegrationTestSupport {
     @Autowired ApplicationContext context;
     @Autowired MockMvc mvc;
+    @Autowired org.springframework.jdbc.core.JdbcTemplate jdbc;
 
     @Test void disabledFeatureExposesNeitherReceiverNorReadRoutes() throws Exception {
         assertTrue(context.getBeansOfType(TraceLinkIncidentService.class).isEmpty());
         assertTrue(context.getBeansOfType(TraceLinkDetectionConsumer.class).isEmpty());
-        var actor=oidcLogin().authorities(new SimpleGrantedAuthority("ROLE_ANALYST"));
+        jdbc.update("INSERT INTO app.analysts(id,issuer,subject,display_name) VALUES (?, ?, ?, ?)",
+                java.util.UUID.randomUUID(), "https://identity.test/realm", "disabled-feature-reader", "Reader");
+        var actor=oidcLogin().idToken(token -> token.issuer("https://identity.test/realm").subject("disabled-feature-reader"))
+                .authorities(new SimpleGrantedAuthority("ROLE_ANALYST"));
         String base="/api/v2/trace-link/incidents";
         for (String path : java.util.List.of(base,base+"/"+"a".repeat(64),base+"/"+"a".repeat(64)+"/evidence"))
             mvc.perform(get(path).with(actor).session(authenticatedSession())).andExpect(status().isNotFound());

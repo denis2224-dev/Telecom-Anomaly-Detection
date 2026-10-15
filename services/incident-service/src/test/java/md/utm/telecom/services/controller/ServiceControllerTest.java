@@ -1,6 +1,9 @@
 package md.utm.telecom.services.controller;
 
 import md.utm.telecom.IncidentServiceIntegrationTestSupport;
+import md.utm.telecom.analysts.model.Analyst;
+import md.utm.telecom.analysts.repository.AnalystRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +24,13 @@ class ServiceControllerTest extends IncidentServiceIntegrationTestSupport {
 
     @Autowired
     MockMvc mvc;
+    @Autowired AnalystRepository analysts;
+    private Analyst actor;
+
+    @BeforeEach
+    void registerActor() {
+        actor = analysts.saveAndFlush(new Analyst("https://identity.test/realm", "service-reader", "Service reader"));
+    }
 
     @Test
     void overviewIsProtectedAndUsesConfiguredScopesWithoutInventingMeasurements() throws Exception {
@@ -144,7 +154,7 @@ class ServiceControllerTest extends IncidentServiceIntegrationTestSupport {
     ) {
         return get(path, uriVariables)
                 .session(authenticatedSession())
-                .with(oidcLogin().authorities(
+                .with(oidcLogin().idToken(token -> token.issuer(actor.getIssuer()).subject(actor.getSubject())).authorities(
                         new SimpleGrantedAuthority("ROLE_ANALYST")));
     }
 

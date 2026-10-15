@@ -24,13 +24,23 @@ public class MetricScopeRepository {
             entity = entity.substring(0, split);
             if (!List.of("a-to-b", "b-to-a").contains(direction)) throw invalid();
             sql = """
-                    SELECT DISTINCT c.topology_version
+                    SELECT c.topology_version
                     FROM app.trace_catalogue c JOIN app.trace_inventory_link i USING (catalogue_version)
                     JOIN app.trace_link_direction d USING (catalogue_version, link_id)
                     WHERE c.dataset_id = ? AND i.link_id = ? AND d.direction_id = ?
                       AND c.valid_from <= ? AND (c.valid_to IS NULL OR c.valid_to >= ?)
                       AND i.valid_from <= ? AND (i.valid_to IS NULL OR i.valid_to >= ?)
-                      AND d.capacity_valid_from <= ? AND (d.capacity_valid_to IS NULL OR d.capacity_valid_to >= ?)
+                      AND NOT EXISTS (
+                          SELECT 1 FROM app.trace_link_direction a JOIN app.trace_link_direction b
+                              USING (catalogue_version, link_id, direction_id)
+                          WHERE a.catalogue_version = i.catalogue_version AND a.link_id = i.link_id
+                            AND a.direction_id = d.direction_id AND a.capacity_valid_from < b.capacity_valid_from
+                            AND tstzrange(a.capacity_valid_from, a.capacity_valid_to, '[)')
+                                && tstzrange(b.capacity_valid_from, b.capacity_valid_to, '[)')
+                      )
+                    GROUP BY c.topology_version
+                    HAVING range_agg(tstzrange(d.capacity_valid_from, d.capacity_valid_to, '[)'))
+                        @> tstzrange(?::timestamptz, ?::timestamptz, '[)')
                     """;
         } else if (query.domain().equals("roaming") && query.scopeType().equals("PARTNER_DIRECTION")) {
             int split = entity.lastIndexOf(':');
@@ -38,7 +48,7 @@ public class MetricScopeRepository {
             direction = entity.substring(split + 1);
             partner = entity.substring(0, split);
             entity = partner;
-            procedure = query.metric().contains("registration") ? "registration" : query.metric().contains("voice") ? "voice" : query.metric().contains("data") ? "data" : "";
+            procedure = query.metric().contains("voice") ? "voice" : query.metric().contains("data") ? "data" : "registration";
             if (!List.of("in", "out").contains(direction)) throw invalid();
             sql = """
                     SELECT DISTINCT c.topology_version
