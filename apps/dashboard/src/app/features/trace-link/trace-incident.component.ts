@@ -72,7 +72,7 @@ export class TraceIncidentComponent {
  assign(id:string):void{if(id)void this.action((state,signal)=>this.api.assignTraceIncident(this.episode,{assigneeId:id,version:state.version},signal));}
  changeStatus(status:'INVESTIGATING'|'RESOLVED'):void{void this.action((state,signal)=>this.api.updateTraceIncident(this.episode,{status,version:state.version,resolutionNote:status==='RESOLVED'?this.note():null},signal));}
  addComment():void{void this.action((state,signal)=>this.api.commentTraceIncident(this.episode,{version:state.version,note:this.comment()},signal));}
- time(value:string):string{return new Intl.DateTimeFormat('en-GB',{timeZone:this.query.context().timezone,year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',timeZoneName:'shortOffset'}).format(new Date(value));}
+ time(value:string):string{return new Intl.DateTimeFormat('en-GB',{timeZone:this.query.context().timezone,dateStyle:'medium',timeStyle:'long'}).format(new Date(value));}
  serialize(value:unknown):string{return JSON.stringify(value,null,2);}
  focusContext():void{const item=this.incident();if(!item)return;const context=this.context(),scope=object(context['scope']);const domain=String(context['domain']).toLowerCase().replace('_','-');
   if(!['volte','transport','roaming','sms','mobile-data'].includes(domain))return;
