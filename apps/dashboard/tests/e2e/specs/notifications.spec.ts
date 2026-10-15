@@ -39,3 +39,21 @@ test('two authenticated tabs share each new high alert and repeated hints remain
   await page.waitForTimeout(400);expect(await page.locator('.toast').count()+await second.locator('.toast').count()).toBe(1);
   for(const tab of [page,second])expect(await tab.evaluate(()=>(window as any).__sources.filter((source:any)=>!source.closed).length)).toBe(1);
 });
+
+test('unavailable push configuration preserves in-app history without permission prompts',async({page})=>{
+ await controlledApi(page);let configReads=0;
+ await page.route(/\/api\/notifications(?:\?.*)?$/,route=>route.fulfill({json:{items:[],total:0,unreadCount:0,page:0,size:20}}));
+ await page.addInitScript(()=>{
+  (window as any).__permissionPrompts=0;
+  Object.defineProperty(window,'Notification',{configurable:true,value:{permission:'default',requestPermission:async()=>{(window as any).__permissionPrompts++;return 'granted';}}});
+  Object.defineProperty(window,'PushManager',{configurable:true,value:class{}});
+ });
+ await page.route('**/api/notifications/push/config',route=>{configReads++;return route.fulfill({status:404,json:{code:'FEATURE_DISABLED'}});});
+ await page.goto('/dashboard');await page.getByRole('button',{name:/^Notifications, /}).click();
+ const history=page.getByRole('dialog',{name:'Notification history'});
+ await expect(history).toBeVisible();await history.getByRole('button',{name:'Enable browser alerts',exact:true}).click();
+ await expect(history).toContainText('Browser alerts are unavailable in this environment.');
+ await expect(history).toContainText('No recorded notifications.');
+ expect(configReads).toBe(1);expect(await page.evaluate(()=>(window as any).__permissionPrompts)).toBe(0);
+ await page.keyboard.press('Escape');await expect(history).not.toBeVisible();
+});

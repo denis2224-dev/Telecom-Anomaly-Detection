@@ -1,0 +1,13 @@
+{
+  "status": "INCONCLUSIVE_NOT_ACCEPTED",
+  "mode": "Native Safari observation on existing served artifact, not candidate deployment",
+  "observationStartedAtUTC": "2026-10-15T19:21:25Z",
+  "observedAtUTC": "2026-10-15T19:36:43Z",
+  "elapsedWallSeconds": 918,
+  "sessionConnectedVisible": true,
+  "displayedAbsoluteDeadlineUTC": "19:46",
+  "protectedHttpStatus": "Not inspected",
+  "activeTabChangedDuringObservation": true,
+  "interveningTrustedActivityControlled": false,
+  "conclusion": "No idle acceptance is claimed. Reproduce with configured existing credentials and the required controlled live configuration. Cannot attribute the observation to the frontend candidate."
+}

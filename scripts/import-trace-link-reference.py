@@ -145,6 +145,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('archive', type=Path)
     parser.add_argument('--validate-only', action='store_true')
+    parser.add_argument('--compose', action='store_true',
+                        help='Import into the local Compose incident database without a host PostgreSQL client')
     args = parser.parse_args()
     with tempfile.TemporaryDirectory(prefix='trace-reference-import-') as directory:
         snapshot = Path(directory)
@@ -155,9 +157,30 @@ def main():
             for row in native_rows(snapshot, manifest): writer.writerow(row); count += 1
         require(count == 362880, 'Incomplete full archive')
         if not args.validate_only:
-            subprocess.run(['psql', '-X', '-q', '--no-password'], input=import_sql(manifest, checksum, stage), text=True, check=True)
+            run_import(manifest, checksum, stage, args.compose)
         print(json.dumps({'datasetId': manifest['dataset_id'], 'manifestSha256': checksum, 'nativeRows': count,
                           'mode': 'validation' if args.validate_only else 'incident-owned-import', 'catalogueActivated': False}))
+
+
+def run_import(manifest, checksum, stage, compose=False):
+    sql = import_sql(manifest, checksum, stage)
+    if not compose:
+        subprocess.run(['psql', '-X', '-q', '--no-password'], input=sql, text=True, check=True)
+        return
+    # Stream the validated snapshot through psql. Host paths need not exist in the
+    # container, and no source files or credentials are copied into it.
+    before, after = sql.split("\\copy trace_import_stage FROM " + literal(stage) + ' CSV\n', 1)
+    with tempfile.TemporaryFile(mode='w+', encoding='utf-8', newline='') as script:
+        script.write(before + 'COPY trace_import_stage FROM STDIN WITH (FORMAT csv);\n')
+        # psql's end-of-copy marker must use the same line ending as the CSV.
+        # Normalize csv.writer's CRLF records to the SQL script's LF convention.
+        with stage.open(encoding='utf-8') as source:
+            shutil.copyfileobj(source, script)
+        script.write('\\.\n' + after)
+        script.seek(0)
+        subprocess.run(['docker', 'compose', 'exec', '-T', 'postgres', 'psql', '-X', '-q',
+                        '--no-password', '-U', 'incidents_app', '-d', 'incidents_db'],
+                       stdin=script, cwd=ROOT, check=True)
 
 
 if __name__ == '__main__':

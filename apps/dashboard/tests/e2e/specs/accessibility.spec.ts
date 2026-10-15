@@ -14,11 +14,13 @@ async function pressTab(page: Page, backwards = false) {
 
 async function tabTo(page: Page, target: Locator, backwards = false) {
   await expect(target).toBeVisible();
+  const visited:string[]=[];
   for (let step = 0; step < 100; step++) {
+    visited.push(await page.evaluate(()=>document.activeElement?.outerHTML.slice(0,180) ?? 'none'));
     if (await target.evaluate(element => element === document.activeElement)) return;
     await pressTab(page, backwards);
   }
-  throw new Error('Control could not be reached with Tab');
+  throw new Error('Control could not be reached with keyboard navigation: '+JSON.stringify(visited.slice(-12)));
 }
 
 async function visibleFocus(target: Locator) {
