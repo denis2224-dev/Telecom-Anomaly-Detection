@@ -90,22 +90,23 @@ public class MetricRollupRepository {
                        quality_reason, source_quality, source_coverage, topology_version,
                        source_natural_id, source_row_number, source_row_sha256,
                        source_file, manifest_sha256, generator_version, seed,
-                       catalogue_version, import_policy_version
+                       catalogue_version, import_policy_version,
+                       convert_from(payload_bytes, 'UTF8')::jsonb->>'sourceNamespace'
                 FROM app.trace_primitive_projection
                 WHERE dataset_id = ? AND domain = ? AND metric_id = ?
                   AND scope_type = ? AND scope_id = ?
                   AND policy_version = ?
-                  AND bucket_start >= ? AND bucket_start < ?
+                  AND bucket_start >= ? AND bucket_end <= ?
                 ORDER BY bucket_start
                 """, (rs, index) -> new Primitive(rs.getString(1).trim(),
                 rs.getTimestamp(2).toInstant(), rs.getLong(3), rs.getLong(4), rs.getString(5),
                 rs.getString(6), rs.getString(7), rs.getBigDecimal(8), rs.getString(9),
                 rs.getString(10).trim(), rs.getLong(11), rs.getString(12).trim(),
                 rs.getString(13), rs.getString(14).trim(), rs.getString(15), rs.getLong(16),
-                rs.getString(17), rs.getString(18)),
+                rs.getString(17), rs.getString(18), rs.getString(19)),
                 query.datasetId(), query.domain(), query.metric(), query.scopeType(), query.scopeId(),
                 policyVersion,
-                Timestamp.from(query.effectiveFrom()), Timestamp.from(query.effectiveTo()));
+                Timestamp.from(query.from()), Timestamp.from(query.to()));
         if (rows.stream().anyMatch(row -> !topologyVersion.equals(row.topology()))) {
             throw new org.springframework.web.server.ResponseStatusException(
                     org.springframework.http.HttpStatus.CONFLICT,
@@ -144,14 +145,14 @@ public class MetricRollupRepository {
             String nullReason = received == 0 ? "NO_SOURCE_SLOTS"
                     : denominator.signum() == 0 ? "ZERO_DENOMINATOR" : null;
             String qualityReason = received == 0 ? "NO_SOURCE_SLOTS"
-                    : denominator.signum() == 0 ? "ZERO_DENOMINATOR"
                     : quality.equals("STALE") ? bucket.stream()
                     .filter(row -> row.quality().equals("STALE"))
                     .map(Primitive::qualityReason).filter(Objects::nonNull).findFirst()
                     .orElse("SOURCE_STALE")
                     : quality.equals("INSUFFICIENT_EVIDENCE") ? bucket.stream()
                     .filter(row -> row.quality().equals("INSUFFICIENT_EVIDENCE"))
-                    .map(Primitive::qualityReason).filter(Objects::nonNull).findFirst().orElse(null)
+                    .map(Primitive::qualityReason).filter(Objects::nonNull).findFirst()
+                    .orElse(denominator.signum() == 0 ? "ZERO_DENOMINATOR" : null)
                     : partialEdge ? "PARTIAL_REQUEST_EDGE"
                     : received < expected ? "MISSING_SOURCE_SLOTS"
                     : quality.equals("PARTIAL") ? bucket.stream()
@@ -170,7 +171,7 @@ public class MetricRollupRepository {
                             row.rowNumber(), row.rowSha(), row.sourceFile(), row.manifest(),
                             row.generator(), row.seed(), row.catalogue(), row.importPolicy(),
                             row.sourceQuality(),
-                            row.sourceCoverage(), row.quality(), row.qualityReason())).toList();
+                            row.sourceCoverage(), row.quality(), row.qualityReason(), row.sourceNamespace())).toList();
             points.add(new MetricSeriesResponse.Point(start, end, value, coverage, quality,
                     numerator, denominator, null, null, nullReason, qualityReason,
                     expected, received, sourceQuality, sourceCoverage, ids, provenance));
@@ -182,7 +183,7 @@ public class MetricRollupRepository {
             String quality, String qualityReason, String sourceQuality, BigDecimal sourceCoverage,
             String topology, String naturalId, long rowNumber, String rowSha,
             String sourceFile, String manifest, String generator, long seed,
-            String catalogue, String importPolicy) {}
+            String catalogue, String importPolicy, String sourceNamespace) {}
 
 
     public record Dataset(Instant from, Instant to, int sourceResolutionSeconds, boolean synthetic) {}

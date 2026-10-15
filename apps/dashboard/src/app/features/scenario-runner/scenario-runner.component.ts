@@ -18,10 +18,11 @@ import { ToastService } from '../../shared/toast.service';
 import { ScenarioPreviewComponent } from './scenario-preview.component';
 import { countries, previewScenarios, type PreviewType } from './monitoring-preview';
 import { RunStore } from './run.store';
+import { TraceScenarioRunnerComponent } from './trace-scenario-runner.component';
 
 @Component({
   selector: 'app-scenario-runner',
-  imports: [DatePipe, IconComponent, ScenarioPreviewComponent],
+  imports: [DatePipe, IconComponent, ScenarioPreviewComponent, TraceScenarioRunnerComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Controlled simulation</p><h1>Scenario runner</h1><p>Reproduce a service event and follow its recovery.</p></div><span class="badge" [attr.data-state]="store.run()?.status ?? 'IDLE'">{{ store.run()?.status ?? 'IDLE' }}</span></div>
 
@@ -30,8 +31,9 @@ import { RunStore } from './run.store';
         A supervisor or admin account is required to run scenarios.
       </p>
     } @else {
+      <app-trace-scenario-runner />
       <section class="detail-panel">
-        <h2>Schedule a scenario</h2>
+        <h2>Legacy VoLTE and SMS scenarios</h2>
         <p>
           Choose a service and repeatable traffic profile. Runs start on the next full minute and last eight minutes.
         </p>
@@ -54,7 +56,6 @@ import { RunStore } from './run.store';
           <option value="SMS_QUEUE_DELAY">SMS queue delay</option>
           <option value="NORMAL_CONTROL">VoLTE / SMS normal control</option>
           <option value="TELEMETRY_GAP">VoLTE / SMS telemetry gap</option>
-          <optgroup label="Local previews · API support pending">@for (scenario of previews; track scenario.id) { @if (scenario.id !== 'VOLTE_IMS_OVERLOAD') { <option [value]="scenario.id">{{ scenario.label }} · preview</option> } }</optgroup>
         </select>
 
         </div><div class="field"><label for="scenario-scope">Service scope</label>

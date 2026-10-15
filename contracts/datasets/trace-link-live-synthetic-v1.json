@@ -1,0 +1,22 @@
+{
+  "datasetId": "trace-link-live-synthetic-v1",
+  "synthetic": true,
+  "generatorVersion": "trace-link-minute-generator-v1",
+  "scenarioCatalogueVersion": "trace-link-scenarios-v1",
+  "schemaVersion": "trace-link-domain-window-v1",
+  "sourceResolutionSeconds": 60,
+  "durationSeconds": 480,
+  "scopeNamespace": "trace-link-reference-v1",
+  "catalogueVersion": "trace-link-geography-v2",
+  "topologyVersion": "trace-link-links-v1",
+  "policyVersion": "trace-link-kpi-v1",
+  "sourceIdPattern": "trace-link-minute-generator-v1-seed-<nonnegative signed long>",
+  "metrics": ["transport.traffic", "transport.effectiveCapacity", "transport.link.utilization", "roaming.registration.success", "mobileData.dns.success", "mobileData.activation.success"],
+  "qualityBasis": "Generated complete one-minute populations or explicit missing/zero-volume evidence; not operator measurements.",
+  "transportBasis": "Constant positive effective capacity and generated carried rate valid for each complete minute; no packet, RTT, jitter or member-state primitives.",
+  "roamingBasis": "Independent synthetic partner/country/direction REGISTRATION attempts and successes, no subscriber counts.",
+  "mobileDataBasis": "Independent synthetic LTE EPS-bearer activation and qualifying DNS request populations, no inferred per-user eligibility or throughput.",
+  "historyIsolation": "No archive rows read or subdivided. Native trace-link-md-30d-v1 remains immutable at 300 seconds.",
+  "kafka": "DISABLED",
+  "consumer": "PENDING_REVIEW"
+}

@@ -59,7 +59,7 @@ class NotificationControllerTest extends IncidentServiceIntegrationTestSupport {
     void authenticationBoundsAndDisabledActorUseStructuredErrors() throws Exception {
         mvc.perform(get("/api/notifications")).andExpect(status().isUnauthorized());
         mvc.perform(get("/api/notifications?size=101").session(authenticatedSession()).with(login()))
-                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("BAD_REQUEST"));
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("INVALID_PAGE"));
         mvc.perform(get("/api/notifications?page=-1").session(authenticatedSession()).with(login()))
                 .andExpect(status().isBadRequest());
         actor.setEnabled(false); analysts.flush();

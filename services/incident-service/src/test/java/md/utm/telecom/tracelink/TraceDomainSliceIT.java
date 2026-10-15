@@ -125,8 +125,8 @@ class TraceDomainSliceIT extends IncidentServiceIntegrationTestSupport {
             var open = detection(domain, 1, "OPEN");
             projections.ingest(open); projections.ingest(open);
             assertEquals(2, jdbc.queryForObject("SELECT latest_sequence FROM app.trace_domain_incident WHERE episode_id = ?", Long.class, open.episodeId()));
-            assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_detection WHERE episode_id = ?", Long.class, open.episodeId()));
-            assertEquals("UNDETERMINED", jdbc.queryForObject("SELECT payload->>'causeStatus' FROM app.trace_domain_detection WHERE detection_id = ?", String.class, open.detectionId()));
+            assertEquals(2, jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_episode_detection WHERE episode_id = ?", Long.class, open.episodeId()));
+            assertEquals("UNDETERMINED", jdbc.queryForObject("SELECT payload->>'causeStatus' FROM app.trace_domain_episode_detection WHERE detection_id = ?", String.class, open.detectionId()));
         }
     }
     @Test
@@ -158,7 +158,7 @@ class TraceDomainSliceIT extends IncidentServiceIntegrationTestSupport {
                 old.metricVersion(), old.scopeType(), old.scopeId(), POLICY, TOPOLOGY, episode, id, 1, "OPEN", "HIGH", outside,
                 old.windowStart(), old.windowEnd(), old.detectedAt(), 0);
         assertThrows(IllegalArgumentException.class, () -> projections.ingest(invalid));
-        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_detection", Long.class));
+        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM app.trace_domain_episode_detection", Long.class));
     }
     @Test
     void staleSourceCannotCreateAPositiveEpisode() {

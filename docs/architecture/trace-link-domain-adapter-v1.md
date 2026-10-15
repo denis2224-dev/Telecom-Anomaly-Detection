@@ -2,9 +2,9 @@
 
 Owner: Moroz Denis. Producer owner: Zavtoni Ion. Planning work package: 12 October 2026.
 
-Reserve incident-service V009__trace_link_domain_incidents.sql after the merged V008 primitive projection. Reserved by this backend work package on main f7364d3 after detecting the merged V008 reservation. Cross-owner producer acceptance remains pending and does not enable delivery. V005–V007 and all existing legacy migrations remain immutable.
+The merge reconciliation adds incident-service V012__trace_link_episode_history.sql after main V011. The original unmerged V009 reservation on f7364d3 is superseded; main V001–V011 remain unchanged. Cross-owner producer acceptance remains pending and does not enable delivery. V005–V007 and all existing legacy migrations remain immutable.
 
-Transport, roaming and LTE data use a separate five-minute evaluated-detection contract, topic telecom.trace-domain.detections.v1, immutable trace_domain_detection facts and a contiguous trace_domain_incident projection. Kafka key is episodeId. The adapter does not consume evaluator scenario truth or create decisions from ML-only inference.
+Transport, roaming and LTE data use a separate five-minute evaluated-detection contract, topic telecom.trace-domain.detections.v1, immutable trace_domain_episode_detection facts and a contiguous trace_domain_incident projection. Kafka key is episodeId. The adapter does not consume evaluator scenario truth or create decisions from ML-only inference.
 
 Stable identity is lowercase SHA-256 over compact UTF-8 JSON arrays. Episode inputs are datasetId, domain, metric, metricVersion, scopeType, scopeId, policyVersion, topologyVersion and canonical UTC firstObservedAt. Detection inputs are episodeId, canonical UTC windowStart, phase and metricVersion. A revision is a separate attribute; changing a committed detection body requires a new identity/namespace design, never a rewrite.
 

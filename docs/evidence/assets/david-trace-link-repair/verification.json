@@ -1,0 +1,2532 @@
+{
+  "schemaVersion": "trace-link-repair-verification-v1",
+  "generatedAtUtc": "2026-10-13T07:17:20.534871+00:00",
+  "decision": "PARTIALLY COMPLETE - BLOCKED",
+  "workspace": {
+    "path": "C:\\OrangeSystems\\Program\\david-trace-link-repair-20261012",
+    "branch": "repair/david-trace-link-e2e-20261012",
+    "startingSha": "94950a35ea514672027242a19871f413a2120b10",
+    "codeCommit": "d85eb378d2b7b5c5009b0e668f9a5801ff91f32f",
+    "codeTree": "6ad580b65e0ed57374aba5b748c27d8ccdd22f39",
+    "evidenceCommit": "Subsequent local commit whose parent is codeCommit; resolve final SHA from branch HEAD. Also pins evidence byte preservation in .gitattributes; application source unchanged.",
+    "originalCheckout": "C:/OrangeSystems/Program/Telecom-Anomaly-Detection",
+    "originalHead": "0eb9b5b417b37343e86038cdd84243ce68e17cbe",
+    "preservationSnapshot": "C:/OrangeSystems/Program/david-trace-repair-evidence/continuation-uncommitted-20261013.zip",
+    "preservationSnapshotSha256": "98005660949615fcaa01249b12c563301f84555b3327b9dfd4e177a9aa866fb9",
+    "remotePublication": "No push, PR creation/update, merge or deployment performed"
+  },
+  "remote": {
+    "main": "f7364d35c71ddf865c9f826c41bdf0aac37f473d",
+    "pr98": {
+      "state": "MERGED",
+      "head": "6152d13fb5147c8d141d88133e2b7e45e6df4484",
+      "incorporated": false
+    },
+    "pr99": {
+      "state": "OPEN",
+      "draft": true,
+      "head": "94950a35ea514672027242a19871f413a2120b10"
+    },
+    "reconciliation": "Fetched and inspected. V008, fifth quality and required provenance fields need reconciliation; no receiving or Kafka acceptance inferred."
+  },
+  "environment": {
+    "os": "Windows",
+    "shell": "Windows PowerShell",
+    "java": "21.0.12",
+    "maven": "3.9.16",
+    "node": "24.20.0",
+    "npm": "11.19.0",
+    "python": "3.13.7",
+    "chromium": "153.0.8010.12",
+    "viewports": [
+      {
+        "width": 1366,
+        "height": 900
+      },
+      {
+        "width": 390,
+        "height": 900
+      }
+    ],
+    "tests": "Disposable PostgreSQL/Kafka Testcontainers where selected; controlled HTTP/SSE browser fixtures; no shared database import or configuration changes"
+  },
+  "java": {
+    "reactor": {
+      "status": "PASS_WITH_SKIPS",
+      "tests": 1316,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8,
+      "passed": 1308,
+      "classes": [
+        {
+          "name": "md.utm.telecom.observation.CoverageContractTest",
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.DomainObservationValidatorTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.GeographyCatalogTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.ObservationValidatorTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.TopologyCatalogTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.observation.TraceLinkSyntheticSourceTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioAuthorityContextTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioControllerTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.api.ScenarioExecutionServiceTest",
+          "tests": 29,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.CityVoiceSeedTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.continuous.ContinuousTelemetryServiceTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.continuous.GeographicPublicationTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.G2ServiceSuiteTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.GeographicRuntimeTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.HealthProbeTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.ObservationGeneratorTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.scenarios.SmsQueueScenarioTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.evaluation.TraceLinkEvaluationFixtureTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkCheckpointTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkMobileDataScenarioTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkReliabilityRegressionTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkRoamingScenarioTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkRuntimeTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkScenarioBoundaryTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkScenarioEngineTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.tracelink.TraceLinkTransportScenarioTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.generator.VoiceScenarioTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.BaselineRegistryTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DependencyOutageIT",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.detection.MlClientFailureTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.detection.TraceLinkDomainRulesTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.detection.TraceLinkInputsTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.detection.TraceLinkServiceTransportTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionConfigurationTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.DetectionReplayIT",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.EpisodeStateTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ExplanationCasesTest",
+          "tests": 64,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.FinalizerRaceIT",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicAggregationCasesTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicAuxiliaryBoundaryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicBaselineContractTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicCauseControlsTest",
+          "tests": 80,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicCauseReplayTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicDetectionTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicDetectorAcceptanceTest",
+          "tests": 101,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicEvidenceIsolationTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicExplanationTest",
+          "tests": 121,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicHistoricalBaselineReplayTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLegacyDetectionTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLegacyWorkerTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicLoadAccountingTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMlFallbackReplayTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMonitoringMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicMonitoringTest",
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicParityTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicReplayTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicSmsBaselineTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicWorkerReceiptBoundaryTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.GeographicWorkerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.HealthProbeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.GeographicHistoricalBootstrapTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.GeographicHistoryMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HealthyHistoryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoricalTelemetryBootstrapTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryBootstrapApplicationTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryBootstrapRuntimeTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.HistoryRangeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.IngestionIntegrationTest",
+          "tests": 28,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.PayloadCodecTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ingestion.SourceFreshnessTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.CoverageSnapshotTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.Day5GeographicParityTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.GeographicCoverageTest",
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.ServiceFeatureBuilderTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsKpiDeliveryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.SmsShadowWorkerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkArithmeticTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkDomainProducerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkMobileDataPrimitiveTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkNativeFailureTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkRoamingPrimitiveTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkTransportPrimitiveTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.WindowFinalizerTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.LateInputIT",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.MlClientTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.MonitoringLifecycleTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ObservationInputTest",
+          "tests": 26,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RejectionPublisherTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RetentionConfigurationTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.outbox.RetentionMigrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.ReplayIT",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.RetentionJobTest",
+          "tests": 31,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsEpisodeTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsRuleTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsShadowClientTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.SmsShadowConfigurationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.StreamingMetricsTest",
+          "tests": 20,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.topology.EvidenceJoinerTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.topology.ScopeRegistryTest",
+          "tests": 30,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.TraceLinkSeasonalBaselineTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceDeliverySchedulingTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceEpisodeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.VoiceRuleTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.WindowBoundaryTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "incidentService": {
+      "status": "PASS_WITH_SKIPS",
+      "tests": 254,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 253,
+      "classes": [
+        {
+          "name": "md.utm.telecom.analysts.AnalystControllerTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.evidence.DetectionEvidenceRepositoryTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.evidence.EvidenceServiceTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.evidence.messaging.DetectionConsumerTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.CoverageFactTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyBoundsTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyCatalogueTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyControllerTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.controller.IncidentControllerTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.controller.IncidentStreamControllerTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.DatabaseMigrationTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.DatabaseUpgradeTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.evidence.IncidentProjectionTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.exception.DependencyErrorsTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.IncidentAuditRepositoryTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.IncidentServiceApplicationTests",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.AppRoleMapperTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.AuthSecurityTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.SessionSecurityTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.SergiuDetectionKafkaTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.stream.IncidentStreamTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.WorkflowTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.notifications.CausePresentationPolicyTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationSummaryFactoryTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationTransitionClassifierTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.notifications.PushSubscriptionCipherTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.services.controller.ServiceControllerTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.services.controller.ServiceOverviewControllerTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.services.ServiceKpiWindowIngestionTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.services.ServiceKpiWindowRepositoryTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.shadow.SmsShadowReplayTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 1
+        },
+        {
+          "name": "md.utm.telecom.shadow.SmsShadowStoreTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.simulator.ScenarioCommandRepositoryTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceQueryTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceScenarioGatewayTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyFeatureOffIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyProjectionIT",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyReadMatrixIT",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyTopologyIT",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.IncidentLocationProjectionIT",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.geography.PriorityProjectionIT",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.CommentConcurrencyIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.DatabaseIsolationIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.DependencyFailureIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.FirstSliceIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.IncidentStreamIT",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.PermissionsIT",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.ReplayOrderingIT",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.incidents.ServiceScenariosIT",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationApiIT",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationRepositoryIT",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.simulator.ScenarioControllerIT",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.tracelink.MetricQueryServiceIT",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceInventoryIT",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceScenarioApiIT",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "supplementalArchive": {
+      "status": "PASS",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 30,
+      "classes": [
+        {
+          "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        {
+          "name": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      ]
+    },
+    "reactorModules": [
+      {
+        "name": "streaming-support",
+        "tests": 120,
+        "skipped": 0
+      },
+      {
+        "name": "event-generator",
+        "tests": 147,
+        "skipped": 0
+      },
+      {
+        "name": "processor",
+        "tests": 1049,
+        "skipped": 8
+      }
+    ],
+    "incidentPlugins": [
+      {
+        "name": "Surefire",
+        "tests": 173,
+        "skipped": 1
+      },
+      {
+        "name": "Failsafe",
+        "tests": 81,
+        "skipped": 0
+      }
+    ],
+    "countMethod": "Complete console per-class rows only. Excludes stale XML from focused retries. Supplemental archive overlaps the reactor and is not added to it.",
+    "skips": [
+      {
+        "component": "processor",
+        "classes": [
+          "GeographicDetectionTest",
+          "SmsDeliveryTest",
+          "VoiceDeliveryTest"
+        ],
+        "reason": "ML_SERVICE_URL unavailable"
+      },
+      {
+        "component": "processor and incident-service",
+        "classes": [
+          "SmsShadowReplayTest"
+        ],
+        "reason": "SMS_SHADOW_REPLAY_DIR unavailable"
+      },
+      {
+        "component": "processor",
+        "classes": [
+          "TraceLinkDatasetBootstrapIT",
+          "TraceLinkProjectionIT",
+          "TraceLinkDomainArchiveTest",
+          "TraceLinkV016CompatibilityTest"
+        ],
+        "reason": "Explicit archive/frozen inputs absent in first reactor run; all four gates subsequently executed successfully in the 30-test supplemental run"
+      }
+    ]
+  },
+  "dashboard": {
+    "unit": {
+      "files": 29,
+      "passed": 156,
+      "failed": 0
+    },
+    "build": {
+      "status": "PASS",
+      "initialRawKB": 492.47,
+      "budgetWarningKB": 500
+    },
+    "branding": {
+      "passed": 1
+    },
+    "browser": {
+      "passed": 172,
+      "skipped": 24,
+      "failed": 0,
+      "flaky": 0,
+      "details": "browser-results.json"
+    },
+    "focusedAccessibility": {
+      "passed": 7
+    },
+    "focusedRegressionSubset": {
+      "passed": 25,
+      "overlapsFullSuite": true
+    },
+    "limitations": "No real OIDC acceptance, connected telemetry, secure-origin push, Grafana, human screen-reader signoff or coordinated pipeline capacity proof."
+  },
+  "python": {
+    "tests": 159,
+    "passed": 158,
+    "skipped": 1,
+    "failed": 0,
+    "skipReason": "pwsh executable absent for PowerShell runtime-wrapper regression; host uses Windows PowerShell."
+  },
+  "contracts": {
+    "status": "PASS",
+    "apiGeneration": "PASS, deterministic regeneration unchanged",
+    "canonicalSha256": "5f8360a207364859f8bcaf5dec7ee87ec16f8739f5e5e91ccebd56a22acd42a5",
+    "dashboardCopySha256": "5f8360a207364859f8bcaf5dec7ee87ec16f8739f5e5e91ccebd56a22acd42a5",
+    "generatedTypesSha256": "fdd99fe639254eb6c4a67f41e5a88fba75e3e4cf066b6cb2f4235ffb316b2609",
+    "originalSemanticComparison": "PASS: all original paths/schemas preserved; only implementation metadata for CSV, notification GET and notification read changed; five scenario paths and seven schemas added."
+  },
+  "archive": {
+    "status": "PASS",
+    "nativeRows": 362880,
+    "sourceResolutionSeconds": 300,
+    "sourceCounts": [
+      {
+        "source_kind": "CITY",
+        "rows": 86400
+      },
+      {
+        "source_kind": "LINK",
+        "rows": 103680
+      },
+      {
+        "source_kind": "ROAMING",
+        "rows": 172800
+      }
+    ],
+    "manifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+    "utcFrom": "2026-09-10T09:00:00Z",
+    "utcToExclusive": "2026-10-10T09:00:00Z",
+    "exactRetryEqual": true,
+    "sourceQualityNotSupplied": 362880,
+    "projectionRows": 8640,
+    "heldOutboxRows": 8640,
+    "native5mBuckets": 8640,
+    "rollup6hBuckets": 121,
+    "domainArithmeticParityCases": 14,
+    "pinVerifier": "PASS: 29 frozen inputs and independent fixture unchanged",
+    "files": [
+      {
+        "path": "cities.csv",
+        "bytes": 452,
+        "sha256": "16cc72a82194b1d416d09df55825f806bd6d97a99bb6ed254ff64a915c530cc1"
+      },
+      {
+        "path": "city_kpi_5m.csv",
+        "bytes": 15110895,
+        "sha256": "2eaab7425946d52f2dffa8429dc11d2e315d2bb4e0b0ff95bc977687f4394647"
+      },
+      {
+        "path": "countries.csv",
+        "bytes": 242,
+        "sha256": "23dfc3bc0ef3b2c95d22db3cb1f5bcecba7390ec194225b437ab96d09df3a7d3"
+      },
+      {
+        "path": "link_kpi_5m.csv",
+        "bytes": 7993287,
+        "sha256": "0da79bde35cc5d141fa00d80e3b19ded3f301eee87b045ef5098cbf3d77d3b0a"
+      },
+      {
+        "path": "links.csv",
+        "bytes": 257,
+        "sha256": "bbf0d608bebf71939354e3d364cd898f69bc12e23e54db3a29552d79ec3a1c6e"
+      },
+      {
+        "path": "manifest.json",
+        "bytes": 1808,
+        "sha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b"
+      },
+      {
+        "path": "roaming_kpi_5m.csv",
+        "bytes": 14234377,
+        "sha256": "be3f5766bf0bb6167fa174a44dd414de7507afe03b69b0225f9326f252e3e48f"
+      },
+      {
+        "path": "scenario_events.csv",
+        "bytes": 2681,
+        "sha256": "fdb4f004b9221fa612e2a55026430bae5fc7b27d0f6b050109cdbd40ff0a894c"
+      }
+    ],
+    "frozenV016Sha256": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+    "integrity": "Original CSV archive read-only; isolated disposable PostgreSQL. Source quality absent remains absent/insufficient, not fabricated VALID. No outbox released."
+  },
+  "localProducer": {
+    "status": "PASS",
+    "command": "contracts/fixtures/trace-link/scenario-command-v1.json",
+    "seed": 42,
+    "fingerprint": "e89e10e4fa375aaf4a7692753cfba5fb1d7182cc41d5ed70f228dae5381b6ded",
+    "observations": 24,
+    "windows": [
+      {
+        "start": "2026-10-13T09:00:00Z",
+        "end": "2026-10-13T09:01:00Z"
+      },
+      {
+        "start": "2026-10-13T09:01:00Z",
+        "end": "2026-10-13T09:02:00Z"
+      },
+      {
+        "start": "2026-10-13T09:02:00Z",
+        "end": "2026-10-13T09:03:00Z"
+      },
+      {
+        "start": "2026-10-13T09:03:00Z",
+        "end": "2026-10-13T09:04:00Z"
+      },
+      {
+        "start": "2026-10-13T09:04:00Z",
+        "end": "2026-10-13T09:05:00Z"
+      },
+      {
+        "start": "2026-10-13T09:05:00Z",
+        "end": "2026-10-13T09:06:00Z"
+      },
+      {
+        "start": "2026-10-13T09:06:00Z",
+        "end": "2026-10-13T09:07:00Z"
+      },
+      {
+        "start": "2026-10-13T09:07:00Z",
+        "end": "2026-10-13T09:08:00Z"
+      }
+    ],
+    "metricIds": [
+      "transport.effectiveCapacity",
+      "transport.link.utilization",
+      "transport.traffic"
+    ],
+    "provenance": "Offline synthetic compiler and injected-clock runtime; not wall-clock live acceptance",
+    "runtimeRestart": {
+      "status": "PASS",
+      "completedWindows": 3,
+      "generatedObservations": 9,
+      "lifecycle": "INTERRUPTED",
+      "history": "Exact bytes retained; repeated tick did not replay",
+      "checkpoints": [
+        {
+          "path": "runtime-checkpoint-000000000001.json",
+          "sha256": "fea2c2fd31e95f38a9e5d132070b809e245df6d3bf1f80fd34bf3f31e33b614e",
+          "contentSha256": "576ef318a5a713725f8e0592132db3dfc5c31dc7d2dfc6ad1f55663249427924",
+          "publicationStatus": "UNKNOWN_NOT_TRACKED"
+        },
+        {
+          "path": "runtime-checkpoint-000000000002.json",
+          "sha256": "4419e5763066464d8b6cabc10aa7fdbf7a1708986e68fbffceecf4e97f80b53f",
+          "contentSha256": "8854ebe192405d1d4f038e94ceab87145b96985c0880a5e79028a1f19be04a9a",
+          "publicationStatus": "UNKNOWN_NOT_TRACKED"
+        },
+        {
+          "path": "runtime-checkpoint-000000000003.json",
+          "sha256": "9d1c02ec60c29f33b794e0a5fa0c71bcd09d20ace210e81732a27bc122daa5ba",
+          "contentSha256": "b4120bb7f212ec0074568472b80de2a8b59cb7d981bbc27e406db745455a9439",
+          "publicationStatus": "UNKNOWN_NOT_TRACKED"
+        }
+      ],
+      "initialHarness": "An initial command submitted exactly at start correctly became INTERRUPTED with zero windows. Retained separately; verified helper submits one second before start."
+    },
+    "delivery": "DISABLED_PENDING_REVIEW",
+    "offered": 0,
+    "acknowledged": 0,
+    "persisted": null,
+    "accepted": null
+  },
+  "compose": {
+    "status": "STRUCTURE_ONLY_PASS",
+    "command": "docker compose config --quiet",
+    "environment": "Required ${NAME:?} entries supplied as generic process-only placeholders; empty task-specific DOCKER_CONFIG. No .env writes or containers started."
+  },
+  "graphify": {
+    "status": "AST_UPDATE_PASS",
+    "nodes": 11013,
+    "edges": 27966,
+    "communities": 657,
+    "limitation": "Optional tree_sitter_sql missing: 30 SQL files omitted; no full SQL graph claim."
+  },
+  "migrations": {
+    "added": [
+      "services/incident-service/src/main/resources/db/migration/V009__trace_link_scenario_commands.sql"
+    ],
+    "immutableAppliedMigrations": "No existing migration edited",
+    "runtimeGrants": "SELECT, INSERT, UPDATE(status,snapshot,stop_requested) only; no command rewrite/delete/truncate/cross-database grants"
+  },
+  "commands": {
+    "reactor": [
+      "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+      "-B",
+      "-ntp",
+      "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+      "verify"
+    ],
+    "incident": [
+      "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+      "-B",
+      "-ntp",
+      "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+      "-f",
+      "services/incident-service/pom.xml",
+      "verify"
+    ],
+    "archive": [
+      "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+      "-B",
+      "-ntp",
+      "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+      "-pl",
+      "services/processor",
+      "-am",
+      "-Dtest=TraceLinkDatasetBootstrapIT,TraceLinkProjectionIT,TraceLinkDomainArchiveTest,TraceLinkV016CompatibilityTest",
+      "-Dsurefire.failIfNoSpecifiedTests=false",
+      "-DtraceLink.referenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+      "-DtraceLink.projectionReferenceRoot=C:/OrangeSystems/task/Trace_Link_Integration_Pack",
+      "-Dtrace.link.archive=C:/OrangeSystems/task/Trace_Link_Integration_Pack/data",
+      "-Dtrace.link.v016.directory=C:/OrangeSystems/Program/ion-domain-producer-evidence/v016",
+      "-Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+      "verify"
+    ],
+    "contracts": [
+      "python",
+      "scripts/check-contracts.py"
+    ],
+    "python": [
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "api": [
+      "npm.cmd",
+      "--prefix",
+      "apps/dashboard",
+      "run",
+      "generate:api"
+    ],
+    "unit": [
+      "npm.cmd",
+      "--prefix",
+      "apps/dashboard",
+      "test"
+    ],
+    "build": [
+      "npm.cmd",
+      "--prefix",
+      "apps/dashboard",
+      "run",
+      "build"
+    ],
+    "branding": [
+      "npm.cmd",
+      "--prefix",
+      "apps/dashboard",
+      "run",
+      "test:branding"
+    ],
+    "browser": [
+      "npm.cmd",
+      "--prefix",
+      "apps/dashboard",
+      "run",
+      "test:e2e",
+      "--",
+      "--workers=2",
+      "--reporter=line,json"
+    ],
+    "browserEnvironment": {
+      "E2E_PORT": "4292",
+      "PLAYWRIGHT_JSON_OUTPUT_FILE": "C:/OrangeSystems/Program/david-trace-e2e-final8-report.json"
+    },
+    "pins": [
+      "python",
+      "scripts/verify-trace-link-pins.py",
+      "--reference-root",
+      "C:/OrangeSystems/task/Trace_Link_Integration_Pack"
+    ],
+    "graphify": [
+      "C:/Users/Admin/AppData/Roaming/uv/tools/graphifyy/Scripts/python.exe",
+      "-m",
+      "graphify",
+      "update",
+      "."
+    ],
+    "runtimeArtifact": "java -cp <java.class.path from generator TraceLinkRuntimeTest Surefire XML> docs/evidence/assets/david-trace-link-repair/RuntimeEvidence.java contracts/fixtures/trace-link/scenario-command-v1.json <new absolute evidence directory>",
+    "cli": "java -Dloader.main=md.utm.telecom.generator.tracelink.TraceLinkScenarioApplication -cp services/event-generator/target/event-generator-0.3.0-SNAPSHOT.jar org.springframework.boot.loader.launch.PropertiesLauncher contracts/fixtures/trace-link/scenario-command-v1.json <new observations.jsonl>"
+  },
+  "rollback": "Disable TRACE_LINK_SCENARIOS_ENABLED and TRACE_LINK_RUNTIME_ENABLED; retain V009 rows and immutable checkpoints. Do not downgrade migrations, erase history, reset volumes or release held outboxes.",
+  "blockers": [
+    {
+      "owner": "Sergiu",
+      "gate": "Approve separately versioned 60-second live policy, baseline identity, quality and recovery semantics; 300-second offline path unchanged"
+    },
+    {
+      "owner": "Denis and David",
+      "gate": "Reconcile merged main/PR98 V008, metric identity, fifth quality and required provenance into candidate; verify receiving read/consumer contract"
+    },
+    {
+      "owner": "Ion, Denis and Stanislav",
+      "gate": "Approve isolated topic/key/source and durable idempotent receipt/ACK/conflict/rollback agreement before enabling new-domain delivery"
+    },
+    {
+      "owner": "Denis",
+      "gate": "Implement/verify transactional automatic notifications and recipient eligibility from accepted incident transitions"
+    },
+    {
+      "owner": "Stanislav and Denis, then David",
+      "gate": "Provide approved Grafana context and secure-origin push config/subscription/dispatcher contracts, then verify browser behavior"
+    },
+    {
+      "owner": "Owners and receiving teammate",
+      "gate": "Authenticated connected rehearsal, human accessibility/capacity acceptance and two demonstrations on one frozen manifest"
+    }
+  ],
+  "changedSourceFiles": [
+    {
+      "path": ".gitattributes",
+      "bytes": 4278,
+      "workingBytesSha256": "7884b2a4be2270b97968fefb1c274a3679c4d78e688ab2e9b4321c1d04496f49",
+      "codeCommitBytesSha256": "14e9dc95c3911f56ac0e38cb011f1c2a993c37dc24234c41cfb367b94505ff19",
+      "gitBlob": "a84fbe784c9fb9ba304161fbfd3879e1474abd38"
+    },
+    {
+      "path": "apps/dashboard/api/incident-api.yaml",
+      "bytes": 106602,
+      "workingBytesSha256": "5f8360a207364859f8bcaf5dec7ee87ec16f8739f5e5e91ccebd56a22acd42a5",
+      "codeCommitBytesSha256": "5f8360a207364859f8bcaf5dec7ee87ec16f8739f5e5e91ccebd56a22acd42a5",
+      "gitBlob": "a418550c75a2a7507ddfcf984abecd06c845cf16"
+    },
+    {
+      "path": "apps/dashboard/src/app/app.component.html",
+      "bytes": 7108,
+      "workingBytesSha256": "289c975dd665b347f9391b9d3bc88bac5375393e9972786c2c691f953cd998e0",
+      "codeCommitBytesSha256": "aec2b870ef3f6b46549cb51d2b72e8b9c88ddb113e2b73cca678004c14b581a0",
+      "gitBlob": "ba09d17115ac5c8d774ca50111a3027998c81198"
+    },
+    {
+      "path": "apps/dashboard/src/app/app.component.ts",
+      "bytes": 3595,
+      "workingBytesSha256": "e48dc02967688637ffbb98d77462ddb910db1fbe0dbab66e61b2416e77ccfdb2",
+      "codeCommitBytesSha256": "3317c78c7c80d468c613942fcb17dea8a8241066a5d090c9db8f328dc8056710",
+      "gitBlob": "93994be6bf9a2c458487db949702cfc0f25e4589"
+    },
+    {
+      "path": "apps/dashboard/src/app/app.routes.ts",
+      "bytes": 1650,
+      "workingBytesSha256": "bce42c9077df3a5ae8abab92368f495798880fae629c7e178a88b69b29397be7",
+      "codeCommitBytesSha256": "a758dc0af8665d2f6e17da21c274215ce1f68c2e86c514001dd7dd9357445dfd",
+      "gitBlob": "44981473259004ddba957ceea0f77a7e36408b62"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/api/schema.ts",
+      "bytes": 114816,
+      "workingBytesSha256": "fdd99fe639254eb6c4a67f41e5a88fba75e3e4cf066b6cb2f4235ffb316b2609",
+      "codeCommitBytesSha256": "fdd99fe639254eb6c4a67f41e5a88fba75e3e4cf066b6cb2f4235ffb316b2609",
+      "gitBlob": "9a122a5be06414f09dd4e036a90faa78f598a9b9"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/api/telecom-client.ts",
+      "bytes": 13701,
+      "workingBytesSha256": "5b6ebc1bfe1140c12dd17e9679bfe4ce54cb382aeb02981e3c382d707291ec11",
+      "codeCommitBytesSha256": "eb56f93b6fd0a5189799e327b464d6d781036c94719b7df056ba693929da1938",
+      "gitBlob": "f5fce018b3c9051c754ca4187290428f947820fc"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/state/incident-stream.spec.ts",
+      "bytes": 9677,
+      "workingBytesSha256": "b184514fcf569a21383a8f6be31670acd270180272fcb42b72ea03c77ffe40bc",
+      "codeCommitBytesSha256": "6e540feb000f234a98d81cc656b6bee64a2423018db1ae74081158b1b47f5f44",
+      "gitBlob": "641ca1ede60284eb0aa05328b2a9e032d7e28cc2"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/state/incident-stream.ts",
+      "bytes": 7326,
+      "workingBytesSha256": "00285018095233e6bc06a3bd0e666467359b552413523105b15c299ae0cb3cec",
+      "codeCommitBytesSha256": "e3d2e842e971d06322d64d270d84724853093601fb30cb19f0f0d6d638422918",
+      "gitBlob": "e2ff9a9f74f79837fac8393503bfc7662d01482e"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/state/trace-query.store.spec.ts",
+      "bytes": 2972,
+      "workingBytesSha256": "1f1cde1b115cd0d5ce3ec7a024b13ff08b217049a5ab4f6451eb0f36cdc3bd0b",
+      "codeCommitBytesSha256": "1f1cde1b115cd0d5ce3ec7a024b13ff08b217049a5ab4f6451eb0f36cdc3bd0b",
+      "gitBlob": "16c69bdf1c35dc34c6a108ea076d29091ade8ab5"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/state/trace-query.store.ts",
+      "bytes": 4141,
+      "workingBytesSha256": "258eaab76550a0fa08c0df9b62e7d9532788d16049be2ef36131527926db7345",
+      "codeCommitBytesSha256": "258eaab76550a0fa08c0df9b62e7d9532788d16049be2ef36131527926db7345",
+      "gitBlob": "261326511f80919a84264156169668cd26296a94"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/notifications/notification-center.component.ts",
+      "bytes": 3866,
+      "workingBytesSha256": "20b7d49733c5b21ce9c3cc93aab8a5420469c2940d7f191ff0c59f453fa0490e",
+      "codeCommitBytesSha256": "20b7d49733c5b21ce9c3cc93aab8a5420469c2940d7f191ff0c59f453fa0490e",
+      "gitBlob": "8dc6e698a6eada00e272bfa38af9d159d99793b0"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/notifications/notification.store.spec.ts",
+      "bytes": 5261,
+      "workingBytesSha256": "9b52d7270546e37a4ea1a35d7242e24410dee75fd3b27a2850f49a063556e2d9",
+      "codeCommitBytesSha256": "9b52d7270546e37a4ea1a35d7242e24410dee75fd3b27a2850f49a063556e2d9",
+      "gitBlob": "c724867f33208b20eb6839d86b3f22210d42a2d6"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/notifications/notification.store.ts",
+      "bytes": 6981,
+      "workingBytesSha256": "3f293765532f41869865a7d1d77d5b5986293c30690ca4534c45e1cdf22a2711",
+      "codeCommitBytesSha256": "3f293765532f41869865a7d1d77d5b5986293c30690ca4534c45e1cdf22a2711",
+      "gitBlob": "556e17a55145afb42fed548d8109010ec89274cb"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/scenario-runner/run.store.spec.ts",
+      "bytes": 4882,
+      "workingBytesSha256": "ea37d8e7ed82a85597731fcacb49d6af178eb615f661cf1692df960272e7eb09",
+      "codeCommitBytesSha256": "a899431107d7e72e79721afeb8ff31f8ea9b5db274db5410178a22ef22acf551",
+      "gitBlob": "9b610d6b1f842c2e1bf88102d9d45858c01cf3cd"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/scenario-runner/run.store.ts",
+      "bytes": 8606,
+      "workingBytesSha256": "685840aee21d648f1734956261df04567d6777a75fac40240bc35a804d011d7d",
+      "codeCommitBytesSha256": "d71a25bbd771c6f7ca80e98c1909eb08ffe57be8c46ef2c4b57a4be9de2bff7c",
+      "gitBlob": "a796ba4d1ed21830a51dd732bf1aef05205be78f"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/scenario-runner/scenario-runner.component.ts",
+      "bytes": 16826,
+      "workingBytesSha256": "a7a2ac0ba11bb905c58ff799a1c4003ea89f7e1a1fb4c4ec371a89c1d8a2db05",
+      "codeCommitBytesSha256": "7a40fe1ed8f9120c08f471530a0c6c480654ab6e0ae12b04a743d8436fea6b76",
+      "gitBlob": "614be27684318eb6f889bfeb3aed2b29113fc361"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/scenario-runner/trace-run.store.spec.ts",
+      "bytes": 6794,
+      "workingBytesSha256": "b409484c2d234bad83cb29f4ec1c20b14559df11fa5989af9331dc909ca851c5",
+      "codeCommitBytesSha256": "b409484c2d234bad83cb29f4ec1c20b14559df11fa5989af9331dc909ca851c5",
+      "gitBlob": "7010b81093334fb08986eaa366cfd64c4422beab"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/scenario-runner/trace-run.store.ts",
+      "bytes": 7253,
+      "workingBytesSha256": "72962515c0df3d721b2568d1eb438735b10b65aa0e1bc29b94343760522f8358",
+      "codeCommitBytesSha256": "72962515c0df3d721b2568d1eb438735b10b65aa0e1bc29b94343760522f8358",
+      "gitBlob": "cf027f600ad1eaa81b871446c3c000af5ba7a4f8"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/scenario-runner/trace-scenario-runner.component.ts",
+      "bytes": 16449,
+      "workingBytesSha256": "9f8c96590b14f1e21b39ed6b966360434d5a54ed2ed7e0f4cd9001f36686849a",
+      "codeCommitBytesSha256": "9f8c96590b14f1e21b39ed6b966360434d5a54ed2ed7e0f4cd9001f36686849a",
+      "gitBlob": "927effff10e99ee4efff4e26d6b0356e189c2e7d"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/service-overview/connected-overview.component.html",
+      "bytes": 18833,
+      "workingBytesSha256": "f0d8cf6e6f51b6116c869dd0ff607965175212d4a1c35f329eb1c2d6d20f0409",
+      "codeCommitBytesSha256": "77de7b2f5385fc8a2e4d7de7d21c8fabd2eb6ad5de845296235673e75740e59c",
+      "gitBlob": "d9178d31d213a86ed7300e2436239498def762b4"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/trace-link/trace-metric-chart.component.ts",
+      "bytes": 6140,
+      "workingBytesSha256": "58208adeefe175ee96fc19a1c215356e122c9d45c0d39cbf5bd670087ee3d5e8",
+      "codeCommitBytesSha256": "58208adeefe175ee96fc19a1c215356e122c9d45c0d39cbf5bd670087ee3d5e8",
+      "gitBlob": "148b645a3c6ab941dbcc2667172a26d329b28fab"
+    },
+    {
+      "path": "apps/dashboard/src/app/features/trace-link/trace-overview.component.ts",
+      "bytes": 19214,
+      "workingBytesSha256": "3ed5e8de9e98d48e2a36eeb6477ad774604b1dc53ce8af957bf721b5b5d88be3",
+      "codeCommitBytesSha256": "3ed5e8de9e98d48e2a36eeb6477ad774604b1dc53ce8af957bf721b5b5d88be3",
+      "gitBlob": "2f2fe271e1791132ab079cf898416af3f44976d0"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/accessibility.spec.ts",
+      "bytes": 8198,
+      "workingBytesSha256": "2d2b5a4426a66a718a9856b78ac44701fb3a51c17d19ebda652c51d97e043c30",
+      "codeCommitBytesSha256": "475222682360ebaa1d2653c7c08f69412d8fa2b2616ce4dd1d4fa4881b53c67b",
+      "gitBlob": "7bf5a85351f7a20c2353187419c2ec96111f01bd"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/monitoring-previews.spec.ts",
+      "bytes": 8231,
+      "workingBytesSha256": "1f78d2db20a1ce2fd6d343d7d9d56da512b4a8a2caf36260b68d28fff47eda04",
+      "codeCommitBytesSha256": "0e13ee92fd3d5b99959b3a24774fe654bfa73f280741128b0c41e34b5769a5fe",
+      "gitBlob": "2379634cda0c19602434a7c8642f305923353ab5"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/notifications.spec.ts",
+      "bytes": 3686,
+      "workingBytesSha256": "5c3d9d8bdc41055ed26c1c800b7ff15facad765f2cb2c1f6299a9f66d2ea9f02",
+      "codeCommitBytesSha256": "5c3d9d8bdc41055ed26c1c800b7ff15facad765f2cb2c1f6299a9f66d2ea9f02",
+      "gitBlob": "cfae6bdf920c47310b91dfdc9cd47de1faebd935"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/reconnect.spec.ts",
+      "bytes": 7586,
+      "workingBytesSha256": "a6f2368da08df895c3d72b09d9582135de09791dd0f0d667eed1ea83c7c4a6c1",
+      "codeCommitBytesSha256": "a6f2368da08df895c3d72b09d9582135de09791dd0f0d667eed1ea83c7c4a6c1",
+      "gitBlob": "a4f3022b2ce881bb3c8b7e00ac26b94b2ce545d9"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/resource-bounds.spec.ts",
+      "bytes": 20701,
+      "workingBytesSha256": "b71d00af86792b6170d7e55614f655c207e9ed02f5bdc018b6289f2c4b3082d0",
+      "codeCommitBytesSha256": "b71d00af86792b6170d7e55614f655c207e9ed02f5bdc018b6289f2c4b3082d0",
+      "gitBlob": "51291641a22214cc7b0ef01060ce91e1fd90ed0e"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/trace-history.spec.ts",
+      "bytes": 8995,
+      "workingBytesSha256": "ce6541ce42ff721d5baed021605dd20c2eca598d50b2a4e321cc173c8cba9808",
+      "codeCommitBytesSha256": "ce6541ce42ff721d5baed021605dd20c2eca598d50b2a4e321cc173c8cba9808",
+      "gitBlob": "5de7af6da79e4cef535be089aa565d94179046e0"
+    },
+    {
+      "path": "apps/dashboard/tests/e2e/specs/trace-scenarios.spec.ts",
+      "bytes": 6861,
+      "workingBytesSha256": "b064900a9a1c47122d6cb83321fe2cd348947d60ef033437d9d4f3218153d42b",
+      "codeCommitBytesSha256": "b064900a9a1c47122d6cb83321fe2cd348947d60ef033437d9d4f3218153d42b",
+      "gitBlob": "eac1915c349657e921427709e815e2ea2209dc8a"
+    },
+    {
+      "path": "contracts/openapi/incident-api.yaml",
+      "bytes": 106602,
+      "workingBytesSha256": "5f8360a207364859f8bcaf5dec7ee87ec16f8739f5e5e91ccebd56a22acd42a5",
+      "codeCommitBytesSha256": "5f8360a207364859f8bcaf5dec7ee87ec16f8739f5e5e91ccebd56a22acd42a5",
+      "gitBlob": "a418550c75a2a7507ddfcf984abecd06c845cf16"
+    },
+    {
+      "path": "docs/architecture/trace-link-migration-ledger.md",
+      "bytes": 1908,
+      "workingBytesSha256": "58daa3b45794d6e0ac51338e6b33e7568fc4fb79d6e125b9f7fc2e649747ebdd",
+      "codeCommitBytesSha256": "881a19ce3666b2be9a3a86051be5dd4e8afa258d104e0f412118190d0cf3ce19",
+      "gitBlob": "0f940775dd569dac2e5032b7753ce9b1e8254345"
+    },
+    {
+      "path": "docs/runbooks/trace-link-scenario-runtime.md",
+      "bytes": 8278,
+      "workingBytesSha256": "02d95413ef1a3a3033e41237aa9b52d740a127546e17f62ac0b01ecab673aeb2",
+      "codeCommitBytesSha256": "02d95413ef1a3a3033e41237aa9b52d740a127546e17f62ac0b01ecab673aeb2",
+      "gitBlob": "5a6bbd10712913fed94befbbeec1896083b6b15d"
+    },
+    {
+      "path": "docs/runbooks/trace-link-scenarios.md",
+      "bytes": 15029,
+      "workingBytesSha256": "1578e917933a87c99a3d90a488b5f69edeebebb6c73f030fd883effe2227a7cb",
+      "codeCommitBytesSha256": "f231fcb76724a9185aba9a1afbd38252850e6d322f6c228e2fe3fa0bef061509",
+      "gitBlob": "aa77898fec28a70d30f5ef67affe87c1b3f2f6fc"
+    },
+    {
+      "path": "docs/user-guide/screenshots/README.md",
+      "bytes": 622,
+      "workingBytesSha256": "57a0834263eeeb3b16c78e518da4f6c101cff67125f5e035be3b2225253e798f",
+      "codeCommitBytesSha256": "57a0834263eeeb3b16c78e518da4f6c101cff67125f5e035be3b2225253e798f",
+      "gitBlob": "0bdab6c03c0519a04919ba7a6a705066813482a9"
+    },
+    {
+      "path": "docs/user-guide/trace-link-analyst-guide.md",
+      "bytes": 6922,
+      "workingBytesSha256": "c62224a75a8315e4ff948335b0296d6e2e97f5888a6e053e7fa67fc57f36bf1d",
+      "codeCommitBytesSha256": "c62224a75a8315e4ff948335b0296d6e2e97f5888a6e053e7fa67fc57f36bf1d",
+      "gitBlob": "eea37158f2e7e62d05f41dcb312f5c47da9664a3"
+    },
+    {
+      "path": "docs/ux/accessibility-check.md",
+      "bytes": 1118,
+      "workingBytesSha256": "cb193311d65cf7fb6d4aabd695665849e29b2cebcc6010574505829bc5b10855",
+      "codeCommitBytesSha256": "cb193311d65cf7fb6d4aabd695665849e29b2cebcc6010574505829bc5b10855",
+      "gitBlob": "ede35075d756a99ca275baea5a9176209ff368d6"
+    },
+    {
+      "path": "docs/ux/terminology.md",
+      "bytes": 6454,
+      "workingBytesSha256": "da42844042dc3345151cfe374c90bd1cda8e9d5ec9320366800b63d219c0b56b",
+      "codeCommitBytesSha256": "29bf9a233c35526c88cc573a24d3b1dc25df4d5e64d9fb05f803b0047910370c",
+      "gitBlob": "534ce9a4ff99433570b40ba8980bfa5b35decdcd"
+    },
+    {
+      "path": "services/event-generator/src/main/java/md/utm/telecom/generator/tracecontrol/TraceLinkRuntime.java",
+      "bytes": 8114,
+      "workingBytesSha256": "c7921535f7f47460a12908b6df9a84a503d4c2df5fbe12e3d20136d6cfb9d6f5",
+      "codeCommitBytesSha256": "572d6679cfe5ad59399bf7307c380cd01c3c231a3c7b807121062eba0cc8a361",
+      "gitBlob": "9ff35cf45c9eb1daa77f82f57d0a7e2bdfa42593"
+    },
+    {
+      "path": "services/event-generator/src/main/java/md/utm/telecom/generator/tracecontrol/TraceLinkRuntimeConfiguration.java",
+      "bytes": 1777,
+      "workingBytesSha256": "01c8fd0c9387b8518f2847347744b14edc85abcecc5c1a19a45029baf7d67ed5",
+      "codeCommitBytesSha256": "f7253719767caec45ca6ef12bd56a77906b806288970ba7953820d9cdc4cbbd8",
+      "gitBlob": "b7fa2505ebac8e2eba6a8532fd230841d48a99c2"
+    },
+    {
+      "path": "services/event-generator/src/main/java/md/utm/telecom/generator/tracecontrol/TraceLinkRuntimeController.java",
+      "bytes": 2890,
+      "workingBytesSha256": "69d603646e04da58f9b659e11fcd70a224a730160c0fcc13f9cc953f3a169957",
+      "codeCommitBytesSha256": "8372db1c93b34bd38455167e7eece3f2c6635a1cf28dceb8d302048de14e47cb",
+      "gitBlob": "f5cf9aa81573c2c6042caa1373257d812bc304e5"
+    },
+    {
+      "path": "services/event-generator/src/main/resources/application.yaml",
+      "bytes": 1523,
+      "workingBytesSha256": "d557fca315547717b6d2134a34bb87e54cd52d40a2d20264f604a7b4d591b94d",
+      "codeCommitBytesSha256": "816c0893cd3bc2dceb050e7cb56700da82dfc015c6be98a60c90ea7bc814f797",
+      "gitBlob": "2d474e686aee81d3ceb047ab6977c4e4fa1d0b59"
+    },
+    {
+      "path": "services/event-generator/src/test/java/md/utm/telecom/generator/tracelink/TraceLinkRuntimeTest.java",
+      "bytes": 6788,
+      "workingBytesSha256": "bd42a6648767d92d33d913f45e4e6062979570855aa26db06e6d2ca9515e6c4d",
+      "codeCommitBytesSha256": "ee8b9aabe4eb987671eb492034da629d22a710c10299eeccc5e1d460b875d59c",
+      "gitBlob": "61fa1a4f8b17984c2aef157028b4647286eaf662"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/incidents/exception/WorkflowErrors.java",
+      "bytes": 2976,
+      "workingBytesSha256": "78686dd42945e98b0be4802693c1761ea877840aa753eb032d113f66f7969abf",
+      "codeCommitBytesSha256": "49086161473b672dc819c6bc4ec4b0db8a8546b006d778e592d0e3813d2cc042",
+      "gitBlob": "f10561291e0202d6b39e873728873469f0a9f7b5"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/notifications/api/NotificationController.java",
+      "bytes": 3616,
+      "workingBytesSha256": "c7bfa151bcba2a89c18f33f8ea5c5193154a439932a560c385d0e13ea537ee99",
+      "codeCommitBytesSha256": "c7bfa151bcba2a89c18f33f8ea5c5193154a439932a560c385d0e13ea537ee99",
+      "gitBlob": "dbec110d371954e532534126a14dc863b713c2c3"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/metrics/MetricSeriesController.java",
+      "bytes": 4844,
+      "workingBytesSha256": "d49930891c76bfa753a3276d324bb5715221f3aa20fed2f1693cb30ff997890b",
+      "codeCommitBytesSha256": "d01f6771edc331f02d0e566ec73d7df5c57ee7989240e403a35e4ca5f49a16f9",
+      "gitBlob": "76f6c71a05773849e2a417c2f5674a4b344113e2"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/scenarios/TraceScenarioController.java",
+      "bytes": 2871,
+      "workingBytesSha256": "e09e336a39c2e32be5667954ee0bfda6e7debb15748685371596a86a5390f3c7",
+      "codeCommitBytesSha256": "e09e336a39c2e32be5667954ee0bfda6e7debb15748685371596a86a5390f3c7",
+      "gitBlob": "5497c863a3a34fce6bfd4e13d084f505ccb21394"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/scenarios/TraceScenarioGateway.java",
+      "bytes": 2865,
+      "workingBytesSha256": "ce7a69b2d85b773ade0e2de9ad7343cc95335763ac75a76b615f01758e88b8d5",
+      "codeCommitBytesSha256": "ce7a69b2d85b773ade0e2de9ad7343cc95335763ac75a76b615f01758e88b8d5",
+      "gitBlob": "d3c2e591038423b76ea8d364c5f29e8e2e07a760"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/scenarios/TraceScenarioService.java",
+      "bytes": 14126,
+      "workingBytesSha256": "b643b50c82d38344503ab5e34c73fc01995f5a92f67470f9d94f4cd58d6eda97",
+      "codeCommitBytesSha256": "b643b50c82d38344503ab5e34c73fc01995f5a92f67470f9d94f4cd58d6eda97",
+      "gitBlob": "270eff715cca5439d788bbe1fea59612fdf36194"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/application.yaml",
+      "bytes": 3299,
+      "workingBytesSha256": "9a1f0a32d8310314d337933c586230b488c4ec76231bdeb4ecd083ef3a24c212",
+      "codeCommitBytesSha256": "b0bc2f05bcd533bb3cf3de33f8de94cb0203c43d6aeda954255f881a73742799",
+      "gitBlob": "3d94b371dccc759f9a332203bb96522f17a83d21"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V009__trace_link_scenario_commands.sql",
+      "bytes": 1198,
+      "workingBytesSha256": "0c20b322c1d0bef4f1255bd43ce6462506d89facf2fd1426ae33e9792dd9559f",
+      "codeCommitBytesSha256": "0c20b322c1d0bef4f1255bd43ce6462506d89facf2fd1426ae33e9792dd9559f",
+      "gitBlob": "2f20f88aea8417c15f7da5bce264e5251ebd9b09"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/incidents/DatabaseMigrationTest.java",
+      "bytes": 22092,
+      "workingBytesSha256": "03b34afe2fe86a2a0c208390e5813ec02e8a27585ab181df43fe432a6dc000c6",
+      "codeCommitBytesSha256": "ed698c45a472fc1c486d1cd8c4628a4b942554527db5d4b124763b4847ca65a3",
+      "gitBlob": "0c09b13bbef9998e3c904f76066ae3d27e8de924"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/notifications/NotificationApiIT.java",
+      "bytes": 5765,
+      "workingBytesSha256": "abaab8496581ffe26aa96e2eb6e1ed92280e4cac77246d37900485024927fc69",
+      "codeCommitBytesSha256": "abaab8496581ffe26aa96e2eb6e1ed92280e4cac77246d37900485024927fc69",
+      "gitBlob": "191775edcee9cba4d0e388c089b9678ff2b4683d"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/MetricQueryServiceIT.java",
+      "bytes": 11197,
+      "workingBytesSha256": "6f696e3f566fff93eb3e9752c5860a661fc641aff947fcf762cfdcc6a782baab",
+      "codeCommitBytesSha256": "351d927c53a5c1863691f99b67aa62cff4192a2c0c9ac1b201516fc95caa2e84",
+      "gitBlob": "349fd84b43565f84db07a1d3058a1c4ab217e542"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceScenarioApiIT.java",
+      "bytes": 12118,
+      "workingBytesSha256": "4c811e6754d677623cd765598522c0903373cf816aa10851391bb518660f09cc",
+      "codeCommitBytesSha256": "4c811e6754d677623cd765598522c0903373cf816aa10851391bb518660f09cc",
+      "gitBlob": "63d49c9c5f2552421dd5a18580d666b55b987da4"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceScenarioGatewayTest.java",
+      "bytes": 1526,
+      "workingBytesSha256": "3ced42d30774c8980a0a086dc958ffc07e37cb7cf04228aed43c58f592e25871",
+      "codeCommitBytesSha256": "3ced42d30774c8980a0a086dc958ffc07e37cb7cf04228aed43c58f592e25871",
+      "gitBlob": "226abf54bf494d5ffdc8704784aefaa8a7a12d8f"
+    }
+  ],
+  "buildArtifacts": [
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\3rdpartylicenses.txt",
+      "bytes": 16954,
+      "sha256": "826d77b6b3f125519073a19783e45c85d96e8daadc3ad87c14439c9398a3f259"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\apple-touch-icon.png",
+      "bytes": 12851,
+      "sha256": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\branding\\apple-touch-icon.png",
+      "bytes": 12851,
+      "sha256": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\branding\\favicon.svg",
+      "bytes": 780,
+      "sha256": "af4c646d2deb073ad286b1209223dc0d1e6e80811a942b3abd90e86e82aed847"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\branding\\mark.svg",
+      "bytes": 394,
+      "sha256": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\branding\\tracelink-icon.png",
+      "bytes": 3189,
+      "sha256": "6b4cea9115312a2b4d09eac41cb1c5c62fe35578222da4daf81b4e6392a912db"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-23SUVAF2.js",
+      "bytes": 14444,
+      "sha256": "40a8cda626a986eb030f78422719a85e3b9470c4d12eef3d6dcd830e165a073f"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-AGF36DAA.js",
+      "bytes": 163,
+      "sha256": "be72c55380d0ea7fc9292ef0c9cd5569231fe9ef07918090e34a56b98e30f2c8"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-B7RSK267.js",
+      "bytes": 11808,
+      "sha256": "a870b7e2874c5953332c0756a185773715f1cf7c4d441d0af272d996eff22bf6"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-BNJ3LYCO.js",
+      "bytes": 77915,
+      "sha256": "0c5d971fc4a8a57ea24ebab6d3eef178bc35de7a43f3339024a4a2b1dc286c76"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-EHJWYQLK.js",
+      "bytes": 29095,
+      "sha256": "118d137ba45bee090ff9e676b00a7bb56d11d6cd2fe0b6036bbbdda2c6a873bd"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-F3ZUZZU2.js",
+      "bytes": 20883,
+      "sha256": "6f840f3311f77a8538d0a285bc00373fac972ebd979a38ca857d3dbdd4e8db07"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-FS3LHNAG.js",
+      "bytes": 1351,
+      "sha256": "f9775230e37c82b0c741bc973a3ea41b2a6e4f30d7c19b812f92399ac56b9683"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-IXSVGCOD.js",
+      "bytes": 9421,
+      "sha256": "65fcf1c0be62d6e211fcd30dff7e6c1a2dafad36b81d735f98ffb24c9b654d3a"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-JCBTEIRI.js",
+      "bytes": 3455,
+      "sha256": "51cf26c3d0a84d29c0c2891faa60d0f6f413350c60107f12e60e885934f825f5"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-LMO6PLJ7.js",
+      "bytes": 31316,
+      "sha256": "629ff2bd80482b5b7ffb6d32e1fc3ea062165cedcfa0de1f655db7a718fff08c"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-NGWSXF6G.js",
+      "bytes": 9798,
+      "sha256": "bc6e4907b9c70f007d23e30ff7b57fefb135b242e4f48f78a2abd93297143130"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-NLVKFNHI.js",
+      "bytes": 14825,
+      "sha256": "021b800bb3637f43585d32f6ec81e7124a57b509bbf2960853fec2f36f127c11"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-NSISWE7X.js",
+      "bytes": 425,
+      "sha256": "d3a776f5267d7f148d90b2cebe08c28caf3fe15a449ccd5480e470df369dd0d8"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-OUYY5N2R.js",
+      "bytes": 274508,
+      "sha256": "b0a36186a743ca903264112890e8991be0d049d02b471c98cc14d1e3f6b70816"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-PLOMQHQ3.js",
+      "bytes": 46369,
+      "sha256": "5506e302ff34cbbd40e6ffd27681ff849ab3ab39e7ed74783a3c155b46ca5c70"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-RJOADIC6.js",
+      "bytes": 314,
+      "sha256": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-UMHXJRUV.js",
+      "bytes": 2699,
+      "sha256": "fba384e0d8e5eda9569e4a602e95a703e274b4c0b5dc6368e68c2ad917160f0a"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-V6N43NG5.js",
+      "bytes": 2168,
+      "sha256": "b482072aab36e7cd0200b8d7782690702d9cb01c72d70e226ffd13823f74980b"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\chunk-Y7FTSL4V.js",
+      "bytes": 2357,
+      "sha256": "d296134b47ed5d0beca58ac438d57aea86e0c368b596ee73131a555f2d224947"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\favicon.ico",
+      "bytes": 7205,
+      "sha256": "882d5af8bf22fc924c111e1b6c40126fa61f1b82ecca795fdc5c2a9cf272bd40"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\index.html",
+      "bytes": 2693,
+      "sha256": "273c255959b2742639c6099de9963daab720fe010feb45d0b6e571a357e93750"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\main-BYEWJA57.js",
+      "bytes": 107054,
+      "sha256": "2faf5559c279d83300c18894dd653e0ad94cb9021c0ce24e7ccdd103aab80482"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\media\\mark-GSOEEAFK.svg",
+      "bytes": 394,
+      "sha256": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\browser\\styles-RZBO63JC.css",
+      "bytes": 50934,
+      "sha256": "3799d9bbfec2f42782d0d356b0131e21e4a8c66ebc276f5dfb576eafeffe8404"
+    },
+    {
+      "path": "apps\\dashboard\\dist\\dashboard\\prerendered-routes.json",
+      "bytes": 18,
+      "sha256": "a79ddcc8a115190e9c19479ed36914741a7d1db74f0a1153529efc80725505fe"
+    }
+  ],
+  "packagedJavaArtifacts": [
+    {
+      "path": "services\\streaming-support\\target\\streaming-support-0.3.0-SNAPSHOT.jar",
+      "bytes": 104577,
+      "sha256": "bd812882ad7acedc42f085f04fcafe6fec2f9b10f45298d0fae3ad25288bc23a"
+    },
+    {
+      "path": "services\\event-generator\\target\\event-generator-0.3.0-SNAPSHOT-library.jar",
+      "bytes": 118036,
+      "sha256": "da9fccb352af9bbd6766f62d18424a46c13eb4e33ec63fd0c8e92f90b235bfa2"
+    },
+    {
+      "path": "services\\event-generator\\target\\event-generator-0.3.0-SNAPSHOT.jar",
+      "bytes": 47324478,
+      "sha256": "49b2774baa5dbe078357741b885ee91ed10fbc4404417001e147c043e4d69092"
+    },
+    {
+      "path": "services\\processor\\target\\processor-0.3.0-SNAPSHOT.jar",
+      "bytes": 50388625,
+      "sha256": "b70cf952e1b6770ca67252dc0bda3056913eb4cd5669effecb4d5967f92e9a25"
+    },
+    {
+      "path": "services\\incident-service\\target\\incident-service-0.0.1-SNAPSHOT.jar",
+      "bytes": 91236724,
+      "sha256": "42447035ef517b0285a13ba7fc8880f76cc3e6f390b8c9b60711ab12f51db680"
+    }
+  ],
+  "localLogReferences": [
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-reactor.log",
+      "sha256": "e65eaa292fec225ac4bdf6c5185d4ffce6a1910e60cc5a956d20eb6e3942af26",
+      "bytes": 26704548
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-incident-final5.log",
+      "sha256": "026d7bf46ef7e7733bca7ead399e6fd28a93278b56a3421b4417affbfa808752",
+      "bytes": 10518524
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-archive.log",
+      "sha256": "c24fab62c23c8f5e4f8de0a38c4855f1a753afce230d15b28b6ebe16d0c63b45",
+      "bytes": 76475750
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-contracts-final7.log",
+      "sha256": "01129d57146c21658011a0acfa53c5bad46a5a8b4b3e62406f65f8c8150b8112",
+      "bytes": 2940
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-python-final7.log",
+      "sha256": "4e844eebba09f3187c989d3b33006a1e729a84a06f6a8cc5dffa4c9333b193b9",
+      "bytes": 56788
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-apigen-final7.log",
+      "sha256": "39b2166b9659056511c376077ed6b847ab0761ea150240c5ad1ad595c1a8ec10",
+      "bytes": 426
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-dashboard-test-final6.log",
+      "sha256": "2201f1d69d2a88f0f1b0ffceb3649c9301a4d2b3c9e8308d6d28f146f073deb0",
+      "bytes": 24112
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-build-final6.log",
+      "sha256": "b99c1650c958cfb8417fc454aa875fd34065ed37501a56037593abb6ba8e5920",
+      "bytes": 5308
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-branding-final7.log",
+      "sha256": "bb15759c463ad42ab6d339e76e85d33ace310a4df6f104431c6428fc57330732",
+      "bytes": 570
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-e2e-final8.log",
+      "sha256": "55b65c59981dedbc1410779aeadd6b41a8e30d3d783ed69de042d38d3f8d468d",
+      "bytes": 115328
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-accessibility-final8.log",
+      "sha256": "5b4bf09149f4eb944ee7c8a350598dffa64c15d107c96e9eea639c0a77daccc8",
+      "bytes": 4276
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-e2e-regression2.log",
+      "sha256": "2439a9a91fb23df14f28b686f3921ff9fc3c42fecfacfa3d42f50be26af4c152",
+      "bytes": 28330
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-pins-final.log",
+      "sha256": "3a19997aa06578dedbbf0b332874ee0cbb444cf7d3cd7ff6d72da4a5d0217c08",
+      "bytes": 152
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-compose-final8.log",
+      "sha256": "90d0cf20baf5247fda3803f533bbdf4f7fb0db49e52d63e27618690845850fe7",
+      "bytes": 236
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-graphify-final.log",
+      "sha256": "ead1601120fe9fe69cc24e1b5f40801edce4c1b94b40e1b01ec71566be715e90",
+      "bytes": 4058
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-session-red.log",
+      "sha256": "cf6db0965a95c2e6cb63f9516f75da5c04e0a7c2370ce12c371d8a0c16f6a069",
+      "bytes": 5736
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-stream-red.log",
+      "sha256": "ffc1fcd4520b0dcf813f239fd4e1b99a085863ed77558e8515d5409e4f574f61",
+      "bytes": 5254
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-notification-retention-red.log",
+      "sha256": "4bf8b86f75c92c6e59a62c5e0292817b84ea8dfd08e908477a3579be5b0dc6f2",
+      "bytes": 6068
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-e2e-final7.log",
+      "sha256": "821c7d10ac8982373ed196ec6d038b5253f7e8e1e2b326f9d8127aacd10a13de",
+      "bytes": 118864
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-cli.log",
+      "sha256": "06f0ea68c70f630eb8d2002dc9da93173a42da59e8693aa709024a5c1dfa18e1",
+      "bytes": 278
+    },
+    {
+      "path": "C:\\OrangeSystems\\Program\\david-trace-runtime-artifact-verified.log",
+      "sha256": "12dd7ca31a25f32f5b90484d0796db57c0e1482b5591887139c03615b9c2a962",
+      "bytes": 196
+    }
+  ],
+  "artifactHashScope": "Every evidence asset except verification.json itself; source commit and subsequent evidence commit avoid a circular self-hash.",
+  "evidenceAssets": [
+    {
+      "path": "browser-regressions.json",
+      "bytes": 1872,
+      "sha256": "b8309afa09de44067fc7141856e6ed05f8f3e151afb4488c5d58297f403ebd0a"
+    },
+    {
+      "path": "browser-results.json",
+      "bytes": 62091,
+      "sha256": "7590a61ede274fb20751218eceb816f9f85f40c49b2f5b809633f1aa247094ea"
+    },
+    {
+      "path": "controlled-load-investigation.json",
+      "bytes": 4591,
+      "sha256": "a211c45aa37bbdc17c676b24bdf942ac447a755016fe9f69520fe7ebc5fb8ea8"
+    },
+    {
+      "path": "controlled-load-overview.json",
+      "bytes": 12850,
+      "sha256": "aacce8ac42fff25dd75941ccced10f0eec6f25ce55e539562910105f1e470295"
+    },
+    {
+      "path": "controlled-load-service.json",
+      "bytes": 3214,
+      "sha256": "dec13461ba48402e14a88cea188025767472552e922ca92e68160970aa22ad80"
+    },
+    {
+      "path": "controlled-resource-baseline.json",
+      "bytes": 5039,
+      "sha256": "cd112ec91e1695bcc65f4ec4103ea5037d861e9d5884767d2c2e7f8b07757c2b"
+    },
+    {
+      "path": "runtime-checkpoint-000000000001.json",
+      "bytes": 1290,
+      "sha256": "fea2c2fd31e95f38a9e5d132070b809e245df6d3bf1f80fd34bf3f31e33b614e"
+    },
+    {
+      "path": "runtime-checkpoint-000000000002.json",
+      "bytes": 12475,
+      "sha256": "4419e5763066464d8b6cabc10aa7fdbf7a1708986e68fbffceecf4e97f80b53f"
+    },
+    {
+      "path": "runtime-checkpoint-000000000003.json",
+      "bytes": 12479,
+      "sha256": "9d1c02ec60c29f33b794e0a5fa0c71bcd09d20ace210e81732a27bc122daa5ba"
+    },
+    {
+      "path": "runtime-restart-result.json",
+      "bytes": 12232,
+      "sha256": "c4aa340249fe8c465ef9654ac66c1c55c9329ce8738a17477ed83a054352f641"
+    },
+    {
+      "path": "RuntimeEvidence.java",
+      "bytes": 2049,
+      "sha256": "60f4e106cec10322e2363d798d27badea9af953bdacfd963a23e7610d4796870"
+    },
+    {
+      "path": "trace-history-1366.png",
+      "bytes": 206685,
+      "sha256": "c92d0707144d2a41b38008d6b3d580aeb768cee6b48d24fc79623860db2bede6"
+    },
+    {
+      "path": "trace-history-390.png",
+      "bytes": 147638,
+      "sha256": "3cc900e3efc66e6902197987a7fb79fe15f968ddb6de8fc062c35d1f57b47e74"
+    },
+    {
+      "path": "trace-link-domain-archive-parity.json",
+      "bytes": 2901,
+      "sha256": "938b50e530d49b6336a4c174e32ba30efaf69a7f082f6f2855240c925fe4d13d"
+    },
+    {
+      "path": "trace-link-native-import-result.json",
+      "bytes": 723,
+      "sha256": "8499fd564d535d12a67fa03f0e014661e015f5a9968dfd1d4c2061570ad25850"
+    },
+    {
+      "path": "trace-link-projection-full-result.json",
+      "bytes": 10503,
+      "sha256": "b760c906e802f8edc8711d354eede4fe19a18d955bda85d449caa1bb75bc4dd9"
+    },
+    {
+      "path": "trace-scenarios-1366.png",
+      "bytes": 149472,
+      "sha256": "742b6084f64a26081c5557e1e44bccd61f80b48df515b31745bbf3395e8c3427"
+    },
+    {
+      "path": "trace-scenarios-390.png",
+      "bytes": 124551,
+      "sha256": "0dbd0c882496117419735425836c6414043ade98d32ac04a7359b38dbc928c3e"
+    },
+    {
+      "path": "transport-local.jsonl",
+      "bytes": 26584,
+      "sha256": "6445a3d8769d5bf79459681448a4564d36994529f0ada288ec0f00c2b971f151"
+    }
+  ],
+  "changedEvidenceFiles": [
+    ".gitattributes",
+    "docs/evidence/2026-10-12-david-trace-link-repair.md",
+    "docs/evidence/assets/david-trace-link-repair/browser-regressions.json",
+    "docs/evidence/assets/david-trace-link-repair/browser-results.json",
+    "docs/evidence/assets/david-trace-link-repair/controlled-load-investigation.json",
+    "docs/evidence/assets/david-trace-link-repair/controlled-load-overview.json",
+    "docs/evidence/assets/david-trace-link-repair/controlled-load-service.json",
+    "docs/evidence/assets/david-trace-link-repair/controlled-resource-baseline.json",
+    "docs/evidence/assets/david-trace-link-repair/runtime-checkpoint-000000000001.json",
+    "docs/evidence/assets/david-trace-link-repair/runtime-checkpoint-000000000002.json",
+    "docs/evidence/assets/david-trace-link-repair/runtime-checkpoint-000000000003.json",
+    "docs/evidence/assets/david-trace-link-repair/runtime-restart-result.json",
+    "docs/evidence/assets/david-trace-link-repair/RuntimeEvidence.java",
+    "docs/evidence/assets/david-trace-link-repair/trace-history-1366.png",
+    "docs/evidence/assets/david-trace-link-repair/trace-history-390.png",
+    "docs/evidence/assets/david-trace-link-repair/trace-link-domain-archive-parity.json",
+    "docs/evidence/assets/david-trace-link-repair/trace-link-native-import-result.json",
+    "docs/evidence/assets/david-trace-link-repair/trace-link-projection-full-result.json",
+    "docs/evidence/assets/david-trace-link-repair/trace-scenarios-1366.png",
+    "docs/evidence/assets/david-trace-link-repair/trace-scenarios-390.png",
+    "docs/evidence/assets/david-trace-link-repair/transport-local.jsonl",
+    "docs/evidence/assets/david-trace-link-repair/verification.json"
+  ],
+  "evidenceReportSha256": "893ad22183f481f6474b13bea2e5e1cee8abb02b77fbf97320ca9d09e9d10309"
+}

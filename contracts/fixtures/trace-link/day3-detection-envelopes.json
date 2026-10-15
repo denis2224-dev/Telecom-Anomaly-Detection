@@ -1,0 +1,4769 @@
+{
+  "description": "Independent hand-calculated identity and lifecycle oracle; rules evaluated separately in integration tests.",
+  "detections": [
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+        "detectionId": "0741ffaab0e134abdaa9e99b1fcd51fbf4e7e561f6736181b7385b303c8af12c",
+        "sequence": 1,
+        "phase": "OPEN",
+        "technicalState": "ONGOING",
+        "severity": "HIGH",
+        "window": {
+          "id": "900c73611742b4b7fc3b9e2934ee1c73488f718392f571a3493e387a4b27236a",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "TRANSPORT",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "900c73611742b4b7fc3b9e2934ee1c73488f718392f571a3493e387a4b27236a",
+            "from": "2026-10-10T08:40:00Z",
+            "to": "2026-10-10T08:45:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:45:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "HIGH",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "TRANSPORT:1:transport.packetLoss"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "900c73611742b4b7fc3b9e2934ee1c73488f718392f571a3493e387a4b27236a",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:45:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:1:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:1:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 30,
+              "denominator": 1000
+            },
+            "actual": 3.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:45:00Z",
+              "asOf": "2026-10-10T08:45:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "900c73611742b4b7fc3b9e2934ee1c73488f718392f571a3493e387a4b27236a",
+              "from": "2026-10-10T08:40:00Z",
+              "to": "2026-10-10T08:45:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "bf228af696e549b69feb8ae6209cbeb27e2653c5b1b6e1a8808b9ef431cfa1eb"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:45:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "900c73611742b4b7fc3b9e2934ee1c73488f718392f571a3493e387a4b27236a",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:45:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:45:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+        "detectionId": "7d2c12a1e0b7642295d58d1478e8cb8c754b636fdd767b29256e26ef05e37ba2",
+        "sequence": 2,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "HIGH",
+        "window": {
+          "id": "ea1948ca97cee5c0e87eb8efab70b79d7dce5d73b8527c3047ef6dc2bdf8b602",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "TRANSPORT",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "ea1948ca97cee5c0e87eb8efab70b79d7dce5d73b8527c3047ef6dc2bdf8b602",
+            "from": "2026-10-10T08:45:00Z",
+            "to": "2026-10-10T08:50:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:50:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "HIGH",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "TRANSPORT:2:transport.packetLoss"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "ea1948ca97cee5c0e87eb8efab70b79d7dce5d73b8527c3047ef6dc2bdf8b602",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:50:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:2:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:2:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 30,
+              "denominator": 1000
+            },
+            "actual": 3.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:50:00Z",
+              "asOf": "2026-10-10T08:50:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "ea1948ca97cee5c0e87eb8efab70b79d7dce5d73b8527c3047ef6dc2bdf8b602",
+              "from": "2026-10-10T08:45:00Z",
+              "to": "2026-10-10T08:50:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "e2d3d152cc79325da440482ef27e0bc4d82d927b7d6a2bad498f8fa610e00232"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:50:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "ea1948ca97cee5c0e87eb8efab70b79d7dce5d73b8527c3047ef6dc2bdf8b602",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:50:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:50:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+        "detectionId": "c2014c1a93a6ac120886dd60f6205a6d2370ebd2584eab81231bbd45990332c5",
+        "sequence": 3,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "b36731e43f97d61547556d3d007ec0988260be5383e8b0a00412fd3464ec78e4",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "TRANSPORT",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "b36731e43f97d61547556d3d007ec0988260be5383e8b0a00412fd3464ec78e4",
+            "from": "2026-10-10T08:50:00Z",
+            "to": "2026-10-10T08:55:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:55:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "CRITICAL",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "TRANSPORT:3:transport.packetLoss"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "b36731e43f97d61547556d3d007ec0988260be5383e8b0a00412fd3464ec78e4",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:55:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:3:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:3:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 41,
+              "denominator": 1000
+            },
+            "actual": 4.1,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:55:00Z",
+              "asOf": "2026-10-10T08:55:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "b36731e43f97d61547556d3d007ec0988260be5383e8b0a00412fd3464ec78e4",
+              "from": "2026-10-10T08:50:00Z",
+              "to": "2026-10-10T08:55:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "0a07ef97dc0f28061512888a5079046a8cf90ba50f911eda99c4da66fdd3993f"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:55:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "b36731e43f97d61547556d3d007ec0988260be5383e8b0a00412fd3464ec78e4",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:55:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:55:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+        "detectionId": "68b4b4af5e43586e947a52d2b74391a94b602fb423fec8ee7909f82fab3df19b",
+        "sequence": 4,
+        "phase": "UNKNOWN",
+        "technicalState": "UNKNOWN",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "be28ec9632a4175877ed78a4b55231187d7e6cdaa110ff943233087f4dac1eda",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "TRANSPORT",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "be28ec9632a4175877ed78a4b55231187d7e6cdaa110ff943233087f4dac1eda",
+            "from": "2026-10-10T08:55:00Z",
+            "to": "2026-10-10T09:00:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:00:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "verdict": "UNKNOWN",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "be28ec9632a4175877ed78a4b55231187d7e6cdaa110ff943233087f4dac1eda",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:00:01Z",
+        "evidence": [],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "be28ec9632a4175877ed78a4b55231187d7e6cdaa110ff943233087f4dac1eda",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:00:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:00:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+        "detectionId": "bea7a36653221aa31416385776358faf72a661d26e32da5bf2584ac566577768",
+        "sequence": 5,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "8f1f2e2854949626c64d8580c38d086c589e0ec71a527123eb0ed95ed1012b81",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "TRANSPORT",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "8f1f2e2854949626c64d8580c38d086c589e0ec71a527123eb0ed95ed1012b81",
+            "from": "2026-10-10T09:00:00Z",
+            "to": "2026-10-10T09:05:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:05:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "TRANSPORT:5:transport.packetLoss"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "8f1f2e2854949626c64d8580c38d086c589e0ec71a527123eb0ed95ed1012b81",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:05:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:5:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:5:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 10,
+              "denominator": 1000
+            },
+            "actual": 1.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:05:00Z",
+              "asOf": "2026-10-10T09:05:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "8f1f2e2854949626c64d8580c38d086c589e0ec71a527123eb0ed95ed1012b81",
+              "from": "2026-10-10T09:00:00Z",
+              "to": "2026-10-10T09:05:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "51bf9752b2ef65f1f5c5d868084f05727d9f82acb3619ba3d93ee45e4e796bb8"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:05:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "8f1f2e2854949626c64d8580c38d086c589e0ec71a527123eb0ed95ed1012b81",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:05:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:05:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+        "detectionId": "986c4709198e2e5b2e5b9355cb0159c939ae1b47ae34b1c5cac1afe1c56a96d1",
+        "sequence": 6,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "2e34a5eaa83ea531cb7911252902f1e70a141296b2d50926f2d8cb1ef0aaef08",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "TRANSPORT",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "2e34a5eaa83ea531cb7911252902f1e70a141296b2d50926f2d8cb1ef0aaef08",
+            "from": "2026-10-10T09:05:00Z",
+            "to": "2026-10-10T09:10:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:10:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "TRANSPORT:6:transport.packetLoss"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "2e34a5eaa83ea531cb7911252902f1e70a141296b2d50926f2d8cb1ef0aaef08",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:10:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:6:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:6:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 10,
+              "denominator": 1000
+            },
+            "actual": 1.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:10:00Z",
+              "asOf": "2026-10-10T09:10:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "2e34a5eaa83ea531cb7911252902f1e70a141296b2d50926f2d8cb1ef0aaef08",
+              "from": "2026-10-10T09:05:00Z",
+              "to": "2026-10-10T09:10:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "ad23535e5c7ab692718e6c4e808b834b87b045174446b68b482322217f526b8a"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:10:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "2e34a5eaa83ea531cb7911252902f1e70a141296b2d50926f2d8cb1ef0aaef08",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:10:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:10:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9fded0c001e5eeab4c3fc3dee1d593584910b2faf25337c7ecf654ab17ff7cd3",
+        "detectionId": "0c11afecad35aba8ee0b17dbbf94ac28c92af53dc8f4adfaaca8f0940bae2c94",
+        "sequence": 7,
+        "phase": "RECOVERY",
+        "technicalState": "RECOVERED",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "96830acb6dae576d0c685c1ae5a9560903cfbb5ccb0e82abd370a4313b83b5e3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "TRANSPORT",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "96830acb6dae576d0c685c1ae5a9560903cfbb5ccb0e82abd370a4313b83b5e3",
+            "from": "2026-10-10T09:10:00Z",
+            "to": "2026-10-10T09:15:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:15:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "TRANSPORT_PACKET_LOSS",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "TRANSPORT:7:transport.packetLoss"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "96830acb6dae576d0c685c1ae5a9560903cfbb5ccb0e82abd370a4313b83b5e3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:15:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:7:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:7:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 10,
+              "denominator": 1000
+            },
+            "actual": 1.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:15:00Z",
+              "asOf": "2026-10-10T09:15:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "96830acb6dae576d0c685c1ae5a9560903cfbb5ccb0e82abd370a4313b83b5e3",
+              "from": "2026-10-10T09:10:00Z",
+              "to": "2026-10-10T09:15:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "3261a7732669b6a2c73a8278c7363e78c001a2af85086203a52ee54084ec9a75"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:15:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "96830acb6dae576d0c685c1ae5a9560903cfbb5ccb0e82abd370a4313b83b5e3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:15:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:15:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+        "detectionId": "e91c51953f37041e55c0f14a895f434a364a11b1cd3c485c935d71483623e226",
+        "sequence": 1,
+        "phase": "OPEN",
+        "technicalState": "ONGOING",
+        "severity": "HIGH",
+        "window": {
+          "id": "4e9efeb7a9501c21bfec60b3c7867b41ea383521f01126e83ac48f1443d7cfc9",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "ROAMING",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "ro-partner:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "ro-partner",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "4e9efeb7a9501c21bfec60b3c7867b41ea383521f01126e83ac48f1443d7cfc9",
+            "from": "2026-10-10T08:40:00Z",
+            "to": "2026-10-10T08:45:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:45:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "ROAMING_DATA",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "HIGH",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "ROAMING:1:roaming.data.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "4e9efeb7a9501c21bfec60b3c7867b41ea383521f01126e83ac48f1443d7cfc9",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:45:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "ROAMING:1:roaming.data.success",
+            "measurementId": "native:ROAMING:1:roaming.data.success",
+            "metricId": "roaming.data.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 970,
+              "denominator": 1000
+            },
+            "actual": 97.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:45:00Z",
+              "asOf": "2026-10-10T08:45:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "4e9efeb7a9501c21bfec60b3c7867b41ea383521f01126e83ac48f1443d7cfc9",
+              "from": "2026-10-10T08:40:00Z",
+              "to": "2026-10-10T08:45:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "0dd5ada44bbe9f0d4066086ca3673676c98e4eea9a7481541d65d0394ed9eff7"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:45:01Z"
+          }
+        ],
+        "baselines": {
+          "roaming.data.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "4e9efeb7a9501c21bfec60b3c7867b41ea383521f01126e83ac48f1443d7cfc9",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:45:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:45:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+        "detectionId": "8c8ef14bbdd1598c78ceb8363e18e97be60ff971a796195479a151cc46ad134a",
+        "sequence": 2,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "HIGH",
+        "window": {
+          "id": "96e2da488cf9279a24e59f38943ea2c703f6761d4f9d6f481b3c581eabe7e31d",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "ROAMING",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "ro-partner:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "ro-partner",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "96e2da488cf9279a24e59f38943ea2c703f6761d4f9d6f481b3c581eabe7e31d",
+            "from": "2026-10-10T08:45:00Z",
+            "to": "2026-10-10T08:50:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:50:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "ROAMING_DATA",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "HIGH",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "ROAMING:2:roaming.data.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "96e2da488cf9279a24e59f38943ea2c703f6761d4f9d6f481b3c581eabe7e31d",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:50:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "ROAMING:2:roaming.data.success",
+            "measurementId": "native:ROAMING:2:roaming.data.success",
+            "metricId": "roaming.data.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 970,
+              "denominator": 1000
+            },
+            "actual": 97.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:50:00Z",
+              "asOf": "2026-10-10T08:50:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "96e2da488cf9279a24e59f38943ea2c703f6761d4f9d6f481b3c581eabe7e31d",
+              "from": "2026-10-10T08:45:00Z",
+              "to": "2026-10-10T08:50:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "ee94276c23974f98b574bd3a3e0edaa91a7524a46627ad9297009ad4e05a019c"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:50:01Z"
+          }
+        ],
+        "baselines": {
+          "roaming.data.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "96e2da488cf9279a24e59f38943ea2c703f6761d4f9d6f481b3c581eabe7e31d",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:50:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:50:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+        "detectionId": "d28c70852eeb37e683c23aa7a654d0eb6dbef67dfb6a340dcc1f0f980405eff6",
+        "sequence": 3,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "5be8e37e3f4d39c973934ff2ef9af4da6ad96543109c00970cf2a6253a03fd3b",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "ROAMING",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "ro-partner:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "ro-partner",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "5be8e37e3f4d39c973934ff2ef9af4da6ad96543109c00970cf2a6253a03fd3b",
+            "from": "2026-10-10T08:50:00Z",
+            "to": "2026-10-10T08:55:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:55:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "ROAMING_DATA",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "CRITICAL",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "ROAMING:3:roaming.data.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "5be8e37e3f4d39c973934ff2ef9af4da6ad96543109c00970cf2a6253a03fd3b",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:55:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "ROAMING:3:roaming.data.success",
+            "measurementId": "native:ROAMING:3:roaming.data.success",
+            "metricId": "roaming.data.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 96,
+              "denominator": 100
+            },
+            "actual": 96.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:55:00Z",
+              "asOf": "2026-10-10T08:55:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "5be8e37e3f4d39c973934ff2ef9af4da6ad96543109c00970cf2a6253a03fd3b",
+              "from": "2026-10-10T08:50:00Z",
+              "to": "2026-10-10T08:55:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "d22ecb1ecd3456188d5d8362c8cf2dd37bd961af6f4944c4259c38611d59eae5"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:55:01Z"
+          }
+        ],
+        "baselines": {
+          "roaming.data.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "5be8e37e3f4d39c973934ff2ef9af4da6ad96543109c00970cf2a6253a03fd3b",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:55:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:55:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+        "detectionId": "9414ebf3cbbc37cd538c3868c2ca3cc1ac0396b9545b8ed9e20565ec986435e7",
+        "sequence": 4,
+        "phase": "UNKNOWN",
+        "technicalState": "UNKNOWN",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "7d31514b20ff9d1ebb49baf07dac9b6221daa644565d49d33e9d8418f7452233",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "ROAMING",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "ro-partner:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "ro-partner",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "7d31514b20ff9d1ebb49baf07dac9b6221daa644565d49d33e9d8418f7452233",
+            "from": "2026-10-10T08:55:00Z",
+            "to": "2026-10-10T09:00:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:00:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "ROAMING_DATA",
+          "verdict": "UNKNOWN",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "7d31514b20ff9d1ebb49baf07dac9b6221daa644565d49d33e9d8418f7452233",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:00:01Z",
+        "evidence": [],
+        "baselines": {
+          "roaming.data.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "7d31514b20ff9d1ebb49baf07dac9b6221daa644565d49d33e9d8418f7452233",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:00:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:00:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+        "detectionId": "e7bdb4e7085aeddbc120cd5c25d1aedc7a949b91a8cf2de39cd01a626151b577",
+        "sequence": 5,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "020616ae8aeef601720b04c71d67795e0772e69e25e18f0989c3299a7e6dce32",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "ROAMING",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "ro-partner:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "ro-partner",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "020616ae8aeef601720b04c71d67795e0772e69e25e18f0989c3299a7e6dce32",
+            "from": "2026-10-10T09:00:00Z",
+            "to": "2026-10-10T09:05:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:05:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "ROAMING_DATA",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "ROAMING:5:roaming.data.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "020616ae8aeef601720b04c71d67795e0772e69e25e18f0989c3299a7e6dce32",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:05:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "ROAMING:5:roaming.data.success",
+            "measurementId": "native:ROAMING:5:roaming.data.success",
+            "metricId": "roaming.data.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 99,
+              "denominator": 100
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:05:00Z",
+              "asOf": "2026-10-10T09:05:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "020616ae8aeef601720b04c71d67795e0772e69e25e18f0989c3299a7e6dce32",
+              "from": "2026-10-10T09:00:00Z",
+              "to": "2026-10-10T09:05:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "c88416bcd09675fb2b0b58ea4cf8643562e126b09cd3a2eed4e955090dff609b"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:05:01Z"
+          }
+        ],
+        "baselines": {
+          "roaming.data.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "020616ae8aeef601720b04c71d67795e0772e69e25e18f0989c3299a7e6dce32",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:05:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:05:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+        "detectionId": "0e86b50518ed668dc0116e8aee77bd19160b4bbf165db46b3840026dceb1af33",
+        "sequence": 6,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "5976e741899713467293cb75ff077057dbeb8a511c8f9c697fac99d0d462288a",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "ROAMING",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "ro-partner:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "ro-partner",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "5976e741899713467293cb75ff077057dbeb8a511c8f9c697fac99d0d462288a",
+            "from": "2026-10-10T09:05:00Z",
+            "to": "2026-10-10T09:10:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:10:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "ROAMING_DATA",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "ROAMING:6:roaming.data.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "5976e741899713467293cb75ff077057dbeb8a511c8f9c697fac99d0d462288a",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:10:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "ROAMING:6:roaming.data.success",
+            "measurementId": "native:ROAMING:6:roaming.data.success",
+            "metricId": "roaming.data.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 99,
+              "denominator": 100
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:10:00Z",
+              "asOf": "2026-10-10T09:10:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "5976e741899713467293cb75ff077057dbeb8a511c8f9c697fac99d0d462288a",
+              "from": "2026-10-10T09:05:00Z",
+              "to": "2026-10-10T09:10:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "1ef2f6f72431404eb4121a61ee58b71855877337f2dba78ea39c635629964e28"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:10:01Z"
+          }
+        ],
+        "baselines": {
+          "roaming.data.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "5976e741899713467293cb75ff077057dbeb8a511c8f9c697fac99d0d462288a",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:10:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:10:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "35767f9e2b2dc9d255c85bd314964b0cfb22474d7442fad338aab9d3b8bf68d9",
+        "detectionId": "2edcd8dec18b2c59a8ba6206a0e8621f8d099e7c56b2fc2b8228707726e48c0e",
+        "sequence": 7,
+        "phase": "RECOVERY",
+        "technicalState": "RECOVERED",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "22cbf59bdea15281487f417d4f0145ada2c370824ce48d87beecdbdec20df06e",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "ROAMING",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "ro-partner:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "ro-partner",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "22cbf59bdea15281487f417d4f0145ada2c370824ce48d87beecdbdec20df06e",
+            "from": "2026-10-10T09:10:00Z",
+            "to": "2026-10-10T09:15:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:15:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "ROAMING_DATA",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "ROAMING:7:roaming.data.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "22cbf59bdea15281487f417d4f0145ada2c370824ce48d87beecdbdec20df06e",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:15:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "ROAMING:7:roaming.data.success",
+            "measurementId": "native:ROAMING:7:roaming.data.success",
+            "metricId": "roaming.data.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 99,
+              "denominator": 100
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:15:00Z",
+              "asOf": "2026-10-10T09:15:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "22cbf59bdea15281487f417d4f0145ada2c370824ce48d87beecdbdec20df06e",
+              "from": "2026-10-10T09:10:00Z",
+              "to": "2026-10-10T09:15:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "d334431ec74d42a7f2061c08a711e44b6b7e561ed16973a88b258fcd72326db2"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:15:01Z"
+          }
+        ],
+        "baselines": {
+          "roaming.data.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "PARTNER_DIRECTION",
+              "id": "ro-partner:out",
+              "cityIds": [],
+              "directionId": "out",
+              "partnerId": "ro-partner",
+              "procedure": "DATA",
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "ROAMING",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "22cbf59bdea15281487f417d4f0145ada2c370824ce48d87beecdbdec20df06e",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:15:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:15:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+        "detectionId": "8ae5aa3acc99ad890bbbf5ec8531791c023fe984d33a7f06713b606ad49a202e",
+        "sequence": 1,
+        "phase": "OPEN",
+        "technicalState": "ONGOING",
+        "severity": "HIGH",
+        "window": {
+          "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "MOBILE_DATA",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+            "from": "2026-10-10T08:40:00Z",
+            "to": "2026-10-10T08:45:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:45:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "HIGH",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "MOBILE_DATA:1:mobileData.dns.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:45:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:1:mobileData.activation.success",
+            "measurementId": "native:MOBILE_DATA:1:mobileData.activation.success",
+            "metricId": "mobileData.activation.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:45:00Z",
+              "asOf": "2026-10-10T08:45:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+              "from": "2026-10-10T08:40:00Z",
+              "to": "2026-10-10T08:45:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "1d6249b84e7c4adc37760c308a02c1039513db0e02d88d3162e46b8cfa3e6181"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:45:01Z"
+          },
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:1:mobileData.dns.success",
+            "measurementId": "native:MOBILE_DATA:1:mobileData.dns.success",
+            "metricId": "mobileData.dns.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 970,
+              "denominator": 1000
+            },
+            "actual": 97.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:45:00Z",
+              "asOf": "2026-10-10T08:45:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+              "from": "2026-10-10T08:40:00Z",
+              "to": "2026-10-10T08:45:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "eb3a55c5c0a6ab56e8a7976999eaf37c4df42025b03b2cc95b5dea66b1213951"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:45:01Z"
+          }
+        ],
+        "baselines": {
+          "mobileData.activation.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          },
+          "mobileData.dns.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:45:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:45:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+        "detectionId": "7f030ce702c2b802c57f630f16a30d79a6bf38cc2d1dec182cab0a3c97467e05",
+        "sequence": 2,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "HIGH",
+        "window": {
+          "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "MOBILE_DATA",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+            "from": "2026-10-10T08:45:00Z",
+            "to": "2026-10-10T08:50:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:50:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "HIGH",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "MOBILE_DATA:2:mobileData.dns.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:50:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:2:mobileData.activation.success",
+            "measurementId": "native:MOBILE_DATA:2:mobileData.activation.success",
+            "metricId": "mobileData.activation.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:50:00Z",
+              "asOf": "2026-10-10T08:50:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+              "from": "2026-10-10T08:45:00Z",
+              "to": "2026-10-10T08:50:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "74d9f5ee20d392957f175444a10804ca928fbebaf040d3c20435e6b000f2af94"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:50:01Z"
+          },
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:2:mobileData.dns.success",
+            "measurementId": "native:MOBILE_DATA:2:mobileData.dns.success",
+            "metricId": "mobileData.dns.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 970,
+              "denominator": 1000
+            },
+            "actual": 97.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:50:00Z",
+              "asOf": "2026-10-10T08:50:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+              "from": "2026-10-10T08:45:00Z",
+              "to": "2026-10-10T08:50:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "0e2b4bbad5d97a880a734a35bb03fd184f2021246fab3f70badbe8437f7b6aff"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:50:01Z"
+          }
+        ],
+        "baselines": {
+          "mobileData.activation.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          },
+          "mobileData.dns.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:50:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:50:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+        "detectionId": "f7272bf7c96acd976da0bfc7eefb84b51228a7704f984f8244cb7f5d619e6ef1",
+        "sequence": 3,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "MOBILE_DATA",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+            "from": "2026-10-10T08:50:00Z",
+            "to": "2026-10-10T08:55:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T08:55:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "verdict": "BREACH",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": "CRITICAL",
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "MOBILE_DATA:3:mobileData.dns.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:55:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:3:mobileData.activation.success",
+            "measurementId": "native:MOBILE_DATA:3:mobileData.activation.success",
+            "metricId": "mobileData.activation.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 970,
+              "denominator": 1000
+            },
+            "actual": 97.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:55:00Z",
+              "asOf": "2026-10-10T08:55:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+              "from": "2026-10-10T08:50:00Z",
+              "to": "2026-10-10T08:55:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "facec5e20019dd74e97891b750cb44bb3c9dd662f762eabb60ac288b4ca2a18f"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:55:01Z"
+          },
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:3:mobileData.dns.success",
+            "measurementId": "native:MOBILE_DATA:3:mobileData.dns.success",
+            "metricId": "mobileData.dns.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 960,
+              "denominator": 1000
+            },
+            "actual": 96.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:55:00Z",
+              "asOf": "2026-10-10T08:55:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+              "from": "2026-10-10T08:50:00Z",
+              "to": "2026-10-10T08:55:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "8791e9bd0deac03f90adcbb6464bad91f78fea5f34b628f5f56b28bc1cc9cf31"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:55:01Z"
+          }
+        ],
+        "baselines": {
+          "mobileData.activation.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          },
+          "mobileData.dns.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T08:55:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T08:55:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+        "detectionId": "27b95d000fa1665236c4b25e9621e2187480e8fccb7bc71408f87a55cfed6dc6",
+        "sequence": 4,
+        "phase": "UNKNOWN",
+        "technicalState": "UNKNOWN",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "83bc512dcf723879a07f4153fbdfa6b37baca15d757a9d43614f4c0f3f4fcda5",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "MOBILE_DATA",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "83bc512dcf723879a07f4153fbdfa6b37baca15d757a9d43614f4c0f3f4fcda5",
+            "from": "2026-10-10T08:55:00Z",
+            "to": "2026-10-10T09:00:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:00:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "verdict": "UNKNOWN",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "83bc512dcf723879a07f4153fbdfa6b37baca15d757a9d43614f4c0f3f4fcda5",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:00:01Z",
+        "evidence": [],
+        "baselines": {
+          "mobileData.activation.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          },
+          "mobileData.dns.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "83bc512dcf723879a07f4153fbdfa6b37baca15d757a9d43614f4c0f3f4fcda5",
+          "from": "2026-10-10T08:55:00Z",
+          "to": "2026-10-10T09:00:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:00:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:00:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+        "detectionId": "2e9e526cea21d3ff42a232d624bf9a70b2e4ff2d874408c6a34ce5ffc4337115",
+        "sequence": 5,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "MOBILE_DATA",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+            "from": "2026-10-10T09:00:00Z",
+            "to": "2026-10-10T09:05:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:05:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "MOBILE_DATA:5:mobileData.dns.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:05:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:5:mobileData.activation.success",
+            "measurementId": "native:MOBILE_DATA:5:mobileData.activation.success",
+            "metricId": "mobileData.activation.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:05:00Z",
+              "asOf": "2026-10-10T09:05:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+              "from": "2026-10-10T09:00:00Z",
+              "to": "2026-10-10T09:05:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "41a907effd9e1d10d993cd79a23cc5a991db0ec70f49230ef771193cdb2ca0b5"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:05:01Z"
+          },
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:5:mobileData.dns.success",
+            "measurementId": "native:MOBILE_DATA:5:mobileData.dns.success",
+            "metricId": "mobileData.dns.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:05:00Z",
+              "asOf": "2026-10-10T09:05:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+              "from": "2026-10-10T09:00:00Z",
+              "to": "2026-10-10T09:05:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "447628ab14820e67d08d5ab46435094d9cf375830c5d40d311345dba8deb9518"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:05:01Z"
+          }
+        ],
+        "baselines": {
+          "mobileData.activation.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          },
+          "mobileData.dns.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:05:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:05:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+        "detectionId": "5f9420ecf1e904585863d0e3fa61762fb14b616ef982ec2a8d1d0b90863cb356",
+        "sequence": 6,
+        "phase": "UPDATE",
+        "technicalState": "ONGOING",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "MOBILE_DATA",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+            "from": "2026-10-10T09:05:00Z",
+            "to": "2026-10-10T09:10:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:10:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "MOBILE_DATA:6:mobileData.dns.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:10:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:6:mobileData.activation.success",
+            "measurementId": "native:MOBILE_DATA:6:mobileData.activation.success",
+            "metricId": "mobileData.activation.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:10:00Z",
+              "asOf": "2026-10-10T09:10:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+              "from": "2026-10-10T09:05:00Z",
+              "to": "2026-10-10T09:10:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "4b41ff3f794810369b2ff451ec2207d158438c9b6cadf7f262638959e25e5964"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:10:01Z"
+          },
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:6:mobileData.dns.success",
+            "measurementId": "native:MOBILE_DATA:6:mobileData.dns.success",
+            "metricId": "mobileData.dns.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:10:00Z",
+              "asOf": "2026-10-10T09:10:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+              "from": "2026-10-10T09:05:00Z",
+              "to": "2026-10-10T09:10:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "5adf91af034c02aecbf63be1ff96f266b7cf78219fe24a3865a4f9e99bb2dd91"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:10:01Z"
+          }
+        ],
+        "baselines": {
+          "mobileData.activation.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          },
+          "mobileData.dns.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:10:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:10:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    },
+    {
+      "schemaVersion": "trace-link-detection-v1",
+      "synthetic": true,
+      "lifecycle": {
+        "schemaVersion": "trace-link-lifecycle-v1",
+        "episodeId": "9c08c174047e4dc85970a489f0397d36813b8fbb0f3207d34d438da14a13d62f",
+        "detectionId": "f633804f347a9ca8b05bd6ab93f3563ad121cf5a21b901f3932158f9ef7f4b5c",
+        "sequence": 7,
+        "phase": "RECOVERY",
+        "technicalState": "RECOVERED",
+        "severity": "CRITICAL",
+        "window": {
+          "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "evaluation": {
+          "datasetId": "trace-link-md-30d-v1",
+          "namespace": "trace-link-reference-v1",
+          "domain": "MOBILE_DATA",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+            "from": "2026-10-10T09:10:00Z",
+            "to": "2026-10-10T09:15:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "revision": 0,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "evaluatedAt": "2026-10-10T09:15:01Z",
+          "schemaVersion": "trace-link-rule-result-v1",
+          "policyVersion": "trace-link-domain-rules-v1",
+          "baselineVersion": "trace-link-seasonal-v1",
+          "anomalyKind": "MOBILE_DATA_DNS",
+          "verdict": "HEALTHY",
+          "reason": "HAND_CALCULATED_LIFECYCLE_REFERENCE",
+          "severity": null,
+          "overloadCandidate": false,
+          "evidenceIds": [
+            "MOBILE_DATA:7:mobileData.dns.success"
+          ],
+          "anomalyRank": null
+        }
+      },
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T09:15:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:7:mobileData.activation.success",
+            "measurementId": "native:MOBILE_DATA:7:mobileData.activation.success",
+            "metricId": "mobileData.activation.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:15:00Z",
+              "asOf": "2026-10-10T09:15:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+              "from": "2026-10-10T09:10:00Z",
+              "to": "2026-10-10T09:15:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "12084e0da2da4f877e6a4af4468304da99fa4d30878c0f75250655a0f691f3ce"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:15:01Z"
+          },
+          {
+            "schemaVersion": 1,
+            "evidenceId": "MOBILE_DATA:7:mobileData.dns.success",
+            "measurementId": "native:MOBILE_DATA:7:mobileData.dns.success",
+            "metricId": "mobileData.dns.success",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 990,
+              "denominator": 1000
+            },
+            "actual": 99.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T09:15:00Z",
+              "asOf": "2026-10-10T09:15:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+              "from": "2026-10-10T09:10:00Z",
+              "to": "2026-10-10T09:15:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "c38db0fa19089a894c5936252d4a1f40f5d01b2f043ec478d57da31126295d8d"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T09:15:01Z"
+          }
+        ],
+        "baselines": {
+          "mobileData.activation.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          },
+          "mobileData.dns.success": {
+            "status": "STATIC",
+            "center": 99,
+            "mad": 0,
+            "sourceScope": {
+              "type": "CITY",
+              "id": "CHI",
+              "cityIds": [
+                "CHI"
+              ],
+              "directionId": null,
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "baselineVersion": "trace-link-seasonal-v1",
+            "policyVersion": "trace-link-baseline-policy-v1",
+            "trainingFrom": "2026-09-10T09:00:00Z",
+            "trainingTo": "2026-09-30T09:00:00Z",
+            "coverage": 0,
+            "reason": "STATIC_DEMONSTRATION_POLICY"
+          }
+        },
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "cause": {
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "MOBILE_DATA",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "baselineVersion": "trace-link-seasonal-v1",
+        "evaluatedAt": "2026-10-10T09:15:01Z",
+        "schemaVersion": "trace-link-cause-result-v1",
+        "policyVersion": "trace-link-cause-v1",
+        "symptomPolicyVersion": "trace-link-domain-rules-v1",
+        "status": "UNDETERMINED",
+        "probableCauseCode": "UNDETERMINED",
+        "probableCause": "Cause undetermined; inspect eligible dependency evidence.",
+        "causeConfidence": null,
+        "dependency": null,
+        "supportingEvidenceIds": [],
+        "contradictoryEvidenceIds": [],
+        "rejectedEvidence": [],
+        "reasonCodes": [
+          "NO_DEPENDENCY"
+        ]
+      },
+      "committedAt": "2026-10-10T09:15:02Z",
+      "causeEvidence": {
+        "candidates": [],
+        "controls": [],
+        "dependencySnapshot": {
+          "topologyVersion": "trace-link-md-topology-v1",
+          "relations": []
+        }
+      }
+    }
+  ]
+}

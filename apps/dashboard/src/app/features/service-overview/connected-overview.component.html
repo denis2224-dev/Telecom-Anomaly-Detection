@@ -53,11 +53,11 @@
       <button type="button" class="panel-navigation" [routerLink]="serviceTarget('VOLTE') ? ['/services', serviceTarget('VOLTE')!.scope.scopeId] : null" [disabled]="!serviceTarget('VOLTE')">Open VoLTE setup <app-icon name="right" /></button>
     </section>
     <section class="map-panel" aria-labelledby="city-map-title">
-      <h2 id="city-map-title">Moldova service map <span>{{ selectedCity()?.name }}</span></h2>
-      <div class="traffic-controls"><span class="badge" data-state="UNKNOWN">Link traffic preview</span><label><input type="checkbox" [checked]="showTraffic()" (change)="showTraffic.set($any($event.target).checked)" /> Show sample links</label></div>
-      <p class="map-note">City status uses service evidence. Links and traffic are illustrative; no live backhaul API.</p>
+      <h2 id="city-map-title">Legacy service geography <span>{{ selectedCity()?.name }}</span></h2>
+      @if (fixture) { <div class="traffic-controls"><span class="badge" data-state="UNKNOWN">Link traffic preview</span><label><input type="checkbox" [checked]="showTraffic()" (change)="showTraffic.set($any($event.target).checked)" /> Show sample links</label></div> }
+      <p class="map-note">City status uses the legacy service catalogue, which can retain labels outside the active Trace Link inventory. Directional measurements use the separate Trace Link inventory. <a routerLink="/trace-link">Open the active Trace Link city and directional link inventory</a>.</p>
       <div class="panel-visual map-visual">
-        <div class="city-map" aria-label="Moldova geographic outline and nine city markers">
+        <div class="city-map" aria-label="Moldova geographic outline and legacy service city markers">
           <svg viewBox="0 0 600 740" aria-hidden="true"><defs><pattern id="moldova-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" class="grid-line" /></pattern></defs><rect width="600" height="740" fill="url(#moldova-grid)" /><path [attr.d]="moldovaOutline" class="country-outline" />
             @if (showTraffic()) {
               @for (link of transportLinks; track link.id) { <line class="transport-link" [attr.x1]="link.x1" [attr.y1]="link.y1" [attr.x2]="link.x2" [attr.y2]="link.y2" [style.stroke]="link.color" /> }
@@ -86,7 +86,7 @@
     @if (roamingPanel()) {
     <section class="service-panel" aria-label="Roaming overview">
       <button class="ghost" type="button" (click)="roamingPanel.set(false)">Show SMS graph</button>
-      <app-roaming-overview [compact]="true" [showCountries]="true" [from]="chartFrom()" [to]="chartTo()" />
+      @defer (on immediate) { <app-roaming-overview [compact]="true" [showCountries]="true" [from]="chartFrom()" [to]="chartTo()" /> }
       <button type="button" class="panel-navigation" [routerLink]="serviceTarget('SMS') ? ['/services', serviceTarget('SMS')!.scope.scopeId] : null" [disabled]="!serviceTarget('SMS')">Open SMS delivery <app-icon name="right" /></button>
     </section>
     } @else {

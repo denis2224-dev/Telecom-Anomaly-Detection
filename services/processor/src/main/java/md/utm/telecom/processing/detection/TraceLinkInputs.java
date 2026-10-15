@@ -123,7 +123,10 @@ public final class TraceLinkInputs {
         require(metric != null && metric.path("unit").equals(value.path("unit"))
                 && metric.path("policyVersion").equals(value.path("policyVersion")), "Unknown metric/unit/policy");
         JsonNode p = value.path("primitives"), freshness = value.path("freshness"), scope = value.path("scope");
-        boolean reference = !value.path("provenance").path("origin").asText().equals("HAND_CALCULATED");
+        boolean reference = Set.of("REFERENCE_CSV", "REFERENCE_ENGINE")
+                .contains(value.path("provenance").path("origin").asText());
+        if (value.path("provenance").path("origin").asText().equals("NATIVE_OBSERVATION"))
+            require(!value.path("provenance").path("sourceChecksum").isNull(), "Native checksum required");
         if (reference) {
             require(!value.path("provenance").path("sourceChecksum").isNull(), "Reference checksum required");
             if (metric.path("reference").path("availability").asText().equals("REQUIRES_ADDITIONAL_PRIMITIVES")

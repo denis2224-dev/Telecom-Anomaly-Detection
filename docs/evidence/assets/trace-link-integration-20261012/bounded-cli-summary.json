@@ -1,0 +1,9 @@
+{
+  "records": 24,
+  "windows": 8,
+  "sha256": "6445a3d8769d5bf79459681448a4564d36994529f0ada288ec0f00c2b971f151",
+  "firstInvocation": "bounded-owner-cli.json",
+  "replayInvocation": "bounded-owner-cli-replay.json",
+  "replay": "EXACT_REPLAY",
+  "kafka": "DISABLED"
+}

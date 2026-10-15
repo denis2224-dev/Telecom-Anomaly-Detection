@@ -1,0 +1,256 @@
+{
+  "commands": [
+    {
+      "startedAt": "2026-10-14T09:24:21.3611236Z",
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "exitCode": 0,
+      "trackedWorkingTreeDirty": false,
+      "executable": "./mvnw.cmd",
+      "sourceCommit": "67aa3a50cd742719def549d33590a1fc60ccffe9",
+      "finishedAt": "2026-10-14T09:40:34.8369333Z",
+      "log": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\target\\correction-checks\\reactor.log",
+      "name": "reactor",
+      "arguments": [
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ]
+    },
+    {
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "sourceCommit": "67aa3a50cd742719def549d33590a1fc60ccffe9",
+      "startedAt": "2026-10-14T09:20:49.7668688Z",
+      "finishedAt": "2026-10-14T09:20:55.9172005Z",
+      "exitCode": 0,
+      "log": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\target\\correction-checks\\final-contract-install.log",
+      "trackedWorkingTreeDirty": false,
+      "arguments": [
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/streaming-support",
+        "-am",
+        "install",
+        "-DskipTests"
+      ],
+      "name": "final-contract-install",
+      "executable": "./mvnw.cmd"
+    },
+    {
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-correction-receiver-verify",
+      "sourceCommit": "e21010170294848c3879fe0ffbe2328c2f6c2088",
+      "executable": "./mvnw.cmd",
+      "trackedWorkingTreeDirty": false,
+      "name": "incident-service",
+      "log": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-correction-receiver-verify\\target\\correction-checks\\incident-service.log",
+      "exitCode": 0,
+      "arguments": [
+        "-f",
+        "services/incident-service/pom.xml",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify",
+        "-DtraceLink.producedFile=D:/Univer/Anul2/Orange_intership/project/Telecom-Anomaly-Detection/tmp/day3-corrections/target/correction-checks/fresh-produced-input.json"
+      ],
+      "finishedAt": "2026-10-14T09:29:51.6586141Z",
+      "startedAt": "2026-10-14T09:24:34.8316811Z"
+    },
+    {
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "trackedWorkingTreeDirty": false,
+      "log": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\target\\correction-checks\\migration-and-producer-regression.log",
+      "sourceCommit": "67aa3a50cd742719def549d33590a1fc60ccffe9",
+      "startedAt": "2026-10-14T09:22:03.1172331Z",
+      "exitCode": 0,
+      "executable": "./mvnw.cmd",
+      "arguments": [
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-pl",
+        "services/processor",
+        "-am",
+        "-Dtest=TraceLinkDatasetBootstrapIT,TraceLinkProjectionIT,TraceLinkDetectionIT,TraceLinkPublisherAckMarkTest",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "test"
+      ],
+      "finishedAt": "2026-10-14T09:23:47.7926292Z",
+      "name": "migration-and-producer-regression"
+    },
+    {
+      "exitCode": 1,
+      "name": "reactor",
+      "log": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\target\\correction-checks\\reactor.log",
+      "executable": "./mvnw.cmd",
+      "arguments": [
+        "--batch-mode",
+        "--no-transfer-progress",
+        "verify"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "startedAt": "2026-10-14T09:00:20.5783805Z",
+      "finishedAt": "2026-10-14T09:16:12.6276895Z",
+      "sourceCommit": "9e02659220ff54c7b5da970d0366365b5ce9dc76",
+      "trackedWorkingTreeDirty": false
+    }
+  ],
+  "priorCommandObservations": [
+    {
+      "name": "root-python",
+      "command": [
+        "python",
+        "-u",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T08:49:23.968657+00:00",
+      "logLastWrittenAt": "2026-10-14T08:50:17.650098+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "937b63df7bc184bc67ac0f204d681c54058567f502a4f684da61a7cf2c02a175"
+    },
+    {
+      "name": "ml-python",
+      "command": [
+        "python",
+        "-u",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/ml-service/tests",
+        "-v"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T08:49:26.953785+00:00",
+      "logLastWrittenAt": "2026-10-14T08:52:49.264714+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "0873f8b2df1d60fe6670ca0129dcbdf46c93ba5a788a5c09f519a7ce2eb2f6c1"
+    },
+    {
+      "name": "dashboard-unit",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\apps\\dashboard",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T08:49:26.803487+00:00",
+      "logLastWrittenAt": "2026-10-14T08:50:07.579017+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "1ea9a41b6a3b142fd652b915592a4d37e988bd63aa27ff6513a63f3a37f0847a"
+    },
+    {
+      "name": "dashboard-build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\apps\\dashboard",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T08:50:10.855517+00:00",
+      "logLastWrittenAt": "2026-10-14T08:50:30.531463+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "33ba326895f3dd75e80afaccd0ee50da78fba31e5822b61f108e17e31b01258f"
+    },
+    {
+      "name": "dashboard-browser",
+      "command": [
+        "npx",
+        "playwright",
+        "test",
+        "trace-history.spec.ts",
+        "incident-episodes.spec.ts",
+        "trace-scenarios.spec.ts",
+        "--workers=2"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\apps\\dashboard",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T08:51:47.690119+00:00",
+      "logLastWrittenAt": "2026-10-14T08:52:33.578724+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "b787328abcb6777949bb48d45927fcc139c6e9faf2b38ca672e2286b6930806b"
+    },
+    {
+      "name": "dashboard-api-generation",
+      "command": [
+        "npm",
+        "run",
+        "generate:api"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections\\apps\\dashboard",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T09:04:04.093746+00:00",
+      "logLastWrittenAt": "2026-10-14T09:04:09.433132+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "95563e34c21c2a51911f81c9dda5b3ce37b5fea5784876d8993b91864fa6a160"
+    },
+    {
+      "name": "compose-structure",
+      "command": [
+        "docker",
+        "compose",
+        "config",
+        "--quiet"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T09:02:38.638181+00:00",
+      "logLastWrittenAt": "2026-10-14T09:02:38.638181+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "contracts",
+      "command": [
+        "python",
+        "scripts/check-contracts.py"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T08:51:58.432342+00:00",
+      "logLastWrittenAt": "2026-10-14T08:52:28.310294+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "de955ffd43a0f0cefd233f2120f72922030daaa8fdf8483f08f2c4e040f60b7d"
+    },
+    {
+      "name": "frozen-pins",
+      "command": [
+        "python",
+        "scripts/verify-trace-link-pins.py",
+        "--reference-root",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Trace_Link_Integration_Pack"
+      ],
+      "workingDirectory": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-corrections",
+      "exitCode": 0,
+      "logCreatedAt": "2026-10-14T08:52:28.477218+00:00",
+      "logLastWrittenAt": "2026-10-14T08:52:29.005480+00:00",
+      "timeBasis": "Observed log filesystem times; not instrumented command stopwatch times.",
+      "logSha256": "49c251f530d083ab631e377bfee2476ed47d14877e0ee999a26a03ae1ae10a08"
+    }
+  ],
+  "rootReactorScopeEquivalentTo": "67aa3a50cd742719def549d33590a1fc60ccffe9",
+  "rootReactorScope": [
+    "pom.xml",
+    ".mvn/",
+    "services/streaming-support/",
+    "services/event-generator/",
+    "services/processor/",
+    "contracts/"
+  ],
+  "receiverScopeEquivalentTo": "67aa3a50cd742719def549d33590a1fc60ccffe9",
+  "receiverScope": [
+    "services/incident-service/",
+    "services/streaming-support/",
+    "contracts/",
+    "pom.xml",
+    ".mvn/"
+  ],
+  "interpretation": "The reactor tested the final implementation commit. The receiver ran in an independent checkout whose receiver, shared support and contract inputs are byte-identical to the final implementation."
+}

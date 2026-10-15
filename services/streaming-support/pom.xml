@@ -15,18 +15,29 @@
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
   </dependencies>
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId><artifactId>maven-jar-plugin</artifactId>
+        <executions><execution><id>pure-contracts</id><goals><goal>jar</goal></goals>
+          <configuration><classifier>contracts</classifier>
+            <includes><include>md/utm/telecom/observation/**</include><include>contracts/**</include></includes>
+            <excludes><exclude>md/utm/telecom/observation/GeographicRuntimeConfiguration*</exclude></excludes>
+          </configuration>
+        </execution></executions>
+      </plugin>
+    </plugins>
     <resources>
       <resource><directory>src/main/resources</directory></resource>
       <resource>
         <directory>../../contracts</directory><targetPath>contracts</targetPath>
-        <includes><include>observations/**</include><include>topology/**</include><include>geography/**</include><include>coverage/**</include><include>kpi/**</include><include>datasets/**</include><include>fixtures/geography/**</include><include>fixtures/coverage/**</include><include>fixtures/observations/**</include><include>fixtures/validation/**</include></includes>
+        <includes><include>policies/trace-link-live-synthetic-rules-v1.json</include><include>detections/trace-link-live-*.schema.json</include><include>observations/**</include><include>topology/**</include><include>geography/**</include><include>coverage/**</include><include>kpi/**</include><include>datasets/**</include><include>fixtures/geography/**</include><include>fixtures/coverage/**</include><include>fixtures/observations/**</include><include>fixtures/validation/**</include><include>detections/trace-link-detection-v1.schema.json</include><include>evidence/trace-link-evidence-v1.schema.json</include><include>kpi/trace-link-kpi-definitions-v1.json</include><include>policies/trace-link-domain-rules-v1.json</include></includes>
       </resource>
     </resources>
     <testResources>
       <testResource><directory>src/test/resources</directory></testResource>
       <testResource>
         <directory>../../contracts</directory><targetPath>contracts</targetPath>
-        <includes><include>fixtures/features/voice-worked-v2.json</include><include>fixtures/trace-link/domain-window-cases-v1.json</include></includes>
+        <includes><include>fixtures/features/voice-worked-v2.json</include><include>fixtures/trace-link/domain-window-cases-v1.json</include><include>fixtures/trace-link/day3-*.json</include><include>fixtures/trace-link/cause-control-cases.json</include></includes>
       </testResource>
     </testResources>
   </build>

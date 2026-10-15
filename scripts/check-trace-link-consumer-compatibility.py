@@ -1,4 +1,4 @@
-"""Read-only fixture checks against a pinned consumer Git tree; never connects to a database."""
+"""Legacy V006 storage comparison only; canonical V008 ingestion/API compatibility is not evaluated."""
 import argparse
 import hashlib
 import json
@@ -62,6 +62,8 @@ def inspect(ref):
                if not re.search(r'\b' + field + r'\b', texts['response'])]
     return {
         'consumerSha': ref, 'consumerAgreement': 'PENDING_REVIEW',
+        'scope': 'LEGACY_V006_ONLY',
+        'canonicalV008Compatibility': 'NOT_EVALUATED: execute canonical ingestion and API acceptance tests',
         'method': 'Read-only Git blobs and isolated JSON Schema checks of V006 restrictions; no consumer DB/API invoked',
         'compatibility': 'INCOMPATIBLE', 'directFixtureColumnErrors': direct_errors,
         'afterProposedDomainTranslationErrors': mapped_errors,
@@ -69,15 +71,15 @@ def inspect(ref):
         'producer': {'domain': fixture['domain'], 'metric': fixture['metricId'], 'policy': fixture['policyVersion']},
         'qualityColumn': {'width': quality_width, 'allowed': allowed('quality')},
         'missingReadDtoFields': missing,
-        'topologyComparison': 'MISSING: MetricQueryService accepts source shape topology without comparing catalogueTopology',
-        'rollupLimitations': ['Non-VALID source is collapsed to PARTIAL',
+        'topologyComparison': 'NOT_EVALUATED: this checker inspects legacy V006 storage restrictions only',
+        'historicalV006RollupWarnings': ['Non-VALID source is collapsed to PARTIAL',
                              'Zero denominator may be reported VALID',
                              'Effective bucket bounds include native slots outside requested partial edges',
                              'coverage uses SUM(source coverage), rather than independent slot count',
                              'Latest revision selection is not conflicting-retry validation'],
         'compatibleColumns': ['CITY', 'RATIO_OF_SUMS', 'PERCENT', '300 seconds',
                               'NUMERIC(22,6) fits supported integer primitives'],
-        'storageLimitations': ['No dedicated projection ID, payload bytes/hash, source namespace, source quality/coverage or provenance columns',
+        'legacyV006StorageLimitations': ['No dedicated projection ID, payload bytes/hash, source namespace, source quality/coverage or provenance columns',
                                'JSONB payload can retain provenance, but current read DTO does not expose it'],
         'sourceFiles': [{'path': files[name], 'sha256': hashlib.sha256(data).hexdigest()}
                         for name, data in blobs.items()],

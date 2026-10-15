@@ -1,0 +1,31 @@
+{
+  "reviewedHead": "cd0847d459132523055217819c6b4d898ff1142e",
+  "implementationHead": "8483cca9d3020a085d3f3e0a8ccbb3d9cf1f6448",
+  "files": [
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/shadow/TraceLinkResponseBody.java",
+      "workspaceSha256": "72493c82266eda9a37a533dcc2c2f782fc063297b9197748a52fda28917fb7f8",
+      "gitBlobSha256": "72493c82266eda9a37a533dcc2c2f782fc063297b9197748a52fda28917fb7f8"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/shadow/TraceLinkShadowClient.java",
+      "workspaceSha256": "a087c4f4bd4d6ecec343451588e6e41056b88d04a3d7953b7259504ae650afaa",
+      "gitBlobSha256": "a087c4f4bd4d6ecec343451588e6e41056b88d04a3d7953b7259504ae650afaa"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/shadow/TraceLinkResponseBodyTest.java",
+      "workspaceSha256": "ee5f117cabae515fdaf56e926c952e65f70b697b1dc5d93d9256412432206419",
+      "gitBlobSha256": "ee5f117cabae515fdaf56e926c952e65f70b697b1dc5d93d9256412432206419"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/shadow/TraceLinkShadowClientTest.java",
+      "workspaceSha256": "f8a1260953e8c723db43883392e8b171d7aa2abbc54cffa18d5609331edb795f",
+      "gitBlobSha256": "f8a1260953e8c723db43883392e8b171d7aa2abbc54cffa18d5609331edb795f"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkShadowWorkerTest.java",
+      "workspaceSha256": "3f1e350a73ed4ca3f8111d8760774706fe3bd884498bae4a874374c905669d7b",
+      "gitBlobSha256": "3f1e350a73ed4ca3f8111d8760774706fe3bd884498bae4a874374c905669d7b"
+    }
+  ]
+}

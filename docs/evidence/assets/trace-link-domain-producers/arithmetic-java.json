@@ -1,0 +1,1649 @@
+{
+  "fixtureSha256" : "82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd",
+  "results" : {
+    "ratio-unequal-volume" : {
+      "primitives" : {
+        "numerator" : 999,
+        "denominator" : 1010
+      },
+      "values" : {
+        "value" : 98.91089108910892
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "ratio-zero" : {
+      "primitives" : {
+        "numerator" : 0,
+        "denominator" : 0
+      },
+      "values" : {
+        "value" : null
+      },
+      "quality" : "INSUFFICIENT_DATA",
+      "nullReason" : "ZERO_DENOMINATOR",
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "ratio-negative" : {
+      "error" : "INVALID_INPUT"
+    },
+    "ratio-impossible" : {
+      "error" : "INVALID_INPUT"
+    },
+    "ratio-unsafe-integer" : {
+      "error" : "INVALID_INPUT"
+    },
+    "ratio-truth" : {
+      "error" : "INVALID_INPUT"
+    },
+    "ratio-future" : {
+      "error" : "INVALID_INPUT"
+    },
+    "ratio-unknown-field" : {
+      "error" : "INVALID_INPUT"
+    },
+    "ratio-boolean" : {
+      "error" : "INVALID_INPUT"
+    },
+    "histogram-pooled" : {
+      "primitives" : {
+        "counts" : [ 90, 10, 100, 0, 0, 0, 0, 0, 0 ],
+        "edges" : [ 1.0, 2.0, 5.0, 10.0, 20.0, 40.0, 80.0, 160.0, 320.0 ],
+        "sampleCount" : 200
+      },
+      "values" : {
+        "p95" : 4700.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "histogram-voice" : {
+      "primitives" : {
+        "counts" : [ 0, 90, 10, 0, 0, 0, 0, 0, 0 ],
+        "edges" : [ 0.5, 1.0, 2.0, 3.0, 5.0, 8.0, 15.0, 30.0, 60.0 ],
+        "sampleCount" : 100
+      },
+      "values" : {
+        "p95" : 1.5
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "histogram-empty" : {
+      "primitives" : {
+        "counts" : [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        "edges" : [ 1.0, 2.0, 5.0, 10.0, 20.0, 40.0, 80.0, 160.0, 320.0 ],
+        "sampleCount" : 0
+      },
+      "values" : {
+        "p95" : null
+      },
+      "quality" : "INSUFFICIENT_DATA",
+      "nullReason" : "EMPTY_HISTOGRAM",
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "histogram-incompatible" : {
+      "error" : "INVALID_INPUT"
+    },
+    "histogram-late-negative" : {
+      "error" : "INVALID_INPUT"
+    },
+    "histogram-unordered" : {
+      "error" : "INVALID_INPUT"
+    },
+    "histogram-nonfinite" : {
+      "error" : "INVALID_INPUT"
+    },
+    "capacity-reduction" : {
+      "primitives" : {
+        "validSeconds" : 300.0,
+        "trafficTime" : 3000.0,
+        "utilizationTime" : 22500.0
+      },
+      "values" : {
+        "meanPct" : 75.0,
+        "peakPct" : 100.0,
+        "trafficMeanGbps" : 10.0,
+        "transferredGbEstimate" : 3000.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "capacity-partial" : {
+      "primitives" : {
+        "validSeconds" : 150.0,
+        "trafficTime" : 1500.0,
+        "utilizationTime" : 7500.0
+      },
+      "values" : {
+        "meanPct" : 50.0,
+        "peakPct" : 50.0,
+        "trafficMeanGbps" : 10.0,
+        "transferredGbEstimate" : 1500.0
+      },
+      "quality" : "PARTIAL",
+      "nullReason" : "PARTIAL_COVERAGE",
+      "coverage" : 0.5,
+      "snapshotAt" : null
+    },
+    "capacity-stale" : {
+      "primitives" : {
+        "validSeconds" : 0.0,
+        "trafficTime" : 0.0,
+        "utilizationTime" : 0.0
+      },
+      "values" : {
+        "meanPct" : null,
+        "peakPct" : null,
+        "trafficMeanGbps" : null,
+        "transferredGbEstimate" : null
+      },
+      "quality" : "STALE",
+      "nullReason" : "STALE_SOURCE",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "capacity-missing" : {
+      "primitives" : {
+        "validSeconds" : 0.0,
+        "trafficTime" : 0.0,
+        "utilizationTime" : 0.0
+      },
+      "values" : {
+        "meanPct" : null,
+        "peakPct" : null,
+        "trafficMeanGbps" : null,
+        "transferredGbEstimate" : null
+      },
+      "quality" : "INSUFFICIENT_DATA",
+      "nullReason" : "MISSING_CAPACITY",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "capacity-zero" : {
+      "error" : "INVALID_INPUT"
+    },
+    "capacity-physical-limit" : {
+      "error" : "INVALID_INPUT"
+    },
+    "capacity-overcoverage" : {
+      "error" : "INVALID_INPUT"
+    },
+    "queue-conservation" : {
+      "primitives" : {
+        "openingQueue" : 100,
+        "submitted" : 80,
+        "delivered" : 50,
+        "terminalNegative" : 10,
+        "closingQueue" : 120,
+        "durationSeconds" : 300.0
+      },
+      "values" : {
+        "growth" : 20,
+        "growthPerSecond" : 0.06666666666666667,
+        "finalizedSuccessPct" : 83.33333333333333
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "queue-impossible" : {
+      "error" : "INVALID_INPUT"
+    },
+    "queue-pending-not-failed" : {
+      "primitives" : {
+        "openingQueue" : 100,
+        "submitted" : 0,
+        "delivered" : 0,
+        "terminalNegative" : 0,
+        "closingQueue" : 100,
+        "durationSeconds" : 300.0
+      },
+      "values" : {
+        "growth" : 0,
+        "growthPerSecond" : 0.0,
+        "finalizedSuccessPct" : null
+      },
+      "quality" : "INSUFFICIENT_DATA",
+      "nullReason" : "ZERO_DENOMINATOR",
+      "coverage" : 1.0,
+      "snapshotAt" : null
+    },
+    "city-primitives-and-snapshots" : {
+      "primitives" : {
+        "attempts" : 200,
+        "success" : 200,
+        "drops" : 2,
+        "holding" : 6000.0,
+        "setupSum" : 200.0,
+        "smsSubmitted" : 200,
+        "smsDelivered" : 200,
+        "smsExpired" : 0,
+        "dataAttempts" : 40,
+        "dataSuccess" : 40,
+        "dnsAttempts" : 200,
+        "dnsSuccess" : 200,
+        "hoAttempts" : 20,
+        "hoSuccess" : 20,
+        "voiceCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "smsCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "throughputSum" : 40.0,
+        "rowCount" : 2,
+        "slotCount" : 2,
+        "queue" : 10,
+        "oldest" : 30.0
+      },
+      "values" : {
+        "voiceSR" : 100.0,
+        "dropRate" : 1.0,
+        "erlang" : 10.0,
+        "setupMeanSeconds" : 1.0,
+        "setupP95Seconds" : 1.5,
+        "smsP95Ms" : 3500.0,
+        "smsSR" : 100.0,
+        "dataSR" : 100.0,
+        "dnsSR" : 100.0,
+        "hoSR" : 100.0,
+        "throughputMbps" : 20.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "city-partial" : {
+      "primitives" : {
+        "attempts" : 200,
+        "success" : 200,
+        "drops" : 2,
+        "holding" : 6000.0,
+        "setupSum" : 200.0,
+        "smsSubmitted" : 200,
+        "smsDelivered" : 200,
+        "smsExpired" : 0,
+        "dataAttempts" : 40,
+        "dataSuccess" : 40,
+        "dnsAttempts" : 200,
+        "dnsSuccess" : 200,
+        "hoAttempts" : 20,
+        "hoSuccess" : 20,
+        "voiceCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "smsCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "throughputSum" : 40.0,
+        "rowCount" : 2,
+        "slotCount" : 2,
+        "queue" : 10,
+        "oldest" : 30.0
+      },
+      "values" : {
+        "voiceSR" : 100.0,
+        "dropRate" : 1.0,
+        "erlang" : 10.0,
+        "setupMeanSeconds" : 1.0,
+        "setupP95Seconds" : 1.5,
+        "smsP95Ms" : 3500.0,
+        "smsSR" : 100.0,
+        "dataSR" : 100.0,
+        "dnsSR" : 100.0,
+        "hoSR" : 100.0,
+        "throughputMbps" : 20.0
+      },
+      "quality" : "PARTIAL",
+      "nullReason" : "PARTIAL_COVERAGE",
+      "coverage" : 0.5,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "city-missing" : {
+      "primitives" : {
+        "attempts" : 0,
+        "success" : 0,
+        "drops" : 0,
+        "holding" : 0,
+        "setupSum" : 0,
+        "smsSubmitted" : 0,
+        "smsDelivered" : 0,
+        "smsExpired" : 0,
+        "dataAttempts" : 0,
+        "dataSuccess" : 0,
+        "dnsAttempts" : 0,
+        "dnsSuccess" : 0,
+        "hoAttempts" : 0,
+        "hoSuccess" : 0,
+        "voiceCounts" : [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        "smsCounts" : [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        "throughputSum" : 0.0,
+        "rowCount" : 0,
+        "slotCount" : 0,
+        "queue" : 0,
+        "oldest" : 0.0
+      },
+      "values" : {
+        "voiceSR" : null,
+        "dropRate" : null,
+        "erlang" : null,
+        "setupMeanSeconds" : null,
+        "setupP95Seconds" : null,
+        "smsP95Ms" : null,
+        "smsSR" : null,
+        "dataSR" : null,
+        "dnsSR" : null,
+        "hoSR" : null,
+        "throughputMbps" : null
+      },
+      "quality" : "MISSING",
+      "nullReason" : "NO_OBSERVATIONS",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "city-impossible-histogram" : {
+      "error" : "INVALID_INPUT"
+    },
+    "city-duplicate" : {
+      "error" : "INVALID_INPUT"
+    },
+    "city-outside-window" : {
+      "error" : "INVALID_INPUT"
+    },
+    "city-disjoint-same-time" : {
+      "primitives" : {
+        "attempts" : 200,
+        "success" : 200,
+        "drops" : 2,
+        "holding" : 6000.0,
+        "setupSum" : 200.0,
+        "smsSubmitted" : 200,
+        "smsDelivered" : 200,
+        "smsExpired" : 0,
+        "dataAttempts" : 40,
+        "dataSuccess" : 40,
+        "dnsAttempts" : 200,
+        "dnsSuccess" : 200,
+        "hoAttempts" : 20,
+        "hoSuccess" : 20,
+        "voiceCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "smsCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "throughputSum" : 40.0,
+        "rowCount" : 2,
+        "slotCount" : 1,
+        "queue" : 30,
+        "oldest" : 60.0
+      },
+      "values" : {
+        "voiceSR" : 100.0,
+        "dropRate" : 1.0,
+        "erlang" : 20.0,
+        "setupMeanSeconds" : 1.0,
+        "setupP95Seconds" : 1.5,
+        "smsP95Ms" : 3500.0,
+        "smsSR" : 100.0,
+        "dataSR" : 100.0,
+        "dnsSR" : 100.0,
+        "hoSR" : 100.0,
+        "throughputMbps" : 20.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:00:00Z"
+    },
+    "city-misaligned-snapshots" : {
+      "primitives" : {
+        "attempts" : 200,
+        "success" : 200,
+        "drops" : 2,
+        "holding" : 6000.0,
+        "setupSum" : 200.0,
+        "smsSubmitted" : 200,
+        "smsDelivered" : 200,
+        "smsExpired" : 0,
+        "dataAttempts" : 40,
+        "dataSuccess" : 40,
+        "dnsAttempts" : 200,
+        "dnsSuccess" : 200,
+        "hoAttempts" : 20,
+        "hoSuccess" : 20,
+        "voiceCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "smsCounts" : [ 0, 180, 20, 0, 0, 0, 0, 0, 0 ],
+        "throughputSum" : 40.0,
+        "rowCount" : 2,
+        "slotCount" : 2,
+        "queue" : null,
+        "oldest" : null
+      },
+      "values" : {
+        "voiceSR" : 100.0,
+        "dropRate" : 1.0,
+        "erlang" : 10.0,
+        "setupMeanSeconds" : 1.0,
+        "setupP95Seconds" : 1.5,
+        "smsP95Ms" : 3500.0,
+        "smsSR" : 100.0,
+        "dataSR" : 100.0,
+        "dnsSR" : 100.0,
+        "hoSR" : 100.0,
+        "throughputMbps" : 20.0
+      },
+      "quality" : "PARTIAL",
+      "nullReason" : "SNAPSHOT_MISALIGNED",
+      "coverage" : 0.5,
+      "snapshotAt" : null
+    },
+    "link-period-exclusive-boundary" : {
+      "primitives" : {
+        "trafficGbps" : 10.0,
+        "effectiveCapacityGbps" : 10.0
+      },
+      "values" : {
+        "utilizationPct" : 100.0,
+        "ageSeconds" : 300.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "link-explicit-inclusive-boundary" : {
+      "primitives" : {
+        "trafficGbps" : 1.0,
+        "effectiveCapacityGbps" : 20.0
+      },
+      "values" : {
+        "utilizationPct" : 5.0,
+        "ageSeconds" : 0.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:10:00Z"
+    },
+    "link-stale" : {
+      "primitives" : {
+        "trafficGbps" : 10.0,
+        "effectiveCapacityGbps" : 10.0
+      },
+      "values" : {
+        "utilizationPct" : null,
+        "ageSeconds" : 300.0
+      },
+      "quality" : "STALE",
+      "nullReason" : "STALE_SOURCE",
+      "coverage" : 0.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "link-wrong-endpoint" : {
+      "primitives" : {
+        "trafficGbps" : null,
+        "effectiveCapacityGbps" : null
+      },
+      "values" : {
+        "utilizationPct" : null,
+        "ageSeconds" : null
+      },
+      "quality" : "MISSING",
+      "nullReason" : "NO_OBSERVATIONS",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "link-outside-dataset" : {
+      "primitives" : {
+        "trafficGbps" : null,
+        "effectiveCapacityGbps" : null
+      },
+      "values" : {
+        "utilizationPct" : null,
+        "ageSeconds" : null
+      },
+      "quality" : "MISSING",
+      "nullReason" : "OUTSIDE_DATASET",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "link-dataset-end-exclusive" : {
+      "primitives" : {
+        "trafficGbps" : 10.0,
+        "effectiveCapacityGbps" : 10.0
+      },
+      "values" : {
+        "utilizationPct" : 100.0,
+        "ageSeconds" : 300.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "link-missing-capacity" : {
+      "primitives" : {
+        "trafficGbps" : 10.0,
+        "effectiveCapacityGbps" : null
+      },
+      "values" : {
+        "utilizationPct" : null,
+        "ageSeconds" : 300.0
+      },
+      "quality" : "INSUFFICIENT_DATA",
+      "nullReason" : "MISSING_CAPACITY",
+      "coverage" : 0.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "link-invalid-capacity" : {
+      "error" : "INVALID_INPUT"
+    },
+    "link-physical-limit" : {
+      "error" : "INVALID_INPUT"
+    },
+    "link-before-dataset" : {
+      "primitives" : {
+        "trafficGbps" : null,
+        "effectiveCapacityGbps" : null
+      },
+      "values" : {
+        "utilizationPct" : null,
+        "ageSeconds" : null
+      },
+      "quality" : "MISSING",
+      "nullReason" : "NO_OBSERVATIONS",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "roaming-round-each-and-direction-control" : {
+      "primitives" : {
+        "regAtt" : 200,
+        "regOk" : 198,
+        "dataAtt" : 200,
+        "dataOk" : 180,
+        "voiceAtt" : 200,
+        "voiceOk" : 196,
+        "smsAtt" : 200,
+        "smsOk" : 198,
+        "users" : 22
+      },
+      "values" : {
+        "users" : 4,
+        "regSR" : 99.0,
+        "dataSR" : 90.0,
+        "voiceSR" : 98.0,
+        "smsSR" : 99.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "roaming-country-control" : {
+      "primitives" : {
+        "regAtt" : 100,
+        "regOk" : 99,
+        "dataAtt" : 100,
+        "dataOk" : 90,
+        "voiceAtt" : 100,
+        "voiceOk" : 98,
+        "smsAtt" : 100,
+        "smsOk" : 99,
+        "users" : 11
+      },
+      "values" : {
+        "users" : 2,
+        "regSR" : 99.0,
+        "dataSR" : 90.0,
+        "voiceSR" : 98.0,
+        "smsSR" : 99.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "roaming-stale" : {
+      "primitives" : {
+        "regAtt" : 200,
+        "regOk" : 198,
+        "dataAtt" : 200,
+        "dataOk" : 180,
+        "voiceAtt" : 200,
+        "voiceOk" : 196,
+        "smsAtt" : 200,
+        "smsOk" : 198,
+        "users" : 22
+      },
+      "values" : {
+        "users" : null,
+        "regSR" : 99.0,
+        "dataSR" : 90.0,
+        "voiceSR" : 98.0,
+        "smsSR" : 99.0
+      },
+      "quality" : "STALE",
+      "nullReason" : "STALE_SOURCE",
+      "coverage" : 0.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "roaming-any-stale-control" : {
+      "primitives" : {
+        "regAtt" : 200,
+        "regOk" : 198,
+        "dataAtt" : 200,
+        "dataOk" : 180,
+        "voiceAtt" : 200,
+        "voiceOk" : 196,
+        "smsAtt" : 200,
+        "smsOk" : 198,
+        "users" : 22
+      },
+      "values" : {
+        "users" : null,
+        "regSR" : 99.0,
+        "dataSR" : 90.0,
+        "voiceSR" : 98.0,
+        "smsSR" : 99.0
+      },
+      "quality" : "STALE",
+      "nullReason" : "STALE_SOURCE",
+      "coverage" : 0.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "roaming-invalid-direction" : {
+      "error" : "INVALID_INPUT"
+    },
+    "roaming-missing" : {
+      "primitives" : {
+        "regAtt" : 0,
+        "regOk" : 0,
+        "dataAtt" : 0,
+        "dataOk" : 0,
+        "voiceAtt" : 0,
+        "voiceOk" : 0,
+        "smsAtt" : 0,
+        "smsOk" : 0,
+        "users" : 0
+      },
+      "values" : {
+        "users" : null,
+        "regSR" : null,
+        "dataSR" : null,
+        "voiceSR" : null,
+        "smsSR" : null
+      },
+      "quality" : "MISSING",
+      "nullReason" : "NO_OBSERVATIONS",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "roaming-truth" : {
+      "error" : "INVALID_INPUT"
+    },
+    "roaming-misaligned-fresh-snapshots" : {
+      "primitives" : {
+        "regAtt" : 200,
+        "regOk" : 198,
+        "dataAtt" : 200,
+        "dataOk" : 180,
+        "voiceAtt" : 200,
+        "voiceOk" : 196,
+        "smsAtt" : 200,
+        "smsOk" : 198,
+        "users" : null
+      },
+      "values" : {
+        "users" : null,
+        "regSR" : 99.0,
+        "dataSR" : 90.0,
+        "voiceSR" : 98.0,
+        "smsSR" : 99.0
+      },
+      "quality" : "PARTIAL",
+      "nullReason" : "SNAPSHOT_MISALIGNED",
+      "coverage" : 0.0,
+      "snapshotAt" : null
+    },
+    "roaming-max-safe-identity-share" : {
+      "primitives" : {
+        "regAtt" : 100,
+        "regOk" : 99,
+        "dataAtt" : 100,
+        "dataOk" : 90,
+        "voiceAtt" : 100,
+        "voiceOk" : 98,
+        "smsAtt" : 100,
+        "smsOk" : 99,
+        "users" : 9007199254740991
+      },
+      "values" : {
+        "users" : 9007199254740991,
+        "regSR" : 99.0,
+        "dataSR" : 90.0,
+        "voiceSR" : 98.0,
+        "smsSR" : 99.0
+      },
+      "quality" : "VALID",
+      "nullReason" : null,
+      "coverage" : 1.0,
+      "snapshotAt" : "2026-10-10T08:05:00Z"
+    },
+    "window-unsupported-submillisecond" : {
+      "error" : "INVALID_INPUT"
+    }
+  },
+  "contexts" : {
+    "ratio-unequal-volume" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-unequal-volume"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-zero" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-zero"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-negative" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-negative"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-impossible" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-impossible"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-unsafe-integer" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-unsafe-integer"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-truth" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-truth"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-future" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-future"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-unknown-field" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-unknown-field"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "ratio-boolean" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "ratio-boolean"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    },
+    "histogram-pooled" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "histogram-pooled"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "p95" : "MILLISECONDS"
+      }
+    },
+    "histogram-voice" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "histogram-voice"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "p95" : "SECONDS"
+      }
+    },
+    "histogram-empty" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "histogram-empty"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "p95" : "MILLISECONDS"
+      }
+    },
+    "histogram-incompatible" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "histogram-incompatible"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "p95" : "SECONDS"
+      }
+    },
+    "histogram-late-negative" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "histogram-late-negative"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "p95" : "SECONDS"
+      }
+    },
+    "histogram-unordered" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "histogram-unordered"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "p95" : "SECONDS"
+      }
+    },
+    "histogram-nonfinite" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "histogram-nonfinite"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "p95" : "SECONDS"
+      }
+    },
+    "capacity-reduction" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "capacity-reduction"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "meanPct" : "PERCENT",
+        "peakPct" : "PERCENT",
+        "trafficMeanGbps" : "GBPS",
+        "transferredGbEstimate" : "GIGABITS"
+      }
+    },
+    "capacity-partial" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "capacity-partial"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "meanPct" : "PERCENT",
+        "peakPct" : "PERCENT",
+        "trafficMeanGbps" : "GBPS",
+        "transferredGbEstimate" : "GIGABITS"
+      }
+    },
+    "capacity-stale" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "capacity-stale"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "meanPct" : "PERCENT",
+        "peakPct" : "PERCENT",
+        "trafficMeanGbps" : "GBPS",
+        "transferredGbEstimate" : "GIGABITS"
+      }
+    },
+    "capacity-missing" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "capacity-missing"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "meanPct" : "PERCENT",
+        "peakPct" : "PERCENT",
+        "trafficMeanGbps" : "GBPS",
+        "transferredGbEstimate" : "GIGABITS"
+      }
+    },
+    "capacity-zero" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "capacity-zero"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "meanPct" : "PERCENT",
+        "peakPct" : "PERCENT",
+        "trafficMeanGbps" : "GBPS",
+        "transferredGbEstimate" : "GIGABITS"
+      }
+    },
+    "capacity-physical-limit" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "capacity-physical-limit"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "meanPct" : "PERCENT",
+        "peakPct" : "PERCENT",
+        "trafficMeanGbps" : "GBPS",
+        "transferredGbEstimate" : "GIGABITS"
+      }
+    },
+    "capacity-overcoverage" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "capacity-overcoverage"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "meanPct" : "PERCENT",
+        "peakPct" : "PERCENT",
+        "trafficMeanGbps" : "GBPS",
+        "transferredGbEstimate" : "GIGABITS"
+      }
+    },
+    "queue-conservation" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "queue-conservation"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "growth" : "COUNT",
+        "growthPerSecond" : "COUNT_PER_SECOND",
+        "finalizedSuccessPct" : "PERCENT"
+      }
+    },
+    "queue-impossible" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "queue-impossible"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "growth" : "COUNT",
+        "growthPerSecond" : "COUNT_PER_SECOND",
+        "finalizedSuccessPct" : "PERCENT"
+      }
+    },
+    "queue-pending-not-failed" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "queue-pending-not-failed"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "growth" : "COUNT",
+        "growthPerSecond" : "COUNT_PER_SECOND",
+        "finalizedSuccessPct" : "PERCENT"
+      }
+    },
+    "city-primitives-and-snapshots" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-primitives-and-snapshots"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "city-partial" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-partial"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "city-missing" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-missing"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "city-impossible-histogram" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-impossible-histogram"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "city-duplicate" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-duplicate"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "city-outside-window" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-outside-window"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "city-disjoint-same-time" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-disjoint-same-time"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "city-misaligned-snapshots" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "city-misaligned-snapshots"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "voiceSR" : "PERCENT",
+        "dropRate" : "PERCENT",
+        "erlang" : "ERLANG",
+        "setupMeanSeconds" : "SECONDS",
+        "setupP95Seconds" : "SECONDS",
+        "smsP95Ms" : "MILLISECONDS",
+        "smsSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "dnsSR" : "PERCENT",
+        "hoSR" : "PERCENT",
+        "throughputMbps" : "MBPS"
+      }
+    },
+    "link-period-exclusive-boundary" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-period-exclusive-boundary"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-explicit-inclusive-boundary" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-explicit-inclusive-boundary"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-stale" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-stale"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-wrong-endpoint" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-wrong-endpoint"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-outside-dataset" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-outside-dataset"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-dataset-end-exclusive" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-dataset-end-exclusive"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-missing-capacity" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-missing-capacity"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-invalid-capacity" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-invalid-capacity"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-physical-limit" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-physical-limit"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "link-before-dataset" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "link-before-dataset"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "utilizationPct" : "PERCENT",
+        "ageSeconds" : "SECONDS"
+      }
+    },
+    "roaming-round-each-and-direction-control" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-round-each-and-direction-control"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-country-control" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-country-control"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-stale" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-stale"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-any-stale-control" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-any-stale-control"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-invalid-direction" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-invalid-direction"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-missing" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-missing"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-truth" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-truth"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-misaligned-fresh-snapshots" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-misaligned-fresh-snapshots"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "roaming-max-safe-identity-share" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "roaming-max-safe-identity-share"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00Z",
+        "to" : "2026-10-10T08:10:00Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "users" : "COUNT",
+        "regSR" : "PERCENT",
+        "dataSR" : "PERCENT",
+        "voiceSR" : "PERCENT",
+        "smsSR" : "PERCENT"
+      }
+    },
+    "window-unsupported-submillisecond" : {
+      "scope" : {
+        "type" : "REFERENCE",
+        "id" : "window-unsupported-submillisecond"
+      },
+      "window" : {
+        "from" : "2026-10-10T08:00:00.000000001Z",
+        "to" : "2026-10-10T08:00:00.000000002Z"
+      },
+      "policyVersion" : "trace-link-metrics-v1",
+      "units" : {
+        "value" : "PERCENT"
+      }
+    }
+  }
+}

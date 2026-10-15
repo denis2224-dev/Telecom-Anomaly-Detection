@@ -1,0 +1,11 @@
+Ran 119 tests in 20.603s
+OK
+PASS: 7 cause DTO examples and 1 PLANNED auxiliary shape samples; no runtime correlation claim
+PASS: 2 PLANNED failed-ping/probe schema examples; ingestion-boundary coverage only
+PASS: 14 explanation trajectories with validated nested features, nodes and detections
+PASS: 8 geographic voice and 7 SMS numeric reference cases
+PASS: 10 cities, 20 geographic scopes + 2 legacy, 50 observations, 12 rejected catalogues, 30 coverage cases
+PASS: Trace Link 43 KPI definitions and 8 evidence cases; CONTRACT_ONLY
+PASS: Trace Link reference inventory, 17 domain examples and bounded native archive checksums
+PASS: 1 frozen V2/reference files and independent fixture hash unchanged
+PASS: 11 native producer metrics and 5 absent reverse-direction controls; source/checksum/arithmetic parity

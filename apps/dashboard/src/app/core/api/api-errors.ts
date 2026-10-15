@@ -14,7 +14,13 @@ export class ApiFailure extends Error {
             ? 'This item changed. Reload and review it before trying again.'
             : status === 404
               ? 'This item could not be found.'
-              : 'The service could not be reached. Try again.',
+              : status === 429
+                ? 'Too many requests. Wait before trying again.'
+                : status === 503
+                  ? 'The service is temporarily unavailable. Try again.'
+                  : status === 400
+                    ? 'The request is invalid. Review the selected context.'
+                    : 'The service could not be reached. Try again.',
     );
   }
 }

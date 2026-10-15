@@ -1,0 +1,236 @@
+[
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 1,
+    "metric": "transport.traffic",
+    "primitives": {
+      "weightedSum": 596.28,
+      "validSeconds": 60
+    },
+    "actual": 9.937999999999999,
+    "unit": "GBPS",
+    "quality": "VALID",
+    "eventId": "4b8a5994eebecf77a391d05bc17973b25b77f68404302840569c1128b9f7be4b"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 1,
+    "metric": "transport.effectiveCapacity",
+    "primitives": {
+      "value": 20,
+      "snapshotAt": "2026-10-13T09:00:00Z"
+    },
+    "actual": 20,
+    "unit": "GBPS",
+    "quality": "VALID",
+    "eventId": "079dd4a45a081329e30d5cd070129ec9d9a83d0e2f7fb6e7675d55f9eb6ee671"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 1,
+    "metric": "transport.link.utilization",
+    "primitives": {
+      "weightedSum": 2981.4,
+      "validSeconds": 60
+    },
+    "actual": 49.690000000000005,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "800b09998ca5a8722a7335f996c2290ed934f78c3c2a46a8d6b1ea54d46a3f21"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 3,
+    "metric": "transport.traffic",
+    "primitives": {
+      "weightedSum": 1174.08,
+      "validSeconds": 60
+    },
+    "actual": 19.567999999999998,
+    "unit": "GBPS",
+    "quality": "VALID",
+    "eventId": "1f4e7aed40b9e616f064c76ca35878c219bab57ea2d02a6b13d6e8f360a1f983"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 3,
+    "metric": "transport.effectiveCapacity",
+    "primitives": {
+      "value": 20,
+      "snapshotAt": "2026-10-13T09:02:00Z"
+    },
+    "actual": 20,
+    "unit": "GBPS",
+    "quality": "VALID",
+    "eventId": "218289c76b4cc2ffcb2fb8de38f0793a9a8b04b2967f3abccb123ffdc5102639"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 3,
+    "metric": "transport.link.utilization",
+    "primitives": {
+      "weightedSum": 5870.4,
+      "validSeconds": 60
+    },
+    "actual": 97.83999999999999,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "4829c06610e9d92fce2067226b46c6e7fdf5d3f3511c6ea4fb71811aa71056a3"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 6,
+    "metric": "transport.traffic",
+    "primitives": {
+      "weightedSum": 597.6,
+      "validSeconds": 60
+    },
+    "actual": 9.96,
+    "unit": "GBPS",
+    "quality": "VALID",
+    "eventId": "5077c3cad3be6c86bc040f1fb927fa418709599a384186e1dc7512680ded62ee"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 6,
+    "metric": "transport.effectiveCapacity",
+    "primitives": {
+      "value": 20,
+      "snapshotAt": "2026-10-13T09:05:00Z"
+    },
+    "actual": 20,
+    "unit": "GBPS",
+    "quality": "VALID",
+    "eventId": "5b22f8485a65b64a1048a60f4c55e3b99c9589a84d786412893ea3aa3e40f7d1"
+  },
+  {
+    "scenario": "TRANSPORT_LINK_OVERLOAD",
+    "minute": 6,
+    "metric": "transport.link.utilization",
+    "primitives": {
+      "weightedSum": 2988.0,
+      "validSeconds": 60
+    },
+    "actual": 49.8,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "1b4799396df43a592fbf89b8d7fa86daa554c447cb955502640ec9f067432f7a"
+  },
+  {
+    "scenario": "ROAMING_REGISTRATION_FAILURE",
+    "minute": 1,
+    "metric": "roaming.registration.success",
+    "primitives": {
+      "numerator": 1001,
+      "denominator": 1012
+    },
+    "actual": 98.91304347826087,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "52c092971794d6a05f19f521d361e3b7fab4cd7ff1859ca7249da624a21c6ccc"
+  },
+  {
+    "scenario": "ROAMING_REGISTRATION_FAILURE",
+    "minute": 3,
+    "metric": "roaming.registration.success",
+    "primitives": {
+      "numerator": 721,
+      "denominator": 1031
+    },
+    "actual": 69.93210475266731,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "2ab14dee6b33877bd126ef51b3ee65a6f487cba1444cf05635d326457269e15c"
+  },
+  {
+    "scenario": "ROAMING_REGISTRATION_FAILURE",
+    "minute": 6,
+    "metric": "roaming.registration.success",
+    "primitives": {
+      "numerator": 1014,
+      "denominator": 1025
+    },
+    "actual": 98.92682926829268,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "b6a53f9427fa9407168a6015162b41d81b132772f35083c07f037caf5048add0"
+  },
+  {
+    "scenario": "MOBILE_DATA_DNS_FAILURE",
+    "minute": 1,
+    "metric": "mobileData.dns.success",
+    "primitives": {
+      "numerator": 1031,
+      "denominator": 1042
+    },
+    "actual": 98.9443378119002,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "368e167115090814a26181ac2d623316afaaaeb2370f44aaef305e9568901a71"
+  },
+  {
+    "scenario": "MOBILE_DATA_DNS_FAILURE",
+    "minute": 1,
+    "metric": "mobileData.activation.success",
+    "primitives": {
+      "numerator": 1018,
+      "denominator": 1029
+    },
+    "actual": 98.9310009718173,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "86b6fcdd915fada1090afd73dab5d658f9c69d831b7e46e19f93e414891a8f57"
+  },
+  {
+    "scenario": "MOBILE_DATA_DNS_FAILURE",
+    "minute": 3,
+    "metric": "mobileData.dns.success",
+    "primitives": {
+      "numerator": 703,
+      "denominator": 1005
+    },
+    "actual": 69.95024875621891,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "04e3516003d7e6a9e04986ab5142827e3e9385eceddfeab75ed78f1bcbbcc177"
+  },
+  {
+    "scenario": "MOBILE_DATA_DNS_FAILURE",
+    "minute": 3,
+    "metric": "mobileData.activation.success",
+    "primitives": {
+      "numerator": 1003,
+      "denominator": 1014
+    },
+    "actual": 98.91518737672584,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "dc372ddec43aec83a5843d50c1c39d920874f7ad8824ec5c227530cd701b196a"
+  },
+  {
+    "scenario": "MOBILE_DATA_DNS_FAILURE",
+    "minute": 6,
+    "metric": "mobileData.dns.success",
+    "primitives": {
+      "numerator": 1007,
+      "denominator": 1018
+    },
+    "actual": 98.91944990176817,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "85be0e5fcd43a0d3bf5f1f270e70abb2aeb72bdd200061a3e838cf7fc36cda17"
+  },
+  {
+    "scenario": "MOBILE_DATA_DNS_FAILURE",
+    "minute": 6,
+    "metric": "mobileData.activation.success",
+    "primitives": {
+      "numerator": 1017,
+      "denominator": 1028
+    },
+    "actual": 98.92996108949416,
+    "unit": "PERCENT",
+    "quality": "VALID",
+    "eventId": "6c28e683a4cdbcd8f5659d4a8eefd0e71aa38c91e38a28c34bc9b7fb89fabf05"
+  }
+]

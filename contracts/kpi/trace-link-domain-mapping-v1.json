@@ -1,0 +1,406 @@
+{
+  "mappingVersion": "trace-link-domain-mapping-v1",
+  "activation": "ISOLATED_TEST_ONLY",
+  "ownerDecision": "PENDING_REVIEW",
+  "wireToApiDomain": {
+    "VOLTE": "volte",
+    "TRANSPORT": "transport",
+    "ROAMING": "roaming",
+    "MOBILE_DATA": "mobile-data",
+    "SMS": "sms"
+  },
+  "legacyPath": "VOLTE primitive projection v1 remains in V008; existing VoLTE/SMS rules, schemas and episodes unchanged",
+  "sourcePaths": {
+    "LIVE_60": {
+      "schema": "trace-link-domain-window-v1",
+      "duration": 60,
+      "datasetId": "trace-link-live-synthetic-v1",
+      "sourceCoverage": "observation.coverage",
+      "detectorPolicy": "trace-link-live-synthetic-rules-v1",
+      "baseline": "trace-link-live-static-baseline-v1"
+    },
+    "NATIVE_300": {
+      "schema": "trace-link-domain-primitive-result-v1",
+      "duration": 300,
+      "sourceCoverage": null,
+      "quality": "INSUFFICIENT_EVIDENCE for observed native slots; MISSING for absent slots",
+      "offlineDetector": "trace-link-evaluation-v1 (separate approved evidence, no automatic promotion of native unknown quality)"
+    }
+  },
+  "scopeFields": {
+    "TRANSPORT": [
+      "scopeId",
+      "linkId",
+      "directionId"
+    ],
+    "ROAMING": [
+      "scopeId",
+      "partnerId",
+      "countryId",
+      "direction",
+      "procedure"
+    ],
+    "MOBILE_DATA": [
+      "scopeId",
+      "contractCityId",
+      "accessTechnology",
+      "procedure"
+    ]
+  },
+  "metrics": [
+    {
+      "metricId": "transport.traffic",
+      "displayName": "Directional carried traffic",
+      "domain": "TRANSPORT",
+      "unit": "GBPS",
+      "population": "Directional carried bits / valid elapsed seconds / 1e9; time-weight each observed rate.",
+      "aggregation": "TIME_WEIGHTED_MEAN",
+      "primitiveFields": [
+        "weightedSum",
+        "validSeconds"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "traffic_gbps"
+        ],
+        "reason": "Reference rate sample assumes 300 valid seconds and A-to-B direction; byte deltas/reset epochs absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.effectiveCapacity",
+      "displayName": "Effective directional capacity",
+      "domain": "TRANSPORT",
+      "unit": "GBPS",
+      "population": "Operational directional capacity valid at the endpoint; retain changes, never substitute nominal capacity after reduction.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "effective_capacity_gbps"
+        ],
+        "reason": "Slot-level gauge available; exact validity intervals/source authority absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.link.utilization",
+      "displayName": "Link utilization",
+      "domain": "TRANSPORT",
+      "unit": "PERCENT",
+      "population": "100 * directional carried traffic / contemporaneous positive effective capacity, averaged over valid seconds.",
+      "aggregation": "TIME_WEIGHTED_MEAN",
+      "primitiveFields": [
+        "weightedSum",
+        "validSeconds"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "traffic_gbps",
+          "effective_capacity_gbps"
+        ],
+        "reason": "Reference endpoint ratio supported; mean requires explicit 300-second validity assumption. Reference linkSeries displays peak, not mean."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.rtt.snapshot",
+      "displayName": "Round-trip latency snapshot",
+      "domain": "TRANSPORT",
+      "unit": "MILLISECONDS",
+      "population": "Illustrative RTT scalar at selected link endpoint observation.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "rtt_ms"
+        ],
+        "reason": "Probe/path identity absent; series uses worst-scoped RTT, not probe-weighted mean."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "transport.jitter",
+      "displayName": "Packet-delay variation",
+      "domain": "TRANSPORT",
+      "unit": "MILLISECONDS",
+      "population": "Declared delay-variation estimator on a named stream/probe/path at the endpoint.",
+      "aggregation": "SNAPSHOT_LAST",
+      "primitiveFields": [
+        "value",
+        "snapshotAt"
+      ],
+      "scopeDimensions": [
+        "linkId",
+        "directionId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "jitter_ms"
+        ],
+        "reason": "Synthetic scalar; estimator and probe identity absent."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.registration.success",
+      "displayName": "Roaming registration success",
+      "domain": "ROAMING",
+      "unit": "PERCENT",
+      "population": "Independent qualifying registration procedures successes / attempts, separated by partner, country and direction.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "reg_success",
+          "reg_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.data.success",
+      "displayName": "Roaming data session success",
+      "domain": "ROAMING",
+      "unit": "PERCENT",
+      "population": "Independent qualifying data-session procedures successes / attempts, separated by partner, country and direction.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "data_success",
+          "data_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "roaming.voice.success",
+      "displayName": "Roaming voice setup success",
+      "domain": "ROAMING",
+      "unit": "PERCENT",
+      "population": "Independent qualifying voice setup procedures successes / attempts, separated by partner, country and direction.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "countryId",
+        "partnerId",
+        "directionId",
+        "procedure"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "SUPPORTED",
+        "fields": [
+          "voice_success",
+          "voice_attempts"
+        ],
+        "reason": null
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "mobileData.activation.success",
+      "displayName": "LTE EPS bearer activation success",
+      "domain": "MOBILE_DATA",
+      "unit": "PERCENT",
+      "population": "Successful selected eligible LTE EPS bearer activations / attempts; attach/default/dedicated procedures must remain distinct.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "data_success",
+          "data_attempts"
+        ],
+        "reason": "Generic fictional activation counters lack access/procedure eligibility evidence."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "mobileData.dns.success",
+      "displayName": "Post-activation DNS success",
+      "domain": "MOBILE_DATA",
+      "unit": "PERCENT",
+      "population": "Successful qualifying DNS responses / DNS requests among established-session probes, independent of activation attempts.",
+      "aggregation": "RATIO_OF_SUMS",
+      "primitiveFields": [
+        "numerator",
+        "denominator"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "REQUIRES_ADDITIONAL_PRIMITIVES",
+        "fields": [
+          "dns_success",
+          "dns_attempts"
+        ],
+        "reason": "Reference dns_attempts = data_attempts * 8, not successful activations; post-activation eligibility is unproven. Keep reference ratio labelled reference-only."
+      },
+      "histogramSchema": null
+    },
+    {
+      "metricId": "mobileData.throughput",
+      "displayName": "Modeled user throughput",
+      "domain": "MOBILE_DATA",
+      "unit": "MBPS",
+      "population": "Declared measurement-method user samples with direction and valid sample weighting; distinct from transferred bytes / active seconds.",
+      "aggregation": "WEIGHTED_MEAN",
+      "primitiveFields": [
+        "sum",
+        "count"
+      ],
+      "scopeDimensions": [
+        "cityId"
+      ],
+      "minimumVolume": null,
+      "qualityRequirements": [
+        "VALID_PRIMITIVES",
+        "EXPLICIT_COVERAGE",
+        "FRESH_SOURCE"
+      ],
+      "policyVersion": "trace-link-kpi-v1",
+      "reference": {
+        "availability": "APPROXIMATION",
+        "fields": [
+          "user_throughput_mbps"
+        ],
+        "reason": "Reference arithmetic mean of modeled city-slot scalars; user/session weighting and speed-test observations absent."
+      },
+      "histogramSchema": null
+    }
+  ],
+  "payloadBytes": "Unchanged original bytes in sourcePayloadBase64, sha256 verified; original eventId retained",
+  "deduplication": "Finalized revision 0; identical bytes accepted; changed bytes or logical slot conflict rejected",
+  "query": "Native aligned 60 or 300 seconds only, maximum 30 days and 8640 points; explicit missing points; no rollup or duration translation",
+  "delivery": "DISABLED; no topic, Kafka listener or outbox release"
+}

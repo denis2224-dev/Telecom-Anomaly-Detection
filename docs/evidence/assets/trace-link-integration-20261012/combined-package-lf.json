@@ -1,0 +1,23 @@
+{
+  "name": "combined-package-lf",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+    "-B",
+    "-ntp",
+    "-Dmaven",
+    ".repo.local=C:/OrangeSystems/Program/.tools/m2",
+    "-pl",
+    "services/processor",
+    "-am",
+    "-DskipTests",
+    "package"
+  ],
+  "startedAt": "2026-10-12T19:07:38.130139+00:00",
+  "finishedAt": "2026-10-12T19:07:49.699794+00:00",
+  "elapsedSeconds": 11.57,
+  "exitCode": 1,
+  "status": "FAIL",
+  "log": "combined-package-lf.log",
+  "logSha256": "c16dc41978397c76235868a60e20e01d00a8c8464b12c7113c3317fd4deeb52e"
+}

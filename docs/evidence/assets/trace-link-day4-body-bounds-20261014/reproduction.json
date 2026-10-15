@@ -1,0 +1,131 @@
+{
+  "rawWindow": {
+    "domain": "TRANSPORT",
+    "step": 0,
+    "input": {
+      "schemaVersion": "trace-link-persisted-window-v1",
+      "finalized": true,
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:40:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:0:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:0:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 30,
+              "denominator": 1000
+            },
+            "actual": 3.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:40:00Z",
+              "asOf": "2026-10-10T08:40:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+              "from": "2026-10-10T08:35:00Z",
+              "to": "2026-10-10T08:40:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "68b66e32b983be49c0f4eed366fd2b11725ede94ad84f0f232e2f8fe8b2bb97d"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:40:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "candidates": [],
+      "controls": [],
+      "dependencySnapshot": {
+        "topologyVersion": "trace-link-md-topology-v1",
+        "relations": []
+      }
+    }
+  },
+  "requestModelVersion": "trace-link-shadow-v1",
+  "attack": {
+    "length": 6000004,
+    "sha256": "d898972bc2e91a8d5999fe5ddefad63473bee849c5db8753cadaa765e27e90d9",
+    "prefix": "[",
+    "repeat": "{},",
+    "repeatCount": 2000000,
+    "suffix": "{}]"
+  },
+  "expected": {
+    "status": "FALLBACK",
+    "reason": "RESPONSE_TOO_LARGE",
+    "acceptedResponse": null,
+    "maximumRetainedBodyBytes": 16384
+  },
+  "before": {
+    "reason": "MALFORMED_RESPONSE",
+    "latencyMs": 267.6214,
+    "javaRuntime": "25.0.4.1"
+  }
+}

@@ -126,7 +126,8 @@
               "UNSUPPORTED_SUPPORT_METRIC",
               "WRONG_DATASET_OR_NAMESPACE",
               "WRONG_EVALUATION_TIME",
-              "WRONG_SCOPE_OR_PATH"
+              "WRONG_SCOPE_OR_PATH",
+              "UNTRUSTED_DEPENDENCY_SNAPSHOT"
             ]
           }
         },
@@ -166,7 +167,8 @@
           "UNSUPPORTED_SUPPORT_METRIC",
           "WRONG_DATASET_OR_NAMESPACE",
           "WRONG_EVALUATION_TIME",
-          "WRONG_SCOPE_OR_PATH"
+          "WRONG_SCOPE_OR_PATH",
+          "UNTRUSTED_DEPENDENCY_SNAPSHOT"
         ]
       },
       "uniqueItems": true

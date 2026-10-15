@@ -2,7 +2,7 @@ import {
   test,
   expect,
   type Page,
-} from '@playwright/test';
+} from '../helpers/test';
 
 test.skip(!process.env.E2E_REAL_LOGIN, 'Requires the protected local stack and test credentials');
 
