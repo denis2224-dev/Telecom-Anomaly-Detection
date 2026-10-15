@@ -44,8 +44,10 @@ jobs:
         run: >-
           ./mvnw.cmd --batch-mode --no-transfer-progress -pl services/processor -am test
           '-Dtest=TraceLinkFeaturesTest' '-Dsurefire.failIfNoSpecifiedTests=false'
-      - name: Verify all ML tests including strict Windows candidate byte reproduction
+      - name: Verify portable ML suite on Windows
         run: python -m unittest discover -s services/ml-service/tests -v
+      - name: Require strict Windows candidate byte reproduction
+        run: python services/ml-service/tests/windows_candidate_reproduction.py -v
       - name: Save rebuild diagnostics and feature parity evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -55,6 +57,7 @@ jobs:
             services/processor/target/trace-link-shadow-java.json
             tmp/day4-rebuild-diff.json
             tmp/day4-rebuild-failed/
+            tmp/day5-windows-rebuild-failed-*/
 
   model-evaluation:
     runs-on: ubuntu-latest
@@ -76,6 +79,10 @@ jobs:
           python -m unittest discover -s tests -v
       - name: Verify frozen candidate loading and inference failures on pinned Linux
         run: python -m unittest discover -s services/ml-service/tests -p test_trace_link_failure_modes.py -v
+      - name: Verify portable candidate isolation and evaluation integrity on Linux
+        run: |
+          python -m unittest discover -s services/ml-service/tests -p test_trace_link_candidate.py -v
+          python -m unittest discover -s services/ml-service/tests -p test_trace_link_evaluation.py -v
       - name: Rebuild deterministic evaluation data
         run: python services/ml-service/training/generate_history.py
       - name: Evaluate local packaged models

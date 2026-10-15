@@ -93,4 +93,5 @@ docs/evidence/assets/trace-link-day4-ci-20261014/** -text whitespace=trailing-sp
 docs/evidence/assets/trace-link-day5-20261015/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 services/ml-service/training/trace_link_study.py text eol=lf
 services/ml-service/training/trace_link_evaluation.py text eol=lf
+docs/evidence/assets/trace-link-day5-platform-20261015/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkStudyExportTest.java text eol=lf

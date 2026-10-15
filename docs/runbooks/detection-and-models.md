@@ -15,15 +15,40 @@ Python verifier when that folder lives elsewhere.
 python -m venv .venv
 .venv/Scripts/python.exe -m pip install -r requirements-dev.txt -r services/ml-service/requirements-ml.txt
 .venv/Scripts/python.exe services/ml-service/training/trace_link_candidate.py --output tmp/day5-independent-candidate
-.venv/Scripts/python.exe -m unittest discover -s services/ml-service/tests -p test_trace_link_candidate.py -v
+.venv/Scripts/python.exe -m unittest discover -s services/ml-service/tests -v
+.venv/Scripts/python.exe services/ml-service/tests/windows_candidate_reproduction.py -v
 .venv/Scripts/python.exe scripts/verify-trace-link-day5.py --output tmp/day5-independent-verification
 ```
 
-Every output directory must be new. The byte-reproduction test compares all
+Every output directory must be new. The explicit Windows gate compares all
 rebuilt files with the original package. Never rebuild into the packaged path.
 The verifier records exact commands, exits, hardware, logs and hashes. Inspect
 all required skips in the fresh Maven/Python logs; exit zero alone does not supply
 an external archive prerequisite or a second-person receipt.
+
+Windows verification reports `verificationScope=WINDOWS_FULL` and a separate
+`windowsByteReproduction.status=PASS` only after the strict clean-process gate
+passes. A mismatch yields `FAIL`, overall `INCOMPLETE`, and a nonzero exit. The
+gate also verifies that corrupting its temporary rebuilt copy is rejected.
+Ordinary test discovery retains held-out seed isolation on both platforms.
+
+For Linux portable runtime verification (Python 3.13.9, Java 21, Docker and the
+approved reference pack are still required):
+
+```sh
+python3.13 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt -r services/ml-service/requirements-ml.txt
+.venv/bin/python -m unittest discover -s services/ml-service/tests -v
+.venv/bin/python scripts/verify-trace-link-day5.py --output tmp/day5-linux-runtime-new --reference-root ../Trace_Link_Integration_Pack
+```
+
+Linux reports `verificationScope=PORTABLE_RUNTIME`. Applicable checks may report
+`PASS`, while Windows byte reproduction is explicitly `NOT_RUN`. Direct invocation
+of the Windows gate on Linux fails. Missing prerequisites or applicable failures
+yield `INCOMPLETE` with retained logs. Both scopes retain
+`secondPersonReproduction=PENDING` and `sharedReleaseApproval=false`; neither
+grants Day 5 acceptance. The mandatory CI dependency chain remains Windows byte
+reproduction → Linux model evaluation → processor evaluation → Day 5 evaluation.
 
 For a study-only reproduction, generate inputs before inspecting test results:
 
@@ -147,8 +172,11 @@ new version and fresh controls. Day 5 performs neither promotion nor activation.
 ## Independent reproduction receipt
 
 A second person must record their name, UTC execution time, source/manifest hashes,
-Python/Java/platform versions, exact commands, output hashes, rebuild comparison,
+Python/Java/platform versions, exact commands, output hashes, Windows rebuild comparison,
 missing-model diagnosis, missing-data diagnosis and failures/skips. Compare the
 classification files byte-for-byte using the archived study; timings may differ. Record the receipt as a
 new evidence artifact. Until that happens, independent reproduction is PENDING
 and Day 5 acceptance is incomplete. CI and this agent's repeats cannot sign it.
+The receipt must include a fresh Java export produced by that person, Docker
+drills, and the approved reference pack. Comparing the archived Java export is
+partial reproduction evidence and cannot satisfy this receipt.

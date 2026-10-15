@@ -8,6 +8,16 @@ offline evaluation, failure drills and regression evidence. The output directory
 must not already exist. Frozen candidate artifacts and incident policies are
 unchanged; ML scores remain optional empirical ranks, not probabilities.
 
+The verifier reports `WINDOWS_FULL` on Windows and `PORTABLE_RUNTIME` on Linux.
+Portable test discovery includes candidate seed isolation on both platforms.
+Windows additionally requires the explicit gate
+`python services/ml-service/tests/windows_candidate_reproduction.py -v`.
+It compares every rebuilt artifact byte in a clean process and rejects corruption.
+Linux consumes the frozen package and reports Windows byte reproduction `NOT_RUN`;
+calling the Windows gate there fails. Any applicable failure is `INCOMPLETE` with
+nonzero exit. A technical `PASS` retains independent reproduction `PENDING` and
+does not grant Day 5 acceptance. See the runbook for separate platform commands.
+
 This module calculates independent Python VOLTE/SMS features and packages
 synthetic Isolation Forest models and serves private HTTP inference.
 
