@@ -1,0 +1,33 @@
+{
+  "upstreamCommit": "ce35fec7ecf0b99fcfd4df1dd9516aaa588c8a7f",
+  "runUrl": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38639711171",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "deployment-config",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T21:22:11Z",
+      "completedAt": "2026-10-14T21:22:20Z"
+    },
+    {
+      "name": "model-reproducibility",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T21:22:12Z",
+      "completedAt": "2026-10-14T21:26:35Z"
+    },
+    {
+      "name": "model-evaluation",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T21:26:38Z",
+      "completedAt": "2026-10-14T21:31:35Z"
+    },
+    {
+      "name": "processor-evaluation",
+      "conclusion": "success",
+      "startedAt": "2026-10-14T21:31:37Z",
+      "completedAt": "2026-10-14T21:43:59Z"
+    }
+  ],
+  "modelSourceMatchesUpstream": true,
+  "scope": "Unchanged model source and inputs; this does not assert remote CI for the implementation branch."
+}

@@ -1,0 +1,1 @@
+{"result": "PASS", "sourceCommit": "7ed100944c398c0e5a31695a23f22d2ebc1522a5", "image": "trace-link-completion/ml-service:7ed100944c39", "mode": "actual isolated container HTTP with pinned Python 3.13 verifier", "sharedConfigurationChanged": false}

@@ -1,0 +1,129 @@
+{
+  "verifiedDate": "2026-10-15",
+  "timezone": "Europe/Chisinau",
+  "implementationCommit": "7ed100944c398c0e5a31695a23f22d2ebc1522a5",
+  "upstreamCommit": "ce35fec7ecf0b99fcfd4df1dd9516aaa588c8a7f",
+  "branch": "feature/trace-link-completion",
+  "releaseGatesPassed": false,
+  "reactor": {
+    "streaming-support": {
+      "tests": 139,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "event-generator": {
+      "tests": 159,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "processor": {
+      "tests": 1117,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8
+    }
+  },
+  "incidentService": {
+    "unit": {
+      "tests": 197,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "integration": {
+      "tests": 137,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "dashboard": {
+    "node": "24.21.0",
+    "unitPassed": 184,
+    "controlledChromiumPassed": 183,
+    "controlledChromiumSkipped": 25,
+    "ciWorkers": 2,
+    "productionCapacityPassed": 5,
+    "brandingPassed": 1,
+    "isolatedRunnerSafetyPassed": 42,
+    "fixtures": "PASS",
+    "build": "PASS_WITH_WARNING",
+    "initialBundleKilobytes": 501.42,
+    "warningBudgetKilobytes": 500,
+    "otherBrowsers": "PENDING"
+  },
+  "contractsAndPython": {
+    "tests": 180,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "skippedReason": "PowerShell wrapper regression requires its platform runtime",
+    "canonicalContractAndGeneratedTypes": "PASS"
+  },
+  "metrics": {
+    "definitions": 41,
+    "compatibleAliases": 1,
+    "resolutions": [
+      "5m",
+      "15m",
+      "1h",
+      "6h"
+    ],
+    "backendSqlParity": "PASS_CONTROLLED_ISOLATED",
+    "tolerance": "0.000001",
+    "fullArchiveParity": "PENDING"
+  },
+  "ml": {
+    "localLinuxFullSuite": {
+      "tests": 91,
+      "failures": 1,
+      "errors": 0,
+      "reason": "Strict Windows artifact byte reproduction differs on Linux; artifacts and assertion retained"
+    },
+    "supportedLinuxInferenceChecksPassed": 6,
+    "javaPythonParityVectors": 34,
+    "actualContainerHttp": "PASS",
+    "windowsModelReproduction": "PASS_UPSTREAM_UNCHANGED_MODEL_SOURCE",
+    "implementationBranchRemoteCI": "NOT_RUN"
+  },
+  "archive": {
+    "datasetId": "trace-link-md-30d-v1",
+    "requiredNativeRows": 362880,
+    "fullSourceLocated": false,
+    "boundedSlice": "REJECTED_BEFORE_DATABASE",
+    "fullImport": "PENDING",
+    "fullRestore": "PENDING",
+    "offlinePackage": "PENDING"
+  },
+  "push": {
+    "protectedApis": "PASS_ISOLATED",
+    "transactionalQueueAndLeases": "PASS_ISOLATED",
+    "secureOriginDelivery": "PENDING",
+    "sharedDeliveryEnabled": false
+  },
+  "rehearsals": [],
+  "ownerSignatures": [],
+  "pendingInputs": [
+    "Exact local directory or authorized URL for the seven checksum-pinned archive files",
+    "Approved reference Grafana/oracle pack",
+    "Approved HTTPS origin and browser/device for explicit push acceptance",
+    "Retained runtime logs or database snapshot for the two missing-window runs",
+    "Populated target, identity-secret restore and offline architecture acceptance",
+    "Connected browser and screen-reader/guide acceptance, coordinated capacity, two populated rehearsals and five actual owner reviews"
+  ],
+  "retainedFailures": [
+    "Initial geographic lifecycle recovery count was 19 rather than 20; focused and later complete reruns passed without detector changes",
+    "Initial DOM delta exceeded 100 nodes; bound unchanged and subsequent focused/full/production checks passed",
+    "Overlapping build classpath and a browser run during source edits were discarded and rerun sequentially/frozen",
+    "Linux strict model byte-rebuild failed; upstream Windows reproduction succeeded for unchanged source",
+    "Upstream dashboard stream mock allowed wall-clock fallback refresh; corrected connection protocol and relative manual-refresh assertion"
+  ],
+  "environmentModes": [
+    "Controlled routed browser fixtures",
+    "Isolated Testcontainers PostgreSQL/Kafka/Grafana",
+    "Actual isolated packaged ML HTTP",
+    "Read-only upstream CI evidence; no shared deployment or delivery activation"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "implementationCommit": "7ed100944c398c0e5a31695a23f22d2ebc1522a5",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 1452,
+      "sha256": "80fe146a413db8acd13e694a1ad4d6941acf35067bbb7814360e3567970c327d"
+    },
+    {
+      "file": "bounded-slice-rejection.json",
+      "bytes": 188,
+      "sha256": "88efa8fa2eb807e7e4d33b6502a8f81f550642c0544aa0c86bf1f7b7b313094e"
+    },
+    {
+      "file": "browser-resources.json",
+      "bytes": 5016,
+      "sha256": "da0079ec3748f05d18860925dde4413f7eb35b6b1803fb3207d40c9bb2c44532"
+    },
+    {
+      "file": "candidate-pins.json",
+      "bytes": 51319,
+      "sha256": "cb56150a15095231422457e552d31fc0f499350f4dfa178bed5d72acd88bfe43"
+    },
+    {
+      "file": "capacity-investigation.json",
+      "bytes": 4666,
+      "sha256": "2b0e2f04ad5799e2223342326660ad27f29bde79ecdce5a8825cdbceb6e32e1c"
+    },
+    {
+      "file": "capacity-overview.json",
+      "bytes": 12816,
+      "sha256": "a153612d02b0a5e8be7d494bc552aa6b63a7abcf308e4090dcbf48a675ed23ea"
+    },
+    {
+      "file": "capacity-service.json",
+      "bytes": 3305,
+      "sha256": "ffe7cee57de6c0a992a25636fb768a195feaf281454cea4a271d03108981561e"
+    },
+    {
+      "file": "grafana-queries.json",
+      "bytes": 179,
+      "sha256": "bdeaf349561f3277601078b0a366e36ee592cfb5aeedd481f2924c78683a574e"
+    },
+    {
+      "file": "images.json",
+      "bytes": 1333,
+      "sha256": "5bef97964d6b162283e14d3d831efce1355937c75e32f040ecab283f068f763e"
+    },
+    {
+      "file": "isolated-restore.json",
+      "bytes": 178,
+      "sha256": "93d37b687711ea897b47795b8f777871d6bc6417e421674e5939d2220eb06576"
+    },
+    {
+      "file": "packaged-ml-http-results.json",
+      "bytes": 1193,
+      "sha256": "113cf664a2e07f2f17f5aed046f42fb0e9aa117a4b20e2fecccd704319788b33"
+    },
+    {
+      "file": "packaged-ml-http.json",
+      "bytes": 249,
+      "sha256": "a3de29a2a11762d4af6c13f1f794aa5fdf45f23c47a72635c292503e0dfe43ad"
+    },
+    {
+      "file": "upstream-model-ci.json",
+      "bytes": 1028,
+      "sha256": "572cd413765a6e1baea006cb91954919ad07c4cee51af318d83ae22705750071"
+    },
+    {
+      "file": "verification.json",
+      "bytes": 4173,
+      "sha256": "9c3506778b0f6a8ed26316b3b59f3aef5836354ee51a738950639dc3908ccd26"
+    }
+  ]
+}

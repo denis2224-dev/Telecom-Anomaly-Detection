@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "transport": "real HTTP",
+  "results": [
+    {
+      "domain": "TRANSPORT",
+      "modelSha256": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077",
+      "anomalyScore": 0.20833333333333334,
+      "roundTripMs": 21.722667000176443,
+      "serverLatencyMs": 8.337875000052009
+    },
+    {
+      "domain": "ROAMING",
+      "modelSha256": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4",
+      "anomalyScore": 0.8958333333333334,
+      "roundTripMs": 6.785124999623804,
+      "serverLatencyMs": 6.032541999957175
+    },
+    {
+      "domain": "MOBILE_DATA",
+      "modelSha256": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4",
+      "anomalyScore": 0.7083333333333334,
+      "roundTripMs": 7.424625000112428,
+      "serverLatencyMs": 6.750875000307133
+    }
+  ],
+  "rejectedAdversarialCases": [
+    "roaming.registration.success-in-data",
+    "roaming.voice.success-in-data",
+    "roaming.sms.finalizedSuccess-in-data",
+    "snapshot-future",
+    "snapshot-before-window",
+    "snapshot-window-end",
+    "snapshot-observation-mismatch",
+    "peer-wrong-dimensions",
+    "peer-undeclared",
+    "peer-same-scope"
+  ]
+}
