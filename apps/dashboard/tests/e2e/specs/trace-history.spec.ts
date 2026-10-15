@@ -57,19 +57,19 @@ test('controlled history metadata loads its inactive recorded inventory without 
  });
  await page.goto(queryUrl);
  await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('recorded-inactive');
- await expect(page.getByRole('combobox',{name:'Registered persisted dataset',exact:true})).toHaveValue('trace-link-md-30d-v1');
+ await expect(page.getByRole('combobox',{name:'Dataset',exact:true})).toHaveValue('trace-link-md-30d-v1');
  await expect(page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();
  expect(reads.filter(version=>version==='recorded-inactive')).toHaveLength(3);
 });
 test('restored roaming controls show the country and partner from shared context',async({page})=>{
  await setup(page);await page.goto(queryUrl+'&domain=roaming&countryId=RO&roamingDirection=out&partnerDirectionId=RO-DEMO-01%3Aout');
- await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities');
+ await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 cities');
  await expect(page.getByRole('combobox',{name:'Country',exact:true})).toHaveValue('RO');
- await expect(page.getByRole('combobox',{name:'Series partner and direction',exact:true})).toHaveValue('RO-DEMO-01:out');
+ await expect(page.getByRole('combobox',{name:'Partner / direction',exact:true})).toHaveValue('RO-DEMO-01:out');
 });
 for(const width of [1366,390])test(`native history keeps query, inventory, gaps and exact export at ${width}px`,async({page},info)=>{
   const queries=await setup(page);await page.setViewportSize({width,height:900});await page.goto(queryUrl);
-  await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');
+  await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 cities · 12 links');
   await expect(page.getByRole('region',{name:'Persisted metric chart'})).toContainText('Unavailable · zero denominator');
   await expect(page.getByRole('region',{name:'Persisted metric chart'})).toContainText('STALE');
   await expect(page.getByRole('region',{name:'Persisted metric chart'})).toContainText('INSUFFICIENT_EVIDENCE');
@@ -89,24 +89,24 @@ for(const width of [1366,390])test(`native history keeps query, inventory, gaps 
   // Wait for the reset buckets before focusing a button recreated by the loading view.
   await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
   const expand=page.getByRole('button',{name:'Expand metric',exact:true});await expect(expand).toBeVisible();await expand.focus();await expect(expand).toBeFocused();await expand.press('Enter');
-  const expanded=page.getByRole('dialog',{name:'Expanded persisted metric'});await expect(expanded).toContainText('2026-09-10T09:00:00Z');
+  const expanded=page.getByRole('dialog',{name:'Expanded chart'});await expect(expanded).toContainText('2026-09-10T09:00:00Z');
   await page.keyboard.press('Escape');await expect(expanded).not.toBeVisible();await expect(expand).toBeFocused();
   const plot=page.getByRole('region',{name:'Persisted metric chart'}).locator('svg');await plot.scrollIntoViewIfNeeded();const box=(await plot.boundingBox())!;
   await page.mouse.move(box.x+box.width*.25,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width*.75,box.y+box.height/2);await page.mouse.up();
   await expect.poll(()=>queries.at(-1)?.from).not.toBe(selectedFrom);await expect(page.getByLabel('From · UTC inclusive')).toHaveValue(selectedFrom);
   await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
   await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
-  await expect(page.getByRole('button',{name:'Download exact server CSV'})).toBeEnabled();
-  const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download exact server CSV'}).click();
+  await expect(page.getByRole('button',{name:'Download CSV'})).toBeEnabled();
+  const downloadEvent=page.waitForEvent('download');await page.getByRole('button',{name:'Download CSV'}).click();
   const download=await downloadEvent;const downloadedCsv=readFileSync((await download.path())!,'utf8');expect(downloadedCsv).toBe(exactCsv);
   const exportedValues=downloadedCsv.trim().split(/\r?\n/).slice(1).map(line=>{const value=line.split(',')[2].replaceAll('"','');return value===''?null:Number(value);});
   expect(exportedValues).toEqual([0,null,50,45]);
   await expect(page.getByRole('region',{name:'Persisted metric chart'}).locator('tbody tr td:nth-child(3)')).toHaveText(['0','Unavailable · zero denominator','50','45']);
   expect(queries.at(-1)).toMatchObject({datasetId:'trace-link-md-30d-v1',domain:'volte',metric:'voice.success_rate',scopeType:'CITY',scopeId:'chi',resolution:'5m',from:'2026-09-10T09:00:00Z',to:'2026-09-10T09:20:00Z'});
-  await page.getByRole('button',{name:'chi-hin b-to-a',exact:true}).click();await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('Selected chi-hin:b-to-a');
+  await page.getByRole('button',{name:'chi-hin b-to-a',exact:true}).click();await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('chi-hin:b-to-a · directions measured separately');
   await expect(page.getByRole('row').filter({has:page.getByRole('button',{name:'chi-hin b-to-a',exact:true})})).toContainText('hin → chi');
-  await page.getByRole('combobox',{name:'City',exact:true}).selectOption('bal');await expect(page.getByRole('region',{name:'Approved topology'})).not.toContainText('Selected chi-hin');
-  await page.getByRole('button',{name:'Roaming',exact:true}).click();await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('Registered rollups are unavailable');
+  await page.getByRole('combobox',{name:'City',exact:true}).selectOption('bal');await expect(page.getByRole('region',{name:'Approved topology'})).not.toContainText('chi-hin:b-to-a · directions measured separately');
+  await page.getByRole('button',{name:'Roaming',exact:true}).click();await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('Rollups unavailable');
   await page.getByRole('combobox',{name:'Country',exact:true}).selectOption('RO');await page.getByRole('combobox',{name:'Roaming direction',exact:true}).selectOption('in');
   await expect(page.getByRole('region',{name:'Persisted domain panels'})).toContainText('RO-DEMO-01 · in');
   await expect(page.getByRole('combobox',{name:'City',exact:true})).toHaveValue('bal');
@@ -123,7 +123,7 @@ test('expanded history restores focus when a pending response replaces the loadi
   await page.goto(queryUrl);await expect.poll(()=>started).toBe(true);
   const expand=page.getByRole('button',{name:'Expand metric',exact:true});
   await expand.focus();await page.keyboard.press('Enter');
-  const expanded=page.getByRole('dialog',{name:'Expanded persisted metric'});
+  const expanded=page.getByRole('dialog',{name:'Expanded chart'});
   await expect(expanded).toContainText('Loading selected history');
   release();await expect(expanded.getByRole('region',{name:'Persisted metric chart'})).toContainText('INSUFFICIENT_EVIDENCE');
   await page.keyboard.press('Escape');await expect(expanded).not.toBeVisible();await expect(expand).toBeFocused();
@@ -141,12 +141,12 @@ for(const width of [1366,390])test(`keyboard expansion uses accepted reset histo
   });
   await page.getByRole('button',{name:'Reset zoom',exact:true}).click();
   await expect.poll(()=>requested).toBe(true);
-  await expect(page.getByRole('status').filter({hasText:'Loading persisted metric buckets'})).toBeVisible();
+  await expect(page.getByRole('status').filter({hasText:'Loading history'})).toBeVisible();
   const expand=page.getByRole('button',{name:'Expand metric',exact:true});
   await expect(expand).toBeVisible();
   release();await expectRenderedSeries(page,'2026-09-10T09:00:00.000Z',4);
   await expand.focus();await expect(expand).toBeFocused();await expand.press('Enter');
-  const expanded=page.getByRole('dialog',{name:'Expanded persisted metric'});
+  const expanded=page.getByRole('dialog',{name:'Expanded chart'});
   await expect(expanded).toContainText('2026-09-10T09:00:00Z');
   await expect(expanded).toContainText('INSUFFICIENT_EVIDENCE');
   await page.keyboard.press('Escape');await expect(expanded).not.toBeVisible();await expect(expand).toBeFocused();
@@ -178,7 +178,7 @@ for(const domain of ['transport','roaming','mobile-data'])test(`native ${domain}
       points:[{from:params.from,to:new Date(Date.parse(params.from)+300000).toISOString(),expectedSlots:1,receivedSlots:1,quality:'INSUFFICIENT_EVIDENCE',value:95,sourceCoverage:null,nullReason:null,measurement:null,qualityReason:'SOURCE_QUALITY_UNAVAILABLE',sourceQuality:null,eventId:'controlled-native',revision:0,finalized:true,primitives:{numerator:95,denominator:100},provenance:{nativeQualification:{procedureEligibility:'Unproven reference eligibility'}},sourcePayloadSha256:'a'.repeat(64)}]}});
   });
   await page.goto(queryUrl+`&domain=${domain}&linkDirectionId=chi-hin%3Aa-to-b&countryId=RO&roamingDirection=out`);
-  await page.getByText('Original five-minute native measurements',{exact:true}).click();
+  await page.getByText('Five-minute measurements',{exact:true}).click();
   const native=page.getByRole('region',{name:'Native domain measurements'});
   await expect(native).toContainText('Controlled independent native population');
   expect(requested).toMatchObject({scopeKey,metric,sourceId:'trace-link-native-primitives-v1',datasetId:'trace-link-md-30d-v1'});
@@ -186,6 +186,6 @@ for(const domain of ['transport','roaming','mobile-data'])test(`native ${domain}
   await native.getByText('Exact source primitives and qualifications for the visible bucket page').click();
   await expect(native).toContainText('Unproven reference eligibility');
   await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('15m');
-  await expect(native).toContainText('Choose a dataset and domain scope');
+  await expect(native).toContainText('Choose a dataset, scope');
   await expect(native.getByRole('region',{name:'Persisted metric chart'})).toHaveCount(0);
 });

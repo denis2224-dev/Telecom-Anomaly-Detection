@@ -58,7 +58,7 @@ test.describe('Controlled historical evidence', () => {
       await expect(updates.nth(0).locator('[data-kpi] td').first()).toHaveText('0');
       await expect(updates.nth(1).locator('[data-kpi] td').first()).toHaveText('Unavailable');
       await expect(updates.nth(2).locator('[data-kpi] td').first()).toHaveText('99.6');
-      await expect(updates.nth(1)).toContainText('does not prove recovery');
+      await expect(updates.nth(1)).toContainText('recovery unconfirmed');
       await expect(page.locator('.incident-summary-bar')).toContainText('RECOVERED');
       await expect(page.locator('.incident-summary-bar')).toContainText('Latest KPI deviation');
       await expect(page.getByRole('link', { name: 'Back to service' })).toHaveAttribute('href', `/services/${incident.scopeId}`);

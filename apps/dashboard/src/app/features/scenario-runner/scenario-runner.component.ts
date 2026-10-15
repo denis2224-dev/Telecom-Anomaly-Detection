@@ -25,7 +25,7 @@ import { TraceScenarioRunnerComponent } from './trace-scenario-runner.component'
   selector: 'app-scenario-runner',
   imports: [DatePipe, IconComponent, ScenarioPreviewComponent, TraceScenarioRunnerComponent],
   template: `
-    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Controlled simulation</p><h1>Scenario runner</h1><p>Reproduce a service event and follow its recovery.</p></div><span class="badge" [attr.data-state]="store.run()?.status ?? 'IDLE'">{{ store.run()?.status ?? 'IDLE' }}</span></div>
+    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Controlled simulation</p><h1>Scenario runner</h1></div><span class="badge" [attr.data-state]="store.run()?.status ?? 'IDLE'">{{ store.run()?.status ?? 'IDLE' }}</span></div>
 
     @if (!privileged()) {
       <p role="alert">
@@ -36,7 +36,7 @@ import { TraceScenarioRunnerComponent } from './trace-scenario-runner.component'
       <section class="detail-panel">
         <h2>Legacy VoLTE and SMS scenarios</h2>
         <p>
-          Choose a service and repeatable traffic profile. Runs start on the next full minute and last eight minutes.
+          Choose a service and profile. Eight-minute runs start next minute.
         </p>
 
         @if (scopeError()) {
@@ -86,7 +86,7 @@ import { TraceScenarioRunnerComponent } from './trace-scenario-runner.component'
         />
 
         </div>@if (type().includes('ROAMING')) { <div class="field"><label for="scenario-country">Country</label><select id="scenario-country" [value]="country()" (change)="country.set($any($event.target).value)">@for (name of countries; track name) { <option>{{ name }}</option> }</select></div> }</div>
-        @if (isPreview()) { <p class="muted">Local deterministic preview only. Backend support is required for persisted runs and incidents.</p> }
+        @if (isPreview()) { <p class="muted">Local preview · no stored run or incident.</p> }
         <details class="evidence-disclosure"><summary>Supported scenario scopes</summary><p>Legacy scopes are always available. {{ cityScopesAvailable() ? 'Active catalogue city scopes are available for the selected service.' : 'City scopes are unavailable until the catalogue is active.' }}</p></details>
         @if (store.command(); as command) {
           <p>
@@ -127,8 +127,7 @@ import { TraceScenarioRunnerComponent } from './trace-scenario-runner.component'
       <section class="detail-panel" aria-labelledby="profile-title">
         <h2 id="profile-title">Eight-minute profile</h2>
         <p>
-          Each stage lasts one minute. The labels describe planned
-          synthetic traffic, not a measured health result.
+          One-minute stages · planned synthetic traffic, not measured health.
         </p>
         <ol class="scenario-stepper">
           @for (minute of minutes; track minute) {

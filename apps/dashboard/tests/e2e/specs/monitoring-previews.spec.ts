@@ -8,7 +8,7 @@ for (const width of [1366, 390]) {
     const state = await controlledApi(page);
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
-    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Artificial data');
+    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Sample data');
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(10);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
     await expect(page.getByLabel('Key service information').locator(':scope > div')).toHaveCount(6);

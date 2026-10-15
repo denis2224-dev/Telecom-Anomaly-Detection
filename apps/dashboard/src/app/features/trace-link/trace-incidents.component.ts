@@ -12,7 +12,7 @@ import { SessionStore } from '../login-and-session/session.store';
  styles:[`header{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}header time{margin-left:auto;color:var(--text-muted);}p{margin:0;}ul{list-style:none;padding:0;display:grid;gap:8px;}li{display:grid;gap:8px;padding:12px;background:var(--surface-raised);border-radius:12px;box-shadow:inset 4px 0 var(--warning);font-size:13px;}`],
  selector:'app-trace-incidents',imports:[RouterLink,DatePipe,TraceIncidentCardActionsComponent],
  template:`<section class="detail-panel" aria-label="Scoped persisted incidents"><h2>Incidents in this context</h2>
- <p>Committed technical episodes for the visible period and selected scope. Recovery and analyst resolution are separate states.</p>
+
  @if(busy()){<p role="status">Loading incident history…</p>}@if(error()){<p role="alert">{{error()}}</p><button type="button" (click)="load()">Retry incidents</button>}
  @if(!busy() && !error() && !items().length){<p>No committed incidents match this context.</p>}
  <ul>@for(item of items();track item.episodeId){<li><header><span class="badge" [attr.data-state]="item.severity">{{item.severity}}</span><strong>{{title(item)}}</strong><time>since {{item.firstObservedAt | date:'HH:mm':'UTC'}}</time></header><p>{{item.technicalState}} · {{description(item)}}</p><app-trace-incident-card-actions [incident]="item" /><a [routerLink]="['/trace-link/incidents',item.episodeId]" [queryParams]="parameters()">Episode evidence</a></li>}</ul>

@@ -79,7 +79,7 @@ describe('Historical detection evidence', () => {
     expect(articles[1].textContent).not.toContain('Earlier capacity hypothesis');
     expect(articles[1].textContent).toContain('Estimated extra failed attempts: 0');
     expect(articles[1].textContent).not.toContain('Unique customers');
-    expect(articles[1].textContent).toContain('does not prove recovery');
+    expect(articles[1].textContent).toContain('recovery unconfirmed');
     expect(articles[1].textContent).toContain('No checks supplied.');
     expect(articles[0].textContent).toContain('Earlier observed CPU');
     expect(articles[0].querySelector('app-cause-evidence details')).toBeNull();
@@ -117,7 +117,7 @@ describe('Historical detection evidence', () => {
 
   it('makes an empty detection history explicit', () => {
     const fixture = render([]);
-    expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('No evidence updates available');
+    expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('No updates on this page');
     expect(fixture.nativeElement.querySelectorAll('article')).toHaveLength(0);
   });
 

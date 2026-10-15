@@ -33,7 +33,7 @@ const MAX_WINDOWS = 1440;
   imports: [SmsShadowComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
-    @if(service() && from() && to()){<a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Open this scope and interval in persisted history</a>}
+    @if(service() && from() && to()){<a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Open history</a>}
     <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a><div class="heading-copy"><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
     </div>
     @if (loading() && !displayedService()) { <section class="state-panel skeleton-panel service-loading" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
@@ -70,10 +70,10 @@ const MAX_WINDOWS = 1440;
         <span>Page {{ incidentPage() + 1 }} · {{ incidents().length }} shown · {{ incidentTotal() }} total</span>
         <button (click)="refreshIncidents(incidentPage() + 1)" [disabled]="incidentLoading() || (incidentPage() + 1) * pageSize >= incidentTotal()">Next incidents<app-icon name="right" /></button>
       </nav>
-      <details class="source-inventory"><summary>Service dependencies and source quality</summary>
+      <details class="source-inventory"><summary>Dependencies</summary>
         <p>{{ item.scope.region }} · {{ item.scope.route }} · Current health: {{ health() }}</p>
-        <p>Server evidence as of {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC{{ fixture ? ' · Synthetic sample' : '' }}</p>
-        <p>Incident shading and chart highlights use episodes on the current incident page. Technical recovery and analyst resolution are separate; the last observation of an ongoing episode is not a recovery time.</p>
+        <p>Updated {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC{{ fixture ? ' · Synthetic sample' : '' }}</p>
+        <p>Highlights cover this incident page. Recovery does not resolve analyst work.</p>
       @if (!item.latestWindow || item.latestWindow.quality === 'MISSING' || item.freshness === 'MISSING') {
         <app-metric-explanation topic="missing-evidence" mode="state" />
       } @else if (item.freshness === 'STALE') {

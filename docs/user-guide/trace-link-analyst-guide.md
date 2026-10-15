@@ -30,9 +30,9 @@ For native transport history, choose Transport, a declared direction, and a meas
 
 VoLTE registered series display the server's exact buckets, quality, coverage and primitive counts. Call setup success is a percentage; setup time is a duration. Neither substitutes for the other. The registered dictionary covers 41 domain metrics plus the compatible setup-success alias. Each metric declares its population, operator, availability and reference approximation. Missing required primitives produce unavailable values even when a nearby CSV field looks similar.
 
-Registered persisted history supports 5m, 15m, 1h and 6h server aggregation and exact CSV once the full validated archive is projected into incident-owned storage. Period and resolution remain independent. Partial edges contain only complete native intervals and expose effective bounds. Original five-minute native measurements remain available in a separate expandable view; that compatibility API does not aggregate or export CSV.
+Registered persisted history supports 5m, 15m, 1h and 6h server aggregation and exact CSV once the full validated archive is projected into incident-owned storage. Period and resolution remain independent. Partial edges contain only complete native intervals and expose effective bounds. Five-minute measurements remain available in a separate expandable view; that compatibility API does not aggregate or export CSV.
 
-For roaming, choose Country, Roaming direction and Partner and direction. Both lists inbound and outbound populations separately. Registration, data and voice procedures have separate identities. With a complete archive, active-user snapshots retain their observation time and age, and finalized roaming SMS keeps its own population. They are never inferred from registration or data success rates. Direction-incompatible snapshots are rejected.
+For roaming, choose Country, Roaming direction and Partner / direction. Both lists inbound and outbound populations separately. Registration, data and voice procedures have separate identities. With a complete archive, active-user snapshots retain their observation time and age, and finalized roaming SMS keeps its own population. They are never inferred from registration or data success rates. Direction-incompatible snapshots are rejected.
 
 For LTE mobile data, inspect EPS bearer activation, DNS response success and modeled throughput separately. Normal activation cannot mask DNS failure. Expand source records to read primitive populations, source qualifiers, hashes and provenance. Unproven eligibility or modeled weighting remains visible.
 
@@ -42,9 +42,9 @@ Missing values are gaps, never healthy zero. Zero is a valid observation only wi
 
 ## Charts, CSV and Grafana
 
-The exact-value table preserves all server buckets and pages fifty at a time. Dense SVG drawing selects representative extrema, while table and export values remain exact. Expanded views keep the same interval, resolution and timezone. Escape closes the dialog and restores the expand control's focus.
+The Values table preserves all server buckets and pages fifty at a time. Dataset details and Source details hold provenance and source qualifications; missing data, synthetic data and partial edges stay labelled in the main view. Dense SVG drawing selects representative extrema, while table and export values remain exact. Expanded views keep the same interval, resolution and timezone. Escape closes the dialog and restores the expand control's focus.
 
-For a registered series, Download exact server CSV sends the validated current series query and downloads the server response. Changing context cancels an obsolete export. The application does not create an authoritative CSV from visually sampled points.
+For a registered series, Download CSV sends the validated current series query and downloads the server response. Changing context cancels an obsolete export. The application does not create an authoritative CSV from visually sampled points.
 
 A configured Grafana link carries absolute epoch bounds, dataset, city, directional link, country, roaming direction, resolution and timezone. Administrators can provide the dashboard URL using the `trace-link-grafana-url` meta setting in the application index. Credential-bearing configuration is rejected. Without a configured endpoint, history and CSV remain usable. No embedded Grafana mode is enabled in this release.
 

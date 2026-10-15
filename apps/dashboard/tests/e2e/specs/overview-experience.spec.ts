@@ -95,7 +95,7 @@ test('plain map targets retain their positions while hovering and selecting',asy
  }
  const link=page.getByRole('button',{name:'Inspect Bălți – Ungheni',exact:true});await link.click();
  await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('nominal capacity');
- await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('Traffic, utilization and loss unavailable');
+ await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('Traffic, utilization, loss and baseline unavailable');
 });
 
 test('incident summary scrolls with its evidence instead of covering it',async({page})=>{

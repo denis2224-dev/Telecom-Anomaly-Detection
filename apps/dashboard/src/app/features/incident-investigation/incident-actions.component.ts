@@ -36,13 +36,13 @@ type Analyst = components['schemas']['AnalystSummary'];
         @if (privileged() && incident().status !== 'RESOLVED') {
           <div class="assignment-picker"><div class="field"><label for="assignee-choice">Assign to enabled analyst</label><select id="assignee-choice" [value]="targetId()" [disabled]="busy() || !analysts().length" (change)="selectTarget($event)"><option value="">Choose an analyst</option>@for (analyst of analysts(); track analyst.id) { <option [value]="analyst.id">{{ analyst.displayName }}</option> }</select></div><button type="button" [disabled]="busy() || !targetId() || targetId() === incident().assigneeId" (click)="assign(targetId())"><app-icon name="user" />{{ incident().assigneeId ? 'Reassign' : 'Assign' }}</button></div>
         }
-        @if (!incident().assigneeId) { <p class="notice" id="assignment-help"><app-icon name="info" />Assign the incident before starting the investigation or adding a comment.</p> }
+        @if (!incident().assigneeId) { <p class="notice" id="assignment-help"><app-icon name="info" />Assign before investigating or commenting.</p> }
         @if (incident().status === 'OPEN') { <button type="button" [disabled]="busy() || !canChangeStatus()" (click)="changeStatus('INVESTIGATING')"><app-icon name="play" />Start investigation</button> }
         @if (incident().status === 'INVESTIGATING') {
-          <p class="helper">Resolution requires technical recovery and a nonblank investigation note. Current technical state: {{ incident().technicalState }}.</p>
+          <p class="helper">Recovery and a note are required. Technical state: {{ incident().technicalState }}.</p>
           @if (canChangeStatus()) { <div class="field"><label for="resolution-note">Resolution note</label><textarea id="resolution-note" rows="4" maxlength="2000" [value]="resolutionNote()" (input)="editNote($event)"></textarea></div><button type="button" [disabled]="busy() || incident().technicalState !== 'RECOVERED' || !resolutionNote().trim()" (click)="changeStatus('RESOLVED')"><app-icon name="check" />Resolve incident</button> }
         }
-        @if (incident().status === 'RESOLVED') { <p class="notice">Resolved. No further assignment or workflow action is available.</p> }
+        @if (incident().status === 'RESOLVED') { <p class="notice">Resolved · workflow closed.</p> }
         <div class="comment-composer" [class.is-muted]="!incident().assigneeId || !canComment()">
           <div class="field"><label for="investigation-comment">Investigation comment</label><textarea id="investigation-comment" rows="4" maxlength="2000" placeholder="Add findings, context, or your next step…" [value]="commentText()" [disabled]="busy() || !incident().assigneeId || !canComment()" [attr.aria-describedby]="!incident().assigneeId ? 'assignment-help' : null" (input)="editComment($event)"></textarea></div>
           <button type="button" [disabled]="busy() || !incident().assigneeId || !canComment() || !commentText().trim()" [attr.aria-busy]="busy()" (click)="addComment()"><app-icon name="message" />Add comment</button>

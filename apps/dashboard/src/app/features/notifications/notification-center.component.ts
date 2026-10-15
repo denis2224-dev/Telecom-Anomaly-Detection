@@ -23,7 +23,7 @@ export function notificationTime(value:string,timezone:'UTC'|'Europe/Chisinau'):
     <button #bell class="ghost" type="button" [attr.aria-label]="'Notifications, ' + store.unread() + ' unread'" aria-haspopup="dialog" (click)="show()">Notifications <span aria-hidden="true">{{ store.unread() }}</span></button>
     <dialog #panel aria-labelledby="notifications-title" (close)="closed()" (cancel)="closed()">
       <header><h2 id="notifications-title">Notification history</h2><button type="button" aria-label="Close notifications" (click)="hide()">Close</button></header>
-      <p>Durable recipient history · {{ store.unread() }} unread · {{ query.context().timezone }}. Recovery does not resolve analyst work.</p>
+      <p>{{ store.unread() }} unread · {{ query.context().timezone }} · recovery requires analyst resolution.</p>
       <app-notification-settings />
       @if (store.busy()) { <p role="status">Loading notification history…</p> }
       @if (store.error()) { <p role="alert">{{ store.error() }}</p><button type="button" (click)="store.load()">Retry notification history</button> }

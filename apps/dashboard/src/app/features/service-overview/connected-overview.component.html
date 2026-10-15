@@ -21,7 +21,7 @@
   </form>
   @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
   @if (statusMessage()) { <p role="alert">{{ statusMessage() }}</p> }
-  @if (geographyError()) { <p role="status">City catalogue unavailable: {{ geographyError() }} Existing city evidence may be stale.</p> }
+  @if (geographyError()) { <p role="status">City catalogue unavailable: {{ geographyError() }} Retained data may be stale.</p> }
   @if (focusedIncident(); as incident) { <p class="incident-focus" role="status">Showing {{ anomalyTitle(incident) }} <button type="button" (click)="clearIncidentFocus()">Dismiss highlight</button></p> }
   @if (focusError()) {<p role="alert">{{ focusError() }}</p>}
   <div class="overview-panels">
@@ -40,9 +40,9 @@
             <div class="call-breakdown"><div class="call-donut" role="img" [attr.aria-label]="number(result.successful) + ' successful, ' + number(result.failed) + ' failed setup attempts'" [style.background]="'conic-gradient(var(--success) 0% ' + result.rate + '%, var(--danger) ' + result.rate + '% 100%)'"><div><strong>{{ number(result.total) }}</strong><small>attempts</small></div></div>
             <dl><div><dt>Successful</dt><dd class="success-value">{{ number(result.successful) }} <small>({{ number(result.rate) }}%)</small></dd></div><div><dt>Failed setup</dt><dd class="failure-value">{{ number(result.failed) }} <small>({{ number(100 - result.rate) }}%)</small></dd></div></dl></div>
           } @else { <p class="data-note">Call result counts unavailable</p> }
-          <p class="data-note">@if (latestVoiceWindow(); as window) { Latest loaded window · {{ window.windowEnd | date:'dd MMM HH:mm':'UTC' }} UTC } @else { No window available in this range } </p>
+          <p class="data-note">@if (latestVoiceWindow(); as window) { Updated · {{ window.windowEnd | date:'dd MMM HH:mm':'UTC' }} UTC } @else { No window available in this range } </p>
         </section>
-        <section aria-label="Recorded failure signals"><h3>Recorded failure signals</h3><dl><div><dt>SIP 503 responses</dt><dd class="failure-value">{{ sipFailures() }}</dd></div></dl><p class="data-note">Other failure causes are not supplied by the API.</p><p class="data-note">SIP responses are a separate counter, not a breakdown of failed attempts.</p></section>
+        <section aria-label="Recorded failure signals"><h3>Recorded failure signals</h3><dl><div><dt>SIP 503 responses</dt><dd class="failure-value">{{ sipFailures() }}</dd></div></dl><p class="data-note">Other causes unavailable.</p><p class="data-note">SIP counts are separate from failed attempts.</p></section>
       </div>
       <div class="panel-table"><table class="overview-table volte-table" aria-label="VoLTE monitored scopes">
         <thead><tr><th>Scope</th><th>Attempts</th><th>CSSR %</th><th>SIP 503 rate</th><th>Status</th></tr></thead>
@@ -100,7 +100,7 @@
       </div>
       <section class="link-investigation" aria-label="Directional link investigation">
         @if (selectedLink(); as link) {
-          <h3>{{ link.name }} <span>— {{ link.nominalCapacityGbps }} G nominal capacity</span></h3><p>Traffic, utilization and loss unavailable. Baseline comparison unavailable.</p>
+          <h3>{{ link.name }} <span>— {{ link.nominalCapacityGbps }} G nominal capacity</span></h3><p>Traffic, utilization, loss and baseline unavailable.</p>
           <a class="button" routerLink="/trace-link" [queryParams]="linkParameters(link.id)">Investigate A → B</a>
           <a class="button" routerLink="/trace-link" [queryParams]="linkParameters(link.id, 'b-to-a')">Investigate B → A</a>
         } @else if (selectedCity(); as city) { <h3>{{ city.name }} — {{ nodeValue(city) }}</h3><p>{{ cityHealth(city) }}</p> } @else { <h3>City and link details</h3><p>Select a dot or line.</p> }
@@ -130,7 +130,7 @@
           <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [compact]="true" [incident]="incident" (updated)="acceptAcknowledgement($event)" />
           <a class="incident-evidence" [routerLink]="['/incidents', incident.id]">Episode evidence</a>
         </article>
-      } @empty {<p role="status">{{ queueLoading() ? 'Loading priority anomalies…' : 'No unresolved anomalies returned for these filters.' }}</p>}</div>
+      } @empty {<p role="status">{{ queueLoading() ? 'Loading priority anomalies…' : 'No unresolved incidents for these filters.' }}</p>}</div>
       <button type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Open full incident queue</button>
     }
   </section>
@@ -145,7 +145,7 @@
 <app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" [title]="'Incident queue (' + queueTotal() + ')'" closeLabel="Close incidents" (closed)="clearQueueFragment()">
           <div class="queue-filters" drawer-controls><p>{{ visibleIncidents().length }} on this page · {{ visibleIncidents().length - acknowledgedOnPage() }} awaiting acknowledgement</p><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label></div>
           <div class="queue-scroll" [attr.aria-busy]="queueLoading()">
-          @if (queueSeverityFilter() && !fixture) { <p class="queue-refresh">Severity filters this priority page only.</p> }
+          @if (queueSeverityFilter() && !fixture) { <p class="queue-refresh">Severity applies to this page.</p> }
           @if (queueLoading()) { <p class="queue-refresh" role="status">Refreshing incidents…</p> }
           @if (queueError()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
           @else {
@@ -165,7 +165,7 @@
                   <p class="queue-meta">{{ priority.priorityBand }} · {{ priority.freshness }}{{ priority.severityHistorical ? ' · Historical severity' : '' }} · {{ priority.comparableImpact ?? 'Impact unavailable' }} {{ priority.impactUnit ?? '' }}</p>
                   @if (priority.cityNullReason) { <p class="queue-meta">City unavailable: {{ priority.cityNullReason }}</p> }
                 }
-                <p class="queue-meta">First observed: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
+                <p class="queue-meta">Since: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-meta">Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-impact">{{ deviation(detectionWindow(incident), incident.service) }}</p>
                 <p class="queue-meta">{{ cause(incident.latestDetection) }}</p>
@@ -175,7 +175,7 @@
                 </div>
               </article>
             } @empty {
-              <p>{{ queueSeverityFilter() ? 'No incidents with that severity on this page.' : 'No incidents returned for these filters.' }}</p>
+              <p>{{ queueSeverityFilter() ? 'No incidents with that severity on this page.' : 'No matching incidents.' }}</p>
             }
           }
           </div>

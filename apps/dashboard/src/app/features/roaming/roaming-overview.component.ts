@@ -7,7 +7,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
   selector: 'app-roaming-overview', imports: [MetricChartComponent, RouterLink],
   template: `@if (preview()) {<section class="roaming" [class.compact]="compact()" aria-label="Roaming services preview">
     <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">Sample data</span></header>
-    <p class="preview-note">Artificial data · awaiting measured roaming data</p>
+
     <div class="roaming-chart"><h3>Location update success rate <span>UTC · sample</span></h3>
       <app-metric-chart view="chart" [hero]="true" [compact]="true" name="registrationSrPct" title="Roaming location update success rate · preview" unit="PERCENT" [windows]="windows()" [from]="from()" [to]="to()" />
     </div>
@@ -24,7 +24,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     }
     @if (compact()) { <a class="button roaming-link" routerLink="/roaming">Open roaming services →</a> }
     <a class="measured-history" routerLink="/trace-link" [queryParams]="roamingContext()">Measured partner history</a>
-  </section>} @else {<section class="roaming" aria-label="Roaming measurements"><h2>Roaming services</h2><p role="status">Roaming measurements are unavailable in the legacy service response. Investigate persisted partner, country and direction populations in Trace Link history.</p><a class="button roaming-link" routerLink="/trace-link" [queryParams]="roamingContext()">Open roaming investigation →</a></section>}`,
+  </section>} @else {<section class="roaming" aria-label="Roaming measurements"><h2>Roaming services</h2><p role="status">Roaming data unavailable. Open partner history.</p><a class="button roaming-link" routerLink="/trace-link" [queryParams]="roamingContext()">Open roaming investigation →</a></section>}`,
   styles: [`
     :host { display: block; min-width: 0; }
     .roaming { background: var(--surface); border-radius: var(--radius); padding: 16px; }
