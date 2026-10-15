@@ -61,14 +61,14 @@ export class TelecomClient {
   deletePushSubscription(id: string, signal?: AbortSignal) {
     return this.request<void>('DELETE', `/api/notifications/push-subscriptions/${encodeURIComponent(id)}`, undefined, undefined, signal);
   }
-  traceCities(signal?: AbortSignal) {
-    return this.request<components['schemas']['TraceCityList']>('GET','/api/v2/inventory/cities',undefined,undefined,signal);
+  traceCities(signal?: AbortSignal, catalogueVersion?: string) {
+    return this.request<components['schemas']['TraceCityList']>('GET','/api/v2/inventory/cities',undefined,catalogueVersion?{catalogueVersion}:undefined,signal);
   }
-  traceLinks(signal?: AbortSignal) {
-    return this.request<components['schemas']['TraceLinkList']>('GET','/api/v2/inventory/links',undefined,undefined,signal);
+  traceLinks(signal?: AbortSignal, catalogueVersion?: string) {
+    return this.request<components['schemas']['TraceLinkList']>('GET','/api/v2/inventory/links',undefined,catalogueVersion?{catalogueVersion}:undefined,signal);
   }
-  tracePartners(signal?: AbortSignal) {
-    return this.request<components['schemas']['TracePartnerList']>('GET','/api/v2/inventory/partners',undefined,undefined,signal);
+  tracePartners(signal?: AbortSignal, catalogueVersion?: string) {
+    return this.request<components['schemas']['TracePartnerList']>('GET','/api/v2/inventory/partners',undefined,catalogueVersion?{catalogueVersion}:undefined,signal);
   }
   traceDefinitions(signal?: AbortSignal) {
     return this.request<TraceKpiDefinition[]>('GET','/api/v2/kpi-definitions',undefined,undefined,signal);

@@ -36,8 +36,10 @@ async function liveApi(page: Page) {
   };
   const state = { catalogue, summaries, windows, requests, incidents: [] as Incident[], geographyStatus: 200, historyStatus: 200 };
   await page.addInitScript(() => { (window as any).EventSource = class extends EventTarget {
-    onopen = null; onerror = null; closed = false;
-    constructor() { super(); ((window as any).__sources ??= []).push(this); }
+    onopen:((event:Event)=>void)|null = null; onerror = null; closed = false;
+    constructor() { super(); ((window as any).__sources ??= []).push(this);
+      queueMicrotask(()=>{if(!this.closed)this.onopen?.(new Event('open'));});
+    }
     close() { this.closed = true; }
   }; });
   await page.route('**/api/**', async route => {
@@ -141,8 +143,9 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('[data-city-window]')).toHaveCount(4);
     await page.getByRole('navigation', { name: 'VOLTE city history pages' }).getByRole('button', { name: 'Next', exact: true }).click();
     await expect.poll(() => state.requests.some(path => path.startsWith('/api/geography/cities/CHI/kpis') && path.includes('page=1'))).toBe(true);
+    const readsBeforeRefresh=state.requests.filter(path=>path==='/api/geography/cities').length;
     await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(readsBeforeRefresh+1);
     await expect(page.locator('#city-map-title')).toContainText('Chișinău');
     await page.getByLabel('Service', { exact: true }).selectOption('SMS');
     await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('ms');
@@ -232,8 +235,9 @@ test('a new observed minute preserves the selected topology parent', async ({ pa
   for (const summary of state.summaries) if (summary.latestWindow)
     summary.latestWindow.windowEnd = new Date(Date.parse(summary.latestWindow.windowEnd) + 60_000).toISOString();
   state.catalogue.generatedAt = new Date(Date.parse(state.catalogue.generatedAt) + 60_000).toISOString();
+  const readsBeforeRefresh=state.requests.filter(path=>path==='/api/geography/cities').length;
   await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-  await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+  await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(readsBeforeRefresh+1);
   await expect.poll(() => topologyReads().length).toBeGreaterThan(before);
   await expect.poll(() => topologyReads().at(-1)).toContain('parentId=AGG-MD-CHI-01');
   await expect(page.locator('app-city-evidence')).toContainText('Parent AGG-MD-CHI-01');
@@ -334,8 +338,9 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('app-city-evidence [data-city-window]')).toHaveCount(0);
     await intervals.getByRole('button', { name: 'Later interval', exact: true }).click();
     await expect(intervals).toContainText('2/30');
+    const readsBeforeRefresh=state.requests.filter(path=>path==='/api/geography/cities').length;
     await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(readsBeforeRefresh+1);
     await expect(intervals).toContainText('2/30');
     const histories = state.requests.filter(path => path.includes('/kpis?'));
     expect(histories.length).toBeGreaterThanOrEqual(60);

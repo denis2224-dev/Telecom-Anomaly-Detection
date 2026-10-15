@@ -3341,6 +3341,7 @@ components:
         synthetic: {type: boolean}
         manifestSha256: {type: string}
         archiveReady: {type: boolean}
+        catalogueVersion: {type: string, nullable: true, description: Versioned inventory covering the registered history interval; reading it does not activate live producers.}
     TraceIncidentWorkflow:
       type: object
       required: [id, episodeId, status, assigneeId, version, resolutionNote]

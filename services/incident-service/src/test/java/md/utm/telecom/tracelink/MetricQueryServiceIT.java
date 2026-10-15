@@ -82,6 +82,20 @@ class MetricQueryServiceIT extends IncidentServiceIntegrationTestSupport {
     }
 
     @Test
+    void historyMetadataSelectsItsRecordedCatalogueWithoutActivatingLiveInventory() throws Exception {
+        jdbc.update("UPDATE app.trace_catalogue SET active=false WHERE catalogue_version='trace-active-v1'");
+        String issuer="http://telecom.test:8080/auth/realms/telecom";
+        jdbc.update("INSERT INTO app.analysts(id,issuer,subject,display_name) VALUES (?,?,'archive-reader','Archive reader')",UUID.randomUUID(),issuer);
+        var login=oidcLogin().idToken(token->token.issuer(issuer).subject("archive-reader")).authorities(new SimpleGrantedAuthority("ROLE_ANALYST"));
+        mvc.perform(get("/api/v2/datasets").session(authenticatedSession()).with(login)).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].catalogueVersion").value("trace-active-v1")).andExpect(jsonPath("$[0].archiveReady").value(false));
+        mvc.perform(get("/api/v2/inventory/cities").session(authenticatedSession()).with(login).param("catalogueVersion","trace-active-v1"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.cities[0].id").value("hin"));
+        mvc.perform(get("/api/v2/inventory/cities").session(authenticatedSession()).with(login)).andExpect(status().isServiceUnavailable());
+        assertEquals(false,jdbc.queryForObject("SELECT active FROM app.trace_catalogue WHERE catalogue_version='trace-active-v1'",Boolean.class));
+    }
+
+    @Test
     void ratioUsesLatestRevisionAndKeepsGapsAndZeroDenominators() {
         insertWindow(FROM, "990", "1000", "1", "VALID", 1);
         var series = queries.series(query(FROM, FROM.plusSeconds(1500), "15m"));

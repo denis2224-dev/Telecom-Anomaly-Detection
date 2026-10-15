@@ -46,6 +46,20 @@ async function expectRenderedSeries(page:Page,from:string,rows:number){
   await expect(chart.locator('tbody time').first()).toHaveAttribute('datetime',from);
   await expect(chart.locator('tbody tr')).toHaveCount(rows);
 }
+test('controlled history metadata loads its inactive recorded inventory without live activation',async({page})=>{
+ await setup(page);const reads:string[]=[];
+ await page.route('**/api/v2/datasets',route=>route.fulfill({json:[{datasetId:'trace-link-md-30d-v1',from:'2026-09-10T09:00:00Z',to:'2026-09-10T09:20:00Z',synthetic:true,manifestSha256:'a'.repeat(64),archiveReady:true,catalogueVersion:'recorded-inactive'}]}));
+ await page.route('**/api/v2/inventory/**',route=>{
+  const url=new URL(route.request().url());reads.push(url.searchParams.get('catalogueVersion')??'active');
+  if(url.searchParams.get('catalogueVersion')!=='recorded-inactive')return route.fulfill({status:503,json:{code:'UNAVAILABLE'}});
+  const rows=url.pathname.endsWith('/cities')?{cities}:url.pathname.endsWith('/links')?{links}:{partners};
+  return route.fulfill({json:{catalogueVersion:'recorded-inactive',...rows}});
+ });
+ await page.goto(queryUrl);
+ await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('recorded-inactive');
+ await expect(page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();
+ expect(reads.filter(version=>version==='recorded-inactive')).toHaveLength(3);
+});
 for(const width of [1366,390])test(`native history keeps query, inventory, gaps and exact export at ${width}px`,async({page},info)=>{
   const queries=await setup(page);await page.setViewportSize({width,height:900});await page.goto(queryUrl);
   await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');

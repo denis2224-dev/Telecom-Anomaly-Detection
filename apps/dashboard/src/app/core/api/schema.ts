@@ -2189,6 +2189,8 @@ export interface components {
             synthetic: boolean;
             manifestSha256: string;
             archiveReady: boolean;
+            /** @description Versioned inventory covering the registered history interval; reading it does not activate live producers. */
+            catalogueVersion?: string | null;
         };
         TraceIncidentWorkflow: {
             /** Format: uuid */

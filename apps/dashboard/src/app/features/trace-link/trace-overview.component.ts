@@ -71,6 +71,7 @@ export class TraceOverviewComponent {
   readonly query=inject(TraceQueryStore);private readonly api=inject(TelecomClient);private readonly session=inject(SessionStore);
   private readonly router=inject(Router);private readonly route=inject(ActivatedRoute);
   readonly datasets=signal<components['schemas']['TraceDataset'][]>([]);readonly datasetError=signal('');
+  readonly selectedCatalogue=computed(()=>this.datasets().find(item=>item.datasetId===this.query.context().datasetId)?.catalogueVersion??undefined);
   readonly cities=signal<TraceCity[]>([]);readonly links=signal<TraceLink[]>([]);readonly partners=signal<TracePartner[]>([]);
   readonly definitions=signal<TraceKpiDefinition[]>([]);readonly catalogueVersion=signal('');readonly metric=signal('');
   readonly inventoryBusy=signal(false);readonly inventoryError=signal('');readonly inputError=signal('');
@@ -100,9 +101,10 @@ export class TraceOverviewComponent {
     effect(()=>{const context=this.query.context();void this.router.navigate([],{relativeTo:this.route,queryParams:traceContextParameters(context),replaceUrl:true});});
     effect(cleanup=>{
       if(this.session.phase()!=='authenticated')return;
-      untracked(()=>{void this.loadInventory();void this.loadDatasets();});
+      untracked(()=>{void this.loadDatasets();});
       cleanup(()=>{this.datasetRequest?.abort();this.inventoryRequest?.abort();this.csvRequest?.abort();this.datasets.set([]);this.cities.set([]);this.links.set([]);this.partners.set([]);this.definitions.set([]);this.series.set(null);});
     });
+    effect(cleanup=>{this.selectedCatalogue();if(this.session.phase()!=='authenticated')return;untracked(()=>{void this.loadInventory();});cleanup(()=>this.inventoryRequest?.abort());});
     effect(cleanup=>{
       const query=this.metricQuery(),revision=this.query.revision(),sessionRevision=this.session.revision;this.refresh();
       const authenticated=this.session.phase()==='authenticated';
@@ -128,14 +130,14 @@ export class TraceOverviewComponent {
   private async loadDatasets():Promise<void>{const revision=this.session.revision;this.datasetRequest?.abort();const request=this.datasetRequest=new AbortController();this.datasetError.set('');try{const datasets=await this.api.traceDatasets(request.signal);if(request.signal.aborted||revision!==this.session.revision)return;this.datasets.set(datasets.slice(0,100));
     if(!this.query.context().datasetId){const first=datasets.find(item=>item.archiveReady);if(first)this.chooseDataset(first.datasetId);}
   }catch{if(!request.signal.aborted&&revision===this.session.revision)this.datasetError.set('Registered dataset availability could not be loaded. Use an owner-provided dataset and exact bounds.');}}
-  async loadInventory():Promise<void>{
+  async loadInventory(catalogueVersion=this.selectedCatalogue()):Promise<void>{
     if(this.session.phase()!=='authenticated')return;
     const revision=this.session.revision,generation=++this.inventoryGeneration;this.inventoryRequest?.abort();const request=this.inventoryRequest=new AbortController();
     this.inventoryBusy.set(true);this.inventoryError.set('');
     try{
-      const [cities,links,partners,definitions]=await Promise.all([this.api.traceCities(request.signal),this.api.traceLinks(request.signal),this.api.tracePartners(request.signal),this.api.traceDefinitions(request.signal)]);
+      const [cities,links,partners,definitions]=await Promise.all([this.api.traceCities(request.signal,catalogueVersion),this.api.traceLinks(request.signal,catalogueVersion),this.api.tracePartners(request.signal,catalogueVersion),this.api.traceDefinitions(request.signal)]);
       if(request.signal.aborted||revision!==this.session.revision||generation!==this.inventoryGeneration)return;
-      if(cities.catalogueVersion!==links.catalogueVersion||cities.catalogueVersion!==partners.catalogueVersion)throw new Error('Inventory versions disagree. Retry a consistent catalogue.');
+      if((catalogueVersion && cities.catalogueVersion!==catalogueVersion)||cities.catalogueVersion!==links.catalogueVersion||cities.catalogueVersion!==partners.catalogueVersion)throw new Error('Inventory versions disagree. Retry a consistent catalogue.');
       this.cities.set(cities.cities.filter(city=>city.active));this.links.set(links.links.filter(link=>link.active));this.partners.set(partners.partners.filter(partner=>partner.active));this.catalogueVersion.set(cities.catalogueVersion);this.definitions.set(definitions);
     }catch(error){if(!request.signal.aborted)this.inventoryError.set(error instanceof Error?error.message:'Inventory unavailable.');}
     finally{if(!request.signal.aborted)this.inventoryBusy.set(false);}
