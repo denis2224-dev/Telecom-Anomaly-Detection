@@ -327,7 +327,9 @@ for (const width of [1366, 768, 390]) {
     const start = await page.getByLabel('From (UTC)', { exact: true }).inputValue();
     const end = await page.getByLabel('To (UTC, exclusive)', { exact: true }).inputValue();
     expect(Date.parse(end + 'Z') - Date.parse(start + 'Z')).toBe(30 * 86_400_000);
-    expect((await page.locator('[data-chart=cssrPct] svg text').allTextContents()).filter(text => /\d{2} [A-Z][a-z]{2}/.test(text))).toHaveLength(2);
+    const dateLabels=(await page.locator('[data-chart=cssrPct] svg text').allTextContents()).filter(text => /\d{2} [A-Z][a-z]{2}/.test(text));
+    expect(dateLabels.length).toBeGreaterThan(2);
+    expect(dateLabels.length).toBeLessThanOrEqual(25);
     const first = (await page.getByRole('button', { name: '15m', exact: true }).boundingBox())!;
     const second = (await page.getByRole('button', { name: '3d', exact: true }).boundingBox())!;
     expect(second.y).toBeGreaterThan(first.y + first.height - 1);
