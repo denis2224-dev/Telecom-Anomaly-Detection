@@ -78,7 +78,7 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(Set.of("analysts", "detection_evidence", "incidents", "incident_audit",
+        assertEquals(Set.of("trace_reference_window", "trace_reference_import", "trace_reference_definition", "trace_link_workflow_audit", "analysts", "detection_evidence", "incidents", "incident_audit",
                 "service_kpi_windows", "scenario_commands", "sms_ml_shadow",
                 "geo_catalogue_versions", "geo_cities", "geo_nodes", "geo_scope_bindings",
                 "geo_scope_roles", "geo_configured_links", "scope_window_coverage",

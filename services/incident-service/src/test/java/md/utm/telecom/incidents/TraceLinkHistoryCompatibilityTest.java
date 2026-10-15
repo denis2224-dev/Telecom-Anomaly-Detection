@@ -32,7 +32,7 @@ class TraceLinkHistoryCompatibilityTest {
     @Test
     void bothFoundationHistoriesRetainRowsChecksumsAndMatchFreshSchema() throws Exception {
         String fresh = database("compatible_fresh");
-        assertEquals(13, TraceLinkMigrations.forDatabase(flyway(fresh, null)).migrate().migrationsExecuted);
+        assertEquals(18, TraceLinkMigrations.forDatabase(flyway(fresh, null)).migrate().migrationsExecuted);
         List<String> expected;
         try (var connection = migrator(fresh)) {
             expected = schema(connection);
@@ -117,7 +117,7 @@ class TraceLinkHistoryCompatibilityTest {
 
     private static List<String> retainedMainRows(Connection connection) throws SQLException {
         return rows(connection, "SELECT 'evidence:' || row_to_json(d)::text FROM app.trace_link_detection_evidence d "
-                + "UNION ALL SELECT 'incident:' || row_to_json(i)::text FROM app.trace_link_incidents i "
+                + "UNION ALL SELECT 'incident:' || (to_jsonb(i)-ARRAY['public_id','workflow_status','assignee_id','resolution_note'])::text FROM app.trace_link_incidents i "
                 + "UNION ALL SELECT 'audit:' || row_to_json(a)::text FROM app.trace_link_incident_audit a ORDER BY 1");
     }
 
