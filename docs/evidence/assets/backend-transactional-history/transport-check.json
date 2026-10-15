@@ -1,0 +1,1802 @@
+[
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 27.43695800018031
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 27.27324999978009
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.635333001133404
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.08208400082367
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.966292001190595
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.128334000502946
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.4690830006147735
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.241582999995444
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.936125000516768
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.453374999589869
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.92841700038116
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.709582999770646
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.414292000248679
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.550624999363208
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.708834000164643
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.242000001293491
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.8412079997651745
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.154500000571716
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.630750000113039
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.776542000603513
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.166167000425048
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.465334000400617
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.932041999491048
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.309249999205349
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.794666999980109
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.476083000365179
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.66654100031883
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.237416000469238
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.856707999366336
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.213624998868909
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.035707999733859
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.717625000732369
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.846416000073077
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.474499999982072
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.633250000770204
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.235459000090486
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.432042000407819
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.39441600086866
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.342999999920721
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 24.7107919985865
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 22.632375001194305
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.707707999259583
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.84812500125554
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.486874999012798
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.30754199907824
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.307250001162174
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.856291999923997
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.313124999811407
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 20.313250000981498
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 20.12454199939384
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.70516699878499
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.972124999985681
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.913958999386523
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.553958000353305
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.30687500073691
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.78887499999837
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.149291000241647
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.309082999418024
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.44745799987868
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.746582999578095
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.291916999965906
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.803583999717375
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.610457999675418
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.637666000358877
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.662374999621534
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.267208000499522
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.55633299924375
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.175332999409875
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.650959000893636
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.182457998889731
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.536958000462619
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.343500000293716
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 21.45616699999664
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 21.10270900084288
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.53891700071108
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.42704100049741
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.361375000997214
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.698790998911136
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.127458000482875
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.365749999546097
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.318541999979061
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.944624999770895
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.545459000146366
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.63958299891965
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.680375000054482
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.67595900107699
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.16666599996097
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.30566700057534
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.089624999745865
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.380124999253894
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.634666999583715
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.41966599911393
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.56725000005099
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.768916998946224
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.083708000020124
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.950208001304418
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.660291999665787
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.730749999420368
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.363999999957741
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.81216699903598
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.61991700125509
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.327292000918533
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.867207998686354
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.673292001039954
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.519790998543613
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.243375000456581
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.419459000535426
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.81241699992097
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.20000000143773
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.113167000687099
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.828124999738066
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.882457999192411
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.35062499876949
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.360665999745834
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.60283300023002
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.88808300018718
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.591958000484738
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.95100000021921
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.970417000877205
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.264667000839836
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 20.586459000696777
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.98733400068886
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.968625000619795
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 22.229124999284977
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 21.721333001551102
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.532041000275058
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.952207999158418
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.610958000048413
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.775124999781838
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.604541999593494
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.67645800120954
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.953000000081374
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.328250001199194
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.555292000091868
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.835332999704406
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.519207999910577
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.619249999464955
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.111208001035266
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.403541998646688
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.331375001755077
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.997624998912215
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.66695800141315
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.602583000538289
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.920791000084137
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.064875000258326
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.19499999974505
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.703667001303984
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.360625000335858
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.43983400167781
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.629749998770421
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.51754100000835
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.887332999933278
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.536333998970804
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.640542000051937
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.654958999017254
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.442916998727014
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.3273749989894
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.35758300148882
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.442874999076594
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.33512500100187
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.978334000261384
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.194999998930143
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 21.447290999276447
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 0,
+    "error": "TimeoutError",
+    "durationMs": 10003.655583001091
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.754499999980908
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.537082999595441
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.47162499971455
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.550957999337697
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.664291999390116
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.444000000759843
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.763208999473136
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.711667000374291
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.568458001012914
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.285250000175438
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.28970899945125
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.838082999820472
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.178625000757165
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.447708000356215
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.250208000798011
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.055792000959627
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.295916999282781
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.376583998644492
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.823666999276611
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.384208001487423
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.0501250007073395
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 4.310000000259606
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.302040999798919
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.497874999491614
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.337290998795652
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.208749999947031
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.68016600018018
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.217124999442603
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.589334001560928
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.253625000696047
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.782834000769071
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.794249998682062
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.306541000929428
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.471041999859153
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.532249999712803
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.85387500016077
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 5.514874999789754
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.866667000911548
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.600582999060862
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.556249999353895
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 21.64074999927834
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 21.08787500037579
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.14254199982679
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.193707999467733
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.07854099913675
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.993459000834264
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.08058300007542
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.12770799874852
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.043417000313639
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.194457999721635
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.770290998465498
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.355875000343076
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 29.379458999756025
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 28.369957999530016
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.868374999423395
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.871458999958122
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.143625000244356
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.252416000090307
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 20.510667000053218
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 20.132207999267848
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.064458000982995
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.12000000102853
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.809417000724352
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.104083001147956
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.889334000850795
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.20266600123432
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.488333999295719
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.332500000411528
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.487666999528301
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.536999999909312
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.495583999931114
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.383541001123376
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.930832999089034
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.52149999991525
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.214957999371109
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 6.494417000794783
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.251749999952153
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.231041000020923
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.105542001430877
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.805749999344698
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.455082999324077
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.342416000639787
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.16045800074062
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.11041599951568
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.123000000225147
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.382000000186963
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.441042000617017
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 7.503708000513143
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.97479100099008
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.800291000123252
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.41500000024098
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.546999999060063
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.535958998952992
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.652125000182423
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.165249999176012
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.83070799986308
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.110792000385118
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.09233400085941
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.826749999177991
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.052833000576356
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.559499999857508
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.245667000272078
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 10.818042001119466
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.34133299921814
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.510167000684305
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.646666998785804
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.921666999522131
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.924040998972487
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.982249999666237
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.25020800040511
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.61229100136552
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.270833000002312
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.288750001374865
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.37883299938403
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.215249999324442
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.642415999944205
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.38029199987068
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 12.566291999974055
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 20.347915999082034
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.788583998888498
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 16.09104099952674
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.924542000590009
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 9.445749999940745
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 8.593125001425506
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 19.818709000901436
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 18.75862499946379
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.449291998767876
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 14.963666999392444
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 15.358915999968303
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 13.356207999095204
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.39491700027429
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.04283300023235
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 11.899499999344698
+  },
+  {
+    "target": "http://telecom.test:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 20.6982079998852
+  },
+  {
+    "target": "http://127.0.0.1:8080",
+    "status": 200,
+    "error": null,
+    "durationMs": 21.012334000261035
+  },
+  {
+    "target": "http://127.0.0.1:8082",
+    "status": 200,
+    "error": null,
+    "durationMs": 17.756583998561837
+  }
+]

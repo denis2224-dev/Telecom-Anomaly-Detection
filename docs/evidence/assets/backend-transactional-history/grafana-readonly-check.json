@@ -1,0 +1,59 @@
+{
+  "isolation": "codex-trace-history-review",
+  "grafanaVersion": "11.2.0",
+  "sourcePin": "origin/devops/observability-capacity",
+  "datasourceHealth": {
+    "message": "Database Connection OK",
+    "status": "OK"
+  },
+  "forbiddenPrivileges": "f|f|f|f",
+  "actualQuery": "SELECT 100*SUM(numerator)/NULLIF(SUM(denominator),0) AS value, 'INSUFFICIENT_EVIDENCE' AS quality FROM app.trace_metric_window WHERE dataset_id='trace-link-md-30d-v1' AND domain='transport' AND metric_id='link.utilization' AND scope_id='chi-hin:a-to-b' AND bucket_start>='2026-10-09T09:00:00Z' AND bucket_start<'2026-10-09T09:05:00Z'",
+  "actualValue": 57.318505,
+  "backendValue": 57.318505,
+  "tolerance": 1e-06,
+  "frame": [
+    {
+      "schema": {
+        "refId": "A",
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "executedQueryString": "SELECT 100*SUM(numerator)/NULLIF(SUM(denominator),0) AS value, 'INSUFFICIENT_EVIDENCE' AS quality FROM app.trace_metric_window WHERE dataset_id='trace-link-md-30d-v1' AND domain='transport' AND metric_id='link.utilization' AND scope_id='chi-hin:a-to-b' AND bucket_start>='2026-10-09T09:00:00Z' AND bucket_start<'2026-10-09T09:05:00Z'"
+        },
+        "fields": [
+          {
+            "name": "value",
+            "type": "number",
+            "typeInfo": {
+              "frame": "float64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "quality",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            57.318505
+          ],
+          [
+            "INSUFFICIENT_EVIDENCE"
+          ]
+        ]
+      }
+    }
+  ],
+  "full14PanelProvisioning": false,
+  "ownerReceipt": false,
+  "docs": "https://grafana.com/docs/grafana/latest/developer-resources/api-reference/http-api/api-legacy/data_source/"
+}

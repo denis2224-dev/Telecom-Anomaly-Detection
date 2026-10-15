@@ -19,7 +19,7 @@ class TraceLinkApiContractTest(unittest.TestCase):
     def test_openapi_and_dashboard_copy(self):
         validate_spec(self.spec)
         self.assertEqual(self.canonical, (ROOT / "apps/dashboard/api/incident-api.yaml").read_bytes())
-        self.assertEqual("0.4.0", self.spec["info"]["version"])
+        self.assertEqual("0.5.0", self.spec["info"]["version"])
 
     def test_trace_link_routes_are_declared(self):
         paths = self.spec["paths"]

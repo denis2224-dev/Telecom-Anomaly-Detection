@@ -1,6 +1,8 @@
 package md.utm.telecom.incidents.stream;
 
 import jakarta.annotation.PreDestroy;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Counter;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.Clock;
@@ -47,19 +49,22 @@ public class IncidentStreamRegistry {
     private final Clock clock;
     private final Executor executor;
     private final Supplier<SseEmitter> emitters;
+    private Counter queueDrops;
+    private Counter executorRejects;
 
     @Autowired
-    public IncidentStreamRegistry(Clock clock) {
+    public IncidentStreamRegistry(Clock clock, MeterRegistry meters) {
         this(clock, new ThreadPoolExecutor(4, 8, 30, TimeUnit.SECONDS,
                         new ArrayBlockingQueue<>(256),
                         Thread.ofPlatform().daemon().name("incident-sse-", 0).factory(),
                         new ThreadPoolExecutor.AbortPolicy()),
-                // Bound abandoned transport slots; reconnect always fetches REST
-                // because this stream does not provide durable event replay.
                 () -> new SseEmitter(60_000L));
+        meters.gauge("incident.sse.connections", clients, Map::size);
+        meters.gauge("incident.sse.queued", clients, map -> map.values().stream()
+                .mapToInt(client -> client.queue.size()).sum());
+        queueDrops = meters.counter("incident.sse.queue.drops");
+        executorRejects = meters.counter("incident.sse.executor.rejects");
     }
-
-    // Package-private injection point for deterministic lifecycle tests.
     IncidentStreamRegistry(Clock clock, Executor executor, Supplier<SseEmitter> emitters) {
         this.clock = clock;
         this.executor = executor;
@@ -123,8 +128,12 @@ public class IncidentStreamRegistry {
 
     private void enqueue(Client client, Outbound event) {
         if (client.closed.get()) return;
-        if (SessionDeadlineFilter.expired(client.session, clock.instant())
-                || !client.queue.offer(event)) {
+        if (SessionDeadlineFilter.expired(client.session, clock.instant())) {
+            close(client);
+            return;
+        }
+        if (!client.queue.offer(event)) {
+            if (queueDrops != null) queueDrops.increment();
             close(client);
             return;
         }
@@ -136,6 +145,7 @@ public class IncidentStreamRegistry {
         try {
             executor.execute(() -> drain(client));
         } catch (RejectedExecutionException saturated) {
+            if (executorRejects != null) executorRejects.increment();
             client.sending.set(false);
             close(client);
         }
@@ -170,7 +180,6 @@ public class IncidentStreamRegistry {
         try {
             client.emitter.complete();
         } catch (RuntimeException alreadyClosed) {
-            // Best effort: registration and queued data are already gone.
         }
     }
 
