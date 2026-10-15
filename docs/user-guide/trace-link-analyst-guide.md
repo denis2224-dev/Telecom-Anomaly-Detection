@@ -20,17 +20,19 @@ Zoom changes the visible interval, preserving the selected period. Use the horiz
 
 Once available, the active Trace Link catalogue contains Chișinău (CHI), Bălți (BAL), Cahul (CAH), Ungheni (UNG), Orhei (ORH), Soroca (SOR), Comrat (COM), Edineț (EDI), Hîncești (HIN) and Căușeni (CAU), with twelve approved links. API identifiers can use the reference namespace's lowercase city IDs. RIB/TIR historical labels remain legacy or unmapped context rather than new inventory nodes.
 
+Choose a registered dataset marked validated archive to use its exact recorded interval. An incomplete archive stays unavailable; a small fixture is not a substitute.
+
 Select a city with the map, keyboard Enter/Space, city table or City control. Select a link with its map action or the directional inventory table. Each declared direction is explicit. Selecting an incompatible city clears link focus. Capacity in the inventory is a declared value, not a measured traffic sample.
 
 For native transport history, choose Transport, a declared direction, and a measurement. Carried traffic, effective capacity, utilization, RTT snapshot and jitter remain distinct. A high utilization value alone is not an outage verdict. Loss, errors/discards and an operational-state timeline are unavailable under the current native read model.
 
 ## Read metric evidence correctly
 
-VoLTE registered series display the server's exact buckets, quality, coverage and primitive counts. Call setup success is a percentage; setup time is a duration. Neither substitutes for the other. The current registered rollup registry exposes setup-success measurements; other definitions remain unavailable until the backend supplies them.
+VoLTE registered series display the server's exact buckets, quality, coverage and primitive counts. Call setup success is a percentage; setup time is a duration. Neither substitutes for the other. The registered dictionary covers 41 domain metrics plus the compatible setup-success alias. Each metric declares its population, operator, availability and reference approximation. Missing required primitives produce unavailable values even when a nearby CSV field looks similar.
 
-The native-domain API preserves aligned five-minute source windows. It does not provide server rollups or CSV. Select 5m and aligned bounds for those views; the application does not change resolution automatically, manufacture edge buckets, or aggregate the observations itself.
+Registered persisted history supports 5m, 15m, 1h and 6h server aggregation and exact CSV once the full validated archive is projected into incident-owned storage. Period and resolution remain independent. Partial edges contain only complete native intervals and expose effective bounds. Original five-minute native measurements remain available in a separate expandable view; that compatibility API does not aggregate or export CSV.
 
-For roaming, choose Country, Roaming direction and Partner and direction. Both lists inbound and outbound populations separately. Registration, data and voice procedures have separate identities. Active-user snapshots and finalized roaming SMS are unavailable, rather than inferred from interval success rates.
+For roaming, choose Country, Roaming direction and Partner and direction. Both lists inbound and outbound populations separately. Registration, data and voice procedures have separate identities. With a complete archive, active-user snapshots retain their observation time and age, and finalized roaming SMS keeps its own population. They are never inferred from registration or data success rates. Direction-incompatible snapshots are rejected.
 
 For LTE mobile data, inspect EPS bearer activation, DNS response success and modeled throughput separately. Normal activation cannot mask DNS failure. Expand source records to read primitive populations, source qualifiers, hashes and provenance. Unproven eligibility or modeled weighting remains visible.
 
@@ -56,9 +58,11 @@ Follow Investigate incident to inspect its measured window, source evidence and 
 
 Technical recovery and analyst resolution are separate. Recovered service evidence can coexist with open investigation work. Resolve only when the workflow permits it and with a resolution note. Stopped telemetry remains stopped/unknown rather than recovered.
 
+For persisted native episodes, use Incidents in this context. The list applies the same visible interval, dataset and domain/scope filters, with bounded pages. Original committed evidence and analyst audit have independent pages. Incident links preserve query context. Assign to me, Start investigation, comments and resolution use the current server version; a conflict requires refresh.
+
 ## Optional browser alerts
 
-Use Enable browser alerts explicitly. No permission request occurs on page load. Denied, unsupported, insecure-origin, unavailable and feature-off states retain in-app history. Change browser settings and reload after a denied permission; the application does not repeatedly prompt.
+Shared browser delivery remains disabled until secure-origin acceptance is recorded. Protected configuration, encrypted subscription persistence and bounded delivery are implemented; controlled tests do not establish real browser delivery. Use Enable browser alerts explicitly. No permission request occurs on page load. Denied, unsupported, insecure-origin, unavailable and feature-off states retain in-app history. Change browser settings and reload after a denied permission; the application does not repeatedly prompt.
 
 Secure opt-in requires enabled backend configuration, a valid VAPID public key, subscription storage and a server subscription identity. If the server omits a removable identity, the browser subscription is rolled back and enabling reports an error. Disable deletes the server identity and unsubscribes the browser; a failure remains retryable.
 
@@ -73,3 +77,9 @@ Retry an uncertain command with its original idempotency key and unchanged body.
 On a source gap or stale response, retain the timestamps and quality state; do not infer a cause. After API/network interruption, retry the same context. Session expiry clears private state, closes the stream and returns to sign-in. A new user cannot receive the previous user's late response.
 
 400 means invalid context, 401 ended authentication, 403 missing permission/session protection, 404 missing or disabled resource, 409 changed/conflicting state, 429 throttling, and 503 temporary unavailability. The current release explicitly reports an inactive Trace Link catalogue or disabled native API. These states need backend registration/activation, not a fabricated frontend fallback.
+
+## Reference aggregation details
+
+Rates use sums of independent numerators and denominators. Means use elapsed sums and their matching counts, or declared valid seconds for time-weighted rates. Percentages and p95 values are never averaged. Histograms are pooled before one percentile interpolation; SMS delay values and exported bin edges use milliseconds under the explicit conversion policy. Transport carried volume is a qualified estimate from directional rate and elapsed seconds, not a measured byte counter.
+
+Queue growth requires start and end snapshots; the first archive interval has no invented opening queue. A retained snapshot exposes its age and becomes stale after its freshness limit. Synthetic CSV files lack measured source quality and coverage: structural slot coverage is displayed separately, and calculated values remain qualified evidence. Nominal link declarations never replace measured effective capacity in utilization arithmetic.

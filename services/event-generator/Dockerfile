@@ -12,6 +12,8 @@ COPY contracts contracts
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -q -B -pl services/event-generator -am package -Dmaven.test.skip=true
 
 FROM eclipse-temurin:21-jre-jammy
+ARG TRACE_RELEASE_COMMIT=unrecorded
+LABEL org.opencontainers.image.revision=$TRACE_RELEASE_COMMIT
 RUN apt-get update \
     && apt-get install --no-install-recommends --yes curl \
     && rm -rf /var/lib/apt/lists/*

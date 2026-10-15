@@ -1,4 +1,6 @@
 FROM python:3.13.9-slim-bookworm
+ARG TRACE_RELEASE_COMMIT=unrecorded
+LABEL org.opencontainers.image.revision=$TRACE_RELEASE_COMMIT
 WORKDIR /app
 COPY services/ml-service/requirements-ml.txt services/ml-service/requirements-ml.txt
 RUN python -m pip install --no-cache-dir -r services/ml-service/requirements-ml.txt

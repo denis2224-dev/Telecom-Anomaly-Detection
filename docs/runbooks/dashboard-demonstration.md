@@ -23,7 +23,7 @@ Open `http://telecom.test:8080/dashboard` and sign in through the organization l
 5. Open **Scenario runner** from the sidebar. For the implemented fault profiles, choose `VOLTE_IMS_OVERLOAD` with `VOLTE-MD-CENTRAL`, or `SMS_QUEUE_DELAY` with `SMS-MD-ROUTE-A`. Use a nonnegative seed (verification used 42), then **Start scenario**. **Refresh status** reports the authoritative run status; **Stop telemetry** stops a running command. A stop is not proof of recovery. Conflicts or an unavailable generator must remain error states.
 6. Wait for the eight-minute fault profile to complete. Open the actual incident for its scope and scheduled window. Verify technical **RECOVERED** while unresolved analyst work stays open, then **Refresh incident**. Return to the overview and verify refresh retains the chosen city and history range.
 
-The scenario backend currently accepts only the two legacy scopes above, including for normal-control and telemetry-gap scenarios. Geographic scopes are monitored but cannot be used for scenario commands. The UI excludes these unsupported choices and explains the restriction in **Supported scenario scopes**.
+The compatible scenario backend also accepts catalogue-authorized VoLTE/SMS city scopes. New commands for RIB/TIR are rejected; stored history remains readable. HIN/CAU are reference inventory identities and are not fabricated as legacy VoLTE/SMS scope memberships. New-domain controls use their own complete directional/partner/city tuples and durable command ledger.
 
 ## Reversible overview rollout
 
@@ -74,3 +74,7 @@ The backend now gives each SSE connection a one-minute lease. This bounds abando
 - Further topology panels, local measurement panels and additional classified/affected-path evidence remain planned work until the backend supplies authoritative relationships and measurements. Missing cause evidence remains **Cause undetermined**.
 
 Give the [verification evidence](../evidence/assets/dashboard-demonstration/README.md) to Stanislav for capture review and Denis for API integration review. Another teammate should follow this guide unaided. These human reviews are pending; no teammate approval is implied by automated results, and fixture captures are not live acceptance.
+
+## Persisted Trace Link rehearsal
+
+Use the pinned-release procedure in [Trace Link completion runbook](trace-link-completion.md). Two populated rehearsals remain pending; controlled browser fixtures do not satisfy them. Show the registered full archive, approved topology, all five domain panels, qualified gaps, shared incident filtering, assignment/comment/recovery/resolution, exact CSV and absolute-time Grafana link. Record both runs against the same source/image/dataset hashes.
