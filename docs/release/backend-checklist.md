@@ -35,3 +35,7 @@ Decision: **draft; acceptance pending**. The previous backend-core release above
 - [ ] Collect all five observed owner acknowledgments.
 
 See [final sign-off](../evidence/final-backend-signoff.md), [rehearsals](../evidence/backend-rehearsals.md), [shared draft manifest](trace-link-release-manifest.json), and [backend runbook](../runbooks/trace-link.md). Required pending gates keep this release unaccepted.
+
+## Integrated stack refresh, 15 October 2026
+
+The earlier unaccepted Trace Link candidate is superseded. Original source/image hashes and controlled runs remain historical; the release checker rejects their acceptance. #107 supplies current V013 compatibility, enabled-account/capacity repairs and feature integration evidence. The release draft adds a populated V004-to-V013 regression and pins both canonical and historical migration resources when capturing a future candidate. A fresh shared identity, current complete rehearsals and remaining release gates are still required. This does not reopen or extend the earlier accepted backend-core release.

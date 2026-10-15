@@ -1,5 +1,7 @@
 # Backend rehearsals
 
+Update, 15 October 2026: the 14 October candidate below is **superseded and unaccepted** by the integrated #103/#107 source. Its original hashes and controlled-run records remain historical evidence; no complete rehearsal or owner acceptance transfers to the newer candidate. Current feature verification is in [PR #107 integration](2026-10-15-pr107-integration.md), including the unchanged main V001–V012 and additive V013 path. Capture a new shared release identity after integration and repeat required release acceptance.
+
 Observed 14 October 2026, Europe/Chisinau. Complete release rehearsal acceptance: **pending**. The two runs below are automated controlled Kafka lifecycle checks with real OIDC sessions; no teammate browser demonstration or full new-domain scenario run is claimed.
 
 Candidate application revision: `6b4d4246a5a8eb563394525dbd04394d432ed8ca`. Local deployed image: `trace-link-backend-qa-20261014-incident-service@sha256:4f035a8ecf3d1e2b393941f9d1ad624ea8e36129485bf5a0ce5b3095cf341029`. Exact API, migration, dataset, model, policy, topology and public identity hashes are in [backend-release-candidate.json](../release/backend-release-candidate.json). Both runs used this same candidate. Push and new-domain scenario flags were off; origin was `http://telecom.test:8080`.

@@ -1,5 +1,7 @@
 # Final Trace Link backend sign-off
 
+Update, 15 October 2026: the 14 October candidate below is **superseded and unaccepted** by the integrated #103/#107 source. Its original hashes and controlled-run records remain historical evidence; no complete rehearsal or owner acceptance transfers to the newer candidate. Current feature verification is in [PR #107 integration](2026-10-15-pr107-integration.md), including the unchanged main V001–V012 and additive V013 path. Capture a new shared release identity after integration and repeat required release acceptance.
+
 Recorded 14 October 2026, Europe/Chisinau. Decision: **pending; release must remain draft**. This is the backend handoff record, not five-owner acceptance.
 
 The observed application source/image/API/migration/dataset and public configuration identities are pinned in [backend candidate](../release/backend-release-candidate.json). The [shared manifest](../release/trace-link-release-manifest.json) is explicitly an incomplete backend fragment. The application revision is 6b4d4246a5a8eb563394525dbd04394d432ed8ca; release-test/document commits are newer and do not pretend to be the deployed application source.
