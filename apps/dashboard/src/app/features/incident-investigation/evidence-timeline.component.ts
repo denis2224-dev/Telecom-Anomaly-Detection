@@ -76,7 +76,7 @@ type Detection = components['schemas']['ServiceDetection'];
             </thead>
 
             <tbody>
-              @for (kpi of detection.kpis; track kpi.name) {
+              @for (kpi of primaryKpis(detection); track kpi.name) {
                 <tr [attr.data-kpi]="kpi.name">
                   <th scope="row">{{ label(kpi.name) }}</th>
                   <td>{{ observedFor(detection, kpi) ?? 'Unavailable' }}</td>
@@ -98,6 +98,9 @@ type Detection = components['schemas']['ServiceDetection'];
         </p>
 
         <details class="evidence-disclosure"><summary>Troubleshooting</summary>
+          <div class="evidence-table" tabindex="0" aria-label="Supporting KPI evidence"><table><thead><tr><th>KPI</th><th>Actual</th><th>Baseline</th><th>Unit</th><th>Change</th><th>Relative change</th><th>Numerator</th><th>Denominator</th></tr></thead><tbody>
+          @for (kpi of supportingKpis(detection); track kpi.name) {<tr [attr.data-kpi]="kpi.name"><th>{{ label(kpi.name) }}</th><td>{{ observedFor(detection, kpi) ?? 'Unavailable' }}</td><td>{{ kpi.baseline ?? 'Unavailable' }}</td><td>{{ kpi.unit }}</td><td>{{ change(kpi, observedFor(detection, kpi)) }}</td><td>{{ relative(kpi, observedFor(detection, kpi)) }}</td><td>{{ kpi.numerator ?? 'Unavailable' }}</td><td>{{ kpi.denominator ?? 'Unavailable' }}</td></tr>}
+          </tbody></table></div>
           <p>Detection: <code>{{ detection.detectionId }}</code> · Scope: <code>{{ detection.scopeId }}</code></p>
           <p>Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
           @for (evidence of detection.evidence; track $index) {
@@ -116,6 +119,13 @@ type Detection = components['schemas']['ServiceDetection'];
 })
 export class EvidenceTimelineComponent {
   readonly detections = input<Detection[]>([]);
+  primaryKpis(detection: Detection): Kpi[] {
+    const names = detection.service === 'VOLTE'
+      ? ['cssrPct', 'Call setup success rate (CSSR)', 'eligibleAttempts', 'sip503Ratio', 'imsCpuPct']
+      : ['deliverySrPct', 'deliveredMessages', 'queueDepth', 'p95DeliveryMs', 'oldestPendingAgeSec', 'eligibleAttempts'];
+    return detection.kpis.filter(kpi => names.includes(kpi.name));
+  }
+  supportingKpis(detection: Detection): Kpi[] { return detection.kpis.filter(kpi => !this.primaryKpis(detection).includes(kpi)); }
   readonly label = metricLabel;
   readonly change = deviation;
   readonly relative = relativeChange;

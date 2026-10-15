@@ -91,8 +91,8 @@ for (const service of ['VOLTE', 'SMS'] as const) test(`${service} appends real n
   state.incident.latestDetection = structuredClone(trajectory.detections.at(-1)!) as typeof state.incident.latestDetection;
   await page.goto(`/services/${state.summary.scope.scopeId}`);
   const hero = page.locator('.service-hero');
-  const selected = service === 'VOLTE' ? 'rrcSrPct' : 'queueDepth';
-  await hero.getByRole('button', { name: service === 'VOLTE' ? 'RRC SR' : 'Queue Depth', exact: true }).click();
+  const selected = service === 'VOLTE' ? 'sip503Ratio' : 'queueDepth';
+  await hero.getByRole('button', { name: service === 'VOLTE' ? 'SIP 503 rate' : 'Queue Depth', exact: true }).click();
   await expect(hero.locator('[data-chart]')).toHaveAttribute('data-chart', selected);
   const plot = hero.locator('.chart-scroll'); await plot.focus();
   await page.keyboard.press('End');

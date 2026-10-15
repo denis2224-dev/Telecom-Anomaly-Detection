@@ -127,11 +127,8 @@ export class ServiceDetailComponent {
     { name: 'deliveredMessages', title: 'Delivered sample volume', unit: 'COUNT' },
   ] : [
     { name: 'cssrPct', title: 'Call setup success rate', unit: 'PERCENT' },
-    { name: 'rrcSrPct', title: 'Radio / access · RRC SR', unit: 'PERCENT' },
-    { name: 'bearerSrPct', title: 'Radio / access · Bearer SR', unit: 'PERCENT' },
     { name: 'sip503Ratio', title: 'IMS / core · SIP 503 rate', unit: 'RATIO' },
     { name: 'imsCpuPct', title: 'IMS / core · CPU', unit: 'PERCENT' },
-    { name: 'packetLossRatio', title: 'Transport · packet loss', unit: 'RATIO' },
     { name: 'eligibleAttempts', title: 'Attempts', unit: 'COUNT' },
   ]));
   readonly selectedKpi = signal('');
