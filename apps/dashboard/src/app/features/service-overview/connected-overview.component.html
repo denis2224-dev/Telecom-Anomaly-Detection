@@ -1,6 +1,6 @@
 <section class="connected" aria-label="Connected service overview">
   <div class="headline-metrics" aria-label="Key service information">
-    @for (kpi of headline(); track kpi.label) { <div [attr.data-tone]="kpi.tone"><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong><small>{{ kpi.note }}</small></div> }
+    @for (kpi of headline(); track kpi.label) { <div [attr.data-tone]="kpi.tone"><span>{{ kpi.label }}</span><strong>@if (kpi.domain; as domain) { <a routerLink="/trace-link" [queryParams]="historyParameters(domain)" [attr.aria-label]="'Open ' + kpi.label.toLowerCase()">{{ kpi.value }}</a> } @else { {{ kpi.value }} }</strong><small>{{ kpi.note }}</small></div> }
   </div>
   <form class="controls" (submit)="applyRange($event, fromInput.value, toInput.value)">
     <div class="period-field">
@@ -22,8 +22,8 @@
   @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
   @if (statusMessage()) { <p role="alert">{{ statusMessage() }}</p> }
   @if (geographyError()) { <p role="status">City catalogue unavailable: {{ geographyError() }} Existing city evidence may be stale.</p> }
-  <div class="overview-panels">
-    <section class="service-panel" aria-labelledby="volte-panel-title">
+  <div class="overview-panels" [class.single-service]="serviceFilter() !== 'ALL'">
+    <section class="service-panel" [class.filtered-out]="serviceFilter() === 'SMS'" aria-labelledby="volte-panel-title">
       <h2 id="volte-panel-title">VoLTE setup <span>CSSR %</span></h2>
       <div class="panel-visual">
         <p class="chart-scope" [attr.data-scope]="chartScope('VOLTE')?.scope?.scopeId" [title]="chartScope('VOLTE')?.scope?.scopeId ?? ''">@if (chartScope('VOLTE'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
@@ -83,15 +83,16 @@
       </table></div>
       <button type="button" class="panel-navigation" (click)="queueDialog.open()" aria-haspopup="dialog" aria-controls="incident-queue">Open incident investigation <app-icon name="right" /></button>
     </section>
-    @if (roamingPanel()) {
-    <section class="service-panel" aria-label="Roaming overview">
+    @if (roamingPanel() && serviceFilter() !== 'SMS') {
+    <section class="service-panel" [class.filtered-out]="serviceFilter() === 'VOLTE'" aria-label="Roaming overview">
       <button class="ghost" type="button" (click)="roamingPanel.set(false)">Show SMS graph</button>
       @defer (on immediate) { <app-roaming-overview [compact]="true" [showCountries]="true" [from]="chartFrom()" [to]="chartTo()" /> }
       <button type="button" class="panel-navigation" [routerLink]="serviceTarget('SMS') ? ['/services', serviceTarget('SMS')!.scope.scopeId] : null" [disabled]="!serviceTarget('SMS')">Open SMS delivery <app-icon name="right" /></button>
     </section>
     } @else {
-    <section class="service-panel" aria-labelledby="sms-panel-title">
-      <button class="ghost" type="button" (click)="roamingPanel.set(true)">Show roaming preview</button>
+    <section class="service-panel" [class.filtered-out]="serviceFilter() === 'VOLTE'" aria-labelledby="sms-panel-title">
+      @if (fixture) { <button class="ghost" type="button" (click)="roamingPanel.set(true)">Show roaming preview</button> }
+      @else { <a class="ghost" routerLink="/trace-link" [queryParams]="historyParameters('roaming')">Open roaming history</a> }
       <h2 id="sms-panel-title">SMS delivery <span>Success rate %</span></h2>
       <div class="panel-visual">
         <p class="chart-scope" [attr.data-scope]="chartScope('SMS')?.scope?.scopeId" [title]="chartScope('SMS')?.scope?.scopeId ?? ''">@if (chartScope('SMS'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>

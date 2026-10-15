@@ -100,7 +100,6 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
 
     // Fresh API values are compared to the actual map, queue and immutable detail rendering.
     await analyst.page.goto('/dashboard');
-    await analyst.page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await analyst.page.getByLabel('Region', { exact: true }).fill('Chișinău');
     await expect(analyst.page.locator('.chart-scope').nth(0)).toHaveAttribute('data-scope', volte.scopeId);
     await expect(analyst.page.locator('.chart-scope').nth(1)).toHaveAttribute('data-scope', sms.scopeId);

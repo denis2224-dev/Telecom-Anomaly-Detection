@@ -54,7 +54,7 @@ export class ConnectedOverviewComponent {
   readonly fixture = dataSource.fixture;
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
-  readonly roamingPanel = signal(true);
+  readonly roamingPanel = signal(this.fixture);
   readonly showTraffic = signal(this.fixture);
   readonly transportLinks = this.fixture ? transportPreview : [];
   readonly latestVoiceWindow = computed(() => this.chartRows('VOLTE').at(-1));
@@ -62,18 +62,30 @@ export class ConnectedOverviewComponent {
   readonly headline = computed(() => {
     const window = this.latestVoiceWindow(), results = this.results();
     const cpu = metricValue(window, 'imsCpuPct');
+    const smsWindow = this.chartRows('SMS').at(-1);
+    const smsMetric = (name: string, unit: string) => smsWindow?.quality === 'COMPLETE'
+      && smsWindow.kpis.find(kpi => kpi.name === name)?.unit === unit
+      ? formatMetric(metricValue(smsWindow, name), unit) : 'Unavailable';
     const city = this.selectedCity();
     const scopes = this.services().filter(item => (this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter())
       && (!city || city.scopeIds.includes(item.scope.scopeId)));
-    return [
-      { label: 'Call attempts', value: results ? number(results.total) : 'Unavailable', note: 'Latest VoLTE window', tone: 'info' },
-      { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
-      { label: 'Failed setup share', value: results ? number(100 - results.rate) + '%' : 'Unavailable', note: 'Setup attempts only', tone: 'danger' },
-      { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
-      { label: 'Backhaul traffic', value: 'Unavailable', note: this.fixture ? 'Sample links shown below' : 'Open directional transport history', tone: 'muted' },
-      { label: 'Roaming status', value: this.fixture ? 'Preview' : 'Unavailable', note: 'Partner investigation available', tone: 'info' },
+    const cards: { label: string; value: string; note: string; tone: string; domain?: 'transport' | 'roaming' }[] = [
+      ...(this.serviceFilter() === 'SMS' ? [
+        { label: 'Delivered messages', value: smsMetric('deliveredMessages', 'COUNT'), note: 'Latest SMS window', tone: 'info' },
+        { label: 'Delivery success', value: smsMetric('deliverySrPct', 'PERCENT'), note: 'Selected SMS scope', tone: 'success' },
+        { label: 'Delivery p95', value: smsMetric('p95DeliveryMs', 'MILLISECONDS'), note: 'Selected SMS scope', tone: 'accent' },
+        { label: 'Queued messages', value: smsMetric('queueDepth', 'COUNT'), note: 'Latest SMS window', tone: 'warning' },
+      ] : [
+        { label: 'Call attempts', value: results ? number(results.total) : 'Unavailable', note: 'Latest VoLTE window', tone: 'info' },
+        { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
+        { label: 'Failed setup share', value: results ? number(100 - results.rate) + '%' : 'Unavailable', note: 'Setup attempts only', tone: 'danger' },
+        { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
+      ]),
+      { label: 'Backhaul history', value: this.fixture ? 'Sample links' : 'Open history', note: 'By link and direction', tone: 'info', domain: this.fixture ? undefined : 'transport' },
+      { label: 'Roaming history', value: this.fixture ? 'Preview' : 'Open history', note: 'By partner and direction', tone: 'info', domain: this.fixture ? undefined : 'roaming' },
       { label: 'Open incidents', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Current service / city filter', tone: 'warning' },
-    ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
+    ];
+    return cards.map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
   });
   readonly sipFailures = computed(() => {
     const window = this.latestVoiceWindow();
@@ -111,6 +123,11 @@ export class ConnectedOverviewComponent {
   });
   private readonly traceQuery=inject(TraceQueryStore);
   readonly traceHistoryParameters=computed(()=>traceContextParameters({...this.traceQuery.context(),from:this.chartFrom(),to:this.chartTo(),cityId:this.selectedCity()?.id.toLowerCase()??'all',domain:this.serviceFilter()==='SMS'?'sms':'volte',visibleFrom:undefined,visibleTo:undefined,linkDirectionId:undefined}));
+  historyParameters(domain: 'transport' | 'roaming') {
+    return traceContextParameters({ ...this.traceQuery.context(), domain,
+      cityId: this.selectedCity()?.id.toLowerCase() ?? 'all', linkDirectionId: undefined,
+      visibleFrom: undefined, visibleTo: undefined });
+  }
   readonly refresh = signal(0);
   readonly statusMessage = signal('');
   readonly queueSeverityFilter = signal('');
