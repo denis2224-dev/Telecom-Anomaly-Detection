@@ -1,0 +1,29 @@
+{
+  "status": "PASSED",
+  "sourceSha": "280bdacf41d9db9cf69c8bfa4085940ece288bc6",
+  "startedAtUTC": "2026-10-15T13:50:26.979Z",
+  "finishedAtUTC": "2026-10-15T13:59:56.041Z",
+  "outcomes": [
+    {
+      "title": "integrated production roles, real SSE reconnect and fresh geographic incidents",
+      "status": "passed",
+      "durationMs": 555898
+    },
+    {
+      "title": "populated authenticated history preserves exact context at 1366px",
+      "status": "passed",
+      "durationMs": 4114
+    },
+    {
+      "title": "populated authenticated history preserves exact context at 390px",
+      "status": "passed",
+      "durationMs": 2831
+    },
+    {
+      "title": "populated history reconnects and clears protected state after real logout",
+      "status": "passed",
+      "durationMs": 5678
+    }
+  ],
+  "coverage": "Full pinned persisted history, real OIDC/security, desktop/phone context, exact CSV, reconnect, logout and fresh fault/control/gap incident lifecycles; not complete rehearsals or timed idle/absolute expiry acceptance"
+}

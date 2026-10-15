@@ -11,3 +11,7 @@ The records include controlled request counts/timing, response load, hint freque
 On the approved populated candidate, record one manifest SHA256, hardware/OS/browser/viewport, offered/acknowledged/accepted/persisted rates, Kafka lag, outbox/retry backlog, errors, CPU/memory, REST percentiles and browser render/action timings across warmup, steady, burst and recovery. Separate backend wait from browser rendering. Record exact UTC boundaries, scope/run/event/window/detection/episode identities and repeatable commands. Do not represent absent measurements as zero.
 
 The full source archive, coordinated target and actual run are required. No numeric limits or success result are invented here.
+
+## Current populated verification
+
+The full archive, actual Grafana/SQL parity and fresh connected fault/control/gap runs now pass; see the [current index](assets/trace-link-published/artifact-index.json). Those functional runs are not the coordinated capacity profile. No offered/accepted/persisted rate or physical-host performance limit is inferred from them. Coordinated capacity and owner review remain pending.

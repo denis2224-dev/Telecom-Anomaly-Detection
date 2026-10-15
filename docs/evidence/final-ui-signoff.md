@@ -1,25 +1,13 @@
 # Trace Link frontend acceptance record
 
-Status: **PENDING populated and human acceptance**. Reviewed 2026-10-15.
+Status: **implemented and connected checks passed; final human acceptance pending**.
 
-Use the [six-phase requirement record](trace-link-assignment-status.md) and [implementation evidence](trace-link-completion-status.md) for the current branch. The previous frontend report described an older revision; its measurements and failures remain preserved in [the earlier manifest](assets/analyst-experience/release-manifest.json).
+The current frontend is integrated with main `82f69d8d34afbadc4a43e70814af170b5ebdfac7`. Verified runtime source: `280bdacf41d9db9cf69c8bfa4085940ece288bc6`. See [the complete results](trace-link-completion-status.md) and [current artifact index](assets/trace-link-published/artifact-index.json).
 
-## Implemented and verified locally
+Real OIDC sessions load the complete persisted archive on desktop and phone, retain independent period/resolution and scope, restore dataset/country/partner selections, expand charts with focus return, and download exact server CSV across all five domains. Unsupported DNS eligibility stays unavailable. Proxy/SSE interruption, REST reconciliation and real logout clear protected state. The live fault/control/gap path commits and recovers expected incidents with immutable source trace; controls remain separate and technical recovery leaves analyst work open. Four connected cases pass with no API mocks; the owned stack and credentials are cleaned up.
 
-Approved geography, immutable scope/time state, recorded-inventory selection, persisted metric definitions and rollups, bounded exact tables, expanded charts, server CSV, Grafana context, native incident workflow and private notifications are implemented. The map remains stationary when sample links are toggled. Generated API types come from the synchronized canonical contract.
+Unit checks pass (184). The complete controlled Chromium suite passed 186 checks before the final selector correction, with 25 environment-dependent skips; eleven focused history checks pass afterward. Both selector defects have failing-before evidence and passing real-browser URL restoration. Production build, API generation, branding/fixtures and strict acceptance-test types pass. The existing approximately 501.42 kB initial bundle warning remains.
 
-The prior complete supported-runtime check passed 184 unit checks and 183 controlled Chromium checks, with 25 environment-dependent checks skipped. Five production-build controlled capacity checks passed. Backend security, private recipients, transactional notification production and protected push APIs passed isolated integration checks. The [verification record](assets/trace-link-completion/verification.json) contains exact counts, pins and limitations. These are controlled or isolated results, not full populated acceptance.
+The [candidate manifest](../release/trace-link-release-manifest.json) pins actual source/images/assets and records pending gates. The [earlier manifest](assets/analyst-experience/release-manifest.json) and original evidence indexes retain their historical scope and failures.
 
-The follow-up changes standardize native incident time formatting and make the authenticated release check require the full pinned archive. Its regression cases reject incomplete archives and altered CSV values, scope, qualifications and provenance. The connected check now reads recorded inventory without live activation, checks all five domains, validates bucket counts and four resolutions, compares JSON/CSV and repeats the same authenticated history context. It cannot pass by accepting an unavailable response. A history repetition alone is not a complete rehearsal.
-
-The complete follow-up run passed 184 unit checks and 186 controlled Chromium checks, with 25 environment-dependent checks skipped. Production build, unchanged API generation, contract/fixture/branding checks, strict acceptance-test TypeScript checks and four source-pinned local image builds passed. The existing 501.42 kB initial-bundle warning remains. Actual results/logs are [indexed separately](assets/trace-link-followup/artifact-index.json); images and browser assets now match the follow-up source recorded in the [preparation manifest](../release/trace-link-release-manifest.json).
-
-## Pending acceptance
-
-- Full archive import/retry and populated backend, browser and Grafana parity: needs the exact seven-file archive and approved oracle pack.
-- Real secure-origin push: needs an approved HTTPS origin/browser/device. Keep delivery disabled. In-app notifications remain the candidate behavior.
-- Connected outage, session, reconnect, browser matrix and assistive-technology review: needs the populated candidate environment and actual operator reviews.
-- Coordinated capacity, full restore, offline installation/upgrade, two complete rehearsals and five owner reviews: pending on one unchanged release identity. Local builds are pinned; their existence does not establish populated installation or acceptance.
-- The older missing-window lifecycle failure remains unresolved. Retained logs or a database snapshot for the recorded runs are needed; the controlled reproduction establishes a possible mechanism only.
-
-Owner acceptance: **not signed**. Guide-only teammate investigation: **not performed**. Complete release gates: **NOT PASSED**.
+Pending: approved secure-origin/browser push acceptance or an accepted flag-off decision; timed session/browser/screen-reader and guide-only reviews; connected new-domain activation; coordinated capacity; identity/offline target acceptance; two complete populated rehearsals and five actual owner reviews. Delivery remains disabled. Owner acceptance is **not signed**. Complete release gates are **NOT PASSED**.

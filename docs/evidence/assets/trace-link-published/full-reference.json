@@ -1,0 +1,28 @@
+{
+  "datasetId" : "trace-link-md-30d-v1",
+  "sourceCounts" : [ {
+    "source_kind" : "CITY",
+    "rows" : 86400
+  }, {
+    "source_kind" : "LINK",
+    "rows" : 103680
+  }, {
+    "source_kind" : "ROAMING",
+    "rows" : 172800
+  } ],
+  "nativeRows" : 362880,
+  "exactRetry" : "PASS_IDENTITIES_HASHES_COMPLETION",
+  "catalogueActivated" : false,
+  "cardinalitiesByHours" : {
+    "24" : 288,
+    "168" : 2016,
+    "720" : 8640
+  },
+  "metricDefinitions" : 41,
+  "resolutions" : [ "5m", "15m", "1h", "6h" ],
+  "backendSqlBucketComparisons" : 16933,
+  "tolerance" : "0.000001",
+  "fullArchiveDumpRestore" : "PASS_IDENTITIES_HASHES_FLYWAY_PRIVILEGES",
+  "mode" : "Actual full pinned archive in disposable PostgreSQL; direct backend/SQL calls, not authenticated browser acceptance",
+  "completeReleaseGatesPassed" : false
+}

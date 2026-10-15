@@ -1,0 +1,99 @@
+{
+  "runtimeSourceCommit": "280bdacf41d9db9cf69c8bfa4085940ece288bc6",
+  "upstreamCommit": "82f69d8d34afbadc4a43e70814af170b5ebdfac7",
+  "verifiedDate": "2026-10-15",
+  "timezone": "Europe/Chisinau",
+  "incidentService": {
+    "unit": {
+      "tests": 210,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "integration": {
+      "tests": 154,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "completeGate": "PASS"
+  },
+  "rootPython": {
+    "tests": 191,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "dashboard": {
+    "unitPassed": 184,
+    "completeControlledBrowserPassedBeforeFinalSelectorCorrection": 186,
+    "environmentDependentSkipped": 25,
+    "focusedHistoryPassedAfterCorrection": 11,
+    "actualConnectedBrowserPassed": 4,
+    "api": "0.5.0",
+    "build": "PASS_WITH_EXISTING_501.42_KB_WARNING",
+    "strictTypes": "PASS"
+  },
+  "runnerSafetyPassed": 43,
+  "referenceOracle": {
+    "engineChecks": 708498,
+    "domShimChecks": 23
+  },
+  "fullArchive": {
+    "nativeRows": 362880,
+    "processorImportAndRetry": "PASS",
+    "incidentImportAndRetry": "PASS_IDENTITIES_HASHES_COMPLETION",
+    "backendSqlBucketComparisons": 16933,
+    "cardinalities": [
+      288,
+      2016,
+      8640
+    ],
+    "definitions": 41,
+    "resolutions": [
+      "5m",
+      "15m",
+      "1h",
+      "6h"
+    ],
+    "restore": "PASS_FULL_ARCHIVE"
+  },
+  "grafana": {
+    "panels": 14,
+    "targets": 20,
+    "variableQueries": 4,
+    "scopeContexts": 2,
+    "comparedNonNullCells": 3500,
+    "fullSource": "PASS"
+  },
+  "freshLifecycle": {
+    "runs": 4,
+    "faultIncidents": 2,
+    "immutableDetections": 10,
+    "falseControlIncidents": 0,
+    "technicalRecovery": "PASS_ANALYST_WORKFLOW_REMAINS_OPEN"
+  },
+  "offlinePackage": {
+    "assembled": true,
+    "integrity": "PASS",
+    "targetInstallation": "PENDING"
+  },
+  "securePush": "PENDING_DISABLED",
+  "completeRehearsals": [],
+  "ownerSignatures": [],
+  "releaseGatesPassed": false,
+  "retainedFailures": [
+    "Full-source query found a partial queue opening mismatch; additive migration and backend parity correction pass",
+    "The first connected test incorrectly required a DNS value despite unproven reference eligibility; explicit unavailable qualification and exact null CSV now pass",
+    "Real screenshot review exposed async dataset/country/partner selection mismatch; failing-before regressions and passing controlled/connected checks retained",
+    "The integrated asynchronous CSV test initially read before dispatch; corrected header-based streaming assertion and final complete suite pass",
+    "Initial strict Linux model byte rebuild differs from Windows; unchanged model source passed upstream Windows reproduction; artifacts/assertions retained"
+  ],
+  "modes": [
+    "Full pinned source in isolated PostgreSQL/Grafana",
+    "Production assets with real OIDC/API/Kafka/processor/database in fresh owned stack",
+    "Controlled Chromium fixtures",
+    "Reference DOM shim",
+    "Local build/package integrity; not receiving-machine or human acceptance"
+  ]
+}

@@ -1,57 +1,39 @@
-# Trace Link assignment completion record
+# Trace Link six-phase completion record
 
-Reviewed against both supplied assignment documents and current code on 2026-10-15. Each phase separates implementation from its exit acceptance. Existing evidence is scoped to its actual revision and verification mode. No pending review is a signature.
+Current evidence supersedes earlier missing-archive reports. The supplied reference pack is available and validated. Implementation is published on `feature/trace-link-completion`; no shared deployment or merge is asserted.
 
-## Phase 1 — context, contracts and interface states
+## Phase 1 — context, contracts and states
 
-Implemented: immutable UTC query state, URL serialization, independent period/resolution, visible zoom bounds, incompatible link reset, country/partner separation, session/query cancellation, synchronized OpenAPI and generated Angular types. Product branding is centralized. Existing loading, empty, partial, stale, reconnecting, permission and error states are retained.
+Implemented and locally verified: immutable UTC query state, URL restoration, independent period/resolution, zoom/reset, incompatible focus clearing, session/query guards, Trace Link branding, synchronized OpenAPI 0.5.0 and generated types. Fixture states retain explicit missing/partial/stale/forbidden/unavailable behavior. Unit, contract and controlled browser checks pass.
 
-Verified: supported-runtime unit suite, branding/fixture validation, exact canonical contract comparison, generation and controlled browser context checks. Backend security and missing-data semantics passed isolated integration checks.
+## Phase 2 — topology and private state
 
-Exit acceptance: local automation passed at its recorded source. Human terminology review and receiving-owner acceptance remain pending. Review definitions and qualifications with the metric owner; do not supply an invented approval.
+Implemented and verified: ten active cities, twelve approved links with directional inventory, historical labels, keyboard/table alternatives, bounded private notifications, one EventSource, REST reconciliation and logout/user-switch cleanup. The complete pinned archive imports idempotently into both owners. Real authenticated history uses its inactive recorded catalogue without live activation. Async dataset selection now reflects restored URL state.
 
-## Phase 2 — topology and private durable state
+## Phase 3 — metrics and capacity
 
-Implemented: ten approved active cities, twelve approved directional links, historical labels preserved, typed versioned inventory, keyboard/table alternatives, bounded private notification state, one authenticated-tab EventSource, REST reconciliation and cross-tab toast coordination. Recorded history uses inactive inventory versions without live activation.
+Implemented and verified: five-domain definitions and qualified panels, primitive rollups at all four resolutions, independent populations, exact gaps/partial edges, pooled histograms, snapshot freshness, expanded charts and exact tables. All 41 dictionary metrics have full-source backend/SQL parity. Actual Grafana queries match restricted SQL on the complete archive. Supported values and required DNS gaps are tested in the real browser. Controlled capacity evidence exists; coordinated warmup/steady/burst measurement remains pending and is not replaced by browser fixture timings.
 
-Verified: geography, notification/session races, stream fan-out, native workflow, keyboard/focus and desktop/narrow controlled checks. Actual isolated persistence checks cover private recipients and transactional idempotency.
+## Phase 4 — interaction, scenarios and alerts
 
-Exit acceptance: the full 362,880-row archive bootstrap and populated authenticated topology/history are **PENDING**. The checksum-valid full seven-file source is absent. The committed bounded slice is deliberately rejected by the importer. Provide its exact directory or authorized URL; then execute import/retry and row-identity/cardinality checks in the import runbook.
+Implemented and verified: explicit push opt-in/fallback, protected APIs, encrypted ownership, bounded retry/lease delivery, generic worker payload and same-origin clicks; exact streaming CSV and absolute Grafana context; concurrent supported scenarios with durable identities. Real legacy fault/control/gap runs now open/recover expected incidents, preserve ten detections/source receipts and avoid false control incidents. Browser/API/database reconciliation passes. Dataset/country/partner restoration defects have failing-before and passing-after evidence.
 
-## Phase 3 — domain metrics and capacity
+Pending: secure-origin push acceptance, connected new-domain scenario activation and proof of the old historical failure's cause. Keep shared push disabled. Unsupported primitives and scenario profiles remain explicitly unavailable.
 
-Implemented: VoLTE, SMS, transport, roaming and LTE definitions, independent populations, all four server resolutions, correct primitive operators, explicit gaps/partial edges and source qualifications, bounded exact chart tables and drawing-only downsampling. Unsupported primitives stay unavailable. Native detection transitions update durable private notifications and shared incident views.
+## Phase 5 — reliability and handoff
 
-Verified: isolated backend/SQL arithmetic parity across 41 definitions and four resolutions, native workflow, REST/stream controlled behavior, fourteen real Grafana panels with twenty targets/four variables, and five production-build controlled browser capacity checks.
+Implemented and locally verified: security/CSRF/recipient privacy, replay and lease fencing, migration/upgrade histories, actual full archive backup/restore, real OIDC/reconnect/logout, responsive history, guide, terminology and accessibility procedures. A full local offline candidate is assembled and integrity-verified. The real populated browser and isolated database modes are distinct.
 
-Exit acceptance: full-source numerical oracle/parity and coordinated warmup/steady/burst measurements are **PENDING**. Provide the approved reference/oracle pack and populated coordinated environment. Controlled Chromium timings do not measure pipeline throughput, shared load or receiving-machine capacity.
+Pending: supported browser/screen-reader matrix, timed idle/absolute-expiry acceptance on the final candidate, guide-only teammate review, coordinated capacity, identity-secret restore and offline target installation/upgrade. Chromium checks and local artifact integrity do not provide these human/target results.
 
-## Phase 4 — push, scenarios and exact interaction
+## Phase 6 — release
 
-Implemented: protected push configuration/subscription APIs, encrypted ownership, explicit opt-in and feature-off/permission fallbacks, generic lock-screen payload, validated same-origin clicks, bounded leases/retries/revocation. Supported transport, roaming and LTE positives/controls use durable scoped runs. Existing symptom-oriented concurrent scenario UI, intentional retry identity, stopped/unknown wording, exact server CSV, expanded chart and absolute Grafana links remain connected.
+Source, actual images, API, migrations, dataset, model/baseline/policy/topology, identity configuration, Grafana and built browser assets are pinned in the integrated candidate manifest. Real populated history and fresh incident lifecycles pass in an owned temporary stack with verified cleanup. Changes are committed and pushed; the working tree is kept clean.
 
-Verified: isolated notification transactions, retries, leases and ownership; controlled worker privacy/click tests; scenario/detector/replay suites; JSON/CSV backend integration and browser query/export checks. The stricter release acceptance regression rejects missing/substituted archives and changed export primitives, values, scope, quality and provenance.
+Complete release gates remain **NOT PASSED**. Four automated connected cases are partial acceptance, not two complete presentation rehearsals or five owner signatures. Prepare those reviews against one unchanged manifest; do not prefill acceptance.
 
-Exit acceptance: actual HTTPS push permission/background/foreground/revocation is **PENDING**; keep delivery disabled. Other advertised scenario profiles remain unsupported rather than silently executable. The historical lifecycle failure requires retained generator/processor/Kafka logs or a database snapshot for `2026-10-13T18:26:00Z`–`18:34:00Z`; a controlled publish failure is not proof of its cause.
+## Naming and evidence
 
-## Phase 5 — reliability, accessibility and handoff
+The feature branch and authored commit messages exclude the two requested terms. New prose follows the same preference. Existing contractual fixture paths, external test output, programming identifiers and immutable migration text preserve their original spellings. Published migrations and earlier evidence checksums remain intact.
 
-Implemented: analyst guide, terminology, screenshot handling, accessibility procedures, backup/recovery and fail-closed offline packaging, source-labelled immutable image mapping. Existing replay, restart, session/outage and missing-data protections remain intact.
-
-Verified: complete backend suites, real isolated dump/restore, migration upgrade/checksums/runtime restrictions, controlled Chromium session/reconnect/outage/accessibility/resource checks and four isolated application image builds. Earlier failures and platform-dependent skips remain recorded.
-
-Exit acceptance: populated multi-browser/assistive-technology checks, guide-only teammate investigation, identity-secret restore, full archive restore, actual offline package and target-architecture clean-install/upgrade are **PENDING**. Use new isolated volumes; preserve shared databases. The existing ARM64 image results do not certify another architecture. Obtain the target configuration, archive and actual human reviews.
-
-## Phase 6 — pinned release and acceptance
-
-Implemented: release checks, demo script, explicit frontend acceptance record, candidate pins and artifact checksums. Authenticated history smoke now requires the full pinned dataset, checks 288/2,016/8,640 native buckets, all four resolutions, five domains, exact JSON/CSV, recorded inventory, expanded chart focus and identical repeated context.
-
-Verified: detailed executed groups and retained failures are in [completion evidence](trace-link-completion-status.md). The follow-up run passed 184 unit checks, 186 controlled Chromium checks, three release-gate regression cases, production build, contracts, fixtures, branding, API generation and four image builds; 25 environment-dependent browser checks remain skipped. The [follow-up evidence](assets/trace-link-followup/artifact-index.json) retains actual logs and pins. The connected populated smoke remains unexecuted without its prerequisites. The strict Linux model byte-rebuild failure is retained; unchanged model source passed the upstream Windows check, which does not establish CI for this unpublished branch.
-
-Exit acceptance: **NOT PASSED**. Local source, browser assets and four images are pinned in the [preparation manifest](../release/trace-link-release-manifest.json). Obtain full archive/oracle acceptance, verify the actual target, run two complete populated demonstrations on one unchanged manifest, and obtain five real owner reviews. Automated history repetitions are a subset of a demonstration. No owner signatures or populated rehearsals have been recorded. No merge, deployment or shared delivery activation is authorized by this record.
-
-## Wording and commit audit
-
-All implementation changes were committed before this review; follow-up fixes and acceptance tooling use separate commits. The branch name and authored commit messages exclude the two requested terms. Newly authored prose also excludes them. Existing historical fixture paths, language-library identifiers and immutable SQL migration units retain their exact contractual spellings; renaming those would invalidate historical pins or migration checksums. The audit does not claim those strings are absent from repository history or dependencies.
-
-Use the [release evidence index](2026-10-15-trace-link-release.md), [frontend acceptance record](final-ui-signoff.md) and [completion runbook](../runbooks/trace-link-completion.md) to perform the pending work. Complete release gates remain **NOT PASSED**.
+See [current results](trace-link-completion-status.md), [release evidence](2026-10-15-trace-link-release.md), [frontend acceptance](final-ui-signoff.md) and [artifact checksums](assets/trace-link-published/artifact-index.json).

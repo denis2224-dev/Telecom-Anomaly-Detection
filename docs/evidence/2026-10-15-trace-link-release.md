@@ -1,20 +1,15 @@
 # Trace Link release evidence index
 
-Decision: **NOT PASSED**. This is an evidence index, not deployment authorization or an owner signature.
+Decision: **final release gates NOT PASSED; implementation and connected verification published**.
 
-The [six-phase record](trace-link-assignment-status.md) maps both assignment documents to implemented, verified and pending work. The [implementation report](trace-link-completion-status.md) records backend, dashboard, migration, recovery and image checks. The [frontend acceptance record](final-ui-signoff.md) supersedes the older frontend availability report without erasing its evidence.
+The [integrated candidate manifest](../release/trace-link-release-manifest.json) pins runtime source `280bdacf41d9db9cf69c8bfa4085940ece288bc6`, actual local images, migrations, API 0.5.0, the full archive, models/baselines/policies/topology, identity configuration, Grafana and built frontend assets. It records pending human/target acceptance. No registry image publication, shared deployment, main merge or owner signature is asserted.
 
-## Reproducible records
+Current results: [implementation](trace-link-completion-status.md), [six-phase record](trace-link-assignment-status.md), [frontend acceptance](final-ui-signoff.md), [verification JSON](assets/trace-link-published/verification-summary.json) and [artifact checksums](assets/trace-link-published/artifact-index.json).
 
-- [Candidate pins](assets/trace-link-completion/candidate-pins.json): actual source, four ARM64 application images, migrations, contracts, model/baseline/policy/topology, identity configuration, Grafana and browser assets at the recorded source.
-- [Artifact checksum index](assets/trace-link-completion/artifact-index.json) and [verification results](assets/trace-link-completion/verification.json): original controlled/isolated runs, skips and retained failures.
-- [Release preparation manifest](../release/trace-link-release-manifest.json): pins current follow-up source, freshly built browser assets and four actual source-labelled application images, and references unchanged component pins. Its pending state does not imply a populated release or human acceptance.
-- [Follow-up logs/checksums](assets/trace-link-followup/artifact-index.json): 184 unit checks, 186 controlled browser checks, 25 environment-dependent skips, acceptance regression/type checks, build/contract/fixture/branding/API checks and four image builds.
-- [Capacity](2026-10-15-trace-link-capacity.md), [notifications](2026-10-15-trace-link-notifications.md) and [Grafana](2026-10-15-trace-link-grafana.md) records distinguish actual measurements from unperformed populated acceptance.
-- [Demo procedure](../demo/david-script.md) and [completion runbook](../runbooks/trace-link-completion.md): exact next actions and human acceptance requirements.
+The full archive is supplied, checksum-valid and imported idempotently into both owners. Full-source backend/SQL and actual Grafana checks, full restore, production browser history and fresh fault/control/gap lifecycles pass. Actual OIDC/roles/CSRF/SSE/logout and exact five-domain CSV checks pass in an owned temporary stack, which is cleaned up. The final backend gate passes 210 unit checks and 154 integration checks with one unit skip and no failures. The root Python suite passes 191 checks with one platform-runtime skip.
 
-## Unclosed gates
+The local [offline manifest](assets/trace-link-published/offline-manifest.json) describes a completely assembled, integrity-verified package at `/private/tmp/trace-link-offline-candidate`. Target installation and receiving-person acceptance remain pending. The source package is pinned to the tested runtime commit; later evidence-only commits are recorded in the repository.
 
-The full checksum-pinned archive and approved oracle pack are missing. Full import/retry, populated parity, full restore and offline installation are unperformed. Secure-origin push acceptance needs an approved HTTPS origin/browser/device; delivery stays disabled. The historical missing-window failure needs retained runtime logs or a database snapshot. Connected browser/assistive-technology acceptance, coordinated capacity, identity-secret restore, two complete populated rehearsals and five actual owner reviews remain pending.
+Prior evidence indexes remain unchanged. The earlier unaccepted backend fragment is preserved as [historical evidence](assets/trace-link-published/superseded-backend-manifest.json); its obsolete blockers are not current implementation findings.
 
-Keep the pinned source/images/assets unchanged during both rehearsals; rebuild and repin if runtime source changes. Current local checks are neither shared-environment acceptance nor CI for this unpublished branch. No fabricated archive, measurement, approval, reproduction or signature is included.
+Remaining gates: secure-browser acceptance or an accepted flag-off decision, timed session and browser/assistive-technology reviews, connected new-domain activation, coordinated capacity, identity/offline target verification, two complete populated rehearsals on one identity and five actual owner reviews. Current fresh lifecycles pass, but original failure causation still needs retained historical logs or a database snapshot. See the [demo procedure](../demo/david-script.md) and [operations runbook](../runbooks/trace-link-completion.md).

@@ -1,0 +1,25 @@
+{
+  "datasetId" : "trace-link-md-30d-v1",
+  "manifestSha256" : "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+  "nativeRows" : 362880,
+  "exactRetryEqual" : true,
+  "sourceCounts" : [ {
+    "source_kind" : "CITY",
+    "rows" : 86400
+  }, {
+    "source_kind" : "LINK",
+    "rows" : 103680
+  }, {
+    "source_kind" : "ROAMING",
+    "rows" : 172800
+  } ],
+  "nativeBounds" : [ {
+    "first" : "2026-09-10 12:00:00+03",
+    "to_exclusive" : "2026-10-10 12:00:00+03",
+    "source_resolution_seconds" : 300
+  } ],
+  "sourceQualityNotSupplied" : 362880,
+  "scenarioTruthRowsVerifiedOnly" : 18,
+  "authenticatedBackendRead" : "NOT_VERIFIED",
+  "receivingOwnerReproduction" : "PENDING"
+}

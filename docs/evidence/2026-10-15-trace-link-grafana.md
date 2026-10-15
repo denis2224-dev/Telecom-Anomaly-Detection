@@ -1,13 +1,11 @@
-# Trace Link Grafana evidence
+# Trace Link Grafana verification
 
-Status: **actual isolated provisioning/query checks passed; full-archive parity pending**.
+Status: **full-source isolated provisioning/query parity PASSED; shared deployment and owner acceptance pending**.
 
-The [actual query record](assets/trace-link-completion/grafana-queries.json) confirms Grafana 11.2.0 imported fourteen panels, executed twenty targets and four variable queries in two contexts against a real isolated PostgreSQL source. Its population was an empty controlled database. Independent backend/SQL integration checks cover all 41 metric definitions and four resolutions with bounded controlled rows at tolerance `1e-6`; they do not establish full-archive parity.
+[Actual results](assets/trace-link-published/grafana.json) record Grafana 11.2.0, fourteen panels, twenty targets, four variable queries, focused/all contexts and 3,500 non-null cells compared against restricted PostgreSQL queries over the complete pinned archive. [Backend parity](assets/trace-link-published/full-reference.json) covers all 41 dictionary metrics at four resolutions with 16,933 bucket comparisons, tolerance `1e-6`, and preserved gaps/quality/coverage.
 
-Queries retain separate populations, pool compatible histograms and aggregate primitives instead of percentages/p95. The reader has explicit SELECT grants and bounded read-only session defaults; analyst/private notification access and writes are denied. Incident annotation views omit private analyst/comment data. Links carry absolute visible time, dataset, city, directional link, country/direction, resolution and timezone; credentials are rejected and stale base variables cleared.
+A full-data regression exposed a partial queue-opening mismatch: SQL returned zero where the backend could not establish the full-bucket opening within selected context. The additive correction preserves an explicit unavailable result and existing function grants. Earlier migrations retain their bytes. The actual full-source rerun passes.
 
-## Pending populated parity
+Queries retain independent populations and use primitive arithmetic/pooled histograms. The reader is denied private analyst data and writes. Links propagate dataset, city, directional link, country/direction, resolution, timezone and absolute visible bounds without credentials or stale base variables. Unsupported primitives remain gaps.
 
-Provide the approved reference/oracle pack and checksum-valid full archive. Import through the existing owner/read-model path, provision the candidate datasource with approved TLS/credentials outside evidence, query each panel/variable at matching bounds and compare actual backend values at the declared tolerance. Include all/focused populations, inbound/outbound, snapshots/source age, explicit missing buckets and partial edges. Record source/definition hashes, absolute query bounds and raw redacted comparison results. Missing primitives must remain unavailable. Follow the [Grafana runbook](../runbooks/trace-link-completion.md#grafana).
-
-No full-source comparison, shared deployment or receiving-owner signature is asserted.
+These are real Grafana/PostgreSQL checks in disposable services, not screenshots alone. Shared TLS/configuration and receiving-owner approval are not implied. Follow the [Grafana procedure](../runbooks/trace-link-completion.md#grafana) against the approved target and unchanged manifest.
