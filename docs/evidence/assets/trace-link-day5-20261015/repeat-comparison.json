@@ -1,0 +1,13 @@
+{
+  "exactBytes": {
+    "results.json": true,
+    "predictions.json": true,
+    "thresholds.json": true
+  },
+  "repeatHashes": {
+    "predictions.json": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+    "report.md": "a8cba1905850f12b49a51e4e052bea3be601e5c4f7c259940545ce7e6b6e9f9c",
+    "results.json": "131c39292a94e5ddb4b40597eed3d7facfe212598a551f21a9466d7b8875d7bb",
+    "thresholds.json": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b"
+  }
+}

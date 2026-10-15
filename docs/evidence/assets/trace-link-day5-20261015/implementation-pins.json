@@ -1,0 +1,14 @@
+{
+  ".gitattributes": "48a31e2acd9e97c1f5c61ed7e69f4281b900d0f0dbcb3047ddbb0281f1476eab",
+  ".github/workflows/integration.yml": "69b63fc6ad76341ce0fcc93ccdf2dceb916a1e9e43577155be93e879427fae0b",
+  "services/ml-service/README.md": "fc263b03372b5d8ff0e2062496005f53985284d8b62f9958b7a3c1cf396ade7c",
+  "services/ml-service/training/trace_link_study.py": "ad3eb3bf88b8823a6c525393dbcddd931787096f85739e066517ef78a14cceb7",
+  "services/ml-service/training/trace_link_evaluation.py": "5fce346cb004dfddc6ed9f35a2b997e47999e440b17c86ef5e45fc024cafc36d",
+  "services/ml-service/tests/test_trace_link_evaluation.py": "682ef064ae68499db4f215c3d7d88d66cc288182927f23990892a9bcd6bf703d",
+  "services/ml-service/tests/test_trace_link_failure_modes.py": "86a43623216ac768bc6b4e939e2b7845c9b0d7f7b6b75f0e96456db5b5852dda",
+  "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkStudyExportTest.java": "db3de31bf4be64aea8c44a185dc9022605e404720f256b6a4c4879eb9b5dcb5e",
+  "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkShadowWorkerTest.java": "b52df2528de8cb3daf4af15fe081682d371a3242d0f596509ad274a2ebf1218a",
+  "scripts/verify-trace-link-day5.py": "09c1f2a06ab00c5a18dd92371694e481bf6a6bc73a20491203abdf10289f1a15",
+  "scripts/verify-trace-link-day5.ps1": "e9f59fef5dcad272e8520ac2899379a981a9427c3be7e1fd94904dd2fc71c979",
+  "docs/runbooks/detection-and-models.md": "710dff7fea5e0e15703d944b9d444d67666730452300e7d38730974b364d9f1d"
+}
