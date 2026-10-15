@@ -95,8 +95,8 @@ class TraceLinkUpgradeTest {
                     """);
         }
 
-        Flyway upgraded = flyway("011");
-        assertEquals(6, upgraded.migrate().migrationsExecuted);
+        Flyway upgraded = flyway("013");
+        assertEquals(9, upgraded.migrate().migrationsExecuted);
         upgraded.validate();
         assertEquals(0, upgraded.migrate().migrationsExecuted);
         try (Connection migrator = migrator()) {
@@ -105,7 +105,7 @@ class TraceLinkUpgradeTest {
                     SELECT string_agg(version || ':' || checksum, ',' ORDER BY installed_rank)
                     FROM app.flyway_schema_history WHERE version IN ('001','002','003','004')
                     """));
-            assertEquals("10", scalar(migrator,
+            assertEquals("13", scalar(migrator,
                     "SELECT count(*) FROM app.flyway_schema_history WHERE success"));
             assertEquals("4", scalar(migrator,
                     "SELECT count(*) FROM information_schema.tables WHERE table_schema='app' AND table_name IN ('notification_event','notification_recipient','push_subscription','push_delivery')"));
