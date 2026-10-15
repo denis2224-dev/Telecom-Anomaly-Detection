@@ -1,5 +1,5 @@
 {
-  "status": "draft-unaccepted",
+  "status": "superseded-unaccepted",
   "codeRevision": "6b4d4246a5a8eb563394525dbd04394d432ed8ca",
   "imageDigest": "trace-link-backend-qa-20261014-incident-service@sha256:4f035a8ecf3d1e2b393941f9d1ad624ea8e36129485bf5a0ce5b3095cf341029",
   "imageDistribution": "local-content-store",
@@ -34,7 +34,8 @@
     "New-domain producer/processor activation remains disabled; domain policy contract is not claimed active",
     "HTTP origin; push remains off and live browser permission/delivery unverified",
     "Full capacity/load, Grafana parity and offline receiving-teammate reproduction pending",
-    "Two controlled automated lifecycle runs are partial evidence; complete release rehearsals and five owner acknowledgments pending"
+    "Two controlled automated lifecycle runs are partial evidence; complete release rehearsals and five owner acknowledgments pending",
+    "15 October: foundation #103 and feature #107 integration supersede this unaccepted code/image identity; recapture an integrated candidate and rerun complete release acceptance."
   ],
   "rehearsals": [],
   "signoffs": {
@@ -70,5 +71,6 @@
   "identityConfigurationEvidence": {
     "path": "docs/evidence/assets/backend-release/identity-configuration.json",
     "sha256": "2068efb89421a999d11582ba86dfdff69d8511aa479c0fb29478d009b4df0d09"
-  }
+  },
+  "supersededByFeatureRevision": "95f1cc99abb4c6fdc4043a33bea1dd77562455b6"
 }
