@@ -83,3 +83,13 @@ On a source gap or stale response, retain the timestamps and quality state; do n
 Rates use sums of independent numerators and denominators. Means use elapsed sums and their matching counts, or declared valid seconds for time-weighted rates. Percentages and p95 values are never averaged. Histograms are pooled before one percentile interpolation; SMS delay values and exported bin edges use milliseconds under the explicit conversion policy. Transport carried volume is a qualified estimate from directional rate and elapsed seconds, not a measured byte counter.
 
 Queue growth requires start and end snapshots; the first archive interval has no invented opening queue. A retained snapshot exposes its age and becomes stale after its freshness limit. Synthetic CSV files lack measured source quality and coverage: structural slot coverage is displayed separately, and calculated values remain qualified evidence. Nominal link declarations never replace measured effective capacity in utilization arithmetic.
+
+## Service overview charts and priority anomalies
+
+The overview separates VoLTE setup traffic (successful and failed attempts per source window) from call setup success against its recorded baseline. Counts are not Erlang measurements. The primary VoLTE KPIs are setup success, Attempts, SIP 503 rate and IMS CPU; other episode measurements remain in Troubleshooting with their original values and primitives. SMS keeps delivery, completed volume, queue and delay populations distinct.
+
+For a long period, scroll the chart horizontally, use Zoom in/out and Earlier/Later, or choose Focus recorded data. Full selected period restores the original drawing. These controls inspect the loaded history without changing the selected period or the exact source table; missing intervals remain missing. The separate persisted-history query and export controls retain their existing behavior.
+
+The map contains the ten approved cities and twelve declared connections. Select a link marker or its entry in Intercity link list, then choose Investigate A → B or Investigate B → A. The investigation carries the selected absolute interval. A declared connection does not prove that measurements exist in both directions. On a phone, scroll the map horizontally to reach its controls.
+
+Priority anomalies show at most six unresolved episodes from the highest backend priority page, including technical state, first observation, measured deviation, qualified cause and recorded evidence summaries. The full incident queue has its own pagination. Use Open episode evidence for the complete immutable records and authorized analyst actions. Technical recovery does not automatically resolve the analyst workflow.
