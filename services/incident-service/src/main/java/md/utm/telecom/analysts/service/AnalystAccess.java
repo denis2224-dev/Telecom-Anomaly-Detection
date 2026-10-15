@@ -26,6 +26,10 @@ public class AnalystAccess {
         if (!permitted) {
             throw new WorkflowProblem(HttpStatus.FORBIDDEN, "FORBIDDEN", "An application role is required.");
         }
+        if (user.getIdToken() == null || user.getIdToken().getIssuer() == null
+                || user.getIdToken().getSubject() == null || user.getIdToken().getSubject().isBlank()) {
+            throw new WorkflowProblem(HttpStatus.UNAUTHORIZED, "UNAUTHENTICATED", "Sign in to continue.");
+        }
         return analysts.findByIssuerAndSubject(user.getIdToken().getIssuer().toString(),
                         user.getIdToken().getSubject())
                 .filter(Analyst::isEnabled)

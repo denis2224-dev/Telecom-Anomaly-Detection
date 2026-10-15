@@ -1,6 +1,7 @@
 package md.utm.telecom.incidents.security;
 
 import jakarta.servlet.DispatcherType;
+import md.utm.telecom.analysts.service.AnalystAccess;
 import java.time.Clock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.csrf.CsrfException;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
@@ -34,7 +36,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,
                                             ClientRegistrationRepository clients, ApiSecurityErrors errors,
-                                            Clock sessionClock, OidcLoginFailureHandler loginFailureHandler, @Value("${app.public-origin}") String publicOrigin)
+                                            Clock sessionClock, AnalystAccess analystAccess, OidcLoginFailureHandler loginFailureHandler, @Value("${app.public-origin}") String publicOrigin)
             throws Exception {
         var resolver = new DefaultOAuth2AuthorizationRequestResolver(
                 clients, "/oauth2/authorization");
@@ -98,7 +100,8 @@ public class SecurityConfig {
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessHandler(logout))
-                .addFilterAfter(new SessionDeadlineFilter(sessionClock), SecurityContextHolderFilter.class);
+                .addFilterAfter(new SessionDeadlineFilter(sessionClock), SecurityContextHolderFilter.class)
+                .addFilterAfter(new EnabledAnalystFilter(analystAccess, errors), CsrfFilter.class);
 
         return http.build();
     }
