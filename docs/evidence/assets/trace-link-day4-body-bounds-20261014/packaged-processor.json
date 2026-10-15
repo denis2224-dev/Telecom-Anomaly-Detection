@@ -1,0 +1,7 @@
+{
+  "jarSha256": "c1dd9826842f197390599b20c1910a7a7444ae084dd0f6eb21994acb8b567b90",
+  "classMajorVersions": {
+    "BOOT-INF/classes/md/utm/telecom/processing/shadow/TraceLinkResponseBody.class": 65,
+    "BOOT-INF/classes/md/utm/telecom/processing/shadow/TraceLinkShadowClient.class": 65
+  }
+}

@@ -278,3 +278,10 @@ window; deterministic rules retain all incident decisions. Shadow mode is
 disabled by default. See the [validation and rollout workflow](../../tasks/sms-ml-shadow-integration/validation.md)
 for isolated pipeline replay and supplied-data evaluation. Actual real-network
 validation is **PENDING_DATA**.
+
+## Trace Link optional shadow
+
+The independent three-domain candidate, fixed feature order, strict private
+inference endpoint and fallback behavior are described in
+[the Trace Link shadow runbook](../../docs/runbooks/trace-link-ml-shadow.md).
+It is disabled by default and cannot change deterministic incidents or recovery.

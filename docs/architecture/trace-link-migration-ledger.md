@@ -26,6 +26,9 @@ The new catalogue lists ten active reference members but is registered as
 Runtime activation requires a separately versioned source-authority contract and
 the shared consumer alignment gate.
 
+## Transactional history increment
+
+The unmerged PR #103 originally reserved V009 on base f7364d3. Current main already owns V009–V011, so PR #103 now adds V012__trace_link_episode_history.sql after V011. Main V001–V011 remain byte-for-byte unchanged. Episode evidence uses trace_domain_episode_detection to avoid main V010’s trace_domain_detection measurement-verdict table. These separate contracts and feature flags remain intact; the evaluated-domain consumer defaults off. The earlier V009 existed only in isolated review databases, which were removed after verification; this change does not authorize repairing any applied checksum or renaming a migration in a persistent environment.
 ## PR #104 correction allocation — 14 October 2026
 
 Pinned main: `9db3e0e5a61a8062310e560e734a5395758f70b7`. Original PR #104 head:
@@ -54,3 +57,11 @@ The [correction report](../evidence/2026-10-14-trace-link-day3-corrections.md)
 records actual fresh/upgrade/validate/idempotency, row/checksum and grant results.
 Allocation is not activation approval: upstream 60/300-second compatibility,
 shared receiving decisions and simultaneous capacity remain separate gates.
+
+## Day 4 processor allocation — 14 October 2026
+
+`V018__trace_link_ml_shadow.sql` follows the existing processor V017. It adds
+processor-local shadow jobs and immutable results, with column-limited job
+updates for processing_app. Processor V001–V017 and all incident migrations are
+preserved. Fresh and populated V017-to-V018 tests cover retained rows/checksums,
+ownership, grants, validation and no-op rerun. Activation remains a separate gate.

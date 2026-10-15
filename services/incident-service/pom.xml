@@ -157,6 +157,7 @@
 				<targetPath>contracts</targetPath>
 				<includes>
 					<include>detections/service-detection-v2.schema.json</include>
+                    <include>detections/trace-domain-detection-v1.schema.json</include>
                     <include>detections/trace-link-detection-v1.schema.json</include>
                     <include>kpi/trace-link-kpi-definitions-v1.json</include>
                     <include>policies/trace-link-domain-rules-v1.json</include>

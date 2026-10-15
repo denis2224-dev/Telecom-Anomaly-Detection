@@ -1,0 +1,10 @@
+{
+  "isolation": "codex-trace-history-review",
+  "datasetId": "trace-link-md-30d-v1",
+  "manifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+  "firstImportOutput": "BEGIN\n\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCOPY 86400\nCOPY 103680\nCOPY 172800\nDO\nSELECT 362880\nDO\nANALYZE\nSET\nDO\nINSERT 0 0\nCOMMIT\n",
+  "repeatImportOutput": "BEGIN\n\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nCOPY 86400\nCOPY 103680\nCOPY 172800\nDO\nSELECT 362880\nDO\nANALYZE\nSET\nDO\nINSERT 0 0\nCOMMIT\n",
+  "rowCounts": "mobile-data|86400\nroaming|172800\ntransport|103680\n",
+  "sourceQuality": null,
+  "sourceCoverage": null
+}

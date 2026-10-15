@@ -71,7 +71,7 @@ class TraceLinkDetectionMigrationTest {
         var retained = mainTables.stream().map(table -> runtime.queryForList("SELECT * FROM app." + table)).toList();
         var migrator = jdbc(url, "processing_migrator", "test-migrator");
         var checksums = migrator.queryForList("SELECT installed_rank,version,script,checksum,success FROM app.flyway_schema_history ORDER BY installed_rank");
-        var upgraded = flyway(url, null);
+        var upgraded = flyway(url, "17");
         assertEquals(1, upgraded.migrate().migrationsExecuted);
         upgraded.validate();
         assertEquals(0, upgraded.migrate().migrationsExecuted);
@@ -97,7 +97,7 @@ class TraceLinkDetectionMigrationTest {
             statement.execute("ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT SELECT,INSERT,UPDATE,DELETE ON TABLES TO processing_app");
             statement.execute("ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT USAGE,SELECT ON SEQUENCES TO processing_app");
         }
-        var fresh = flyway(url, null);
+        var fresh = flyway(url, "17");
         assertEquals(17, fresh.migrate().migrationsExecuted);
         fresh.validate();
         assertEquals(0, fresh.migrate().migrationsExecuted);

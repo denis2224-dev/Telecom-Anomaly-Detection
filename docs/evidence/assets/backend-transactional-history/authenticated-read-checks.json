@@ -1,0 +1,36 @@
+[
+  {
+    "path": "/api/notifications?size=20",
+    "status": 200
+  },
+  {
+    "path": "/api/v2/inventory/cities",
+    "status": 200
+  },
+  {
+    "path": "/api/ops/capacity",
+    "status": 200
+  },
+  {
+    "path": "/api/ops/capacity",
+    "analystStatus": 403
+  },
+  {
+    "domain": "transport",
+    "points": 288,
+    "quality": "INSUFFICIENT_EVIDENCE",
+    "firstValue": 57.318505
+  },
+  {
+    "domain": "roaming",
+    "points": 96,
+    "quality": "INSUFFICIENT_EVIDENCE",
+    "firstValue": 99.35018050541517
+  },
+  {
+    "domain": "mobile-data",
+    "points": 24,
+    "quality": "INSUFFICIENT_EVIDENCE",
+    "firstValue": 99.50980392156863
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "link": "chi-orh",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "20"
+  },
+  {
+    "link": "orh-sor",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "sor-bal",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "bal-edi",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "bal-ung",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "20"
+  },
+  {
+    "link": "ung-chi",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "20"
+  },
+  {
+    "link": "chi-hin",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "20"
+  },
+  {
+    "link": "hin-com",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "com-cah",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "chi-cau",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-09-23T09:00:00.000Z",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "chi-cau",
+    "from": "2026-09-23T09:00:00.000Z",
+    "to": "2026-09-23T10:00:00.000Z",
+    "effectiveCapacityGbps": "5"
+  },
+  {
+    "link": "chi-cau",
+    "from": "2026-09-23T10:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "cau-com",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "10"
+  },
+  {
+    "link": "orh-bal",
+    "from": "2026-09-10T09:00:00.000Z",
+    "to": "2026-10-10T09:00:00+00:00",
+    "effectiveCapacityGbps": "20"
+  }
+]

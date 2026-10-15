@@ -822,6 +822,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v2/domain-incidents/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTraceDomainIncident"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/trace-link/v1/scenarios/catalogue": {
         parameters: {
             query?: never;
@@ -2159,6 +2175,75 @@ export interface components {
             synthetic: boolean;
             summaries: components["schemas"]["TraceSnapshot"][];
         };
+        TraceSnapshotList: {
+            datasetId: string;
+            /** @enum {string} */
+            domain: "transport" | "roaming";
+            /** Format: date-time */
+            at: string;
+            synthetic: boolean;
+            items: components["schemas"]["TraceSnapshot"][];
+        };
+        TraceDomainIncident: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            technicalState: "ONGOING" | "UNKNOWN" | "RECOVERED";
+            /** @enum {string} */
+            severity: "MEDIUM" | "HIGH" | "CRITICAL";
+            /** Format: int64 */
+            version: number;
+            evidence: components["schemas"]["TraceDomainIncidentEvidence"];
+        };
+        TraceDomainIncidentEvidence: {
+            detection: {
+                /** @enum {integer} */
+                schemaVersion: 1;
+                datasetId: string;
+                /** @enum {boolean} */
+                synthetic: true;
+                /** @enum {string} */
+                domain: "transport" | "roaming" | "mobile-data";
+                metric: string;
+                metricVersion: string;
+                /** @enum {string} */
+                scopeType: "CITY" | "LINK_DIRECTION" | "PARTNER_DIRECTION";
+                scopeId: string;
+                policyVersion: string;
+                topologyVersion: string;
+                episodeId: string;
+                detectionId: string;
+                /** Format: int64 */
+                sequence: number;
+                /** @enum {string} */
+                phase: "OPEN" | "UPDATE" | "UNKNOWN" | "RECOVERY";
+                /** @enum {string} */
+                severity: "MEDIUM" | "HIGH" | "CRITICAL";
+                /** Format: date-time */
+                firstObservedAt: string;
+                /** Format: date-time */
+                windowStart: string;
+                /** Format: date-time */
+                windowEnd: string;
+                /** Format: date-time */
+                detectedAt: string;
+                revision: number;
+            };
+            primitiveEvidence: {
+                payload: {
+                    [key: string]: unknown;
+                };
+                /** @enum {string} */
+                quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
+                coverage: number;
+                numerator: number | null;
+                denominator: number | null;
+            };
+            /** @enum {string} */
+            causeStatus: "UNDETERMINED";
+            probableCause: string | null;
+            causeConfidence: string | null;
+        };
         TraceSnapshot: {
             datasetId: string;
             domain: string;
@@ -2174,7 +2259,7 @@ export interface components {
             unit: string;
             coverage: number;
             /** @enum {string} */
-            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE";
+            quality: "VALID" | "PARTIAL" | "MISSING" | "STALE" | "INSUFFICIENT_EVIDENCE";
             policyVersion: string | null;
             topologyVersion: string | null;
             synthetic: boolean;
@@ -3474,10 +3559,20 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["TraceSnapshot"];
+                    "application/json": components["schemas"]["TraceSnapshotList"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            /** @description Source contract mismatch */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     getTraceRoamingSnapshot: {
@@ -3500,10 +3595,20 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["TraceSnapshot"];
+                    "application/json": components["schemas"]["TraceSnapshotList"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+            /** @description Source contract mismatch */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
     exportTraceMetricCsv: {
@@ -3559,6 +3664,7 @@ export interface operations {
                     "application/json": components["schemas"]["NotificationPage"];
                 };
             };
+            400: components["responses"]["BadRequest"];
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
         };
@@ -3648,6 +3754,31 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            404: components["responses"]["NotFound"];
+        };
+    };
+    getTraceDomainIncident: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Durable domain episode and primitive evidence */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TraceDomainIncident"];
+                };
             };
             401: components["responses"]["Unauthenticated"];
             403: components["responses"]["Forbidden"];
