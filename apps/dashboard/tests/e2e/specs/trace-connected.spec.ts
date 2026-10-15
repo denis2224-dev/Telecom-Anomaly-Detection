@@ -19,6 +19,7 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
   expect(sql(stack,'incidents_db',"SELECT count(*) FROM app.trace_catalogue WHERE active")).toBe('0');
   await actor.page.goto('/trace-link?'+new URLSearchParams(bounds));
   await expect(actor.page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');
+  await expect(actor.page.getByRole('combobox',{name:'Registered persisted dataset',exact:true})).toHaveValue(manifest.dataset_id);
   await expect(actor.page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();
   const from=await actor.page.getByLabel('From · UTC inclusive').inputValue();
   for(const resolution of ['15m','1h','6h','5m']){
@@ -40,6 +41,7 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
    if(domain==='Roaming'){
     await actor.page.getByRole('combobox',{name:'Country',exact:true}).selectOption('RO');await actor.page.getByRole('combobox',{name:'Roaming direction',exact:true}).selectOption('out');
     await actor.page.getByRole('combobox',{name:'Series partner and direction',exact:true}).selectOption('RO-DEMO-01:out');
+    await actor.page.reload();await expect(actor.page.getByRole('combobox',{name:'Country',exact:true})).toHaveValue('RO');await expect(actor.page.getByRole('combobox',{name:'Series partner and direction',exact:true})).toHaveValue('RO-DEMO-01:out');
    }
    await actor.page.getByRole('combobox',{name:'Metric',exact:true}).selectOption(metric);
    const chart=actor.page.getByRole('region',{name:'Persisted metric chart'});await expect(chart).toContainText(metric);

@@ -57,8 +57,15 @@ test('controlled history metadata loads its inactive recorded inventory without 
  });
  await page.goto(queryUrl);
  await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('recorded-inactive');
+ await expect(page.getByRole('combobox',{name:'Registered persisted dataset',exact:true})).toHaveValue('trace-link-md-30d-v1');
  await expect(page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();
  expect(reads.filter(version=>version==='recorded-inactive')).toHaveLength(3);
+});
+test('restored roaming controls show the country and partner from shared context',async({page})=>{
+ await setup(page);await page.goto(queryUrl+'&domain=roaming&countryId=RO&roamingDirection=out&partnerDirectionId=RO-DEMO-01%3Aout');
+ await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities');
+ await expect(page.getByRole('combobox',{name:'Country',exact:true})).toHaveValue('RO');
+ await expect(page.getByRole('combobox',{name:'Series partner and direction',exact:true})).toHaveValue('RO-DEMO-01:out');
 });
 for(const width of [1366,390])test(`native history keeps query, inventory, gaps and exact export at ${width}px`,async({page},info)=>{
   const queries=await setup(page);await page.setViewportSize({width,height:900});await page.goto(queryUrl);
