@@ -1,0 +1,13 @@
+PASS sms-normal: integers exact; maximum absolute float difference=0
+PASS sms-unused-transport-provenance: integers exact; maximum absolute float difference=0
+PASS sms-fault: integers exact; maximum absolute float difference=0
+PASS sms-zero-completions: integers exact; maximum absolute float difference=0
+PASS sms-incomplete: integers exact; maximum absolute float difference=0
+PASS sms-no-node: integers exact; maximum absolute float difference=0
+PASS sms-canonical-normal: integers exact; maximum absolute float difference=0
+PASS sms-canonical-slow-delivery: integers exact; maximum absolute float difference=0
+PASS sms-nearest-rank-30: integers exact; maximum absolute float difference=0
+PASS sms-fractional-delay: integers exact; maximum absolute float difference=0
+PASS sms-fractional-sort: integers exact; maximum absolute float difference=0
+PASS sms-fractional-over-feature-bound: integers exact; maximum absolute float difference=0
+PASS: 12 persisted Java/Python payloads, all fields compared

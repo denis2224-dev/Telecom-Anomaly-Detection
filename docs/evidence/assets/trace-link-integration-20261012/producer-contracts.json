@@ -1,0 +1,15 @@
+{
+  "name": "producer-contracts",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-contracts.py"
+  ],
+  "startedAt": "2026-10-12T18:33:32.659632+00:00",
+  "finishedAt": "2026-10-12T18:33:58.393925+00:00",
+  "elapsedSeconds": 25.734,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "producer-contracts.log",
+  "logSha256": "03fe1b7a72a21bb5ef02fb25936fd0d4a2b6e54cce6dc67c4d089f799815b180"
+}

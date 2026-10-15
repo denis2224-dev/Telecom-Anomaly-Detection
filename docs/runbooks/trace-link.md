@@ -4,7 +4,9 @@
 
 Incident service owns incidents_db read models, immutable incident evidence, analyst workflow, notification history, and the command ledger. Processing and identity databases retain separate owners/runtime roles. Runtime roles have intended DML but no DDL or cross-database access. Grafana receives only approved read views; never grant it alert/subscription tables.
 
-V001–V004 are preserved foundations; V005–V007 add notifications and historical queries; V008–V009 add primitive/domain projections; V011 extends scenario type validation. Confirm current checksums and migration versions before deployment. Upgrade a populated V004 database and repeat migration in tests; never modify an applied migration to make validation pass.
+V001–V004 are preserved foundations; V005–V007 add notifications and historical queries; V008 adds primitive projections; V009 adds the protected scenario ledger; V010 adds domain measurements; V011 adds the detector runtime; V012 adds namespaced episode history; V013 adds historical-track compatibility and scenario type validation. Confirm current checksums and migration versions before deployment. Upgrade a populated V004 database and repeat migration in tests; never modify an applied migration to make validation pass.
+
+Historical foundation databases retain their original V009/V011 records and SQL checksums. Application startup selects the immutable resources in `db/compatibility/foundation` from the recorded V009 script. External Java Flyway callers must select `TraceLinkMigrations.forDatabase`; do not run raw default-location migration, repair, baseline or out-of-order migration against that historical track. Fresh/main databases use the normal V001–V013 resources.
 
 Follow `trace-link-native-import.md` and `trace-link-primitive-projection.md` for the registered dataset import/projection. The reference oracle is not a production migration. Dataset trace-link-md-30d-v1 is synthetic and covers the manifest's half-open history interval at native five-minute resolution. Reimport of the same namespace/manifest must preserve row identities.
 

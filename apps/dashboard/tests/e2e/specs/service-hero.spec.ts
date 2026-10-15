@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import suite from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
 
@@ -28,7 +28,13 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     await expect(hero.locator('svg[role="img"]')).toHaveCount(1);
     await expect(hero.locator('.chart-legend')).toHaveCount(1);
     await expect(hero.locator('.incident-band')).toHaveCount(1);
-    await expect(page.locator('.kpi-switcher button')).toHaveCount(service === 'VOLTE' ? 8 : 5);
+    await expect(page.locator('.kpi-switcher button')).toHaveCount(service === 'VOLTE' ? 7 : 5);
+    if (service === 'VOLTE') {
+      await expect(page.locator('.kpi-summary').getByText('Attempts', { exact: true })).toBeVisible();
+      await expect(page.locator('.kpi-summary')).not.toContainText('Eligible attempts');
+      await expect(page.locator('.kpi-summary')).not.toContainText('SIP 503 count');
+      await expect(page.locator('.kpi-switcher')).not.toContainText('SIP 503 count');
+    }
     await expect(page.locator('app-kpi-cards svg, app-kpi-cards button')).toHaveCount(0);
     await expect(hero.locator('path.traffic-success, path.traffic-failed')).toHaveCount(0);
     await expect(hero.locator('.actual-line')).not.toHaveAttribute('d', '');

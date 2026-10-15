@@ -1,0 +1,101 @@
+{
+  "status": "passed-local-integration-awaiting-final-ci",
+  "date": "2026-10-15",
+  "timezone": "Europe/Chisinau",
+  "sourceRevision": "22ed57ab283c8204a69ac040f7695cddd837349f",
+  "integratedMain": "9085cb1cef268b795a5f037be79fa56300d8e787",
+  "backend": {
+    "surefire-reports": {
+      "tests": 205,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "failsafe-reports": {
+      "tests": 142,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "checks": {
+    "rootMaven": "passed",
+    "repositoryPython": {
+      "tests": 176,
+      "skipped": 1,
+      "status": "passed"
+    },
+    "dashboard": {
+      "tests": 181,
+      "files": 35,
+      "build": "passed"
+    },
+    "contracts": "passed",
+    "composeConfiguration": "passed",
+    "runtimeImageBuild": "passed",
+    "localMl": {
+      "tests": 91,
+      "passed": 90,
+      "failed": 1,
+      "limitation": "Strict candidate byte rebuild differs on ARM64 Linux; required Windows reproducibility CI is the acceptance gate. Frozen models remain unchanged."
+    }
+  },
+  "runtime": {
+    "project": "trace-link-backend-qa-20261014",
+    "origin": "http://telecom.test:8080",
+    "imageId": "sha256:3beda419892ed335d56a14a682df480d0e100bdfbc848c079629b95ced194e07",
+    "imageDistribution": "local-content-store",
+    "pushEnabled": false,
+    "legacyDomainDetectionsEnabled": false,
+    "traceLinkDetectorEnabled": false,
+    "newSymptomScenarioAdapterEnabled": false,
+    "retainedMetricWindows": 362880,
+    "effectiveHistoricalVersions": [
+      "001",
+      "002",
+      "003",
+      "004",
+      "005",
+      "006",
+      "007",
+      "008",
+      "009",
+      "011",
+      "013"
+    ],
+    "disabledAccountStatuses": {
+      "/api/incidents": 403,
+      "/api/services": 403,
+      "/api/notifications": 403
+    }
+  },
+  "migrationChecksums": {
+    "services/incident-service/src/main/resources/db/migration/V001__service_incidents.sql": "b6a8a6109344a1109b8fab1743449c9162f165cc65054de1d4c8d71b48e46c12",
+    "services/incident-service/src/main/resources/db/migration/V002__service_kpi_indexes.sql": "0472699bbe31fdaf6f3e9093de4de7b4cbf193e93e6295992364c7035145039e",
+    "services/incident-service/src/main/resources/db/migration/V003__sms_ml_shadow.sql": "109555ccdddeb247c47db5451cdbc4c07802aba766112ede11c9e48150b1c9d9",
+    "services/incident-service/src/main/resources/db/migration/V004__geography_coverage.sql": "891caaae8cbb1615d7c59fa3136c5773f197fe0b3510eec114ece1d2d001c5d6",
+    "services/incident-service/src/main/resources/db/migration/V005__incident_notifications.sql": "9662e62fff98b8b58fed290728b8f1008484c1d580f3285efc4392c959b18bfc",
+    "services/incident-service/src/main/resources/db/migration/V006__trace_link_read_models.sql": "bbc4dda8d9614970c863d5992d0292617c73f504a2238e3f8dcd9b2f1ba272f8",
+    "services/incident-service/src/main/resources/db/migration/V007__trace_link_query_indexes.sql": "d49d2f8af8c50c6a7a7d0aa7693015d8a150083de02fc4a83f49bf1882726942",
+    "services/incident-service/src/main/resources/db/migration/V008__trace_link_primitive_projections.sql": "6baa03f39f246c2354aa8ee88db35142b130a6f1faac3ba855c121052944d416",
+    "services/incident-service/src/main/resources/db/migration/V009__trace_link_scenario_commands.sql": "0c20b322c1d0bef4f1255bd43ce6462506d89facf2fd1426ae33e9792dd9559f",
+    "services/incident-service/src/main/resources/db/migration/V010__trace_link_domain_measurements.sql": "3ca8930208490d8ab419451fca62652f08cbecfc24ffd759f0adca550413e56c",
+    "services/incident-service/src/main/resources/db/migration/V011__trace_link_detection_runtime.sql": "d2ae2128c02a1887c01805390c189ae9c173af3d0ff064a32bb2bd00f195f984",
+    "services/incident-service/src/main/resources/db/migration/V012__trace_link_episode_history.sql": "9b63af23313828cb33f32d8e1b65aab2cf1d4780b3d6607fa81714834d20c757",
+    "services/incident-service/src/main/resources/db/compatibility/foundation/V009__trace_link_domain_incidents.sql": "2c01c765730bab83873c487359dadcb085a5ddc5e02cd61aaad713c09d26f1e1",
+    "services/incident-service/src/main/resources/db/compatibility/foundation/V011__trace_link_scenario_types.sql": "b3962a6bd26b765623003a75bdbe4af87f70a6cf42a80ae5fab97e7605f87bca",
+    "services/incident-service/src/main/resources/db/migration/V013__trace_link_history_compatibility.sql": "c26603e3747415b04ce96a189737fedf38a880e617e7c01c4e225bf3a0aea8db"
+  },
+  "localLogSha256": {
+    "trace-link-merge-full-backend.log": "3e4eb3721a9bfbb12b171e14c21201f4d7f444f3d9cd655493c4b984a2546bf2",
+    "trace-link-merge-streaming.log": "f124c1d498a54e9f3847b4e0039a640226823c4075e94b0eb91defd97303abe3",
+    "trace-link-merge-python.log": "fe9ac70ba3c13eda4a9689122ed43e30ef0043e7e1d1b433889e7c6978faa11f",
+    "trace-link-merge-contracts.log": "01ddf4845ac4d79d20b08cc65d6f3e618f07e8c08382689f40a9e652e2e845eb",
+    "trace-link-merge-dashboard-test.log": "bcb31c4a5a9e8294de172daf29a1bb661cd62fce269f579da6ea2611804d7d39",
+    "trace-link-merge-dashboard-build.log": "5fc112e359fd1b102395189be7d838d052d35d0efad043590eb81c64e073d377",
+    "trace-link-merge-ml.log": "9cf33f2917cc7664770a7413596acf98cd274b0c4022c71093261ab0de66a0b4",
+    "trace-link-merge-image.log": "cc95a903744ccda633a8e8503c274dd6128a7751c11b92e9764090b91dd78ab9",
+    "trace-link-pr107-final-runtime-smoke.log": "85afa43226099384046e7487070f6f53e55dc4e789f5d184c5cc89409fe65fe5",
+    "trace-link-pr107-final-runtime-profile.log": "03f087f956378cdfae63486b959726354bbbb0fad404a9c5d571c1c362938459"
+  }
+}

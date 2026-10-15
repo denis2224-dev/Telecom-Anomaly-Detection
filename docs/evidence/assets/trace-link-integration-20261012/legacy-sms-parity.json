@@ -1,0 +1,17 @@
+{
+  "name": "legacy-sms-parity",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-sms-parity.py",
+    "--java-output",
+    "services/processor/target/sms-parity-java.json"
+  ],
+  "startedAt": "2026-10-12T19:07:20.352840+00:00",
+  "finishedAt": "2026-10-12T19:07:20.696634+00:00",
+  "elapsedSeconds": 0.344,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "legacy-sms-parity.log",
+  "logSha256": "1e55c68bd2390068181749912bdb368a1099c7d1269a4615ef3a5628a85ef438"
+}

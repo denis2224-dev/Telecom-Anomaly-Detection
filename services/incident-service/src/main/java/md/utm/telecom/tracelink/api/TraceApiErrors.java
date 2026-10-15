@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
-@RestControllerAdvice(basePackages = {"md.utm.telecom.tracelink", "md.utm.telecom.notifications.controller"})
+@RestControllerAdvice(basePackages = "md.utm.telecom.tracelink")
 public class TraceApiErrors {
     @ExceptionHandler(WorkflowProblem.class)
     public ResponseEntity<ApiSecurityErrors.ApiError> workflow(WorkflowProblem error) {

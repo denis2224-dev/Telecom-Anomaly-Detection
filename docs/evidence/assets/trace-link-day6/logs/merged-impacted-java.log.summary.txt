@@ -1,0 +1,14 @@
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.114 s -- in md.utm.telecom.observation.DomainObservationValidatorTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.400 s -- in md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.293 s -- in md.utm.telecom.processing.detection.TraceLinkDomainRulesTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.102 s -- in md.utm.telecom.processing.detection.TraceLinkInputsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.913 s -- in md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.536 s -- in md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.172 s -- in md.utm.telecom.processing.detection.TraceLinkServiceTransportTest
+[WARNING] Tests run: 11, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 45.77 s -- in md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.157 s -- in md.utm.telecom.processing.TraceLinkSeasonalBaselineTest
+[INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 1
+[INFO] BUILD SUCCESS
+[INFO] Total time:  01:28 min
+[INFO] Finished at: 2026-10-12T19:15:08+03:00

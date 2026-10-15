@@ -1,0 +1,20 @@
+{
+  "name": "combined-ml-python-root",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "services/ml-service/tests",
+    "-v"
+  ],
+  "startedAt": "2026-10-12T18:48:56.012410+00:00",
+  "finishedAt": "2026-10-12T18:52:02.380014+00:00",
+  "elapsedSeconds": 186.368,
+  "exitCode": 1,
+  "status": "FAIL",
+  "log": "combined-ml-python-root.log",
+  "logSha256": "8ec7e1b4b5fcee1b6be4f861cdb8176b4c29d53c3aca80c3552d893768ee48a6"
+}

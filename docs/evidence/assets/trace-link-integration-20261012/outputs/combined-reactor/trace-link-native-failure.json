@@ -1,0 +1,9 @@
+{
+  "dependency" : "real disposable PostgreSQL paused/unpaused",
+  "outageDrillMillis" : 12243,
+  "recoveryAndImportMillis" : 1594,
+  "nativeRows" : 42,
+  "sourceUnchanged" : true,
+  "existingArtifactUnchanged" : true,
+  "publicationStatus" : "LOCAL_ONLY; Kafka DISABLED"
+}

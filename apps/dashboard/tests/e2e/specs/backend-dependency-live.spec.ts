@@ -1,4 +1,4 @@
-import { test, expect, type BrowserContext } from '@playwright/test';
+import { test, expect, type BrowserContext } from '../helpers/test';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { admin, command, sql } from '../helpers/live-stack';
 

@@ -1,0 +1,460 @@
+{
+  "population": {
+    "rawContext": {
+      "schemaVersion": "trace-link-evaluation-v1",
+      "datasetId": "trace-link-md-30d-v1",
+      "namespace": "trace-link-reference-v1",
+      "domain": "TRANSPORT",
+      "scope": {
+        "type": "LINK_DIRECTION",
+        "id": "chi-hin:a-to-b",
+        "cityIds": [
+          "CHI",
+          "HIN"
+        ],
+        "directionId": "a-to-b",
+        "partnerId": null,
+        "procedure": null,
+        "namespace": "trace-link-reference-v1"
+      },
+      "window": {
+        "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+        "from": "2026-10-10T08:35:00Z",
+        "to": "2026-10-10T08:40:00Z",
+        "sourceResolutionSeconds": 300
+      },
+      "revision": 0,
+      "topologyVersion": "trace-link-md-topology-v1",
+      "evaluatedAt": "2026-10-10T08:40:01Z",
+      "evidence": [
+        {
+          "schemaVersion": 1,
+          "evidenceId": "TRANSPORT:0:transport.packetLoss",
+          "measurementId": "native:TRANSPORT:0:transport.packetLoss",
+          "metricId": "transport.packetLoss",
+          "unit": "PERCENT",
+          "policyVersion": "trace-link-kpi-v1",
+          "primitives": {
+            "type": "SNAPSHOT",
+            "value": 3,
+            "snapshotAt": "2026-10-10T08:40:00Z"
+          },
+          "actual": 3.0,
+          "baseline": null,
+          "baselineVersion": null,
+          "threshold": null,
+          "deviation": null,
+          "coverage": 1,
+          "freshness": {
+            "state": "FRESH",
+            "observedAt": "2026-10-10T08:40:00Z",
+            "asOf": "2026-10-10T08:40:01Z",
+            "sourceAgeSeconds": 1,
+            "maxAgeSeconds": 600
+          },
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+            "from": "2026-10-10T08:35:00Z",
+            "to": "2026-10-10T08:40:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "quality": {
+            "state": "VALID",
+            "reason": null
+          },
+          "dependencyRelationId": null,
+          "dependency": null,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "ruleVersion": null,
+          "modelVersion": null,
+          "provenance": {
+            "datasetId": "trace-link-md-30d-v1",
+            "synthetic": true,
+            "origin": "NATIVE_OBSERVATION",
+            "sourceChecksum": "68b66e32b983be49c0f4eed366fd2b11725ede94ad84f0f232e2f8fe8b2bb97d"
+          },
+          "observedRevision": 0,
+          "generatedAt": "2026-10-10T08:40:01Z"
+        }
+      ],
+      "baselines": {},
+      "backlog": {
+        "required": false,
+        "drained": null
+      }
+    },
+    "expected": "Reject before inference; a snapshot cannot supply rate/mean population",
+    "featureVector": null,
+    "featureVectorReason": "Rejected before vector creation",
+    "episodeHistory": []
+  },
+  "sourceIdentity": {
+    "rawInput": {
+      "schemaVersion": "trace-link-persisted-window-v1",
+      "finalized": true,
+      "context": {
+        "schemaVersion": "trace-link-evaluation-v1",
+        "datasetId": "trace-link-md-30d-v1",
+        "namespace": "trace-link-reference-v1",
+        "domain": "TRANSPORT",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "revision": 0,
+        "topologyVersion": "trace-link-md-topology-v1",
+        "evaluatedAt": "2026-10-10T08:40:01Z",
+        "evidence": [
+          {
+            "schemaVersion": 1,
+            "evidenceId": "TRANSPORT:0:transport.packetLoss",
+            "measurementId": "native:TRANSPORT:0:transport.packetLoss",
+            "metricId": "transport.packetLoss",
+            "unit": "PERCENT",
+            "policyVersion": "trace-link-kpi-v1",
+            "primitives": {
+              "type": "RATIO",
+              "numerator": 30,
+              "denominator": 1000
+            },
+            "actual": 3.0,
+            "baseline": null,
+            "baselineVersion": null,
+            "threshold": null,
+            "deviation": null,
+            "coverage": 1,
+            "freshness": {
+              "state": "FRESH",
+              "observedAt": "2026-10-10T08:40:00Z",
+              "asOf": "2026-10-10T08:40:01Z",
+              "sourceAgeSeconds": 1,
+              "maxAgeSeconds": 600
+            },
+            "scope": {
+              "type": "LINK_DIRECTION",
+              "id": "chi-hin:a-to-b",
+              "cityIds": [
+                "CHI",
+                "HIN"
+              ],
+              "directionId": "a-to-b",
+              "partnerId": null,
+              "procedure": null,
+              "namespace": "trace-link-reference-v1"
+            },
+            "window": {
+              "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+              "from": "2026-10-10T08:35:00Z",
+              "to": "2026-10-10T08:40:00Z",
+              "sourceResolutionSeconds": 300
+            },
+            "quality": {
+              "state": "VALID",
+              "reason": null
+            },
+            "dependencyRelationId": null,
+            "dependency": null,
+            "topologyVersion": "trace-link-md-topology-v1",
+            "ruleVersion": null,
+            "modelVersion": null,
+            "provenance": {
+              "datasetId": "trace-link-md-30d-v1",
+              "synthetic": true,
+              "origin": "NATIVE_OBSERVATION",
+              "sourceChecksum": "68b66e32b983be49c0f4eed366fd2b11725ede94ad84f0f232e2f8fe8b2bb97d"
+            },
+            "observedRevision": 0,
+            "generatedAt": "2026-10-10T08:40:01Z"
+          }
+        ],
+        "baselines": {},
+        "backlog": {
+          "required": false,
+          "drained": null
+        }
+      },
+      "candidates": [],
+      "controls": [],
+      "dependencySnapshot": {
+        "topologyVersion": "trace-link-md-topology-v1",
+        "relations": []
+      }
+    },
+    "expected": "Use storage-key FK for job identity and bind complete request to saved source evidence, not compare it to measurement window.id",
+    "historyFixture": "raw-native-day3-windows.json",
+    "storedWindowKey": "a920a2ce1fe41b6f04fdc2e103943db702dd74c72c088675a47b21675ca23d62",
+    "measurementWindowId": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+    "primitiveFeatureVector": {
+      "datasetId": "trace-link-md-30d-v1",
+      "domain": "TRANSPORT",
+      "scope": {
+        "type": "LINK_DIRECTION",
+        "id": "chi-hin:a-to-b",
+        "cityIds": [
+          "CHI",
+          "HIN"
+        ],
+        "directionId": "a-to-b",
+        "partnerId": null,
+        "procedure": null,
+        "namespace": "trace-link-reference-v1"
+      },
+      "window": {
+        "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+        "from": "2026-10-10T08:35:00Z",
+        "to": "2026-10-10T08:40:00Z",
+        "sourceResolutionSeconds": 300
+      },
+      "revision": 0,
+      "topologyVersion": "trace-link-md-topology-v1",
+      "evaluatedAt": "2026-10-10T08:40:01Z",
+      "evidence": [
+        {
+          "schemaVersion": 1,
+          "evidenceId": "TRANSPORT:0:transport.packetLoss",
+          "measurementId": "native:TRANSPORT:0:transport.packetLoss",
+          "metricId": "transport.packetLoss",
+          "unit": "PERCENT",
+          "policyVersion": "trace-link-kpi-v1",
+          "primitives": {
+            "type": "RATIO",
+            "numerator": 30,
+            "denominator": 1000
+          },
+          "actual": 3.0,
+          "baseline": null,
+          "baselineVersion": null,
+          "threshold": null,
+          "deviation": null,
+          "coverage": 1,
+          "freshness": {
+            "state": "FRESH",
+            "observedAt": "2026-10-10T08:40:00Z",
+            "asOf": "2026-10-10T08:40:01Z",
+            "sourceAgeSeconds": 1,
+            "maxAgeSeconds": 600
+          },
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "window": {
+            "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+            "from": "2026-10-10T08:35:00Z",
+            "to": "2026-10-10T08:40:00Z",
+            "sourceResolutionSeconds": 300
+          },
+          "quality": {
+            "state": "VALID",
+            "reason": null
+          },
+          "dependencyRelationId": null,
+          "dependency": null,
+          "topologyVersion": "trace-link-md-topology-v1",
+          "ruleVersion": null,
+          "modelVersion": null,
+          "provenance": {
+            "datasetId": "trace-link-md-30d-v1",
+            "synthetic": true,
+            "origin": "NATIVE_OBSERVATION",
+            "sourceChecksum": "68b66e32b983be49c0f4eed366fd2b11725ede94ad84f0f232e2f8fe8b2bb97d"
+          },
+          "observedRevision": 0,
+          "generatedAt": "2026-10-10T08:40:01Z"
+        }
+      ],
+      "baselines": {},
+      "featureSchemaVersion": "trace-link-features-v1",
+      "featureNames": [
+        "transport.link.utilization.actual",
+        "transport.link.utilization.actual.available",
+        "transport.link.utilization.numerator",
+        "transport.link.utilization.numerator.available",
+        "transport.link.utilization.denominator",
+        "transport.link.utilization.denominator.available",
+        "transport.link.utilization.sum",
+        "transport.link.utilization.sum.available",
+        "transport.link.utilization.count",
+        "transport.link.utilization.count.available",
+        "transport.link.utilization.residual",
+        "transport.link.utilization.residual.available",
+        "transport.link.utilization.coverage",
+        "transport.link.utilization.coverage.available",
+        "transport.link.utilization.sourceAgeSeconds",
+        "transport.link.utilization.sourceAgeSeconds.available",
+        "transport.packetLoss.actual",
+        "transport.packetLoss.actual.available",
+        "transport.packetLoss.numerator",
+        "transport.packetLoss.numerator.available",
+        "transport.packetLoss.denominator",
+        "transport.packetLoss.denominator.available",
+        "transport.packetLoss.sum",
+        "transport.packetLoss.sum.available",
+        "transport.packetLoss.count",
+        "transport.packetLoss.count.available",
+        "transport.packetLoss.residual",
+        "transport.packetLoss.residual.available",
+        "transport.packetLoss.coverage",
+        "transport.packetLoss.coverage.available",
+        "transport.packetLoss.sourceAgeSeconds",
+        "transport.packetLoss.sourceAgeSeconds.available",
+        "transport.rtt.mean.actual",
+        "transport.rtt.mean.actual.available",
+        "transport.rtt.mean.numerator",
+        "transport.rtt.mean.numerator.available",
+        "transport.rtt.mean.denominator",
+        "transport.rtt.mean.denominator.available",
+        "transport.rtt.mean.sum",
+        "transport.rtt.mean.sum.available",
+        "transport.rtt.mean.count",
+        "transport.rtt.mean.count.available",
+        "transport.rtt.mean.residual",
+        "transport.rtt.mean.residual.available",
+        "transport.rtt.mean.coverage",
+        "transport.rtt.mean.coverage.available",
+        "transport.rtt.mean.sourceAgeSeconds",
+        "transport.rtt.mean.sourceAgeSeconds.available",
+        "transport.jitter.actual",
+        "transport.jitter.actual.available",
+        "transport.jitter.numerator",
+        "transport.jitter.numerator.available",
+        "transport.jitter.denominator",
+        "transport.jitter.denominator.available",
+        "transport.jitter.sum",
+        "transport.jitter.sum.available",
+        "transport.jitter.count",
+        "transport.jitter.count.available",
+        "transport.jitter.residual",
+        "transport.jitter.residual.available",
+        "transport.jitter.coverage",
+        "transport.jitter.coverage.available",
+        "transport.jitter.sourceAgeSeconds",
+        "transport.jitter.sourceAgeSeconds.available"
+      ],
+      "featureValues": [
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        3,
+        1,
+        30,
+        1,
+        1000,
+        1,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        1,
+        1,
+        1,
+        1,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0
+      ],
+      "eligible": true,
+      "reasonCodes": []
+    },
+    "expectedEpisodeHistory": [
+      "OPEN",
+      "UPDATE",
+      "UPDATE",
+      "UNKNOWN",
+      "UPDATE",
+      "UPDATE",
+      "RECOVERY"
+    ]
+  },
+  "serialization": {
+    "expected": "All candidate bytes match a fresh documented CLI rebuild",
+    "finding": "Warm-process estimator states and calibration/baseline hashes are identical; pickle string memoization adds 16 bytes per model. Clean CLI is the supported byte-reproduction boundary.",
+    "evidence": "model-state-comparison.log.gz"
+  },
+  "testRepairs": [
+    "V018 updates exact table/migration-count expectations; existing data/grant assertions retained",
+    "Shadow test cleanup must truncate independent delivery and episode-state tables as well as FK-linked windows"
+  ],
+  "featureSchemaVersion": "trace-link-features-v1",
+  "modelVersion": "trace-link-shadow-v1",
+  "policySha256": "59c6356c8ac4425c18ee523109d3d9982dd07818521460806169a20897db8d22",
+  "baselinePolicySha256": "25ab91191c497fc62c5c6cbd3664509a45940bae86cd3db838322e3ee9d6fb35"
+}

@@ -1,0 +1,4 @@
+Ran 8 tests in 0.395s
+OK
+PASS: 2 frozen V2/reference files and independent fixture hash unchanged
+PASS: 1 frozen V2/reference files and independent fixture hash unchanged

@@ -1,0 +1,7 @@
+{
+  "description": "ASUSTeK COMPUTER INC. ASUS TUF Gaming A15 FA507NV_FA507NV; AMD Ryzen 7 7735HS with Radeon Graphics        ; Windows; detector JVM and embedded Kafka with Docker PostgreSQL",
+  "cpuCount": 16,
+  "recordedAt": "2026-10-13T05:36:20.5640925Z",
+  "concurrentActivities": "Root Java reactor and receiving verification may overlap the initial measurement phases; no exclusive-host maximum throughput claim.",
+  "memoryBytes": 16369233920
+}

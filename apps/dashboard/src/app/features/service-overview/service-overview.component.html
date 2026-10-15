@@ -79,12 +79,6 @@
     <p>The request succeeded, but no service scopes were returned.</p>
   </section>
 } @else {
-  <div class="kpi-strip" aria-label="Network KPI summary">
-    <div><span>Monitored scopes</span><strong>{{ services().length }}</strong></div>
-    <div><span>Ongoing episodes</span><strong>{{ ongoingCount() }}</strong></div>
-    <div><span>Open incidents</span><strong>{{ openCount() }}</strong></div>
-    <div><span>Observed scopes</span><strong>{{ observedCount() }}</strong></div>
-  </div>
   @if (liveOnly()) { <section class="live-summary detail-panel" aria-label="Live status">
     <div class="episode-heading"><h2>Live status</h2><a class="button ghost" routerLink="/dashboard" [queryParams]="{view: liveOnly() ? null : 'live'}">{{ liveOnly() ? 'Full overview' : 'Open Live status' }}</a></div>
     <div class="live-service-chips"><a [routerLink]="serviceTarget('VOLTE') ? ['/services',serviceTarget('VOLTE')] : null"><span>VoLTE</span><span class="badge" [attr.data-state]="serviceState('VOLTE')">{{ serviceState('VOLTE') }}</span></a><a [routerLink]="serviceTarget('SMS') ? ['/services',serviceTarget('SMS')] : null"><span>SMS</span><span class="badge" [attr.data-state]="serviceState('SMS')">{{ serviceState('SMS') }}</span></a><a routerLink="/roaming"><span>Roaming</span><span class="badge" data-state="UNKNOWN">Preview</span></a></div>

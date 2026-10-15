@@ -29,6 +29,48 @@ describe('Bounded incident stream', () => {
     expect(mergeIncidentPage([retained], [other])).toEqual([other]);
   });
 
+  it('shares one transport and fans out hints until the last subscriber leaves', () => {
+    vi.useFakeTimers();
+    const factory = vi.fn(function () { return new FakeSource(); });
+    vi.stubGlobal('EventSource', factory);
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    const session = TestBed.inject(SessionStore);
+    session.phase.set('authenticated');
+    const stream = TestBed.inject(IncidentStream);
+    const first = vi.fn(), second = vi.fn();
+    const leaveFirst = stream.connect(first, vi.fn());
+    const source = FakeSource.latest;
+    const leaveSecond = stream.connect(second, vi.fn());
+    expect(factory).toHaveBeenCalledTimes(1);
+    source.dispatchEvent(new Event('ready'));
+    expect(first).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledTimes(1);
+    leaveFirst();
+    expect(source.close).not.toHaveBeenCalled();
+    source.dispatchEvent(new MessageEvent('incident-upsert', { data: '{"id":"a","version":8}' }));
+    vi.advanceTimersByTime(1000);
+    expect(first).toHaveBeenCalledTimes(1);
+    expect(second).toHaveBeenCalledTimes(2);
+    leaveSecond();
+    expect(source.close).toHaveBeenCalledTimes(1);
+  });
+
+  it('replays the current connection state to a late subscriber', () => {
+    vi.stubGlobal('EventSource', FakeSource);
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.inject(SessionStore).phase.set('authenticated');
+    const stream = TestBed.inject(IncidentStream);
+    const leave = stream.connect(vi.fn(), vi.fn());
+    FakeSource.latest.readyState = 0;
+    FakeSource.latest.onerror?.(new Event('error'));
+    const interrupted = vi.fn(), connected = vi.fn();
+    const late = stream.connect(vi.fn(), interrupted, connected);
+    expect(interrupted).toHaveBeenCalledTimes(1);
+    FakeSource.latest.onopen?.(new Event('open'));
+    expect(connected).toHaveBeenCalledTimes(1);
+    late();leave();
+  });
+
   it('cancels an in-flight session probe when the stream closes', async () => {
     vi.stubGlobal('EventSource', FakeSource);
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });

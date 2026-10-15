@@ -65,20 +65,20 @@ public class TraceDomainProjectionService {
         envelope.putNull("probableCause"); envelope.putNull("causeConfidence");
         String payload = json.writeValueAsString(envelope);
         int inserted = jdbc.update("""
-                INSERT INTO app.trace_domain_detection
+                INSERT INTO app.trace_domain_episode_detection
                     (detection_id, episode_id, sequence, dataset_id, domain, phase, window_start, window_end, detected_at, payload)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb) ON CONFLICT DO NOTHING
                 """, input.detectionId(), input.episodeId(), input.sequence(), input.datasetId(), input.domain(), input.phase(),
                 Timestamp.from(input.windowStart()), Timestamp.from(input.windowEnd()), Timestamp.from(input.detectedAt()), payload);
         if (inserted == 0) {
             var stored = jdbc.query("""
-                    SELECT detection_id, payload FROM app.trace_domain_detection
+                    SELECT detection_id, payload FROM app.trace_domain_episode_detection
                     WHERE episode_id = ? AND sequence = ?
                     """, (rs, row) -> rs.getString("detection_id").equals(input.detectionId())
                     && json.readTree(rs.getString("payload")).equals(json.readTree(payload)), input.episodeId(), input.sequence());
             if (stored.size() != 1 || !stored.getFirst()) throw new IllegalArgumentException("Conflicting domain detection replay");
         }
-        var ordered = jdbc.query("SELECT payload FROM app.trace_domain_detection WHERE episode_id = ? ORDER BY sequence",
+        var ordered = jdbc.query("SELECT payload FROM app.trace_domain_episode_detection WHERE episode_id = ? ORDER BY sequence",
                 (rs, row) -> json.treeToValue(json.readTree(rs.getString(1)).path("detection"), TraceDomainDetection.class), input.episodeId());
         TraceDomainDetection last = null;
         String severity = null;

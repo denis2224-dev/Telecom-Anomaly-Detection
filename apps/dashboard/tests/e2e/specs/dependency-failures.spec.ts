@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { controlledApi, streamEvent } from '../helpers/controlled-api';
 
 test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled failures are separate from live drills');
@@ -71,7 +71,7 @@ for (const failure of ['503', 'network', '409'] as const) {
     await page.getByLabel('Investigation comment').fill('Keep this unsaved investigation note.');
     await page.getByRole('button', { name: 'Add comment' }).click();
     await expect(workflow.getByRole('alert')).toContainText(
-      failure === '409' ? 'incident changed' : 'could not be reached');
+      failure === '409' ? 'incident changed' : failure === '503' ? 'temporarily unavailable' : 'could not be reached');
     await expect(page.getByLabel('Investigation comment'))
       .toHaveValue('Keep this unsaved investigation note.');
     await expect(workflow).not.toContainText('Comment saved.');
@@ -94,7 +94,7 @@ test('failed resolution retains note and INVESTIGATING workflow', async ({ page 
   await page.getByLabel('Resolution note', { exact: true }).fill('Recovery checked; resolution not saved.');
   await page.getByRole('button', { name: 'Resolve incident' }).click();
   const workflow = page.locator('app-incident-actions');
-  await expect(workflow.getByRole('alert')).toContainText('could not be reached');
+  await expect(workflow.getByRole('alert')).toContainText('temporarily unavailable');
   await expect(workflow.locator('[data-state="INVESTIGATING"]')).toBeVisible();
   await expect(page.getByLabel('Resolution note', { exact: true }))
     .toHaveValue('Recovery checked; resolution not saved.');

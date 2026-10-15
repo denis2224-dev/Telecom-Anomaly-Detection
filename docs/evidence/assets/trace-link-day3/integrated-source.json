@@ -1,0 +1,329 @@
+{
+  "schemaVersion": "trace-link-integrated-source-v1",
+  "implementationCommit": "27f596f55d1f406c84f141987866b84aced19449",
+  "baseCommit": "f004f765373753e43adaf714b85bbd1501ccf0bd",
+  "scope": "Changed implementation files relative to Day 2; excludes documentation and evidence.",
+  "hashSemantics": "SHA256 is current filesystem bytes (Windows EOL may differ); gitBlobOid identifies canonical committed bytes.",
+  "files": [
+    {
+      "path": "apps/dashboard/api/incident-api.yaml",
+      "workingFileSha256": "8d16efdf11bae8eb58da272235e3e58ae9f4b5aea956fac3f42013e6e05a043f",
+      "gitBlobOid": "c515481d0f2518d80d19d46b9aa6b79ae0bfef74"
+    },
+    {
+      "path": "apps/dashboard/src/app/core/api/schema.ts",
+      "workingFileSha256": "8eedd25d0e808832baa36548e52bdc6597ad060ddc0ede4cddba2effa1fdeecf",
+      "gitBlobOid": "2318758b77c409d91a0a00ec437bc6d9dbe03121"
+    },
+    {
+      "path": "compose.yaml",
+      "workingFileSha256": "337e76ee384d8091833d8fe4f0f8b32471c3d891a27f495655074ce80b6d48cb",
+      "gitBlobOid": "0efce59535eafe111918de0c76a888f90d87a297"
+    },
+    {
+      "path": "contracts/detections/trace-link-detection-v1.schema.json",
+      "workingFileSha256": "96cb3c8a4c617627a3dd7defefb0625f4c9dfcac7d745fac5cd201899e1854c3",
+      "gitBlobOid": "b149a60c61b286a0bd44033f9028b07e82ce91b2"
+    },
+    {
+      "path": "contracts/detections/trace-link-evaluation-v1.schema.json",
+      "workingFileSha256": "4ee0644b40c9f94fafcbe50433ed1f6c09fb331a5d4bd5603d24485bebc4317d",
+      "gitBlobOid": "3fbc1020f590095b24a6d02ac4022c230f731f31"
+    },
+    {
+      "path": "contracts/detections/trace-link-persisted-window-v1.schema.json",
+      "workingFileSha256": "e1afd23dc6c1ba92a55ec95bc31bf6831ddd5656362508b4141c2f17e84a61f0",
+      "gitBlobOid": "274e664f02eb0c11a120160e6055b76883fc22a4"
+    },
+    {
+      "path": "contracts/evidence/trace-link-evidence-v1.schema.json",
+      "workingFileSha256": "d6b5e3aaefba0c2f9892aa723cbe57260a1bdda85fef5c12421c634f2648af6b",
+      "gitBlobOid": "45a5188865e1cda85ca1cff1b3a5221ca4efaa91"
+    },
+    {
+      "path": "contracts/explanations/trace-link-cause-result-v1.schema.json",
+      "workingFileSha256": "4dad5aef717f38ddcd241b3e2e45792eef318e90e6cc04a85c4e24a36d386b99",
+      "gitBlobOid": "60f21c416be3dc2d8d9a8acf7c41ae2c28b8d8a7"
+    },
+    {
+      "path": "contracts/fixtures/trace-link/day3-detection-envelopes.json",
+      "workingFileSha256": "40920c23acc9a2d603b6a9fd748347f4c3a8138708add1b1c73d44881e41eecc",
+      "gitBlobOid": "d25be7e36a9882dc09f8d384e2508dff9cdc6008"
+    },
+    {
+      "path": "contracts/fixtures/trace-link/day3-persisted-windows.json",
+      "workingFileSha256": "20227bfaa3c8292cfdab0bc265427f8f3ee6e7769476f9e9a628492442f9c169",
+      "gitBlobOid": "c8b5c3e25573ca092ed1dfb8f51830a4721954a9"
+    },
+    {
+      "path": "contracts/fixtures/trace-link/day3-source-observations.json",
+      "workingFileSha256": "5d793f1174a0e795a5f8d1cbdea2e52f596734ca01b97b40be0e3ccb08539c65",
+      "gitBlobOid": "49ccc0a5c66af8c594c665b0963b0c7d38ac0c76"
+    },
+    {
+      "path": "contracts/openapi/incident-api.yaml",
+      "workingFileSha256": "8d16efdf11bae8eb58da272235e3e58ae9f4b5aea956fac3f42013e6e05a043f",
+      "gitBlobOid": "c515481d0f2518d80d19d46b9aa6b79ae0bfef74"
+    },
+    {
+      "path": "contracts/topology/trace-link-runtime-dependencies-v1.json",
+      "workingFileSha256": "c2d86fbd61f15a02b3ff3eda28649cb286048ebbfe60a1042f004efcd321d0ec",
+      "gitBlobOid": "36257fd39333d456ca8051016cec73af3152e7c0"
+    },
+    {
+      "path": "scripts/trace-link-day3-load-profile.json",
+      "workingFileSha256": "69df2c01ddff20491d9c105aa1d0202a56ca58548e2b2830fffdbe2d2a52e139",
+      "gitBlobOid": "79f13ff1943fa39a7aba265c35f125c6756b0818"
+    },
+    {
+      "path": "scripts/trace_link_contract.py",
+      "workingFileSha256": "f688e145e5a848a59f5932d552489fc4c8311f67d7f0d35fac43298f788c3d9d",
+      "gitBlobOid": "6e79a48fb3fee2dd701e8759336f3855c8c898a4"
+    },
+    {
+      "path": "scripts/trace_link_day3_capacity_input.py",
+      "workingFileSha256": "77fbb1ba5b5b6f09caedb3dddeb4619f131598a71b3e712898bc160caeb4e853",
+      "gitBlobOid": "900a877fdf0058778056a55cd47c4014650bd95d"
+    },
+    {
+      "path": "scripts/verify-trace-link-day3.ps1",
+      "workingFileSha256": "53611c17cad4e728006ad058e8240aff2fb912ed3c964b8f64502fa225783298",
+      "gitBlobOid": "7df930f5a0e4de51703c79daf23bf375db851b86"
+    },
+    {
+      "path": "services/incident-service/pom.xml",
+      "workingFileSha256": "04e21ea708d151ba6c454ec3f09c22a9a4ddc355cfb557833eee1889aad35751",
+      "gitBlobOid": "a9383a80fd9569fba93ac908bec94325b0e217d6"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/TraceLinkDetectionConsumer.java",
+      "workingFileSha256": "70e829a15565083f0fea67da978b6fb65b3a5a3e8dca83601a75e61bf881dbf7",
+      "gitBlobOid": "1cd95b7657b4ecdda8865b65d80d86c273e970a1"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/TraceLinkDetectionMessage.java",
+      "workingFileSha256": "6441ed08ad2ef99240a33355f17791521d0e5dd028d5c2360824f488b1e709a6",
+      "gitBlobOid": "b8733e86599a2499bcf34a8b85cd08a306c03c4c"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/TraceLinkEvidenceValidator.java",
+      "workingFileSha256": "83360d556c9570a5e098a52507acd19e9199469db6ae275486be24a00d6e7cfb",
+      "gitBlobOid": "d4d10f3bbf2997525395c5958fc176ea7b90d6d6"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/TraceLinkIncidentController.java",
+      "workingFileSha256": "84b0ab4677bb19a1aaea47b2e917d0aadb217cd69ca56913b1ccb39890dca5ef",
+      "gitBlobOid": "f4b92c440609d0c3cc21046fde1595eda1007cf2"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/TraceLinkIncidentErrors.java",
+      "workingFileSha256": "1702500bd0dde6aac80c1be47235b4244e9722970c096dc1f9a17ce613115a2b",
+      "gitBlobOid": "6066d7b7025fa863082f5c1ce1b09cda258e41c5"
+    },
+    {
+      "path": "services/incident-service/src/main/java/md/utm/telecom/tracelink/TraceLinkIncidentService.java",
+      "workingFileSha256": "00abe7c051289e2d0187c5a3860b0eeb3948a23281fb66234434c54612b831f5",
+      "gitBlobOid": "2301f3e84585d0951128854f4980407e119b397b"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/application.yaml",
+      "workingFileSha256": "8ae044ac4c1e5ee6ffd92cd93e791bb98d1f5924564576cd2f532060099a0a57",
+      "gitBlobOid": "3fdd10dd8cacf46c2af57576b9063bc4cdf41978"
+    },
+    {
+      "path": "services/incident-service/src/main/resources/db/migration/V006__trace_link_read_models.sql",
+      "workingFileSha256": "7ec3d8cd81379acc3745fe764cd37e90b22439e42ada479311ce2f5c3dc00d0f",
+      "gitBlobOid": "70846d5e891102bbfd5a1475d8df0b73a6d07e24"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/incidents/DatabaseMigrationTest.java",
+      "workingFileSha256": "0b85053dc0a38dcee7dbd4751b3c1cf2515f7a595cec63ebdd0ae63bbd576439",
+      "gitBlobOid": "26ae88afb20e0b7d741fd0b32f970c36b3d53856"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkCauseBoundaryTest.java",
+      "workingFileSha256": "3b351c01f515752900827d9b12b986df6d24a95f1f660e750c478e9976fae925",
+      "gitBlobOid": "ef1d833ee2c3cdbdbf7ec881137b5733e6e425c3"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkDetectionConsumerTest.java",
+      "workingFileSha256": "a2a14f6818f5b0384a99e948cc5a85122102df1324af08f8c1ecc8b0c9c01e32",
+      "gitBlobOid": "ec9f128d679f9022c402b8a5014fe5d766ee1151"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkDetectionMessageTest.java",
+      "workingFileSha256": "0b8f485901673456515e2e17183a956cac70db4425de31218ea14ce4a2fa462f",
+      "gitBlobOid": "410cab99eda7d10a4f46c8201079c55ca3b685df"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkIncidentControllerBoundsTest.java",
+      "workingFileSha256": "69e1f10cd92f870ead8d7f7dd2a233d69e0d2b5724dd97ef044b8cc798af7919",
+      "gitBlobOid": "472a44ea40f358f6f2b239fe3165e87875cb7c7b"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkKafkaReceiverIT.java",
+      "workingFileSha256": "d47fb22d979cba0a39ebf1db7b9416d71151f7b36da6cdf7bf85209b06ac4516",
+      "gitBlobOid": "a41fc8f177ae13835f19f7354b5138a476c7f8fc"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkReceiverFixtures.java",
+      "workingFileSha256": "2a005a47b8ffccf0958f43844245213b363fcd7fab0937902b0455a2f0aa3fe8",
+      "gitBlobOid": "133d8cd8aad47567a58d411a45be155ab05e4401"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkReceiverIT.java",
+      "workingFileSha256": "04aacb90ffc20b9cad246f2eb2a4dd08ca2e64569e5e77b51862491545f6d543",
+      "gitBlobOid": "54cb50278125454b8f93b6d68052b4459937db5a"
+    },
+    {
+      "path": "services/incident-service/src/test/java/md/utm/telecom/tracelink/TraceLinkReceiverMigrationIT.java",
+      "workingFileSha256": "185b4282e126e6c3312bb5150e5ce23732ca1b105ab9b9f1939e3cce3bfc40de",
+      "gitBlobOid": "f97925f69356f7770e2294c98694737b4d3cede0"
+    },
+    {
+      "path": "services/ml-service/tests/test_trace_link_benchmark.py",
+      "workingFileSha256": "a35182a4bb8752e987ddc5faae3421fb8f0bd8ec0a8ef131a6fa92f2c1b6d31a",
+      "gitBlobOid": "ca9df1cc67bb763bab36bdefe347e0f3f76da5c4"
+    },
+    {
+      "path": "services/ml-service/training/benchmark.py",
+      "workingFileSha256": "fbdf74952057c2ab382a02a997a9a1ff27eedb898730987b8b7aebddac15cfdf",
+      "gitBlobOid": "aba971f0f5224203b9c2ad7467331504158987f2"
+    },
+    {
+      "path": "services/processor/pom.xml",
+      "workingFileSha256": "fac17794c77bee4dde886e0952c906fc2797ba21394109524bf5175c066241bb",
+      "gitBlobOid": "076c2ce00bb88dff1a9e2b49490a35a5e34f4893"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/detection/DetectionAuthority.java",
+      "workingFileSha256": "e7853cc1db1239d7f47f0cbd960f72645d332d12bc9d474e9490ee239f2dc0a3",
+      "gitBlobOid": "71f5b32eb838f85bf5dbf5c5363929add9a58f8c"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/detection/TraceLinkInputs.java",
+      "workingFileSha256": "9d3f32658a98de2c04e42f92d385dc1c92e91697586a99b46b4c95d441769313",
+      "gitBlobOid": "d14f50ef0b3051ef2c9efea3d4afa39aa0c72698"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/topology/EvidenceJoiner.java",
+      "workingFileSha256": "7c831abb2788952a8ade229934cbd72fa1d5b5ceb7367e0188acbb3bf9f96761",
+      "gitBlobOid": "d14b316b3511f93c8a59649a4dde37b88ed3093b"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkDeliveryPublisher.java",
+      "workingFileSha256": "bab18d602f6c8f00ceae16536a0005d94e09b0b0b2862949079263640adcb8d8",
+      "gitBlobOid": "8b728b76be893f9c5c024b769609d6402d303913"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkDetectionWorker.java",
+      "workingFileSha256": "8b79aa3e1c519b096466a4fd7319132799fe1992bd06b939b8d19fb0674d7d22",
+      "gitBlobOid": "17fa0dc8095382d959fdec07bdac259cad89a1a9"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkRuntimeConfiguration.java",
+      "workingFileSha256": "10f7af72f763ea94648431ef7e206edb3f3892faff2dfba1bc57d7a5ac19109d",
+      "gitBlobOid": "cdcf2d3362f61f43dc69a813f289f4c2bd6b83bc"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkRuntimeEvaluation.java",
+      "workingFileSha256": "05f47b6fe4b6810228ca7208aeeaf3699628489fcfba7f2dbada9882456a9910",
+      "gitBlobOid": "25dce3e4a940e1f6566e574e231188c65d8d89c9"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkWindowAdapter.java",
+      "workingFileSha256": "b0861e242ba48b57cde0238bb4915a19750175c0c730b36b17b0529ece7289cd",
+      "gitBlobOid": "81d64cfe9339145a72f60e52eb0073fcdb96cae7"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkWindowStore.java",
+      "workingFileSha256": "ff6794b383573528f278b1492bdc8bfa233f5ecdcdbf94011eae763bf7b549c6",
+      "gitBlobOid": "89fc4cd9f12b24001aa72a9e063d4149d7e0e6ab"
+    },
+    {
+      "path": "services/processor/src/main/resources/application.yaml",
+      "workingFileSha256": "18d640a4cce6a9a64f87f758ce23f22172fdfc93c818658a3b67ba37a8d2318c",
+      "gitBlobOid": "58749e59d7ea5ab038393e03ad96c830fe4b5c6e"
+    },
+    {
+      "path": "services/processor/src/main/resources/db/migration/V017__trace_link_detection_runtime.sql",
+      "workingFileSha256": "7a407da3ec31d97021649fa0488086bb793315c719e88367d32dcc753b42ac9b",
+      "gitBlobOid": "cfe392a4bd7da1266762c8419ddd93a125359c2d"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/LegacyMlTimingHarness.java",
+      "workingFileSha256": "746a063f60b0e36901d4c34f367f4eba3086527d481b9cc1aa088a8284d192bb",
+      "gitBlobOid": "29e80f6b321915f1d46316d6c482b79378601298"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/history/GeographicHistoryMigrationTest.java",
+      "workingFileSha256": "2017b0364a9bc72d4072faf274b1d5674206bfd97040d92ec69a20e901b0977a",
+      "gitBlobOid": "6efc0dfd31410446182c08644602f440eba31970"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/ingestion/IngestionIntegrationTest.java",
+      "workingFileSha256": "6601c6f385ee24105c7acd95ba80725d9343c4aca72c223337681c49ebc31548",
+      "gitBlobOid": "28511463485e564ff89bad39fde26589b6340f7d"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkDetectionIT.java",
+      "workingFileSha256": "fd079f5bf4319ffbaebdc557a98870b9db6d7dfc17775b9046e48d58a577a423",
+      "gitBlobOid": "993c6ae391c36766cc8f580596d9f489995ca8ea"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkNativeGeneratorTest.java",
+      "workingFileSha256": "6cbfc352edfe3fedfd7d69026b417893597ddd00b8bb5e3f3d12071b84d2b115",
+      "gitBlobOid": "35c0a492268a25c2c9b3ca7faff508cbe39ddc4a"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkRealtimeHarness.java",
+      "workingFileSha256": "c4445f5c2b8a3e076c0e798902c6920f8e97546fef54dd485c6004a6cba2b964",
+      "gitBlobOid": "2df710a477579b74d76f29b4cf20a0f62b553c00"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkRuntimeEvaluationTest.java",
+      "workingFileSha256": "d94267a9ba7b2b52ad145f271981837039c4057d8a511e48055e9f38bf1b4afc",
+      "gitBlobOid": "61f5199502a95f319d48103bb7620b6d67652c0a"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkRuntimeTest.java",
+      "workingFileSha256": "a31b133977966b2d6d1cfc7c93c1575060339a2ea5cd2da110cdcfa64e0cc9c1",
+      "gitBlobOid": "4502363ef08a836598e9702f3921af48405c5974"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkWindowAdapterTest.java",
+      "workingFileSha256": "24579ebd04bf01f30690779c865fa45a57a4055ec7f58e534919d59856ee18a0",
+      "gitBlobOid": "6bb35c9e3e420a82dd1e0fd335482357ceb18287"
+    },
+    {
+      "path": "services/streaming-support/pom.xml",
+      "workingFileSha256": "35dec1a7f4021b8c5e829aeb32e2846a4590e78c0be68f83c5d53a9e4f39ecca",
+      "gitBlobOid": "42741c115e21fe56faae6b48661738acc49a7ab8"
+    },
+    {
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/tracelink/TraceLinkDetectionMessage.java",
+      "workingFileSha256": "aa5ac18cbd93ed34eed248f46fadbd15012389a071e8ac2496dad5d4893ef189",
+      "gitBlobOid": "bb06b7a7be8c2bbae4c85eb5e19266cd293b17cd"
+    },
+    {
+      "path": "services/streaming-support/src/main/java/md/utm/telecom/tracelink/TraceLinkEvidenceValidator.java",
+      "workingFileSha256": "a0218e5afd87ba548ab769414c9d1f3ea0081459d77e8b44297c1b6a8351ed37",
+      "gitBlobOid": "f7f9a05c91c9c2fc20e569a21e860468322efbe8"
+    },
+    {
+      "path": "services/streaming-support/src/test/java/md/utm/telecom/tracelink/TraceLinkDetectionMessageTest.java",
+      "workingFileSha256": "94ccd158ee02e4f38ffa704d808853bdb051684dc751f4ded0bdcd0606358a0c",
+      "gitBlobOid": "0e0d7f3f95d7971eff589e0c6ca6018c7a9450c8"
+    },
+    {
+      "path": "tests/test_trace_link_day3_capacity_input.py",
+      "workingFileSha256": "e9b6e4a8eef8a24efc9502d83d3039217af7a477f3e4686ff0870e69bb8383d6",
+      "gitBlobOid": "fac7864fd1a7d503341a35ccaa0be41c81f97bcb"
+    },
+    {
+      "path": "tests/test_trace_link_day3_contract.py",
+      "workingFileSha256": "d9429e27d98b56230269650ff9a597370a2327927cbbb28be2d00e660edf99ea",
+      "gitBlobOid": "304a4c7090c5ebf6ef2a3e7c469372ed735db211"
+    }
+  ]
+}

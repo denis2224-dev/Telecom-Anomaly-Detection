@@ -1,0 +1,19 @@
+{
+  "name": "fresh-python-arithmetic",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "services/ml-service/app/features/trace_link_reference.py",
+    "--fixtures",
+    "contracts/fixtures/trace-link/arithmetic-cases.json",
+    "--output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-python.json"
+  ],
+  "startedAt": "2026-10-12T18:48:38.370943+00:00",
+  "finishedAt": "2026-10-12T18:48:38.553646+00:00",
+  "elapsedSeconds": 0.183,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "fresh-python-arithmetic.log",
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

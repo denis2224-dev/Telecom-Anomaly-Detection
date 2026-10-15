@@ -1,0 +1,10 @@
+{
+  "capturedAtUtc": "2026-10-12T15:27:36.3071032Z",
+  "cpu": {
+    "Name": "11th Gen Intel(R) Core(TM) i5-11300H @ 3.10GHz",
+    "NumberOfCores": 4,
+    "NumberOfLogicalProcessors": 8
+  },
+  "hostMemoryBytes": 16856289280,
+  "docker": "8 8166535168"
+}

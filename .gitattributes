@@ -32,3 +32,59 @@ docs/evidence/assets/trace-link-final-hardening/*.json text eol=lf
 
 # Preserve the raw bytes pinned by the separate receiving reproduction manifest.
 docs/evidence/assets/trace-link-day2-receiving-closure/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+contracts/fixtures/trace-link/domain-primitive-results-v1.json text eol=lf
+docs/evidence/assets/trace-link-domain-producers/*.json text eol=lf
+
+# Deterministic scenario fixtures and evidence have canonical bytes on every checkout.
+tests/evaluation/trace-link/* text eol=lf
+docs/evidence/assets/trace-link-scenarios/*.json text eol=lf
+docs/evidence/assets/trace-link-reliability/** -text
+
+# Day 6 configuration, drivers and immutable rehearsal evidence.
+contracts/fixtures/demo/service-seeds.json text eol=lf
+scripts/rehearsal/*.java text eol=lf
+docs/evidence/assets/trace-link-day6/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Unified patches retain significant blank-line context as immutable data.
+docs/evidence/assets/trace-link-day6/preflight/*.patch -whitespace
+
+# Integration evidence retains its recorded byte hashes on every checkout.
+docs/evidence/assets/trace-link-integration-20261012/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-integration-20261012/*.patch -whitespace
+
+# The held projection migration has approved raw-byte identity in packaged builds.
+services/processor/src/main/resources/db/migration/V016__trace_link_domain_windows.sql text eol=lf
+
+# Generated branding is compared byte-for-byte by the supported Windows build.
+apps/dashboard/src/branding/tokens.css text eol=lf
+apps/dashboard/src/branding/mark.svg text eol=lf
+apps/dashboard/src/branding/favicon.svg text eol=lf
+infra/keycloak/themes/telecom/login/resources/css/tokens.css text eol=lf
+infra/keycloak/themes/telecom/login/resources/img/mark.svg text eol=lf
+docs/assets/tracelink-logo.svg text eol=lf
+contracts/openapi/incident-api.yaml text eol=lf
+apps/dashboard/api/incident-api.yaml text eol=lf
+apps/dashboard/src/app/core/api/schema.ts text eol=lf
+services/incident-service/src/main/resources/db/migration/V009__trace_link_scenario_commands.sql text eol=lf
+
+# Retain exact checkpoint, CSV/JSON and screenshot evidence bytes across checkouts.
+docs/evidence/assets/david-trace-link-repair/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/2026-10-12-david-trace-link-repair.md text eol=lf
+
+services/incident-service/src/main/resources/db/migration/V010__trace_link_domain_measurements.sql text eol=lf
+
+contracts/datasets/trace-link-live-synthetic-v1.json text eol=lf
+contracts/fixtures/trace-link/live-consumer-results-v1.json text eol=lf
+docs/evidence/assets/trace-link-contract-resolution-20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-contract-reconciliation-20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Day 4 model contracts and manifests retain exact portable artifact hashes.
+contracts/features/trace-link* text eol=lf
+contracts/ml-shadow/trace-link* text eol=lf
+contracts/fixtures/trace-link/ml-feature-cases-v1.json text eol=lf
+services/ml-service/training/trace_link_candidate.py text eol=lf
+services/ml-service/candidate-models/trace-link-shadow-v1/*.json text eol=lf
+services/ml-service/candidate-models/trace-link-shadow-v1/*.joblib binary
+docs/evidence/assets/trace-link-day4-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+contracts/fixtures/trace-link/ml-adversarial-cases-v1.json text eol=lf
+docs/evidence/assets/trace-link-day4-review-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-day4-body-bounds-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-day4-ci-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
