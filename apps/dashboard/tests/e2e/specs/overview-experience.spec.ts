@@ -20,9 +20,12 @@ for(const width of [1440,390])test(`overview combines traffic, selects links and
  expect((await map.boundingBox())!.y).toBeCloseTo(before.y,0);
  const href=await page.getByRole('link',{name:'Investigate A → B',exact:true}).getAttribute('href');
  expect(new URL(href!,'http://local').searchParams.get('linkDirectionId')).toBe('chi-hin:a-to-b');
+ await expect(page.locator('.map-panel > .active-anomalies')).toHaveCount(1);
  const cards=page.locator('.active-anomalies .anomaly-card');await expect(cards).toHaveCount(2);
  await expect(cards.nth(0)).toHaveAttribute('data-state','CRITICAL');await expect(cards.nth(1)).toHaveAttribute('data-state','HIGH');
  await expect(cards.nth(0)).toContainText('Acknowledged');
+ await expect(cards.nth(0).locator('dt')).toHaveText(['Where','When','Why']);
+ await expect(cards.nth(0)).not.toContainText('pp from baseline');
  await expect(cards.nth(0).getByRole('link',{name:'Episode evidence'})).toHaveAttribute('href','/incidents/'+episodes[0].id);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
  await page.screenshot({path:info.outputPath(`overview-${width}.png`),fullPage:true});
@@ -58,7 +61,7 @@ test('incident actions persist acknowledgement and focus the exact dashboard int
  const card=page.locator('.anomaly-card').first();await expect(card).toBeVisible();
  await card.getByRole('button',{name:'Acknowledge',exact:true}).click();
  await expect(card.getByRole('button',{name:'Acknowledged',exact:true})).toBeDisabled();
- await expect(card).toContainText('controlled-analyst');
+ await expect(card).not.toContainText('controlled-analyst');
  await card.getByRole('button',{name:'Show on dashboard',exact:true}).click();
  await expect(page).toHaveURL(new RegExp('incidentId='+id));
  await expect(page.locator('.incident-focus')).toBeVisible();
@@ -84,4 +87,13 @@ test('plain map targets retain their positions while hovering and selecting',asy
  const link=page.getByRole('button',{name:'Inspect Bălți – Ungheni',exact:true});await link.click();
  await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('nominal capacity');
  await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('Traffic, utilization and loss unavailable');
+});
+
+test('incident summary scrolls with its evidence instead of covering it',async({page})=>{
+ const state=await controlledApi(page);await page.goto('/incidents/'+state.incident.id);
+ const summary=page.locator('.incident-summary-bar');await expect(summary).toBeVisible();
+ await expect(summary).toHaveCSS('position','static');
+ const before=(await summary.boundingBox())!.y;
+ await page.evaluate(()=>window.scrollBy(0,300));
+ expect((await summary.boundingBox())!.y).toBeLessThan(before);
 });

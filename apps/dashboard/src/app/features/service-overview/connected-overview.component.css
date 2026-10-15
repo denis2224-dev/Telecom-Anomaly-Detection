@@ -200,3 +200,14 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .anomaly-card h3 {font-size:14px;}
 .anomaly-card p {font-size:12px;margin:4px 0;}
 .anomaly-description {-webkit-line-clamp:1;}
+
+.map-panel > .active-anomalies {margin:12px 8px 8px;padding:10px;background:var(--field);border-radius:12px;}
+.active-anomalies > header h2 {font-size:15px;}
+.anomaly-card {padding:8px 10px;}
+.anomaly-card > header {gap:6px;}
+.anomaly-card h3 {font-size:13px;}
+.anomaly-context {display:grid;grid-template-columns:minmax(0,1fr);gap:3px;margin:6px 0;font-size:11px;}
+.anomaly-context > div {display:block;min-width:0;}
+.anomaly-context dt {display:inline;color:var(--text-muted);font-size:10px;margin-right:6px;}
+.anomaly-context dd {display:inline;margin:0;font:inherit;overflow-wrap:anywhere;}
+.anomaly-card .incident-evidence {font-size:10px;margin-top:4px;}

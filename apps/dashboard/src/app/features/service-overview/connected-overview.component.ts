@@ -80,6 +80,13 @@ export class ConnectedOverviewComponent {
   readonly overviewPriority = signal<Episode[]>([]);
   readonly unacknowledged = computed(() => this.riskIncidents().filter(item => item.status === 'OPEN').length);
   readonly riskIncidents = computed(() => this.overviewPriority().map(item => this.acknowledgements.current(item)).filter(item => item.status !== 'RESOLVED').slice(0, 6));
+  incidentPlace(incident: Episode): string {
+    const captured = incident.location?.cityId;
+    return (captured ? this.cityById(captured)?.name : undefined)
+      ?? cityForScope(this.catalogue(), incident.scopeId)?.name
+      ?? this.services().find(item => item.scope.scopeId === incident.scopeId)?.scope.region
+      ?? 'Location unavailable';
+  }
   anomalyTitle(incident: Episode): string {
     return incident.latestDetection.anomalyType.replaceAll('_', ' ').toLowerCase().replace(/^./, letter => letter.toUpperCase());
   }

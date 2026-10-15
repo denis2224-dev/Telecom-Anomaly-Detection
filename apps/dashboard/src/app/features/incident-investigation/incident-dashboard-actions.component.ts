@@ -66,13 +66,14 @@ export class IncidentAcknowledgements {
 
 @Component({
   selector: 'app-incident-dashboard-actions', imports: [DatePipe],
-  template: `<div class="incident-card-actions"><button type="button" (click)="show()">Show on dashboard</button><button type="button" [disabled]="busy() || acknowledged() || fixture" (click)="acknowledge()">{{ acknowledged() ? 'Acknowledged' : busy() ? 'Acknowledging…' : 'Acknowledge' }}</button></div>
-    @if (acknowledged()) { <p class="acknowledgement" role="status">Acknowledged@if (audit(); as event) { · {{ event.actorId }} · {{ event.occurredAt | date:'dd MMM HH:mm':'UTC' }} UTC } @else { · audit details unavailable }</p> }
+  template: `<div class="incident-card-actions" [class.compact]="compact()"><button type="button" (click)="show()">Show on dashboard</button><button type="button" [disabled]="busy() || acknowledged() || fixture" (click)="acknowledge()">{{ acknowledged() ? 'Acknowledged' : busy() ? 'Acknowledging…' : 'Acknowledge' }}</button></div>
+    @if (acknowledged() && !compact()) { <p class="acknowledgement" role="status">Acknowledged@if (audit(); as event) { · {{ event.actorId }} · {{ event.occurredAt | date:'dd MMM HH:mm':'UTC' }} UTC } @else { · audit details unavailable }</p> }
     @if (error()) { <p role="alert">{{ error() }}</p> }`,
-  styles: [`.incident-card-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; } button { min-height:36px; font-size:13px; padding:7px 12px; } p { font-size:12px; margin:6px 0 0; overflow-wrap:anywhere; } .acknowledgement { color:var(--text-muted); }`],
+  styles: [`.incident-card-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; } button { min-height:36px; font-size:13px; padding:7px 12px; } p { font-size:12px; margin:6px 0 0; overflow-wrap:anywhere; } .acknowledgement { color:var(--text-muted); } .compact {margin-top:6px;gap:6px;} .compact button {min-height:32px;padding:5px 8px;font-size:11px;} @media(max-width:600px){.compact button{min-height:44px;}}`],
 })
 export class IncidentDashboardActionsComponent {
   readonly incident = input.required<Incident>();
+  readonly compact = input(false);
   readonly updated = output<Incident>();
   readonly navigated = output<void>();
   readonly acknowledgements = inject(IncidentAcknowledgements);

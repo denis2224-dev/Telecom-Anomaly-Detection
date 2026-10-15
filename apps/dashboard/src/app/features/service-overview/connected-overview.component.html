@@ -85,6 +85,25 @@
         }</tbody>
       </table></div>
       <button type="button" class="panel-navigation" (click)="queueDialog.open()" aria-haspopup="dialog" aria-controls="incident-queue">Open incident investigation <app-icon name="right" /></button>
+  <section class="active-anomalies" aria-labelledby="active-anomalies-title" [attr.aria-busy]="queueLoading()">
+    <header><h2 id="active-anomalies-title">Priority anomalies</h2></header>
+    @if (queueError()) {<p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry anomalies</button>}
+    @else {
+      <div class="anomaly-grid">@for (incident of riskIncidents(); track incident.id) {
+        <article class="anomaly-card" [attr.data-state]="incident.technicalState === 'RECOVERED' ? 'RECOVERED' : incident.severity">
+          <header><span class="badge" [attr.data-state]="incident.severity">{{ incident.severity }}</span><h3>{{ anomalyTitle(incident) }}</h3>@if (acknowledgements.current(incident).status !== 'OPEN') {<span class="badge">Acknowledged</span>}</header>
+          <dl class="anomaly-context">
+            <div><dt>Where</dt><dd>{{ incidentPlace(incident) }}</dd></div>
+            <div><dt>When</dt><dd>{{ incident.firstObservedAt | date:'dd MMM HH:mm':'UTC' }} UTC</dd></div>
+            <div><dt>Why</dt><dd>{{ cause(incident.latestDetection) === 'Cause undetermined' ? 'Cause undetermined' : 'Possible cause: ' + cause(incident.latestDetection) }}</dd></div>
+          </dl>
+          <app-incident-dashboard-actions [compact]="true" [incident]="incident" (updated)="acceptAcknowledgement($event)" />
+          <a class="incident-evidence" [routerLink]="['/incidents', incident.id]">Episode evidence</a>
+        </article>
+      } @empty {<p role="status">{{ queueLoading() ? 'Loading priority anomalies…' : 'No unresolved anomalies returned for these filters.' }}</p>}</div>
+      <button type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Open full incident queue</button>
+    }
+  </section>
     </section>
     @if (roamingPanel()) {
     <section class="service-panel" aria-label="Roaming overview">
@@ -118,21 +137,7 @@
   @if (!fixture && selectedCity()?.geography) {
     <app-city-evidence [city]="selectedCity()!" [filter]="serviceFilter()" [from]="chartFrom()" [to]="chartTo()" [updatedAt]="geographyUpdatedAt()" [catalogueError]="geographyError()" />
   }
-  <section class="active-anomalies" aria-labelledby="active-anomalies-title" [attr.aria-busy]="queueLoading()">
-    <header><h2 id="active-anomalies-title">Priority anomalies</h2><span>{{ riskIncidents().length }} shown · {{ unacknowledged() }} awaiting acknowledgement</span></header>
-    @if (queueError()) {<p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry anomalies</button>}
-    @else {
-      <div class="anomaly-grid">@for (incident of riskIncidents(); track incident.id) {
-        <article class="anomaly-card" [attr.data-state]="incident.technicalState === 'RECOVERED' ? 'RECOVERED' : incident.severity">
-          <header><span class="badge" [attr.data-state]="incident.severity">{{ incident.severity }}</span><h3>{{ anomalyTitle(incident) }}</h3>@if (acknowledgements.current(incident).status !== 'OPEN') {<span class="badge">Acknowledged</span>}<time>since {{ incident.firstObservedAt | date:'HH:mm':'UTC' }}</time></header>
-          <p class="anomaly-description" [title]="incident.latestDetection.evidence[0]?.summary || cause(incident.latestDetection)">{{ cityLabel(catalogue(), incident.scopeId) }} · {{ deviation(detectionWindow(incident), incident.service) }} · {{ incident.latestDetection.evidence[0]?.summary || cause(incident.latestDetection) }}</p>
-          <app-incident-dashboard-actions [incident]="incident" (updated)="acceptAcknowledgement($event)" />
-          <a class="incident-evidence" [routerLink]="['/incidents', incident.id]">Episode evidence</a>
-        </article>
-      } @empty {<p role="status">{{ queueLoading() ? 'Loading priority anomalies…' : 'No unresolved anomalies returned for these filters.' }}</p>}</div>
-      <button type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Open full incident queue</button>
-    }
-  </section>
+
 </section>
 
 <app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" [title]="'Incident queue (' + queueTotal() + ')'" closeLabel="Close incidents" (closed)="clearQueueFragment()">
