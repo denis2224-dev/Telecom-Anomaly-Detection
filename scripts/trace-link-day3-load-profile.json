@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "trace-link-load-profile-v1",
+  "description": "Predeclared synthetic persisted-window benchmark; does not establish source collection capacity or a production SLA.",
+  "warmupSeconds": 120,
+  "steadySeconds": 900,
+  "burstSeconds": 60,
+  "burstMultiplier": 2,
+  "drainTimeoutSeconds": 300,
+  "steadyRatePerSecond": 1,
+  "rateUnit": "persisted_windows",
+  "configuredConcurrency": 4,
+  "queueCapacityBound": 10000
+}

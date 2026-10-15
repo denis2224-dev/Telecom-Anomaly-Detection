@@ -1,0 +1,42 @@
+[
+  {
+    "module": "event-generator",
+    "name": "md.utm.telecom.generator.tracelink.TraceLinkCheckpointTest",
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "event-generator",
+    "name": "md.utm.telecom.generator.tracelink.TraceLinkReliabilityRegressionTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "processor",
+    "name": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  {
+    "module": "processor",
+    "name": "md.utm.telecom.processing.kpi.TraceLinkNativeFailureTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "processor",
+    "name": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+]

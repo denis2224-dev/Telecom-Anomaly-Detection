@@ -10,7 +10,7 @@ public class MetricDefinitionRegistry {
     private static final List<Definition> DEFINITIONS = List.of(
             definition("volte", "voice.success_rate", "VoLTE eligible call attempts"),
             new Definition("volte", "volte.setup.success", "PERCENT", "RATIO_OF_SUMS",
-                    "VoLTE setup successes over attempts in the selected city",
+                    "Eligible established calls / eligible network setup attempts in the selected city",
                     List.of("numerator", "denominator"), "trace-link-kpi-v1"),
             definition("transport", "link.utilization", "Directional valid-time effective capacity"),
             definition("roaming", "registration.success_rate", "Partner-direction registration attempts"),

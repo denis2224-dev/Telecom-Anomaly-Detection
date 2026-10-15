@@ -3,6 +3,7 @@ package md.utm.telecom.processing.detection;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.util.Map;
+import java.util.List;
 import md.utm.telecom.observation.GeographyCatalog;
 import md.utm.telecom.observation.ObservationValidator;
 import md.utm.telecom.observation.TopologyCatalog;
@@ -28,6 +29,18 @@ public final class DetectionAuthority {
     public static DetectionAuthority load() {
         try { return new DetectionAuthority(); }
         catch (IOException invalid) { throw new IllegalStateException("Cannot load detector authority", invalid); }
+    }
+
+    /** Explicit new-domain dispatch; the frozen service/node selection remains independent. */
+    public static List<JsonNode> evaluateTraceLink(JsonNode input) {
+        JsonNode context = TraceLinkInputs.validateContext(input);
+        TraceLinkDomainPolicy policy = TraceLinkDomainPolicy.load();
+        return switch (context.required("domain").asText()) {
+            case "TRANSPORT" -> new TransportRule(policy).evaluate(context);
+            case "ROAMING" -> new RoamingRule(policy).evaluate(context);
+            case "MOBILE_DATA" -> new MobileDataRule(policy).evaluate(context);
+            default -> throw new IllegalArgumentException("Unsupported Trace Link domain");
+        };
     }
 
     public TopologyCatalog.Node nodeFor(JsonNode window) {

@@ -1,0 +1,36 @@
+{
+  "sampleRevision": "2e943d51b22fa47f2e87bf6a8f63eff7e81c9eee",
+  "mode": "Authenticated LIVE production build; native EventSource; no request interception",
+  "observation": {
+    "durationMs": 72398.69999999972,
+    "frameGapP95Ms": 17.40000000037253,
+    "maxFrameGapMs": 31.399999999906868,
+    "longTasksMs": [],
+    "stream": {
+      "active": 1,
+      "opened": 2,
+      "interrupted": 1,
+      "hints": 0,
+      "ready": 2
+    },
+    "startedAt": "2026-10-13T18:44:40.284Z",
+    "initialStream": {
+      "active": 1,
+      "opened": 1,
+      "interrupted": 0,
+      "hints": 0,
+      "ready": 1
+    },
+    "initialEnd": "2026-10-13T18:44",
+    "finalEnd": "2026-10-13T18:45"
+  },
+  "requestCount": 40,
+  "requestMedianMs": 56.7425,
+  "requestP95Ms": 177.788,
+  "heapStartBytes": 7650864,
+  "heapEndBytes": 7852488,
+  "inputPaintRangeMs": [
+    32.81495800000266,
+    63.49087499999587
+  ]
+}

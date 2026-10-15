@@ -1,0 +1,133 @@
+{
+  "snapshots": [
+    {
+      "topologyVersion": "trace-link-md-topology-v1",
+      "relations": [
+        {
+          "relationId": "r1",
+          "sourceId": "source-1",
+          "pathId": "path-1",
+          "scope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "targetScope": {
+            "type": "LINK_DIRECTION",
+            "id": "chi-hin:a-to-b",
+            "cityIds": [
+              "CHI",
+              "HIN"
+            ],
+            "directionId": "a-to-b",
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "topologyVersion": "trace-link-md-topology-v1",
+          "from": "2026-10-10T00:00:00Z",
+          "to": "2026-10-11T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "topologyVersion": "trace-link-md-topology-v1",
+      "relations": [
+        {
+          "relationId": "r1",
+          "sourceId": "source-1",
+          "pathId": "path-1",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "RO:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "RO",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "targetScope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "RO:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "RO",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "topologyVersion": "trace-link-md-topology-v1",
+          "from": "2026-10-10T00:00:00Z",
+          "to": "2026-10-11T00:00:00Z"
+        },
+        {
+          "relationId": "r-opposite",
+          "sourceId": "source-1",
+          "pathId": "path-1",
+          "scope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "RO:out",
+            "cityIds": [],
+            "directionId": "out",
+            "partnerId": "RO",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "targetScope": {
+            "type": "PARTNER_DIRECTION",
+            "id": "RO:in",
+            "cityIds": [],
+            "directionId": "in",
+            "partnerId": "RO",
+            "procedure": "DATA",
+            "namespace": "trace-link-reference-v1"
+          },
+          "topologyVersion": "trace-link-md-topology-v1",
+          "from": "2026-10-10T00:00:00Z",
+          "to": "2026-10-11T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "topologyVersion": "trace-link-md-topology-v1",
+      "relations": [
+        {
+          "relationId": "r1",
+          "sourceId": "source-1",
+          "pathId": "path-1",
+          "scope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "targetScope": {
+            "type": "CITY",
+            "id": "CHI",
+            "cityIds": [
+              "CHI"
+            ],
+            "directionId": null,
+            "partnerId": null,
+            "procedure": null,
+            "namespace": "trace-link-reference-v1"
+          },
+          "topologyVersion": "trace-link-md-topology-v1",
+          "from": "2026-10-10T00:00:00Z",
+          "to": "2026-10-11T00:00:00Z"
+        }
+      ]
+    }
+  ]
+}

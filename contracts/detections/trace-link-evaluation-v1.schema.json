@@ -722,7 +722,8 @@
             "additionalProperties": false,
             "properties": {
               "datasetId": {
-                "const": "trace-link-md-30d-v1"
+                "type": "string",
+                "minLength": 1
               },
               "synthetic": {
                 "const": true
@@ -731,7 +732,8 @@
                 "enum": [
                   "HAND_CALCULATED",
                   "REFERENCE_CSV",
-                  "REFERENCE_ENGINE"
+                  "REFERENCE_ENGINE",
+                  "NATIVE_OBSERVATION"
                 ]
               },
               "sourceChecksum": {
@@ -747,6 +749,26 @@
               "synthetic",
               "origin",
               "sourceChecksum"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "origin": {
+                      "not": {
+                        "const": "NATIVE_OBSERVATION"
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "datasetId": {
+                      "const": "trace-link-md-30d-v1"
+                    }
+                  }
+                }
+              }
             ]
           },
           "observedRevision": {

@@ -3,13 +3,14 @@
   [class.access-shell]="isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')">
   @if (!isAccessPage() && (session.phase() === 'authenticated' || session.phase() === 'fixture')) {
     <aside class="sidebar" id="workspace-navigation">
-      <a class="brand" routerLink="/dashboard" aria-label="TraceLink — Service overview" title="TraceLink" (click)="mobileOpen.set(false)">
+      <a class="brand" routerLink="/dashboard" [attr.aria-label]="product.name + ' — Service overview'" [title]="product.name" (click)="mobileOpen.set(false)">
         <span class="brand-symbol" aria-hidden="true"></span>
-        <span class="brand-copy">TraceLink<span>Follow service evidence</span></span>
+        <span class="brand-copy">{{ product.name }}<span>{{ product.tagline }}</span></span>
       </a>
       <div class="sidebar-section-label">WORKSPACE</div>
       <nav aria-label="Workspace" class="sidebar-nav">
         <a routerLink="/dashboard" routerLinkActive="active" [class.active]="pageTitle() === 'Service overview'" class="nav-link" aria-label="Service overview" title="Service overview" (click)="mobileOpen.set(false)"><app-icon name="grid" /><span>Service overview</span></a>
+        <a routerLink="/trace-link" routerLinkActive="active" class="nav-link" aria-label="Trace Link history" title="Trace Link history" (click)="mobileOpen.set(false)"><app-icon name="grid"/><span>Trace Link history</span></a>
         @if (session.actor()?.roles?.includes('SUPERVISOR') || session.actor()?.roles?.includes('ADMIN')) {
           <a routerLink="/scenarios" routerLinkActive="active" class="nav-link" aria-label="Scenario runner" title="Scenario runner" (click)="mobileOpen.set(false)"><app-icon name="play" /><span>Scenario runner</span></a>
         }
@@ -18,7 +19,7 @@
         <div class="sidebar-section-label">SERVICE ASSURANCE</div>
         <a class="nav-link" [routerLink]="serviceScope('VOLTE') ? ['/services', serviceScope('VOLTE')] : null" [class.active]="serviceActive('VOLTE')" [attr.aria-current]="serviceActive('VOLTE') ? 'page' : null" [attr.aria-disabled]="!serviceScope('VOLTE')" aria-label="VoLTE setup" title="VoLTE setup" (click)="mobileOpen.set(false)"><app-icon name="signal" /><span>VoLTE setup</span></a>
         <a class="nav-link" [routerLink]="serviceScope('SMS') ? ['/services', serviceScope('SMS')] : null" [class.active]="serviceActive('SMS')" [attr.aria-current]="serviceActive('SMS') ? 'page' : null" [attr.aria-disabled]="!serviceScope('SMS')" aria-label="SMS delivery" title="SMS delivery" (click)="mobileOpen.set(false)"><app-icon name="message" /><span>SMS delivery</span></a>
-        <a class="nav-link" routerLink="/roaming" routerLinkActive="active" aria-label="Roaming preview" title="Roaming preview" (click)="mobileOpen.set(false)"><app-icon name="signal" /><span>Roaming preview</span></a>
+        <a class="nav-link" routerLink="/roaming" routerLinkActive="active" aria-label="Roaming investigation" title="Roaming investigation" (click)="mobileOpen.set(false)"><app-icon name="signal" /><span>Roaming investigation</span></a>
         <a class="nav-link" routerLink="/dashboard" fragment="incident-queue" aria-label="Incident investigation" title="Incident investigation" (click)="mobileOpen.set(false)"><app-icon name="shield" /><span>Incident investigation</span></a>
       </div>
       <div class="sidebar-bottom">
@@ -30,7 +31,7 @@
   <div class="workspace-layout">
     <header class="app-header">
       @if (isAccessPage() || (session.phase() !== 'authenticated' && session.phase() !== 'fixture')) {
-        <a class="brand" routerLink="/dashboard" aria-label="TraceLink — Service overview"><span class="brand-symbol" aria-hidden="true"></span><span class="brand-copy">TraceLink<span>Follow service evidence</span></span></a>
+        <a class="brand" routerLink="/dashboard" [attr.aria-label]="product.name + ' — Service overview'"><span class="brand-symbol" aria-hidden="true"></span><span class="brand-copy">{{ product.name }}<span>{{ product.tagline }}</span></span></a>
       } @else {
         <div class="header-location">
           <button class="ghost mobile-menu icon-button" aria-label="Open navigation" [attr.aria-expanded]="mobileOpen()" aria-controls="workspace-navigation" (click)="mobileOpen.set(!mobileOpen())"><app-icon name="menu" /></button>
@@ -43,6 +44,7 @@
         }
         <span class="connection-status"><span class="status-dot" [class.offline]="session.phase() !== 'authenticated'"></span>{{ session.phase() === 'authenticated' ? 'Session connected' : fixture ? 'Preview' : 'Secure access' }}</span>
         @if (session.actor(); as actor) {
+          @if (!isAccessPage() && session.phase() === 'authenticated') { @defer (on immediate) { <app-notification-center /> } }
           <div class="identity"><span class="avatar">{{ actor.displayName.slice(0, 2).toUpperCase() }}</span><span class="identity-copy">{{ actor.displayName }}<small>{{ actor.roles.join(', ') }} · until {{ actor.expiresAt | date:'HH:mm':'UTC' }} UTC</small></span></div>
           <button class="ghost icon-button" (click)="session.logout()" aria-label="Sign out" title="Sign out"><app-icon name="logout" /></button>
         }

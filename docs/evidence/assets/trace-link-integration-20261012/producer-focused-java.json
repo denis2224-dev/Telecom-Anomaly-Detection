@@ -1,0 +1,23 @@
+{
+  "name": "producer-focused-java",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+    "-B",
+    "-ntp",
+    "-pl",
+    "services/processor",
+    "-am",
+    "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+    "-Dtest=TraceLinkSeasonalBaselineTest,TraceLinkDomainRulesTest,TraceLinkInputsTest,TraceLinkOfflineIntegrationTest,TraceLinkRecoveryPolicyTest,TraceLinkServiceTransportTest,TraceLinkCausePolicyTest,DomainObservationValidatorTest,TraceLinkDatasetBootstrapIT",
+    "-Dsurefire.failIfNoSpecifiedTests=false",
+    "verify"
+  ],
+  "startedAt": "2026-10-12T18:34:17.509355+00:00",
+  "finishedAt": "2026-10-12T18:35:48.612229+00:00",
+  "elapsedSeconds": 91.103,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "producer-focused-java.log",
+  "logSha256": "d75566051ec3443dfc036d64285be8aaf90e8a221f76acc14eb5272e119d533e"
+}

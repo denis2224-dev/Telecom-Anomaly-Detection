@@ -1,0 +1,586 @@
+{
+  "totals": {
+    "incident": {
+      "tests": 273,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    "focused-root": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "selection": "Latest report per class; focused reruns are not added to full suite totals.",
+  "replacedReports": [
+    "md.utm.telecom.tracelink.MetricQueryServiceIT",
+    "md.utm.telecom.tracelink.TraceDomainApiIT",
+    "md.utm.telecom.tracelink.TraceDomainDurabilityIT",
+    "md.utm.telecom.tracelink.TraceDomainIngestionIT",
+    "md.utm.telecom.tracelink.TracePrimitiveIngestionIT"
+  ],
+  "suites": [
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.MetricQueryServiceIT.xml",
+      "suite": "md.utm.telecom.tracelink.MetricQueryServiceIT",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceDomainApiIT.xml",
+      "suite": "md.utm.telecom.tracelink.TraceDomainApiIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceDomainIngestionIT.xml",
+      "suite": "md.utm.telecom.tracelink.TraceDomainIngestionIT",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TracePrimitiveIngestionIT.xml",
+      "suite": "md.utm.telecom.tracelink.TracePrimitiveIngestionIT",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceDomainDurabilityIT.xml",
+      "suite": "md.utm.telecom.tracelink.TraceDomainDurabilityIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\streaming-support\\target\\surefire-reports\\TEST-md.utm.telecom.observation.TraceLinkMeasurementTest.xml",
+      "suite": "md.utm.telecom.observation.TraceLinkMeasurementTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest.xml",
+      "suite": "md.utm.telecom.processing.correlation.TraceLinkCausePolicyTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkDomainRulesTest.xml",
+      "suite": "md.utm.telecom.processing.detection.TraceLinkDomainRulesTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkInputsTest.xml",
+      "suite": "md.utm.telecom.processing.detection.TraceLinkInputsTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkLiveContractTest.xml",
+      "suite": "md.utm.telecom.processing.detection.TraceLinkLiveContractTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest.xml",
+      "suite": "md.utm.telecom.processing.detection.TraceLinkOfflineIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest.xml",
+      "suite": "md.utm.telecom.processing.detection.TraceLinkRecoveryPolicyTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.detection.TraceLinkServiceTransportTest.xml",
+      "suite": "md.utm.telecom.processing.detection.TraceLinkServiceTransportTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest.xml",
+      "suite": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\processor\\target\\surefire-reports\\TEST-md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest.xml",
+      "suite": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.analysts.AnalystControllerTest.xml",
+      "suite": "md.utm.telecom.analysts.AnalystControllerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.evidence.DetectionEvidenceRepositoryTest.xml",
+      "suite": "md.utm.telecom.evidence.DetectionEvidenceRepositoryTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.evidence.EvidenceServiceTest.xml",
+      "suite": "md.utm.telecom.evidence.EvidenceServiceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.evidence.messaging.DetectionConsumerTest.xml",
+      "suite": "md.utm.telecom.evidence.messaging.DetectionConsumerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.CoverageFactTest.xml",
+      "suite": "md.utm.telecom.geography.CoverageFactTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.GeographyBoundsTest.xml",
+      "suite": "md.utm.telecom.geography.GeographyBoundsTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.GeographyCatalogueTest.xml",
+      "suite": "md.utm.telecom.geography.GeographyCatalogueTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.geography.GeographyControllerTest.xml",
+      "suite": "md.utm.telecom.geography.GeographyControllerTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.controller.IncidentControllerTest.xml",
+      "suite": "md.utm.telecom.incidents.controller.IncidentControllerTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.controller.IncidentStreamControllerTest.xml",
+      "suite": "md.utm.telecom.incidents.controller.IncidentStreamControllerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.DatabaseMigrationTest.xml",
+      "suite": "md.utm.telecom.incidents.DatabaseMigrationTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.DatabaseUpgradeTest.xml",
+      "suite": "md.utm.telecom.incidents.DatabaseUpgradeTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.evidence.IncidentProjectionTest.xml",
+      "suite": "md.utm.telecom.incidents.evidence.IncidentProjectionTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.exception.DependencyErrorsTest.xml",
+      "suite": "md.utm.telecom.incidents.exception.DependencyErrorsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.IncidentAuditRepositoryTest.xml",
+      "suite": "md.utm.telecom.incidents.IncidentAuditRepositoryTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.IncidentServiceApplicationTests.xml",
+      "suite": "md.utm.telecom.incidents.IncidentServiceApplicationTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.AppRoleMapperTest.xml",
+      "suite": "md.utm.telecom.incidents.security.AppRoleMapperTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.AuthSecurityTest.xml",
+      "suite": "md.utm.telecom.incidents.security.AuthSecurityTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest.xml",
+      "suite": "md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.security.SessionSecurityTest.xml",
+      "suite": "md.utm.telecom.incidents.security.SessionSecurityTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.SergiuDetectionKafkaTest.xml",
+      "suite": "md.utm.telecom.incidents.SergiuDetectionKafkaTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.stream.IncidentStreamTest.xml",
+      "suite": "md.utm.telecom.incidents.stream.IncidentStreamTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.incidents.WorkflowTest.xml",
+      "suite": "md.utm.telecom.incidents.WorkflowTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.CausePresentationPolicyTest.xml",
+      "suite": "md.utm.telecom.notifications.CausePresentationPolicyTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.NotificationSummaryFactoryTest.xml",
+      "suite": "md.utm.telecom.notifications.NotificationSummaryFactoryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.NotificationTransitionClassifierTest.xml",
+      "suite": "md.utm.telecom.notifications.NotificationTransitionClassifierTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.notifications.PushSubscriptionCipherTest.xml",
+      "suite": "md.utm.telecom.notifications.PushSubscriptionCipherTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.controller.ServiceControllerTest.xml",
+      "suite": "md.utm.telecom.services.controller.ServiceControllerTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.controller.ServiceOverviewControllerTest.xml",
+      "suite": "md.utm.telecom.services.controller.ServiceOverviewControllerTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.ServiceKpiWindowIngestionTest.xml",
+      "suite": "md.utm.telecom.services.ServiceKpiWindowIngestionTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.services.ServiceKpiWindowRepositoryTest.xml",
+      "suite": "md.utm.telecom.services.ServiceKpiWindowRepositoryTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.shadow.SmsShadowReplayTest.xml",
+      "suite": "md.utm.telecom.shadow.SmsShadowReplayTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.shadow.SmsShadowStoreTest.xml",
+      "suite": "md.utm.telecom.shadow.SmsShadowStoreTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.simulator.ScenarioCommandRepositoryTest.xml",
+      "suite": "md.utm.telecom.simulator.ScenarioCommandRepositoryTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.tracelink.TraceQueryTest.xml",
+      "suite": "md.utm.telecom.tracelink.TraceQueryTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\surefire-reports\\TEST-md.utm.telecom.tracelink.TraceScenarioGatewayTest.xml",
+      "suite": "md.utm.telecom.tracelink.TraceScenarioGatewayTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyFeatureOffIT.xml",
+      "suite": "md.utm.telecom.geography.GeographyFeatureOffIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyProjectionIT.xml",
+      "suite": "md.utm.telecom.geography.GeographyProjectionIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyReadMatrixIT.xml",
+      "suite": "md.utm.telecom.geography.GeographyReadMatrixIT",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.GeographyTopologyIT.xml",
+      "suite": "md.utm.telecom.geography.GeographyTopologyIT",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.IncidentLocationProjectionIT.xml",
+      "suite": "md.utm.telecom.geography.IncidentLocationProjectionIT",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.geography.PriorityProjectionIT.xml",
+      "suite": "md.utm.telecom.geography.PriorityProjectionIT",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.CommentConcurrencyIT.xml",
+      "suite": "md.utm.telecom.incidents.CommentConcurrencyIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.DatabaseIsolationIT.xml",
+      "suite": "md.utm.telecom.incidents.DatabaseIsolationIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.DependencyFailureIT.xml",
+      "suite": "md.utm.telecom.incidents.DependencyFailureIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.FirstSliceIT.xml",
+      "suite": "md.utm.telecom.incidents.FirstSliceIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.IncidentStreamIT.xml",
+      "suite": "md.utm.telecom.incidents.IncidentStreamIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.PermissionsIT.xml",
+      "suite": "md.utm.telecom.incidents.PermissionsIT",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.ReplayOrderingIT.xml",
+      "suite": "md.utm.telecom.incidents.ReplayOrderingIT",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.incidents.ServiceScenariosIT.xml",
+      "suite": "md.utm.telecom.incidents.ServiceScenariosIT",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.notifications.NotificationApiIT.xml",
+      "suite": "md.utm.telecom.notifications.NotificationApiIT",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.notifications.NotificationRepositoryIT.xml",
+      "suite": "md.utm.telecom.notifications.NotificationRepositoryIT",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.simulator.ScenarioControllerIT.xml",
+      "suite": "md.utm.telecom.simulator.ScenarioControllerIT",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceInventoryIT.xml",
+      "suite": "md.utm.telecom.tracelink.TraceInventoryIT",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "report": "services\\incident-service\\target\\failsafe-reports\\TEST-md.utm.telecom.tracelink.TraceScenarioApiIT.xml",
+      "suite": "md.utm.telecom.tracelink.TraceScenarioApiIT",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}

@@ -3,6 +3,10 @@ import re
 import textwrap
 import yaml
 
+class NoAliasesDumper(yaml.SafeDumper):
+    def ignore_aliases(self, data):
+        return True
+
 path = Path('contracts/openapi/incident-api.yaml')
 original = path.read_text()
 doc = yaml.safe_load(original)
@@ -61,7 +65,7 @@ def contains_scenario_enum(node):
     return False
 
 def replace_stanza(text, key, value, indent):
-    block = textwrap.indent(yaml.safe_dump({key: value}, sort_keys=False, allow_unicode=True, width=120), ' ' * indent)
+    block = textwrap.indent(yaml.dump({key: value}, Dumper=NoAliasesDumper, sort_keys=False, allow_unicode=True, width=120), ' ' * indent)
     pattern = re.compile(r'^' + ' ' * indent + re.escape(key) + r':\n.*?(?=^ {0,' + str(indent) + r'}\S|\Z)', re.M | re.S)
     if pattern.search(text):
         return pattern.sub(lambda match: block, text, count=1)

@@ -1,0 +1,22 @@
+{
+  "name": "fresh-python-sql-javascript-arithmetic",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-trace-link-parity.py",
+    "--python-output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-python.json",
+    "--sql-output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-sql.json",
+    "--javascript-output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-javascript.json",
+    "--postgres-container"
+  ],
+  "startedAt": "2026-10-12T18:46:21.721213+00:00",
+  "finishedAt": "2026-10-12T18:46:21.878317+00:00",
+  "elapsedSeconds": 0.157,
+  "exitCode": 2,
+  "status": "FAIL",
+  "log": "fresh-python-sql-javascript-arithmetic.log",
+  "logSha256": "d9ad92dd26ec0c02c92a2b1b160823c82f1e3d071bc25f7fbfd238df08b4a7c0"
+}

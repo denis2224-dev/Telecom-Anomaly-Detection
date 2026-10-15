@@ -1,0 +1,330 @@
+{
+  "boundary" : "JAVA_ML_CLIENT_HTTP",
+  "configuredConcurrency" : 8,
+  "httpBudgetMs" : 250,
+  "startedAt" : "2026-10-13T11:31:33.258591400Z",
+  "newDomainMl" : "NOT_ELIGIBLE_DAY3",
+  "measurements" : [ {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 7.7034
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 7.6739
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 10.7003
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 11.1167
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 11.6905
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 13.4442
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 13.6802
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 14.4082
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 125.4092
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 125.4099
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 122.4173
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 122.7424
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 120.8321
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 121.6114
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 120.7796
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 124.724
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 97.3574
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 100.7326
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 100.7266
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 100.7319
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 99.8381
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 99.8892
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 99.8191
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 102.2229
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 70.7935
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 91.0004
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 91.6195
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 90.9761
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 91.2852
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 93.0842
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 94.1299
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 93.354
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 25.381
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 94.0725
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 73.6178
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 74.0454
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 73.9769
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 74.2429
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 74.2329
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 75.9104
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 23.8081
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 71.2474
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 29.3641
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 29.3353
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 26.3061
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 29.5574
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 30.9157
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 30.6799
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 30.8176
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 30.8331
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 28.2275
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 28.2044
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 31.9461
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 32.0912
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 31.4224
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 30.8604
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 27.2892
+  }, {
+    "service" : "VOLTE",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 111.7421
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 111.2264
+  }, {
+    "service" : "SMS",
+    "status" : "UNAVAILABLE",
+    "modelVersion" : null,
+    "latencyMs" : 111.7705
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 116.7954
+  }, {
+    "service" : "VOLTE",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 117.3008
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 117.2815
+  }, {
+    "service" : "SMS",
+    "status" : "OK",
+    "modelVersion" : "isoforest-v2-synthetic-1",
+    "latencyMs" : 118.356
+  } ],
+  "observedMaxConcurrency" : 8,
+  "endedAt" : "2026-10-13T11:31:33.836914900Z"
+}

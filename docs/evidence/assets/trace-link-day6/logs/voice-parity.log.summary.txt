@@ -1,0 +1,8 @@
+PASS voice-normal: integers exact; maximum absolute float difference=0
+PASS voice-fault: integers exact; maximum absolute float difference=0
+PASS voice-worked-53: integers exact; maximum absolute float difference=0
+PASS voice-no-nodes: integers exact; maximum absolute float difference=0
+PASS voice-zero: integers exact; maximum absolute float difference=0
+PASS voice-incomplete: integers exact; maximum absolute float difference=0
+PASS voice-missing: integers exact; maximum absolute float difference=0
+PASS: 7 persisted Java/Python payloads, all fields compared

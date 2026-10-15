@@ -1,0 +1,25 @@
+{
+  "name": "combined-v016-before",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "C:/Users/Admin/.m2/wrapper/dists/apache-maven-3.9.16/56ba1f9f/bin/mvn.cmd",
+    "-B",
+    "-ntp",
+    "-pl",
+    "services/processor",
+    "-am",
+    "-Dmaven.repo.local=C:/OrangeSystems/Program/.tools/m2",
+    "-Dtest=TraceLinkV016CompatibilityTest",
+    "-Dsurefire.failIfNoSpecifiedTests=false",
+    "-Dtrace.link.v016.directory=C:/OrangeSystems/Program/ion-domain-producer-evidence/v016",
+    "-Dtrace.link.v016.sha256=bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+    "verify"
+  ],
+  "startedAt": "2026-10-12T18:36:55.133078+00:00",
+  "finishedAt": "2026-10-12T18:37:24.518781+00:00",
+  "elapsedSeconds": 29.386,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "combined-v016-before.log",
+  "logSha256": "84730b3e03b4eb194a0bd304c2cbf3692ddbe5ed2ee24fd0dd3287b3c3c3da51"
+}

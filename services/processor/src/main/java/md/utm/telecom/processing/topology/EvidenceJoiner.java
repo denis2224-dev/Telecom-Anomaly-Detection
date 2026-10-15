@@ -11,6 +11,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import md.utm.telecom.processing.correlation.TraceLinkCausePolicy;
 
 /**
  * Single processor-side boundary for selecting and joining approved NODE evidence
@@ -19,6 +20,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class EvidenceJoiner {
     private static final Logger LOG = LoggerFactory.getLogger(EvidenceJoiner.class);
+
+    /** Event-time Trace Link join; caller supplies an approved immutable authority snapshot. */
+    public static JsonNode joinTraceLink(JsonNode symptom, JsonNode candidates, JsonNode controls,
+                                        JsonNode approvedSnapshot, JsonNode policy) {
+        return new TraceLinkCausePolicy().evaluate(symptom, candidates, controls, approvedSnapshot, policy);
+    }
 
     public enum IgnoreReason {
         NOT_NODE,
