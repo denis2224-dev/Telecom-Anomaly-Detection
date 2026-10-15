@@ -12,8 +12,7 @@ synthetic VoLTE/SMS telemetry and versioned Trace Link history.
 [![Service integration](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/workflows/integration.yml/badge.svg?branch=main)](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/workflows/integration.yml)
 
 Developed as a UTM internship project at Orange Systems Moldova. This repository
-does not imply organizational endorsement. Redistribution licensing is pending
-owner approval; see [licensing](#licensing).
+does not imply organizational endorsement.
 
 ## Capabilities and scope
 
@@ -177,7 +176,7 @@ the full reference input.
 
 ## Documentation
 
-- [Developer task index](docs/tasks/README.md) and [team ownership](docs/architecture/owner-map.md)
+- [Development guides](docs/tasks/README.md) and [team ownership](docs/architecture/owner-map.md)
 - [Local setup](docs/runbooks/local-dev.md) and [streaming operations](docs/runbooks/streaming.md)
 - [Observation contract](contracts/README.md) and [incident OpenAPI](contracts/openapi/incident-api.yaml)
 - [Trace Link receiving contract](docs/architecture/trace-link-contract-resolution-v1.md)
@@ -193,16 +192,8 @@ installation, complete rehearsals and real owner reviews. Archived results apply
 to their recorded source and environment. Follow the completion record for the
 remaining gates; do not infer deployment readiness from status badges.
 
-## Contributors and licensing
+## Contributors
 
 Engineering ownership is recorded for Zavtoni Ion, Moroz Denis, Rusu Sergiu,
 Nenita David and Bradu Stanislav in the [owner map](docs/architecture/owner-map.md).
 Thanks to the project contributors and internship mentors.
-
-### Licensing
-
-MIT is the proposed project license, **pending copyright-holder and contributor /
-internship authorization**. There is no approved repository-wide license grant.
-The [license proposal](docs/mit-license-proposal.txt) records the unresolved holder,
-approval requirements and third-party notice checks. Dependencies and bundled
-tools retain their own licenses; preserve their notices in redistributed builds.
