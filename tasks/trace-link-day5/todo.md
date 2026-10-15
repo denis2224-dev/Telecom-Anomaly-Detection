@@ -19,6 +19,6 @@
 - [x] Preserve the required CI chain and add Linux leakage/integrity checks.
 - [x] Document Windows-full and Linux-runtime commands and pending acceptance.
 - [x] Run Python 3.13.9 checks on both platforms and the strict Windows byte gate.
-- [ ] Publish correction evidence, verify frozen hashes, and push correction commits.
+- [x] Publish correction evidence, verify frozen hashes, and push correction commits.
 - [ ] Required CI checks pass on the corrected PR head.
 - [ ] Review a real independent Windows/Java/Docker/reference-pack receipt with fresh Java export.
