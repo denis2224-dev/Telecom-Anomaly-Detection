@@ -10,6 +10,7 @@ import { deviation, relativeChange, probableCause, metricLabel, primaryMetric, s
 type Detection = components['schemas']['ServiceDetection'];
 
 @Component({
+  styles: [`.supporting-kpis{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0;}.supporting-kpis > div{min-width:0;}.supporting-kpis dt{font-size:12px;font-weight:600;}.supporting-kpis dd{margin:3px 0 0;font-size:12px;overflow-wrap:anywhere;}.recorded-signal{font-size:13px;overflow-wrap:anywhere;}`],
   selector: 'app-evidence-timeline',
   imports: [DatePipe, CauseEvidenceComponent, IconComponent, MetricExplanationComponent, SampleVolumeComponent],
   template: `
@@ -98,14 +99,16 @@ type Detection = components['schemas']['ServiceDetection'];
         </p>
 
         <details class="evidence-disclosure"><summary>Troubleshooting</summary>
-          <div class="evidence-table" tabindex="0" aria-label="Supporting KPI evidence"><table><thead><tr><th>KPI</th><th>Actual</th><th>Baseline</th><th>Unit</th><th>Change</th><th>Relative change</th><th>Numerator</th><th>Denominator</th></tr></thead><tbody>
-          @for (kpi of supportingKpis(detection); track kpi.name) {<tr [attr.data-kpi]="kpi.name"><th>{{ label(kpi.name) }}</th><td>{{ observedFor(detection, kpi) ?? 'Unavailable' }}</td><td>{{ kpi.baseline ?? 'Unavailable' }}</td><td>{{ kpi.unit }}</td><td>{{ change(kpi, observedFor(detection, kpi)) }}</td><td>{{ relative(kpi, observedFor(detection, kpi)) }}</td><td>{{ kpi.numerator ?? 'Unavailable' }}</td><td>{{ kpi.denominator ?? 'Unavailable' }}</td></tr>}
-          </tbody></table></div>
-          <p>Detection: <code>{{ detection.detectionId }}</code> · Scope: <code>{{ detection.scopeId }}</code></p>
-          <p>Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
+          @if (supportingKpis(detection).length) {
+            <dl class="supporting-kpis" aria-label="Supporting KPI evidence">
+              @for (kpi of supportingKpis(detection); track kpi.name) {
+                <div [attr.data-kpi]="kpi.name"><dt>{{ label(kpi.name) }}</dt><dd>{{ observedFor(detection, kpi) ?? 'Unavailable' }} {{ kpi.unit }} · Baseline: {{ kpi.baseline ?? 'Unavailable' }} · {{ change(kpi, observedFor(detection, kpi)) }}</dd></div>
+              }
+            </dl>
+          }
+          <p>Scope: <code>{{ detection.scopeId }}</code></p>
           @for (evidence of detection.evidence; track $index) {
-            <p>Evidence code: {{ evidence.code }} · Node: {{ evidence.nodeId ?? 'Unavailable' }}</p>
-            <ul>@for (id of evidence.sourceEventIds; track id) { <li><code>{{ id }}</code></li> } @empty { <li>No source event IDs supplied.</li> }</ul>
+            <p class="recorded-signal">{{ evidence.summary }}@if (evidence.nodeId) { <span> · Node: {{ evidence.nodeId }}</span> }</p>
           }
           @if (cause(detection) !== detection.probableCause) { <p>Recorded hypothesis (not confirmed): {{ detection.probableCause || 'Unavailable' }}</p> }
         </details>

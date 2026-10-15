@@ -133,7 +133,7 @@ describe('Paged incident evidence', () => {
     api.getIncident.mockResolvedValue({ ...incident, latestDetection: { ...latest, phase: 'UNKNOWN' } });
     const fixture = await open();
     expect(fixture.componentInstance.recoveryDetectedAt()).toBeNull();
-    expect(fixture.nativeElement.querySelector('[aria-label="Current incident times"]').textContent).toContain('Recovery detected (UTC)Unavailable');
+    expect(fixture.nativeElement.querySelector('[aria-label="Current incident times"]')).toBeNull();
   });
 
   it('refreshes an equal-version comment without hiding the selected evidence page', async () => {

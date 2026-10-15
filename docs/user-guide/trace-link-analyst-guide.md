@@ -86,7 +86,7 @@ Queue growth requires start and end snapshots; the first archive interval has no
 
 ## Service overview charts and priority anomalies
 
-The overview combines VoLTE setup traffic bars (successful and failed attempts per source window) with the orange setup-success line and dashed recorded baseline. Counts are not Erlang measurements. The primary VoLTE KPIs are setup success, Attempts, SIP 503 rate and IMS CPU; other episode measurements remain in Troubleshooting with their original values and primitives. SMS keeps delivery, completed volume, queue and delay populations distinct.
+The overview combines VoLTE setup traffic bars (successful and failed attempts per source window) with the orange setup-success line and dashed recorded baseline. Counts are not Erlang measurements. The primary VoLTE KPIs are setup success, Attempts, SIP 503 rate and IMS CPU; supporting episode measurements remain in Troubleshooting with their recorded values and baseline comparisons. SMS keeps delivery, completed volume, queue and delay populations distinct.
 
 For a long period, scroll the chart horizontally, use Zoom in/out and Earlier/Later, or choose Focus recorded data. Full selected period restores the original drawing. These controls inspect the loaded history without changing the selected period or the exact source table; missing intervals remain missing. The separate persisted-history query and export controls retain their existing behavior.
 
@@ -99,3 +99,5 @@ Roaming currently uses explicitly labelled artificial data. The overview shows t
 Show on dashboard marks the recorded incident with a red vertical line and shaded interval on the full selected chart period. It does not automatically narrow the chart to the incident window. If the incident is outside that period, the view moves to include it at the same time scale. Zoom in centres on the marked interval; Full selected period restores context. Dismiss highlight removes the marker.
 
 The top overview cards prioritize VoLTE setup-attempt volume, setup success, backhaul peak utilization, roaming location-update success, roaming subscribers and unresolved anomalies. VoLTE values describe the latest selected-scope window, not Erlang traffic or established-call drops. Roaming cards share the labelled sample data used by the roaming panels. Backhaul utilization remains unavailable without directional measurements; nominal capacity is not substituted.
+
+Troubleshooting shows the affected scope, readable recorded signals, available node names and supporting measurements. It omits empty table headings, long source identifiers and version metadata. Original incident evidence remains unchanged on the server.
