@@ -25,8 +25,9 @@ The three feature components were already committed in `fb976ec`, `9676588` and
 Tests were committed in `75da0d7`; mobile wrapping and browser checks in `bfc682a`.
 No dependency or API schema changed.
 
-The [supplied guide](../../../Guides/evidence-timeline-and-cause-panel.md)
-is retained as reference. Its proposed implementation was checked against the
+The originally supplied `Guides/evidence-timeline-and-cause-panel.md` is an
+external reference and is not included in this repository. Its proposed
+implementation was checked against the
 existing code rather than copied over local work. No applicable `AGENTS.md` was
 found in the checkout or its parent directories during this review.
 
