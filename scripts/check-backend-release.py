@@ -7,7 +7,8 @@ from pathlib import Path
 
 
 IDENTITY_FIELDS = ('codeRevision', 'imageDigest', 'apiSha256', 'datasetManifestSha256',
-                   'identityConfigurationHash', 'policyVersion', 'topologyVersion', 'modelVersion')
+                   'identityConfigurationHash', 'policyVersion', 'topologyVersion', 'modelVersion',
+                   'pushEnabled', 'newDomainScenariosEnabled')
 OWNERS = ('denis', 'ion', 'sergiu', 'david', 'stanislav')
 
 
@@ -57,6 +58,8 @@ def validate(document, repository):
         require(isinstance(backend.get(field), str) and bool(backend[field].strip()), 'Missing ' + field)
     require(backend.get('datasetId') == 'trace-link-md-30d-v1', 'Dataset identity differs')
     require(isinstance(backend.get('pushEnabled'), bool), 'Record effective push flag')
+    require(isinstance(backend.get('newDomainScenariosEnabled'), bool),
+            'Record effective new-domain scenario flag')
     checksums = backend.get('migrationChecksums')
     checksums_valid = require(isinstance(checksums, dict) and bool(checksums), 'Migration checksums are missing')
     if revision_valid:

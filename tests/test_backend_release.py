@@ -21,9 +21,11 @@ class BackendReleaseTests(unittest.TestCase):
         cls.temporary = tempfile.TemporaryDirectory()
         cls.repository = Path(cls.temporary.name)
         cls.migration = 'services/incident-service/src/main/resources/db/migration/V001__fixture.sql'
+        cls.compatibility = 'services/incident-service/src/main/resources/db/compatibility/foundation/V009__fixture.sql'
         inputs = {
             'contracts/openapi/incident-api.yaml': 'openapi: 3.0.3\n',
             cls.migration: 'CREATE TABLE fixture (id integer);\n',
+            cls.compatibility: 'CREATE TABLE historical_fixture (id integer);\n',
             'docs/evidence/gate-fixture.md': 'Synthetic validator test only; not release acceptance.\n',
             'dataset.json': '{"fixture":true}\n'
         }
@@ -45,8 +47,8 @@ class BackendReleaseTests(unittest.TestCase):
             'datasetManifestSha256': sha('dataset.json'),
             'identityConfigurationHash': 'b' * 64,
             'policyVersion': 'fixture-policy', 'topologyVersion': 'fixture-topology', 'modelVersion': 'fixture-model',
-            'datasetId': 'trace-link-md-30d-v1', 'pushEnabled': False,
-            'migrationChecksums': {cls.migration: sha(cls.migration)},
+            'datasetId': 'trace-link-md-30d-v1', 'pushEnabled': False, 'newDomainScenariosEnabled': False,
+            'migrationChecksums': {name: sha(name) for name in (cls.migration, cls.compatibility)},
             'capacityEvidence': artifact, 'grantsEvidence': artifact, 'knownLimitations': []
         }
         identity = {name: cls.document[name] for name in CHECKER.IDENTITY_FIELDS}
@@ -102,6 +104,24 @@ class BackendReleaseTests(unittest.TestCase):
         document['pushEnabled'] = True
         self.assertIn('Evidence entry must include path and sha256', CHECKER.validate(document, self.repository))
 
+    def test_activation_changes_invalidate_rehearsals_and_signoffs(self):
+        for field in ('pushEnabled', 'newDomainScenariosEnabled'):
+            with self.subTest(field=field):
+                document = copy.deepcopy(self.document)
+                document[field] = True
+                document['browserPushEvidence'] = document['capacityEvidence']
+                failures = CHECKER.validate(document, self.repository)
+                self.assertIn('Rehearsals must pass on one identity', failures)
+                self.assertEqual(5, sum('Missing sign-off' in message for message in failures))
+
+    def test_scenario_activation_must_be_recorded_as_a_boolean(self):
+        for value in (None, 'false', 0):
+            with self.subTest(value=value):
+                document = copy.deepcopy(self.document)
+                document['newDomainScenariosEnabled'] = value
+                self.assertIn('Record effective new-domain scenario flag',
+                              CHECKER.validate(document, self.repository))
+
     def test_superseded_identity_cannot_be_accepted_with_otherwise_consistent_evidence(self):
         document = copy.deepcopy(self.document)
         document['status'] = 'superseded-unaccepted'
@@ -114,7 +134,9 @@ class BackendReleaseTests(unittest.TestCase):
                    '--output', str(output)]
         subprocess.run(command, cwd=self.repository, check=True, capture_output=True)
         original = output.read_bytes()
-        self.assertTrue(CHECKER.validate(json.loads(original), self.repository))
+        captured = json.loads(original)
+        self.assertEqual(self.document['migrationChecksums'], captured['migrationChecksums'])
+        self.assertTrue(CHECKER.validate(captured, self.repository))
         repeated = subprocess.run(command, cwd=self.repository, capture_output=True, text=True)
         self.assertNotEqual(0, repeated.returncode)
         self.assertIn('Refusing to replace', repeated.stderr)

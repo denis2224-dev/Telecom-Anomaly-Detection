@@ -32,6 +32,7 @@ def capture(revision, image_digest, dataset_manifest, image_distribution):
         'datasetManifestSha256': sha(Path(dataset_manifest).read_bytes()),
         'migrationChecksums': {path: sha(committed(path)) for path in migrations if path.endswith('.sql')},
         'pushEnabled': False,
+        'newDomainScenariosEnabled': False,
         'capacityEvidence': None,
         'grantsEvidence': None,
         'policyVersion': None,
