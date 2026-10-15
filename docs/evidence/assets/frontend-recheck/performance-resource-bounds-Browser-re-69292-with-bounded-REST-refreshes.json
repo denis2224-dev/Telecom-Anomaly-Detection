@@ -1,0 +1,159 @@
+{
+  "mode": "Controlled REST responses and SSE; not LIVE acceptance",
+  "screen": "service",
+  "scopeCount": 100,
+  "incidentTotal": 1000,
+  "responseDelayMs": 400,
+  "records": [
+    {
+      "requestedHintHz": 1,
+      "durationMs": 6000,
+      "events": 6,
+      "snapshotReadsDuringLoad": 2,
+      "incidentPageReads": 3,
+      "frameGapP95Ms": 17.40000000037253,
+      "maxFrameGapMs": 18,
+      "longTasksMs": [],
+      "inputPaintMs": 54.56608299999789,
+      "inputAction": "Keyboard move in range input",
+      "renderedDotCount": 60,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents",
+          "durationMs": 2.200000001117587,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 405.19999999925494,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 2.399999998509884,
+          "encodedBodyBytes": 1057
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.699999999254942,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 407,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.200000001117587,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 409.90000000037253,
+          "encodedBodyBytes": 76381
+        }
+      ],
+      "before": {
+        "Nodes": 6497,
+        "TaskDuration": 0.139945,
+        "JSHeapUsedSize": 6193352
+      },
+      "after": {
+        "Nodes": 6499,
+        "TaskDuration": 0.353917,
+        "JSHeapUsedSize": 6666808
+      }
+    },
+    {
+      "requestedHintHz": 100,
+      "durationMs": 6000,
+      "events": 600,
+      "snapshotReadsDuringLoad": 5,
+      "incidentPageReads": 6,
+      "frameGapP95Ms": 17,
+      "maxFrameGapMs": 26.40000000037253,
+      "longTasksMs": [],
+      "inputPaintMs": 53.169292000002315,
+      "inputAction": "Keyboard move in range input",
+      "renderedDotCount": 60,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents",
+          "durationMs": 9.800000000745058,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 412.80000000074506,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 3,
+          "encodedBodyBytes": 1057
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.699999999254942,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 407.90000000037253,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.5,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 407.5,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 410.19999999925494,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.299999998882413,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 410.90000000037253,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7,
+          "encodedBodyBytes": 52783
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 411.80000000074506,
+          "encodedBodyBytes": 76381
+        }
+      ],
+      "before": {
+        "Nodes": 6499,
+        "TaskDuration": 0.363175,
+        "JSHeapUsedSize": 6690980
+      },
+      "after": {
+        "Nodes": 6499,
+        "TaskDuration": 0.821106,
+        "JSHeapUsedSize": 6934128
+      }
+    }
+  ]
+}

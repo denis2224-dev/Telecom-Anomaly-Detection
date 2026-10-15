@@ -101,7 +101,7 @@ export async function api(actor: Pick<Actor, 'page'>, path: string, options: {
     const text = await response.text();
     return { status: response.status, date: response.headers.get('date'), text };
   }, { path, options });
-  return { status: () => result.status, headers: () => ({ date: result.date ?? '' }), json: async () => JSON.parse(result.text) };
+  return { status: () => result.status, headers: () => ({ date: result.date ?? '' }), json: async () => JSON.parse(result.text), text: async () => result.text };
 }
 export async function read<T>(actor: Pick<Actor, 'page'>, path: string): Promise<T> {
   const response = await api(actor, path);

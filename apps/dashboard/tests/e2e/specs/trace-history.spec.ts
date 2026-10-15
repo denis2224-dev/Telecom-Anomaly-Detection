@@ -189,3 +189,31 @@ for(const domain of ['transport','roaming','mobile-data'])test(`native ${domain}
   await expect(native).toContainText('Choose a dataset and domain scope');
   await expect(native.getByRole('region',{name:'Persisted metric chart'})).toHaveCount(0);
 });
+
+test('inventory 503 retains a bounded explicit retry and restores the selected context',async({page})=>{
+ await setup(page);let unavailable=true,reads=0;
+ await page.route('**/api/v2/inventory/**',route=>{
+  reads++;if(unavailable)return route.fulfill({status:503,json:{code:'UNAVAILABLE'}});
+  const path=new URL(route.request().url()).pathname;
+  return route.fulfill({json:{catalogueVersion:'controlled-native-v1',...(path.endsWith('/cities')?{cities}:path.endsWith('/links')?{links}:{partners})}});
+ });
+ await page.goto(queryUrl);const retry=page.getByRole('button',{name:'Retry inventory',exact:true});
+ await expect(retry).toBeVisible();await expect(page.getByRole('region',{name:'Approved topology'})).toHaveCount(0);
+ await expect(page.getByRole('alert').filter({hasText:'temporarily unavailable'})).toBeVisible();
+ const before=reads;await page.waitForTimeout(400);expect(reads).toBe(before);
+ unavailable=false;await retry.click();await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');
+ await expect(page.getByRole('combobox',{name:'Resolution',exact:true})).toHaveValue('5m');
+ await expect(page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();
+});
+
+for(const [status,message] of [[403,'permission'],[404,'not found or disabled'],[409,'changed'],[429,'Too many requests'],[503,'temporarily unavailable']] as const)test(`native measurement ${status} remains explicit without fabricated values or retry loops`,async({page})=>{
+ await setup(page);let reads=0;
+ await page.route('**/api/v2/trace-domain-measurements?**',route=>{reads++;return route.fulfill({status,json:{code:status===404?'FEATURE_DISABLED':'UNAVAILABLE'}});});
+ await page.goto(queryUrl+'&domain=transport&linkDirectionId=chi-hin%3Aa-to-b');
+ await page.getByText('Original five-minute native measurements',{exact:true}).click();
+ const panel=page.getByRole('region',{name:'Native domain measurements'});
+ await expect(panel.getByRole('alert')).toContainText(message);
+ await expect(panel.getByRole('region',{name:'Persisted metric chart'})).toHaveCount(0);
+ const before=reads;await page.waitForTimeout(400);expect(reads).toBe(before);
+ await panel.getByRole('button',{name:'Retry domain measurements',exact:true}).click();await expect.poll(()=>reads).toBe(before+1);
+});

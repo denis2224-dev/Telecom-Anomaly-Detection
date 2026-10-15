@@ -1,0 +1,103 @@
+{
+  "mode": "Read-only SQL plus native Safari authenticated API/UI comparison; not a deployed candidate acceptance run",
+  "databaseRow": {
+    "scopeId": "VOLTE-MD-ORH",
+    "from": "2026-10-13T20:37:00+00:00",
+    "to": "2026-10-13T20:38:00+00:00",
+    "kpis": [
+      {
+        "name": "cssrPct",
+        "unit": "PERCENT",
+        "baseline": 99.3,
+        "observed": 99.31350114416476,
+        "numerator": 868,
+        "denominator": 874
+      },
+      {
+        "name": "eligibleAttempts",
+        "unit": "COUNT",
+        "baseline": null,
+        "observed": 874,
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "sip503Ratio",
+        "unit": "RATIO",
+        "baseline": null,
+        "observed": 0.002288329519450801,
+        "numerator": 2,
+        "denominator": 874
+      },
+      {
+        "name": "sip503Count",
+        "unit": "COUNT",
+        "baseline": null,
+        "observed": 2,
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "rrcSrPct",
+        "unit": "PERCENT",
+        "baseline": 99.5,
+        "observed": 99.5,
+        "numerator": 1194,
+        "denominator": 1200
+      },
+      {
+        "name": "bearerSrPct",
+        "unit": "PERCENT",
+        "baseline": 99,
+        "observed": 99.54545454545455,
+        "numerator": 1095,
+        "denominator": 1100
+      },
+      {
+        "name": "packetLossRatio",
+        "unit": "RATIO",
+        "baseline": null,
+        "observed": 0.0009760086234716701,
+        "numerator": null,
+        "denominator": null
+      },
+      {
+        "name": "imsCpuPct",
+        "unit": "PERCENT",
+        "baseline": null,
+        "observed": 31,
+        "numerator": null,
+        "denominator": null
+      }
+    ]
+  },
+  "apiObserved": {
+    "path": "/api/services/VOLTE-MD-ORH/kpis?from=2026-10-13T20%3A37%3A00Z&to=2026-10-13T20%3A38%3A00Z&page=0&size=1",
+    "observed": 99.31350114416476,
+    "numerator": 868,
+    "denominator": 874,
+    "httpStatus": "Not inspected; authenticated JSON rendered in Safari"
+  },
+  "uiObserved": {
+    "selectedScope": "VOLTE-MD-ORH",
+    "from": "2026-10-13T20:23:00Z",
+    "to": "2026-10-13T20:38:00Z",
+    "attempts": "874",
+    "successful": "868",
+    "failed": "6",
+    "successRate": "99.31%",
+    "imsCpu": "31%",
+    "latestLoadedWindow": "13 Oct 20:38 UTC"
+  },
+  "matches": true,
+  "referenceArchiveRegistrations": 0,
+  "frontendIndexSha256": "a5daf732291c8c41ce7e6508a31899980ac91de62a08e1b9e75a15d1b3803943",
+  "backendImage": "sha256:e04b412646cea8e19c858ab3b9fb9ed51889f85638ab601b28582eb2b92d9eab",
+  "runtimeSourceLabel": "unrecorded",
+  "databaseWritesPerformed": false,
+  "limitations": [
+    "New frontend candidate was not deployed",
+    "Archive history and CSV require the separately registered full archive",
+    "Manual comparison is not an automated session/security acceptance"
+  ]
+}

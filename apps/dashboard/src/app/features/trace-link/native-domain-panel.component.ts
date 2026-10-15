@@ -2,6 +2,7 @@ import { Component, computed, effect, inject, input, signal } from '@angular/cor
 import { TelecomClient, type TraceCity, type TraceLink, type TracePartner, type TraceNativeSeries } from '../../core/api/telecom-client';
 import { TraceQueryStore, type TraceQueryContext } from '../../core/state/trace-query.store';
 import { SessionStore } from '../login-and-session/session.store';
+import { ApiFailure } from '../../core/api/api-errors';
 import { TraceMetricChartComponent, type MetricChartSeries } from './trace-metric-chart.component';
 
 export const nativeMetrics:Record<string,readonly {id:string;label:string}[]> = {
@@ -97,7 +98,9 @@ export class NativeDomainPanelComponent {
         ||Object.entries(scope).some(([key,value])=>series.scope[key as keyof typeof series.scope]!==value))throw new Error('Native measurements do not match the selected complete scope.');
       if(series.points.some(point=>!Number.isFinite(Date.parse(point.from))||!Number.isFinite(Date.parse(point.to))||(point.value!==null&&!Number.isFinite(point.value))||point.quality==='MISSING'&&point.value!==null))throw new Error('Native measurements contain invalid observations.');
       this.result.set(series);
-    })().catch(error=>{if(!request.signal.aborted)this.error.set(error instanceof Error?error.message:'Native measurements unavailable.');})
+    })().catch(error=>{if(!request.signal.aborted)this.error.set(error instanceof ApiFailure && error.status===404
+      ? 'Native measurements are unavailable: resource not found or disabled. No measurement values are supplied.'
+      : error instanceof Error?error.message:'Native measurements unavailable.');})
       .finally(()=>{if(!request.signal.aborted)this.busy.set(false);});
   });}
   openExpanded(dialog:HTMLDialogElement,opener:HTMLButtonElement):void{dialog.showModal();dialog.addEventListener('close',()=>opener.focus(),{once:true});}

@@ -6,7 +6,7 @@ Open the application login page and continue to organization sign-in. The applic
 
 Open **Trace Link history** in Workspace for the versioned reference inventory and persisted metric queries. The older service overview and service investigation retain the existing VoLTE/SMS catalogue. Historical or legacy labels do not establish membership in the active Trace Link inventory.
 
-An unavailable inventory is an explicit error with a retry action. It does not display guessed cities, connections or history. Ask the backend owner to register the approved dataset and activate its catalogue before attempting a populated investigation.
+An unavailable inventory is an explicit error with a retry action. It does not display guessed cities, connections or history. Ask the backend owner to register the full approved dataset before attempting a populated investigation. Historical queries use its explicit recorded catalogue version; that version can remain inactive. Do not activate a live catalogue merely to read recorded history.
 
 ## Select the shared context
 
@@ -19,6 +19,8 @@ Zoom changes the visible interval, preserving the selected period. Use the horiz
 ## Cities and directional links
 
 Once available, the active Trace Link catalogue contains Chișinău (CHI), Bălți (BAL), Cahul (CAH), Ungheni (UNG), Orhei (ORH), Soroca (SOR), Comrat (COM), Edineț (EDI), Hîncești (HIN) and Căușeni (CAU), with twelve approved links. API identifiers can use the reference namespace's lowercase city IDs. RIB/TIR historical labels remain legacy or unmapped context rather than new inventory nodes.
+
+The approved links in `contracts/topology/trace-link-links-v1.json` are `chi-orh`, `orh-sor`, `sor-bal`, `bal-edi`, `bal-ung`, `ung-chi`, `chi-hin`, `hin-com`, `com-cah`, `chi-cau`, `cau-com`, `orh-bal`. Each link declares its directions separately; a declared reverse direction does not imply that reverse measurements exist.
 
 Choose a registered dataset marked validated archive to use its exact recorded interval. An incomplete archive stays unavailable; a small fixture is not a substitute.
 
@@ -54,9 +56,9 @@ Notifications shows a bounded newest-first private history, total and unread cou
 
 Open the bell with keyboard or pointer. The modal has loading, empty, error and retry states. Escape/Close returns focus to the bell. Mark read updates visible state only after the server succeeds; on failure the item stays unread and its action can be retried.
 
-Follow Investigate incident to inspect its measured window, source evidence and recommended checks. A possible cause is a qualified hypothesis with confidence, or Cause undetermined. Claim/assign before starting investigation when the workflow requires it. Add a comment and confirm that the server saved it. A conflict requires reloading the current version rather than silently replaying the write.
+Follow Investigate incident to inspect its measured window, source evidence and recommended checks. A **Possible cause** is a qualified hypothesis with confidence, or **Cause undetermined**. The UI does not promote it to a **Confirmed cause**; scenario intent, coincidence and technical recovery do not supply that confirmation. Claim/assign before starting investigation when the workflow requires it. Add a comment and confirm that the server saved it. A conflict requires reloading the current version rather than silently replaying the write.
 
-Technical recovery and analyst resolution are separate. Recovered service evidence can coexist with open investigation work. Resolve only when the workflow permits it and with a resolution note. Stopped telemetry remains stopped/unknown rather than recovered.
+**Technical recovery** and **Analyst resolution** are separate. Recovered service evidence can coexist with open investigation work. Resolve only when the workflow permits it and with a resolution note. Stopped telemetry remains stopped/unknown rather than recovered.
 
 For persisted native episodes, use Incidents in this context. The list applies the same visible interval, dataset and domain/scope filters, with bounded pages. Original committed evidence and analyst audit have independent pages. Incident links preserve query context. Assign to me, Start investigation, comments and resolution use the current server version; a conflict requires refresh.
 
@@ -76,10 +78,16 @@ Retry an uncertain command with its original idempotency key and unchanged body.
 
 On a source gap or stale response, retain the timestamps and quality state; do not infer a cause. After API/network interruption, retry the same context. Session expiry clears private state, closes the stream and returns to sign-in. A new user cannot receive the previous user's late response.
 
-400 means invalid context, 401 ended authentication, 403 missing permission/session protection, 404 missing or disabled resource, 409 changed/conflicting state, 429 throttling, and 503 temporary unavailability. The current release explicitly reports an inactive Trace Link catalogue or disabled native API. These states need backend registration/activation, not a fabricated frontend fallback.
+400 means invalid context, 401 ended authentication, 403 missing permission/session protection, 404 missing or disabled resource, 409 changed/conflicting state, 429 throttling, and 503 temporary unavailability. Inventory, dataset or native-API availability errors require the backend owner to check registration, the selected recorded catalogue version and read-model flags. Recorded historical catalogues can remain inactive. These errors never justify a fabricated frontend fallback.
 
 ## Reference aggregation details
 
 Rates use sums of independent numerators and denominators. Means use elapsed sums and their matching counts, or declared valid seconds for time-weighted rates. Percentages and p95 values are never averaged. Histograms are pooled before one percentile interpolation; SMS delay values and exported bin edges use milliseconds under the explicit conversion policy. Transport carried volume is a qualified estimate from directional rate and elapsed seconds, not a measured byte counter.
 
 Queue growth requires start and end snapshots; the first archive interval has no invented opening queue. A retained snapshot exposes its age and becomes stale after its freshness limit. Synthetic CSV files lack measured source quality and coverage: structural slot coverage is displayed separately, and calculated values remain qualified evidence. Nominal link declarations never replace measured effective capacity in utilization arithmetic.
+
+## Verify stored data before diagnosing an empty chart
+
+The service overview uses existing VoLTE/SMS history, while Trace Link history uses its separately registered archive. Select a scope and an interval containing stored records. A later SMS window does not prove that VoLTE has records at the same time. A stale summary can retain a value while the selected chart interval has no observations. Keep the unavailable chart explicit; do not fill it from the summary or switch the interval silently.
+
+If a native-measurement resource is missing or disabled, its panel identifies the unavailable measurement and offers a manual retry. Inventory failure has its own retry. Neither should retry indefinitely or invent values. An unavailable push configuration preserves private in-app history and never requests permission automatically.
