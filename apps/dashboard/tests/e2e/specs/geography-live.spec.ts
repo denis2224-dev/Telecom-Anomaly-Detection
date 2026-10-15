@@ -298,7 +298,7 @@ for (const width of [1366, 768, 390]) {
     await queue.locator(`a[href="/incidents/${orhei.id}"]`).click();
     await expect(page).toHaveURL(new RegExp(`/incidents/${orhei.id}$`));
     await expect(page.locator('.incident-summary-bar')).toContainText('Awaiting analyst resolution');
-    await expect(page.locator('[aria-label="Current incident times"]')).toContainText('Updated (UTC)');
+    await expect(page.locator('[aria-label="Current incident times"]')).toHaveCount(0);
     await page.locator('.cause-details > summary').click();
     await expect(page.locator('app-cause-evidence')).toContainText('Cause undetermined');
     await expect(page.locator('app-cause-evidence [data-fact=paths] dd')).toHaveText('Unavailable');

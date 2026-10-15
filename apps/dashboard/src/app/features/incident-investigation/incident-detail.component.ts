@@ -16,7 +16,7 @@ import { IncidentActionsComponent } from './incident-actions.component';
 import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, probableCause } from '../../shared/metric-presentation';
 
 @Component({
-  styles: [`.incident-at-a-glance, .investigation-times { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; } .incident-at-a-glance > span { width:100%; }`],
+  styles: [`.incident-at-a-glance { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; } .incident-at-a-glance > span { width:100%; }`],
   selector: 'app-incident-detail', imports: [IncidentDashboardActionsComponent, SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
@@ -74,15 +74,6 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
         </div>
         <button type="button" class="primary" (click)="detailsDrawer.showModal()"><app-icon name="user" />Details &amp; workflow</button>
       </header>
-      <section class="detail-panel" aria-label="Current incident times">
-        <dl class="investigation-times">
-          <div><dt>First observed (UTC)</dt><dd>{{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Detected (UTC)</dt><dd>{{ item.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Last observed (UTC)</dt><dd>{{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Updated (UTC)</dt><dd>{{ item.updatedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Recovery detected (UTC)</dt><dd>{{ recoveryDetectedAt() ? (recoveryDetectedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC') : 'Unavailable' }}</dd></div>
-        </dl>
-      </section>
       <div class="evidence-column">
       <p class="muted">
         Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
