@@ -9,6 +9,7 @@ export interface StackContext {
   projectName: string; composeFiles: string[]; envFile: string; baseURL: string;
   sourceSha: string; outputDir: string; scenarioResultFile: string;
   ownerLabelName: string; ownerLabelValue: string;
+  verificationMode?: 'legacy-connected' | 'populated-history';
   analyst: { username: string; password: string };
   supervisor: { username: string; password: string };
 }
@@ -32,7 +33,7 @@ export default class RequiredCases implements Reporter {
     writeFileSync(join(stack.outputDir, 'verification.json'), JSON.stringify({
       status: passed ? 'PASSED' : 'FAILED', sourceSha: stack.sourceSha,
       startedAtUTC: this.startedAtUTC, finishedAtUTC: new Date().toISOString(), outcomes: this.outcomes,
-      coverage: 'Real OIDC/security, four fresh city scenarios and source trace, proxy reconnect, open-page idle and absolute expiry',
+      coverage: stack.verificationMode === 'populated-history' ? 'Full pinned persisted history, real OIDC/security, desktop/phone context, exact CSV, reconnect and session cleanup; not complete rehearsals' : 'Real OIDC/security, four fresh city scenarios and source trace, proxy reconnect, open-page idle and absolute expiry',
     }, null, 2) + '\n');
     return passed ? undefined : { status: 'failed' as const };
   }
