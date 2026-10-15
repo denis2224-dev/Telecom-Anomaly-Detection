@@ -1,0 +1,16 @@
+BEGIN
+ pending | oldest_pending_source 
+---------+-----------------------
+       0 | 
+(1 row)
+
+ pending | oldest_pending_evaluation 
+---------+---------------------------
+       0 | 
+(1 row)
+
+ lease_until | completed_at 
+-------------+--------------
+(0 rows)
+
+ROLLBACK

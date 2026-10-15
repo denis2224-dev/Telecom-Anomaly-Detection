@@ -1,0 +1,15 @@
+{
+  "python": "3.13.9 (main, Nov 18 2025, 05:57:28) [GCC 12.2.0]",
+  "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "dependencies": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.5.3",
+    "threadpoolctl": "3.7.0",
+    "fastapi": "0.141.1",
+    "uvicorn": "0.54.0",
+    "httpx2": "2.13.1",
+    "jsonschema": "4.26.0",
+    "tzdata": "2026.2"
+  }
+}

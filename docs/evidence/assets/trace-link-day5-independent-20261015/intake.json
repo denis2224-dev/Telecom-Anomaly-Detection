@@ -1,0 +1,34 @@
+{
+  "recordedAtUtc": "2026-10-15T15:09:24.710423+00:00",
+  "reviewedRevision": "5d5a9d596beed8c47e72d5fc3e2b03c8fc8809b7",
+  "reviewerActor": "Codex (OpenAI), independent automated execution via itsjohnyoff",
+  "githubReview": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/111#pullrequestreview-5533312847",
+  "classification": "INDEPENDENT_AUTOMATED_TECHNICAL_REPRODUCTION",
+  "verifiedBundleFiles": 241,
+  "hashMismatches": [],
+  "comparisons": {
+    "results.json": true,
+    "predictions.json": true,
+    "thresholds.json": true,
+    "processor-export": true,
+    "candidate": true
+  },
+  "windowsVerification": "PASS",
+  "nativeLinuxInThisReceipt": "NOT_RUN",
+  "secondPersonReproduction": "PENDING",
+  "humanDay5Acceptance": "PENDING",
+  "sharedReleaseApproval": false,
+  "findings": [
+    "P3: document fresh LF checkout command",
+    "P3: document disposable SQL connection and worker stop/start"
+  ],
+  "files": {
+    "archive-comparison.json": "f2bef5a589545203034293f0c3557b596f81f3346a630c327d0b829c28d0caff",
+    "candidate-comparison.json": "19221f9bccfc55d00824e3fce42ec8543a5cebeb31b7211889eeb1ac8eaab779",
+    "immutability.json": "fb5e5dfae73997661052498d523f71ac553074d272bbc7340307e25d834073a4",
+    "junit-summary.json": "fb9e0280e92d4cc32c9816377c37d4701890e657e277536d608290df1099c2d7",
+    "review-evidence.zip": "af495217613baae026bc23e7b8093adde27438f565837e2a8afd67d183c3447b",
+    "review-sergiu-pr111.md": "c7fa5d6212360d9bf6a18ca9420e3762ed8339d567f63d37810fdc5cd1397d05",
+    "sha256.json": "d77b9057fa65d5c2473efa99acb1f096cb625f2c878feb546f464f3a64d05a0c"
+  }
+}
