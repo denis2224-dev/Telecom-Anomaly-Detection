@@ -1,8 +1,8 @@
 {
   "releaseName": "trace-link-release-candidate",
   "version": "1.0.0",
-  "packagedAt": "2026-10-14T19:14:45.196213+00:00",
-  "sourceCommit": "8102c0c876233faf98a7bbf2c2c6323aef3c2d4b",
+  "packagedAt": "2026-10-15T09:41:28.424949+00:00",
+  "sourceCommit": "2f8fa68ca6db155b10fb2b898d66da65775732a2",
   "dataset": {
     "id": "trace-link-md-30d-v1",
     "resolution": "5m",
@@ -21,8 +21,8 @@
     "contracts": {
       "type": "directory",
       "relPath": "contracts",
-      "fileCount": 110,
-      "compositeSha256": "5b2a38942600803fc09e9a74b93f4a177f99f512bd840028db145d241a95d88f"
+      "fileCount": 120,
+      "compositeSha256": "534de1a87fe1500b32757efbb4a318edbec7294ca27b8500389fd68b4aba6a32"
     },
     "infra_postgres_init": {
       "type": "directory",
@@ -51,26 +51,26 @@
     "runbooks": {
       "type": "directory",
       "relPath": "docs/runbooks",
-      "fileCount": 22,
-      "compositeSha256": "b10e3ba69e941edcedece120cee8871c9c37e8878c8adc5636a73854bc23f468"
+      "fileCount": 23,
+      "compositeSha256": "04e25149d84d25075fbc7783ae802fa5b36a2658b6b208833b35b45a4c76c0ba"
     },
     "processor_migrations": {
       "type": "directory",
       "relPath": "services/processor/src/main/resources/db/migration",
-      "fileCount": 17,
-      "compositeSha256": "3d567c9377be344d3f9df19c8c544d520d7ebabd9f47ad60735dee78db06dfcc"
+      "fileCount": 18,
+      "compositeSha256": "fe17fc61730196984b38608a96a9c067e0df9f8d6781bbc5cd1b936eae832fc7"
     },
     "incident_migrations": {
       "type": "directory",
       "relPath": "services/incident-service/src/main/resources/db/migration",
-      "fileCount": 11,
-      "compositeSha256": "27f2f15196da2665b2513870b64f448b37264e775ecea6e487395a8dbd1bfa51"
+      "fileCount": 12,
+      "compositeSha256": "61196828403dd29cdd6360c8f350989c43b47c4463cad7ebc93a9f90bb27e2a9"
     },
     "compose_config": {
       "type": "file",
       "relPath": "compose.yaml",
-      "sha256": "8a5618533aaf60e62a9866763b5aa8908d9161bbcfcfd695fbc326617e0c8ec4",
-      "sizeBytes": 16675
+      "sha256": "73a50d3db844e9384af021b9e9d4530cad0aec3a7c5460ae020f05333b239d7c",
+      "sizeBytes": 16924
     },
     "env_example": {
       "type": "file",

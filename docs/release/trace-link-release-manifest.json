@@ -1,0 +1,125 @@
+{
+  "sourceCommit": "2f8fa68ca6db155b10fb2b898d66da65775732a2",
+  "builtAt": "2026-10-15T12:35:43+03:00",
+  "images": {
+    "postgres": "postgres:16.4-alpine",
+    "keycloak": "quay.io/keycloak/keycloak:26.7.4",
+    "nginx": "nginx:1.28.3-alpine",
+    "kafka": "apache/kafka:3.9.1",
+    "prometheus": "prom/prometheus:v2.54.1",
+    "grafana": "grafana/grafana:11.2.0"
+  },
+  "databaseMigrations": {
+    "processor": {
+      "count": 18,
+      "range": "V001..V018",
+      "latest": "V018__trace_link_ml_shadow.sql",
+      "files": {
+        "V001__observation_state.sql": "7605419ce49bbd6c168988e91e73fa7b26638d88626938f926a207d2728c7ae4",
+        "V002__feature_outbox.sql": "0aa840dc57b87903f89b5af040a390892546903f437302afb259e5a22e90ea2d",
+        "V003__voice_delivery.sql": "b804fe7d634ff37d4c0389d0d5017aa13f0c55cb0f9242c20ce3d3149aef0084",
+        "V004__allow_empty_expected_windows.sql": "89dc21491bc3578db0440f6159f24b689581c2d03abb408f1ab1a097d392fc85",
+        "V005__rejection_delivery.sql": "44bbda6728084fd9451cc46e520b9eb8249154192f17725a61cdeb18f1710fc5",
+        "V006__detection_leases.sql": "9c44d77c82ee5cb6b227c9db1a8fb805d297c3f16f0d8a6abbc3605f1b7a7913",
+        "V007__historical_bootstrap.sql": "cff09258d33be9fc21a82603d3c432718d13c41ddd55c205dd0d5340ac1caf7c",
+        "V008__sms_ml_shadow.sql": "dcb4180a0469ffecc3dcaf5fa01db9aff1bb1d294f1d9effbd1adb9184c1e62f",
+        "V009__sms_shadow_delivery_index.sql": "2932078c61ae8be1ef22a4cffff000403c4f46f664c4eb9661c66705e8def81e",
+        "V010__feature_worker_indexes.sql": "b63742fe1199fb50465764a7e306c335dd286f2b354660acc941440f5cdc18e8",
+        "V011__geographic_monitoring.sql": "2f7f55505d8a1f51182e9ab2385d3c477fa2948ce0bfd3e1dd78913285a20fc5",
+        "V012__processor_retention.sql": "91ad5d59f7d66a321b3aede86023e47123fd23fda815c477e79537e999fa8c73",
+        "V013__geographic_history_ownership.sql": "d04def89529b241696b9982a59b3a50a52b921edb9d591b937eb275ee11e9b35",
+        "V014__trace_link_inventory.sql": "6c338d99ea97ff14cbbc20beb5f8b77dea3ddb6574e3c9382ca51c71181ce57e",
+        "V015__trace_link_dataset_history.sql": "4d30580bcc0fefc71a4db5d9cbaaecb5e3cffbe451c4f9ade2fbb1711ebbfb48",
+        "V016__trace_link_domain_windows.sql": "bf9bb63333a69c199f96ba2a380b394be3a716d6521b19dd9143d7ebebc7e848",
+        "V017__trace_link_detection_runtime.sql": "7a407da3ec31d97021649fa0488086bb793315c719e88367d32dcc753b42ac9b",
+        "V018__trace_link_ml_shadow.sql": "20b5d36e70193055e4a568db0fbe59aca2086754d72a67e0c79bb9dae874aaed"
+      }
+    },
+    "incidentService": {
+      "count": 12,
+      "range": "V001..V012",
+      "latest": "V012__trace_link_episode_history.sql",
+      "files": {
+        "V001__service_incidents.sql": "b6a8a6109344a1109b8fab1743449c9162f165cc65054de1d4c8d71b48e46c12",
+        "V002__service_kpi_indexes.sql": "0472699bbe31fdaf6f3e9093de4de7b4cbf193e93e6295992364c7035145039e",
+        "V003__sms_ml_shadow.sql": "109555ccdddeb247c47db5451cdbc4c07802aba766112ede11c9e48150b1c9d9",
+        "V004__geography_coverage.sql": "891caaae8cbb1615d7c59fa3136c5773f197fe0b3510eec114ece1d2d001c5d6",
+        "V005__incident_notifications.sql": "9662e62fff98b8b58fed290728b8f1008484c1d580f3285efc4392c959b18bfc",
+        "V006__trace_link_read_models.sql": "bbc4dda8d9614970c863d5992d0292617c73f504a2238e3f8dcd9b2f1ba272f8",
+        "V007__trace_link_query_indexes.sql": "d49d2f8af8c50c6a7a7d0aa7693015d8a150083de02fc4a83f49bf1882726942",
+        "V008__trace_link_primitive_projections.sql": "6baa03f39f246c2354aa8ee88db35142b130a6f1faac3ba855c121052944d416",
+        "V009__trace_link_scenario_commands.sql": "0c20b322c1d0bef4f1255bd43ce6462506d89facf2fd1426ae33e9792dd9559f",
+        "V010__trace_link_domain_measurements.sql": "3ca8930208490d8ab419451fca62652f08cbecfc24ffd759f0adca550413e56c",
+        "V011__trace_link_detection_runtime.sql": "d2ae2128c02a1887c01805390c189ae9c173af3d0ff064a32bb2bd00f195f984",
+        "V012__trace_link_episode_history.sql": "9b63af23313828cb33f32d8e1b65aab2cf1d4780b3d6607fa81714834d20c757"
+      }
+    }
+  },
+  "contracts": {
+    "compositeSha256": "3c42d8785a2dc6e0707f805e29341284d2513795e83c03eca1bcfbf6fcd96610",
+    "openapi": {
+      "file": "contracts/openapi/incident-api.yaml",
+      "sha256": "5b488321013bea61192717bef665bedd29cbd281937a75f5398d643a6ae0bb38"
+    },
+    "domainRules": {
+      "file": "contracts/policies/trace-link-domain-rules-v1.json",
+      "sha256": "59c6356c8ac4425c18ee523109d3d9982dd07818521460806169a20897db8d22"
+    },
+    "baselinePolicy": {
+      "file": "contracts/baselines/trace-link-baseline-policy-v1.json",
+      "sha256": "25ab91191c497fc62c5c6cbd3664509a45940bae86cd3db838322e3ee9d6fb35"
+    },
+    "topology": {
+      "file": "contracts/topology/trace-link-links-v1.json",
+      "sha256": "b418208acd0f2af8cca45df82e2971f59e419cdd910ef4421c2ce34e2fcb1031"
+    },
+    "geography": {
+      "file": "contracts/geography/trace-link-geography-v2.json",
+      "sha256": "cae4e4911aaf6deb66a8a1e0f8bc6bfc9fd9f7cb2f5d3301d3afe9bf8d1645fc"
+    },
+    "modelPin": {
+      "file": "contracts/ml-shadow/trace-link-model-pin-v1.json",
+      "sha256": "d8fefb53e0aed0088f5b2be8b4b67f96a6ac65b5112bbc9198dfb0f9164fcd48"
+    }
+  },
+  "dataset": {
+    "id": "trace-link-md-30d-v1",
+    "manifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b"
+  },
+  "topologyVersion": "trace-link-md-topology-v1",
+  "policyVersions": [
+    "trace-link-domain-rules-v1",
+    "trace-link-baseline-policy-v1",
+    "service-rules-v2"
+  ],
+  "baselineVersions": [
+    "trace-link-seasonal-baseline-v1",
+    "trace-link-live-static-baseline-v1",
+    "demo-baseline-v2"
+  ],
+  "modelArtifacts": {
+    "modelVersion": "trace-link-shadow-v1",
+    "manifestSha256": "b7d15dc27bf383edd4f522ec2f034504a838c946968ab9e382b08227b6a08268",
+    "domains": {
+      "TRANSPORT": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077",
+      "ROAMING": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4",
+      "MOBILE_DATA": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4"
+    }
+  },
+  "grafana": {
+    "version": "11.2.0",
+    "dashboardUid": "trace-link-overview",
+    "sha256": "f75988a7dc17ebc08dabafd42432aeaf9e2aaa11a43c849c04fb62a06a45acd8"
+  },
+  "identityConfigurationSha256": "8c779ba22ca6e4fdf1e9ef8eaeac3839f96a80a0fd7cdc2e964fa3472f7c110f",
+  "frontendBuildSha256": "26a6bb4c1d56a87e8217a06b3afe3148da5aab0a28f7992594485d2e1eb3975b",
+  "scenarioSeedsSha256": "3d387504a364eb91f5cc3f03b19e5f0e0d69d2fe45f71edead76c7d07e082a51",
+  "hardwareProfile": "4 vCPU, 16 GB RAM, 50 GB SSD (Linux/macOS container host)",
+  "knownLimitations": [
+    "Synthetic historical and live telemetry datasets generated under fixed mathematical seeds.",
+    "Fixed fixture endpoints for local development and offline demonstration mode.",
+    "Historical archive importer is single-direction and append-only/immutable.",
+    "Bounded topology of 10 Moldovan cities and 12 inter-city transport links.",
+    "Browser web push notifications flagged off; in-app notification center is active."
+  ]
+}
