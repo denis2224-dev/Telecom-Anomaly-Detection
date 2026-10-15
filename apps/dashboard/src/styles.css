@@ -268,5 +268,5 @@ app-roaming-overview .actual-line, app-scenario-preview .actual-line { animation
 .hero-chart.scrollable-history .chart-scroll { scrollbar-width: auto; }
 app-connected-overview .panel-visual { height: auto; }
 
-app-connected-overview .voice-success .actual-line { stroke: var(--success); }
-app-connected-overview .voice-success .actual-dot { fill: var(--success); }
+app-connected-overview .voice-success .actual-line { stroke: var(--accent); }
+app-connected-overview .voice-success .actual-dot { fill: var(--accent); }

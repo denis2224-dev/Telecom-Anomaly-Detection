@@ -13,6 +13,7 @@ import { TraceMetricChartComponent } from './trace-metric-chart.component';
 @Component({
   selector:'app-trace-overview',imports:[TraceMetricChartComponent,NativeDomainPanelComponent,TraceIncidentsComponent],
   styles:[`
+    .topology .incident-outline {stroke:var(--accent);stroke-width:5;filter:none;animation:none;transition:none;}
     dialog {width:min(1400px,95vw);max-height:90vh;overflow:auto;background:var(--surface,#fff);color:var(--text);border:1px solid var(--border,#bbb);border-radius:12px;padding:20px;} dialog::backdrop {background:#0006;}
     .controls {display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;} label {display:grid;gap:6px;} input,select,button {min-height:44px;max-width:100%;} .actions {display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;}
     .topology {width:100%;height:350px;background:var(--surface,#fff);} .topology line {stroke:#64748b;stroke-width:2;} .topology circle {fill:var(--brand,#ff7900);} .topology text {fill:currentColor;font-size:12px;} .topology g:focus circle {stroke:currentColor;stroke-width:4;} .table-scroll {overflow:auto;} table {min-width:600px;} code {overflow-wrap:anywhere;} .detail-panel {margin:16px 0;}
@@ -41,8 +42,8 @@ import { TraceMetricChartComponent } from './trace-metric-chart.component';
     @if(cities().length){<section class="detail-panel" aria-label="Approved topology">
       <h2>Active reference topology</h2><p>Catalogue {{catalogueVersion()}} · {{cities().length}} active cities · {{links().length}} active links. Declared directions and capacity are inventory, not measured traffic or source authority.</p>
       <div class="table-scroll" tabindex="0" aria-label="Scrollable reference topology"><svg class="topology" style="min-width:650px" viewBox="0 0 650 350" role="group" aria-label="Versioned city and link topology; equivalent selection table follows">
-        @for(link of links();track link.id){@if(cityById(link.endpointA);as a){@if(cityById(link.endpointB);as b){<g tabindex="0" role="button" [attr.aria-label]="'Select directional link '+link.id" (click)="chooseLink(link.id)" (keydown.enter)="chooseLink(link.id)" (keydown.space)="$event.preventDefault();chooseLink(link.id)"><line [attr.x1]="x(a)" [attr.y1]="y(a)" [attr.x2]="x(b)" [attr.y2]="y(b)"><title>{{link.id}} · {{link.endpointA}} to {{link.endpointB}} · declared inventory direction</title></line></g>}}}
-        @for(city of cities();track city.id){<g tabindex="0" role="button" [attr.aria-label]="'Select city '+city.name" (click)="chooseCity(city.id)" (keydown.enter)="chooseCity(city.id)" (keydown.space)="$event.preventDefault();chooseCity(city.id)"><circle [attr.cx]="x(city)" [attr.cy]="y(city)" r="6"/><text [attr.x]="x(city)+10" [attr.y]="y(city)+4">{{city.name}}</text></g>}
+        @for(link of links();track link.id){@if(cityById(link.endpointA);as a){@if(cityById(link.endpointB);as b){<g tabindex="0" role="button" [attr.aria-label]="'Select directional link '+link.id" (click)="chooseLink(link.id)" (keydown.enter)="chooseLink(link.id)" (keydown.space)="$event.preventDefault();chooseLink(link.id)"><line [class.incident-outline]="incidentHighlight() && query.context().linkDirectionId?.startsWith(link.id + ':')" [attr.x1]="x(a)" [attr.y1]="y(a)" [attr.x2]="x(b)" [attr.y2]="y(b)"><title>{{link.id}} · {{link.endpointA}} to {{link.endpointB}} · declared inventory direction</title></line></g>}}}
+        @for(city of cities();track city.id){<g tabindex="0" role="button" [attr.aria-label]="'Select city '+city.name" (click)="chooseCity(city.id)" (keydown.enter)="chooseCity(city.id)" (keydown.space)="$event.preventDefault();chooseCity(city.id)"><circle [class.incident-outline]="incidentHighlight() && query.context().cityId === city.id" [attr.cx]="x(city)" [attr.cy]="y(city)" r="6"/><text [attr.x]="x(city)+10" [attr.y]="y(city)+4">{{city.name}}</text></g>}
       </svg></div>
       <details><summary>City selection table</summary><div class="table-scroll"><table><thead><tr><th>City</th><th>Latitude</th><th>Longitude</th><th>Provenance</th></tr></thead><tbody>@for(city of cities();track city.id){<tr><th><button type="button" (click)="chooseCity(city.id)">{{city.name}}</button></th><td>{{city.latitude}}</td><td>{{city.longitude}}</td><td>{{city.synthetic?'Synthetic':'Source marked non-synthetic'}}</td></tr>}</tbody></table></div></details>
       <details open><summary>Directional transport inventory</summary><div class="table-scroll"><table><thead><tr><th>Link</th><th>Endpoints</th><th>Direction</th><th>Effective Gbps</th><th>Measurement source</th></tr></thead><tbody>@for(link of links();track link.id){@for(direction of link.directions;track direction.id){<tr><th>{{link.id}}</th><td>{{direction.id==='a-to-b'?link.endpointA:link.endpointB}} → {{direction.id==='a-to-b'?link.endpointB:link.endpointA}}</td><td><button type="button" [attr.aria-pressed]="query.context().linkDirectionId===link.id+':'+direction.id" (click)="change({linkDirectionId:link.id+':'+direction.id})">{{link.id}} {{direction.id}}</button></td><td>{{direction.measurementSource==='declared-nominal-unmeasured'?'Unavailable · nominal declaration only':direction.effectiveCapacityGbps}}</td><td>{{direction.measurementSource}}</td></tr>}}</tbody></table></div></details>
@@ -58,15 +59,21 @@ import { TraceMetricChartComponent } from './trace-metric-chart.component';
       @if(!metricQuery() && availableDefinitions().length){<p>Enter the recorded dataset, choose a city and apply valid history bounds.</p>}
       @if(seriesBusy()){<p role="status">Loading persisted metric buckets…</p>}
       @if(seriesError()){<p role="alert">{{seriesError()}}</p><button type="button" (click)="refresh.update(value=>value+1)">Retry metric history</button>}
-      @if(series();as result){<p>{{definition()?.population}} · {{definition()?.referenceAvailability ?? 'Qualification unavailable'}} · {{definition()?.referenceReason ?? ''}}</p><p>{{result.synthetic?'Synthetic':'Source marked non-synthetic'}} · dataset <code>{{result.datasetId}}</code> · {{result.scopeType}} {{result.scopeId}} · topology {{result.topologyVersion ?? 'Unavailable'}} · source resolution {{result.sourceResolutionSeconds}} seconds · {{result.partialStart || result.partialEnd ? 'Partial edge buckets' : 'Full edge buckets'}}</p><app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/><button type="button" [disabled]="csvBusy() || seriesBusy()" (click)="downloadCsv()">Download exact server CSV</button>}
+      @if(series();as result){<p>{{definition()?.population}} · {{definition()?.referenceAvailability ?? 'Qualification unavailable'}} · {{definition()?.referenceReason ?? ''}}</p><p>{{result.synthetic?'Synthetic':'Source marked non-synthetic'}} · dataset <code>{{result.datasetId}}</code> · {{result.scopeType}} {{result.scopeId}} · topology {{result.topologyVersion ?? 'Unavailable'}} · source resolution {{result.sourceResolutionSeconds}} seconds · {{result.partialStart || result.partialEnd ? 'Partial edge buckets' : 'Full edge buckets'}}</p><app-trace-metric-chart id="recorded-incident-chart" [incidentHighlight]="incidentHighlight()" [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/><button type="button" [disabled]="csvBusy() || seriesBusy()" (click)="downloadCsv()">Download exact server CSV</button>}
       @if(metricQuery()){<button #expandBtn type="button" (click)="openExpanded(expanded,expandBtn)">Expand metric</button>}
       <p>@if(grafana.url(query.context());as url){<a [href]="url" target="_blank" rel="noopener noreferrer">Open this context in Grafana</a>}@else{Grafana is not configured. Metric history and exact CSV remain available.}</p>
     </section>
+    @if(incidentHighlight()){<button type="button" (click)="dismissIncident()">Dismiss incident highlight</button>}
     <app-trace-incidents />
     <dialog #expanded aria-labelledby="expanded-trace-title"><h2 id="expanded-trace-title">Expanded persisted metric</h2><button type="button" (click)="expanded.close()">Close expanded metric</button><p>Visible [{{query.context().visibleFrom ?? query.context().from}}, {{query.context().visibleTo ?? query.context().to}}) · {{query.context().resolution}} · {{query.context().timezone}}</p><button type="button" (click)="query.resetZoom()">Reset zoom</button>@if(series();as result){<app-trace-metric-chart [series]="result" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)"/>}@else{<p role="status">{{seriesError() || 'Loading selected history…'}}</p>}</dialog>
   `,
 })
 export class TraceOverviewComponent {
+  readonly incidentHighlight=signal<{from:string;to:string;label:string}|null>(null);
+  private focusRequest?:AbortController;
+  readonly incidentFocusId=signal<string|null>(null);
+  dismissIncident():void { this.incidentFocusId.set(null);this.incidentHighlight.set(null);void this.router.navigate([],{relativeTo:this.route,queryParams:{incidentId:null},queryParamsHandling:'merge',replaceUrl:true}); }
+
   readonly grafana=inject(GrafanaLinkService);
   readonly query=inject(TraceQueryStore);private readonly api=inject(TelecomClient);private readonly session=inject(SessionStore);
   private readonly router=inject(Router);private readonly route=inject(ActivatedRoute);
@@ -95,10 +102,26 @@ export class TraceOverviewComponent {
   });
   private datasetRequest?:AbortController;private inventoryRequest?:AbortController;private csvRequest?:AbortController;private inventoryGeneration=0;
   constructor(){
-    this.route.queryParams?.pipe(takeUntilDestroyed()).subscribe(params=>{if(!this.query.restore(params))this.inputError.set('Invalid URL history context. Review the period, resolution and scope.');});
+    this.route.queryParams?.pipe(takeUntilDestroyed()).subscribe(params=>{
+      const id=params['incidentId']??null;
+      if(typeof params['metric']==='string')this.metric.set(params['metric']);
+      if(id!==this.incidentFocusId()){
+        this.focusRequest?.abort();
+        const request=this.focusRequest=new AbortController(), revision=this.session.revision;
+        this.incidentFocusId.set(id);this.incidentHighlight.set(null);
+        if(id)void this.api.traceIncident(id,request.signal).then(item=>{
+          if(request.signal.aborted||revision!==this.session.revision||this.incidentFocusId()!==id||item.episodeId!==id)return;
+          this.incidentHighlight.set({from:item.firstObservedAt,to:item.latestWindowEnd,label:item.severity+' incident'});
+          setTimeout(()=>document.getElementById('recorded-incident-chart')?.scrollIntoView({block:'start',behavior:'instant'}),0);
+        }).catch(()=>{if(!request.signal.aborted)this.inputError.set('Incident highlight unavailable.');});
+      }
+if(!this.query.restore(params))this.inputError.set('Invalid URL history context. Review the period, resolution and scope.');});
+    inject(DestroyRef).onDestroy(()=>this.focusRequest?.abort());
+    effect(()=>{if(this.session.phase()!=='authenticated'){this.focusRequest?.abort();this.incidentHighlight.set(null);}});
+    effect(()=>{if(this.series()&&this.incidentHighlight())setTimeout(()=>document.getElementById('recorded-incident-chart')?.scrollIntoView({block:'start',behavior:'instant'}));});
     if(!this.query.restore(this.route.snapshot.queryParams))this.inputError.set('Invalid URL history context. Review the period, resolution and scope.');
     effect(cleanup=>{this.metricQuery();cleanup(()=>{this.csvRequest?.abort();this.csvBusy.set(false);});});
-    effect(()=>{const context=this.query.context();void this.router.navigate([],{relativeTo:this.route,queryParams:traceContextParameters(context),replaceUrl:true});});
+    effect(()=>{const context=this.query.context();void this.router.navigate([],{relativeTo:this.route,queryParams:{...traceContextParameters(context),incidentId:this.incidentFocusId(),metric:this.metric()||null},replaceUrl:true});});
     effect(cleanup=>{
       if(this.session.phase()!=='authenticated')return;
       untracked(()=>{void this.loadDatasets();});

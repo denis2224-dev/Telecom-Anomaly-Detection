@@ -1,3 +1,4 @@
+import { IncidentDashboardActionsComponent, IncidentAcknowledgements } from '../incident-investigation/incident-dashboard-actions.component';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { Component, DestroyRef, viewChild, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -34,7 +35,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
+  imports: [IncidentDashboardActionsComponent, RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -69,8 +70,19 @@ export class ConnectedOverviewComponent {
   linkParameters(id: string, direction = 'a-to-b') {
     return {...this.traceHistoryParameters(), domain: 'transport', cityId: 'all', linkDirectionId: `${id}:${direction}`};
   }
+  readonly acknowledgements = inject(IncidentAcknowledgements);
+  readonly focusedIncident = signal<Episode | null>(null);
+  readonly focusError = signal('');
+  clearIncidentFocus(): void { void this.router.navigate([], {relativeTo:this.route, queryParams:{incidentId:null}, queryParamsHandling:'merge', replaceUrl:true}); }
+  acceptAcknowledgement(item: Episode): void {
+    this.incidents.update(rows => rows.map(row => row.id === item.id ? item : row));
+    this.overviewPriority.update(rows => rows.map(row => row.id === item.id ? item : row));
+    this.refresh.update(this.next);
+    void this.store.load(true);
+  }
   readonly overviewPriority = signal<Episode[]>([]);
-  readonly riskIncidents = computed(() => this.overviewPriority().filter(item => item.status !== 'RESOLVED').slice(0, 6));
+  readonly unacknowledged = computed(() => this.riskIncidents().filter(item => item.status === 'OPEN').length);
+  readonly riskIncidents = computed(() => this.overviewPriority().map(item => this.acknowledgements.current(item)).filter(item => item.status !== 'RESOLVED').slice(0, 6));
   anomalyTitle(incident: Episode): string {
     return incident.latestDetection.anomalyType.replaceAll('_', ' ').toLowerCase().replace(/^./, letter => letter.toUpperCase());
   }
@@ -153,6 +165,7 @@ export class ConnectedOverviewComponent {
   readonly markerCities = computed(() => this.catalogue().filter(city => city.marker !== null));
   readonly featuredCities = computed(() => this.catalogue().filter(city => city.featured).slice(0, 5));
   readonly selectedCity = computed(() => this.catalogue().find(city => city.id === this.selectedId()));
+  readonly acknowledgedOnPage = computed(() => this.visibleIncidents().filter(item => this.acknowledgements.current(item).status !== 'OPEN').length);
   readonly visibleIncidents = computed(() => {
     const city = this.selectedCity();
     const details = this.incidents();
@@ -185,7 +198,8 @@ export class ConnectedOverviewComponent {
   }
   chartScope(service: Service): Summary | undefined {
     const rows = this.tableScopes(service);
-    return rows.find(item => item.scope.scopeId === this.selectedScopes()[service])
+    return this.services().find(item => item.scope.service === service && item.scope.scopeId === this.selectedScopes()[service])
+      ?? rows.find(item => item.scope.scopeId === this.selectedScopes()[service])
       ?? rows.find(item => item.latestWindow !== null) ?? rows[0];
   }
   selectScope(service: Service, scopeId: string): void {
@@ -224,10 +238,32 @@ export class ConnectedOverviewComponent {
     return deviation(item.latestWindow, item.scope.service).replace(' from baseline', '').replace('Delta unavailable', '—');
   }
 
+  private focusRequest = 0;
   constructor() {
     const destroy = inject(DestroyRef);
+    const injectSession = inject(SessionStore);
     effect(() => {
       if (this.fragment() === 'incident-queue') this.queueDialog()?.open();
+    });
+    this.route.queryParamMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+      this.focusedIncident.set(null); this.focusError.set('');
+      const id = params.get('incidentId');
+      const revision = injectSession.revision;
+      const request = ++this.focusRequest;
+      if (!id) return;
+      void this.api.getIncident(id).then(item => {
+        if (this.stopped || request !== this.focusRequest || revision !== injectSession.revision || item.id !== id) return;
+        const from = Date.parse(item.firstObservedAt), end = Date.parse(item.lastObservedAt);
+        if (!Number.isFinite(from) || !Number.isFinite(end)) return;
+        this.focusedIncident.set(item);
+        this.customRange.set({from:new Date(from).toISOString(),to:new Date(Math.max(from+60_000,end+60_000)).toISOString()});
+        this.followsLatest.set(false); this.draftFrom.set(null); this.draftTo.set(null);
+        this.selectScope(item.service, item.scopeId);
+        const city = cityForScope(this.catalogue(), item.scopeId);
+        this.selectedId.set(city?.id ?? null);
+        this.roamingPanel.set(item.service !== 'SMS');
+        setTimeout(() => document.getElementById(item.service === 'SMS' ? 'sms-panel-title' : 'volte-panel-title')?.scrollIntoView({block:'start',behavior:'instant'}));
+      }).catch(error => { if (request === this.focusRequest) this.focusError.set(error instanceof Error ? error.message : 'Incident unavailable.'); });
     });
     const stop = () => {
       this.stopped = true;
@@ -248,6 +284,7 @@ export class ConnectedOverviewComponent {
     // A new server filter starts at its first priority page.
     effect(() => { this.serviceFilter(); this.queueStateFilter(); this.queuePage.set(0); });
     effect(() => {
+      this.acknowledgements.revision();
       this.services(); // Parent REST refresh follows the existing incident stream.
       const filter = this.serviceFilter(), page = this.queuePage();
       this.selectedId(); this.queueStateFilter();

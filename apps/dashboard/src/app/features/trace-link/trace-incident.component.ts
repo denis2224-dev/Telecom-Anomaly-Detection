@@ -1,3 +1,4 @@
+import { TraceIncidentCardActionsComponent } from './trace-incident-card-actions.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -11,13 +12,13 @@ type NativeIncident=components['schemas']['TraceLinkIncidentView'];
 type Workflow=components['schemas']['TraceIncidentWorkflow'];
 const object=(value:unknown):Record<string,unknown>=>value!==null&&typeof value==='object'&&!Array.isArray(value)?value as Record<string,unknown>:{};
 @Component({
- selector:'app-trace-incident',imports:[RouterLink],
+ selector:'app-trace-incident',imports:[RouterLink,TraceIncidentCardActionsComponent],
  styles:[`section{margin:16px 0;}pre{white-space:pre-wrap;overflow-wrap:anywhere;}label{display:grid;gap:6px;margin:12px 0;}textarea,select{max-width:100%;min-height:44px;}button{min-height:44px;} .actions{display:flex;flex-wrap:wrap;gap:12px;}`],
  template:`<a routerLink="/trace-link" [queryParams]="contextParameters()">Back to shared investigation</a>
  <h1>Trace Link incident investigation</h1>
  @if(busy()){<p role="status">Loading committed incident evidence…</p>}
  @if(error()){<p role="alert">{{error()}}</p><button type="button" (click)="load()">Retry incident</button>}
- @if(incident();as item){<section aria-label="Native technical incident"><h2>{{domain()}} · {{scope()}}</h2><p>{{item.technicalState}} · {{item.severity}} · synthetic</p>
+ @if(incident();as item){<section aria-label="Native technical incident"><h2>{{domain()}} · {{scope()}}</h2><app-trace-incident-card-actions [incident]="item" (updated)="load()" /><p>{{item.technicalState}} · {{item.severity}} · synthetic</p>
  <p>First observed {{time(item.firstObservedAt)}} · detected {{time(item.detectedAt)}} · latest window end {{time(item.latestWindowEnd)}} · {{query.context().timezone}}</p>
  <p>{{item.technicalState==='RECOVERED'?'Technical recovery does not resolve analyst work.':item.technicalState==='UNKNOWN'?'Incomplete evidence does not establish recovery.':'The incident remains ongoing.'}}</p>
  <p>{{cause()}}</p><button type="button" (click)="focusContext()">Use this incident scope and interval</button></section>}

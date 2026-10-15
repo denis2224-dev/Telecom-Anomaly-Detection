@@ -1,3 +1,4 @@
+import { IncidentDashboardActionsComponent, IncidentAcknowledgements } from './incident-dashboard-actions.component';
 import { Component, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { IconComponent } from '../../shared/icon.component';
 import { DatePipe } from '@angular/common';
@@ -9,7 +10,7 @@ import { TelecomClient, type ServiceSummary } from '../../core/api/telecom-clien
 import type { City } from '../service-overview/dashboard-geography';
 import { SessionStore } from '../login-and-session/session.store';
 @Component({
-  selector: 'app-incident-list', imports: [DatePipe, RouterLink, IconComponent, DrawerComponent],
+  selector: 'app-incident-list', imports: [IncidentDashboardActionsComponent, DatePipe, RouterLink, IconComponent, DrawerComponent],
   template: `<section class="detail-panel" aria-labelledby="incidents-title">
     <div class="episode-heading"><h2 id="incidents-title">Incident episodes <span>{{ total() ?? incidents().length }}</span></h2><span class="refresh-status" role="status">@if (loading()) { <span class="spinner"></span> Updating… }</span></div>
     <div class="incident-filters">
@@ -21,7 +22,7 @@ import { SessionStore } from '../login-and-session/session.store';
       <article class="episode-card" [class.is-highlighted]="highlighted().includes(item.episodeId)" [attr.data-severity]="item.severity" [attr.data-technical-state]="item.technicalState" [attr.data-episode-id]="item.episodeId" [attr.data-highlighted]="highlighted().includes(item.episodeId)">
         <div class="episode-summary">
           <header class="episode-header"><h3><span class="episode-severity">{{ item.severity }}<span class="sr-only"> severity</span></span>{{ problem(item) }}</h3>
-            <p class="episode-time">{{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · {{ duration(item) }}</p>
+            <p class="episode-time">since {{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · {{ duration(item) }}</p>
           </header>
           <p class="episode-location"><span class="episode-label">Location</span> {{ location(item) }}</p>
           <p class="episode-description">{{ description(item) }}</p>
@@ -31,6 +32,7 @@ import { SessionStore } from '../login-and-session/session.store';
             @if (impact(item); as estimate) { <span>{{ estimate }}</span> }
           </p>
         </div>
+        <app-incident-dashboard-actions [incident]="item" />
         <div class="episode-actions"><button class="ghost evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button>
           <a class="button primary" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a></div>
       </article>
@@ -38,7 +40,7 @@ import { SessionStore } from '../login-and-session/session.store';
   </div></section>
   <app-drawer #evidenceDrawer panelClass="episode-evidence" [drawerId]="'episode-evidence-' + (expanded() ?? '')" title="Incident evidence" closeLabel="Close incident evidence" (closed)="expanded.set(null)">
     @if (selectedEpisode(); as item) { <section class="incident-story" [attr.data-phase]="item.latestDetection.phase" [attr.data-episode-id]="item.episodeId">
-      <h4 class="episode-title incident-behavior">{{ problem(item) }}</h4>
+      <app-incident-dashboard-actions [incident]="item" (navigated)="evidenceDrawer.close()" /><h4 class="episode-title incident-behavior">{{ problem(item) }}</h4>
       <p class="incident-context">{{ location(item) }} · {{ item.scopeId }}</p>
       <div class="incident-states" aria-label="Incident severity and state">
         <span class="incident-state"><span class="incident-state-label">Severity</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></span>
@@ -74,7 +76,7 @@ import { SessionStore } from '../login-and-session/session.store';
     .episode-severity { padding: 3px 6px; border-radius: 6px; background: var(--surface-raised); color: var(--text-muted); font-size: 10px; letter-spacing: .04em; }
     .episode-card .episode-location { margin-top: 6px; color: var(--text-muted); font-size: 12px; }
     .episode-card .episode-description { margin: 8px 0; color: var(--text); }
-    .episode-card .episode-info { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; color: var(--text-muted); font-size: 12px; }
+    .episode-card .episode-info { display: grid; grid-template-columns: 1fr; gap: 6px; color: var(--text-muted); font-size: 12px; }
     .episode-state-group { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
     .episode-label { color: var(--text-muted); font-size: 11px; }
     .episode-workflow { padding: 3px 8px; border-radius: 6px; font-weight: 650; color: var(--info); background: var(--info-soft); }
@@ -103,6 +105,7 @@ import { SessionStore } from '../login-and-session/session.store';
   `],
 })
 export class IncidentListComponent {
+  readonly acknowledgements = inject(IncidentAcknowledgements);
   readonly workflowState = workflowLabel;
   readonly cause = probableCause;
   readonly incidents = input<Incident[]>([]);
@@ -191,7 +194,7 @@ export class IncidentListComponent {
     return Number.isFinite(count) && count > 0 ? `${label} ${count.toLocaleString('en')} ${item.service === 'VOLTE' ? 'extra failures' : 'affected messages'}` : '';
   }
   readonly severity = signal(''); readonly state = signal('');
-  readonly rows = computed(() => episodes(this.incidents()).filter(item =>
+  readonly rows = computed(() => episodes(this.incidents()).map(item => this.acknowledgements.current(item)).filter(item =>
     (!this.severity() || item.severity === this.severity()) && (!this.state() || item.technicalState === this.state()))
     .sort((a,b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt)));
 }

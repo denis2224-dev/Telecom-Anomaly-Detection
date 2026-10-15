@@ -31,6 +31,7 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
 
         <svg #plot [style.min-width.px]="canvasWidth()" [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="trafficOnly() ? title() + ': successful and failed attempts' : traffic() ? title() + ': successful and failed traffic on the left axis, success rate and baseline on the right axis' : secondaryName() ? title() + ': ' + secondaryTitle() + ' on the left axis, ' + unitLabel() + ' on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
           <title>{{ title() }} · {{ unit() }}</title><desc [id]="chartId + '-description'">Blank gaps mean unavailable observations. Phase bands follow persisted detections; healthy points alone do not prove recovery. Focus the chart and use arrow keys, Home or End to inspect values.</desc>
+          @if (focusBand(); as focus) { <rect class="focused-incident-band" [attr.x]="x(focus.start)" y="15" [attr.width]="Math.max(2,x(focus.end)-x(focus.start))" [attr.height]="plotHeight()-60" fill="rgba(255,80,105,.2)" /><text class="focused-incident-label" [attr.x]="Math.min(x(focus.start)+6,plotWidth()-220)" y="30" fill="#ff647a">{{ focus.label }}</text> }
           @for (interval of incidentBands(); track $index) { <rect class="incident-band" [attr.x]="x(interval.start)" y="15" [attr.width]="Math.max(1, x(interval.end) - x(interval.start))" [attr.height]="plotHeight() - 60"><title>Incident interval {{ interval.start }} – {{ interval.end }}</title></rect> }
           @for (band of bands(); track $index) { <rect [attr.data-phase]="band.phase" [attr.class]="'phase-band ' + band.phase" [attr.x]="x(band.start)" y="15" [attr.width]="Math.max(1, x(band.end) - x(band.start))" [attr.height]="plotHeight() - 60"><title>{{ band.phase }} {{ band.start }} – {{ band.end }}</title></rect> }
           @for (tick of displayTicks(); track tick) { <line x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="trafficOnly() ? countY(tick) : y(tick)" [attr.y2]="trafficOnly() ? countY(tick) : y(tick)" class="chart-grid"/><text [attr.x]="dualAxis() && !trafficOnly() ? plotWidth() - 55 : 55" [attr.y]="trafficOnly() ? countY(tick) + 4 : y(tick) + 4" [attr.text-anchor]="dualAxis() && !trafficOnly() ? 'start' : 'end'">{{ tickFormat(tick) }}{{ traffic() && !trafficOnly() ? '%' : '' }}</text> }
@@ -118,6 +119,14 @@ export class MetricChartComponent {
     return Array.from({length: count - 1}, (_, index) => new Date(Date.parse(this.visibleFrom()) + this.visibleDuration() * (index + 1) / count).toISOString());
   });
   readonly axisDateFormat = computed(() => this.visibleDuration() > 86_400_000 ? 'dd MMM' : 'HH:mm');
+  readonly focusedIncident = input<Incident | null>(null);
+  readonly focusBand = computed(() => {
+    const item = this.focusedIncident();
+    if (!item || !this.rows().some(row => row.scopeId === item.scopeId)) return null;
+    const start = Math.max(Date.parse(this.visibleFrom()), Date.parse(item.firstObservedAt));
+    const end = Math.min(Date.parse(this.visibleTo()), Math.max(Date.parse(item.lastObservedAt) + 60_000, start + 60_000));
+    return end > start ? {start:new Date(start).toISOString(),end:new Date(end).toISOString(),label:item.latestDetection.anomalyType.replaceAll('_',' ').toLowerCase()} : null;
+  });
   readonly incidents = input<Incident[]>([]);
   readonly hoveredId = signal<string | null>(null);
   readonly hoveredIndex = computed(() => {

@@ -13,6 +13,7 @@ export type MetricChartSeries = Omit<TraceMetricSeries,'points'> & { points: (Pi
     <svg viewBox="0 0 900 260" role="img" [attr.aria-label]="series().metric + ' in ' + series().unit + '; exact values follow in the table'" (pointerdown)="beginBrush($event)" (pointerup)="endBrush($event)" (pointercancel)="brushStart=undefined">
       <title>{{ series().metric }} · {{ series().unit }}</title><desc>Only server measurements are drawn. Missing intervals break the line. Stale measurements retain their quality in the exact table. Drag horizontally to select a visible interval, or use the keyboard-accessible zoom controls.</desc>
       <text x="20" y="18">{{ bounds().max }} {{ series().unit }}</text><text x="20" y="247">{{ bounds().min }} {{ series().unit }}</text>
+      @if(highlight();as band){<rect [attr.x]="band.x" y="30" [attr.width]="band.width" height="200" fill="rgba(255,80,105,.2)"/><text [attr.x]="Math.min(band.x+6,650)" y="44">{{band.label}}</text>}
       <path [attr.d]="path()" />
       @for(point of markers();track point.from){<circle [attr.cx]="point.x" [attr.cy]="point.y" r="3" fill="currentColor"><title>{{point.from}} · {{point.value}} {{series().unit}} · {{point.quality}}</title></circle>}
     </svg>
@@ -22,7 +23,10 @@ export type MetricChartSeries = Omit<TraceMetricSeries,'points'> & { points: (Pi
   </section>`,
 })
 export class TraceMetricChartComponent {
+  readonly Math=Math;
   provenance(point:MetricChartSeries['points'][number]):string{return JSON.stringify({from:point.from,histogramCounts:point.histogramCounts,histogramEdges:point.histogramEdges,provenance:point.provenance},null,2);}
+  readonly incidentHighlight=input<{from:string;to:string;label:string}|null>(null);
+  readonly highlight=computed(()=>{const focus=this.incidentHighlight(),series=this.series();if(!focus)return null;const start=Date.parse(series.effectiveFrom),span=Date.parse(series.effectiveTo)-start;const from=Math.max(start,Date.parse(focus.from)),to=Math.min(start+span,Date.parse(focus.to));return span>0&&to>from?{x:40+(from-start)/span*830,width:(to-from)/span*830,label:focus.label}:null;});
   readonly zoomRequested=output<{from:string;to:string}>();
   brushStart?:number;
   readonly series=input.required<MetricChartSeries>();

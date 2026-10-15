@@ -1,3 +1,4 @@
+import { IncidentAcknowledgements } from './incident-dashboard-actions.component';
 import {
   Component,
   OnInit,
@@ -53,6 +54,7 @@ type Analyst = components['schemas']['AnalystSummary'];
   `,
 })
 export class IncidentActionsComponent implements OnInit {
+  private readonly acknowledgements = inject(IncidentAcknowledgements);
   private readonly toast = inject(ToastService);
   private readonly api = inject(TelecomClient);
   private readonly session = inject(SessionStore);
@@ -258,6 +260,7 @@ export class IncidentActionsComponent implements OnInit {
         version: item.version,
         requestId: this.pendingComment.requestId,
       });
+      this.acknowledgements.publish(updated);
       this.updated.emit(updated);
       this.commentText.set('');
       this.pendingComment = undefined;
@@ -279,6 +282,7 @@ export class IncidentActionsComponent implements OnInit {
 
     try {
       const updated = await write();
+      this.acknowledgements.publish(updated);
       this.updated.emit(updated);
       this.targetId.set('');
       this.toast.show('Incident updated successfully.');

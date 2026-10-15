@@ -1,3 +1,4 @@
+import { IncidentDashboardActionsComponent } from './incident-dashboard-actions.component';
 import { ApiFailure } from '../../core/api/api-errors';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
@@ -15,7 +16,8 @@ import { IncidentActionsComponent } from './incident-actions.component';
 import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, probableCause } from '../../shared/metric-presentation';
 
 @Component({
-  selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  styles: [`.incident-at-a-glance, .investigation-times { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; } .incident-at-a-glance > span { width:100%; }`],
+  selector: 'app-incident-detail', imports: [IncidentDashboardActionsComponent, SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
     @if (!loading() && !error()) {
@@ -60,6 +62,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
           } @empty { <p>No investigation actions yet.</p> }
         </section>
       </dialog>
+      <app-incident-dashboard-actions [incident]="item" (updated)="acceptAction($event)" />
       <header class="incident-summary-bar">
         <div class="incident-summary-title"><p class="eyebrow">Incident episode</p><h2>{{ item.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</h2></div>
         <div class="incident-at-a-glance">
