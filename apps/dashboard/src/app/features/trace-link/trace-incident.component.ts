@@ -14,7 +14,7 @@ const object=(value:unknown):Record<string,unknown>=>value!==null&&typeof value=
 @Component({
  selector:'app-trace-incident',imports:[RouterLink,TraceIncidentCardActionsComponent],
  styles:[`section{margin:16px 0;}pre{white-space:pre-wrap;overflow-wrap:anywhere;}label{display:grid;gap:6px;margin:12px 0;}textarea,select{max-width:100%;min-height:44px;}button{min-height:44px;} .actions{display:flex;flex-wrap:wrap;gap:12px;}`],
- template:`<a routerLink="/trace-link" [queryParams]="contextParameters()">Back to shared investigation</a>
+ template:`<a routerLink="/trace-link" [queryParams]="contextParameters()">Back to historical analysis</a>
  <h1>Trace Link incident investigation</h1>
  @if(busy()){<p role="status">Loading committed incident evidence…</p>}
  @if(error()){<p role="alert">{{error()}}</p><button type="button" (click)="load()">Retry incident</button>}

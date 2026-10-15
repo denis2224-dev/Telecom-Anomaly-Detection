@@ -4,7 +4,7 @@
 
 Open the application login page and continue to organization sign-in. The application does not collect your password. An enabled analyst account and an application role are required. Supervisors can run supported scenarios and assign work to other enabled analysts.
 
-Open **Trace Link history** in Workspace for the versioned reference inventory and persisted metric queries. The older service overview and service investigation retain the existing VoLTE/SMS catalogue. Historical or legacy labels do not establish membership in the active Trace Link inventory.
+Choose **Investigate history** from the overview, service investigation or roaming view to open **Historical analysis** for the versioned reference inventory and persisted metric queries. The older service overview and service investigation retain the existing VoLTE/SMS catalogue. Historical or legacy labels do not establish membership in the active Trace Link inventory.
 
 An unavailable inventory is an explicit error with a retry action. It does not display guessed cities, connections or history. Ask the backend owner to register the approved dataset and activate its catalogue before attempting a populated investigation.
 
@@ -94,7 +94,7 @@ The map contains the ten approved cities and twelve declared connections. Dots a
 
 Priority anomalies sit below the map and show the three highest-priority unresolved episodes from the highest backend priority page. Compact cards show where the issue occurred, when it was first observed, and its recorded possible cause or Cause undetermined. KPI values and full audit details remain in episode evidence. The incident summary scrolls normally with the evidence. The full incident queue has its own pagination. Use Open episode evidence for the complete immutable records and authorized analyst actions. Technical recovery does not automatically resolve the analyst workflow.
 
-Roaming currently uses explicitly labelled artificial data. The overview shows the location-update success chart and top ten subscriber countries. Open roaming services shows the chart, subscriber table and country KPI table together. Measured partner history opens the separate authenticated history controls; preview values never create scenarios, notifications, stored measurements or incidents.
+Roaming currently uses explicitly labelled artificial data. The overview shows the location-update success chart and top ten subscriber countries. Open roaming services shows the chart, subscriber table and country KPI table together. Investigate history opens the separate authenticated history controls; preview values never create scenarios, notifications, stored measurements or incidents.
 
 Show on dashboard marks the recorded incident with a red vertical line and shaded interval on the full selected chart period. It does not automatically narrow the chart to the incident window. If the incident is outside that period, the view moves to include it at the same time scale. Zoom in centres on the marked interval; Full selected period restores context. Dismiss highlight removes the marker.
 

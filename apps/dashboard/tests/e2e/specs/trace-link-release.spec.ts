@@ -67,7 +67,7 @@ test('requires populated persisted history through two authenticated context rep
         const push=await context.request.get('/api/notifications/push/config');expect(push.status()).toBe(200);expect((await push.json()).enabled).toBe(false);
         const episodes=await context.request.get('/api/v2/trace-link/incidents?'+new URLSearchParams({datasetId:dataset.datasetId,from:new Date(Date.parse(dataset.to)-86400000).toISOString(),to:dataset.to,limit:'50',offset:'0'}));expect(episodes.status()).toBe(200);expect((await episodes.json()).items.length).toBeLessThanOrEqual(50);
         await page.goto('/trace-link?datasetId=trace-link-md-30d-v1&from=2026-10-09T09%3A00%3A00Z&to=2026-10-10T09%3A00%3A00Z&cityId=chi');
-        await expect(page.getByRole('heading',{name:'Trace Link history',exact:true})).toBeVisible();
+        await expect(page.getByRole('heading',{name:'Historical analysis',exact:true})).toBeVisible();
         await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('1h');await page.getByRole('button',{name:'6h',exact:true}).click();await expect(page.getByRole('combobox',{name:'Resolution',exact:true})).toHaveValue('1h');
         await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 cities · 12 links');
         await expect(page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();

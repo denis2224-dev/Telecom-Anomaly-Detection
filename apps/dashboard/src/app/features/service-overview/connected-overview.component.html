@@ -19,6 +19,7 @@
     <label class="apply-field"><span aria-hidden="true">Apply</span><button class="primary" type="submit" aria-label="Apply">Apply</button></label>
     <button class="queue-toggle" type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Incidents ({{ queueTotal() }}) <span class="badge" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
   </form>
+  <a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Investigate history</a>
   @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
   @if (statusMessage()) { <p role="alert">{{ statusMessage() }}</p> }
   @if (geographyError()) { <p role="status">City catalogue unavailable: {{ geographyError() }} Retained data may be stale.</p> }

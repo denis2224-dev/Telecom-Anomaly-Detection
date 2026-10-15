@@ -35,7 +35,7 @@ for(const width of [1366,390])test(`controlled native investigation preserves re
  await page.getByLabel('Investigation comment').fill('Controlled evidence reviewed');await page.getByRole('button',{name:'Add comment',exact:true}).click();
  await expect(page.getByRole('region',{name:'Append-only native audit'})).toContainText('Controlled evidence reviewed');
  incident.technicalState='RECOVERED';
- await page.reload();await expect(page.getByRole('link',{name:'Back to shared investigation'})).toHaveAttribute('href',/resolution=15m/);await expect(page.getByRole('region',{name:'Native technical incident'})).toContainText('Technical recovery does not resolve analyst work.');
+ await page.reload();await expect(page.getByRole('link',{name:'Back to historical analysis'})).toHaveAttribute('href',/resolution=15m/);await expect(page.getByRole('region',{name:'Native technical incident'})).toContainText('Technical recovery does not resolve analyst work.');
  await expect(page.getByRole('region',{name:'Native analyst workflow'})).toContainText('INVESTIGATING');
  await page.getByLabel('Resolution note').fill('Recovery verified in controlled fixture');await page.getByRole('button',{name:'Resolve reviewed incident'}).click();
  await expect(page.getByRole('region',{name:'Native analyst workflow'})).toContainText('RESOLVED');expect(mutations).toEqual(['assignment','status','comments','status']);

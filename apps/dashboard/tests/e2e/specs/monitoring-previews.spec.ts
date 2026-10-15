@@ -8,6 +8,8 @@ for (const width of [1366, 390]) {
     const state = await controlledApi(page);
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
+    await expect(page.getByRole('navigation', {name:'Workspace'}).getByRole('link', {name:/history|Historical analysis/i})).toHaveCount(0);
+    await expect(page.locator('app-connected-overview > section > a').filter({hasText:'Investigate history'})).toHaveAttribute('href', /\/trace-link\?.*from=/);
     await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Sample data');
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(10);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
@@ -37,9 +39,9 @@ for (const width of [1366, 390]) {
     await expect(page.locator('.roaming-chart .actual-line')).not.toHaveAttribute('d','');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({path:info.outputPath(`roaming-${width}.png`),fullPage:true});
-    await page.getByRole('link',{name:'Measured partner history',exact:true}).click();
+    await page.getByRole('link',{name:'Investigate history',exact:true}).click();
     await expect(page).toHaveURL(/\/trace-link\?/);
-    await expect(page.getByRole('heading', { name: 'Trace Link history' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Historical analysis' })).toBeVisible();
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
     await page.goto('/dashboard?view=live');
     await expect(page.getByRole('region', { name: 'Live status' })).toContainText('1 active incidents');

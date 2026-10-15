@@ -33,7 +33,7 @@ const MAX_WINDOWS = 1440;
   imports: [SmsShadowComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
-    @if(service() && from() && to()){<a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Open history</a>}
+    @if(service() && from() && to()){<a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Investigate history</a>}
     <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a><div class="heading-copy"><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
     </div>
     @if (loading() && !displayedService()) { <section class="state-panel skeleton-panel service-loading" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }

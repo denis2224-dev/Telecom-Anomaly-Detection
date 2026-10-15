@@ -19,7 +19,7 @@ import { TraceMetricChartComponent } from './trace-metric-chart.component';
     .topology {width:100%;height:350px;background:var(--surface,#fff);} .topology line {stroke:#64748b;stroke-width:2;} .topology circle {fill:var(--brand,#ff7900);} .topology text {fill:currentColor;font-size:12px;} .topology g:focus circle {stroke:currentColor;stroke-width:4;} .table-scroll {overflow:auto;} table {min-width:600px;} code {overflow-wrap:anywhere;} .detail-panel {margin:16px 0;}
   `],
   template:`
-    <div class="page-heading"><div><h1>Trace Link history</h1></div></div>
+    <div class="page-heading"><div><h1>Historical analysis</h1></div></div>
     <section class="detail-panel" aria-label="Shared history query">
       @if(datasets().length){<label>Dataset<select [value]="query.context().datasetId" (change)="chooseDataset($any($event.target).value)"><option value="">Choose a registered dataset</option>@for(item of datasets();track item.datasetId){<option [value]="item.datasetId" [selected]="item.datasetId===query.context().datasetId" [disabled]="!item.archiveReady">{{item.datasetId}} · {{item.archiveReady?'validated archive':'archive projection incomplete'}}</option>}</select></label>}
       @if(datasetError()){<p role="status">{{datasetError()}}</p>}

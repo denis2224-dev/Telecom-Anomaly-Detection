@@ -23,8 +23,8 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
       </div>
     }
     @if (compact()) { <a class="button roaming-link" routerLink="/roaming">Open roaming services →</a> }
-    <a class="measured-history" routerLink="/trace-link" [queryParams]="roamingContext()">Measured partner history</a>
-  </section>} @else {<section class="roaming" aria-label="Roaming measurements"><h2>Roaming services</h2><p role="status">Roaming data unavailable. Open partner history.</p><a class="button roaming-link" routerLink="/trace-link" [queryParams]="roamingContext()">Open roaming investigation →</a></section>}`,
+    <a class="measured-history" routerLink="/trace-link" [queryParams]="roamingContext()">Investigate history</a>
+  </section>} @else {<section class="roaming" aria-label="Roaming measurements"><h2>Roaming services</h2><p role="status">Roaming data unavailable. Investigate history.</p><a class="button roaming-link" routerLink="/trace-link" [queryParams]="roamingContext()">Investigate history</a></section>}`,
   styles: [`
     :host { display: block; min-width: 0; }
     .roaming { background: var(--surface); border-radius: var(--radius); padding: 16px; }
