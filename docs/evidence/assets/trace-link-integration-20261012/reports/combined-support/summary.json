@@ -1,0 +1,71 @@
+{
+  "name": "combined-support",
+  "suites": [
+    {
+      "name": "md.utm.telecom.observation.CoverageContractTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.observation.CoverageContractTest.xml",
+      "sha256": "89d7874ddb57e8c65d62a7f900f5d8527976ab61ffe94d001f9a65486a33dabc",
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.observation.DomainObservationValidatorTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.observation.DomainObservationValidatorTest.xml",
+      "sha256": "a0327f1b624c6bf785f03434b9201603d235b956f37ef1cab0a7a254a4b6d4f1",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.observation.GeographyCatalogTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.observation.GeographyCatalogTest.xml",
+      "sha256": "6e705c2218bb3a349c744b9807ae4d6afe4f8bdf09c906970af655e3848e3648",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.observation.ObservationValidatorTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.observation.ObservationValidatorTest.xml",
+      "sha256": "377c21910fb8ac027dbad4ae136581f28516f97a5709847b0752bba241185c1c",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.observation.TopologyCatalogTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.observation.TopologyCatalogTest.xml",
+      "sha256": "5925998ee485aacf4193c0b59bb2b04d86f639819b8158f74957b8b2daa60214",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    },
+    {
+      "name": "md.utm.telecom.observation.TraceLinkSyntheticSourceTest",
+      "path": "target/surefire-reports/TEST-md.utm.telecom.observation.TraceLinkSyntheticSourceTest.xml",
+      "sha256": "69a2b64eca1c242f6f9d4b4beac6bdb26351ac1534b280f37f95faf497a16078",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "skips": []
+    }
+  ],
+  "totals": {
+    "tests": 120,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

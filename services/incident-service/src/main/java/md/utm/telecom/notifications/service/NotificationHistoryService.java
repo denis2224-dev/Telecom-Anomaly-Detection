@@ -17,7 +17,7 @@ public class NotificationHistoryService {
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public NotificationResponses.Page list(UUID analystId, int page, int size) {
         if (page < 0 || page > 10000 || size < 1 || size > 100) {
-            throw new WorkflowProblem(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "Invalid page or size.");
+            throw new WorkflowProblem(HttpStatus.BAD_REQUEST, "INVALID_PAGE", "Use page 0 through 10000 and size 1 through 100.");
         }
         var items = jdbc.query("""
                 SELECT r.id, e.incident_id, e.kind, e.severity, e.service, e.scope_id,
@@ -53,7 +53,7 @@ public class NotificationHistoryService {
                 WHERE id = ? AND analyst_id = ?
                 """, id, analystId);
         if (matched == 0) {
-            throw new WorkflowProblem(HttpStatus.NOT_FOUND, "NOT_FOUND", "Notification not found.");
+            throw new WorkflowProblem(HttpStatus.NOT_FOUND, "NOTIFICATION_NOT_FOUND", "No notification exists for this account.");
         }
     }
 }

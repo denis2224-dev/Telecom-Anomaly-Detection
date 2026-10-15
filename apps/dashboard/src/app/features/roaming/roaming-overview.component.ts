@@ -1,10 +1,11 @@
+import { dataSource } from '../../core/api/data-source';
 import { Component, computed, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
 import { countryPreview, previewMetric, previewWindow, randomSource } from '../scenario-runner/monitoring-preview';
 @Component({
   selector: 'app-roaming-overview', imports: [MetricChartComponent, RouterLink],
-  template: `<section class="roaming" [class.compact]="compact()" aria-label="Roaming services preview">
+  template: `@if (preview()) {<section class="roaming" [class.compact]="compact()" aria-label="Roaming services preview">
     <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">Preview</span></header>
     <p class="preview-note">Illustrative values · roaming API unavailable · not live subscriber counts</p>
     <div class="roaming-kpis">
@@ -25,7 +26,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource } from '../s
       </div>
     }
     @if (compact()) { <a class="button roaming-link" routerLink="/roaming">Open roaming preview →</a> }
-  </section>`,
+  </section>} @else {<section class="roaming" aria-label="Roaming measurements"><h2>Roaming services</h2><p role="status">Roaming measurements are unavailable in the legacy service response. Investigate persisted partner, country and direction populations in Trace Link history.</p><a class="button roaming-link" routerLink="/trace-link" [queryParams]="{domain:'roaming'}">Open roaming investigation →</a></section>}`,
   styles: [`
     :host { display: block; min-width: 0; }
     .roaming { background: var(--surface); border-radius: var(--radius); padding: 16px; }
@@ -68,6 +69,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource } from '../s
   `],
 })
 export class RoamingOverviewComponent {
+  readonly preview = input(dataSource.fixture);
   readonly compact = input(false);
   readonly showCountries = input(false);
   readonly from = input('2026-10-06T00:00:00Z');

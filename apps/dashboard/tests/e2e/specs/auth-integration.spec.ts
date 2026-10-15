@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../helpers/test";
 import branding from "../../../../../design/branding.json";
 
 for (const viewport of [{ width: 1366, height: 768 }, { width: 390, height: 844 }]) {

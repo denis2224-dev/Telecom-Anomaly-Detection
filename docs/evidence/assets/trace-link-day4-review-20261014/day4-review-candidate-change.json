@@ -1,0 +1,62 @@
+{
+  "TRANSPORT": {
+    "oldModelSha256": "9087da206475be66302153191754055cc9cec075eb09883653c08952a41631d2",
+    "newModelSha256": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077",
+    "preprocessingChanges": {
+      "impute": [
+        {
+          "feature": "transport.jitter.sourceAgeSeconds",
+          "before": 1.0,
+          "after": 61.0
+        }
+      ],
+      "center": [
+        {
+          "feature": "transport.jitter.sourceAgeSeconds",
+          "before": 1.0,
+          "after": 61.0
+        }
+      ],
+      "scale": []
+    },
+    "allEstimatorTreesUnchanged": true,
+    "baselineBytesUnchanged": true,
+    "calibrationBytesUnchanged": true
+  },
+  "ROAMING": {
+    "oldModelSha256": "bbc483daae7bcdb40682307bcbfcb54c8d9e6d86df6fd6cc9cc9f175c7f303f6",
+    "newModelSha256": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4",
+    "preprocessingChanges": {
+      "impute": [
+        {
+          "feature": "roaming.partnerRtt.sourceAgeSeconds",
+          "before": 1.0,
+          "after": 61.0
+        }
+      ],
+      "center": [
+        {
+          "feature": "roaming.partnerRtt.sourceAgeSeconds",
+          "before": 1.0,
+          "after": 61.0
+        }
+      ],
+      "scale": []
+    },
+    "allEstimatorTreesUnchanged": true,
+    "baselineBytesUnchanged": true,
+    "calibrationBytesUnchanged": true
+  },
+  "MOBILE_DATA": {
+    "oldModelSha256": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4",
+    "newModelSha256": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4",
+    "preprocessingChanges": {
+      "impute": [],
+      "center": [],
+      "scale": []
+    },
+    "allEstimatorTreesUnchanged": true,
+    "baselineBytesUnchanged": true,
+    "calibrationBytesUnchanged": true
+  }
+}

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import suite from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
 import services from '../../../src/fixtures/services.json';
 import { voiceIncidents } from '../../../src/fixtures/voice';

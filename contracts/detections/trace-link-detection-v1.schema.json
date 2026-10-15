@@ -1,0 +1,2288 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "synthetic",
+    "lifecycle",
+    "context",
+    "cause",
+    "committedAt",
+    "causeEvidence"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "trace-link-detection-v1"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "episodeId",
+        "detectionId",
+        "sequence",
+        "phase",
+        "technicalState",
+        "severity",
+        "window",
+        "evaluation"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "trace-link-lifecycle-v1"
+        },
+        "episodeId": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "detectionId": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "phase": {
+          "enum": [
+            "OPEN",
+            "UPDATE",
+            "UNKNOWN",
+            "RECOVERY"
+          ]
+        },
+        "technicalState": {
+          "enum": [
+            "ONGOING",
+            "UNKNOWN",
+            "RECOVERED"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "HIGH",
+            "CRITICAL"
+          ]
+        },
+        "window": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "from": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "to": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "sourceResolutionSeconds": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id",
+            "from",
+            "to",
+            "sourceResolutionSeconds"
+          ]
+        },
+        "evaluation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schemaVersion",
+            "datasetId",
+            "namespace",
+            "domain",
+            "scope",
+            "window",
+            "revision",
+            "topologyVersion",
+            "policyVersion",
+            "baselineVersion",
+            "anomalyKind",
+            "verdict",
+            "reason",
+            "severity",
+            "overloadCandidate",
+            "evidenceIds",
+            "anomalyRank",
+            "evaluatedAt"
+          ],
+          "properties": {
+            "schemaVersion": {
+              "const": "trace-link-rule-result-v1"
+            },
+            "datasetId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "namespace": {
+              "const": "trace-link-reference-v1"
+            },
+            "domain": {
+              "enum": [
+                "TRANSPORT",
+                "ROAMING",
+                "MOBILE_DATA"
+              ]
+            },
+            "scope": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "CITY",
+                    "LINK_DIRECTION",
+                    "PARTNER_DIRECTION",
+                    "DATASET"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "cityIds": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  }
+                },
+                "directionId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "partnerId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "procedure": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "namespace": {
+                  "const": "trace-link-reference-v1"
+                }
+              },
+              "required": [
+                "type",
+                "id",
+                "cityIds",
+                "directionId",
+                "partnerId",
+                "procedure",
+                "namespace"
+              ]
+            },
+            "window": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "from": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "to": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "sourceResolutionSeconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "id",
+                "from",
+                "to",
+                "sourceResolutionSeconds"
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "topologyVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "policyVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "baselineVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "anomalyKind": {
+              "enum": [
+                "TRANSPORT_PACKET_LOSS",
+                "TRANSPORT_LATENCY",
+                "ROAMING_REGISTRATION",
+                "ROAMING_DATA",
+                "ROAMING_VOICE",
+                "MOBILE_DATA_ACTIVATION",
+                "MOBILE_DATA_DNS",
+                "TRANSPORT_SERVICE_ROAMING_REGISTRATION",
+                "TRANSPORT_SERVICE_ROAMING_DATA",
+                "TRANSPORT_SERVICE_ROAMING_VOICE",
+                "TRANSPORT_SERVICE_MOBILE_DATA_ACTIVATION",
+                "TRANSPORT_SERVICE_MOBILE_DATA_DNS"
+              ]
+            },
+            "verdict": {
+              "enum": [
+                "BREACH",
+                "HEALTHY",
+                "GRAY",
+                "UNKNOWN"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "severity": {
+              "enum": [
+                null,
+                "HIGH",
+                "CRITICAL"
+              ]
+            },
+            "overloadCandidate": {
+              "type": "boolean"
+            },
+            "evidenceIds": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "anomalyRank": {
+              "type": "null"
+            },
+            "baselineDeviation": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Signed actual minus seasonal lookup center in the metric's original unit; never standardized."
+            },
+            "evaluatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "serviceScope": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "CITY",
+                    "LINK_DIRECTION",
+                    "PARTNER_DIRECTION",
+                    "DATASET"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "cityIds": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  }
+                },
+                "directionId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "partnerId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "procedure": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "namespace": {
+                  "const": "trace-link-reference-v1"
+                }
+              },
+              "required": [
+                "type",
+                "id",
+                "cityIds",
+                "directionId",
+                "partnerId",
+                "procedure",
+                "namespace"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "datasetId",
+        "namespace",
+        "domain",
+        "scope",
+        "window",
+        "revision",
+        "topologyVersion",
+        "evaluatedAt",
+        "evidence",
+        "baselines",
+        "backlog"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "trace-link-evaluation-v1"
+        },
+        "datasetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "const": "trace-link-reference-v1"
+        },
+        "domain": {
+          "enum": [
+            "TRANSPORT",
+            "ROAMING",
+            "MOBILE_DATA"
+          ]
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "CITY",
+                "LINK_DIRECTION",
+                "PARTNER_DIRECTION",
+                "DATASET"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "cityIds": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              }
+            },
+            "directionId": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "partnerId": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "procedure": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "namespace": {
+              "const": "trace-link-reference-v1"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "cityIds",
+            "directionId",
+            "partnerId",
+            "procedure",
+            "namespace"
+          ]
+        },
+        "window": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "from": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "to": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "sourceResolutionSeconds": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id",
+            "from",
+            "to",
+            "sourceResolutionSeconds"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "topologyVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "schemaVersion": {
+                "const": 1
+              },
+              "evidenceId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "measurementId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "metricId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "unit": {
+                "enum": [
+                  "COUNT",
+                  "PERCENT",
+                  "ERLANG",
+                  "SECONDS",
+                  "MILLISECONDS",
+                  "GBPS",
+                  "BYTES",
+                  "MBPS",
+                  "STATE"
+                ]
+              },
+              "policyVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "primitives": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "RATIO"
+                      },
+                      "numerator": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "denominator": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "numerator",
+                      "denominator"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "SUM_COUNT"
+                      },
+                      "sum": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "count": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "sum",
+                      "count"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "HISTOGRAM"
+                      },
+                      "histogram": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "schemaVersion": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160
+                          },
+                          "unit": {
+                            "const": "SECONDS"
+                          },
+                          "representation": {
+                            "const": "NON_CUMULATIVE_FINITE_BINS"
+                          },
+                          "edges": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "number",
+                              "minimum": 0
+                            }
+                          },
+                          "counts": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          }
+                        },
+                        "required": [
+                          "schemaVersion",
+                          "unit",
+                          "representation",
+                          "edges",
+                          "counts"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "histogram"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "SNAPSHOT"
+                      },
+                      "value": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "snapshotAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "value",
+                      "snapshotAt"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "COUNT"
+                      },
+                      "count": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "count"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "TIME_WEIGHTED"
+                      },
+                      "weightedSum": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "validSeconds": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "weightedSum",
+                      "validSeconds"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "STATE"
+                      },
+                      "state": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "state",
+                      "at"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "SNAPSHOT_DIFFERENCE"
+                      },
+                      "start": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "end": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "start",
+                      "end"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "MAXIMUM"
+                      },
+                      "max": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "max"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "actual": {
+                "type": [
+                  "number",
+                  "string",
+                  "null"
+                ]
+              },
+              "baseline": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "baselineVersion": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "threshold": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "deviation": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "coverage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "freshness": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "FRESH",
+                      "STALE",
+                      "UNKNOWN"
+                    ]
+                  },
+                  "observedAt": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "asOf": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "sourceAgeSeconds": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "maxAgeSeconds": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "state",
+                  "observedAt",
+                  "asOf",
+                  "sourceAgeSeconds",
+                  "maxAgeSeconds"
+                ]
+              },
+              "scope": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "CITY",
+                      "LINK_DIRECTION",
+                      "PARTNER_DIRECTION",
+                      "DATASET"
+                    ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "cityIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    }
+                  },
+                  "directionId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "partnerId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "procedure": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "namespace": {
+                    "const": "trace-link-reference-v1"
+                  }
+                },
+                "required": [
+                  "type",
+                  "id",
+                  "cityIds",
+                  "directionId",
+                  "partnerId",
+                  "procedure",
+                  "namespace"
+                ]
+              },
+              "window": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "from": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "to": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "sourceResolutionSeconds": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "from",
+                  "to",
+                  "sourceResolutionSeconds"
+                ]
+              },
+              "quality": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "VALID",
+                      "INSUFFICIENT_EVIDENCE",
+                      "MISSING",
+                      "STALE",
+                      "PARTIAL"
+                    ]
+                  },
+                  "reason": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 160
+                  }
+                },
+                "required": [
+                  "state",
+                  "reason"
+                ]
+              },
+              "dependencyRelationId": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "dependency": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "relationId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "scopeId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "topologyVersion": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "from": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      },
+                      "to": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "Z$"
+                      },
+                      "quality": {
+                        "enum": [
+                          "VALID",
+                          "MISSING",
+                          "STALE"
+                        ]
+                      },
+                      "fresh": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "relationId",
+                      "scopeId",
+                      "topologyVersion",
+                      "from",
+                      "to",
+                      "quality",
+                      "fresh"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "topologyVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "ruleVersion": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "modelVersion": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "provenance": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "datasetId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "synthetic": {
+                    "const": true
+                  },
+                  "origin": {
+                    "enum": [
+                      "HAND_CALCULATED",
+                      "REFERENCE_CSV",
+                      "REFERENCE_ENGINE",
+                      "NATIVE_OBSERVATION"
+                    ]
+                  },
+                  "sourceChecksum": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "datasetId",
+                  "synthetic",
+                  "origin",
+                  "sourceChecksum"
+                ],
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "origin": {
+                          "not": {
+                            "const": "NATIVE_OBSERVATION"
+                          }
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "datasetId": {
+                          "const": "trace-link-md-30d-v1"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "observedRevision": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "generatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              }
+            },
+            "required": [
+              "schemaVersion",
+              "evidenceId",
+              "measurementId",
+              "metricId",
+              "unit",
+              "policyVersion",
+              "primitives",
+              "actual",
+              "baseline",
+              "baselineVersion",
+              "threshold",
+              "deviation",
+              "coverage",
+              "freshness",
+              "scope",
+              "window",
+              "quality",
+              "dependencyRelationId",
+              "dependency",
+              "topologyVersion",
+              "ruleVersion",
+              "modelVersion",
+              "provenance",
+              "observedRevision",
+              "generatedAt"
+            ],
+            "title": "Trace Link Day 1 evidence v1 (contract only)",
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "quality": {
+                      "properties": {
+                        "state": {
+                          "const": "VALID"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "coverage": {
+                      "const": 1
+                    },
+                    "freshness": {
+                      "properties": {
+                        "state": {
+                          "enum": [
+                            "FRESH"
+                          ]
+                        }
+                      }
+                    },
+                    "primitives": {
+                      "type": "object"
+                    },
+                    "actual": {
+                      "type": [
+                        "number",
+                        "string"
+                      ]
+                    },
+                    "quality": {
+                      "properties": {
+                        "reason": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "quality": {
+                      "properties": {
+                        "state": {
+                          "const": "PARTIAL"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "coverage": {
+                      "exclusiveMinimum": 0,
+                      "exclusiveMaximum": 1
+                    },
+                    "freshness": {
+                      "properties": {
+                        "state": {
+                          "enum": [
+                            "FRESH"
+                          ]
+                        }
+                      }
+                    },
+                    "primitives": {
+                      "type": "object"
+                    },
+                    "actual": {
+                      "type": [
+                        "number",
+                        "string"
+                      ]
+                    },
+                    "quality": {
+                      "properties": {
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "quality": {
+                      "properties": {
+                        "state": {
+                          "const": "MISSING"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "coverage": {
+                      "const": 0
+                    },
+                    "freshness": {
+                      "properties": {
+                        "state": {
+                          "enum": [
+                            "UNKNOWN"
+                          ]
+                        }
+                      }
+                    },
+                    "primitives": {
+                      "type": "null"
+                    },
+                    "actual": {
+                      "type": "null"
+                    },
+                    "quality": {
+                      "properties": {
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "quality": {
+                      "properties": {
+                        "state": {
+                          "const": "STALE"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "coverage": {},
+                    "freshness": {
+                      "properties": {
+                        "state": {
+                          "enum": [
+                            "STALE"
+                          ]
+                        }
+                      }
+                    },
+                    "primitives": {
+                      "type": "object"
+                    },
+                    "actual": {},
+                    "quality": {
+                      "properties": {
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "quality": {
+                      "properties": {
+                        "state": {
+                          "const": "INSUFFICIENT_EVIDENCE"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "coverage": {},
+                    "freshness": {
+                      "properties": {
+                        "state": {
+                          "enum": [
+                            "FRESH",
+                            "UNKNOWN"
+                          ]
+                        }
+                      }
+                    },
+                    "primitives": {},
+                    "actual": {
+                      "type": "null"
+                    },
+                    "quality": {
+                      "properties": {
+                        "reason": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "baselines": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "center",
+              "mad",
+              "sourceScope",
+              "baselineVersion",
+              "policyVersion",
+              "trainingFrom",
+              "trainingTo",
+              "coverage",
+              "reason"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "DIRECT",
+                  "PEER",
+                  "STATIC",
+                  "BASELINE_UNAVAILABLE"
+                ]
+              },
+              "center": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "mad": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sourceScope": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "CITY",
+                          "LINK_DIRECTION",
+                          "PARTNER_DIRECTION",
+                          "DATASET"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "cityIds": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        }
+                      },
+                      "directionId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "partnerId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "procedure": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "namespace": {
+                        "const": "trace-link-reference-v1"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id",
+                      "cityIds",
+                      "directionId",
+                      "partnerId",
+                      "procedure",
+                      "namespace"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "baselineVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policyVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "trainingFrom": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              "trainingTo": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "Z$"
+              },
+              "coverage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "reason": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "backlog": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required",
+            "drained"
+          ],
+          "properties": {
+            "required": {
+              "type": "boolean"
+            },
+            "drained": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "cause": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "datasetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "const": "trace-link-reference-v1"
+        },
+        "domain": {
+          "enum": [
+            "TRANSPORT",
+            "ROAMING",
+            "MOBILE_DATA"
+          ]
+        },
+        "topologyVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policyVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "symptomPolicyVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baselineVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "probableCauseCode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "probableCause": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schemaVersion": {
+          "const": "trace-link-cause-result-v1"
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "CITY",
+                "LINK_DIRECTION",
+                "PARTNER_DIRECTION",
+                "DATASET"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "cityIds": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              }
+            },
+            "directionId": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "partnerId": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "procedure": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "namespace": {
+              "const": "trace-link-reference-v1"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "cityIds",
+            "directionId",
+            "partnerId",
+            "procedure",
+            "namespace"
+          ]
+        },
+        "window": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "from": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "to": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "sourceResolutionSeconds": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id",
+            "from",
+            "to",
+            "sourceResolutionSeconds"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "evaluatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "status": {
+          "enum": [
+            "SUPPORTED_HYPOTHESIS",
+            "UNDETERMINED"
+          ]
+        },
+        "causeConfidence": {
+          "enum": [
+            null,
+            "MEDIUM"
+          ]
+        },
+        "supportingEvidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "contradictoryEvidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rejectedEvidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "candidateId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidenceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "enum": [
+                  "AMBIGUOUS_CANDIDATES",
+                  "AMBIGUOUS_DEPENDENCY",
+                  "BASELINE_OUT_OF_RANGE",
+                  "BASELINE_UNAVAILABLE",
+                  "BASELINE_VERSION_MISMATCH",
+                  "BELOW_SUPPORT_THRESHOLD",
+                  "CONFLICTING_DUPLICATE",
+                  "CONTRADICTORY_CONTROL",
+                  "DEPENDENCY_PROVENANCE_MISMATCH",
+                  "INSUFFICIENT_SAMPLES",
+                  "INVALID_EVIDENCE",
+                  "INVALID_QUALITY",
+                  "MISSING_REQUIRED_CONTROL",
+                  "NO_DEPENDENCY",
+                  "NO_EVENT_TIME_DEPENDENCY",
+                  "NO_SYMPTOM",
+                  "NO_TIME_OVERLAP",
+                  "POLICY_VERSION_MISMATCH",
+                  "SOURCE_NOT_AUTHORIZED",
+                  "STALE_EVIDENCE",
+                  "TOPOLOGY_MISMATCH",
+                  "UNSUPPORTED_HYPOTHESIS",
+                  "UNSUPPORTED_SUPPORT_METRIC",
+                  "WRONG_DATASET_OR_NAMESPACE",
+                  "WRONG_EVALUATION_TIME",
+                  "WRONG_SCOPE_OR_PATH",
+                  "UNTRUSTED_DEPENDENCY_SNAPSHOT"
+                ]
+              }
+            },
+            "required": [
+              "candidateId",
+              "evidenceId",
+              "reason"
+            ]
+          }
+        },
+        "reasonCodes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "AMBIGUOUS_CANDIDATES",
+              "AMBIGUOUS_DEPENDENCY",
+              "BASELINE_OUT_OF_RANGE",
+              "BASELINE_UNAVAILABLE",
+              "BASELINE_VERSION_MISMATCH",
+              "BELOW_SUPPORT_THRESHOLD",
+              "CONFLICTING_DUPLICATE",
+              "CONTRADICTORY_CONTROL",
+              "DEPENDENCY_PROVENANCE_MISMATCH",
+              "INSUFFICIENT_SAMPLES",
+              "INVALID_EVIDENCE",
+              "INVALID_QUALITY",
+              "MISSING_REQUIRED_CONTROL",
+              "NO_DEPENDENCY",
+              "NO_EVENT_TIME_DEPENDENCY",
+              "NO_SYMPTOM",
+              "NO_TIME_OVERLAP",
+              "POLICY_VERSION_MISMATCH",
+              "SOURCE_NOT_AUTHORIZED",
+              "STALE_EVIDENCE",
+              "TOPOLOGY_MISMATCH",
+              "UNSUPPORTED_HYPOTHESIS",
+              "UNSUPPORTED_SUPPORT_METRIC",
+              "WRONG_DATASET_OR_NAMESPACE",
+              "WRONG_EVALUATION_TIME",
+              "WRONG_SCOPE_OR_PATH",
+              "UNTRUSTED_DEPENDENCY_SNAPSHOT"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "dependency": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "relationId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sourceId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "pathId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "topologyVersion": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "from": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                },
+                "to": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "Z$"
+                }
+              },
+              "required": [
+                "relationId",
+                "sourceId",
+                "pathId",
+                "topologyVersion",
+                "from",
+                "to"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "datasetId",
+        "namespace",
+        "domain",
+        "topologyVersion",
+        "policyVersion",
+        "symptomPolicyVersion",
+        "baselineVersion",
+        "probableCauseCode",
+        "probableCause",
+        "schemaVersion",
+        "scope",
+        "window",
+        "revision",
+        "evaluatedAt",
+        "status",
+        "causeConfidence",
+        "supportingEvidenceIds",
+        "contradictoryEvidenceIds",
+        "rejectedEvidence",
+        "reasonCodes",
+        "dependency"
+      ],
+      "title": "Trace Link offline cause result v1",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "UNDETERMINED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "probableCauseCode": {
+                "const": "UNDETERMINED"
+              },
+              "causeConfidence": {
+                "type": "null"
+              },
+              "dependency": {
+                "type": "null"
+              },
+              "supportingEvidenceIds": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "causeConfidence": {
+                "const": "MEDIUM"
+              },
+              "dependency": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "relationId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sourceId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "pathId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "topologyVersion": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "from": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "to": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  }
+                },
+                "required": [
+                  "relationId",
+                  "sourceId",
+                  "pathId",
+                  "topologyVersion",
+                  "from",
+                  "to"
+                ]
+              },
+              "supportingEvidenceIds": {
+                "minItems": 1,
+                "maxItems": 1
+              },
+              "probableCauseCode": {
+                "enum": [
+                  "TRANSPORT_DEPENDENCY_HYPOTHESIS",
+                  "ROAMING_DEPENDENCY_HYPOTHESIS",
+                  "MOBILE_DATA_DEPENDENCY_HYPOTHESIS"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "committedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "causeEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidates",
+        "controls",
+        "dependencySnapshot"
+      ],
+      "properties": {
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "candidateId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "hypothesisCode": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "pathId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "candidateId",
+              "hypothesisCode",
+              "sourceId",
+              "pathId",
+              "evidence"
+            ]
+          }
+        },
+        "controls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "candidateId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "CONTRADICTORY",
+                  "OPPOSITE_DIRECTION"
+                ]
+              },
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "pathId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "candidateId",
+              "kind",
+              "sourceId",
+              "pathId",
+              "evidence"
+            ]
+          }
+        },
+        "dependencySnapshot": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "topologyVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "relations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "relationId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sourceId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "pathId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "scope": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "CITY",
+                          "LINK_DIRECTION",
+                          "PARTNER_DIRECTION",
+                          "DATASET"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "cityIds": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        }
+                      },
+                      "directionId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "partnerId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "procedure": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "namespace": {
+                        "const": "trace-link-reference-v1"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id",
+                      "cityIds",
+                      "directionId",
+                      "partnerId",
+                      "procedure",
+                      "namespace"
+                    ]
+                  },
+                  "targetScope": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "CITY",
+                          "LINK_DIRECTION",
+                          "PARTNER_DIRECTION",
+                          "DATASET"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "cityIds": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        }
+                      },
+                      "directionId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "partnerId": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "procedure": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "minLength": 1,
+                        "maxLength": 160
+                      },
+                      "namespace": {
+                        "const": "trace-link-reference-v1"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id",
+                      "cityIds",
+                      "directionId",
+                      "partnerId",
+                      "procedure",
+                      "namespace"
+                    ]
+                  },
+                  "topologyVersion": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "from": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  },
+                  "to": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "Z$"
+                  }
+                },
+                "required": [
+                  "relationId",
+                  "sourceId",
+                  "pathId",
+                  "scope",
+                  "targetScope",
+                  "topologyVersion",
+                  "from",
+                  "to"
+                ]
+              }
+            }
+          },
+          "required": [
+            "topologyVersion",
+            "relations"
+          ]
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

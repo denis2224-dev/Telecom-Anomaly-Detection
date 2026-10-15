@@ -23,7 +23,7 @@ public class TraceDomainIncidentController {
         access.requireEnabled(authentication);
         var results = jdbc.query("""
                 SELECT i.id, i.technical_state, i.severity, i.version, d.payload
-                FROM app.trace_domain_incident i JOIN app.trace_domain_detection d
+                FROM app.trace_domain_incident i JOIN app.trace_domain_episode_detection d
                   ON d.detection_id = i.latest_detection_id WHERE i.id = ?
                 """, (rs, row) -> json.createObjectNode().put("id", rs.getString("id"))
                 .put("technicalState", rs.getString("technical_state")).put("severity", rs.getString("severity"))

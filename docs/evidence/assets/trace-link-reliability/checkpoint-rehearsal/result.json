@@ -1,0 +1,15 @@
+{
+  "runId":"e89e10e4fa375aaf4a7692753cfba5fb1d7182cc41d5ed70f228dae5381b6ded",
+  "logicalClock":true,
+  "generatedWindows":3,
+  "observations":9,
+  "restoredStatus":"INTERRUPTED",
+  "stoppedStatus":"STOPPED",
+  "restartReleasedWindows":0,
+  "publicationStatus":"UNKNOWN_NOT_TRACKED",
+  "Kafka":"DISABLED",
+  "checkpointReplayByteAndTimestampStable":true,
+  "artifactReplayByteStable":true,
+  "checkpointSha256":"4419e5763066464d8b6cabc10aa7fdbf7a1708986e68fbffceecf4e97f80b53f",
+  "artifactSha256":"f4732afebc8c7237686a5c8bad162a8cf140dbdc429ef8e26306cd4df5861ca0"
+}

@@ -1,0 +1,313 @@
+{
+  "schemaVersion": "trace-link-capacity-summary-v1",
+  "status": "INCOMPLETE",
+  "mode": "real-time",
+  "eventTimeBasis": "LIVE_UTC",
+  "run": {
+    "runId": "native-runtime-1791869795",
+    "datasetId": "native-runtime-1791869795",
+    "inputWindowsSha256": "6f2d65fcf6f1c630aa879359ee2719b76e1b4ae0b7d17dff10fc91568621a779",
+    "sourceCommit": "59827b1d199516e9ddc10a4df6a8479dc370870b",
+    "startedAt": "2026-10-13T05:36:49.319393800Z",
+    "endedAt": "2026-10-13T06:20:00.697195100Z"
+  },
+  "hardware": {
+    "description": "ASUSTeK COMPUTER INC. ASUS TUF Gaming A15 FA507NV_FA507NV; AMD Ryzen 7 7735HS with Radeon Graphics        ; Windows; detector JVM and embedded Kafka with Docker PostgreSQL",
+    "cpuCount": 16,
+    "recordedAt": "2026-10-13T05:36:20.5640925Z",
+    "concurrentActivities": "Root Java reactor and receiving verification may overlap the initial measurement phases; no exclusive-host maximum throughput claim.",
+    "memoryBytes": 16369233920
+  },
+  "profile": {
+    "warmupSeconds": 120,
+    "steadySeconds": 900,
+    "burstSeconds": 60,
+    "burstMultiplier": 2,
+    "drainTimeoutSeconds": 300,
+    "steadyRatePerSecond": 4,
+    "rateUnit": "persisted_windows"
+  },
+  "concurrency": {
+    "configured": 4,
+    "observedMax": 3
+  },
+  "counts": {
+    "inputUnit": "persisted_windows",
+    "offered": 4584,
+    "accepted": 4584,
+    "duplicate": 0,
+    "invalid": 0,
+    "late": 0,
+    "finalized": 4584,
+    "evaluated": 4584,
+    "committedDetections": 2301,
+    "published": 2301,
+    "received": 2301,
+    "receivingMeasured": true,
+    "duplicateEpisodes": 0
+  },
+  "queues": {
+    "initialDepth": 0,
+    "peakDepth": 4,
+    "finalDepth": 0,
+    "capacityBound": 1000,
+    "drainSeconds": 0.3699002
+  },
+  "inference": {
+    "eligibleRequests": 0,
+    "ok": 0,
+    "timeout": 0,
+    "rejected": 0,
+    "unavailable": 0,
+    "fallback": 0
+  },
+  "newDomainMl": "NOT_ELIGIBLE_DAY3",
+  "phaseMeasurements": {
+    "warmup": {
+      "phase": "warmup",
+      "startedAt": "2026-10-13T05:36:49.670018600Z",
+      "endedAt": "2026-10-13T05:38:49.686664500Z",
+      "offered": 480,
+      "accepted": 480,
+      "elapsedSeconds": 120.016646,
+      "acceptedRatePerSecond": 3.9994452102919125
+    },
+    "steady": {
+      "phase": "steady",
+      "startedAt": "2026-10-13T05:38:49.710853900Z",
+      "endedAt": "2026-10-13T05:53:49.740225400Z",
+      "offered": 3600,
+      "accepted": 3600,
+      "elapsedSeconds": 900.029372,
+      "acceptedRatePerSecond": 3.9998694620379567
+    },
+    "burst": {
+      "phase": "burst",
+      "startedAt": "2026-10-13T05:53:49.765870400Z",
+      "endedAt": "2026-10-13T05:54:49.783468500Z",
+      "offered": 480,
+      "accepted": 480,
+      "elapsedSeconds": 60.017598,
+      "acceptedRatePerSecond": 7.997654287997331
+    }
+  },
+  "backgroundInputCounts": {
+    "offered": 24,
+    "accepted": 24
+  },
+  "elapsedSeconds": 2591.377802,
+  "wholeRunRatesPerSecond": {
+    "acceptedInputs": 1.7689431454040063,
+    "evaluatedWindows": 1.7689431454040063,
+    "receivedDetections": 0.8879446286157544
+  },
+  "latencyMs": {
+    "rule": {
+      "samples": 4584,
+      "p50": 2.0423,
+      "p95": 3.4737,
+      "p99": 5.0832,
+      "min": 0.7618,
+      "max": 9.5085
+    },
+    "join": {
+      "samples": 2301,
+      "p50": 4.091,
+      "p95": 8.0933,
+      "p99": 11.4971,
+      "min": 1.6487,
+      "max": 21.0974
+    },
+    "mlHttp": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "collectionWait": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "finalizationWait": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "detectorQueueWait": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "outboxDelivery": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "firstBadToOpen": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "escalation": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "finalHealthyToRecovery": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    }
+  },
+  "durableBoundaryMs": {
+    "collectionWait": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "finalizationWait": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "detectorQueueWait": {
+      "samples": 4584,
+      "p50": 81.275,
+      "p95": 202.45499999999998,
+      "p99": 258.711,
+      "min": 4.09,
+      "max": 609.902
+    },
+    "evaluationCommit": {
+      "samples": 4584,
+      "p50": 86.92,
+      "p95": 178.769,
+      "p99": 254.58700000000002,
+      "min": 44.414,
+      "max": 605.668
+    },
+    "outboxToKafka": {
+      "samples": 2301,
+      "p50": 108.32,
+      "p95": 177.153,
+      "p99": 289.196,
+      "min": 27.999,
+      "max": 501.203
+    },
+    "outboxDelivery": {
+      "samples": 0,
+      "p50": null,
+      "p95": null,
+      "p99": null,
+      "min": null,
+      "max": null
+    },
+    "firstBadToOpen": {
+      "samples": 3,
+      "p50": 600375.8350000001,
+      "p95": 600412.396,
+      "p99": 600412.396,
+      "min": 600192.187,
+      "max": 600412.396
+    },
+    "firstFinalizedBadToOpen": {
+      "samples": 3,
+      "p50": 300375.835,
+      "p95": 300412.396,
+      "p99": 300412.396,
+      "min": 300192.187,
+      "max": 300412.396
+    },
+    "escalation": {
+      "samples": 3,
+      "p50": 300316.377,
+      "p95": 300431.928,
+      "p99": 300431.928,
+      "min": 300312.527,
+      "max": 300431.928
+    },
+    "finalHealthyToRecovery": {
+      "samples": 3,
+      "p50": 401.937,
+      "p95": 514.809,
+      "p99": 514.809,
+      "min": 244.191,
+      "max": 514.809
+    }
+  },
+  "gates": {
+    "correctness": {
+      "status": "PASS",
+      "reasons": []
+    },
+    "realTimeCapacity": {
+      "status": "INCOMPLETE",
+      "reasons": [
+        "SEPARATE_RECEIVER_REPLAY_NOT_SIMULTANEOUS",
+        "SOURCE_COLLECTION_AND_FINALIZATION_CAPACITY_UNMEASURED"
+      ]
+    }
+  },
+  "limitations": [
+    "New-domain ML is not eligible on Day 3; mlHttp samples apply only to eligible existing models.",
+    "Reported whole-run rates include warmup, burst and drain; they are not steady-state maxima.",
+    "Input starts at finalized persisted windows; source collection and live finalization capacity are unmeasured."
+  ],
+  "rawEvidence": {
+    "path": "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day3-capacity-input.json",
+    "sha256": "c2030fda263f16bc677d3b995ccc0792f4322e1978d4e807e69a9b7b7badd63d"
+  },
+  "sourceEvidence": {
+    "producerSha256": "08da19134241ed3154d0cbaefbee0ae28d8d10f7a54a8e8db73abae15d7f3842",
+    "synthetic": true,
+    "boundary": "POSTGRES_TO_KAFKA_ACK; INCIDENT_RECEIPT_UNMEASURED",
+    "jvmMaxHeapBytes": 4093640704,
+    "jvmAvailableProcessors": 16,
+    "sourceManifest": null,
+    "sourceTreeSha256": "6c292a81f26ee4225646f0d59994495e0f2f0bde02c009cd60e5637a45aa4b18",
+    "drainBoundary": "DETECTOR_JOBS_AND_OUTBOX_TO_KAFKA_ACK",
+    "drainMeasurementField": "drainSeconds",
+    "capacityOnlyDrainSeconds": 0.1313101,
+    "nativeLifecycleDelayDefinition": "First bad window start and end to OPEN database commit are reported separately; escalation window start to escalation commit; final healthy window end to RECOVERY commit. Window-end time is the source finalized interval boundary. Five-minute policy waiting is included in opening/escalation, not compute latency.",
+    "hardwareSha256": "d05aa9f1d531b2e3bdca09705506636e828e6c4f0439eeec6675ee0ec7a7d8fd",
+    "profileSha256": "20b086f75a0a93b68c33ea16e6420bbf4594825e479e58c9ba322f450404b418",
+    "receiptSha256": "7055691fc2ecc4f8a2337bf1aa760f32e7bf43a60322c535fd2af0495bcb61e4",
+    "sourceFileCount": 272
+  },
+  "fullReport": "capacity-report.json.gz",
+  "resources": {
+    "scope": "detector-jvm-heap; physical host RAM supplied separately",
+    "samples": 3146,
+    "peakHeapUsedBytes": 162523736
+  }
+}

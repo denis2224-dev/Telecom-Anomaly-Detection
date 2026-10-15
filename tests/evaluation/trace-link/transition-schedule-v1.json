@@ -1,0 +1,24 @@
+{
+  "fixtureVersion": "trace-link-transition-evaluation-v1",
+  "acceptance": "PENDING",
+  "reason": "New-domain detector and consumer integration are not approved. These are expectations, never incident commands.",
+  "modelingLimit": "Evaluator-only composition of independently generated registration measurements; not overlapping runnable commands. Technical RECOVERED is distinct from analyst RESOLVED.",
+  "domain": "ROAMING",
+  "seed": 42,
+  "start": "2026-10-13T09:00:00Z",
+  "scope": {"partnerId": "RO-DEMO-01", "countryId": "RO", "direction": "out", "procedure": "REGISTRATION"},
+  "steps": [
+    {"window": 0, "measurement": "healthy", "expectation": "NORMAL"},
+    {"window": 1, "measurement": "healthy", "expectation": "NORMAL"},
+    {"window": 2, "measurement": "fault", "expectation": "OPEN_CANDIDATE"},
+    {"window": 3, "measurement": "fault", "expectation": "EQUAL_SEVERITY_UPDATE"},
+    {"window": 4, "measurement": "severe", "expectation": "SEVERITY_ESCALATION"},
+    {"window": 5, "measurement": "missing", "expectation": "UNKNOWN"},
+    {"window": 6, "measurement": "healthy", "expectation": "TECHNICAL_RECOVERED_CANDIDATE"},
+    {"window": 7, "measurement": "healthy", "expectation": "TECHNICAL_RECOVERED_CANDIDATE"},
+    {"window": 6, "measurement": "healthy", "expectation": "DUPLICATE_REPLAY"},
+    {"window": 8, "measurement": "healthy", "expectation": "NORMAL"},
+    {"window": 9, "measurement": "healthy", "expectation": "NORMAL"},
+    {"window": 10, "measurement": "fault", "expectation": "NEW_EPISODE_CANDIDATE"}
+  ]
+}

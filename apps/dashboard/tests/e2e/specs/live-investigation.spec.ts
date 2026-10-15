@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../helpers/test';
 import { randomBytes, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';

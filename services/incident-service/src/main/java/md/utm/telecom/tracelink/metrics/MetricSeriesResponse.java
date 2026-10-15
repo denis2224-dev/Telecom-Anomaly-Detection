@@ -29,5 +29,5 @@ public record MetricSeriesResponse(
                              String sourceRowSha256, String sourceFile, String manifestSha256,
                              String generatorVersion, long seed, String catalogueVersion,
                              String importPolicyVersion, String sourceQuality,
-                             BigDecimal sourceCoverage, String quality, String qualityReason) {}
+                             BigDecimal sourceCoverage, String quality, String qualityReason, String sourceNamespace) {}
 }

@@ -12,11 +12,16 @@ test("generation is deterministic; check rejects stale or missing output", async
     await mkdir(join(temp, "design"));
     await copyFile(new URL("./sync-branding.mjs", import.meta.url), join(temp, "scripts/sync-branding.mjs"));
     await copyFile(new URL("../design/branding.json", import.meta.url), join(temp, "design/branding.json"));
+    await copyFile(new URL("../design/product.json", import.meta.url), join(temp, "design/product.json"));
+    await mkdir(join(temp, "apps/dashboard/src"), {recursive:true});
+    await writeFile(join(temp, "apps/dashboard/src/index.html"), "<title>Trace Link</title>");
     const script = join(temp, "scripts/sync-branding.mjs");
     const check = () => spawnSync(process.execPath, [script, "--check"], { encoding: "utf8" });
     assert.equal(check().status, 1, "missing outputs must fail");
     execFileSync(process.execPath, [script]);
     assert.equal(check().status, 0);
+    assert.match(await readFile(join(temp, "docs/assets/tracelink-logo.svg"), "utf8"), /Trace Link/);
+    assert.doesNotMatch(await readFile(join(temp, "docs/assets/tracelink-logo.svg"), "utf8"), /TraceLink/);
     const css = join(temp, "infra/keycloak/themes/telecom/login/resources/css/tokens.css");
     const original = await readFile(css, "utf8");
     execFileSync(process.execPath, [script]);

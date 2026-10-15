@@ -39,10 +39,13 @@ describe('Connected dashboard contract', () => {
       expect(item.marker!.y).toBeLessThan(100);
     }
   });
-  it('has nine map markers, five featured cities, and search-only Orhei', () => {
-    expect(cities.filter(city => city.marker)).toHaveLength(9);
+  it('shows Orhei on the map and retains hidden cities for service navigation', () => {
+    expect(cities.filter(city => city.marker)).toHaveLength(8);
     expect(cities.filter(city => city.featured)).toHaveLength(5);
-    expect(cities.find(city => city.id === 'ORH')?.marker).toBeNull();
+    const orhei = cities.find(city => city.id === 'ORH')!;
+    expect(orhei.marker).toEqual(projectCity(orhei.location.longitude, orhei.location.latitude));
+    expect(cities.find(city => city.id === 'RIB')?.marker).toBeNull();
+    expect(cities.find(city => city.id === 'TIR')?.marker).toBeNull();
     expect(fixtureCities.find(city => city.id === 'ORH')?.scopeIds).toHaveLength(2);
   });
 

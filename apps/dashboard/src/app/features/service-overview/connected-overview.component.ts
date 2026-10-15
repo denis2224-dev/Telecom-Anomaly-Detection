@@ -54,8 +54,8 @@ export class ConnectedOverviewComponent {
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
   readonly roamingPanel = signal(true);
-  readonly showTraffic = signal(true);
-  readonly transportLinks = transportPreview;
+  readonly showTraffic = signal(this.fixture);
+  readonly transportLinks = this.fixture ? transportPreview : [];
   readonly latestVoiceWindow = computed(() => this.chartRows('VOLTE').at(-1));
   readonly results = computed(() => callResults(this.latestVoiceWindow()));
   readonly headline = computed(() => {
@@ -69,8 +69,8 @@ export class ConnectedOverviewComponent {
       { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
       { label: 'Failed setup share', value: results ? number(100 - results.rate) + '%' : 'Unavailable', note: 'Setup attempts only', tone: 'danger' },
       { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
-      { label: 'Backhaul traffic', value: 'Unavailable', note: 'Sample links shown below', tone: 'muted' },
-      { label: 'Roaming status', value: 'Preview', note: 'Country API unavailable', tone: 'info' },
+      { label: 'Backhaul traffic', value: 'Unavailable', note: this.fixture ? 'Sample links shown below' : 'Open directional transport history', tone: 'muted' },
+      { label: 'Roaming status', value: this.fixture ? 'Preview' : 'Unavailable', note: 'Partner investigation available', tone: 'info' },
       { label: 'Open incidents', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Current service / city filter', tone: 'warning' },
     ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
   });

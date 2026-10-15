@@ -1,0 +1,17 @@
+{
+  "name": "legacy-voice-parity",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-voice-parity.py",
+    "--java-output",
+    "services/processor/target/voice-parity-java.json"
+  ],
+  "startedAt": "2026-10-12T19:07:20.003250+00:00",
+  "finishedAt": "2026-10-12T19:07:20.261687+00:00",
+  "elapsedSeconds": 0.258,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "legacy-voice-parity.log",
+  "logSha256": "68b9560eccf8de14471760307fbbb4c28733fa0fd9e0de32da2a7fcef91225db"
+}

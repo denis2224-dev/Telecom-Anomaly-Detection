@@ -1,0 +1,18 @@
+46b76ae66d09cae267fcc4afb0639806bf9f50e9
+100644 0133d9db88231d1ec90b8ce968a8f77e36ecabd4 1	.gitattributes
+100644 d0c1be4443477169d30c6a50861d70cbda5b9399 2	.gitattributes
+100644 44ce74b6ec7f05ac4c2dc58aa03dbc526f9ccc9d 3	.gitattributes
+100644 58589169d298413f47871bb51654f2eef5a345ab 1	scripts/check-contracts.py
+100644 f76a75570199db93a627368cc8ac03cdba987f20 2	scripts/check-contracts.py
+100644 efe8d9d80d90b842b2d944e7b0350d1a450e67ce 3	scripts/check-contracts.py
+100644 7d4fd2d31669f99d10c5ef1a500f886bf9468752 1	services/processor/README.md
+100644 41892bef07b14c1f984d7385a20efdc871cefe4f 2	services/processor/README.md
+100644 b7ec0a5b89aeac895378ab80a5337297bc7eb7e2 3	services/processor/README.md
+
+Auto-merging .gitattributes
+CONFLICT (content): Merge conflict in .gitattributes
+Auto-merging scripts/check-contracts.py
+CONFLICT (content): Merge conflict in scripts/check-contracts.py
+Auto-merging services/processor/README.md
+CONFLICT (content): Merge conflict in services/processor/README.md
+Auto-merging services/processor/src/test/java/md/utm/telecom/processing/history/TraceLinkDatasetBootstrapIT.java

@@ -1,0 +1,5 @@
+PASS java: 54 hand-derived cases, maximum absolute float error=0
+PASS python: 54 hand-derived cases, maximum absolute float error=0
+PASS sql: 54 hand-derived cases, maximum absolute float error=0
+PASS javascript: 54 hand-derived cases, maximum absolute float error=0
+PASS: four-language parity; fixture SHA-256=82b584adce86b41bb3db2be8b61320ee5a5737328835403282d6c0dbbe3245fd

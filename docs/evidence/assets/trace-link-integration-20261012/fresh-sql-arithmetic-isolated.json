@@ -1,0 +1,20 @@
+{
+  "name": "fresh-sql-arithmetic-isolated",
+  "cwd": "C:/OrangeSystems/Program/trace-link-integration-20261012",
+  "command": [
+    "python",
+    "scripts/check-trace-link-parity.py",
+    "--export-sql",
+    "--container",
+    "trace-link-integration-parity-20261012",
+    "--output",
+    "C:/OrangeSystems/Program/trace-link-integration-audit-20261012/arithmetic-sql.json"
+  ],
+  "startedAt": "2026-10-12T18:48:50.128297+00:00",
+  "finishedAt": "2026-10-12T18:48:50.646305+00:00",
+  "elapsedSeconds": 0.518,
+  "exitCode": 0,
+  "status": "PASS",
+  "log": "fresh-sql-arithmetic-isolated.log",
+  "logSha256": "2fc3d80298ff52bcd31d1d58d087b7f068982b12b288afea98f6ddcff4803f87"
+}

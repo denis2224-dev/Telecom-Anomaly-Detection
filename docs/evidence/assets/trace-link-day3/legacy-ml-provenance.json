@@ -1,0 +1,52 @@
+{
+  "image": "sha256:eaa6c51ef68a231be5ce6393738cc9eb4ddd44f76fe4e31cd97350d673aa7a5f",
+  "command": [
+    "python",
+    "-m",
+    "uvicorn",
+    "app.inference.api:app",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8090",
+    "--limit-concurrency",
+    "8"
+  ],
+  "modelMetadata": {
+    "modelVersion": "isoforest-v2-synthetic-1",
+    "baselineVersion": "baseline-v2",
+    "artifacts": [
+      {
+        "file": "SMS-calibration.json",
+        "sha256": "b683e8148a24e9893585b80c0b92cc8414e3a93d1626f51efe891bbce2741c5b"
+      },
+      {
+        "file": "SMS.joblib",
+        "sha256": "ddc926945b8b4c44945d5e33a18b85eec9dbec5c8612640f9dfbe5f84e48f307"
+      },
+      {
+        "file": "VOLTE-calibration.json",
+        "sha256": "316b639ae205b5c87578db3bb107060cb906f0d64e9069b1ccb2001c737fa489"
+      },
+      {
+        "file": "VOLTE.joblib",
+        "sha256": "b8e0d421a971bd0154ef830553bac9919f8f5bd13d44789e493a8ca67ba7b2dd"
+      },
+      {
+        "file": "manifest.json",
+        "sha256": "b2c8385a41118c314848bcf041563d9b4e17960db1ec4b838f7d508d54370711"
+      }
+    ]
+  },
+  "startedAt": "2026-10-13T11:31:33.258591400Z",
+  "endedAt": "2026-10-13T11:31:33.836914900Z",
+  "configuredConcurrency": 8,
+  "observedMaxConcurrency": 8,
+  "serverResponses": {
+    "concurrencyWarnings": 41,
+    "http503": 41,
+    "http200": 23
+  },
+  "timingSha256": "ee2c3732d65e53fca65e7b746f3c099382e6df9179b273f68b4de65d5a4e2e2e",
+  "serverLogSha256": "a99b5c1c298679f89fbea69c83f807508a9e8df2a78ba09d1dbec4b1938f05a7"
+}

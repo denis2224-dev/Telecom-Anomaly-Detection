@@ -1,0 +1,1355 @@
+{
+  "observedDate": "2026-10-12",
+  "timezone": "Europe/Chisinau",
+  "main": "47a2c9236e8ac82351b7fa62ec2264cc8df103c2",
+  "pullRequests": [
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/89",
+        "number": 89,
+        "state": "closed",
+        "merged": true,
+        "mergeable": false,
+        "draft": false,
+        "body": "Freeze versioned history, inventory, notification routes, event identities, and V005–V007 reservations. Contract validation, generated types, dashboard tests/build, and incident-service verification passed.",
+        "title": "Define Trace Link backend contracts",
+        "base": "main",
+        "base_sha": "9067701943acb38cc25965ff89693292fc62766c",
+        "head": "feat/trace-link-backend-contracts",
+        "head_sha": "fec8905d7ba5563a8ebfe0aa541c16b1cb93b75b",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "fe447b0bab25e90a17fe1cab6db275b6b698126b",
+        "user": {
+          "login": "denis2224-dev",
+          "name": "denis2224-dev",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/235508013?v=4",
+          "id": 235508013
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-11T19:20:43Z",
+        "updated_at": "2026-10-12T18:12:52Z",
+        "closed_at": "2026-10-12T18:12:52Z",
+        "merged_at": "2026-10-12T18:12:52Z",
+        "commits": 3,
+        "changed_files": 7,
+        "additions": 1816,
+        "deletions": 52,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/89",
+        "display_title": "Define Trace Link backend contracts"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/89",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #89 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/89",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #89 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38168989613,
+                    "name": "service-integration",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 195,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989613/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989613/logs",
+                    "workflow_id": 370494734
+                  },
+                  {
+                    "id": 38168989660,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 149,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989660/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989660/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38168989495,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 150,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989495/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989495/logs",
+                    "workflow_id": 373086064
+                  },
+                  {
+                    "id": 38168989555,
+                    "name": "dashboard",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 139,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989555/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38168989555/logs",
+                    "workflow_id": 373448396
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/90",
+        "number": 90,
+        "state": "closed",
+        "merged": true,
+        "mergeable": false,
+        "draft": false,
+        "body": "## Scope\n\nAdd V005–V007 notification and Trace Link read-model migrations, strict grants, encrypted subscription storage, transition and cause policies, versioned inventory reads, and an authenticated bounded ratio-series API. The dashboard contract copy and generated types now reflect the implemented read endpoints.\n\nThis PR is stacked on #89. After #89 merges, retarget this PR to `main` before merging.\n\n## Verification\n\n- Incident-service Maven `verify`: 39 suites, 180 tests, 0 failures, 0 errors, 1 skip.\n- Fresh and V004-upgrade Flyway paths produce matching schema and grants; runtime DDL and immutable history mutations are denied.\n- 30-day sparse-fixture series returns 8,640 five-minute buckets; ratio-of-sums, gaps, UTC edges, authentication, and analyst repository isolation are covered.\n- Python contract checks, canonical/dashboard OpenAPI byte comparison, dashboard tests (26 files, 131 tests), and production build pass.\n- Reference oracle passed 708,498 engine checks and 23 DOM-shim checks.\n\n## Dependencies and limits\n\nThe producer aggregate schema and valid/invalid projection fixtures are not present yet, so the projector and idempotent full 30-day bootstrap remain gated. Day 3 notification transaction hooks and REST history, Web Push delivery, CSV, and other metric operators are outside this PR. `./scripts/verify` reached the Compose PostgreSQL readiness check and stopped because that service was not running locally. Details and checksums are in `docs/evidence/2026-10-11-backend-persistence.md`.\n",
+        "title": "Persist Trace Link history and notification foundations",
+        "base": "main",
+        "base_sha": "fe447b0bab25e90a17fe1cab6db275b6b698126b",
+        "head": "feat/trace-link-backend-persistence",
+        "head_sha": "923a9f009ce402b84cc26882466e7c2e3989a136",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "47a2c9236e8ac82351b7fa62ec2264cc8df103c2",
+        "user": {
+          "login": "denis2224-dev",
+          "name": "denis2224-dev",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/235508013?v=4",
+          "id": 235508013
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-11T19:38:41Z",
+        "updated_at": "2026-10-12T18:14:36Z",
+        "closed_at": "2026-10-12T18:14:36Z",
+        "merged_at": "2026-10-12T18:14:36Z",
+        "commits": 17,
+        "changed_files": 47,
+        "additions": 2319,
+        "deletions": 22,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/90",
+        "display_title": "Persist Trace Link history and notification foundations"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/90",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #90 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/90",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #90 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38169026269,
+                    "name": "service-integration",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 196,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026269/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026269/logs",
+                    "workflow_id": 370494734
+                  },
+                  {
+                    "id": 38169026300,
+                    "name": "dashboard",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 140,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026300/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026300/logs",
+                    "workflow_id": 373448396
+                  },
+                  {
+                    "id": 38169026341,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 150,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026341/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026341/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38169026224,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 151,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026224/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38169026224/logs",
+                    "workflow_id": 373086064
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/91",
+        "number": 91,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": true,
+        "body": "## Change\n\nAdd the first compatible Trace Link Phase A/B slice: a versioned reference catalogue for ten cities and twelve directional links, strict domain observation validation, and an isolated processor-owned native history importer.\n\nV014/V015 preserve immutable source provenance and transaction-safe batch checkpoints. Exact retries return the existing completion, conflicting manifests fail, and concurrent retries serialize by dataset. V016 remains reserved for the agreed domain projection. The new catalogue stays CONTRACT_ONLY; existing VoLTE/SMS runtime ownership and historical migrations remain unchanged.\n\nThe actual supplied archive was verified and imported into disposable PostgreSQL: **362,880 native five-minute rows** (86,400 city, 103,680 link, 172,800 roaming), with exact retry unchanged. Eighteen scenario-truth rows are verified only and excluded from source-window storage. Unprovided quality/coverage remain null; no reverse measurements, one-minute history or primitive counters are fabricated.\n\n## Validation\n\n- Complete streaming reactor: **1,183 reported**, zero failures/errors, five explicit skips.\n- Incident-service: **218 reported**, zero failures/errors, one explicit skip.\n- Repository Python: **111 passed**; ML Python: **64 passed**.\n- Dashboard API generation, **131 tests** and production build passed; generated Git content unchanged.\n- All **54 arithmetic cases** match across Java, Python, JavaScript and SQL with maximum difference zero.\n- PostgreSQL import tests cover exact retry, committed-batch interruption/resume, rollback, concurrent retry, manifest rejection, runtime grants, fresh install and V013 upgrade.\n- Windows checkout preserves all seven native CSV checksums. Frozen-file pins pass on committed Git bytes and an exact LF snapshot; the raw working-copy checker exposes existing CRLF conversion.\n- Contract checks and Git diff whitespace checks passed.\n\nThe standard skips are three packaged ML HTTP checks, one optional SMS-shadow replay and the opt-in full-archive test. Full-archive verification passed separately with the supplied archive explicitly selected. Incident-service also skips optional SMS-shadow replay. Compose configuration is blocked by missing PROCESSING_DB_PASSWORD in this isolated worktree; ./scripts/verify was not run without an approved configured integrated target.\n\n## Integration gates\n\n#89 and stacked #90 remain open; #90 targets #89's branch. Their incident-service tables are not duplicated here. The naming difference between voice.success_rate and volte.setup.success requires an agreed versioned projection contract.\n\nAuthenticated downstream reads, catalogue activation, primitive rollups, new-domain runtime/scenarios, new-importer process/database outage drills and receiving-owner reproductions remain pending. Local checks do not establish shared release readiness; release remains BLOCKED.\n\n- [Evidence and owner handoffs](docs/evidence/2026-10-10-trace-link-contracts.md)\n- [Native import runbook](docs/runbooks/trace-link-native-import.md)\n- [Migration reservation ledger](docs/architecture/trace-link-migration-ledger.md)\n\nImplementation tested at 5a8e6bec28ab88fbbfe85da2ecca695cdf4aa7a0; 1e67e61ce3f2c46f26818b42c17fc3d50481aae4 adds the verification evidence.\n",
+        "title": "Add Trace Link reference inventory and checkpointed native history import",
+        "base": "main",
+        "base_sha": "47a2c9236e8ac82351b7fa62ec2264cc8df103c2",
+        "head": "feature/ion-trace-link-inventory-bootstrap",
+        "head_sha": "5daccd7ba207ffcfea0d21e89151a79154586fba",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "6d545976156f6c7da7c12506b967a245b715bd7c",
+        "user": {
+          "login": "itsjohnyoff",
+          "name": "itsjohnyoff",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/230191505?v=4",
+          "id": 230191505
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-11T21:56:52Z",
+        "updated_at": "2026-10-12T18:26:16Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 5,
+        "changed_files": 50,
+        "additions": 6697,
+        "deletions": 6,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/91",
+        "display_title": "Add Trace Link reference inventory and checkpointed native history import"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/91",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #91 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/91",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #91 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38290902277,
+                    "name": "service-integration",
+                    "status": "in_progress",
+                    "conclusion": null,
+                    "run_number": 210,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902277/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902277/logs",
+                    "workflow_id": 370494734
+                  },
+                  {
+                    "id": 38290902165,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 164,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902165/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902165/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38290902242,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 165,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902242/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902242/logs",
+                    "workflow_id": 373086064
+                  },
+                  {
+                    "id": 38290902118,
+                    "name": "dashboard",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 154,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902118/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38290902118/logs",
+                    "workflow_id": 373448396
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/92",
+        "number": 92,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": true,
+        "body": "Native Trace Link imports can produce immutable canonical `VOLTE / volte.setup.success` primitives and UTC 5m/15m/1h/6h ratio-of-sums rollups, with delivery held for consumer review. Final hardening rejects MISSING with measured primitives and zero source coverage with a positive observed population, preserving measured zero, unknown source metadata and retained stale measurements. Zero-denominator partial buckets now remain null and insufficient; schema/semantic checks and focused negative database tests cover the contradictions and immutable retry boundaries.\r\n\r\nThis producer-only slice remains **DRAFT**, stacked on #91 (`1e67e61ce3f2c46f26818b42c17fc3d50481aae4`). V014/V015/V016, historical source inputs and Denis's #89/#90 branches are unchanged. The existing held outbox and native rollups were retained. **Consumer approval remains PENDING_REVIEW.** No production topic, outbox release, incident-table change, automatic delivery, merge or auto-merge is enabled.\r\n\r\nProducer source SHA: `bb52660f762ae696c1de37aa400cef589b06e17d`. Publication head: `3f6d485f41a6881fe65e580dfc8854d9ce97a2fe`. The publication adds only handoff/evidence documentation and an LF rule for its JSON artifacts; runtime, contracts, tests and verification scripts match the verified source commit.\r\n\r\n**All six GitHub CI jobs pass on publication head `3f6d485f41a6881fe65e580dfc8854d9ce97a2fe`.**\r\n\r\n- [dashboard-verification](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883766/job/114697201822): PASS\r\n- [build](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883769/job/114697202254): PASS\r\n- [backend-verification](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883781/job/114697201984): PASS\r\n- [deployment-config](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883767/job/114697202400): PASS\r\n- [model-evaluation](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883767/job/114697202096): PASS\r\n- [processor-evaluation](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38214883767/job/114698824188): PASS\r\n\r\nValidation:\r\n\r\n- One fresh complete root Maven `clean verify` on committed source: **1,205 tests, 0 failures, 0 errors, 6 skips; 1,199 passed**. streaming-support 117; event-generator 95; processor 993. No overlapping invocation is added to these totals.\r\n- Default skips: two explicitly selected archive tests; HTTP scorer and voice/SMS packaged-model assumptions without `ML_SERVICE_URL`; shadow replay without `SMS_SHADOW_REPLAY_DIR`. The two archive checks pass in the separate opt-in run below; the other local gates stay skipped.\r\n- Contract validation and **118 repository Python tests** pass. Java/Python/PostgreSQL/JavaScript match all 54 hand-derived arithmetic cases exactly. Legacy voice/SMS parity (7/12), geographic parity (30/32), and fresh persisted geographic parity (90/90) pass.\r\n- Separate source/import/projection replay: **27 tests, 0 failures/errors/skips**. Actual supplied archive: 362,880 native rows; 8,640 Chisinau (`chi`) projections and held outbox rows; identical retry; 121 UTC 6h buckets match independent native SQL sums. V015 -> V016 upgrade, source preservation, immutable grants, duplicate/conflicting retries and isolated startup pass.\r\n- All 29 frozen repository/reference inputs and the arithmetic fixture remain unchanged. Fresh native/import/full-projection evidence hashes are compared with prior artifacts in the verification manifest. The reference engine passes 708,498 checks.\r\n- Isolated checks against #90 reproduce incompatible metric/policy identifiers, lowercase domain storage, the quality enum/VARCHAR(16) restriction, missing read provenance/null reasons, and topology/quality/coverage/partial-edge query gaps. These are read-only fixture/constraint checks; no consumer DB/API was started.\r\n- Final Git inspection: no tracked changes; the pre-existing untracked `graphify-out/` directory is retained. Upstream #91 and Denis's #89/#90 branch heads are unchanged.\r\n\r\nReview the [exact consumer decision package](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/3f6d485f41a6881fe65e580dfc8854d9ce97a2fe/docs/architecture/trace-link-consumer-handoff-v1.md), [producer agreement](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/3f6d485f41a6881fe65e580dfc8854d9ce97a2fe/docs/architecture/trace-link-projection-v1.md), [final report](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/3f6d485f41a6881fe65e580dfc8854d9ce97a2fe/docs/evidence/2026-10-12-trace-link-final-hardening.md), and [commands, suite counts, skip reasons and hashes](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/3f6d485f41a6881fe65e580dfc8854d9ce97a2fe/docs/evidence/assets/trace-link-final-hardening/verification.json).\r\n\r\n**IMPLEMENTED:** producer correctness hardening and exact handoff. **VERIFIED:** fresh producer reactor, contracts, Python, arithmetic/geographic parity, disposable migration/import/replay and isolated incompatibilities. **PENDING_REVIEW:** Denis's identifiers/population, versions, quality/provenance, topic/key and additive read-model decision. **BLOCKED:** connected delivery/ACK recovery, incident-owned ingestion and unauthorized/authenticated imported-source API acceptance, owner reproduction and shared activation.\r\n\r\nAfter Denis records the contract decision, the smallest proposed consumer step is one isolated incident-owned fixture acceptance test against an additive read-model migration, including identical/conflicting retries, with an inactive catalogue and no production topic. **That step has not been started.**\r\n",
+        "title": "feat(processor): add gated Trace Link native KPI projection and rollups",
+        "base": "feature/ion-trace-link-inventory-bootstrap",
+        "base_sha": "5daccd7ba207ffcfea0d21e89151a79154586fba",
+        "head": "feature/ion-trace-link-projection-v1",
+        "head_sha": "b987aa809101eedc1d40d52c95dff94a1e9e27b8",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "6ce7072406877dc468107f49c76072190431d981",
+        "user": {
+          "login": "itsjohnyoff",
+          "name": "itsjohnyoff",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/230191505?v=4",
+          "id": 230191505
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-11T22:47:39Z",
+        "updated_at": "2026-10-12T18:27:40Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 6,
+        "changed_files": 37,
+        "additions": 5045,
+        "deletions": 6,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/92",
+        "display_title": "feat(processor): add gated Trace Link native KPI projection and rollups"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/92",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #92 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/92",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #92 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38291059727,
+                    "name": "service-integration",
+                    "status": "in_progress",
+                    "conclusion": null,
+                    "run_number": 211,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059727/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059727/logs",
+                    "workflow_id": 370494734
+                  },
+                  {
+                    "id": 38291059886,
+                    "name": "dashboard",
+                    "status": "in_progress",
+                    "conclusion": null,
+                    "run_number": 155,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059886/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059886/logs",
+                    "workflow_id": 373448396
+                  },
+                  {
+                    "id": 38291059721,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 165,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059721/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059721/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38291059731,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 166,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059731/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38291059731/logs",
+                    "workflow_id": 373086064
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/93",
+        "number": 93,
+        "state": "open",
+        "merged": false,
+        "mergeable": false,
+        "draft": true,
+        "body": "Completed native imports can now be transformed into 11 deterministic Transport, Roaming and LTE mobile-data primitive metrics by an isolated read-only producer job. The job preserves source identity/checksums and nullable quality/coverage, writes byte-stable local artifacts, rejects conflicting replay, and retains approximation/procedure/weighting limits through rollups.\n\nTransport emits traffic, effective capacity, utilization, RTT snapshot and jitter. Roaming emits independent partner/direction registration, data and voice ratios. LTE emits activation, reference-only DNS and modeled city-slot throughput. No reverse measurements, packet counters, RTT sample counts, finalized SMS cohorts or user/session weights are invented.\n\n- HEAD: `e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8`; three commits ahead of PR #91 base `1e67e61ce3f2c46f26818b42c17fc3d50481aae4`, zero behind.\n- Tested implementation: `2b71f421112f800032a5cf1fbbd06256d2109c53`; subsequent commits contain evidence and artifact line-ending/hash metadata only.\n- PR #91/#92 and Denis's #89/#90 heads were rechecked unchanged. Normal VoLTE/SMS entrypoints, public APIs, migrations, Kafka consumers and PR #92's held outbox remain unchanged.\n\nValidation: full producer reactor reports **1,200 tests, zero failures/errors, five documented skips**; repository Python **115 passed**; contract checks passed. A fresh **362,880-row** archive import/retry produced **14 independent PostgreSQL parity cases with maximum difference 0**. Four-language arithmetic passed 54 cases per language, the external reference engine passed 708,498 checks, and reference adapter compatibility passed 75 checks. Frozen V016 SQL applied/validated unchanged; a seeded held VoLTE record remained unchanged after the Transport job.\n\nThe five skips are three optional ML HTTP cases without `ML_SERVICE_URL`, SMS shadow replay without `SMS_SHADOW_REPLAY_DIR`, and the existing optional import test without `traceLink.referenceRoot`; full import/retry separately ran through the new archive producer test. The raw Windows pin check exposed inherited CRLF conversion; exact committed Git blobs passed all 29 frozen-file pins. Published evidence hashes were verified against committed LF bytes.\n\nKafka/consumer delivery remains **PENDING_REVIEW**. Connected capacity is **BLOCKED**: no approved compatible new-domain Kafka path exists, so the 2-minute warmup/15-minute steady/burst/recovery profile was not run. No benchmark, authenticated API/UI/Grafana acceptance or receiving-owner reproduction is claimed.\n\n- [Metric matrix, source mapping and full verification](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8/docs/evidence/2026-10-12-domain-producers.md)\n- [Exact commands, counts, skips and hashes](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8/docs/evidence/assets/trace-link-domain-producers/verification.json)\n- [Producer runbook](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8/docs/runbooks/trace-link-domain-producers.md)\n- [Capacity evidence](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8/docs/evidence/2026-10-12-streaming-capacity.md)\n",
+        "title": "feat(processor): add native Transport Roaming and LTE producers",
+        "base": "feature/ion-trace-link-inventory-bootstrap",
+        "base_sha": "1e67e61ce3f2c46f26818b42c17fc3d50481aae4",
+        "head": "feature/ion-tracelink-domain-producers",
+        "head_sha": "e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "06a040b83b4618f9d1024a2c50d75b21fa6f86ae",
+        "user": {
+          "login": "itsjohnyoff",
+          "name": "itsjohnyoff",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/230191505?v=4",
+          "id": 230191505
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-12T10:11:43Z",
+        "updated_at": "2026-10-12T10:11:43Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 3,
+        "changed_files": 33,
+        "additions": 10594,
+        "deletions": 0,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/93",
+        "display_title": "feat(processor): add native Transport Roaming and LTE producers"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/93",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #93 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/93",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #93 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38234784103,
+                    "name": "service-integration",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 201,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234784103/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234784103/logs",
+                    "workflow_id": 370494734
+                  },
+                  {
+                    "id": 38234784174,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 155,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234784174/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234784174/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38234783993,
+                    "name": "dashboard",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 145,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234783993/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234783993/logs",
+                    "workflow_id": 373448396
+                  },
+                  {
+                    "id": 38234784080,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 156,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234784080/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38234784080/logs",
+                    "workflow_id": 373086064
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": [
+                  {
+                    "id": "PRR_kwDOUWQgeM8AAAABR2Vc1g",
+                    "state": "COMMENTED",
+                    "body": "Copilot was unable to review this pull request because the user who requested the review has reached their quota limit.",
+                    "submitted_at": "2026-10-12T15:23:18Z",
+                    "author": {
+                      "login": "copilot-pull-request-reviewer",
+                      "name": "copilot-pull-request-reviewer",
+                      "email": null,
+                      "avatar_url": "https://avatars.githubusercontent.com/in/946600?v=4",
+                      "id": null
+                    }
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/94",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #94 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/94",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #94 comments"
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/95",
+        "number": 95,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": true,
+        "body": "Title: feat(generator): add deterministic scoped Trace Link scenarios\nRepository: denis2224-dev/Telecom-Anomaly-Detection\nBase: feature/ion-tracelink-domain-producers\nHead: feature/ion-tracelink-scoped-scenarios\nDraft: true\nDelivery HEAD: e3d0a41da141f2a836edbd35258ba878efc335dd\n\nTrace Link now compiles genuine one-minute Transport overload, Roaming registration failure and LTE DNS failure measurements with independent healthy/gap controls. A bounded pure scheduler provides deterministic eight-minute profiles, concurrent scopes, overlap rejection, stable identities, idempotent replay, retained stop history and explicit interrupted restart behavior.\n\nThe eighteen-type catalogue executes five types; thirteen remain explicitly unsupported. Strict detector-visible JSONL excludes evaluator truth. Separate evaluator fixtures cover candidate opening, equal-severity update, escalation, UNKNOWN, technical recovery, replay and a later episode; actual detector acceptance remains PENDING.\n\nStacked on PR #93 at e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8. Tested source: 85552dbc4d07dc1d0f29012147a4cd6e2db97213; delivery head e3d0a41da141f2a836edbd35258ba878efc335dd adds evidence only. Live synthetic 60-second namespaces are isolated from immutable native 300-second history. Legacy VoLTE/SMS, Kafka activation, migrations and PR #92's held outbox remain unchanged. No dependency on #92 or modification to #89/#90/#91/#92/#93 branches.\n\nValidation: full Java reactor 1,231 reported / 1,224 passed / 7 optional skips, zero failures/errors. Final affected-module verify/packages after refinements: 244 passed, including 32 new tests. Final distinct suite reports total 1,232 with 7 skips, combining final affected modules with unchanged processor tests; this is not another single reactor run. Python 119 passed; independent arithmetic verified 144 minute measurements. Legacy persisted VoLTE/SMS parity passed 7/12 cases. Four-language arithmetic passed 54 cases per language with maximum difference 0. Reference engine passed 708,498 checks; adapter compatibility passed 75. Packaged CLI generated 8 windows/24 observations and byte-preserving exact replay.\n\nOptional skips: three ML HTTP cases, SMS shadow replay, full archive bootstrap, full archive native producer parity and V016 coexistence, all without explicit opt-in inputs. Failed environment and fixture-assertion attempts plus passing reruns are recorded separately.\n\nKafka remains DISABLED/PENDING_REVIEW. Connected incidents, authenticated API/UI, runtime activation, receiving-owner reproduction and release acceptance remain separate gates. The pure engine exposes immutable checkpoints; it does not claim durable publication/acknowledgement tracking.\n\n[Evidence and handoffs](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/e3d0a41da141f2a836edbd35258ba878efc335dd/docs/evidence/2026-10-13-trace-link-scenarios.md) | [Exact verification, skips and hashes](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/e3d0a41da141f2a836edbd35258ba878efc335dd/docs/evidence/assets/trace-link-scenarios/verification.json) | [Runbook](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/e3d0a41da141f2a836edbd35258ba878efc335dd/docs/runbooks/trace-link-scenarios.md)\n",
+        "title": "feat(generator): add deterministic scoped Trace Link scenarios",
+        "base": "feature/ion-tracelink-domain-producers",
+        "base_sha": "e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8",
+        "head": "feature/ion-tracelink-scoped-scenarios",
+        "head_sha": "e3d0a41da141f2a836edbd35258ba878efc335dd",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "3d02c79a61aac057bab5ee0f393c9bc745ca7b10",
+        "user": {
+          "login": "itsjohnyoff",
+          "name": "itsjohnyoff",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/230191505?v=4",
+          "id": 230191505
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-12T15:07:08Z",
+        "updated_at": "2026-10-12T15:07:08Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 3,
+        "changed_files": 30,
+        "additions": 7978,
+        "deletions": 2,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/95",
+        "display_title": "feat(generator): add deterministic scoped Trace Link scenarios"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/95",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #95 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/95",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #95 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38267888500,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 158,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888500/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888500/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38267888083,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 159,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888083/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888083/logs",
+                    "workflow_id": 373086064
+                  },
+                  {
+                    "id": 38267888265,
+                    "name": "dashboard",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 148,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888265/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888265/logs",
+                    "workflow_id": 373448396
+                  },
+                  {
+                    "id": 38267888106,
+                    "name": "service-integration",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 204,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888106/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38267888106/logs",
+                    "workflow_id": 370494734
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/96",
+        "number": 96,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": true,
+        "body": "Trace Link producers now retain bounded, immutable local scenario checkpoints and reject noncanonical run identities and malformed artifact JSON. Interrupted or stopped runs preserve their history/reservation and release no recovery windows. Publication status is explicitly `UNKNOWN_NOT_TRACKED`; these files do not establish Kafka acknowledgement or delivery-level exactly-once behavior.\n\nStacked on Day 4 Draft PR #95, base `feature/ion-tracelink-scoped-scenarios` at `e3d0a41da141f2a836edbd35258ba878efc335dd`. Tested implementation is `6a6231113f9655534e14e54af204fb6c51cb4b92`; subsequent changes contain documentation, evidence and artifact-byte attributes. Plan milestone is 14 October; execution was 12 October 2026.\n\n## Implementation and failure evidence\n\n- Fix two reproduced defects: first-use run ID could disagree with its command, and artifact parsing accepted trailing JSON. Regression-first run: two tests, two expected failures. Strict parsing also rejects duplicate keys before creating output.\n- Add versioned/checksummed checkpoint files bounded to 8 MiB, 128 retained runs, eight windows and three observations per window. Flushed atomic no-clobber publication preserves earlier evidence. Restored unfinished runs become INTERRUPTED; completed/stopped reservations retain identity. Missing publication metadata and conflicting parameters/history fail closed. No background worker, automatic resume or delivery ledger is introduced.\n- Verify stop before the first minute, during degradation and during recovery; disk restart; completed command retry; concurrent exact commands/artifact writers; byte/timestamp preservation; and recovery-phase telemetry gaps. Missing/stale/insufficient evidence never manufactures healthy recovery. Native UTC 300-second history remains separate from live 60-second simulation.\n- Pause/unpause real disposable PostgreSQL: unavailable-before-import transaction fails, read-only output fails without creating/replacing artifacts, and exact recovery preserves source rows/payload/checksums. Final drill: 12,136 ms unavailable; 720 ms restored availability plus bounded import/retry. These are local drill timings, not connected capacity.\n- Reuse native importer rollback, committed-batch interruption/resume, checksum, duplicate, manifest-conflict and runtime privilege tests. Full supplied archive import/retry verified 362,880 immutable rows; 14 producer/SQL parity cases matched exactly. Enabled retention preserves unfinished/completed native provenance, and the unchanged frozen V016 held outbox survives producer/retention jobs. No retention defect or schema change was required.\n\n## Verification\n\n**Single complete clean Java reactor: 1,250 reported / 1,246 passed / four optional skips / zero failures or errors**, 17m51s. Includes ReplayIT, FinalizerRaceIT, DependencyOutageIT, geographic coverage/replay, importer/producer/primitive, scenario/truth-leakage, legacy outbox and retention tests. Archive and V016 opt-ins were explicitly enabled and passed. Focused results (30 reported / 29 passed / one archive skip) are separate and are not added to the full run.\n\nPython discovery: **119 passed**; contracts passed. Persisted VoLTE/SMS parity: **7/12 cases** matched all fields. Four-language arithmetic: **54 cases per language**, maximum difference **0**. Scenario arithmetic: **144 measured points**; external reference engine: **708,498 checks**; adapter compatibility: **75 checks**. Packaged checkpoint rehearsal: three Transport windows/nine observations, immutable replay, explicit INTERRUPTED/STOPPED restoration, zero restart output, Kafka DISABLED.\n\nSkips: three live ML HTTP cases without `ML_SERVICE_URL`, and SMS shadow replay without `SMS_SHADOW_REPLAY_DIR`. Initial sandbox cleanup/dependency failures, the corrected outage-test exception assertion, and the premature voice-export check are recorded separately. Full source remained fixed during verification; final evidence records exact commands, individual suites, hardware and artifact/log hashes.\n\n## Boundaries and handoffs\n\nKafka remains **DISABLED / PENDING_REVIEW** for new Trace Link producers. No production topic, consumer edit, legacy-topic alias, applied migration, held-outbox release, demo reset or owner-branch rewrite occurs. Existing approved VoLTE/SMS paths remain unchanged.\n\nConnected capacity is **BLOCKED**: no compatible approved new-domain consumer/delivery path. The shared 120-second warmup / 900-second steady-state / bounded burst / recovery profile is retained; new-domain offered/ACK/persisted/finalized rates, lag and drain are not measured. Legacy Kafka tests and local artifact timing do not satisfy that gate.\n\nRunbooks cover ownership, namespaces, seeds, execution timing, safe restart, import resume, missing/stale/late semantics, credentials and indefinite retention/storage limitations. Technical handoffs are prepared for Sergiu (detector/truth/UNKNOWN controls), Denis (immutable ingestion/retry/ACK contracts), David (five supported types and stable status/gap behavior), and Stanislav (read-only roles, deployment/capacity/topic gates). Independent receiving-owner reproduction is **NOT VERIFIED**.\n\nComplete release readiness remains **BLOCKED** on approved consumer/transport, connected incident/API/UI/Grafana acceptance, deployment/backup/restore, capacity and five-owner sign-off. Keep this PR Draft; do not merge or enable auto-merge.\n\n[Day 5 evidence](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/8fb0596b415b4fef137b29b38774948d3112c1a0/docs/evidence/2026-10-14-trace-link-reliability.md) Â· [Exact verification and hashes](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/8fb0596b415b4fef137b29b38774948d3112c1a0/docs/evidence/assets/trace-link-reliability/verification.json) Â· [Reproduced defects](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/8fb0596b415b4fef137b29b38774948d3112c1a0/docs/evidence/rehearsal-defects.md) Â· [Restart runbook](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/8fb0596b415b4fef137b29b38774948d3112c1a0/docs/runbooks/trace-link-scenarios.md#local-checkpoints-and-safe-restart) Â· [Owner handoffs](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/blob/8fb0596b415b4fef137b29b38774948d3112c1a0/docs/architecture/trace-link-reliability-handoffs.md)\n",
+        "title": "test(reliability): verify Trace Link producer replay, restart and recovery",
+        "base": "feature/ion-tracelink-scoped-scenarios",
+        "base_sha": "e3d0a41da141f2a836edbd35258ba878efc335dd",
+        "head": "feature/ion-tracelink-day5-reliability",
+        "head_sha": "8fb0596b415b4fef137b29b38774948d3112c1a0",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "7e10a9cb831824803c685392b7dd136b8db293e2",
+        "user": {
+          "login": "itsjohnyoff",
+          "name": "itsjohnyoff",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/230191505?v=4",
+          "id": 230191505
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-12T15:47:15Z",
+        "updated_at": "2026-10-12T15:47:15Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 2,
+        "changed_files": 29,
+        "additions": 2202,
+        "deletions": 5,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/96",
+        "display_title": "test(reliability): verify Trace Link producer replay, restart and recovery"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/96",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #96 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/96",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #96 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38272774514,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 160,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774514/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774514/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38272774378,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 161,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774378/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774378/logs",
+                    "workflow_id": 373086064
+                  },
+                  {
+                    "id": 38272774381,
+                    "name": "dashboard",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 150,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774381/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774381/logs",
+                    "workflow_id": 373448396
+                  },
+                  {
+                    "id": 38272774382,
+                    "name": "service-integration",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 206,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774382/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38272774382/logs",
+                    "workflow_id": 370494734
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pr": {
+        "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/97",
+        "number": 97,
+        "state": "open",
+        "merged": false,
+        "mergeable": true,
+        "draft": true,
+        "body": "Producer-owned Day 6 verification executed on **12 October 2026 (Europe/Chisinau)** for the **15 October milestone**. Two fresh packaged-producer JVM runs reproduce identical measured observations and checkpoint hashes. This PR also prepares a tested, separate #91 resolution patch and records the exact interface mismatches with newly merged offline detection policies.\n\n**Decision: PRODUCER_READY_FOR_REVIEW. Overall integrated release: BLOCKED. Keep Draft; automatic merge is disabled.**\n\n## Source and dependencies\n\nBase is the verified #96 branch `feature/ion-tracelink-day5-reliability` at `8fb0596b415b4fef137b29b38774948d3112c1a0`. Main is `bccfd01d20373d71cd6b51f7c102ebde45c884ff` (includes merged #94).\n\n| PR | Exact reviewed head | Declared base |\n| --- | --- | --- |\n| [#89](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/89) | `fec8905d7ba5563a8ebfe0aa541c16b1cb93b75b` | `main` |\n| [#90](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/90) | `923a9f009ce402b84cc26882466e7c2e3989a136` | `feat/trace-link-backend-contracts` |\n| [#91](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/91) | `1e67e61ce3f2c46f26818b42c17fc3d50481aae4` | `main` |\n| [#92](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/92) | `3f6d485f41a6881fe65e580dfc8854d9ce97a2fe` | `feature/ion-trace-link-inventory-bootstrap` |\n| [#93](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/93) | `e9a79c1f2fa2c5a59b366336e74b4e3b2b94bbb8` | `feature/ion-trace-link-inventory-bootstrap` |\n| [#94](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/94) | `f004f765373753e43adaf714b85bbd1501ccf0bd` | `main` |\n| [#95](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/95) | `e3d0a41da141f2a836edbd35258ba878efc335dd` | `feature/ion-tracelink-domain-producers` |\n| [#96](https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/96) | `8fb0596b415b4fef137b29b38774948d3112c1a0` | `feature/ion-tracelink-scoped-scenarios` |\n\nProducer chain: #91 -> #93 -> #95 -> #96 -> this PR. #92 is a **parallel child of #91**, absent from #93/#95/#96. Denis's separate chain is #89 -> #90. All eight inspected heads had six successful CI jobs. No recorded approval or receiving-owner reproduction was found; #94's COMMENTED bot review is not approval.\n\nDay 6 commits:\n\n```\nb84d0f5686bdffccb3ddd27284e2bba9fba68d82 test(release): pin deterministic producer rehearsals and repair Windows pin verification\na4d9351fe92d1021f3fb03d69142f19bbdf9abeb test(release): retain existing pin portability and integrity coverage\nfac50a3e21af38b7a1bc7ae3113d6e5049032941 docs(release): archive producer rehearsals, integration preflight and blocked owner gates\n5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c chore(evidence): preserve whitespace in immutable resolution patches\n```\n\nRehearsals pin source `a4d9351fe92d1021f3fb03d69142f19bbdf9abeb`, tree `a4314b7e995847a3a422717db2671a7a38c8fee6`. Later commits package evidence and preserve patch whitespace. Java sources/tests, applied migrations and frozen legacy contracts are identical to #96.\n\n## Rehearsals and immutable identity\n\n- Configuration SHA-256: `3d387504a364eb91f5cc3f03b19e5f0e0d69d2fe45f71edead76c7d07e082a51`.\n- Each independent JVM run: 14 eight-minute scoped schedules, **240 new-domain observations plus 105 legacy observations** across six approved profiles. Every generated file hash matches both runs.\n- Verified normal/degraded/recovery timing, concurrent independent scopes, opposite directions, DNS/activation independence, exact replay, no early/duplicate release, immutable checkpoints and interrupted restart with three retained windows / zero new windows. Missing recovery slots stay MISSING/null.\n- Matching Transport fault: `98a3c1e3a05d5f78a20d9d66c228fc9730cdd8cbd0b179093d88ba0254f8687e`.\n- Matching Roaming fault: `885126778ed7a82b9f17e05b98c98d6129e3ca874410833aa9bb1ffcb9b45dd4`.\n- Matching LTE fault: `83c788c4b1581dd9d83a9e678329bd54b9069f6c8d9f571a6a1b00b31279614f`.\n- Artifact manifest SHA-256: `77d06b4a6aeb8a64114a4e231c6d879e136825459d16e3df87ce1a0f8114b0cd`; 124 immutable evidence files verified again from a fresh checkout.\n\nHistorical native dataset stays 300s (`trace-link-md-30d-v1`); generated minute data is a separate synthetic 60s dataset. Kafka is DISABLED; publication status UNKNOWN_NOT_TRACKED. No detector, consumer, incident, notification or authenticated UI transition is claimed from these producer-only rehearsals. Five executable catalogue types; thirteen unsupported definitions remain unsupported.\n\n## Validation\n\n| Separate invocation | Reported | Passed | Skipped | Failures/errors |\n| --- | --- | --- | --- | --- |\n| Complete clean producer Java reactor, 22m43s | 1,250 | 1,246 | 4 | 0 / 0 |\n| Final producer repository Python | 123 | 123 | 0 | 0 / 0 |\n| Proposed #91/main resolution Java reactor | 52 | 51 | 1 | 0 / 0 |\n| Proposed #91/main resolution Python | 137 | 137 | 0 | 0 / 0 |\n\nProducer optional skips: three live HTTP cases without ML_SERVICE_URL, and SMS shadow replay without SMS_SHADOW_REPLAY_DIR. The resolution candidate's archive-input skip is separate. Opt-in producer archive/V016 cases ran: 362,880 native rows, exact retry, 14 native SQL/Java parity comparisons and frozen held-outbox/source preservation. No existing demo database or Docker volume was reset.\n\nFresh 54-case Java/Python/JavaScript/PostgreSQL arithmetic has zero difference. Seven VoLTE, twelve SMS, thirty geographic VoLTE and thirty-two geographic SMS payloads match independently; 144 scenario measurements pass arithmetic; twelve evaluator transition expectations remain PENDING. External reference engine: 708,498 checks; adapter compatibility: 75 checks. These are not added to reactor totals.\n\nA failing-before regression reproduced Git CRLF checkout false rejection in the pin verifier. Only repository-owned frozen JSON permits exact CRLF-to-LF comparison; changed JSON, external reference bytes, binary bytes and goldens still reject changes. Four new regressions pass and all four existing portability/integrity tests are retained. All 29 frozen inputs and fixture pins pass. Original failures and superseded invocations have separate records/hashes.\n\n## Merge and integration findings\n\n#91 genuinely conflicts in `.gitattributes` and `scripts/check-contracts.py`. Smallest resolution retains both additive blocks/call sets. `services/processor/pom.xml` merges automatically and preserves main's evidence/KPI resources plus #91's importer test inclusion. A detached candidate passed impacted policy/importer checks; main's seasonal/domain/cause/recovery code and contracts remain byte-identical. The resolution patch was not applied to any existing PR branch.\n\nA separate #96/#92 simulation also conflicts in `.gitattributes`, `scripts/check-contracts.py` and `services/processor/README.md`; additive union is proposed, not accepted or built. Integrate #92 explicitly and recheck V016 discovery, grants, table inventories, profiles and tests. Do not rewrite V016 or silently assume that projection delivery is approved.\n\nUnchanged main accepts its five-minute fixture but rejects raw producer evidence and a one-minute context (`Expected aligned five-minute window`). Differences include envelope/provenance, fixed historical dataset, scope translation, topology/baseline/policy versions, freshness/quality and duration. Utilization alone cannot prove packet loss, customer outage or a mapped cause. Existing main offline rule fixtures ran independently. No Kafka adapter, metric alias or weakened detector validation was introduced.\n\nSafe proposed sequence: review #91 resolution against current main; integrate #91; reconcile parallel #92/#93 with held delivery; then #95/#96/Day 6; review Denis #89/#90 separately; approve versioned mappings before connected delivery. No merges were executed.\n\n## Owner handoffs and blocked release gates\n\n- **Sergiu:** reproduce measured primitives/controls and review an additive live evidence/context/minute-policy contract; keep evaluator truth separate. Receiver result NOT_VERIFIED.\n- **Denis:** review payload/dataset/quality/provenance mapping and execute consumer deduplication, commit/ACK/mark failures and authenticated-read cases. Receiver result NOT_VERIFIED.\n- **David:** reproduce the actual five supported types, timing, units and honest STOPPED/INTERRUPTED/UNKNOWN wording through approved API/UI wiring. Receiver result NOT_VERIFIED.\n- **Stanislav:** review approved topics, roles, deployment/images/resources; execute send/ACK failure, lag/recovery/capacity and disposable backup/restore checks. Receiver result NOT_VERIFIED.\n\nConnected Kafka/consumer, incidents/notifications, authenticated API/UI, Grafana, shared 120s/900s/burst capacity, security/resource limits, backup/restore, clean install/upgrade, one authoritative shared manifest, two connected release rehearsals and five real owner sign-offs remain **BLOCKED / NOT_VERIFIED / PENDING_REVIEW**. pg_dump/pg_restore 16.4 client availability was checked; no backup or restore was executed. The producer release-identity fragment does not overwrite the team's authoritative manifest.\n\n## Reviewable evidence\n\n- `docs/evidence/2026-10-15-trace-link-producer-rehearsal.md`\n- `docs/architecture/trace-link-release-preflight.md`\n- `docs/demo/ion-script.md`\n- `docs/evidence/final-streaming-signoff.md`\n- `docs/runbooks/streaming.md`\n- `docs/evidence/assets/trace-link-day6/{verification,rehearsals,artifact-manifest,producer-release-fragment}.json`\n\nReproduce: build the producer reactor, run `python scripts/rehearse-trace-link-producer.py --java-home <Java-21-home> --output <new-directory>`, and verify archived evidence with `python scripts/verify-trace-link-day6-evidence.py`. Exact commands, suite cases/skips, source/input/output hashes and original log hashes are archived.\n",
+        "title": "test(release): verify Trace Link producer rehearsals and integration readiness",
+        "base": "feature/ion-tracelink-day5-reliability",
+        "base_sha": "8fb0596b415b4fef137b29b38774948d3112c1a0",
+        "head": "feature/ion-tracelink-day6-rehearsal",
+        "head_sha": "5d2b6d102ac2914ede7bfc812ad51ebb3b20dc2c",
+        "head_repo_id": 1365516408,
+        "head_repo_full_name": "denis2224-dev/Telecom-Anomaly-Detection",
+        "merge_commit_sha": "616d678bf826ffa100795515d0f877cd082bba5c",
+        "user": {
+          "login": "itsjohnyoff",
+          "name": "itsjohnyoff",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/230191505?v=4",
+          "id": 230191505
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-12T16:42:08Z",
+        "updated_at": "2026-10-12T16:42:08Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 4,
+        "changed_files": 139,
+        "additions": 54820,
+        "deletions": 2,
+        "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/pull/97",
+        "display_title": "test(release): verify Trace Link producer rehearsals and integration readiness"
+      },
+      "results": [
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "reviews",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "reviews": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "threads",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "review_threads": []
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "comments",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "comments": [],
+                "url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/97",
+                "title": "denis2224-dev/Telecom-Anomaly-Detection Issue #97 comments",
+                "display_url": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection/issues/97",
+                "display_title": "denis2224-dev/Telecom-Anomaly-Detection Issue #97 comments"
+              },
+              "isError": false
+            }
+          }
+        },
+        {
+          "status": "fulfilled",
+          "value": {
+            "label": "ci",
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Action completed."
+                }
+              ],
+              "structuredContent": {
+                "workflow_runs": [
+                  {
+                    "id": 38279245190,
+                    "name": "incident-runtime-image",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 161,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245190/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245190/logs",
+                    "workflow_id": 373156221
+                  },
+                  {
+                    "id": 38279245414,
+                    "name": "incident-service",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 162,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245414/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245414/logs",
+                    "workflow_id": 373086064
+                  },
+                  {
+                    "id": 38279245181,
+                    "name": "dashboard",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 151,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245181/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245181/logs",
+                    "workflow_id": 373448396
+                  },
+                  {
+                    "id": 38279245196,
+                    "name": "service-integration",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "run_number": 207,
+                    "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245196/jobs",
+                    "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38279245196/logs",
+                    "workflow_id": 370494734
+                  }
+                ]
+              },
+              "isError": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
