@@ -1,0 +1,23 @@
+{
+  "mode": "Controlled production-build browser diagnostics, not connected capacity or field INP",
+  "frameGapP95RangeMs": [
+    17.399999999441206,
+    17.59999999962747
+  ],
+  "inputToPaintRangeMs": [
+    49.65616600000067,
+    69.83329099999992
+  ],
+  "recordedLongTasksOver50ms": 0,
+  "retentionUiReadyMedianMs": 105.32408299999952,
+  "retentionUiReadyP95Ms": 106.40262499999517,
+  "heapFirstSampleBytes": 7345604,
+  "heapLastSampleBytes": 7745784,
+  "retainedSampleCount": 30,
+  "maximumRange": {
+    "uiReadyMs": 171.4141249999957,
+    "heapBytes": 8149300,
+    "domNodes": 14542
+  },
+  "requestSizes": "Raw resource records retain encodedBodyBytes where available; unavailable transfer sizes stay null"
+}

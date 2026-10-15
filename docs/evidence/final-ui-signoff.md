@@ -1,5 +1,7 @@
 # Trace Link frontend acceptance record
 
+For the latest frontend-only checks, see [frontend verification](frontend-acceptance.md). The connected implementation results below retain their original source identity and are not a claim that the later frontend candidate was deployed.
+
 Status: **implemented and connected checks passed; final human acceptance pending**.
 
 The current frontend is integrated with main `82f69d8d34afbadc4a43e70814af170b5ebdfac7`. Verified runtime source: `280bdacf41d9db9cf69c8bfa4085940ece288bc6`. See [the complete results](trace-link-completion-status.md) and [current artifact index](assets/trace-link-published/artifact-index.json).
