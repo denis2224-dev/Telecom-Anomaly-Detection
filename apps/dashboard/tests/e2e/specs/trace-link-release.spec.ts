@@ -38,6 +38,7 @@ test('requires populated persisted history through two authenticated context rep
         const partners=await partnerResponse.json();expect(partners.catalogueVersion).toBe(dataset.catalogueVersion);
         const partner=partners.partners.find((item:any)=>item.active&&item.country==='RO'&&item.direction==='out');expect(partner).toBeTruthy();
         const checks:object[]=[];
+        const definitionResponse=await context.request.get('/api/v2/kpi-definitions');expect(definitionResponse.status()).toBe(200);const definitions=await definitionResponse.json();
         const verify=async(domain:string,metric:string,scopeType:string,scopeId:string,hours:number,resolution:string)=>{
           const query={datasetId:manifest.dataset_id,domain,metric,scopeType,scopeId,from:new Date(Date.parse(dataset.to)-hours*3600000).toISOString(),to:dataset.to,resolution};
           const parameters=new URLSearchParams(query),response=await context.request.get('/api/v2/metrics/series?'+parameters);expect(response.status()).toBe(200);
@@ -48,7 +49,9 @@ test('requires populated persisted history through two authenticated context rep
           const expectedFrom=Math.floor(Date.parse(query.from)/(seconds*1000))*seconds*1000,expectedTo=Math.ceil(Date.parse(query.to)/(seconds*1000))*seconds*1000;
           expect(series.points).toHaveLength((expectedTo-expectedFrom)/(seconds*1000));
           for(const [index,point] of series.points.entries()){expect(Date.parse(point.from)).toBe(expectedFrom+index*seconds*1000);expect(Date.parse(point.to)).toBe(expectedFrom+(index+1)*seconds*1000);}
-          expect(series.points.some((point:any)=>point.value!==null)).toBe(true);
+          const definition=definitions.find((item:any)=>item.metric===metric);expect(definition).toBeDefined();
+          if(definition.referenceAvailability==='REQUIRES_ADDITIONAL_PRIMITIVES')expect(series.points.every((point:any)=>point.value===null&&point.nullReason==='ADDITIONAL_PRIMITIVES_REQUIRED'),metric).toBe(true);
+          else expect(series.points.some((point:any)=>point.value!==null),metric).toBe(true);
           const exported=await context.request.get('/api/v2/exports/metrics.csv?'+parameters);expect(exported.status()).toBe(200);
           const csv=await exported.text();requireExactExport(series,csv);
           checks.push({query,buckets:series.points.length,jsonSha256:createHash('sha256').update(JSON.stringify(series)).digest('hex'),csvSha256:createHash('sha256').update(csv).digest('hex')});

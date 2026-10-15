@@ -15,6 +15,7 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
  try {
   await actor.page.setViewportSize({width,height:900});
   const datasets=await read<any[]>(actor,'/api/v2/datasets');requireArchive(datasets.find(item=>item.datasetId===manifest.dataset_id),manifest,checksum);
+  const definitions=await read<any[]>(actor,'/api/v2/kpi-definitions');
   expect(sql(stack,'incidents_db',"SELECT count(*) FROM app.trace_catalogue WHERE active")).toBe('0');
   await actor.page.goto('/trace-link?'+new URLSearchParams(bounds));
   await expect(actor.page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');
@@ -45,7 +46,11 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
    await expect(actor.page.getByRole('button',{name:'Download exact server CSV'})).toBeEnabled();
    const context=new URL(actor.page.url()).searchParams;
    const query=new URLSearchParams({datasetId:manifest.dataset_id,domain:context.get('domain')!,metric,scopeType:domain==='Transport'?'LINK_DIRECTION':domain==='Roaming'?'PARTNER_DIRECTION':'CITY',scopeId:domain==='Transport'?'chi-hin:a-to-b':domain==='Roaming'?'RO-DEMO-01:out':'chi',from:context.get('visibleFrom')??context.get('from')!,to:context.get('visibleTo')??context.get('to')!,resolution:context.get('resolution')!});
-   const result=await read<any>(actor,'/api/v2/metrics/series?'+query);expect(result.points.some((point:any)=>point.value!==null)).toBe(true);
+   const result=await read<any>(actor,'/api/v2/metrics/series?'+query),definition=definitions.find(item=>item.metric===metric);expect(definition).toBeDefined();
+   if(definition.referenceAvailability==='REQUIRES_ADDITIONAL_PRIMITIVES'){
+    expect(result.points.every((point:any)=>point.value===null&&point.nullReason==='ADDITIONAL_PRIMITIVES_REQUIRED'),metric).toBe(true);
+    await expect(chart).toContainText('Unavailable');
+   }else expect(result.points.some((point:any)=>point.value!==null),metric).toBe(true);
    const event=actor.page.waitForEvent('download');await actor.page.getByRole('button',{name:'Download exact server CSV'}).click();const download=await event;
    const csv=readFileSync((await download.path())!,'utf8');requireExactExport(result,csv);evidence.push({metric,buckets:result.points.length,csvSha256:createHash('sha256').update(csv).digest('hex')});
   }
@@ -54,7 +59,7 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
   expect(await read<any>(actor,'/api/notifications/push/config')).toMatchObject({enabled:false});
   await actor.page.screenshot({path:info.outputPath(`populated-history-${width}.png`),fullPage:true,mask:[actor.page.locator('.identity')]});
   writeFileSync(info.outputPath('populated-history.json'),JSON.stringify({sourceSha:stack.sourceSha,width,manifestSha256:checksum,mode:'Actual persisted archive and real OIDC in an owned isolated stack',evidence,completeRehearsal:false},null,2));
- }finally{await actor.context.close();}
+ }finally{writeFileSync(info.outputPath('history-progress.json'),JSON.stringify({sourceSha:stack.sourceSha,width,evidence},null,2));await actor.context.close();}
 });
 
 test('populated history reconnects and clears protected state after real logout',async({browser})=>{
