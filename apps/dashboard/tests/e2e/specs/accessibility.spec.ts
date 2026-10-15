@@ -3,13 +3,22 @@ import { controlledApi } from '../helpers/controlled-api';
 
 test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled UI cases; real sign-in is reviewed separately');
 
-async function tabTo(page: Page, target: Locator) {
+// macOS WebKit uses Option+Tab to include links/buttons when full keyboard
+// navigation is disabled. Exercise the native shortcut without changing the OS.
+async function tab(page: Page, backwards = false) {
+  const webkit = page.context().browser()?.browserType().name() === 'webkit';
+  await page.keyboard.press((webkit && process.platform === 'darwin' ? 'Alt+' : '') + (backwards ? 'Shift+' : '') + 'Tab');
+}
+
+async function tabTo(page: Page, target: Locator, backwards = false) {
   await expect(target).toBeVisible();
+  const visited:string[]=[];
   for (let step = 0; step < 100; step++) {
+    visited.push(await page.evaluate(()=>document.activeElement?.outerHTML.slice(0,180) ?? 'none'));
     if (await target.evaluate(element => element === document.activeElement)) return;
-    await page.keyboard.press('Tab');
+    await tab(page, backwards);
   }
-  throw new Error('Control could not be reached with Tab');
+  throw new Error('Control could not be reached with keyboard navigation: '+JSON.stringify(visited.slice(-12)));
 }
 
 async function visibleFocus(target: Locator) {
@@ -30,14 +39,16 @@ test('keyboard: skip link, service chart, incident workflow, conflict, Escape', 
   state.writeStatus = 409;
   await page.goto('/dashboard');
   await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
-  await page.keyboard.press('Tab');
+  await tab(page);
   await expect(page.getByRole('link', { name: 'Skip to workspace' })).toBeFocused();
   await visibleFocus(page.getByRole('link', { name: 'Skip to workspace' }));
   await page.keyboard.press('Enter');
   await expect(page.locator('#workspace')).toBeFocused();
 
   const serviceLink = page.getByRole('link', { name: 'VoLTE setup', exact: true });
-  await tabTo(page, serviceLink);
+  // Navigation precedes the workspace. Reverse traversal avoids depending on
+  // browser-chrome wraparound, which Firefox does not expose to page input.
+  await tabTo(page, serviceLink, true);
   await visibleFocus(serviceLink);
   await page.keyboard.press('Enter');
   const chart = page.getByLabel('Scrollable CSSR chart', { exact: true });
@@ -70,7 +81,7 @@ test('keyboard: skip link, service chart, incident workflow, conflict, Escape', 
   // Native showModal makes the rest of the page inert. At the document boundary,
   // Chromium can move focus to browser chrome and report body as activeElement.
   for (let step = 0; step < 12; step++) {
-    await page.keyboard.press('Tab');
+    await tab(page);
     expect(await dialog.evaluate(element =>
       element.contains(document.activeElement) || document.activeElement === document.body)).toBe(true);
   }

@@ -3,6 +3,7 @@ import {
   expect,
   type Page,
 } from '../helpers/test';
+import {api} from '../helpers/pr77-stack';
 
 test.skip(!process.env.E2E_REAL_LOGIN, 'Requires the protected local stack and test credentials');
 
@@ -224,10 +225,7 @@ test('real 15-minute idle expiry', async ({
   expect(Date.now() - startedAt).toBeGreaterThanOrEqual(15 * 60_000);
 
   expect(
-    (await context.request.get(
-      '/api/auth/me',
-      { maxRedirects: 0 },
-    )).status(),
+    (await api({page},'/api/auth/me')).status(),
   ).toBe(401);
   expect(await storageContainsSecrets(page)).toBe(false);
   await info.attach('idle-expiry-public-result', {
@@ -249,9 +247,7 @@ test('real 30-minute absolute expiry despite activity', async ({
 
   await login(page);
 
-  const meResponse = await context.request.get(
-    '/api/auth/me',
-  );
+  const meResponse = await api({page},'/api/auth/me');
   expect(meResponse.status()).toBe(200);
 
   const me = await meResponse.json();
@@ -271,7 +267,7 @@ test('real 30-minute absolute expiry despite activity', async ({
     if (Date.now() < deadline) {
       // Actual analyst input keeps the browser idle deadline alive as well.
       await page.getByRole('button', { name: 'Refresh overview' }).click();
-      const active = await context.request.get('/api/auth/me');
+      const active = await api({page},'/api/auth/me');
       expect(active.status()).toBe(200);
     }
   }
@@ -282,9 +278,6 @@ test('real 30-minute absolute expiry despite activity', async ({
   })).toBeVisible();
 
   expect(
-    (await context.request.get(
-      '/api/auth/me',
-      { maxRedirects: 0 },
-    )).status(),
+    (await api({page},'/api/auth/me')).status(),
   ).toBe(401);
 });
