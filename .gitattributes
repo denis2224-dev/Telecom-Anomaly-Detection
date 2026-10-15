@@ -88,3 +88,9 @@ contracts/fixtures/trace-link/ml-adversarial-cases-v1.json text eol=lf
 docs/evidence/assets/trace-link-day4-review-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/assets/trace-link-day4-body-bounds-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/assets/trace-link-day4-ci-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# Preserve the exact Day 5 study, result and execution receipt hashes.
+docs/evidence/assets/trace-link-day5-20261015/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+services/ml-service/training/trace_link_study.py text eol=lf
+services/ml-service/training/trace_link_evaluation.py text eol=lf
+services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkStudyExportTest.java text eol=lf

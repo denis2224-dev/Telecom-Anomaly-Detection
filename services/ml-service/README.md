@@ -1,5 +1,13 @@
 # Service features and models - Sergiu days 1-12
 
+Trace Link Day 5 study and operational reproduction are documented in
+[detection and model operation](../../docs/runbooks/detection-and-models.md).
+Run `python scripts/verify-trace-link-day5.py --output tmp/day5-verification-new`
+from the repository root for the pinned study, actual Java lifecycle export,
+offline evaluation, failure drills and regression evidence. The output directory
+must not already exist. Frozen candidate artifacts and incident policies are
+unchanged; ML scores remain optional empirical ranks, not probabilities.
+
 This module calculates independent Python VOLTE/SMS features and packages
 synthetic Isolation Forest models and serves private HTTP inference.
 
