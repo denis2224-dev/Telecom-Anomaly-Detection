@@ -79,3 +79,23 @@ contracts/datasets/trace-link-live-synthetic-v1.json text eol=lf
 contracts/fixtures/trace-link/live-consumer-results-v1.json text eol=lf
 docs/evidence/assets/trace-link-contract-resolution-20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 docs/evidence/assets/trace-link-contract-reconciliation-20261013/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Day 4 model contracts and manifests retain exact portable artifact hashes.
+contracts/features/trace-link* text eol=lf
+contracts/ml-shadow/trace-link* text eol=lf
+contracts/fixtures/trace-link/ml-feature-cases-v1.json text eol=lf
+services/ml-service/training/trace_link_candidate.py text eol=lf
+services/ml-service/candidate-models/trace-link-shadow-v1/*.json text eol=lf
+services/ml-service/candidate-models/trace-link-shadow-v1/*.joblib binary
+docs/evidence/assets/trace-link-day4-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+contracts/fixtures/trace-link/ml-adversarial-cases-v1.json text eol=lf
+docs/evidence/assets/trace-link-day4-review-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-day4-body-bounds-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-day4-ci-20261014/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# Preserve the exact Day 5 study, result and execution receipt hashes.
+docs/evidence/assets/trace-link-day5-20261015/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+services/ml-service/training/trace_link_study.py text eol=lf
+services/ml-service/training/trace_link_evaluation.py text eol=lf
+docs/evidence/assets/trace-link-day5-platform-20261015/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+docs/evidence/assets/trace-link-day5-independent-20261015/** -text
+services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkStudyExportTest.java text eol=lf

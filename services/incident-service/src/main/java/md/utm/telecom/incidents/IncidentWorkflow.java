@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import md.utm.telecom.notifications.service.NotificationEventService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.ObjectMapper;
@@ -29,19 +30,22 @@ public class IncidentWorkflow {
     private final IncidentAuditRepository audits;
     private final ObjectMapper json;
     private final ApplicationEventPublisher events;
+    private final NotificationEventService notifications;
 
     public IncidentWorkflow(
             IncidentRepository incidents,
             AnalystRepository analysts,
             IncidentAuditRepository audits,
             ObjectMapper json,
-            ApplicationEventPublisher events
+            ApplicationEventPublisher events,
+            NotificationEventService notifications
     ) {
         this.incidents = incidents;
         this.analysts = analysts;
         this.audits = audits;
         this.json = json;
         this.events = events;
+        this.notifications = notifications;
     }
 
     @Transactional
@@ -85,9 +89,10 @@ public class IncidentWorkflow {
 
         String before = snapshot(incident);
         incident.setAssignee(target);
-        incidents.flush(); // Force the @Version check before inserting audit.
+        incidents.flush();
         audit(incident, actor, "ASSIGN", before, snapshot(incident), null);
-        incidents.flush(); // Persist audit in the same transaction.
+        notifications.assignment(incident);
+        incidents.flush();
         events.publishEvent(new IncidentChanged(incident.getId(), incident.getVersion()));
         return incident;
     }
@@ -138,7 +143,7 @@ public class IncidentWorkflow {
         if (target == IncidentStatus.RESOLVED) {
             incident.setResolutionNote(note);
         }
-        incidents.flush(); // A competing update must fail before any audit insert.
+        incidents.flush();
         audit(incident, actor, target.name(), before, snapshot(incident), note);
         incidents.flush();
         events.publishEvent(new IncidentChanged(incident.getId(), incident.getVersion()));

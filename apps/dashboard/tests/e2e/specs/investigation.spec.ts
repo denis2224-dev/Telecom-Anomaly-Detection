@@ -113,7 +113,7 @@ test('G3 real analyst investigation from login to logout', async ({ page, contex
   await page.getByRole('button', { name: 'Refresh incident' }).click();
   await expect(page.locator('.detail-panel').first())
     .toContainText('Technical state: RECOVERED');
-  await expect(page.getByText('The service has recovered.', { exact: false }))
+  await expect(page.getByText('Service recovered.', { exact: false }))
     .toBeVisible();
 
   await page.getByLabel('Resolution note').fill(

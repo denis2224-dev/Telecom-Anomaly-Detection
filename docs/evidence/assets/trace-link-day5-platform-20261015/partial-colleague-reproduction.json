@@ -1,0 +1,14 @@
+{
+  "source": "https://chatgpt.com/s/t_6ad0a4bd8f5881918fb115ab07e19a40",
+  "reviewedRevision": "be682450c06d6745cd17316e6bd18b118a256042",
+  "classification": "PARTIAL_ARCHIVED_EXPORT_COMPARISON",
+  "reportedMatches": [
+    "results.json",
+    "predictions.json",
+    "thresholds.json"
+  ],
+  "freshJavaExport": false,
+  "fullWindowsJavaDockerReferencePackReceipt": false,
+  "formalApproval": false,
+  "secondPersonReproduction": "PENDING"
+}

@@ -1,0 +1,126 @@
+{
+  "status": "PASS",
+  "reviewedHead": "720802b8b6c9497a42e18adcb1ea9333c415b5db",
+  "correctionHead": "4ed9b5209c9d8fd1c4776ebb7a3e41482d7f821c",
+  "java": {
+    "streaming-support": {
+      "tests": 139,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "event-generator": {
+      "tests": 158,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "processor": {
+      "tests": 1110,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 8
+    }
+  },
+  "javaSkipped": [
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.GeographicDetectionTest",
+      "test": "pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules(String)",
+      "reason": "Environment variable [ML_SERVICE_URL] does not exist"
+    },
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+      "test": "suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: Reference archive must be selected explicitly\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT.suppliedFullArchiveImportsOnlyWhenExplicitlySelected(TraceLinkDatasetBootstrapIT.java:187)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java.base/java.util.A"
+    },
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.kpi.SmsDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredSmsEpisode",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode(SmsDeliveryTest.java:80)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java.base/j"
+    },
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+      "test": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+      "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+    },
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+      "test": "fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: Full archive must be explicitly selected\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT.fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity(TraceLinkProjectionIT.java:281)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java.base/java.util.Arr"
+    },
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+      "test": "suppliedFullArchiveProducesIndependentSqlParityWithoutDeliveryWrites",
+      "reason": "System property [trace.link.archive] does not exist"
+    },
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+      "test": "frozenV016MigratesAndRemainsHeldWithoutAnyProducerSchemaChange(Path)",
+      "reason": "System property [trace.link.v016.directory] does not exist"
+    },
+    {
+      "module": "processor",
+      "classname": "md.utm.telecom.processing.kpi.VoiceDeliveryTest",
+      "test": "livePackagedModelEnrichesRecoveredVoiceEpisode",
+      "reason": "org.opentest4j.TestAbortedException: Assumption failed: assumption is not true\n\tat org.junit.jupiter.api.Assumptions.throwAssumptionFailed(Assumptions.java:321)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:120)\n\tat org.junit.jupiter.api.Assumptions.assumeTrue(Assumptions.java:71)\n\tat md.utm.telecom.processing.kpi.VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode(VoiceDeliveryTest.java:66)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:565)\n\tat java."
+    }
+  ],
+  "python": {
+    "ml": {
+      "tests": 91,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "root": {
+      "tests": 174,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "focusedJava": {
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "featureParity": {
+    "cases": 34,
+    "integerTolerance": 0,
+    "floatTolerance": 1e-09
+  },
+  "arithmetic": {
+    "cases": 54,
+    "languages": [
+      "java",
+      "python",
+      "sql",
+      "javascript"
+    ],
+    "maximumError": 0
+  },
+  "geographicParity": {
+    "voice": 30,
+    "sms": 32,
+    "maximumError": 0
+  },
+  "frozenPins": 29,
+  "adversarialCases": 10,
+  "candidateRebuild": "Windows clean CLI byte equality passed; Day 4 held-out not scored",
+  "imageId": "sha256:079534e1bea4ed024be8dc60d3226af7b7d3b3f4f392a13ec7fc8546e7c730a4",
+  "limitations": [
+    "Eight existing Java opt-ins not executed; see javaSkipped",
+    "Java 25 runtime, release target 21; no new Java 21 runtime campaign",
+    "No Linux byte-rebuild claim",
+    "No connected capacity, deployment or held-out Day 5 quality evaluation",
+    "Independent re-review pending"
+  ]
+}

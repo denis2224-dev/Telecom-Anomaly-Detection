@@ -28,7 +28,7 @@ function parseArgs(args, root = ROOT) {
   const destinations = {};
   const realRoot = fs.realpathSync(root);
   for (let i = 0; i < args.length; i += 2) {
-    if (!['--project', '--private-dir', '--output-dir'].includes(args[i]) || !args[i + 1] || values[args[i]]) throw Error('Use --project, --private-dir and --output-dir once each.');
+    if (!['--project', '--private-dir', '--output-dir', '--reference-pack'].includes(args[i]) || !args[i + 1] || values[args[i]]) throw Error('Use --project, --private-dir and --output-dir once each; --reference-pack is optional.');
     values[args[i]] = args[i + 1];
   }
   if (!/^pr77-[a-z0-9][a-z0-9-]{0,48}$/.test(values['--project'] || '')) throw Error('Project must be a unique pr77- name using lowercase letters, digits and hyphens (maximum 54 characters).');
@@ -43,7 +43,13 @@ function parseArgs(args, root = ROOT) {
   }
   const privateDir = values['--private-dir'], outputDir = values['--output-dir'];
   if (isWithin(destinations['--private-dir'], destinations['--output-dir']) || isWithin(destinations['--output-dir'], destinations['--private-dir'])) throw Error('Private and public output directories must be separate.');
-  return { projectName: values['--project'], privateDir, outputDir };
+  const result = { projectName: values['--project'], privateDir, outputDir };
+  if (values['--reference-pack']) {
+    if (!path.isAbsolute(values['--reference-pack'])) throw Error('Reference pack must be absolute.');
+    result.referencePack = fs.realpathSync(values['--reference-pack']);
+    if (!fs.statSync(path.join(result.referencePack, 'data/manifest.json')).isFile()) throw Error('Reference archive manifest is required.');
+  }
+  return result;
 }
 
 function composeArgs(context, args) {
@@ -63,6 +69,7 @@ function createCandidate(original, context, root) {
     service.labels = { ...service.labels, ...label };
     if (service.build) {
       service.build.context = path.resolve(root);
+      service.build.args = { ...service.build.args, TRACE_RELEASE_COMMIT: context.sourceSha };
       service.build.labels = { ...service.build.labels, ...label, 'org.opencontainers.image.revision': context.sourceSha };
       service.image = `${context.projectName}-${name}:${context.sourceSha.slice(0, 12)}`;
     }
@@ -201,6 +208,7 @@ function assetHashes(directory) {
 async function main(args) {
   const context = parseArgs(args);
   context.sourceSha = await assertCandidateSource(ROOT);
+  context.verificationMode = context.referencePack ? 'populated-history' : 'legacy-connected';
   context.ownerLabelName = OWNER;
   context.ownerLabelValue = crypto.randomUUID();
   context.baseURL = `http://telecom.test:${PORTS.proxy}`;
@@ -209,6 +217,7 @@ async function main(args) {
   context.scenarioResultFile = path.join(context.outputDir, 'scenarios.json');
   const secrets = Object.fromEntries(['POSTGRES_PASSWORD', 'PROCESSING_DB_PASSWORD', 'PROCESSING_MIGRATOR_PASSWORD', 'INCIDENT_DB_PASSWORD', 'INCIDENT_MIGRATOR_PASSWORD', 'KEYCLOAK_DB_PASSWORD', 'KEYCLOAK_ADMIN_PASSWORD', 'KEYCLOAK_CLIENT_SECRET'].map(key => [key, crypto.randomBytes(24).toString('hex')]));
   const variables = { ...secrets, POSTGRES_PORT: PORTS.postgres, KAFKA_HOST_PORT: PORTS.kafka, GENERATOR_HOST_PORT: PORTS.generator,
+    TRACE_LINK_ENABLED: context.referencePack ? 'true' : 'false',
     TELECOM_GEOGRAPHY_ENABLED: 'true', TELECOM_GEOGRAPHY_EFFECTIVE_FROM: geographyEffectiveFrom(),
     HISTORICAL_BOOTSTRAP_ENABLED: 'false', CONTINUOUS_TELEMETRY_ENABLED: 'true', ML_SMS_SHADOW_ENABLED: 'true' };
   const composeText = fs.readFileSync(path.join(ROOT, 'compose.yaml'), 'utf8');
@@ -252,6 +261,10 @@ async function main(args) {
     for (const file of ['compose.json', 'nginx.conf', 'realm.json', 'stack.env']) report.configHashes[file] = sha256(fs.readFileSync(path.join(context.privateDir, file)));
     const compose = args => run('docker', composeArgs(context, args), { env, logFile });
     await compose(['config', '--quiet']);
+    if (context.referencePack) {
+      console.log('Validating the full pinned reference archive.');
+      await run('python3', [path.join(ROOT, 'scripts/import-trace-link-reference.py'), path.join(context.referencePack, 'data'), '--validate-only'], { env, logFile });
+    }
     console.log('Building production dashboard from the recorded candidate.');
     if (process.platform === 'win32') await run('cmd.exe', ['/d', '/s', '/c', 'npm.cmd run build'], { cwd: path.join(ROOT, 'apps/dashboard'), env, logFile });
     else await run('npm', ['run', 'build'], { cwd: path.join(ROOT, 'apps/dashboard'), env, logFile });
@@ -277,8 +290,27 @@ async function main(args) {
       await run('docker', composeArgs(context, ['exec', '-T', 'postgres', 'bash', '-ec', 'exec psql -X -q -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d incidents_db "$@"', '--',
         '-v', `id=${crypto.randomUUID()}`, '-v', `issuer=${context.baseURL}/auth/realms/telecom`, '-v', `subject=${context[role].subject}`, '-v', `name=PR77 ${role}`]), { env, logFile, input: sql });
     }
+    if (context.referencePack) {
+      console.log('Importing full history into the owned disposable incident database.');
+      const snapshot = path.join(context.privateDir, 'reference'); fs.mkdirSync(snapshot, { mode: 0o700 });
+      const prepare = `import csv,importlib.util,pathlib,sys
+spec=importlib.util.spec_from_file_location('reference_import',sys.argv[1]);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+snapshot=pathlib.Path(sys.argv[3]);manifest,checksum=module.validate(pathlib.Path(sys.argv[2]),snapshot)
+with (snapshot/'projection.csv').open('w',newline='') as stream:
+ writer=csv.writer(stream);count=0
+ for row in module.native_rows(snapshot,manifest):writer.writerow(row);count+=1
+assert count==362880
+(snapshot/'import.sql').write_text(module.import_sql(manifest,checksum,pathlib.Path('/tmp/reference/projection.csv')))
+`;
+      await run('python3', ['-c', prepare, path.join(ROOT, 'scripts/import-trace-link-reference.py'), path.join(context.referencePack, 'data'), snapshot], { env, logFile });
+      const owned = await resources(context, env, logFile); owned.forEach(item => assertOwned(item.labels, context));
+      await compose(['exec', '-T', 'postgres', 'mkdir', '-p', '/tmp/reference']);
+      for (const name of ['projection.csv', 'import.sql']) await compose(['cp', path.join(snapshot, name), `postgres:/tmp/reference/${name}`]);
+      for (let retry = 0; retry < 2; retry++) await compose(['exec', '-T', 'postgres', 'psql', '-X', '-q', '--no-password', '-U', 'incidents_app', '-d', 'incidents_db', '-f', '/tmp/reference/import.sql']);
+      report.archive = { datasetId: 'trace-link-md-30d-v1', nativeRows: 362880, importerAndExactRetry: 'PASS', catalogueActivated: false };
+    }
     console.log('Running real authentication, expiry, reconnect and geographic browser verification.');
-    await run(process.execPath, [path.join(ROOT, 'apps/dashboard/node_modules/@playwright/test/cli.js'), 'test', '--config=playwright.pr77.config.ts'], {
+    await run(process.execPath, [path.join(ROOT, 'apps/dashboard/node_modules/@playwright/test/cli.js'), 'test', `--config=${context.referencePack ? 'playwright.trace-connected.config.ts' : 'playwright.pr77.config.ts'}`], {
       cwd: path.join(ROOT, 'apps/dashboard'), env: { ...env, PR77_STACK_CONTEXT: path.join(context.privateDir, 'stack-context.json') }, logFile, timeout: 90 * 60000 });
     // A browser worker must produce machine-readable assertions; no zero-test success.
     const acceptance = JSON.parse(fs.readFileSync(path.join(context.outputDir, 'verification.json'), 'utf8'));

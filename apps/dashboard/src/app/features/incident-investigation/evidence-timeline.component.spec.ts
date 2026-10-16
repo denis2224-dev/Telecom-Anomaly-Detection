@@ -61,12 +61,15 @@ describe('Historical detection evidence', () => {
     expect(cells(articles[0])).toEqual(['0', '99.3', 'PERCENT', '-99.3 pp', '-100%', '0', '100']);
     expect(cells(articles[1])).toEqual(['Unavailable', 'Unavailable', 'PERCENT', 'Comparison unavailable', 'Unavailable', 'Unavailable', 'Unavailable']);
     expect(articles[0].textContent).toContain(`Scope: ${bad.scopeId}`);
-    expect(articles[0].textContent).toContain('EARLIER_SOURCE');
+    expect(articles[0].textContent).toContain('Earlier observed CPU');
     expect(articles[0].textContent).toContain('IMS-A');
     const source = Array.from<HTMLDetailsElement>(articles[0].querySelectorAll('details'))
       .find(details => details.querySelector('summary')?.textContent === 'Troubleshooting');
     expect(source?.open).toBe(false);
-    expect(source?.textContent).toContain('earlier-event');
+    expect(source?.textContent).not.toContain('earlier-event');
+    expect(source?.querySelector('thead')).toBeNull();
+    expect(source?.textContent).not.toContain(bad.detectionId);
+    expect(source?.textContent).not.toContain('Rules:');
     const hypothesis = articles[0].querySelector('[aria-label="Cause hypothesis"]');
     expect(hypothesis.textContent).toContain('Earlier capacity hypothesis');
     expect(hypothesis.querySelector('[data-fact="confidence"] dd').textContent).toBe('LOW');
@@ -76,9 +79,9 @@ describe('Historical detection evidence', () => {
     expect(articles[1].textContent).not.toContain('Earlier capacity hypothesis');
     expect(articles[1].textContent).toContain('Estimated extra failed attempts: 0');
     expect(articles[1].textContent).not.toContain('Unique customers');
-    expect(articles[1].textContent).toContain('does not prove recovery');
+    expect(articles[1].textContent).toContain('recovery unconfirmed');
     expect(articles[1].textContent).toContain('No checks supplied.');
-    expect(articles[0].textContent).not.toContain('Earlier observed CPU');
+    expect(articles[0].textContent).toContain('Earlier observed CPU');
     expect(articles[0].querySelector('app-cause-evidence details')).toBeNull();
   });
 
@@ -92,8 +95,8 @@ describe('Historical detection evidence', () => {
     expect(text).toContain('Pending messages: 250');
     expect(text).not.toContain('Unique customers');
     expect(text).not.toContain('Estimated extra failed attempts');
-    expect(text).toContain('Node: Unavailable');
-    expect(text).toContain('No source event IDs supplied');
+    expect(text).toContain('Queue snapshot');
+    expect(text).not.toContain('No source event IDs supplied');
   });
 
   it('explains absent baseline and refuses unsupported p95 even if a value was supplied', () => {
@@ -114,7 +117,7 @@ describe('Historical detection evidence', () => {
 
   it('makes an empty detection history explicit', () => {
     const fixture = render([]);
-    expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('No evidence updates available');
+    expect(fixture.nativeElement.querySelector('[role="status"]').textContent).toContain('No updates on this page');
     expect(fixture.nativeElement.querySelectorAll('article')).toHaveLength(0);
   });
 
@@ -135,9 +138,10 @@ describe('Historical detection evidence', () => {
   it('does not invent relative change against a zero baseline', () => {
     const record = detection(1, 'OPEN');
     record.kpis = [{ name: 'sip503Count', observed: 5, baseline: 0, unit: 'COUNT', numerator: null, denominator: null }];
-    const cells = render([record]).nativeElement.querySelectorAll('[data-kpi] td');
-    expect(cells[3].textContent).toBe('+5 count');
-    expect(cells[4].textContent).toBe('Unavailable');
+    const metric = render([record]).nativeElement.querySelector('[data-kpi="sip503Count"]');
+    expect(metric.textContent).toContain('+5 count');
+    expect(metric.textContent).not.toContain('Infinity');
+    expect(metric.closest('details').querySelector('thead')).toBeNull();
   });
 
   it('keeps a retained hypothesis out of the current cause when measurements are unavailable', () => {

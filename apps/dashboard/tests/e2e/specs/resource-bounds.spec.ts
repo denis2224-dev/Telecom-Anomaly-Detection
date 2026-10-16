@@ -220,7 +220,13 @@ test.describe('Browser resource bounds', () => {
       expect(measured.activeStreams).toBe(1);
       await paint(page);
       const inputStarted = performance.now();
-      if (screen !== 'investigation') {
+      if (screen === 'investigation') {
+        const opener = page.getByRole('button', { name: 'Details & workflow', exact: true });
+        await opener.focus();
+        await opener.press('Enter');
+        await expect(page.getByRole('dialog', { name: 'Details & workflow' })).toBeVisible();
+        await paint(page);
+      } else {
         const input = page.getByLabel('From (UTC)', { exact: true });
         await input.focus();
         await input.press('ArrowLeft');
@@ -228,17 +234,25 @@ test.describe('Browser resource bounds', () => {
         await expect(input).toBeFocused();
       }
       const inputPaintMs = performance.now() - inputStarted;
+      if (screen === 'investigation') {
+        await page.keyboard.press('Escape');
+        await expect(page.getByRole('button', { name: 'Details & workflow', exact: true })).toBeFocused();
+      }
       await page.waitForTimeout(1600);
       const apiRoundTrips = await page.evaluate(() => performance.getEntriesByType('resource')
         .filter(entry => /^\/api\/(services|incidents|geography)/.test(new URL(entry.name).pathname)
           && !entry.name.includes('/stream'))
-        .map(entry => ({ path: new URL(entry.name).pathname, durationMs: entry.duration })));
+        .map(entry => ({ path: new URL(entry.name).pathname, durationMs: entry.duration,
+          // Controlled fulfillment can omit transfer sizes; do not call unknown bytes zero.
+          encodedBodyBytes: (entry as PerformanceResourceTiming).encodedBodySize || null })));
       const after = await sample();
       const ordered = measured.frames.sort((a, b) => a - b);
       records.push({ requestedHintHz: hz, durationMs, events: measured.events,
         snapshotReadsDuringLoad: readsDuringLoad, incidentPageReads: data.incidentReads() - beforeIncidents,
         frameGapP95Ms: ordered[Math.ceil(ordered.length * .95) - 1], maxFrameGapMs: ordered.at(-1),
-        longTasksMs: measured.longTasks, inputPaintMs, apiRoundTrips, before, after });
+        longTasksMs: measured.longTasks, inputPaintMs,
+        inputAction: screen === 'investigation' ? 'Keyboard open workflow dialog' : 'Keyboard move in range input',
+        renderedDotCount: await page.locator('.actual-dot').count(), apiRoundTrips, before, after });
       if (screen === 'service') {
         await expect(page.locator('.actual-dot')).toHaveCount(60);
         await expect(page.locator('[data-window-id]')).toHaveCount(50);
@@ -372,7 +386,7 @@ test.describe('Browser resource bounds', () => {
     for (const group of [samples, navigation.slice(2)]) {
       const heaps = group.map(item => item.heapBytes), nodes = group.map(item => item.domNodes);
       expect(Math.max(...heaps) - Math.min(...heaps)).toBeLessThan(5 * 1024 * 1024);
-      expect(Math.max(...nodes) - Math.min(...nodes)).toBeLessThanOrEqual(100);
+      expect(Math.max(...nodes) - Math.min(...nodes),JSON.stringify(nodes)).toBeLessThanOrEqual(100);
     }
     await navigateToLoginAndExpectCleanup(page);
     const report = {

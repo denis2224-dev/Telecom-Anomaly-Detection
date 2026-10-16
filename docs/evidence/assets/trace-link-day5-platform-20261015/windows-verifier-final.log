@@ -1,0 +1,19 @@
+test_failed_windows_gate_cannot_be_hidden_by_passing_portable_suite (tests.test_trace_link_day5_verifier.Day5VerifierTests.test_failed_windows_gate_cannot_be_hidden_by_passing_portable_suite) ... ok
+test_linux_applicable_failure_is_incomplete (tests.test_trace_link_day5_verifier.Day5VerifierTests.test_linux_applicable_failure_is_incomplete) ... ok
+test_linux_pass_is_scoped_and_does_not_run_windows_gate (tests.test_trace_link_day5_verifier.Day5VerifierTests.test_linux_pass_is_scoped_and_does_not_run_windows_gate) ... ok
+test_missing_git_retains_logs_and_incomplete_manifest (tests.test_trace_link_day5_verifier.Day5VerifierTests.test_missing_git_retains_logs_and_incomplete_manifest) ... ok
+test_missing_prerequisite_preserves_partial_report (tests.test_trace_link_day5_verifier.Day5VerifierTests.test_missing_prerequisite_preserves_partial_report) ... ok
+test_windows_runs_required_gate_exactly_once (tests.test_trace_link_day5_verifier.Day5VerifierTests.test_windows_runs_required_gate_exactly_once) ... ok
+test_corruption_and_inventory_mismatch_are_rejected (tests.test_trace_link_day5_verifier.WindowsGateBoundaryTests.test_corruption_and_inventory_mismatch_are_rejected) ... ok
+test_non_windows_is_rejected_instead_of_skipped (tests.test_trace_link_day5_verifier.WindowsGateBoundaryTests.test_non_windows_is_rejected_instead_of_skipped) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.357s
+
+OK
+INCOMPLETE (WINDOWS_FULL); Windows byte reproduction FAIL; independent reproduction remains PENDING
+INCOMPLETE (PORTABLE_RUNTIME); Windows byte reproduction NOT_RUN; independent reproduction remains PENDING
+PASS (PORTABLE_RUNTIME); Windows byte reproduction NOT_RUN; independent reproduction remains PENDING
+INCOMPLETE (PORTABLE_RUNTIME); Windows byte reproduction NOT_RUN; independent reproduction remains PENDING
+INCOMPLETE (PORTABLE_RUNTIME); Windows byte reproduction NOT_RUN; independent reproduction remains PENDING
+PASS (WINDOWS_FULL); Windows byte reproduction PASS; independent reproduction remains PENDING

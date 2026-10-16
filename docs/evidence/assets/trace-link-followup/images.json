@@ -1,0 +1,34 @@
+[
+  {
+    "service": "ml-service",
+    "tag": "trace-link-completion/ml-service:863c83d69a1e",
+    "imageId": "sha256:0e2cd8d14565a406f2c8f0f2ec1ffdce736682cd4773b73a24f4d4e09e96002d",
+    "sourceCommit": "863c83d69a1e7801153ba365f984a731293eb585",
+    "architecture": "arm64",
+    "build": "PASS"
+  },
+  {
+    "service": "incident-service",
+    "tag": "trace-link-completion/incident-service:863c83d69a1e",
+    "imageId": "sha256:6e848891a96df19794a75c18280fa6f1a77900596643450878dc1c408637067e",
+    "sourceCommit": "863c83d69a1e7801153ba365f984a731293eb585",
+    "architecture": "arm64",
+    "build": "PASS"
+  },
+  {
+    "service": "event-generator",
+    "tag": "trace-link-completion/event-generator:863c83d69a1e",
+    "imageId": "sha256:5e2b1d3707aa6501c2ed42445a62c1d8c787448d28ffc799fbcabc29de3928e2",
+    "sourceCommit": "863c83d69a1e7801153ba365f984a731293eb585",
+    "architecture": "arm64",
+    "build": "PASS"
+  },
+  {
+    "service": "processor",
+    "tag": "trace-link-completion/processor:863c83d69a1e",
+    "imageId": "sha256:7168425eda354914544a508e2990a497c0ce20f98ae61e8ba4f679cb7e99eb86",
+    "sourceCommit": "863c83d69a1e7801153ba365f984a731293eb585",
+    "architecture": "arm64",
+    "build": "PASS"
+  }
+]

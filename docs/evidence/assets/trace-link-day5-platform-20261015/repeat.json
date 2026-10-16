@@ -1,0 +1,58 @@
+{
+  "commands": [
+    {
+      "command": [
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\.venv\\Scripts\\python.exe",
+        "services/ml-service/training/trace_link_evaluation.py",
+        "--dataset",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\docs\\evidence\\assets\\trace-link-day5-20261015\\study",
+        "--protocol",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\docs\\evidence\\assets\\trace-link-day5-20261015\\study\\protocol.json",
+        "--processor-export",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day5-platform-correction\\archived-processor.json",
+        "--output",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day5-platform-correction\\first"
+      ],
+      "startedAt": "2026-10-15T10:33:30.518116+00:00",
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\.venv\\Scripts\\python.exe",
+        "services/ml-service/training/trace_link_evaluation.py",
+        "--dataset",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\docs\\evidence\\assets\\trace-link-day5-20261015\\study",
+        "--protocol",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\docs\\evidence\\assets\\trace-link-day5-20261015\\study\\protocol.json",
+        "--processor-export",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day5-platform-correction\\archived-processor.json",
+        "--output",
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\day5-platform-correction\\second"
+      ],
+      "startedAt": "2026-10-15T10:36:21.658484+00:00",
+      "exitCode": 0
+    }
+  ],
+  "exportKind": "ARCHIVED_JAVA_EXPORT_NOT_FRESH_REPRODUCTION",
+  "comparisons": {
+    "results.json": {
+      "first": "131c39292a94e5ddb4b40597eed3d7facfe212598a551f21a9466d7b8875d7bb",
+      "second": "131c39292a94e5ddb4b40597eed3d7facfe212598a551f21a9466d7b8875d7bb",
+      "archived": "131c39292a94e5ddb4b40597eed3d7facfe212598a551f21a9466d7b8875d7bb",
+      "equal": true
+    },
+    "predictions.json": {
+      "first": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+      "second": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+      "archived": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+      "equal": true
+    },
+    "thresholds.json": {
+      "first": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+      "second": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+      "archived": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+      "equal": true
+    }
+  },
+  "status": "PASS"
+}

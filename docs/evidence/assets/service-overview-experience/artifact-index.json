@@ -1,0 +1,67 @@
+[
+  {
+    "file": "all-browser.log.gz",
+    "sha256": "55109b6c509034159dfd60775e3b382b5f771feacd112521b2e1abae0567be75",
+    "bytes": 6231
+  },
+  {
+    "file": "branding.log.gz",
+    "sha256": "733d47a62ab0bed80a9b715b2a1ebafaad8e1e56e3b7c6cf44384c9a79cf486a",
+    "bytes": 226
+  },
+  {
+    "file": "browser-before.log.gz",
+    "sha256": "c9ae85e66ca19624dc0f12983f212f33dd41f4226bd0a0a78c5068cd28f88467",
+    "bytes": 8522
+  },
+  {
+    "file": "cross-browser.log.gz",
+    "sha256": "462f41788fc2aa9a816e945be6974bf85c563db800ba39d8d3119d9223091fa4",
+    "bytes": 1586
+  },
+  {
+    "file": "cross-final.log.gz",
+    "sha256": "7c1a721b473e977f2de10ffe8a5ff9c7665b6de54ab9519414f4894ff9ee17b8",
+    "bytes": 636
+  },
+  {
+    "file": "final-layout.log.gz",
+    "sha256": "0e166d571df1c144844ab8c888a257b8e81396c9e55f9bd69bfd2c277af14158",
+    "bytes": 1219
+  },
+  {
+    "file": "fixture-build.log.gz",
+    "sha256": "43b5f85c14b48a7d859d4bbd3079bfb7bc9e3347e26f24a161a358984ebb3f46",
+    "bytes": 981
+  },
+  {
+    "file": "fixtures.log.gz",
+    "sha256": "ecbb668ede67cda518d5eb797b763eb4b32625cc5b5bfbe61b85015da0c43099",
+    "bytes": 156
+  },
+  {
+    "file": "overview-1366.png",
+    "sha256": "a331ae0f3a011cd5b1e8efd7be4d70f7fa8e0c3ecdb1bae2031531df72d6720c",
+    "bytes": 361447
+  },
+  {
+    "file": "overview-390.png",
+    "sha256": "ed9ce9a460762a3b1d3bc702f753c39542e6cdcb72e751f6b696ee7409e7bb49",
+    "bytes": 357531
+  },
+  {
+    "file": "performance-final.log.gz",
+    "sha256": "fc12d87c541e4f7cb98e840e8cf01b40c1b915168268ed7e131f11d2505d1bc0",
+    "bytes": 624
+  },
+  {
+    "file": "summary.json",
+    "sha256": "24e3d921a1dfc54b5a3697efe7ae62b568c340288adcee66f69c9647c05dd40f",
+    "bytes": 6361
+  },
+  {
+    "file": "units.log.gz",
+    "sha256": "2a29201e6d8396aa1519543176759df21e472d782231e0b820b134ec9f0207f4",
+    "bytes": 2017
+  }
+]

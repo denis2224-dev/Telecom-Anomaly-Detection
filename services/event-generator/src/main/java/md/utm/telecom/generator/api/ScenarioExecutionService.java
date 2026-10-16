@@ -201,7 +201,7 @@ public class ScenarioExecutionService {
         }
         if (!legacyScope(command.scopeId())) {
             var binding = geography == null ? null : geography.bindings().get(command.scopeId());
-            if (binding == null || binding.legacy()
+            if (binding == null || binding.legacy() || java.util.Set.of("RIB", "TIR").contains(binding.cityId())
                     || !geography.activation().status().equals("ACTIVE")
                     || command.scheduledStartAt().isBefore(geography.activation().effectiveFrom()))
                 throw new ApiFailure(HttpStatus.BAD_REQUEST, "INVALID_SCOPE",

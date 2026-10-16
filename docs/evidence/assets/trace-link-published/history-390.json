@@ -1,0 +1,51 @@
+{
+  "sourceSha": "280bdacf41d9db9cf69c8bfa4085940ece288bc6",
+  "width": 390,
+  "manifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+  "mode": "Actual persisted archive and real OIDC in an owned isolated stack",
+  "evidence": [
+    {
+      "hours": 24,
+      "buckets": 288
+    },
+    {
+      "hours": 168,
+      "buckets": 2016
+    },
+    {
+      "hours": 720,
+      "buckets": 8640
+    },
+    {
+      "metric": "volte.setup.success",
+      "buckets": 6,
+      "csvSha256": "c153f947e66747ebb3931109c7d6da89ac9443db8f78db9d57746379b9e0c781"
+    },
+    {
+      "metric": "sms.queue",
+      "buckets": 6,
+      "csvSha256": "4a980f1547c02e15968fd88a1c37c28805a2eb26e8149005c93361cd6ea4fa3a"
+    },
+    {
+      "metric": "transport.traffic",
+      "buckets": 6,
+      "csvSha256": "86df7d923cf53cb1eb91e59adeda9cb13bf8762cf8c6b6359057fd59f29c2c6d"
+    },
+    {
+      "metric": "roaming.registration.success",
+      "buckets": 6,
+      "csvSha256": "ea4037c2864bcda4deb55ad11261f4b24f98e312848e816fd5e8ad42dcf314c5"
+    },
+    {
+      "metric": "mobileData.activation.success",
+      "buckets": 6,
+      "csvSha256": "45e9d263e71f1281af1e4fce7a8b7b40db09cf07e071572d53afb44c5dc8f780"
+    },
+    {
+      "metric": "mobileData.dns.success",
+      "buckets": 6,
+      "csvSha256": "144be0736a9639e9e495d8816b27774a8dfa240b779fabac2970c9ea00186aa0"
+    }
+  ],
+  "completeRehearsal": false
+}

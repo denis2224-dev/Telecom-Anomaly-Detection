@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "trace-link-verification-v1",
+  "executionDate": "2026-10-13",
+  "timezone": "Europe/Chisinau",
+  "implementationCommit": "27f596f55d1f406c84f141987866b84aced19449",
+  "longRunSourceCommit": "59827b1d199516e9ddc10a4df6a8479dc370870b",
+  "sourceSnapshotNote": "The full reactor preceded the final narrow baseline/policy guard changes. The subsequent focused runs cover those guards; the long measurement has its own complete source manifest.",
+  "suites": [
+    {
+      "name": "root-python",
+      "tests": 147,
+      "failures": 0,
+      "log": "root-python.log.gz"
+    },
+    {
+      "name": "ml-python",
+      "tests": 74,
+      "failures": 0,
+      "log": "ml-python.log.gz"
+    },
+    {
+      "name": "full-root-reactor",
+      "tests": 1238,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "log": "reactor.log.gz",
+      "moduleSummaries": [
+        [
+          119,
+          0,
+          0,
+          0
+        ],
+        [
+          95,
+          0,
+          0,
+          0
+        ],
+        [
+          1024,
+          0,
+          0,
+          4
+        ]
+      ]
+    },
+    {
+      "name": "subsequent-shared-runtime-http",
+      "tests": 79,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log": "runtime-http-regression.log.gz"
+    },
+    {
+      "name": "separate-incident-service",
+      "unitTests": 166,
+      "integrationTests": 73,
+      "failures": 0,
+      "errors": 0,
+      "unitSkipped": 1,
+      "integrationSkipped": 0,
+      "log": "receiving-full-regression.log.gz",
+      "reportedInvocation": "services/incident-service/mvnw.cmd -f services/incident-service/pom.xml verify",
+      "workingDirectory": "tmp/day3-receiver",
+      "finishedAt": "2026-10-13T14:22:27+03:00"
+    },
+    {
+      "name": "subsequent-receiver-policy-guard",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log": "receiving-policy-regression.log.gz",
+      "reportedInvocation": "services/incident-service/mvnw.cmd -f services/incident-service/pom.xml -Dtest=TraceLinkDetectionMessageTest,TraceLinkCauseBoundaryTest,TraceLinkDetectionConsumerTest test",
+      "workingDirectory": "tmp/day3-receiver",
+      "finishedAt": "2026-10-13T14:24:29+03:00"
+    }
+  ],
+  "skips": {
+    "subsequentlyPassedAgainstActualHttp": [
+      "GeographicDetectionTest.pinnedHttpScorerAcceptsCityVectorsAndRejectsChangedBaselineWithoutBlockingRules",
+      "SmsDeliveryTest.livePackagedModelEnrichesRecoveredSmsEpisode",
+      "VoiceDeliveryTest.livePackagedModelEnrichesRecoveredVoiceEpisode"
+    ],
+    "unavailableOptInInput": {
+      "environmentVariable": "SMS_SHADOW_REPLAY_DIR",
+      "processor": "SmsShadowReplayTest.freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+      "receiver": "SmsShadowReplayTest"
+    }
+  },
+  "otherChecks": {
+    "frozenPins": "PASS: 29 frozen V2/reference files and independent fixture hash unchanged",
+    "generatedApiAndDashboardBuild": "PASS; dashboard-build.log.gz",
+    "composeConfig": "PASS",
+    "powershellParser": "PASS",
+    "gitDiffCheck": "PASS"
+  },
+  "activation": "DISABLED_BY_DEFAULT",
+  "acceptance": {
+    "correctness": "PASS",
+    "realTimeCapacity": "INCOMPLETE",
+    "personalSignoffs": "NOT_SUPPLIED",
+    "migrationLedger": "RECONCILIATION_REQUIRED_BEFORE_DEPLOYMENT"
+  }
+}

@@ -5,9 +5,8 @@ import { primaryMetric, supportedValue } from '../../shared/metric-presentation'
 
 export type Detection = components['schemas']['ServiceDetection'];
 export const VOLTE_METRICS = [
-  ['cssrPct', 'CSSR'], ['eligibleAttempts', 'Attempts'], ['rrcSrPct', 'RRC SR'],
-  ['bearerSrPct', 'Bearer SR'], ['sip503Ratio', 'SIP 503 rate'],
-  ['imsCpuPct', 'IMS CPU'], ['packetLossRatio', 'Packet loss'],
+  ['cssrPct', 'Call setup success'], ['eligibleAttempts', 'Attempts'],
+  ['sip503Ratio', 'SIP 503 rate'], ['imsCpuPct', 'IMS CPU'],
 ] as const;
 export const SMS_METRICS = [
   ['deliverySrPct', 'Delivery Success Rate'], ['p95DeliveryMs', 'P95 Delivery Delay'],

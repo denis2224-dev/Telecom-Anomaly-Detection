@@ -62,7 +62,7 @@ class SharedContractTests(unittest.TestCase):
         return self.api["paths"][route][method]["responses"][status]["content"][media]["schema"]
 
     def test_openapi_and_all_declared_examples_validate(self):
-        self.assertEqual(self.api["info"]["version"], "0.4.0")
+        self.assertEqual(self.api["info"]["version"], "0.5.0")
         validate(self.api)
         # Resolve every internal reference, including references outside examples.
         expand_local_refs(self.api, self.api)

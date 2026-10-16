@@ -6,6 +6,9 @@ import java.time.Instant;
 import java.util.HexFormat;
 import java.util.List;
 import md.utm.telecom.IncidentServiceIntegrationTestSupport;
+import md.utm.telecom.analysts.model.Analyst;
+import md.utm.telecom.analysts.repository.AnalystRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,6 +26,12 @@ class SmsShadowStoreTest extends IncidentServiceIntegrationTestSupport {
     @Autowired ObjectMapper json;
     @Autowired JdbcTemplate jdbc;
     @Autowired MockMvc mvc;
+    @Autowired AnalystRepository analysts;
+    private Analyst actor;
+    @BeforeEach
+    void registerActor() {
+        actor = analysts.saveAndFlush(new Analyst("https://identity.test/realm", "shadow-reader", "Shadow reader"));
+    }
     ObjectNode event() throws Exception {
         var event=json.createObjectNode().put("schemaVersion",1).put("windowId","a".repeat(64)).put("service","SMS")
                 .put("scopeId","SMS-MD-ROUTE-A").put("windowStart","2027-05-03T00:00:00Z").put("windowEnd","2027-05-03T00:01:00Z")
@@ -49,14 +58,14 @@ class SmsShadowStoreTest extends IncidentServiceIntegrationTestSupport {
         store.ingest("SMS-MD-ROUTE-A",event().toString());
         String url="/api/services/SMS-MD-ROUTE-A/ml-shadow?from=2027-05-03T00:00:00Z&to=2027-05-03T00:02:00Z";
         mvc.perform(get(url)).andExpect(status().isUnauthorized());
-        mvc.perform(get(url).session(authenticatedSession()).with(oidcLogin().authorities(new SimpleGrantedAuthority("ROLE_VIEWER")))).andExpect(status().isForbidden());
+        mvc.perform(get(url).session(authenticatedSession()).with(oidcLogin().idToken(token -> token.issuer(actor.getIssuer()).subject(actor.getSubject())).authorities(new SimpleGrantedAuthority("ROLE_VIEWER")))).andExpect(status().isForbidden());
         for(String role:List.of("ANALYST","SUPERVISOR","ADMIN"))
-            mvc.perform(get(url).session(authenticatedSession()).with(oidcLogin().authorities(new SimpleGrantedAuthority("ROLE_"+role))))
+            mvc.perform(get(url).session(authenticatedSession()).with(oidcLogin().idToken(token -> token.issuer(actor.getIssuer()).subject(actor.getSubject())).authorities(new SimpleGrantedAuthority("ROLE_"+role))))
                     .andExpect(status().isOk()).andExpect(jsonPath("$.total").value(1)).andExpect(jsonPath("$.size").value(20))
                     .andExpect(jsonPath("$.items[0].detection").value(true));
         for(String invalid:new String[]{url+"&size=101",url+"&page=-1",url.replace("00:02:00Z","00:00:00Z"),
                 url.replace("2027-05-03T00:02:00Z","2027-05-05T00:02:00Z"),url.replace("00:02:00Z","00:02:00%2B00:00")})
-            mvc.perform(get(invalid).session(authenticatedSession()).with(oidcLogin().authorities(new SimpleGrantedAuthority("ROLE_ANALYST"))))
+            mvc.perform(get(invalid).session(authenticatedSession()).with(oidcLogin().idToken(token -> token.issuer(actor.getIssuer()).subject(actor.getSubject())).authorities(new SimpleGrantedAuthority("ROLE_ANALYST"))))
                     .andExpect(status().isBadRequest());
     }
     @Test void rejectsLabelsDecisionsAndWrongIdentityOrKey() throws Exception {

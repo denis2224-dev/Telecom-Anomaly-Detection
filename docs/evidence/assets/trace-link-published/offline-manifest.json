@@ -1,0 +1,269 @@
+{
+  "sourceCommit": "280bdacf41d9db9cf69c8bfa4085940ece288bc6",
+  "datasetId": "trace-link-md-30d-v1",
+  "datasetManifestSha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b",
+  "nativeRows": 362880,
+  "applicationImages": {
+    "event-generator": "pr77-trace-lifecycle-review-event-generator:280bdacf41d9",
+    "history-bootstrap": "pr77-trace-lifecycle-review-history-bootstrap:280bdacf41d9",
+    "incident-service": "pr77-trace-lifecycle-review-incident-service:280bdacf41d9",
+    "ml-service": "pr77-trace-lifecycle-review-ml-service:280bdacf41d9",
+    "processor": "pr77-trace-lifecycle-review-processor:280bdacf41d9"
+  },
+  "images": [
+    {
+      "id": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+      "digests": [
+        "apache/kafka@sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:408afb9726de5122b00a2576763a8a57a3c86d5b0eff5305bc994ceb3eb96c3f",
+      "digests": [
+        "grafana/grafana@sha256:408afb9726de5122b00a2576763a8a57a3c86d5b0eff5305bc994ceb3eb96c3f"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+      "digests": [
+        "nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c",
+      "digests": [
+        "postgres@sha256:5660c2cbfea50c7a9127d17dc4e48543eedd3d7a41a595a2dfa572471e37e64c"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:73876a1e24b024ea9baf86cc722c6514e2578ac2bc300732f3a366c28ebd57f6",
+      "digests": [
+        "pr77-trace-lifecycle-review-event-generator@sha256:73876a1e24b024ea9baf86cc722c6514e2578ac2bc300732f3a366c28ebd57f6"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:0a023578a0f9e1d5215cd89c6952f6ceede1a8a2ad24fa56afbc1c28961d470e",
+      "digests": [
+        "pr77-trace-lifecycle-review-history-bootstrap@sha256:0a023578a0f9e1d5215cd89c6952f6ceede1a8a2ad24fa56afbc1c28961d470e"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:ca90460a5b9c72ba289021bd31fe8aad452dbccca755a92da9596e621832eadf",
+      "digests": [
+        "pr77-trace-lifecycle-review-incident-service@sha256:ca90460a5b9c72ba289021bd31fe8aad452dbccca755a92da9596e621832eadf"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:a66ecaf51cabe17c1a05cec0a1a815edc1e5f2f278dabac2ba0b6e8d98439738",
+      "digests": [
+        "pr77-trace-lifecycle-review-ml-service@sha256:a66ecaf51cabe17c1a05cec0a1a815edc1e5f2f278dabac2ba0b6e8d98439738"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:7d270df1eed7075eb8657f876c0d2327fdf5777a89c232ed35e9bde6fb68b942",
+      "digests": [
+        "pr77-trace-lifecycle-review-processor@sha256:7d270df1eed7075eb8657f876c0d2327fdf5777a89c232ed35e9bde6fb68b942"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "id": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "digests": [
+        "quay.io/keycloak/keycloak@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c"
+      ],
+      "architecture": "arm64"
+    }
+  ],
+  "files": [
+    {
+      "file": "compose.release.yaml",
+      "bytes": 792,
+      "sha256": "8088a9b74682f0d1ff3c3a801ed70b8cec867829eb81e5ada0e32b96e15b50cb"
+    },
+    {
+      "file": "dashboard.tar",
+      "bytes": 870400,
+      "sha256": "9a75cb53b7b802f4df277a4ccae5e7da8d390cf13d8c94e1ce08959934585e3e"
+    },
+    {
+      "file": "event-generator-0.3.0-SNAPSHOT.jar",
+      "bytes": 47376283,
+      "sha256": "32be63d768d8da21f89620d66d9fe52317f4e32df7c752ac0754048b8a042014"
+    },
+    {
+      "file": "evidence/browser/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/SMS-MD-CHI-1366.png",
+      "bytes": 291120,
+      "sha256": "5323bba0ab88beef07083535180f585c8c1600786203291be080666a846b5e49"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/SMS-MD-CHI-390.png",
+      "bytes": 248199,
+      "sha256": "057f39685d6b48fde471772cd539370041452e5f76100c70d6d5b96a68ba9c36"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/SMS-MD-CHI-recovered-390.png",
+      "bytes": 362223,
+      "sha256": "3831b4dd16fe183090e643a4d5872df0973c213bbbec48f603ffdaf9010c1d5a"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/VOLTE-MD-CHI-1366.png",
+      "bytes": 396273,
+      "sha256": "e607c2a21cbc7cd31e0ca006d0490e0033c6d041b5ce0fd955825851552c6ac0"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/VOLTE-MD-CHI-390.png",
+      "bytes": 326209,
+      "sha256": "e576d6b6b2759a6b1c553d706025da6fc237c870fdd536322d2468509bbb1f73"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/VOLTE-MD-CHI-recovered-390.png",
+      "bytes": 373811,
+      "sha256": "a6fc3deca51de971618a3b0fd950da45a314eb1e2ff6f3d75a8d32fdff048ffe"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/cahul-gap-390.png",
+      "bytes": 334503,
+      "sha256": "bbc96546390a236717b447b8c5c0089dcdace7c342329c7d2f447e266b035f2f"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/chi-queue-1366.png",
+      "bytes": 387040,
+      "sha256": "8e5ac677a03487aff26be5bc98a95345a555639bfa6c876d90f301dd2152d803"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/chi-queue-390.png",
+      "bytes": 285555,
+      "sha256": "eedb8765e50ab7d5884e092a94f762f554cca842bbc4a81592594fd0788e6336"
+    },
+    {
+      "file": "evidence/browser/pr77-connected-integrated--8e8af--fresh-geographic-incidents/geographic-security-results.json",
+      "bytes": 8912,
+      "sha256": "de462cd240c3b3c2d8280d82630924c8ef0530b99f40026fa135602674d026c6"
+    },
+    {
+      "file": "evidence/browser/trace-connected-populated--2a412-rves-exact-context-at-390px/history-progress.json",
+      "bytes": 1218,
+      "sha256": "57340e39a7c4188fc4a1929ccf82255396b6596d02a1709535aa0aab02267431"
+    },
+    {
+      "file": "evidence/browser/trace-connected-populated--2a412-rves-exact-context-at-390px/populated-history-390.png",
+      "bytes": 381939,
+      "sha256": "bbebedcd1596a0536c09ed0afeb602d6f48e265384c4d9ea2e35a880778ce996"
+    },
+    {
+      "file": "evidence/browser/trace-connected-populated--2a412-rves-exact-context-at-390px/populated-history.json",
+      "bytes": 1415,
+      "sha256": "1879731d4314c1c09073234a6cff831fb91773dbbfd82bd41087d3c147d50acb"
+    },
+    {
+      "file": "evidence/browser/trace-connected-populated--80594-ves-exact-context-at-1366px/history-progress.json",
+      "bytes": 1219,
+      "sha256": "465dd56870c360ba24da5a94baba9e40b59c79f41c0f81c53297f019f26fb65b"
+    },
+    {
+      "file": "evidence/browser/trace-connected-populated--80594-ves-exact-context-at-1366px/populated-history-1366.png",
+      "bytes": 520611,
+      "sha256": "0e57a2deda7a141fb25527168af682e937d79afe4352d882479650a8000d38f3"
+    },
+    {
+      "file": "evidence/browser/trace-connected-populated--80594-ves-exact-context-at-1366px/populated-history.json",
+      "bytes": 1416,
+      "sha256": "8d95a047b5809de31554739c701d1e74e9e422a4bc394723ac07dbd83fb023a8"
+    },
+    {
+      "file": "evidence/runtime.json",
+      "bytes": 6344,
+      "sha256": "367bcc9262204f12ee1069dd490835fbbef9445d1ed6ed0d368ccdc6cc66534f"
+    },
+    {
+      "file": "evidence/scenarios.json",
+      "bytes": 8912,
+      "sha256": "de462cd240c3b3c2d8280d82630924c8ef0530b99f40026fa135602674d026c6"
+    },
+    {
+      "file": "evidence/verification.json",
+      "bytes": 1045,
+      "sha256": "0f29057b61b8224a3255ece746b47f58139f151a4c38b00dd38a5a8459f5a845"
+    },
+    {
+      "file": "images.tar",
+      "bytes": 1149841408,
+      "sha256": "79071abae65a45b38bb9bd20c7c43383f873ee40a1891d43b84e2a00907141b6"
+    },
+    {
+      "file": "incident-service-0.0.1-SNAPSHOT.jar",
+      "bytes": 107797252,
+      "sha256": "9c63d12220411d8677d19717b65263011f14090671b01ac0cf527223e2ff9d4b"
+    },
+    {
+      "file": "processor-0.3.0-SNAPSHOT.jar",
+      "bytes": 50555974,
+      "sha256": "2cb19a08aee021cbf18bdcc5c0c0630dd56796f3ab2f8d6438f1974792940d64"
+    },
+    {
+      "file": "reference/cities.csv",
+      "bytes": 452,
+      "sha256": "16cc72a82194b1d416d09df55825f806bd6d97a99bb6ed254ff64a915c530cc1"
+    },
+    {
+      "file": "reference/city_kpi_5m.csv",
+      "bytes": 15110895,
+      "sha256": "2eaab7425946d52f2dffa8429dc11d2e315d2bb4e0b0ff95bc977687f4394647"
+    },
+    {
+      "file": "reference/countries.csv",
+      "bytes": 242,
+      "sha256": "23dfc3bc0ef3b2c95d22db3cb1f5bcecba7390ec194225b437ab96d09df3a7d3"
+    },
+    {
+      "file": "reference/link_kpi_5m.csv",
+      "bytes": 7993287,
+      "sha256": "0da79bde35cc5d141fa00d80e3b19ded3f301eee87b045ef5098cbf3d77d3b0a"
+    },
+    {
+      "file": "reference/links.csv",
+      "bytes": 257,
+      "sha256": "bbf0d608bebf71939354e3d364cd898f69bc12e23e54db3a29552d79ec3a1c6e"
+    },
+    {
+      "file": "reference/manifest.json",
+      "bytes": 1808,
+      "sha256": "e3033f025f6b5866edc0ed34f3078cfa9f9c01cb126eac4577055ef30247ee1b"
+    },
+    {
+      "file": "reference/roaming_kpi_5m.csv",
+      "bytes": 14234377,
+      "sha256": "be3f5766bf0bb6167fa174a44dd414de7507afe03b69b0225f9326f252e3e48f"
+    },
+    {
+      "file": "reference/scenario_events.csv",
+      "bytes": 2681,
+      "sha256": "fdb4f004b9221fa612e2a55026430bae5fc7b27d0f6b050109cdbd40ff0a894c"
+    },
+    {
+      "file": "source.tar",
+      "bytes": 110192640,
+      "sha256": "9495a437d78ed1e13d58754ba46e79fac229552c26472a19349901d928815f8d"
+    }
+  ],
+  "humanAcceptance": "PENDING",
+  "ownerSignatures": [],
+  "rehearsals": [],
+  "securePushAcceptance": "PENDING",
+  "sharedPushEnabled": false,
+  "offlineCleanInstallAcceptance": "PENDING",
+  "releaseGatesPassed": false
+}

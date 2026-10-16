@@ -10,3 +10,8 @@ it('carries the absolute visible interval and all scope dimensions',()=>{
 it('rejects invalid and credential-bearing Grafana configuration',()=>{
   for(const base of ['', 'javascript:alert(1)','https://user:secret@grafana.example/d/trace','https://grafana.example/d/trace?token=secret'])expect(grafanaContextUrl(base,context)).toBeNull();
 });
+
+it('clears stale configured scope variables before applying the selected context',()=>{
+  const url=new URL(grafanaContextUrl('https://grafana.example/d/trace?var-partnerDirectionId=OLD:in&var-linkDirectionId=old:a-to-b',{...context,linkDirectionId:undefined,partnerDirectionId:undefined})!);
+  expect(url.searchParams.has('var-partnerDirectionId')).toBe(false);expect(url.searchParams.has('var-linkDirectionId')).toBe(false);
+});

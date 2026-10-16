@@ -28,8 +28,10 @@ jobs:
         run: node --test scripts/pr77-*.test.cjs
       - run: npm test
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npx playwright test --workers=2
+      - name: Verify keyboard navigation and persisted investigation across browsers
+        run: npx playwright test accessibility.spec.ts trace-history.spec.ts native-investigation.spec.ts trace-release-acceptance.spec.ts --browser=all --workers=2
       - name: Save browser reports
         if: failure()
         uses: actions/upload-artifact@v4

@@ -84,7 +84,9 @@ app:
       kpis: ${KAFKA_V2_KPIS_TOPIC:telecom.kpis.v2}
       sms-shadow: telecom.ml-shadow.sms.v1
       coverage: ${KAFKA_COVERAGE_TOPIC:telecom.coverage.v1}
+      domain-detections: ${KAFKA_TRACE_DOMAIN_DETECTIONS_TOPIC:telecom.trace-domain.detections.v1}
   simulator:
+    trace-link-scenarios-enabled: ${TRACE_LINK_SCENARIOS_ENABLED:false}
     generator-base-url: ${GENERATOR_BASE_URL:http://127.0.0.1:${GENERATOR_HOST_PORT:8081}}
     reconcile-ms: 5000
   notifications:
@@ -99,3 +101,10 @@ app:
       poll-ms: 2000
       lease-seconds: 60
       max-attempts: 6
+
+  tracelink:
+    domain-detections-enabled: ${TRACE_DOMAIN_DETECTIONS_ENABLED:false}
+telecom:
+  trace-link:
+    enabled: ${TRACE_LINK_ENABLED:false}
+    topic: ${TRACE_LINK_DETECTIONS_TOPIC:telecom.detections.trace-link.v1}

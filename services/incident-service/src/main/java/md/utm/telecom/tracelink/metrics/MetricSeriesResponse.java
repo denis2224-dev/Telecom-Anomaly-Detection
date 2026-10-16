@@ -16,7 +16,20 @@ public record MetricSeriesResponse(
                         BigDecimal sumValue, Long sampleCount, String nullReason,
                         String qualityReason, Integer expectedSlots, Integer receivedSlots,
                         String sourceQuality, BigDecimal sourceCoverage,
-                        List<String> projectionIds, List<Provenance> provenance) {
+                        List<String> projectionIds, List<Provenance> provenance,
+                        Instant snapshotAt, Long sourceAgeSeconds,
+                        List<BigDecimal> histogramCounts, List<BigDecimal> histogramEdges,
+                        List<State> states) {
+        public Point(Instant from, Instant to, BigDecimal value, BigDecimal coverage,
+                     String quality, BigDecimal numerator, BigDecimal denominator,
+                     BigDecimal sumValue, Long sampleCount, String nullReason,
+                     String qualityReason, Integer expectedSlots, Integer receivedSlots,
+                     String sourceQuality, BigDecimal sourceCoverage,
+                     List<String> projectionIds, List<Provenance> provenance) {
+            this(from, to, value, coverage, quality, numerator, denominator, sumValue, sampleCount,
+                    nullReason, qualityReason, expectedSlots, receivedSlots, sourceQuality, sourceCoverage,
+                    projectionIds, provenance, null, null, List.of(), List.of(), List.of());
+        }
         public Point(Instant from, Instant to, BigDecimal value, BigDecimal coverage,
                      String quality, BigDecimal numerator, BigDecimal denominator,
                      BigDecimal sumValue, Long sampleCount) {
@@ -24,6 +37,8 @@ public record MetricSeriesResponse(
                     sampleCount, null, null, null, null, null, null, List.of(), List.of());
         }
     }
+
+    public record State(Instant from, Instant to, String state) {}
 
     public record Provenance(String projectionId, String sourceNaturalId, long sourceRowNumber,
                              String sourceRowSha256, String sourceFile, String manifestSha256,

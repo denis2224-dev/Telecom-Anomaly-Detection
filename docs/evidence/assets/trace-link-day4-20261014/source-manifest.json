@@ -1,0 +1,198 @@
+{
+  "baseCommit": "f9934b5",
+  "implementationCommit": "525f01ed3a554531b4a83d0b4dd730c07a336981",
+  "files": {
+    ".gitattributes": {
+      "verifiedWorkspaceSha256": "44ac6116bb52555a924a796f57aaf8ef37ec52cdf085bdcd2119d20af68ceadd",
+      "gitBlobSha256": "44ac6116bb52555a924a796f57aaf8ef37ec52cdf085bdcd2119d20af68ceadd"
+    },
+    "compose.yaml": {
+      "verifiedWorkspaceSha256": "f27ed4e877e29710560ff5139bf850970ed8a5f372e34c5d0edfe78c5e9ff8dd",
+      "gitBlobSha256": "f27ed4e877e29710560ff5139bf850970ed8a5f372e34c5d0edfe78c5e9ff8dd"
+    },
+    "contracts/features/trace-link-feature-order-v1.json": {
+      "verifiedWorkspaceSha256": "2464d86c6947082ff8f1eec5f46d863d4674f0e1fed7725fb050c7b1d83e8579",
+      "gitBlobSha256": "2464d86c6947082ff8f1eec5f46d863d4674f0e1fed7725fb050c7b1d83e8579"
+    },
+    "contracts/features/trace-link-feature-window-v1.schema.json": {
+      "verifiedWorkspaceSha256": "ccc4a1214b09d0b86400ee3248c84617ae18d0ef68baf9a48e5dde2b644fbd3b",
+      "gitBlobSha256": "ccc4a1214b09d0b86400ee3248c84617ae18d0ef68baf9a48e5dde2b644fbd3b"
+    },
+    "contracts/fixtures/trace-link/ml-feature-cases-v1.json": {
+      "verifiedWorkspaceSha256": "0a322a29a1ec044e4008ead6edb55c6c5f9d78daea977f49d57b461875cc8fa0",
+      "gitBlobSha256": "0a322a29a1ec044e4008ead6edb55c6c5f9d78daea977f49d57b461875cc8fa0"
+    },
+    "contracts/ml-shadow/trace-link-model-pin-v1.json": {
+      "verifiedWorkspaceSha256": "0cf79c8293760e318258d6dd56a16152283adb65629921e2a4e407831ad9118f",
+      "gitBlobSha256": "0cf79c8293760e318258d6dd56a16152283adb65629921e2a4e407831ad9118f"
+    },
+    "contracts/ml-shadow/trace-link-request-v1.schema.json": {
+      "verifiedWorkspaceSha256": "35e77fe04da3447785d73a18effd31d849290735aad9c73c3f1bcbfeb82daec8",
+      "gitBlobSha256": "35e77fe04da3447785d73a18effd31d849290735aad9c73c3f1bcbfeb82daec8"
+    },
+    "contracts/ml-shadow/trace-link-response-v1.schema.json": {
+      "verifiedWorkspaceSha256": "d69a9f667aa7f7da599171d5dbe8d771d7d22d1cb1794b01265aa91c4c005079",
+      "gitBlobSha256": "d69a9f667aa7f7da599171d5dbe8d771d7d22d1cb1794b01265aa91c4c005079"
+    },
+    "contracts/ml-shadow/trace-link-result-v1.schema.json": {
+      "verifiedWorkspaceSha256": "ffc3371096bd03e43f9b427fe212197919e548a682efc99f85d1ffec69c438af",
+      "gitBlobSha256": "ffc3371096bd03e43f9b427fe212197919e548a682efc99f85d1ffec69c438af"
+    },
+    "scripts/check-contracts.py": {
+      "verifiedWorkspaceSha256": "ccd626503a12dbc52dec31bf8489f128d624873087b3ef233b48cfa95b0f25b4",
+      "gitBlobSha256": "ccd626503a12dbc52dec31bf8489f128d624873087b3ef233b48cfa95b0f25b4"
+    },
+    "scripts/check-trace-link-ml-parity.py": {
+      "verifiedWorkspaceSha256": "fe14f1999d759b2d3b2a115b5dc5ad2939f91d1e188939fd164625eaeb2ecabe",
+      "gitBlobSha256": "fe14f1999d759b2d3b2a115b5dc5ad2939f91d1e188939fd164625eaeb2ecabe"
+    },
+    "scripts/trace_link_ml_contract.py": {
+      "verifiedWorkspaceSha256": "9c77ff3c8ce21e48fabc043ac07c62f7e54a69edbfc67cc6874354eec85e2870",
+      "gitBlobSha256": "9c77ff3c8ce21e48fabc043ac07c62f7e54a69edbfc67cc6874354eec85e2870"
+    },
+    "scripts/verify-trace-link-ml-http.py": {
+      "verifiedWorkspaceSha256": "9bb74b7d7415436c0572ff0e71fa45481372eb6316aba80b60eac824310b1caa",
+      "gitBlobSha256": "9bb74b7d7415436c0572ff0e71fa45481372eb6316aba80b60eac824310b1caa"
+    },
+    "services/ml-service/Dockerfile": {
+      "verifiedWorkspaceSha256": "0628a92bf70338a57cfcb76d5fc97d327b460afc789738b188a1752af8419189",
+      "gitBlobSha256": "0628a92bf70338a57cfcb76d5fc97d327b460afc789738b188a1752af8419189"
+    },
+    "services/ml-service/app/features/trace_link_features.py": {
+      "verifiedWorkspaceSha256": "2ba59d86cdd6c436ace53d97ab1bab381382fdc5a5ef1d8978623367ee939c12",
+      "gitBlobSha256": "2ba59d86cdd6c436ace53d97ab1bab381382fdc5a5ef1d8978623367ee939c12"
+    },
+    "services/ml-service/app/inference/api.py": {
+      "verifiedWorkspaceSha256": "2979589791f1285aac83f8fd23008f2f5011c070221dde514bfe786a26c37f50",
+      "gitBlobSha256": "2979589791f1285aac83f8fd23008f2f5011c070221dde514bfe786a26c37f50"
+    },
+    "services/ml-service/app/inference/trace_link_scoring.py": {
+      "verifiedWorkspaceSha256": "ead4e785d3bfc723ca1dea53aba5c3936506260b55d483bd8a162796b7f9ffb2",
+      "gitBlobSha256": "ead4e785d3bfc723ca1dea53aba5c3936506260b55d483bd8a162796b7f9ffb2"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/MOBILE_DATA-baselines.json": {
+      "verifiedWorkspaceSha256": "f50eed4eeb76dd3751d35b86406bdc94ffc99dc366a8beb9141e530d932c7907",
+      "gitBlobSha256": "f50eed4eeb76dd3751d35b86406bdc94ffc99dc366a8beb9141e530d932c7907"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/MOBILE_DATA-calibration.json": {
+      "verifiedWorkspaceSha256": "7fa47495cf02c473a3926c06541035aff09159473daeeeafc5bfb8915b1a0507",
+      "gitBlobSha256": "7fa47495cf02c473a3926c06541035aff09159473daeeeafc5bfb8915b1a0507"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/MOBILE_DATA.joblib": {
+      "verifiedWorkspaceSha256": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4",
+      "gitBlobSha256": "f916f71f8c8c0d9871b8f72b852daad35320976b6fc9861152461ab2e15834b4"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/ROAMING-baselines.json": {
+      "verifiedWorkspaceSha256": "25feba443ea704fe8ed27d24b5043410ccf7d31277a73df1a91b75d86b09c0e6",
+      "gitBlobSha256": "25feba443ea704fe8ed27d24b5043410ccf7d31277a73df1a91b75d86b09c0e6"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/ROAMING-calibration.json": {
+      "verifiedWorkspaceSha256": "b8cd63648186e52ae7001a58fbff4ff1c42c43e55b6849d29630ad207b352d45",
+      "gitBlobSha256": "b8cd63648186e52ae7001a58fbff4ff1c42c43e55b6849d29630ad207b352d45"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/ROAMING.joblib": {
+      "verifiedWorkspaceSha256": "bbc483daae7bcdb40682307bcbfcb54c8d9e6d86df6fd6cc9cc9f175c7f303f6",
+      "gitBlobSha256": "bbc483daae7bcdb40682307bcbfcb54c8d9e6d86df6fd6cc9cc9f175c7f303f6"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/TRANSPORT-baselines.json": {
+      "verifiedWorkspaceSha256": "80908497220dbd8fbfcc8004ff78f41f88a7aa716c30f6ee7be3911d8fbcf086",
+      "gitBlobSha256": "80908497220dbd8fbfcc8004ff78f41f88a7aa716c30f6ee7be3911d8fbcf086"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/TRANSPORT-calibration.json": {
+      "verifiedWorkspaceSha256": "8c4c64e3a853a055689d9482ff220a06de4856668bb2503d348b7693a0d6f3b5",
+      "gitBlobSha256": "8c4c64e3a853a055689d9482ff220a06de4856668bb2503d348b7693a0d6f3b5"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/TRANSPORT.joblib": {
+      "verifiedWorkspaceSha256": "9087da206475be66302153191754055cc9cec075eb09883653c08952a41631d2",
+      "gitBlobSha256": "9087da206475be66302153191754055cc9cec075eb09883653c08952a41631d2"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/manifest.json": {
+      "verifiedWorkspaceSha256": "8860e4c5711c778cdf861e89094a002ed04beda46ebd0cb90eb03c04b5316078",
+      "gitBlobSha256": "8860e4c5711c778cdf861e89094a002ed04beda46ebd0cb90eb03c04b5316078"
+    },
+    "services/ml-service/candidate-models/trace-link-shadow-v1/split-manifest.json": {
+      "verifiedWorkspaceSha256": "d3c38f9a1d91d01436b5f5809f4db5d6acd7e8ce7cae1d362689c5bc740d9306",
+      "gitBlobSha256": "d3c38f9a1d91d01436b5f5809f4db5d6acd7e8ce7cae1d362689c5bc740d9306"
+    },
+    "services/ml-service/requirements-ml.txt": {
+      "verifiedWorkspaceSha256": "121e2b672f3c7e4071987f78a077c583e0becb10336cf07ad2e56f4ae760b062",
+      "gitBlobSha256": "121e2b672f3c7e4071987f78a077c583e0becb10336cf07ad2e56f4ae760b062"
+    },
+    "services/ml-service/tests/test_trace_link_candidate.py": {
+      "verifiedWorkspaceSha256": "23267ce5cfda0155107faae6a4460dd3b98d615a41cb6465fabfa39135a58368",
+      "gitBlobSha256": "23267ce5cfda0155107faae6a4460dd3b98d615a41cb6465fabfa39135a58368"
+    },
+    "services/ml-service/tests/test_trace_link_failure_modes.py": {
+      "verifiedWorkspaceSha256": "febf562eb0bc7dc7df8ec4d143973405b059cc92879a2b4f18093026f49ab5f6",
+      "gitBlobSha256": "febf562eb0bc7dc7df8ec4d143973405b059cc92879a2b4f18093026f49ab5f6"
+    },
+    "services/ml-service/tests/test_trace_link_features.py": {
+      "verifiedWorkspaceSha256": "c3f022a105cdd8878170b62e364b367f86b7633d2fd9a072fb4167c985f74bcd",
+      "gitBlobSha256": "c3f022a105cdd8878170b62e364b367f86b7633d2fd9a072fb4167c985f74bcd"
+    },
+    "services/ml-service/training/trace_link_candidate.py": {
+      "verifiedWorkspaceSha256": "0c1bfa89106a922f5778f771ecc9eb083d31ba77c2b899a44574824ce4541a20",
+      "gitBlobSha256": "0c1bfa89106a922f5778f771ecc9eb083d31ba77c2b899a44574824ce4541a20"
+    },
+    "services/processor/pom.xml": {
+      "verifiedWorkspaceSha256": "8af17f8848d5bc81cb45a4b57db0f891b487512c04af64b0a80c8a2a0ddcc2fb",
+      "gitBlobSha256": "8af17f8848d5bc81cb45a4b57db0f891b487512c04af64b0a80c8a2a0ddcc2fb"
+    },
+    "services/processor/src/main/java/md/utm/telecom/processing/shadow/TraceLinkFeatures.java": {
+      "verifiedWorkspaceSha256": "dd7b97cab2ac5279cce5e3a486c4472e40beea55563d1e9493c9bc64204ba675",
+      "gitBlobSha256": "dd7b97cab2ac5279cce5e3a486c4472e40beea55563d1e9493c9bc64204ba675"
+    },
+    "services/processor/src/main/java/md/utm/telecom/processing/shadow/TraceLinkShadowClient.java": {
+      "verifiedWorkspaceSha256": "0c07d7ac259b9682b3a311ef939ba2be27eb2dc6fd9125d1103a701ab1a8239e",
+      "gitBlobSha256": "0c07d7ac259b9682b3a311ef939ba2be27eb2dc6fd9125d1103a701ab1a8239e"
+    },
+    "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkShadowConfiguration.java": {
+      "verifiedWorkspaceSha256": "ee5600676568d756907c461e1061962ba0a72cff865046f61882ca9a734a2a06",
+      "gitBlobSha256": "ee5600676568d756907c461e1061962ba0a72cff865046f61882ca9a734a2a06"
+    },
+    "services/processor/src/main/java/md/utm/telecom/processing/tracelink/TraceLinkShadowWorker.java": {
+      "verifiedWorkspaceSha256": "3333897e55827ee77a366b1902903ece990124bb3c51ea703743ce56d15809c4",
+      "gitBlobSha256": "3333897e55827ee77a366b1902903ece990124bb3c51ea703743ce56d15809c4"
+    },
+    "services/processor/src/main/resources/application.yaml": {
+      "verifiedWorkspaceSha256": "3ae1ee5ec868f42fa077fdf0c82b5d86ab76f46dba48f61d7f32e79dd90e711b",
+      "gitBlobSha256": "3ae1ee5ec868f42fa077fdf0c82b5d86ab76f46dba48f61d7f32e79dd90e711b"
+    },
+    "services/processor/src/main/resources/db/migration/V018__trace_link_ml_shadow.sql": {
+      "verifiedWorkspaceSha256": "20b5d36e70193055e4a568db0fbe59aca2086754d72a67e0c79bb9dae874aaed",
+      "gitBlobSha256": "20b5d36e70193055e4a568db0fbe59aca2086754d72a67e0c79bb9dae874aaed"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/history/TraceLinkDatasetBootstrapIT.java": {
+      "verifiedWorkspaceSha256": "6c1a8264182287f58b403f6af871141fc810056867b1365f545c9b7718be1e7f",
+      "gitBlobSha256": "6c1a8264182287f58b403f6af871141fc810056867b1365f545c9b7718be1e7f"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/ingestion/IngestionIntegrationTest.java": {
+      "verifiedWorkspaceSha256": "f1aea2394a6bfdc083aef1cd7c6e08f4c24d7e2ef5bbd1ac6b781fef7aa57b1c",
+      "gitBlobSha256": "f1aea2394a6bfdc083aef1cd7c6e08f4c24d7e2ef5bbd1ac6b781fef7aa57b1c"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/kpi/tracelink/TraceLinkProjectionIT.java": {
+      "verifiedWorkspaceSha256": "15e1c0ea5b482f6bd2017561cc8eb1312d863efb0018bb0624029970f0eb7887",
+      "gitBlobSha256": "15e1c0ea5b482f6bd2017561cc8eb1312d863efb0018bb0624029970f0eb7887"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/shadow/TraceLinkFeaturesTest.java": {
+      "verifiedWorkspaceSha256": "89aba58fee91c01bbe80505616bcba48b6a499f050634645bfcd21dc9c8ed1d7",
+      "gitBlobSha256": "89aba58fee91c01bbe80505616bcba48b6a499f050634645bfcd21dc9c8ed1d7"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/shadow/TraceLinkShadowClientTest.java": {
+      "verifiedWorkspaceSha256": "df188a319bdb2076dc0cf7423a85c977192a99e806ee0805e0cb1b1e592400aa",
+      "gitBlobSha256": "df188a319bdb2076dc0cf7423a85c977192a99e806ee0805e0cb1b1e592400aa"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkDetectionMigrationTest.java": {
+      "verifiedWorkspaceSha256": "4bb278bbfb22526e2d6ba8be324af6292327080bbeb549b39d48f0a861e27bda",
+      "gitBlobSha256": "4bb278bbfb22526e2d6ba8be324af6292327080bbeb549b39d48f0a861e27bda"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkShadowConfigurationTest.java": {
+      "verifiedWorkspaceSha256": "5d9af9751e5ec6fef520e6dbf89691b8d37bc0b0cd4acd491a3a221248b7339d",
+      "gitBlobSha256": "5d9af9751e5ec6fef520e6dbf89691b8d37bc0b0cd4acd491a3a221248b7339d"
+    },
+    "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkShadowWorkerTest.java": {
+      "verifiedWorkspaceSha256": "870277c05826306926f3b8ad02cb832eea1050f4942a8f889dd2b79560303bf3",
+      "gitBlobSha256": "870277c05826306926f3b8ad02cb832eea1050f4942a8f889dd2b79560303bf3"
+    }
+  }
+}

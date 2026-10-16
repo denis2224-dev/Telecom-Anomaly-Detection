@@ -1,0 +1,91 @@
+{
+  "reviewedHead": "720802b8b6c9497a42e18adcb1ea9333c415b5db",
+  "correctionHead": "4ed9b5209c9d8fd1c4776ebb7a3e41482d7f821c",
+  "files": [
+    {
+      "path": "contracts/fixtures/trace-link/ml-adversarial-cases-v1.json",
+      "workspaceSha256": "5742622f034ba3670427a845ca627d8959a8c99a85b11f98128cb10b390ed87f",
+      "gitBlobSha256": "5742622f034ba3670427a845ca627d8959a8c99a85b11f98128cb10b390ed87f"
+    },
+    {
+      "path": "contracts/ml-shadow/trace-link-model-pin-v1.json",
+      "workspaceSha256": "d8fefb53e0aed0088f5b2be8b4b67f96a6ac65b5112bbc9198dfb0f9164fcd48",
+      "gitBlobSha256": "d8fefb53e0aed0088f5b2be8b4b67f96a6ac65b5112bbc9198dfb0f9164fcd48"
+    },
+    {
+      "path": "scripts/verify-trace-link-ml-http.py",
+      "workspaceSha256": "d495fa25d044e71d2569527a596e003f30a9a9ee462d743f178bc8532fe96a3a",
+      "gitBlobSha256": "d495fa25d044e71d2569527a596e003f30a9a9ee462d743f178bc8532fe96a3a"
+    },
+    {
+      "path": "services/ml-service/Dockerfile",
+      "workspaceSha256": "f4336f8b7dc1c5eb99c3fd9f9a9706ce8c401761803cf8a7e2f47fd44bfa1ffd",
+      "gitBlobSha256": "f4336f8b7dc1c5eb99c3fd9f9a9706ce8c401761803cf8a7e2f47fd44bfa1ffd"
+    },
+    {
+      "path": "services/ml-service/app/features/trace_link_features.py",
+      "workspaceSha256": "cc29786060ce2c86299f68531738e99289487f1ce646857b2d584170db8b1dfe",
+      "gitBlobSha256": "cc29786060ce2c86299f68531738e99289487f1ce646857b2d584170db8b1dfe"
+    },
+    {
+      "path": "services/ml-service/candidate-models/trace-link-shadow-v1/ROAMING.joblib",
+      "workspaceSha256": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4",
+      "gitBlobSha256": "522bbfdf3e3abb26be2b9183cfa4abd21af22215ec498cd0614daae40875bab4"
+    },
+    {
+      "path": "services/ml-service/candidate-models/trace-link-shadow-v1/TRANSPORT.joblib",
+      "workspaceSha256": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077",
+      "gitBlobSha256": "cfe1b20d33c89eece9d49850485ef83ba358ffdb8c4c683877d9bdaae25ed077"
+    },
+    {
+      "path": "services/ml-service/candidate-models/trace-link-shadow-v1/manifest.json",
+      "workspaceSha256": "b7d15dc27bf383edd4f522ec2f034504a838c946968ab9e382b08227b6a08268",
+      "gitBlobSha256": "b7d15dc27bf383edd4f522ec2f034504a838c946968ab9e382b08227b6a08268"
+    },
+    {
+      "path": "services/ml-service/candidate-models/trace-link-shadow-v1/split-manifest.json",
+      "workspaceSha256": "ee9caf3ad7f51a80562a37a7425d174eb69a4a86e6087bf0d799b689c3bdafd8",
+      "gitBlobSha256": "ee9caf3ad7f51a80562a37a7425d174eb69a4a86e6087bf0d799b689c3bdafd8"
+    },
+    {
+      "path": "services/ml-service/tests/test_trace_link_failure_modes.py",
+      "workspaceSha256": "2c47d1c04037ff7a6d72da4c4f2e7a4c8d1e5f05ad9e235154348980fa3fc3dc",
+      "gitBlobSha256": "2c47d1c04037ff7a6d72da4c4f2e7a4c8d1e5f05ad9e235154348980fa3fc3dc"
+    },
+    {
+      "path": "services/ml-service/tests/test_trace_link_features.py",
+      "workspaceSha256": "b9d889c6e186a6705436157f3995c16033587bcb1518c6a7697739fcfcdd9b5a",
+      "gitBlobSha256": "b9d889c6e186a6705436157f3995c16033587bcb1518c6a7697739fcfcdd9b5a"
+    },
+    {
+      "path": "services/ml-service/training/trace_link_candidate.py",
+      "workspaceSha256": "67a0b8e27c8605c0e636a1a011c441d2c971d7592a8fc9c2a1a12efb59e5ede7",
+      "gitBlobSha256": "67a0b8e27c8605c0e636a1a011c441d2c971d7592a8fc9c2a1a12efb59e5ede7"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/shadow/TraceLinkFeatures.java",
+      "workspaceSha256": "a42ff4479a49c4d0ce0017e0a53faa85a7b12c77371a231556c9a75ae6cd24a9",
+      "gitBlobSha256": "a42ff4479a49c4d0ce0017e0a53faa85a7b12c77371a231556c9a75ae6cd24a9"
+    },
+    {
+      "path": "services/processor/src/main/java/md/utm/telecom/processing/shadow/TraceLinkShadowClient.java",
+      "workspaceSha256": "71cf5b7803cb7c60baf84d1300cc6f71f04c6fd600c3c3a2e9e986c5290a2856",
+      "gitBlobSha256": "71cf5b7803cb7c60baf84d1300cc6f71f04c6fd600c3c3a2e9e986c5290a2856"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/shadow/TraceLinkFeaturesTest.java",
+      "workspaceSha256": "46f233ea3e98c9781d1db4bcfe8a32690c1b3052e331a44eeacfedcc3839adcc",
+      "gitBlobSha256": "46f233ea3e98c9781d1db4bcfe8a32690c1b3052e331a44eeacfedcc3839adcc"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/shadow/TraceLinkShadowClientTest.java",
+      "workspaceSha256": "2646e565cc0ecceb2c92514c6483cd7c4f311d4d47195f150d53a4bad8d8dba1",
+      "gitBlobSha256": "2646e565cc0ecceb2c92514c6483cd7c4f311d4d47195f150d53a4bad8d8dba1"
+    },
+    {
+      "path": "services/processor/src/test/java/md/utm/telecom/processing/tracelink/TraceLinkShadowWorkerTest.java",
+      "workspaceSha256": "58491f286a422f63ec3d67a36f50548e0070f9e2c2c672dddb60e82710758e8c",
+      "gitBlobSha256": "58491f286a422f63ec3d67a36f50548e0070f9e2c2c672dddb60e82710758e8c"
+    }
+  ]
+}

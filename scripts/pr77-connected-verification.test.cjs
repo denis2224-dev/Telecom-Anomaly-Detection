@@ -37,6 +37,17 @@ function identifiesCandidatePath(error, filename) {
   return true;
 }
 
+test('full reference selection requires an existing absolute pack and preserves private output boundaries', t => {
+  const fixture=candidateRepository(t),pack=path.join(fixture.parent,'reference');
+  fs.mkdirSync(path.join(pack,'data'),{recursive:true});fs.writeFileSync(path.join(pack,'data/manifest.json'),'{}');
+  const args=['--project','pr77-history-check','--private-dir',path.join(fixture.parent,'private'),'--output-dir',path.join(fixture.parent,'results')];
+  assert.throws(()=>parseArgs([...args,'--reference-pack','relative'],fixture.root),/absolute/);
+  assert.throws(()=>parseArgs([...args,'--reference-pack',fixture.root],fixture.root));
+  const selected=parseArgs([...args,'--reference-pack',pack],fixture.root);
+  assert.equal(selected.referencePack,fs.realpathSync(pack));
+  assert.equal(selected.projectName,'pr77-history-check');
+});
+
 test('contaminated CLI rejects an untracked build input before setup or generated directories', t => {
   const fixture = candidateRepository(t);
   fixture.write('scripts/pr77-connected-verification.cjs', fs.readFileSync(path.join(__dirname, 'pr77-connected-verification.cjs')));

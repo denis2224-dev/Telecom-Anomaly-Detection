@@ -5,6 +5,13 @@ import services from "../../../fixtures/services.json";
 import { voiceIncidents } from "../../../fixtures/voice";
 
 describe("ServiceStore", () => {
+  it('excludes retired active summaries while retaining historical incident evidence',async()=>{
+    const retired={...structuredClone(services[0]),scope:{...services[0].scope,scopeId:'VOLTE-MD-RIB'}};
+    const historical={...voiceIncidents[0],scopeId:'VOLTE-MD-RIB'};
+    TestBed.configureTestingModule({providers:[{provide:TelecomClient,useValue:{listServices:async()=>[retired,services[0]],listIncidents:async()=>({items:[historical],total:1})}}]});
+    const store=TestBed.inject(ServiceStore);await store.load();
+    expect(store.services().map(item=>item.scope.scopeId)).not.toContain('VOLTE-MD-RIB');expect(store.incidents()[0].scopeId).toBe('VOLTE-MD-RIB');
+  });
   it('retains only the preceding completed window per current scope across repeated refreshes', async () => {
     let snapshot = structuredClone(services) as ServiceSummary[];
     TestBed.configureTestingModule({ providers: [{ provide: TelecomClient, useValue: {

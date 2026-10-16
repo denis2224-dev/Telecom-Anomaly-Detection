@@ -111,3 +111,16 @@ Backend projection, authenticated reads, metric rollups, catalogue activation an
 receiving-owner reproduction remain separate gates. In particular,
 `voice.success_rate` from PR #90 has no approved automatic mapping to
 `volte.setup.success`; neither name is emitted by this source-import job.
+
+## Incident-owned authenticated history projection
+
+The processing import above remains separate from the dashboard read model. After additive migrations through V018, validate and project the same full pinned archive into `incidents_db`:
+
+```sh
+python3 scripts/import-trace-link-reference.py /approved/reference/data --validate-only
+python3 scripts/import-trace-link-reference.py /approved/reference/data
+```
+
+Use a standard PostgreSQL client and existing `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER` and protected `PGPASSFILE` configuration. Do not put passwords in arguments or reports. The second command takes an advisory lock and imports all 362,880 native rows in one transaction. Exact repeat is idempotent; dataset, catalogue, source identity and payload conflicts abort. The job cannot activate the catalogue or ingest scenario ground truth. The seven supplied files must match the committed manifest; the bounded native slice is rejected before connecting.
+
+`app.trace_reference_import` is the completion marker. Authenticated `GET /api/v2/datasets` reports `archiveReady` only after completion. The metadata also supplies the catalogue version covering the registered interval. The dashboard uses existing version-specific protected inventory reads, so live catalogue activation is not required for archive investigation. The generic metric API reads this immutable projection. The supplied full source now passes isolated import/retry, backend/SQL and actual Grafana checks; see the current completion evidence. Shared installation and live activation remain separate authorized actions.

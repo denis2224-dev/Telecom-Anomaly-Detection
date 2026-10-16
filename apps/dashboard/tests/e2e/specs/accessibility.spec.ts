@@ -3,13 +3,24 @@ import { controlledApi } from '../helpers/controlled-api';
 
 test.skip(!!process.env.E2E_REAL_LOGIN, 'Controlled UI cases; real sign-in is reviewed separately');
 
-async function tabTo(page: Page, target: Locator) {
+async function pressTab(page: Page, backwards = false) {
+  // macOS WebKit uses Option+Tab to include links and buttons when full keyboard
+  // access is disabled. Exercise native navigation without changing OS settings.
+  const fullNavigation = process.platform === 'darwin'
+    && page.context().browser()?.browserType().name() === 'webkit';
+  const key = fullNavigation ? 'Alt+Tab' : 'Tab';
+  await page.keyboard.press(backwards ? `Shift+${key}` : key);
+}
+
+async function tabTo(page: Page, target: Locator, backwards = false) {
   await expect(target).toBeVisible();
+  const visited:string[]=[];
   for (let step = 0; step < 100; step++) {
+    visited.push(await page.evaluate(()=>document.activeElement?.outerHTML.slice(0,180) ?? 'none'));
     if (await target.evaluate(element => element === document.activeElement)) return;
-    await page.keyboard.press('Tab');
+    await pressTab(page, backwards);
   }
-  throw new Error('Control could not be reached with Tab');
+  throw new Error('Control could not be reached with keyboard navigation: '+JSON.stringify(visited.slice(-12)));
 }
 
 async function visibleFocus(target: Locator) {
@@ -30,14 +41,16 @@ test('keyboard: skip link, service chart, incident workflow, conflict, Escape', 
   state.writeStatus = 409;
   await page.goto('/dashboard');
   await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
-  await page.keyboard.press('Tab');
+  await pressTab(page);
   await expect(page.getByRole('link', { name: 'Skip to workspace' })).toBeFocused();
   await visibleFocus(page.getByRole('link', { name: 'Skip to workspace' }));
   await page.keyboard.press('Enter');
   await expect(page.locator('#workspace')).toBeFocused();
 
   const serviceLink = page.getByRole('link', { name: 'VoLTE setup', exact: true });
-  await tabTo(page, serviceLink);
+  // The skip link moved past the sidebar. Return through preceding controls
+  // instead of walking every workspace chart point before the document wraps.
+  await tabTo(page, serviceLink, true);
   await visibleFocus(serviceLink);
   await page.keyboard.press('Enter');
   const chart = page.getByLabel('Scrollable CSSR chart', { exact: true });
@@ -70,7 +83,7 @@ test('keyboard: skip link, service chart, incident workflow, conflict, Escape', 
   // Native showModal makes the rest of the page inert. At the document boundary,
   // Chromium can move focus to browser chrome and report body as activeElement.
   for (let step = 0; step < 12; step++) {
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     expect(await dialog.evaluate(element =>
       element.contains(document.activeElement) || document.activeElement === document.body)).toBe(true);
   }
@@ -95,9 +108,10 @@ for (const width of [1366, 1024, 390, 320]) {
     await update.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
     await expect(update.getByText('Source evidence', { exact: true })).toHaveCount(0);
     await expect(update).toContainText(explanation);
-    await expect(update.getByText(source, { exact: true })).toBeHidden();
+    await expect(update.getByText(source, { exact: true })).toHaveCount(0);
     await update.getByText('Troubleshooting', { exact: true }).click();
-    await expect(update.getByText(source, { exact: true })).toBeVisible();
+    await expect(update.getByText(source, { exact: true })).toHaveCount(0);
+    await expect(update.locator('.evidence-disclosure')).toContainText(explanation);
     await expect(page.locator('.incident-summary-bar')).toContainText(state.incident.severity);
     await expect(page.locator('.incident-summary-bar')).toContainText('ONGOING');
     // The long prose must wrap; a screenshot alone does not prove text was retained.

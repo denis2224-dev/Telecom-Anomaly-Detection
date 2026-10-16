@@ -1,0 +1,194 @@
+{
+  "mode": "Controlled REST responses and SSE; not LIVE acceptance",
+  "screen": "investigation",
+  "scopeCount": 100,
+  "incidentTotal": 1000,
+  "responseDelayMs": 400,
+  "records": [
+    {
+      "requestedHintHz": 1,
+      "durationMs": 6000,
+      "events": 6,
+      "snapshotReadsDuringLoad": 2,
+      "incidentPageReads": 0,
+      "frameGapP95Ms": 17.5,
+      "maxFrameGapMs": 21.399999999441206,
+      "longTasksMs": [],
+      "inputPaintMs": 49.750458000002254,
+      "inputAction": "Keyboard open workflow dialog",
+      "renderedDotCount": 0,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 5.400000000372529,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 6.7999999998137355,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 3,
+          "encodedBodyBytes": 42
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 3.7000000001862645,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 1.400000000372529,
+          "encodedBodyBytes": 42
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 1.6000000005587935,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 1.7000000001862645,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 0.5,
+          "encodedBodyBytes": 42
+        }
+      ],
+      "before": {
+        "Nodes": 3915,
+        "TaskDuration": 0.085341,
+        "JSHeapUsedSize": 4918076
+      },
+      "after": {
+        "Nodes": 3919,
+        "TaskDuration": 0.230365,
+        "JSHeapUsedSize": 5334676
+      }
+    },
+    {
+      "requestedHintHz": 100,
+      "durationMs": 6000,
+      "events": 600,
+      "snapshotReadsDuringLoad": 5,
+      "incidentPageReads": 0,
+      "frameGapP95Ms": 17.399999999441206,
+      "maxFrameGapMs": 18.199999999254942,
+      "longTasksMs": [],
+      "inputPaintMs": 49.65616600000067,
+      "inputAction": "Keyboard open workflow dialog",
+      "renderedDotCount": 0,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.2999999998137355,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 5.400000000372529,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 1.900000000372529,
+          "encodedBodyBytes": 42
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.5,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 5.2999999998137355,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 1.7999999998137355,
+          "encodedBodyBytes": 42
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 3.8999999994412065,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 5.2999999998137355,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 3,
+          "encodedBodyBytes": 42
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 3.3999999994412065,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 4.7000000001862645,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 1.400000000372529,
+          "encodedBodyBytes": 42
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 4.3999999994412065,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 5.5,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 2.3999999994412065,
+          "encodedBodyBytes": 42
+        },
+        {
+          "path": "/api/incidents/resource-incident-0",
+          "durationMs": 3.7999999998137355,
+          "encodedBodyBytes": 2635
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/detections",
+          "durationMs": 5.2000000001862645,
+          "encodedBodyBytes": 32504
+        },
+        {
+          "path": "/api/incidents/resource-incident-0/timeline",
+          "durationMs": 2,
+          "encodedBodyBytes": 42
+        }
+      ],
+      "before": {
+        "Nodes": 3919,
+        "TaskDuration": 0.235706,
+        "JSHeapUsedSize": 5340400
+      },
+      "after": {
+        "Nodes": 3919,
+        "TaskDuration": 0.415349,
+        "JSHeapUsedSize": 5563012
+      }
+    }
+  ]
+}

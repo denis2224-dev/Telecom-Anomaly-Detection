@@ -40,7 +40,7 @@ export class AppComponent {
   readonly toast = inject(ToastService);
   pageTitle(): string {
     const path = this.router.url;
-    return path.startsWith('/trace-link') ? 'Trace Link history' : path.startsWith('/scenarios') ? 'Scenario runner'
+    return path.startsWith('/trace-link') ? 'Historical analysis' : path.startsWith('/scenarios') ? 'Scenario runner'
       : path.startsWith('/roaming') ? 'Roaming investigation'
       : path.startsWith('/incidents') ? 'Incident investigation'
       : path.startsWith('/services') ? 'Service investigation' : 'Service overview';
@@ -58,7 +58,7 @@ export class AppComponent {
       const controller = new AbortController();
       cleanup(() => controller.abort());
       void this.api.listServices(controller.signal).then(items => {
-        if (!controller.signal.aborted) this.serviceScopes.set(items);
+        if (!controller.signal.aborted) this.serviceScopes.set(items.filter(item=>!/(?:VOLTE|SMS)-MD-(?:RIB|TIR)$/.test(item.scope.scopeId)));
       }).catch(() => { /* Service loading errors are presented by the routed page. */ });
     });
     effect(() => {

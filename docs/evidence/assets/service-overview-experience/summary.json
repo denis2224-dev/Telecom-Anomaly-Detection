@@ -1,0 +1,215 @@
+{
+  "capturedAtUTC": "2026-10-15T21:08:06.229220+00:00",
+  "sourceCommit": "7edfa2583c8d3feff1f66d2ee58a4d173849a514",
+  "baseCommit": "58b78a39581c220b75ced16cea80961c152f92ff",
+  "branch": "feature/service-overview-experience",
+  "mode": "Controlled API browser verification; no live-data or deployment acceptance",
+  "browsers": {
+    "chromium": "153.0.8010.12",
+    "firefox": "155.0",
+    "webkit": "26.6"
+  },
+  "viewports": [
+    {
+      "width": 1366,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 900
+    }
+  ],
+  "unitsPassed": 186,
+  "controlledChromiumSuite": {
+    "passed": 190,
+    "skipped": 25,
+    "failed": 0,
+    "scope": "After chart and KPI repairs, before the final phone map scrolling adjustment"
+  },
+  "finalScopedLayoutSuite": {
+    "passed": 25,
+    "skipped": 3,
+    "failed": 0
+  },
+  "finalCrossBrowserSuite": {
+    "passed": 9,
+    "failed": 0,
+    "allTwelveLinksClickedAtBothWidths": true
+  },
+  "finalProductionResourceSuite": {
+    "passed": 5,
+    "failed": 0
+  },
+  "buildWarning": "Initial bundle 516.47 kB exceeds 500 kB warning budget; warning budget was not changed",
+  "schemaSha256": "37e87d76b6e7a647fae0bef0b66962955c14117e413a54e94b569c100f4f1db7",
+  "productionFiles": [
+    {
+      "file": "apple-touch-icon.png",
+      "sha256": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef",
+      "bytes": 12851
+    },
+    {
+      "file": "branding/apple-touch-icon.png",
+      "sha256": "2ff5c33659f5078b70c81ea538d8ab9fbdc914ad30a8af30f09d7ef4c13e8bef",
+      "bytes": 12851
+    },
+    {
+      "file": "branding/favicon.svg",
+      "sha256": "af4c646d2deb073ad286b1209223dc0d1e6e80811a942b3abd90e86e82aed847",
+      "bytes": 780
+    },
+    {
+      "file": "branding/mark.svg",
+      "sha256": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb",
+      "bytes": 394
+    },
+    {
+      "file": "branding/tracelink-icon.png",
+      "sha256": "6b4cea9115312a2b4d09eac41cb1c5c62fe35578222da4daf81b4e6392a912db",
+      "bytes": 3189
+    },
+    {
+      "file": "chunk-4RGJR465.js",
+      "sha256": "47d12cd88f54f4806c748654f0104d806df8f5745b4766bd611421d6fd494dc8",
+      "bytes": 46490
+    },
+    {
+      "file": "chunk-7DDDSUPX.js",
+      "sha256": "923ad04b4f6dd3d5199859d7905d8f06cdd843a0755d97834738709aaf6209df",
+      "bytes": 25194
+    },
+    {
+      "file": "chunk-AYNXTIEW.js",
+      "sha256": "80758f589c4cc27f7ed546c132c93c786187bd8f4dc2219139e18f98508d445c",
+      "bytes": 1351
+    },
+    {
+      "file": "chunk-ENVGRDVX.js",
+      "sha256": "1428c99d843d0082f47b3e896adb2506e75c7dec945b9ebfb9fdbe2d54fbd1ec",
+      "bytes": 3424
+    },
+    {
+      "file": "chunk-FHBVHYTP.js",
+      "sha256": "79ffe0aa8358fa961f62875ad4778918561da3e5c6ba5b4248dab5e488d6a608",
+      "bytes": 2376
+    },
+    {
+      "file": "chunk-FLRX3UZQ.js",
+      "sha256": "2df962784a5acc34e6bf6302a71a4f7d64251a34e7e9957fbbe5f4edeb444a57",
+      "bytes": 279276
+    },
+    {
+      "file": "chunk-GCVX3H3V.js",
+      "sha256": "0ca6f01022d4a4ce3382e1204d4c8248c4b6ff2ac7f3a44cf8056f86cd47fd93",
+      "bytes": 19633
+    },
+    {
+      "file": "chunk-GDS5FZUP.js",
+      "sha256": "cf7c6d1f45106279c66d314d5a023171e7eca6edf5ad541ec432c6a2e2bcbd0a",
+      "bytes": 11024
+    },
+    {
+      "file": "chunk-ICMXAAI7.js",
+      "sha256": "cbc1ccfff76d4dc5acf6d102b4a666e3a2715a7eab25cd5980211efc0d384b1f",
+      "bytes": 3165
+    },
+    {
+      "file": "chunk-IMAYLXOS.js",
+      "sha256": "62532b8f0e3cf2f0b733e996f46dda59ec4b9b455befcef2bc858b5592da8923",
+      "bytes": 2668
+    },
+    {
+      "file": "chunk-N75MSOI5.js",
+      "sha256": "b74485b40242161bdfc80e9a25e4ba54b483a3e1d8069625961a052057d641d0",
+      "bytes": 1566
+    },
+    {
+      "file": "chunk-NFXHRJVD.js",
+      "sha256": "e06e827e4ff6c3771969559b643f9519a81196501ccd8864765c3d328dda7269",
+      "bytes": 15036
+    },
+    {
+      "file": "chunk-NIFICMU7.js",
+      "sha256": "10020222e713d491e63281749c2087b436c5873285229e9be2265f50f6183a28",
+      "bytes": 33043
+    },
+    {
+      "file": "chunk-O7DWFZH2.js",
+      "sha256": "e0118392fd980b99b11c2f6debb0a5d66b3a61d72ad6a29dd50457694865ec65",
+      "bytes": 9799
+    },
+    {
+      "file": "chunk-Q672LIGP.js",
+      "sha256": "2b943d1a6224f3cab1a908fc8d21cf95c3b8c4b992eb0f82d054ac5ed3a9e4ec",
+      "bytes": 51021
+    },
+    {
+      "file": "chunk-QK4FMNGC.js",
+      "sha256": "04e670416e3d928281d6d9ec922f7e1fa50bde1c1e9576dad581c5581b8ab8b7",
+      "bytes": 78574
+    },
+    {
+      "file": "chunk-RCG6V4OU.js",
+      "sha256": "2fcee2a9e428c804603e1d6c1d0dbe8ac698a15357f8031d1d9e0c3efde133f0",
+      "bytes": 425
+    },
+    {
+      "file": "chunk-RJOADIC6.js",
+      "sha256": "44fedd8f166a0bb0b8225a94e7666935b67f51349250fc7994aefefadb2416a0",
+      "bytes": 314
+    },
+    {
+      "file": "chunk-SA4PZRMI.js",
+      "sha256": "bafd09765405cae63f3aa4cd82f74325fd11f87b6d42f5c35ce4629f53277c92",
+      "bytes": 823
+    },
+    {
+      "file": "chunk-W2DKGSL7.js",
+      "sha256": "906fff9eb9e56eee319cced698e3c6e9aea90e2601722c6dd189fe6896ebb0a1",
+      "bytes": 191
+    },
+    {
+      "file": "chunk-WBBPCKFW.js",
+      "sha256": "07ab53bb0a7ca020f205e347fab25fcd134a969df018878dce5f945ecf2be1e8",
+      "bytes": 15356
+    },
+    {
+      "file": "chunk-YW6SBDHD.js",
+      "sha256": "14f75197a71e429c12fa29a1226f3ce51f6a9f32e51e0fc36f825d5c96f3cc8b",
+      "bytes": 9391
+    },
+    {
+      "file": "favicon.ico",
+      "sha256": "882d5af8bf22fc924c111e1b6c40126fa61f1b82ecca795fdc5c2a9cf272bd40",
+      "bytes": 7205
+    },
+    {
+      "file": "index.html",
+      "sha256": "bc88fe40ede74cd7fc319b3ea064e9a6cbae36dd1be3a13ac60981d5424fadbc",
+      "bytes": 2679
+    },
+    {
+      "file": "main-7FEER6AY.js",
+      "sha256": "1f306444a9f615920c6c3d215e9ec7b4fed73ad7e8bffbf7897b6c51f2bd064e",
+      "bytes": 115736
+    },
+    {
+      "file": "media/mark-GSOEEAFK.svg",
+      "sha256": "16e2a7b243023c17d1345621618b680fe3dcfee19425bf6e9b74d5782835debb",
+      "bytes": 394
+    },
+    {
+      "file": "push-worker.js",
+      "sha256": "f0f670854a22b829c49fda10db2df0765a74eb45778aa9e3a6e4c127ae7564d9",
+      "bytes": 1716
+    },
+    {
+      "file": "styles-CIPFQTHQ.css",
+      "sha256": "23fc037c3fe1c491952837eb57e42be8cab2ff79d26638c542ed6c218e7d0537",
+      "bytes": 51443
+    }
+  ],
+  "liveDataInserted": false,
+  "deployed": false,
+  "merged": false
+}

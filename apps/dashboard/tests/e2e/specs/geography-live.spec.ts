@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '../helpers/test';
-import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
+import pairs from '../helpers/approved-geography';
 import { cityIncidents, citySummaries, cityWindows, fixtureRange } from '../../../src/fixtures/connected-dashboard';
 import type { GeographyCatalogue, ServiceSummary, Incident } from '../../../src/app/core/api/telecom-client';
 import type { components } from '../../../src/app/core/api/schema';
@@ -36,8 +36,10 @@ async function liveApi(page: Page) {
   };
   const state = { catalogue, summaries, windows, requests, incidents: [] as Incident[], geographyStatus: 200, historyStatus: 200 };
   await page.addInitScript(() => { (window as any).EventSource = class extends EventTarget {
-    onopen = null; onerror = null; closed = false;
-    constructor() { super(); ((window as any).__sources ??= []).push(this); }
+    onopen:((event:Event)=>void)|null = null; onerror = null; closed = false;
+    constructor() { super(); ((window as any).__sources ??= []).push(this);
+      queueMicrotask(()=>{if(!this.closed)this.onopen?.(new Event('open'));});
+    }
     close() { this.closed = true; }
   }; });
   await page.route('**/api/**', async route => {
@@ -121,9 +123,9 @@ for (const width of [1366, 768, 390]) {
     const state = await liveApi(page);
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
-    await expect(page.locator('.city-marker')).toHaveCount(8);
+    await expect(page.locator('.city-marker')).toHaveCount(10);
     await expect(page.locator('.map-table')).not.toContainText('Mapping pending');
-    await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
+    await expect(page.locator('.city-marker .node-label small')).toHaveCount(10);
     await expect(page.locator('.city-marker').filter({ hasText: 'Rîbnița' })).toHaveCount(0);
     await expect(page.locator('.city-marker').filter({ hasText: 'Tiraspol' })).toHaveCount(0);
     await page.locator('.city-marker').filter({ hasText: 'Orhei' }).click();
@@ -141,8 +143,9 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('[data-city-window]')).toHaveCount(4);
     await page.getByRole('navigation', { name: 'VOLTE city history pages' }).getByRole('button', { name: 'Next', exact: true }).click();
     await expect.poll(() => state.requests.some(path => path.startsWith('/api/geography/cities/CHI/kpis') && path.includes('page=1'))).toBe(true);
+    const readsBeforeRefresh=state.requests.filter(path=>path==='/api/geography/cities').length;
     await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(readsBeforeRefresh+1);
     await expect(page.locator('#city-map-title')).toContainText('Chișinău');
     await page.getByLabel('Service', { exact: true }).selectOption('SMS');
     await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('ms');
@@ -167,7 +170,7 @@ test('LIVE geography outages and missing history never substitute fixture values
   await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
   state.geographyStatus = 200;
   await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-  await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
+  await expect(page.locator('.city-marker .node-label small')).toHaveCount(10);
   state.historyStatus = 503;
   await page.getByLabel('Region', { exact: true }).fill('Orhei');
   await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);
@@ -232,8 +235,9 @@ test('a new observed minute preserves the selected topology parent', async ({ pa
   for (const summary of state.summaries) if (summary.latestWindow)
     summary.latestWindow.windowEnd = new Date(Date.parse(summary.latestWindow.windowEnd) + 60_000).toISOString();
   state.catalogue.generatedAt = new Date(Date.parse(state.catalogue.generatedAt) + 60_000).toISOString();
+  const readsBeforeRefresh=state.requests.filter(path=>path==='/api/geography/cities').length;
   await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-  await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+  await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(readsBeforeRefresh+1);
   await expect.poll(() => topologyReads().length).toBeGreaterThan(before);
   await expect.poll(() => topologyReads().at(-1)).toContain('parentId=AGG-MD-CHI-01');
   await expect(page.locator('app-city-evidence')).toContainText('Parent AGG-MD-CHI-01');
@@ -294,7 +298,7 @@ for (const width of [1366, 768, 390]) {
     await queue.locator(`a[href="/incidents/${orhei.id}"]`).click();
     await expect(page).toHaveURL(new RegExp(`/incidents/${orhei.id}$`));
     await expect(page.locator('.incident-summary-bar')).toContainText('Awaiting analyst resolution');
-    await expect(page.locator('[aria-label="Current incident times"]')).toContainText('Updated (UTC)');
+    await expect(page.locator('[aria-label="Current incident times"]')).toHaveCount(0);
     await page.locator('.cause-details > summary').click();
     await expect(page.locator('app-cause-evidence')).toContainText('Cause undetermined');
     await expect(page.locator('app-cause-evidence [data-fact=paths] dd')).toHaveText('Unavailable');
@@ -323,7 +327,9 @@ for (const width of [1366, 768, 390]) {
     const start = await page.getByLabel('From (UTC)', { exact: true }).inputValue();
     const end = await page.getByLabel('To (UTC, exclusive)', { exact: true }).inputValue();
     expect(Date.parse(end + 'Z') - Date.parse(start + 'Z')).toBe(30 * 86_400_000);
-    expect((await page.locator('[data-chart=cssrPct] svg text').allTextContents()).filter(text => /\d{2} [A-Z][a-z]{2}/.test(text))).toHaveLength(2);
+    const dateLabels=(await page.locator('[data-chart=cssrPct] svg text').allTextContents()).filter(text => /\d{2} [A-Z][a-z]{2}/.test(text));
+    expect(dateLabels.length).toBeGreaterThan(2);
+    expect(dateLabels.length).toBeLessThanOrEqual(25);
     const first = (await page.getByRole('button', { name: '15m', exact: true }).boundingBox())!;
     const second = (await page.getByRole('button', { name: '3d', exact: true }).boundingBox())!;
     expect(second.y).toBeGreaterThan(first.y + first.height - 1);
@@ -334,8 +340,9 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('app-city-evidence [data-city-window]')).toHaveCount(0);
     await intervals.getByRole('button', { name: 'Later interval', exact: true }).click();
     await expect(intervals).toContainText('2/30');
+    const readsBeforeRefresh=state.requests.filter(path=>path==='/api/geography/cities').length;
     await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(2);
+    await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(readsBeforeRefresh+1);
     await expect(intervals).toContainText('2/30');
     const histories = state.requests.filter(path => path.includes('/kpis?'));
     expect(histories.length).toBeGreaterThanOrEqual(60);

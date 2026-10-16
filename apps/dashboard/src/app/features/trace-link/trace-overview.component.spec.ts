@@ -3,6 +3,7 @@ import { signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { TelecomClient, type TraceMetricSeries } from '../../core/api/telecom-client';
+import { IncidentStream } from '../../core/state/incident-stream';
 import { TraceQueryStore } from '../../core/state/trace-query.store';
 import { SessionStore } from '../login-and-session/session.store';
 import { TraceOverviewComponent } from './trace-overview.component';
@@ -113,6 +114,8 @@ async function createHarness(seriesResponse: TraceMetricSeries) {
   }];
 
   const api = {
+    traceDatasets: vi.fn().mockResolvedValue([]),
+    traceIncidents: vi.fn().mockResolvedValue({items:[],total:0,limit:50,offset:0}),
     traceCities: vi.fn().mockResolvedValue(cities),
     traceLinks: vi.fn().mockResolvedValue(links),
     tracePartners: vi.fn().mockResolvedValue(partners),
@@ -124,6 +127,7 @@ async function createHarness(seriesResponse: TraceMetricSeries) {
   TestBed.configureTestingModule({
     providers: [
       TraceQueryStore,
+      { provide: IncidentStream, useValue: {connect:vi.fn(()=>()=>{})} },
       { provide: TelecomClient, useValue: api },
       { provide: SessionStore, useValue: session },
       { provide: Router, useValue: { navigate: vi.fn().mockResolvedValue(true) } },

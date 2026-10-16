@@ -239,6 +239,10 @@ class ScenarioControllerIT {
         int accepted = 0;
         for (var scope : catalogue.root().path("scopes")) {
             if (scope.path("legacy").asBoolean()) continue;
+            if (java.util.Set.of("RIB","TIR").contains(scope.path("cityId").asText())) {
+                mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL",body(UUID.randomUUID(),1,scope.path("scopeId").asText()))).andExpect(status().isBadRequest());
+                continue;
+            }
             String scopeId = scope.path("scopeId").asText();
             mvc.perform(supervisorPost("/api/simulator/scenarios/NORMAL_CONTROL",
                             body(UUID.randomUUID(), 1, scopeId)))
@@ -246,8 +250,8 @@ class ScenarioControllerIT {
                     .andExpect(jsonPath("$.scopeId").value(scopeId));
             accepted++;
         }
-        assertEquals(20, accepted);
-        assertEquals(20, commands.count());
+        assertEquals(16, accepted);
+        assertEquals(16, commands.count());
     }
 
     @Test
@@ -306,14 +310,14 @@ class ScenarioControllerIT {
                         || type.equals("SMS_QUEUE_DELAY") && service.equals("SMS");
                 var result = mvc.perform(supervisorPost("/api/simulator/scenarios/" + type,
                         body(UUID.randomUUID(), 7, scope)));
-                if (allowed) {
+                if (allowed && !java.util.Set.of("RIB","TIR").contains(binding.path("cityId").asText())) {
                     result.andExpect(status().isAccepted()).andExpect(jsonPath("$.scopeId").value(scope));
                     accepted++;
                 } else result.andExpect(status().isBadRequest()).andExpect(jsonPath("$.code").value("INVALID_SCOPE"));
             }
         }
-        assertEquals(66, accepted);
-        assertEquals(66, START_CALLS.get());
+        assertEquals(54, accepted);
+        assertEquals(54, START_CALLS.get());
     }
 
     @Test

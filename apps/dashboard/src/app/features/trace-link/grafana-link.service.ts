@@ -8,6 +8,8 @@ export function grafanaContextUrl(base: string, context: TraceQueryContext): str
     let credentials=false;url.searchParams.forEach((_,key)=>{if(/token|secret|password|credential|auth/i.test(key))credentials=true;});
     if (!['http:','https:'].includes(url.protocol) || url.username || url.password
       || credentials) return null;
+    const variables:string[]=[];url.searchParams.forEach((_,key)=>{if(key.startsWith('var-'))variables.push(key);});
+    for(const key of variables)url.searchParams.delete(key);
     for (const [key,value] of Object.entries(traceContextParameters(context))) url.searchParams.set('var-'+key,value);
     url.searchParams.set('from',String(Date.parse(context.visibleFrom??context.from)));
     url.searchParams.set('to',String(Date.parse(context.visibleTo??context.to)));

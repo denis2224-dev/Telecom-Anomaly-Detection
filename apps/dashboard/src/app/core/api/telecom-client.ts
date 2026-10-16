@@ -36,6 +36,16 @@ export class TelecomClient {
   private readonly http = inject(HttpClient);
   private readonly session = inject(SessionStore);
 
+  traceDatasets(signal?: AbortSignal) {return this.request<components['schemas']['TraceDataset'][]>('GET','/api/v2/datasets',undefined,undefined,signal);}
+  traceIncidents(query:operations['listTraceLinkIncidents']['parameters']['query']={},signal?:AbortSignal){return this.request<components['schemas']['TraceLinkIncidentPage']>('GET','/api/v2/trace-link/incidents',undefined,query,signal);}
+  traceIncident(episode:string,signal?:AbortSignal){return this.request<components['schemas']['TraceLinkIncidentView']>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}`,undefined,undefined,signal);}
+  traceIncidentByPublicId(id:string,signal?:AbortSignal){return this.request<components['schemas']['TraceLinkIncidentView']>('GET',`/api/v2/trace-link/incidents/by-id/${encodeURIComponent(id)}`,undefined,undefined,signal);}
+  traceIncidentEvidence(episode:string,offset=0,signal?:AbortSignal){return this.request<components['schemas']['TraceLinkDetectionEvidencePage']>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/evidence`,undefined,{limit:50,offset},signal);}
+  traceIncidentWorkflow(episode:string,signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/workflow`,undefined,undefined,signal);}
+  traceIncidentAudit(episode:string,offset=0,signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentAudit'][]>('GET',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/audit`,undefined,{limit:50,offset},signal);}
+  assignTraceIncident(episode:string,body:components['schemas']['TraceIncidentAssignment'],signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('POST',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/assignment`,body,undefined,signal);}
+  updateTraceIncident(episode:string,body:components['schemas']['TraceIncidentStatus'],signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('POST',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/status`,body,undefined,signal);}
+  commentTraceIncident(episode:string,body:components['schemas']['TraceIncidentComment'],signal?:AbortSignal){return this.request<components['schemas']['TraceIncidentWorkflow']>('POST',`/api/v2/trace-link/incidents/${encodeURIComponent(episode)}/comments`,body,undefined,signal);}
   listNotifications(page = 0, signal?: AbortSignal) {
     return this.request<NotificationPage>('GET', '/api/notifications', undefined, { page, size: 20 }, signal);
   }
@@ -51,14 +61,14 @@ export class TelecomClient {
   deletePushSubscription(id: string, signal?: AbortSignal) {
     return this.request<void>('DELETE', `/api/notifications/push-subscriptions/${encodeURIComponent(id)}`, undefined, undefined, signal);
   }
-  traceCities(signal?: AbortSignal) {
-    return this.request<components['schemas']['TraceCityList']>('GET','/api/v2/inventory/cities',undefined,undefined,signal);
+  traceCities(signal?: AbortSignal, catalogueVersion?: string) {
+    return this.request<components['schemas']['TraceCityList']>('GET','/api/v2/inventory/cities',undefined,catalogueVersion?{catalogueVersion}:undefined,signal);
   }
-  traceLinks(signal?: AbortSignal) {
-    return this.request<components['schemas']['TraceLinkList']>('GET','/api/v2/inventory/links',undefined,undefined,signal);
+  traceLinks(signal?: AbortSignal, catalogueVersion?: string) {
+    return this.request<components['schemas']['TraceLinkList']>('GET','/api/v2/inventory/links',undefined,catalogueVersion?{catalogueVersion}:undefined,signal);
   }
-  tracePartners(signal?: AbortSignal) {
-    return this.request<components['schemas']['TracePartnerList']>('GET','/api/v2/inventory/partners',undefined,undefined,signal);
+  tracePartners(signal?: AbortSignal, catalogueVersion?: string) {
+    return this.request<components['schemas']['TracePartnerList']>('GET','/api/v2/inventory/partners',undefined,catalogueVersion?{catalogueVersion}:undefined,signal);
   }
   traceDefinitions(signal?: AbortSignal) {
     return this.request<TraceKpiDefinition[]>('GET','/api/v2/kpi-definitions',undefined,undefined,signal);

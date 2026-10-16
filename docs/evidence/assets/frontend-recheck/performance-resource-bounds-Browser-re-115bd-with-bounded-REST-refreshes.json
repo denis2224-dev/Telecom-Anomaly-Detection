@@ -1,0 +1,644 @@
+{
+  "mode": "Controlled REST responses and SSE; not LIVE acceptance",
+  "screen": "overview",
+  "scopeCount": 100,
+  "incidentTotal": 1000,
+  "responseDelayMs": 400,
+  "records": [
+    {
+      "requestedHintHz": 1,
+      "durationMs": 6000,
+      "events": 6,
+      "snapshotReadsDuringLoad": 2,
+      "incidentPageReads": 30,
+      "frameGapP95Ms": 17.5,
+      "maxFrameGapMs": 37.90000000037253,
+      "longTasksMs": [],
+      "inputPaintMs": 51.779207999999926,
+      "inputAction": "Keyboard move in range input",
+      "renderedDotCount": 15,
+      "apiRoundTrips": [
+        {
+          "path": "/api/services",
+          "durationMs": 408.2999999988824,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 3.900000000372529,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 20.799999998882413,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.099999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 2.900000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 2.900000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.199999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.800000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.099999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 406.7000000011176,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 3.300000000745058,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 9,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 28.800000000745058,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.900000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.700000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.799999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.299999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.299999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 407.7000000011176,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 2.799999998882413,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 9.099999999627471,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 24,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7.299999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.599999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.199999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.699999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.199999999254942,
+          "encodedBodyBytes": 264044
+        }
+      ],
+      "before": {
+        "Nodes": 5026,
+        "TaskDuration": 0.243023,
+        "JSHeapUsedSize": 8229732
+      },
+      "after": {
+        "Nodes": 5029,
+        "TaskDuration": 0.544601,
+        "JSHeapUsedSize": 8894668
+      }
+    },
+    {
+      "requestedHintHz": 100,
+      "durationMs": 6000,
+      "events": 590,
+      "snapshotReadsDuringLoad": 5,
+      "incidentPageReads": 60,
+      "frameGapP95Ms": 17.59999999962747,
+      "maxFrameGapMs": 35.40000000037253,
+      "longTasksMs": [],
+      "inputPaintMs": 54.179582999999184,
+      "inputAction": "Keyboard move in range input",
+      "renderedDotCount": 15,
+      "apiRoundTrips": [
+        {
+          "path": "/api/services",
+          "durationMs": 407.2000000011176,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 4.299999998882413,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7.200000001117587,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 20.800000000745058,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.299999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.800000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 406.6000000014901,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7.200000001117587,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 21.40000000037253,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.799999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.299999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.199999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.100000001490116,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 8.699999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 413.30000000074506,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 4,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 11.900000000372529,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 26.699999999254942,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.599999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.699999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.100000001490116,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.199999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.099999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 404.59999999962747,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 1.800000000745058,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 9.400000000372529,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 20.5,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.399999998509884,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.699999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.600000001490116,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7.199999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.099999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 405.19999999925494,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 18.699999999254942,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 23.59999999962747,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7.300000000745058,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.900000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 8.699999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.799999998882413,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.900000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.899999998509884,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 405.09999999962747,
+          "encodedBodyBytes": 76381
+        },
+        {
+          "path": "/api/geography/cities",
+          "durationMs": 2.700000001117587,
+          "encodedBodyBytes": 22
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 7.300000000745058,
+          "encodedBodyBytes": 263824
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 21.100000001490116,
+          "encodedBodyBytes": 7402
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.099999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.900000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.400000000372529,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.599999999627471,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.5,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.699999999254942,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.200000001117587,
+          "encodedBodyBytes": 264044
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 3.199999999254942,
+          "encodedBodyBytes": 264044
+        }
+      ],
+      "before": {
+        "Nodes": 5029,
+        "TaskDuration": 0.551522,
+        "JSHeapUsedSize": 8901116
+      },
+      "after": {
+        "Nodes": 5029,
+        "TaskDuration": 1.028185,
+        "JSHeapUsedSize": 9107656
+      }
+    }
+  ]
+}

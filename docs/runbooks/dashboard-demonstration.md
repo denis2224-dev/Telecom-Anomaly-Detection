@@ -7,12 +7,32 @@ Use a Node version supported by `apps/dashboard/package.json` (this verification
 From the repository root:
 
 ```sh
-npm --prefix apps/dashboard run build
 ./scripts/up --with-incident-service
 ./scripts/verify
 ```
 
 Open `http://telecom.test:8080/dashboard` and sign in through the organization login. The Docker proxy serves the production build. LIVE mode reads protected REST endpoints and the existing incident stream. The configured geographic footprint and generated telemetry are synthetic; this does not represent real subscriber counts or municipal coverage.
+
+Startup builds the browser and application services from this checkout and applies their additive migrations. Existing volumes are retained. The live overview opens both service graphs; roaming history has its own link. Selecting a service hides the other service panel. The headline measurements follow the service filter: selecting SMS shows delivered messages, delivery success, delivery p95 and queue depth. For a populated Trace Link workspace, pass the supplied full archive's **data directory**:
+
+```sh
+./scripts/up --with-incident-service --trace-link-reference /absolute/Trace_Link_Integration_Pack/data
+```
+
+The archive is validated before startup and imported after the backend migrations. Exact repeats are safe. This imports recorded history without activating a live catalogue or optional detection flags. The same importer is available separately as `python3 scripts/import-trace-link-reference.py /absolute/Trace_Link_Integration_Pack/data --compose`; a host PostgreSQL client is unnecessary. Trace Link selects the registered archive and its recorded period. The headline Backhaul history and Roaming history links open the corresponding investigation; they do not represent live measurements.
+
+**Roaming investigation** in the sidebar, the dashboard roaming links and direct `/roaming` URLs open the recorded partner measurements. The page selects a validated dataset and its recorded interval, starts with registration success for an available partner/direction, and allows country, direction, metric and resolution changes. The URL preserves those selections on reload. Each partner/direction remains a separate population; no live subscriber counts are inferred. Illustrative roaming charts remain limited to explicitly labeled previews.
+
+After a restart, allow two complete minutes for fresh synthetic telemetry to appear. Service readiness alone does not establish fresh measurements. `./scripts/verify` rejects a database missing any migration from the checkout. Use `python3 scripts/verify-continuous-telemetry.py live --from START_UTC --to END_UTC --output /private/tmp/telemetry-check.json` with an aligned UTC interval after startup to inspect publication, processing and persisted measurements separately.
+
+To verify actual sign-in, fresh VoLTE/SMS headlines and populated history in all five domains with a temporary local analyst:
+
+```sh
+E2E_DASHBOARD_LIVE=1 E2E_REAL_LOGIN=1 E2E_BASE_URL=http://telecom.test:8080 \
+  npm --prefix apps/dashboard run test:e2e -- dashboard-data-live.spec.ts --workers=1
+```
+
+This test removes its temporary identity afterward, disables its analyst record, and does not start fault scenarios or intercept API responses.
 
 ## Navigation guide
 
@@ -23,7 +43,7 @@ Open `http://telecom.test:8080/dashboard` and sign in through the organization l
 5. Open **Scenario runner** from the sidebar. For the implemented fault profiles, choose `VOLTE_IMS_OVERLOAD` with `VOLTE-MD-CENTRAL`, or `SMS_QUEUE_DELAY` with `SMS-MD-ROUTE-A`. Use a nonnegative seed (verification used 42), then **Start scenario**. **Refresh status** reports the authoritative run status; **Stop telemetry** stops a running command. A stop is not proof of recovery. Conflicts or an unavailable generator must remain error states.
 6. Wait for the eight-minute fault profile to complete. Open the actual incident for its scope and scheduled window. Verify technical **RECOVERED** while unresolved analyst work stays open, then **Refresh incident**. Return to the overview and verify refresh retains the chosen city and history range.
 
-The scenario backend currently accepts only the two legacy scopes above, including for normal-control and telemetry-gap scenarios. Geographic scopes are monitored but cannot be used for scenario commands. The UI excludes these unsupported choices and explains the restriction in **Supported scenario scopes**.
+The compatible scenario backend also accepts catalogue-authorized VoLTE/SMS city scopes. New commands for RIB/TIR are rejected; stored history remains readable. HIN/CAU are reference inventory identities and are not fabricated as legacy VoLTE/SMS scope memberships. New-domain controls use their own complete directional/partner/city tuples and durable command ledger.
 
 ## Reversible overview rollout
 
@@ -74,3 +94,7 @@ The backend now gives each SSE connection a one-minute lease. This bounds abando
 - Further topology panels, local measurement panels and additional classified/affected-path evidence remain planned work until the backend supplies authoritative relationships and measurements. Missing cause evidence remains **Cause undetermined**.
 
 Give the [verification evidence](../evidence/assets/dashboard-demonstration/README.md) to Stanislav for capture review and Denis for API integration review. Another teammate should follow this guide unaided. These human reviews are pending; no teammate approval is implied by automated results, and fixture captures are not live acceptance.
+
+## Persisted Trace Link rehearsal
+
+Use the pinned-release procedure in [Trace Link completion runbook](trace-link-completion.md). Two populated rehearsals remain pending; controlled browser fixtures do not satisfy them. Show the registered full archive, approved topology, all five domain panels, qualified gaps, shared incident filtering, assignment/comment/recovery/resolution, exact CSV and absolute-time Grafana link. Record both runs against the same source/image/dataset hashes.

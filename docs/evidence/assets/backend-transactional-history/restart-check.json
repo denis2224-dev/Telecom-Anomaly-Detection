@@ -1,0 +1,8 @@
+{
+  "persistedExactHistoryAndReadState": true,
+  "notificationCount": 4,
+  "unreadCount": 3,
+  "snapshotArchiveEndScopes": 4,
+  "allIdsPreserved": true,
+  "isolation": "codex-trace-history-review"
+}

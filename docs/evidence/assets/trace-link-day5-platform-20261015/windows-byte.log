@@ -1,0 +1,6 @@
+test_clean_cli_rebuild_matches_every_packaged_byte (__main__.WindowsCandidateReproductionTests.test_clean_cli_rebuild_matches_every_packaged_byte) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 17.541s
+
+OK

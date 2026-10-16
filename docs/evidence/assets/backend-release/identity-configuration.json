@@ -1,0 +1,14 @@
+{
+  "origin": "http://telecom.test:8080",
+  "issuer": "http://telecom.test:8080/auth/realms/telecom",
+  "clientId": "telecom-web",
+  "clientAuthenticationMethod": "client_secret_basic",
+  "grantType": "authorization_code",
+  "scopes": [
+    "openid",
+    "profile"
+  ],
+  "codeRevision": "6b4d4246a5a8eb563394525dbd04394d432ed8ca",
+  "securityConfigurationSha256": "5d4e49695a06a66b9b2f8208949ef078723306970b15cb08b21357dd1e2ed461",
+  "roleMappingSha256": "0eab46176f9bf034886fd12129789ec6b1a280465c071af2a38230e21bae9c14"
+}

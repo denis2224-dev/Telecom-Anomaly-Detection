@@ -1,5 +1,6 @@
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
-import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
+import { Component, DestroyRef, inject, signal, computed, effect } from '@angular/core';
+import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -32,6 +33,7 @@ const MAX_WINDOWS = 1440;
   imports: [SmsShadowComponent, RouterLink, DatePipe, HistoryRangeComponent, KpiChartComponent,
     IncidentListComponent, SmsQualityComponent, SmsHistoryComponent, IconComponent, MetricExplanationComponent, KpiCardsComponent, MetricChartComponent, ServicePathComponent],
   template: `
+    @if(service() && from() && to()){<a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Investigate history</a>}
     <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Service overview</a><div class="heading-copy"><h1>{{ service()?.scope?.service === 'SMS' ? 'SMS delivery assurance' : 'VoLTE setup assurance' }}</h1><p class="mono">{{ scopeId() }}</p></div>
     </div>
     @if (loading() && !displayedService()) { <section class="state-panel skeleton-panel service-loading" role="status"><span class="spinner"></span> Loading service evidence…<div class="skeleton"></div><div class="skeleton chart"></div></section> }
@@ -47,13 +49,15 @@ const MAX_WINDOWS = 1440;
       @if (cityError()) { <p class="city-error" role="status">City list unavailable <button type="button" (click)="loadCities()">Retry cities</button></p> }
     }
     @if (!error() && displayedService(); as item) {
-      <section class="service-hero" aria-label="Service KPI history">
+      @if(focusedIncident()){<p class="incident-focus" role="status">Selected incident <button type="button" (click)="dismissHighlight()">Dismiss highlight</button></p>}
+      @if(focusError()){<p role="alert">{{focusError()}}</p>}
+      <section id="service-incident-chart" class="service-hero" aria-label="Service KPI history">
         <div class="kpi-switcher" role="group" aria-label="Graph KPI">
           @for (metric of exactMetrics(); track metric.name) {
             <button type="button" [attr.aria-pressed]="selectedMetric().name === metric.name" (click)="selectedKpi.set(metric.name)">{{ kpiLabel(metric.name) }}</button>
           }
         </div>
-        <app-metric-chart view="chart" [hero]="true" [traffic]="selectedMetric().name === 'cssrPct'" [trafficBars]="selectedMetric().name === 'cssrPct'" [secondaryName]="selectedMetric().name === 'p95DeliveryMs' ? 'queueDepth' : ''" [threshold]="selectedMetric().name === 'imsCpuPct' ? 85 : null" [loading]="loading()" [name]="selectedMetric().name" [title]="selectedMetric().title" [unit]="selectedMetric().unit" [windows]="windows()" [incidents]="incidents()" [detections]="detections()" [from]="from()" [to]="to()" (windowSelected)="hoveredWindow.set($event)" />
+        <app-metric-chart view="chart" [hero]="true" [traffic]="selectedMetric().name === 'cssrPct'" [trafficBars]="selectedMetric().name === 'cssrPct'" [secondaryName]="selectedMetric().name === 'p95DeliveryMs' ? 'queueDepth' : ''" [threshold]="selectedMetric().name === 'imsCpuPct' ? 85 : null" [loading]="loading()" [name]="selectedMetric().name" [title]="selectedMetric().title" [unit]="selectedMetric().unit" [windows]="windows()" [incidents]="incidents()" [focusedIncident]="focusedIncident()" [detections]="detections()" [from]="from()" [to]="to()" (windowSelected)="hoveredWindow.set($event)" />
         <div class="chart-legend" aria-label="Chart legend"><span class="actual-key">{{ selectedMetric().name === 'cssrPct' ? 'Success rate · right axis' : selectedMetric().name === 'p95DeliveryMs' ? 'P95 delay (ms) · right axis' : 'Observed' }}</span>@if (selectedMetric().name === 'cssrPct') { <span class="traffic-success-key">Successful calls</span><span class="traffic-failed-key">Failed calls · left axis</span> } @if (selectedMetric().name === 'p95DeliveryMs') { <span class="secondary-key">Queue depth · left axis</span> } @if (selectedMetric().name === 'imsCpuPct') { <span>85% reference · not a detector rule</span> }<span class="expected-key">Baseline</span><span class="state-degraded">Incident</span><span class="state-recovery">Recovery</span><span class="state-unknown">Unavailable</span></div>
       </section>
       <app-kpi-cards [service]="item" />
@@ -67,10 +71,10 @@ const MAX_WINDOWS = 1440;
         <span>Page {{ incidentPage() + 1 }} · {{ incidents().length }} shown · {{ incidentTotal() }} total</span>
         <button (click)="refreshIncidents(incidentPage() + 1)" [disabled]="incidentLoading() || (incidentPage() + 1) * pageSize >= incidentTotal()">Next incidents<app-icon name="right" /></button>
       </nav>
-      <details class="source-inventory"><summary>Service dependencies and source quality</summary>
+      <details class="source-inventory"><summary>Dependencies</summary>
         <p>{{ item.scope.region }} · {{ item.scope.route }} · Current health: {{ health() }}</p>
-        <p>Server evidence as of {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC{{ fixture ? ' · Synthetic sample' : '' }}</p>
-        <p>Incident shading and chart highlights use episodes on the current incident page. Technical recovery and analyst resolution are separate; the last observation of an ongoing episode is not a recovery time.</p>
+        <p>Updated {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC{{ fixture ? ' · Synthetic sample' : '' }}</p>
+        <p>Highlights cover this incident page. Recovery does not resolve analyst work.</p>
       @if (!item.latestWindow || item.latestWindow.quality === 'MISSING' || item.freshness === 'MISSING') {
         <app-metric-explanation topic="missing-evidence" mode="state" />
       } @else if (item.freshness === 'STALE') {
@@ -124,16 +128,19 @@ export class ServiceDetailComponent {
     { name: 'deliveredMessages', title: 'Delivered sample volume', unit: 'COUNT' },
   ] : [
     { name: 'cssrPct', title: 'Call setup success rate', unit: 'PERCENT' },
-    { name: 'rrcSrPct', title: 'Radio / access · RRC SR', unit: 'PERCENT' },
-    { name: 'bearerSrPct', title: 'Radio / access · Bearer SR', unit: 'PERCENT' },
     { name: 'sip503Ratio', title: 'IMS / core · SIP 503 rate', unit: 'RATIO' },
     { name: 'imsCpuPct', title: 'IMS / core · CPU', unit: 'PERCENT' },
-    { name: 'packetLossRatio', title: 'Transport · packet loss', unit: 'RATIO' },
     { name: 'eligibleAttempts', title: 'Attempts', unit: 'COUNT' },
   ]));
   readonly selectedKpi = signal('');
   readonly selectedMetric = computed(() => this.exactMetrics().find(metric => metric.name === this.selectedKpi()) ?? this.exactMetrics()[0]);
   kpiLabel(name: string): string { return [...VOLTE_METRICS, ...SMS_METRICS].find(metric => metric[0] === name)?.[1] ?? name; }
+  readonly focusedIncident = signal<Incident | null>(null);
+  readonly focusError = signal('');
+  private focusController?: AbortController;
+  dismissHighlight(): void {
+    void this.router.navigate([], {queryParams:{incidentId:null},queryParamsHandling:'merge',replaceUrl:true});
+  }
   readonly hoveredWindow = signal<KpiWindow | null>(null);
   readonly highlightedEpisodes = computed(() => {
     const window = this.hoveredWindow();
@@ -143,6 +150,8 @@ export class ServiceDetailComponent {
   });
   readonly pageSize = PAGE_SIZE;
   readonly fixture = dataSource.fixture;
+  private readonly traceQuery=inject(TraceQueryStore);
+  readonly traceHistoryParameters=computed(()=>traceContextParameters({...this.traceQuery.context(),from:this.from(),to:this.to(),cityId:this.selectedCity()?.id.toLowerCase()??'all',domain:this.service()?.scope.service==='SMS'?'sms':'volte',visibleFrom:undefined,visibleTo:undefined,linkDirectionId:undefined}));
   readonly scopeId = signal('');
   readonly service = signal<ServiceSummary | null>(null);
   readonly displayedService = computed(() => this.service()?.scope.scopeId === this.scopeId() ? this.service() : null);
@@ -196,6 +205,8 @@ export class ServiceDetailComponent {
     const destroy = inject(DestroyRef);
     const route = inject(ActivatedRoute);
     const stop = () => {
+      this.focusController?.abort();
+      this.focusedIncident.set(null);
       ++this.generation;
       this.cityController?.abort();
       this.cancelReads();
@@ -205,6 +216,23 @@ export class ServiceDetailComponent {
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
     destroy.onDestroy(stop);
     void this.loadCities();
+    const session = inject(SessionStore);
+    route.queryParamMap?.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+      this.focusController?.abort(); this.focusedIncident.set(null); this.focusError.set('');
+      const id=params.get('incidentId');
+      if(!id)return;
+      const request=this.focusController=new AbortController(),revision=session.revision;
+      const from=params.get('from'),to=params.get('to');
+      if(from && to && (from!==this.from() || to!==this.to())) {
+        this.from.set(from);this.to.set(to);this.followingLatest=false;void this.load();
+      }
+      void this.api.getIncident(id,request.signal).then(item=>{
+        if(request.signal.aborted || revision!==session.revision)return;
+        if(item.scopeId!==this.scopeId())throw new Error('Incident belongs to another service scope.');
+        this.focusedIncident.set(item);
+      }).catch(error=>{if(!request.signal.aborted)this.focusError.set(error instanceof Error?error.message:'Incident unavailable.');});
+    });
+    effect(()=>{if(this.focusedIncident() && !this.loading())setTimeout(()=>document.getElementById('service-incident-chart')?.scrollIntoView({block:'start',behavior:'instant'}));});
     route.paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
       this.closeStream?.();
       this.closeStream = undefined;

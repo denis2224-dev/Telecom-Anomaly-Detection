@@ -6,4 +6,14 @@ Notification counts are part of the bell's accessible name. Toasts use a restrai
 
 The focus regression was reproduced by closing an expanded chart during a range refresh. The original expand control could be replaced by asynchronous rendering. The repaired control persists while the chart loads; desktop and narrow-browser checks pass.
 
-These automated checks do not constitute a human screen-reader certification. A teammate-assisted screen-reader and guide-only investigation remain release acceptance work. Actual populated Trace Link investigations additionally require the registered archive and active backend catalogue.
+These automated checks do not constitute a human screen-reader certification. A teammate-assisted screen-reader and guide-only investigation remain release acceptance work. Actual populated Trace Link investigations require the full registered archive and its recorded inventory version. Historical inventory does not require activation of a live catalogue. See the [current acceptance record](../evidence/final-ui-signoff.md).
+
+The current populated production browser run passes at desktop and 390px width, including expanded-chart Escape/focus return, exact table/export and restored dataset/country/partner selection. Actual masked captures are indexed in `docs/evidence/assets/trace-link-published/artifact-index.json`. These do not replace screen-reader or supported-browser human reviews.
+
+## Frontend verification follow-up
+
+The frontend-only review at `3d970aa698877283ba6bdde6526bc83fb70c233c` passes 102 controlled checks across Chromium 153.0.8010.12, Firefox 155.0 and WebKit 26.6. The suite covers primary and secondary tabs and fails on unexpected runtime exceptions. All focus, visible-outline, Escape-return, map/table, exact-value and responsive assertions remain in place.
+
+On macOS WebKit, native Option+Tab includes links and buttons when full keyboard navigation is not enabled. The test uses that native shortcut without changing user settings. Firefox navigation reverses from the workspace to the preceding sidebar; it does not rely on wrapping through browser chrome. These explain the reproduced keyboard failures; they are not application focus relaxations. Firefox's isolated test profile also requests all-control tab navigation.
+
+Human VoiceOver/screen-reader and guide-only teammate acceptance remain pending. Engine automation and accessibility-tree inspection do not provide those signatures. See [the current frontend record](../evidence/frontend-acceptance.md).

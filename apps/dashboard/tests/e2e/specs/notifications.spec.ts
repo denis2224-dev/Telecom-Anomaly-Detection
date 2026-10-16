@@ -16,7 +16,7 @@ test('durable notifications keep failed read state, qualify causes and restore k
   await page.setViewportSize({width:390,height:900});await page.goto('/dashboard');
   const bell=page.getByRole('button',{name:'Notifications, 1 unread'});await bell.focus();await page.keyboard.press('Enter');
   const dialog=page.getByRole('dialog',{name:'Notification history'});await expect(dialog).toBeVisible();
-  await expect(dialog).toContainText('Cause undetermined');await expect(dialog).toContainText('Recovery does not resolve analyst work');
+  await expect(dialog).toContainText('Cause undetermined');await expect(dialog).toContainText('recovery requires analyst resolution');
   await dialog.getByRole('button',{name:'Mark read',exact:true}).click();await expect(dialog.getByRole('alert')).toBeVisible();
   await expect(dialog).toContainText('Unread');fail=false;await dialog.getByRole('button',{name:'Mark read',exact:true}).click();
   await expect(dialog.getByRole('button',{name:'Mark read',exact:true})).toHaveCount(0);
@@ -38,4 +38,22 @@ test('two authenticated tabs share each new high alert and repeated hints remain
   for(const tab of [page,second])await tab.evaluate(()=>{for(const source of (window as any).__sources)source.dispatchEvent(new Event('ready'));});
   await page.waitForTimeout(400);expect(await page.locator('.toast').count()+await second.locator('.toast').count()).toBe(1);
   for(const tab of [page,second])expect(await tab.evaluate(()=>(window as any).__sources.filter((source:any)=>!source.closed).length)).toBe(1);
+});
+
+test('unavailable push configuration preserves in-app history without permission prompts',async({page})=>{
+ await controlledApi(page);let configReads=0;
+ await page.route(/\/api\/notifications(?:\?.*)?$/,route=>route.fulfill({json:{items:[],total:0,unreadCount:0,page:0,size:20}}));
+ await page.addInitScript(()=>{
+  (window as any).__permissionPrompts=0;
+  Object.defineProperty(window,'Notification',{configurable:true,value:{permission:'default',requestPermission:async()=>{(window as any).__permissionPrompts++;return 'granted';}}});
+  Object.defineProperty(window,'PushManager',{configurable:true,value:class{}});
+ });
+ await page.route('**/api/notifications/push/config',route=>{configReads++;return route.fulfill({status:404,json:{code:'FEATURE_DISABLED'}});});
+ await page.goto('/dashboard');await page.getByRole('button',{name:/^Notifications, /}).click();
+ const history=page.getByRole('dialog',{name:'Notification history'});
+ await expect(history).toBeVisible();await history.getByRole('button',{name:'Enable browser alerts',exact:true}).click();
+ await expect(history).toContainText('Browser alerts are unavailable in this environment.');
+ await expect(history).toContainText('No recorded notifications.');
+ expect(configReads).toBe(1);expect(await page.evaluate(()=>(window as any).__permissionPrompts)).toBe(0);
+ await page.keyboard.press('Escape');await expect(history).not.toBeVisible();
 });

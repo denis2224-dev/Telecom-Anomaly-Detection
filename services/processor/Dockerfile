@@ -20,3 +20,5 @@ WORKDIR /app
 COPY --from=build /workspace/services/processor/target/processor-*.jar app.jar
 EXPOSE 8083
 ENTRYPOINT ["java", "-jar", "app.jar"]
+ARG TRACE_RELEASE_COMMIT=unrecorded
+LABEL org.opencontainers.image.revision=$TRACE_RELEASE_COMMIT

@@ -1,0 +1,81 @@
+{
+  "codeCommit": "3d970aa698877283ba6bdde6526bc83fb70c233c",
+  "baseCommit": "1602bd9c329757b310fe40ecba3148f574c34451",
+  "mode": "Frontend-only candidate checks; existing-runtime manual comparison recorded separately",
+  "requirements": {
+    "00-common.md": "87c384760b39699f160c91d5d8e62b937a7b00bf82812288156e41fc66ad9e9d",
+    "04-nenita-david.md": "25759427f3fd80a0bf78bd33ce10ffa0b311a0ed2ae7cf4eb3097faffec71a62"
+  },
+  "api": {
+    "version": "0.5.0",
+    "canonicalSha256": "37e87d76b6e7a647fae0bef0b66962955c14117e413a54e94b569c100f4f1db7",
+    "copyIdentical": true,
+    "generatedTypesUnchanged": true
+  },
+  "results": {
+    "branding": {
+      "passed": 1
+    },
+    "unit": {
+      "passed": 184
+    },
+    "productionBuild": "PASS_EXISTING_BUNDLE_WARNING",
+    "fixtureBuild": "PASS",
+    "fixtures": "PASS",
+    "controlledChromium": {
+      "passed": 194,
+      "skipped": 25
+    },
+    "threeEngineMatrix": {
+      "passed": 102,
+      "failed": 0,
+      "skipped": 0
+    },
+    "controlledPerformance": {
+      "passed": 5
+    },
+    "strictAcceptanceTypes": "PASS",
+    "requiredLiveDiscovery": {
+      "cases": 3,
+      "execution": "BLOCKED_MISSING_CONFIGURED_EXISTING_CREDENTIALS_AND_REGISTERED_ARCHIVE"
+    },
+    "livePreflight": "EXPECTED_REJECTION_BEFORE_NETWORK_ACCESS",
+    "existingSafariIdleObservation": "INCONCLUSIVE_NOT_ACCEPTED"
+  },
+  "browsers": {
+    "chromium": "153.0.8010.12",
+    "firefox": "155.0",
+    "webkit": "26.6"
+  },
+  "hardware": {
+    "model": "Mac16,12",
+    "logicalCPUs": 10,
+    "memoryBytes": 17179869184,
+    "architecture": "arm64",
+    "macOS": "26.6.2"
+  },
+  "warnings": [
+    "Production initial bundle 501.42 kB exceeds 500 kB warning budget; build succeeds",
+    "WebKit native Option+Tab used on macOS; Firefox test avoids browser-toolbar wraparound",
+    "Controlled transfer byte sizes may be unavailable and remain null",
+    "Current deployed frontend/backend source identity is not the candidate revision",
+    "Inventory 503 and push-config 404 are compatibility fault injections; disabled current push config normally returns 200 with enabled false"
+  ],
+  "pending": [
+    "Configured existing analyst credentials for automated real idle/absolute expiry",
+    "Registered full reference archive in the existing stack; no import permitted by this request",
+    "Authenticated release check on this undeployed candidate",
+    "Real identity/backend/Grafana outage acceptance",
+    "Coordinated connected capacity",
+    "Human screen-reader and guide-only review",
+    "Secure-origin browser push acceptance",
+    "Receiving-machine checks",
+    "Two complete rehearsals and real owner signatures"
+  ],
+  "backendCodeChanged": false,
+  "databaseRecordsEdited": false,
+  "deliverySettingsChanged": false,
+  "deployed": false,
+  "merged": false,
+  "completeFrontendAcceptancePassed": false
+}

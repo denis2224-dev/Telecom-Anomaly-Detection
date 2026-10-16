@@ -1,0 +1,6 @@
+{
+  "exitCode": 1,
+  "result": "REJECTED",
+  "reason": "ValueError: Full archive manifest differs from the pinned contract",
+  "mode": "bounded controlled slice; no database connection"
+}

@@ -57,7 +57,7 @@ class DatabaseMigrationTest {
                 .dataSource(url("incidents_db"), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(10, flyway.migrate().migrationsExecuted);
+        assertEquals(18, flyway.migrate().migrationsExecuted);
     }
 
     @BeforeEach
@@ -78,7 +78,7 @@ class DatabaseMigrationTest {
     void migrationIsRepeatableThroughFlywayAndOwnedByMigrator() throws Exception {
         flyway.validate();
         assertEquals(0, flyway.migrate().migrationsExecuted);
-        assertEquals(Set.of("analysts", "detection_evidence", "incidents", "incident_audit",
+        assertEquals(Set.of("trace_reference_window", "trace_reference_import", "trace_reference_definition", "trace_link_workflow_audit", "analysts", "detection_evidence", "incidents", "incident_audit",
                 "service_kpi_windows", "scenario_commands", "sms_ml_shadow",
                 "geo_catalogue_versions", "geo_cities", "geo_nodes", "geo_scope_bindings",
                 "geo_scope_roles", "geo_configured_links", "scope_window_coverage",
@@ -86,7 +86,7 @@ class DatabaseMigrationTest {
                 "push_subscription", "push_delivery", "trace_dataset", "trace_catalogue",
                 "trace_inventory_city", "trace_inventory_link", "trace_link_direction",
                 "trace_partner", "trace_metric_window", "trace_primitive_projection", "trace_scenario_command",
-                "trace_domain_source", "trace_domain_scope", "trace_domain_measurement", "trace_domain_detection"), tableNames());
+                "trace_domain_source", "trace_domain_scope", "trace_domain_measurement", "trace_domain_detection", "trace_link_detection_evidence", "trace_link_incidents", "trace_link_incident_audit", "trace_domain_episode_detection", "trace_domain_incident"), tableNames());
         assertEquals("1", scalar("""
                 SELECT count(*) FROM pg_indexes
                 WHERE schemaname = 'app'
@@ -107,6 +107,8 @@ class DatabaseMigrationTest {
         rejects("42501", "UPDATE app.notification_recipient SET analyst_id = gen_random_uuid() WHERE false");
         rejects("42501", "UPDATE app.trace_metric_window SET quality = 'VALID' WHERE false");
         rejects("42501", "DELETE FROM app.trace_metric_window");
+        rejects("42501", "UPDATE app.trace_domain_episode_detection SET payload = '{}'::jsonb WHERE false");
+        rejects("42501", "DELETE FROM app.trace_domain_episode_detection WHERE false");
         rejects("42501", "UPDATE app.trace_primitive_projection SET quality = 'VALID' WHERE false");
         rejects("42501", "DELETE FROM app.trace_primitive_projection");
         rejects("42501", "UPDATE app.trace_domain_measurement SET quality = 'VALID' WHERE false");
@@ -164,7 +166,7 @@ class DatabaseMigrationTest {
                 .dataSource(url(database), "incidents_migrator", "test-migrator-only")
                 .defaultSchema("app").schemas("app").createSchemas(false)
                 .locations("classpath:db/migration").cleanDisabled(true).load();
-        assertEquals(6, upgrade.migrate().migrationsExecuted);
+        assertEquals(14, upgrade.migrate().migrationsExecuted);
         assertEquals(0, upgrade.migrate().migrationsExecuted);
         try (Connection fresh = DriverManager.getConnection(url("incidents_db"),
                 POSTGRES.getUsername(), POSTGRES.getPassword());

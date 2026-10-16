@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import md.utm.telecom.analysts.model.Analyst;
 import md.utm.telecom.analysts.repository.AnalystRepository;
+import md.utm.telecom.analysts.service.AnalystAccess;
 import md.utm.telecom.incidents.auth.AuthController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import tools.jackson.databind.ObjectMapper;
 @WebMvcTest(controllers = AuthController.class, properties = {
         "app.public-origin=http://telecom.test:8080"
 })
-@Import({SecurityConfig.class, ApiSecurityErrors.class, OidcTestConfiguration.class,
+@Import({SecurityConfig.class, ApiSecurityErrors.class, OidcTestConfiguration.class, AnalystAccess.class,
         OidcLoginFailureHandler.class})
 class AuthSecurityTest {
     private static final String ISSUER = "http://telecom.test:8080/auth/realms/telecom";

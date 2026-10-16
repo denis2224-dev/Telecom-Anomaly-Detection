@@ -9,6 +9,7 @@ export interface StackContext {
   projectName: string; composeFiles: string[]; envFile: string; baseURL: string;
   sourceSha: string; outputDir: string; scenarioResultFile: string;
   ownerLabelName: string; ownerLabelValue: string;
+  verificationMode?: 'legacy-connected' | 'populated-history';
   analyst: { username: string; password: string };
   supervisor: { username: string; password: string };
 }
@@ -28,11 +29,12 @@ export default class RequiredCases implements Reporter {
     // Discovery is useful for static validation but must not create acceptance evidence.
     if (process.argv.includes('--list')) return;
     const stack = stackContext();
-    const passed = result.status === 'passed' && this.cases === 3 && this.outcomes.length === 3 && !this.incomplete;
+    const expected=stack.verificationMode==='populated-history'?6:3;
+    const passed = result.status === 'passed' && this.cases === expected && this.outcomes.length === expected && !this.incomplete;
     writeFileSync(join(stack.outputDir, 'verification.json'), JSON.stringify({
       status: passed ? 'PASSED' : 'FAILED', sourceSha: stack.sourceSha,
       startedAtUTC: this.startedAtUTC, finishedAtUTC: new Date().toISOString(), outcomes: this.outcomes,
-      coverage: 'Real OIDC/security, four fresh city scenarios and source trace, proxy reconnect, open-page idle and absolute expiry',
+      coverage: stack.verificationMode === 'populated-history' ? 'Full pinned persisted history, real OIDC/security, desktop/phone context, exact CSV, reconnect, logout, fresh fault/control/gap incident lifecycles and real idle/absolute expiry; not complete presentation rehearsals' : 'Real OIDC/security, four fresh city scenarios and source trace, proxy reconnect, open-page idle and absolute expiry',
     }, null, 2) + '\n');
     return passed ? undefined : { status: 'failed' as const };
   }
@@ -99,7 +101,7 @@ export async function api(actor: Pick<Actor, 'page'>, path: string, options: {
     const text = await response.text();
     return { status: response.status, date: response.headers.get('date'), text };
   }, { path, options });
-  return { status: () => result.status, headers: () => ({ date: result.date ?? '' }), json: async () => JSON.parse(result.text) };
+  return { status: () => result.status, headers: () => ({ date: result.date ?? '' }), json: async () => JSON.parse(result.text), text: async () => result.text };
 }
 export async function read<T>(actor: Pick<Actor, 'page'>, path: string): Promise<T> {
   const response = await api(actor, path);

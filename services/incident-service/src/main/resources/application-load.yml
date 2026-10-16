@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: ${INCIDENT_LOAD_POOL_SIZE:12}
+      minimum-idle: ${INCIDENT_LOAD_POOL_IDLE:4}
+      connection-timeout: 3000
+management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        evidence.receipt.to.commit: true
+      percentiles:
+        http.server.requests: 0.5,0.95,0.99
+        evidence.receipt.to.commit: 0.5,0.95,0.99
+app:
+  notifications:
+    push-enabled: false

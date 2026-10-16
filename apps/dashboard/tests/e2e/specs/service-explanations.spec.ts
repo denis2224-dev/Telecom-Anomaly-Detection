@@ -66,11 +66,11 @@ for (const width of [1366, 390]) for (const trajectory of suite.cases) {
               && sample.unit === 'COUNT' && sample.observed !== null && sample.observed > 0);
           const shown = detection.phase === 'UNKNOWN' || unsupportedRate || unsupportedP95 || kpi.observed === null
             ? 'Unavailable' : String(kpi.observed);
-          await expect(article.locator(`[data-kpi="${kpi.name}"] td`).first())
+          await expect(article.locator(`[data-kpi="${kpi.name}"] td, [data-kpi="${kpi.name}"] .supporting-value`).first())
             .toHaveText(shown);
         }
       }
-      if (latest!.phase === 'UNKNOWN') await expect(page.locator('[data-detection-id]').last()).toContainText('does not prove recovery');
+      if (latest!.phase === 'UNKNOWN') await expect(page.locator('[data-detection-id]').last()).toContainText('recovery unconfirmed');
       await expect(page.locator('app-incident-detail')).toContainText('Workflow state: OPEN');
       if (latest!.technicalState !== 'RECOVERED') {
         incident.status = 'INVESTIGATING';

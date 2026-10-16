@@ -1,0 +1,135 @@
+{
+  "mode": "Controlled REST responses and SSE; not LIVE acceptance",
+  "screen": "service",
+  "scopeCount": 100,
+  "incidentTotal": 1000,
+  "responseDelayMs": 400,
+  "records": [
+    {
+      "requestedHintHz": 1,
+      "durationMs": 6000,
+      "events": 6,
+      "snapshotReadsDuringLoad": 2,
+      "incidentPageReads": 3,
+      "frameGapP95Ms": 17.199999999254942,
+      "maxFrameGapMs": 17.700000002980232,
+      "longTasksMs": [],
+      "inputPaintMs": 53.11770799999795,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.599999997764826
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 409.70000000298023
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 2.699999999254942
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.800000000745058
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 408.19999999925494
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 4.600000001490116
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 409.69999999925494
+        }
+      ],
+      "before": {
+        "Nodes": 6497,
+        "TaskDuration": 0.134511,
+        "JSHeapUsedSize": 6193888
+      },
+      "after": {
+        "Nodes": 6499,
+        "TaskDuration": 0.352464,
+        "JSHeapUsedSize": 6668200
+      }
+    },
+    {
+      "requestedHintHz": 100,
+      "durationMs": 6000,
+      "events": 596,
+      "snapshotReadsDuringLoad": 5,
+      "incidentPageReads": 6,
+      "frameGapP95Ms": 17.5,
+      "maxFrameGapMs": 31.099999997764826,
+      "longTasksMs": [],
+      "inputPaintMs": 54.35941599999933,
+      "apiRoundTrips": [
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.600000001490116
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 408.5
+        },
+        {
+          "path": "/api/services/VOLTE-MD-CENTRAL/kpis",
+          "durationMs": 3.199999999254942
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.400000002235174
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 408.8999999985099
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6.299999997019768
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 410.69999999925494
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.599999997764826
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 409.3999999985099
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 6
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 410.69999999925494
+        },
+        {
+          "path": "/api/incidents",
+          "durationMs": 5.700000002980232
+        },
+        {
+          "path": "/api/services",
+          "durationMs": 410.5999999977648
+        }
+      ],
+      "before": {
+        "Nodes": 6499,
+        "TaskDuration": 0.361516,
+        "JSHeapUsedSize": 6691884
+      },
+      "after": {
+        "Nodes": 6499,
+        "TaskDuration": 0.73071,
+        "JSHeapUsedSize": 6931088
+      }
+    }
+  ]
+}

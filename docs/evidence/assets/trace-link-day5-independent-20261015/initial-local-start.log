@@ -1,0 +1,10 @@
+ Container trace-link-day5-20261015150811-kafka-1 Waiting 
+ Container trace-link-day5-20261015150811-kafka-1 Healthy 
+ Container trace-link-day5-20261015150811-kafka-init-1 Starting 
+ Container trace-link-day5-20261015150811-kafka-init-1 Started 
+ Container trace-link-day5-20261015150811-postgres-1 Waiting 
+ Container trace-link-day5-20261015150811-kafka-init-1 Waiting 
+ Container trace-link-day5-20261015150811-postgres-1 Healthy 
+ Container trace-link-day5-20261015150811-kafka-init-1 Exited 
+ Container trace-link-day5-20261015150811-kafka-init-1 Waiting 
+processor is missing dependency history-bootstrap

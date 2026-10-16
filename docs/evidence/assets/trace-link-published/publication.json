@@ -1,0 +1,11 @@
+{
+  "branch": "feature/trace-link-completion",
+  "runtimeSourceCommit": "280bdacf41d9db9cf69c8bfa4085940ece288bc6",
+  "repository": "https://github.com/denis2224-dev/Telecom-Anomaly-Detection",
+  "published": true,
+  "mainMerged": false,
+  "sharedDeployed": false,
+  "reportedBranchWorkflowRuns": [],
+  "featureBranchCi": "NOT_RUN_OR_REPORTED",
+  "releaseGateResult": "EXPECTED_REJECTION_PENDING_ACCEPTANCE"
+}

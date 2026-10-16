@@ -20,3 +20,5 @@ COPY --from=build /workspace/services/incident-service/target/incident-service-*
 COPY services/incident-service/entrypoint.sh entrypoint.sh
 EXPOSE 8082
 ENTRYPOINT ["sh", "/app/entrypoint.sh"]
+ARG TRACE_RELEASE_COMMIT=unrecorded
+LABEL org.opencontainers.image.revision=$TRACE_RELEASE_COMMIT

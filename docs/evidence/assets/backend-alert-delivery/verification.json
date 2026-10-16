@@ -1,0 +1,518 @@
+{
+  "status": "passed-for-stacked-behavior-branch",
+  "testedSourceRevision": "88587f74e759ed637ddf2d7ce6f09a3b7024adcf",
+  "backend": {
+    "surefire-reports": {
+      "totals": {
+        "tests": 190,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "suites": [
+        {
+          "name": "md.utm.telecom.incidents.IncidentAuditRepositoryTest",
+          "tests": "9",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.PushEndpointPolicyTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.analysts.AnalystControllerTest",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.MetricCsvServiceTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.PushDeliveryWorkerTest",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.stream.IncidentStreamTest",
+          "tests": "9",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceQueryTest",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.evidence.IncidentProjectionTest",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.controller.IncidentStreamControllerTest",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyCatalogueTest",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.WorkflowTest",
+          "tests": "11",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.services.controller.ServiceOverviewControllerTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationRepositoryIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.OidcLoginFailureHandlerTest",
+          "tests": "10",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.AuthSecurityTest",
+          "tests": "10",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.DatabaseUpgradeTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.shadow.SmsShadowReplayTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "1"
+        },
+        {
+          "name": "md.utm.telecom.evidence.DetectionEvidenceRepositoryTest",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyControllerTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.IncidentServiceApplicationTests",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.simulator.ScenarioCommandRepositoryTest",
+          "tests": "7",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceInventoryIT",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.shadow.SmsShadowStoreTest",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.services.controller.ServiceControllerTest",
+          "tests": "9",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.SessionSecurityTest",
+          "tests": "6",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.CoverageFactTest",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.exception.DependencyErrorsTest",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationTransitionClassifierTest",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.evidence.messaging.DetectionConsumerTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.PushDeliveryPolicyTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.controller.IncidentControllerTest",
+          "tests": "10",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationSummaryFactoryTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.MetricQueryServiceIT",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.evidence.EvidenceServiceTest",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyBoundsTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.DependencyFailureIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.security.AppRoleMapperTest",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.RehearsalRegressionTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.PushSubscriptionCipherTest",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.DatabaseMigrationTest",
+          "tests": "8",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.services.ServiceKpiWindowIngestionTest",
+          "tests": "9",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.services.ServiceKpiWindowRepositoryTest",
+          "tests": "9",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationControllerTest",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.SergiuDetectionKafkaTest",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.CausePresentationPolicyTest",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        }
+      ]
+    },
+    "failsafe-reports": {
+      "totals": {
+        "tests": 89,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": [
+        {
+          "name": "md.utm.telecom.geography.GeographyProjectionIT",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.IncidentLocationProjectionIT",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.PriorityProjectionIT",
+          "tests": "10",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceDomainSliceIT",
+          "tests": "7",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyReadMatrixIT",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationRepositoryIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TracePrimitiveIngestionIT",
+          "tests": "7",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.simulator.ScenarioControllerIT",
+          "tests": "15",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.IncidentStreamIT",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyFeatureOffIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.notifications.NotificationPersistenceIT",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.TraceInventoryIT",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.PermissionsIT",
+          "tests": "3",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.FirstSliceIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.DatabaseIsolationIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.ReplayOrderingIT",
+          "tests": "12",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.ServiceScenariosIT",
+          "tests": "2",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.tracelink.MetricQueryServiceIT",
+          "tests": "5",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.DependencyFailureIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.geography.GeographyTopologyIT",
+          "tests": "4",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        },
+        {
+          "name": "md.utm.telecom.incidents.CommentConcurrencyIT",
+          "tests": "1",
+          "failures": "0",
+          "errors": "0",
+          "skipped": "0"
+        }
+      ]
+    }
+  },
+  "dashboard": {
+    "tests": 131,
+    "files": 26,
+    "build": "passed"
+  },
+  "python": {
+    "tests": 148,
+    "skipped": 1,
+    "errors": 0
+  },
+  "reference": {
+    "engineChecks": 708498,
+    "uiShimChecks": 23
+  },
+  "localLogChecksums": {
+    "trace-link-regression-before.log": "31315ca9b3860d0cb5a9aa3356bbe89e1bb9488a7e5931a9f4479975c411fd6b",
+    "trace-link-behavior-verify.log": "132a5dff457bda6c8cc4a60ffb1284ec103b65e32d98c4787360156a59d6856b",
+    "trace-link-focused-after.log": "a7c2c9479d8e5bd41b2c94c0f84e920f6fd4e812aa3c5d6e96b0414d4bdbfa05",
+    "trace-link-contract-check.log": "da44576ab174e41c26cc4d90a61d8647d0c7eba0f0c5d6bf8e333fdbaeeeae66",
+    "trace-link-dashboard-test.log": "b4b3f5f2c6b2d5370b069b6513faccf64265fa387225a8450911e3b3b9616d55",
+    "trace-link-dashboard-build-approved.log": "e87e60a41138160ea9fbb7f1d3af13b3626df3928d3dc26c9491587320c3ee4d",
+    "trace-link-python-test-approved.log": "58d02d50d8e947acec7bb5900a01e721b75f51c0385246844e27e8915c25b2af",
+    "trace-link-reference-engine.log": "250eb6948522964f4fb76391b3fe09def587e17d2000d6ce7ce6ea9f05feb812",
+    "trace-link-reference-ui.log": "d23e1b719258710eda942a09e21957d9a68efad370a5101402cf5de35657690f"
+  },
+  "limitations": [
+    "Foundation PR #103 conflicts with main migrations. User selected preservation and stacked drafts.",
+    "Optional push and new scenarios stay disabled; no real HTTPS push or owner acceptance claimed.",
+    "Composed release acceptance remains pending."
+  ]
+}

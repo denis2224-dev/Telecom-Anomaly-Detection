@@ -77,6 +77,24 @@ SQL
   fi
 done
 
+echo "Checking database migrations match this checkout..."
+for application in processor incident-service; do
+  database=processing_db
+  [[ "$application" != incident-service ]] || database=incidents_db
+  for migration in services/"$application"/src/main/resources/db/migration/V*__*.sql; do
+    version="${migration##*/V}"
+    version="${version%%__*}"
+    applied="$(docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 \
+      -U "$POSTGRES_USER" -d "$database" -tA -v version="$version" <<'SQL'
+SELECT EXISTS (SELECT 1 FROM app.flyway_schema_history WHERE version = :'version' AND success);
+SQL
+)"
+    if [[ "$applied" != t ]]; then
+      echo "$database is behind this checkout (missing V$version). Rebuild using ./scripts/up --with-incident-service." >&2
+      exit 1
+    fi
+  done
+done
 echo "Checking processor ingestion tables and runtime DML grants..."
 processor_tables="$(docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 \
   -U "$POSTGRES_USER" -d processing_db -tA <<'SQL'

@@ -1,0 +1,6 @@
+{
+  "status": "CONSOLIDATED_IN_INTEGRATED_CANDIDATE",
+  "manifest": "docs/release/trace-link-release-manifest.json",
+  "runtimeSourceCommit": "280bdacf41d9db9cf69c8bfa4085940ece288bc6",
+  "releaseGatesPassed": false
+}

@@ -57,6 +57,9 @@ export function probableCause(detection: Detection): string {
 export function metricLabel(name: string): string {
   const names: Record<string, string> = {
     cssrPct: 'Call setup success rate', p95DeliveryMs: 'Delivery p95',
+    eligibleAttempts: 'Attempts', sip503Ratio: 'SIP 503 rate', sip503Count: 'SIP 503 responses',
+    rrcSrPct: 'Radio connection success', bearerSrPct: 'Bearer setup success',
+    packetLossRatio: 'Packet loss', imsCpuPct: 'IMS CPU',
     'Call setup success rate (CSSR)': 'Call setup success rate',
     deliveredMessages: 'Completed messages', queueDepth: 'Queued messages',
     oldestPendingAgeSec: 'Oldest queued-message age',

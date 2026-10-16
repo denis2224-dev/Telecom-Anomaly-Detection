@@ -1,0 +1,1 @@
+{"image":"grafana/grafana:11.2.0","panels":14,"targets":20,"contexts":2,"variableQueries":4,"result":"PASS","population":"full pinned archive in disposable PostgreSQL","fullArchiveParity":"PASS_ACTUAL_GRAFANA_AND_RESTRICTED_SQL","comparedNonNullCells":3500,"tolerance":"0.000001"}

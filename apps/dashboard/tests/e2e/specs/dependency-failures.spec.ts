@@ -127,6 +127,6 @@ test('telemetry gap is UNKNOWN and null measurements are unavailable', async ({ 
   }));
   await page.goto(`/incidents/${state.incident.id}`);
   await expect(page.locator('.incident-summary-bar')).toContainText('UNKNOWN');
-  await expect(page.locator('[data-detection-id]')).toContainText('does not prove recovery');
+  await expect(page.locator('[data-detection-id]')).toContainText('recovery unconfirmed');
   await expect(page.locator('[data-kpi="cssrPct"] td').first()).toHaveText('Unavailable');
 });

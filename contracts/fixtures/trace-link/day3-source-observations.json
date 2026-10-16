@@ -1,0 +1,838 @@
+{
+  "description": "Canonical original synthetic observations keyed by measurementId and SHA256.",
+  "observations": [
+    {
+      "sha256": "68b66e32b983be49c0f4eed366fd2b11725ede94ad84f0f232e2f8fe8b2bb97d",
+      "observation": {
+        "measurementId": "native:TRANSPORT:0:transport.packetLoss",
+        "observedAt": "2026-10-10T08:40:00Z",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "ebd9d23ffcfff57cd8233c7ac0e2b4e532ff3f92277bd7bafce70ee488e98926",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "transport.packetLoss",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 30,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "bf228af696e549b69feb8ae6209cbeb27e2653c5b1b6e1a8808b9ef431cfa1eb",
+      "observation": {
+        "measurementId": "native:TRANSPORT:1:transport.packetLoss",
+        "observedAt": "2026-10-10T08:45:00Z",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "900c73611742b4b7fc3b9e2934ee1c73488f718392f571a3493e387a4b27236a",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "transport.packetLoss",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 30,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "e2d3d152cc79325da440482ef27e0bc4d82d927b7d6a2bad498f8fa610e00232",
+      "observation": {
+        "measurementId": "native:TRANSPORT:2:transport.packetLoss",
+        "observedAt": "2026-10-10T08:50:00Z",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "ea1948ca97cee5c0e87eb8efab70b79d7dce5d73b8527c3047ef6dc2bdf8b602",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "transport.packetLoss",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 30,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "0a07ef97dc0f28061512888a5079046a8cf90ba50f911eda99c4da66fdd3993f",
+      "observation": {
+        "measurementId": "native:TRANSPORT:3:transport.packetLoss",
+        "observedAt": "2026-10-10T08:55:00Z",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "b36731e43f97d61547556d3d007ec0988260be5383e8b0a00412fd3464ec78e4",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "transport.packetLoss",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 41,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "51bf9752b2ef65f1f5c5d868084f05727d9f82acb3619ba3d93ee45e4e796bb8",
+      "observation": {
+        "measurementId": "native:TRANSPORT:5:transport.packetLoss",
+        "observedAt": "2026-10-10T09:05:00Z",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "8f1f2e2854949626c64d8580c38d086c589e0ec71a527123eb0ed95ed1012b81",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "transport.packetLoss",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 10,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "ad23535e5c7ab692718e6c4e808b834b87b045174446b68b482322217f526b8a",
+      "observation": {
+        "measurementId": "native:TRANSPORT:6:transport.packetLoss",
+        "observedAt": "2026-10-10T09:10:00Z",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "2e34a5eaa83ea531cb7911252902f1e70a141296b2d50926f2d8cb1ef0aaef08",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "transport.packetLoss",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 10,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "3261a7732669b6a2c73a8278c7363e78c001a2af85086203a52ee54084ec9a75",
+      "observation": {
+        "measurementId": "native:TRANSPORT:7:transport.packetLoss",
+        "observedAt": "2026-10-10T09:15:00Z",
+        "scope": {
+          "type": "LINK_DIRECTION",
+          "id": "chi-hin:a-to-b",
+          "cityIds": [
+            "CHI",
+            "HIN"
+          ],
+          "directionId": "a-to-b",
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "96830acb6dae576d0c685c1ae5a9560903cfbb5ccb0e82abd370a4313b83b5e3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "transport.packetLoss",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 10,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "da297afce4c31043870ae1a28266a1d7363eeb12f364bdf38b533e849ce60a44",
+      "observation": {
+        "measurementId": "native:ROAMING:0:roaming.data.success",
+        "observedAt": "2026-10-10T08:40:00Z",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "96e7c6d7b5522d7d00aaed6438b4bcbbccdccf6745e30dcd012d0f68363ef4cf",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "roaming.data.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 970,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "0dd5ada44bbe9f0d4066086ca3673676c98e4eea9a7481541d65d0394ed9eff7",
+      "observation": {
+        "measurementId": "native:ROAMING:1:roaming.data.success",
+        "observedAt": "2026-10-10T08:45:00Z",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "4e9efeb7a9501c21bfec60b3c7867b41ea383521f01126e83ac48f1443d7cfc9",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "roaming.data.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 970,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "ee94276c23974f98b574bd3a3e0edaa91a7524a46627ad9297009ad4e05a019c",
+      "observation": {
+        "measurementId": "native:ROAMING:2:roaming.data.success",
+        "observedAt": "2026-10-10T08:50:00Z",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "96e2da488cf9279a24e59f38943ea2c703f6761d4f9d6f481b3c581eabe7e31d",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "roaming.data.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 970,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "d22ecb1ecd3456188d5d8362c8cf2dd37bd961af6f4944c4259c38611d59eae5",
+      "observation": {
+        "measurementId": "native:ROAMING:3:roaming.data.success",
+        "observedAt": "2026-10-10T08:55:00Z",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "5be8e37e3f4d39c973934ff2ef9af4da6ad96543109c00970cf2a6253a03fd3b",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "roaming.data.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 96,
+          "denominator": 100
+        }
+      }
+    },
+    {
+      "sha256": "c88416bcd09675fb2b0b58ea4cf8643562e126b09cd3a2eed4e955090dff609b",
+      "observation": {
+        "measurementId": "native:ROAMING:5:roaming.data.success",
+        "observedAt": "2026-10-10T09:05:00Z",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "020616ae8aeef601720b04c71d67795e0772e69e25e18f0989c3299a7e6dce32",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "roaming.data.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 99,
+          "denominator": 100
+        }
+      }
+    },
+    {
+      "sha256": "1ef2f6f72431404eb4121a61ee58b71855877337f2dba78ea39c635629964e28",
+      "observation": {
+        "measurementId": "native:ROAMING:6:roaming.data.success",
+        "observedAt": "2026-10-10T09:10:00Z",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "5976e741899713467293cb75ff077057dbeb8a511c8f9c697fac99d0d462288a",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "roaming.data.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 99,
+          "denominator": 100
+        }
+      }
+    },
+    {
+      "sha256": "d334431ec74d42a7f2061c08a711e44b6b7e561ed16973a88b258fcd72326db2",
+      "observation": {
+        "measurementId": "native:ROAMING:7:roaming.data.success",
+        "observedAt": "2026-10-10T09:15:00Z",
+        "scope": {
+          "type": "PARTNER_DIRECTION",
+          "id": "ro-partner:out",
+          "cityIds": [],
+          "directionId": "out",
+          "partnerId": "ro-partner",
+          "procedure": "DATA",
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "22cbf59bdea15281487f417d4f0145ada2c370824ce48d87beecdbdec20df06e",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "roaming.data.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 99,
+          "denominator": 100
+        }
+      }
+    },
+    {
+      "sha256": "31f7024f12ae029722be65675c9a0f27767a175c40b659f41127a1130dc9145c",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:0:mobileData.activation.success",
+        "observedAt": "2026-10-10T08:40:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "d5f5e7ce0e836c0acbeb8c231063f5afe8ef4a5358117d28a9df38440b38b2f2",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.activation.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "27c59a2027e95d3ff2b7cbde6b6b50cecb1255a125397fcd3ed8c5d748bd9ebb",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:0:mobileData.dns.success",
+        "observedAt": "2026-10-10T08:40:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "d5f5e7ce0e836c0acbeb8c231063f5afe8ef4a5358117d28a9df38440b38b2f2",
+          "from": "2026-10-10T08:35:00Z",
+          "to": "2026-10-10T08:40:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.dns.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 970,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "1d6249b84e7c4adc37760c308a02c1039513db0e02d88d3162e46b8cfa3e6181",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:1:mobileData.activation.success",
+        "observedAt": "2026-10-10T08:45:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.activation.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "eb3a55c5c0a6ab56e8a7976999eaf37c4df42025b03b2cc95b5dea66b1213951",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:1:mobileData.dns.success",
+        "observedAt": "2026-10-10T08:45:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "adaeb1e77ec741fd453d2dda270756035997081dcf250d0f33675c66b944a42b",
+          "from": "2026-10-10T08:40:00Z",
+          "to": "2026-10-10T08:45:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.dns.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 970,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "74d9f5ee20d392957f175444a10804ca928fbebaf040d3c20435e6b000f2af94",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:2:mobileData.activation.success",
+        "observedAt": "2026-10-10T08:50:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.activation.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "0e2b4bbad5d97a880a734a35bb03fd184f2021246fab3f70badbe8437f7b6aff",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:2:mobileData.dns.success",
+        "observedAt": "2026-10-10T08:50:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "bbde4edad865a4b05b485fc1cb6b585517ceda6369efe5e4045e641646a8ee87",
+          "from": "2026-10-10T08:45:00Z",
+          "to": "2026-10-10T08:50:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.dns.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 970,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "facec5e20019dd74e97891b750cb44bb3c9dd662f762eabb60ac288b4ca2a18f",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:3:mobileData.activation.success",
+        "observedAt": "2026-10-10T08:55:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.activation.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 970,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "8791e9bd0deac03f90adcbb6464bad91f78fea5f34b628f5f56b28bc1cc9cf31",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:3:mobileData.dns.success",
+        "observedAt": "2026-10-10T08:55:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "719fd66481ddb1350796e4d2ab417393dc1d2527c40ec4ec753c16871f781e20",
+          "from": "2026-10-10T08:50:00Z",
+          "to": "2026-10-10T08:55:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.dns.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 960,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "41a907effd9e1d10d993cd79a23cc5a991db0ec70f49230ef771193cdb2ca0b5",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:5:mobileData.activation.success",
+        "observedAt": "2026-10-10T09:05:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.activation.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "447628ab14820e67d08d5ab46435094d9cf375830c5d40d311345dba8deb9518",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:5:mobileData.dns.success",
+        "observedAt": "2026-10-10T09:05:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "66306e94d412278625b91522290f743ce6188cbd59271741a6fbff38caec597d",
+          "from": "2026-10-10T09:00:00Z",
+          "to": "2026-10-10T09:05:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.dns.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "4b41ff3f794810369b2ff451ec2207d158438c9b6cadf7f262638959e25e5964",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:6:mobileData.activation.success",
+        "observedAt": "2026-10-10T09:10:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.activation.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "5adf91af034c02aecbf63be1ff96f266b7cf78219fe24a3865a4f9e99bb2dd91",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:6:mobileData.dns.success",
+        "observedAt": "2026-10-10T09:10:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "050764094428ea126ad8dbc3c7d9ca153ae8e1b8224b491cd92f1d7391b91a57",
+          "from": "2026-10-10T09:05:00Z",
+          "to": "2026-10-10T09:10:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.dns.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "12084e0da2da4f877e6a4af4468304da99fa4d30878c0f75250655a0f691f3ce",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:7:mobileData.activation.success",
+        "observedAt": "2026-10-10T09:15:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.activation.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    },
+    {
+      "sha256": "c38db0fa19089a894c5936252d4a1f40f5d01b2f043ec478d57da31126295d8d",
+      "observation": {
+        "measurementId": "native:MOBILE_DATA:7:mobileData.dns.success",
+        "observedAt": "2026-10-10T09:15:00Z",
+        "scope": {
+          "type": "CITY",
+          "id": "CHI",
+          "cityIds": [
+            "CHI"
+          ],
+          "directionId": null,
+          "partnerId": null,
+          "procedure": null,
+          "namespace": "trace-link-reference-v1"
+        },
+        "window": {
+          "id": "0d2753fc713463fd9bc213ec9f6f7480328d799c432ffaaaec3f63871a473af3",
+          "from": "2026-10-10T09:10:00Z",
+          "to": "2026-10-10T09:15:00Z",
+          "sourceResolutionSeconds": 300
+        },
+        "metricId": "mobileData.dns.success",
+        "primitives": {
+          "type": "RATIO",
+          "numerator": 990,
+          "denominator": 1000
+        }
+      }
+    }
+  ]
+}

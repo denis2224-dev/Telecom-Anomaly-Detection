@@ -4,27 +4,38 @@ import type { KpiWindow, Incident } from './voice-model';
 import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model';
 @Component({
   selector: 'app-metric-chart', imports: [DatePipe],
-  template: `<section class="detail-panel metric-chart" [class.hero-chart]="hero()" [class.compact-chart]="compact()" [class.traffic-chart]="traffic()" [attr.data-chart]="name()">
+  template: `<section class="detail-panel metric-chart" [class.hero-chart]="hero()" [class.compact-chart]="compact()" [class.traffic-chart]="traffic()" [class.scrollable-history]="canvasWidth() > 900" [attr.data-chart]="trafficOnly() ? 'callTraffic' : name()">
     @if (!compact()) { <div class="metric-heading"><h2>{{ title() }}</h2>@if (hero()) { <div class="hero-reading"><strong>{{ format(latestValue(), unit()) }}</strong><span>{{ rows().at(-1)?.windowStart | date:'HH:mm:ss':'UTC' }} UTC</span></div> }</div> }
     @if (view() === 'both') { <div class="chart-legend"><span>━━ Actual {{ unit() }}</span><span class="expected-key">┄┄ Contextual baseline</span><span class="state-degraded">DEGRADED</span><span class="state-recovery">RECOVERY</span><span class="state-unknown">UNKNOWN / MISSING</span></div> }
     @if (!hasBaseline() && !hero()) { <p class="muted">No baseline available for this metric.</p> }
+    @if (hero() && rows().length) {
+      <div class="chart-range-controls" role="group" [attr.aria-label]="title() + ' visible range'">
+        <button type="button" (click)="zoom(.5)" [disabled]="visibleDuration() <= 60_000">Zoom in</button>
+        <button type="button" (click)="zoom(2)" [disabled]="!visibleRange()">Zoom out</button>
+        <button type="button" (click)="pan(-1)" [disabled]="!visibleRange() || visibleFrom() === from()">Earlier</button>
+        <button type="button" (click)="pan(1)" [disabled]="!visibleRange() || visibleTo() === to()">Later</button>
+        <button type="button" (click)="focusRecorded()">Focus recorded data</button>
+        <button type="button" (click)="visibleRange.set(null)" [disabled]="!visibleRange()">Full selected period</button>
+      </div>
+      @if (visibleRange()) { <p class="chart-visible-range">Visible {{ visibleFrom() | date:'dd MMM HH:mm':'UTC' }} – {{ visibleTo() | date:'dd MMM HH:mm':'UTC' }} UTC · selected period unchanged</p> }
+    }
     @if (rows().length || hero()) {
       @if (view() !== 'table') { <div class="plot-wrapper">
         <div class="chart-tooltip" [class.tooltip-visible]="hovered() !== null" aria-live="polite">
-          @if (hovered(); as row) { <span>{{ row.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} UTC</span><strong>{{ format(value(row), unit()) }}</strong>
+          @if (hovered(); as row) { <span>{{ row.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} UTC</span><strong>{{ trafficOnly() ? format(counts(row)?.total, 'COUNT') + ' attempts' : format(value(row), unit()) }}</strong>
             @if (traffic()) { @if (counts(row); as count) { <small>{{ name() === 'cssrPct' ? 'Successful calls' : 'Delivered messages' }}: {{ format(count.success, 'COUNT') }} · Failed: {{ format(count.failed, 'COUNT') }}</small> } @else { <small>Traffic counts: Unavailable</small> } }
             @if (secondaryName()) { <small>{{ secondaryTitle() }}: {{ format(secondaryValue(row), 'COUNT') }}</small> }
-            <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> }
+            @if (!trafficOnly()) { <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> } }
         </div>
-        <div class="chart-scroll" tabindex="0" [attr.aria-label]="name() === 'cssrPct' ? 'Scrollable CSSR chart' : title() + ' chart'" (keydown)="navigate($event)" (blur)="hoveredId.set(null)">
+        <div class="chart-scroll" tabindex="0" [attr.aria-label]="trafficOnly() ? 'Scrollable call traffic chart' : name() === 'cssrPct' ? 'Scrollable CSSR chart' : title() + ' chart'" (keydown)="navigate($event)" (blur)="hoveredId.set(null)">
 
-        <svg #plot [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="traffic() ? title() + ': successful and failed traffic on the left axis, success rate and baseline on the right axis' : secondaryName() ? title() + ': ' + secondaryTitle() + ' on the left axis, ' + unitLabel() + ' on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
+        <svg #plot [style.min-width.px]="canvasWidth()" [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="trafficOnly() ? title() + ': successful and failed attempts' : traffic() ? title() + ': successful and failed traffic on the left axis, success rate and baseline on the right axis' : secondaryName() ? title() + ': ' + secondaryTitle() + ' on the left axis, ' + unitLabel() + ' on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
           <title>{{ title() }} · {{ unit() }}</title><desc [id]="chartId + '-description'">Blank gaps mean unavailable observations. Phase bands follow persisted detections; healthy points alone do not prove recovery. Focus the chart and use arrow keys, Home or End to inspect values.</desc>
           @for (interval of incidentBands(); track $index) { <rect class="incident-band" [attr.x]="x(interval.start)" y="15" [attr.width]="Math.max(1, x(interval.end) - x(interval.start))" [attr.height]="plotHeight() - 60"><title>Incident interval {{ interval.start }} – {{ interval.end }}</title></rect> }
           @for (band of bands(); track $index) { <rect [attr.data-phase]="band.phase" [attr.class]="'phase-band ' + band.phase" [attr.x]="x(band.start)" y="15" [attr.width]="Math.max(1, x(band.end) - x(band.start))" [attr.height]="plotHeight() - 60"><title>{{ band.phase }} {{ band.start }} – {{ band.end }}</title></rect> }
-          @for (tick of ticks(); track tick) { <line x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="y(tick)" [attr.y2]="y(tick)" class="chart-grid"/><text [attr.x]="dualAxis() ? plotWidth() - 55 : 55" [attr.y]="y(tick) + 4" [attr.text-anchor]="dualAxis() ? 'start' : 'end'">{{ tickFormat(tick) }}{{ traffic() ? '%' : '' }}</text> }
+          @for (tick of displayTicks(); track tick) { <line x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="trafficOnly() ? countY(tick) : y(tick)" [attr.y2]="trafficOnly() ? countY(tick) : y(tick)" class="chart-grid"/><text [attr.x]="dualAxis() && !trafficOnly() ? plotWidth() - 55 : 55" [attr.y]="trafficOnly() ? countY(tick) + 4 : y(tick) + 4" [attr.text-anchor]="dualAxis() && !trafficOnly() ? 'start' : 'end'">{{ tickFormat(tick) }}{{ traffic() && !trafficOnly() ? '%' : '' }}</text> }
           @if (dualAxis()) {
-            @for (tick of countTicks(); track tick) { <text x="55" [attr.y]="countY(tick) + 4" text-anchor="end">{{ tickFormat(tick) }}</text> }
+            @for (tick of trafficOnly() ? [] : countTicks(); track tick) { <text x="55" [attr.y]="countY(tick) + 4" text-anchor="end">{{ tickFormat(tick) }}</text> }
             @if (secondaryName()) { <path class="secondary-line" [attr.d]="secondaryPath()" /> }
             @if (trafficBars()) { @for (item of trafficRows(); track item.row.windowId) {
               <rect class="traffic-success-bar" [attr.x]="rowX(item.row) - barWidth() / 2" [attr.y]="countY(item.count.success)" [attr.width]="barWidth()" [attr.height]="countY(0) - countY(item.count.success)"><title>Successful calls: {{ item.count.success }}</title></rect>
@@ -36,13 +47,16 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
             } }
           }
           @if (threshold() !== null) { <line class="threshold-line" x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="y(threshold()!)" [attr.y2]="y(threshold()!)"><title>Reference threshold {{ threshold() }} {{ unitLabel() }} · display guide, not a detector rule</title></line> }
-          <path class="expected-line" [attr.d]="path(true)"/><path class="actual-line" [attr.d]="path(false)"/>
-          @if (rows().length < 120) { @for (row of rows(); track row.windowId) { @if (value(row) !== null) { <circle class="actual-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="3"><title>{{ row.windowStart }}: {{ format(value(row), unit()) }} · {{ phase(row) }}</title></circle> } } }
+          @if (!trafficOnly()) { <path class="expected-line" [attr.d]="path(true)"/><path class="actual-line" [attr.d]="path(false)"/>
+          @if (rows().length < 120) { @for (row of drawingRows(); track row.windowId) { @if (value(row) !== null) { <circle class="actual-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="3"><title>{{ row.windowStart }}: {{ format(value(row), unit()) }} · {{ phase(row) }}</title></circle> } } }
+          }
           @if (hovered(); as row) {
             <line class="chart-crosshair" [attr.x1]="rowX(row)" [attr.x2]="rowX(row)" y1="15" [attr.y2]="plotHeight() - 45" />
-            @if (value(row) !== null) { <circle class="actual-dot selected-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="5" /> }
+            @if (value(row) !== null && !trafficOnly()) { <circle class="actual-dot selected-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="5" /> }
           }
-          <text x="65" [attr.y]="plotHeight() - 15">{{ from() | date:axisDateFormat():'UTC' }}</text><text [attr.x]="plotWidth() - plotRight()" [attr.y]="plotHeight() - 15" text-anchor="end">{{ to() | date:axisDateFormat():'UTC' }} UTC</text>
+          @for (tick of timeTicks(); track tick) {<line [attr.x1]="x(tick)" [attr.x2]="x(tick)" y1="15" [attr.y2]="plotHeight() - 45" class="chart-grid" /><text [attr.x]="x(tick)" [attr.y]="plotHeight() - 15" text-anchor="middle">{{ tick | date:axisDateFormat():'UTC' }}</text>}
+          <text x="65" [attr.y]="plotHeight() - 15">{{ visibleFrom() | date:axisDateFormat():'UTC' }}</text><text [attr.x]="plotWidth() - plotRight()" [attr.y]="plotHeight() - 15" text-anchor="end">{{ visibleTo() | date:axisDateFormat():'UTC' }} UTC</text>
+          @if (focusBand(); as focus) { <rect class="focused-incident-band" [attr.x]="x(focus.start)" y="15" [attr.width]="Math.max(2,x(focus.end)-x(focus.start))" [attr.height]="plotHeight()-60" fill="rgba(255,80,105,.2)" /><line class="focused-incident-line" [attr.x1]="x(focus.start)" [attr.x2]="x(focus.start)" y1="15" [attr.y2]="plotHeight()-45" stroke="#ff5069" stroke-width="2.5" /><text class="focused-incident-label" [attr.x]="Math.min(x(focus.start)+6,plotWidth()-220)" y="30" style="fill:#ff5069">{{ focus.label }}</text> }
         </svg>
       </div>
       @if (!hasValues() && !trafficRows().length) { <p class="chart-empty" role="status">{{ loading() ? 'Loading KPI history…' : rows().length ? 'No usable observations for this KPI. Gaps are unavailable.' : 'No KPI history in this time range.' }}</p> }
@@ -67,16 +81,53 @@ export class MetricChartComponent {
   readonly hero = input(false);
   readonly compact = input(false);
   readonly traffic = input(false);
+  readonly trafficOnly = input(false);
+  readonly visibleRange = signal<{from: string; to: string} | null>(null);
+  readonly visibleFrom = computed(() => this.visibleRange()?.from ?? this.from());
+  readonly visibleTo = computed(() => this.visibleRange()?.to ?? this.to());
+  readonly visibleDuration = computed(() => Date.parse(this.visibleTo()) - Date.parse(this.visibleFrom()));
+  readonly canvasWidth = computed(() => this.visibleDuration() > 86_400_000
+    ? Math.min(6000, Math.max(1200, Math.ceil(this.visibleDuration() / 86_400_000) * 220)) : 0);
+  setVisible(start: number, duration: number): void {
+    const from = Date.parse(this.from()), to = Date.parse(this.to());
+    const span = Math.min(to - from, Math.max(60_000, duration));
+    const bounded = Math.max(from, Math.min(to - span, start));
+    this.visibleRange.set(span >= to - from ? null : {from: new Date(bounded).toISOString(), to: new Date(bounded + span).toISOString()});
+    this.hoveredId.set(null);
+  }
+  zoom(factor: number): void {
+    const span = this.visibleDuration() * factor;
+    const focus=this.focusBand();
+    const centre = this.hovered() ? this.rowTime(this.hovered()!) : focus ? (Date.parse(focus.start)+Date.parse(focus.end))/2 : (Date.parse(this.visibleFrom()) + Date.parse(this.visibleTo())) / 2;
+    this.setVisible(centre - span / 2, span);
+  }
+  pan(direction: number): void { this.setVisible(Date.parse(this.visibleFrom()) + direction * this.visibleDuration() / 2, this.visibleDuration()); }
+  focusRecorded(): void {
+    const rows = this.rows().filter(row => this.value(row) !== null || this.counts(row) !== null);
+    if (rows.length) this.setVisible(Date.parse(rows[0].windowStart), Date.parse(rows.at(-1)!.windowEnd) - Date.parse(rows[0].windowStart));
+  }
   readonly trafficBars = input(false);
   readonly secondaryName = input('');
   readonly secondaryTitle = input('Queue depth');
   readonly threshold = input<number | null>(null);
   readonly dualAxis = computed(() => this.traffic() || !!this.secondaryName());
-  readonly barWidth = computed(() => Math.max(1, Math.min(18, (this.plotWidth() - 65 - this.plotRight()) / Math.max(1, this.rows().length) * .6)));
+  readonly barWidth = computed(() => Math.max(1, Math.min(18, (this.plotWidth() - 65 - this.plotRight()) / Math.max(1, this.drawingRows().length) * .6)));
   readonly windowSelected = output<KpiWindow | null>();
-  readonly plotRight = computed(() => this.dualAxis() ? 65 : 24);
+  readonly plotRight = computed(() => this.dualAxis() && !this.trafficOnly() ? 65 : 24);
   readonly loading = input(false);
-  readonly axisDateFormat = computed(() => Date.parse(this.to()) - Date.parse(this.from()) > 86_400_000 ? 'dd MMM' : 'HH:mm');
+  readonly timeTicks = computed(() => {
+    const count = Math.max(1, Math.min(24, Math.floor((this.plotWidth() - 90) / 200)));
+    return Array.from({length: count - 1}, (_, index) => new Date(Date.parse(this.visibleFrom()) + this.visibleDuration() * (index + 1) / count).toISOString());
+  });
+  readonly axisDateFormat = computed(() => this.visibleDuration() > 86_400_000 ? 'dd MMM' : 'HH:mm');
+  readonly focusedIncident = input<Incident | null>(null);
+  readonly focusBand = computed(() => {
+    const item = this.focusedIncident();
+    if (!item || !this.rows().some(row => row.scopeId === item.scopeId)) return null;
+    const start = Math.max(Date.parse(this.visibleFrom()), Date.parse(item.firstObservedAt));
+    const end = Math.min(Date.parse(this.visibleTo()), Math.max(Date.parse(item.lastObservedAt) + 60_000, Date.parse(item.firstObservedAt) + 60_000));
+    return end > start ? {start:new Date(start).toISOString(),end:new Date(end).toISOString(),label:item.latestDetection.anomalyType.replaceAll('_',' ').toLowerCase()} : null;
+  });
   readonly incidents = input<Incident[]>([]);
   readonly hoveredId = signal<string | null>(null);
   readonly hoveredIndex = computed(() => {
@@ -88,7 +139,7 @@ export class MetricChartComponent {
   readonly hasValues = computed(() => this.rows().some(row => this.value(row) !== null));
   readonly unitLabel = computed(() => ({ PERCENT: '%', RATIO: 'ratio', COUNT: 'count', MILLISECONDS: 'ms', SECONDS: 's' }[this.unit()] ?? this.unit()));
   readonly incidentBands = computed(() => {
-    const start = Date.parse(this.from()), end = Date.parse(this.to());
+    const start = Date.parse(this.visibleFrom()), end = Date.parse(this.visibleTo());
     const intervals = this.incidents().map(item => ({
       start: Math.max(start, Date.parse(item.firstObservedAt)),
       end: Math.min(end, Date.parse(item.lastObservedAt)),
@@ -108,7 +159,9 @@ export class MetricChartComponent {
     const last = this.rows().length - 1;
     const index = event.key === 'Home' ? 0 : event.key === 'End' ? last
       : Math.max(0, Math.min(last, (this.hoveredIndex() ?? -1) + (event.key === 'ArrowLeft' ? -1 : 1)));
-    this.hoveredId.set(this.rows()[index].windowId);
+    const target = this.rows()[index];
+    if (Date.parse(target.windowStart) < Date.parse(this.visibleFrom()) || Date.parse(target.windowStart) >= Date.parse(this.visibleTo())) this.visibleRange.set(null);
+    this.hoveredId.set(target.windowId);
     const region = event.currentTarget as HTMLElement;
     const svg = region?.querySelector('svg');
     if (svg) region.scrollLeft = this.x(this.hovered()!.windowStart) * svg.clientWidth / this.plotWidth() - region.clientWidth / 2;
@@ -118,12 +171,14 @@ export class MetricChartComponent {
     const matrix = svg.getScreenCTM();
     if (!matrix || !this.rows().length) return;
     const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse());
-    const time = Date.parse(this.from()) + Math.max(0, Math.min(1, (point.x - 65) / (this.plotWidth() - 65 - this.plotRight()))) * (Date.parse(this.to()) - Date.parse(this.from()));
+    const time = Date.parse(this.visibleFrom()) + Math.max(0, Math.min(1, (point.x - 65) / (this.plotWidth() - 65 - this.plotRight()))) * (Date.parse(this.visibleTo()) - Date.parse(this.visibleFrom()));
+    const candidates = this.drawingRows();
+    if (!candidates.length) return;
     let closest = 0;
-    for (let index = 1; index < this.rows().length; index++) {
-      if (Math.abs(this.rowTime(this.rows()[index]) - time) < Math.abs(this.rowTime(this.rows()[closest]) - time)) closest = index;
+    for (let index = 1; index < candidates.length; index++) {
+      if (Math.abs(this.rowTime(candidates[index]) - time) < Math.abs(this.rowTime(candidates[closest]) - time)) closest = index;
     }
-    this.hoveredId.set(this.rows()[closest].windowId);
+    this.hoveredId.set(candidates[closest].windowId);
   }
   clearPointer(event: PointerEvent): void {
     if (!(event.currentTarget as SVGSVGElement).parentElement?.matches(':focus')) this.hoveredId.set(null);
@@ -133,11 +188,13 @@ export class MetricChartComponent {
   readonly name = input.required<string>(); readonly title = input.required<string>(); readonly unit = input('');
   readonly from = input.required<string>(); readonly to = input.required<string>();
   readonly rows = computed(() => [...this.windows()].sort((a,b) => Date.parse(a.windowStart) - Date.parse(b.windowStart)));
+  readonly drawingRows = computed(() => this.rows().filter(row => Date.parse(row.windowEnd) > Date.parse(this.visibleFrom()) && Date.parse(row.windowStart) < Date.parse(this.visibleTo())));
   readonly tablePage = signal(0);
   readonly tablePages = computed(() => Math.max(1, Math.ceil(this.rows().length / 50)));
   readonly tableRows = computed(() => this.rows().slice(this.tablePage() * 50, (this.tablePage() + 1) * 50));
   constructor() {
     effect(() => { this.name(); this.tablePage.set(0); this.hoveredId.set(null); });
+    effect(() => { this.from(); this.to(); this.visibleRange.set(null); });
     effect(() => this.windowSelected.emit(this.hovered()));
     effect(() => { if (this.tablePage() >= this.tablePages()) this.tablePage.set(this.tablePages() - 1); });
     effect(cleanup => {
@@ -149,25 +206,26 @@ export class MetricChartComponent {
     });
   }
   readonly bounds = computed(() => {
-    const values = this.rows().flatMap(row => [this.value(row), this.baseline(row)]).filter((v): v is number => v != null && Number.isFinite(v));
+    const values = this.drawingRows().flatMap(row => [this.value(row), this.baseline(row)]).filter((v): v is number => v != null && Number.isFinite(v));
     if (this.threshold() !== null && Number.isFinite(this.threshold())) values.push(this.threshold()!);
     if (!values.length) return [0, 1];
     const min = Math.min(...values), max = Math.max(...values), margin = Math.max((max - min) * .1, Math.abs(max) * .001, .000001);
     return [Math.max(0, min - margin), this.traffic() && max <= 100 ? Math.min(100, max + margin) : max + margin];
   });
+  readonly displayTicks = computed(() => this.trafficOnly() ? this.countTicks() : this.ticks());
   readonly ticks = computed(() => [this.bounds()[0], (this.bounds()[0] + this.bounds()[1]) / 2, this.bounds()[1]]);
   readonly hasBaseline = computed(() => this.rows().some(row => this.baseline(row) !== null));
   readonly bands = computed(() => {
     const bands: { start: string; end: string; phase: string }[] = [];
-    let previousEnd = this.from();
-    for (const row of this.rows()) {
+    let previousEnd = this.visibleFrom();
+    for (const row of this.drawingRows()) {
       if (Date.parse(row.windowStart) > Date.parse(previousEnd)) bands.push({ start: previousEnd, end: row.windowStart, phase: 'UNKNOWN' });
       const phase = this.phase(row), previous = bands.at(-1);
       if (previous?.phase === phase && Date.parse(previous.end) === Date.parse(row.windowStart)) previous.end = row.windowEnd;
       else bands.push({ start: row.windowStart, end: row.windowEnd, phase });
       previousEnd = row.windowEnd;
     }
-    if (Date.parse(previousEnd) < Date.parse(this.to())) bands.push({ start: previousEnd, end: this.to(), phase: 'UNKNOWN' });
+    if (Date.parse(previousEnd) < Date.parse(this.visibleTo())) bands.push({ start: previousEnd, end: this.visibleTo(), phase: 'UNKNOWN' });
     return bands;
   });
   tickFormat(value: number): string {
@@ -184,11 +242,11 @@ export class MetricChartComponent {
       || success < 0 || total <= 0 || success > total) return null;
     return { success, failed: total - success, total };
   }
-  readonly trafficRows = computed(() => this.rows().flatMap(row => {
+  readonly trafficRows = computed(() => this.drawingRows().flatMap(row => {
     const count = this.counts(row);
     return count ? [{ row, count }] : [];
   }));
-  readonly countMax = computed(() => Math.max(1, ...this.trafficRows().map(item => item.count.total), ...this.rows().map(row => this.secondaryName() ? metricValue(row, this.secondaryName()) ?? 0 : 0)));
+  readonly countMax = computed(() => Math.max(1, ...this.trafficRows().map(item => item.count.total), ...this.drawingRows().map(row => this.secondaryName() ? metricValue(row, this.secondaryName()) ?? 0 : 0)));
   readonly countTicks = computed(() => [0, this.countMax() / 2, this.countMax()]);
   countY(value: number): number { return this.plotHeight() - 45 - (this.plotHeight() - 60) * value / this.countMax(); }
   rowTime(row: KpiWindow): number { return this.traffic() ? (Date.parse(row.windowStart) + Date.parse(row.windowEnd)) / 2 : Date.parse(row.windowStart); }
@@ -196,7 +254,7 @@ export class MetricChartComponent {
   secondaryValue(row: KpiWindow) { return metricValue(row, this.secondaryName()); }
   secondaryPath(): string {
     let connected = false, previousEnd = '', result = '';
-    for (const row of this.rows()) {
+    for (const row of this.drawingRows()) {
       const value = metricValue(row, this.secondaryName());
       if (value === null) { connected = false; continue; }
       result += `${connected && previousEnd === row.windowStart ? 'L' : 'M'}${this.rowX(row)},${this.countY(value)} `;
@@ -206,7 +264,7 @@ export class MetricChartComponent {
   }
   trafficPath(success: boolean): string {
     let connected = false, previousEnd = '', result = '';
-    for (const row of this.rows()) {
+    for (const row of this.drawingRows()) {
       const count = this.counts(row);
       if (!count) { connected = false; continue; }
       result += `${connected && Date.parse(previousEnd) === Date.parse(row.windowStart) ? 'L' : 'M'}${this.rowX(row)},${this.countY(success ? count.success : count.failed)} `;
@@ -217,11 +275,11 @@ export class MetricChartComponent {
   value(row: KpiWindow) { return metricValue(row, this.name()); }
   baseline(row: KpiWindow) { return row.kpis.find(item => item.name === this.name())?.baseline ?? null; }
   phase(row: KpiWindow) { return phaseAt(row, this.detections()); }
-  x(time: string) { return 65 + (this.plotWidth() - 65 - this.plotRight()) * Math.max(0, Math.min(1, (Date.parse(time) - Date.parse(this.from())) / (Date.parse(this.to()) - Date.parse(this.from())))); }
+  x(time: string) { return 65 + (this.plotWidth() - 65 - this.plotRight()) * Math.max(0, Math.min(1, (Date.parse(time) - Date.parse(this.visibleFrom())) / (Date.parse(this.visibleTo()) - Date.parse(this.visibleFrom())))); }
   y(value: number) { return this.plotHeight() - 45 - (this.plotHeight() - 60) * (value - this.bounds()[0]) / (this.bounds()[1] - this.bounds()[0]); }
   path(expected: boolean) {
     let connected = false, previousEnd = '', result = '';
-    for (const row of this.rows()) {
+    for (const row of this.drawingRows()) {
       const value = expected ? this.baseline(row) : this.value(row);
       if (value === null || !Number.isFinite(value)) { connected = false; continue; }
       const command = connected && Date.parse(previousEnd) === Date.parse(row.windowStart) ? 'L' : 'M';

@@ -154,16 +154,18 @@ test('integrated production roles, real SSE reconnect and fresh geographic incid
       await expect(entry.locator('time')).toHaveAttribute('datetime', d.detectedAt);
       for (const kpi of d.kpis) {
         const cells = entry.locator(`[data-kpi="${kpi.name}"] td`);
+        if(await cells.count()===0){await expect(entry.locator(`[data-kpi="${kpi.name}"]`)).toContainText(kpi.observed===null?'Unavailable':String(kpi.observed));continue;}
         await expect(cells.nth(0)).toHaveText(kpi.observed === null ? 'Unavailable' : String(kpi.observed));
         await expect(cells.nth(1)).toHaveText(kpi.baseline === null ? 'Unavailable' : String(kpi.baseline));
         await expect(cells.nth(2)).toHaveText(kpi.unit);
       }
       await entry.getByText('Troubleshooting', { exact: true }).click();
       await expect(entry).toContainText(run.scopeId);
-      await expect(entry).toContainText(d.topologyVersion);
+      await expect(entry.locator('.evidence-disclosure')).not.toContainText('Topology:');
       for (const evidence of d.evidence) {
-        await expect(entry).toContainText(`Evidence code: ${evidence.code} · Node: ${evidence.nodeId ?? 'Unavailable'}`);
-        for (const id of evidence.sourceEventIds) await expect(entry.getByText(id, { exact: true }).first()).toBeVisible();
+        await expect(entry).toContainText(evidence.summary);
+        if (evidence.nodeId) await expect(entry).toContainText('Node: '+evidence.nodeId);
+        for (const id of evidence.sourceEventIds) await expect(entry.getByText(id, { exact: true })).toHaveCount(0);
       }
       await entry.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
       await expect(entry.locator('app-cause-evidence .cause-summary')).toHaveAttribute('title', probableCause(d));

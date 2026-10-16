@@ -1,0 +1,29 @@
+services:
+  grafana:
+    image: grafana/grafana:11.2.0
+    profiles: [observability]
+    ports:
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SECURITY_ADMIN_PASSWORD: ${TRACE_GRAFANA_ADMIN_PASSWORD:?Set TRACE_GRAFANA_ADMIN_PASSWORD}
+      TRACE_GRAFANA_PG_HOST: postgres
+      TRACE_GRAFANA_PG_PORT: "5432"
+      TRACE_GRAFANA_PG_PASSWORD: ${TRACE_GRAFANA_PG_PASSWORD:?Set TRACE_GRAFANA_PG_PASSWORD}
+      TRACE_GRAFANA_PG_SSLMODE: ${TRACE_GRAFANA_PG_SSLMODE:-require}
+    volumes:
+      - ./infra/observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/observability/grafana/dashboards:/etc/grafana/trace-link-dashboards:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/lib/grafana:uid=472,gid=0,mode=0750
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    pids_limit: 128
+    networks: [telecom-private]
+    depends_on:
+      postgres:
+        condition: service_healthy

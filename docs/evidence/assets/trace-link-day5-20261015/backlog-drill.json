@@ -1,0 +1,9 @@
+{
+  "initialPending" : 24,
+  "oldestEvaluationAgeSeconds" : 1.863014,
+  "drainElapsedMs" : 1222.6276,
+  "pendingAfter" : 0,
+  "claimReclaimed" : true,
+  "deterministicLifecycleUnchanged" : true,
+  "productionCapacityClaim" : false
+}

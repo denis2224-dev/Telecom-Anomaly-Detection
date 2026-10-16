@@ -1,0 +1,1213 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 100,
+      "title": "VoLTE Service Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'volte.setup.success'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'volte.setup.success',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "1. VoLTE Call Setup Success Rate (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "sum",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'volte.attempts'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'volte.attempts',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'volte.established'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'volte.established',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "2. VoLTE Call Volume & Attempts",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 200,
+      "title": "Intercity Transport Topology Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 10
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT l.link_id||':'||r.direction_id id FROM app.trace_inventory_link l JOIN app.trace_link_direction r USING(catalogue_version,link_id) JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR ${cityId:sqlstring} IN (l.endpoint_a_city_id,l.endpoint_b_city_id)) AND (${linkDirectionId:sqlstring}='all' OR l.link_id||':'||r.direction_id=${linkDirectionId:sqlstring})) SELECT r.\"from\" AS time,r.value,'transport.link.utilization'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'transport.link.utilization',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT l.link_id||':'||r.direction_id id FROM app.trace_inventory_link l JOIN app.trace_link_direction r USING(catalogue_version,link_id) JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR ${cityId:sqlstring} IN (l.endpoint_a_city_id,l.endpoint_b_city_id)) AND (${linkDirectionId:sqlstring}='all' OR l.link_id||':'||r.direction_id=${linkDirectionId:sqlstring})) SELECT r.\"from\" AS time,r.value,'transport.link.utilization.peak'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'transport.link.utilization.peak',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "3. Transport Link Utilization (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 10
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT l.link_id||':'||r.direction_id id FROM app.trace_inventory_link l JOIN app.trace_link_direction r USING(catalogue_version,link_id) JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR ${cityId:sqlstring} IN (l.endpoint_a_city_id,l.endpoint_b_city_id)) AND (${linkDirectionId:sqlstring}='all' OR l.link_id||':'||r.direction_id=${linkDirectionId:sqlstring})) SELECT r.\"from\" AS time,r.value,'transport.traffic'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'transport.traffic',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT l.link_id||':'||r.direction_id id FROM app.trace_inventory_link l JOIN app.trace_link_direction r USING(catalogue_version,link_id) JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR ${cityId:sqlstring} IN (l.endpoint_a_city_id,l.endpoint_b_city_id)) AND (${linkDirectionId:sqlstring}='all' OR l.link_id||':'||r.direction_id=${linkDirectionId:sqlstring})) SELECT r.\"from\" AS time,r.value,'transport.effectiveCapacity'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'transport.effectiveCapacity',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "4. Transport Traffic vs Effective Capacity (Gbps)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT l.link_id||':'||r.direction_id id FROM app.trace_inventory_link l JOIN app.trace_link_direction r USING(catalogue_version,link_id) JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR ${cityId:sqlstring} IN (l.endpoint_a_city_id,l.endpoint_b_city_id)) AND (${linkDirectionId:sqlstring}='all' OR l.link_id||':'||r.direction_id=${linkDirectionId:sqlstring})) SELECT r.\"from\" AS time,r.value,'transport.packetLoss'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'transport.packetLoss',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "5. Transport Link Packet Loss Rate (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT l.link_id||':'||r.direction_id id FROM app.trace_inventory_link l JOIN app.trace_link_direction r USING(catalogue_version,link_id) JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR ${cityId:sqlstring} IN (l.endpoint_a_city_id,l.endpoint_b_city_id)) AND (${linkDirectionId:sqlstring}='all' OR l.link_id||':'||r.direction_id=${linkDirectionId:sqlstring})) SELECT r.\"from\" AS time,r.value,'transport.rtt.mean'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'transport.rtt.mean',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT l.link_id||':'||r.direction_id id FROM app.trace_inventory_link l JOIN app.trace_link_direction r USING(catalogue_version,link_id) JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR ${cityId:sqlstring} IN (l.endpoint_a_city_id,l.endpoint_b_city_id)) AND (${linkDirectionId:sqlstring}='all' OR l.link_id||':'||r.direction_id=${linkDirectionId:sqlstring})) SELECT r.\"from\" AS time,r.value,'transport.jitter'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'transport.jitter',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "6. Transport Round-Trip Time (RTT) & Jitter",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 300,
+      "title": "International Roaming Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 26
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT p.partner_id||':'||p.direction id FROM app.trace_partner p JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND p.direction='out' AND (${countryId:sqlstring}='all' OR p.country_id=${countryId:sqlstring}) AND (${roamingDirection:sqlstring}='both' OR p.direction=${roamingDirection:sqlstring}) AND (${partnerDirectionId:sqlstring}='all' OR p.partner_id=split_part(${partnerDirectionId:sqlstring},':',1))) SELECT r.\"from\" AS time,r.value,'roaming.registration.success'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'roaming.registration.success',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "7. Outbound Roaming Registration Success Rate (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT p.partner_id||':'||p.direction id FROM app.trace_partner p JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND p.direction='in' AND (${countryId:sqlstring}='all' OR p.country_id=${countryId:sqlstring}) AND (${roamingDirection:sqlstring}='both' OR p.direction=${roamingDirection:sqlstring}) AND (${partnerDirectionId:sqlstring}='all' OR p.partner_id=split_part(${partnerDirectionId:sqlstring},':',1))) SELECT r.\"from\" AS time,r.value,'roaming.registration.success'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'roaming.registration.success',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "8. Inbound Roaming Registration Success Rate (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT p.partner_id||':'||p.direction id FROM app.trace_partner p JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND p.direction='in' AND (${countryId:sqlstring}='all' OR p.country_id=${countryId:sqlstring}) AND (${roamingDirection:sqlstring}='both' OR p.direction=${roamingDirection:sqlstring}) AND (${partnerDirectionId:sqlstring}='all' OR p.partner_id=split_part(${partnerDirectionId:sqlstring},':',1))) SELECT r.\"from\" AS time,r.value,'roaming.activeInbound'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'roaming.activeInbound',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT p.partner_id||':'||p.direction id FROM app.trace_partner p JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND p.direction='out' AND (${countryId:sqlstring}='all' OR p.country_id=${countryId:sqlstring}) AND (${roamingDirection:sqlstring}='both' OR p.direction=${roamingDirection:sqlstring}) AND (${partnerDirectionId:sqlstring}='all' OR p.partner_id=split_part(${partnerDirectionId:sqlstring},':',1))) SELECT r.\"from\" AS time,r.value,'roaming.activeOutbound'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'roaming.activeOutbound',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "9. Roaming Active Subscriber Volume",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 41
+      },
+      "id": 400,
+      "title": "LTE Mobile Data & Messaging Assurance",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 42
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'mobileData.activation.success'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'mobileData.activation.success',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "10. LTE EPS Bearer Setup Success Rate (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 42
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'mobileData.dns.success'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'mobileData.dns.success',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "11. LTE Mobile Data DNS Resolution Success Rate (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 50
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'sms.finalizedSuccess'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'sms.finalizedSuccess',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "12. SMS finalized delivery success (%)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds. Submission success needs independent submission eligibility primitives; it is unavailable in the reference source."
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 50
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'sms.delay.mean'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'sms.delay.mean',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH scopes AS (SELECT DISTINCT i.city_id id FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${cityId:sqlstring}='all' OR i.city_id=${cityId:sqlstring})) SELECT r.\"from\" AS time,r.value,'sms.delay.p95'||' · '||s.id AS metric,r.quality,r.quality_reason,r.coverage FROM scopes s CROSS JOIN LATERAL app.trace_reference_series(${datasetId:sqlstring},'sms.delay.p95',s.id,to_timestamp(${__from}/1000.0),to_timestamp(${__to}/1000.0),${resolution:sqlstring}) r ORDER BY 1,3"
+        }
+      ],
+      "title": "13. SMS delivery delay mean and pooled p95 (ms)",
+      "type": "timeseries",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 58
+      },
+      "id": 500,
+      "title": "Operational Incidents & Annotations",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "trace-link-postgres"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Severity"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "CRITICAL": {
+                        "color": "red",
+                        "index": 0
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "HIGH": {
+                        "color": "orange",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "MEDIUM": {
+                        "color": "yellow",
+                        "index": 2
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 59
+      },
+      "id": 14,
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "count"
+          ],
+          "show": true
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Detected At"
+          }
+        ]
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "postgres",
+            "uid": "trace-link-postgres"
+          },
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT first_observed_at AS time,episode_id,technical_state,severity,domain,scope_id FROM app.trace_grafana_incidents WHERE dataset_id=${datasetId:sqlstring} AND first_observed_at<to_timestamp(${__to}/1000.0) AND last_observed_at>to_timestamp(${__from}/1000.0) AND (${domain:sqlstring}='all' OR domain=${domain:sqlstring}) AND (${cityId:sqlstring}='all' OR domain='roaming' OR city_ids @> jsonb_build_array(upper(${cityId:sqlstring}))) AND (domain<>'transport' OR ${linkDirectionId:sqlstring}='all' OR scope_id=${linkDirectionId:sqlstring}) AND (domain<>'roaming' OR (${countryId:sqlstring}='all' OR country_id=${countryId:sqlstring})) AND (domain<>'roaming' OR ${roamingDirection:sqlstring}='both' OR direction_id=${roamingDirection:sqlstring}) ORDER BY first_observed_at DESC,episode_id LIMIT 100"
+        }
+      ],
+      "title": "14. Active Telecom Incidents & Annotations",
+      "type": "table",
+      "description": "Synthetic persisted reference archive. Unknown quality and unsupported primitives remain explicit gaps. Separate scope populations; partial edge buckets retain their effective bounds."
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "trace-link",
+    "telecom",
+    "service-assurance"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "datasetId",
+        "label": "datasetId",
+        "type": "query",
+        "datasource": {
+          "type": "postgres",
+          "uid": "trace-link-postgres"
+        },
+        "query": "SELECT dataset_id AS __value,dataset_id AS __text FROM app.trace_reference_import ORDER BY dataset_id LIMIT 100",
+        "definition": "SELECT dataset_id AS __value,dataset_id AS __text FROM app.trace_reference_import ORDER BY dataset_id LIMIT 100",
+        "refresh": 1,
+        "multi": false,
+        "includeAll": false,
+        "options": [],
+        "current": {
+          "text": "trace-link-md-30d-v1",
+          "value": "trace-link-md-30d-v1",
+          "selected": true
+        }
+      },
+      {
+        "name": "cityId",
+        "label": "cityId",
+        "type": "query",
+        "datasource": {
+          "type": "postgres",
+          "uid": "trace-link-postgres"
+        },
+        "query": "SELECT 'all' AS __value,'All separate populations' AS __text UNION ALL SELECT DISTINCT i.city_id AS __value,i.display_name AS __text FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} ORDER BY 2 LIMIT 11",
+        "definition": "SELECT 'all' AS __value,'All separate populations' AS __text UNION ALL SELECT DISTINCT i.city_id AS __value,i.display_name AS __text FROM app.trace_inventory_city i JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} ORDER BY 2 LIMIT 11",
+        "refresh": 1,
+        "multi": false,
+        "includeAll": false,
+        "options": [],
+        "current": {
+          "text": "All separate populations",
+          "value": "all",
+          "selected": true
+        }
+      },
+      {
+        "name": "linkDirectionId",
+        "label": "linkDirectionId",
+        "type": "query",
+        "datasource": {
+          "type": "postgres",
+          "uid": "trace-link-postgres"
+        },
+        "query": "SELECT 'all' AS __value,'All separate populations' AS __text UNION ALL SELECT DISTINCT l.link_id||':'||r.direction_id AS __value,l.link_id||':'||r.direction_id AS __text FROM app.trace_inventory_link l JOIN app.trace_catalogue c USING(catalogue_version) JOIN app.trace_link_direction r USING(catalogue_version,link_id) WHERE c.dataset_id=${datasetId:sqlstring} ORDER BY 1 LIMIT 25",
+        "definition": "SELECT 'all' AS __value,'All separate populations' AS __text UNION ALL SELECT DISTINCT l.link_id||':'||r.direction_id AS __value,l.link_id||':'||r.direction_id AS __text FROM app.trace_inventory_link l JOIN app.trace_catalogue c USING(catalogue_version) JOIN app.trace_link_direction r USING(catalogue_version,link_id) WHERE c.dataset_id=${datasetId:sqlstring} ORDER BY 1 LIMIT 25",
+        "refresh": 1,
+        "multi": false,
+        "includeAll": false,
+        "options": [],
+        "current": {
+          "text": "All separate populations",
+          "value": "all",
+          "selected": true
+        }
+      },
+      {
+        "name": "countryId",
+        "label": "countryId",
+        "type": "custom",
+        "query": "all,RO,UA,IT,DE,FR,GB,ES,PL,TR,US",
+        "hide": 0,
+        "multi": false,
+        "includeAll": false,
+        "current": {
+          "text": "all",
+          "value": "all",
+          "selected": true
+        },
+        "options": [
+          {
+            "text": "all",
+            "value": "all",
+            "selected": true
+          },
+          {
+            "text": "RO",
+            "value": "RO",
+            "selected": false
+          },
+          {
+            "text": "UA",
+            "value": "UA",
+            "selected": false
+          },
+          {
+            "text": "IT",
+            "value": "IT",
+            "selected": false
+          },
+          {
+            "text": "DE",
+            "value": "DE",
+            "selected": false
+          },
+          {
+            "text": "FR",
+            "value": "FR",
+            "selected": false
+          },
+          {
+            "text": "GB",
+            "value": "GB",
+            "selected": false
+          },
+          {
+            "text": "ES",
+            "value": "ES",
+            "selected": false
+          },
+          {
+            "text": "PL",
+            "value": "PL",
+            "selected": false
+          },
+          {
+            "text": "TR",
+            "value": "TR",
+            "selected": false
+          },
+          {
+            "text": "BG",
+            "value": "BG",
+            "selected": false
+          }
+        ]
+      },
+      {
+        "name": "roamingDirection",
+        "label": "roamingDirection",
+        "type": "custom",
+        "query": "both,in,out",
+        "hide": 0,
+        "multi": false,
+        "includeAll": false,
+        "current": {
+          "text": "both",
+          "value": "both",
+          "selected": true
+        },
+        "options": [
+          {
+            "text": "both",
+            "value": "both",
+            "selected": true
+          },
+          {
+            "text": "in",
+            "value": "in",
+            "selected": false
+          },
+          {
+            "text": "out",
+            "value": "out",
+            "selected": false
+          }
+        ]
+      },
+      {
+        "name": "partnerDirectionId",
+        "label": "partnerDirectionId",
+        "type": "query",
+        "datasource": {
+          "type": "postgres",
+          "uid": "trace-link-postgres"
+        },
+        "query": "SELECT 'all' AS __value,'All separate populations' AS __text UNION ALL SELECT DISTINCT p.partner_id||':'||p.direction AS __value,p.partner_id||':'||p.direction AS __text FROM app.trace_partner p JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${countryId:sqlstring}='all' OR p.country_id=${countryId:sqlstring}) AND (${roamingDirection:sqlstring}='both' OR p.direction=${roamingDirection:sqlstring}) ORDER BY 1 LIMIT 21",
+        "definition": "SELECT 'all' AS __value,'All separate populations' AS __text UNION ALL SELECT DISTINCT p.partner_id||':'||p.direction AS __value,p.partner_id||':'||p.direction AS __text FROM app.trace_partner p JOIN app.trace_catalogue c USING(catalogue_version) WHERE c.dataset_id=${datasetId:sqlstring} AND (${countryId:sqlstring}='all' OR p.country_id=${countryId:sqlstring}) AND (${roamingDirection:sqlstring}='both' OR p.direction=${roamingDirection:sqlstring}) ORDER BY 1 LIMIT 21",
+        "refresh": 1,
+        "multi": false,
+        "includeAll": false,
+        "options": [],
+        "current": {
+          "text": "All separate populations",
+          "value": "all",
+          "selected": true
+        }
+      },
+      {
+        "name": "resolution",
+        "label": "resolution",
+        "type": "custom",
+        "query": "5m,15m,1h,6h",
+        "hide": 0,
+        "multi": false,
+        "includeAll": false,
+        "current": {
+          "text": "5m",
+          "value": "5m",
+          "selected": true
+        },
+        "options": [
+          {
+            "text": "5m",
+            "value": "5m",
+            "selected": true
+          },
+          {
+            "text": "15m",
+            "value": "15m",
+            "selected": false
+          },
+          {
+            "text": "1h",
+            "value": "1h",
+            "selected": false
+          },
+          {
+            "text": "6h",
+            "value": "6h",
+            "selected": false
+          }
+        ]
+      },
+      {
+        "name": "timezone",
+        "label": "timezone",
+        "type": "custom",
+        "query": "UTC,Europe/Chisinau",
+        "hide": 0,
+        "multi": false,
+        "includeAll": false,
+        "current": {
+          "text": "UTC",
+          "value": "UTC",
+          "selected": true
+        },
+        "options": [
+          {
+            "text": "UTC",
+            "value": "UTC",
+            "selected": true
+          },
+          {
+            "text": "Europe/Chisinau",
+            "value": "Europe/Chisinau",
+            "selected": false
+          }
+        ]
+      },
+      {
+        "name": "domain",
+        "label": "domain",
+        "type": "custom",
+        "query": "all,volte,transport,roaming,sms,mobile-data",
+        "hide": 2,
+        "multi": false,
+        "includeAll": false,
+        "current": {
+          "text": "all",
+          "value": "all",
+          "selected": true
+        },
+        "options": [
+          {
+            "text": "all",
+            "value": "all",
+            "selected": true
+          },
+          {
+            "text": "volte",
+            "value": "volte",
+            "selected": false
+          },
+          {
+            "text": "transport",
+            "value": "transport",
+            "selected": false
+          },
+          {
+            "text": "roaming",
+            "value": "roaming",
+            "selected": false
+          },
+          {
+            "text": "sms",
+            "value": "sms",
+            "selected": false
+          },
+          {
+            "text": "mobile-data",
+            "value": "mobile-data",
+            "selected": false
+          }
+        ]
+      }
+    ]
+  },
+  "time": {
+    "from": "2026-10-09T09:00:00Z",
+    "to": "2026-10-10T09:00:00Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m"
+    ]
+  },
+  "timezone": "${timezone}",
+  "title": "Trace Link reference assurance",
+  "uid": "trace-link-overview",
+  "version": 1
+}

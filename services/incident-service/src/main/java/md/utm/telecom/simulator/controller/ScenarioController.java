@@ -44,8 +44,13 @@ public class ScenarioController {
             throw new WorkflowProblem(HttpStatus.BAD_REQUEST, "INVALID_COMMAND",
                     "X-Request-ID must match requestId.");
         }
-        return ResponseEntity.accepted().body(service.start(type, request.requestId(),
-                request.seed(), request.scopeId(), authentication));
+        var run = service.start(type, request.requestId(), request.seed(), request.scopeId(), authentication);
+        var response = ResponseEntity.accepted();
+        if (type == ScenarioType.VOLTE_IMS_OVERLOAD) {
+            response.header("X-Scenario-Deprecated", "true")
+                    .header("Link", "</api/simulator/scenario-definitions>; rel=\"successor-version\"");
+        }
+        return response.body(run);
     }
 
     private static StartRequest parse(JsonNode body) {

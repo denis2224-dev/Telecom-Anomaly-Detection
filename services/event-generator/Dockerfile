@@ -19,3 +19,5 @@ WORKDIR /app
 COPY --from=build /workspace/services/event-generator/target/event-generator-0.3.0-SNAPSHOT.jar app.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "app.jar"]
+ARG TRACE_RELEASE_COMMIT=unrecorded
+LABEL org.opencontainers.image.revision=$TRACE_RELEASE_COMMIT
