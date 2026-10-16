@@ -46,7 +46,7 @@ test('long selected periods scroll and focus measured data without changing quer
  await chart.getByRole('button',{name:'Full selected period',exact:true}).click();await expect(chart.locator('.chart-visible-range')).toHaveCount(0);
 });
 
-test('incident actions persist acknowledgement and mark the full dashboard period',async({page},info)=>{
+test('incident actions persist acknowledgement and mark the dedicated service chart period',async({page},info)=>{
  const state=await controlledApi(page);const analystId=state.incident.assigneeId;state.incident.status='OPEN';state.incident.assigneeId=null;
  state.incident.location={cityId:null,catalogueVersion:null,topologyVersion:null,measuredScopeId:state.incident.scopeId,containmentPath:[],dependencyNodeIds:[],nullReason:'UNALLOCATED'};
  await page.route('**/api/operations/priority*',route=>route.fulfill({json:{generatedAt:state.summary.observedAt,policyVersion:'controlled-priority',policyStatus:'ACTIVE',page:0,size:20,hasNext:false,items:[{incidentId:state.incident.id,cityId:null,cityNullReason:'UNALLOCATED',service:state.incident.service,scopeId:state.incident.scopeId,technicalState:state.incident.technicalState,analystStatus:state.incident.status,severity:state.incident.severity,severityHistorical:false,freshness:'FRESH',priorityBand:'FRESH_ONGOING',comparableImpact:null,impactUnit:null,firstObservedAt:state.incident.firstObservedAt,detectedAt:state.incident.detectedAt,latestWindowEnd:state.incident.lastObservedAt}]}}));
@@ -66,19 +66,19 @@ test('incident actions persist acknowledgement and mark the full dashboard perio
  await page.getByRole('button',{name:'24h',exact:true}).click();
  const selectedFrom=await page.getByLabel('From (UTC)',{exact:true}).inputValue(),selectedTo=await page.getByLabel('To (UTC, exclusive)',{exact:true}).inputValue();
  await card.getByRole('button',{name:'Show on dashboard',exact:true}).click();
- await expect(page).toHaveURL(new RegExp('incidentId='+id));
+ await expect(page).toHaveURL(new RegExp('/services/'+state.incident.scopeId+'\\?.*incidentId='+id));
  await expect(page.locator('.incident-focus')).toBeVisible();
- await expect(page.locator('.voice-success .focused-incident-band')).toHaveCount(1);
+ await expect(page.locator('.service-hero .focused-incident-band')).toHaveCount(1);
  const url=new URL(page.url());expect(url.searchParams.get('from')).toBe(new Date(selectedFrom+'Z').toISOString());
- await expect(page.getByLabel('From (UTC)',{exact:true})).toHaveValue(selectedFrom);await expect(page.getByLabel('To (UTC, exclusive)',{exact:true})).toHaveValue(selectedTo);
- const chart=page.locator('.voice-success');await expect(chart.locator('.focused-incident-line')).toHaveCount(1);
+ expect(url.searchParams.get('to')).toBe(new Date(selectedTo+'Z').toISOString());
+ const chart=page.locator('.service-hero');await expect(chart.locator('.focused-incident-line')).toHaveCount(1);
  await expect(chart.locator('.chart-visible-range')).toHaveCount(0);
  await chart.screenshot({path:info.outputPath('incident-marker-full-period.png')});
  await chart.getByRole('button',{name:'Zoom in',exact:true}).click();await expect(chart.locator('.chart-visible-range')).toBeVisible();await expect(chart.locator('.focused-incident-line')).toHaveCount(1);
  await chart.screenshot({path:info.outputPath('incident-marker-manual-zoom.png')});
  await page.getByRole('button',{name:'Dismiss highlight',exact:true}).click();
  await expect(page.locator('.focused-incident-band')).toHaveCount(0);
- await page.reload();await expect(card.getByRole('button',{name:'Acknowledged',exact:true})).toBeDisabled();
+ await page.goto('/dashboard');await expect(card.getByRole('button',{name:'Acknowledged',exact:true})).toBeDisabled();
  expect(errors).toEqual([]);
 });
 

@@ -4,9 +4,20 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-if [[ $# -gt 1 || ( $# -eq 1 && "${1:-}" != "--with-incident-service" ) ]]; then
-  echo "Usage: ./scripts/up [--with-incident-service]" >&2
-  exit 2
+WITH_INCIDENT_SERVICE=false
+TRACE_REFERENCE="${TRACE_LINK_REFERENCE_DIR:-}"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --with-incident-service) WITH_INCIDENT_SERVICE=true; shift ;;
+    --trace-link-reference)
+      [[ $# -ge 2 && -n "$2" ]] || { echo "--trace-link-reference requires the archive data directory." >&2; exit 2; }
+      TRACE_REFERENCE="$2"; shift 2 ;;
+    *) echo "Usage: ./scripts/up [--with-incident-service] [--trace-link-reference DATA_DIRECTORY]" >&2; exit 2 ;;
+  esac
+done
+if [[ -n "$TRACE_REFERENCE" ]]; then
+  [[ "$WITH_INCIDENT_SERVICE" == true ]] || { echo "Archive preparation requires --with-incident-service." >&2; exit 2; }
+  python3 scripts/import-trace-link-reference.py "$TRACE_REFERENCE" --validate-only
 fi
 
 if [[ ! -f .env ]]; then
@@ -14,7 +25,7 @@ if [[ ! -f .env ]]; then
   exit 1
 fi
 
-if [[ ${1:-} == "--with-incident-service" ]]; then
+if [[ "$WITH_INCIDENT_SERVICE" == true ]]; then
   PROXY_BACKEND_CONFIG=./infra/nginx/backend-container.conf
 else
   PROXY_BACKEND_CONFIG=./infra/nginx/backend-host.conf
@@ -37,6 +48,7 @@ docker compose up -d --wait --wait-timeout 180 keycloak
 bash ./scripts/prepare-login-theme
 
 echo "Starting the local proxy and waiting for telecom realm discovery..."
+npm --prefix apps/dashboard run build
 docker compose up -d --wait --wait-timeout 120 proxy
 
 echo "Creating Kafka topics..."
@@ -49,10 +61,14 @@ docker compose up -d --build history-bootstrap
 docker compose wait history-bootstrap
 docker compose up -d --build --wait --wait-timeout 120 event-generator processor ml-service
 
-if [[ ${1:-} == "--with-incident-service" ]]; then
+if [[ "$WITH_INCIDENT_SERVICE" == true ]]; then
   echo "Starting the Compose-managed incident service..."
   # All dependencies are already healthy; avoid rerunning the history bootstrap.
   docker compose --profile app up -d --no-deps --build --wait --wait-timeout 120 incident-service
+  if [[ -n "$TRACE_REFERENCE" ]]; then
+    echo "Preparing validated Trace Link history (exact repeats are safe)..."
+    python3 scripts/import-trace-link-reference.py "$TRACE_REFERENCE" --compose
+  fi
   echo "Full Compose stack is ready. Run ./scripts/verify."
 else
   echo "Compose stack is ready. Start host incident-service from services/incident-service with ./mvnw spring-boot:run, then run ./scripts/verify."

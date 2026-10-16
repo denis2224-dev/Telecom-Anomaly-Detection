@@ -46,6 +46,40 @@ async function expectRenderedSeries(page:Page,from:string,rows:number){
   await expect(chart.locator('tbody time').first()).toHaveAttribute('datetime',from);
   await expect(chart.locator('tbody tr')).toHaveCount(rows);
 }
+for(const width of [1366,390])test(`Trace Link roaming history preserves partner filters and error recovery at ${width}px`,async({page})=>{
+ const queries=await setup(page);
+ await page.setViewportSize({width,height:900});
+ await page.route('**/api/v2/datasets',route=>route.fulfill({json:[{datasetId:'trace-link-md-30d-v1',from:'2026-09-10T09:00:00Z',to:'2026-09-10T09:20:00Z',synthetic:true,archiveReady:true,catalogueVersion:'controlled-native-v1'}]}));
+ await page.route('**/api/v2/kpi-definitions',route=>route.fulfill({json:['roaming.registration.success','roaming.voice.success'].map(metric=>({...definition,domain:'roaming',metric}))}));
+ await page.goto('/trace-link?domain=roaming&partnerDirectionId=RO-DEMO-01%3Aout');
+ await expect(page.getByRole('heading',{name:'Historical analysis',exact:true})).toBeVisible();
+ const chart=page.getByRole('region',{name:'Persisted metric chart'});
+ await expect(chart).toContainText('roaming.registration.success');
+ await expect(chart.locator('svg path')).not.toHaveAttribute('d','');
+ expect(queries.at(-1)).toMatchObject({domain:'roaming',scopeType:'PARTNER_DIRECTION',datasetId:'trace-link-md-30d-v1'});
+ await expect(page.getByRole('region',{name:'Approved topology'})).toHaveCount(1);
+ await page.getByRole('combobox',{name:'Country',exact:true}).selectOption('RO');
+ await page.getByRole('combobox',{name:'Roaming direction',exact:true}).selectOption('out');
+ await page.getByRole('combobox',{name:'Partner / direction',exact:true}).selectOption('RO-DEMO-01:out');
+ await expect(page.getByRole('combobox',{name:'Partner / direction',exact:true})).toHaveValue('RO-DEMO-01:out');
+ await page.getByRole('combobox',{name:'Metric',exact:true}).selectOption('roaming.voice.success');
+ await expect(chart).toContainText('roaming.voice.success');
+ await expect.poll(()=>new URL(page.url()).searchParams.get('metric')).toBe('roaming.voice.success');
+ await page.reload();
+ await expect(chart).toContainText('roaming.voice.success');
+ await expect(page.getByRole('combobox',{name:'Partner / direction',exact:true})).toHaveValue('RO-DEMO-01:out');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+ await page.route('**/api/v2/trace-link/incidents?**',route=>route.fulfill({status:404,json:{code:'NOT_FOUND'}}));
+ await page.reload();
+ await expect(page.locator('app-trace-incidents [role=status]')).toContainText('Incident history is not enabled');
+ await expect(page.locator('app-trace-incidents')).not.toContainText('0 matching episodes');
+ await expect(chart).toContainText('roaming.voice.success');
+ await page.route('**/api/v2/metrics/series?**',route=>route.fulfill({status:503,json:{code:'UNAVAILABLE'}}));
+ await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('15m');
+ await expect(page.getByRole('button',{name:'Retry metric history',exact:true})).toBeVisible();
+ await expect(chart).toHaveCount(0);
+ await expect(page.locator('.country-panels,.roaming-kpis')).toHaveCount(0);
+});
 test('controlled history metadata loads its inactive recorded inventory without live activation',async({page})=>{
  await setup(page);const reads:string[]=[];
  await page.route('**/api/v2/datasets',route=>route.fulfill({json:[{datasetId:'trace-link-md-30d-v1',from:'2026-09-10T09:00:00Z',to:'2026-09-10T09:20:00Z',synthetic:true,manifestSha256:'a'.repeat(64),archiveReady:true,catalogueVersion:'recorded-inactive'}]}));
@@ -188,4 +222,32 @@ for(const domain of ['transport','roaming','mobile-data'])test(`native ${domain}
   await page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('15m');
   await expect(native).toContainText('Choose a dataset, scope');
   await expect(native.getByRole('region',{name:'Persisted metric chart'})).toHaveCount(0);
+});
+
+test('inventory 503 retains a bounded explicit retry and restores the selected context',async({page})=>{
+ await setup(page);let unavailable=true,reads=0;
+ await page.route('**/api/v2/inventory/**',route=>{
+  reads++;if(unavailable)return route.fulfill({status:503,json:{code:'UNAVAILABLE'}});
+  const path=new URL(route.request().url()).pathname;
+  return route.fulfill({json:{catalogueVersion:'controlled-native-v1',...(path.endsWith('/cities')?{cities}:path.endsWith('/links')?{links}:{partners})}});
+ });
+ await page.goto(queryUrl);const retry=page.getByRole('button',{name:'Retry inventory',exact:true});
+ await expect(retry).toBeVisible();await expect(page.getByRole('region',{name:'Approved topology'})).toHaveCount(0);
+ await expect(page.getByRole('alert').filter({hasText:'temporarily unavailable'})).toBeVisible();
+ const before=reads;await page.waitForTimeout(400);expect(reads).toBe(before);
+ unavailable=false;await retry.click();await expect(page.getByRole('region',{name:'Approved topology'})).toContainText('10 cities · 12 links');
+ await expect(page.getByRole('combobox',{name:'Resolution',exact:true})).toHaveValue('5m');
+ await expect(page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();
+});
+
+for(const [status,message] of [[403,'permission'],[404,'not found or disabled'],[409,'changed'],[429,'Too many requests'],[503,'temporarily unavailable']] as const)test(`native measurement ${status} remains explicit without fabricated values or retry loops`,async({page})=>{
+ await setup(page);let reads=0;
+ await page.route('**/api/v2/trace-domain-measurements?**',route=>{reads++;return route.fulfill({status,json:{code:status===404?'FEATURE_DISABLED':'UNAVAILABLE'}});});
+ await page.goto(queryUrl+'&domain=transport&linkDirectionId=chi-hin%3Aa-to-b');
+ await page.getByText('Five-minute measurements',{exact:true}).click();
+ const panel=page.getByRole('region',{name:'Native domain measurements'});
+ await expect(panel.getByRole('alert')).toContainText(message);
+ await expect(panel.getByRole('region',{name:'Persisted metric chart'})).toHaveCount(0);
+ const before=reads;await page.waitForTimeout(400);expect(reads).toBe(before);
+ await panel.getByRole('button',{name:'Retry domain measurements',exact:true}).click();await expect.poll(()=>reads).toBe(before+1);
 });

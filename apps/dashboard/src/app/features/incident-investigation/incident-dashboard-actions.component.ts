@@ -112,7 +112,7 @@ export class IncidentDashboardActionsComponent {
     this.navigated.emit();
     const params=this.router.parseUrl(this.router.url).queryParams;
     const range=this.dashboardRange() ?? (params['from'] && params['to'] ? {from:params['from'],to:params['to']} : null);
-    void this.router.navigate(['/dashboard'], { queryParams: incidentDashboardParameters(this.item(),range), fragment: this.item().service === 'SMS' ? 'sms-panel-title' : 'volte-panel-title' });
+    void this.router.navigate(['/services', this.item().scopeId], { queryParams: {...incidentDashboardParameters(this.item(),range), follow:'fixed'}, fragment:'service-incident-chart' });
   }
   async acknowledge() {
     if (this.fixture || this.busy() || this.acknowledged()) return;

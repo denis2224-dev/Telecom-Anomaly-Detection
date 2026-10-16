@@ -1,3 +1,4 @@
+import { recordedRoaming } from '../helpers/recorded-roaming';
 import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
@@ -6,6 +7,7 @@ import { previewScenarios } from '../../../src/app/features/scenario-runner/moni
 for (const width of [1366, 390]) {
   test(`roaming overview, live status and incident sheet are connected at ${width}px`, async ({ page }, info) => {
     const state = await controlledApi(page);
+    await page.route('**/api/v2/datasets',route=>route.fulfill({json:[]}));
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
     await expect(page.getByRole('navigation', {name:'Workspace'}).getByRole('link', {name:/history|Historical analysis/i})).toHaveCount(0);
@@ -71,7 +73,7 @@ test('overview call results use the loaded window and keep missing evidence unav
   last.quality = 'INCOMPLETE';
   await page.reload();
   await expect(page.getByLabel('VoLTE calls by result')).toContainText('Call result counts unavailable');
-  await expect(page.getByLabel('Key service information')).toContainText('Call setup successUnavailable');
+  await expect(page.getByLabel('Key service information')).toContainText(/Call setup success\s*Unavailable/);
   await expect(page.locator('.call-donut')).toHaveCount(0);
 });
 
@@ -107,3 +109,19 @@ test('unsupported previews are excluded from execution and the legacy IMS previe
   expect(scenarioPosts).toBe(0);
   await page.screenshot({ path: info.outputPath('sms-preview-phone.png'), fullPage: true });
 });
+
+ test('recorded roaming replaces the labelled sample and retries an unavailable source',async({page})=>{
+  await controlledApi(page);const source=await recordedRoaming(page);
+  await page.goto('/roaming');
+  await expect(page.getByRole('region',{name:'Roaming services recorded'})).toBeVisible();
+  await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+  await expect(page.locator('.roaming-kpis')).toContainText('98.0%');
+  await expect(page.locator('.country-bar strong')).toHaveText(Array(10).fill('100'));
+  await expect(page.locator('.roaming-chart .actual-line')).not.toHaveAttribute('d','');
+  source.unavailable=true;await page.reload();
+  await expect(page.getByRole('region',{name:'Roaming services recorded'})).toContainText('Unavailable');
+  await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Retry roaming data'})).toBeVisible();
+  source.unavailable=false;await page.getByRole('button',{name:'Retry roaming data'}).click();
+  await expect(page.getByRole('region',{name:'Roaming services recorded'})).toBeVisible();
+ });

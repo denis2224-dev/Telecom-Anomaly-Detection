@@ -1,5 +1,5 @@
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
-import { Component, DestroyRef, inject, signal, computed } from '@angular/core';
+import { Component, DestroyRef, inject, signal, computed, effect } from '@angular/core';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -43,20 +43,21 @@ const MAX_WINDOWS = 1440;
         <label class="field service-city">City<select aria-label="City" [value]="scopeId()" [disabled]="cityLoading() || loading() || !cityOptions().length" (change)="selectCity($any($event.target).value)">
           @if (!selectedCity()) { <option [value]="scopeId()" [selected]="true">{{ item.scope.region }} · current scope</option> }
           @for (city of cityOptions(); track city.id) { <option [value]="city.scopeId" [selected]="city.scopeId === scopeId()">{{ city.name }}</option> }
-          @for(city of unavailableCityOptions();track city.id){<option disabled>{{city.name}} · service membership unavailable</option>}
         </select></label>
         <app-history-range [compact]="true" [from]="from()" [to]="to()" (changed)="applyRange($event)" (refresh)="load()" (latest)="latestHour()" />
       </div>
       @if (cityError()) { <p class="city-error" role="status">City list unavailable <button type="button" (click)="loadCities()">Retry cities</button></p> }
     }
     @if (!error() && displayedService(); as item) {
-      <section class="service-hero" aria-label="Service KPI history">
+      @if(focusedIncident()){<p class="incident-focus" role="status">Selected incident <button type="button" (click)="dismissHighlight()">Dismiss highlight</button></p>}
+      @if(focusError()){<p role="alert">{{focusError()}}</p>}
+      <section id="service-incident-chart" class="service-hero" aria-label="Service KPI history">
         <div class="kpi-switcher" role="group" aria-label="Graph KPI">
           @for (metric of exactMetrics(); track metric.name) {
             <button type="button" [attr.aria-pressed]="selectedMetric().name === metric.name" (click)="selectedKpi.set(metric.name)">{{ kpiLabel(metric.name) }}</button>
           }
         </div>
-        <app-metric-chart view="chart" [hero]="true" [traffic]="selectedMetric().name === 'cssrPct'" [trafficBars]="selectedMetric().name === 'cssrPct'" [secondaryName]="selectedMetric().name === 'p95DeliveryMs' ? 'queueDepth' : ''" [threshold]="selectedMetric().name === 'imsCpuPct' ? 85 : null" [loading]="loading()" [name]="selectedMetric().name" [title]="selectedMetric().title" [unit]="selectedMetric().unit" [windows]="windows()" [incidents]="incidents()" [detections]="detections()" [from]="from()" [to]="to()" (windowSelected)="hoveredWindow.set($event)" />
+        <app-metric-chart view="chart" [hero]="true" [traffic]="selectedMetric().name === 'cssrPct'" [trafficBars]="selectedMetric().name === 'cssrPct'" [secondaryName]="selectedMetric().name === 'p95DeliveryMs' ? 'queueDepth' : ''" [threshold]="selectedMetric().name === 'imsCpuPct' ? 85 : null" [loading]="loading()" [name]="selectedMetric().name" [title]="selectedMetric().title" [unit]="selectedMetric().unit" [windows]="windows()" [incidents]="incidents()" [focusedIncident]="focusedIncident()" [detections]="detections()" [from]="from()" [to]="to()" (windowSelected)="hoveredWindow.set($event)" />
         <div class="chart-legend" aria-label="Chart legend"><span class="actual-key">{{ selectedMetric().name === 'cssrPct' ? 'Success rate · right axis' : selectedMetric().name === 'p95DeliveryMs' ? 'P95 delay (ms) · right axis' : 'Observed' }}</span>@if (selectedMetric().name === 'cssrPct') { <span class="traffic-success-key">Successful calls</span><span class="traffic-failed-key">Failed calls · left axis</span> } @if (selectedMetric().name === 'p95DeliveryMs') { <span class="secondary-key">Queue depth · left axis</span> } @if (selectedMetric().name === 'imsCpuPct') { <span>85% reference · not a detector rule</span> }<span class="expected-key">Baseline</span><span class="state-degraded">Incident</span><span class="state-recovery">Recovery</span><span class="state-unknown">Unavailable</span></div>
       </section>
       <app-kpi-cards [service]="item" />
@@ -134,6 +135,12 @@ export class ServiceDetailComponent {
   readonly selectedKpi = signal('');
   readonly selectedMetric = computed(() => this.exactMetrics().find(metric => metric.name === this.selectedKpi()) ?? this.exactMetrics()[0]);
   kpiLabel(name: string): string { return [...VOLTE_METRICS, ...SMS_METRICS].find(metric => metric[0] === name)?.[1] ?? name; }
+  readonly focusedIncident = signal<Incident | null>(null);
+  readonly focusError = signal('');
+  private focusController?: AbortController;
+  dismissHighlight(): void {
+    void this.router.navigate([], {queryParams:{incidentId:null},queryParamsHandling:'merge',replaceUrl:true});
+  }
   readonly hoveredWindow = signal<KpiWindow | null>(null);
   readonly highlightedEpisodes = computed(() => {
     const window = this.hoveredWindow();
@@ -169,7 +176,6 @@ export class ServiceDetailComponent {
       : city.geography?.services.find(item => item.service === service)?.scopeId;
     return scopeId ? [{ id: city.id, name: city.name, scopeId }] : [];
   }));
-  readonly unavailableCityOptions=computed(()=>this.cityCatalogue().filter(city=>!this.cityOptions().some(option=>option.id===city.id)));
   readonly selectedCity = computed(() => this.cityOptions().find(city => city.scopeId === this.scopeId()));
 
   async loadCities(): Promise<void> {
@@ -199,6 +205,8 @@ export class ServiceDetailComponent {
     const destroy = inject(DestroyRef);
     const route = inject(ActivatedRoute);
     const stop = () => {
+      this.focusController?.abort();
+      this.focusedIncident.set(null);
       ++this.generation;
       this.cityController?.abort();
       this.cancelReads();
@@ -208,6 +216,23 @@ export class ServiceDetailComponent {
     inject(SessionStore).ended$.pipe(takeUntilDestroyed(destroy)).subscribe(stop);
     destroy.onDestroy(stop);
     void this.loadCities();
+    const session = inject(SessionStore);
+    route.queryParamMap?.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+      this.focusController?.abort(); this.focusedIncident.set(null); this.focusError.set('');
+      const id=params.get('incidentId');
+      if(!id)return;
+      const request=this.focusController=new AbortController(),revision=session.revision;
+      const from=params.get('from'),to=params.get('to');
+      if(from && to && (from!==this.from() || to!==this.to())) {
+        this.from.set(from);this.to.set(to);this.followingLatest=false;void this.load();
+      }
+      void this.api.getIncident(id,request.signal).then(item=>{
+        if(request.signal.aborted || revision!==session.revision)return;
+        if(item.scopeId!==this.scopeId())throw new Error('Incident belongs to another service scope.');
+        this.focusedIncident.set(item);
+      }).catch(error=>{if(!request.signal.aborted)this.focusError.set(error instanceof Error?error.message:'Incident unavailable.');});
+    });
+    effect(()=>{if(this.focusedIncident() && !this.loading())setTimeout(()=>document.getElementById('service-incident-chart')?.scrollIntoView({block:'start',behavior:'instant'}));});
     route.paramMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
       this.closeStream?.();
       this.closeStream = undefined;

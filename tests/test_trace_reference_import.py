@@ -43,6 +43,27 @@ class ReferenceImportSafety(unittest.TestCase):
             with self.assertRaises(subprocess.CalledProcessError):backup.backup('isolated-test',output,['incidents_db'])
             self.assertFalse((output/'backup-manifest.json').exists())
 
+    def test_compose_import_streams_snapshot_in_the_same_atomic_transaction(self):
+        importer=module('reference_import_compose','import-trace-link-reference.py')
+        manifest=json.loads(importer.PIN.read_text())
+        with tempfile.TemporaryDirectory() as temporary:
+            stage=Path(temporary)/"source's projection.csv"
+            stage.write_bytes(b'validated,source,row\r\n')
+            def execute(command, **kwargs):
+                self.assertEqual(command[:6], ['docker','compose','exec','-T','postgres','psql'])
+                self.assertIn('incidents_app',command)
+                sql=kwargs['stdin'].read()
+                self.assertLess(sql.index('BEGIN;'),sql.index('COPY trace_import_stage FROM STDIN'))
+                self.assertIn('validated,source,row\n\\.\nDO $$',sql)
+                self.assertNotIn('\r',sql)
+                self.assertTrue(sql.endswith('COMMIT;\n'))
+                self.assertNotIn(str(stage),sql)
+                self.assertNotIn('UPDATE app.trace_catalogue',sql)
+                self.assertTrue(kwargs['check'])
+            with patch.object(importer.subprocess,'run',side_effect=execute) as run:
+                importer.run_import(manifest,'a'*64,stage,compose=True)
+            run.assert_called_once()
+
     def test_offline_verification_rejects_changed_or_unsafe_members(self):
         release=module('reference_package','package-trace-release.py')
         with tempfile.TemporaryDirectory() as temporary:
