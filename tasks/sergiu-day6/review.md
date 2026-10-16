@@ -51,3 +51,5 @@ zero failures/errors; 17 explicit native-archive tests and 10 fresh-Java feature
 tests pass. The completed earlier bootstrap suite contributes separate 12-test
 archive evidence. Two external processor cases remain unverified and documented.
 Raw failing attempts and every skip are retained; overlapping counts are not added.
+Immutable evidence uses the repository's existing CRLF-aware whitespace attribute
+pattern. This preserves raw hashes and keeps genuine trailing-space checks active.
