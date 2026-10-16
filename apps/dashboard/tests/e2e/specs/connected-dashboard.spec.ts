@@ -192,7 +192,7 @@ for (const width of [1366, 768, 390]) {
     await page.getByRole('button', { name: '1h', exact: true }).click();
     await expect(page.getByLabel('To (UTC, exclusive)', { exact: true })).toHaveValue(fixtureRange.to.slice(0, 16));
     await page.locator('.map-table').getByRole('button', { name: 'Chișinău', exact: true }).click();
-    await expect(page.locator('.city-marker[aria-label="Chișinău, DEGRADED"]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.city-marker').filter({hasText:'Chișinău'})).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('.map-table tr.selected-city')).toContainText('-5.3 pp');
     await expect(page.locator('.volte-table tbody tr')).toHaveCount(1);
     await expect(page.locator('[data-chart=cssrPct] .incident-band')).toHaveCount(1);
@@ -202,7 +202,7 @@ for (const width of [1366, 768, 390]) {
     await page.getByLabel('Service', { exact: true }).selectOption('SMS');
     await expect(page.locator('.volte-table tbody')).toContainText('No monitored scopes');
     await expect(page.locator('.sms-table tbody tr')).toHaveCount(1);
-    await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('ms');
+    await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('Unavailable');
     await page.getByLabel('Service', { exact: true }).selectOption('ALL');
     await page.getByRole('button', { name: /^Incidents \(/ }).click();
     await expect(page.getByRole('dialog')).toBeVisible();

@@ -115,6 +115,47 @@ async function liveApi(page: Page) {
   return state;
 }
 
+for (const width of [1440, 390]) test(`network paths and observed node success stay fixed at ${width}px`, async ({page}, info) => {
+  await page.setViewportSize({width, height:900});
+  const state = await liveApi(page);
+  const chi = state.catalogue.cities.find(city => city.cityId === 'CHI')!;
+  const volte = chi.services.find(item => item.service === 'VOLTE')!;
+  const expected = new Intl.NumberFormat('en', {maximumFractionDigits:2}).format(volte.metric.observed!);
+  await page.goto('/dashboard');
+  const node = page.locator('.city-marker').filter({hasText:'Chișinău'});
+  await expect(node).toContainText(expected + ' %');
+  await expect(node).toHaveAttribute('data-anomaly', 'true');
+  await expect(node).toHaveAttribute('aria-label', /Active anomaly/);
+  const danger = await node.evaluate(element => getComputedStyle(element).getPropertyValue('--danger').trim());
+  const red = await node.evaluate((element, color) => {
+    const probe = document.createElement('span'); probe.style.color = color; element.append(probe);
+    const resolved = getComputedStyle(probe).color; probe.remove(); return resolved;
+  }, danger);
+  await expect(node.locator('.marker-symbol')).toHaveCSS('background-color', red);
+  await expect(page.locator('.inventory-link[marker-start][marker-end]')).toHaveCount(12);
+  const position = () => node.evaluate(element => {
+    const rect = element.getBoundingClientRect(), map = element.closest('.city-map')!.getBoundingClientRect();
+    return {x:Math.round((rect.x-map.x)*1000)/1000, y:Math.round((rect.y-map.y)*1000)/1000};
+  });
+  const before = await position(); await node.hover(); await node.click();
+  expect(await position()).toEqual(before);
+  await expect(page.getByRole('region', {name:'Directional link investigation'})).toContainText('Active anomaly');
+  await page.screenshot({path:info.outputPath(`network-health-${width}.png`), fullPage:true});
+  // Analyst-open work remains after technical recovery; it must not keep a red node.
+  for (const service of chi.services) service.technicalActiveCount = 0;
+  await page.getByRole('button', {name:'Refresh overview', exact:true}).click();
+  await expect(node).toHaveAttribute('data-anomaly', 'false');
+  await expect(node).toHaveAttribute('data-state', 'NORMAL');
+  // Delay is never converted to a fabricated SMS success percentage.
+  await page.getByLabel('Service', {exact:true}).selectOption('SMS');
+  await expect(node).toContainText('Unavailable');
+  const sms = state.summaries.find(item => item.scope.scopeId === 'SMS-MD-CHI')!.latestWindow!;
+  sms.kpis.push({name:'deliverySrPct', observed:98.5, baseline:99, unit:'PERCENT', numerator:985, denominator:1000});
+  await page.getByRole('button', {name:'Refresh overview', exact:true}).click();
+  await expect(node).toContainText('98.5 %');
+  expect(await position()).toEqual(before);
+});
+
 for (const width of [1366, 768, 390]) {
   test(`LIVE catalogue and selected-city APIs at ${width}px`, async ({ page }, info) => {
     await page.setViewportSize({ width, height: 900 });
@@ -148,7 +189,7 @@ for (const width of [1366, 768, 390]) {
     await expect.poll(() => state.requests.filter(path => path === '/api/geography/cities').length).toBe(readsBeforeRefresh+1);
     await expect(page.locator('#city-map-title')).toContainText('Chișinău');
     await page.getByLabel('Service', { exact: true }).selectOption('SMS');
-    await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('ms');
+    await expect(page.locator('.city-marker').filter({ hasText: 'Chișinău' })).toContainText('Unavailable');
     await page.screenshot({ path: info.outputPath(`live-geography-${width}.png`), fullPage: true });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.getByRole('button', { name: 'Open SMS delivery', exact: true }).click();
@@ -279,7 +320,7 @@ for (const width of [1366, 768, 390]) {
     await page.getByRole('button', { name: 'Apply', exact: true }).click();
     const investigation = page.getByRole('button', { name: 'Open incident investigation', exact: true });
     await expect(investigation).toBeEnabled();
-    await page.getByLabel('Region', { exact: true }).focus();
+    await page.getByLabel('Region', { exact: true }).evaluate(element => (element as HTMLElement).focus({preventScroll:true}));
     await page.evaluate(() => window.scrollTo(0, 320));
     const scrollBefore = await page.evaluate(() => window.scrollY);
     const catalogueReads = state.requests.filter(path => path === '/api/geography/cities').length;
@@ -288,7 +329,8 @@ for (const width of [1366, 768, 390]) {
     await expect(page.getByLabel('Region', { exact: true })).toHaveValue('Orhei');
     await expect(page.getByLabel('Region', { exact: true })).toBeFocused();
     await expect(page.getByLabel('From (UTC)', { exact: true })).toHaveValue('2026-09-14T10:00');
-    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+    // Browser anchoring can round fractional layout to an adjacent CSS pixel.
+    expect(Math.abs(await page.evaluate(() => window.scrollY) - scrollBefore)).toBeLessThanOrEqual(1);
     await investigation.click();
     const queue = page.getByRole('dialog', { name: /^Incident queue/ });
     await expect(queue).toBeVisible();
@@ -306,7 +348,9 @@ for (const width of [1366, 768, 390]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({ path: info.outputPath(`connected-orhei-${width}.png`), fullPage: true });
-    await page.getByRole('button', { name: 'Refresh incident', exact: true }).click();
+    // Safari mouse clicks do not focus buttons; verify keyboard focus retention.
+    await page.getByRole('button', { name: 'Refresh incident', exact: true }).focus();
+    await page.keyboard.press('Enter');
     await expect(page.getByRole('button', { name: 'Refresh incident', exact: true })).toBeFocused();
     await expect(page.locator('.cause-details')).toHaveAttribute('open', '');
     expect(state.requests.some(path => path.includes('/api/geography/cities/ORH/kpis'))).toBe(true);

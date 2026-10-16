@@ -342,11 +342,23 @@ export class ConnectedOverviewComponent {
   }
 
   nodeValue(city: City): string {
-    if (city.geography) return this.cityObservation(city, this.tableService());
-    const items = cityServices(city, this.services(), this.serviceFilter());
-    if (!items.length) return 'Unavailable';
-    if (this.serviceFilter() === 'ALL') return metric(items.find(item => item.scope.service === 'VOLTE')?.latestWindow ?? null, 'VOLTE');
-    return metric(items[0].latestWindow, items[0].scope.service);
+    if (this.tableService() === 'VOLTE') return this.cityObservation(city, 'VOLTE');
+    // The geographic SMS projection is delay, not a success percentage.
+    const state = geographyState(city, 'SMS')[0];
+    const item = cityServices(city, this.services(), 'SMS')[0];
+    const window = item?.latestWindow;
+    if (!item || item.freshness === 'MISSING' || (state && state.latestWindowEnd !== window?.windowEnd)) return 'Unavailable';
+    const kpi = window?.kpis.find(kpi => kpi.name === 'deliverySrPct');
+    const value = metricValue(window, 'deliverySrPct');
+    return window?.quality !== 'COMPLETE' || kpi?.unit !== 'PERCENT' || !(kpi.denominator != null && kpi.denominator > 0)
+      || value === null || value < 0 || value > 100 ? 'Unavailable' : `${number(value)} %`;
+  }
+
+  cityHasAnomaly(city: City): boolean {
+    if (city.geography) return geographyState(city, this.serviceFilter()).some(state => state.technicalActiveCount > 0);
+    return this.store.incidents().some(incident => city.scopeIds.includes(incident.scopeId)
+      && (this.serviceFilter() === 'ALL' || incident.service === this.serviceFilter())
+      && incident.technicalState === 'ONGOING');
   }
 
   cityObservation(city: City, service: Service): string {

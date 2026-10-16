@@ -16,8 +16,9 @@ for(const width of [1440,390])test(`overview combines traffic, selects links and
  await expect(page.locator('.voice-success .actual-line')).not.toHaveAttribute('d','');
  await expect(page.locator('.inventory-link')).toHaveCount(12);
  const map=page.locator('.city-map');await map.scrollIntoViewIfNeeded();const before=(await map.boundingBox())!;
- for(const marker of await page.locator('.map-link').all()) {await marker.click();await expect(marker).toHaveAttribute('aria-pressed','true');}
- await page.getByRole('button',{name:'Inspect Chișinău – Hîncești',exact:true}).click();
+ // Keyboard activation also reaches SVG paths outside the mobile scroll viewport.
+ for(const marker of await page.locator('.map-link').all()) {await marker.focus();await page.keyboard.press('Enter');await expect(marker).toHaveAttribute('aria-pressed','true');}
+ await page.getByRole('button',{name:'Inspect Chișinău – Hîncești',exact:true}).focus();await page.keyboard.press('Enter');
  await expect(page.getByRole('region',{name:'Directional link investigation'})).toContainText('Chișinău – Hîncești');
  expect((await map.boundingBox())!.y).toBeCloseTo(before.y,0);
  const href=await page.getByRole('link',{name:'Investigate A → B',exact:true}).getAttribute('href');
@@ -89,7 +90,7 @@ test('plain map targets retain their positions while hovering and selecting',asy
  await expect(page.locator('.city-marker')).toHaveCount(10);
  await expect(page.locator('.link-marker')).toHaveCount(0);
  for(const marker of await page.locator('.city-marker').all()) {
-  const position=()=>marker.evaluate(node=>{const box=node.getBoundingClientRect(),map=node.closest('.city-map')!.getBoundingClientRect();return {x:box.x-map.x,y:box.y-map.y,width:box.width,height:box.height};});
+  const position=()=>marker.evaluate(node=>{const box=node.getBoundingClientRect(),map=node.closest('.city-map')!.getBoundingClientRect();return {x:Math.round((box.x-map.x)*1000)/1000,y:Math.round((box.y-map.y)*1000)/1000,width:box.width,height:box.height};});
   const initial=await position();await marker.hover();expect(await position()).toEqual(initial);
   expect(await marker.locator('.marker-symbol').textContent()).toBe('');
   await marker.click();expect(await position()).toEqual(initial);
