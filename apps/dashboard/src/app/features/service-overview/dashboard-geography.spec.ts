@@ -1,4 +1,4 @@
-import { baseline, bindGeography, cities, cityForScope, cityServices, deviation, measured, geographyValue, approvedConnections } from './dashboard-geography';
+import { baseline, bindGeography, cities, cityForScope, cityServices, deviation, measured, geographyValue } from './dashboard-geography';
 import type { GeographyCatalogue } from '../../core/api/telecom-client';
 import { moldovaOutline, projectCity } from './moldova-map';
 import { cityIncidents, citySummaries, cityWindows, fixtureCities } from '../../../fixtures/connected-dashboard';
@@ -39,15 +39,13 @@ describe('Connected dashboard contract', () => {
       expect(item.marker!.y).toBeLessThan(100);
     }
   });
-  it('uses exactly the approved active cities and directional link endpoints', () => {
-    expect(cities.filter(city => city.marker)).toHaveLength(10);
+  it('shows Orhei on the map and retains hidden cities for service navigation', () => {
+    expect(cities.filter(city => city.marker)).toHaveLength(8);
     expect(cities.filter(city => city.featured)).toHaveLength(5);
     const orhei = cities.find(city => city.id === 'ORH')!;
     expect(orhei.marker).toEqual(projectCity(orhei.location.longitude, orhei.location.latitude));
-    expect(cities.find(city => city.id === 'RIB')).toBeUndefined();
-    expect(cities.find(city => city.id === 'TIR')).toBeUndefined();
-    expect(approvedConnections).toHaveLength(12);
-    for (const id of ['ORH','HIN','CAU']) expect(cities.find(city => city.id === id)?.marker).toBeTruthy();
+    expect(cities.find(city => city.id === 'RIB')?.marker).toBeNull();
+    expect(cities.find(city => city.id === 'TIR')?.marker).toBeNull();
     expect(fixtureCities.find(city => city.id === 'ORH')?.scopeIds).toHaveLength(2);
   });
 

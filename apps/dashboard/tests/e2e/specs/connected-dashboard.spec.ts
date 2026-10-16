@@ -3,21 +3,6 @@ import { cityIncidents, citySummaries, cityWindows, fixtureRange } from '../../.
 import { controlledApi } from '../helpers/controlled-api';
 import suite from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
 
-test('headline opens recorded transport and roaming history instead of permanent unavailable cards', async ({ page }) => {
-  await controlledApi(page);
-  await page.goto('/dashboard');
-  const transport = page.getByRole('link', { name: 'Open backhaul history', exact: true });
-  const roaming = page.locator('.headline-metrics').getByRole('link', { name: 'Open roaming history', exact: true });
-  await expect(transport).toHaveAttribute('href', /\/trace-link\?.*domain=transport/);
-  await expect(roaming).toHaveAttribute('href', /\/roaming\?.*domain=roaming/);
-  await expect(transport).toHaveText('Open history');
-  await expect(roaming).toHaveText('Open history');
-  await page.getByLabel('Region', { exact: true }).fill('Orhei');
-  await expect(transport).toHaveAttribute('href', /cityId=orh/);
-  // A legacy live period must not be passed off as coverage of the archive.
-  expect(new URL(await transport.getAttribute('href') ?? '', 'http://test').searchParams.get('datasetId')).toBeNull();
-});
-
 test('overview SMS chart uses the measured delivery success rate, not delay', async ({ page }) => {
   const state = await controlledApi(page);
   const trajectory = suite.cases.find(item => item.id === 'sms-fault')!;
@@ -32,6 +17,7 @@ test('overview SMS chart uses the measured delivery success rate, not delay', as
   state.incident.lastObservedAt = state.windows.at(-1)!.windowEnd;
   state.incident.latestDetection = structuredClone(trajectory.detections.at(-1)!) as typeof state.incident.latestDetection;
   await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
   const chart = page.locator('[data-chart=deliverySrPct]');
   await expect(chart.locator('.actual-line')).not.toHaveAttribute('d', '');
   await expect(chart.locator('.expected-line')).not.toHaveAttribute('d', '');
@@ -42,13 +28,6 @@ test('overview SMS chart uses the measured delivery success rate, not delay', as
   await expect(page.locator('.sms-table tbody tr')).toHaveCount(1);
   await expect(page.locator('.sms-table tbody td').nth(1)).toHaveText('83.333');
   await expect(page.locator('.volte-table tbody')).toContainText('No monitored scopes');
-  await page.getByLabel('Service', { exact: true }).selectOption('SMS');
-  await expect(page.locator('.headline-metrics')).toContainText('Delivered messages');
-  await expect(page.locator('.headline-metrics')).toContainText('Delivery success');
-  await expect(page.locator('.headline-metrics')).not.toContainText('Call attempts');
-  await expect(page.locator('.headline-metrics')).not.toContainText('Unavailable');
-  await expect(page.locator('[aria-labelledby="volte-panel-title"]')).toBeHidden();
-  await expect(page.locator('[aria-labelledby="sms-panel-title"]')).toBeVisible();
 });
 
 for (const width of [1366, 768, 390]) {
@@ -104,8 +83,9 @@ for (const width of [1366, 768, 390]) {
     });
 
     await page.goto('/dashboard');
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Network overview' })).toBeVisible();
-    await expect(page.locator('.city-marker')).toHaveCount(10);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
     await expect(page.locator('.featured-city, .featured-sources, .map-notes, .map-source, .search-results')).toHaveCount(0);
@@ -172,7 +152,7 @@ for (const width of [1366, 768, 390]) {
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await expect(page.getByText(/SYNTHETIC FIXTURE PREVIEW/)).toBeVisible();
-    await expect(page.locator('.city-marker')).toHaveCount(10);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     await expect(page.locator('.overview-panels > section')).toHaveCount(3);
     await expect(page.locator('.map-table tbody tr')).toHaveCount(5);
     await expect(page.locator('.overview-panels [data-chart]')).toHaveCount(2);

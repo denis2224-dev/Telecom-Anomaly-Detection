@@ -1,5 +1,3 @@
-import geography from '../../../../../../contracts/geography/trace-link-geography-v2.json';
-import topology from '../../../../../../contracts/topology/trace-link-links-v1.json';
 import type { components } from '../../core/api/schema';
 import { projectCity } from './moldova-map';
 import type { GeographyCatalogue } from '../../core/api/telecom-client';
@@ -15,7 +13,7 @@ export interface City {
   name: string;
   // Projected geographic percentages; null means search/detail only.
   marker: { x: number; y: number } | null;
-  location: { latitude: number; longitude: number; geonamesId?: number };
+  location: { latitude: number; longitude: number; geonamesId: number };
   labelSide: 'left' | 'right';
   featured: boolean;
   // Populate only with approved exact backend scope IDs in live mode.
@@ -24,13 +22,18 @@ export interface City {
 }
 
 // Geographic coordinates and display choices only; LIVE membership is supplied by the backend.
-export const cities: readonly City[] = geography.cities.filter(city => city.active).map(city => ({
-  id: city.contractCityId, name: city.displayName,
-  marker: projectCity(city.longitude, city.latitude),
-  location: {latitude: city.latitude, longitude: city.longitude},
-  labelSide: ['CHI','BAL','EDI','CAH','HIN'].includes(city.contractCityId) ? 'left' : 'right',
-  featured: ['CHI','BAL','SOR','UNG','CAH'].includes(city.contractCityId), scopeIds: [],
-}));
+export const cities: readonly City[] = [
+  { id: 'CHI', name: 'Chișinău', marker: projectCity(28.85938, 47.00902), location: { latitude: 47.00902, longitude: 28.85938, geonamesId: 618426 }, labelSide: 'left', featured: true, scopeIds: [] },
+  { id: 'BAL', name: 'Bălți', marker: projectCity(27.92854, 47.76291), location: { latitude: 47.76291, longitude: 27.92854, geonamesId: 618605 }, labelSide: 'left', featured: true, scopeIds: [] },
+  { id: 'EDI', name: 'Edineț', marker: projectCity(27.30075, 48.17319), location: { latitude: 48.17319, longitude: 27.30075, geonamesId: 617076 }, labelSide: 'left', featured: false, scopeIds: [] },
+  { id: 'SOR', name: 'Soroca', marker: projectCity(28.28489, 48.15659), location: { latitude: 48.15659, longitude: 28.28489, geonamesId: 617367 }, labelSide: 'right', featured: true, scopeIds: [] },
+  { id: 'RIB', name: 'Rîbnița', marker: null, location: { latitude: 47.76817, longitude: 29.01, geonamesId: 617486 }, labelSide: 'right', featured: false, scopeIds: [] },
+  { id: 'UNG', name: 'Ungheni', marker: projectCity(27.80013, 47.21023), location: { latitude: 47.21023, longitude: 27.80013, geonamesId: 617180 }, labelSide: 'right', featured: true, scopeIds: [] },
+  { id: 'TIR', name: 'Tiraspol', marker: null, location: { latitude: 46.84275, longitude: 29.6284, geonamesId: 617239 }, labelSide: 'left', featured: false, scopeIds: [] },
+  { id: 'COM', name: 'Comrat', marker: projectCity(28.65713, 46.29488), location: { latitude: 46.29488, longitude: 28.65713, geonamesId: 618405 }, labelSide: 'right', featured: false, scopeIds: [] },
+  { id: 'CAH', name: 'Cahul', marker: projectCity(28.19516, 45.90456), location: { latitude: 45.90456, longitude: 28.19516, geonamesId: 618456 }, labelSide: 'left', featured: true, scopeIds: [] },
+  { id: 'ORH', name: 'Orhei', marker: projectCity(28.82535, 47.38503), location: { latitude: 47.38503, longitude: 28.82535, geonamesId: 617638 }, labelSide: 'right', featured: false, scopeIds: [] },
+];
 
 // Add only catalogue-approved edges. Empty means no network links are asserted.
 export interface ApprovedConnection {
@@ -38,16 +41,14 @@ export interface ApprovedConnection {
   fromCityId: string;
   toCityId: string;
 }
-export const approvedConnections: readonly ApprovedConnection[] = topology.links.map(link => ({
-  id: link.linkId, fromCityId: link.endpointAContractCityId, toCityId: link.endpointBContractCityId,
-}));
+export const approvedConnections: readonly ApprovedConnection[] = [];
 
 // Static data supplies coordinates only. Membership and measurements come from protected reads.
 export function bindGeography(response: GeographyCatalogue): readonly City[] {
   if (response.cities.length !== cities.length || !response.catalogueVersion || !response.topologyVersion
     || !Number.isFinite(Date.parse(response.generatedAt))) throw new Error('Incomplete city catalogue.');
   const ids = new Set<string>(), scopes = new Set<string>();
-  const mapped = response.cities.filter(item => !['RIB','TIR'].includes(item.cityId)).map(item => {
+  return response.cities.map(item => {
     const city = cities.find(city => city.id === item.cityId);
     if (!city || ids.has(item.cityId) || item.catalogueVersion !== response.catalogueVersion
       || item.topologyVersion !== response.topologyVersion || item.services.length !== 2
@@ -60,8 +61,6 @@ export function bindGeography(response: GeographyCatalogue): readonly City[] {
     }
     return { ...city, name: item.displayName, scopeIds: item.services.map(state => state.scopeId), geography: item };
   });
-  // A legacy catalogue cannot assert memberships for new cities. Keep those explicitly unavailable.
-  return cities.map(city => mapped.find(item => item.id === city.id) ?? city);
 }
 
 export function geographyState(city: City, filter: Filter) {

@@ -30,11 +30,12 @@ test('real dashboard has fresh telemetry and populated history in all five domai
       await expect(page).toHaveURL(/\/dashboard$/);
     } catch { throw new Error('Real identity login failed; credentials omitted.'); }
     await expect(page.getByRole('heading', { name: 'Network overview', exact: true })).toBeVisible();
-    // The publisher waits for a whole minute observed after readiness.
-    await expect(page.locator('.headline-metrics')).not.toContainText('Unavailable', { timeout: 120_000 });
+    await expect(page.locator('.headline-metrics')).toContainText('Call setup success');
     await expect(page.locator('.service-panel .actual-line').first()).not.toHaveAttribute('d', '');
-    await expect(page.locator('[aria-labelledby="sms-panel-title"]')).toBeVisible();
-    await expect(page.getByRole('region', { name: 'Roaming overview', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('region', { name: 'Roaming overview', exact: true })).toBeVisible();
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+    await expect(page.locator('.roaming-kpis')).not.toContainText('NaN');
+    await expect(page.locator('.roaming-kpis strong').first()).toContainText('%');
     const summariesResponse = await context.request.get('/api/services');
     expect(summariesResponse.status()).toBe(200);
     const summaries = await summariesResponse.json();
@@ -45,15 +46,13 @@ test('real dashboard has fresh telemetry and populated history in all five domai
       expect(fresh.length, `${service} fresh complete measurements`).toBeGreaterThan(0);
       evidence.push({ service, freshCompleteScopes: fresh.length });
     }
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     await page.getByLabel('Service', { exact: true }).selectOption('SMS');
-    await expect(page.locator('.headline-metrics')).toContainText('Delivered messages');
-    await expect(page.locator('.headline-metrics')).not.toContainText('Unavailable');
-    await expect(page.locator('[aria-labelledby="volte-panel-title"]')).toBeHidden();
+    await expect(page.locator('[aria-labelledby="volte-panel-title"]')).toBeVisible();
     await expect(page.locator('[aria-labelledby="sms-panel-title"]')).toBeVisible();
     await page.setViewportSize({ width: 1366, height: 900 });
-    await page.screenshot({ path: info.outputPath('dashboard-sms-desktop.png'), fullPage: true, mask: [page.locator('.identity')] });
-    await page.getByLabel('Service', { exact: true }).selectOption('ALL');
-    await page.getByRole('link', { name: 'Open backhaul history', exact: true }).click();
+    await page.screenshot({ path: info.outputPath('dashboard-restored-desktop.png'), fullPage: true, mask: [page.locator('.identity')] });
+    await page.goto('/trace-link');
     await expect(page.getByRole('region', { name: 'Approved topology' })).toContainText('10 active cities · 12 active links');
     await expect(page.getByRole('combobox', { name: 'Registered persisted dataset', exact: true })).toHaveValue('trace-link-md-30d-v1');
     const datasetsResponse = await context.request.get('/api/v2/datasets');
@@ -76,6 +75,7 @@ test('real dashboard has fresh telemetry and populated history in all five domai
       expect(series.points.every((point: any) => point.value !== null), metric).toBe(true);
       evidence.push({ metric, measuredBuckets: series.points.length });
     }
+    await page.getByRole('button', { name: 'Transport', exact: true }).click();
     await page.getByRole('button', { name: 'chi-hin a-to-b', exact: true }).click();
     await page.getByRole('combobox', { name: 'Metric', exact: true }).selectOption('transport.traffic');
     await expect(page.getByRole('region', { name: 'Persisted metric chart' })).toContainText('transport.traffic');
@@ -86,31 +86,21 @@ test('real dashboard has fresh telemetry and populated history in all five domai
     await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
     await page.getByRole('link', { name: 'Roaming investigation', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Roaming services', exact: true })).toBeVisible();
-    const roamingChart = page.getByRole('region', { name: 'Persisted metric chart' });
-    await expect(roamingChart).toContainText('roaming.registration.success');
-    await expect(page.locator('app-trace-incidents [role=alert]')).toHaveCount(0);
-    await expect(roamingChart.locator('svg path')).not.toHaveAttribute('d', '');
+    const roamingChart = page.locator('[data-chart=registrationSrPct]');
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+    await expect(roamingChart.locator('.actual-line')).not.toHaveAttribute('d', '');
     await expect(page.getByText('Roaming measurements are unavailable', { exact: false })).toHaveCount(0);
-    await page.getByRole('combobox', { name: 'Country', exact: true }).selectOption('RO');
-    await page.getByRole('combobox', { name: 'Roaming direction', exact: true }).selectOption('out');
-    await expect(page.getByRole('combobox', { name: 'Series partner and direction', exact: true })).toHaveValue('RO-DEMO-01:out');
-    await page.getByRole('combobox', { name: 'Metric', exact: true }).selectOption('roaming.voice.success');
-    await expect(roamingChart).toContainText('roaming.voice.success');
+    await page.getByRole('combobox', { name: 'Sort roaming countries', exact: true }).selectOption('country');
+    await expect(page.locator('.country-panels section').first().locator('tbody tr').first()).toContainText('Bulgaria');
     await page.reload();
-    await expect(roamingChart).toContainText('roaming.voice.success');
-    await expect(page.getByRole('combobox', { name: 'Country', exact: true })).toHaveValue('RO');
-    await expect(page.getByRole('combobox', { name: 'Series partner and direction', exact: true })).toHaveValue('RO-DEMO-01:out');
-    const selectedRoamingUrl = new URL(page.url());
-    selectedRoamingUrl.searchParams.set('domain', 'volte');
-    await page.goto(selectedRoamingUrl.toString());
-    await expect(roamingChart).toContainText('roaming.voice.success');
-    expect(new URL(page.url()).searchParams.get('domain')).toBe('roaming');
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+    await expect(roamingChart.locator('.actual-line')).not.toHaveAttribute('d', '');
     for (const width of [1366, 390]) {
       await page.setViewportSize({ width, height: 900 });
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
       await page.screenshot({ path: info.outputPath(`roaming-${width}.png`), fullPage: true, mask: [page.locator('.identity')] });
     }
-    evidence.push({ roamingPage: 'Real sidebar, direct URL and reload preserve recorded partner/direction/metric' });
+    evidence.push({ roamingPage: 'Original roaming cards, country tables and chart display recorded data after navigation and reload' });
     await page.getByRole('button', { name: 'Sign out', exact: true }).click();
     await expect(page).toHaveURL(/\/signed-out$/);
     expect((await context.request.get('/api/v2/datasets')).status()).toBe(401);

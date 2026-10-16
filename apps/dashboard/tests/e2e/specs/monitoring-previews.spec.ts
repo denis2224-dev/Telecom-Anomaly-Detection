@@ -1,3 +1,4 @@
+import { recordedRoaming } from '../helpers/recorded-roaming';
 import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
@@ -6,15 +7,16 @@ import { previewScenarios } from '../../../src/app/features/scenario-runner/moni
 for (const width of [1366, 390]) {
   test(`roaming overview, live status and incident sheet are connected at ${width}px`, async ({ page }, info) => {
     const state = await controlledApi(page);
+    await recordedRoaming(page);
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
-    await expect(page.getByRole('region', { name: 'Roaming overview' })).toHaveCount(0);
-    await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
-    await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
-    await expect(page.getByRole('link', { name: 'Open backhaul history', exact: true })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Roaming overview' })).toBeVisible();
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+    await expect(page.getByLabel('Key service information').locator(':scope > div > span')).toHaveText(['Call attempts', 'Call setup success', 'Failed setup share', 'IMS CPU', 'Backhaul traffic', 'Roaming status', 'Open incidents']);
+    await expect(page.locator('.headline-metrics')).toContainText('Backhaul traffic');
     await expect(page.locator('.transport-link')).toHaveCount(0);
     await expect(page.getByRole('checkbox', { name: 'Show sample links' })).toHaveCount(0);
-    await expect(page.locator('.city-marker')).toHaveCount(10);
+    await expect(page.locator('.city-marker')).toHaveCount(8);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 1366) {
       const boxes = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
@@ -26,9 +28,9 @@ for (const width of [1366, 390]) {
     await page.screenshot({ path: info.outputPath(`overview-traffic-${width}.png`), fullPage: true });
     if (width === 390) await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
     await page.getByRole('link', { name: 'Roaming investigation', exact: true }).click();
-    await expect(page).toHaveURL(/\/roaming\?/);
+    await expect(page).toHaveURL(/\/roaming$/);
     await expect(page.getByRole('heading', { name: 'Roaming services', exact: true })).toBeVisible();
-    await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
     await page.goto('/dashboard?view=live');
     await expect(page.getByRole('region', { name: 'Live status' })).toContainText('1 active incidents');
     await expect(page.locator('app-connected-overview')).toHaveCount(0);

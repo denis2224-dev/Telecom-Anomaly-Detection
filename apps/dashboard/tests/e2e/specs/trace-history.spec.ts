@@ -46,20 +46,21 @@ async function expectRenderedSeries(page:Page,from:string,rows:number){
   await expect(chart.locator('tbody time').first()).toHaveAttribute('datetime',from);
   await expect(chart.locator('tbody tr')).toHaveCount(rows);
 }
-for(const width of [1366,390])test(`roaming page loads recorded partner measurements and preserves filters at ${width}px`,async({page})=>{
+for(const width of [1366,390])test(`Trace Link roaming history preserves partner filters and error recovery at ${width}px`,async({page})=>{
  const queries=await setup(page);
  await page.setViewportSize({width,height:900});
  await page.route('**/api/v2/datasets',route=>route.fulfill({json:[{datasetId:'trace-link-md-30d-v1',from:'2026-09-10T09:00:00Z',to:'2026-09-10T09:20:00Z',synthetic:true,archiveReady:true,catalogueVersion:'controlled-native-v1'}]}));
  await page.route('**/api/v2/kpi-definitions',route=>route.fulfill({json:['roaming.registration.success','roaming.voice.success'].map(metric=>({...definition,domain:'roaming',metric}))}));
- await page.goto('/roaming');
- await expect(page.getByRole('heading',{name:'Roaming services',exact:true})).toBeVisible();
+ await page.goto('/trace-link?domain=roaming&partnerDirectionId=RO-DEMO-01%3Aout');
+ await expect(page.getByRole('heading',{name:'Trace Link history',exact:true})).toBeVisible();
  const chart=page.getByRole('region',{name:'Persisted metric chart'});
  await expect(chart).toContainText('roaming.registration.success');
  await expect(chart.locator('svg path')).not.toHaveAttribute('d','');
  expect(queries.at(-1)).toMatchObject({domain:'roaming',scopeType:'PARTNER_DIRECTION',datasetId:'trace-link-md-30d-v1'});
- await expect(page.getByRole('region',{name:'Approved topology'})).toHaveCount(0);
+ await expect(page.getByRole('region',{name:'Approved topology'})).toHaveCount(1);
  await page.getByRole('combobox',{name:'Country',exact:true}).selectOption('RO');
  await page.getByRole('combobox',{name:'Roaming direction',exact:true}).selectOption('out');
+ await page.getByRole('combobox',{name:'Series partner and direction',exact:true}).selectOption('RO-DEMO-01:out');
  await expect(page.getByRole('combobox',{name:'Series partner and direction',exact:true})).toHaveValue('RO-DEMO-01:out');
  await page.getByRole('combobox',{name:'Metric',exact:true}).selectOption('roaming.voice.success');
  await expect(chart).toContainText('roaming.voice.success');

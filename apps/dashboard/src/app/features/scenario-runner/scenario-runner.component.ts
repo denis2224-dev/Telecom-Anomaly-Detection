@@ -1,4 +1,4 @@
-import { cities as approvedCities } from '../service-overview/dashboard-geography';
+import approvedGeography from '../../../../../../contracts/geography/trace-link-geography-v2.json';
 import { DatePipe } from '@angular/common';
 import {
   Component,
@@ -299,7 +299,7 @@ export class ScenarioRunnerComponent implements OnDestroy {
           throw new Error('Incomplete city catalogue.');
         const authorized = new Set(['VOLTE-MD-CENTRAL', 'SMS-MD-ROUTE-A']);
         for (const city of catalogue.cities) {
-          if (!approvedCities.some(approved=>approved.id===city.cityId)) continue;
+          if (!approvedGeography.cities.some(approved=>approved.active && approved.contractCityId===city.cityId)) continue;
           if (city.catalogueVersion !== catalogue.catalogueVersion
             || city.topologyVersion !== catalogue.topologyVersion || city.services.length !== 2)
             throw new Error('Inconsistent city catalogue.');

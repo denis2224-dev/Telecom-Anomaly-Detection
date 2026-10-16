@@ -50,6 +50,7 @@ test('every published city, containment node, dependency and service reaches the
       await page.getByRole('button', { name: /sign in/i }).click();
       await expect(page).toHaveURL(/\/dashboard$/);
     } catch { throw new Error('Authenticated connection check failed; credentials omitted.'); }
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     const catalogue = await read<GeographyCatalogue>('/api/geography/cities');
     const inventory = await read<ServiceSummary[]>('/api/services');
     const scopes = new Set(inventory.map(item => item.scope.scopeId));
