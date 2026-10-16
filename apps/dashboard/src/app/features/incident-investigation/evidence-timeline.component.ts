@@ -10,14 +10,14 @@ import { deviation, relativeChange, probableCause, metricLabel, primaryMetric, s
 type Detection = components['schemas']['ServiceDetection'];
 
 @Component({
+  styles: [`.supporting-kpis{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0;}.supporting-kpis > div{min-width:0;}.supporting-kpis dt{font-size:12px;font-weight:600;}.supporting-kpis dd{margin:3px 0 0;font-size:12px;overflow-wrap:anywhere;}.recorded-signal{font-size:13px;overflow-wrap:anywhere;}`],
   selector: 'app-evidence-timeline',
   imports: [DatePipe, CauseEvidenceComponent, IconComponent, MetricExplanationComponent, SampleVolumeComponent],
   template: `
     <h2>Evidence timeline</h2>
 
     <p>
-      Accepted detection records, ordered by sequence from earliest to latest.
-      Each update preserves the evidence recorded for its own window.
+      Recorded updates · oldest first.
     </p>
 
     @for (detection of ordered(); track detection.detectionId) {
@@ -32,14 +32,13 @@ type Detection = components['schemas']['ServiceDetection'];
             <h3>Update {{ detection.sequence }} · {{ detection.phase }}</h3>
             <p class="mono">{{ detection.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} – {{ detection.windowEnd | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
           </div>
-          <div class="badge-row"><span class="badge" [attr.data-state]="detection.severity"><span class="sr-only">Severity: </span>{{ detection.severity }}</span><span class="badge" [attr.data-state]="detection.technicalState"><span class="sr-only">Technical state: </span>{{ detection.technicalState }}</span><span class="badge">{{ detection.phase }}</span></div>
+          <div class="badge-row"><span class="badge" [attr.data-state]="detection.severity"><span class="sr-only">Severity: </span>{{ detection.severity }}</span><span class="badge" [attr.data-state]="detection.technicalState"><span class="sr-only">Technical state: </span>{{ detection.technicalState }}</span></div>
         </header>
         <p class="evidence-meta">Server detected at <time [attr.datetime]="detection.detectedAt">{{ detection.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</time> UTC · Service: {{ detection.service }}</p>
 
         @if (detection.phase === 'UNKNOWN') {
           <p class="notice">
-            Evidence is incomplete. This update does not prove recovery;
-            impact retains the last evaluated value.
+            Incomplete evidence · recovery unconfirmed. Last evaluated impact retained.
           </p>
         }
 
@@ -76,7 +75,7 @@ type Detection = components['schemas']['ServiceDetection'];
             </thead>
 
             <tbody>
-              @for (kpi of detection.kpis; track kpi.name) {
+              @for (kpi of primaryKpis(detection); track kpi.name) {
                 <tr [attr.data-kpi]="kpi.name">
                   <th scope="row">{{ label(kpi.name) }}</th>
                   <td>{{ observedFor(detection, kpi) ?? 'Unavailable' }}</td>
@@ -98,11 +97,16 @@ type Detection = components['schemas']['ServiceDetection'];
         </p>
 
         <details class="evidence-disclosure"><summary>Troubleshooting</summary>
-          <p>Detection: <code>{{ detection.detectionId }}</code> · Scope: <code>{{ detection.scopeId }}</code></p>
-          <p>Rules: {{ detection.rulesetVersion }} · Baseline: {{ detection.baselineVersion }} · Topology: {{ detection.topologyVersion }}</p>
+          @if (supportingKpis(detection).length) {
+            <dl class="supporting-kpis" aria-label="Supporting KPI evidence">
+              @for (kpi of supportingKpis(detection); track kpi.name) {
+                <div [attr.data-kpi]="kpi.name"><dt>{{ label(kpi.name) }}</dt><dd><span class="supporting-value">{{ observedFor(detection, kpi) ?? 'Unavailable' }}</span> {{ kpi.unit }} · Baseline: <span class="supporting-baseline">{{ kpi.baseline ?? 'Unavailable' }}</span> · {{ change(kpi, observedFor(detection, kpi)) }}</dd></div>
+              }
+            </dl>
+          }
+          <p>Scope: <code>{{ detection.scopeId }}</code></p>
           @for (evidence of detection.evidence; track $index) {
-            <p>Evidence code: {{ evidence.code }} · Node: {{ evidence.nodeId ?? 'Unavailable' }}</p>
-            <ul>@for (id of evidence.sourceEventIds; track id) { <li><code>{{ id }}</code></li> } @empty { <li>No source event IDs supplied.</li> }</ul>
+            <p class="recorded-signal">{{ evidence.summary }}@if (evidence.nodeId) { <span> · Node: {{ evidence.nodeId }}</span> }</p>
           }
           @if (cause(detection) !== detection.probableCause) { <p>Recorded hypothesis (not confirmed): {{ detection.probableCause || 'Unavailable' }}</p> }
         </details>
@@ -110,12 +114,19 @@ type Detection = components['schemas']['ServiceDetection'];
         <details class="cause-details"><summary>Cause hypothesis &amp; recommended checks</summary><app-cause-evidence [detection]="detection" /></details>
       </article>
     } @empty {
-      <p role="status">No evidence updates available on this page. Refresh the incident or return to its first evidence page. This does not prove recovery.</p>
+      <p role="status">No updates on this page. Refresh or return to the first page. Recovery unconfirmed.</p>
     }
   `,
 })
 export class EvidenceTimelineComponent {
   readonly detections = input<Detection[]>([]);
+  primaryKpis(detection: Detection): Kpi[] {
+    const names = detection.service === 'VOLTE'
+      ? ['cssrPct', 'Call setup success rate (CSSR)', 'eligibleAttempts', 'sip503Ratio', 'imsCpuPct']
+      : ['deliverySrPct', 'deliveredMessages', 'queueDepth', 'p95DeliveryMs', 'oldestPendingAgeSec', 'eligibleAttempts'];
+    return detection.kpis.filter(kpi => names.includes(kpi.name));
+  }
+  supportingKpis(detection: Detection): Kpi[] { return detection.kpis.filter(kpi => !this.primaryKpis(detection).includes(kpi)); }
   readonly label = metricLabel;
   readonly change = deviation;
   readonly relative = relativeChange;

@@ -10,7 +10,6 @@
       <div class="sidebar-section-label">WORKSPACE</div>
       <nav aria-label="Workspace" class="sidebar-nav">
         <a routerLink="/dashboard" routerLinkActive="active" [class.active]="pageTitle() === 'Service overview'" class="nav-link" aria-label="Service overview" title="Service overview" (click)="mobileOpen.set(false)"><app-icon name="grid" /><span>Service overview</span></a>
-        <a routerLink="/trace-link" routerLinkActive="active" class="nav-link" aria-label="Trace Link history" title="Trace Link history" (click)="mobileOpen.set(false)"><app-icon name="grid"/><span>Trace Link history</span></a>
         @if (session.actor()?.roles?.includes('SUPERVISOR') || session.actor()?.roles?.includes('ADMIN')) {
           <a routerLink="/scenarios" routerLinkActive="active" class="nav-link" aria-label="Scenario runner" title="Scenario runner" (click)="mobileOpen.set(false)"><app-icon name="play" /><span>Scenario runner</span></a>
         }

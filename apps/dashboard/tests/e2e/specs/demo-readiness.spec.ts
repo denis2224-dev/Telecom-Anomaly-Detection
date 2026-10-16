@@ -47,7 +47,7 @@ test('200% zoom keeps overview and service graph labels, focus and navigation us
   await expect(refresh).toBeFocused();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   expect(await page.locator('.period-chips button').evaluateAll(buttons => buttons.every(button => button.scrollWidth <= button.clientWidth + 1))).toBe(true);
-  const panels = await page.locator('.overview-panels > section').evaluateAll(panels => panels.map(panel => {
+  const panels = await page.locator('.overview-panels .service-panel, .overview-panels > .map-panel').evaluateAll(panels => panels.map(panel => {
     const rect = panel.getBoundingClientRect();
     const table = (panel.querySelector('table') ?? panel.querySelector('.roaming'))!.getBoundingClientRect();
     const navigation = panel.querySelector('.panel-navigation')!.getBoundingClientRect();

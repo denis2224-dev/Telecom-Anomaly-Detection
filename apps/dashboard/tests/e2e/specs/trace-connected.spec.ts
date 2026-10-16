@@ -18,14 +18,14 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
   const definitions=await read<any[]>(actor,'/api/v2/kpi-definitions');
   expect(sql(stack,'incidents_db',"SELECT count(*) FROM app.trace_catalogue WHERE active")).toBe('0');
   await actor.page.goto('/trace-link?'+new URLSearchParams(bounds));
-  await expect(actor.page.getByRole('region',{name:'Approved topology'})).toContainText('10 active cities · 12 active links');
-  await expect(actor.page.getByRole('combobox',{name:'Registered persisted dataset',exact:true})).toHaveValue(manifest.dataset_id);
+  await expect(actor.page.getByRole('region',{name:'Approved topology'})).toContainText('10 cities · 12 links');
+  await expect(actor.page.getByRole('combobox',{name:'Dataset',exact:true})).toHaveValue(manifest.dataset_id);
   await expect(actor.page.getByRole('region',{name:'Persisted metric chart'})).toBeVisible();
   const from=await actor.page.getByLabel('From · UTC inclusive').inputValue();
   for(const resolution of ['15m','1h','6h','5m']){
    await actor.page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption(resolution);
    await expect(actor.page.getByLabel('From · UTC inclusive')).toHaveValue(from);
-   await expect(actor.page.getByRole('button',{name:'Download exact server CSV'})).toBeEnabled();
+   await expect(actor.page.getByRole('button',{name:'Download CSV'})).toBeEnabled();
   }
   await actor.page.getByRole('combobox',{name:'Resolution',exact:true}).selectOption('1h');await actor.page.getByRole('button',{name:'6h',exact:true}).click();
   await expect(actor.page.getByRole('combobox',{name:'Resolution',exact:true})).toHaveValue('1h');
@@ -40,12 +40,12 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
    await actor.page.getByRole('button',{name:domain,exact:true}).click();
    if(domain==='Roaming'){
     await actor.page.getByRole('combobox',{name:'Country',exact:true}).selectOption('RO');await actor.page.getByRole('combobox',{name:'Roaming direction',exact:true}).selectOption('out');
-    await actor.page.getByRole('combobox',{name:'Series partner and direction',exact:true}).selectOption('RO-DEMO-01:out');
-    await actor.page.reload();await expect(actor.page.getByRole('combobox',{name:'Country',exact:true})).toHaveValue('RO');await expect(actor.page.getByRole('combobox',{name:'Series partner and direction',exact:true})).toHaveValue('RO-DEMO-01:out');
+    await actor.page.getByRole('combobox',{name:'Partner / direction',exact:true}).selectOption('RO-DEMO-01:out');
+    await actor.page.reload();await expect(actor.page.getByRole('combobox',{name:'Country',exact:true})).toHaveValue('RO');await expect(actor.page.getByRole('combobox',{name:'Partner / direction',exact:true})).toHaveValue('RO-DEMO-01:out');
    }
    await actor.page.getByRole('combobox',{name:'Metric',exact:true}).selectOption(metric);
    const chart=actor.page.getByRole('region',{name:'Persisted metric chart'});await expect(chart).toContainText(metric);
-   await expect(actor.page.getByRole('button',{name:'Download exact server CSV'})).toBeEnabled();
+   await expect(actor.page.getByRole('button',{name:'Download CSV'})).toBeEnabled();
    const context=new URL(actor.page.url()).searchParams;
    const query=new URLSearchParams({datasetId:manifest.dataset_id,domain:context.get('domain')!,metric,scopeType:domain==='Transport'?'LINK_DIRECTION':domain==='Roaming'?'PARTNER_DIRECTION':'CITY',scopeId:domain==='Transport'?'chi-hin:a-to-b':domain==='Roaming'?'RO-DEMO-01:out':'chi',from:context.get('visibleFrom')??context.get('from')!,to:context.get('visibleTo')??context.get('to')!,resolution:context.get('resolution')!});
    const result=await read<any>(actor,'/api/v2/metrics/series?'+query),definition=definitions.find(item=>item.metric===metric);expect(definition).toBeDefined();
@@ -53,10 +53,10 @@ for(const width of [1366,390])test(`populated authenticated history preserves ex
     expect(result.points.every((point:any)=>point.value===null&&point.nullReason==='ADDITIONAL_PRIMITIVES_REQUIRED'),metric).toBe(true);
     await expect(chart).toContainText('Unavailable');
    }else expect(result.points.some((point:any)=>point.value!==null),metric).toBe(true);
-   const event=actor.page.waitForEvent('download');await actor.page.getByRole('button',{name:'Download exact server CSV'}).click();const download=await event;
+   const event=actor.page.waitForEvent('download');await actor.page.getByRole('button',{name:'Download CSV'}).click();const download=await event;
    const csv=readFileSync((await download.path())!,'utf8');requireExactExport(result,csv);evidence.push({metric,buckets:result.points.length,csvSha256:createHash('sha256').update(csv).digest('hex')});
   }
-  const expand=actor.page.getByRole('button',{name:'Expand metric',exact:true});await expand.click();await expect(actor.page.getByRole('dialog',{name:'Expanded persisted metric'})).toContainText('mobileData.dns.success');await actor.page.keyboard.press('Escape');await expect(expand).toBeFocused();
+  const expand=actor.page.getByRole('button',{name:'Expand metric',exact:true});await expand.click();await expect(actor.page.getByRole('dialog',{name:'Expanded chart'})).toContainText('mobileData.dns.success');await actor.page.keyboard.press('Escape');await expect(expand).toBeFocused();
   expect(await actor.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
   expect(await read<any>(actor,'/api/notifications/push/config')).toMatchObject({enabled:false});
   await actor.page.screenshot({path:info.outputPath(`populated-history-${width}.png`),fullPage:true,mask:[actor.page.locator('.identity')]});

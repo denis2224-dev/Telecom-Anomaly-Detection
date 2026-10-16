@@ -28,7 +28,7 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     await expect(hero.locator('svg[role="img"]')).toHaveCount(1);
     await expect(hero.locator('.chart-legend')).toHaveCount(1);
     await expect(hero.locator('.incident-band')).toHaveCount(1);
-    await expect(page.locator('.kpi-switcher button')).toHaveCount(service === 'VOLTE' ? 7 : 5);
+    await expect(page.locator('.kpi-switcher button')).toHaveCount(service === 'VOLTE' ? 4 : 5);
     if (service === 'VOLTE') {
       await expect(page.locator('.kpi-summary').getByText('Attempts', { exact: true })).toBeVisible();
       await expect(page.locator('.kpi-summary')).not.toContainText('Eligible attempts');
@@ -57,14 +57,14 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     await expect(hero.locator('.chart-tooltip')).toContainText(state.windows.at(-1)!.windowStart.slice(11, 19));
     await expect(hero.locator('.chart-tooltip')).toContainText('Baseline:');
     const plotHeight = (await plot.boundingBox())!.height;
-    const technical = service === 'VOLTE' ? 'RRC SR' : 'Queue Depth';
-    const technicalId = service === 'VOLTE' ? 'rrcSrPct' : 'queueDepth';
+    const technical = service === 'VOLTE' ? 'SIP 503 rate' : 'Queue Depth';
+    const technicalId = service === 'VOLTE' ? 'sip503Ratio' : 'queueDepth';
     const technicalButton = hero.getByRole('button', { name: technical, exact: true });
     await technicalButton.click();
     await expect(chart).toHaveAttribute('data-chart', technicalId);
     await expect(technicalButton).toHaveAttribute('aria-pressed', 'true');
     expect((await hero.locator('.chart-scroll').boundingBox())!.height).toBe(plotHeight);
-    await hero.getByRole('button', { name: service === 'VOLTE' ? 'CSSR' : 'P95 Delivery Delay', exact: true }).click();
+    await hero.getByRole('button', { name: service === 'VOLTE' ? 'Call setup success' : 'P95 Delivery Delay', exact: true }).click();
     await expect(chart).toHaveAttribute('data-chart', service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs');
     const action = page.locator('.episode-card').getByRole('link', { name: 'Open incident detail', exact: true });
     await expect(action).toHaveClass(/primary/);

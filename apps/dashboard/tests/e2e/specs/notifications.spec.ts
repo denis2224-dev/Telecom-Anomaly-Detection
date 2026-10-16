@@ -16,7 +16,7 @@ test('durable notifications keep failed read state, qualify causes and restore k
   await page.setViewportSize({width:390,height:900});await page.goto('/dashboard');
   const bell=page.getByRole('button',{name:'Notifications, 1 unread'});await bell.focus();await page.keyboard.press('Enter');
   const dialog=page.getByRole('dialog',{name:'Notification history'});await expect(dialog).toBeVisible();
-  await expect(dialog).toContainText('Cause undetermined');await expect(dialog).toContainText('Recovery does not resolve analyst work');
+  await expect(dialog).toContainText('Cause undetermined');await expect(dialog).toContainText('recovery requires analyst resolution');
   await dialog.getByRole('button',{name:'Mark read',exact:true}).click();await expect(dialog.getByRole('alert')).toBeVisible();
   await expect(dialog).toContainText('Unread');fail=false;await dialog.getByRole('button',{name:'Mark read',exact:true}).click();
   await expect(dialog.getByRole('button',{name:'Mark read',exact:true})).toHaveCount(0);

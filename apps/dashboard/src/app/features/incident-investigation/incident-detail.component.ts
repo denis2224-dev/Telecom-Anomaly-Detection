@@ -1,3 +1,4 @@
+import { IncidentDashboardActionsComponent } from './incident-dashboard-actions.component';
 import { ApiFailure } from '../../core/api/api-errors';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
@@ -15,9 +16,10 @@ import { IncidentActionsComponent } from './incident-actions.component';
 import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, probableCause } from '../../shared/metric-presentation';
 
 @Component({
-  selector: 'app-incident-detail', imports: [SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  styles: [`.incident-at-a-glance { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; } .incident-at-a-glance > span { width:100%; }`],
+  selector: 'app-incident-detail', imports: [IncidentDashboardActionsComponent, SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
-    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1><p>Follow the evidence. Coordinate the response.</p></div>
+    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1></div>
     @if (!loading() && !error()) {
       <button type="button" class="ghost" (click)="load(page(), true)"><app-icon name="refresh" />Refresh incident</button>
     }
@@ -38,15 +40,15 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
           <div class="badge-row"><span class="sr-only">Technical state: </span><span class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span><span class="sr-only">Workflow state: </span><span class="badge" [attr.data-state]="item.status">{{ item.status }}</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></div>
           <details class="evidence-disclosure"><summary>Troubleshooting</summary><p>Incident: <code>{{ item.id }}</code></p><p>Episode: <code>{{ item.episodeId }}</code></p><p>Scope: <code>{{ item.scopeId }}</code></p></details>
           <p>First observed {{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC · Last observed {{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
-          <p>{{ fixture ? 'Synthetic preview: sample detection history only.' : 'Server-recorded evidence. Times below are UTC.' }}</p>
-          @if (!fixture) { <p class="muted">Synthetic telecom demo · measurements processed by the running backend.</p> }
-          <p>Severity: <strong>{{ item.severity }}</strong>. This is the rule's service-impact priority, not a probability.</p>
+          <p>{{ fixture ? 'Sample data · UTC' : 'Synthetic evidence · UTC' }}</p>
+
+
           @if (item.technicalState === 'RECOVERED') {
-            <p>The service has recovered. {{ workflowState(item) }}</p>
+            <p>Service recovered. {{ workflowState(item) }}</p>
           } @else if (item.technicalState === 'UNKNOWN') {
-            <p>Technical state is unknown because evidence is incomplete. Do not treat this as recovery.</p>
+            <p>Incomplete evidence · recovery unconfirmed.</p>
           } @else {
-            <p>The issue is still ongoing at the latest observation.</p>
+            <p>Ongoing.</p>
           }
         </section>
         <app-incident-actions #workflow [incident]="item" (updated)="acceptAction($event)" />
@@ -57,9 +59,10 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
               <strong>{{ event.action }}</strong> · {{ event.occurredAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC
               @if (event.note) { <p>{{ event.note }}</p> }
             </div>
-          } @empty { <p>No investigation actions yet.</p> }
+          } @empty { <p>No actions yet.</p> }
         </section>
       </dialog>
+      <app-incident-dashboard-actions [incident]="item" (updated)="acceptAction($event)" />
       <header class="incident-summary-bar">
         <div class="incident-summary-title"><p class="eyebrow">Incident episode</p><h2>{{ item.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</h2></div>
         <div class="incident-at-a-glance">
@@ -71,19 +74,10 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
         </div>
         <button type="button" class="primary" (click)="detailsDrawer.showModal()"><app-icon name="user" />Details &amp; workflow</button>
       </header>
-      <section class="detail-panel" aria-label="Current incident times">
-        <dl class="investigation-times">
-          <div><dt>First observed (UTC)</dt><dd>{{ item.firstObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Detected (UTC)</dt><dd>{{ item.detectedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Last observed (UTC)</dt><dd>{{ item.lastObservedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Updated (UTC)</dt><dd>{{ item.updatedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }}</dd></div>
-          <div><dt>Recovery detected (UTC)</dt><dd>{{ recoveryDetectedAt() ? (recoveryDetectedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC') : 'Unavailable' }}</dd></div>
-        </dl>
-      </section>
       <div class="evidence-column">
       <p class="muted">
         Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
-        This page is part of the timeline; the incident summary shows the current state.
+
       </p>
       <nav class="pagination" aria-label="Evidence pages">
         <button (click)="load(page() - 1)" [disabled]="page() === 0"><app-icon name="left" />Previous evidence</button><span>{{ page() + 1 }} / {{ Math.max(1, Math.ceil(total() / pageSize)) }}</span>
@@ -94,7 +88,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
       @if (item.presentation; as presentation) {
         <details class="evidence-disclosure"><summary>Current impact and cause</summary>
           <p>{{ presentation.impactState }} · Impact source window: {{ presentation.impactWindowEnd ? (presentation.impactWindowEnd | date:'dd MMM HH:mm:ss':'UTC') + ' UTC' : 'Unavailable' }}</p>
-          @if (item.technicalState === 'UNKNOWN') { <p>Current comparison unavailable. Severity and retained impact are historical.</p> }
+          @if (item.technicalState === 'UNKNOWN') { <p>Comparison unavailable · retained impact is historical.</p> }
           @if (item.location; as location) {
             <p>Opening city: {{ location.cityId ?? 'Unavailable (' + (location.nullReason ?? 'unallocated') + ')' }} · Captured catalogue: {{ location.catalogueVersion ?? 'Unavailable' }} · Topology: {{ location.topologyVersion ?? 'Unavailable' }}</p>
             <p>Captured path: {{ location.containmentPath.join(' → ') || 'Unavailable' }} · Dependencies: {{ location.dependencyNodeIds.join(', ') || 'Unavailable' }}</p>

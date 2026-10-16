@@ -2,7 +2,7 @@
 
 Use the same release build/schema hashes, Chromium version, 1366×768 viewport, existing analyst, recorded dataset and seed 42 for both repetitions. Start from sign-in each time. Repeat at phone width after the desktop demonstration.
 
-1. Sign in through the provider. Open Trace Link history and select the fully imported pinned dataset. Its recorded catalogue can remain inactive: authenticated historical inventory uses the dataset's explicit version. If history is unavailable, stop populated acceptance and record the exact failure.
+1. Sign in through the provider. Choose Investigate history to open Historical analysis and select the fully imported pinned dataset. Its recorded catalogue can remain inactive: authenticated historical inventory uses the dataset's explicit version. If history is unavailable, stop populated acceptance and record the exact failure.
 2. When the archive is registered, select its absolute bounds and city. Change period and resolution independently. Brush/zoom/pan/reset, expand the chart and close it with Escape to demonstrate focus return.
 3. Investigate one declared link direction. Read capacity and traffic as different values. Show native provenance and any unavailable loss/state fields. Do not infer an outage from high utilization.
 4. Select roaming country, direction and partner. Explain that registration/data/voice are separate populations and that registered archive snapshots/finalized roaming SMS retain their own populations and freshness. The separate original native view can report these unavailable; do not infer them from registration.

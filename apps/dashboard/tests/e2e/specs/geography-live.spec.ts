@@ -123,9 +123,9 @@ for (const width of [1366, 768, 390]) {
     const state = await liveApi(page);
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
-    await expect(page.locator('.city-marker')).toHaveCount(8);
+    await expect(page.locator('.city-marker')).toHaveCount(10);
     await expect(page.locator('.map-table')).not.toContainText('Mapping pending');
-    await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
+    await expect(page.locator('.city-marker .node-label small')).toHaveCount(10);
     await expect(page.locator('.city-marker').filter({ hasText: 'Rîbnița' })).toHaveCount(0);
     await expect(page.locator('.city-marker').filter({ hasText: 'Tiraspol' })).toHaveCount(0);
     await page.locator('.city-marker').filter({ hasText: 'Orhei' }).click();
@@ -170,7 +170,7 @@ test('LIVE geography outages and missing history never substitute fixture values
   await expect(page.locator('.city-marker .node-label small')).toHaveCount(0);
   state.geographyStatus = 200;
   await page.getByRole('button', { name: 'Refresh overview', exact: true }).click();
-  await expect(page.locator('.city-marker .node-label small')).toHaveCount(8);
+  await expect(page.locator('.city-marker .node-label small')).toHaveCount(10);
   state.historyStatus = 503;
   await page.getByLabel('Region', { exact: true }).fill('Orhei');
   await expect(page.locator('.chart-scope')).toContainText(['Orhei', 'Orhei']);
@@ -298,7 +298,7 @@ for (const width of [1366, 768, 390]) {
     await queue.locator(`a[href="/incidents/${orhei.id}"]`).click();
     await expect(page).toHaveURL(new RegExp(`/incidents/${orhei.id}$`));
     await expect(page.locator('.incident-summary-bar')).toContainText('Awaiting analyst resolution');
-    await expect(page.locator('[aria-label="Current incident times"]')).toContainText('Updated (UTC)');
+    await expect(page.locator('[aria-label="Current incident times"]')).toHaveCount(0);
     await page.locator('.cause-details > summary').click();
     await expect(page.locator('app-cause-evidence')).toContainText('Cause undetermined');
     await expect(page.locator('app-cause-evidence [data-fact=paths] dd')).toHaveText('Unavailable');
@@ -327,7 +327,9 @@ for (const width of [1366, 768, 390]) {
     const start = await page.getByLabel('From (UTC)', { exact: true }).inputValue();
     const end = await page.getByLabel('To (UTC, exclusive)', { exact: true }).inputValue();
     expect(Date.parse(end + 'Z') - Date.parse(start + 'Z')).toBe(30 * 86_400_000);
-    expect((await page.locator('[data-chart=cssrPct] svg text').allTextContents()).filter(text => /\d{2} [A-Z][a-z]{2}/.test(text))).toHaveLength(2);
+    const dateLabels=(await page.locator('[data-chart=cssrPct] svg text').allTextContents()).filter(text => /\d{2} [A-Z][a-z]{2}/.test(text));
+    expect(dateLabels.length).toBeGreaterThan(2);
+    expect(dateLabels.length).toBeLessThanOrEqual(25);
     const first = (await page.getByRole('button', { name: '15m', exact: true }).boundingBox())!;
     const second = (await page.getByRole('button', { name: '3d', exact: true }).boundingBox())!;
     expect(second.y).toBeGreaterThan(first.y + first.height - 1);

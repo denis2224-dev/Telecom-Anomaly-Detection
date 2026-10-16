@@ -58,7 +58,7 @@ test.describe('Controlled historical evidence', () => {
       await expect(updates.nth(0).locator('[data-kpi] td').first()).toHaveText('0');
       await expect(updates.nth(1).locator('[data-kpi] td').first()).toHaveText('Unavailable');
       await expect(updates.nth(2).locator('[data-kpi] td').first()).toHaveText('99.6');
-      await expect(updates.nth(1)).toContainText('does not prove recovery');
+      await expect(updates.nth(1)).toContainText('recovery unconfirmed');
       await expect(page.locator('.incident-summary-bar')).toContainText('RECOVERED');
       await expect(page.locator('.incident-summary-bar')).toContainText('Latest KPI deviation');
       await expect(page.getByRole('link', { name: 'Back to service' })).toHaveAttribute('href', `/services/${incident.scopeId}`);
@@ -80,7 +80,9 @@ test.describe('Controlled historical evidence', () => {
         await expect(update).toContainText(`Inspect source window ${index + 1}`);
         await expect(update).not.toContainText('Unique customers');
         await expect(update.getByText('Source evidence', { exact: true })).toHaveCount(0);
-        await expect(update.getByText(history[index].evidence[0].sourceEventIds[0], { exact: true })).toBeVisible();
+        await expect(update.getByText(history[index].evidence[0].sourceEventIds[0], { exact: true })).toHaveCount(0);
+        await expect(update.locator('.evidence-disclosure thead')).toHaveCount(0);
+        await expect(update).toContainText(history[index].evidence[0].summary);
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       if (width === 390) {
