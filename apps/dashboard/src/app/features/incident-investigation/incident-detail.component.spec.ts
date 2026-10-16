@@ -44,7 +44,7 @@ describe('Paged incident evidence', () => {
     const fixture = await open();
     expect(api.getDetections).toHaveBeenCalledTimes(1);
     expect(api.getDetections).toHaveBeenLastCalledWith(incident.id, 0, 20, expect.any(AbortSignal));
-    expect(fixture.nativeElement.textContent).toContain('does not prove recovery');
+    expect(fixture.nativeElement.textContent).toContain('recovery unconfirmed');
     expect(fixture.nativeElement.querySelector('[data-confidence]').title).toContain('not a confirmed root cause');
     await fixture.componentInstance.load(1);
     fixture.detectChanges();
@@ -87,7 +87,7 @@ describe('Paged incident evidence', () => {
   it('shows an empty history without inventing evidence', async () => {
     api.getDetections.mockResolvedValue({ items: [], total: 0 });
     const fixture = await open();
-    expect(fixture.nativeElement.textContent).toContain('No evidence updates available');
+    expect(fixture.nativeElement.textContent).toContain('No updates on this page');
     expect(fixture.componentInstance.incident()).toEqual(incident);
   });
 
@@ -108,7 +108,7 @@ describe('Paged incident evidence', () => {
     expect(text).toContain('Technical state: RECOVERED');
     expect(text).toContain('Workflow state: OPEN');
     expect(text).toContain(`Severity: ${incident.severity}`);
-    expect(text).toContain('The service has recovered.');
+    expect(text).toContain('Service recovered.');
     expect(text).toContain('Awaiting analyst resolution');
     expect(fixture.componentInstance.recoveryDetectedAt()).toBe(latest.detectedAt);
     expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe(`/services/${incident.scopeId}`);
@@ -119,21 +119,21 @@ describe('Paged incident evidence', () => {
       .mockResolvedValueOnce({ ...incident, technicalState: 'ONGOING' })
       .mockResolvedValueOnce(incident);
     const fixture = await open();
-    expect(fixture.nativeElement.textContent).toContain('The issue is still ongoing');
+    expect(fixture.nativeElement.textContent).toContain('Ongoing.');
     const refresh = [...fixture.nativeElement.querySelectorAll('button')]
       .find(button => button.textContent.trim() === 'Refresh incident');
     expect(refresh).toBeDefined();
     refresh.click();
     await vi.waitFor(() => expect(fixture.componentInstance.incident()?.technicalState).toBe('RECOVERED'));
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('The service has recovered.');
+    expect(fixture.nativeElement.textContent).toContain('Service recovered.');
   });
 
   it('does not manufacture a recovery timestamp from the last observed time', async () => {
     api.getIncident.mockResolvedValue({ ...incident, latestDetection: { ...latest, phase: 'UNKNOWN' } });
     const fixture = await open();
     expect(fixture.componentInstance.recoveryDetectedAt()).toBeNull();
-    expect(fixture.nativeElement.querySelector('[aria-label="Current incident times"]').textContent).toContain('Recovery detected (UTC)Unavailable');
+    expect(fixture.nativeElement.querySelector('[aria-label="Current incident times"]')).toBeNull();
   });
 
   it('refreshes an equal-version comment without hiding the selected evidence page', async () => {

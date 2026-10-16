@@ -57,7 +57,7 @@
 .episode-card > a { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; }
 .episode-card p, .episode-card li { font-size: 11px; color: var(--text-muted); }
 .episode-card .notice { color: var(--info); }
-.incident-summary-bar { position: sticky; top: 10px; z-index: 20; display: flex; align-items: center; flex-wrap: wrap; gap: 16px 24px; padding: 16px 20px; background: var(--glass); backdrop-filter: blur(16px); border-radius: var(--radius); box-shadow: var(--shadow-raised); }
+.incident-summary-bar { position: static; top: auto; z-index: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 16px 24px; padding: 16px 20px; background: var(--glass); backdrop-filter: blur(16px); border-radius: var(--radius); box-shadow: var(--shadow-raised); }
 .incident-summary-title { min-width: 170px; }
 .incident-summary-title h2 { margin-top: 4px; overflow-wrap: anywhere; }
 .incident-at-a-glance { display: flex; align-items: center; flex: 1; flex-wrap: wrap; gap: 14px 24px; min-width: 0; }

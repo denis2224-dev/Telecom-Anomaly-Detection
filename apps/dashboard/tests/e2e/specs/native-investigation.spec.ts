@@ -17,7 +17,7 @@ for(const width of [1366,390])test(`controlled native investigation preserves re
    const body=route.request().postDataJSON();expect(body.version).toBe(workflow.version);mutations.push(path.split('/').at(-1)!);
    if(path.endsWith('/assignment'))workflow.assigneeId=body.assigneeId;
    if(path.endsWith('/status')){workflow.status=body.status;workflow.resolutionNote=body.resolutionNote;}
-   workflow.version++;audit.push({action:mutations.at(-1),version:workflow.version,note:body.note??body.resolutionNote??null,occurredAt:incident.latestWindowEnd});
+   workflow.version++;audit.push({action:body.status??mutations.at(-1),version:workflow.version,note:body.note??body.resolutionNote??null,occurredAt:incident.latestWindowEnd});
    return route.fulfill({json:workflow});
   }
   if(path.endsWith('/workflow'))return route.fulfill({json:workflow});
@@ -29,14 +29,18 @@ for(const width of [1366,390])test(`controlled native investigation preserves re
  await page.goto('/trace-link/incidents/'+incident.episodeId+'?'+parameters);
  await expect(page.getByRole('region',{name:'Native technical incident'})).toContainText('ONGOING');
  await expect(page.getByRole('button',{name:'Resolve reviewed incident'})).toBeDisabled();
- await page.getByRole('button',{name:'Assign to me',exact:true}).click();
- await page.getByRole('button',{name:'Start investigation',exact:true}).click();
+ await page.getByRole('button',{name:'Acknowledge',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Acknowledged',exact:true})).toBeDisabled();
+ await expect(page.getByRole('region',{name:'Native technical incident'})).toContainText('analyst identity unavailable');
  await page.getByLabel('Investigation comment').fill('Controlled evidence reviewed');await page.getByRole('button',{name:'Add comment',exact:true}).click();
  await expect(page.getByRole('region',{name:'Append-only native audit'})).toContainText('Controlled evidence reviewed');
  incident.technicalState='RECOVERED';
- await page.reload();await expect(page.getByRole('link',{name:'Back to shared investigation'})).toHaveAttribute('href',/resolution=15m/);await expect(page.getByRole('region',{name:'Native technical incident'})).toContainText('Technical recovery does not resolve analyst work.');
+ await page.reload();await expect(page.getByRole('link',{name:'Back to historical analysis'})).toHaveAttribute('href',/resolution=15m/);await expect(page.getByRole('region',{name:'Native technical incident'})).toContainText('Technical recovery does not resolve analyst work.');
  await expect(page.getByRole('region',{name:'Native analyst workflow'})).toContainText('INVESTIGATING');
  await page.getByLabel('Resolution note').fill('Recovery verified in controlled fixture');await page.getByRole('button',{name:'Resolve reviewed incident'}).click();
  await expect(page.getByRole('region',{name:'Native analyst workflow'})).toContainText('RESOLVED');expect(mutations).toEqual(['assignment','status','comments','status']);
+ await page.getByRole('button',{name:'Show on dashboard',exact:true}).click();
+ await expect(page).toHaveURL(/trace-link\?.*incidentId=/);
+ const focused=new URL(page.url());expect(focused.searchParams.get('linkDirectionId')).toBe('chi-hin:a-to-b');expect(focused.searchParams.get('resolution')).toBe('15m');
  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);expect(overflow).toBe(false);
 });

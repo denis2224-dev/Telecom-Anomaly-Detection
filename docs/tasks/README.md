@@ -54,8 +54,9 @@ assignment's evidence filenames remain stable. Older screenshots that mention
 
 ## Completed work and remaining acceptance
 
-Completed implementation plans and personal checklists have been consolidated
-here. Interfaces, independent reviews, reproduction instructions and actual
+Completed implementation plans and completed personal checklists have been consolidated
+here. Checklists with outstanding owner or acceptance items remain in `tasks/`
+as historical status records; consult GitHub for current PR state. Interfaces, independent reviews, reproduction instructions and actual
 evidence remain in their existing locations. Historical reports and captured
 GitHub trees can mention filenames from their original revision.
 

@@ -1,3 +1,4 @@
+import { recordedRoaming } from '../helpers/recorded-roaming';
 import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import pairs from '../../../../../contracts/fixtures/geography/ten-city-scope-pairs.json';
@@ -6,27 +7,43 @@ import { previewScenarios } from '../../../src/app/features/scenario-runner/moni
 for (const width of [1366, 390]) {
   test(`roaming overview, live status and incident sheet are connected at ${width}px`, async ({ page }, info) => {
     const state = await controlledApi(page);
+    await page.route('**/api/v2/datasets',route=>route.fulfill({json:[]}));
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
-    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Roaming measurements are unavailable');
-    await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
+    await expect(page.getByRole('navigation', {name:'Workspace'}).getByRole('link', {name:/history|Historical analysis/i})).toHaveCount(0);
+    await expect(page.locator('app-connected-overview > section > a').filter({hasText:'Investigate history'})).toHaveAttribute('href', /\/trace-link\?.*from=/);
+    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Sample data');
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(10);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
-    await expect(page.getByLabel('Key service information')).toContainText('Backhaul trafficUnavailable');
+    await expect(page.getByLabel('Key service information').locator(':scope > div')).toHaveCount(6);
+    await expect(page.getByLabel('Key service information')).toContainText('Backhaul peak utilizationUnavailable');
+    await expect(page.getByLabel('Key service information')).toContainText('Sample data · 10 countries');
+    await expect(page.getByLabel('Key service information')).not.toContainText('IMS CPU');
+    const subscribers=(await page.locator('.country-bar strong').allTextContents()).reduce((sum,value)=>sum+Number(value.replaceAll(',','')),0);
+    await expect(page.locator('.headline-metrics > div').filter({hasText:'Roaming subscribers'}).locator('strong')).toHaveText(subscribers.toLocaleString('en'));
+    await expect(page.getByLabel('Key service information')).not.toContainText('Call drop rate');
+    await expect(page.getByLabel('Key service information')).toContainText('Roaming LU success99.1%');
     await expect(page.locator('.transport-link')).toHaveCount(0);
     await expect(page.getByRole('checkbox', { name: 'Show sample links' })).toHaveCount(0);
     await expect(page.locator('.city-marker')).toHaveCount(10);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 1366) {
-      const boxes = await page.locator('.overview-panels > section').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
-      expect(boxes[1].left).toBeGreaterThan(boxes[0].right);
-      expect(boxes[2].top).toBeGreaterThan(boxes[0].bottom);
-      expect(boxes[1].bottom).toBeCloseTo(boxes[2].bottom, 0);
+      const boxes = await page.locator('.overview-panels .service-panel, .overview-panels > .map-panel').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
+      expect(boxes[2].left).toBeGreaterThan(boxes[0].right);
+      expect(boxes[1].top).toBeGreaterThan(boxes[0].bottom);
+      expect(boxes[1].top-boxes[0].bottom).toBeLessThanOrEqual(10);
       expect((await page.locator('.city-map').boundingBox())!.width).toBeGreaterThan(350);
     }
     await page.screenshot({ path: info.outputPath(`overview-traffic-${width}.png`), fullPage: true });
-    await page.getByRole('link', { name: 'Open roaming investigation', exact: false }).click();
+    await page.getByRole('link', { name: 'Open roaming services', exact: false }).click();
+    await expect(page).toHaveURL(/\/roaming$/);
+    await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+    await expect(page.locator('.roaming-chart .actual-line')).not.toHaveAttribute('d','');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({path:info.outputPath(`roaming-${width}.png`),fullPage:true});
+    await page.getByRole('link',{name:'Investigate history',exact:true}).click();
     await expect(page).toHaveURL(/\/trace-link\?/);
-    await expect(page.getByRole('heading', { name: 'Trace Link history' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Historical analysis' })).toBeVisible();
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
     await page.goto('/dashboard?view=live');
     await expect(page.getByRole('region', { name: 'Live status' })).toContainText('1 active incidents');
@@ -52,11 +69,11 @@ test('overview call results use the loaded window and keep missing evidence unav
   await page.goto('/dashboard');
   await expect(page.getByLabel('VoLTE calls by result')).toContainText('980');
   await expect(page.getByLabel('Key service information')).toContainText('Call setup success98%');
-  await expect(page.getByLabel('Key service information')).toContainText('Failed setup share2%');
+  await expect(page.getByLabel('Key service information')).not.toContainText('Failed setup share');
   last.quality = 'INCOMPLETE';
   await page.reload();
   await expect(page.getByLabel('VoLTE calls by result')).toContainText('Call result counts unavailable');
-  await expect(page.getByLabel('Key service information')).toContainText('Call setup successUnavailable');
+  await expect(page.getByLabel('Key service information')).toContainText(/Call setup success\s*Unavailable/);
   await expect(page.locator('.call-donut')).toHaveCount(0);
 });
 
@@ -92,3 +109,19 @@ test('unsupported previews are excluded from execution and the legacy IMS previe
   expect(scenarioPosts).toBe(0);
   await page.screenshot({ path: info.outputPath('sms-preview-phone.png'), fullPage: true });
 });
+
+ test('recorded roaming replaces the labelled sample and retries an unavailable source',async({page})=>{
+  await controlledApi(page);const source=await recordedRoaming(page);
+  await page.goto('/roaming');
+  await expect(page.getByRole('region',{name:'Roaming services recorded'})).toBeVisible();
+  await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
+  await expect(page.locator('.roaming-kpis')).toContainText('98.0%');
+  await expect(page.locator('.country-bar strong')).toHaveText(Array(10).fill('100'));
+  await expect(page.locator('.roaming-chart .actual-line')).not.toHaveAttribute('d','');
+  source.unavailable=true;await page.reload();
+  await expect(page.getByRole('region',{name:'Roaming services recorded'})).toContainText('Unavailable');
+  await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Retry roaming data'})).toBeVisible();
+  source.unavailable=false;await page.getByRole('button',{name:'Retry roaming data'}).click();
+  await expect(page.getByRole('region',{name:'Roaming services recorded'})).toBeVisible();
+ });

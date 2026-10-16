@@ -1,3 +1,6 @@
+import { countryPreview, roamingSample } from '../scenario-runner/monitoring-preview';
+import { incidentDisplayRange } from '../../shared/incident-display-range';
+import { IncidentDashboardActionsComponent, IncidentAcknowledgements } from '../incident-investigation/incident-dashboard-actions.component';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { Component, DestroyRef, viewChild, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -17,9 +20,8 @@ import { metricValue, formatMetric } from '../service-kpi-history/assurance-mode
 import { OVERVIEW_RANGE_MS, overviewHistory } from './overview-history';
 import { moldovaOutline } from './moldova-map';
 import { callResults } from './dashboard-results';
-import { transportPreview } from './transport-preview';
 import {
-  baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
+  approvedConnections, baseline, cities, cityForScope, cityLabel, cityServices, deviation, measured, metric, number, geographyState, geographyValue,
   type City, type Episode, type Filter, type Service, type Summary, type Window,
 } from './dashboard-geography';
 
@@ -34,7 +36,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
+  imports: [IncidentDashboardActionsComponent, RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -54,38 +56,63 @@ export class ConnectedOverviewComponent {
   readonly fixture = dataSource.fixture;
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
-  readonly roamingPanel = signal(this.fixture);
-  readonly showTraffic = signal(this.fixture);
-  readonly transportLinks = this.fixture ? transportPreview : [];
+  readonly roamingPanel = signal(true);
+  readonly selectedLinkId = signal<string | null>(null);
+  readonly mapLinks = computed(() => approvedConnections.flatMap(link => {
+    const from = this.markerCities().find(city => city.id === link.fromCityId);
+    const to = this.markerCities().find(city => city.id === link.toCityId);
+    return from?.marker && to?.marker ? [{...link, name: `${from.name} – ${to.name}`,
+      x1: from.marker.x * 6, y1: from.marker.y * 7.4, x2: to.marker.x * 6, y2: to.marker.y * 7.4,
+      left: (from.marker.x + to.marker.x) / 2, top: (from.marker.y + to.marker.y) / 2}] : [];
+  }));
+  readonly selectedLink = computed(() => this.mapLinks().find(link => link.id === this.selectedLinkId()));
+  linkParameters(id: string, direction = 'a-to-b') {
+    return {...this.traceHistoryParameters(), domain: 'transport', cityId: 'all', linkDirectionId: `${id}:${direction}`};
+  }
+  readonly acknowledgements = inject(IncidentAcknowledgements);
+  readonly focusedIncident = signal<Episode | null>(null);
+  readonly focusError = signal('');
+  clearIncidentFocus(): void { void this.router.navigate([], {relativeTo:this.route, queryParams:{incidentId:null}, queryParamsHandling:'merge', replaceUrl:true}); }
+  acceptAcknowledgement(item: Episode): void {
+    this.incidents.update(rows => rows.map(row => row.id === item.id ? item : row));
+    this.overviewPriority.update(rows => rows.map(row => row.id === item.id ? item : row));
+    this.refresh.update(this.next);
+    void this.store.load(true);
+  }
+  readonly overviewPriority = signal<Episode[]>([]);
+  readonly unacknowledged = computed(() => this.riskIncidents().filter(item => item.status === 'OPEN').length);
+  readonly riskIncidents = computed(() => this.overviewPriority().map(item => this.acknowledgements.current(item)).filter(item => item.status !== 'RESOLVED').slice(0, 3));
+  incidentPlace(incident: Episode): string {
+    const captured = incident.location?.cityId;
+    return (captured ? this.cityById(captured)?.name : undefined)
+      ?? cityForScope(this.catalogue(), incident.scopeId)?.name
+      ?? this.services().find(item => item.scope.scopeId === incident.scopeId)?.scope.region
+      ?? 'Location unavailable';
+  }
+  anomalyTitle(incident: Episode): string {
+    return incident.latestDetection.anomalyType.replaceAll('_', ' ').toLowerCase().replace(/^./, letter => letter.toUpperCase());
+  }
   readonly latestVoiceWindow = computed(() => this.chartRows('VOLTE').at(-1));
   readonly results = computed(() => callResults(this.latestVoiceWindow()));
   readonly headline = computed(() => {
     const window = this.latestVoiceWindow(), results = this.results();
-    const cpu = metricValue(window, 'imsCpuPct');
-    const smsWindow = this.chartRows('SMS').at(-1);
-    const smsMetric = (name: string, unit: string) => smsWindow?.quality === 'COMPLETE'
-      && smsWindow.kpis.find(kpi => kpi.name === name)?.unit === unit
-      ? formatMetric(metricValue(smsWindow, name), unit) : 'Unavailable';
+    const sampleCountries = countryPreview(roamingSample.seed);
+    const sampleSubscribers = sampleCountries.reduce((sum, row) => sum + row.users, 0);
     const city = this.selectedCity();
     const scopes = this.services().filter(item => (this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter())
       && (!city || city.scopeIds.includes(item.scope.scopeId)));
-    const cards: { label: string; value: string; note: string; tone: string; domain?: 'transport' | 'roaming' }[] = [
-      ...(this.serviceFilter() === 'SMS' ? [
-        { label: 'Delivered messages', value: smsMetric('deliveredMessages', 'COUNT'), note: 'Latest SMS window', tone: 'info' },
-        { label: 'Delivery success', value: smsMetric('deliverySrPct', 'PERCENT'), note: 'Selected SMS scope', tone: 'success' },
-        { label: 'Delivery p95', value: smsMetric('p95DeliveryMs', 'MILLISECONDS'), note: 'Selected SMS scope', tone: 'accent' },
-        { label: 'Queued messages', value: smsMetric('queueDepth', 'COUNT'), note: 'Latest SMS window', tone: 'warning' },
-      ] : [
-        { label: 'Call attempts', value: results ? number(results.total) : 'Unavailable', note: 'Latest VoLTE window', tone: 'info' },
-        { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
-        { label: 'Failed setup share', value: results ? number(100 - results.rate) + '%' : 'Unavailable', note: 'Setup attempts only', tone: 'danger' },
-        { label: 'IMS CPU', value: window?.quality === 'COMPLETE' && cpu !== null && cpu >= 0 && cpu <= 100 && window.kpis.find(kpi => kpi.name === 'imsCpuPct')?.unit === 'PERCENT' ? number(cpu) + '%' : 'Unavailable', note: 'Selected VoLTE scope', tone: 'accent' },
-      ]),
-      { label: 'Backhaul history', value: this.fixture ? 'Sample links' : 'Open history', note: 'By link and direction', tone: 'info', domain: this.fixture ? undefined : 'transport' },
-      { label: 'Roaming history', value: this.fixture ? 'Preview' : 'Open history', note: 'By partner and direction', tone: 'info', domain: this.fixture ? undefined : 'roaming' },
-      { label: 'Open incidents', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Current service / city filter', tone: 'warning' },
-    ];
-    return cards.map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
+    return [
+      { label: 'VoLTE call volume', value: results ? number(results.total) : 'Unavailable', note: 'Latest setup attempts', tone: 'info' },
+      { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Latest selected-scope window', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
+      { label: 'Backhaul peak utilization', value: 'Unavailable', note: 'Directional measurements required', tone: 'danger' },
+      { label: 'Roaming LU success', value: number(roamingSample.registrationSuccess) + '%', note: 'Sample data · latest window', tone: 'warning' },
+      { label: 'Roaming subscribers', value: number(sampleSubscribers), note: `Sample data · ${sampleCountries.length} countries`, tone: 'violet' },
+      { label: 'Open anomalies', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Unresolved · current service / city', tone: 'danger' },
+    ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
+  });
+  readonly latestSmsQueue = computed(() => {
+    const value = metricValue(this.chartRows('SMS').at(-1), 'queueDepth');
+    return value === null ? 'Unavailable' : number(value);
   });
   readonly sipFailures = computed(() => {
     const window = this.latestVoiceWindow();
@@ -123,11 +150,6 @@ export class ConnectedOverviewComponent {
   });
   private readonly traceQuery=inject(TraceQueryStore);
   readonly traceHistoryParameters=computed(()=>traceContextParameters({...this.traceQuery.context(),from:this.chartFrom(),to:this.chartTo(),cityId:this.selectedCity()?.id.toLowerCase()??'all',domain:this.serviceFilter()==='SMS'?'sms':'volte',visibleFrom:undefined,visibleTo:undefined,linkDirectionId:undefined}));
-  historyParameters(domain: 'transport' | 'roaming') {
-    return traceContextParameters({ ...this.traceQuery.context(), domain,
-      cityId: this.selectedCity()?.id.toLowerCase() ?? 'all', linkDirectionId: undefined,
-      visibleFrom: undefined, visibleTo: undefined });
-  }
   readonly refresh = signal(0);
   readonly statusMessage = signal('');
   readonly queueSeverityFilter = signal('');
@@ -151,6 +173,7 @@ export class ConnectedOverviewComponent {
   readonly markerCities = computed(() => this.catalogue().filter(city => city.marker !== null));
   readonly featuredCities = computed(() => this.catalogue().filter(city => city.featured).slice(0, 5));
   readonly selectedCity = computed(() => this.catalogue().find(city => city.id === this.selectedId()));
+  readonly acknowledgedOnPage = computed(() => this.visibleIncidents().filter(item => this.acknowledgements.current(item).status !== 'OPEN').length);
   readonly visibleIncidents = computed(() => {
     const city = this.selectedCity();
     const details = this.incidents();
@@ -183,7 +206,8 @@ export class ConnectedOverviewComponent {
   }
   chartScope(service: Service): Summary | undefined {
     const rows = this.tableScopes(service);
-    return rows.find(item => item.scope.scopeId === this.selectedScopes()[service])
+    return this.services().find(item => item.scope.service === service && item.scope.scopeId === this.selectedScopes()[service])
+      ?? rows.find(item => item.scope.scopeId === this.selectedScopes()[service])
       ?? rows.find(item => item.latestWindow !== null) ?? rows[0];
   }
   selectScope(service: Service, scopeId: string): void {
@@ -222,16 +246,39 @@ export class ConnectedOverviewComponent {
     return deviation(item.latestWindow, item.scope.service).replace(' from baseline', '').replace('Delta unavailable', '—');
   }
 
+  private focusRequest = 0;
   constructor() {
     const destroy = inject(DestroyRef);
+    const injectSession = inject(SessionStore);
     effect(() => {
       if (this.fragment() === 'incident-queue') this.queueDialog()?.open();
+    });
+    this.route.queryParamMap.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
+      this.focusedIncident.set(null); this.focusError.set('');
+      const id = params.get('incidentId');
+      const revision = injectSession.revision;
+      const request = ++this.focusRequest;
+      if (!id) return;
+      void this.api.getIncident(id).then(item => {
+        if (this.stopped || request !== this.focusRequest || revision !== injectSession.revision || item.id !== id) return;
+        const from = Date.parse(item.firstObservedAt), end = Date.parse(item.lastObservedAt);
+        if (!Number.isFinite(from) || !Number.isFinite(end)) return;
+        this.focusedIncident.set(item);
+        this.customRange.set(incidentDisplayRange(new Date(from).toISOString(),new Date(Math.max(from+60_000,end+60_000)).toISOString(),{from:params.get('from') ?? this.chartFrom(),to:params.get('to') ?? this.chartTo()}));
+        this.followsLatest.set(false); this.draftFrom.set(null); this.draftTo.set(null);
+        this.selectScope(item.service, item.scopeId);
+        const city = cityForScope(this.catalogue(), item.scopeId);
+        this.selectedId.set(city?.id ?? null);
+        this.roamingPanel.set(item.service !== 'SMS');
+        setTimeout(() => document.getElementById(item.service === 'SMS' ? 'sms-panel-title' : 'volte-panel-title')?.scrollIntoView({block:'start',behavior:'instant'}));
+      }).catch(error => { if (request === this.focusRequest) this.focusError.set(error instanceof Error ? error.message : 'Incident unavailable.'); });
     });
     const stop = () => {
       this.stopped = true;
       this.queueController?.abort();
       this.historyController?.abort();
       this.incidents.set([]);
+      this.overviewPriority.set([]);
       this.priorityItems.set([]);
       this.histories.set({});
     };
@@ -245,6 +292,7 @@ export class ConnectedOverviewComponent {
     // A new server filter starts at its first priority page.
     effect(() => { this.serviceFilter(); this.queueStateFilter(); this.queuePage.set(0); });
     effect(() => {
+      this.acknowledgements.revision();
       this.services(); // Parent REST refresh follows the existing incident stream.
       const filter = this.serviceFilter(), page = this.queuePage();
       this.selectedId(); this.queueStateFilter();
@@ -259,7 +307,7 @@ export class ConnectedOverviewComponent {
     });
   }
 
-  select(id: string): void { this.queuePage.set(0); this.selectedId.set(id); this.search.set(this.cityById(id)?.name ?? ''); }
+  select(id: string): void { this.selectedLinkId.set(null); this.queuePage.set(0); this.selectedId.set(id); this.search.set(this.cityById(id)?.name ?? ''); }
 
   cityById(id: string): City | undefined { return this.catalogue().find(city => city.id === id); }
 
@@ -369,6 +417,7 @@ export class ConnectedOverviewComponent {
     if (this.stopped) return;
     this.queueController?.abort();
     const controller = this.queueController = new AbortController();
+    if (page === 0) this.overviewPriority.set([]);
     this.queueLoading.set(true);
     this.queueError.set('');
     try {
@@ -390,6 +439,7 @@ export class ConnectedOverviewComponent {
           || detail.location?.cityId !== result.items[index].cityId)) throw new Error('Priority and incident evidence disagree. Refresh the queue.');
         this.priorityItems.set(result.items);
         this.incidents.set(details);
+        if (page === 0) this.overviewPriority.set(details);
         this.queueHasNext.set(result.hasNext);
         this.queueTotal.set(page * this.pageSize + result.items.length + (result.hasNext ? 1 : 0));
         return;
@@ -397,6 +447,7 @@ export class ConnectedOverviewComponent {
       const result = await this.api.listIncidents({ service: filter === 'ALL' ? undefined : filter, page, size: this.pageSize }, controller.signal);
       if (controller.signal.aborted || this.stopped) return;
       this.incidents.set(result.items);
+      if (page === 0) this.overviewPriority.set([...result.items].sort((a,b) => ['CRITICAL','HIGH','MEDIUM'].indexOf(a.severity) - ['CRITICAL','HIGH','MEDIUM'].indexOf(b.severity)));
       this.queueHasNext.set((page + 1) * this.pageSize < result.total);
       this.queueTotal.set(result.total);
     } catch (error) {

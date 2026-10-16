@@ -50,6 +50,7 @@ test('every published city, containment node, dependency and service reaches the
       await page.getByRole('button', { name: /sign in/i }).click();
       await expect(page).toHaveURL(/\/dashboard$/);
     } catch { throw new Error('Authenticated connection check failed; credentials omitted.'); }
+    await page.getByRole('button', { name: 'Show SMS graph', exact: true }).click();
     const catalogue = await read<GeographyCatalogue>('/api/geography/cities');
     const inventory = await read<ServiceSummary[]>('/api/services');
     const scopes = new Set(inventory.map(item => item.scope.scopeId));
@@ -154,7 +155,7 @@ test('every published city, containment node, dependency and service reaches the
         await expect(page.locator('.service-hero svg[role=img]')).toBeVisible();
         report.chartSelections++;
       }
-      await page.getByText('Service dependencies and source quality', { exact: true }).click();
+      await page.getByText('Dependencies', { exact: true }).click();
       const nodes = page.locator('app-service-path [data-node-id]');
       await expect(nodes).toHaveCount(service.scope.dependencyIds.length);
       expect(await nodes.evaluateAll(elements => elements.map(element => element.getAttribute('data-node-id'))))

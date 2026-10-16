@@ -1,6 +1,9 @@
 # Ensure shell scripts retain LF line endings on Windows for Docker compatibility
 *.sh text eol=lf
 scripts/* text eol=lf
+apps/dashboard/src/branding/product.ts text eol=lf
+infra/keycloak/themes/telecom/login/messages/messages_en.properties text eol=lf
+
 
 # Linux image builds execute the Maven wrapper directly.
 /mvnw text eol=lf

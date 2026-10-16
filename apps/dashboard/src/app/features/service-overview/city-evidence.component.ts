@@ -15,8 +15,8 @@ type TopologyPage = components['schemas']['GeographyTopologyPage'];
   selector: 'app-city-evidence', imports: [DatePipe, RouterLink],
   template: `<section class="detail-panel" aria-label="Selected city investigation">
     <h2>{{ city().name }} investigation</h2>
-    @if (catalogueError()) { <p role="status">City catalogue unavailable; these retained observations may be stale.</p> }
-    @if (city().geography?.synthetic) { <p class="muted">Configured synthetic footprint · backend observations</p> }
+    @if (catalogueError()) { <p role="status">Catalogue unavailable · retained data may be stale.</p> }
+    @if (city().geography?.synthetic) { <p class="muted">Synthetic footprint</p> }
     @for (state of city().geography?.services ?? []; track state.scopeId) {
       <p>{{ state.service === 'VOLTE' ? 'VoLTE' : 'SMS' }} · City/service impact: {{ state.technicalActiveCount }} ongoing · {{ state.analystOpenCount }} analyst open · {{ state.freshness }} · Latest: {{ state.latestWindowEnd ? (state.latestWindowEnd | date:'dd MMM HH:mm:ss':'UTC') + ' UTC' : 'Unavailable' }}</p>
     }
@@ -36,11 +36,11 @@ type TopologyPage = components['schemas']['GeographyTopologyPage'];
         <nav class="pagination" aria-label="Topology pages"><button type="button" (click)="changeTopologyPage(-1)" [disabled]="topologyPage() === 0 || topologyLoading()">Previous</button><span>Page {{ topologyPage() + 1 }}</span><button type="button" (click)="changeTopologyPage(1)" [disabled]="!tree.hasNext || topologyLoading()">Next</button></nav>
         <p>Dependencies: @for (dependency of tree.dependencies; track dependency.scopeId + dependency.role) { {{ dependency.service }} {{ dependency.role }} → {{ dependency.nodeId }}; }</p>
       } @else { <p>{{ topologyLoading() ? 'Loading containment…' : 'Containment unavailable.' }}</p> }
-      <p>Local device measurements: Unavailable. City/service impact is context for this footprint.</p>
+      <p>Device measurements unavailable.</p>
     </details>
   </section>
   <details class="evidence-disclosure city-evidence"><summary>{{ city().name }} · City coverage and history</summary>
-    @if (error()) { <p role="alert">{{ error() }} No substitute city measurements are used.</p> }
+    @if (error()) { <p role="alert">{{ error() }} No substitute data.</p> }
     @if (detail(); as item) {
       <p>Catalogue response: {{ item.generatedAt | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC</p>
       <details class="evidence-disclosure"><summary>Troubleshooting</summary><p>Catalogue: {{ item.catalogueVersion }} · Topology: {{ item.topologyVersion }}</p><p>Footprint references: {{ item.footprintNodeIds.join(', ') || 'Unavailable' }}</p>

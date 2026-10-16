@@ -35,11 +35,12 @@ export const cities: readonly City[] = geography.cities.filter(city => city.acti
 // Add only catalogue-approved edges. Empty means no network links are asserted.
 export interface ApprovedConnection {
   id: string;
+  nominalCapacityGbps: number;
   fromCityId: string;
   toCityId: string;
 }
 export const approvedConnections: readonly ApprovedConnection[] = topology.links.map(link => ({
-  id: link.linkId, fromCityId: link.endpointAContractCityId, toCityId: link.endpointBContractCityId,
+  id: link.linkId, nominalCapacityGbps: link.nominalCapacityGbps, fromCityId: link.endpointAContractCityId, toCityId: link.endpointBContractCityId,
 }));
 
 // Static data supplies coordinates only. Membership and measurements come from protected reads.

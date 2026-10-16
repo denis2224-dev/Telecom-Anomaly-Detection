@@ -108,9 +108,10 @@ for (const width of [1366, 1024, 390, 320]) {
     await update.getByText('Cause hypothesis & recommended checks', { exact: true }).click();
     await expect(update.getByText('Source evidence', { exact: true })).toHaveCount(0);
     await expect(update).toContainText(explanation);
-    await expect(update.getByText(source, { exact: true })).toBeHidden();
+    await expect(update.getByText(source, { exact: true })).toHaveCount(0);
     await update.getByText('Troubleshooting', { exact: true }).click();
-    await expect(update.getByText(source, { exact: true })).toBeVisible();
+    await expect(update.getByText(source, { exact: true })).toHaveCount(0);
+    await expect(update.locator('.evidence-disclosure')).toContainText(explanation);
     await expect(page.locator('.incident-summary-bar')).toContainText(state.incident.severity);
     await expect(page.locator('.incident-summary-bar')).toContainText('ONGOING');
     // The long prose must wrap; a screenshot alone does not prove text was retained.

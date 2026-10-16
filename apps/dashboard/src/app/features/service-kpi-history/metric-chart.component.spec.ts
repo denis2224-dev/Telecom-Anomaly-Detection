@@ -50,10 +50,41 @@ describe('Shared hero chart', () => {
       const inspected = chart.hovered()!;
       fixture.componentRef.setInput('windows', [rows.at(-1)]); await fixture.whenStable();
       expect(chart.hovered()?.windowId).toBe(inspected.windowId);
+      fixture.componentRef.setInput('to',new Date(Date.parse(rows.at(-1)!.windowEnd)+60_000).toISOString());
+      await fixture.whenStable();expect(chart.hovered()?.windowId).toBe(inspected.windowId);
       expect(chart.path(true)).toContain('L'); // A single measured window still has a visible baseline segment.
       expect(selected).toHaveBeenCalledWith(inspected);
       chart.hoveredId.set(null); await fixture.whenStable(); expect(selected).toHaveBeenLastCalledWith(null);
       fixture.destroy();
     }
+  });
+});
+
+describe('Historical chart navigation', () => {
+  it('focuses recorded data without changing selected bounds, source rows or missing gaps', async () => {
+    const fixture = TestBed.createComponent(MetricChartComponent);
+    for (const [key,value] of Object.entries({name:'cssrPct',title:'History',unit:'PERCENT',hero:true,
+      from:'2026-09-01T00:00:00Z',to:'2026-11-01T00:00:00Z',windows:voiceWindows})) fixture.componentRef.setInput(key,value);
+    await fixture.whenStable();const chart=fixture.componentInstance;
+    expect(chart.canvasWidth()).toBe(6000);
+    chart.focusRecorded();await fixture.whenStable();
+    expect(chart.visibleFrom()).toBe(new Date(Date.parse(voiceWindows[0].windowStart)).toISOString());
+    expect(chart.visibleTo()).toBe(new Date(Date.parse(voiceWindows.at(-1)!.windowEnd)).toISOString());
+    expect(chart.from()).toBe('2026-09-01T00:00:00Z');
+    expect(chart.rows()).toEqual(voiceWindows);
+    expect(chart.path(false).match(/M/g)).toHaveLength(3);
+    chart.visibleRange.set(null);await fixture.whenStable();expect(chart.canvasWidth()).toBe(6000);
+    expect(chart.visibleTo()).toBe('2026-11-01T00:00:00Z');
+  });
+  it('clamps zoom and pan to the selected interval and leaves source data intact',async()=>{
+    const fixture=TestBed.createComponent(MetricChartComponent);
+    for(const [key,value] of Object.entries({name:'cssrPct',title:'History',from:voiceRange.from,to:voiceRange.to,windows:voiceWindows}))fixture.componentRef.setInput(key,value);
+    await fixture.whenStable();const chart=fixture.componentInstance;
+    chart.zoom(.5);const span=chart.visibleDuration();
+    for(let i=0;i<20;i++)chart.pan(1);
+    expect(Date.parse(chart.visibleTo())).toBe(Date.parse(voiceRange.to));expect(chart.visibleDuration()).toBe(span);
+    for(let i=0;i<20;i++)chart.pan(-1);
+    expect(Date.parse(chart.visibleFrom())).toBe(Date.parse(voiceRange.from));
+    chart.zoom(100);expect(chart.visibleRange()).toBeNull();expect(chart.rows()).toEqual(voiceWindows);
   });
 });

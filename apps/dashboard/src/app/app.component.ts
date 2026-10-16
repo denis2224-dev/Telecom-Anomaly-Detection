@@ -40,7 +40,7 @@ export class AppComponent {
   readonly toast = inject(ToastService);
   pageTitle(): string {
     const path = this.router.url;
-    return path.startsWith('/trace-link') ? 'Trace Link history' : path.startsWith('/scenarios') ? 'Scenario runner'
+    return path.startsWith('/trace-link') ? 'Historical analysis' : path.startsWith('/scenarios') ? 'Scenario runner'
       : path.startsWith('/roaming') ? 'Roaming investigation'
       : path.startsWith('/incidents') ? 'Incident investigation'
       : path.startsWith('/services') ? 'Service investigation' : 'Service overview';
