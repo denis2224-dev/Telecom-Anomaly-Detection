@@ -1,11 +1,14 @@
+import { DataFreshnessComponent } from '../../shared/data-freshness.component';
+import { dataSource } from '../../core/api/data-source';
 import { Component, computed, effect, input, output, signal, viewChild, ElementRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import type { KpiWindow, Incident } from './voice-model';
 import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model';
 @Component({
-  selector: 'app-metric-chart', imports: [DatePipe],
+  selector: 'app-metric-chart', imports: [DatePipe,DataFreshnessComponent],
   template: `<section class="detail-panel metric-chart" [class.hero-chart]="hero()" [class.compact-chart]="compact()" [class.traffic-chart]="traffic()" [class.scrollable-history]="canvasWidth() > 900" [attr.data-chart]="trafficOnly() ? 'callTraffic' : name()">
     @if (!compact()) { <div class="metric-heading"><h2>{{ title() }}</h2>@if (hero()) { <div class="hero-reading"><strong>{{ format(latestValue(), unit()) }}</strong><span>{{ rows().at(-1)?.windowStart | date:'HH:mm:ss':'UTC' }} UTC</span></div> }</div> }
+    @if(view() !== 'table') { <app-data-freshness [at]="lastMeasured()" [end]="to()" [sample]="sample()" [loading]="loading()" /> }
     @if (view() === 'both') { <div class="chart-legend"><span>━━ Actual {{ unit() }}</span><span class="expected-key">┄┄ Contextual baseline</span><span class="state-degraded">DEGRADED</span><span class="state-recovery">RECOVERY</span><span class="state-unknown">UNKNOWN / MISSING</span></div> }
     @if (!hasBaseline() && !hero()) { <p class="muted">No baseline available for this metric.</p> }
     @if (hero() && rows().length) {
@@ -75,6 +78,11 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
 })
 export class MetricChartComponent {
   private static nextId = 0;
+  readonly sample=input(dataSource.fixture);
+  readonly lastMeasured=computed(()=>{
+    const usable=this.rows().filter(row=>row.quality!=='MISSING'&&this.value(row)!==null);
+    return usable.length?usable.reduce((latest,row)=>Date.parse(row.windowEnd)>Date.parse(latest.windowEnd)?row:latest).windowEnd:null;
+  });
   readonly chartId = `metric-${MetricChartComponent.nextId++}`;
   readonly plot = viewChild<ElementRef<SVGSVGElement>>('plot');
   readonly plotWidth = signal(900);

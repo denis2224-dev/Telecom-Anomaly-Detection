@@ -1,3 +1,4 @@
+import { DataFreshnessComponent } from '../../shared/data-freshness.component';
 import { Component, computed, input, signal, effect, output } from '@angular/core';
 import type { TraceMetricSeries } from '../../core/api/telecom-client';
 
@@ -5,9 +6,9 @@ export type MetricChartSeries = Omit<TraceMetricSeries,'points'> & { points: (Pi
 
 /** Native Trace Link series remains distinct from the legacy ServiceKpiWindow population. */
 @Component({
-  selector:'app-trace-metric-chart',
+  selector:'app-trace-metric-chart',imports:[DataFreshnessComponent],
   styles:[`svg {width:100%;height:260px;} path {fill:none;stroke:var(--brand,#ff7900);stroke-width:2;} text {fill:currentColor;font-size:12px;} .values {overflow:auto;} table {min-width:800px;} pre {white-space:pre-wrap;overflow-wrap:anywhere;} button {min-height:44px;}`],
-  template:`<section aria-label="Persisted metric chart">
+  template:`<app-data-freshness [at]="lastMeasured()" [end]="series().requestedTo" [interval]="resolutionMs()" /><section aria-label="Persisted metric chart">
     <p>{{ series().metric }} · {{ series().unit }} · {{ series().aggregation }}. Baseline unavailable. Gaps indicate missing data.</p>
     @if(!series().points.length){<p role="status">No recorded buckets for this query.</p>}
     <svg viewBox="0 0 900 260" role="img" [attr.aria-label]="series().metric + ' in ' + series().unit + '; exact values follow in the table'" (pointerdown)="beginBrush($event)" (pointerup)="endBrush($event)" (pointercancel)="brushStart=undefined">
@@ -30,6 +31,12 @@ export class TraceMetricChartComponent {
   readonly highlight=computed(()=>{const focus=this.incidentHighlight(),series=this.series();if(!focus)return null;const start=Date.parse(series.effectiveFrom),span=Date.parse(series.effectiveTo)-start;const from=Math.max(start,Date.parse(focus.from)),to=Math.min(start+span,Date.parse(focus.to));return span>0&&to>from?{x:40+(from-start)/span*830,width:(to-from)/span*830,label:focus.label}:null;});
   readonly zoomRequested=output<{from:string;to:string}>();
   brushStart?:number;
+  readonly resolutionMs=computed(()=>({'5m':300_000,'15m':900_000,'1h':3_600_000,'6h':21_600_000}[this.series().resolution]??300_000));
+  readonly lastMeasured=computed(()=>{
+    const points=this.series().points.filter(point=>point.value!==null&&Number.isFinite(point.value)&&point.quality!=='MISSING'&&(this.series().aggregation!=='RATIO_OF_SUMS'||point.denominator!==0));
+    const latest=points.length?points.reduce((last,point)=>Date.parse(point.to)>Date.parse(last.to)?point:last):null;
+    return latest?.snapshotAt??latest?.to??null;
+  });
   readonly series=input.required<MetricChartSeries>();
   readonly timezone=input<'UTC'|'Europe/Chisinau'>('UTC');
   readonly page=signal(0);

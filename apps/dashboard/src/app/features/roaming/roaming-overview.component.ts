@@ -17,7 +17,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
       @for (kpi of summary(); track kpi.label) { <div [class.metric-unavailable]="kpi.value === '—'"><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong></div> }
     </div>}
     <div class="roaming-chart"><h3>Location update success rate <span>UTC · {{ sample() ? 'sample' : 'recorded' }}</span></h3>
-      <app-metric-chart view="chart" [hero]="true" [compact]="true" name="registrationSrPct" [title]="sample() ? 'Roaming location update success rate · preview' : 'Roaming location update success rate'" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [loading]="loading()" />
+      <app-metric-chart [sample]="sample()" view="chart" [hero]="true" [compact]="true" name="registrationSrPct" [title]="sample() ? 'Roaming location update success rate · preview' : 'Roaming location update success rate'" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [loading]="loading()" />
     </div>
     @if (!compact() || showCountries()) {
       <label class="sort-country">Sort countries<select aria-label="Sort roaming countries" [value]="sort()" (change)="sort.set($any($event.target).value)"><option value="users">Active users · highest first</option><option value="voice">Voice success · lowest first</option><option value="registration">Registration success · lowest first</option><option value="country">Country · A–Z</option></select></label>
