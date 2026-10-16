@@ -11,6 +11,9 @@ export interface RoamingRow {
   sms: number | null;
 }
 export interface RecordedRoaming {
+  datasetId: string;
+  direction: 'in' | 'out';
+  resolution: '5m' | '1h' | '6h';
   from: string;
   to: string;
   note: string;
@@ -35,6 +38,7 @@ export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: str
   direction: 'in' | 'out', signal: AbortSignal): Promise<RecordedRoaming> {
   const datasets = (await api.traceDatasets(signal)).filter(item => item.archiveReady)
     .sort((a, b) => Date.parse(b.to) - Date.parse(a.to));
+  signal.throwIfAborted();
   const contains = (item: typeof datasets[number]) => Date.parse(requestedFrom) >= Date.parse(item.from)
     && Date.parse(requestedTo) <= Date.parse(item.to) && Date.parse(requestedTo) > Date.parse(requestedFrom);
   const dataset = datasets.find(contains) ?? datasets[0];
@@ -43,6 +47,7 @@ export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: str
   const from = contains(dataset) ? requestedFrom
     : new Date(Math.max(Date.parse(dataset.from), Date.parse(to) - 48 * 3600000)).toISOString();
   const inventory = await api.tracePartners(signal, dataset.catalogueVersion ?? undefined);
+  signal.throwIfAborted();
   if (dataset.catalogueVersion && inventory.catalogueVersion !== dataset.catalogueVersion)
     throw new Error('The recorded partner catalogue does not match this dataset.');
   const partners = inventory.partners.filter(partner => partner.active && partner.direction === direction);
@@ -61,6 +66,7 @@ export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: str
       const { partner, metric } = jobs[next++];
       const result = await api.traceMetricSeries({ datasetId: dataset.datasetId, domain: 'roaming', metric,
         scopeType: 'PARTNER_DIRECTION', scopeId: `${partner.id}:${direction}`, from, to, resolution }, signal);
+      signal.throwIfAborted();
       if (result.datasetId !== dataset.datasetId || result.scopeId !== `${partner.id}:${direction}`
         || result.domain !== 'roaming' || result.metric !== metric || result.scopeType !== 'PARTNER_DIRECTION'
         || result.resolution !== resolution || Date.parse(result.requestedFrom) !== Date.parse(from)
@@ -92,7 +98,7 @@ export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: str
     kpis: [{ name: 'registrationSrPct', observed: roamingRate(bucket), baseline: null, unit: 'PERCENT',
       numerator: null, denominator: null }], featureNames: [], featureValues: [], mlEligible: false, sourceEventIds: [],
   }));
-  return { from, to, rows, windows, rates: { registration: roamingRate(registration),
+  return { datasetId:dataset.datasetId, direction, resolution, from, to, rows, windows, rates: { registration: roamingRate(registration),
     data: roamingRate(partners.flatMap(partner => points(partner, 1))),
     voice: roamingRate(partners.flatMap(partner => points(partner, 2))), sms: null },
     note: `${dataset.synthetic ? 'Synthetic recorded' : 'Recorded'} ${direction === 'out' ? 'outbound' : 'inbound'} · ${from.slice(0, 16).replace('T', ' ')} – ${to.slice(0, 16).replace('T', ' ')} UTC · Partner counts are estimates, not distinct subscribers. SMS delivery evidence is not recorded; — means missing. Source quality is unverified.` };

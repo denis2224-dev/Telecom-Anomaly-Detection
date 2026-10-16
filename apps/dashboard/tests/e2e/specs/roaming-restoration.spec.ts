@@ -10,6 +10,14 @@ for (const width of [1366, 390]) test(`October 13 roaming cards and tables show 
   await expect(page.locator('.roaming-kpis > div')).toHaveCount(5);
   await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
   await expect(page.locator('.roaming-kpis strong')).toHaveText(['98.0%', '1,000', '98.0%', '98.0%', '—']);
+  const history=new URL((await page.getByRole('link',{name:'Investigate history',exact:true}).getAttribute('href'))!,'http://local');
+  expect(history.searchParams.get('datasetId')).toBe('recorded-roaming');
+  expect(history.searchParams.get('from')).toBe('2026-10-06T00:00:00.000Z');
+  expect(history.searchParams.get('to')).toBe('2026-10-08T00:00:00Z');
+  expect(history.searchParams.get('roamingDirection')).toBe('out');
+  expect(history.searchParams.get('resolution')).toBe('1h');
+  await expect(page.locator('.roaming-kpis .metric-unavailable strong')).toHaveText('—');
+  await expect(page.locator('.country-panels td.metric-unavailable')).toHaveCount(10);
   await expect(page.locator('.roaming-chart .actual-line')).not.toHaveAttribute('d', '');
   await expect(page.locator('.roaming-chart .expected-line')).toHaveAttribute('d', '');
   await expect(page.locator('.preview-note')).toContainText('Synthetic recorded outbound');
@@ -23,6 +31,7 @@ for (const width of [1366, 390]) test(`October 13 roaming cards and tables show 
   await page.reload();
   await expect(page.locator('.preview-note')).not.toContainText('Loading');
   await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
+  await expect(page.getByRole('region',{name:'Roaming services recorded'})).not.toContainText('Sample data');
   await expect(page.locator('.roaming-kpis strong')).toHaveText(['—','—','—','—','—']);
   await expect(page.locator('.actual-line')).toHaveAttribute('d', '');
   await page.waitForTimeout(400);

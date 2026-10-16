@@ -10,11 +10,11 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
 @Component({
   selector: 'app-roaming-overview', imports: [MetricChartComponent, RouterLink],
   template: `<section class="roaming" [class.compact]="compact()" [attr.aria-label]="sample() ? 'Roaming services preview' : 'Roaming services recorded'">
-    <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">{{ sample() ? 'Sample data' : recorded() ? 'Recorded' : 'Unavailable' }}</span></header>
-    <p class="preview-note">{{ sample() ? 'Sample data · recorded roaming unavailable' : recorded()?.note || error() || 'Loading recorded roaming measurements…' }}</p>
-    @if (error()) { <button type="button" class="ghost" (click)="refresh.update(value => value + 1)">Retry roaming data</button> }
-    @if (!compact()) {<div class="roaming-kpis" role="group" aria-label="Roaming overview KPIs">
-      @for (kpi of summary(); track kpi.label) { <div><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong></div> }
+    <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">{{ loading() ? 'Loading' : sample() ? 'Sample data' : recorded() ? 'Recorded' : 'Unavailable' }}</span></header>
+    <p class="preview-note" role="status">{{ sample() ? 'Sample data · recorded roaming unavailable' : recorded()?.note || error() || 'Loading recorded roaming measurements…' }}</p>
+    @if (error()) { <button type="button" class="ghost" [disabled]="loading()" (click)="refresh.update(value => value + 1)">Retry roaming data</button> }
+    @if (!compact()) {<div class="roaming-kpis" role="group" aria-label="Roaming overview KPIs" [attr.aria-busy]="loading()">
+      @for (kpi of summary(); track kpi.label) { <div [class.metric-unavailable]="kpi.value === '—'"><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong></div> }
     </div>}
     <div class="roaming-chart"><h3>Location update success rate <span>UTC · {{ sample() ? 'sample' : 'recorded' }}</span></h3>
       <app-metric-chart view="chart" [hero]="true" [compact]="true" name="registrationSrPct" [title]="sample() ? 'Roaming location update success rate · preview' : 'Roaming location update success rate'" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [loading]="loading()" />
@@ -26,7 +26,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
           @for (row of sorted(); track row.country) { <tr><th scope="row">{{ row.country }}</th><td><span class="country-bar"><span [style.width.%]="(row.users ?? 0) / maxUsers() * 100"></span><strong>{{ count(row.users) }}</strong></span></td><td>{{ share(row.users) }}</td></tr> }
         </tbody></table></div></section>
         @if (!compact()) {<section><h3>Roaming KPIs by country</h3><div class="chart-scroll" tabindex="0" aria-label="Roaming country KPI table"><table class="kpi-table"><thead><tr><th>Country</th><th><span title="Location update / registration success">LU %</span></th><th>Data %</th><th>Voice %</th><th>SMS %</th></tr></thead><tbody>
-          @for (row of sorted(); track row.country) { <tr><th scope="row">{{ row.country }}</th><td>{{ percent(row.registration) }}</td><td>{{ percent(row.data) }}</td><td [class.affected]="row.voice !== null && row.voice < 95">{{ percent(row.voice) }}</td><td>{{ percent(row.sms) }}</td></tr> }
+          @for (row of sorted(); track row.country) { <tr><th scope="row">{{ row.country }}</th><td [class.metric-unavailable]="row.registration === null">{{ percent(row.registration) }}</td><td [class.metric-unavailable]="row.data === null">{{ percent(row.data) }}</td><td [class.metric-unavailable]="row.voice === null" [class.affected]="row.voice !== null && row.voice < 95">{{ percent(row.voice) }}</td><td [class.metric-unavailable]="row.sms === null">{{ percent(row.sms) }}</td></tr> }
         </tbody></table></div></section>}
       </div>
     }
@@ -58,6 +58,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     .country-bar > span { position: absolute; inset: 0 auto 0 0; background: #39bafa66; border-radius: 4px; }
     .country-bar strong { position: relative; font-weight: 400; }
     .country-panels section:nth-child(2) td {color:var(--success);}
+    .country-panels td.metric-unavailable,.roaming-kpis .metric-unavailable strong {color:var(--text-muted) !important;}
     .affected { color: var(--danger) !important; }
     .compact { padding: 8px; } .compact h2 { font-size: 14px; }
     .compact .roaming-chart app-metric-chart { height: auto; } .compact .roaming-chart h3 { font-size: 11px; }
@@ -82,7 +83,10 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
 })
 export class RoamingOverviewComponent {
   private readonly query=inject(TraceQueryStore);
-  readonly roamingContext=computed(()=>traceContextParameters({...this.query.context(),domain:'roaming'}));
+  readonly roamingContext=computed(()=>{
+    const context=this.query.context(),recorded=this.recorded();
+    return traceContextParameters(recorded ? {...context,domain:'roaming',datasetId:recorded.datasetId,from:recorded.from,to:recorded.to,resolution:recorded.resolution,roamingDirection:recorded.direction,cityId:'all',countryId:'all',partnerDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined} : {...context,domain:'roaming'});
+  });
   readonly preview = input(dataSource.fixture);
   readonly sample = computed(() => this.preview() || this.error() === 'No recorded roaming dataset is available.');
   readonly compact = input(false);
@@ -126,17 +130,18 @@ export class RoamingOverviewComponent {
       this.refresh();
       const preview = this.preview(), from = this.from(), to = this.to();
       const direction = query.context().roamingDirection === 'in' ? 'in' : 'out';
-      const authenticated = session.phase() === 'authenticated';
+      session.actor();
+      const revision=session.revision, authenticated = session.phase() === 'authenticated';
       this.recorded.set(null); this.error.set(''); this.loading.set(false);
       if (preview || !authenticated) return;
       const request = new AbortController();
       cleanup(() => request.abort());
       this.loading.set(true);
       void loadRecordedRoaming(api, from, to, direction, request.signal).then(result => {
-        if (!request.signal.aborted) this.recorded.set(result);
+        if (!request.signal.aborted && revision === session.revision) this.recorded.set(result);
       }).catch(error => {
-        if (!request.signal.aborted) { request.abort(); this.error.set(error instanceof Error ? error.message : 'Recorded roaming measurements could not be loaded.'); this.loading.set(false); }
-      }).finally(() => { if (!request.signal.aborted) this.loading.set(false); });
+        if (!request.signal.aborted && revision === session.revision) { request.abort(); this.error.set(error instanceof Error ? error.message : 'Recorded roaming measurements could not be loaded.'); this.loading.set(false); }
+      }).finally(() => { if (!request.signal.aborted && revision === session.revision) this.loading.set(false); });
     });
   }
 

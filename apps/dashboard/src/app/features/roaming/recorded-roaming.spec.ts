@@ -25,9 +25,19 @@ describe('Recorded roaming in the original presentation', () => {
     const result = await loadRecordedRoaming(api, '2026-10-16T00:00:00Z', '2026-10-16T01:00:00Z', 'out', new AbortController().signal);
     expect(requests).toHaveLength(4);
     expect(requests.every(query => query.scopeId === 'RO-01:out' && query.to === '2026-10-08T00:00:00Z')).toBe(true);
+    expect(result).toMatchObject({datasetId:'archive',direction:'out',resolution:'1h'});
     expect(result.rows[0]).toMatchObject({ country: 'Romania', registration: 95, sms: null });
     expect(result.windows[0].kpis[0].baseline).toBeNull();
     expect(result.note).toContain('Synthetic recorded outbound');
     expect(result.note).toContain('2026-10-06 00:00');
   });
 });
+
+ it('does not read partner data after a cancelled dataset request returns late',async()=>{
+  const controller=new AbortController();let release!:(value:unknown)=>void;
+  const tracePartners=vi.fn();
+  const api={traceDatasets:()=>new Promise(resolve=>{release=resolve;}),tracePartners} as unknown as TelecomClient;
+  const request=loadRecordedRoaming(api,'2026-10-06T00:00:00Z','2026-10-08T00:00:00Z','out',controller.signal);
+  controller.abort();release([{datasetId:'archive',from:'2026-10-06T00:00:00Z',to:'2026-10-08T00:00:00Z',archiveReady:true}]);
+  await expect(request).rejects.toThrow();expect(tracePartners).not.toHaveBeenCalled();
+ });
