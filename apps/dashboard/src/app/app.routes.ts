@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { ServiceOverviewComponent } from "./features/service-overview/service-overview.component";
 import { LoginComponent } from "./features/login-and-session/login.component";
 import { sessionGuard } from "./features/login-and-session/session.guard";
+import { dataSource } from './core/api/data-source';
 
 
 // Dashboard routes and shared components for service assurance application.
@@ -11,7 +12,10 @@ export const routes: Routes = [
   { path: "dashboard", component: ServiceOverviewComponent, canActivate: [sessionGuard] },
   { path:'trace-link/incidents/:episodeId',loadComponent:()=>import('./features/trace-link/trace-incident.component').then(module=>module.TraceIncidentComponent),canActivate:[sessionGuard]},
   { path:'trace-link',loadComponent:()=>import('./features/trace-link/trace-overview.component').then(module=>module.TraceOverviewComponent),canActivate:[sessionGuard]},
-  { path: 'roaming', loadComponent: () => import('./features/roaming/roaming-overview.component').then(module => module.RoamingOverviewComponent), canActivate: [sessionGuard] },
+  { path: 'roaming', loadComponent: () => dataSource.fixture
+    ? import('./features/roaming/roaming-overview.component').then(module => module.RoamingOverviewComponent)
+    : import('./features/trace-link/trace-overview.component').then(module => module.TraceOverviewComponent),
+    data: { domain: 'roaming' }, canActivate: [sessionGuard] },
   { path: "services/:scopeId", loadComponent: () => import('./features/service-kpi-history/service-detail.component').then(module => module.ServiceDetailComponent), canActivate: [sessionGuard] },
   { path: "incidents/:id", loadComponent: () => import('./features/incident-investigation/incident-detail.component').then(module => module.IncidentDetailComponent), canActivate: [sessionGuard] },
   { path: 'scenarios', loadComponent: () => import('./features/scenario-runner/scenario-runner.component').then(module => module.ScenarioRunnerComponent), canActivate: [sessionGuard] },

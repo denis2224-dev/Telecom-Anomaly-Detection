@@ -1,6 +1,6 @@
 <section class="connected" aria-label="Connected service overview">
   <div class="headline-metrics" aria-label="Key service information">
-    @for (kpi of headline(); track kpi.label) { <div [attr.data-tone]="kpi.tone"><span>{{ kpi.label }}</span><strong>@if (kpi.domain; as domain) { <a routerLink="/trace-link" [queryParams]="historyParameters(domain)" [attr.aria-label]="'Open ' + kpi.label.toLowerCase()">{{ kpi.value }}</a> } @else { {{ kpi.value }} }</strong><small>{{ kpi.note }}</small></div> }
+    @for (kpi of headline(); track kpi.label) { <div [attr.data-tone]="kpi.tone"><span>{{ kpi.label }}</span><strong>@if (kpi.domain; as domain) { <a [routerLink]="domain === 'roaming' ? '/roaming' : '/trace-link'" [queryParams]="historyParameters(domain)" [attr.aria-label]="'Open ' + kpi.label.toLowerCase()">{{ kpi.value }}</a> } @else { {{ kpi.value }} }</strong><small>{{ kpi.note }}</small></div> }
   </div>
   <form class="controls" (submit)="applyRange($event, fromInput.value, toInput.value)">
     <div class="period-field">
@@ -92,7 +92,7 @@
     } @else {
     <section class="service-panel" [class.filtered-out]="serviceFilter() === 'VOLTE'" aria-labelledby="sms-panel-title">
       @if (fixture) { <button class="ghost" type="button" (click)="roamingPanel.set(true)">Show roaming preview</button> }
-      @else { <a class="ghost" routerLink="/trace-link" [queryParams]="historyParameters('roaming')">Open roaming history</a> }
+      @else { <a class="ghost" routerLink="/roaming" [queryParams]="historyParameters('roaming')">Open roaming history</a> }
       <h2 id="sms-panel-title">SMS delivery <span>Success rate %</span></h2>
       <div class="panel-visual">
         <p class="chart-scope" [attr.data-scope]="chartScope('SMS')?.scope?.scopeId" [title]="chartScope('SMS')?.scope?.scopeId ?? ''">@if (chartScope('SMS'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>

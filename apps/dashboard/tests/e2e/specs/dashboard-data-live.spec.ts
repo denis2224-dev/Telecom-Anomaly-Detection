@@ -83,6 +83,34 @@ test('real dashboard has fresh telemetry and populated history in all five domai
       await page.setViewportSize({ width, height: 900 });
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     }
+    await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
+    await page.getByRole('link', { name: 'Roaming investigation', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Roaming services', exact: true })).toBeVisible();
+    const roamingChart = page.getByRole('region', { name: 'Persisted metric chart' });
+    await expect(roamingChart).toContainText('roaming.registration.success');
+    await expect(page.locator('app-trace-incidents [role=alert]')).toHaveCount(0);
+    await expect(roamingChart.locator('svg path')).not.toHaveAttribute('d', '');
+    await expect(page.getByText('Roaming measurements are unavailable', { exact: false })).toHaveCount(0);
+    await page.getByRole('combobox', { name: 'Country', exact: true }).selectOption('RO');
+    await page.getByRole('combobox', { name: 'Roaming direction', exact: true }).selectOption('out');
+    await expect(page.getByRole('combobox', { name: 'Series partner and direction', exact: true })).toHaveValue('RO-DEMO-01:out');
+    await page.getByRole('combobox', { name: 'Metric', exact: true }).selectOption('roaming.voice.success');
+    await expect(roamingChart).toContainText('roaming.voice.success');
+    await page.reload();
+    await expect(roamingChart).toContainText('roaming.voice.success');
+    await expect(page.getByRole('combobox', { name: 'Country', exact: true })).toHaveValue('RO');
+    await expect(page.getByRole('combobox', { name: 'Series partner and direction', exact: true })).toHaveValue('RO-DEMO-01:out');
+    const selectedRoamingUrl = new URL(page.url());
+    selectedRoamingUrl.searchParams.set('domain', 'volte');
+    await page.goto(selectedRoamingUrl.toString());
+    await expect(roamingChart).toContainText('roaming.voice.success');
+    expect(new URL(page.url()).searchParams.get('domain')).toBe('roaming');
+    for (const width of [1366, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+      await page.screenshot({ path: info.outputPath(`roaming-${width}.png`), fullPage: true, mask: [page.locator('.identity')] });
+    }
+    evidence.push({ roamingPage: 'Real sidebar, direct URL and reload preserve recorded partner/direction/metric' });
     await page.getByRole('button', { name: 'Sign out', exact: true }).click();
     await expect(page).toHaveURL(/\/signed-out$/);
     expect((await context.request.get('/api/v2/datasets')).status()).toBe(401);

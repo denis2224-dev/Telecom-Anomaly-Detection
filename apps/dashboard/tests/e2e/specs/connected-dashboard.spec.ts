@@ -9,7 +9,7 @@ test('headline opens recorded transport and roaming history instead of permanent
   const transport = page.getByRole('link', { name: 'Open backhaul history', exact: true });
   const roaming = page.locator('.headline-metrics').getByRole('link', { name: 'Open roaming history', exact: true });
   await expect(transport).toHaveAttribute('href', /\/trace-link\?.*domain=transport/);
-  await expect(roaming).toHaveAttribute('href', /\/trace-link\?.*domain=roaming/);
+  await expect(roaming).toHaveAttribute('href', /\/roaming\?.*domain=roaming/);
   await expect(transport).toHaveText('Open history');
   await expect(roaming).toHaveText('Open history');
   await page.getByLabel('Region', { exact: true }).fill('Orhei');

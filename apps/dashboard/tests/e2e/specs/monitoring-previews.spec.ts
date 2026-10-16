@@ -8,10 +8,10 @@ for (const width of [1366, 390]) {
     const state = await controlledApi(page);
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/dashboard');
-    await expect(page.getByRole('region', { name: 'Roaming overview' })).toContainText('Roaming measurements are unavailable');
+    await expect(page.getByRole('region', { name: 'Roaming overview' })).toHaveCount(0);
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
     await expect(page.getByLabel('Key service information')).toContainText('Call setup success');
-    await expect(page.getByLabel('Key service information')).toContainText('Backhaul trafficUnavailable');
+    await expect(page.getByRole('link', { name: 'Open backhaul history', exact: true })).toBeVisible();
     await expect(page.locator('.transport-link')).toHaveCount(0);
     await expect(page.getByRole('checkbox', { name: 'Show sample links' })).toHaveCount(0);
     await expect(page.locator('.city-marker')).toHaveCount(10);
@@ -24,9 +24,10 @@ for (const width of [1366, 390]) {
       expect((await page.locator('.city-map').boundingBox())!.width).toBeGreaterThan(350);
     }
     await page.screenshot({ path: info.outputPath(`overview-traffic-${width}.png`), fullPage: true });
-    await page.getByRole('link', { name: 'Open roaming investigation', exact: false }).click();
-    await expect(page).toHaveURL(/\/trace-link\?/);
-    await expect(page.getByRole('heading', { name: 'Trace Link history' })).toBeVisible();
+    if (width === 390) await page.getByRole('button', { name: 'Open navigation', exact: true }).click();
+    await page.getByRole('link', { name: 'Roaming investigation', exact: true }).click();
+    await expect(page).toHaveURL(/\/roaming\?/);
+    await expect(page.getByRole('heading', { name: 'Roaming services', exact: true })).toBeVisible();
     await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
     await page.goto('/dashboard?view=live');
     await expect(page.getByRole('region', { name: 'Live status' })).toContainText('1 active incidents');
@@ -51,12 +52,12 @@ test('overview call results use the loaded window and keep missing evidence unav
   last.kpis.find(kpi => kpi.name === 'cssrPct')!.observed = 98;
   await page.goto('/dashboard');
   await expect(page.getByLabel('VoLTE calls by result')).toContainText('980');
-  await expect(page.getByLabel('Key service information')).toContainText('Call setup success98%');
-  await expect(page.getByLabel('Key service information')).toContainText('Failed setup share2%');
+  await expect(page.getByLabel('Key service information')).toContainText(/Call setup success\s*98%/);
+  await expect(page.getByLabel('Key service information')).toContainText(/Failed setup share\s*2%/);
   last.quality = 'INCOMPLETE';
   await page.reload();
   await expect(page.getByLabel('VoLTE calls by result')).toContainText('Call result counts unavailable');
-  await expect(page.getByLabel('Key service information')).toContainText('Call setup successUnavailable');
+  await expect(page.getByLabel('Key service information')).toContainText(/Call setup success\s*Unavailable/);
   await expect(page.locator('.call-donut')).toHaveCount(0);
 });
 
