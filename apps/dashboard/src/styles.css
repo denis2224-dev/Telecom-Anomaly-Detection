@@ -283,3 +283,9 @@ app-connected-overview app-roaming-overview .compact .hero-chart .chart-scroll {
 .hero-chart .chart-tooltip { position:relative;inset:auto;order:2;box-sizing:border-box;min-width:0;width:100%;max-width:100%;min-height:70px;padding:8px 10px;margin:4px 0 0;opacity:1;transform:none;transition:none;box-shadow:none;background:var(--field);grid-template-columns:minmax(0,1fr) auto;align-content:center; }
 .hero-chart .chart-tooltip span,.hero-chart .chart-tooltip small { grid-column:1;overflow-wrap:anywhere; }
 .hero-chart .chart-tooltip strong { grid-column:2;grid-row:1 / span 3;align-self:center;font-size:20px; }
+
+.compact-range .range-options .segmented { flex-wrap:wrap; }
+.chart-sampling-note { font-size:11px;color:var(--text-muted);margin:4px 0; }
+
+.hero-chart .actual-dot { r:3px; }
+.hero-chart .selected-dot { r:5px; }

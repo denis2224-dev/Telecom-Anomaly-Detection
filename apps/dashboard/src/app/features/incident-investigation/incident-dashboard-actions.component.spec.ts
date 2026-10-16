@@ -58,3 +58,11 @@ describe('Persisted incident acknowledgement', () => {
     expect(params.service).toBe(item.service);expect(Date.parse(params.to)).toBeGreaterThan(Date.parse(item.lastObservedAt));
   });
 });
+
+ it('retains selected bounds when the incident ends exactly at the exclusive period end',()=>{
+  const item=structuredClone(voiceIncidents[0]),to=item.latestDetection.windowEnd;
+  item.lastObservedAt=to;
+  const range={from:new Date(Date.parse(to)-30*86400000).toISOString(),to};
+  const result=incidentDashboardParameters(item,range);
+  expect(Date.parse(result.from)).toBe(Date.parse(range.from));expect(Date.parse(result.to)).toBe(Date.parse(range.to));
+ });

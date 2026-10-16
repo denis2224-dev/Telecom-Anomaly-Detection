@@ -1,3 +1,4 @@
+import { overviewHistory, OVERVIEW_RANGE_MS, REQUEST_INTERVAL_MS } from '../service-overview/overview-history';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
 import { Component, DestroyRef, inject, signal, computed, effect } from '@angular/core';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
@@ -57,7 +58,7 @@ const MAX_WINDOWS = 1440;
             <button type="button" [attr.aria-pressed]="selectedMetric().name === metric.name" (click)="selectedKpi.set(metric.name)">{{ kpiLabel(metric.name) }}</button>
           }
         </div>
-        <app-metric-chart view="chart" [hero]="true" [traffic]="selectedMetric().name === 'cssrPct'" [trafficBars]="selectedMetric().name === 'cssrPct'" [secondaryName]="selectedMetric().name === 'p95DeliveryMs' ? 'queueDepth' : ''" [threshold]="selectedMetric().name === 'imsCpuPct' ? 85 : null" [loading]="loading()" [name]="selectedMetric().name" [title]="selectedMetric().title" [unit]="selectedMetric().unit" [windows]="windows()" [incidents]="incidents()" [focusedIncident]="focusedIncident()" [detections]="detections()" [from]="from()" [to]="to()" (windowSelected)="hoveredWindow.set($event)" />
+        <app-metric-chart view="chart" [hero]="true" [traffic]="selectedMetric().name === 'cssrPct'" [trafficBars]="selectedMetric().name === 'cssrPct'" [secondaryName]="selectedMetric().name === 'p95DeliveryMs' ? 'queueDepth' : ''" [threshold]="selectedMetric().name === 'imsCpuPct' ? 85 : null" [loading]="loading()" [name]="selectedMetric().name" [title]="selectedMetric().title" [unit]="selectedMetric().unit" [windows]="windows()" [incidents]="incidents()" [scopeId]="scopeId()" [focusedIncident]="focusedIncident()" [detections]="detections()" [from]="from()" [to]="to()" (windowSelected)="hoveredWindow.set($event)" />
         <div class="chart-legend" aria-label="Chart legend"><span class="actual-key">{{ selectedMetric().name === 'cssrPct' ? 'Success rate · right axis' : selectedMetric().name === 'p95DeliveryMs' ? 'P95 delay (ms) · right axis' : 'Observed' }}</span>@if (selectedMetric().name === 'cssrPct') { <span class="traffic-success-key">Successful calls</span><span class="traffic-failed-key">Failed calls · left axis</span> } @if (selectedMetric().name === 'p95DeliveryMs') { <span class="secondary-key">Queue depth · left axis</span> } @if (selectedMetric().name === 'imsCpuPct') { <span>85% reference · not a detector rule</span> }<span class="expected-key">Baseline</span><span class="state-degraded">Incident</span><span class="state-recovery">Recovery</span><span class="state-unknown">Unavailable</span></div>
       </section>
       <app-kpi-cards [service]="item" />
@@ -219,13 +220,13 @@ export class ServiceDetailComponent {
     const session = inject(SessionStore);
     route.queryParamMap?.pipe(takeUntilDestroyed(destroy)).subscribe(params => {
       this.focusController?.abort(); this.focusedIncident.set(null); this.focusError.set('');
+      const from=params.get('from'),to=params.get('to');
+      if(this.scopeId() && from && to && (from!==this.from() || to!==this.to())) {
+        this.from.set(from);this.to.set(to);this.followingLatest=false;void this.load();
+      }
       const id=params.get('incidentId');
       if(!id)return;
       const request=this.focusController=new AbortController(),revision=session.revision;
-      const from=params.get('from'),to=params.get('to');
-      if(from && to && (from!==this.from() || to!==this.to())) {
-        this.from.set(from);this.to.set(to);this.followingLatest=false;void this.load();
-      }
       void this.api.getIncident(id,request.signal).then(item=>{
         if(request.signal.aborted || revision!==session.revision)return;
         if(item.scopeId!==this.scopeId())throw new Error('Incident belongs to another service scope.');
@@ -308,8 +309,8 @@ export class ServiceDetailComponent {
       }
       const from = this.from(), to = this.to();
       const duration = Date.parse(to) - Date.parse(from);
-      if (!Number.isFinite(duration) || duration <= 0 || duration > 86_400_000) {
-        throw new Error('Choose a valid time range of at most 24 hours.');
+      if (!Number.isFinite(duration) || duration <= 0 || duration > OVERVIEW_RANGE_MS) {
+        throw new Error('Choose a valid time range of at most 30 days.');
       }
       const [history, incidents] = await Promise.all([
         this.history(scopeId, from, to, controller.signal),
@@ -335,6 +336,9 @@ export class ServiceDetailComponent {
   }
 
   private async history(scopeId: string, from: string, to: string, signal: AbortSignal) {
+    if(Date.parse(to)-Date.parse(from)>REQUEST_INTERVAL_MS) {
+      return overviewHistory(scopeId,from,to,(start,end,page)=>this.api.getServiceKpis(scopeId,{from:start,to:end,page,size:100},signal),()=>!signal.aborted);
+    }
     const items: KpiWindow[] = [];
     const ids = new Set<string>();
     let total: number | undefined;
@@ -414,7 +418,7 @@ export class ServiceDetailComponent {
         const rows = new Map(this.windows().filter(row => Date.parse(row.windowStart) >= Date.parse(from)
           && Date.parse(row.windowStart) < Date.parse(tailFrom)).map(row => [row.windowId, row]));
         for (const row of history.items) rows.set(row.windowId, row);
-        if (rows.size > MAX_WINDOWS) throw new Error('History exceeded its limit. Choose a shorter range.');
+        if (rows.size > MAX_WINDOWS * Math.ceil(duration / REQUEST_INTERVAL_MS)) throw new Error('History exceeded its limit. Choose a shorter range.');
         this.from.set(from);
         this.to.set(to);
         this.windows.set([...rows.values()].filter(row => Date.parse(row.windowStart) >= Date.parse(from)

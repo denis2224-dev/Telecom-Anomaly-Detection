@@ -1,4 +1,5 @@
 import {test,expect} from '../helpers/test';
+import explanations from '../../../../../contracts/fixtures/detections/service-explanation-cases.json';
 import {controlledApi} from '../helpers/controlled-api';
 
 for(const width of [1440,390])test(`overview combines traffic, selects links and ranks episode evidence at ${width}px`,async({page},info)=>{
@@ -124,4 +125,34 @@ for(const width of [1440,390])test(`full-period chart remains readable and inspe
  await expect(page.getByLabel('From (UTC)',{exact:true})).toHaveValue(start);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
  await chart.screenshot({path:info.outputPath(`readable-chart-${width}.png`)});
+});
+
+for(const service of ['VOLTE','SMS'] as const)test(`${service} incident keeps a long overview period on its dedicated chart`,async({page})=>{
+ const state=await controlledApi(page),scopeId=`${service}-MD-CENTRAL`,trajectory=explanations.cases.find(item=>item.id===`${service.toLowerCase()}-fault`)!;
+ state.windows=trajectory.windows.map(item=>({...item.feature,scopeId})) as typeof state.windows;
+ const first=state.windows[0],last=state.windows.at(-1)!;
+ state.summary={...state.summary,scope:{...state.summary.scope,scopeId,service},latestWindow:last,observedAt:last.windowEnd};
+ state.incident={...state.incident,scopeId,service,firstObservedAt:first.windowStart,lastObservedAt:last.windowEnd,latestDetection:{...state.incident.latestDetection,scopeId,service,windowStart:first.windowStart,windowEnd:last.windowEnd,kpis:last.kpis}};
+ state.incident.location={cityId:null,catalogueVersion:null,topologyVersion:null,measuredScopeId:scopeId,containmentPath:[],dependencyNodeIds:[],nullReason:'UNALLOCATED'};
+ await page.setViewportSize({width:service==='SMS'?390:1440,height:900});
+ await page.route('**/api/operations/priority*',route=>route.fulfill({json:{generatedAt:last.windowEnd,policyVersion:'controlled-priority',policyStatus:'ACTIVE',page:0,size:20,hasNext:false,items:[{incidentId:state.incident.id,cityId:null,cityNullReason:'UNALLOCATED',service,scopeId,technicalState:state.incident.technicalState,analystStatus:state.incident.status,severity:state.incident.severity,severityHistorical:false,freshness:'FRESH',priorityBand:'FRESH_ONGOING',comparableImpact:null,impactUnit:null,firstObservedAt:first.windowStart,detectedAt:state.incident.detectedAt,latestWindowEnd:last.windowEnd}]}}));
+ const reads:URL[]=[];page.on('request',request=>{if(request.url().includes('/kpis?'))reads.push(new URL(request.url()));});
+ await page.goto('/dashboard');await page.getByRole('button',{name:'30d',exact:true}).click();
+ const from=await page.getByLabel('From (UTC)',{exact:true}).inputValue(),to=await page.getByLabel('To (UTC, exclusive)',{exact:true}).inputValue();
+ await page.locator('.anomaly-card').first().getByRole('button',{name:'Show on dashboard',exact:true}).click();
+ await expect(page).toHaveURL(new RegExp(`/services/${scopeId}\\?`));
+ await expect(page.locator('.service-hero .focused-incident-line')).toHaveCount(1);
+ await expect(page.getByLabel('From (UTC)',{exact:true})).toHaveValue(from);
+ await expect(page.getByLabel('To (UTC, exclusive)',{exact:true})).toHaveValue(to);
+ expect(reads.every(url=>Date.parse(url.searchParams.get('to')!)-Date.parse(url.searchParams.get('from')!)<=86400000)).toBe(true);
+ const chart=page.locator('.service-hero');await chart.getByRole('button',{name:'Zoom in',exact:true}).click();
+ await expect(chart.locator('.focused-incident-line')).toHaveCount(1);
+ if(service==='SMS'){
+  await page.getByText('SMS classifier shadow evidence',{exact:true}).click();
+  await expect(page.locator('app-sms-shadow')).toContainText('Select up to 24h');
+  expect(state.requests.some(path=>path.includes('/ml-shadow'))).toBe(false);
+ }
+ await page.getByRole('button',{name:'Dismiss highlight',exact:true}).click();await expect(chart.locator('.focused-incident-line')).toHaveCount(0);
+ await page.getByText('Range options',{exact:true}).click();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
 });

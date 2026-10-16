@@ -26,13 +26,16 @@ describe('Reconciled assurance history and current state', () => {
       { provide: ActivatedRoute, useValue: { paramMap: of(convertToParamMap({ scopeId: service.scope.scopeId })), snapshot: { queryParamMap: convertToParamMap({}) } } }] });
     TestBed.inject(SessionStore).phase.set('authenticated');
   });
-  it('preserves the 24h bound and refuses the superseded 48h read', async () => {
+  it('splits a longer selected range into bounded reads without changing the selection', async () => {
     const fixture = TestBed.createComponent(ServiceDetailComponent); await fixture.whenStable();
     api.getServiceKpis.mockClear();
     fixture.componentInstance.applyRange({ from: '2026-09-13T10:00:00Z', to: '2026-09-15T10:00:00Z' });
     await fixture.whenStable();
-    expect(fixture.componentInstance.error()).toContain('at most 24 hours');
-    expect(api.getServiceKpis).not.toHaveBeenCalled();
+    expect(fixture.componentInstance.error()).toBe('');
+    expect(api.getServiceKpis).toHaveBeenCalledTimes(2);
+    for(const call of api.getServiceKpis.mock.calls)expect(Date.parse(call[1].to)-Date.parse(call[1].from)).toBeLessThanOrEqual(86_400_000);
+    expect(fixture.componentInstance.from()).toBe('2026-09-13T10:00:00Z');
+    expect(fixture.componentInstance.to()).toBe('2026-09-15T10:00:00Z');
   });
   it('refreshes current health over SSE without refetching or changing fixed history', async () => {
     const fixture = TestBed.createComponent(ServiceDetailComponent); await fixture.whenStable();

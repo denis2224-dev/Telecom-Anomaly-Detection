@@ -82,9 +82,9 @@ describe('Historical chart navigation', () => {
     await fixture.whenStable();const chart=fixture.componentInstance;
     chart.zoom(.5);const span=chart.visibleDuration();
     for(let i=0;i<20;i++)chart.pan(1);
-    expect(Date.parse(chart.visibleTo())).toBe(Date.parse(voiceRange.to));expect(chart.visibleDuration()).toBe(span);
+    expect(Date.parse(chart.visibleTo())).toBe(Date.parse(voiceRange.to));expect(chart.visibleDuration()).toBe(span);expect(chart.canPanLater()).toBe(false);
     for(let i=0;i<20;i++)chart.pan(-1);
-    expect(Date.parse(chart.visibleFrom())).toBe(Date.parse(voiceRange.from));
+    expect(Date.parse(chart.visibleFrom())).toBe(Date.parse(voiceRange.from));expect(chart.canPanEarlier()).toBe(false);
     chart.zoom(100);expect(chart.visibleRange()).toBeNull();expect(chart.rows()).toEqual(voiceWindows);
   });
 });
@@ -113,4 +113,23 @@ describe('Historical chart navigation', () => {
   chart.navigate(new KeyboardEvent('keydown',{key:'End'}));chart.hoveredId.set(null);chart.zoom(.5);
   expect(chart.drawingRows()).toContain(voiceWindows.at(-1));
   expect(chart.path(false)).not.toBe('');
+ });
+
+ it('bounds traffic bars using actual volume and failure peaks without losing exact rows',async()=>{
+  const fixture=TestBed.createComponent(MetricChartComponent),start=Date.parse('2026-09-01T00:00:00Z');
+  const rows=Array.from({length:43200},(_,i)=>({...voiceWindows[0],windowId:`source-${i}`,windowStart:new Date(start+i*60000).toISOString(),windowEnd:new Date(start+(i+1)*60000).toISOString()}));
+  rows[3001].kpis=structuredClone(rows[3001].kpis);
+  const peak=rows[3001].kpis.find(kpi=>kpi.name==='cssrPct')!;Object.assign(peak,{numerator:5,denominator:1000,observed:.5});
+  for(const [key,value] of Object.entries({name:'cssrPct',title:'CSSR',traffic:true,trafficBars:true,hero:true,from:rows[0].windowStart,to:rows.at(-1)!.windowEnd,windows:rows}))fixture.componentRef.setInput(key,value);
+  await fixture.whenStable();const chart=fixture.componentInstance;
+  expect(chart.rows()).toHaveLength(43200);expect(chart.bounds().every(Number.isFinite)).toBe(true);expect(Number.isFinite(chart.countMax())).toBe(true);expect(chart.drawnTrafficRows().length).toBeLessThan(2000);
+  expect(chart.drawnTrafficRows().some(item=>item.row.windowId==='source-3001' && item.count.failed===995)).toBe(true);
+  expect(chart.drawnTrafficRows().every(item=>rows.includes(item.row))).toBe(true);
+ });
+ it('marks an incident in an explicitly matched service scope even when measurements are missing',async()=>{
+  const fixture=TestBed.createComponent(MetricChartComponent),incident=voiceIncidents[0];
+  for(const [key,value] of Object.entries({name:'cssrPct',title:'CSSR',from:voiceRange.from,to:voiceRange.to,scopeId:incident.scopeId,focusedIncident:incident,windows:[]}))fixture.componentRef.setInput(key,value);
+  await fixture.whenStable();const chart=fixture.componentInstance;
+  expect(chart.focusBand()).not.toBeNull();expect(chart.path(false)).toBe('');
+  fixture.componentRef.setInput('scopeId','another-service');await fixture.whenStable();expect(chart.focusBand()).toBeNull();
  });

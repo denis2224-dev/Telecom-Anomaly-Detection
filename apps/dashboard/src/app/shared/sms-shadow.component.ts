@@ -43,6 +43,9 @@ export class SmsShadowComponent {
       const controller = this.controller = new AbortController();
       cleanup(() => controller.abort());
       if (!open || this.stopped) return;
+      if (!incident && Date.parse(to)-Date.parse(from)>86_400_000) {
+        this.loading.set(false);this.result.set(null);this.error.set('Select up to 24h for classifier shadow evidence.');return;
+      }
       this.loading.set(true); this.error.set('');
       void (incident ? this.api.getIncidentSmsShadow(incident, page, controller.signal)
         : this.api.getSmsShadow(scope, { from, to, page, size: 20 }, controller.signal)).then(result => {

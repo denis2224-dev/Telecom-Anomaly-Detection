@@ -8,10 +8,10 @@ import { dataSource } from '../../core/api/data-source';
 import { SessionStore } from '../login-and-session/session.store';
 
 export function incidentDashboardParameters(item: Incident, range?: {from:string;to:string} | null) {
-  const start = Date.parse(item.firstObservedAt), end = Date.parse(item.lastObservedAt);
+  const start = Date.parse(item.firstObservedAt), end = Math.max(Date.parse(item.lastObservedAt),Date.parse(item.latestDetection.windowEnd));
   return { incidentId: item.id, service: item.service, scopeId: item.scopeId,
     city: item.location?.cityId ?? null, region: item.scopeId,
-    ...incidentDisplayRange(new Date(start).toISOString(), new Date(Math.max(start + 60_000, end + 60_000)).toISOString(), range) };
+    ...incidentDisplayRange(new Date(start).toISOString(), new Date(Math.max(start + 60_000, end)).toISOString(), range) };
 }
 
 @Injectable({ providedIn: 'root' })

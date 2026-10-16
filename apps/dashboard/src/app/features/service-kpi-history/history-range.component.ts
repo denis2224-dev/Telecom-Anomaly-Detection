@@ -14,7 +14,7 @@ export type HistoryRange = { from: string; to: string };
             <button type="button" [class.selected]="duration() === range.minutes" [attr.aria-pressed]="duration() === range.minutes" (click)="quickRange(range.minutes)">{{ range.label }}</button>
           }
         </div>
-        <span class="helper range-hint" title="A request covers at most 24 hours. The end instant is excluded."><app-icon name="info" />Up to 24 hours · end excluded</span>
+        <span class="helper range-hint" title="Choose up to 30 days. Requests use intervals of at most 24 hours."><app-icon name="info" />Up to 30 days · end excluded</span>
       </div>
       </details>
       <form class="time-filter" (submit)="apply($event, start.value, end.value)">
@@ -39,7 +39,7 @@ export class HistoryRangeComponent {
   readonly draftFrom = signal<string | null>(null);
   readonly draftTo = signal<string | null>(null);
   resetDrafts(): void { this.draftFrom.set(null); this.draftTo.set(null); }
-  readonly ranges = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 }];
+  readonly ranges = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 }, { label: '7d', minutes: 10080 }, { label: '30d', minutes: 43200 }];
   duration(): number { return (Date.parse(this.to()) - Date.parse(this.from())) / 60_000; }
   quickRange(minutes: number): void {
     const end = Date.parse(this.to());
@@ -52,8 +52,8 @@ export class HistoryRangeComponent {
     event.preventDefault();
     const from = Date.parse(start + 'Z');
     const to = Date.parse(end + 'Z');
-    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from || to - from > 86_400_000) {
-      this.error.set('Choose an end after the start, with a range of at most 24 hours.');
+    if (!Number.isFinite(from) || !Number.isFinite(to) || to <= from || to - from > 30 * 86_400_000) {
+      this.error.set('Choose an end after the start, with a range of at most 30 days.');
       return;
     }
     this.error.set('');

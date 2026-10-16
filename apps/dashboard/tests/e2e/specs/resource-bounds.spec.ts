@@ -276,10 +276,10 @@ test.describe('Browser resource bounds', () => {
     await expect(page.locator('[data-window-id]')).toHaveCount(50);
 
     const before = data.reads();
-    await page.getByLabel('From (UTC)', { exact: true }).fill('2026-10-04T11:00');
+    await page.getByLabel('From (UTC)', { exact: true }).fill('2026-09-03T11:00');
     await page.getByLabel('To (UTC, exclusive)').fill('2026-10-05T12:00');
     await page.getByRole('button', { name: 'Apply time range' }).click();
-    await expect(page.getByRole('alert')).toContainText('at most 24 hours');
+    await expect(page.getByRole('alert')).toContainText('at most 30 days');
     expect(data.reads()).toBe(before);
 
     await page.getByLabel('From (UTC)', { exact: true }).fill('2026-10-04T12:00');
