@@ -322,3 +322,11 @@ app-connected-overview app-roaming-overview .compact .roaming-link {min-height:3
   .incident-action-bar > :is(button,.button) {height:44px;min-height:44px;font-size:11px;padding:5px;}
 }
 @media(max-width:360px) { .incident-action-bar > :is(button,.button) {font-size:10px;padding:4px;} }
+
+/* Four-action episode cards keep evidence at the right of the same row. */
+.incident-action-bar:has(> [incident-trailing]) > :is(button,.button) {width:min(128px,calc((100% - 24px)/4));padding:3px 7px;}
+.incident-action-bar > [incident-trailing] {margin-left:auto;}
+@media(max-width:600px) {
+  .incident-action-bar:has(> [incident-trailing]) {display:grid;grid-template-columns:repeat(2,minmax(0,128px));justify-content:space-between;}
+  .incident-action-bar:has(> [incident-trailing]) > :is(button,.button) {width:100%;margin:0;}
+}

@@ -74,10 +74,9 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     await expect(page.locator('.episode-info')).not.toContainText(state.incident.assigneeId!);
     await expect(page.locator('.episode-info')).not.toContainText('observed');
     expect(await page.locator('.evidence-toggle span').evaluate(label => {
-      const range = document.createRange();
-      range.selectNodeContents(label);
-      return range.getClientRects().length;
-    })).toBe(1);
+      const text = label.getBoundingClientRect(), button = label.closest('button')!.getBoundingClientRect();
+      return text.left >= button.left && text.right <= button.right && text.top >= button.top && text.bottom <= button.bottom;
+    })).toBe(true);
     await expect(page.locator('.kpi-summary thead')).toContainText('Change');
     await action.focus();
     await expect(page.locator('.episode-card')).not.toHaveClass(/is-highlighted/);

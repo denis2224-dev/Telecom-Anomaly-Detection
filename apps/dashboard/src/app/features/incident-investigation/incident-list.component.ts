@@ -31,8 +31,7 @@ import { SessionStore } from '../login-and-session/session.store';
             @if (impact(item); as estimate) { <span>{{ estimate }}</span> }
           </p>
         </div>
-        <button class="primary evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button>
-        <div class="episode-actions"><app-incident-dashboard-actions [incident]="item"><a class="button primary incident-evidence-action" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a></app-incident-dashboard-actions></div>
+        <div class="episode-actions"><app-incident-dashboard-actions [incident]="item"><a class="button primary incident-evidence-action" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a><button incident-trailing class="button primary incident-evidence-action evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button></app-incident-dashboard-actions></div>
       </article>
     } @empty { <div class="empty-state" role="status"><app-icon name="shield" /><p>No incident episodes on this page.</p></div> }
   </div></section>
@@ -86,9 +85,6 @@ import { SessionStore } from '../login-and-session/session.store';
     .episode-state[data-state=UNKNOWN] { color: var(--warning); background: var(--warning-soft); }
     .episode-card .episode-time { font-size: 11px; }
     .episode-actions { min-width:0; padding-inline-start:8px; }
-    .evidence-toggle { justify-self:end; min-height:34px; margin:2px 0 0; padding:5px 10px; font-size:11px; width:max-content; white-space:nowrap; flex-wrap:nowrap; box-shadow:none; border:0; }
-    @media(max-width:600px) { .evidence-toggle {min-height:44px;} }
-    .evidence-toggle .icon { width: 12px; height: 12px; }
     .incident-story { font-size: 14px; overflow-wrap: anywhere; }
     .incident-story h4 { margin: 18px 0 6px; font-size: 14px; letter-spacing: normal; text-transform: none; color: var(--text); }
     .incident-story .episode-title { margin-top: 0; }

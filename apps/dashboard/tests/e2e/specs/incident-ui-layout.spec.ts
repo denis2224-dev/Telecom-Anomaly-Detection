@@ -11,14 +11,14 @@ async function acknowledgedCards(page:Page) {
   });
   return state;
 }
-async function equalActions(bar:Locator,width:number) {
+async function equalActions(bar:Locator,width:number,count=3) {
   await expect(bar).toBeVisible();
   const metrics=await bar.locator(':scope > button,:scope > a.button').evaluateAll(nodes=>nodes.map(node=>{
     const rect=node.getBoundingClientRect(),style=getComputedStyle(node);
     return {width:Math.round(rect.width),height:Math.round(rect.height),padding:style.padding,font:style.fontSize,radius:style.borderRadius,y:Math.round(rect.y)};
   }));
-  expect(metrics).toHaveLength(3);
-  for(const item of metrics){expect(Math.abs(item.width-metrics[0].width)).toBeLessThanOrEqual(1);expect({...item,width:0}).toEqual({...metrics[0],width:0});expect(item.width).toBeLessThanOrEqual(128);expect(item.height).toBe(width<=600?44:34);}
+  expect(metrics).toHaveLength(count);
+  for(const item of metrics){expect(Math.abs(item.width-metrics[0].width)).toBeLessThanOrEqual(1);expect({...item,width:0,y:0}).toEqual({...metrics[0],width:0,y:0});expect(item.width).toBeLessThanOrEqual(128);expect(item.height).toBe(width<=600?44:34);}
 }
 for(const width of [1440,390]) test(`compact incident actions and persistent short references at ${width}px`,async({page,context},info)=>{
   const state=await acknowledgedCards(page),other=await context.newPage();await acknowledgedCards(other);
@@ -35,11 +35,16 @@ for(const width of [1440,390]) test(`compact incident actions and persistent sho
   expect(labels.map(value=>value.match(/VOL-\d+/)![0]).sort()).toEqual(['VOL-001','VOL-002']);
   await expect(other.locator('.episode-card .acknowledgement-label')).toHaveText(labels);
   await expect(cards.first()).not.toContainText('cb4468c6');await expect(cards.first().locator('.episode-info')).not.toContainText('Assigned');
-  await equalActions(cards.first().locator('.incident-action-bar'),width);
+  const actions=cards.first().locator('.incident-action-bar');
+  await equalActions(actions,width,4);
+  const buttons=await actions.locator(':scope > *').evaluateAll(nodes=>nodes.map(node=>node.getBoundingClientRect().toJSON()));
+  if(width>600) expect(buttons.every(button=>Math.abs(button.y-buttons[0].y)<1)).toBe(true);
+  const actionBox=(await actions.boundingBox())!;
+  expect(buttons.at(-1)!.right).toBeCloseTo(actionBox.x+actionBox.width,1);
   await expect(cards.first().getByRole('button',{name:'View incident evidence',exact:true})).toHaveCSS('background-color','rgb(227, 154, 91)');
   const actionStart=(await cards.first().locator('.incident-action-bar > :first-child').boundingBox())!;
   expect(actionStart.x-(await cards.first().locator('.incident-action-bar').boundingBox())!.x).toBeLessThan(1);
-  await expect(cards.first().locator('.incident-action-bar > :last-child')).toHaveText('Open incident detail');
+  await expect(cards.first().locator('.incident-action-bar > :last-child')).toHaveText('View incident evidence');
   await page.reload();await expect(cards.locator('.acknowledgement-label')).toHaveText(labels);
   await cards.first().getByRole('button',{name:'View incident evidence',exact:true}).focus();await page.keyboard.press('Enter');
   const drawer=page.getByRole('dialog',{name:'Incident evidence',exact:true});await expect(drawer).toBeVisible();
