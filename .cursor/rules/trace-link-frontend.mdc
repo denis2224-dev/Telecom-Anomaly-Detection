@@ -1,0 +1,9 @@
+---
+description: Preserve the accepted Trace Link frontend design and analyst workflows
+globs: "apps/dashboard/**"
+alwaysApply: false
+---
+
+Before changing dashboard code, read and follow `apps/dashboard/AGENTS.md`.
+It records the user's latest accepted requirements, including corrections and rollbacks.
+Extend the existing design and workflows without silently undoing those decisions.
