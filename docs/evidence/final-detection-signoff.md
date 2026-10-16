@@ -30,6 +30,14 @@ were covered by explicit follow-ups. The SMS shadow dataset and separate legacy
 V016 directory remain unsupplied. Consult [rehearsal evidence](detection-rehearsals.md) and
 [receiving instructions](../runbooks/sergiu-day6.md).
 
+After PR #116 review, the repaired verifier and tests at `9dd490d0` passed a fresh
+208-test repository Python run (25 verifier tests, no skips). The
+[review remediation](sergiu-day6-pr116-review.md) and its
+[new detection freeze](assets/sergiu-day6/detection-inputs-after-pr116-review.json)
+supersede the earlier tool pins for future rehearsals. The historical 200-test
+summary remains unchanged. This correction does not reexecute or replace the
+earlier Java, model-byte or study evidence, and does not close shared acceptance.
+
 ## Limitations to carry into the common manifest
 
 - Synthetic sparse data and paired seeds do not establish operator performance.

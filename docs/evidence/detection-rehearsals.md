@@ -15,11 +15,20 @@ passed: incident-runtime-image (38759114066), incident-service (38759112801),
 dashboard (38759113115), service-integration (38759112943). These are base-source
 results, not CI for the new Day 6 files. Historical Day 5 documents remain intact.
 
-The [detection input freeze](assets/sergiu-day6/detection-inputs.json) pins 307
+The [original detection input freeze](assets/sergiu-day6/detection-inputs.json) pins 307
 inputs at tooling revision `eabc6d03`, with Python and installed library versions.
 The production sources remain byte-identical to the base above. Earlier freeze
 snapshots are retained. The fragment contributes to the common release manifest
 and grants no approval.
+
+PR #116 review reproduced two verifier defects: unstructured/boolean outcomes
+could pass, and malformed trace/timestamp inputs could leave an empty CLI report.
+The corrections at `9dd490d0` pass 208 repository Python tests, including 25
+verifier tests. See [review remediation](sergiu-day6-pr116-review.md).
+Use the [new candidate freeze](assets/sergiu-day6/detection-inputs-after-pr116-review.json)
+for future handoffs. Its 307-file inventory changes only the verifier and tests;
+the original freezes and archived execution results remain intact. No connected
+rehearsals existed to repeat; the two required runs must use this new candidate.
 
 ## Connected run ledger
 

@@ -91,15 +91,38 @@ Each run JSON contains:
   `policyVersion`, `detectionId`, `incidentEvidenceId`, and `evidenceFile` naming
   a pinned file. Use both IDs null plus `absenceReason` for a healthy/insufficient
   case. Represent an unavailable baseline explicitly, not as invented zero.
-- `outcomes`: nonempty `expected` and `actual` objects with deterministic counts, stable episode/detection IDs,
-  control decisions, recovery and replay results; expected equals actual in each
-  run and both runs match. Freeze expected results before executing either run.
-  Keep actual timestamps/latencies outside this comparison object.
+- `outcomes`: `expected` and `actual` objects using exactly the schema below.
+  The common manifest's `detectionRehearsal.expectedOutcomes` uses the same schema.
+  All three locations are validated before comparison. Expected equals actual in
+  each run and both runs match. Freeze expected results before executing either
+  run. Keep actual timestamps/latencies outside this comparison object.
+
+Each outcome object has exactly these six fields:
+
+| Field | Required value |
+|---|---|
+| `counts` | Object containing exactly `episodes`, `detections`, `duplicates`; each is a nonnegative integer, never a boolean or floating-point value |
+| `episodeIds` | Array of unique, nonblank strings; length equals `counts.episodes` |
+| `detectionIds` | Array of unique, nonblank strings; length equals `counts.detections` |
+| `controls` | Nonempty object mapping named control scenarios to nonblank decision strings |
+| `recovery` | Nonempty object mapping named recovery scenarios to nonblank result strings |
+| `replay` | Nonempty object mapping named replay scenarios to nonblank result strings |
+
+Counts describe distinct episode/detection identities; `duplicates` separately
+counts duplicate emissions. Include every approved scenario in the three decision
+maps, using the actual deterministic result (for example `NO_DETECTION`,
+`TECHNICALLY_RECOVERED`, `IDENTITIES_UNCHANGED`), not a generic suite PASS.
+The reviewer still checks scenario coverage and result meaning against pinned raw
+evidence. Schema validation does not establish authorship or prove execution.
+
+After PR #116's review corrections, use the new detection freeze below. The
+original `detection-inputs.json` remains immutable historical evidence and pins
+the earlier verifier/tests; do not use it for the repaired candidate.
 
 Run the final structural and hash check:
 
 ```powershell
-python scripts/verify-sergiu-day6.py --manifest docs/evidence/assets/sergiu-day6/detection-inputs.json --release docs/release/trace-link-release-manifest.json --run '<run-1.json>' --run '<run-2.json>' --output tmp/day6-connected-verification-new.json
+python scripts/verify-sergiu-day6.py --manifest docs/evidence/assets/sergiu-day6/detection-inputs-after-pr116-review.json --release docs/release/trace-link-release-manifest.json --run '<run-1.json>' --run '<run-2.json>' --output tmp/day6-connected-verification-new.json
 ```
 
 Missing/changed artifacts, incomplete runs and failed gates yield INCOMPLETE and
