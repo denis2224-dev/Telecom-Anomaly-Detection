@@ -28,3 +28,6 @@ apps/dashboard/playwright-report
 # Historical verification assets stay in Git, outside application image contexts.
 # Runtime Dockerfiles copy source, contracts and models explicitly.
 docs/evidence/assets
+
+# Local numbered file copies are not application source.
+**/* [0-9]*.*
