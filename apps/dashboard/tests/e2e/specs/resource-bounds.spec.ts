@@ -374,6 +374,11 @@ test.describe('Browser resource bounds', () => {
       await expect(page).toHaveURL(/\/dashboard$/);
       expect(await page.evaluate(() => (window as any).__previousStream.closed)).toBe(false);
       expect(await page.evaluate(() => (window as any).__resource.active)).toBe(1);
+      // Compare completed views: deferred roaming and pending history reads
+      // otherwise produce different DOM populations unrelated to retention.
+      await expect(page.locator('app-connected-overview app-roaming-overview .badge')).toHaveText('Sample data');
+      await expect(page.locator('app-connected-overview app-data-freshness [data-state=LOADING]')).toHaveCount(0);
+      await expect(page.locator('app-connected-overview .queue-scroll')).toHaveAttribute('aria-busy','false');
       await paint(page);
       navigation.push({ iteration, ...await sample() });
       // SPA navigation, rather than a full reload that could hide retained screens.

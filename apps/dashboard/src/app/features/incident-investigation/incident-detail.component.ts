@@ -1,3 +1,5 @@
+import { IncidentAssistComponent } from '../analyst-support/incident-assist.component';
+import { legacyAnalystIncident } from '../analyst-support/analyst-support.model';
 import { IncidentDashboardActionsComponent } from './incident-dashboard-actions.component';
 import { ApiFailure } from '../../core/api/api-errors';
 import { SmsShadowComponent } from '../../shared/sms-shadow.component';
@@ -17,7 +19,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
 
 @Component({
   styles: [`.incident-at-a-glance { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; } .incident-at-a-glance > span { width:100%; }`],
-  selector: 'app-incident-detail', imports: [IncidentDashboardActionsComponent, SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
+  selector: 'app-incident-detail', imports: [IncidentAssistComponent,IncidentDashboardActionsComponent, SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
     <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1></div>
     @if (!loading() && !error()) {
@@ -72,6 +74,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
           <span><small>Latest KPI deviation</small><strong class="mono">{{ latestDeviation() }}</strong></span>
         </div>
       </header>
+      <app-incident-assist [incident]="analystItem()!" />
       <div class="evidence-column">
       <p class="muted">
         Evidence page {{ page() + 1 }} · {{ detections().length }} shown · {{ total() }} total.
@@ -128,6 +131,7 @@ export class IncidentDetailComponent {
   readonly loading = signal(true);
   readonly error = signal('');
   readonly incident = signal<Incident | null>(null);
+  readonly analystItem=computed(()=>{const item=this.incident();return item?legacyAnalystIncident(item):null;});
   readonly detections = signal<components['schemas']['ServiceDetection'][]>([]);
   readonly recoveryDetectedAt = computed(() => {
     const item = this.incident();

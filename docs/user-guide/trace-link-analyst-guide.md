@@ -125,3 +125,13 @@ Roaming history links carry the displayed dataset, direction, resolution and abs
 The map keeps city nodes fixed and draws static two-way network paths. Node percentages are observed VoLTE setup success (All services/VoLTE) or SMS delivery success (SMS), never inferred transport utilization. An SMS delay value is not converted to a percentage. Missing success measurements stay unavailable. Red nodes identify technically active anomalies in the selected service filter; analyst-open work alone does not keep a recovered node red. Select a dot or path for details; nominal link capacity is separate from measured traffic.
 
 Opening a recorded roaming overview carries its archive, direction, absolute interval and resolution to the dedicated page. Shared links keep those selections fixed, including 15-minute resolution. Invalid or unavailable explicit selections show an error instead of switching archives or displaying samples. Recorded buckets are ordered and checked for overlap, duplicate instants, range violations and incompatible population bounds before display. Short chart windows spanning UTC dates include the date in their time labels.
+
+## Investigation assistance and shift handover
+
+Incident detail pages include **Suggested next checks**, based on the service and technical state. These are investigation steps, not confirmed causes. Missing evidence takes priority; technical recovery still requires analyst review and resolution.
+
+Expand **Related incidents** to check overlapping episodes with the same scope, recorded city or dependency. Cross-scope matches require the same recorded topology, and native matches remain inside the same archive. Matching time or location does not establish a shared cause. The checked-record count shows coverage; **Check more incidents** reads another bounded page. Failed reads offer Retry without substituting records.
+
+Use **Shift handover** on the overview or recorded incident list to capture the current queue/context page, its filters and period. The summary separates acknowledgment, investigation and technical recovery, identifies partial snapshots and marks unavailable workflow states. Refresh the snapshot deliberately, then copy or download it as text. A snapshot is not an exhaustive report of incidents outside the displayed page, and does not update incident state. Session expiry clears the open snapshot.
+
+Charts show **Data freshness** from the latest usable measurement, rather than the time the browser fetched it. Historical coverage, missing tails, unavailable measurements and sample data remain distinct. Blank intervals remain missing; a freshness label never creates measurements or confirms recovery.

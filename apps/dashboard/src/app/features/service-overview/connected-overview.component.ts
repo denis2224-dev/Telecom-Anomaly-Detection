@@ -1,3 +1,5 @@
+import { ShiftHandoverComponent } from '../analyst-support/shift-handover.component';
+import { legacyAnalystIncident } from '../analyst-support/analyst-support.model';
 import { countryPreview, roamingSample } from '../scenario-runner/monitoring-preview';
 import { incidentDisplayRange } from '../../shared/incident-display-range';
 import { IncidentDashboardActionsComponent, IncidentAcknowledgements } from '../incident-investigation/incident-dashboard-actions.component';
@@ -36,7 +38,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [IncidentDashboardActionsComponent, RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
+  imports: [ShiftHandoverComponent,IncidentDashboardActionsComponent, RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -185,6 +187,7 @@ export class ConnectedOverviewComponent {
       && (!this.queueStateFilter() || item.technicalState === this.queueStateFilter()))
       .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
+  readonly handoverItems=computed(()=>this.visibleIncidents().map(item=>legacyAnalystIncident(this.acknowledgements.current(item))));
   priorityFor(id: string) { return this.priorityItems().find(item => item.incidentId === id); }
   readonly cause = probableCause;
   readonly cityServices = cityServices;

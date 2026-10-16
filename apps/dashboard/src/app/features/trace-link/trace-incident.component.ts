@@ -1,3 +1,5 @@
+import { IncidentAssistComponent } from '../analyst-support/incident-assist.component';
+import { nativeAnalystIncident } from '../analyst-support/analyst-support.model';
 import { TraceIncidentCardActionsComponent } from './trace-incident-card-actions.component';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -12,7 +14,7 @@ type NativeIncident=components['schemas']['TraceLinkIncidentView'];
 type Workflow=components['schemas']['TraceIncidentWorkflow'];
 const object=(value:unknown):Record<string,unknown>=>value!==null&&typeof value==='object'&&!Array.isArray(value)?value as Record<string,unknown>:{};
 @Component({
- selector:'app-trace-incident',imports:[RouterLink,TraceIncidentCardActionsComponent],
+ selector:'app-trace-incident',imports:[IncidentAssistComponent,RouterLink,TraceIncidentCardActionsComponent],
  styles:[`section{margin:16px 0;}pre{white-space:pre-wrap;overflow-wrap:anywhere;}label{display:grid;gap:6px;margin:12px 0;}textarea,select{max-width:100%;min-height:44px;}button{min-height:44px;} .actions{display:flex;flex-wrap:wrap;gap:12px;}`],
  template:`<a routerLink="/trace-link" [queryParams]="contextParameters()">Back to historical analysis</a>
  <h1>Trace Link incident investigation</h1>
@@ -22,6 +24,7 @@ const object=(value:unknown):Record<string,unknown>=>value!==null&&typeof value=
  <p>First observed {{time(item.firstObservedAt)}} · detected {{time(item.detectedAt)}} · latest window end {{time(item.latestWindowEnd)}} · {{query.context().timezone}}</p>
  <p>{{item.technicalState==='RECOVERED'?'Technical recovery does not resolve analyst work.':item.technicalState==='UNKNOWN'?'Incomplete evidence does not establish recovery.':'The incident remains ongoing.'}}</p>
  <p>{{cause()}}</p><button type="button" (click)="focusContext()">Use this incident scope and interval</button></section>}
+ @if(analystItem();as item){<app-incident-assist [incident]="item" />}
  @if(workflow();as state){<section aria-label="Native analyst workflow"><h2>Analyst workflow · {{state.status}}</h2>
  <div class="actions"><button type="button" [disabled]="changing() || !!state.assigneeId" (click)="assign(session.actor()?.analystId ?? '')">Assign to me</button>
  <button type="button" [disabled]="changing() || state.status!=='OPEN' || !state.assigneeId" (click)="changeStatus('INVESTIGATING')">Start investigation</button></div>
@@ -34,6 +37,7 @@ const object=(value:unknown):Record<string,unknown>=>value!==null&&typeof value=
  <section aria-label="Append-only native audit"><h2>Analyst audit</h2>@for(action of audit();track action.version){<p>{{action.action}} · {{time(action.occurredAt)}} · {{action.note ?? ''}}</p>}<button type="button" [disabled]="busy() || auditPage()===0" (click)="auditPage.update(value=>value-1);load()">Previous audit</button><button type="button" [disabled]="busy() || audit().length<50" (click)="auditPage.update(value=>value+1);load()">Next audit</button></section>`,
 })
 export class TraceIncidentComponent {
+ readonly analystItem=computed(()=>{const item=this.incident();return item?nativeAnalystIncident(item,this.workflow()?.status??null):null;});
  readonly session=inject(SessionStore);readonly query=inject(TraceQueryStore);private readonly api=inject(TelecomClient);private readonly stream=inject(IncidentStream);
  readonly contextParameters=computed(()=>traceContextParameters(this.query.context()));
  readonly incident=signal<NativeIncident|null>(null);readonly workflow=signal<Workflow|null>(null);readonly evidence=signal<components['schemas']['TraceLinkDetectionEnvelope'][]>([]);

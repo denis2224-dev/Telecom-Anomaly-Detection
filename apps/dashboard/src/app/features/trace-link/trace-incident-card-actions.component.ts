@@ -37,6 +37,7 @@ export function nativeIncidentContext(item: Incident, context: TraceQueryContext
 export class TraceIncidentCardActionsComponent {
   readonly incident = input.required<Incident>();
   readonly updated = output<void>();
+  readonly workflowChanged=output<components['schemas']['TraceIncidentWorkflow']>();
   private readonly api = inject(TelecomClient);
   private readonly session = inject(SessionStore);
   private readonly query = inject(TraceQueryStore);
@@ -53,12 +54,13 @@ export class TraceIncidentCardActionsComponent {
       this.workflow.set(null); this.acknowledgedAt.set(null);
       void this.api.traceIncidentWorkflow(item.episodeId, request.signal).then(state => {
         if (!request.signal.aborted && revision === this.session.revision) {
-          this.workflow.set(state);
+          this.acceptWorkflow(state);
           if(state.status !== 'OPEN') void this.loadAcknowledgement(item.episodeId,revision,request.signal);
         }
       }).catch(error => { if (!request.signal.aborted) this.error.set(error instanceof Error ? error.message : 'Workflow unavailable.'); });
     });
   }
+  private acceptWorkflow(state:components['schemas']['TraceIncidentWorkflow']) {this.workflow.set(state);this.workflowChanged.emit(state);}
   private async loadAcknowledgement(id:string,revision:number,signal?:AbortSignal) {
     try {
       for(let offset=0;offset<5000;offset+=50) {
@@ -85,17 +87,17 @@ export class TraceIncidentCardActionsComponent {
     this.busy.set(true); this.error.set('');
     try {
       let state = await this.api.traceIncidentWorkflow(id); valid();
-      if (state.status !== 'OPEN') { this.workflow.set(state); return; }
+      if (state.status !== 'OPEN') { this.acceptWorkflow(state); return; }
       const actor = this.session.actor();
       if (state.assigneeId && state.assigneeId !== actor?.analystId && !actor?.roles.some(role => role === 'ADMIN' || role === 'SUPERVISOR')) throw new Error('Only the assignee or a supervisor can acknowledge.');
       if (!state.assigneeId) {
         const analysts = await this.api.listAnalysts(); valid();
         if (!actor?.analystId || !analysts.some(row => row.id === actor.analystId && row.enabled)) throw new Error('An enabled analyst account is required.');
         state = await this.api.assignTraceIncident(id, {assigneeId: actor.analystId, version: state.version}); valid();
-        this.workflow.set(state);
+        this.acceptWorkflow(state);
       }
       state = await this.api.updateTraceIncident(id, {status:'INVESTIGATING',version:state.version}); valid();
-      this.workflow.set(state); void this.loadAcknowledgement(id,revision); this.updated.emit();
+      this.acceptWorkflow(state); void this.loadAcknowledgement(id,revision); this.updated.emit();
     } catch(error) { this.error.set(error instanceof Error ? error.message : 'Acknowledgement failed. Retry.'); }
     finally { this.busy.set(false); }
   }

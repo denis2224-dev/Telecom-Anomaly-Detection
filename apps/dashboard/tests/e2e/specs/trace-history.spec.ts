@@ -71,7 +71,7 @@ for(const width of [1366,390])test(`Trace Link roaming history preserves partner
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
  await page.route('**/api/v2/trace-link/incidents?**',route=>route.fulfill({status:404,json:{code:'NOT_FOUND'}}));
  await page.reload();
- await expect(page.locator('app-trace-incidents [role=status]')).toContainText('Incident history is not enabled');
+ await expect(page.locator('app-trace-incidents').getByRole('status')).toContainText('Incident history is not enabled');
  await expect(page.locator('app-trace-incidents')).not.toContainText('0 matching episodes');
  await expect(chart).toContainText('roaming.voice.success');
  await page.route('**/api/v2/metrics/series?**',route=>route.fulfill({status:503,json:{code:'UNAVAILABLE'}}));

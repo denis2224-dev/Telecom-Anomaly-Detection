@@ -20,6 +20,7 @@
     <button class="queue-toggle" type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Incidents ({{ queueTotal() }}) <span class="badge" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
   </form>
   <a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Investigate history</a>
+  <app-shift-handover [items]="handoverItems()" [total]="queueTotal()" [atLeast]="!fixture && queueHasNext()" [scope]="'Current queue view · ' + serviceFilter() + ' · ' + (selectedCity()?.name ?? 'All cities') + ' · ' + (queueStateFilter() || 'All states') + ' · ' + (queueSeverityFilter() || 'All severities')" [from]="chartFrom()" [to]="chartTo()" [sample]="fixture" [loading]="queueLoading()" [error]="queueError()" />
   @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
   @if (statusMessage()) { <p role="alert">{{ statusMessage() }}</p> }
   @if (geographyError()) { <p role="status">City catalogue unavailable: {{ geographyError() }} Retained data may be stale.</p> }
