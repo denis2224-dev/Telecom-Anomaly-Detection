@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-10-15T20:12:22.8255204Z",
+  "os": "Microsoft Windows 11 Pro",
+  "cpu": {
+    "Name": "AMD Ryzen 7 7735HS with Radeon Graphics        ",
+    "NumberOfCores": 8,
+    "NumberOfLogicalProcessors": 16
+  },
+  "docker": "29.8.2",
+  "memoryBytes": 16369233920,
+  "java": "openjdk version \"21.0.12.1\" 2026-08-18 LTS\r\nOpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)\r\nOpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)\r\n",
+  "maven": "Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5)\r\nMaven home: D:\\Tools\\Maven\\apache-maven-3.9.16\r\nJava version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\jdk21-sergiu-days7-8\\jdk-21.0.12.1+1\r\nDefault locale: en_US, platform encoding: UTF-8\r\nOS name: \"windows 11\", version: \"10.0\", arch: \"amd64\", family: \"windows\"\r\n"
+}

@@ -1,0 +1,19 @@
+{
+  "milestone": "2026-10-15",
+  "executionContinued": "2026-10-16",
+  "candidateSource": "d408f7472ab0a7193c235edb84ba2f282bd08c4e",
+  "sharedReleaseManifest": "NOT_SUPPLIED",
+  "connectedEnvironment": "NOT_SUPPLIED",
+  "userConfirmedUnavailable": true,
+  "day5HumanAcceptance": "PENDING",
+  "day6HumanAcceptance": "PENDING",
+  "connectedRehearsals": "NOT_RUN",
+  "sharedReleaseApproval": false,
+  "owners": {
+    "releaseManifestAndEnvironment": "Bradu Stanislav",
+    "sourceWindowsAndSeeds": "Zavtoni Ion",
+    "persistedIncidentEvidence": "Moroz Denis",
+    "displayedKpiInventory": "Nenita David",
+    "detectionEvidenceAndAttestation": "Rusu Sergiu"
+  }
+}

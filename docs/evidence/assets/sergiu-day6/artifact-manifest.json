@@ -1,0 +1,32 @@
+{
+  "scope": "LOCAL_DETECTION_EVIDENCE",
+  "generatedAt": "2026-10-16T06:58:23.647067+00:00",
+  "files": {
+    "arithmetic-exports-files.json": "646cd1895a279eba62256625bf2fd0c43ba7cc8074054980f1fda98318472563",
+    "arithmetic-exports.zip": "adb0a92f218e98152e7e3f8dc82a909d6a231954a7d193d602178355ab8043be",
+    "base-ci.json": "e17ff67a4612a545d66b6ba7850cb3df976f93a49cdda3501e9a07e8b4778f0f",
+    "connected-preflight-current.json": "20de283f984775f0856206c0e93a37644b960eb4b322dd292dd092280d258a17",
+    "connected-preflight-final.json": "20de283f984775f0856206c0e93a37644b960eb4b322dd292dd092280d258a17",
+    "connected-preflight-reviewed.json": "20de283f984775f0856206c0e93a37644b960eb4b322dd292dd092280d258a17",
+    "connected-preflight.json": "20de283f984775f0856206c0e93a37644b960eb4b322dd292dd092280d258a17",
+    "detection-inputs-before-argv-review.json": "8ab17270badc4658c58757d4a8b5474d0cc0a4a5b29ac7cba22e75ac519a5d33",
+    "detection-inputs-before-type-review.json": "bcf1101da90d53124c33ef48f72ba2cd398a2b2119f3c4d87c9fe2a07677428d",
+    "detection-inputs-initial.json": "ce24895913c63e1fdcbe774c3981cb8df53c4d02a00e8287550c8ab41570b794",
+    "detection-inputs.json": "5c1d9fb312188cf57967142a281a7c45eafdf03f2aa59ab5c28de4d4bd1837a8",
+    "environment.json": "a964cc97fb75b64d2ec4f9931d6be5530411e1b74c4ff44f6ba236daa855f7a5",
+    "final-local-verification-files.json": "e2a1538d4bc66908004a1952b20cf703b6c15addb10107d96796bd7705421ade",
+    "final-local-verification.zip": "c101c4d04d77b58d6e1a5684bb33f270ab0e3d5fd1ad3388a66472cd3ea50015",
+    "initial-verification-files.json": "e447088db6ce41c99ce3052c5b3210e8c413c7d032a8c06caf2ff6a2bc06e05b",
+    "initial-verification.zip": "cd86b86d7bcebda462659a6130b3716ccbb187449c10a41ac9ea90d18f1efa0b",
+    "interrupted-native-run-files.json": "3fd39660c3bd1cc80ecdd1cec7957d961d3c99c564763d2f72905009e8047b3d",
+    "interrupted-native-run.zip": "60153d0b322cc5b3560cfce715ea6fb702cf4fea53d8b2995887b15c9369d956",
+    "local-checks-files.json": "d4185d4b74bb4dcd2e8e57326540f5d029b9011a04f4d84a4e00df8b76b2617f",
+    "local-checks.zip": "0aec11fc4e3f3d40cf72b9b2055557609402bb0fd28f89075376ceacd7aeff92",
+    "local-prerequisites.json": "50af9aef1a2ace4da60ea8f5ad7c250619abd317618b629d767d272819c1ccac",
+    "resume-with-docker-unavailable-files.json": "6a71910847805626c7747cf229a058800ed8ea5ee10ddbc5dcdfef91f4249cdd",
+    "resume-with-docker-unavailable.zip": "73d62f764f37042e783c679ba081ece907342f9c05ec066c207352af0c6ed30f",
+    "verification-summary.json": "5116a58bae3702f4e134c72af67e08e4274e51118edc568c1d6cc20661d82bed"
+  },
+  "humanAcceptance": "PENDING",
+  "sharedReleaseApproval": false
+}
