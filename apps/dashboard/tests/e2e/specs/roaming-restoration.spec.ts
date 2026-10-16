@@ -18,15 +18,17 @@ for (const width of [1366, 390]) test(`October 13 roaming cards and tables show 
   await expect(page.locator('.country-panels section').first().locator('tbody tr').first()).toContainText('Bulgaria');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await page.screenshot({ path: info.outputPath(`restored-roaming-${width}.png`), fullPage: true });
+  const beforeFailure = state.reads;
   state.unavailable = true;
   await page.reload();
   await expect(page.locator('.preview-note')).not.toContainText('Loading');
   await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
   await expect(page.locator('.roaming-kpis strong')).toHaveText(['—','—','—','—','—']);
   await expect(page.locator('.actual-line')).toHaveAttribute('d', '');
-  const reads = state.reads;
   await page.waitForTimeout(400);
-  expect(state.reads).toBe(reads);
+  // A failed batch can still deliver its three already-started requests.
+  expect(state.reads - beforeFailure).toBeGreaterThan(0);
+  expect(state.reads - beforeFailure).toBeLessThanOrEqual(3);
   state.unavailable = false;
   await page.getByRole('button', { name: 'Retry roaming data' }).click();
   await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
