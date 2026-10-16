@@ -23,6 +23,7 @@ This is the record of the user's latest frontend decisions. Preserve these in fu
 - Show on dashboard opens the owning dedicated service page, preserving incident, service/scope/city/partner and time context. Mark the event with a red line and shaded interval, retaining the full selected period. Manual zoom can inspect the event; dismiss clears the highlight. Do not automatically reduce the graph to only the incident window.
 - Acknowledgment must use the existing API/workflow and update counts consistently. Display short service-related references such as VOL-001, SMS-002, ROAM-003 or NET-004, with the real timestamp. References persist locally across reloads; backend audit identities remain unchanged. Do not reintroduce actor UUIDs or an ACK prefix on the acknowledgment line.
 - Incident queue fills the viewport with outer padding and a Close button. Keep only Severity, Service and State filters in one row. Remove count headings, awaiting-count sentences and duplicate technical/helper lines. Retain title, scope/service, severity, technical/workflow states, observed/detected times, baseline deviation, cause and actions.
+- Keep the incident queue subtly translucent with background blur; cards remain nearly opaque and text/buttons stay fully opaque for readability.
 - Incident summaries scroll normally; do not reintroduce a sticky summary/header over the evidence timeline.
 
 ## Map and measurement truth
