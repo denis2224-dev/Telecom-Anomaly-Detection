@@ -174,7 +174,10 @@ for (const width of [1366, 768, 390]) {
       expect(controls.every(r => r.height >= 36)).toBe(true);
     }
     expect(await page.locator('.map-panel').evaluate(panel => {
-      const box = panel.getBoundingClientRect();
+      const scroller = panel.querySelector('.map-scroll')!;
+      const viewport = scroller.getBoundingClientRect();
+      // Mobile deliberately scrolls a readable map inside the panel.
+      const box = {left:viewport.left-scroller.scrollLeft, right:viewport.left-scroller.scrollLeft+scroller.scrollWidth};
       const labels = [...panel.querySelectorAll('.node-label')].map(label => ({ rect: label.getBoundingClientRect(), name: label.textContent }));
       return labels.flatMap(({ rect, name }, index) => [
         ...(rect.left < box.left || rect.right > box.right ? [`${name} outside panel`] : []),
@@ -182,6 +185,13 @@ for (const width of [1366, 768, 390]) {
           && rect.bottom > other.top && other.bottom > rect.top).map(other => `${name} overlaps ${other.name}`),
       ]);
     })).toEqual([]);
+    for (const label of await page.locator('.city-marker .node-label').all()) {
+      await label.evaluate(element => element.scrollIntoView({block:'nearest', inline:'nearest'}));
+      expect(await label.evaluate(element => {
+        const rect = element.getBoundingClientRect(), viewport = element.closest('.map-scroll')!.getBoundingClientRect();
+        return rect.left >= viewport.left - 1 && rect.right <= viewport.right + 1;
+      })).toBe(true);
+    }
     await page.screenshot({ path: info.outputPath(`three-panels-fixture-${width}.png`), fullPage: true, animations: 'disabled' });
     await page.getByRole('button', { name: '24h', exact: true }).click();
     await expect(page.getByRole('button', { name: '24h', exact: true })).toHaveAttribute('aria-pressed', 'true');
