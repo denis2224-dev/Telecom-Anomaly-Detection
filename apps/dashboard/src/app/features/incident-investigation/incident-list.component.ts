@@ -86,7 +86,7 @@ import { SessionStore } from '../login-and-session/session.store';
     .episode-state[data-state=UNKNOWN] { color: var(--warning); background: var(--warning-soft); }
     .episode-card .episode-time { font-size: 11px; }
     .episode-actions { min-width:0; padding-inline-start:8px; }
-    .evidence-toggle { min-height:34px; margin:2px 0 0 8px; padding:5px 10px; font-size:11px; width:max-content; white-space:nowrap; flex-wrap:nowrap; box-shadow:none; border:0; }
+    .evidence-toggle { justify-self:end; min-height:34px; margin:2px 0 0; padding:5px 10px; font-size:11px; width:max-content; white-space:nowrap; flex-wrap:nowrap; box-shadow:none; border:0; }
     @media(max-width:600px) { .evidence-toggle {min-height:44px;} }
     .evidence-toggle .icon { width: 12px; height: 12px; }
     .incident-story { font-size: 14px; overflow-wrap: anywhere; }
