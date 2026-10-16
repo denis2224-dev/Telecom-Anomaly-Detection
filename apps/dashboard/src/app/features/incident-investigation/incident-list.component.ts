@@ -21,26 +21,24 @@ import { SessionStore } from '../login-and-session/session.store';
     @for (item of rows(); track item.episodeId) {
       <article class="episode-card" [class.is-highlighted]="highlighted().includes(item.episodeId)" [attr.data-severity]="item.severity" [attr.data-technical-state]="item.technicalState" [attr.data-episode-id]="item.episodeId" [attr.data-highlighted]="highlighted().includes(item.episodeId)">
         <div class="episode-summary">
-          <header class="episode-header"><h3><span class="episode-severity">{{ item.severity }}<span class="sr-only"> severity</span></span>{{ problem(item) }}</h3>
+          <header class="episode-header"><h3><span class="badge episode-severity" [attr.data-state]="item.severity">{{ item.severity }}<span class="sr-only"> severity</span></span>{{ problem(item) }}</h3>
             <p class="episode-time">since {{ item.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} – {{ item.lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · {{ duration(item) }}</p>
           </header>
           <p class="episode-location"><span class="episode-label">Location</span> {{ location(item) }}</p>
           <p class="episode-description">{{ description(item) }}</p>
           <p class="episode-info"><span class="episode-state-group"><span class="episode-label">Technical state</span><span class="episode-state" [attr.data-state]="item.technicalState">{{ item.technicalState }}</span></span>
             <span class="episode-state-group"><span class="episode-label">Workflow</span><span class="episode-workflow" [attr.data-state]="item.status" [class.awaiting-resolution]="item.technicalState === 'RECOVERED' && item.status !== 'RESOLVED'" [title]="workflowState(item)">{{ workflowState(item) }}</span></span>
-            <span [title]="item.assigneeId ?? ''">{{ item.assigneeId ? 'Assigned' : 'Unassigned' }}</span>
             @if (impact(item); as estimate) { <span>{{ estimate }}</span> }
           </p>
         </div>
-        <app-incident-dashboard-actions [incident]="item" />
-        <div class="episode-actions"><button class="ghost evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button>
-          <a class="button primary" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a></div>
+        <button class="primary evidence-toggle" type="button" aria-haspopup="dialog" [attr.aria-expanded]="expanded() === item.episodeId" [attr.aria-controls]="'episode-evidence-' + item.episodeId" (click)="openEvidence(item)"><span>View incident evidence</span><app-icon name="right" /></button>
+        <div class="episode-actions"><app-incident-dashboard-actions [incident]="item"><a class="button primary incident-evidence-action" [routerLink]="['/incidents', item.id]">Open incident detail<app-icon name="right" /></a></app-incident-dashboard-actions></div>
       </article>
     } @empty { <div class="empty-state" role="status"><app-icon name="shield" /><p>No incident episodes on this page.</p></div> }
   </div></section>
   <app-drawer #evidenceDrawer panelClass="episode-evidence" [drawerId]="'episode-evidence-' + (expanded() ?? '')" title="Incident evidence" closeLabel="Close incident evidence" (closed)="expanded.set(null)">
     @if (selectedEpisode(); as item) { <section class="incident-story" [attr.data-phase]="item.latestDetection.phase" [attr.data-episode-id]="item.episodeId">
-      <app-incident-dashboard-actions [incident]="item" (navigated)="evidenceDrawer.close()" /><h4 class="episode-title incident-behavior">{{ problem(item) }}</h4>
+      <app-incident-dashboard-actions [incident]="item" (navigated)="evidenceDrawer.close()"><a class="button incident-evidence-action" [routerLink]="['/incidents', item.id]">Open incident detail</a></app-incident-dashboard-actions><h4 class="episode-title incident-behavior">{{ problem(item) }}</h4>
       <p class="incident-context">{{ location(item) }} · {{ item.scopeId }}</p>
       <div class="incident-states" aria-label="Incident severity and state">
         <span class="incident-state"><span class="incident-state-label">Severity</span><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span></span>
@@ -73,7 +71,7 @@ import { SessionStore } from '../login-and-session/session.store';
     .episode-card p { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
     .episode-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
     .episode-header h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; font-size: 16px; color: var(--text); }
-    .episode-severity { padding: 3px 6px; border-radius: 6px; background: var(--surface-raised); color: var(--text-muted); font-size: 10px; letter-spacing: .04em; }
+    .episode-severity { padding: 3px 6px; border-radius: 6px; font-size: 10px; letter-spacing: .04em; }
     .episode-card .episode-location { margin-top: 6px; color: var(--text-muted); font-size: 12px; }
     .episode-card .episode-description { margin: 5px 0; color: var(--text); }
     .episode-card .episode-info { display: grid; grid-template-columns: 1fr; gap: 3px; color: var(--text-muted); font-size: 12px; }
@@ -87,9 +85,9 @@ import { SessionStore } from '../login-and-session/session.store';
     .episode-state[data-state=ONGOING] { color: var(--danger); background: var(--danger-soft); }
     .episode-state[data-state=UNKNOWN] { color: var(--warning); background: var(--warning-soft); }
     .episode-card .episode-time { font-size: 11px; }
-    .episode-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding-inline-start: 8px; }
-    .episode-actions > a { display: inline-flex; align-items: center; gap: 6px; margin: 0; min-height: 36px; padding: 7px 12px; font-size: 12px; white-space: nowrap; }
-    .evidence-toggle { min-height: 28px; margin-top: 2px; padding: 3px 0; font-size: 12px; width: max-content; white-space: nowrap; flex-wrap: nowrap; }
+    .episode-actions { min-width:0; padding-inline-start:8px; }
+    .evidence-toggle { min-height:34px; margin:2px 0 0 8px; padding:5px 10px; font-size:11px; width:max-content; white-space:nowrap; flex-wrap:nowrap; box-shadow:none; border:0; }
+    @media(max-width:600px) { .evidence-toggle {min-height:44px;} }
     .evidence-toggle .icon { width: 12px; height: 12px; }
     .incident-story { font-size: 14px; overflow-wrap: anywhere; }
     .incident-story h4 { margin: 18px 0 6px; font-size: 14px; letter-spacing: normal; text-transform: none; color: var(--text); }
@@ -101,7 +99,7 @@ import { SessionStore } from '../login-and-session/session.store';
     .evidence-cause { padding: 12px; background: var(--field); border-radius: var(--radius-control); }
     .evidence-cause h4 { margin-top: 0; }
     .evidence-cause p { margin: 0; }
-    @media (max-width: 600px) { .episode-actions > a { margin-left: auto; } .incident-filters label { flex: 1; min-width: 80px; } .incident-filters p { flex-basis: 100%; margin: 0; } }
+    @media (max-width: 600px) { .incident-filters label { flex: 1; min-width: 80px; } .incident-filters p { flex-basis: 100%; margin: 0; } }
   `],
 })
 export class IncidentListComponent {

@@ -1,6 +1,6 @@
 import { incidentDisplayRange } from '../../shared/incident-display-range';
-import { Component, effect, inject, input, output, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { AcknowledgementLabelComponent, incidentReferencePrefix } from '../../shared/acknowledgement-label.component';
 import { Router } from '@angular/router';
 import { TelecomClient } from '../../core/api/telecom-client';
 import type { components } from '../../core/api/schema';
@@ -30,9 +30,9 @@ export function nativeIncidentContext(item: Incident, context: TraceQueryContext
 }
 
 @Component({
-  selector: 'app-trace-incident-card-actions', imports: [DatePipe],
-  template: `<div class="actions"><button type="button" (click)="show()">Show on dashboard</button><button type="button" [disabled]="busy() || !workflow() || workflow()?.status !== 'OPEN'" (click)="acknowledge()">{{ workflow() && workflow()?.status !== 'OPEN' ? 'Acknowledged' : 'Acknowledge' }}</button></div>@if(acknowledgedAt()){<p>Acknowledged {{ acknowledgedAt() | date:'dd MMM HH:mm':'UTC' }} UTC · analyst identity unavailable</p>}@if(error()){<p role="alert">{{error()}}</p>}`,
-  styles: [`.actions{display:flex;flex-wrap:wrap;gap:8px;}button{min-height:36px;font-size:13px;}p{font-size:12px;overflow-wrap:anywhere;}`],
+  selector: 'app-trace-incident-card-actions', imports: [AcknowledgementLabelComponent],
+  template: `<div class="incident-action-bar"><ng-content select="[incident-leading]" /><button type="button" (click)="show()">Show on dashboard</button><button type="button" [disabled]="busy() || !workflow() || workflow()?.status !== 'OPEN'" (click)="acknowledge()">{{ workflow() && workflow()?.status !== 'OPEN' ? 'Acknowledged' : 'Acknowledge' }}</button><ng-content /></div>@if(acknowledgedAt()){<p role="status"><app-acknowledgement-label [incidentId]="'native:' + incident().episodeId" [prefix]="referencePrefix()" [at]="acknowledgedAt()!" /></p>}@if(error()){<p role="alert">{{error()}}</p>}`,
+  styles: [`:host{display:block;min-width:0;}p{font-size:11px;overflow-wrap:anywhere;}`],
 })
 export class TraceIncidentCardActionsComponent {
   readonly incident = input.required<Incident>();
@@ -42,6 +42,7 @@ export class TraceIncidentCardActionsComponent {
   private readonly query = inject(TraceQueryStore);
   private readonly router = inject(Router);
   readonly workflow = signal<components['schemas']['TraceIncidentWorkflow'] | null>(null);
+  readonly referencePrefix = computed(() => incidentReferencePrefix(String(this.incident().latestDetection.context['domain'] ?? 'INCIDENT')));
   readonly acknowledgedAt = signal<string | null>(null);
   readonly busy = signal(false);
   readonly error = signal('');

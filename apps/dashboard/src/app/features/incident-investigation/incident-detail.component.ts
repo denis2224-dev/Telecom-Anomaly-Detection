@@ -62,17 +62,15 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
           } @empty { <p>No actions yet.</p> }
         </section>
       </dialog>
-      <app-incident-dashboard-actions [incident]="item" (updated)="acceptAction($event)" />
+      <app-incident-dashboard-actions [incident]="item" (updated)="acceptAction($event)"><button class="incident-evidence-action" type="button" (click)="detailsDrawer.showModal()">Details &amp; workflow</button></app-incident-dashboard-actions>
       <header class="incident-summary-bar">
         <div class="incident-summary-title"><p class="eyebrow">Incident episode</p><h2>{{ item.service === 'VOLTE' ? 'VoLTE setup' : 'SMS delivery' }}</h2></div>
         <div class="incident-at-a-glance">
           <span><small>Severity</small><strong class="badge" [attr.data-state]="item.severity">{{ item.severity }}</strong></span>
           <span><small>Technical state</small><strong class="badge" [attr.data-state]="item.technicalState">{{ item.technicalState }}</strong></span>
           <span><small>Analyst workflow</small><strong>{{ workflowState(item) }}</strong></span>
-          <span><small>Assignee</small><strong>{{ workflow.assigneeName() }}</strong></span>
           <span><small>Latest KPI deviation</small><strong class="mono">{{ latestDeviation() }}</strong></span>
         </div>
-        <button type="button" class="primary" (click)="detailsDrawer.showModal()"><app-icon name="user" />Details &amp; workflow</button>
       </header>
       <div class="evidence-column">
       <p class="muted">

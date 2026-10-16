@@ -173,7 +173,6 @@ export class ConnectedOverviewComponent {
   readonly markerCities = computed(() => this.catalogue().filter(city => city.marker !== null));
   readonly featuredCities = computed(() => this.catalogue().filter(city => city.featured).slice(0, 5));
   readonly selectedCity = computed(() => this.catalogue().find(city => city.id === this.selectedId()));
-  readonly acknowledgedOnPage = computed(() => this.visibleIncidents().filter(item => this.acknowledgements.current(item).status !== 'OPEN').length);
   readonly visibleIncidents = computed(() => {
     const city = this.selectedCity();
     const details = this.incidents();

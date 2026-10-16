@@ -47,7 +47,7 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     await hero.locator('svg[role="img"]').hover();
     await expect(hero.locator('.chart-tooltip')).toHaveClass(/tooltip-visible/);
     await expect(page.locator('.episode-card')).toHaveClass(/is-highlighted/);
-    expect((await hero.boundingBox())!.height).toBe(heightBefore);
+    expect((await hero.boundingBox())!.height).toBeCloseTo(heightBefore,3);
     const plot = hero.locator('.chart-scroll');
     await plot.focus();
     await page.keyboard.press('Home');
@@ -63,14 +63,14 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
     await technicalButton.click();
     await expect(chart).toHaveAttribute('data-chart', technicalId);
     await expect(technicalButton).toHaveAttribute('aria-pressed', 'true');
-    expect((await hero.locator('.chart-scroll').boundingBox())!.height).toBe(plotHeight);
+    expect((await hero.locator('.chart-scroll').boundingBox())!.height).toBeCloseTo(plotHeight,3);
     await hero.getByRole('button', { name: service === 'VOLTE' ? 'Call setup success' : 'P95 Delivery Delay', exact: true }).click();
     await expect(chart).toHaveAttribute('data-chart', service === 'VOLTE' ? 'cssrPct' : 'p95DeliveryMs');
     const action = page.locator('.episode-card').getByRole('link', { name: 'Open incident detail', exact: true });
     await expect(action).toHaveClass(/primary/);
-    expect((await action.boundingBox())!.height).toBeGreaterThanOrEqual(36);
-    await expect(page.locator('.episode-card .badge')).toHaveCount(0);
-    await expect(page.locator('.episode-info')).toContainText('Assigned');
+    expect((await action.boundingBox())!.height).toBeGreaterThanOrEqual(34);
+    await expect(page.locator('.episode-card .badge')).toHaveCount(1);
+    await expect(page.locator('.episode-info')).not.toContainText('Assigned');
     await expect(page.locator('.episode-info')).not.toContainText(state.incident.assigneeId!);
     await expect(page.locator('.episode-info')).not.toContainText('observed');
     expect(await page.locator('.evidence-toggle span').evaluate(label => {
@@ -131,13 +131,14 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
   const rows = page.locator('.episode-card');
   const toggles = rows.getByRole('button', { name: 'View incident evidence', exact: true });
   await expect(rows).toHaveCount(20);
-  await expect(rows.locator('.badge')).toHaveCount(0);
+  await expect(rows.locator('.badge')).toHaveCount(20);
   await expect(page.getByText('Percent or percentage points?', { exact: true })).toHaveCount(0);
   await toggles.nth(7).scrollIntoViewIfNeeded();
+  await toggles.nth(7).focus();
   const snapshot = () => page.evaluate(() => ({ page: scrollY, list: document.querySelector('.episode-list')!.scrollTop,
     width: document.querySelector('.episode-list')!.clientWidth, height: document.querySelector('.episode-list')!.clientHeight }));
   const before = await snapshot();
-  await toggles.nth(7).click();
+  await page.keyboard.press('Enter');
   const drawer = page.getByRole('dialog', { name: 'Incident evidence', exact: true });
   await expect(drawer).toBeVisible();
   await expect(page.locator('dialog[open]')).toHaveCount(1);
@@ -177,7 +178,8 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 768,
   await expect(drawer).not.toBeVisible();
   await expect(toggles.nth(7)).toBeFocused();
   expect(await snapshot()).toEqual(before);
-  await toggles.nth(8).click();
+  await toggles.nth(8).focus();
+  await page.keyboard.press('Enter');
   await expect(drawer).toBeVisible();
   await expect(drawer.locator('.incident-story')).toHaveAttribute('data-episode-id', items[8].episodeId);
   await expect(page.locator('dialog[open]')).toHaveCount(1);

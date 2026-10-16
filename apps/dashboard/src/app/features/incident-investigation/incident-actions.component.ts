@@ -29,7 +29,7 @@ type Analyst = components['schemas']['AnalystSummary'];
   template: `
     <section class="detail-panel workflow-card" aria-labelledby="incident-actions-title">
       <h2 id="incident-actions-title">Assignment and workflow</h2>
-      <div class="assignee"><span class="avatar">{{ assigneeName().slice(0, 2).toUpperCase() }}</span><p>Assigned to<strong>{{ assigneeName() }}</strong></p><span class="badge" [attr.data-state]="incident().status">{{ incident().status }}</span></div>
+      <p>Workflow <span class="badge" [attr.data-state]="incident().status">{{ incident().status }}</span></p>
       @if (dataSource.fixture) { <p class="muted">Actions are unavailable in the fixture preview.</p> } @else {
         @if (directoryError()) { <p role="alert">{{ directoryError() }}</p><button type="button" (click)="loadAnalysts()">Retry analyst directory</button> }
         @if (canClaim()) { <button class="primary" type="button" [disabled]="busy()" [attr.aria-busy]="busy()" (click)="claim()"><app-icon name="user" />Claim for myself</button> }

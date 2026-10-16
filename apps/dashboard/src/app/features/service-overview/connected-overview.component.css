@@ -150,9 +150,6 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .link-investigation h3 { margin: 0; font-size: 15px; }
 .link-investigation p { color: var(--text-muted); font-size: 12px; }
 .link-investigation .button { margin: 4px; }
-.link-list { margin: 12px; }
-.link-list ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
-.link-list button { width: 100%; min-height: 44px; font-size: 12px; }
 .active-anomalies { margin-top: 20px; padding: 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .active-anomalies > header, .anomaly-card > header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .active-anomalies h2 { margin: 0; flex: 1; }
@@ -179,7 +176,6 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .anomaly-card h3 { font-size:15px; }
 .anomaly-card p { margin:6px 0; font-size:13px; }
 .anomaly-description { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.incident-evidence { display:inline-block; font-size:12px; margin-top:6px; }
 .queue-item, .queue-meta, .queue-impact { width:100%; min-width:0; }
 .city-marker.incident-focused { outline:3px solid var(--accent); outline-offset:5px; }
 .incident-focus { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:13px; }
@@ -212,7 +208,6 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .anomaly-context > div {display:block;min-width:0;}
 .anomaly-context dt {display:inline;color:var(--text-muted);font-size:10px;margin-right:6px;}
 .anomaly-context dd {display:inline;margin:0;font:inherit;overflow-wrap:anywhere;}
-.anomaly-card .incident-evidence {font-size:10px;margin-top:4px;}
 
 .headline-metrics > div {--card-tone:var(--accent);box-shadow:inset 4px 0 var(--card-tone);min-height:108px;box-sizing:border-box;}
 .headline-metrics [data-tone=info] {--card-tone:var(--info);}
@@ -245,3 +240,13 @@ button.city-marker:hover:not(:disabled), button.city-marker:active:not(:disabled
 .network-arrow {fill:none;stroke:var(--text-muted);stroke-width:1.5;}
 .city-marker[data-anomaly=true] .marker-symbol {background:var(--danger);}
 .city-marker[data-anomaly=true]:hover .marker-symbol, .city-marker[data-anomaly=true]:focus-visible .marker-symbol {background:var(--danger);outline:2px solid var(--accent);outline-offset:2px;}
+
+.anomaly-card {padding:18px;}
+.service-column .call-details section {padding:6px;}
+.service-column .call-details h3 {font-size:12px;margin-bottom:6px;}
+.service-column .call-details dl {font-size:11px;gap:6px;}
+.service-column .call-donut {width:62px;height:62px;padding:7px;}
+.service-column .call-donut strong {font-size:13px;}
+.service-column .overview-table th,.service-column .overview-table td {font-size:11px;padding:3px;}
+.service-column .panel-navigation {min-height:36px;padding:6px 10px;font-size:11px;}
+@container(max-width:600px){.service-column .panel-navigation{min-height:44px;}.queue-filters select{font-size:12px;padding:6px 3px;}}

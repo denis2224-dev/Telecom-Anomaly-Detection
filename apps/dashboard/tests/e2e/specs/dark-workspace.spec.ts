@@ -77,7 +77,8 @@ for (const width of [1366, 768, 390]) {
     const summary = page.locator('.incident-summary-bar');
     await expect(summary).toContainText('Latest KPI deviation');
     await expect(summary).toContainText('Call setup success rate: +0.3 pp');
-    await expect(summary).toContainText('Unassigned');
+    await expect(summary).not.toContainText('Assignee');
+    await expect(summary).toContainText('OPEN');
     expect((await summary.boundingBox())!.y + (await summary.boundingBox())!.height).toBeLessThan(900);
     const drawer = page.locator('.workflow-drawer');
     await expect(drawer).toBeHidden();
@@ -100,9 +101,11 @@ for (const width of [1366, 768, 390]) {
     await expect(page.locator('.toast')).toContainText('Comment added');
     await capture('incident-details');
     await page.getByRole('button', { name: 'Close details and workflow' }).click();
-    await expect(summary).toContainText('Alex Morgan');
+    expect(incident.assigneeId).toBe(actor.analystId);
+    await expect(summary).not.toContainText('Assignee');
     await capture('incident');
-    await page.goto('/scenarios');
+    if (width === 390) await page.getByRole('button', { name: 'Open navigation' }).click();
+    await page.getByRole('link', { name: 'Scenario runner', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Eight-minute profile' })).toBeVisible();
     await page.getByLabel('Service scope', { exact: true }).selectOption('VOLTE-MD-CENTRAL');
     await capture('scenario-idle');

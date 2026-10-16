@@ -86,7 +86,8 @@ for (const service of ['VOLTE', 'SMS'] as const) for (const width of [1366, 390]
     expect(stateColors[3]).not.toEqual(stateColors[0]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     await panel.screenshot({ path: info.outputPath(`episodes-${service}-${width}.png`), animations: 'disabled' });
-    await cards.first().getByRole('button', { name: 'View incident evidence', exact: true }).click();
+    await cards.first().getByRole('button', { name: 'View incident evidence', exact: true }).focus();
+    await page.keyboard.press('Enter');
     await expect(page.getByRole('dialog', { name: 'Incident evidence', exact: true })).toContainText(problem);
     await page.keyboard.press('Escape');
     await expect(cards.first().getByRole('button', { name: 'View incident evidence', exact: true })).toBeFocused();

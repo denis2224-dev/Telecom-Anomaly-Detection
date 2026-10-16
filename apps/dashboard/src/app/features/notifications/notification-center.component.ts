@@ -29,7 +29,7 @@ export function notificationTime(value:string,timezone:'UTC'|'Europe/Chisinau'):
       @if (store.error()) { <p role="alert">{{ store.error() }}</p><button type="button" (click)="store.load()">Retry notification history</button> }
       @if (!store.busy() && !store.error() && !store.items().length) { <p>No recorded notifications.</p> }
       <ul>@for (item of store.items(); track item.id) {
-        <li><strong>{{ item.severity }} · {{ item.kind }} · {{ item.readAt ? 'Read' : 'Unread' }}</strong>
+        <li><strong><span class="badge" [attr.data-state]="item.severity">{{ item.severity }}</span> · {{ item.kind }} · {{ item.readAt ? 'Read' : 'Unread' }}</strong>
           <p>{{ item.service }} · {{ item.scopeId }}</p><p>{{ item.summary }}</p>
           <p><time [attr.datetime]="item.occurredAt">{{ notificationTime(item.occurredAt, query.context().timezone) }} {{ query.context().timezone }}</time></p>
           @if (item.causeStatus === 'HYPOTHESIS' && item.probableCause) { <p>Possible cause: {{ item.probableCause }} · confidence {{ item.causeConfidence ?? 'unavailable' }}</p> }

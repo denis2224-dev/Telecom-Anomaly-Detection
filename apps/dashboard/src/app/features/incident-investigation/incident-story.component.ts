@@ -7,7 +7,7 @@ import { CauseEvidenceComponent } from './cause-evidence.component';
   selector: 'app-incident-story', imports: [DatePipe, RouterLink, CauseEvidenceComponent],
   template: `<section class="detail-panel incident-story" [attr.data-phase]="incident().latestDetection.phase">
     <div class="section-heading"><h2>{{ incident().service }} · {{ incident().latestDetection.anomalyType }}</h2><a [routerLink]="['/incidents', incident().id]">Investigate incident →</a></div>
-    <p><span [attr.class]="'phase-label ' + incident().latestDetection.phase">{{ incident().latestDetection.phase }}</span> · {{ incident().scopeId }} · {{ incident().severity }}</p>
+    <p><span [attr.class]="'phase-label ' + incident().latestDetection.phase">{{ incident().latestDetection.phase }}</span> · {{ incident().scopeId }} · <span class="badge" [attr.data-state]="incident().severity">{{ incident().severity }}</span></p>
     <dl><div><dt>Technical state</dt><dd>{{ incident().technicalState }}</dd></div><div><dt>Workflow state</dt><dd>{{ incident().status }}</dd></div><div><dt>Current sequence</dt><dd>{{ incident().latestSequence }}</dd></div></dl>
     <p>First observed {{ incident().firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · Last observed {{ incident().lastObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC · Detected at {{ incident().detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
     <div class="story-grid"><div><app-cause-evidence [detection]="incident().latestDetection" /></div><div>

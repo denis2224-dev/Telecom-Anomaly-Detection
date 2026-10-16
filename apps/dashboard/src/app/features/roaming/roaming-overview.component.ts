@@ -66,7 +66,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     .measured-history {display:inline-block;margin-top:10px;font-size:12px;}
     .compact .country-panels section { padding: 6px; }
     .compact .country-panels h3 { font-size: 11px; }
-    .compact .country-panels th, .compact .country-panels td { padding: 4px 3px; font-size: 10px; }
+    .compact .country-panels th, .compact .country-panels td { padding: 3px; font-size: 10px; }
     .compact .kpi-table { min-width: 0; width: 100%; table-layout: fixed; }
     .compact .kpi-table th, .compact .kpi-table td { white-space: normal; overflow-wrap: anywhere; }
     .compact .kpi-table th:first-child { width: 28%; }

@@ -3,8 +3,8 @@ import { Component, ElementRef, input, output, viewChild } from '@angular/core';
 @Component({
   selector: 'app-drawer',
   styles: [':host { display: contents; }'],
-  template: `<dialog #dialog [class]="'drawer-panel ' + panelClass()" [id]="drawerId()" [attr.aria-labelledby]="titleId() || drawerId() + '-title'" (click)="closeOutside($event)" (close)="closed.emit()">
-    <header class="drawer-heading"><h3 [id]="titleId() || drawerId() + '-title'" tabindex="-1" autofocus>{{ title() }}</h3><button class="drawer-close primary" type="button" [attr.aria-label]="closeLabel()" (click)="close()">Close</button></header>
+  template: `<dialog #dialog [class]="'drawer-panel ' + panelClass()" [id]="drawerId()" [attr.aria-labelledby]="titleId() || drawerId() + '-title'" (click)="closeOutside($event)" (close)="!dialog.open && closed.emit()">
+    <header class="drawer-heading"><h3 [id]="titleId() || drawerId() + '-title'" tabindex="-1" [class.sr-only]="hideTitle()" [attr.autofocus]="hideTitle() ? null : ''">{{ title() }}</h3><button class="drawer-close primary" type="button" [attr.autofocus]="hideTitle() ? '' : null" [attr.aria-label]="closeLabel()" (click)="close()">Close</button></header>
     <ng-content select="[drawer-controls]" />
     <div class="drawer-content" tabindex="0" role="region" [attr.aria-label]="title() + ' content'"><ng-content /></div>
     <ng-content select="[drawer-footer]" />
@@ -14,6 +14,7 @@ export class DrawerComponent {
   readonly drawerId = input.required<string>();
   readonly title = input.required<string>();
   readonly titleId = input('');
+  readonly hideTitle = input(false);
   readonly panelClass = input('');
   readonly closeLabel = input('Close drawer');
   readonly closed = output<void>();

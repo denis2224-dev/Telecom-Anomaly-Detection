@@ -107,7 +107,6 @@
           <a class="button" routerLink="/trace-link" [queryParams]="linkParameters(link.id, 'b-to-a')">Investigate B → A</a>
         } @else if (selectedCity(); as city) { <h3>{{ city.name }} — {{ nodeValue(city) }}</h3><p>{{ cityHasAnomaly(city) ? 'Active anomaly · ' : '' }}{{ cityHealth(city) }} · {{ tableService() === 'VOLTE' ? 'VoLTE setup success' : 'SMS delivery success' }}</p> } @else { <h3>City and link details</h3><p>Select a dot or line.</p> }
       </section>
-      <details class="link-list"><summary>Intercity link list</summary><ul>@for (link of mapLinks(); track link.id) {<li><button type="button" [attr.aria-pressed]="selectedLinkId() === link.id" (click)="selectedLinkId.set(link.id)">{{ link.name }}</button></li>}</ul></details>
       <div class="panel-table map-table"><table class="overview-table" aria-label="Featured city observations">
         <thead><tr><th>City</th><th>Observed</th><th>Baseline change</th><th>State</th></tr></thead>
         <tbody>@for (city of featuredCities(); track city.id) {
@@ -129,8 +128,7 @@
             <div><dt>When</dt><dd>{{ incident.firstObservedAt | date:'dd MMM HH:mm':'UTC' }} UTC</dd></div>
             <div><dt>Why</dt><dd>{{ cause(incident.latestDetection) === 'Cause undetermined' ? 'Cause undetermined' : 'Possible cause: ' + cause(incident.latestDetection) }}</dd></div>
           </dl>
-          <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [compact]="true" [incident]="incident" (updated)="acceptAcknowledgement($event)" />
-          <a class="incident-evidence" [routerLink]="['/incidents', incident.id]">Episode evidence</a>
+          <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [compact]="true" [incident]="incident" (updated)="acceptAcknowledgement($event)"><a incident-leading class="button incident-evidence-action" [routerLink]="['/incidents', incident.id]">Episode evidence</a></app-incident-dashboard-actions>
         </article>
       } @empty {<p role="status">{{ queueLoading() ? 'Loading priority anomalies…' : 'No unresolved incidents for these filters.' }}</p>}</div>
       <button type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Open full incident queue</button>
@@ -144,36 +142,27 @@
 
 </section>
 
-<app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" [title]="'Incident queue (' + queueTotal() + ')'" closeLabel="Close incidents" (closed)="clearQueueFragment()">
-          <div class="queue-filters" drawer-controls><p>{{ visibleIncidents().length }} on this page · {{ visibleIncidents().length - acknowledgedOnPage() }} awaiting acknowledgement</p><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label></div>
+<app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" title="Incident queue" [hideTitle]="true" closeLabel="Close incidents" (closed)="clearQueueFragment()">
+          <div class="queue-filters" drawer-controls><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label></div>
           <div class="queue-scroll" [attr.aria-busy]="queueLoading()">
-          @if (queueSeverityFilter() && !fixture) { <p class="queue-refresh">Severity applies to this page.</p> }
           @if (queueLoading()) { <p class="queue-refresh" role="status">Refreshing incidents…</p> }
           @if (queueError()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
           @else {
             @for (incident of visibleIncidents(); track incident.id) {
               <article class="queue-item">
                 <h4 class="incident-behavior">{{ incident.latestDetection.anomalyType === 'VOLTE_SETUP_DEGRADATION' ? 'Call setup degradation' : 'SMS delivery delay' }}</h4>
-                <p class="incident-context">{{ priorityFor(incident.id)?.cityId ? cityById(priorityFor(incident.id)!.cityId!)?.name : cityLabel(catalogue(), incident.scopeId) }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</p>
+                <p class="incident-context">{{ priorityFor(incident.id)?.cityId ? cityById(priorityFor(incident.id)!.cityId!)?.name : incident.scopeId }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</p>
                 <div class="incident-states" aria-label="Incident severity and state">
                   <span class="incident-state"><span class="incident-state-label">Severity</span><span class="badge" [attr.data-state]="incident.severity">{{ incident.severity }}</span></span>
                   <span class="incident-state"><span class="incident-state-label">Technical state</span><span class="badge" [attr.data-state]="incident.technicalState">{{ incident.technicalState }}</span></span>
                   <span class="incident-state"><span class="incident-state-label">Workflow state</span><span class="badge" [attr.data-state]="incident.status">{{ incident.status }}</span></span>
                 </div>
-                @if (incident.technicalState === 'RECOVERED' && incident.status !== 'RESOLVED') {
-                  <p class="analyst-pending">Awaiting analyst resolution</p>
-                }
-                @if (priorityFor(incident.id); as priority) {
-                  <p class="queue-meta">{{ priority.priorityBand }} · {{ priority.freshness }}{{ priority.severityHistorical ? ' · Historical severity' : '' }} · {{ priority.comparableImpact ?? 'Impact unavailable' }} {{ priority.impactUnit ?? '' }}</p>
-                  @if (priority.cityNullReason) { <p class="queue-meta">City unavailable: {{ priority.cityNullReason }}</p> }
-                }
                 <p class="queue-meta">Since: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-meta">Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-impact">{{ deviation(detectionWindow(incident), incident.service) }}</p>
                 <p class="queue-meta">{{ cause(incident.latestDetection) }}</p>
                 <div class="button-row">
-                  <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [incident]="incident" (updated)="acceptAcknowledgement($event)" (navigated)="queueDialog.close()" />
-                  <a class="button primary" [routerLink]="['/incidents', incident.id]">Open incident evidence</a>
+                  <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [incident]="incident" (updated)="acceptAcknowledgement($event)" (navigated)="queueDialog.close()"><a class="button incident-evidence-action" [routerLink]="['/incidents', incident.id]">Open incident evidence</a></app-incident-dashboard-actions>
                 </div>
               </article>
             } @empty {
@@ -183,7 +172,7 @@
           </div>
           <nav class="pagination" drawer-footer aria-label="Overview incident pages">
             <button type="button" (click)="queuePage.update(previous)" [disabled]="queueLoading() || queuePage() === 0">Previous</button>
-            <span>Page {{ queuePage() + 1 }} · {{ visibleIncidents().length }} shown · {{ queueTotal() }}{{ queueHasNext() && !fixture ? '+' : '' }} {{ fixture ? 'total' : 'at least' }}</span>
+            <span>Page {{ queuePage() + 1 }}</span>
             <button type="button" (click)="queuePage.update(next)" [disabled]="queueLoading() || !queueHasNext()">Next</button>
           </nav>
 </app-drawer>

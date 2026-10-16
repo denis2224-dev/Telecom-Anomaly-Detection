@@ -1,6 +1,6 @@
 import { incidentDisplayRange } from '../../shared/incident-display-range';
 import { Component, Injectable, computed, effect, inject, input, output, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { AcknowledgementLabelComponent, incidentReferencePrefix } from '../../shared/acknowledgement-label.component';
 import { Router } from '@angular/router';
 import { TelecomClient, type Incident } from '../../core/api/telecom-client';
 import { incidentActionMessage } from '../../core/api/api-errors';
@@ -66,11 +66,11 @@ export class IncidentAcknowledgements {
 }
 
 @Component({
-  selector: 'app-incident-dashboard-actions', imports: [DatePipe],
-  template: `<div class="incident-card-actions" [class.compact]="compact()"><button type="button" (click)="show()">Show on dashboard</button><button type="button" [disabled]="busy() || acknowledged() || fixture" (click)="acknowledge()">{{ acknowledged() ? 'Acknowledged' : busy() ? 'Acknowledging…' : 'Acknowledge' }}</button></div>
-    @if (acknowledged() && !compact()) { <p class="acknowledgement" role="status">Acknowledged@if (audit(); as event) { · {{ event.actorId }} · {{ event.occurredAt | date:'dd MMM HH:mm':'UTC' }} UTC } @else { · audit details unavailable }</p> }
+  selector: 'app-incident-dashboard-actions', imports: [AcknowledgementLabelComponent],
+  template: `<div class="incident-action-bar"><ng-content select="[incident-leading]" /><button type="button" (click)="show()">Show on dashboard</button><button type="button" [disabled]="busy() || acknowledged() || fixture" (click)="acknowledge()">{{ acknowledged() ? 'Acknowledged' : busy() ? 'Acknowledging…' : 'Acknowledge' }}</button><ng-content /></div>
+    @if (acknowledged() && !compact()) { <p class="acknowledgement" role="status">@if (audit(); as event) { <app-acknowledgement-label [incidentId]="'legacy:' + item().id" [prefix]="referencePrefix()" [at]="event.occurredAt" /> } @else { Acknowledged · audit details unavailable }</p> }
     @if (error()) { <p role="alert">{{ error() }}</p> }`,
-  styles: [`.incident-card-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; } button { min-height:36px; font-size:13px; padding:7px 12px; } p { font-size:12px; margin:6px 0 0; overflow-wrap:anywhere; } .acknowledgement { color:var(--text-muted); } .compact {margin-top:6px;gap:6px;} .compact button {min-height:32px;padding:5px 8px;font-size:11px;} @media(max-width:600px){.compact button{min-height:44px;}}`],
+  styles: [':host{display:block;min-width:0;}p{font-size:11px;margin:6px 0 0;overflow-wrap:anywhere;}.acknowledgement{color:var(--text-muted);}'],
 })
 export class IncidentDashboardActionsComponent {
   readonly incident = input.required<Incident>();
@@ -90,6 +90,7 @@ export class IncidentDashboardActionsComponent {
     return saved && saved.version >= original.version ? saved : original;
   });
   readonly acknowledged = computed(() => this.item().status !== 'OPEN');
+  readonly referencePrefix = computed(() => incidentReferencePrefix(this.item().service));
   readonly audit = signal<{ actorId: string | null; occurredAt: string } | null>(null);
   constructor() {
     effect(cleanup => {
