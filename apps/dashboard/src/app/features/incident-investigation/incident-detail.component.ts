@@ -21,7 +21,7 @@ import { deviation, metricLabel, primaryMetric, supportedValue, workflowLabel, p
   styles: [`.incident-at-a-glance { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; } .incident-at-a-glance > span { width:100%; }`],
   selector: 'app-incident-detail', imports: [IncidentAssistComponent,IncidentDashboardActionsComponent, SmsShadowComponent, StatusBannerComponent, DatePipe, RouterLink, EvidenceTimelineComponent, IncidentActionsComponent, IconComponent],
   template: `
-    <div class="page-heading"><div class="heading-copy"><p class="eyebrow">Analyst workspace</p><h1>Incident investigation</h1></div>
+    <div class="page-heading"><div class="heading-copy"><h1>Incident investigation</h1></div>
     @if (!loading() && !error()) {
       <button type="button" class="ghost" (click)="load(page(), true)"><app-icon name="refresh" />Refresh incident</button>
     }

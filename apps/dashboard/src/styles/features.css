@@ -87,7 +87,6 @@
 .evidence-column > .muted { margin: 12px 0; }
 app-evidence-timeline { display: block; }
 app-evidence-timeline > h2 { margin-top: 28px; }
-app-evidence-timeline > p { font-size: 12px; color: var(--text-muted); margin: 10px 0 22px; }
 .evidence-entry { position: relative; margin: 12px 0 12px 20px; padding: 18px 22px; animation: enter .25s ease; }
 .evidence-entry::before { content: ''; position: absolute; left: -20px; top: 0; bottom: -22px; width: 2px; background: var(--surface-raised); }
 .evidence-entry:last-child::before { bottom: 0; }

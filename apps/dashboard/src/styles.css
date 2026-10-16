@@ -127,7 +127,8 @@ app-service-detail .heading-copy p { font-size: 11px; margin: 0; }
 .service-connection .connection-banner p { margin: 0; font-size: 11px; }
 .service-connection .connection-banner button { margin: 0; min-height: 32px; }
 .service-connection .connection-banner > .helper { flex-basis: 100%; }
-.service-alerts { height: 40px; padding: 4px 0; box-sizing: border-box; }
+.service-alerts { padding: 4px 0; box-sizing: border-box; }
+.service-alerts:not(:has(.service-connection)) { padding:0; }
 .service-alerts .service-connection { display: flex; align-items: center; gap: 8px; padding: 0 8px; height: 32px; border-radius: var(--radius-control); background: var(--warning-soft); color: var(--warning); }
 .service-alerts .service-connection > span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 11px; }
 .service-alerts button { min-height: 28px; margin: 0; padding: 4px 8px; font-size: 10px; }

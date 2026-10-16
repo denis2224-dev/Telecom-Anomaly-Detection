@@ -12,6 +12,7 @@ This is the record of the user's latest frontend decisions. Preserve these in fu
 - The main VoLTE overview uses successful/failed call bars, setup success percentage and a dashed baseline in one chart. Preserve actual units: setup attempts are not Erlang traffic or established-call drops.
 - Match legend colors to their series: successful calls green, failed calls red, setup success orange; baseline purple/dashed. Preserve keyboard inspection and readable UTC/date labels.
 - Keep operator text short: useful labels, locations, times, causes and key values. Avoid repeated explanations, source metadata, empty table headings and raw identifiers on routine cards.
+- Do not restore the map's Network paths subtitle or empty selection instructions. Show map details after selection. Keep chart readouts stable during inspection, using recorded-window count and time bounds instead of idle instructions; omit empty readouts. Keep keyboard help accessible and measurement limits/provenance in short expandable sections.
 
 ## Incident cards and navigation
 

@@ -47,16 +47,20 @@ export function nativeChartSeries(series:TraceNativeSeries):MetricChartSeries {
   styles:[`dialog{width:min(1200px,95vw);max-height:90vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--text-muted);border-radius:12px;}label{display:grid;gap:6px;margin:12px 0;}select{min-height:44px;max-width:100%;}details{margin:12px 0;}pre{white-space:pre-wrap;overflow-wrap:anywhere;}button{min-height:44px;}`],
   template:`<section aria-label="Native domain measurements">
     <label>Domain measurement<select [value]="selectedMetric()" (change)="metric.set($any($event.target).value)">@for(item of metrics();track item.id){<option [value]="item.id" [selected]="item.id===selectedMetric()">{{item.label}}</option>}</select></label>
-    @if(query.context().domain==='roaming'){<label>Partner and direction<select [value]="partnerKey()" (change)="query.update({partnerDirectionId:$any($event.target).value})">@for(item of availablePartners();track item.id+item.direction){<option [value]="item.id+':'+item.direction" [selected]="item.id+':'+item.direction===partnerKey()">{{item.country}} · {{item.id}} · {{item.direction}}</option>}</select></label><p>Separate partner, direction and procedure metrics. Active users and finalized SMS unavailable.</p>}
+    @if(query.context().domain==='roaming'){<label>Partner and direction<select [value]="partnerKey()" (change)="query.update({partnerDirectionId:$any($event.target).value})">@for(item of availablePartners();track item.id+item.direction){<option [value]="item.id+':'+item.direction" [selected]="item.id+':'+item.direction===partnerKey()">{{item.country}} · {{item.id}} · {{item.direction}}</option>}</select></label><p>Active users and finalized SMS unavailable.</p>}
+    <details><summary>Measurement limits</summary>
+    @if(query.context().domain==='roaming'){<p>Partner, direction and procedure are separate populations.</p>}
     @if(query.context().domain==='transport'){<p>Select a link direction. Utilization alone is not an outage. Loss, error, drop and state history unavailable.</p>}
     @if(query.context().domain==='mobile-data'){<p>Activation, DNS and throughput are independent. Normal activation does not prove DNS health.</p>}
-    <p>Aligned five-minute windows only. Other resolutions unavailable.</p>
+    </details>
+    <p title="Aligned five-minute windows only. Other resolutions unavailable.">5m only · aligned UTC bounds</p>
     @if(!ready()){<p role="status">Choose a dataset, scope and aligned 5m range.</p>}
     @if(busy()){<p role="status">Loading native domain measurements…</p>}
     @if(error()){<p role="alert">{{error()}}</p><button type="button" (click)="refresh.update(value=>value+1)">Retry domain measurements</button>}
-    @if(result();as series){<p>{{series.population}} · {{series.unit}} · {{series.aggregationType}} · {{series.synthetic?'Synthetic':'Source marked non-synthetic'}} · source {{series.sourceId}} · catalogue {{series.catalogueVersion}} · topology {{series.topologyVersion}}</p>
+    @if(result();as series){<p>{{series.population}} · {{series.synthetic?'Synthetic data':'Non-synthetic data'}}</p>
+      <details><summary>Measurement provenance</summary><p>{{series.unit}} · {{series.aggregationType}} · source {{series.sourceId}} · catalogue {{series.catalogueVersion}} · topology {{series.topologyVersion}}</p>
+      <p>Source quality and coverage may be unavailable independently of arithmetic. Retained snapshots are not fresh observations.</p></details>
       <app-trace-metric-chart [series]="chart()!" [timezone]="query.context().timezone" (zoomRequested)="query.zoom($event.from,$event.to)" />
-      <p>Source quality and coverage may be unavailable independently of arithmetic. Retained snapshots are not fresh observations.</p>
       <details><summary>Exact source primitives and qualifications for the visible bucket page</summary>@for(point of sourceRows();track point.from){<article><h4>{{point.from}} · {{point.quality}}</h4><p>{{point.qualityReason ?? point.nullReason ?? 'No quality reason'}} · coverage {{point.sourceCoverage ?? 'Unavailable'}} · revision {{point.revision ?? 'Unavailable'}} · finalized {{point.finalized ?? 'Unavailable'}}</p><pre>{{details(point)}}</pre></article>}<button type="button" [disabled]="sourcePage()===0" (click)="sourcePage.update(value=>value-1)">Previous source records</button><button type="button" [disabled]="(sourcePage()+1)*50>=series.points.length" (click)="sourcePage.update(value=>value+1)">Next source records</button></details>
       <p>CSV unavailable for five-minute measurements. Registered series support CSV.</p>
     }

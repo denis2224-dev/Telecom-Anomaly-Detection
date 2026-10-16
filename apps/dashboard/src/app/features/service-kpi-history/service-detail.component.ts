@@ -75,7 +75,7 @@ const MAX_WINDOWS = 1440;
       <details class="source-inventory"><summary>Dependencies</summary>
         <p>{{ item.scope.region }} · {{ item.scope.route }} · Current health: {{ health() }}</p>
         <p>Updated {{ observedAt() | date:'dd MMM yyyy HH:mm:ss':'UTC' }} UTC{{ fixture ? ' · Synthetic sample' : '' }}</p>
-        <p>Highlights cover this incident page. Recovery does not resolve analyst work.</p>
+        <p>Technical recovery does not resolve analyst work.</p>
       @if (!item.latestWindow || item.latestWindow.quality === 'MISSING' || item.freshness === 'MISSING') {
         <app-metric-explanation topic="missing-evidence" mode="state" />
       } @else if (item.freshness === 'STALE') {

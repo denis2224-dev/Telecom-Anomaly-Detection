@@ -11,12 +11,12 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
   selector: 'app-roaming-overview', imports: [MetricChartComponent, RouterLink],
   template: `<section class="roaming" [class.compact]="compact()" [attr.aria-label]="sample() ? 'Roaming services preview' : 'Roaming services recorded'">
     <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">{{ loading() ? 'Loading' : sample() ? 'Sample data' : recorded() ? 'Recorded' : 'Unavailable' }}</span></header>
-    <p class="preview-note" role="status">{{ sample() ? 'Sample data · recorded roaming unavailable' : recorded()?.note || error() || 'Loading recorded roaming measurements…' }}</p>
+    <p class="preview-note" role="status">{{ sample() ? 'Recorded roaming unavailable' : recorded()?.note || error() || 'Loading recorded roaming measurements…' }}</p>
     @if (error()) { <button type="button" class="ghost" [disabled]="loading()" (click)="refresh.update(value => value + 1)">Retry roaming data</button> }
     @if (!compact()) {<div class="roaming-kpis" role="group" aria-label="Roaming overview KPIs" [attr.aria-busy]="loading()">
       @for (kpi of summary(); track kpi.label) { <div [class.metric-unavailable]="kpi.value === '—'"><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong></div> }
     </div>}
-    <div class="roaming-chart"><h3>Location update success rate <span>UTC · {{ sample() ? 'sample' : 'recorded' }}</span></h3>
+    <div class="roaming-chart"><h3>Location update success rate <span>UTC</span></h3>
       <app-metric-chart [sample]="sample()" view="chart" [hero]="true" [compact]="true" name="registrationSrPct" [title]="sample() ? 'Roaming location update success rate · preview' : 'Roaming location update success rate'" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [loading]="loading()" />
     </div>
     @if (!compact() || showCountries()) {

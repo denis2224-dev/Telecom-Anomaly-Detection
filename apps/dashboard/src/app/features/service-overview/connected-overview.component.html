@@ -35,7 +35,7 @@
   <div class="overview-panels">
     <div class="service-column">
     <section class="service-panel" aria-labelledby="volte-panel-title">
-      <h2 id="volte-panel-title">VoLTE <span>Calls and setup success rate</span></h2>
+      <h2 id="volte-panel-title">VoLTE</h2>
       <div class="panel-visual voice-traffic voice-success">
         <p class="chart-scope" [attr.data-scope]="chartScope('VOLTE')?.scope?.scopeId" [title]="chartScope('VOLTE')?.scope?.scopeId ?? ''">@if (chartScope('VOLTE'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
         <app-metric-chart view="chart" [hero]="true" [compact]="true" [traffic]="true" [trafficBars]="true" name="cssrPct" title="VoLTE call traffic and setup success rate" unit="PERCENT" [loading]="historyLoading()" [windows]="chartRows('VOLTE')" [incidents]="chartIncidents('VOLTE')" [detections]="chartDetections('VOLTE')" [from]="chartFrom()" [to]="chartTo()" [focusedIncident]="focusedIncident()" />
@@ -50,7 +50,7 @@
           } @else { <p class="data-note">Call result counts unavailable</p> }
           <p class="data-note">@if (latestVoiceWindow(); as window) { Updated · {{ window.windowEnd | date:'dd MMM HH:mm':'UTC' }} UTC } @else { No window available in this range } </p>
         </section>
-        <section aria-label="Recorded failure signals"><h3>Recorded failure signals</h3><dl><div><dt>SIP 503 responses</dt><dd class="failure-value">{{ sipFailures() }}</dd></div></dl><p class="data-note">Other causes unavailable.</p><p class="data-note">SIP counts are separate from failed attempts.</p></section>
+        <section aria-label="Recorded failure signals" aria-description="Other causes unavailable. SIP counts are separate from failed attempts."><h3>Recorded failure signals</h3><dl><div><dt title="SIP 503 service-unavailable responses; a separate counter, not a breakdown of failed attempts. Other causes unavailable.">SIP 503 responses</dt><dd class="failure-value">{{ sipFailures() }}</dd></div></dl></section>
       </div>
       <div class="panel-table"><table class="overview-table volte-table" aria-label="VoLTE monitored scopes">
         <thead><tr><th>Scope</th><th>Attempts</th><th>CSSR %</th><th>SIP 503 rate</th><th>Status</th></tr></thead>
@@ -73,7 +73,7 @@
     } @else {
     <section class="service-panel" aria-labelledby="sms-panel-title">
       <button class="ghost" type="button" (click)="roamingPanel.set(true)">Show roaming preview</button>
-      <h2 id="sms-panel-title">SMS delivery <span>Success rate %</span></h2>
+      <h2 id="sms-panel-title">SMS delivery</h2>
       <div class="panel-visual">
         <p class="chart-scope" [attr.data-scope]="chartScope('SMS')?.scope?.scopeId" [title]="chartScope('SMS')?.scope?.scopeId ?? ''">@if (chartScope('SMS'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
         <app-metric-chart view="chart" [hero]="true" [compact]="true" name="deliverySrPct" title="SMS delivery success rate %" unit="PERCENT" [loading]="historyLoading()" [windows]="chartRows('SMS')" [incidents]="chartIncidents('SMS')" [detections]="chartDetections('SMS')" [from]="chartFrom()" [to]="chartTo()" [focusedIncident]="focusedIncident()" />
@@ -95,9 +95,8 @@
     </div>
     <section class="map-panel" aria-labelledby="city-map-title">
       <h2 id="city-map-title">City and directional links <span>{{ selectedCity()?.name }}</span></h2>
-      <p class="map-metric">↔ Network paths · {{ tableService() === 'VOLTE' ? 'VoLTE setup success' : 'SMS delivery success' }}</p>
       <div class="panel-visual map-visual">
-        <div class="map-scroll" tabindex="0" aria-label="Scrollable city and link map"><div class="city-map" aria-label="Moldova cities and approved intercity links">
+        <div class="map-scroll" tabindex="0" aria-label="Scrollable city and link map"><div class="city-map" role="group" [attr.aria-label]="'Moldova cities and approved intercity links · ' + (tableService() === 'VOLTE' ? 'VoLTE setup success' : 'SMS delivery success')">
           <svg viewBox="0 0 600 740" role="group" aria-label="Intercity links"><defs><marker id="network-direction" viewBox="0 0 8 8" refX="18" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1L6 4L1 7" class="network-arrow" /></marker><pattern id="moldova-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" class="grid-line" /></pattern></defs><rect width="600" height="740" fill="url(#moldova-grid)" /><path [attr.d]="moldovaOutline" class="country-outline" />
             @for (link of mapLinks(); track link.id) { <g class="map-link" tabindex="0" role="button" [attr.data-link]="link.id" [attr.aria-label]="'Inspect ' + link.name" [attr.aria-pressed]="selectedLinkId() === link.id" (click)="selectedLinkId.set(link.id)" (keydown.enter)="selectedLinkId.set(link.id)" (keydown.space)="$event.preventDefault(); selectedLinkId.set(link.id)"><line class="link-hit-area" [attr.x1]="link.x1" [attr.y1]="link.y1" [attr.x2]="link.x2" [attr.y2]="link.y2" /><line class="inventory-link" marker-start="url(#network-direction)" marker-end="url(#network-direction)" [class.selected-link]="selectedLinkId() === link.id" [attr.x1]="link.x1" [attr.y1]="link.y1" [attr.x2]="link.x2" [attr.y2]="link.y2" /></g> }
           </svg>
@@ -107,13 +106,13 @@
         </div>
         </div><div class="map-legend" aria-label="Map legend"><span data-state="NORMAL">Normal</span><span data-state="DEGRADED">Anomaly</span><span data-state="UNAVAILABLE">Unavailable</span><span data-state="STALE">Stale</span></div>
       </div>
-      <section class="link-investigation" aria-label="Directional link investigation">
+      @if (selectedLink() || selectedCity()) { <section class="link-investigation" aria-label="Directional link investigation">
         @if (selectedLink(); as link) {
           <h3>{{ link.name }} <span>— {{ link.nominalCapacityGbps }} G nominal capacity</span></h3><p>Traffic, utilization, loss and baseline unavailable.</p>
           <a class="button" routerLink="/trace-link" [queryParams]="linkParameters(link.id)">Investigate A → B</a>
           <a class="button" routerLink="/trace-link" [queryParams]="linkParameters(link.id, 'b-to-a')">Investigate B → A</a>
-        } @else if (selectedCity(); as city) { <h3>{{ city.name }} — {{ nodeValue(city) }}</h3><p>{{ cityHasAnomaly(city) ? 'Active anomaly · ' : '' }}{{ cityHealth(city) }} · {{ tableService() === 'VOLTE' ? 'VoLTE setup success' : 'SMS delivery success' }}</p> } @else { <h3>City and link details</h3><p>Select a dot or line.</p> }
-      </section>
+        } @else if (selectedCity(); as city) { <h3>{{ city.name }} — {{ nodeValue(city) }}</h3><p>{{ cityHasAnomaly(city) ? 'Active anomaly · ' : '' }}{{ cityHealth(city) }} · {{ tableService() === 'VOLTE' ? 'VoLTE setup success' : 'SMS delivery success' }}</p> }
+      </section> }
       <div class="panel-table map-table"><table class="overview-table" aria-label="Featured city observations">
         <thead><tr><th>City</th><th>Observed</th><th>Baseline change</th><th>State</th></tr></thead>
         <tbody>@for (city of featuredCities(); track city.id) {

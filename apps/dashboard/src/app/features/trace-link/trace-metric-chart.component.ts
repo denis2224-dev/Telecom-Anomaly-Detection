@@ -9,7 +9,7 @@ export type MetricChartSeries = Omit<TraceMetricSeries,'points'> & { points: (Pi
   selector:'app-trace-metric-chart',imports:[DataFreshnessComponent],
   styles:[`svg {width:100%;height:260px;} path {fill:none;stroke:var(--brand,#ff7900);stroke-width:2;} text {fill:currentColor;font-size:12px;} .values {overflow:auto;} table {min-width:800px;} pre {white-space:pre-wrap;overflow-wrap:anywhere;} button {min-height:44px;}`],
   template:`<app-data-freshness [at]="lastMeasured()" [end]="series().requestedTo" [interval]="resolutionMs()" /><section aria-label="Persisted metric chart">
-    <p>{{ series().metric }} · {{ series().unit }} · {{ series().aggregation }}. Baseline unavailable. Gaps indicate missing data.</p>
+    <p>{{ series().metric }} · {{ series().unit }} · {{ series().aggregation }} · Baseline unavailable</p>
     @if(!series().points.length){<p role="status">No recorded buckets for this query.</p>}
     <svg viewBox="0 0 900 260" role="img" [attr.aria-label]="series().metric + ' in ' + series().unit + '; exact values follow in the table'" (pointerdown)="beginBrush($event)" (pointerup)="endBrush($event)" (pointercancel)="brushStart=undefined">
       <title>{{ series().metric }} · {{ series().unit }}</title><desc>Only server measurements are drawn. Missing intervals break the line. Stale measurements retain their quality in the exact table. Drag horizontally to select a visible interval, or use the keyboard-accessible zoom controls.</desc>

@@ -14,11 +14,7 @@ type Detection = components['schemas']['ServiceDetection'];
   selector: 'app-evidence-timeline',
   imports: [DatePipe, CauseEvidenceComponent, IconComponent, MetricExplanationComponent, SampleVolumeComponent],
   template: `
-    <h2>Evidence timeline</h2>
-
-    <p>
-      Recorded updates · oldest first.
-    </p>
+    <h2 title="Recorded updates · oldest first">Evidence timeline</h2>
 
     @for (detection of ordered(); track detection.detectionId) {
       <article

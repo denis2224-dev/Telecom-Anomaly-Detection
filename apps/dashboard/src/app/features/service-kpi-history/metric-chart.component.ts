@@ -24,12 +24,12 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
     }
     @if (rows().length || hero()) {
       @if (view() !== 'table') { <div class="plot-wrapper">
-        <div class="chart-tooltip" [class.tooltip-visible]="hovered() !== null" aria-live="polite">
+        @if (rows().length) { <div class="chart-tooltip" [class.tooltip-visible]="hovered() !== null" aria-live="polite">
           @if (hovered(); as row) { <span>{{ row.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} UTC</span><strong>{{ trafficOnly() ? format(counts(row)?.total, 'COUNT') + ' attempts' : format(value(row), unit()) }}</strong>
             @if (traffic()) { @if (counts(row); as count) { <small>{{ name() === 'cssrPct' ? 'Successful calls' : 'Delivered messages' }}: {{ format(count.success, 'COUNT') }} · Failed: {{ format(count.failed, 'COUNT') }}</small> } @else { <small>Traffic counts: Unavailable</small> } }
             @if (secondaryName()) { <small>{{ secondaryTitle() }}: {{ format(secondaryValue(row), 'COUNT') }}</small> }
-            @if (!trafficOnly()) { <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> } } @else { <small>Hover or use arrow keys to inspect</small> }
-        </div>
+            @if (!trafficOnly()) { <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> } } @else { <span title="Window records in the visible range, including missing measurements; inspect values and quality before assessing service health.">Windows in view</span><strong>{{ drawingRows().length }}</strong><small>{{ visibleFrom() | date:'dd MMM HH:mm':'UTC' }} – {{ visibleTo() | date:'dd MMM HH:mm':'UTC' }} UTC</small> }
+        </div> }
         <div class="chart-scroll" tabindex="0" [attr.aria-label]="trafficOnly() ? 'Scrollable call traffic chart' : name() === 'cssrPct' ? 'Scrollable CSSR chart' : title() + ' chart'" (keydown)="navigate($event)" (blur)="hoveredId.set(null)">
 
         <svg #plot [style.min-width.px]="canvasWidth()" [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="trafficOnly() ? title() + ': successful and failed attempts' : traffic() ? title() + ': successful and failed traffic on the left axis, success rate and baseline on the right axis' : secondaryName() ? title() + ': ' + secondaryTitle() + ' on the left axis, ' + unitLabel() + ' on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
