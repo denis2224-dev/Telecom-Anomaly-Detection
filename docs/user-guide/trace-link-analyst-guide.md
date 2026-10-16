@@ -111,3 +111,15 @@ The overview stacks VoLTE and roaming independently of the map height, without s
 The service overview uses existing VoLTE/SMS history, while Historical analysis uses its separately registered archive. Select a scope and an interval containing stored records. A later SMS window does not prove that VoLTE has records at the same time. A stale summary can retain a value while the selected chart interval has no observations. Keep the unavailable chart explicit; do not fill it from the summary or switch the interval silently.
 
 If a native-measurement resource is missing or disabled, its panel identifies the unavailable measurement and offers a manual retry. Inventory failure has its own retry. Neither should retry indefinitely or invent values. An unavailable push configuration preserves private in-app history and never requests permission automatically.
+
+## Chart inspection and long service periods
+
+VoLTE and SMS service pages retain selections up to 30 days. Reads are split into intervals of at most 24 hours; a cancelled or failed read never becomes a partial success. SMS classifier shadow evidence still requires a selection of 24 hours or less.
+
+Charts widen from six hours onward and scroll inside their panels. Hover readings appear below the plot; keyboard arrows inspect the same source windows. Zoom keeps the last inspected point in view, and Full selected period restores the original bounds. Native browser tooltip duplicates are removed; chart names, descriptions and exact tables remain accessible.
+
+Dense traffic bars select actual source windows with peak volume or failed attempts within each display column. The sampling label remains visible until zoom reveals the source detail. Success-rate lines, missing gaps and exact values are retained; percentages and p95 values are never averaged for display. Incident markers use recorded exclusive window ends and remain visible in the correct service scope even when measurements are missing.
+
+Roaming history links carry the displayed dataset, direction, resolution and absolute interval. Missing values stay neutral. Loading, no-dataset samples and failed recorded-data requests remain distinct; failures offer Retry without substituting sample values.
+
+The map keeps city nodes fixed and draws static two-way network paths. Node percentages are observed VoLTE setup success (All services/VoLTE) or SMS delivery success (SMS), never inferred transport utilization. An SMS delay value is not converted to a percentage. Missing success measurements stay unavailable. Red nodes identify technically active anomalies in the selected service filter; analyst-open work alone does not keep a recovered node red. Select a dot or path for details; nominal link capacity is separate from measured traffic.
