@@ -1,7 +1,7 @@
 import { TelecomClient } from '../../core/api/telecom-client';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
 import { SessionStore } from '../login-and-session/session.store';
-import { loadRecordedRoaming, type RecordedRoaming, type RoamingRow } from './recorded-roaming';
+import { loadRecordedRoaming, type RecordedRoaming, type RoamingRow, type RoamingSelection } from './recorded-roaming';
 import { dataSource } from '../../core/api/data-source';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -30,7 +30,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
         </tbody></table></div></section>}
       </div>
     }
-    @if (compact()) { <a class="button roaming-link" routerLink="/roaming">Open roaming services →</a> }
+    @if (compact()) { <a class="button roaming-link" routerLink="/roaming" [queryParams]="recorded() ? roamingContext() : null">Open roaming services →</a> }
     <a class="measured-history" routerLink="/trace-link" [queryParams]="roamingContext()">Investigate history</a>
   </section>`,
   styles: [`
@@ -85,8 +85,12 @@ export class RoamingOverviewComponent {
   private readonly query=inject(TraceQueryStore);
   readonly roamingContext=computed(()=>{
     const context=this.query.context(),recorded=this.recorded();
-    return traceContextParameters(recorded ? {...context,domain:'roaming',datasetId:recorded.datasetId,from:recorded.from,to:recorded.to,resolution:recorded.resolution,roamingDirection:recorded.direction,cityId:'all',countryId:'all',partnerDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined} : {...context,domain:'roaming'});
+    return traceContextParameters(recorded ? {...context,domain:'roaming',datasetId:recorded.datasetId,from:recorded.from,to:recorded.to,resolution:recorded.resolution,roamingDirection:recorded.direction,cityId:'all',countryId:'all',partnerDirectionId:undefined,linkDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined} : {...context,domain:'roaming'});
   });
+  readonly datasetId = input('');
+  readonly resolution = input<RoamingSelection['resolution']>();
+  readonly direction = input<'in' | 'out'>();
+  readonly strictRange = input(false);
   readonly preview = input(dataSource.fixture);
   readonly sample = computed(() => this.preview() || this.error() === 'No recorded roaming dataset is available.');
   readonly compact = input(false);
@@ -129,7 +133,8 @@ export class RoamingOverviewComponent {
     effect(cleanup => {
       this.refresh();
       const preview = this.preview(), from = this.from(), to = this.to();
-      const direction = query.context().roamingDirection === 'in' ? 'in' : 'out';
+      const direction = this.direction() ?? (query.context().roamingDirection === 'in' ? 'in' : 'out');
+      const selection = {datasetId:this.datasetId(), resolution:this.resolution(), strictRange:this.strictRange()};
       session.actor();
       const revision=session.revision, authenticated = session.phase() === 'authenticated';
       this.recorded.set(null); this.error.set(''); this.loading.set(false);
@@ -137,7 +142,7 @@ export class RoamingOverviewComponent {
       const request = new AbortController();
       cleanup(() => request.abort());
       this.loading.set(true);
-      void loadRecordedRoaming(api, from, to, direction, request.signal).then(result => {
+      void loadRecordedRoaming(api, from, to, direction, request.signal, selection).then(result => {
         if (!request.signal.aborted && revision === session.revision) this.recorded.set(result);
       }).catch(error => {
         if (!request.signal.aborted && revision === session.revision) { request.abort(); this.error.set(error instanceof Error ? error.message : 'Recorded roaming measurements could not be loaded.'); this.loading.set(false); }

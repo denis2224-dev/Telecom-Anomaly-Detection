@@ -10,10 +10,11 @@ export interface RoamingRow {
   voice: number | null;
   sms: number | null;
 }
+export interface RoamingSelection { datasetId?: string; resolution?: '5m' | '15m' | '1h' | '6h'; strictRange?: boolean }
 export interface RecordedRoaming {
   datasetId: string;
   direction: 'in' | 'out';
-  resolution: '5m' | '1h' | '6h';
+  resolution: NonNullable<RoamingSelection['resolution']>;
   from: string;
   to: string;
   note: string;
@@ -35,14 +36,16 @@ export function roamingRate(points: readonly Point[]): number | null {
 }
 
 export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: string, requestedTo: string,
-  direction: 'in' | 'out', signal: AbortSignal): Promise<RecordedRoaming> {
+  direction: 'in' | 'out', signal: AbortSignal, selection: RoamingSelection = {}): Promise<RecordedRoaming> {
   const datasets = (await api.traceDatasets(signal)).filter(item => item.archiveReady)
     .sort((a, b) => Date.parse(b.to) - Date.parse(a.to));
   signal.throwIfAborted();
   const contains = (item: typeof datasets[number]) => Date.parse(requestedFrom) >= Date.parse(item.from)
     && Date.parse(requestedTo) <= Date.parse(item.to) && Date.parse(requestedTo) > Date.parse(requestedFrom);
-  const dataset = datasets.find(contains) ?? datasets[0];
-  if (!dataset) throw new Error('No recorded roaming dataset is available.');
+  const dataset = selection.datasetId ? datasets.find(item => item.datasetId === selection.datasetId) : datasets.find(contains) ?? datasets[0];
+  if (selection.datasetId && !dataset) throw new Error('The selected recorded roaming dataset is unavailable.');
+  if (!dataset) throw new Error(selection.strictRange ? 'No recorded roaming data covers the selected interval.' : 'No recorded roaming dataset is available.');
+  if (selection.strictRange && !contains(dataset)) throw new Error('No recorded roaming data covers the selected interval.');
   const to = contains(dataset) ? requestedTo : dataset.to;
   const from = contains(dataset) ? requestedFrom
     : new Date(Math.max(Date.parse(dataset.from), Date.parse(to) - 48 * 3600000)).toISOString();
@@ -53,7 +56,7 @@ export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: str
   const partners = inventory.partners.filter(partner => partner.active && partner.direction === direction);
   if (!partners.length || partners.length > 100) throw new Error('The recorded partner catalogue is unavailable.');
   const duration = Date.parse(to) - Date.parse(from);
-  const resolution = duration <= 4 * 3600000 ? '5m' : duration <= 7 * 86400000 ? '1h' : '6h';
+  const resolution = selection.resolution ?? (duration <= 4 * 3600000 ? '5m' : duration <= 7 * 86400000 ? '1h' : '6h');
   const metrics = ['roaming.registration.success', 'roaming.data.success', 'roaming.voice.success',
     direction === 'out' ? 'roaming.activeOutbound' : 'roaming.activeInbound'];
   const series = new Map<string, TraceMetricSeries>();
@@ -72,7 +75,15 @@ export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: str
         || result.resolution !== resolution || Date.parse(result.requestedFrom) !== Date.parse(from)
         || Date.parse(result.requestedTo) !== Date.parse(to) || result.points.length > 8641)
         throw new Error('Recorded roaming measurements do not match the selected population.');
-      series.set(`${partner.id}:${metric}`, result);
+      const ordered = [...result.points].sort((a,b) => Date.parse(a.from)-Date.parse(b.from));
+      let previousEnd = Date.parse(from);
+      for (const point of ordered) {
+        const start = Date.parse(point.from), end = Date.parse(point.to);
+        if (!Number.isFinite(start) || !Number.isFinite(end) || start < previousEnd || end <= start || end > Date.parse(to))
+          throw new Error('Recorded roaming buckets overlap or fall outside the selected interval.');
+        previousEnd = end;
+      }
+      series.set(`${partner.id}:${metric}`, {...result, points:ordered});
     }
   }));
   const points = (partner: TracePartner, index: number) => series.get(`${partner.id}:${metrics[index]}`)?.points ?? [];
@@ -88,11 +99,16 @@ export async function loadRecordedRoaming(api: TelecomClient, requestedFrom: str
       voice: roamingRate(points(partner, 2)), sms: null };
   });
   const registration = partners.flatMap(partner => points(partner, 0));
-  const buckets = new Map<string, Point[]>();
-  for (const point of registration) buckets.set(point.from, [...(buckets.get(point.from) ?? []), point]);
-  const windows: KpiWindow[] = [...buckets].sort(([a], [b]) => a.localeCompare(b)).map(([start, bucket]) => ({
+  const buckets = new Map<number, Point[]>();
+  for (const point of registration) {
+    const start = Date.parse(point.from), bucket = buckets.get(start) ?? [];
+    if (bucket.length && Date.parse(bucket[0].to) !== Date.parse(point.to))
+      throw new Error('Recorded roaming populations have incompatible bucket bounds.');
+    bucket.push(point); buckets.set(start, bucket);
+  }
+  const windows: KpiWindow[] = [...buckets].sort(([a], [b]) => a-b).map(([start, bucket]) => ({
     schemaVersion: 2, featureVersion: 2, windowId: `recorded-roaming-${direction}-${start}`,
-    scopeId: `roaming:${direction}`, service: 'VOLTE', windowStart: start, windowEnd: bucket[0].to,
+    scopeId: `roaming:${direction}`, service: 'VOLTE', windowStart: new Date(start).toISOString(), windowEnd: bucket[0].to,
     quality: roamingRate(bucket) === null ? 'MISSING' : bucket.length === partners.length && bucket.every(point => point.quality === 'VALID') ? 'COMPLETE' : 'INCOMPLETE',
     baselineVersion: 'unavailable', topologyVersion: dataset.catalogueVersion ?? 'unavailable',
     kpis: [{ name: 'registrationSrPct', observed: roamingRate(bucket), baseline: null, unit: 'PERCENT',

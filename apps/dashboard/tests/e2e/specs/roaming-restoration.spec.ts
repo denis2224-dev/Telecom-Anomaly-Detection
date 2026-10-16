@@ -2,6 +2,42 @@ import { test, expect } from '../helpers/test';
 import { controlledApi } from '../helpers/controlled-api';
 import { recordedRoaming } from '../helpers/recorded-roaming';
 
+for (const width of [1440,390]) test(`roaming navigation retains displayed archive and bounds at ${width}px`, async ({page}) => {
+  await controlledApi(page); const state = await recordedRoaming(page);
+  await page.setViewportSize({width,height:900}); await page.goto('/dashboard');
+  const link = page.getByRole('link',{name:'Open roaming services →',exact:true});
+  await expect(link).toHaveAttribute('href', /datasetId=recorded-roaming/);
+  const target = new URL((await link.getAttribute('href'))!, 'http://local');
+  await link.click();
+  await expect(page.locator('.roaming-kpis strong').first()).toHaveText('98.0%');
+  const history = new URL((await page.getByRole('link',{name:'Investigate history',exact:true}).getAttribute('href'))!, 'http://local');
+  for (const key of ['datasetId','from','to','resolution','roamingDirection']) expect(history.searchParams.get(key)).toBe(target.searchParams.get(key));
+  expect(state.queries.length).toBeGreaterThan(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+});
+
+test('roaming deep link pins direction, resolution and exact interval; missing selection never becomes sample data', async ({page}) => {
+  await controlledApi(page); const state = await recordedRoaming(page);
+  const params = new URLSearchParams({datasetId:'recorded-roaming',from:'2026-10-07T00:00:00Z',to:'2026-10-07T03:00:00Z',resolution:'15m',roamingDirection:'in'});
+  await page.goto('/roaming?'+params);
+  await expect(page.locator('.roaming-kpis strong').first()).toHaveText('98.0%');
+  expect(state.queries.length).toBe(40);
+  expect(state.queries.every(query => query.datasetId === 'recorded-roaming' && query.resolution === '15m' && query.scopeId.endsWith(':in') && query.from === params.get('from') && query.to === params.get('to'))).toBe(true);
+  params.set('datasetId','missing-archive'); await page.goto('/roaming?'+params);
+  await expect(page.getByRole('button',{name:'Retry roaming data'})).toBeVisible();
+  await expect(page.locator('.preview-note')).toContainText('selected recorded roaming dataset is unavailable');
+  await expect(page.locator('.roaming-kpis strong')).toHaveText(['—','—','—','—','—']);
+  await expect(page.locator('.roaming')).not.toContainText('Sample data');
+  const reads = state.reads;
+  params.set('from','invalid'); await page.goto('/roaming?'+params);
+  await expect(page.getByRole('alert')).toContainText('Invalid roaming context');
+  expect(state.reads).toBe(reads);
+  params.set('from','2026-10-07T00:00:00Z'); params.append('from','2026-10-07T01:00:00Z');
+  await page.goto('/roaming?'+params);
+  await expect(page.getByRole('alert')).toContainText('Invalid roaming context');
+  expect(state.reads).toBe(reads);
+});
+
 for (const width of [1366, 390]) test(`October 13 roaming cards and tables show recorded data at ${width}px`, async ({ page }, info) => {
   await controlledApi(page);
   const state = await recordedRoaming(page);
