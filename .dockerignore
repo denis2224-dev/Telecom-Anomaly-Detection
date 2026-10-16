@@ -1,11 +1,30 @@
 .env
+.env.*
+!.env.example
 .venv
 tmp
 output
 graphify-out
 .git
+.agents
+.codex
+.idea
+.vscode
 **/target
 **/node_modules
+**/.angular
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/coverage
+**/htmlcov
+**/.coverage
 apps/dashboard/dist
 apps/dashboard/test-results
 apps/dashboard/playwright-report
+
+# Historical verification assets stay in Git, outside application image contexts.
+# Runtime Dockerfiles copy source, contracts and models explicitly.
+docs/evidence/assets

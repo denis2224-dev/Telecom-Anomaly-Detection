@@ -2,6 +2,9 @@
 
 Owner: Zavtoni Ion. Base: `55e373a2a18eac56f9726c8f7b0ea307bde0a9ce` (PR #39 merged).
 This is a synthetic teaching/service-assurance environment, not a production operator NOC.
+This document records the VoLTE/SMS design checkpoint above. For current Trace
+Link domains and activation boundaries, start with the [project overview](../../README.md)
+and [completion record](../evidence/trace-link-completion-status.md).
 
 ## Repository map
 
@@ -9,7 +12,7 @@ The service path connects Angular `TelecomClient`, service overview/history and 
 investigation to `ServiceOverviewController` / `ServiceController`, persisted detection evidence,
 processor `ServiceFeatureBuilder`, generator continuous/scenario execution and `TopologyCatalog`.
 
-## SUPPORTED NOW
+## Supported at this design checkpoint
 
 | Mentor requirement | Verified source and boundary |
 | --- | --- |
@@ -37,7 +40,7 @@ processor `ServiceFeatureBuilder`, generator continuous/scenario execution and `
 | Missing data | Existing chart gaps mostly honest; overview uses static client thresholds | Missing/zero distinction, UNKNOWN text, evidence-authoritative episode state; no static UI anomaly thresholds. Current health uses all current scope episodes, independently of the selected historical interval. |
 | Live operation | No client SSE or periodic refresh | Session-bound notification client, reconnect REST reload, one 30-second refresh timer and retained history. Stream events are coalesced; fixture mode opens no stream. |
 
-## NOT CURRENTLY MODELLED
+## Outside this service-assurance design
 
 | Mentor concept | Boundary |
 | --- | --- |
@@ -64,6 +67,22 @@ The private generator API can verify source publication and state transitions wi
 browser authentication. It does not verify the authenticated public simulator command ledger,
 the user's identity/role, authenticated REST serialization or live browser SSE delivery.
 Controlled browser tests and backend integration tests must retain that distinction.
+
+## Unimplemented VoLTE / SMS scenario proposals
+
+The earlier future-scenarios note is consolidated here. These proposals do not
+add measured incidents or implemented anomaly types:
+
+| Proposal | Evidence/model work required first |
+| --- | --- |
+| VoLTE radio/access degradation | Validated RRC/bearer episode rules and scenarios. |
+| VoLTE transport degradation | Validated transport/service correlation; link status alone cannot prove quality. |
+| SMS signaling failure | Validated signaling observations and baseline semantics. |
+| SMS reachability failure | Reachability observations and defensible aggregate impact. |
+| SMS partner-route failure | Route observations, topology and baseline contracts. |
+
+Protection rerouting, silent transport degradation and busy-hour congestion
+require supported contracts and scenarios before being represented as incidents.
 
 Focused rendering/history/live lifecycle tests, existing workflow tests and browser suites must
 be recorded with exact outcomes. Real integration must use human browser authentication and

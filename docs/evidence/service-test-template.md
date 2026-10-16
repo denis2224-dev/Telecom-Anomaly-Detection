@@ -4,6 +4,11 @@ Use this template for a reproducible service-profile run. Replace every
 placeholder with captured data or `not run`; do not infer live results from
 static checks.
 
+The retired service-fixture verification note recorded only successful contract
+and whitespace checks; it supplied no runtime receipt. The coordinated inputs
+and expected outcomes remain in the fixture linked below. Record a new actual
+run here when the required services are available.
+
 ## Scope
 
 | Field | Value |

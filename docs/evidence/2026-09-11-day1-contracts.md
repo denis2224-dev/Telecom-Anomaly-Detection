@@ -127,7 +127,8 @@ Day 01 handoff signoff or the Day 03 integration gate is complete.
 
 ## Shared EventV1 integration update
 
-The [integration decisions](../streaming/event-v1-contract.md#incident-api-integration) align the
+The integration decisions recorded in the retired
+`docs/streaming/event-v1-contract.md#incident-api-integration` aligned the
 API evidence and fixture with the producer contract. Event and run IDs now use
 UUID v4, and the subscriber is `SUB-000001`. The detection identity formula is
 unchanged; its new synthetic fixture hash is
@@ -136,3 +137,7 @@ Incident, audit and analyst identities and all security contracts are preserved.
 The original observed checks above describe the earlier revision. Run the shared
 [validation commands](../runbooks/streaming.md#validation-and-tests) for the current revision,
 including full producer-schema validation of nested evidence.
+
+The original EventV1 document is no longer shipped. For the active observation
+contract, see [TelecomObservationV2](../../contracts/README.md); this does not
+replace or revalidate the historical EventV1 result above.

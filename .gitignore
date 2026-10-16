@@ -2,15 +2,18 @@
 .idea/
 .vscode/
 .env
+.env.*
+!.env.example
 *.log
 hs_err_pid*.log
 replay_pid*.log
 docs/evidence/*/
 !docs/evidence/assets/
-!docs/evidence/.gitkeep
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .coverage
 htmlcov/
 .venv/
@@ -21,3 +24,8 @@ target/
 **/playwright-report/
 coverage/
 Thumbs.db
+
+# Local agent analysis is regenerated independently of the application.
+/.agents/
+/.codex/
+/graphify-out/
