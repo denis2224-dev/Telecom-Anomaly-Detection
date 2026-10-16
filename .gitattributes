@@ -1,4 +1,7 @@
 # Ensure shell scripts retain LF line endings on Windows for Docker compatibility
+# Day 6 receipts retain their archived hashes; new verifier tests use LF.
+docs/evidence/assets/sergiu-day6/** -text
+tests/test_sergiu_day6.py text eol=lf
 *.sh text eol=lf
 scripts/* text eol=lf
 
