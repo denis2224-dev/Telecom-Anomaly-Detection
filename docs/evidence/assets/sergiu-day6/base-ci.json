@@ -1,0 +1,49 @@
+{
+  "sourceRevision": "d408f7472ab0a7193c235edb84ba2f282bd08c4e",
+  "pullRequest": 111,
+  "state": "merged",
+  "mergeCommit": "74913e5bd4b6ab43ba94307a6aed5b2ba542569c",
+  "humanAcceptance": "PENDING",
+  "workflow_runs": [
+    {
+      "id": 38759114066,
+      "name": "incident-runtime-image",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 220,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759114066/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759114066/logs",
+      "workflow_id": 373156221
+    },
+    {
+      "id": 38759112801,
+      "name": "incident-service",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 221,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759112801/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759112801/logs",
+      "workflow_id": 373086064
+    },
+    {
+      "id": 38759113115,
+      "name": "dashboard",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 210,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759113115/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759113115/logs",
+      "workflow_id": 373448396
+    },
+    {
+      "id": 38759112943,
+      "name": "service-integration",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 266,
+      "jobs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759112943/jobs",
+      "logs_url": "https://api.github.com/repos/denis2224-dev/Telecom-Anomaly-Detection/actions/runs/38759112943/logs",
+      "workflow_id": 370494734
+    }
+  ]
+}

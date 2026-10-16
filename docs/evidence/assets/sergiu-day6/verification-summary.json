@@ -1,0 +1,319 @@
+{
+  "generatedAt": "2026-10-16T06:56:21.982959+00:00",
+  "scope": "LOCAL_DETECTION_PREPARATION",
+  "status": "PASS_WITH_DOCUMENTED_EXTERNAL_SKIPS",
+  "productionSourceBase": "d408f7472ab0a7193c235edb84ba2f282bd08c4e",
+  "toolingRevision": "eabc6d0322d521a319f502923487da8da0e2d4c7",
+  "detectionInputFileCount": 307,
+  "detectionInputManifestSha256": "5c1d9fb312188cf57967142a281a7c45eafdf03f2aa59ab5c28de4d4bd1837a8",
+  "rootPython": {
+    "tests": 200,
+    "failures": 0,
+    "errors": 0,
+    "log": "root-python-reviewed.log"
+  },
+  "verifier": {
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "log": "argv-green.log"
+  },
+  "mlDiscovery": {
+    "tests": 100,
+    "passed": 99,
+    "skipped": 1,
+    "reason": "Fresh Java feature export absent before processor run; closed by final focused feature tests"
+  },
+  "windowsByteReproduction": "PASS",
+  "fourLanguageArithmetic": {
+    "cases": 54,
+    "maxAbsoluteError": 0
+  },
+  "fullJava": {
+    "event-generator": {
+      "counts": {
+        "tests": 158,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "skips": []
+    },
+    "processor": {
+      "counts": {
+        "tests": 1138,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 5
+      },
+      "skips": [
+        {
+          "className": "md.utm.telecom.processing.history.TraceLinkDatasetBootstrapIT",
+          "method": "suppliedFullArchiveImportsOnlyWhenExplicitlySelected",
+          "reason": "org.opentest4j.TestAbortedException: Assumption failed: Reference archive must be selected explicitly"
+        },
+        {
+          "className": "md.utm.telecom.processing.kpi.SmsShadowReplayTest",
+          "method": "freshObservationsReachDurableShadowStorageWithoutChangingRuleIncidents",
+          "reason": "Environment variable [SMS_SHADOW_REPLAY_DIR] does not exist"
+        },
+        {
+          "className": "md.utm.telecom.processing.kpi.tracelink.TraceLinkProjectionIT",
+          "method": "fullSuppliedArchiveHasPersistedNativeAndThirtyDayRollupParity",
+          "reason": "org.opentest4j.TestAbortedException: Assumption failed: Full archive must be explicitly selected"
+        },
+        {
+          "className": "md.utm.telecom.processing.kpi.TraceLinkDomainArchiveTest",
+          "method": "suppliedFullArchiveProducesIndependentSqlParityWithoutDeliveryWrites",
+          "reason": "System property [trace.link.archive] does not exist"
+        },
+        {
+          "className": "md.utm.telecom.processing.kpi.TraceLinkV016CompatibilityTest",
+          "method": "frozenV016MigratesAndRemainsHeldWithoutAnyProducerSchemaChange(Path)",
+          "reason": "System property [trace.link.v016.directory] does not exist"
+        }
+      ]
+    },
+    "streaming-support": {
+      "counts": {
+        "tests": 139,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "skips": []
+    }
+  },
+  "archiveJava": {
+    "processor": {
+      "counts": {
+        "tests": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "skips": []
+    }
+  },
+  "completedEarlierBootstrap": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "archive": "interrupted-native-run.zip"
+  },
+  "javaCommands": [
+    {
+      "name": "docker-ready",
+      "argv": [
+        "docker",
+        "version",
+        "--format",
+        "{{.Server.Version}}"
+      ],
+      "startedAt": "2026-10-16T06:17:08.768610+00:00",
+      "finishedAt": "2026-10-16T06:17:08.936848+00:00",
+      "elapsedSeconds": 0.16823870000371244,
+      "exitCode": 0
+    },
+    {
+      "name": "processor-full",
+      "argv": [
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\sergiu-day6\\mvnw.cmd",
+        "-pl",
+        "services/processor",
+        "-am",
+        "verify",
+        "--batch-mode",
+        "--no-transfer-progress"
+      ],
+      "startedAt": "2026-10-16T06:17:20.000455+00:00",
+      "finishedAt": "2026-10-16T06:38:52.602371+00:00",
+      "elapsedSeconds": 1292.6019376999902,
+      "exitCode": 0
+    },
+    {
+      "name": "remaining-native-archive",
+      "argv": [
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\tmp\\sergiu-day6\\mvnw.cmd",
+        "-pl",
+        "services/processor",
+        "-am",
+        "verify",
+        "--batch-mode",
+        "--no-transfer-progress",
+        "-Dtest=TraceLinkDomainArchiveTest,TraceLinkProjectionIT",
+        "-Dsurefire.failIfNoSpecifiedTests=false",
+        "-DtraceLink.projectionReferenceRoot=D:/Univer/Anul2/Orange_intership/project/Trace_Link_Integration_Pack",
+        "-Dtrace.link.archive=D:/Univer/Anul2/Orange_intership/project/Trace_Link_Integration_Pack/data"
+      ],
+      "startedAt": "2026-10-16T06:38:53.348518+00:00",
+      "finishedAt": "2026-10-16T06:55:18.033163+00:00",
+      "elapsedSeconds": 984.6847416999954,
+      "exitCode": 0
+    },
+    {
+      "name": "fresh-java-python-feature-tests",
+      "argv": [
+        "D:\\Univer\\Anul2\\Orange_intership\\project\\Telecom-Anomaly-Detection\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "services/ml-service/tests",
+        "-p",
+        "test_trace_link_features.py",
+        "-v"
+      ],
+      "startedAt": "2026-10-16T06:55:18.076983+00:00",
+      "finishedAt": "2026-10-16T06:55:19.317407+00:00",
+      "elapsedSeconds": 1.2404327000112971,
+      "exitCode": 0
+    }
+  ],
+  "heldOut": {
+    "sampleCounts": {
+      "groups": 280,
+      "testSeeds": [
+        5201,
+        5202,
+        5203,
+        5204,
+        5205
+      ],
+      "validationEligible": {
+        "MOBILE_DATA": 465,
+        "ROAMING": 345,
+        "TRANSPORT": 405
+      },
+      "validationSeeds": [
+        5101,
+        5102,
+        5103,
+        5104,
+        5105
+      ],
+      "windows": 3360
+    },
+    "byteIdenticalRepeat": {
+      "results.json": true,
+      "predictions.json": true,
+      "thresholds.json": true
+    },
+    "windowMetrics": {
+      "combined": {
+        "f1": 0.9702970297029703,
+        "fn": 15,
+        "fp": 0,
+        "n": 1680,
+        "precision": 1.0,
+        "recall": 0.9423076923076923,
+        "tn": 1420,
+        "tp": 245
+      },
+      "deterministic": {
+        "f1": 0.9702970297029703,
+        "fn": 15,
+        "fp": 0,
+        "n": 1680,
+        "precision": 1.0,
+        "recall": 0.9423076923076923,
+        "tn": 1420,
+        "tp": 245
+      },
+      "ml_shadow": {
+        "f1": 0.38009049773755654,
+        "fn": 134,
+        "fp": 277,
+        "n": 1680,
+        "precision": 0.31265508684863524,
+        "recall": 0.4846153846153846,
+        "tn": 1143,
+        "tp": 126
+      },
+      "no_baseline": {
+        "f1": 0.44776119402985076,
+        "fn": 185,
+        "fp": 0,
+        "n": 1680,
+        "precision": 1.0,
+        "recall": 0.28846153846153844,
+        "tn": 1420,
+        "tp": 75
+      },
+      "no_topology": {
+        "f1": 0.9702970297029703,
+        "fn": 15,
+        "fp": 0,
+        "n": 1680,
+        "precision": 1.0,
+        "recall": 0.9423076923076923,
+        "tn": 1420,
+        "tp": 245
+      }
+    },
+    "episodeMetrics": {
+      "combined": {
+        "detectedEpisodes": 65,
+        "duplicates": 0,
+        "fn": 0,
+        "fp": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "recoveryUnobserved": 0,
+        "tp": 65,
+        "truthEpisodes": 65
+      },
+      "deterministic": {
+        "detectedEpisodes": 65,
+        "duplicates": 0,
+        "fn": 0,
+        "fp": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "recoveryUnobserved": 0,
+        "tp": 65,
+        "truthEpisodes": 65
+      },
+      "ml_shadow": null,
+      "no_baseline": {
+        "detectedEpisodes": 20,
+        "duplicates": 0,
+        "fn": 45,
+        "fp": 0,
+        "precision": 1.0,
+        "recall": 0.3076923076923077,
+        "recoveryUnobserved": 0,
+        "tp": 20,
+        "truthEpisodes": 65
+      },
+      "no_topology": {
+        "detectedEpisodes": 65,
+        "duplicates": 0,
+        "fn": 0,
+        "fp": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "recoveryUnobserved": 0,
+        "tp": 65,
+        "truthEpisodes": 65
+      }
+    },
+    "timingBasis": "synthetic event time; not deployed response latency"
+  },
+  "unresolvedExternalChecks": [
+    "SMS_SHADOW_REPLAY_DIR not supplied",
+    "Legacy frozen V016 compatibility directory not supplied"
+  ],
+  "connectedRehearsals": "NOT_RUN",
+  "commonReleaseManifest": "NOT_SUPPLIED",
+  "humanAcceptance": "PENDING",
+  "sharedReleaseApproval": false,
+  "currentBranchRemoteCi": "NOT_RUN",
+  "failureHistory": [
+    "Initial repeat exceeded unchanged 250 ms scoring bound; serial unchanged-input repeat passed",
+    "Original full driver interrupted; no completed overall PASS receipt",
+    "Resumed attempt failed with Docker stopped: 369 setup errors",
+    "Native run interrupted after completed bootstrap suite; its remaining cases were resumed separately"
+  ]
+}

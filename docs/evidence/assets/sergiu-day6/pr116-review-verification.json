@@ -1,0 +1,106 @@
+{
+  "generatedAt": "2026-10-16T07:55:19.540243+00:00",
+  "sourceRevision": "9dd490d06d716d669a4ca9f2c9c2ca910e801d85",
+  "scope": "PR116_REVIEW_CORRECTIONS_ONLY",
+  "technicalStatus": "LOCAL_PASS",
+  "repositoryPython": {
+    "reported": 208,
+    "passed": 208,
+    "skipped": 0,
+    "includesVerifierTests": 25
+  },
+  "inputPins": {
+    "total": 307,
+    "changed": [
+      "scripts/verify-sergiu-day6.py",
+      "tests/test_sergiu_day6.py"
+    ],
+    "previousFreezeSha256": "5c1d9fb312188cf57967142a281a7c45eafdf03f2aa59ab5c28de4d4bd1837a8"
+  },
+  "connectedStatus": "INCOMPLETE",
+  "humanAcceptance": "PENDING",
+  "sharedReleaseApproval": false,
+  "commands": [
+    {
+      "command": "python -m unittest discover -s tests -p test_sergiu_day6.py -v",
+      "exitCode": 1,
+      "note": "Sandbox temporary-folder access errors; not an assertion reproduction",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-red.log.gz",
+      "logFinishedAt": "2026-10-16T07:49:29.249896+00:00",
+      "uncompressedSha256": "de4cc6a2e0286799c469b18112073a8c21bc0812c8f8a26c3e877b3fed306030"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_sergiu_day6.py -v",
+      "exitCode": 1,
+      "note": "Before repair: 23 tests; 15 failures and 6 errors reproduce malformed outcomes and empty CLI reports",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-red-host.log.gz",
+      "logFinishedAt": "2026-10-16T07:49:42.734766+00:00",
+      "uncompressedSha256": "cecc86eca8cc19cd0e61a9bbfc462fae1bb9f9c5b37077b10cf7a379a2c5914f"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_sergiu_day6.py -v",
+      "exitCode": 0,
+      "note": "Initial repair: 23 tests pass",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-green-host.log.gz",
+      "logFinishedAt": "2026-10-16T07:50:18.183017+00:00",
+      "uncompressedSha256": "4759e06694913236889cd6917273d054af7b93acd045123bf6ba891ff6dbac58"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_sergiu_day6.py -v",
+      "exitCode": 0,
+      "note": "Expanded schema/CLI coverage: 25 tests pass; later release-comparison test refinement included in final full suite",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-final-focused.log.gz",
+      "logFinishedAt": "2026-10-16T07:51:03.593973+00:00",
+      "uncompressedSha256": "1ab5deca941c341d8ae46bbbbe795b72c1e6ec6b8bb779c2c59f334d2e6033ee"
+    },
+    {
+      "command": "python -m unittest discover -s tests -v",
+      "exitCode": 1,
+      "note": "System Python lacks openapi_schema_validator: 195 reported, 4 import errors",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-final-python.log.gz",
+      "logFinishedAt": "2026-10-16T07:51:49.946105+00:00",
+      "uncompressedSha256": "f93f53c646e3c17023ccdcb1c8545bf3d885ef16a32518a242bf1a2873bef5bd"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "note": "Pinned Python environment: 208 tests pass",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-python-pinned.log.gz",
+      "logFinishedAt": "2026-10-16T07:53:03.376113+00:00",
+      "uncompressedSha256": "0519abbf90f10021eb1dba924788ec733f09c78979374e7c0ea3df7a96d9ca6e"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -v",
+      "exitCode": 0,
+      "note": "Final code/tests: 208 tests pass, including 25 verifier tests; zero skips",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-python-final-pinned.log.gz",
+      "logFinishedAt": "2026-10-16T07:54:11.477161+00:00",
+      "uncompressedSha256": "5bac1f95f78d2993a11182dfe312f731bd10edfa138f84479ecddb04238e3dfc"
+    },
+    {
+      "command": "in-memory replacement of type(count) is not int with not isinstance(count, int); run test_boolean_counts_cannot_equal_integer_counts; assert exactly one failure",
+      "exitCode": 0,
+      "note": "Mutation killed; expected failing test; verifier file bytes unchanged",
+      "evidenceFile": "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-mutation.log.gz",
+      "logFinishedAt": "2026-10-16T07:53:04.095448+00:00",
+      "uncompressedSha256": "3577d9964c998ac201512eb4c0728d4d2d24c2a9692dbe080330b3d6d40cf825"
+    }
+  ],
+  "files": {
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-red.log.gz": "4548ce1391c4faba7b707292819b1b13437993c0249c665c95f804d755ab9acf",
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-red-host.log.gz": "79eda40ce22921f82da503c0df56e70460c0df2b9665733b6bb33d4deaf391a0",
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-green-host.log.gz": "5eed65de062852dfc0a660cd038f836e3d7f96360f8dfd875c59afd69864d537",
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-final-focused.log.gz": "8a5ebb9fb164c0da01c0b93199e789f26b98d632b2dfe70e8346d71854e2967d",
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-final-python.log.gz": "87e06886e390ab603c58e1559702c4750575184b00a4b9b8851c488419abfd85",
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-python-pinned.log.gz": "9015627ca5196cc48f8af6bd2f86ec383547629f6a6a369939510f47bdbe6914",
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-python-final-pinned.log.gz": "3f65b58707f86375504ab4939ba767735d80881b53b97c924db771bdab5f3351",
+    "docs/evidence/assets/sergiu-day6/pr116-review-logs/day6-review-mutation.log.gz": "f040d80e87b46240c26c8188b8c46354c98a2610c28f429e3d203e94b89ff72e",
+    "docs/evidence/assets/sergiu-day6/detection-inputs-after-pr116-review.json": "0c3dfd79f075762e18b6d6eeef4f95383247e12c4dbf6ce7b17d6ab6978cd899",
+    "docs/evidence/assets/sergiu-day6/connected-preflight-after-pr116-review.json": "20de283f984775f0856206c0e93a37644b960eb4b322dd292dd092280d258a17"
+  },
+  "limitations": [
+    "No Java/Windows model-byte/ML evaluation rerun for this offline verifier-only correction",
+    "Common manifest/environment and both connected runs remain unavailable",
+    "External SMS shadow and legacy V016 checks remain unverified"
+  ]
+}

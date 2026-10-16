@@ -1,0 +1,21 @@
+{
+  "contracts.log": "3efd80d845f3b2e8d0abbc23bea05048fccaa0aab449de7ccd31b2c1f4c9a722",
+  "evaluate.log": "7b21715ac4ea3f86981e42f0bd716df21184a30303c4c44e672f56ef141063d7",
+  "evaluation/predictions.json": "a569508ab29e619f94d09cc02c89a4b7d73f0929aafb78abf86ed7c7d47c265c",
+  "evaluation/report.md": "a8cba1905850f12b49a51e4e052bea3be601e5c4f7c259940545ce7e6b6e9f9c",
+  "evaluation/results.json": "567a95aa3798817ad03b5ad42aeb0ae3506b1c543665ad628c5ba0fd2a109cbb",
+  "evaluation/thresholds.json": "4c7badefec7cc9b98e69771c7d2f5ccde7cd26bec5b5d26aab701126f59f0c4b",
+  "frozen-pins.log": "ddd163a8cdc0311ece11d57f4efe07d7d1c111e0482a1d6e92bb577a741c0d30",
+  "generate.log": "7708b4ad572ce7ff27a00bdaca7e7735d5fa3d57a967e0207b6dc12f55690cb0",
+  "ml-python.log": "5edf51144c25ed8a06465d84c6cf9def1ebdc041bacdeb0c924626c827727241",
+  "processor-export.log": "682bb31cad3dd437095c9262f4c22bc1f77b08a45149ed72d387e97b48cd6a3a",
+  "processor-regression-and-drills.log": "567bb525d0bd39b7d9ced961847209732c6dd22a3fb1c9f6cee8fe372c75869e",
+  "processor.json": "44b42b01f8fbc7ccf8b6fe3e6e47420468672a63ff2bc55c553a871913efb8c6",
+  "reproduce-evaluation.log": "8a065d1679c003a509c9a2f290fe6271d6a10a05d8f2f19fe4512431b7d286d2",
+  "root-python.log": "f74334ce69dc314b6ff68c026974195b9054f30e9680777b18a0b2f65cb5bf81",
+  "study/inputs.json.gz": "8ef1f46d5e246f2de9cd201b37fb2e886b1b0fcc95f8abc9168a89562e298f69",
+  "study/manifest.json": "c559662891e6af12a81d7e4ac1977c3fce80dddf16365157e8398cf80637e41c",
+  "study/protocol.json": "c0b08f47ccabad04187102c025721de0ff6dd9bb3b1b9c44e03c40fdbf2d470e",
+  "study/truth.json": "34f96a641a8e60ef9340a32ed4aad25fcb8e22267b7cc2755cccad503c8b8493",
+  "windows-byte-reproduction.log": "37cb9ad405f79d518f5d244cf8b5c27b97a0e61edd89ccba7c32bbcc382fcfae"
+}
