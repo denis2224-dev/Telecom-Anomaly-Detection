@@ -50,11 +50,15 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     @media(max-width:600px) { .roaming-kpis {grid-template-columns:repeat(2,minmax(0,1fr));} }
     .roaming-chart { background: var(--field); border-radius: var(--radius-control); padding: 8px; }
     .roaming-chart app-metric-chart { display: block; height: auto; }
-    .country-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .country-panels { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 16px; }
     .country-panels section { min-width: 0; background: var(--field); padding: 12px; border-radius: var(--radius-control); }
-    .sort-country { display: grid; gap: 6px; font-size: 12px; margin: 16px 0; max-width: 300px; }
+    .sort-country { display: grid; gap: 4px; font-size: 11px; margin: 8px 0; max-width: 240px; }
+    .sort-country select { min-height: 30px; padding: 5px 25px 5px 8px; font-size: 11px; }
     th, td { font-size: 12px; padding: 10px 8px; text-transform: none; letter-spacing: normal; }
-    .country-bar { display: block; position: relative; min-width: 100px; padding: 4px; }
+    .country-panels section:first-child { padding: 8px; }
+    .country-panels :where(section:first-child) h3 { margin: 0 0 6px; font-size: 12px; }
+    .country-panels :where(section:first-child) th, .country-panels :where(section:first-child) td { padding: 5px 6px; font-size: 11px; }
+    .country-bar { display: block; position: relative; min-width: 100px; padding: 2px 4px; }
     .country-bar > span { position: absolute; inset: 0 auto 0 0; background: #39bafa66; border-radius: 4px; }
     .country-bar strong { position: relative; font-weight: 400; }
     .country-panels section:nth-child(2) td {color:var(--success);}
@@ -66,7 +70,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     .measured-history {display:inline-block;margin-top:10px;font-size:12px;}
     .compact .country-panels section { padding: 6px; }
     .compact .country-panels h3 { font-size: 11px; }
-    .compact .country-panels th, .compact .country-panels td { padding: 3px; font-size: 10px; }
+    .compact .country-panels th, .compact .country-panels td { padding: 2px 3px; font-size: 10px; }
     .compact .kpi-table { min-width: 0; width: 100%; table-layout: fixed; }
     .compact .kpi-table th, .compact .kpi-table td { white-space: normal; overflow-wrap: anywhere; }
     .compact .kpi-table th:first-child { width: 28%; }
@@ -77,7 +81,7 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     .compact .country-panels section:last-child td.affected { color: var(--danger); }
     .compact .sort-country { margin: 6px 0; }
     .roaming-link { display: flex; margin-top: 10px; font-size: 12px; background: var(--surface-raised); }
-    @media(max-width: 600px) { .country-panels {grid-template-columns:1fr;} }
+    @media(max-width: 600px) { .country-panels {grid-template-columns:1fr;} .sort-country select {min-height:44px;} }
     @media(max-width: 900px) { .roaming:not(.compact) .country-panels { grid-template-columns: 1fr; } }
   `],
 })
