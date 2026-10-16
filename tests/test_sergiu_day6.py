@@ -131,5 +131,11 @@ class EvidenceTests(unittest.TestCase):
         self.other['commands'][0]['argv'] = 'echo success'
         with self.assertRaises(ValueError): self.verify()
 
+    def test_command_preserves_valid_empty_arguments(self):
+        self.other['commands'][0]['argv'] = ['test', '--optional-value', '']
+        self.verify()
+        self.other['commands'][0]['argv'][0] = ''
+        with self.assertRaises(ValueError): self.verify()
+
 
 if __name__ == '__main__': unittest.main()

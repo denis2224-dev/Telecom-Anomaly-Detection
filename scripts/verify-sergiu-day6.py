@@ -79,7 +79,7 @@ def verify_rehearsals(root, manifest, release, runs):
         if not isinstance(commands, list) or not commands:
             raise ValueError('Missing or failed command')
         if any(not isinstance(c, dict) or not isinstance(c.get('argv'), list)
-               or not c['argv'] or not all(isinstance(arg, str) and arg for arg in c['argv'])
+               or not c['argv'] or not c['argv'][0] or not all(isinstance(arg, str) for arg in c['argv'])
                or type(c.get('exitCode')) is not int or c['exitCode'] != 0 for c in commands):
             raise ValueError('Missing or failed command')
         check_files(root, run.get('files'))
