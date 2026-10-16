@@ -136,8 +136,8 @@ app-service-detail .heading-copy p { font-size: 11px; margin: 0; }
 .traffic-failed { stroke: var(--danger); }
 .traffic-success-dot { fill: var(--success); }
 .traffic-failed-dot { fill: var(--danger); }
-.service-hero .chart-legend .traffic-success-key::before { background: var(--success); }
-.service-hero .chart-legend .traffic-failed-key::before { background: var(--danger); }
+.chart-legend .traffic-success-key::before { background: var(--success); }
+.chart-legend .traffic-failed-key::before { background: var(--danger); }
 .traffic-chart .chart-tooltip { pointer-events: none; }
 .traffic-chart .chart-scroll { height: clamp(240px, 32vh, 320px); }
 .traffic-chart .hero-reading strong { font-size: 24px; }

@@ -13,8 +13,8 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">{{ sample() ? 'Sample data' : recorded() ? 'Recorded' : 'Unavailable' }}</span></header>
     <p class="preview-note">{{ sample() ? 'Sample data · recorded roaming unavailable' : recorded()?.note || error() || 'Loading recorded roaming measurements…' }}</p>
     @if (error()) { <button type="button" class="ghost" (click)="refresh.update(value => value + 1)">Retry roaming data</button> }
-    @if (!compact()) {<div class="roaming-kpis">
-      @for (kpi of summary(); track kpi.label) { <div><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong><small>{{ sample() ? 'Sample only' : 'Recorded' }}</small></div> }
+    @if (!compact()) {<div class="roaming-kpis" role="group" aria-label="Roaming overview KPIs">
+      @for (kpi of summary(); track kpi.label) { <div><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong></div> }
     </div>}
     <div class="roaming-chart"><h3>Location update success rate <span>UTC · {{ sample() ? 'sample' : 'recorded' }}</span></h3>
       <app-metric-chart view="chart" [hero]="true" [compact]="true" name="registrationSrPct" [title]="sample() ? 'Roaming location update success rate · preview' : 'Roaming location update success rate'" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [loading]="loading()" />
@@ -39,6 +39,15 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     header { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
     h2 { margin: 0; font-size: 20px; } h3 { margin: 8px 0; font-size: 14px; }
     h3 span, .preview-note, small { color: var(--text-muted); font-size: 11px; }
+    .roaming-kpis { display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:14px 0; }
+    .roaming-kpis > div { display:grid;align-content:start;gap:12px;min-width:0;min-height:96px;box-sizing:border-box;padding:14px;background:var(--field);border-radius:var(--radius-control); }
+    .roaming-kpis span { color:var(--text-muted);font-size:12px; }
+    .roaming-kpis strong { font-size:clamp(22px,2vw,30px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;color:var(--success); }
+    .roaming-kpis > div:nth-child(2) strong { color:var(--violet); }
+    .roaming-kpis > div:nth-child(3) strong { color:var(--info); }
+    .roaming-kpis > div:nth-child(4) strong { color:var(--accent); }
+    @media(max-width:900px) { .roaming-kpis {grid-template-columns:repeat(3,minmax(0,1fr));} }
+    @media(max-width:600px) { .roaming-kpis {grid-template-columns:repeat(2,minmax(0,1fr));} }
     .roaming-chart { background: var(--field); border-radius: var(--radius-control); padding: 8px; }
     .roaming-chart app-metric-chart { display: block; height: auto; }
     .country-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

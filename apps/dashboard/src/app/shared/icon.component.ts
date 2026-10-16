@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 
 const paths: Record<string, string> = {
   grid: 'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',
+  globe: 'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0 M3 12h18 M12 3c-5 5-5 13 0 18 M12 3c5 5 5 13 0 18',
   signal: 'M4 18v3 M9 13v8 M14 8v13 M19 3v18',
   activity: 'M2 12h4l3-8 5 16 3-8h5',
   play: 'm8 5 11 7-11 7Z',
