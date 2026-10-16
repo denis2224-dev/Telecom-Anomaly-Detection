@@ -5,6 +5,7 @@ This is the record of the user's latest frontend decisions. Preserve these in fu
 ## Visual layout
 
 - Keep the existing dark design, orange accent, compact spacing, rounded controls and no decorative borders.
+- Give buttons a small gap from adjacent controls and content. Use shared group gaps and outer spacing; keep full-width controls inside their containers and map targets fixed.
 - Desktop overview: VoLTE on the left, roaming below it, map on the right. Panels size independently; avoid empty stretched space. Keep layouts usable on mobile.
 - Overview charts are prominent and taller; supporting results, donut, scope/country tables and open-service controls stay smaller. Apply consistently to VoLTE, SMS and roaming.
 - The main VoLTE overview uses successful/failed call bars, setup success percentage and a dashed baseline in one chart. Preserve actual units: setup attempts are not Erlang traffic or established-call drops.

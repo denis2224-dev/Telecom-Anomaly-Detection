@@ -1,5 +1,5 @@
 /* Shared controls and surfaces. */
-button, .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 10px 16px; border: 0; border-radius: var(--radius-control); background: var(--surface-raised); color: var(--text); font-size: 12px; font-weight: 600; line-height: 1.4; cursor: pointer; text-decoration: none; transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
+button, .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; margin-block: 4px; padding: 10px 16px; border: 0; border-radius: var(--radius-control); background: var(--surface-raised); color: var(--text); font-size: 12px; font-weight: 600; line-height: 1.4; cursor: pointer; text-decoration: none; transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
 button:hover:not(:disabled), .button:hover { background: var(--surface-hover); transform: translateY(-1px); text-decoration: none; }
 button:active:not(:disabled), .button:active { transform: translateY(1px); }
 button.primary, .button.primary { background: var(--accent); color: var(--bg); box-shadow: 0 4px 18px var(--accent-glow); }
@@ -11,7 +11,8 @@ button:disabled { opacity: .42; cursor: not-allowed; box-shadow: none; }
 button[aria-busy=true] .icon { display: none; }
 button[aria-busy=true]::before, .spinner { content: ''; display: inline-block; width: 15px; height: 15px; flex-shrink: 0; border-radius: 50%; background: conic-gradient(var(--transparent), currentColor); mask: radial-gradient(farthest-side, var(--transparent) calc(100% - 2px), var(--text) 0); animation: spin .8s linear infinite; }
 .icon-button { width: 38px; min-height: 38px; padding: 9px; }
-.button-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.button-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-block: 8px; }
+.button-row > :is(button, .button) { margin-block: 0; }
 .field { display: grid; gap: 9px; min-width: 0; }
 label { display: block; font-size: 11px; font-weight: 550; color: var(--text-muted); }
 input:not([type=checkbox]):not([type=radio]), select, textarea { width: 100%; min-width: 0; min-height: 44px; padding: 12px 14px; background: var(--field); color: var(--text); border: 0; border-radius: var(--radius-control); box-shadow: var(--shadow-inner); transition: background var(--transition), box-shadow var(--transition); }
