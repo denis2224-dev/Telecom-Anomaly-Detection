@@ -61,6 +61,14 @@ describe('Shared hero chart', () => {
 });
 
 describe('Historical chart navigation', () => {
+  it('includes UTC dates when a short visible interval crosses midnight', async () => {
+    const fixture = TestBed.createComponent(MetricChartComponent);
+    for (const [key,value] of Object.entries({name:'cssrPct',title:'History',from:'2026-10-06T23:00:00Z',to:'2026-10-07T02:00:00Z'})) fixture.componentRef.setInput(key,value);
+    await fixture.whenStable();
+    expect(fixture.componentInstance.axisDateFormat()).toBe('dd MMM HH:mm');
+    fixture.componentRef.setInput('to','2026-10-07T00:00:00Z'); await fixture.whenStable();
+    expect(fixture.componentInstance.axisDateFormat()).toBe('HH:mm');
+  });
   it('focuses recorded data without changing selected bounds, source rows or missing gaps', async () => {
     const fixture = TestBed.createComponent(MetricChartComponent);
     for (const [key,value] of Object.entries({name:'cssrPct',title:'History',unit:'PERCENT',hero:true,

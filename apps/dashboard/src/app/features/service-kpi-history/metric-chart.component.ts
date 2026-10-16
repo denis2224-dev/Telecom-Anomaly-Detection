@@ -126,7 +126,12 @@ export class MetricChartComponent {
     const count = Math.max(1, Math.min(24, Math.floor((this.plotWidth() - 90) / 200)));
     return Array.from({length: count - 1}, (_, index) => new Date(Date.parse(this.visibleFrom()) + this.visibleDuration() * (index + 1) / count).toISOString());
   });
-  readonly axisDateFormat = computed(() => this.visibleDuration() >= 86_400_000 ? 'dd MMM HH:mm' : 'HH:mm');
+  readonly axisDateFormat = computed(() => {
+    const from = Date.parse(this.visibleFrom()), to = Date.parse(this.visibleTo());
+    const crossesMidnight = Number.isFinite(from) && Number.isFinite(to)
+      && Math.floor(from / 86_400_000) !== Math.floor((to - 1) / 86_400_000);
+    return this.visibleDuration() >= 86_400_000 || crossesMidnight ? 'dd MMM HH:mm' : 'HH:mm';
+  });
   readonly scopeId = input('');
   readonly focusedIncident = input<Incident | null>(null);
   readonly focusBand = computed(() => {
