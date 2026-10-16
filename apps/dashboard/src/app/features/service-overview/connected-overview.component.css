@@ -9,6 +9,7 @@
 .period-chips button { flex: 1; min-width: 0; min-height: 30px; padding: 3px; font-size: 11px; color: var(--text-muted); background: var(--transparent); }
 .period-chips button[aria-pressed=true] { background: var(--accent-soft); color: var(--accent); }
 .queue-toggle { grid-column: 7; grid-row: 2; width: 100%; justify-self: end; }
+@container (min-width: 1101px) { .period-field { grid-row: 1 / span 2; } }
 .controls > button { height: 36px; min-height: 36px; padding: 6px 8px; font-size: 11px; white-space: nowrap; }
 .controls .badge { font-size: 8px; padding: 3px 4px; }
 .headline-metrics { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 14px; margin-bottom: 14px; }
