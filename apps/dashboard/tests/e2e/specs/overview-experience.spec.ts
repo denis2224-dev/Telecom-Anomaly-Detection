@@ -106,3 +106,22 @@ test('incident summary scrolls with its evidence instead of covering it',async({
  await page.evaluate(()=>window.scrollBy(0,300));
  expect((await summary.boundingBox())!.y).toBeLessThan(before);
 });
+
+for(const width of [1440,390])test(`full-period chart remains readable and inspection stays outside the plot at ${width}px`,async({page},info)=>{
+ await controlledApi(page);await page.setViewportSize({width,height:900});await page.goto('/dashboard');
+ await page.getByRole('button',{name:'24h',exact:true}).click();
+ const chart=page.locator('.voice-success [data-chart=cssrPct]'),scroll=chart.locator('.chart-scroll'),tooltip=chart.locator('.chart-tooltip');
+ await expect(chart.locator('svg')).toHaveCSS('min-width','4320px');
+ expect(await scroll.evaluate(node=>node.scrollWidth>node.clientWidth)).toBe(true);
+ const start=await page.getByLabel('From (UTC)',{exact:true}).inputValue();
+ await scroll.focus();await page.keyboard.press('End');
+ await expect(tooltip).toHaveClass(/tooltip-visible/);
+ expect((await tooltip.boundingBox())!.y).toBeGreaterThanOrEqual((await scroll.boundingBox())!.y+(await scroll.boundingBox())!.height);
+ expect(await scroll.evaluate(node=>node.scrollLeft)).toBeGreaterThan(0);
+ await chart.getByRole('button',{name:'Zoom in',exact:true}).click();
+ await expect(chart.locator('.chart-visible-range')).toBeVisible();
+ await expect(chart.locator('.actual-line')).not.toHaveAttribute('d','');
+ await expect(page.getByLabel('From (UTC)',{exact:true})).toHaveValue(start);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+ await chart.screenshot({path:info.outputPath(`readable-chart-${width}.png`)});
+});

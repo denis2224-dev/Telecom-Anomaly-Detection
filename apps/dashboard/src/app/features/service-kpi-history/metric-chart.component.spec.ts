@@ -88,3 +88,29 @@ describe('Historical chart navigation', () => {
     chart.zoom(100);expect(chart.visibleRange()).toBeNull();expect(chart.rows()).toEqual(voiceWindows);
   });
 });
+
+ describe('Readable chart time scale',()=>{
+  it('spreads a full interval, caps long canvases and keeps sparse bars within their source slots',async()=>{
+    const fixture=TestBed.createComponent(MetricChartComponent);
+    for(const [key,value] of Object.entries({name:'cssrPct',title:'CSSR',hero:true,traffic:true,trafficBars:true,from:'2026-09-15T00:00:00Z',to:'2026-09-16T00:00:00Z',windows:voiceWindows}))fixture.componentRef.setInput(key,value);
+    await fixture.whenStable();const chart=fixture.componentInstance;
+    expect(chart.canvasWidth()).toBe(4320);
+    expect(chart.axisDateFormat()).toBe('dd MMM HH:mm');
+    const row=chart.rows()[0];
+    expect(chart.barWidth()).toBeLessThanOrEqual(Math.max(1,(chart.x(row.windowEnd)-chart.x(row.windowStart))*.7));
+    chart.zoom(.25);expect(chart.canvasWidth()).toBe(1200);
+    expect(chart.from()).toBe('2026-09-15T00:00:00Z');
+    fixture.componentRef.setInput('to','2026-10-15T00:00:00Z');await fixture.whenStable();
+    expect(chart.canvasWidth()).toBe(6000);
+    expect(chart.path(false).match(/M/g)).toHaveLength(3);
+  });
+ });
+
+ it('keeps the inspected sample in view when toolbar focus closes its tooltip',async()=>{
+  const fixture=TestBed.createComponent(MetricChartComponent);
+  for(const [key,value] of Object.entries({name:'cssrPct',title:'CSSR',hero:true,from:'2026-09-14T10:10:00Z',to:'2026-09-15T10:10:00Z',windows:voiceWindows}))fixture.componentRef.setInput(key,value);
+  await fixture.whenStable();const chart=fixture.componentInstance;
+  chart.navigate(new KeyboardEvent('keydown',{key:'End'}));chart.hoveredId.set(null);chart.zoom(.5);
+  expect(chart.drawingRows()).toContain(voiceWindows.at(-1));
+  expect(chart.path(false)).not.toBe('');
+ });

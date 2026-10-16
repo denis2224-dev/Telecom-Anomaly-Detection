@@ -25,7 +25,7 @@ import { Detection, formatMetric, metricValue, phaseAt } from './assurance-model
           @if (hovered(); as row) { <span>{{ row.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} UTC</span><strong>{{ trafficOnly() ? format(counts(row)?.total, 'COUNT') + ' attempts' : format(value(row), unit()) }}</strong>
             @if (traffic()) { @if (counts(row); as count) { <small>{{ name() === 'cssrPct' ? 'Successful calls' : 'Delivered messages' }}: {{ format(count.success, 'COUNT') }} · Failed: {{ format(count.failed, 'COUNT') }}</small> } @else { <small>Traffic counts: Unavailable</small> } }
             @if (secondaryName()) { <small>{{ secondaryTitle() }}: {{ format(secondaryValue(row), 'COUNT') }}</small> }
-            @if (!trafficOnly()) { <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> } }
+            @if (!trafficOnly()) { <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> } } @else { <small>Hover or use arrow keys to inspect</small> }
         </div>
         <div class="chart-scroll" tabindex="0" [attr.aria-label]="trafficOnly() ? 'Scrollable call traffic chart' : name() === 'cssrPct' ? 'Scrollable CSSR chart' : title() + ' chart'" (keydown)="navigate($event)" (blur)="hoveredId.set(null)">
 
@@ -86,8 +86,8 @@ export class MetricChartComponent {
   readonly visibleFrom = computed(() => this.visibleRange()?.from ?? this.from());
   readonly visibleTo = computed(() => this.visibleRange()?.to ?? this.to());
   readonly visibleDuration = computed(() => Date.parse(this.visibleTo()) - Date.parse(this.visibleFrom()));
-  readonly canvasWidth = computed(() => this.visibleDuration() > 86_400_000
-    ? Math.min(6000, Math.max(1200, Math.ceil(this.visibleDuration() / 86_400_000) * 220)) : 0);
+  readonly canvasWidth = computed(() => this.visibleDuration() >= 6 * 3_600_000
+    ? Math.min(6000, Math.max(1200, Math.ceil(this.visibleDuration() / 3_600_000) * 180)) : 0);
   setVisible(start: number, duration: number): void {
     const from = Date.parse(this.from()), to = Date.parse(this.to());
     const span = Math.min(to - from, Math.max(60_000, duration));
@@ -98,7 +98,8 @@ export class MetricChartComponent {
   zoom(factor: number): void {
     const span = this.visibleDuration() * factor;
     const focus=this.focusBand();
-    const centre = this.hovered() ? this.rowTime(this.hovered()!) : focus ? (Date.parse(focus.start)+Date.parse(focus.end))/2 : (Date.parse(this.visibleFrom()) + Date.parse(this.visibleTo())) / 2;
+    const inspected = this.hovered() ? this.rowTime(this.hovered()!) : this.inspectedTime();
+    const centre = inspected !== null && inspected >= Date.parse(this.visibleFrom()) && inspected < Date.parse(this.visibleTo()) ? inspected : focus ? (Date.parse(focus.start)+Date.parse(focus.end))/2 : (Date.parse(this.visibleFrom()) + Date.parse(this.visibleTo())) / 2;
     this.setVisible(centre - span / 2, span);
   }
   pan(direction: number): void { this.setVisible(Date.parse(this.visibleFrom()) + direction * this.visibleDuration() / 2, this.visibleDuration()); }
@@ -111,7 +112,10 @@ export class MetricChartComponent {
   readonly secondaryTitle = input('Queue depth');
   readonly threshold = input<number | null>(null);
   readonly dualAxis = computed(() => this.traffic() || !!this.secondaryName());
-  readonly barWidth = computed(() => Math.max(1, Math.min(18, (this.plotWidth() - 65 - this.plotRight()) / Math.max(1, this.drawingRows().length) * .6)));
+  readonly barWidth = computed(() => {
+    const widths = this.drawingRows().map(row => (Date.parse(row.windowEnd) - Date.parse(row.windowStart)) / this.visibleDuration() * (this.plotWidth() - 65 - this.plotRight()) * .7).filter(width => width > 0);
+    return Math.max(1, Math.min(18, ...widths));
+  });
   readonly windowSelected = output<KpiWindow | null>();
   readonly plotRight = computed(() => this.dualAxis() && !this.trafficOnly() ? 65 : 24);
   readonly loading = input(false);
@@ -119,7 +123,7 @@ export class MetricChartComponent {
     const count = Math.max(1, Math.min(24, Math.floor((this.plotWidth() - 90) / 200)));
     return Array.from({length: count - 1}, (_, index) => new Date(Date.parse(this.visibleFrom()) + this.visibleDuration() * (index + 1) / count).toISOString());
   });
-  readonly axisDateFormat = computed(() => this.visibleDuration() > 86_400_000 ? 'dd MMM' : 'HH:mm');
+  readonly axisDateFormat = computed(() => this.visibleDuration() >= 86_400_000 ? 'dd MMM HH:mm' : 'HH:mm');
   readonly focusedIncident = input<Incident | null>(null);
   readonly focusBand = computed(() => {
     const item = this.focusedIncident();
@@ -130,6 +134,7 @@ export class MetricChartComponent {
   });
   readonly incidents = input<Incident[]>([]);
   readonly hoveredId = signal<string | null>(null);
+  private readonly inspectedTime = signal<number | null>(null);
   readonly hoveredIndex = computed(() => {
     const index = this.rows().findIndex(row => row.windowId === this.hoveredId());
     return index < 0 ? null : index;
@@ -162,6 +167,7 @@ export class MetricChartComponent {
     const target = this.rows()[index];
     if (Date.parse(target.windowStart) < Date.parse(this.visibleFrom()) || Date.parse(target.windowStart) >= Date.parse(this.visibleTo())) this.visibleRange.set(null);
     this.hoveredId.set(target.windowId);
+    this.inspectedTime.set(this.rowTime(target));
     const region = event.currentTarget as HTMLElement;
     const svg = region?.querySelector('svg');
     if (svg) region.scrollLeft = this.x(this.hovered()!.windowStart) * svg.clientWidth / this.plotWidth() - region.clientWidth / 2;
@@ -179,6 +185,7 @@ export class MetricChartComponent {
       if (Math.abs(this.rowTime(candidates[index]) - time) < Math.abs(this.rowTime(candidates[closest]) - time)) closest = index;
     }
     this.hoveredId.set(candidates[closest].windowId);
+    this.inspectedTime.set(this.rowTime(candidates[closest]));
   }
   clearPointer(event: PointerEvent): void {
     if (!(event.currentTarget as SVGSVGElement).parentElement?.matches(':focus')) this.hoveredId.set(null);
@@ -193,8 +200,8 @@ export class MetricChartComponent {
   readonly tablePages = computed(() => Math.max(1, Math.ceil(this.rows().length / 50)));
   readonly tableRows = computed(() => this.rows().slice(this.tablePage() * 50, (this.tablePage() + 1) * 50));
   constructor() {
-    effect(() => { this.name(); this.tablePage.set(0); this.hoveredId.set(null); });
-    effect(() => { this.from(); this.to(); this.visibleRange.set(null); });
+    effect(() => { this.name(); this.inspectedTime.set(null); this.tablePage.set(0); this.hoveredId.set(null); });
+    effect(() => { this.from(); this.to(); this.inspectedTime.set(null); this.visibleRange.set(null); });
     effect(() => this.windowSelected.emit(this.hovered()));
     effect(() => { if (this.tablePage() >= this.tablePages()) this.tablePage.set(this.tablePages() - 1); });
     effect(cleanup => {
