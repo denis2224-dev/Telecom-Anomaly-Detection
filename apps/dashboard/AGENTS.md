@@ -6,6 +6,7 @@ This is the record of the user's latest frontend decisions. Preserve these in fu
 
 - Keep the existing dark design, orange accent, compact spacing, rounded controls and no decorative borders.
 - Give buttons a small gap from adjacent controls and content. Use shared group gaps and outer spacing; keep full-width controls inside their containers and map targets fixed.
+- Keep page titles and section headings consistent, group overview time filters separately from service/region filters, and keep Apply with Incidents on the right. Use content-sized cards, prominent plots with quiet grids, compact legends and right-aligned numeric table cells. Emphasize incident severity/title/cause while keeping technical metadata secondary; use muted gray for unavailable states.
 - Desktop overview: VoLTE on the left, roaming below it, map on the right. Panels size independently; avoid empty stretched space. Keep layouts usable on mobile.
 - Overview charts are prominent and taller; supporting results, donut, scope/country tables and open-service controls stay smaller. Apply consistently to VoLTE, SMS and roaming.
 - The main VoLTE overview uses successful/failed call bars, setup success percentage and a dashed baseline in one chart. Preserve actual units: setup attempts are not Erlang traffic or established-call drops.

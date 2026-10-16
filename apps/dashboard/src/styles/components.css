@@ -23,12 +23,13 @@ select { cursor: pointer; padding-right: 25px; }
 input:disabled, select:disabled, textarea:disabled { opacity: .5; cursor: not-allowed; }
 input[type=datetime-local] { font-family: var(--font-mono); font-size: 11px; }
 input[type=number] { font-family: var(--font-mono); }
-.card, .detail-panel, .state-panel { min-width: 0; padding: 24px; border: 0; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow), var(--shadow-inner); }
-.detail-panel, .state-panel { margin: 22px 0; }
+.card, .detail-panel, .state-panel { min-width: 0; padding: 16px; border: 0; border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-inner); }
+.detail-panel, .state-panel { margin: 16px 0; }
+.detail-panel > :is(h2,h3), .card > :is(h2,h3) { font-size:16px; }
 .detail-panel > h2, .state-panel > h2 { margin-bottom: 10px; }
 .detail-panel > p { color: var(--text-muted); font-size: 12px; }
 .detail-panel > p + p { margin-top: 10px; }
-.state-panel { padding: 36px; }
+.state-panel { padding: 16px; }
 .state-panel > p { margin: 12px 0 20px; color: var(--text-muted); }
 .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border-radius: 7px; font-size: 9px; letter-spacing: .5px; font-weight: 650; line-height: 1.5; color: var(--info); background: var(--info-soft); white-space: nowrap; }
 .badge[data-state=NORMAL], .badge[data-state=RECOVERED], .badge[data-state=RESOLVED], .badge[data-state=FRESH], .badge[data-state=COMPLETED], .badge.success { color: var(--success); background: var(--success-soft); }
@@ -36,7 +37,7 @@ input[type=number] { font-family: var(--font-mono); }
 .badge[data-state=ONGOING], .badge[data-state=HIGH], .badge[data-state=CRITICAL], .badge[data-state=FAILED], .badge.danger { color: var(--danger); background: var(--danger-soft); }
 .badge .status-dot { background: currentColor; margin-top: 0; }
 .badge-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+.stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items:start; gap: 12px; margin: 16px 0; }
 .stat-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .stat-card { position: relative; overflow: hidden; padding: 20px 22px; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-inner); min-width: 0; }
 .stat-label { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -61,11 +62,11 @@ input[type=number] { font-family: var(--font-mono); }
 .chart-scroll, .evidence-table { max-width: 100%; overflow-x: auto; border-radius: var(--radius-control); scrollbar-width: thin; scrollbar-color: var(--surface-hover) var(--field); }
 table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
 .kpi-table { min-width: 580px; }
-th, td { text-align: left; padding: 13px 14px; vertical-align: middle; }
+th, td { text-align: left; padding: 9px 12px; vertical-align: middle; line-height:1.5; }
 thead th { position: sticky; top: 0; z-index: 1; background: var(--surface-raised); color: var(--text-muted); font-size: 11px; letter-spacing: .5px; font-weight: 600; }
 tbody tr { background: var(--field); transition: background var(--transition); }
 tbody tr:nth-child(even) { background: var(--surface); }
-tbody tr:hover { background: var(--surface-hover); }
+tbody tr:hover { background: color-mix(in srgb,var(--surface-hover) 55%,var(--field)); }
 tbody th { font-weight: 500; }
 tbody td { font-family: var(--font-mono); }
 caption { text-align: left; padding: 14px 0; color: var(--text-muted); font-size: 10px; }
@@ -90,7 +91,7 @@ dd { margin: 0; font-size: 14px; overflow-wrap: anywhere; }
 @keyframes pulse { 50% { opacity: .45; } }
 @media (max-width: 1100px) { .stat-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
-  .card, .detail-panel, .state-panel { padding: 20px; }
+  .card, .detail-panel, .state-panel { padding: 16px; }
   .stat-grid { grid-template-columns: 1fr; gap: 12px; }
   .stat-grid.four { gap: 12px; }
   .stat-card { padding: 17px; }

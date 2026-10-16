@@ -3,6 +3,7 @@
     @for (kpi of headline(); track kpi.label) { <div [attr.data-tone]="kpi.tone"><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong><small>{{ kpi.note }}</small></div> }
   </div>
   <form class="controls" (submit)="applyRange($event, fromInput.value, toInput.value)">
+    <div class="control-group time-controls" role="group" aria-label="Time period">
     <div class="period-field">
       <span id="period-label">Period</span>
       <div class="period-chips" role="group" aria-labelledby="period-label">
@@ -13,11 +14,16 @@
     </div>
     <label>From (UTC)<input #fromInput type="datetime-local" [value]="draftFrom() ?? chartFrom().slice(0, 16)" (input)="draftFrom.set(fromInput.value)" required /></label>
     <label>To (UTC, exclusive)<input #toInput type="datetime-local" [value]="draftTo() ?? chartTo().slice(0, 16)" (input)="draftTo.set(toInput.value)" required /></label>
+    </div>
+    <div class="control-group scope-controls" role="group" aria-label="Service and region">
     <label>Service<select aria-label="Service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE setup</option><option value="SMS">SMS delivery</option></select></label>
     <label>Technology<select disabled aria-label="Technology"><option>LTE</option></select></label>
     <label class="region-field">Region<input type="search" list="dashboard-city-options" [value]="search()" (input)="setRegion($any($event.target).value)" placeholder="All cities" /><datalist id="dashboard-city-options">@for (city of catalogue(); track city.id) { <option [value]="city.name"></option> }</datalist></label>
+    </div>
+    <div class="control-actions">
     <label class="apply-field"><span aria-hidden="true">Apply</span><button class="primary" type="submit" aria-label="Apply">Apply</button></label>
     <button class="queue-toggle" type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Incidents ({{ queueTotal() }}) <span class="badge" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
+    </div>
   </form>
   <a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Investigate history</a>
   <app-shift-handover [items]="handoverItems()" [total]="queueTotal()" [atLeast]="!fixture && queueHasNext()" [scope]="'Current queue view · ' + serviceFilter() + ' · ' + (selectedCity()?.name ?? 'All cities') + ' · ' + (queueStateFilter() || 'All states') + ' · ' + (queueSeverityFilter() || 'All severities')" [from]="chartFrom()" [to]="chartTo()" [sample]="fixture" [loading]="queueLoading()" [error]="queueError()" />
@@ -161,7 +167,7 @@
                 <p class="queue-meta">Since: {{ incident.firstObservedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-meta">Detected: {{ incident.detectedAt | date:'dd MMM HH:mm:ss':'UTC' }} UTC</p>
                 <p class="queue-impact">{{ deviation(detectionWindow(incident), incident.service) }}</p>
-                <p class="queue-meta">{{ cause(incident.latestDetection) }}</p>
+                <p class="incident-cause">{{ cause(incident.latestDetection) }}</p>
                 <div class="button-row">
                   <app-incident-dashboard-actions [dashboardRange]="{from:chartFrom(),to:chartTo()}" [incident]="incident" (updated)="acceptAcknowledgement($event)" (navigated)="queueDialog.close()"><a class="button incident-evidence-action" [routerLink]="['/incidents', incident.id]">Open incident evidence</a></app-incident-dashboard-actions>
                 </div>

@@ -55,10 +55,11 @@ import { countryPreview, previewMetric, previewWindow, randomSource, roamingSamp
     .sort-country { display: grid; gap: 4px; font-size: 11px; margin: 8px 0; max-width: 240px; }
     .sort-country select { min-height: 30px; padding: 5px 25px 5px 8px; font-size: 11px; }
     th, td { font-size: 12px; padding: 10px 8px; text-transform: none; letter-spacing: normal; }
+    .country-panels th:not(:first-child), .country-panels td { text-align: right; }
     .country-panels section:first-child { padding: 8px; }
     .country-panels :where(section:first-child) h3 { margin: 0 0 6px; font-size: 12px; }
     .country-panels :where(section:first-child) th, .country-panels :where(section:first-child) td { padding: 5px 6px; font-size: 11px; }
-    .country-bar { display: block; position: relative; min-width: 100px; padding: 2px 4px; }
+    .country-bar { display: block; position: relative; min-width: 100px; padding: 2px 4px; text-align:right; }
     .country-bar > span { position: absolute; inset: 0 auto 0 0; background: #39bafa66; border-radius: 4px; }
     .country-bar strong { position: relative; font-weight: 400; }
     .country-panels section:nth-child(2) td {color:var(--success);}

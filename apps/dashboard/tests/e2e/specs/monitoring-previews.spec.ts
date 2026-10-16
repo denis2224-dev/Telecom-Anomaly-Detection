@@ -28,6 +28,13 @@ for (const width of [1366, 390]) {
     await expect(page.locator('.city-marker')).toHaveCount(10);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 1366) {
+      const controls = await page.locator('.controls input, .controls select, .period-chips, .apply-field button').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().top));
+      expect(Math.max(...controls) - Math.min(...controls)).toBeLessThan(2);
+      const apply = (await page.getByRole('button', { name: 'Apply', exact: true }).boundingBox())!;
+      const incidents = (await page.locator('.queue-toggle').boundingBox())!;
+      expect(incidents.x).toBeCloseTo(apply.x, 0);
+      expect(incidents.y - apply.y - apply.height).toBeGreaterThanOrEqual(6);
+      expect(incidents.y - apply.y - apply.height).toBeLessThanOrEqual(10);
       const boxes = await page.locator('.overview-panels .service-panel, .overview-panels > .map-panel').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect()));
       expect(boxes[2].left).toBeGreaterThan(boxes[0].right);
       expect(boxes[1].top).toBeGreaterThan(boxes[0].bottom);

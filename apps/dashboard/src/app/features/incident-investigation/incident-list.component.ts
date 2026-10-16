@@ -60,7 +60,7 @@ import { SessionStore } from '../login-and-session/session.store';
     label { display: grid; gap: 4px; font-size: 12px; }
     select { min-height: 34px; padding: 6px 10px; font-size: 12px; }
     .incident-filters p { margin: 0 0 8px auto; font-size: 12px; color: var(--text-muted); }
-    .episode-card { display: grid; gap: 6px; padding: 10px 12px; margin: 0 0 6px; }
+    .episode-card { display: grid; gap: 6px; padding: 16px; margin: 0 0 8px; }
     .episode-card { box-shadow: inset 2px 0 var(--warning); }
     .episode-card[data-severity=HIGH], .episode-card[data-severity=CRITICAL] { box-shadow: inset 2px 0 var(--danger); }
     .episode-card[data-technical-state=RECOVERED] { box-shadow: inset 2px 0 var(--success); }
@@ -69,11 +69,11 @@ import { SessionStore } from '../login-and-session/session.store';
     .episode-summary { min-width: 0; padding-inline-start: 8px; }
     .episode-card p { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
     .episode-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
-    .episode-header h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; font-size: 16px; color: var(--text); }
+    .episode-header h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; font-size: 15px; color: var(--text); }
     .episode-severity { padding: 3px 6px; border-radius: 6px; font-size: 10px; letter-spacing: .04em; }
     .episode-card .episode-location { margin-top: 6px; color: var(--text-muted); font-size: 12px; }
     .episode-card .episode-description { margin: 5px 0; color: var(--text); }
-    .episode-card .episode-info { display: grid; grid-template-columns: 1fr; gap: 3px; color: var(--text-muted); font-size: 12px; }
+    .episode-card .episode-info { display: grid; grid-template-columns: 1fr; gap: 3px; color: var(--text-muted); font-size: 11px; }
     .episode-state-group { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
     .episode-label { color: var(--text-muted); font-size: 11px; }
     .episode-workflow { padding: 3px 8px; border-radius: 6px; font-weight: 650; color: var(--info); background: var(--info-soft); }
@@ -83,7 +83,7 @@ import { SessionStore } from '../login-and-session/session.store';
     .episode-state[data-state=RECOVERED] { color: var(--success); background: var(--success-soft); }
     .episode-state[data-state=ONGOING] { color: var(--danger); background: var(--danger-soft); }
     .episode-state[data-state=UNKNOWN] { color: var(--warning); background: var(--warning-soft); }
-    .episode-card .episode-time { font-size: 11px; }
+    .episode-card .episode-time { font-size: 11px; color:var(--text-muted); }
     .episode-actions { min-width:0; padding-inline-start:8px; }
     .incident-story { font-size: 14px; overflow-wrap: anywhere; }
     .incident-story h4 { margin: 18px 0 6px; font-size: 14px; letter-spacing: normal; text-transform: none; color: var(--text); }
