@@ -98,7 +98,11 @@ public class NotificationEventService {
         var incident=jdbc.queryForMap("SELECT public_id,version FROM app.trace_link_incidents WHERE episode_id=?",event.episodeId());
         // Existing stream listeners publish only after commit, even for transitions without a notification.
         events.publishEvent(new md.utm.telecom.incidents.stream.IncidentChanged((UUID)incident.get("public_id"),((Number)incident.get("version")).longValue()));
-        if(!properties.enabled() || kind==null)return;
+        // Historical demonstration replay is evidence, not a new operator alert.
+        var context=event.next().required("context");
+        boolean historicalDemo=context.path("datasetId").asText().equals(md.utm.telecom.tracelink.demo.RoamingDemoData.DATASET)
+                && java.time.Instant.parse(context.required("evaluatedAt").asText()).isBefore(java.time.Instant.now().minusSeconds(600));
+        if(!properties.enabled() || kind==null || historicalDemo)return;
         nativeWrite(event.episodeId(),after.required("detectionId").asText(),null,kind,
                 after.required("severity").asText(),event.next().required("context").required("domain").asText(),
                 event.next().required("context").required("scope").required("id").asText(),

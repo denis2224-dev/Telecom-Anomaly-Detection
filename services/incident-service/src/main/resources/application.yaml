@@ -105,6 +105,8 @@ app:
   tracelink:
     domain-detections-enabled: ${TRACE_DOMAIN_DETECTIONS_ENABLED:false}
 telecom:
+  roaming-demo:
+    enabled: ${ROAMING_SYNTHETIC_ENABLED:false}
   trace-link:
-    enabled: ${TRACE_LINK_ENABLED:false}
+    enabled: ${INCIDENT_TRACE_LINK_ENABLED:${TRACE_LINK_ENABLED:false}}
     topic: ${TRACE_LINK_DETECTIONS_TOPIC:telecom.detections.trace-link.v1}

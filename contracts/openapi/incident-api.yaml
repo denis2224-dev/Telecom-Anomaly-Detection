@@ -4791,6 +4791,14 @@ components:
         - projectionIds
         - provenance
       properties:
+        baseline:
+          type: number
+          nullable: true
+          description: Explicit source baseline, when supplied by the synthetic generator.
+        baselineVersion:
+          type: string
+          nullable: true
+
         from:
           type: string
           format: date-time

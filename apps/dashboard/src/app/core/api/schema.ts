@@ -2254,6 +2254,9 @@ export interface components {
             points: components["schemas"]["TraceMetricPoint"][];
         };
         TraceMetricPoint: {
+            /** @description Explicit source baseline, when supplied by the synthetic generator. */
+            baseline?: number | null;
+            baselineVersion?: string | null;
             /** Format: date-time */
             from: string;
             /** Format: date-time */

@@ -19,7 +19,16 @@ public record MetricSeriesResponse(
                         List<String> projectionIds, List<Provenance> provenance,
                         Instant snapshotAt, Long sourceAgeSeconds,
                         List<BigDecimal> histogramCounts, List<BigDecimal> histogramEdges,
-                        List<State> states) {
+                        List<State> states, BigDecimal baseline, String baselineVersion) {
+        public Point(Instant from, Instant to, BigDecimal value, BigDecimal coverage, String quality,
+                     BigDecimal numerator, BigDecimal denominator, BigDecimal sumValue, Long sampleCount,
+                     String nullReason, String qualityReason, Integer expectedSlots, Integer receivedSlots,
+                     String sourceQuality, BigDecimal sourceCoverage, List<String> projectionIds, List<Provenance> provenance,
+                     Instant snapshotAt, Long sourceAgeSeconds, List<BigDecimal> histogramCounts, List<BigDecimal> histogramEdges, List<State> states) {
+            this(from, to, value, coverage, quality, numerator, denominator, sumValue, sampleCount, nullReason, qualityReason,
+                    expectedSlots, receivedSlots, sourceQuality, sourceCoverage, projectionIds, provenance, snapshotAt, sourceAgeSeconds,
+                    histogramCounts, histogramEdges, states, null, null);
+        }
         public Point(Instant from, Instant to, BigDecimal value, BigDecimal coverage,
                      String quality, BigDecimal numerator, BigDecimal denominator,
                      BigDecimal sumValue, Long sampleCount, String nullReason,

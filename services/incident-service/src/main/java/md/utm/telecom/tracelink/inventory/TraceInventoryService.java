@@ -12,13 +12,16 @@ import static md.utm.telecom.tracelink.inventory.InventoryResponses.*;
 public class TraceInventoryService {
     private final TraceInventoryRepository repository;
     private final Clock clock;
+    private final md.utm.telecom.tracelink.demo.RoamingDemoService demo;
 
-    public TraceInventoryService(TraceInventoryRepository repository, Clock clock) {
+    public TraceInventoryService(TraceInventoryRepository repository, Clock clock, md.utm.telecom.tracelink.demo.RoamingDemoService demo) {
         this.repository = repository;
         this.clock = clock;
+        this.demo = demo;
     }
 
     public CityList cities(String requestedVersion) {
+        if (demo.enabled() && md.utm.telecom.tracelink.demo.RoamingDemoData.CATALOGUE.equals(requestedVersion)) return new CityList(requestedVersion,java.util.List.of());
         var catalogue = resolve(requestedVersion);
         var rows = repository.cities(catalogue.version(), requestedVersion == null);
         requireBounded(rows.size());
@@ -29,6 +32,7 @@ public class TraceInventoryService {
         if (cityId != null && !cityId.matches("[a-z0-9-]{1,32}")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid cityId");
         }
+        if (demo.enabled() && md.utm.telecom.tracelink.demo.RoamingDemoData.CATALOGUE.equals(requestedVersion)) return new LinkList(requestedVersion,java.util.List.of());
         var catalogue = resolve(requestedVersion);
         Instant instant = at == null ? requestedVersion == null ? clock.instant() : null : utc(at);
         var rows = repository.links(catalogue.version(), requestedVersion == null, cityId, instant);
@@ -43,6 +47,9 @@ public class TraceInventoryService {
         if (direction != null && !direction.equals("in") && !direction.equals("out")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid direction");
         }
+        if (demo.enabled() && md.utm.telecom.tracelink.demo.RoamingDemoData.CATALOGUE.equals(requestedVersion))
+            return new PartnerList(requestedVersion, md.utm.telecom.tracelink.demo.RoamingDemoData.partners().stream()
+                    .filter(partner -> (country == null || partner.country().equals(country)) && (direction == null || partner.direction().equals(direction))).toList());
         var catalogue = resolve(requestedVersion);
         var rows = repository.partners(catalogue.version(), requestedVersion == null,
                 country, direction);

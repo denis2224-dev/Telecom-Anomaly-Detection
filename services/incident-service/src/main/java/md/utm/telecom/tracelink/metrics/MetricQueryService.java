@@ -12,15 +12,23 @@ public class MetricQueryService {
     private final MetricRollupRepository repository;
     private final MetricScopeRepository scopes;
     private final ReferenceMetricRollupRepository reference;
+    private final md.utm.telecom.tracelink.demo.RoamingDemoService demo;
     @org.springframework.beans.factory.annotation.Autowired
     public MetricQueryService(MetricDefinitionRegistry definitions, MetricRollupRepository repository,
-                              MetricScopeRepository scopes, ReferenceMetricRollupRepository reference) {
+                              MetricScopeRepository scopes, ReferenceMetricRollupRepository reference, md.utm.telecom.tracelink.demo.RoamingDemoService demo) {
         this.definitions = definitions;
         this.repository = repository;
         this.scopes = scopes;
         this.reference = reference;
+        this.demo = demo;
+    }
+    public MetricQueryService(MetricDefinitionRegistry definitions, MetricRollupRepository repository,
+                              MetricScopeRepository scopes, ReferenceMetricRollupRepository reference) {
+        this(definitions, repository, scopes, reference, null);
     }
     public MetricSeriesResponse series(TraceQuery q) {
+        if (demo != null && demo.enabled() && q.datasetId().equals(md.utm.telecom.tracelink.demo.RoamingDemoData.DATASET))
+            return demo.series(q);
         if (q.pointCount() > 8641) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Too many buckets");
         var definition = definitions.require(q.domain(), q.metric());
         var dataset = repository.dataset(q.datasetId()).orElseThrow(() ->
