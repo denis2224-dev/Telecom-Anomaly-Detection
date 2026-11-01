@@ -1,6 +1,6 @@
+import { TraceIncidentsComponent } from '../trace-link/trace-incidents.component';
 import { ShiftHandoverComponent } from '../analyst-support/shift-handover.component';
-import { legacyAnalystIncident } from '../analyst-support/analyst-support.model';
-import { countryPreview, roamingSample } from '../scenario-runner/monitoring-preview';
+import { legacyAnalystIncident, type AnalystIncident } from '../analyst-support/analyst-support.model';
 import { incidentDisplayRange } from '../../shared/incident-display-range';
 import { IncidentDashboardActionsComponent, IncidentAcknowledgements } from '../incident-investigation/incident-dashboard-actions.component';
 import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-query.store';
@@ -9,7 +9,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SessionStore } from '../login-and-session/session.store';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { TelecomClient, type PriorityPage } from '../../core/api/telecom-client';
+import { TelecomClient, type PriorityPage, type TracePartner } from '../../core/api/telecom-client';
 import { dataSource } from '../../core/api/data-source';
 import { ServiceStore } from './service.store';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
@@ -38,7 +38,7 @@ interface History {
 
 @Component({
   selector: 'app-connected-overview',
-  imports: [ShiftHandoverComponent,IncidentDashboardActionsComponent, RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
+  imports: [TraceIncidentsComponent,ShiftHandoverComponent,IncidentDashboardActionsComponent, RouterLink, DatePipe, MetricChartComponent, IconComponent, DrawerComponent, CityEvidenceComponent, RoamingOverviewComponent],
   templateUrl: './connected-overview.component.html',
   styleUrl: './connected-overview.component.css',
 })
@@ -59,6 +59,7 @@ export class ConnectedOverviewComponent {
   readonly presets = [{ label: '15m', minutes: 15 }, { label: '1h', minutes: 60 }, { label: '6h', minutes: 360 }, { label: '24h', minutes: 1440 },
     { label: '3d', minutes: 3 * 1440 }, { label: '7d', minutes: 7 * 1440 }, { label: '14d', minutes: 14 * 1440 }, { label: '30d', minutes: 30 * 1440 }];
   readonly roamingPanel = signal(true);
+  readonly roamingOverview = viewChild(RoamingOverviewComponent);
   readonly selectedLinkId = signal<string | null>(null);
   readonly mapLinks = computed(() => approvedConnections.flatMap(link => {
     const from = this.markerCities().find(city => city.id === link.fromCityId);
@@ -98,8 +99,9 @@ export class ConnectedOverviewComponent {
   readonly results = computed(() => callResults(this.latestVoiceWindow()));
   readonly headline = computed(() => {
     const window = this.latestVoiceWindow(), results = this.results();
-    const sampleCountries = countryPreview(roamingSample.seed);
-    const sampleSubscribers = sampleCountries.reduce((sum, row) => sum + row.users, 0);
+    const roaming = this.roamingOverview(), summary = roaming?.summary();
+    const roamingNote = roaming?.loading() ? 'Loading measurements' : roaming?.sample() ? 'Sample data · preview'
+      : roaming?.recorded() ? `${roaming.recorded()!.synthetic ? 'Synthetic recorded' : 'Recorded · source unverified'} · ${roaming.recorded()!.from.slice(0,10)} – ${roaming.recorded()!.to.slice(0,10)} UTC` : 'Measurements unavailable';
     const city = this.selectedCity();
     const scopes = this.services().filter(item => (this.serviceFilter() === 'ALL' || item.scope.service === this.serviceFilter())
       && (!city || city.scopeIds.includes(item.scope.scopeId)));
@@ -107,8 +109,8 @@ export class ConnectedOverviewComponent {
       { label: 'VoLTE call volume', value: results ? number(results.total) : 'Unavailable', note: 'Latest setup attempts', tone: 'info' },
       { label: 'Call setup success', value: results ? number(results.rate) + '%' : 'Unavailable', note: 'Latest selected-scope window', tone: results && results.rate < (window?.kpis.find(kpi => kpi.name === 'cssrPct')?.baseline ?? 0) ? 'warning' : 'success' },
       { label: 'Backhaul peak utilization', value: 'Unavailable', note: 'Directional measurements required', tone: 'danger' },
-      { label: 'Roaming LU success', value: number(roamingSample.registrationSuccess) + '%', note: 'Sample data · latest window', tone: 'warning' },
-      { label: 'Roaming subscribers', value: number(sampleSubscribers), note: `Sample data · ${sampleCountries.length} countries`, tone: 'violet' },
+      { label: 'Roaming registration success', value: summary?.[0].value && summary[0].value !== '—' ? summary[0].value : 'Unavailable', note: roamingNote, tone: 'warning' },
+      { label: 'Partner user estimates', value: summary?.[1].value && summary[1].value !== '—' ? summary[1].value : 'Unavailable', note: roamingNote, tone: 'violet' },
       { label: 'Open anomalies', value: this.store.incidentError() ? 'Unavailable' : number(scopes.reduce((sum, item) => sum + item.openIncidents, 0)), note: 'Unresolved · current service / city', tone: 'danger' },
     ].map(item => ({ ...item, tone: item.value === 'Unavailable' ? 'muted' : item.tone }));
   });
@@ -154,6 +156,33 @@ export class ConnectedOverviewComponent {
   readonly traceHistoryParameters=computed(()=>traceContextParameters({...this.traceQuery.context(),from:this.chartFrom(),to:this.chartTo(),cityId:this.selectedCity()?.id.toLowerCase()??'all',domain:this.serviceFilter()==='SMS'?'sms':'volte',visibleFrom:undefined,visibleTo:undefined,linkDirectionId:undefined}));
   readonly refresh = signal(0);
   readonly statusMessage = signal('');
+  readonly roamingQueue = signal(false);
+  readonly nativeQueueSnapshot=signal<{items:AnalystIncident[];total:number;loading:boolean;error:string}>({items:[],total:0,loading:false,error:''});
+  readonly includesRoamingQueue=computed(()=>!!this.roamingQueueContext()&&(this.roamingQueue()||this.serviceFilter()==='ALL'));
+  readonly displayedQueueTotal=computed(()=>(this.roamingQueue()?0:this.queueTotal())+(this.includesRoamingQueue()?this.nativeQueueSnapshot().total:0));
+  readonly roamingQueueError=signal('');
+  private readonly queueRoamingSource=signal<{datasetId:string;from:string;to:string;resolution:'5m';partners:TracePartner[]}|null>(null);
+  private queueRoamingRequest?:AbortController;
+  readonly roamingQueuePartners=computed(()=>this.roamingOverview()?.recorded()?.partners??this.queueRoamingSource()?.partners??[]);
+  async loadRoamingQueue():Promise<void>{
+    this.queueRoamingRequest?.abort();const request=this.queueRoamingRequest=new AbortController();this.roamingQueueError.set('');
+    try{
+      const datasets=(await this.api.traceDatasets(request.signal)).filter(item=>item.archiveReady).sort((a,b)=>Date.parse(b.to)-Date.parse(a.to));
+      const dataset=datasets[0];if(!dataset)throw new Error('No roaming dataset is available.');
+      const inventory=await this.api.tracePartners(request.signal,dataset.catalogueVersion??undefined);
+      if(request.signal.aborted)return;
+      if(dataset.catalogueVersion && inventory.catalogueVersion!==dataset.catalogueVersion)throw new Error('Roaming inventory is unavailable.');
+      const within=Date.parse(this.chartFrom())>=Date.parse(dataset.from)&&Date.parse(this.chartTo())<=Date.parse(dataset.to);
+      const to=within?this.chartTo():dataset.to,from=within?this.chartFrom():new Date(Math.max(Date.parse(dataset.from),Date.parse(to)-86400000)).toISOString();
+      this.queueRoamingSource.set({datasetId:dataset.datasetId,from,to,resolution:'5m',partners:inventory.partners});
+    }catch(error){if(!request.signal.aborted)this.roamingQueueError.set(error instanceof Error?error.message:'Roaming incidents unavailable.');}
+  }
+  readonly roamingQueueContext=computed(()=>{
+    const source=this.roamingOverview()?.recorded()??this.queueRoamingSource();
+    return source ? {...this.traceQuery.context(),datasetId:source.datasetId,domain:'roaming' as const,from:source.from,to:source.to,
+      resolution:source.resolution,cityId:'all',countryId:'all',roamingDirection:'both' as const,partnerDirectionId:undefined,linkDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined}:null;
+  });
+  queueService(value:string):void {this.roamingQueue.set(value==='ROAMING');if(value==='ROAMING'&&!this.roamingQueueContext())void this.loadRoamingQueue();if(value==='ALL'||value==='VOLTE'||value==='SMS')this.filterChanged.emit(value);}
   readonly queueSeverityFilter = signal('');
   readonly queueStateFilter = signal('');
   readonly queueSeverity = computed(() => ['CRITICAL', 'HIGH', 'MEDIUM'].find(level => this.incidents().some(item => item.severity === level)) ?? 'NONE');
@@ -187,7 +216,7 @@ export class ConnectedOverviewComponent {
       && (!this.queueStateFilter() || item.technicalState === this.queueStateFilter()))
       .sort((a, b) => Date.parse(b.detectedAt) - Date.parse(a.detectedAt));
   });
-  readonly handoverItems=computed(()=>this.visibleIncidents().map(item=>legacyAnalystIncident(this.acknowledgements.current(item))));
+  readonly handoverItems=computed(()=>[...(this.roamingQueue()?[]:this.visibleIncidents().map(item=>legacyAnalystIncident(this.acknowledgements.current(item)))),...(this.includesRoamingQueue()?this.nativeQueueSnapshot().items:[])]);
   priorityFor(id: string) { return this.priorityItems().find(item => item.incidentId === id); }
   readonly cause = probableCause;
   readonly cityServices = cityServices;
@@ -250,6 +279,8 @@ export class ConnectedOverviewComponent {
 
   private focusRequest = 0;
   constructor() {
+    inject(DestroyRef).onDestroy(()=>this.queueRoamingRequest?.abort());
+    inject(SessionStore).ended$.pipe(takeUntilDestroyed()).subscribe(()=>{this.queueRoamingRequest?.abort();this.queueRoamingSource.set(null);this.roamingQueueError.set('');});
     const destroy = inject(DestroyRef);
     const injectSession = inject(SessionStore);
     effect(() => {

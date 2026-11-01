@@ -22,11 +22,11 @@
     </div>
     <div class="control-actions">
     <label class="apply-field"><span aria-hidden="true">Apply</span><button class="primary" type="submit" aria-label="Apply">Apply</button></label>
-    <button class="queue-toggle" type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Incidents ({{ queueTotal() }}) <span class="badge" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
+    <button class="queue-toggle" type="button" (click)="queueDialog.open()" aria-haspopup="dialog">Incidents ({{ displayedQueueTotal() }}) <span class="badge" [attr.data-state]="queueSeverity()">{{ queueSeverity() }}</span></button>
     </div>
   </form>
   <a routerLink="/trace-link" [queryParams]="traceHistoryParameters()">Investigate history</a>
-  <app-shift-handover [items]="handoverItems()" [total]="queueTotal()" [atLeast]="!fixture && queueHasNext()" [scope]="'Current queue view · ' + serviceFilter() + ' · ' + (selectedCity()?.name ?? 'All cities') + ' · ' + (queueStateFilter() || 'All states') + ' · ' + (queueSeverityFilter() || 'All severities')" [from]="chartFrom()" [to]="chartTo()" [sample]="fixture" [loading]="queueLoading()" [error]="queueError()" />
+  <app-shift-handover [items]="handoverItems()" [total]="displayedQueueTotal()" [atLeast]="(!roamingQueue() && !fixture && queueHasNext()) || (includesRoamingQueue() && nativeQueueSnapshot().total > nativeQueueSnapshot().items.length)" [scope]="'Current queue view · ' + (roamingQueue()?'ROAMING':serviceFilter()) + ' · ' + (selectedCity()?.name ?? 'All cities') + ' · ' + (queueStateFilter() || 'All states') + ' · ' + (queueSeverityFilter() || 'All severities')" [from]="chartFrom()" [to]="chartTo()" [sample]="fixture" [loading]="queueLoading()" [error]="queueError()" />
   @if (rangeError()) { <p role="alert">{{ rangeError() }}</p> }
   @if (statusMessage()) { <p role="alert">{{ statusMessage() }}</p> }
   @if (geographyError()) { <p role="status">City catalogue unavailable: {{ geographyError() }} Retained data may be stale.</p> }
@@ -72,7 +72,7 @@
     </section>
     } @else {
     <section class="service-panel" aria-labelledby="sms-panel-title">
-      <button class="ghost" type="button" (click)="roamingPanel.set(true)">Show roaming preview</button>
+      <button class="ghost" type="button" (click)="roamingPanel.set(true)">Show roaming graph</button>
       <h2 id="sms-panel-title">SMS delivery</h2>
       <div class="panel-visual">
         <p class="chart-scope" [attr.data-scope]="chartScope('SMS')?.scope?.scopeId" [title]="chartScope('SMS')?.scope?.scopeId ?? ''">@if (chartScope('SMS'); as scope) { {{ cityLabel(catalogue(), scope.scope.scopeId) }} · {{ scope.freshness }} } @else { Unavailable }</p>
@@ -149,12 +149,12 @@
 </section>
 
 <app-drawer #queueDialog drawerId="incident-queue" titleId="queue-title" panelClass="queue-panel" title="Incident queue" [hideTitle]="true" closeLabel="Close incidents" (closed)="clearQueueFragment()">
-          <div class="queue-filters" drawer-controls><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>Service<select aria-label="Queue service" [value]="serviceFilter()" (change)="filterChanged.emit($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label></div>
+          <div class="queue-filters" drawer-controls><label>Severity<select [value]="queueSeverityFilter()" (change)="queueSeverityFilter.set($any($event.target).value)"><option value="">All severities</option><option>HIGH</option><option>MEDIUM</option><option>CRITICAL</option></select></label><label>Service<select aria-label="Queue service" [value]="roamingQueue()?'ROAMING':serviceFilter()" (change)="queueService($any($event.target).value)"><option value="ALL">All services</option><option value="VOLTE">VoLTE</option><option value="SMS">SMS</option><option value="ROAMING">Roaming</option></select></label><label>State<select [value]="queueStateFilter()" (change)="queueStateFilter.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label></div>
           <div class="queue-scroll" [attr.aria-busy]="queueLoading()">
           @if (queueLoading()) { <p class="queue-refresh" role="status">Refreshing incidents…</p> }
-          @if (queueError()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
+          @if (queueError() && !roamingQueue()) { <p role="alert">{{ queueError() }}</p><button type="button" (click)="refresh.update(next)">Retry incidents</button> }
           @else {
-            @for (incident of visibleIncidents(); track incident.id) {
+            @if(!roamingQueue()){ @for (incident of visibleIncidents(); track incident.id) {
               <article class="queue-item">
                 <h4 class="incident-behavior">{{ incident.latestDetection.anomalyType === 'VOLTE_SETUP_DEGRADATION' ? 'Call setup degradation' : 'SMS delivery delay' }}</h4>
                 <p class="incident-context">{{ priorityFor(incident.id)?.cityId ? cityById(priorityFor(incident.id)!.cityId!)?.name : incident.scopeId }} · {{ incident.service === 'VOLTE' ? 'VoLTE' : 'SMS' }}</p>
@@ -173,12 +173,14 @@
               </article>
             } @empty {
               <p>{{ queueSeverityFilter() ? 'No incidents with that severity on this page.' : 'No matching incidents.' }}</p>
-            }
+            }}
           }
+            @if(roamingQueue() && roamingQueueError()){<p role="alert">{{roamingQueueError()}}</p><button type="button" (click)="loadRoamingQueue()">Retry roaming incidents</button>}
+            @if(roamingQueue() || serviceFilter()==='ALL'){@if(roamingQueueContext();as context){<app-trace-incidents [queueView]="true" [context]="context" [partners]="roamingQueuePartners()" [severityFilter]="queueSeverityFilter()" [stateFilter]="queueStateFilter()" (snapshotChanged)="nativeQueueSnapshot.set($event)" />}}
           </div>
-          <nav class="pagination" drawer-footer aria-label="Overview incident pages">
+          @if(!roamingQueue()){<nav class="pagination" drawer-footer aria-label="Overview incident pages">
             <button type="button" (click)="queuePage.update(previous)" [disabled]="queueLoading() || queuePage() === 0">Previous</button>
             <span>Page {{ queuePage() + 1 }}</span>
             <button type="button" (click)="queuePage.update(next)" [disabled]="queueLoading() || !queueHasNext()">Next</button>
-          </nav>
+          </nav>}
 </app-drawer>

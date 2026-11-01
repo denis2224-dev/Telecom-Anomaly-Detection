@@ -10,6 +10,17 @@ import { SessionStore } from '../login-and-session/session.store';
 type Incident = components['schemas']['TraceLinkIncidentView'];
 const object = (value: unknown): Record<string, unknown> => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
 
+export function nativeIncidentMetric(item: Incident): string | undefined {
+  const context=item.latestDetection.context,scope=object(context['scope']);
+  if(context['domain']==='ROAMING') {
+    const procedures:Record<string,string>={REGISTRATION:'roaming.registration.success',DATA:'roaming.data.success',VOICE:'roaming.voice.success'};
+    return procedures[String(scope['procedure'])];
+  }
+  const evidence=context['evidence'];
+  const metric=Array.isArray(evidence)?object(evidence[0])['metricId']:undefined;
+  return typeof metric==='string'?metric:undefined;
+}
+
 export function nativeIncidentContext(item: Incident, context: TraceQueryContext): TraceQueryContext {
   const source = object(item.latestDetection.context), scope = object(source['scope']);
   const domain = String(source['domain']).toLowerCase().replace('_', '-');
@@ -21,7 +32,7 @@ export function nativeIncidentContext(item: Incident, context: TraceQueryContext
   const result: TraceQueryContext = {...context, datasetId: String(source['datasetId']), domain: domain as TraceQueryContext['domain'], ...incidentDisplayRange(from,to,context),
     cityId: domain === 'transport' || domain === 'roaming' ? 'all' : String(scope['id']).toLowerCase(),
     linkDirectionId: domain === 'transport' ? String(scope['id']) : undefined,
-    countryId: domain === 'roaming' ? String(scope['partnerId']).split('-')[0] : 'all',
+    countryId: domain === 'roaming' && typeof scope['countryId'] === 'string' ? scope['countryId'] : 'all',
     roamingDirection: domain === 'roaming' ? String(scope['directionId']) as 'in' | 'out' : 'both',
     partnerDirectionId: domain === 'roaming' ? `${scope['partnerId']}:${scope['directionId']}` : undefined,
     visibleFrom: undefined, visibleTo: undefined};
@@ -32,10 +43,11 @@ export function nativeIncidentContext(item: Incident, context: TraceQueryContext
 @Component({
   selector: 'app-trace-incident-card-actions', imports: [AcknowledgementLabelComponent],
   template: `<div class="incident-action-bar"><ng-content select="[incident-leading]" /><button type="button" (click)="show()">Show on dashboard</button><button type="button" [disabled]="busy() || !workflow() || workflow()?.status !== 'OPEN'" (click)="acknowledge()">{{ workflow() && workflow()?.status !== 'OPEN' ? 'Acknowledged' : 'Acknowledge' }}</button><ng-content /></div>@if(acknowledgedAt()){<p role="status"><app-acknowledgement-label [incidentId]="'native:' + incident().episodeId" [prefix]="referencePrefix()" [at]="acknowledgedAt()!" /></p>}@if(error()){<p role="alert">{{error()}}</p>}`,
-  styles: [`:host{display:block;min-width:0;}p{font-size:11px;overflow-wrap:anywhere;}`],
+  styles: [`:host{display:block;min-width:0;}p{font-size:var(--font-size-caption, 12px);overflow-wrap:anywhere;}`],
 })
 export class TraceIncidentCardActionsComponent {
   readonly incident = input.required<Incident>();
+  readonly context = input<TraceQueryContext>();
   readonly updated = output<void>();
   readonly workflowChanged=output<components['schemas']['TraceIncidentWorkflow']>();
   private readonly api = inject(TelecomClient);
@@ -74,10 +86,9 @@ export class TraceIncidentCardActionsComponent {
   }
   show() {
     try {
-      const context = nativeIncidentContext(this.incident(), this.query.context());
-      const evidence = this.incident().latestDetection.context['evidence'];
-      const metric = Array.isArray(evidence) ? object(evidence[0])['metricId'] : undefined;
-      void this.router.navigate(['/trace-link'], { queryParams: {...traceContextParameters(context), incidentId: this.incident().episodeId, metric: typeof metric === 'string' ? metric : null}, fragment: 'recorded-incident-chart' });
+      const context = nativeIncidentContext(this.incident(), this.context() ?? this.query.context());
+      const metric = nativeIncidentMetric(this.incident());
+      void this.router.navigate([context.domain==='roaming'?'/roaming':'/trace-link'], { queryParams: {...traceContextParameters(context), incidentId: this.incident().episodeId, metric: typeof metric === 'string' ? metric : null}, fragment: 'recorded-incident-chart' });
     } catch (error) { this.error.set(error instanceof Error ? error.message : 'Incident unavailable.'); }
   }
   async acknowledge() {

@@ -1,0 +1,73 @@
+<section class="detail-panel metric-chart" [class.hero-chart]="hero()" [class.compact-chart]="compact()" [class.traffic-chart]="traffic()" [class.scrollable-history]="canvasWidth() > 900" [attr.data-chart]="trafficOnly() ? 'callTraffic' : name()">
+    @if (!compact()) { <div class="metric-heading"><h2>{{ title() }}</h2>@if (hero()) { <div class="hero-reading"><strong>{{ format(latestValue(), unit()) }}</strong><span>{{ rows().at(-1)?.windowStart | date:'HH:mm:ss':'UTC' }} UTC</span></div> }</div> }
+    @if(view() !== 'table') { <app-data-freshness [at]="lastMeasured()" [end]="to()" [sample]="sample()" [loading]="loading()" /> }
+    @if (view() === 'both') { <div class="chart-legend"><span>━━ Actual {{ unit() }}</span><span class="expected-key">┄┄ Contextual baseline</span><span class="state-degraded">DEGRADED</span><span class="state-recovery">RECOVERY</span><span class="state-unknown">UNKNOWN / MISSING</span></div> }
+    @if (!hasBaseline() && !hero()) { <p class="muted">No baseline available for this metric.</p> }
+    @if (hero() && rows().length) {
+      <div class="chart-range-controls" role="group" [attr.aria-label]="title() + ' visible range'">
+        <button type="button" (click)="zoom(.5)" [disabled]="visibleDuration() <= 60_000">Zoom in</button>
+        <button type="button" (click)="zoom(2)" [disabled]="!visibleRange()">Zoom out</button>
+        <button type="button" (click)="pan(-1)" [disabled]="!canPanEarlier()">Earlier</button>
+        <button type="button" (click)="pan(1)" [disabled]="!canPanLater()">Later</button>
+        <button type="button" (click)="focusRecorded()">Focus recorded data</button>
+        <button type="button" (click)="visibleRange.set(null)" [disabled]="!visibleRange()">Full selected period</button>
+      </div>
+      @if (visibleRange()) { <p class="chart-visible-range">Visible {{ visibleFrom() | date:'dd MMM HH:mm':'UTC' }} – {{ visibleTo() | date:'dd MMM HH:mm':'UTC' }} UTC · selected period unchanged</p> }
+    }
+    @if (rows().length || hero()) {
+      @if (view() !== 'table') { <div class="plot-wrapper">
+        @if (rows().length) { <div class="chart-tooltip" [class.tooltip-visible]="hovered() !== null" aria-live="polite">
+          @if (hovered(); as row) { <span>{{ row.windowStart | date:'dd MMM HH:mm:ss':'UTC' }} UTC</span><strong>{{ trafficOnly() ? format(counts(row)?.total, 'COUNT') + ' attempts' : format(value(row), unit()) }}</strong>
+            @if (traffic()) { @if (counts(row); as count) { <small>{{ trafficSuccessLabel() }}: {{ format(count.success, 'COUNT') }} · {{ failureLabel() }}: {{ format(count.failed, 'COUNT') }}</small> } @else { <small>Traffic counts: Unavailable</small> } }
+            @if (secondaryName()) { <small>{{ secondaryTitle() }}: {{ format(secondaryValue(row), 'COUNT') }}</small> }
+            @if (!trafficOnly()) { <small>Baseline: {{ format(baseline(row), unit()) }} · {{ phase(row) }}</small> } } @else { <span title="Window records in the visible range, including missing measurements; inspect values and quality before assessing service health.">Windows in view</span><strong>{{ drawingRows().length }}</strong><small>{{ visibleFrom() | date:'dd MMM HH:mm':'UTC' }} – {{ visibleTo() | date:'dd MMM HH:mm':'UTC' }} UTC</small> }
+        </div> }
+        <div class="chart-scroll" tabindex="0" [attr.aria-label]="trafficOnly() ? 'Scrollable call traffic chart' : name() === 'cssrPct' ? 'Scrollable CSSR chart' : title() + ' chart'" (keydown)="navigate($event)" (blur)="hoveredId.set(null)">
+
+        <svg #plot [style.min-width.px]="canvasWidth()" [attr.viewBox]="'0 0 ' + plotWidth() + ' ' + plotHeight()" role="img" [attr.aria-label]="trafficOnly() ? title() + ': successful and failed attempts' : traffic() ? title() + ': successful and failed traffic on the left axis, success rate and baseline on the right axis' : secondaryName() ? title() + ': ' + secondaryTitle() + ' on the left axis, ' + unitLabel() + ' on the right axis' : name() === 'cssrPct' ? 'Actual and expected voice call setup success' : title() + ': actual versus baseline, with persisted detection phases'" [attr.aria-describedby]="chartId + '-description'" (pointermove)="point($event)" (pointerleave)="clearPointer($event)">
+          <desc [id]="chartId + '-description'">Blank gaps mean unavailable observations. Phase bands follow persisted detections; healthy points alone do not prove recovery. Focus the chart and use arrow keys, Home or End to inspect values.</desc>
+          @for (interval of incidentBands(); track $index) { <rect class="incident-band" [attr.x]="x(interval.start)" y="15" [attr.width]="Math.max(1, x(interval.end) - x(interval.start))" [attr.height]="plotHeight() - 60"></rect> }
+          @for (band of bands(); track $index) { <rect [attr.data-phase]="band.phase" [attr.class]="'phase-band ' + band.phase" [attr.x]="x(band.start)" y="15" [attr.width]="Math.max(1, x(band.end) - x(band.start))" [attr.height]="plotHeight() - 60"></rect> }
+          @for (tick of displayTicks(); track tick) { <line x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="trafficOnly() ? countY(tick) : y(tick)" [attr.y2]="trafficOnly() ? countY(tick) : y(tick)" class="chart-grid"/><text [attr.x]="dualAxis() && !trafficOnly() ? plotWidth() - 55 : 55" [attr.y]="trafficOnly() ? countY(tick) + 4 : y(tick) + 4" [attr.text-anchor]="dualAxis() && !trafficOnly() ? 'start' : 'end'">{{ tickFormat(tick) }}{{ traffic() && !trafficOnly() ? '%' : '' }}</text> }
+          @if (dualAxis()) {
+            @for (tick of trafficOnly() ? [] : countTicks(); track tick) { <text x="55" [attr.y]="countY(tick) + 4" text-anchor="end">{{ tickFormat(tick) }}</text> }
+            @if (secondaryName()) { <path class="secondary-line" [attr.d]="secondaryPath()" /> }
+            @if (trafficBars()) { @for (item of drawnTrafficRows(); track item.row.windowId) {
+              <rect class="traffic-success-bar" [attr.x]="rowX(item.row) - barWidth() / 2" [attr.y]="countY(item.count.success)" [attr.width]="barWidth()" [attr.height]="countY(0) - countY(item.count.success)"></rect>
+              <rect class="traffic-failed-bar" [attr.x]="rowX(item.row) - barWidth() / 2" [attr.y]="countY(item.count.total)" [attr.width]="barWidth()" [attr.height]="countY(item.count.success) - countY(item.count.total)"></rect>
+            } } @else if (traffic()) { <path class="traffic-success" [attr.d]="trafficPath(true)" /><path class="traffic-failed" [attr.d]="trafficPath(false)" /> }
+            @if (traffic() && !trafficBars() && rows().length < 120) { @for (item of trafficRows(); track item.row.windowId) {
+              <circle class="traffic-success-dot" [attr.cx]="rowX(item.row)" [attr.cy]="countY(item.count.success)" r="2.5" />
+              <circle class="traffic-failed-dot" [attr.cx]="rowX(item.row)" [attr.cy]="countY(item.count.failed)" r="2.5" />
+            } }
+          }
+          @if (threshold() !== null) { <line class="threshold-line" x1="65" [attr.x2]="plotWidth() - plotRight()" [attr.y1]="y(threshold()!)" [attr.y2]="y(threshold()!)"></line> }
+          @if (!trafficOnly()) { <path class="expected-line" [attr.d]="path(true)"/><path class="actual-line" [attr.d]="path(false)"/>
+          @if (rows().length < 120) { @for (row of drawingRows(); track row.windowId) { @if (value(row) !== null) { <circle class="actual-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="3"></circle> } } }
+          }
+          @if (hovered(); as row) {
+            <line class="chart-crosshair" [attr.x1]="rowX(row)" [attr.x2]="rowX(row)" y1="15" [attr.y2]="plotHeight() - 45" />
+            @if (value(row) !== null && !trafficOnly()) { <circle class="actual-dot selected-dot" [attr.cx]="rowX(row)" [attr.cy]="y(value(row)!)" r="5" /> }
+          }
+          @for (tick of timeTicks(); track tick) {<line [attr.x1]="x(tick)" [attr.x2]="x(tick)" y1="15" [attr.y2]="plotHeight() - 45" class="chart-grid" /><text [attr.x]="x(tick)" [attr.y]="plotHeight() - 15" text-anchor="middle">{{ tick | date:axisDateFormat():'UTC' }}</text>}
+          <text x="65" [attr.y]="plotHeight() - 15">{{ visibleFrom() | date:axisDateFormat():'UTC' }}</text><text [attr.x]="plotWidth() - plotRight()" [attr.y]="plotHeight() - 15" text-anchor="end">{{ visibleTo() | date:axisDateFormat():'UTC' }} UTC</text>
+          @for (incident of incidentIntervals(); track $index) {
+            @if (containsTime(incident.from)) {<line class="recorded-incident-line" [attr.x1]="x(incident.from)" [attr.x2]="x(incident.from)" y1="15" [attr.y2]="plotHeight()-45" stroke="var(--chart-incident, #FF5069)"><title>{{incident.label}}</title></line>}
+            @if (incident.recovered && containsTime(incident.to)) {<line class="recorded-recovery-line" [attr.x1]="x(incident.to)" [attr.x2]="x(incident.to)" y1="15" [attr.y2]="plotHeight()-45" stroke="var(--success)" stroke-dasharray="4 4"><title>Recorded recovery</title></line>}
+          }
+          @if (focusBand(); as focus) { <rect class="focused-incident-band" [attr.x]="x(focus.start)" y="15" [attr.width]="Math.max(2,x(focus.end)-x(focus.start))" [attr.height]="plotHeight()-60" fill="var(--chart-incident-soft, #FF506933)" /><line class="focused-incident-line" [attr.x1]="x(focus.start)" [attr.x2]="x(focus.start)" y1="15" [attr.y2]="plotHeight()-45" stroke="var(--chart-incident, #FF5069)" stroke-width="2.5" /><text class="focused-incident-label" [attr.x]="Math.min(x(focus.start)+6,plotWidth()-220)" y="30" style="fill:#ff5069">{{ focus.label }}</text> }
+        </svg>
+      </div>
+      @if (trafficBars() && drawnTrafficRows().length < trafficRows().length) { <p class="chart-sampling-note">Traffic bars sampled · zoom for detail</p> }
+      @if (!hasValues() && !trafficRows().length) { <p class="chart-empty" role="status">{{ loading() ? 'Loading KPI history…' : rows().length ? 'No usable observations for this KPI. Gaps are unavailable.' : 'No KPI history in this time range.' }}</p> }
+      </div>
+      }
+      @if (view() !== 'chart') { <details [open]="view() === 'table'"><summary>Exact {{ title() }} values ({{ rows().length }} windows)</summary><div class="chart-scroll" tabindex="0"><table class="kpi-table"><thead><tr><th>UTC start</th><th>Actual</th><th>Baseline</th><th>State</th><th>Quality</th></tr></thead><tbody>
+        @for (row of tableRows(); track row.windowId) { <tr><th>{{ row.windowStart | date:'dd MMM HH:mm':'UTC' }}</th><td>{{ format(value(row), unit()) }}</td><td>{{ format(baseline(row), unit()) }}</td><td>{{ phase(row) }}</td><td>{{ row.quality }}</td></tr> }
+      </tbody></table></div><nav class="pagination" [attr.aria-label]="title() + ' table pages'">
+        <button (click)="tablePage.set(tablePage() - 1)" [disabled]="tablePage() === 0">Previous windows</button>
+        <span>Page {{ tablePage() + 1 }} of {{ tablePages() }}</span>
+        <button (click)="tablePage.set(tablePage() + 1)" [disabled]="tablePage() + 1 >= tablePages()">Next windows</button>
+      </nav></details> }
+    } @else { <p role="status">No KPI history in this time range.</p> }
+  </section>

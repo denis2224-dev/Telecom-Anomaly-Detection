@@ -1,0 +1,49 @@
+@if (!compact()) {<a class="measured-history" routerLink="/trace-link" [queryParams]="roamingContext()">Historical analysis</a>}
+<section class="roaming" [class.compact]="compact()" [attr.aria-label]="sample() ? 'Roaming services preview' : 'Roaming services recorded'">
+  @if (compact()) {
+    <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">{{loading()?'Loading':sample()?'Sample data':recorded()?.synthetic?'Synthetic recorded':recorded()?'Recorded':'Unavailable'}}</span></header>
+  } @else {
+    <div class="page-heading"><a class="back-link" routerLink="/dashboard"><app-icon name="left" />Network overview</a><div class="heading-copy"><h1>Roaming services</h1><p class="muted">{{countryId()==='all'?'All countries':countryName(countryId())}} · {{(direction()??'out')==='out'?'Outbound':'Inbound'}}</p></div><span class="badge" data-state="UNKNOWN">{{loading()?'Loading':sample()?'Sample data':recorded()?.synthetic?'Synthetic data':recorded()?'Recorded':'Unavailable'}}</span></div>
+  }
+  <p class="preview-note" role="status">{{sample()?'Sample preview · generated values':recorded()?.note || error() || 'Loading recorded roaming measurements…'}}</p>
+  @if(error()){<section class="state-panel" role="alert"><h2>Evidence unavailable</h2><p>{{error()}}</p><button type="button" [disabled]="loading()" (click)="refresh.update(value=>value+1)"><app-icon name="refresh" />Retry roaming data</button></section>}
+  @if(!compact() && !sample()){
+    <div class="service-toolbar">
+      <div class="roaming-filters">
+        <label class="field">Roaming direction<select [value]="direction() ?? recorded()?.direction ?? 'out'" (change)="select({roamingDirection:$any($event.target).value,countryId:'all',partnerDirectionId:''})"><option value="out">Outbound</option><option value="in">Inbound</option></select></label>
+        <label class="field">Country<select [value]="countryId()" (change)="select({countryId:$any($event.target).value,partnerDirectionId:''})"><option value="all">All countries</option>@for(country of countries();track country){<option [value]="country" [selected]="country===countryId()">{{countryName(country)}}</option>}</select></label>
+        <label class="field">Partner / direction<select [value]="partnerDirectionId()" (change)="select({partnerDirectionId:$any($event.target).value})"><option value="">All selected partners</option>@for(partner of partners();track partner.id){<option [value]="partner.id+':'+partner.direction" [selected]="partner.id+':'+partner.direction===partnerDirectionId()">{{countryName(partner.country)}} · {{partner.id}}</option>}</select></label>
+      </div>
+      <app-history-range [compact]="true" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [latestLabel]="recorded()?.datasetId==='roaming-demo-v1'?'Latest hour':'Last hour of range'" (changed)="selectRange($event)" (refresh)="refresh.update(value=>value+1)" (latest)="lastHour()" />
+    </div>
+  }
+  <section class="roaming-chart" [class.service-hero]="!compact()" [class.empty-chart]="!loading() && !windows().some(hasMeasurement)" id="recorded-incident-chart" aria-label="Service KPI history">
+    @if(!compact()) {<div class="kpi-switcher" role="group" aria-label="Graph KPI">@for(metric of metrics;track metric.id){<button type="button" [attr.aria-pressed]="chartMetric()===metric.id" (click)="select({metric:metric.id})">{{metric.label}}</button>}</div>}
+    @if(compact()){<h3>{{chart().title}} <span>UTC</span></h3>}
+    <app-metric-chart [hidden]="!loading() && !windows().some(hasMeasurement)" [sample]="sample()" view="chart" [hero]="true" [compact]="compact()" [traffic]="!compact() && !sample()" [trafficBars]="!compact() && !sample()" successLabel="Successful procedures" failureLabel="Failed procedures" [name]="chart().name" [title]="chart().title" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [loading]="loading()" [incidentHighlight]="incidentHighlight()" [incidentIntervals]="incidentIntervals()" />
+    @if(!loading() && !windows().some(hasMeasurement)){<p class="muted" role="status">No roaming measurements in this period.</p>}
+    @if(!compact()) {<div class="chart-legend" aria-label="Chart legend"><span class="actual-key">Success rate · right axis</span><span class="traffic-success-key">Successful procedures</span><span class="traffic-failed-key">Failed procedures · left axis</span><span class="expected-key">Baseline</span><span class="state-degraded">Incident</span><span class="state-recovery">Recovery</span><span class="state-unknown">Unavailable</span></div>}
+  </section>
+  @if(!compact() && sample()){<div class="roaming-kpis" role="group" aria-label="Roaming overview KPIs">@for(kpi of summary();track kpi.label){<div><span>{{kpi.label}}</span><strong>{{kpi.value}}</strong></div>}</div>}
+  @if(!compact() && !sample()){
+    <section class="kpi-summary" aria-label="Current service KPIs"><div class="chart-scroll" tabindex="0" aria-label="Current KPI table"><table class="kpi-table"><thead><tr><th>KPI</th><th>Observed</th><th>Baseline</th><th>Change</th><th>State</th><th>Updated (UTC)</th></tr></thead><tbody>
+      @for(metric of latestMetrics();track metric.id){<tr [attr.data-kpi-card]="metric.name" [class.no-measurement]="metric.value===null"><th scope="row">{{metric.label}}</th><td>{{percent(metric.value)}}{{metric.value!==null?'%':''}}</td><td>{{percent(metric.baseline)}}{{metric.baseline!==null?'%':''}}</td><td>{{metric.change===null?'—':(metric.change>0?'+':'')+percent(metric.change)+' pp'}}</td><td>{{metric.value===null?'MISSING':metric.quality==='COMPLETE'?'OBSERVED':'PARTIAL'}}</td><td>{{metric.at | date:'dd MMM HH:mm':'UTC'}}</td></tr>}
+      <tr data-kpi-card="activeUsers"><th scope="row">Partner user estimates</th><td>{{count(totalUsers())}}</td><td>—</td><td>—</td><td>{{totalUsers()===null?'MISSING':'ESTIMATE'}}</td><td>{{recorded()?.usersAt | date:'dd MMM HH:mm':'UTC'}}</td></tr>
+    </tbody></table></div></section>
+  }
+    @if ((!compact() || showCountries()) && rows().length) {
+      <label class="sort-country">Sort countries<select aria-label="Sort roaming countries" [value]="sort()" (change)="sort.set($any($event.target).value)"><option value="users">Active users · highest first</option><option value="voice">Voice success · lowest first</option><option value="registration">Registration success · lowest first</option><option value="country">Country · A–Z</option></select></label>
+      <div class="country-panels">
+        <section><h3>{{ sort() === 'users' ? 'Partner user estimates by country' : 'Countries by selected metric' }}</h3><div class="chart-scroll" tabindex="0" aria-label="Roaming users and share by country"><table class="kpi-table"><thead><tr><th>Country / partner</th><th>User estimate</th><th>Share</th></tr></thead><tbody>
+          @for (row of sorted(); track row.country) { <tr><th scope="row">{{ row.country }}</th><td><span class="country-bar"><span [style.width.%]="(row.users ?? 0) / maxUsers() * 100"></span><strong>{{ count(row.users) }}</strong></span></td><td>{{ share(row.users) }}</td></tr> }
+        </tbody></table></div></section>
+        @if (!compact()) {<section><h3>Roaming KPIs by country</h3><div class="chart-scroll" tabindex="0" aria-label="Roaming country KPI table"><table class="kpi-table"><thead><tr><th>Country</th><th><span title="Location update / registration success">LU %</span></th><th>Data %</th><th>Voice %</th>@if(recorded()?.datasetId!=='roaming-demo-v1'){<th>SMS %</th>}</tr></thead><tbody>
+          @for (row of sorted(); track row.country) { <tr><th scope="row">{{ row.country }}</th><td [class.metric-unavailable]="row.registration === null">{{ percent(row.registration) }}</td><td [class.metric-unavailable]="row.data === null">{{ percent(row.data) }}</td><td [class.metric-unavailable]="row.voice === null" [class.affected]="row.voice !== null && row.voice < 95">{{ percent(row.voice) }}</td>@if(recorded()?.datasetId!=='roaming-demo-v1'){<td [class.metric-unavailable]="row.sms === null">{{ percent(row.sms) }}</td>}</tr> }
+        </tbody></table></div></section>}
+      </div>
+    }
+
+  @if(recorded();as source){<details class="source-inventory evidence-disclosure"><summary>Dependencies and source details</summary><p>Dataset {{source.datasetId}} · {{source.synthetic?'Synthetic measurements':'Source unverified'}}. Source counts determine success rates; user counts are partner snapshot estimates, not distinct-subscriber totals. SMS finalized delivery evidence is unavailable.</p><p>Static demo baselines are reference values, not learned operator baselines. Missing values remain —. Technical recovery does not resolve analyst work. Incident markers cover the loaded incident page; use the incident page controls to inspect additional episodes.</p></details>}
+  @if(!compact() && recorded()){<details class="exact-values"><summary>Exact values ({{windows().length}} windows)</summary><app-metric-chart view="table" [name]="chart().name" [title]="chart().title" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from??from()" [to]="recorded()?.to??to()" /></details>}
+  @if(compact()){<a class="button roaming-link" routerLink="/roaming" [queryParams]="recorded()?roamingContext():null">Open roaming services →</a><a class="measured-history" routerLink="/trace-link" [queryParams]="roamingContext()">Historical analysis</a>}
+</section>

@@ -22,7 +22,7 @@ export type HistoryRange = { from: string; to: string };
         <label class="field">To (UTC, exclusive)<input #end type="datetime-local" [value]="draftTo() ?? to().slice(0, 16)" (input)="draftTo.set(end.value)" required /></label>
         <div class="button-row"><button type="submit" class="primary"><app-icon name="check" />Apply time range</button>
         <button type="button" (click)="refresh.emit()" aria-label="Refresh selected range" title="Refresh selected range"><app-icon name="refresh" /><span>Refresh</span></button>
-        <button type="button" class="ghost" (click)="resetDrafts(); latest.emit()"><app-icon name="clock" />Latest hour</button></div>
+        <button type="button" class="ghost" (click)="resetDrafts(); latest.emit()"><app-icon name="clock" />{{latestLabel()}}</button></div>
       </form>
       @if (error()) { <p role="alert">{{ error() }}</p> }
     </section>
@@ -30,6 +30,7 @@ export type HistoryRange = { from: string; to: string };
 })
 export class HistoryRangeComponent {
   readonly compact = input(false);
+  readonly latestLabel = input('Latest hour');
   readonly from = input.required<string>();
   readonly to = input.required<string>();
   readonly changed = output<HistoryRange>();

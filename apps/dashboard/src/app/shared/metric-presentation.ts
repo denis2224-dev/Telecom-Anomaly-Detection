@@ -65,6 +65,13 @@ export function metricLabel(name: string): string {
     oldestPendingAgeSec: 'Oldest queued-message age',
     rrcSuccessPct: 'Radio connection success rate',
     bearerSuccessPct: 'Bearer setup success rate',
+    'roaming.registration.success': 'Registration success',
+    'roaming.data.success': 'Data session success',
+    'roaming.voice.success': 'Voice call success',
+    'roaming.activeOutbound': 'Outbound user estimate',
+    'roaming.activeInbound': 'Inbound user estimate',
+    "roaming.sms.finalizedSuccess": "Roaming SMS finalized delivery success",
+    "roaming.partnerRtt": "Partner path RTT",
   };
   return names[name] ?? name;
 }

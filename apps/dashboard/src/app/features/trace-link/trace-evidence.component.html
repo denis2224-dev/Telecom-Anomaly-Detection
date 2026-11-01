@@ -1,0 +1,22 @@
+<section aria-label="Committed incident evidence">
+    @if(busy()){<p role="status">Loading committed incident evidence…</p>}
+    @if(error()){<p role="alert">{{error()}}</p><button type="button" (click)="refresh.update(value=>value+1)">Retry evidence</button>}
+    @if(!busy() && !error() && !rows().length){<p>No committed evidence on this page.</p>}
+    @for(item of rows();track item.lifecycle.detectionId){<article class="evidence-record" [attr.data-phase]="item.lifecycle.phase">
+      <h4>{{item.lifecycle.phase}} · {{item.lifecycle.technicalState}}</h4>
+      <p>{{window(item)['from'] | date:'dd MMM yyyy HH:mm:ss':'UTC'}} – {{window(item)['to'] | date:'dd MMM yyyy HH:mm:ss':'UTC'}} UTC</p>
+      @if(item.lifecycle.phase==='RECOVERY'){<p>Recorded technical recovery; analyst resolution is a separate workflow action.</p>}
+      @if(item.lifecycle.technicalState==='UNKNOWN'){<p>Missing or incomplete evidence does not establish recovery.</p>}
+      @for(sample of samples(item);track $index){<section class="evidence-sample">
+        <h4>{{sample.label}}</h4><p>{{sample.scope}}</p><dl>
+          <div><dt>Measured value</dt><dd>{{sample.actual}}{{sample.unit==='PERCENT'?'%':' · '+sample.unit}}</dd></div>
+          <div><dt>Successes / attempts</dt><dd>{{sample.numerator}} / {{sample.denominator}}</dd></div>
+          <div><dt>Baseline</dt><dd>{{sample.baseline}}</dd></div><div><dt>Threshold</dt><dd>{{sample.threshold}}</dd></div>
+          <div><dt>Quality</dt><dd>{{sample.quality}} {{sample.reason}}</dd></div>
+        </dl><details><summary>Measurement source</summary><p>{{sample.metric}} · {{sample.from}} – {{sample.to}}</p><p>{{sample.provenance}} · {{sample.dataset}} · {{sample.origin}}</p><p>Coverage: {{sample.coverage}} · Baseline version: {{sample.baselineVersion}}</p><p>Source checksum: {{sample.checksum}}</p></details>
+      </section>} @empty {<p>Supporting measurements unavailable.</p>}
+      <details><summary>Original committed record · sequence {{item.lifecycle.sequence}}</summary><pre>{{serialize(item)}}</pre></details>
+    </article>}
+    <p>Page {{page()+1}} · {{total()}} committed records</p>
+    <div class="evidence-pages"><button type="button" [disabled]="busy() || page()===0" (click)="page.update(value=>value-1)">Previous evidence</button><button type="button" [disabled]="busy() || (page()+1)*50>=total()" (click)="page.update(value=>value+1)">Next evidence</button></div>
+  </section>

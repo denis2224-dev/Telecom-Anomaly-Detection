@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+label {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-3) 0;
+}
+
+textarea,select {
+  max-width: 100%;
+  min-height: var(--control-height, 36px);
+}
+
+.actions,.incident-title-row,.incident-states {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.actions {
+  margin: var(--space-3) 0;
+}
+
+.incident-states {
+  margin: var(--space-3) 0;
+  font-size: var(--font-size-table, 13px);
+}
+
+.incident-cause {
+  font-size: var(--font-size-subheading, 15px);
+  color: var(--text);
+  margin: var(--space-3) 0;
+}
+
+.technical-disclosure {
+  margin-top: var(--space-3);
+}
+
+dl {
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+}

@@ -3,101 +3,65 @@ import { TraceQueryStore, traceContextParameters } from '../../core/state/trace-
 import { SessionStore } from '../login-and-session/session.store';
 import { loadRecordedRoaming, type RecordedRoaming, type RoamingRow, type RoamingSelection } from './recorded-roaming';
 import { dataSource } from '../../core/api/data-source';
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { IconComponent } from '../../shared/icon.component';
+import type { components } from '../../core/api/schema';
+import { nativeIncidentMetric } from '../trace-link/trace-incident-card-actions.component';
 import { RouterLink } from '@angular/router';
 import { MetricChartComponent } from '../service-kpi-history/metric-chart.component';
+import { HistoryRangeComponent } from '../service-kpi-history/history-range.component';
 import { countryPreview, previewMetric, previewWindow, randomSource, roamingSample } from '../scenario-runner/monitoring-preview';
 @Component({
-  selector: 'app-roaming-overview', imports: [MetricChartComponent, RouterLink],
-  template: `<section class="roaming" [class.compact]="compact()" [attr.aria-label]="sample() ? 'Roaming services preview' : 'Roaming services recorded'">
-    <header><h2>Roaming services</h2><span class="badge" data-state="UNKNOWN">{{ loading() ? 'Loading' : sample() ? 'Sample data' : recorded() ? 'Recorded' : 'Unavailable' }}</span></header>
-    <p class="preview-note" role="status">{{ sample() ? 'Recorded roaming unavailable' : recorded()?.note || error() || 'Loading recorded roaming measurements…' }}</p>
-    @if (error()) { <button type="button" class="ghost" [disabled]="loading()" (click)="refresh.update(value => value + 1)">Retry roaming data</button> }
-    @if (!compact()) {<div class="roaming-kpis" role="group" aria-label="Roaming overview KPIs" [attr.aria-busy]="loading()">
-      @for (kpi of summary(); track kpi.label) { <div [class.metric-unavailable]="kpi.value === '—'"><span>{{ kpi.label }}</span><strong>{{ kpi.value }}</strong></div> }
-    </div>}
-    <div class="roaming-chart"><h3>Location update success rate <span>UTC</span></h3>
-      <app-metric-chart [sample]="sample()" view="chart" [hero]="true" [compact]="true" name="registrationSrPct" [title]="sample() ? 'Roaming location update success rate · preview' : 'Roaming location update success rate'" unit="PERCENT" [windows]="windows()" [from]="recorded()?.from ?? from()" [to]="recorded()?.to ?? to()" [loading]="loading()" />
-    </div>
-    @if (!compact() || showCountries()) {
-      <label class="sort-country">Sort countries<select aria-label="Sort roaming countries" [value]="sort()" (change)="sort.set($any($event.target).value)"><option value="users">Active users · highest first</option><option value="voice">Voice success · lowest first</option><option value="registration">Registration success · lowest first</option><option value="country">Country · A–Z</option></select></label>
-      <div class="country-panels">
-        <section><h3>{{ sort() === 'users' ? 'Top 10 countries by roaming subscribers' : 'Top affected countries' }}</h3><div class="chart-scroll" tabindex="0" aria-label="Roaming users and share by country"><table class="kpi-table"><thead><tr><th>Country</th><th>Active users</th><th>Share</th></tr></thead><tbody>
-          @for (row of sorted(); track row.country) { <tr><th scope="row">{{ row.country }}</th><td><span class="country-bar"><span [style.width.%]="(row.users ?? 0) / maxUsers() * 100"></span><strong>{{ count(row.users) }}</strong></span></td><td>{{ share(row.users) }}</td></tr> }
-        </tbody></table></div></section>
-        @if (!compact()) {<section><h3>Roaming KPIs by country</h3><div class="chart-scroll" tabindex="0" aria-label="Roaming country KPI table"><table class="kpi-table"><thead><tr><th>Country</th><th><span title="Location update / registration success">LU %</span></th><th>Data %</th><th>Voice %</th><th>SMS %</th></tr></thead><tbody>
-          @for (row of sorted(); track row.country) { <tr><th scope="row">{{ row.country }}</th><td [class.metric-unavailable]="row.registration === null">{{ percent(row.registration) }}</td><td [class.metric-unavailable]="row.data === null">{{ percent(row.data) }}</td><td [class.metric-unavailable]="row.voice === null" [class.affected]="row.voice !== null && row.voice < 95">{{ percent(row.voice) }}</td><td [class.metric-unavailable]="row.sms === null">{{ percent(row.sms) }}</td></tr> }
-        </tbody></table></div></section>}
-      </div>
-    }
-    @if (compact()) { <a class="button roaming-link" routerLink="/roaming" [queryParams]="recorded() ? roamingContext() : null">Open roaming services →</a> }
-    <a class="measured-history" routerLink="/trace-link" [queryParams]="roamingContext()">Investigate history</a>
-  </section>`,
-  styles: [`
-    :host { display: block; min-width: 0; }
-    .roaming { background: var(--surface); border-radius: var(--radius); padding: 16px; }
-    header { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
-    h2 { margin: 0; font-size: 20px; } h3 { margin: 8px 0; font-size: 14px; }
-    h3 span, .preview-note, small { color: var(--text-muted); font-size: 11px; }
-    .roaming-kpis { display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:14px 0; }
-    .roaming-kpis > div { display:grid;align-content:start;gap:12px;min-width:0;min-height:96px;box-sizing:border-box;padding:14px;background:var(--field);border-radius:var(--radius-control); }
-    .roaming-kpis span { color:var(--text-muted);font-size:12px; }
-    .roaming-kpis strong { font-size:clamp(22px,2vw,30px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;color:var(--success); }
-    .roaming-kpis > div:nth-child(2) strong { color:var(--violet); }
-    .roaming-kpis > div:nth-child(3) strong { color:var(--info); }
-    .roaming-kpis > div:nth-child(4) strong { color:var(--accent); }
-    @media(max-width:900px) { .roaming-kpis {grid-template-columns:repeat(3,minmax(0,1fr));} }
-    @media(max-width:600px) { .roaming-kpis {grid-template-columns:repeat(2,minmax(0,1fr));} }
-    .roaming-chart { background: var(--field); border-radius: var(--radius-control); padding: 8px; }
-    .roaming-chart app-metric-chart { display: block; height: auto; }
-    .country-panels { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 16px; }
-    .country-panels section { min-width: 0; background: var(--field); padding: 12px; border-radius: var(--radius-control); }
-    .sort-country { display: grid; gap: 4px; font-size: 11px; margin: 8px 0; max-width: 240px; }
-    .sort-country select { min-height: 30px; padding: 5px 25px 5px 8px; font-size: 11px; }
-    th, td { font-size: 12px; padding: 10px 8px; text-transform: none; letter-spacing: normal; }
-    .country-panels th:not(:first-child), .country-panels td { text-align: right; }
-    .country-panels section:first-child { padding: 8px; }
-    .country-panels :where(section:first-child) h3 { margin: 0 0 6px; font-size: 12px; }
-    .country-panels :where(section:first-child) th, .country-panels :where(section:first-child) td { padding: 5px 6px; font-size: 11px; }
-    .country-bar { display: block; position: relative; min-width: 100px; padding: 2px 4px; text-align:right; }
-    .country-bar > span { position: absolute; inset: 0 auto 0 0; background: #39bafa66; border-radius: 4px; }
-    .country-bar strong { position: relative; font-weight: 400; }
-    .country-panels section:nth-child(2) td {color:var(--success);}
-    .country-panels td.metric-unavailable,.roaming-kpis .metric-unavailable strong {color:var(--text-muted) !important;}
-    .affected { color: var(--danger) !important; }
-    .compact { padding: 8px; } .compact h2 { font-size: 14px; }
-    .compact .roaming-chart app-metric-chart { height: auto; } .compact .roaming-chart h3 { font-size: 11px; }
-    .compact .country-panels { gap: 8px; grid-template-columns:1fr; }
-    .measured-history {display:inline-block;margin-top:10px;font-size:12px;}
-    .compact .country-panels section { padding: 6px; }
-    .compact .country-panels h3 { font-size: 11px; }
-    .compact .country-panels th, .compact .country-panels td { padding: 2px 3px; font-size: 10px; }
-    .compact .kpi-table { min-width: 0; width: 100%; table-layout: fixed; }
-    .compact .kpi-table th, .compact .kpi-table td { white-space: normal; overflow-wrap: anywhere; }
-    .compact .kpi-table th:first-child { width: 28%; }
-    .compact .country-panels section:first-child th:nth-child(2) { width: 40%; }
-    .compact .country-panels section:first-child th:nth-child(3) { width: 32%; }
-    .compact .country-bar { min-width: 0; }
-    .compact .country-panels section:last-child td { color: var(--success); }
-    .compact .country-panels section:last-child td.affected { color: var(--danger); }
-    .compact .sort-country { margin: 6px 0; }
-    .roaming-link { display: flex; margin-top: 10px; font-size: 12px; background: var(--surface-raised); }
-    @media(max-width: 600px) { .country-panels {grid-template-columns:1fr;} .sort-country select {min-height:44px;} }
-    @media(max-width: 900px) { .roaming:not(.compact) .country-panels { grid-template-columns: 1fr; } }
-  `],
+  selector: 'app-roaming-overview', imports: [MetricChartComponent, RouterLink, HistoryRangeComponent, IconComponent, DatePipe],
+  templateUrl: './roaming-overview.component.html',
+  styleUrl: './roaming-overview.component.css',
 })
 export class RoamingOverviewComponent {
   private readonly query=inject(TraceQueryStore);
   readonly roamingContext=computed(()=>{
-    const context=this.query.context(),recorded=this.recorded();
-    return traceContextParameters(recorded ? {...context,domain:'roaming',datasetId:recorded.datasetId,from:recorded.from,to:recorded.to,resolution:recorded.resolution,roamingDirection:recorded.direction,cityId:'all',countryId:'all',partnerDirectionId:undefined,linkDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined} : {...context,domain:'roaming'});
+    return {...traceContextParameters(this.investigationContext()),metric:this.chartMetric()};
   });
+  readonly investigationContext=computed(()=>{
+    const context=this.query.context(),recorded=this.recorded();
+    const partner=recorded?.partners.find(partner=>partner.id+':'+partner.direction===this.partnerDirectionId());
+    return {...context,domain:'roaming' as const,datasetId:recorded?.datasetId??this.datasetId(),from:recorded?.from??this.from(),to:recorded?.to??this.to(),resolution:recorded?.resolution??this.resolution()??context.resolution,roamingDirection:recorded?.direction??this.direction()??'out',cityId:'all',countryId:partner?.country??this.countryId(),partnerDirectionId:this.partnerDirectionId() || undefined,linkDirectionId:undefined,visibleFrom:undefined,visibleTo:undefined};
+  });
+  readonly incidents = input<components['schemas']['TraceLinkIncidentView'][]>([]);
+  readonly incidentIntervals = computed(()=>this.incidents().filter(item=>nativeIncidentMetric(item)===this.chartMetric()
+    && item.latestDetection.context['datasetId']===this.recorded()?.datasetId).map(item=>({from:item.firstObservedAt,to:item.latestWindowEnd,
+      recovered:item.technicalState==='RECOVERED',label:this.chart().title+' incident'})));
+  readonly metrics = [
+    {id:'roaming.registration.success',name:'registrationSrPct',label:'Registration success'},
+    {id:'roaming.data.success',name:'roamingDataSrPct',label:'Data session success'},
+    {id:'roaming.voice.success',name:'roamingVoiceSrPct',label:'Voice call success'},
+  ];
+  readonly latestMetrics = computed(()=>this.metrics.map(metric=>{
+    const window=this.recorded()?.windowsByMetric[metric.id]?.at(-1),kpi=window?.kpis[0];
+    return {...metric,value:kpi?.observed??null,baseline:kpi?.baseline??null,at:window?.windowEnd,
+      change:kpi?.observed!=null&&kpi.baseline!=null?kpi.observed-kpi.baseline:null,quality:window?.quality??'MISSING'};
+  }));
+  readonly countryName = (country:string)=>new Intl.DisplayNames(['en'],{type:'region'}).of(country)??country;
+  selectRange(range:{from:string;to:string}):void {this.select({...range,follow:'fixed'});}
+  readonly followLatest=input(false);
+  readonly countryId = input('all');
+  readonly chartMetric = input('roaming.registration.success');
+  readonly chart = computed(()=>this.chartMetric()==='roaming.voice.success'?{name:'roamingVoiceSrPct',title:'Roaming voice call success rate'}
+    :this.chartMetric()==='roaming.data.success'?{name:'roamingDataSrPct',title:'Roaming data session success rate'}:{name:'registrationSrPct',title:'Registration success rate'});
+  readonly partnerDirectionId = input('');
+  readonly selectionChanged = output<Record<string,string>>();
+  readonly incidentHighlight = input<{from:string;to:string;label:string}|null>(null);
+  readonly countries = computed(()=>[...new Set(this.recorded()?.partners.map(partner=>partner.country) ?? [])].sort());
+  readonly partners = computed(()=>this.recorded()?.partners.filter(partner=>this.countryId()==='all'||partner.country===this.countryId()) ?? []);
+  readonly hasMeasurement = (window: RecordedRoaming['windows'][number]) => window.kpis[0]?.observed !== null;
+  select(patch:Record<string,string>):void {this.selectionChanged.emit({...this.roamingContext(),follow:this.followLatest()&&this.recorded()?.datasetId==='roaming-demo-v1'?'latest':'fixed',...patch});}
+  lastHour():void {const demo=this.recorded()?.datasetId==='roaming-demo-v1',to=demo?new Date(Math.floor(Date.now()/300_000)*300_000).toISOString():this.recorded()?.to??this.to();this.select({from:new Date(Date.parse(to)-3_600_000).toISOString(),to,follow:demo?'latest':'fixed'});}
   readonly datasetId = input('');
   readonly resolution = input<RoamingSelection['resolution']>();
   readonly direction = input<'in' | 'out'>();
   readonly strictRange = input(false);
   readonly preview = input(dataSource.fixture);
-  readonly sample = computed(() => this.preview() || this.error() === 'No recorded roaming dataset is available.');
+  readonly sample = computed(() => this.preview());
   readonly compact = input(false);
   readonly showCountries = input(false);
   readonly from = input(new Date(Date.now()-48*3_600_000).toISOString());
@@ -111,7 +75,7 @@ export class RoamingOverviewComponent {
   readonly loading = signal(false);
   readonly error = signal('');
   readonly rows = computed<RoamingRow[]>(() => this.sample() ? countryPreview(this.seed(), this.affectedCountry(), this.affectedMetric()) : this.recorded()?.rows ?? []);
-  readonly totalUsers = computed(() => this.rows().reduce((sum, row) => sum + (row.users ?? 0), 0));
+  readonly totalUsers = computed(() => this.sample() ? this.rows().reduce((sum, row) => sum + (row.users ?? 0), 0) : this.recorded()?.users ?? null);
   readonly maxUsers = computed(() => Math.max(1, ...this.rows().map(row => row.users ?? 0)));
   readonly sorted = computed(() => [...this.rows()].sort((a,b) => this.sort() === 'country' ? a.country.localeCompare(b.country)
     : this.sort() === 'voice' ? (a.voice ?? Infinity) - (b.voice ?? Infinity) : this.sort() === 'registration' ? (a.registration ?? Infinity) - (b.registration ?? Infinity) : (b.users ?? -1) - (a.users ?? -1)));
@@ -120,11 +84,11 @@ export class RoamingOverviewComponent {
     const mean = (name: 'registration'|'data'|'voice'|'sms') => this.sample()
       ? (rows.reduce((sum,row) => sum + (row[name] ?? 0) * (row.users ?? 0), 0) / users).toFixed(1) + '%'
       : this.recorded()?.rates[name] == null ? '—' : this.recorded()!.rates[name]!.toFixed(1) + '%';
-    return [{ label: 'Location update success', value: mean('registration') }, { label: 'Roaming active users', value: rows.some(row => row.users !== null) ? users.toLocaleString('en') : '—' },
+    return [{ label: 'Registration success', value: mean('registration') }, { label: 'Partner user estimates', value: this.totalUsers()?.toLocaleString('en') ?? '—' },
       { label: 'Data session success', value: mean('data') }, { label: 'Voice call success', value: mean('voice') }, { label: 'SMS delivery success', value: mean('sms') }];
   });
   readonly windows = computed(() => {
-    if (!this.sample()) return this.recorded()?.windows ?? [];
+    if (!this.sample()) return this.recorded()?.windowsByMetric[this.chartMetric()] ?? [];
     const base = roamingSample.registrationSuccess;
     const random = randomSource(this.seed()), start = Date.parse(this.from()), step = (Date.parse(this.to()) - start) / 48;
     return Array.from({ length: 48 }, (_, index) => previewWindow('roaming-preview', start + index * step, start + (index + 1) * step,
@@ -132,14 +96,14 @@ export class RoamingOverviewComponent {
   });
   count(value: number | null): string { return value === null ? '—' : value.toLocaleString('en', { maximumFractionDigits: 0 }); }
   percent(value: number | null): string { return value === null ? '—' : String(+value.toFixed(2)); }
-  share(value: number | null): string { return value === null || !this.totalUsers() ? '—' : (value / this.totalUsers() * 100).toFixed(1) + '%'; }
+  share(value: number | null): string { return value === null || !this.totalUsers() ? '—' : (value / this.totalUsers()! * 100).toFixed(1) + '%'; }
   constructor() {
     const api = inject(TelecomClient), session = inject(SessionStore), query = inject(TraceQueryStore);
     effect(cleanup => {
       this.refresh();
       const preview = this.preview(), from = this.from(), to = this.to();
       const direction = this.direction() ?? (query.context().roamingDirection === 'in' ? 'in' : 'out');
-      const selection = {datasetId:this.datasetId(), resolution:this.resolution(), strictRange:this.strictRange()};
+      const selection = {datasetId:this.datasetId(), resolution:this.resolution(), strictRange:this.strictRange(), countryId:this.countryId(), partnerDirectionId:this.partnerDirectionId()};
       session.actor();
       const revision=session.revision, authenticated = session.phase() === 'authenticated';
       this.recorded.set(null); this.error.set(''); this.loading.set(false);

@@ -1,0 +1,82 @@
+<a class="back-link" [routerLink]="query.context().domain==='roaming'?'/roaming':'/trace-link'" [queryParams]="contextParameters()">
+  ← {{query.context().domain==='roaming'?'Roaming services':'Historical analysis'}}
+</a>
+<div class="page-heading">
+  <h1>Incident investigation</h1>
+  <button type="button" class="ghost" [disabled]="busy() || changing()" (click)="load()">Refresh incident</button>
+</div>
+@if(busy()){<p role="status">Loading incident evidence…</p>}
+@if(error()){
+  <section class="state-panel" role="alert"><h2>Incident unavailable</h2><p>{{error()}}</p><button type="button" (click)="load()">Retry incident</button></section>
+}
+@if(incident();as item){
+  <section class="detail-panel" aria-label="Native technical incident">
+    <div class="incident-title-row"><span class="badge" [attr.data-state]="item.severity">{{item.severity}}</span><h2>{{title()}}</h2></div>
+    <p>{{scope()}}</p>
+    <div class="incident-states">
+      <span>Technical state <span class="badge" [attr.data-state]="item.technicalState">{{item.technicalState}}</span></span>
+      <span>Workflow <span class="badge" [attr.data-state]="workflow()?.status ?? 'UNKNOWN'">{{workflow()?.status ?? 'Unavailable'}}</span></span>
+      <span class="muted">Synthetic incident evidence</span>
+    </div>
+    <p class="incident-cause">{{cause()}}</p>
+    @if(item.technicalState==='RECOVERED'){<p class="muted">Technical recovery is recorded. Analyst resolution remains a separate action.</p>}
+    @if(item.technicalState==='UNKNOWN'){<p class="muted">Incomplete evidence does not establish recovery.</p>}
+    <app-trace-incident-card-actions [incident]="item" (updated)="load()">
+      <button incident-trailing class="primary incident-evidence-action" type="button" (click)="nativeEvidence.scrollIntoView({block:'start'})">View incident evidence</button>
+    </app-trace-incident-card-actions>
+    <details class="technical-disclosure">
+      <summary>Source and time context</summary>
+      <dl>
+        <div><dt>First observed</dt><dd>{{time(item.firstObservedAt)}}</dd></div>
+        <div><dt>Detected</dt><dd>{{time(item.detectedAt)}}</dd></div>
+        <div><dt>Latest measurement</dt><dd>{{time(item.latestWindowEnd)}}</dd></div>
+      </dl>
+      <p>Dataset {{context()['datasetId']}} · {{query.context().timezone}}</p>
+      <button type="button" (click)="focusContext()">Use this incident scope and interval</button>
+    </details>
+  </section>
+}
+<section #nativeEvidence class="detail-panel" aria-label="Immutable native evidence">
+  <h2>Incident evidence</h2>
+  @if(incident();as item){<app-trace-evidence [incident]="item" />}
+</section>
+@if(analystItem();as item){<app-incident-assist [incident]="item" />}
+@if(workflow();as state){
+  <section class="detail-panel" id="analyst-workflow" aria-label="Native analyst workflow">
+    <h2>Analyst workflow <span class="badge" [attr.data-state]="state.status">{{state.status}}</span></h2>
+    <div class="actions">
+      <button [class.primary]="state.status==='OPEN' && !state.assigneeId" type="button" [disabled]="changing() || !!state.assigneeId" (click)="assign(session.actor()?.analystId ?? '')">Assign to me</button>
+      <button [class.primary]="state.status==='OPEN' && !!state.assigneeId" type="button" [disabled]="changing() || state.status!=='OPEN' || !state.assigneeId" (click)="changeStatus('INVESTIGATING')">Start investigation</button>
+    </div>
+    @if(state.status==='OPEN' && !state.assigneeId){<p class="muted">Assign this incident before starting the investigation.</p>}
+    @if(privileged()){
+      <details>
+        <summary>Assign to another analyst</summary>
+        <label>Assign to enabled analyst<select [value]="target()" (change)="target.set($any($event.target).value)">
+          <option value="">Choose an analyst</option>
+          @for(actor of analysts();track actor.id){<option [value]="actor.id">{{actor.displayName}}</option>}
+        </select></label>
+        <button type="button" [disabled]="changing() || !target()" (click)="assign(target())">Assign selected analyst</button>
+      </details>
+    }
+    <details>
+      <summary>Add investigation comment</summary>
+      <label>Investigation comment<textarea maxlength="2000" [value]="comment()" (input)="comment.set($any($event.target).value)"></textarea></label>
+      <button type="button" [disabled]="changing() || !comment().trim()" (click)="addComment()">Add comment</button>
+    </details>
+    <details [open]="state.status==='INVESTIGATING' && incident()?.technicalState==='RECOVERED'">
+      <summary>Resolve reviewed incident</summary>
+      <p class="muted">Resolution requires investigation, recorded technical recovery and a resolution note.</p>
+      <label>Resolution note<textarea maxlength="2000" [value]="note()" (input)="note.set($any($event.target).value)"></textarea></label>
+      <button class="primary" type="button" [disabled]="changing() || state.status!=='INVESTIGATING' || incident()?.technicalState!=='RECOVERED' || !note().trim()" (click)="changeStatus('RESOLVED')">Resolve reviewed incident</button>
+    </details>
+  </section>
+}
+<details class="detail-panel" aria-label="Append-only native audit">
+  <summary>Analyst audit</summary>
+  @for(action of audit();track action.version){<p>{{action.action}} · {{time(action.occurredAt)}} · {{action.note ?? ''}}</p>}
+  <div class="actions">
+    <button type="button" [disabled]="busy() || auditPage()===0" (click)="auditPage.update(value=>value-1);load()">Previous audit</button>
+    <button type="button" [disabled]="busy() || audit().length<50" (click)="auditPage.update(value=>value+1);load()">Next audit</button>
+  </div>
+</details>

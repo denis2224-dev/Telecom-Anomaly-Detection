@@ -1,0 +1,55 @@
+<section class="detail-panel" [class.queue-view]="queueView()" aria-label="Scoped persisted incidents">
+  @if(!queueView()){<div class="episode-heading"><h2>Incident episodes</h2></div>
+    <div class="incident-filters"><label>Severity<select [value]="severity()" (change)="severity.set($any($event.target).value)"><option value="">All severities</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></label><label>Technical state<select [value]="state()" (change)="state.set($any($event.target).value)"><option value="">All states</option><option>ONGOING</option><option>RECOVERED</option><option>UNKNOWN</option></select></label></div>
+  }
+  @if(busy()){<p role="status">Loading incident history…</p>}
+  @if(error()){
+    <p role="alert">{{error()}}</p>
+    <button type="button" (click)="load()">Retry incidents</button>
+  }
+  @if(notEnabled()){
+    <p role="status">Incident history is not enabled on this installation. Recorded measurements remain available.</p>
+    <button type="button" (click)="load()">Retry incidents</button>
+  }
+  @if(!notEnabled()){
+    @if(!busy() && !error() && !items().length){<p>No committed incidents match this context.</p>}
+    @if(!queueView()){<app-shift-handover
+      [items]="handoverItems()" [total]="total()" [scope]="'Recorded context · ' + queryLabel()"
+      [from]="rangeFrom()" [to]="rangeTo()" [loading]="busy()" [error]="error()" />}
+    <ul>
+      @for(item of rows();track item.episodeId){
+        <li class="episode-card" [attr.data-episode-id]="item.episodeId" [attr.data-severity]="item.severity" [attr.data-technical-state]="item.technicalState">
+          <div class="episode-header"><h3><span class="badge" [attr.data-state]="item.severity">{{item.severity}}</span>{{title(item)}}</h3><time class="episode-time">{{item.firstObservedAt | date:'dd MMM yyyy HH:mm':'UTC'}} UTC</time></div>
+          <p class="episode-location">{{population(item)}}</p>
+          <p class="episode-description">{{measurement(item)}}</p>
+          <p class="incident-cause">{{description(item)}}</p>
+          <p class="episode-info"><span>Technical state <span class="badge" [attr.data-state]="item.technicalState">{{item.technicalState}}</span></span><span>Workflow <span class="badge" [attr.data-state]="workflowStatus(item.episodeId)">{{workflowStatus(item.episodeId)}}</span></span><span>Detected {{item.detectedAt | date:'dd MMM HH:mm':'UTC'}} UTC</span></p>
+          <app-trace-incident-card-actions [context]="selectedContext()" [incident]="item" (workflowChanged)="acceptWorkflow($event)">
+            <a class="button incident-evidence-action" [routerLink]="['/trace-link/incidents',item.episodeId]" [queryParams]="parameters(item)">Open incident detail</a>
+            <button incident-trailing class="primary incident-evidence-action evidence-toggle" type="button" aria-haspopup="dialog"
+              [attr.aria-expanded]="selected()?.episodeId===item.episodeId" (click)="openEvidence(item)">View incident evidence</button>
+          </app-trace-incident-card-actions>
+        </li>
+      }
+    </ul>
+    <p>
+      @if(selectedContext().domain==='roaming' && selectedContext().partnerDirectionId){
+        {{items().length}} partner matches on this page · {{total()}} country/direction episodes
+      }@else{ {{total()}} matching episodes }
+      · page {{page()+1}}
+    </p>
+    <nav class="pagination" aria-label="Recorded incident pages"><button type="button" [disabled]="busy() || page()===0" (click)="move(-1)">Previous incidents</button>
+    <button type="button" [disabled]="busy() || (page()+1)*50>=total()" (click)="move(1)">Next incidents</button></nav>
+  }
+</section>
+<app-drawer #evidenceDrawer drawerId="native-incident-evidence" panelClass="episode-evidence"
+  title="Incident evidence" closeLabel="Close incident evidence" (closed)="selected.set(null)">
+  @if(selected();as item){
+    <h4>{{title(item)}}</h4>
+    <p>{{population(item)}}</p>
+    <p><span class="badge" [attr.data-state]="item.severity">{{item.severity}}</span> · {{item.technicalState}} · Workflow {{workflowStatus(item.episodeId)}}</p>
+    <p>{{description(item)}}</p>
+    <a [routerLink]="['/trace-link/incidents',item.episodeId]" [queryParams]="parameters(item)">Open incident detail</a>
+    <app-trace-evidence [incident]="item" />
+  }
+</app-drawer>
