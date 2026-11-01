@@ -9,8 +9,8 @@ for (const width of [1440,390]) test(`roaming navigation retains displayed archi
   await expect(link).toHaveAttribute('href', /datasetId=recorded-roaming/);
   const target = new URL((await link.getAttribute('href'))!, 'http://local');
   await link.click();
-  await expect(page.locator('.roaming-kpis strong').first()).toHaveText('98.0%');
-  const history = new URL((await page.getByRole('link',{name:'Investigate history',exact:true}).getAttribute('href'))!, 'http://local');
+  await expect(page.locator('.kpi-summary tbody td:nth-child(2)').first()).toHaveText('98%');
+  const history = new URL((await page.getByRole('link',{name:'Historical analysis',exact:true}).getAttribute('href'))!, 'http://local');
   for (const key of ['datasetId','from','to','resolution','roamingDirection']) expect(history.searchParams.get(key)).toBe(target.searchParams.get(key));
   expect(state.queries.length).toBeGreaterThan(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
@@ -20,13 +20,13 @@ test('roaming deep link pins direction, resolution and exact interval; missing s
   await controlledApi(page); const state = await recordedRoaming(page);
   const params = new URLSearchParams({datasetId:'recorded-roaming',from:'2026-10-07T00:00:00Z',to:'2026-10-07T03:00:00Z',resolution:'15m',roamingDirection:'in'});
   await page.goto('/roaming?'+params);
-  await expect(page.locator('.roaming-kpis strong').first()).toHaveText('98.0%');
+  await expect(page.locator('.kpi-summary tbody td:nth-child(2)').first()).toHaveText('98%');
   expect(state.queries.length).toBe(40);
   expect(state.queries.every(query => query.datasetId === 'recorded-roaming' && query.resolution === '15m' && query.scopeId.endsWith(':in') && query.from === params.get('from') && query.to === params.get('to'))).toBe(true);
   params.set('datasetId','missing-archive'); await page.goto('/roaming?'+params);
   await expect(page.getByRole('button',{name:'Retry roaming data'})).toBeVisible();
   await expect(page.locator('.preview-note')).toContainText('selected recorded roaming dataset is unavailable');
-  await expect(page.locator('.roaming-kpis strong')).toHaveText(['—','—','—','—','—']);
+  await expect(page.locator('.kpi-summary tbody td:nth-child(2)')).toHaveText(['—','—','—','—']);
   await expect(page.locator('.roaming')).not.toContainText('Sample data');
   const reads = state.reads;
   params.set('from','invalid'); await page.goto('/roaming?'+params);
@@ -43,16 +43,16 @@ for (const width of [1366, 390]) test(`October 13 roaming cards and tables show 
   const state = await recordedRoaming(page);
   await page.setViewportSize({ width, height: 900 });
   await page.goto('/roaming');
-  await expect(page.locator('.roaming-kpis > div')).toHaveCount(5);
+  await expect(page.locator('.kpi-summary tbody tr')).toHaveCount(4);
   await expect(page.locator('.country-panels tbody tr')).toHaveCount(20);
-  await expect(page.locator('.roaming-kpis strong')).toHaveText(['98.0%', '1,000', '98.0%', '98.0%', '—']);
-  const history=new URL((await page.getByRole('link',{name:'Investigate history',exact:true}).getAttribute('href'))!,'http://local');
+  await expect(page.locator('.kpi-summary tbody td:nth-child(2)')).toHaveText(['98%', '98%', '98%', '1,000']);
+  const history=new URL((await page.getByRole('link',{name:'Historical analysis',exact:true}).getAttribute('href'))!,'http://local');
   expect(history.searchParams.get('datasetId')).toBe('recorded-roaming');
   expect(history.searchParams.get('from')).toBe('2026-10-06T00:00:00.000Z');
   expect(history.searchParams.get('to')).toBe('2026-10-08T00:00:00Z');
   expect(history.searchParams.get('roamingDirection')).toBe('out');
   expect(history.searchParams.get('resolution')).toBe('1h');
-  await expect(page.locator('.roaming-kpis .metric-unavailable strong')).toHaveText('—');
+  await expect(page.locator('.kpi-summary tbody td:nth-child(3)')).toHaveText(['—','—','—','—']);
   await expect(page.locator('.country-panels td.metric-unavailable')).toHaveCount(10);
   await expect(page.locator('.roaming-chart .actual-line')).not.toHaveAttribute('d', '');
   await expect(page.locator('.roaming-chart .expected-line')).toHaveAttribute('d', '');
@@ -68,7 +68,7 @@ for (const width of [1366, 390]) test(`October 13 roaming cards and tables show 
   await expect(page.locator('.preview-note')).not.toContainText('Loading');
   await expect(page.locator('.country-panels tbody tr')).toHaveCount(0);
   await expect(page.getByRole('region',{name:'Roaming services recorded'})).not.toContainText('Sample data');
-  await expect(page.locator('.roaming-kpis strong')).toHaveText(['—','—','—','—','—']);
+  await expect(page.locator('.kpi-summary tbody td:nth-child(2)')).toHaveText(['—','—','—','—']);
   await expect(page.locator('.actual-line')).toHaveAttribute('d', '');
   await page.waitForTimeout(400);
   // A failed batch can still deliver its three already-started requests.
