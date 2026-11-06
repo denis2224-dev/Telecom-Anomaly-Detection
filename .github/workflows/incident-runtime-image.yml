@@ -16,3 +16,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build the Compose-managed incident service image
         run: docker build --file services/incident-service/Dockerfile --tag incident-service:ci .
+
+  processor-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the processor image and require its packaged coverage contract
+        run: docker build --file services/processor/Dockerfile --tag processor:ci .
