@@ -15,6 +15,11 @@ npm.cmd --prefix apps/dashboard ci
 npm.cmd --prefix apps/dashboard exec -- playwright install chromium
 ```
 
+Complete the Java regression suites before starting this connected run on a
+16-GiB development host. A cold Keycloak realm/schema import has a configurable
+120-second healthcheck start period; its readiness probe still requires HTTP 200.
+Do not run heavy build/load suites during the timed browser-session checks.
+
 Commit intended source changes first. The runner requires a clean candidate and
 refuses ignored source contamination, occupied dedicated ports and preexisting
 Docker resources for the requested project. Choose new private/public output

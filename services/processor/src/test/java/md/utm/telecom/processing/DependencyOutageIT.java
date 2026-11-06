@@ -340,7 +340,9 @@ class DependencyOutageIT extends ReplayTestSupport {
     @Test void kafkaOutageRetainsCommittedOutputAndPublishesAfterRestore() throws Exception {
         kafkaRecovery(3, "kafka");
     }
-    @Test void recoveryDoesNotDuplicateFeatureIdentity() throws Exception {
+    // Fixture setup plus three bounded failed sends and a 103-window drain need
+    // their own overall test budget. The 30-second recovery bound below is unchanged.
+    @Test @Timeout(240) void recoveryDoesNotDuplicateFeatureIdentity() throws Exception {
         kafkaRecovery(103, "boundedRecovery");
     }
     void kafkaRecovery(int windows, String name) throws Exception {
