@@ -57,8 +57,16 @@ class GrafanaProvisioningIT {
     .waitingFor(Wait.forHttp("/api/health").forStatusCode(200).withStartupTimeout(Duration.ofSeconds(90)))){
     grafana.start();String base="http://"+grafana.getHost()+":"+grafana.getMappedPort(3000);
     String auth="Basic "+Base64.getEncoder().encodeToString(("admin:"+password).getBytes(java.nio.charset.StandardCharsets.UTF_8));var http=HttpClient.newHttpClient();
-    var provisioned=http.send(HttpRequest.newBuilder(URI.create(base+"/api/dashboards/uid/trace-link-overview")).header("Authorization",auth).GET().build(),HttpResponse.BodyHandlers.ofString());
-    assertEquals(200,provisioned.statusCode());var dashboard=json.readTree(provisioned.body()).required("dashboard");int panels=0,queries=0;
+    var dashboardRequest=HttpRequest.newBuilder(URI.create(base+"/api/dashboards/uid/trace-link-overview")).timeout(Duration.ofSeconds(5)).header("Authorization",auth).GET().build();
+    var provisioned=http.send(dashboardRequest,HttpResponse.BodyHandlers.ofString());
+    // HTTP health precedes asynchronous file provisioning. Only the expected
+    // not-yet-provisioned 404 is retried; auth/server failures still fail directly.
+    long provisioningDeadline=System.nanoTime()+Duration.ofSeconds(30).toNanos();
+    while(provisioned.statusCode()==404&&System.nanoTime()<provisioningDeadline){
+     Thread.sleep(200);
+     provisioned=http.send(dashboardRequest,HttpResponse.BodyHandlers.ofString());
+    }
+    assertEquals(200,provisioned.statusCode(),"The configured dashboard was not provisioned after Grafana became healthy");var dashboard=json.readTree(provisioned.body()).required("dashboard");int panels=0,queries=0;
     var variables=Map.of("datasetId",populated?"trace-link-md-30d-v1":"grafana-fixture","cityId","chi","linkDirectionId","chi-hin:a-to-b","countryId","RO","roamingDirection","both","partnerDirectionId","RO-DEMO-01:out","resolution","15m","domain","all");
     long comparedCells=0;int variableQueries=0;
     try(var direct=DriverManager.getConnection(pg.getJdbcUrl(),"trace_grafana_reader",password)){
