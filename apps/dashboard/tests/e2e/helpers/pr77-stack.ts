@@ -9,7 +9,7 @@ export interface StackContext {
   projectName: string; composeFiles: string[]; envFile: string; baseURL: string;
   sourceSha: string; outputDir: string; scenarioResultFile: string;
   ownerLabelName: string; ownerLabelValue: string;
-  verificationMode?: 'legacy-connected' | 'populated-history';
+  verificationMode?: 'legacy-connected' | 'populated-history' | 'volte-sms-demo';
   analyst: { username: string; password: string };
   supervisor: { username: string; password: string };
 }
@@ -29,12 +29,12 @@ export default class RequiredCases implements Reporter {
     // Discovery is useful for static validation but must not create acceptance evidence.
     if (process.argv.includes('--list')) return;
     const stack = stackContext();
-    const expected=stack.verificationMode==='populated-history'?6:3;
+    const expected=stack.verificationMode==='volte-sms-demo'?4:stack.verificationMode==='populated-history'?6:3;
     const passed = result.status === 'passed' && this.cases === expected && this.outcomes.length === expected && !this.incomplete;
     writeFileSync(join(stack.outputDir, 'verification.json'), JSON.stringify({
       status: passed ? 'PASSED' : 'FAILED', sourceSha: stack.sourceSha,
       startedAtUTC: this.startedAtUTC, finishedAtUTC: new Date().toISOString(), outcomes: this.outcomes,
-      coverage: stack.verificationMode === 'populated-history' ? 'Full pinned persisted history, real OIDC/security, desktop/phone context, exact CSV, reconnect, logout, fresh fault/control/gap incident lifecycles and real idle/absolute expiry; not complete presentation rehearsals' : 'Real OIDC/security, four fresh city scenarios and source trace, proxy reconnect, open-page idle and absolute expiry',
+      coverage: stack.verificationMode === 'volte-sms-demo' ? 'Two automated Orhei VoLTE/SMS fault/control/gap repetitions with source trace and analyst workflow, real OIDC, reconnect, logout, idle and absolute expiry; limited demo, human acceptance pending' : stack.verificationMode === 'populated-history' ? 'Full pinned persisted history, real OIDC/security, desktop/phone context, exact CSV, reconnect, logout, fresh fault/control/gap incident lifecycles and real idle/absolute expiry; not complete presentation rehearsals' : 'Real OIDC/security, four fresh city scenarios and source trace, proxy reconnect, open-page idle and absolute expiry',
     }, null, 2) + '\n');
     return passed ? undefined : { status: 'failed' as const };
   }

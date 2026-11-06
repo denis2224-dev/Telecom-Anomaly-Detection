@@ -28,7 +28,7 @@ function parseArgs(args, root = ROOT) {
   const destinations = {};
   const realRoot = fs.realpathSync(root);
   for (let i = 0; i < args.length; i += 2) {
-    if (!['--project', '--private-dir', '--output-dir', '--reference-pack'].includes(args[i]) || !args[i + 1] || values[args[i]]) throw Error('Use --project, --private-dir and --output-dir once each; --reference-pack is optional.');
+    if (!['--project', '--private-dir', '--output-dir', '--reference-pack', '--mode', '--retain-stack', '--python'].includes(args[i]) || !args[i + 1] || values[args[i]]) throw Error('Use each supported option once with its value.');
     values[args[i]] = args[i + 1];
   }
   if (!/^pr77-[a-z0-9][a-z0-9-]{0,48}$/.test(values['--project'] || '')) throw Error('Project must be a unique pr77- name using lowercase letters, digits and hyphens (maximum 54 characters).');
@@ -44,6 +44,14 @@ function parseArgs(args, root = ROOT) {
   const privateDir = values['--private-dir'], outputDir = values['--output-dir'];
   if (isWithin(destinations['--private-dir'], destinations['--output-dir']) || isWithin(destinations['--output-dir'], destinations['--private-dir'])) throw Error('Private and public output directories must be separate.');
   const result = { projectName: values['--project'], privateDir, outputDir };
+  if (values['--mode'] && values['--mode'] !== 'volte-sms-demo') throw Error('Unsupported verification mode.');
+  if (values['--retain-stack'] && (values['--retain-stack'] !== 'true' || values['--mode'] !== 'volte-sms-demo')) throw Error('Retaining a stack requires explicit volte-sms-demo mode and true.');
+  if (values['--mode']) result.verificationMode = values['--mode'];
+  if (values['--retain-stack']) result.retainStack = true;
+  if (values['--python']) {
+    if (!path.isAbsolute(values['--python']) || !fs.statSync(values['--python']).isFile()) throw Error('Python must be an existing absolute executable.');
+    result.pythonExecutable = values['--python'];
+  }
   if (values['--reference-pack']) {
     if (!path.isAbsolute(values['--reference-pack'])) throw Error('Reference pack must be absolute.');
     result.referencePack = fs.realpathSync(values['--reference-pack']);
@@ -208,7 +216,8 @@ function assetHashes(directory) {
 async function main(args) {
   const context = parseArgs(args);
   context.sourceSha = await assertCandidateSource(ROOT);
-  context.verificationMode = context.referencePack ? 'populated-history' : 'legacy-connected';
+  context.verificationMode ||= context.referencePack ? 'populated-history' : 'legacy-connected';
+  context.pythonExecutable ||= process.platform === 'win32' ? 'python' : 'python3';
   context.ownerLabelName = OWNER;
   context.ownerLabelValue = crypto.randomUUID();
   context.baseURL = `http://telecom.test:${PORTS.proxy}`;
@@ -219,7 +228,8 @@ async function main(args) {
   const variables = { ...secrets, POSTGRES_PORT: PORTS.postgres, KAFKA_HOST_PORT: PORTS.kafka, GENERATOR_HOST_PORT: PORTS.generator,
     TRACE_LINK_ENABLED: context.referencePack ? 'true' : 'false',
     TELECOM_GEOGRAPHY_ENABLED: 'true', TELECOM_GEOGRAPHY_EFFECTIVE_FROM: geographyEffectiveFrom(),
-    HISTORICAL_BOOTSTRAP_ENABLED: 'false', CONTINUOUS_TELEMETRY_ENABLED: 'true', ML_SMS_SHADOW_ENABLED: 'true' };
+    HISTORICAL_BOOTSTRAP_ENABLED: 'false', CONTINUOUS_TELEMETRY_ENABLED: 'true', ML_SMS_SHADOW_ENABLED: 'true',
+    NOTIFICATION_PUSH_ENABLED: 'false', TRACE_LINK_SCENARIOS_ENABLED: 'false' };
   const composeText = fs.readFileSync(path.join(ROOT, 'compose.yaml'), 'utf8');
   // Host environment must not override --env-file or enable unrelated Compose files.
   const env = { ...process.env };
@@ -263,7 +273,7 @@ async function main(args) {
     await compose(['config', '--quiet']);
     if (context.referencePack) {
       console.log('Validating the full pinned reference archive.');
-      await run('python3', [path.join(ROOT, 'scripts/import-trace-link-reference.py'), path.join(context.referencePack, 'data'), '--validate-only'], { env, logFile });
+      await run(context.pythonExecutable, [path.join(ROOT, 'scripts/import-trace-link-reference.py'), path.join(context.referencePack, 'data'), '--validate-only'], { env, logFile });
     }
     console.log('Building production dashboard from the recorded candidate.');
     if (process.platform === 'win32') await run('cmd.exe', ['/d', '/s', '/c', 'npm.cmd run build'], { cwd: path.join(ROOT, 'apps/dashboard'), env, logFile });
@@ -285,6 +295,10 @@ async function main(args) {
       if (image.Config.Labels?.['org.opencontainers.image.revision'] !== context.sourceSha || image.Config.Labels?.[OWNER] !== context.ownerLabelValue) throw Error('Application image source or run ownership does not match the candidate.');
       item.sourceSha = image.Config.Labels['org.opencontainers.image.revision'];
     }
+    const candidate = { sourceSha: context.sourceSha, verificationMode: context.verificationMode,
+      runtime: report.runtime, dashboardAssets: report.dashboardAssets, configHashes: report.configHashes,
+      pushEnabled: false, newDomainScenariosEnabled: false };
+    writePrivate(path.join(context.outputDir, 'candidate.json'), candidate);
     for (const role of ['analyst', 'supervisor']) {
       const sql = "INSERT INTO app.analysts (id, issuer, subject, display_name, enabled) VALUES (:'id'::uuid, :'issuer', :'subject', :'name', true);\n";
       await run('docker', composeArgs(context, ['exec', '-T', 'postgres', 'bash', '-ec', 'exec psql -X -q -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d incidents_db "$@"', '--',
@@ -302,7 +316,7 @@ with (snapshot/'projection.csv').open('w',newline='') as stream:
 assert count==362880
 (snapshot/'import.sql').write_text(module.import_sql(manifest,checksum,pathlib.Path('/tmp/reference/projection.csv')))
 `;
-      await run('python3', ['-c', prepare, path.join(ROOT, 'scripts/import-trace-link-reference.py'), path.join(context.referencePack, 'data'), snapshot], { env, logFile });
+      await run(context.pythonExecutable, ['-c', prepare, path.join(ROOT, 'scripts/import-trace-link-reference.py'), path.join(context.referencePack, 'data'), snapshot], { env, logFile });
       const owned = await resources(context, env, logFile); owned.forEach(item => assertOwned(item.labels, context));
       await compose(['exec', '-T', 'postgres', 'mkdir', '-p', '/tmp/reference']);
       for (const name of ['projection.csv', 'import.sql']) await compose(['cp', path.join(snapshot, name), `postgres:/tmp/reference/${name}`]);
@@ -310,7 +324,8 @@ assert count==362880
       report.archive = { datasetId: 'trace-link-md-30d-v1', nativeRows: 362880, importerAndExactRetry: 'PASS', catalogueActivated: false };
     }
     console.log('Running real authentication, expiry, reconnect and geographic browser verification.');
-    await run(process.execPath, [path.join(ROOT, 'apps/dashboard/node_modules/@playwright/test/cli.js'), 'test', `--config=${context.referencePack ? 'playwright.trace-connected.config.ts' : 'playwright.pr77.config.ts'}`], {
+    const browserConfig = context.verificationMode === 'volte-sms-demo' ? 'playwright.volte-sms-demo.config.ts' : context.referencePack ? 'playwright.trace-connected.config.ts' : 'playwright.pr77.config.ts';
+    await run(process.execPath, [path.join(ROOT, 'apps/dashboard/node_modules/@playwright/test/cli.js'), 'test', `--config=${browserConfig}`], {
       cwd: path.join(ROOT, 'apps/dashboard'), env: { ...env, PR77_STACK_CONTEXT: path.join(context.privateDir, 'stack-context.json') }, logFile, timeout: 90 * 60000 });
     // A browser worker must produce machine-readable assertions; no zero-test success.
     const acceptance = JSON.parse(fs.readFileSync(path.join(context.outputDir, 'verification.json'), 'utf8'));
@@ -337,15 +352,19 @@ assert count==362880
         }
         const owned = await resources(context, env, logFile);
         owned.forEach(item => assertOwned(item.labels, context));
-        await run('docker', composeArgs(context, ['down', '--volumes', '--remove-orphans']), { env, logFile });
-        if ((await resources(context, env, logFile)).length) throw Error('Owned resources remain after cleanup.');
-        report.cleanup = 'PASSED';
+        if (report.status === 'PASSED' && context.retainStack) {
+          report.cleanup = 'RETAINED_FOR_APPROVED_DEMO';
+        } else {
+          await run('docker', composeArgs(context, ['down', '--volumes', '--remove-orphans']), { env, logFile });
+          if ((await resources(context, env, logFile)).length) throw Error('Owned resources remain after cleanup.');
+          report.cleanup = 'PASSED';
+        }
       } catch { report.cleanup = 'BLOCKED_OWNERSHIP_OR_DOCKER_FAILURE'; report.status = 'FAILED'; }
     }
     try {
-      const retainCredentials = report.cleanup === 'BLOCKED_OWNERSHIP_OR_DOCKER_FAILURE';
+      const retainCredentials = ['BLOCKED_OWNERSHIP_OR_DOCKER_FAILURE', 'RETAINED_FOR_APPROVED_DEMO'].includes(report.cleanup);
       removeCredentials(context, privateDirectoryIdentity, [...Object.values(secrets), context.analyst?.password, context.supervisor?.password], { retainCredentials });
-      report.credentialCleanup = retainCredentials ? 'RETAINED_FOR_OWNED_STACK_RECOVERY' : 'PASSED';
+      report.credentialCleanup = retainCredentials ? 'RETAINED_IN_PRIVATE_OWNED_DIRECTORY' : 'PASSED';
     } catch { report.credentialCleanup = 'BLOCKED_DIRECTORY_OWNERSHIP'; report.status = 'FAILED'; }
     report.finishedAt = new Date().toISOString();
     fs.writeFileSync(path.join(context.outputDir, 'runtime.json'), JSON.stringify(report, null, 2) + '\n');

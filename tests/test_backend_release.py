@@ -32,8 +32,9 @@ class BackendReleaseTests(unittest.TestCase):
         for name, content in inputs.items():
             path = cls.repository / name
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(content)
-        for command in (['git', 'init', '--quiet'], ['git', 'add', '--', *inputs],
+            path.write_text(content, encoding='utf-8', newline='\n')
+        for command in (['git', 'init', '--quiet'], ['git', 'config', 'core.autocrlf', 'false'],
+                        ['git', 'config', 'commit.gpgsign', 'false'], ['git', 'add', '--', *inputs],
                         ['git', '-c', 'user.name=Release test', '-c', 'user.email=release-test@example.invalid',
                          'commit', '--quiet', '-m', 'test: create disposable release inputs']):
             subprocess.run(command, cwd=cls.repository, check=True, capture_output=True)
