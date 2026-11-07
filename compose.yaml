@@ -82,7 +82,9 @@ services:
       interval: 5s
       timeout: 3s
       retries: 30
-      start_period: 30s
+      # A cold realm/schema import can exceed three minutes on Docker Desktop.
+      # Keep readiness strict while allowing initialization before failure counts.
+      start_period: ${KEYCLOAK_START_PERIOD:-120s}
 
     networks:
       - telecom-private

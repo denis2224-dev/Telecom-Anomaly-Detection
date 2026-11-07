@@ -18,7 +18,9 @@ graphify-out
 **/.pytest_cache
 **/.mypy_cache
 **/.ruff_cache
-**/coverage
+# Only generated frontend coverage is disposable. contracts/coverage and
+# contracts/fixtures/coverage contain runtime schemas and contract fixtures.
+apps/dashboard/coverage
 **/htmlcov
 **/.coverage
 apps/dashboard/dist

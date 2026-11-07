@@ -248,6 +248,19 @@ test('every compose operation carries explicit project, environment and config',
   assert.deepEqual(args, ['compose', '--project-name', 'pr77-unit', '--env-file', '/private/env', '--file', '/private/compose.json', '--profile', 'app', 'down', '--volumes']);
 });
 
+test('persistent limited demo and Python selection require explicit valid options', t => {
+  const fixture = candidateRepository(t);
+  const args = ['--project', 'pr77-demo-unit', '--private-dir', path.join(fixture.parent, 'private'), '--output-dir', path.join(fixture.parent, 'results')];
+  assert.throws(() => parseArgs([...args, '--retain-stack', 'true'], fixture.root), /explicit/);
+  assert.throws(() => parseArgs([...args, '--mode', 'unknown'], fixture.root), /Unsupported/);
+  assert.throws(() => parseArgs([...args, '--mode', 'volte-sms-demo', '--retain-stack', 'false'], fixture.root), /explicit/);
+  assert.throws(() => parseArgs([...args, '--python', 'python'], fixture.root), /absolute/);
+  const parsed = parseArgs([...args, '--mode', 'volte-sms-demo', '--retain-stack', 'true', '--python', process.execPath], fixture.root);
+  assert.equal(parsed.retainStack, true);
+  assert.equal(parsed.verificationMode, 'volte-sms-demo');
+  assert.equal(parsed.pythonExecutable, process.execPath);
+});
+
 test('cleanup refuses resources lacking both project and nonce ownership', () => {
   const context = { projectName: 'pr77-unit', ownerLabelName: 'io.telecom.pr77.owner', ownerLabelValue: 'nonce' };
   assert.doesNotThrow(() => assertOwned({ 'com.docker.compose.project': 'pr77-unit', 'io.telecom.pr77.owner': 'nonce' }, context));

@@ -1,5 +1,6 @@
 """Exercise native launcher selection and verifier failure propagation."""
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -64,7 +65,10 @@ class VerifierPortabilityTest(unittest.TestCase):
                 cwd=repo, capture_output=True, text=True, timeout=30)
             self.assertTrue(marker.is_file(), result.stdout + result.stderr)
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn('failed with exit code 27', result.stdout + result.stderr)
+            # PowerShell's error renderer wraps long paths and prefixes continuation
+            # lines with a gutter. Validate the diagnostic independently of its width.
+            diagnostic = re.sub(r'(?m)^\s*\|\s?', '', result.stdout + result.stderr)
+            self.assertRegex(diagnostic, r'failed\s+with exit code 27')
             self.assertFalse((repo / 'services/processor/target/trace-link-java.json').exists())
 
 

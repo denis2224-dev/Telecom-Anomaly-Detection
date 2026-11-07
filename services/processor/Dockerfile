@@ -10,7 +10,9 @@ COPY services/streaming-support/src services/streaming-support/src
 COPY services/processor/src services/processor/src
 COPY services/event-generator/src services/event-generator/src
 COPY contracts contracts
-RUN --mount=type=cache,target=/root/.m2 ./mvnw -q -B -pl services/processor -am package -Dmaven.test.skip=true
+RUN --mount=type=cache,target=/root/.m2 ./mvnw -q -B -pl services/processor -am package -Dmaven.test.skip=true \
+    && jar tf services/streaming-support/target/streaming-support-0.3.0-SNAPSHOT.jar \
+       | grep -Fxq 'contracts/coverage/scope-window-coverage-v1.schema.json'
 
 FROM eclipse-temurin:21-jre-jammy
 RUN apt-get update \

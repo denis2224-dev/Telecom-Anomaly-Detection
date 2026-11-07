@@ -21,8 +21,9 @@ const capture = async (page: Page, info: TestInfo, name: string, width: number) 
     mask: [page.locator('.identity'), page.locator('app-incident-actions')] });
 };
 
-// Run every required case even if an earlier gate fails; the reporter fails incomplete suites.
-test.describe.configure({ mode: 'default' });
+// The limited demo gives each real-time session gate its own isolated worker.
+// Legacy verification retains its original ordering; incomplete suites still fail.
+test.describe.configure({ mode: stack.verificationMode === 'volte-sms-demo' ? 'parallel' : 'default' });
 
 test('integrated production roles, real SSE reconnect and fresh geographic incidents', async ({ browser }, info) => {
   const result = { sourceSha: stack.sourceSha, startedAtUTC: new Date().toISOString(), status: 'FAILED',
