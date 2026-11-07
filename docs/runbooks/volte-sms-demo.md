@@ -8,7 +8,12 @@ human acceptance.
 ## Build and verify
 
 Use the supported Java 21, Node 24 and Python environment. Docker Desktop must be
-running. Install the locked dashboard dependencies and Chromium:
+running.
+
+Linux CI jobs use Ubuntu 24.04 explicitly; the model checks retain Python 3.13.9.
+This avoids changes in `ubuntu-latest` making the pinned Python unavailable.
+
+Install the locked dashboard dependencies and Chromium:
 
 ```powershell
 npm.cmd --prefix apps/dashboard ci
